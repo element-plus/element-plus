@@ -4,6 +4,7 @@
    "declaration": true,
    "noImplicitAny": false,
    "removeComments": true,
+   "moduleResolution": "node",
    "noLib": false,
    "target": "es6",
    "sourceMap": true,
