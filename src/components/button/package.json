@@ -1,0 +1,8 @@
+{
+  "name": "eleplus-button",
+  "description": "",
+  "version": "0.1.0",
+  "main": "./index.ts",
+  "license": "MIT",
+  "dependencies": {}
+}

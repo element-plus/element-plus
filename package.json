@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "cz": "npx git-cz"
+    "cz": "npx git-cz",
+    "gc": "export NODE_PATH=. && node scripts/gen.js"
   },
   "dependencies": {
     "vue": "^3.0.0-rc.1",
@@ -13,6 +14,7 @@
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.0-rc.1",
     "cz-conventional-changelog": "^3.2.0",
+    "lerna": "^3.22.1",
     "vite": "^1.0.0-rc.1"
   },
   "config": {
