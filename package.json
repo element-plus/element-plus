@@ -3,14 +3,21 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "cz": "npx git-cz"
   },
   "dependencies": {
     "vue": "^3.0.0-rc.1",
     "vue-router": "^4.0.0-beta.2"
   },
   "devDependencies": {
-    "vite": "^1.0.0-rc.1",
-    "@vue/compiler-sfc": "^3.0.0-rc.1"
+    "@vue/compiler-sfc": "^3.0.0-rc.1",
+    "cz-conventional-changelog": "^3.2.0",
+    "vite": "^1.0.0-rc.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
