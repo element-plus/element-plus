@@ -1,4 +1,4 @@
-import ButtonInstall from './components/button/index'
+import ButtonInstall from '@element-plus/button/index'
 export const installAll = (app) => {
   ButtonInstall(app)
 }
