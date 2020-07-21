@@ -66,14 +66,14 @@ export default {
 
       // computed
       const _elFormItemSize = computed(() => {
-        return elFormItem.elFormItemSize || undefined
+        return (elFormItem || {}).elFormItemSize
       })
       const buttonSize = computed(() => {
         // todo ELEMENT
-        return props.size || _elFormItemSize.value || ELEMENT.size || undefined
+        return props.size || _elFormItemSize.value || (ELEMENT || {}).size
       })
       const buttonDisabled = computed(() => {
-        return props.disabled || elForm.disabled
+        return props.disabled || (elForm || {}).disabled
       })
 
       //methods
