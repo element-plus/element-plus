@@ -1,5 +1,6 @@
 {
-  "name": "test",
+  "name": "element-plus",
+  "private": true,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -13,11 +14,19 @@
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.0-rc.1",
     "cz-conventional-changelog": "^3.2.0",
+    "lerna": "^3.22.1",
     "vite": "^1.0.0-rc.1"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "description": "A Component Library for Vue3.0",
+  "main": "index.js",
+  "repository": "git@github.com:element-plus/element-plus.git",
+  "license": "MIT"
 }
