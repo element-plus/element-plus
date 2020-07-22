@@ -1,8 +1,8 @@
 #! /bin/bash
 
-export NAME=$1
+NAME=$1
 
-export FILE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")/../packages" && pwd)
+FILE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")/../packages" && pwd)
 
 re="[[:space:]]+"
 
@@ -12,6 +12,7 @@ if [ "$#" -ne 1 ] || [[ $NAME =~ $re ]] || [ "$NAME" == "" ]; then
 fi
 
 DIRNAME="$FILE_PATH/$NAME"
+INPUT_NAME=$NAME
 
 if [ -d "$DIRNAME" ]; then
   echo "$NAME component already exists, please change it"
@@ -49,7 +50,7 @@ export default (app: App) => {\n
 "
 TEMPLATE_PKG_JSON="\n
 {\n
-  \"name\": \"eleplus-${NAME}\",\n
+  \"name\": \"@element-plus/${INPUT_NAME}\",\n
   \"description\": \"\",\n
   \"version\": \"0.1.0\",\n
   \"main\": \"./index.ts\",\n
