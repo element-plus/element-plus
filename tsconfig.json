@@ -1,0 +1,19 @@
+{
+ "compilerOptions": {
+   "module": "ES2020",
+   "declaration": true,
+   "noImplicitAny": false,
+   "removeComments": true,
+   "moduleResolution": "node",
+   "noLib": false,
+   "target": "es6",
+   "sourceMap": true,
+   "lib": [
+     "es2020"
+   ]
+ },
+ "exclude": [
+   "node_modules"
+ ]
+}
+
