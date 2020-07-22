@@ -6,17 +6,26 @@
     "dev": "vite",
     "build": "vite build",
     "cz": "npx git-cz",
-    "gc": "sh ./scripts/gc.sh"
+    "gc": "sh ./scripts/gc.sh",
+    "sb": "start-storybook"
   },
   "dependencies": {
     "vue": "^3.0.0-rc.1",
     "vue-router": "^4.0.0-beta.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@storybook/html": "^5.3.19",
     "@vue/compiler-sfc": "^3.0.0-rc.1",
+    "babel-loader": "^8.1.0",
+    "babel-preset-vue": "^2.0.2",
     "cz-conventional-changelog": "^3.2.0",
     "lerna": "^3.22.1",
-    "vite": "^1.0.0-rc.1"
+    "ts-loader": "^8.0.1",
+    "typescript": "^3.9.7",
+    "vite": "^1.0.0-rc.1",
+    "vue-loader": "^v16.0.0-beta.4",
+    "vue-template-compiler": "^2.6.11"
   },
   "config": {
     "commitizen": {

@@ -53,7 +53,7 @@ TEMPLATE_PKG_JSON="\n
   \"name\": \"@element-plus/${INPUT_NAME}\",\n
   \"description\": \"\",\n
   \"version\": \"0.1.0\",\n
-  \"main\": \"./index.ts\",\n
+  \"main\": \"dist/index.js\",\n
   \"license\": \"MIT\",\n
   \"dependencies\": {}\n
 }\n
