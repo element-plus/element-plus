@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "cz": "npx git-cz"
+    "cz": "npx git-cz",
+    "gc": "sh ./scripts/gc.sh"
   },
   "dependencies": {
     "vue": "^3.0.0-rc.1",
