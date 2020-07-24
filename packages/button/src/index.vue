@@ -29,7 +29,7 @@ const ELEMENT: {
 } = {}
 // TODOS: replace these interface definition with actual ElForm interface
 interface ElForm {
-  disabled: boolean;  
+  disabled: boolean;
 }
 interface ElFormItem {
   elFormItemSize: number;
