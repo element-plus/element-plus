@@ -27,7 +27,6 @@ const scopes = [
 ]
 
 module.exports = {
-  utils: {getPackages},
   rules: {
     'scope-enum': (ctx) => getPackages(ctx).then((packages) => [2, 'always', [...packages, ...scopes]]),
     'body-leading-blank': [1, 'always'],
