@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "main": "dist/index.js",
   "license": "MIT",
+<<<<<<< HEAD
   "scripts": {
     "test": "jest --config ../../jest.config.js --rootDir ."
   },
-  "dependencies": {
+  "peerDependencies": {
     "vue": "^3.0.0-rc.1"
   },
   "devDependencies": {

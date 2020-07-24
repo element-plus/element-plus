@@ -9,7 +9,7 @@
     "test": "lerna run test --stream",
     "gc": "sh ./scripts/gc.sh"
   },
-  "dependencies": {
+  "peerDependencies": {
     "vue": "^3.0.0-rc.1",
     "vue-router": "^4.0.0-beta.2"
   },
