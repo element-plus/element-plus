@@ -27,6 +27,7 @@ NAME=$NORMALIZED_NAME
 
 mkdir -p "$DIRNAME"
 mkdir -p "$DIRNAME/src"
+mkdir -p "$DIRNAME/doc"
 mkdir -p "$DIRNAME/__tests__"
 
 cat > $DIRNAME/src/index.vue <<EOF
@@ -47,7 +48,7 @@ export default {
 </style>
 EOF
 
-cat > $DIRNAME/index.ts <<EOF
+cat <<EOF >"$DIRNAME/index.ts"
 import { App } from 'vue'
 import ${NAME} from './src/index.vue'
 export default (app: App) => {
@@ -86,4 +87,13 @@ describe('$NAME.vue', () => {
     expect(instance.text()).toEqual(AXIOM)
   })
 })
+EOF
+
+cat <<EOF >"$DIRNAME/doc/index.stories.ts"
+import El${NAME} from '../index'
+
+export default {
+  title: "${NAME}"
+}
+
 EOF
