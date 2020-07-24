@@ -7,7 +7,7 @@
     "build": "vite build",
     "cz": "npx git-cz",
     "test": "jest",
-    "gc": "sh ./scripts/gc.sh"
+    "gc": "bash ./scripts/gc.sh"
   },
   "peerDependencies": {
     "vue": "^3.0.0-rc.1",

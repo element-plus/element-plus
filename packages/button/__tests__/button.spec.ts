@@ -1,4 +1,4 @@
-import {mount, config} from '@vue/test-utils'
+import {mount} from '@vue/test-utils'
 import Button from '../src/index.vue'
 
 const AXIOM = 'Rem is the best girl'
