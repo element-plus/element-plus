@@ -28,6 +28,25 @@ NAME=$NORMALIZED_NAME
 mkdir -p "$DIRNAME"
 mkdir -p "$DIRNAME/src"
 mkdir -p "$DIRNAME/doc"
+mkdir -p "$DIRNAME/__tests__"
+
+cat > $DIRNAME/src/index.vue <<EOF
+<template>
+  <div>
+    <slot/>
+  </div>
+</template>
+<script lang='ts'>
+export default {
+  NAME: 'El${NAME}',
+    props: {
+    },
+    setup(props,ctx) { }
+  };
+</script>
+<style scoped>
+</style>
+EOF
 
 cat <<EOF >"$DIRNAME/index.ts"
 import { App } from 'vue'
@@ -35,43 +54,46 @@ import ${NAME} from './src/index.vue'
 export default (app: App) => {
   app.component(${NAME}.name, ${NAME})
 }
-
 EOF
 
-cat <<EOF >"$DIRNAME/src/index.vue"
-<template>
-  <div>
-  </div>
-</template>
-<script lang='ts'>
-export default {
-  NAME: 'El${NAME}',
-    props: { },
-    setup(props,ctx) { }
-  };
-</script>
-<style>
-</style>
-
+cat > $DIRNAME/package.json <<EOF
+{
+  "name": "@element-plus/$INPUT_NAME",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^3.0.0-rc.1"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^2.0.0-beta.0"
+  }
+}
 EOF
 
-cat <<EOF >"$DIRNAME/doc/index.stories.js"
+cat > $DIRNAME/__tests__/$INPUT_NAME.spec.ts <<EOF
+import {mount} from '@vue/test-utils'
+import $NAME from '../src/index.vue'
+
+const AXIOM = 'Rem is the best girl'
+
+describe('$NAME.vue', () => {
+  test('render test', () => {
+    const instance = mount($NAME, {
+      slots: {
+        default: AXIOM
+      },
+    })
+    expect(instance.text()).toEqual(AXIOM)
+  })
+})
+EOF
+
+cat <<EOF >"$DIRNAME/doc/index.stories.ts"
 import El${NAME} from '../index'
 
 export default {
   title: "${NAME}"
-}
-
-EOF
-
-cat <<EOF >"$DIRNAME/package.json"
-{
-  "name": "@element-plus/${INPUT_NAME}",
-  "description": "ElementPlus Component ${INPUT_NAME}",
-  "version": "0.1.0",
-  "main": "dist/index.js",
-  "license": "MIT",
-  "dependencies": {}
 }
 
 EOF
