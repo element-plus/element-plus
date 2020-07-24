@@ -22,10 +22,18 @@ const Wrapper = (template) => {
  * @param {Story} content
  * @return {HTMLElement}
  */
-function CustomDecorator(content) {
-  const { template, installer } = content();
-  const app = createApp(Wrapper(template));
-  installer(app);
+function CustomDecorator(content, context) {
+  const templateOrComponent = content();
+  const app = typeof templateOrComponent === 'string'
+    ? createApp(Wrapper(templateOrComponent))
+    : createApp(templateOrComponent)
+
+  const installers = context?.parameters?.component
+  if (Array.isArray(installers)) {
+    installers.forEach(installer => installer(app))
+  } else {
+    installers?.(app)
+  }
   const entry = document.createElement('div');
   entry.className = 'element-plus-previewer';
   app.mount(entry);
