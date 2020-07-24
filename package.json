@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "cz": "npx git-cz",
-    "test": "lerna run test --stream",
+    "test": "jest",
     "gc": "sh ./scripts/gc.sh"
   },
   "peerDependencies": {
@@ -19,6 +19,9 @@
     "cz-conventional-changelog": "^3.2.0",
     "lerna": "^3.22.1",
     "typescript": "^3.9.7",
+    "jest": "^24.1.0",
+    "ts-jest": "^26.1.3",
+    "vue-jest": "5.0.0-alpha.1",
     "vite": "^1.0.0-rc.1"
   },
   "config": {
