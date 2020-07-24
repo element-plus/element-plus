@@ -1,0 +1,9 @@
+{
+  "name": "@element-plus/tab",
+  "description": "",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "dependencies": {}
+}
+

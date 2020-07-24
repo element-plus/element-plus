@@ -1,14 +1,35 @@
-import { configure } from "@storybook/html";
+import { addDecorator } from "@storybook/html";
 import { createApp } from "vue";
-import ElButton from "@element-plus/button";
+import "../src/style/element-ui@2.13.2.css";
+/**
+ * Wraps a story into a Vue Element
+ * @param {JSX.Element} template - Story templates
+ * @param {VueElement}
+ */
+const Wrapper = (template) => {
+  return {
+    data() {
+      return {};
+    },
+    template,
+  };
+};
 
-const app = createApp();
+/**
+ * Custom Addon for previewing ElementPlus component in Vue3
+ * Due to lacking of support for Vue3, the rendering method has to be made by ourself
+ * This method takes a template string as parameter returns a HTMLElement which will be inserted to the iframe root node by `@StoryBook`
+ * @param {Story} content
+ * @return {HTMLElement}
+ */
+function CustomDecorator(content) {
+  const { template, installer } = content();
+  const app = createApp(Wrapper(template));
+  installer(app);
+  const entry = document.createElement("div");
+  entry.className = "element-plus-previewer";
+  app.mount(entry);
+  return entry;
+}
 
-ElButton(app);
-console.log(app);
-console.log(require.context("../packages", true, /\.stories\.js$/));
-configure(
-  require.context("../packages", true, /\.stories\.js$/),
-  module,
-  "vue"
-);
+addDecorator(CustomDecorator);

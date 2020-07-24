@@ -1,12 +1,12 @@
-import { createApp } from "vue";
-import ElButton from "../src/index.vue";
-const app = createApp(ElButton);
+import ElButton from '../';
+
 export default {
-  title: "Button",
+  title: 'Button',
 };
 
 export const NormalButton = () => {
-  () => app.mount("#root");
-  return "<el-button>with text</el-button>";
+  return { template: '<el-button>With Text</el-button>', installer: ElButton };
 };
-export const ButtonTwo = () => "<el-button>button two</el-button>";
+export const ButtonTwo = () => {
+  return { template: '<el-button>button two</el-button>', installer: ElButton };
+};

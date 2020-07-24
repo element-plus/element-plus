@@ -25,42 +25,54 @@ for i in $(echo $NAME | sed 's/[_|-]\([a-z]\)/\ \1/;s/^\([a-z]\)/\ \1/'); do
 done
 NAME=$NORMALIZED_NAME
 
-TEMPLATE_INDEX_VUE="<template>\n
-  <div>\n
-  </div>\n
-</template>\n
-<script lang='ts'>\n
-export default {\n
-  NAME: 'El${NAME}',\n
-    props: {\n
-    },\n
-    setup(props,ctx) { }\n
-  };\n
-</script>\n
-<style>\n
-</style>\n
-"
-
-TEMPLATE_INDEX_TS="\n
-import { App } from 'vue'\n
-import ${NAME} from './src/index.vue'\n
-export default (app: App) => {\n
-  app.component(${NAME}.name, ${NAME})\n
-}
-"
-TEMPLATE_PKG_JSON="\n
-{\n
-  \"name\": \"@element-plus/${INPUT_NAME}\",\n
-  \"description\": \"\",\n
-  \"version\": \"0.1.0\",\n
-  \"main\": \"dist/index.js\",\n
-  \"license\": \"MIT\",\n
-  \"dependencies\": {}\n
-}\n
-"
 
 mkdir -p "$DIRNAME"
 mkdir -p "$DIRNAME/src"
-echo $TEMPLATE_INDEX_VUE >>"$DIRNAME/src/index.vue"
-echo $TEMPLATE_INDEX_TS >>"$DIRNAME/index.ts"
-echo $TEMPLATE_PKG_JSON >>"$DIRNAME/package.json"
+mkdir -p "$DIRNAME/doc"
+
+cat << EOF > "$DIRNAME/index.ts"
+import { App } from 'vue'
+import ${NAME} from './src/index.vue'
+export default (app: App) => {
+  app.component(${NAME}.name, ${NAME})
+}
+
+EOF
+
+cat << EOF > "$DIRNAME/src/index.vue"
+<template>
+  <div>
+  </div>
+</template>
+<script lang='ts'>
+export default {
+  NAME: 'El${NAME}',
+    props: { },
+    setup(props,ctx) { }
+  };
+</script>
+<style>
+</style>
+
+EOF
+
+cat << EOF > "$DIRNAME/doc/index.stories.js"
+import El${NAME} from '../';
+
+export default {
+  title: "${NAME}"
+}
+
+EOF
+
+cat << EOF > "$DIRNAME/package.json"
+{
+  "name": "@element-plus/${INPUT_NAME}",
+  "description": "",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "dependencies": {}
+}
+
+EOF

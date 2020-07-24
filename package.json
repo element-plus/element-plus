@@ -7,7 +7,8 @@
     "build": "vite build",
     "cz": "npx git-cz",
     "gc": "sh ./scripts/gc.sh",
-    "sb": "start-storybook"
+    "sb": "start-storybook",
+    "bs": "yarn && npx lerna bootstrap"
   },
   "dependencies": {
     "vue": "^3.0.0-rc.1",
