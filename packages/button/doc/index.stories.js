@@ -1,4 +1,4 @@
-import ElButton from './index';
+import ElButton from '../index';
 
 export default {
   title: 'Button',
