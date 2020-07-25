@@ -1,6 +1,8 @@
 import { addDecorator } from '@storybook/html';
 import { createApp } from 'vue';
 import '../src/style/element-ui@2.13.2.css';
+import install from '../packages/element-plus'
+
 /**
  * Wraps a story into a Vue Element
  * @param {JSX.Element} template - Story templates
@@ -27,13 +29,7 @@ function CustomDecorator(content, context) {
   const app = typeof templateOrComponent === 'string'
     ? createApp(Wrapper(templateOrComponent))
     : createApp(templateOrComponent)
-
-  const installers = context?.parameters?.component
-  if (Array.isArray(installers)) {
-    installers.forEach(installer => installer(app))
-  } else {
-    installers?.(app)
-  }
+  install(app)
   const entry = document.createElement('div');
   entry.className = 'element-plus-previewer';
   app.mount(entry);
