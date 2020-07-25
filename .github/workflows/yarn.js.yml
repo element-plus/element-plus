@@ -19,7 +19,6 @@ jobs:
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install --frozen-lockfile
-      - run: npx lerna bootstrap
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: test
