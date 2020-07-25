@@ -14,6 +14,20 @@ function webpack(config) {
           options: {},
         },
         {
+          test: /\.stories\.ts$/,
+          use: [
+              {
+                loader: require.resolve('./export-loader')
+              },
+              {
+                loader: require.resolve('ts-loader'),
+                options: {
+                  transpileOnly: true,
+                },
+              },
+          ]
+        },
+        {
           test: /\.(ts|tsx)$/,
           use: [
             {
