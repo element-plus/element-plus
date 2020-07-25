@@ -1,0 +1,20 @@
+{
+  "name": "element-plus",
+  "version": "0.0.1",
+  "description": "> TODO: description",
+  "author": "Herrington Darkholme <2883231+HerringtonDarkholme@users.noreply.github.com>",
+  "homepage": "https://github.com/element-plus/element-plus#readme",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "dependencies": {
+    "@element-plus/badge": "^0.0.0",
+    "@element-plus/button": "^0.0.0"
+  }
+}
