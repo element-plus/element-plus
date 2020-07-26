@@ -6,7 +6,7 @@ export {
   ElButton, ElBadge,
 }
 
-export default function install(app: App) {
+export default function install(app: App): void {
   ElButton(app)
   ElBadge(app)
 }
