@@ -79,12 +79,12 @@ const AXIOM = 'Rem is the best girl'
 
 describe('$NAME.vue', () => {
   test('render test', () => {
-    const instance = mount($NAME, {
+    const wrapper = mount($NAME, {
       slots: {
         default: AXIOM
       },
     })
-    expect(instance.text()).toEqual(AXIOM)
+    expect(wrapper.text()).toEqual(AXIOM)
   })
 })
 EOF
