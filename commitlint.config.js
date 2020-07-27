@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 const importFrom = require('import-from')
 
 function getPackages (context) {
@@ -23,7 +24,7 @@ const scopes = [
   'dev',
   'build',
   'deploy',
-  'other'
+  'other',
 ]
 
 module.exports = {

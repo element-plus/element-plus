@@ -24,7 +24,7 @@
 </template>
 
 <script lang='ts'>
-import { computed, inject } from 'vue'
+import { computed, inject, defineComponent } from 'vue'
 const ELEMENT: {
   size?: number;
 } = {}
@@ -36,7 +36,26 @@ interface ElFormItem {
   elFormItemSize: number;
 }
 
-export default {
+interface IButtonProps {
+  type: string;
+  size: string;
+  icon: string;
+  nativeType: string;
+  loading: boolean;
+  disabled: boolean;
+  plain: boolean;
+  autofocus: boolean;
+  round: boolean;
+  circle: boolean;
+}
+
+interface IButtonSetups {
+  _elFormItemSize: string;
+  buttonSize: string;
+  buttonDisabled: boolean;
+  handleClick: EmitFn;
+}
+export default defineComponent({
   name: 'ElButton',
 
   props: {
@@ -66,7 +85,7 @@ export default {
 
   emits: ['click'],
 
-  setup(props, ctx) {
+  setup(props, ctx): IButtonSetups {
     // inject
     const elForm = inject<ElForm>('elForm')
     const elFormItem = inject<ElFormItem>('elFormItem')
@@ -95,5 +114,5 @@ export default {
       handleClick,
     }
   },
-}
+})
 </script>
