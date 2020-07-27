@@ -4,3 +4,4 @@ dist
 *.local
 yarn-error.log
 lerna-debug.json
+yarn-error.log

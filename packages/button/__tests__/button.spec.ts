@@ -7,15 +7,15 @@ const COMMON_CONFIG = {
     provide: {
       elForm: {},
       elFormItem: {},
-    }
-  }
+    },
+  },
 }
 
 describe('Button.vue', () => {
   test('render text', () => {
     const instance = mount(Button, {
       slots: {
-        default: AXIOM
+        default: AXIOM,
       },
       ...COMMON_CONFIG,
     })
@@ -25,7 +25,7 @@ describe('Button.vue', () => {
   test('handle click', async () => {
     const instance = mount(Button, {
       slots: {
-        default: AXIOM
+        default: AXIOM,
       },
       ...COMMON_CONFIG,
     })
