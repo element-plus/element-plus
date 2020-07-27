@@ -6,14 +6,14 @@ const AXIOM = 'Rem is the best girl'
 describe('Badge', () => {
   test('has value', () => {
     const wrapper = mount(Badge, {
-      props: {value: 80}
+      props: {value: 80},
     })
     expect(wrapper.vm.content).toEqual(80)
   })
 
   test('is fixed', () => {
     const wrapper = mount(Badge, {
-      slots: {default: AXIOM}
+      slots: {default: AXIOM},
     })
     expect(wrapper.find('.el-badge__content.is-fixed')).toBeDefined()
   })
@@ -21,7 +21,7 @@ describe('Badge', () => {
   test('is dot', () => {
     const wrapper = mount(Badge, {
       props: {isDot: true},
-      slots: {default: AXIOM}
+      slots: {default: AXIOM},
     })
     expect(wrapper.find('.el-badge__content.is-fixed')).toBeDefined()
   })

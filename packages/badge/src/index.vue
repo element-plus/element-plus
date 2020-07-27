@@ -22,11 +22,28 @@
 <script lang="ts">
 import {computed} from 'vue'
 
+interface IBadgeProps {
+  value: string | number;
+  max: number;
+  isDot: boolean;
+  hidden: boolean;
+  type: string;
+}
+
+interface IBadgeSetups {
+  content: number | string;
+}
 export default {
   name: 'ElBadge',
   props: {
-    value: [String, Number],
-    max: Number,
+    value: {
+      type: [String, Number],
+      default: '',
+    },
+    max: {
+      type: Number,
+      default: 99,
+    },
     isDot: Boolean,
     hidden: Boolean,
     type: {
@@ -37,7 +54,7 @@ export default {
       },
     },
   },
-  setup(props) {
+  setup(props: IBadgeProps): IBadgeSetups {
     const content = computed(() => {
       if (props.isDot) {
         return
