@@ -29,12 +29,12 @@
 </template>
 
 <script lang='ts'>
-import { h, computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 const ELEMENT: {
   size?: number;
 } = {}
 
-export default {
+export default defineComponent({
     name: "ElTag",
     props: {
         closable: Boolean,
@@ -85,5 +85,5 @@ export default {
             handleClick,
         }
     },
-};
+});
 </script>
