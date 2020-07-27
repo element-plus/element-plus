@@ -5,14 +5,14 @@ const AXIOM = 'Rem is the best girl'
 
 describe('Tag.vue', () => {
   test('render text & class', () => {
-    const instance = mount(Tag, {
+    const wrapper = mount(Tag, {
       slots: {
         default: AXIOM
       },
     })
-    expect(instance.text()).toEqual(AXIOM)
+    expect(wrapper.text()).toEqual(AXIOM)
 
-    const vm = instance.vm;
+    const vm = wrapper.vm;
 
     expect(vm.$el.classList.contains('el-tag')).toEqual(true);
     expect(vm.$el.classList.contains('el-tag__close')).toEqual(false);
@@ -21,65 +21,65 @@ describe('Tag.vue', () => {
   })
 
   test('type', () => {
-    const instance = mount(Tag, {
+    const wrapper = mount(Tag, {
       props: {
         type: 'primary'
       },
     })
-    const vm = instance.vm;
+    const vm = wrapper.vm;
     expect(vm.$el.classList.contains('el-tag--primary')).toEqual(true);
   })
 
   test('hit', () => {
-    const instance = mount(Tag, {
+    const wrapper = mount(Tag, {
       props: {
         hit: true
       },
     })
-    const vm = instance.vm;
+    const vm = wrapper.vm;
     expect(vm.$el.classList.contains('is-hit')).toEqual(true);
   })
 
   test('closeable', async () => {
-    const instance = mount(Tag, {
+    const wrapper = mount(Tag, {
       props: {
         closable: true,
       },
     })
-    const closeBtn = instance.find('.el-tag .el-tag__close');
+    const closeBtn = wrapper.find('.el-tag .el-tag__close');
     expect(closeBtn.exists()).toBe(true);
 
     await closeBtn.trigger('click');
-    expect(instance.emitted().close).toBeTruthy();
+    expect(wrapper.emitted().close).toBeTruthy();
   })
 
   test('closeTransition', () => {
-    const instance = mount(Tag, {
+    const wrapper = mount(Tag, {
       props: {
         closeTransition: true,
       },
     })
-    const vm = instance.vm;
+    const vm = wrapper.vm;
     expect(vm.$el.classList.contains('md-fade-center')).toEqual(false);
   })
 
   test('color', () => {
-    const instance = mount(Tag, {
+    const wrapper = mount(Tag, {
       props: {
         color: 'rgb(0, 0, 0)',
       },
     })
-    const vm = instance.vm;
+    const vm = wrapper.vm;
     expect(vm.$el.style.backgroundColor).toEqual('rgb(0, 0, 0)');
   })
 
   test('theme', () => {
-    const instance = mount(Tag, {
+    const wrapper = mount(Tag, {
       props: {
         effect: 'dark',
       },
     })
-    const vm = instance.vm;
+    const vm = wrapper.vm;
     const el = vm.$el;
     expect(el.className.indexOf('el-tag--dark') > -1).toEqual(true);
     expect(el.className.indexOf('el-tag--light') > -1).toEqual(false);
