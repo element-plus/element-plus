@@ -13,127 +13,117 @@ const COMMON_CONFIG = {
 
 describe('Button.vue', () => {
   it('create', () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       props: { type: 'primary' },
       ...COMMON_CONFIG,
     })
-    const buttonElm = instance.element
-    expect(buttonElm.classList.contains('el-button--primary')).toBeTruthy()
+    expect(wrapper.classes()).toContain('el-button--primary')
   })
 
   it('icon', () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       props: { icon: 'el-icon-search' },
       ...COMMON_CONFIG,
     })
-    const buttonElm = instance.element
-    expect(buttonElm.querySelector('.el-icon-search')).not.toBeUndefined()
+    expect(wrapper.find('.el-icon-search').exists()).toBeTruthy()
   })
   it('nativeType', () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       props: { nativeType: 'submit' },
       ...COMMON_CONFIG,
     })
-    const buttonElm = instance.element
-    expect(buttonElm.getAttribute('type')).toBe('submit')
+    expect(wrapper.attributes('type')).toBe('submit')
   })
   it('loading', () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       props: { loading: true },
       ...COMMON_CONFIG,
     })
-    const buttonElm = instance.element
-    expect(buttonElm.querySelector('.el-icon-search')).not.toBeUndefined()
-    expect(buttonElm.classList.contains('is-loading')).toBeTruthy()
-    expect(buttonElm.querySelector('.el-icon-loading')).not.toBeUndefined()
+    expect(wrapper.classes()).toContain('is-loading')
+    expect(wrapper.find('.el-icon-loading').exists()).toBeTruthy()
   })
   it('size', () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       props: { size: 'medium' },
       ...COMMON_CONFIG,
     })
-    const buttonElm = instance.element
-    expect(buttonElm.classList.contains('el-button--medium')).toBeTruthy()
+    expect(wrapper.classes()).toContain('el-button--medium')
   })
   it('plain', () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       props: { plain: true },
       ...COMMON_CONFIG,
     })
-    const buttonElm = instance.element
-    expect(buttonElm.classList.contains('is-plain')).toBeTruthy()
+    expect(wrapper.classes()).toContain('is-plain')
   })
   it('round', () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       props: { round: true },
       ...COMMON_CONFIG,
     })
-    const buttonElm = instance.element
-    expect(buttonElm.classList.contains('is-round')).toBeTruthy()
+    expect(wrapper.classes()).toContain('is-round')
   })
   it('circle', () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       props: { circle: true },
       ...COMMON_CONFIG,
     })
-    const buttonElm = instance.element
-    expect(buttonElm.classList.contains('is-circle')).toBeTruthy()
+    expect(wrapper.classes()).toContain('is-circle')
   })
 
   test('render text', () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       slots: {
         default: AXIOM,
       },
       ...COMMON_CONFIG,
     })
-    expect(instance.text()).toEqual(AXIOM)
+    expect(wrapper.text()).toEqual(AXIOM)
   })
 
   test('handle click', async () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       slots: {
         default: AXIOM,
       },
       ...COMMON_CONFIG,
     })
-    await instance.trigger('click')
-    expect(instance.emitted()).toBeDefined()
+    await wrapper.trigger('click')
+    expect(wrapper.emitted()).toBeDefined()
 
   })
 
   test('handle click inside', async () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       slots: {
         default: '<span class="inner-slot"></span>',
       },
       ...COMMON_CONFIG,
     })
-    await (<HTMLElement>instance.element.querySelector('.inner-slot')).click()
-    expect(instance.emitted()).toBeDefined()
+    await (<HTMLElement>wrapper.element.querySelector('.inner-slot')).click()
+    expect(wrapper.emitted()).toBeDefined()
   })
 
   test('loading implies disabled', async () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       slots: {
         default: AXIOM,
       },
       props: { loading: true },
       ...COMMON_CONFIG,
     })
-    await instance.trigger('click')
-    expect(instance.emitted('click')).toBeUndefined()
+    await wrapper.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
   })
 
   it('disabled', async () => {
-    const instance = mount(Button, {
+    const wrapper = mount(Button, {
       props: { disabled: true },
       ...COMMON_CONFIG,
     })
-    const buttonElm = instance.element
-    expect(buttonElm.classList.contains('is-disabled')).toBeTruthy()
-    await instance.trigger('click')
-    expect(instance.emitted('click')).toBeUndefined()
+    expect(wrapper.classes()).toContain('is-disabled')
+    await wrapper.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
   })
 
 })
