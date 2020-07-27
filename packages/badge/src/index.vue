@@ -31,10 +31,11 @@ export default {
     hidden: Boolean,
     type: {
       type: String,
-      validator(val) {
-        return ['primary', 'success', 'warning', 'info', 'danger'].indexOf(val) > -1;
-      }
-    }
+      default: 'primary',
+      validator(val: string): boolean {
+        return ['primary', 'success', 'warning', 'info', 'danger'].indexOf(val) > -1
+      },
+    },
   },
   setup(props) {
     const content = computed(() => {
@@ -42,14 +43,14 @@ export default {
         return
       }
       const {value, max} = props
-        if (typeof value === 'number' && typeof max === 'number') {
-          return max < value ? `${max}+` : value
-        }
-        return value
+      if (typeof value === 'number' && typeof max === 'number') {
+        return max < value ? `${max}+` : value
+      }
+      return value
     })
     return {
-      content
+      content,
     }
-  }
+  },
 }
 </script>

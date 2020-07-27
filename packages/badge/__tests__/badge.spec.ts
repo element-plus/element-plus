@@ -7,7 +7,7 @@ describe('Badge.vue', () => {
   test('render test', () => {
     const instance = mount(Badge, {
       slots: {
-        default: AXIOM
+        default: AXIOM,
       },
     })
     expect(instance.text()).toEqual(AXIOM)

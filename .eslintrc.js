@@ -17,7 +17,14 @@ module.exports = {
   ],
   rules: {
     // js/ts
+    'eol-last': 'error',
+    'no-trailing-spaces': 'error',
+    'comma-style': ['error', 'last'],
+    'comma-dangle': ['error', 'always-multiline'],
+    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
+    camelcase: ['error', { properties: 'never' }],
     semi: ['error', 'never'],
+    indent: ['error', 2, { SwitchCase: 1 }],
     // vue
     'vue/singleline-html-element-content-newline': 'off',
     'vue/html-self-closing': ['error', {
@@ -31,6 +38,6 @@ module.exports = {
       singleline: 3,
       multiline: 1,
     }],
-    'vue/html-closing-bracket-spacing': 'error'
+    'vue/html-closing-bracket-spacing': 'error',
   },
 }

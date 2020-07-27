@@ -3,3 +3,4 @@ node_modules
 dist
 *.local
 lerna-debug.json
+yarn-error.log

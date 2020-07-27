@@ -9,7 +9,8 @@
     "test": "jest",
     "gen": "bash ./scripts/gc.sh",
     "storybook": "start-storybook",
-    "bootstrap": "yarn && npx lerna bootstrap"
+    "bootstrap": "yarn && npx lerna bootstrap",
+    "lint": "eslint . --ext .vue,.js,.ts"
   },
   "peerDependencies": {
     "vue": "^3.0.0-rc.1",
