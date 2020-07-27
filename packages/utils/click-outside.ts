@@ -1,4 +1,4 @@
-import {DirectiveBinding, VNode} from 'vue'
+import { DirectiveBinding, VNode } from 'vue'
 import isServer from './isServer'
 import { on } from './dom'
 
