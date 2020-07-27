@@ -40,7 +40,7 @@ describe('Tag.vue', () => {
     expect(vm.$el.classList.contains('is-hit')).toEqual(true);
   })
 
-  test('closeable', () => {
+  test('closeable', async () => {
     const instance = mount(Tag, {
       props: {
         closable: true,
@@ -48,6 +48,9 @@ describe('Tag.vue', () => {
     })
     const closeBtn = instance.find('.el-tag .el-tag__close');
     expect(closeBtn.exists()).toBe(true);
+
+    await closeBtn.trigger('click');
+    expect(instance.emitted().close).toBeTruthy();
   })
 
   test('closeTransition', () => {
