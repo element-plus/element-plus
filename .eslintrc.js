@@ -25,6 +25,7 @@ module.exports = {
     camelcase: ['error', { properties: 'never' }],
     semi: ['error', 'never'],
     indent: ['error', 2, { SwitchCase: 1 }],
+    'object-curly-spacing': ['error', 'always'],
     // vue
     'vue/singleline-html-element-content-newline': 'off',
     'vue/html-self-closing': ['error', {
