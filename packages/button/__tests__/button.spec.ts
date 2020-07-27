@@ -47,14 +47,6 @@ describe('Button.vue', () => {
     expect(buttonElm.classList.contains('is-loading')).toBeTruthy()
     expect(buttonElm.querySelector('.el-icon-loading')).not.toBeUndefined()
   })
-  it('disabled', () => {
-    const instance = mount(Button, {
-      props: { disabled: true },
-      ...COMMON_CONFIG,
-    })
-    const buttonElm = instance.element
-    expect(buttonElm.classList.contains('is-disabled')).toBeTruthy()
-  })
   it('size', () => {
     const instance = mount(Button, {
       props: { size: 'medium' },
@@ -129,6 +121,17 @@ describe('Button.vue', () => {
       props: { loading: true },
       ...COMMON_CONFIG,
     })
+    await instance.trigger('click')
+    expect(instance.emitted('click')).toBeUndefined()
+  })
+
+  it('disabled', async () => {
+    const instance = mount(Button, {
+      props: { disabled: true },
+      ...COMMON_CONFIG,
+    })
+    const buttonElm = instance.element
+    expect(buttonElm.classList.contains('is-disabled')).toBeTruthy()
     await instance.trigger('click')
     expect(instance.emitted('click')).toBeUndefined()
   })
