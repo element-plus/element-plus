@@ -145,7 +145,3 @@ export function rafThrottle(fn: (args: Record<string, unknown>) => unknown): (..
 }
 
 export const objToArray = castArray
-
-export const isVNode = (node: unknown): boolean => {
-  return node !== null && typeof node === 'object' && hasOwn(node, 'componentOptions')
-}
