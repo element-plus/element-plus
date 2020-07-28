@@ -9,7 +9,7 @@
     "storybook": "start-storybook",
     "bootstrap": "yarn && npx lerna bootstrap",
     "build": "yarn bootstrap && yarn build-storybook",
-    "lint": "eslint . --ext .vue,.js,.ts"
+    "lint": "eslint ./packages --ext .vue,.js,.ts"
   },
   "peerDependencies": {
     "vue": "^3.0.0-rc.1"
