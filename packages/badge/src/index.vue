@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import {computed} from 'vue'
+import { computed } from 'vue'
 
 interface IBadgeProps {
   value: string | number;
@@ -59,7 +59,7 @@ export default {
       if (props.isDot) {
         return
       }
-      const {value, max} = props
+      const { value, max } = props
       if (typeof value === 'number' && typeof max === 'number') {
         return max < value ? `${max}+` : value
       }
