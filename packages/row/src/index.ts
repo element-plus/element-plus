@@ -1,4 +1,4 @@
-import { defineComponent, computed, h } from 'vue'
+import { defineComponent, computed, h, provide } from 'vue'
 export default defineComponent({
   name: 'ElRow',
   props: {
@@ -18,7 +18,8 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    // todo provide
+    provide('ElRow', props.gutter)
+
     const style = computed(() => {
       const ret = { marginLeft: '', marginRight: '' }
       if (props.gutter) {
@@ -27,6 +28,7 @@ export default defineComponent({
       }
       return ret
     })
+
     return () =>
       h(
         props.tag,
