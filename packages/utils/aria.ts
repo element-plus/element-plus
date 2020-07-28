@@ -1,10 +1,20 @@
+export const eventKeys = {
+  tab: 9,
+  enter: 13,
+  space: 32,
+  left: 37,
+  up: 38,
+  right: 39,
+  down: 40,
+  esc: 27,
+}
 
 /**
  * @desc Determine if target element is focusable
  * @param element {HTMLElement}
  * @returns {Boolean} true if it is focusable
  */
-const isFocusable = (element: HTMLElement): boolean => {
+export const isFocusable = (element: HTMLElement): boolean => {
   if (
     element.tabIndex > 0 ||
     (element.tabIndex === 0 && element.getAttribute('tabIndex') !== null)
@@ -22,7 +32,7 @@ const isFocusable = (element: HTMLElement): boolean => {
       return !!(element as HTMLAnchorElement).href && (element as HTMLAnchorElement).rel !== 'ignore'
     }
     case 'INPUT':{
-      return (element as HTMLInputElement).type !== 'hidden' && (element as HTMLInputElement).type !== 'file'
+      return !((element as HTMLInputElement).type === 'hidden' || (element as HTMLInputElement).type === 'file')
     }
     case 'BUTTON':
     case 'SELECT':
@@ -42,7 +52,7 @@ const isFocusable = (element: HTMLElement): boolean => {
  * @returns
  *  true if element is focused.
  */
-const attemptFocus = (element: HTMLElement): boolean => {
+export const attemptFocus = (element: HTMLElement): boolean => {
   if (!isFocusable(element)) {
     return false
   }
@@ -61,7 +71,7 @@ const attemptFocus = (element: HTMLElement): boolean => {
  * @param  {String} name
  * @param  {*} opts
  */
-const triggerEvent = function(elm: HTMLElement, name: string, ...opts: Array<boolean>): HTMLElement {
+export const triggerEvent = function(elm: HTMLElement, name: string, ...opts: Array<boolean>): HTMLElement {
   let eventName: string
 
   if (name.includes('mouse') || name.includes('click')) {
@@ -121,19 +131,6 @@ const Utils = {
   },
 }
 
-const eventKeys = {
-  tab: 9,
-  enter: 13,
-  space: 32,
-  left: 37,
-  up: 38,
-  right: 39,
-  down: 40,
-  esc: 27,
-}
+
 
 export default Utils
-export {
-  eventKeys,
-  triggerEvent,
-}

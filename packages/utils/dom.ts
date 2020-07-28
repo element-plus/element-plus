@@ -52,10 +52,10 @@ export const once = function(
   el: HTMLElement,
   event: string,
   fn: EventListener,
-) {
-  var listener = function() {
+): void {
+  const listener = function(...args: unknown[]) {
     if (fn) {
-      fn.apply(this, arguments)
+      fn.apply(this, args)
     }
     off(el, event, listener)
   }
@@ -63,7 +63,7 @@ export const once = function(
 }
 
 /* istanbul ignore next */
-export function hasClass(el: HTMLElement, cls: string) {
+export function hasClass(el: HTMLElement, cls: string): boolean {
   if (!el || !cls) return false
   if (cls.indexOf(' ') !== -1)
     throw new Error('className should not contain space.')
@@ -75,7 +75,7 @@ export function hasClass(el: HTMLElement, cls: string) {
 }
 
 /* istanbul ignore next */
-export function addClass(el: HTMLElement, cls: string) {
+export function addClass(el: HTMLElement, cls: string): void {
   if (!el) return
   let curClass = el.className
   const classes = (cls || '').split(' ')
@@ -96,7 +96,7 @@ export function addClass(el: HTMLElement, cls: string) {
 }
 
 /* istanbul ignore next */
-export function removeClass(el: HTMLElement, cls: string) {
+export function removeClass(el: HTMLElement, cls: string): void {
   if (!el || !cls) return
   const classes = cls.split(' ')
   let curClass = ' ' + el.className + ' '
@@ -144,7 +144,7 @@ export function setStyle(
   element: HTMLElement,
   styleName: CSSStyleDeclaration | string,
   value: string,
-) {
+): void {
   if (!element || !styleName) return
 
   if (typeof styleName === 'object') {
@@ -160,7 +160,7 @@ export function setStyle(
   }
 }
 
-export const isScroll = (el: HTMLElement, isVertical?: Nullable<boolean>) => {
+export const isScroll = (el: HTMLElement, isVertical?: Nullable<boolean>): RegExpMatchArray => {
   if (isServer) return
 
   const determinedDirection = isVertical !== null || isVertical !== undefined
@@ -176,7 +176,7 @@ export const isScroll = (el: HTMLElement, isVertical?: Nullable<boolean>) => {
 export const getScrollContainer = (
   el: HTMLElement,
   isVertical?: Nullable<boolean>,
-) => {
+): Window | HTMLElement => {
   if (isServer) return
   el.classList
   let parent: HTMLElement = el
@@ -193,7 +193,7 @@ export const getScrollContainer = (
   return parent
 }
 
-export const isInContainer = (el: HTMLElement, container: HTMLElement) => {
+export const isInContainer = (el: HTMLElement, container: HTMLElement): boolean => {
   if (isServer || !el || !container) return false
 
   const elRect = el.getBoundingClientRect()
