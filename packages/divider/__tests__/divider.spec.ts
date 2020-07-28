@@ -1,4 +1,4 @@
-import {mount} from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import Divider from '../src/index.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -10,16 +10,16 @@ describe('Divider.vue', () => {
         default: AXIOM,
       },
     })
-    expect(wrapper.text()).toEqual(AXIOM)
+    expect(wrapper.text()).toBe(AXIOM)
   })
 
   test('direction', () => {
-    const { vm } = mount(Divider, {
+    const wrapper = mount(Divider, {
       props: {
         direction: 'vertical',
       },
     })
-    expect(vm.$el.classList.contains('el-divider--vertical')).toEqual(true)
+    expect(wrapper.classes()).toContain('el-divider--vertical')
   })
 
   test('contentPosition', () => {
@@ -31,16 +31,15 @@ describe('Divider.vue', () => {
         contentPosition: 'right',
       },
     })
-    const textDiv = wrapper.find('.el-divider__text')
-    expect(textDiv.element.classList.contains('is-right')).toEqual(true)
+    expect(wrapper.find('.el-divider__text').classes()).toContain('is-right')
   })
 
   test('customClass', () => {
-    const { vm } = mount(Divider, {
+    const wrapper = mount(Divider, {
       props: {
         class: 'customClass',
       },
     })
-    expect(vm.$el.classList.contains('customClass')).toEqual(true)
+    expect(wrapper.classes()).toContain('customClass')
   })
 })
