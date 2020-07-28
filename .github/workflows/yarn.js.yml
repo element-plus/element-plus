@@ -19,8 +19,8 @@ jobs:
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install --frozen-lockfile
+      - name: lint
+        run: npm run lint
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: test
-      - name: lint
-        run: npm run lint
