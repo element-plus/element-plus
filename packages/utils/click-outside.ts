@@ -16,18 +16,18 @@ let seed = 0
   })
 
 function createDocumentHandler(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
-  return function(mouseup = {}, mousedown = {}) {
+  return function(mouseup: MouseEvent, mousedown: MouseEvent) {
     if (
       !vnode ||
       !vnode.component ||
       !mouseup.target ||
       !mousedown.target ||
-      el.contains(mouseup.target) ||
-      el.contains(mousedown.target) ||
+      el.contains(mouseup.target as Node) ||
+      el.contains(mousedown.target as Node) ||
       el === mouseup.target ||
-      (vnode.component.popperElm &&
-        (vnode.component.popperElm.contains(mouseup.target) ||
-          vnode.component.popperElm.contains(mousedown.target)))
+      (vnode.component.data.popperElm &&
+        ((vnode.component.data.popperElm as HTMLElement).contains(mouseup.target as Node) ||
+          (vnode.component.data.popperElm as HTMLElement).contains(mousedown.target as Node)))
     )
       return
 
