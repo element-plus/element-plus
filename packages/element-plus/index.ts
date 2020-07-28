@@ -2,13 +2,15 @@ import type { App } from 'vue'
 import ElButton from '@element-plus/button'
 import ElBadge from '@element-plus/badge'
 import ElTag from '@element-plus/tag'
+import ElRow from '@element-plus/row'
 
 export {
-  ElButton, ElBadge, ElTag,
+  ElButton, ElBadge, ElTag, ElRow,
 }
 
 export default function install(app: App): void {
   ElButton(app)
   ElBadge(app)
   ElTag(app)
+  ElRow(app)
 }
