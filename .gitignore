@@ -5,3 +5,4 @@ dist
 yarn-error.log
 lerna-debug.json
 yarn-error.log
+storybook-static

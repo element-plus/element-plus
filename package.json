@@ -3,13 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
     "cz": "git add -A && npx git-cz",
     "test": "jest",
     "gen": "bash ./scripts/gc.sh",
     "storybook": "start-storybook",
     "bootstrap": "yarn && npx lerna bootstrap",
+    "build": "yarn bootstrap && yarn build-storybook",
     "lint": "eslint . --ext .vue,.js,.ts"
   },
   "peerDependencies": {
