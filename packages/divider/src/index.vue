@@ -13,7 +13,14 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue'
+
+interface IDividerProps {
+  direction: string,
+  contentPosition: string
+}
+
+export default defineComponent({
   name: 'ElDivider',
   props: {
     direction: {
@@ -31,5 +38,5 @@ export default {
       },
     },
   },
-}
+})
 </script>

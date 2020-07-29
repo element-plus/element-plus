@@ -14,14 +14,17 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'Basic',
-  methods: {
-    handleClick() {
-      alert('click')
-    },
+  setup(props, ctx) {
+    const handleClick = () => alert('click')
+    return {
+      handleClick,
+    }
   },
-}
+})
 </script>
 
 <style scoped>
