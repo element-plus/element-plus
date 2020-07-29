@@ -27,9 +27,10 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
-const basic = Vue.defineComoponent({
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+const basic = defineComponent({
   data() {
     return {
       items: [
