@@ -1,4 +1,4 @@
-import Utils, {triggerEvent, isFocusable, attemptFocus} from '../aria'
+import { triggerEvent, isFocusable } from '../aria'
 
 const CE = (tag: string) => document.createElement(tag)
 

@@ -1,4 +1,4 @@
-import {eventKeys, triggerEvent } from '../aria'
+import { eventKeys, triggerEvent } from '../aria'
 import MenuItem from './menu-item'
 
 class SubMenu {

@@ -3,7 +3,7 @@ import isServer from './isServer'
 export default function scrollIntoView(
   container: HTMLElement,
   selected: HTMLElement,
-) {
+): void {
   if (isServer) return
 
   if (!selected) {
