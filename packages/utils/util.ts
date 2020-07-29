@@ -132,7 +132,7 @@ export {
   capitalize,
 }
 
-export function rafThrottle(fn: (args: Record<string, unknown>) => unknown): (...args: any[]) => any {
+export function rafThrottle(fn: (args: Record<string, unknown>) => unknown): (...args: unknown[]) => unknown {
   let locked = false
   return function(...args) {
     if (locked) return
@@ -145,3 +145,5 @@ export function rafThrottle(fn: (args: Record<string, unknown>) => unknown): (..
 }
 
 export const objToArray = castArray
+
+export { isVNode } from 'vue'
