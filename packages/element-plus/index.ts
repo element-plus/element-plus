@@ -6,7 +6,7 @@ import ElTag from '@element-plus/tag'
 import ElDivider from '@element-plus/divider'
 
 export {
-  ElButton, ElBadge, ElTag, ElDivider,
+  ElButton, ElBadge, ElCard, ElDivider, ElTag,
 }
 
 export default function install(app: App): void {
