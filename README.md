@@ -22,3 +22,16 @@ $ yarn gen component-name
 ```
 
 Note the `component-name` must be in `kebab-case`, combining words by replacing each space with a dash.
+
+## Commit template
+With command
+```bash
+yarn cz
+```
+
+Example
+```
+[TYPE](SCOPE):DESCRIPTION#[ISSUE]
+# example feat(button):add type 'button' for form usage #1234
+```
+
