@@ -1,5 +1,4 @@
 module.exports = {
-  preset: 'ts-jest',
   globals: {
     // work around: https://github.com/kulshekhar/ts-jest/issues/748#issuecomment-423528659
     'ts-jest': {
@@ -11,6 +10,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.vue$': 'vue-jest',
+    '^.+\\.(t|j)sx?$': ['@swc-node/jest'],
   },
   moduleFileExtensions: ['vue', 'json', 'ts', 'tsx', 'js', 'json'],
 }
