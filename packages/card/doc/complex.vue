@@ -1,10 +1,10 @@
 <template>
   <el-card class="box-card">
     <template #header class="clearfix">
-      <span>卡片名称</span>
-      <el-button style="float: right; padding: 3px 0" type="text" @click="alert">点我</el-button>
+      <span>Card name</span>
+      <el-button style="float: right; padding: 3px 0" type="text" @click="alert">Click Me</el-button>
     </template>
-    <div v-for="o in 4" :key="o" class="text item">{{ '列表内容 ' + o }}</div>
+    <div v-for="o in 4" :key="o" class="text item">{{ 'List Content ' + o }}</div>
   </el-card>
 </template>
 
@@ -12,7 +12,7 @@
 export default {
   methods: {
     alert(): void {
-      alert('点我干嘛')
+      alert('Why do you click me?')
     },
   },
 }
