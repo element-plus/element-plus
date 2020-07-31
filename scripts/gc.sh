@@ -33,16 +33,18 @@ mkdir -p "$DIRNAME/__tests__"
 cat > $DIRNAME/src/index.vue <<EOF
 <template>
   <div>
-    <slot/>
+    <slot></slot>
   </div>
 </template>
 <script lang='ts'>
-export default {
-  NAME: 'El${NAME}',
-    props: {
-    },
-    setup(props,ctx) { }
-  };
+import { defineComponent } from 'vue'
+export default defineComponent({
+  name: 'El${NAME}',
+  props: { },
+  setup(props) {
+    // init here
+  },
+})
 </script>
 <style scoped>
 </style>
@@ -51,7 +53,7 @@ EOF
 cat <<EOF >"$DIRNAME/index.ts"
 import { App } from 'vue'
 import ${NAME} from './src/index.vue'
-export default (app: App) => {
+export default (app: App): void => {
   app.component(${NAME}.name, ${NAME})
 }
 EOF
@@ -72,7 +74,7 @@ cat > $DIRNAME/package.json <<EOF
 EOF
 
 cat > $DIRNAME/__tests__/$INPUT_NAME.spec.ts <<EOF
-import {mount} from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import $NAME from '../src/index.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -81,7 +83,7 @@ describe('$NAME.vue', () => {
   test('render test', () => {
     const wrapper = mount($NAME, {
       slots: {
-        default: AXIOM
+        default: AXIOM,
       },
     })
     expect(wrapper.text()).toEqual(AXIOM)
@@ -93,7 +95,7 @@ cat <<EOF >"$DIRNAME/doc/index.stories.ts"
 import El${NAME} from '../index'
 
 export default {
-  title: "${NAME}"
+  title: '${NAME}',
 }
 
 EOF
