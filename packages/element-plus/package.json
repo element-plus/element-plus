@@ -16,6 +16,7 @@
   "dependencies": {
     "@element-plus/badge": "^0.0.0",
     "@element-plus/button": "^0.0.0",
+    "@element-plus/layout": "^0.0.0",
     "@element-plus/card": "^0.0.0",
     "@element-plus/tag": "^0.0.0",
     "@element-plus/time-line": "^0.0.0",
