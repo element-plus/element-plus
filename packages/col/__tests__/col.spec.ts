@@ -56,11 +56,12 @@ describe('Col', () => {
       },
     }
     const wrapper = mount(TestComponent)
-    const colElm = wrapper.findComponent({ ref: 'col' }).element as HTMLElement
-    expect(colElm.classList.contains('el-col-sm-4')).toBe(true)
-    expect(colElm.classList.contains('el-col-sm-offset-2')).toBe(true)
-    expect(colElm.classList.contains('el-col-lg-6')).toBe(true)
-    expect(colElm.classList.contains('el-col-lg-offset-3')).toBe(true)
-    expect(colElm.classList.contains('el-col-md-8')).toBe(true)
+    const colElmClass = wrapper.findComponent({ ref: 'col' }).classes()
+    expect(colElmClass.includes('el-col-sm-4')).toBe(true)
+    expect(colElmClass.includes('el-col-sm-4')).toBe(true)
+    expect(colElmClass.includes('el-col-sm-offset-2')).toBe(true)
+    expect(colElmClass.includes('el-col-lg-6')).toBe(true)
+    expect(colElmClass.includes('el-col-lg-offset-3')).toBe(true)
+    expect(colElmClass.includes('el-col-md-8')).toBe(true)
   })
 })
