@@ -20,7 +20,7 @@
     "@commitlint/config-conventional": "^9.1.1",
     "@storybook/addon-storysource": "^5.3.19",
     "@storybook/html": "^5.3.19",
-    "@swc-node/jest": "^0.1.7",
+    "@swc-node/jest": "^0.1.9",
     "@types/jest": "^26.0.7",
     "@types/lodash-es": "^4.17.3",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
