@@ -18,7 +18,7 @@ const camelCase = function(name: string) {
 
 /* istanbul ignore next */
 export const on = function(
-  element: HTMLElement | Document,
+  element: HTMLElement | Document | Window,
   event: string,
   handler: EventListenerOrEventListenerObject,
 ): void {
@@ -29,7 +29,7 @@ export const on = function(
 
 /* istanbul ignore next */
 export const off = function(
-  element: HTMLElement | Document,
+  element: HTMLElement | Document | Window,
   event: string,
   handler: EventListenerOrEventListenerObject,
 ): void {
@@ -109,7 +109,7 @@ export function removeClass(el: HTMLElement, cls: string): void {
 
 /* istanbul ignore next */
 // Here I want to use the type CSSStyleDeclaration, but the definition for CSSStyleDeclaration
-// has { [index: number]: string } in its type annotation, which does not satisfiy the method
+// has { [index: number]: string } in its type annotation, which does not satisfy the method
 // camelCase(s: string)
 // Same as the return type
 export const getStyle = function(

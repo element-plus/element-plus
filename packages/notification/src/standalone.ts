@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
+import type { App } from 'vue'
 import NotificationConstructor from './index.vue'
 import isServer from '../../utils/isServer'
-import { PopupManager } from '../../utils/popup'
+import PopupManager from '../../utils/popup-manager'
 import { isVNode } from '../../utils/util'
 
 let instance
@@ -58,7 +59,7 @@ const Notification = function(options) {
   }
 })
 
-Notification.close = function(id, userOnClose) {
+Notification.close = function(id: string, userOnClose: (instance: App) => void) {
   let index = -1
   const len = instances.length
   const instance = instances.filter((instance, i) => {
@@ -69,7 +70,7 @@ Notification.close = function(id, userOnClose) {
     return false
   })[0]
   if (!instance) return
-
+  userOnClose?.(instance)
   if (typeof userOnClose === 'function') {
     userOnClose(instance)
   }
