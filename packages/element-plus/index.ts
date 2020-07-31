@@ -12,6 +12,7 @@ import ElBreadcrumb from '@element-plus/breadcrumb'
 import ElIcon from '@element-plus/icon'
 import ElLink from '@element-plus/link'
 import ElRate from '@element-plus/rate'
+import ElSwitch from '@element-plus/switch'
 
 export {
   ElAvatar,
@@ -27,6 +28,7 @@ export {
   ElIcon,
   ElLink,
   ElRate,
+  ElSwitch,
 }
 
 export default function install(app: App): void {
@@ -43,4 +45,5 @@ export default function install(app: App): void {
   ElIcon(app)
   ElLink(app)
   ElRate(app)
+  ElSwitch(app)
 }
