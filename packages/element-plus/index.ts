@@ -3,14 +3,12 @@ import ElButton from '@element-plus/button'
 import ElBadge from '@element-plus/badge'
 import ElCard from '@element-plus/card'
 import ElTag from '@element-plus/tag'
-import ElRow from '@element-plus/layout'
-import ElCol from '@element-plus/layout'
+import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
 import ElTimeLine from '@element-plus/time-line'
 
 export {
-  ElRow,
-  ElCol,
+  ElLayout,
   ElButton,
   ElBadge,
   ElCard,
@@ -24,8 +22,7 @@ export default function install(app: App): void {
   ElBadge(app)
   ElCard(app)
   ElTag(app)
-  ElRow(app)
-  ElCol(app)
+  ElLayout(app)
   ElDivider(app)
   ElTimeLine(app)
 }

@@ -68,12 +68,12 @@ describe('Col', () => {
 
 describe('Row', () => {
   test('create', () => {
-    const wrapper = mount(ElRow)
+    const wrapper = mount(Row)
     expect(wrapper.classes()).toContain('el-row')
   })
 
   test('gutter', () => {
-    const wrapper = mount(ElRow, {
+    const wrapper = mount(Row, {
       props: { gutter: 20 },
     })
     const rowElm = wrapper.element as HTMLElement
@@ -81,19 +81,19 @@ describe('Row', () => {
     expect(rowElm.style.marginRight).toEqual('-10px')
   })
   test('type', () => {
-    const wrapper = mount(ElRow, {
+    const wrapper = mount(Row, {
       props: { type: 'flex' },
     })
     expect(wrapper.classes()).toContain('el-row--flex')
   })
   test('justify', () => {
-    const wrapper = mount(ElRow, {
+    const wrapper = mount(Row, {
       props: { justify: 'end' },
     })
     expect(wrapper.classes()).toContain('is-justify-end')
   })
   test('align', () => {
-    const wrapper = mount(ElRow, {
+    const wrapper = mount(Row, {
       props: { align: 'bottom' },
     })
     expect(wrapper.classes()).toContain('is-align-bottom')
