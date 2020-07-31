@@ -1,5 +1,5 @@
 {
-  "name": "@element-plus/row",
+  "name": "@element-plus/layout",
   "version": "0.0.0",
   "main": "dist/index.js",
   "license": "MIT",
