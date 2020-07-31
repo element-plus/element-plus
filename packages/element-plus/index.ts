@@ -5,9 +5,10 @@ import ElCard from '@element-plus/card'
 import ElTag from '@element-plus/tag'
 import ElDivider from '@element-plus/divider'
 import ElTimeLine from '@element-plus/time-line'
+import ElProgress from '@element-plus/progress'
 
 export {
-  ElButton, ElBadge, ElCard, ElDivider, ElTag, ElTimeLine,
+  ElButton, ElBadge, ElCard, ElDivider, ElTag, ElTimeLine, ElProgress,
 }
 
 export default function install(app: App): void {
@@ -17,4 +18,5 @@ export default function install(app: App): void {
   ElTag(app)
   ElDivider(app)
   ElTimeLine(app)
+  ElProgress(app)
 }
