@@ -39,7 +39,8 @@
     "typescript": "^3.9.7",
     "vite": "^1.0.0-rc.1",
     "vue-jest": "5.0.0-alpha.1",
-    "vue-loader": "^v16.0.0-beta.4"
+    "vue-loader": "^v16.0.0-beta.4",
+    "vue-router": "^4.0.0-beta.4"
   },
   "config": {
     "commitizen": {
