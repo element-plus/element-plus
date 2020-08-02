@@ -14,6 +14,7 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "dependencies": {
+    "@element-plus/avatar": "^0.0.0",
     "@element-plus/badge": "^0.0.0",
     "@element-plus/button": "^0.0.0",
     "@element-plus/layout": "^0.0.0",

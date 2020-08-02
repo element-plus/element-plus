@@ -39,6 +39,19 @@ module.exports = {
       singleline: 3,
       multiline: 1,
     }],
+    '@typescript-eslint/member-delimiter-style': [
+      2,
+      {
+        multiline: {
+          delimiter: 'none',
+          requireLast: false,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: true,
+        },
+      },
+    ],
     'vue/html-closing-bracket-spacing': 'error',
   },
 }
