@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import Avatar from '../src/index.vue'
-import { IMAGE_SUCCESS, IMAGE_FAIL } from '../../__tests__/mock'
+import { IMAGE_SUCCESS, IMAGE_FAIL } from '../../test-utils/mock'
 
 beforeAll(() => {
   Object.defineProperty(global.Image.prototype, 'src', {
