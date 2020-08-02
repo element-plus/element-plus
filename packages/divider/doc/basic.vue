@@ -18,7 +18,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'Basic',
-  setup(props, ctx) {
+  setup() {
     const handleClick = () => alert('click')
     return {
       handleClick,

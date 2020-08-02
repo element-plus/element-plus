@@ -6,6 +6,7 @@ import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
 import ElTimeLine from '@element-plus/time-line'
+import ElProgress from '@element-plus/progress'
 
 export {
   ElLayout,
@@ -15,6 +16,7 @@ export {
   ElDivider,
   ElTag,
   ElTimeLine,
+  ElProgress,
 }
 
 export default function install(app: App): void {
@@ -25,4 +27,5 @@ export default function install(app: App): void {
   ElLayout(app)
   ElDivider(app)
   ElTimeLine(app)
+  ElProgress(app)
 }
