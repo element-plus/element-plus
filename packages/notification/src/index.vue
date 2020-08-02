@@ -2,6 +2,7 @@
   <transition name="el-notification-fade">
     <div
       v-show="visible"
+      ref="ref"
       :class="['el-notification', customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
@@ -56,8 +57,24 @@ const defaultProps = {
 }
 export default defineComponent({
   name: 'ElNotification',
-  props: {},
+  props: {
+    onClose: { type: Function, required: true },
+    customClass: { type: String, default: '' },
+    dangerouslyUseHTMLString: { type: Boolean, default: false }, // default false
+    duration: { type: Number, default: 4500 }, // default 4500
+    iconClass: { type: String, default: '' },
+    id: { type: String, default: '' },
+    message: { type: String, default: '' },
+    onClick: { type: Function, default: () => void 0 },
+    offset: { type: Number, default: 0 }, // defaults 0
+    position: { type: String, default: 'top-right' }, // default top-right
+    showClose: { type: Boolean, default: true },
+    title: { type: String, default: '' },
+    type: { type: String, default: '' },
+  },
+  emits: ['close', 'click'],
   setup(props) {
+    console.log(props.id)
     const data = toRefs({
       ...defaultProps,
       ...props,
@@ -130,7 +147,7 @@ export default defineComponent({
     },
     close() {
       this.closed = true
-      this?.onClose()
+      this.onClose()
     },
     keydown({ keyCode }: KeyboardEvent) {
       if (keyCode === eventKeys.delete || keyCode === eventKeys.backspace) {

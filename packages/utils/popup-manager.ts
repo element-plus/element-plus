@@ -23,7 +23,7 @@ interface IPopupManager {
   modalDom?: HTMLElement;
   modalFade: boolean;
   modalStack: StackFrame[];
-  nextZIndex: () => void;
+  nextZIndex: () => number;
   register: (id: string, instance: Instance) => void;
   deregister: (id: string) => void;
   doOnModalClick: () => void;
