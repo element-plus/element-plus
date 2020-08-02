@@ -66,6 +66,9 @@
   "repository": "git@github.com:element-plus/element-plus.git",
   "license": "MIT",
   "dependencies": {
-    "lodash-es": "^4.17.15"
+    "@types/throttle-debounce": "^2.1.0",
+    "lodash-es": "^4.17.15",
+    "resize-observer-polyfill": "^1.5.1",
+    "throttle-debounce": "^2.2.1"
   }
 }
