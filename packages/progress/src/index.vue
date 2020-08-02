@@ -56,7 +56,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 
-type progressFuncType = (percentage: number) => string;
+type ProgressFuncType = (percentage: number) => string;
 
 interface IProgressProps {
   type: string;
@@ -67,8 +67,8 @@ interface IProgressProps {
   textInside: boolean;
   width: number;
   showText: boolean;
-  color: string | Array<string | { color: string, percentage: number }> | progressFuncType;
-  format: progressFuncType;
+  color: string | Array<string | { color: string, percentage: number }> | ProgressFuncType;
+  format: ProgressFuncType;
 }
 
 export default defineComponent({
