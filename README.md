@@ -14,6 +14,12 @@ $ yarn storybook
 ```
 the project will launch `@storybook` client for you to preview all existing component
 
+## Component migration process
+1. Convert the item in https://github.com/element-plus/element-plus/projects/1 to an issue
+2. Assign yourself to the issue
+3. Author your component by generating new component command below
+4. Migrate tests and docs
+5. Open a new pull request, fill in the component issue link in 1
 
 ## Generate new component
 With command
