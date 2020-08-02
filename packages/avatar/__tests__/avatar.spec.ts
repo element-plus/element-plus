@@ -1,13 +1,13 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import Avatar from '../src/index.vue'
-import {IMAGE_SUCCESS, IMAGE_FAIL} from '../../__tests__/mock'
+import { IMAGE_SUCCESS, IMAGE_FAIL } from '../../__tests__/mock'
 
 beforeAll(() => {
   Object.defineProperty(global.Image.prototype, 'src', {
     set(src) {
       const event = new Event(
-        src === IMAGE_FAIL ? 'error' : 'load'
+        src === IMAGE_FAIL ? 'error' : 'load',
       )
       nextTick(() => this.dispatchEvent(event))
     },
@@ -22,28 +22,28 @@ describe('Avatar.vue', () => {
 
   test('size is number', () => {
     const wrapper = mount(Avatar, {
-      props: { size: 50},
+      props: { size: 50 },
     })
     expect(wrapper.attributes('style')).toContain('height: 50px')
   })
 
   test('size is string', () => {
     const wrapper = mount(Avatar, {
-      props: { size: 'small'},
+      props: { size: 'small' },
     })
     expect(wrapper.classes()).toContain('el-avatar--small')
   })
 
   test('shape', () => {
     const wrapper = mount(Avatar, {
-      props: { size: 'small', shape: 'square'},
+      props: { size: 'small', shape: 'square' },
     })
     expect(wrapper.classes()).toContain('el-avatar--square')
   })
 
   test('icon avatar', () => {
     const wrapper = mount(Avatar, {
-      props: { icon: 'el-icon-user-solid'},
+      props: { icon: 'el-icon-user-solid' },
     })
     expect(wrapper.classes()).toContain('el-avatar--icon')
     expect(wrapper.find('i').classes()).toContain('el-icon-user-solid')
@@ -51,15 +51,15 @@ describe('Avatar.vue', () => {
 
   test('image avatar', () => {
     const wrapper = mount(Avatar, {
-      props: { src: IMAGE_SUCCESS},
+      props: { src: IMAGE_SUCCESS },
     })
     expect(wrapper.find('img').exists()).toBe(true)
   })
 
   test('image fallback', async () => {
     const wrapper = mount(Avatar, {
-      props: { src: IMAGE_FAIL},
-      slots: {default: 'fallback'}
+      props: { src: IMAGE_FAIL },
+      slots: { default: 'fallback' },
     })
     await nextTick()
     expect(wrapper.emitted('error')).toBeDefined()
@@ -70,7 +70,7 @@ describe('Avatar.vue', () => {
 
   test('image fit', () => {
     const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
-    for (let fit of fits) {
+    for (const fit of fits) {
       const wrapper = mount(Avatar, {
         props: { fit, src: IMAGE_SUCCESS },
       })

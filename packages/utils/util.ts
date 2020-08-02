@@ -32,9 +32,9 @@ export const getValueByPath = (obj: Any, paths = ''): unknown => {
 }
 
 export function getPropByPath(obj: Any, path: string, strict: boolean): {
-  o: unknown,
-  k: string,
-  v: Nullable<unknown>,
+  o: unknown
+  k: string
+  v: Nullable<unknown>
 } {
   // we can't use any here, the only option here is unknown
   let tempObj: unknown = obj

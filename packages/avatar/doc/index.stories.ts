@@ -2,8 +2,8 @@ export default {
   title: 'Avatar',
 }
 
-export {default as BasicUsage} from './basic.vue'
-export {default as FitAvatarContainer} from './fit-container.vue'
+export { default as BasicUsage } from './basic.vue'
+export { default as FitAvatarContainer } from './fit-container.vue'
 
 export const differentAvatarTypes = () => `
 <div class="demo-type">
