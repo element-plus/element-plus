@@ -7,27 +7,27 @@
     <div class="el-carousel__container" :style="{ height: height }">
       <transition v-if="arrowDisplay" name="carousel-arrow-left">
         <button
-          type="button"
           v-show="(arrow === 'always' || hover) && (loop || activeIndex > 0)"
+          type="button"
+          class="el-carousel__arrow el-carousel__arrow--left"
           @mouseenter="handleButtonEnter('left')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex - 1)"
-          class="el-carousel__arrow el-carousel__arrow--left"
         >
           <i class="el-icon-arrow-left"></i>
         </button>
       </transition>
       <transition v-if="arrowDisplay" name="carousel-arrow-right">
         <button
-          type="button"
           v-show="
             (arrow === 'always' || hover) &&
               (loop || activeIndex < items.length - 1)
           "
+          type="button"
+          class="el-carousel__arrow el-carousel__arrow--right"
           @mouseenter="handleButtonEnter('right')"
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex + 1)"
-          class="el-carousel__arrow el-carousel__arrow--right"
         >
           <i class="el-icon-arrow-right"></i>
         </button>
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from 'vue'
+import { reactive, computed, ref, provide, onMounted } from 'vue'
 import throttle from 'throttle-debounce'
 
 interface ICarouselProps {
@@ -114,7 +114,7 @@ export default {
       },
     },
   },
-  setup(props: ICarouselProps) {
+  setup(props: ICarouselProps, ctx) {
     // init here
     const data = reactive({
       items: [],
@@ -123,12 +123,19 @@ export default {
       timer: null,
       hover: false,
     })
+
+    // refs
+    const root = ref(null)
+
+    // computed
     const arrowDisplay = computed(
       () => props.arrow !== 'never' && props.direction !== 'vertical',
     )
+
     const hasLabel = computed(() =>
       data.items.some(item => item.label.toString().length > 0),
     )
+
     const carouselClasses = computed(() => {
       const classes = ['el-carousel', 'el-carousel--' + props.direction]
       if (props.type === 'card') {
@@ -136,6 +143,7 @@ export default {
       }
       return classes
     })
+
     const indicatorsClasses = computed(() => {
       const classes = [
         'el-carousel__indicators',
@@ -149,7 +157,52 @@ export default {
       }
       return classes
     })
-    return { arrowDisplay, carouselClasses, indicatorsClasses }
+
+    // methods
+    function handleMouseEnter() {
+      data.hover = true
+      pauseTimer()
+    }
+
+    function pauseTimer() {
+      if (data.timer) {
+        clearInterval(this.timer)
+        data.timer = null
+      }
+    }
+
+    function updateItems() {
+      data.items = this.$children.filter(
+        child => child.$options.name === 'ElCarouselItem',
+      )
+    }
+
+    // lifecycle
+    onMounted(() => {
+      console.log(ctx.slots)
+    })
+
+    // provide
+    provide('injectCarouselScope', {
+      direction: props.direction,
+      offsetWidth: (root as HTMLElement).offsetWidth,
+      offsetHeight: (root as HTMLElement).offsetHeight,
+      type: props.type,
+      items: data.items,
+      loop: props.loop,
+      updateItems: () => {
+        console.log('object')
+      },
+    })
+    return {
+      arrowDisplay,
+      carouselClasses,
+      indicatorsClasses,
+
+      handleMouseEnter,
+
+      root,
+    }
   },
 }
 </script>
