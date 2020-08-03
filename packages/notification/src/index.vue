@@ -2,7 +2,8 @@
   <transition name="el-notification-fade">
     <div
       v-show="visible"
-      ref="ref"
+      :id="id"
+      :ref="elRef"
       :class="['el-notification', customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
@@ -10,8 +11,15 @@
       @mouseleave="startTimer()"
       @click="click"
     >
-      <i v-if="type || iconClass" class="el-notification__icon" :class="[typeClass, iconClass]"></i>
-      <div class="el-notification__group" :class="{ 'is-with-icon': typeClass || iconClass }">
+      <i
+        v-if="type || iconClass"
+        class="el-notification__icon"
+        :class="[typeClass, iconClass]"
+      ></i>
+      <div
+        class="el-notification__group"
+        :class="{ 'is-with-icon': typeClass || iconClass }"
+      >
         <h2 class="el-notification__title" v-text="title"></h2>
         <div v-show="message" class="el-notification__content">
           <slot>
@@ -21,13 +29,18 @@
             <p v-else v-html="message"></p>
           </slot>
         </div>
-        <div v-if="showClose" class="el-notification__closeBtn el-icon-close" @click.stop="close"></div>
+        <div
+          v-if="showClose"
+          class="el-notification__closeBtn el-icon-close"
+          @click.stop="close"
+        ></div>
       </div>
     </div>
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, toRefs, computed } from 'vue'
+import { defineComponent, reactive, computed, ref } from 'vue'
+import { defaultProps } from './notification.constants'
 import { eventKeys } from '../../utils/aria'
 import { on, off } from '../../utils/dom'
 
@@ -38,70 +51,61 @@ const TypeMap: Indexable<string> = {
   error: 'error',
 }
 
-const defaultProps = {
-  visible: false,
-  title: '',
-  message: '',
-  duration: 4500,
-  type: '',
-  showClose: true,
-  customClass: '',
-  iconClass: '',
-  onClose: null,
-  onClick: null,
-  closed: false,
-  verticalOffset: 0,
-  timer: null,
-  dangerouslyUseHTMLString: false,
-  position: 'top-right',
-}
 export default defineComponent({
   name: 'ElNotification',
   props: {
-    onClose: { type: Function, required: true },
     customClass: { type: String, default: '' },
     dangerouslyUseHTMLString: { type: Boolean, default: false }, // default false
     duration: { type: Number, default: 4500 }, // default 4500
+    elRef: { type: Object, default: null },
     iconClass: { type: String, default: '' },
     id: { type: String, default: '' },
     message: { type: String, default: '' },
-    onClick: { type: Function, default: () => void 0 },
     offset: { type: Number, default: 0 }, // defaults 0
+    onClick: { type: Function, default: () => void 0 },
+    onClose: { type: Function, required: true },
     position: { type: String, default: 'top-right' }, // default top-right
     showClose: { type: Boolean, default: true },
     title: { type: String, default: '' },
     type: { type: String, default: '' },
+    // disabling linter next two lines due to this is a internal prop which should not be accessed by end user
+    // eslint-disable-next-line
+    _idx: { type: Number, required: false, default: null },
+    // eslint-disable-next-line
+    _obtainInstance: { type: Function, required: false, default: null }
   },
   emits: ['close', 'click'],
   setup(props) {
-    console.log(props.id)
-    const data = toRefs({
+    const data = reactive({
       ...defaultProps,
       ...props,
     })
+
+    console.log(data)
     const typeClass = computed(() => {
-      const { value } = data.type
-      return value && TypeMap[value] ? `el-icon-${TypeMap[value]}` : ''
+      const { type } = data
+      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
     })
 
     const horizontalClass = computed(() => {
-      const { value } = data.position
-      return value.indexOf('right') > 1 ? 'right' : 'left'
+      const { position } = data
+      return position.indexOf('right') > 1 ? 'right' : 'left'
     })
 
     const verticalProperty = computed(() => {
-      const { value } = data.position
-      return value.startsWith('top') ? 'top' : 'bottom'
+      const { position } = data
+      return position.startsWith('top') ? 'top' : 'bottom'
     })
 
     const positionStyle = computed(() => {
       return {
-        [verticalProperty.value]: `${data.verticalOffset.value}px`,
+        [verticalProperty.value]: `${data.verticalOffset}px`,
       }
     })
 
     return {
       ...data,
+      visible: ref(true),
       typeClass,
       horizontalClass,
       verticalProperty,
@@ -110,6 +114,7 @@ export default defineComponent({
   },
   watch: {
     closed(newVal) {
+      debugger
       if (newVal) {
         this.visible = false
         on(this.$el, 'transitionend', this.destroyElement)
@@ -123,6 +128,9 @@ export default defineComponent({
           this.close()
         }
       }, this.duration)
+    }
+    if (typeof this._obtainInstance === 'function') {
+      this._obtainInstance(this._idx, this)
     }
     on(document, 'keydown', this.keydown)
   },
@@ -146,7 +154,9 @@ export default defineComponent({
       this?.onClick()
     },
     close() {
+      debugger
       this.closed = true
+      console.log(this.closed)
       this.onClose()
     },
     keydown({ keyCode }: KeyboardEvent) {
