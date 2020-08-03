@@ -22,7 +22,7 @@ export default defineComponent({
   props: {
     size: {
       type: [Number, String],
-      validator(val) {
+      validator(this: never, val: unknown) {
         if (typeof val === 'string') {
           return ['large', 'medium', 'small'].includes(val)
         }
@@ -32,7 +32,7 @@ export default defineComponent({
     shape: {
       type: String,
       default: 'circle',
-      validator(val: string) {
+      validator(this: never, val: string) {
         return ['circle', 'square'].includes(val)
       }
     },
@@ -46,7 +46,7 @@ export default defineComponent({
       default: 'cover'
     }
   },
-  setup(props: any, {emit}) {
+  setup(props, {emit}) {
     const hasLoadError = ref(false)
 
     const avatarClass = computed(() => {
