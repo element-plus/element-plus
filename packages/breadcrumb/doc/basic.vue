@@ -6,11 +6,3 @@
     <el-breadcrumb-item>Forth</el-breadcrumb-item>
   </el-breadcrumb>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'Basic',
-})
-</script>
