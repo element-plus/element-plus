@@ -42,27 +42,27 @@ import { defineComponent, computed, onMounted, ref, inject, nextTick, watch } fr
 
 // TODOS: replace these interface definition with actual ElForm interface
 interface ElForm {
-  disabled: boolean;
+  disabled: boolean
 }
 
 type ValueType = boolean | string | number;
 
 interface ISwitchProps {
-  modelValue: ValueType,
-  value: ValueType,
-  disabled: boolean,
-  width: number,
-  activeIconClass: string,
-  inactiveIconClass: string,
-  activeText: string,
-  inactiveText: string,
-  activeColor: string,
-  inactiveColor: string,
-  activeValue: ValueType,
-  inactiveValue: ValueType,
-  name: string,
-  validateEvent: boolean,
-  id: string,
+  modelValue: ValueType
+  value: ValueType
+  disabled: boolean
+  width: number
+  activeIconClass: string
+  inactiveIconClass: string
+  activeText: string
+  inactiveText: string
+  activeColor: string
+  inactiveColor: string
+  activeValue: ValueType
+  inactiveValue: ValueType
+  name: string
+  validateEvent: boolean
+  id: string
 }
 
 export default defineComponent({
@@ -131,7 +131,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change', 'input'],
   setup(props: ISwitchProps, ctx) {
-    const elForm = inject<ElForm>('elForm', {})
+    const elForm = inject<ElForm>('elForm')
     const coreWidth = ref(props.width)
     const isModelValue = ref(props.modelValue !== false)
     const input = ref(null)
