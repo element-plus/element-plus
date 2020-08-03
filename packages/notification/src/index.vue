@@ -60,7 +60,7 @@ export default defineComponent({
     elRef: { type: Object, default: null },
     iconClass: { type: String, default: '' },
     id: { type: String, default: '' },
-    message: { type: String, default: '' },
+    message: { type: [String, Object], default: '' },
     offset: { type: Number, default: 0 }, // defaults 0
     onClick: { type: Function, default: () => void 0 },
     onClose: { type: Function, required: true },
@@ -72,7 +72,7 @@ export default defineComponent({
     // eslint-disable-next-line
     _idx: { type: Number, required: false, default: null },
     // eslint-disable-next-line
-    _obtainInstance: { type: Function, required: false, default: null }
+    _init: { type: Function, required: false, default: null }
   },
   emits: ['close', 'click'],
   setup(props) {
@@ -81,7 +81,6 @@ export default defineComponent({
       ...props,
     })
 
-    console.log(data)
     const typeClass = computed(() => {
       const { type } = data
       return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
@@ -97,10 +96,8 @@ export default defineComponent({
       return position.startsWith('top') ? 'top' : 'bottom'
     })
 
-    const positionStyle = computed(() => {
-      return {
-        [verticalProperty.value]: `${data.verticalOffset}px`,
-      }
+    const positionStyle = ref({
+      [verticalProperty.value]: props.offset,
     })
 
     return {
@@ -114,10 +111,14 @@ export default defineComponent({
   },
   watch: {
     closed(newVal) {
-      debugger
       if (newVal) {
         this.visible = false
         on(this.$el, 'transitionend', this.destroyElement)
+      }
+    },
+    offset(newVal: number) {
+      this.positionStyle = {
+        [this.verticalProperty]: `${newVal}px`,
       }
     },
   },
@@ -129,8 +130,10 @@ export default defineComponent({
         }
       }, this.duration)
     }
-    if (typeof this._obtainInstance === 'function') {
-      this._obtainInstance(this._idx, this)
+    // When using notification programmably, this is line of code is critical
+    // to obtain the public component instance
+    if (typeof this._init === 'function') {
+      this._init(this._idx, this)
     }
     on(document, 'keydown', this.keydown)
   },
@@ -138,9 +141,7 @@ export default defineComponent({
     off(document, 'keydown', this.keydown)
   },
   methods: {
-    clearTimer() {
-      clearTimeout(this.timer)
-    },
+    // start counting down to destroy notification instance
     startTimer() {
       if (this.duration > 0) {
         this.timer = setTimeout(() => {
@@ -150,13 +151,16 @@ export default defineComponent({
         }, this.duration)
       }
     },
+    // clear timer
+    clearTimer() {
+      clearTimeout(this.timer)
+    },
+    // Event handlers
     click() {
       this?.onClick()
     },
     close() {
-      debugger
       this.closed = true
-      console.log(this.closed)
       this.onClose()
     },
     keydown({ keyCode }: KeyboardEvent) {

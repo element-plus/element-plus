@@ -1,5 +1,12 @@
-import type { ComponentPublicInstance, Ref, VNode } from 'vue'
+import type { ComponentPublicInstance, VNode } from 'vue'
 
+export interface INotification<P = (options: INotificationOptions) => void> {
+  (options: INotificationOptions): void;
+  success?: P;
+  warning?: P;
+  info?: P;
+  error?: P;
+}
 export type INotificationOptions = {
   customClass?: string;
   dangerouslyUseHTMLString?: boolean; // default false
@@ -15,13 +22,12 @@ export type INotificationOptions = {
   title?: string;
   type?: 'success' | 'warning' | 'info' | 'error';
   _idx?: number,
-  _obtainInstance?: (idx: number, vm: NotificationVM) => void
+  _init?: (idx: number, vm: NotificationVM) => void
 }
 
 export type NotificationVM = ComponentPublicInstance<INotificationOptions, unknown, { verticalProperty: string }>
 
 export type NotificationQueue = Array<{
-  $el: Ref<HTMLElement>,
   vm: Nullable<NotificationVM>,
   container: HTMLElement,
 }>
