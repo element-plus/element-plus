@@ -9,6 +9,7 @@ import ElDivider from '@element-plus/divider'
 import ElTimeLine from '@element-plus/time-line'
 import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
+import ElIcon from '@element-plus/icon'
 
 export {
   ElAvatar,
@@ -21,6 +22,7 @@ export {
   ElTimeLine,
   ElProgress,
   ElBreadcrumb,
+  ElIcon,
 }
 
 export default function install(app: App): void {
@@ -34,4 +36,5 @@ export default function install(app: App): void {
   ElTimeLine(app)
   ElProgress(app)
   ElBreadcrumb(app)
+  ElIcon(app)
 }
