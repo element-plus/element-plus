@@ -149,7 +149,7 @@ export default defineComponent({
 
     // lifecycle
     onMounted(() => {
-      console.log(injectCarouselScopeData.updateItems())
+      injectCarouselScopeData.updateItems()
     })
 
     return { itemStyle }
