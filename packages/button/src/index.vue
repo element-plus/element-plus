@@ -26,36 +26,36 @@
 <script lang='ts'>
 import { computed, inject, defineComponent } from 'vue'
 const ELEMENT: {
-  size?: number;
+  size?: number
 } = {}
 // TODOS: replace these interface definition with actual ElForm interface
 interface ElForm {
-  disabled: boolean;
+  disabled: boolean
 }
 interface ElFormItem {
-  elFormItemSize: number;
+  elFormItemSize: number
 }
 
 interface IButtonProps {
-  type: string;
-  size: string;
-  icon: string;
-  nativeType: string;
-  loading: boolean;
-  disabled: boolean;
-  plain: boolean;
-  autofocus: boolean;
-  round: boolean;
-  circle: boolean;
+  type: string
+  size: string
+  icon: string
+  nativeType: string
+  loading: boolean
+  disabled: boolean
+  plain: boolean
+  autofocus: boolean
+  round: boolean
+  circle: boolean
 }
 
 type EmitFn = (evt: Event) => void
 
 interface IButtonSetups {
-  _elFormItemSize: number;
-  buttonSize: string;
-  buttonDisabled: boolean;
-  handleClick: EmitFn;
+  _elFormItemSize: number
+  buttonSize: string
+  buttonDisabled: boolean
+  handleClick: EmitFn
 }
 export default defineComponent({
   name: 'ElButton',

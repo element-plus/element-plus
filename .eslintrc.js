@@ -52,6 +52,7 @@ module.exports = {
         },
       },
     ],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     'vue/html-closing-bracket-spacing': 'error',
   },
 }

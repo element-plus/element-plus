@@ -8,6 +8,12 @@ const _mount = (template: string) => mount({
     'el-breadcrumb-item': BreadcrumbItem,
   },
   template,
+}, {
+  global: {
+    provide: {
+      breadcrumb: {},
+    },
+  },
 })
 
 describe('Breadcrumb.vue', () => {

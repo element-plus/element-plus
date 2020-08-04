@@ -3,19 +3,19 @@
     <img
       v-if="(src || srcSet) && !hasLoadError"
       :src="src"
-      @error="handleError"
       :alt="alt"
       :srcset="srcSet"
-      :style="{objectFit: fit}"
-    />
-    <i  v-else-if="icon" :class="icon"/>
-    <slot v-else/>
+      :style="fitStyle"
+      @error="handleError"
+    >
+    <i v-else-if="icon" :class="icon"></i>
+    <slot v-else></slot>
   </span>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import type {EventEmitter} from '@element-plus/utils/types'
+import type { EventEmitter } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElAvatar',
@@ -27,14 +27,14 @@ export default defineComponent({
           return ['large', 'medium', 'small'].includes(val)
         }
         return typeof val === 'number'
-      }
+      },
     },
     shape: {
       type: String,
       default: 'circle',
       validator(this: never, val: string) {
         return ['circle', 'square'].includes(val)
-      }
+      },
     },
     icon: String,
     src: String,
@@ -43,14 +43,14 @@ export default defineComponent({
     error: Function,
     fit: {
       type: String,
-      default: 'cover'
-    }
+      default: 'cover',
+    },
   },
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const hasLoadError = ref(false)
 
     const avatarClass = computed(() => {
-      const {size, icon, shape} = props
+      const { size, icon, shape } = props
       let classList = ['el-avatar']
       if (size && typeof size === 'string') {
         classList.push(`el-avatar--${size}`)
@@ -65,21 +65,26 @@ export default defineComponent({
     })
 
     const sizeStyle = computed(() => {
-      const {size} = props
+      const { size } = props
       return typeof size === 'number' ? {
-          height: `${size}px`,
-          width: `${size}px`,
-          lineHeight: `${size}px`
-        } : {}
+        height: `${size}px`,
+        width: `${size}px`,
+        lineHeight: `${size}px`,
+      } : {}
     })
+
+    const fitStyle = computed(() => ({
+      objectFit: props.fit,
+    }))
 
     function handleError(e: Event) {
       hasLoadError.value = true
       emit('error', e)
     }
     return {
-      hasLoadError, avatarClass, sizeStyle, handleError
+      hasLoadError, avatarClass, sizeStyle, handleError,
+      fitStyle,
     }
-  }
+  },
 })
 </script>

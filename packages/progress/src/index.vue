@@ -59,16 +59,16 @@ import { computed, defineComponent } from 'vue'
 type ProgressFuncType = (percentage: number) => string;
 
 interface IProgressProps {
-  type: string;
-  percentage: number;
-  status: string;
-  strokeWidth: number;
-  strokeLinecap: string;
-  textInside: boolean;
-  width: number;
-  showText: boolean;
-  color: string | Array<string | { color: string, percentage: number }> | ProgressFuncType;
-  format: ProgressFuncType;
+  type: string
+  percentage: number
+  status: string
+  strokeWidth: number
+  strokeLinecap: string
+  textInside: boolean
+  width: number
+  showText: boolean
+  color: string | Array<string | { color: string; percentage: number; }> | ProgressFuncType
+  format: ProgressFuncType
 }
 
 export default defineComponent({
