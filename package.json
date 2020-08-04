@@ -65,6 +65,7 @@
   "repository": "git@github.com:element-plus/element-plus.git",
   "license": "MIT",
   "dependencies": {
+    "@popperjs/core": "^2.4.4",
     "lodash-es": "^4.17.15"
   }
 }
