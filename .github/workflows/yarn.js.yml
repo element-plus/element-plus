@@ -20,5 +20,7 @@ jobs:
         uses: actions/setup-node@v1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint
       - name: Test
         run: yarn test
