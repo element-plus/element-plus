@@ -5,7 +5,7 @@
       :src="src"
       :alt="alt"
       :srcset="srcSet"
-      :style="{objectFit: fit}"
+      :style="fitStyle"
       @error="handleError"
     >
     <i v-else-if="icon" :class="icon"></i>
@@ -46,7 +46,7 @@ export default defineComponent({
       default: 'cover',
     },
   },
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const hasLoadError = ref(false)
 
     const avatarClass = computed(() => {
@@ -73,12 +73,17 @@ export default defineComponent({
       } : {}
     })
 
+    const fitStyle = computed(() => ({
+      objectFit: props.fit,
+    }))
+
     function handleError(e: Event) {
       hasLoadError.value = true
       emit('error', e)
     }
     return {
       hasLoadError, avatarClass, sizeStyle, handleError,
+      fitStyle,
     }
   },
 })
