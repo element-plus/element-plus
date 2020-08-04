@@ -17,13 +17,13 @@ import { defineComponent, inject, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 interface IBreadcrumbInject {
-  separator: string;
-  separatorClass: string;
+  separator: string
+  separatorClass: string
 }
 
 interface IBreadcrumbItemProps {
-  to: string | Record<string, unknown>;
-  replace: boolean;
+  to: string | Record<string, unknown>
+  replace: boolean
 }
 
 export default defineComponent({

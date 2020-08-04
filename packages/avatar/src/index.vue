@@ -5,7 +5,7 @@
       :src="src"
       :alt="alt"
       :srcset="srcSet"
-      :style="fitStyle"
+      :style="{objectFit: fit}"
       @error="handleError"
     >
     <i v-else-if="icon" :class="icon"></i>
@@ -83,7 +83,6 @@ export default defineComponent({
     }
     return {
       hasLoadError, avatarClass, sizeStyle, handleError,
-      fitStyle,
     }
   },
 })
