@@ -1,5 +1,6 @@
 import type { App } from 'vue'
 import ElAvatar from '@element-plus/avatar'
+import ElBacktop from '@element-plus/backtop'
 import ElButton from '@element-plus/button'
 import ElBadge from '@element-plus/badge'
 import ElCard from '@element-plus/card'
@@ -18,6 +19,7 @@ import ElNotification from '@element-plus/notification'
 
 export {
   ElAvatar,
+  ElBacktop,
   ElLayout,
   ElButton,
   ElBadge,
@@ -37,6 +39,7 @@ export {
 
 export default function install(app: App): void {
   ElAvatar(app)
+  ElBacktop(app)
   ElButton(app)
   ElBadge(app)
   ElCard(app)
