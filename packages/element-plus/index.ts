@@ -11,6 +11,7 @@ import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
 import ElIcon from '@element-plus/icon'
 import ElLink from '@element-plus/link'
+import ElRate from '@element-plus/rate'
 
 export {
   ElAvatar,
@@ -25,6 +26,7 @@ export {
   ElBreadcrumb,
   ElIcon,
   ElLink,
+  ElRate,
 }
 
 export default function install(app: App): void {
@@ -40,4 +42,5 @@ export default function install(app: App): void {
   ElBreadcrumb(app)
   ElIcon(app)
   ElLink(app)
+  ElRate(app)
 }
