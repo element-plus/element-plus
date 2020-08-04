@@ -10,6 +10,7 @@ import ElTimeLine from '@element-plus/time-line'
 import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
 import ElIcon from '@element-plus/icon'
+import ElLink from '@element-plus/link'
 
 export {
   ElAvatar,
@@ -23,6 +24,7 @@ export {
   ElProgress,
   ElBreadcrumb,
   ElIcon,
+  ElLink,
 }
 
 export default function install(app: App): void {
@@ -37,4 +39,5 @@ export default function install(app: App): void {
   ElProgress(app)
   ElBreadcrumb(app)
   ElIcon(app)
+  ElLink(app)
 }

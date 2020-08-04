@@ -1,0 +1,61 @@
+<template>
+  <a
+    :class="[
+      'el-link',
+      type ? `el-link--${type}` : '',
+      disabled && 'is-disabled',
+      underline && !disabled && 'is-underline'
+    ]"
+    :href="disabled ? null : href"
+    v-bind="$attrs"
+    @click="handleClick"
+  >
+    <i v-if="icon" :class="icon"></i>
+
+    <span v-if="$slots.default" class="el-link--inner">
+      <slot></slot>
+    </span>
+
+    <template v-if="$slots.icon">
+      <slot v-if="$slots.icon" name="icon"></slot>
+    </template>
+  </a>
+</template>
+<script lang='ts'>
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'ElLink',
+  props: {
+    type: {
+      type: String,
+      default: '',
+      validator: (val: string) => {
+        return ['', 'primary', 'success', 'warning', 'info', 'error'].includes(val)
+      },
+    },
+    underline: {
+      type: Boolean,
+      default: true,
+    },
+    disabled: { type: Boolean, default: false },
+    href: { type: String, default: '' },
+    icon: { type: String, default: '' },
+  },
+  emits: ['click'],
+  setup(props, { emit }) {
+
+    function handleClick(event: Event) {
+      if (!props.disabled && !!props.href) {
+        emit('click', event)
+      }
+    }
+
+    return {
+      handleClick,
+    }
+  },
+})
+</script>
+<style scoped>
+</style>
