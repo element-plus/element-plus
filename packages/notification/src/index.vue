@@ -3,7 +3,6 @@
     <div
       v-show="visible"
       :id="id"
-      :ref="elRef"
       :class="['el-notification', customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
@@ -39,8 +38,9 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, computed, ref } from 'vue'
+import { defineComponent, reactive, computed, ref, PropType } from 'vue'
 import { defaultProps } from './notification.constants'
+import type { NotificationVM } from './notification.constants'
 import { eventKeys } from '../../utils/aria'
 import { on, off } from '../../utils/dom'
 
@@ -57,10 +57,9 @@ export default defineComponent({
     customClass: { type: String, default: '' },
     dangerouslyUseHTMLString: { type: Boolean, default: false }, // default false
     duration: { type: Number, default: 4500 }, // default 4500
-    elRef: { type: Object, default: null },
     iconClass: { type: String, default: '' },
     id: { type: String, default: '' },
-    message: { type: [String, Object], default: '' },
+    message: { type: [String, Object] as PropType<>, default: '' },
     offset: { type: Number, default: 0 }, // defaults 0
     onClick: { type: Function, default: () => void 0 },
     onClose: { type: Function, required: true },
@@ -72,7 +71,7 @@ export default defineComponent({
     // eslint-disable-next-line
     _idx: { type: Number, required: false, default: null },
     // eslint-disable-next-line
-    _init: { type: Function, required: false, default: null }
+    _init: { type: Function as (idx: number, vm: NotificationVM) => void, required: false, default: null }
   },
   emits: ['close', 'click'],
   setup(props) {
@@ -100,9 +99,11 @@ export default defineComponent({
       [verticalProperty.value]: props.offset,
     })
 
+    const visible = ref(true)
+
     return {
       ...data,
-      visible: ref(true),
+      visible,
       typeClass,
       horizontalClass,
       verticalProperty,
@@ -110,7 +111,7 @@ export default defineComponent({
     }
   },
   watch: {
-    closed(newVal) {
+    closed(newVal: boolean) {
       if (newVal) {
         this.visible = false
         on(this.$el, 'transitionend', this.destroyElement)
@@ -141,6 +142,11 @@ export default defineComponent({
     off(document, 'keydown', this.keydown)
   },
   methods: {
+    destroyElement() {
+      off(this.$el, 'transitionend', this.destroyElement)
+      this.$destroy(true)
+      this.$el.parentNode.removeChild(this.$el)
+    },
     // start counting down to destroy notification instance
     startTimer() {
       if (this.duration > 0) {
@@ -154,14 +160,18 @@ export default defineComponent({
     // clear timer
     clearTimer() {
       clearTimeout(this.timer)
+      this.timer = null
     },
     // Event handlers
     click() {
       this?.onClick()
+      this.$emit('click')
     },
     close() {
       this.closed = true
+      this.timer = null
       this.onClose()
+      this.$emit('close')
     },
     keydown({ keyCode }: KeyboardEvent) {
       if (keyCode === eventKeys.delete || keyCode === eventKeys.backspace) {

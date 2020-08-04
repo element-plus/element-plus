@@ -79,7 +79,7 @@ const Notification: INotification = function(options: INotificationOptions): Not
 
 export function close(
   id: string,
-  userOnClose: (vm: NotificationVM) => void,
+  userOnClose?: (vm: NotificationVM) => void,
 ): void {
   const idx = notifications.findIndex(i => {
     const { id: _id } = i.vm.$props

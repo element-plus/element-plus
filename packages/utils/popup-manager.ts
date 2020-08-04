@@ -1,5 +1,4 @@
 import { ComponentPublicInstance } from 'vue'
-import { isUndefined } from 'lodash-es'
 import isServer from './isServer'
 import { getConfig } from './config'
 import { addClass, removeClass, on } from './dom'
@@ -196,7 +195,7 @@ const PopupManager: IPopupManager = {
 Object.defineProperty(PopupManager, 'zIndex', {
   configurable: true,
   get() {
-    if (isUndefined(zIndex)) {
+    if (zIndex === undefined) {
       zIndex = getConfig('zIndex') as number || 2000
     }
     return zIndex

@@ -6,17 +6,17 @@
 </template>
 
 <script lang="ts">
-import Notification from '../src/standalone'
+
 export default {
   methods: {
     onClick(): void {
-      Notification({
+      this.$notify({
         title: 'With Timer',
         message: 'I\'ll go away within 4500ms ',
       })
     },
     onClickNoTimer(): void {
-      Notification({
+      this.$notify({
         duration: 0,
         message: 'I will not disappear unless you click close or press esc',
         title: 'No Timer',

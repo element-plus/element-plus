@@ -9,35 +9,35 @@
 </template>
 
 <script lang="ts">
-import Notification from '../src/standalone'
+import Notify from '../src/notify'
 export default {
   methods: {
     onClick(): void {
-      Notification({
+      Notify({
         title: 'Normal title',
         message: 'HI',
       })
     },
     onClickSuccess(): void {
-      Notification.success({
+      Notify.success({
         title: 'Success',
         message: 'Success notification!',
       })
     },
     onClickWarning(): void {
-      Notification.warning({
+      Notify.warning({
         title: 'Warning',
         message: 'Warning notification',
       })
     },
     onClickInfo(): void {
-      Notification.info({
+      Notify.info({
         title: 'Info',
         message: 'Info notification',
       })
     },
     onClickError(): void {
-      Notification.error({
+      Notify.error({
         title: 'Error',
         message: 'Error notification',
       })

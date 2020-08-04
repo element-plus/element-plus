@@ -7,18 +7,18 @@
 
 <script lang="ts">
 import { h } from 'vue'
-import Notification from '../src/standalone'
+import Notify from '../src/notify'
 export default {
   methods: {
     onClick(): void {
-      Notification({
+      Notify({
         title: 'This is title',
         message: '<strong>This is <i>HTML</i> segement</strong>',
         dangerouslyUseHTMLString: true,
       })
     },
     onClickVNode(): void {
-      Notification({
+      Notify({
         title: 'This is a vnode',
         message: h('strong', ['This is ', h('i', 'VNode'), ' segment']),
       })
