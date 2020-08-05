@@ -116,7 +116,7 @@ export default defineComponent({
     },
     texts: {
       type: Array as PropType<string[]>,
-      default: () => ['极差', '失望', '一般', '满意', '惊喜'],
+      default: () => ['Extremely bad','Disappointed','Fair','Satisfied','Surprise'],
     },
     scoreTemplate: {
       type: String,
@@ -125,16 +125,11 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change'],
   setup(props, { emit }) {
-    // inject
-    const elForm = inject<ElForm>('elForm')
-
-    // data
     const currentValue = ref(props.modelValue)
-    const pointerAtLeftHalf = ref(true)
-    const hoverIndex = ref(-1)
 
-    // computed
+    const elForm = inject<ElForm>('elForm')
     const rateDisabled = computed(() => props.disabled || (elForm || {}).disabled)
+
     const text = computed(() => {
       let result = ''
       if (props.showScore) {
@@ -150,6 +145,17 @@ export default defineComponent({
       return result
     })
 
+    function getValueFromMap(value: unknown, map: Record<string, unknown>) {
+      const matchedKeys = Object.keys(map)
+        .filter(key => {
+          const val = map[key]
+          const excluded = isObject(val) ? val.excluded : false
+          return excluded ? value < key : value <= key
+        })
+        .sort((a: never, b: never) => a - b)
+      const matchedValue = map[matchedKeys[0]]
+      return isObject(matchedValue) ? matchedValue.value : (matchedValue || '')
+    }
     const valueDecimal = computed(() => props.modelValue * 100 - Math.floor(props.modelValue) * 100)
     const colorMap = computed(() => isArray(props.colors)
       ? {
@@ -182,49 +188,22 @@ export default defineComponent({
     const decimalIconClass = computed(() => getValueFromMap(props.modelValue, classMap.value))
     const voidClass = computed(() => rateDisabled.value ? props.disabledVoidIconClass : props.voidIconClass)
     const activeClass = computed(() => getValueFromMap(currentValue.value, classMap.value))
-
     const classes = computed(() => {
-      let result = []
-      let i = 0
+      let result = Array(props.max)
       let threshold = currentValue.value
       if (props.allowHalf && currentValue.value !== Math.floor(currentValue.value)) {
         threshold--
       }
-      for (; i < threshold; i++) {
-        result.push(activeClass.value)
-      }
-      for (; i < props.max; i++) {
-        result.push(voidClass.value)
-      }
+      result.fill(activeClass.value, 0, threshold)
+      result.fill(voidClass.value, threshold, props.max)
       return result
     })
 
-    // watch
+    const pointerAtLeftHalf = ref(true)
     watch(() => props.modelValue, val => {
       currentValue.value = val
       pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
     })
-
-    // methods
-    // function getMigratingConfig() {
-    //   return {
-    //     props: {
-    //       'text-template': 'text-template is renamed to score-template.',
-    //     },
-    //   }
-    // }
-
-    function getValueFromMap(value: unknown, map: Record<string, unknown>) {
-      const matchedKeys = Object.keys(map)
-        .filter(key => {
-          const val = map[key]
-          const excluded = isObject(val) ? val.excluded : false
-          return excluded ? value < key : value <= key
-        })
-        .sort((a: never, b: never) => a - b)
-      const matchedValue = map[matchedKeys[0]]
-      return isObject(matchedValue) ? matchedValue.value : (matchedValue || '')
-    }
 
     function showDecimalIcon(item: number) {
       let showWhenDisabled = rateDisabled.value && valueDecimal.value > 0 && item - 1 < props.modelValue && item > props.modelValue
@@ -286,6 +265,7 @@ export default defineComponent({
       return _currentValue
     }
 
+    const hoverIndex = ref(-1)
     function setCurrentValue(value: number, event: MouseEvent) {
       if (rateDisabled.value) {
         return

@@ -8,25 +8,23 @@ describe('Rate.vue', () => {
         max: 10,
       },
     })
-    const vm = wrapper.vm
-    const stars = vm.$el.querySelectorAll('.el-rate__item')
+    const stars = wrapper.findAll('.el-rate__item')
     expect(stars.length).toEqual(10)
   })
 
   test('with texts', () => {
-    const vm = mount(Rate, {
+    const wrapper = mount(Rate, {
       props: {
         showText: true,
         modelValue: 4,
         texts: ['1', '2', '3', '4', '5'],
       },
-    }).vm
-
-    const text = vm.$el.querySelector('.el-rate__text')
+    })
+    const text = wrapper.find('.el-rate__text').element
     expect(text.textContent).toEqual('4')
   })
 
-  test('value change', async done => {
+  test('value change', async () => {
     const wrapper = mount(Rate, {
       props: {
         modelValue: 0,
@@ -35,11 +33,10 @@ describe('Rate.vue', () => {
     const vm = wrapper.vm
     await wrapper.setProps({ modelValue: 3 })
     expect(vm.modelValue).toEqual(3)
-    done()
   })
 
   test('click', () => {
-    const vm = mount({
+    const wrapper = mount({
       template: `
         <div>
           <el-rate v-model="value1" />
@@ -57,9 +54,9 @@ describe('Rate.vue', () => {
     }, {
       props: {
       },
-    }).vm
-
-    const thirdStar = vm.$el.querySelectorAll('.el-rate__item')[2]
+    })
+    const vm = wrapper.vm
+    const thirdStar = wrapper.findAll('.el-rate__item')[2].element as HTMLElement
 
     thirdStar.click()
     expect(vm.value1).toEqual(3)

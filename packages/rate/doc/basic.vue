@@ -19,12 +19,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 const basic = defineComponent({
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
+      value: null,
       value1: null,
       value2: null,
-      colors: ['#99A9BF', '#F7BA2A', '#FF9900'],  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+      colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
     }
   },
 })
