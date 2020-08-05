@@ -33,7 +33,7 @@ describe('Notification.vue', () => {
       expect(wrapper.vm.typeClass).toBe('')
       expect(wrapper.vm.horizontalClass).toBe('right')
       expect(wrapper.vm.verticalProperty).toBe('top')
-      expect(wrapper.vm.positionStyle).toEqual({ top: 0 })
+      expect(wrapper.vm.positionStyle).toEqual({ top: '0px' })
     })
 
     test('should be able to render VNode', () => {
@@ -84,21 +84,6 @@ describe('Notification.vue', () => {
     afterEach(() => {
       onMock.mockRestore()
       offMock.mockRestore()
-    })
-
-    test('should call init function when it\'s provided', () => {
-      const _init = jest.fn()
-      const wrapper = _mount({
-        slots: {
-          default: AXIOM,
-        },
-        props: {
-          _init,
-          _idx: 0,
-        },
-      })
-      expect(_init).toHaveBeenCalled()
-      wrapper.unmount()
     })
 
     test('should add event listener to target element when init', () => {
@@ -243,10 +228,12 @@ describe('Notification.vue', () => {
       const wrapper = _mount({
         props: {
           duration: 0,
+          onClick: jest.fn(),
         },
       })
+
       await wrapper.trigger('click')
-      expect(wrapper.emitted('click')).toHaveLength(1)
+      expect(wrapper.vm.onClick).toHaveBeenCalledTimes(1)
     })
 
     test('should be able to delete timer when press delete', async () => {
@@ -282,10 +269,12 @@ describe('Notification.vue', () => {
         keyCode: eventKeys.esc,
         // eslint-disable-next-line
       } as any)
+      const oldClose = wrapper.vm.close
+      wrapper.vm.close = jest.fn(() => oldClose())
       document.dispatchEvent(event)
       jest.runAllTimers()
       expect(wrapper.vm.closed).toBe(true)
-      expect(wrapper.emitted('close')).toHaveLength(1)
+      expect(wrapper.vm.close).toHaveBeenCalledTimes(1)
     })
   })
 })
