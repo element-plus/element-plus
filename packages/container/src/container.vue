@@ -1,5 +1,5 @@
 <template>
-  <section :class="['el-container', isVertical ? 'is-vertical' : '']">
+  <section class="el-container" :class="{'is-vertical': isVertical}">
     <slot></slot>
   </section>
 </template>
@@ -12,9 +12,6 @@ export default defineComponent({
     direction: {
       type: String,
       default: '',
-      validator(val: string): boolean {
-        return ['horizontal', 'vertical'].indexOf(val) !== -1
-      },
     },
   },
   setup(props, { slots }) {
