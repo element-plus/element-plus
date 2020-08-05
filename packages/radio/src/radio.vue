@@ -72,17 +72,10 @@ export default defineComponent({
     const elForm = null
     const elFormItem = null
     const ELEMENT = null
-
-    let _radioGroup
+    const _radioGroup = inject('RadioGroup') as any
     const focus = ref(false)
     const parent: IRadioGroupInject = inject('RadioGroup')
-    const isGroup = computed(() => {
-      if (parent && parent.name === 'ElRadioGroup') {
-        _radioGroup = parent
-        return true
-      }
-      return false
-    })
+    const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
     const _elFormItemSize = computed(() => {
       return (elFormItem || {}).elFormItemSize
     })
