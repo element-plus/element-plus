@@ -13,6 +13,7 @@ import ElIcon from '@element-plus/icon'
 import ElLink from '@element-plus/link'
 import ElRate from '@element-plus/rate'
 import ElSwitch from '@element-plus/switch'
+import ElContainer from '@element-plus/container'
 
 export {
   ElAvatar,
@@ -29,6 +30,7 @@ export {
   ElLink,
   ElRate,
   ElSwitch,
+  ElContainer,
 }
 
 export default function install(app: App): void {
@@ -46,4 +48,5 @@ export default function install(app: App): void {
   ElLink(app)
   ElRate(app)
   ElSwitch(app)
+  ElContainer(app)
 }
