@@ -59,7 +59,7 @@ interface ITimeLineItemProps {
 }
 
 export default defineComponent({
-  name: 'ElTimeLineItem',
+  name: 'ElTimelineItem',
   props: {
     timestamp: {
       type: String,
