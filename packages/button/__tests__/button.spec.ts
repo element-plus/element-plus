@@ -131,8 +131,8 @@ describe('Button.vue', () => {
 describe('Button Group', () => {
   const TestComponent = {
     template: `<el-button-group>
-      <el-button type="primary">上一页</el-button>
-      <el-button type="primary">下一页</el-button>
+      <el-button type="primary">Prev</el-button>
+      <el-button type="primary">Next</el-button>
     </el-button-group>`,
     components: {
       'el-button-group': ButtonGroup,
