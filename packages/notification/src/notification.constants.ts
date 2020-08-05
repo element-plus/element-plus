@@ -1,12 +1,7 @@
 import type { VNode } from 'vue'
 
-export interface INotification<P = (options: INotificationOptions) => void> {
-  (options: INotificationOptions): void
-  success?: P
-  warning?: P
-  info?: P
-  error?: P
-}
+export type INotification = (options?: INotificationOptions) => NotificationVM
+
 export type INotificationOptions = {
   customClass?: string
   dangerouslyUseHTMLString?: boolean // default false
@@ -14,15 +9,14 @@ export type INotificationOptions = {
   iconClass?: string
   id?: string
   message?: string | VNode
+  zIndex?: number
   onClose?: () => unknown
   onClick?: () => unknown
   offset?: number // defaults 0
   position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' // default top-right
   showClose?: boolean
+  type?: 'success' | 'warning' | 'info' | 'error' | ''
   title?: string
-  type?: 'success' | 'warning' | 'info' | 'error'
-  _idx?: number
-  _init?: (idx: number, vm: NotificationVM) => void
 }
 
 export type NotificationVM = VNode
@@ -33,23 +27,3 @@ type NotificationQueueItem = {
 }
 
 export type NotificationQueue = Array<NotificationQueueItem>
-
-
-export const defaultProps = {
-  visible: false,
-  title: '',
-  message: '',
-  duration: 4500,
-  type: '',
-  showClose: true,
-  customClass: '',
-  iconClass: '',
-  onClose: null,
-  onClick: null,
-  closed: false,
-  verticalOffset: 0,
-  timer: null,
-  dangerouslyUseHTMLString: false,
-  position: 'top-right',
-}
-

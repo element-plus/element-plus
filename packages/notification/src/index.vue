@@ -1,7 +1,7 @@
 <template>
   <transition name="el-notification-fade">
     <div
-      v-show="visible"
+      v-if="visible"
       :id="id"
       :class="['el-notification', customClass, horizontalClass]"
       :style="positionStyle"
@@ -10,15 +10,8 @@
       @mouseleave="startTimer()"
       @click="click"
     >
-      <i
-        v-if="type || iconClass"
-        class="el-notification__icon"
-        :class="[typeClass, iconClass]"
-      ></i>
-      <div
-        class="el-notification__group"
-        :class="{ 'is-with-icon': typeClass || iconClass }"
-      >
+      <i v-if="type || iconClass" class="el-notification__icon" :class="[typeClass, iconClass]"></i>
+      <div class="el-notification__group" :class="{ 'is-with-icon': typeClass || iconClass }">
         <h2 class="el-notification__title" v-text="title"></h2>
         <div v-show="message" class="el-notification__content">
           <slot>
@@ -28,18 +21,14 @@
             <p v-else v-html="message"></p>
           </slot>
         </div>
-        <div
-          v-if="showClose"
-          class="el-notification__closeBtn el-icon-close"
-          @click.stop="close"
-        ></div>
+        <div v-if="showClose" class="el-notification__closeBtn el-icon-close" @click.stop="close"></div>
       </div>
     </div>
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, computed, ref, PropType } from 'vue'
-import { defaultProps } from './notification.constants'
+import { defineComponent, computed, ref, PropType } from 'vue'
+// notificationVM is an alias of vue.VNode
 import type { NotificationVM } from './notification.constants'
 import { eventKeys } from '../../utils/aria'
 import { on, off } from '../../utils/dom'
@@ -55,64 +44,73 @@ export default defineComponent({
   name: 'ElNotification',
   props: {
     customClass: { type: String, default: '' },
-    dangerouslyUseHTMLString: { type: Boolean, default: false }, // default false
-    duration: { type: Number, default: 4500 }, // default 4500
+    dangerouslyUseHTMLString: { type: Boolean, default: false },
+    duration: { type: Number, default: 4500 },
     iconClass: { type: String, default: '' },
     id: { type: String, default: '' },
-    message: { type: [String, Object] as PropType<>, default: '' },
-    offset: { type: Number, default: 0 }, // defaults 0
-    onClick: { type: Function, default: () => void 0 },
-    onClose: { type: Function, required: true },
-    position: { type: String, default: 'top-right' }, // default top-right
+    message: {
+      type: [String, Object] as PropType<string | NotificationVM>,
+      default: '',
+    },
+    offset: { type: Number, default: 0 },
+    onClick: {
+      type: Function as PropType<() => void>,
+      default: () => void 0,
+    },
+    onClose: {
+      type: Function as PropType<() => void>,
+      required: true,
+    },
+    position: {
+      type: String as PropType<'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'>,
+      default: 'top-right',
+    },
     showClose: { type: Boolean, default: true },
     title: { type: String, default: '' },
     type: { type: String, default: '' },
-    // disabling linter next two lines due to this is a internal prop which should not be accessed by end user
-    // eslint-disable-next-line
-    _idx: { type: Number, required: false, default: null },
-    // eslint-disable-next-line
-    _init: { type: Function as (idx: number, vm: NotificationVM) => void, required: false, default: null }
+    zIndex: { type: Number, default: 0 },
   },
   emits: ['close', 'click'],
   setup(props) {
-    const data = reactive({
-      ...defaultProps,
-      ...props,
-    })
 
-    data.typeClass = computed(() => {
-      const type = data.type
+    const typeClass = computed(() => {
+      const type = props.type
       return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
     })
 
-    data.horizontalClass = computed(() => {
-      return data.position.indexOf('right') > 1 ? 'right' : 'left'
+    const horizontalClass = computed(() => {
+      return props.position.indexOf('right') > 1 ? 'right' : 'left'
     })
 
-    data.verticalProperty = computed(() => {
-      return data.position.startsWith('top') ? 'top' : 'bottom'
+    const verticalProperty = computed(() => {
+      return props.position.startsWith('top') ? 'top' : 'bottom'
     })
 
-    data.positionStyle = ref({
-      [data.verticalProperty]: props.offset,
+    const positionStyle = computed(() => {
+      return {
+        [verticalProperty.value]: `${props.offset}px`,
+      }
     })
 
-    console.log(data.positionStyle)
+    const visible = ref(true)
+    const closed = ref(false)
+    const timer = ref(null)
 
-    data.visible = ref(true)
-
-    return data
+    return {
+      horizontalClass,
+      typeClass,
+      positionStyle,
+      verticalProperty,
+      visible,
+      closed,
+      timer,
+    }
   },
   watch: {
     closed(newVal: boolean) {
       if (newVal) {
         this.visible = false
         on(this.$el, 'transitionend', this.destroyElement)
-      }
-    },
-    offset(newVal: number) {
-      this.positionStyle = {
-        [this.verticalProperty]: `${newVal}px`,
       }
     },
   },
@@ -123,11 +121,6 @@ export default defineComponent({
           this.close()
         }
       }, this.duration)
-    }
-    // When using notification programmably, this is line of code is critical
-    // to obtain the public component instance
-    if (typeof this._init === 'function') {
-      // this._init(this._idx, this)
     }
     on(document, 'keydown', this.keydown)
   },
@@ -157,13 +150,11 @@ export default defineComponent({
     // Event handlers
     click() {
       this?.onClick()
-      this.$emit('click')
     },
     close() {
       this.closed = true
       this.timer = null
       this.onClose()
-      this.$emit('close')
     },
     keydown({ keyCode }: KeyboardEvent) {
       if (keyCode === eventKeys.delete || keyCode === eventKeys.backspace) {
