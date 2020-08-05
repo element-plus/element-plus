@@ -83,6 +83,7 @@ export default defineComponent({
     }
     return {
       hasLoadError, avatarClass, sizeStyle, handleError,
+      fitStyle,
     }
   },
 })
