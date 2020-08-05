@@ -5,7 +5,7 @@
       :src="src"
       :alt="alt"
       :srcset="srcSet"
-      :style="{objectFit: fit}"
+      :style="fitStyle"
       @error="handleError"
     >
     <i v-else-if="icon" :class="icon"></i>
