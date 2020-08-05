@@ -35,8 +35,8 @@
     </span>
   </label>
 </template>
-
-<script lang="ts">
+<script>
+import { useELEMENT } from 'src'
 import { computed, nextTick, ref } from 'vue'
 
 export default {
@@ -49,17 +49,12 @@ export default {
   },
   setup(props, ctx) {
     //todo: elFormItem elForm ELEMENT
-    const elForm = null
-    const elFormItem = null
-    const ELEMENT = null
-    const _radioGroup = {}
+    const ELEMENT = {}
+    const elForm = {}
+    const elFormItem = {}
+    const _radioGroup = inject('RadioGroup')
     const focus = ref(false)
-    const isGroup = computed(() => {
-      if (_radioGroup && _radioGroup.name === 'ElRadioGroup') {
-        return true
-      }
-      return false
-    })
+    const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
     const _elFormItemSize = computed(() => {
       return (elFormItem || {}).elFormItemSize
     })
@@ -89,7 +84,6 @@ export default {
       }
     })
 
-    // methods
     const handleChange = () => {
       nextTick(() => {
         // this.dispatch('ElRadioGroup', 'handleChange', this.value);
