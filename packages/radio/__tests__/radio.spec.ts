@@ -1,15 +1,19 @@
 import { mount } from '@vue/test-utils'
-import Radio from '../src/index.vue'
+import Radio from '../src/radio.vue'
 
-const AXIOM = 'Rem is the best girl'
-
-describe('Radio.vue', () => {
-  test('render test', () => {
-    const wrapper = mount(Radio, {
-      slots: {
-        default: AXIOM,
+describe('Radio', () => {
+  test('create', async () => {
+    const TestComponent = {
+      template: `<el-radio v-model="radio" label="a">
+      </el-radio>`,
+      components: {
+        'el-radio': Radio,
       },
-    })
-    expect(wrapper.text()).toEqual(AXIOM)
+      data: () => ({ radio: '' }),
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.classes()).toContain('el-radio')
+    await wrapper.trigger('click')
+    expect(wrapper.classes()).toContain('is-checked')
   })
 })
