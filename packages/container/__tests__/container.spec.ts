@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Container from '../src/index.vue'
+import Container from '../src/container.vue'
 
 const AXIOM = 'Rem is the best girl'
 
