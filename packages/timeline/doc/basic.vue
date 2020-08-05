@@ -1,7 +1,7 @@
 <template>
   <div class="block">
-    <el-time-line>
-      <el-time-line-item
+    <el-timeline>
+      <el-timeline-item
         v-for="(activity, index) in activities"
         :key="index"
         :timestamp="activity.timestamp"
@@ -11,8 +11,8 @@
         :icon="activity.icon"
       >
         {{ activity.content }}
-      </el-time-line-item>
-    </el-time-line>
+      </el-timeline-item>
+    </el-timeline>
   </div>
 </template>
 

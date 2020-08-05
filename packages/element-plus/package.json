@@ -19,6 +19,8 @@
     "@element-plus/button": "^0.0.0",
     "@element-plus/breadcrumb": "^0.0.0",
     "@element-plus/card": "^0.0.0",
+    "@element-plus/tag": "^0.0.0",
+    "@element-plus/timeline": "^0.0.0",
     "@element-plus/divider": "^0.0.0",
     "@element-plus/icon": "^0.0.0",
     "@element-plus/layout": "^0.0.0",

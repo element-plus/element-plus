@@ -6,7 +6,7 @@ import ElCard from '@element-plus/card'
 import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
-import ElTimeLine from '@element-plus/time-line'
+import ElTimeline from '@element-plus/timeline'
 import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
 import ElIcon from '@element-plus/icon'
@@ -22,7 +22,7 @@ export {
   ElCard,
   ElDivider,
   ElTag,
-  ElTimeLine,
+  ElTimeline,
   ElProgress,
   ElBreadcrumb,
   ElIcon,
@@ -39,7 +39,7 @@ export default function install(app: App): void {
   ElTag(app)
   ElLayout(app)
   ElDivider(app)
-  ElTimeLine(app)
+  ElTimeline(app)
   ElProgress(app)
   ElBreadcrumb(app)
   ElIcon(app)

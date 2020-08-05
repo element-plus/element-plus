@@ -6,11 +6,11 @@
     </div>
     <div>
       use :value
-      <el-switch :value="true" />
+      <el-switch :value="value" @change="value = $event" />
     </div>
     <div>
       use :model-value
-      <el-switch :model-value="true" />
+      <el-switch :model-value="modelValue" @update:modelValue="modelValue = $event" />
     </div>
   </div>
 </template>
@@ -21,6 +21,8 @@ export default defineComponent({
   data() {
     return {
       v: true,
+      value: true,
+      modelValue: true,
     }
   },
 })
