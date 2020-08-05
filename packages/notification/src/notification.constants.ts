@@ -1,4 +1,4 @@
-import type { ComponentPublicInstance, VNode } from 'vue'
+import type { VNode } from 'vue'
 
 export interface INotification<P = (options: INotificationOptions) => void> {
   (options: INotificationOptions): void
@@ -25,12 +25,14 @@ export type INotificationOptions = {
   _init?: (idx: number, vm: NotificationVM) => void
 }
 
-export type NotificationVM = ComponentPublicInstance<INotificationOptions, unknown, { verticalProperty: string; }>
+export type NotificationVM = VNode
 
-export type NotificationQueue = Array<{
-  vm: Nullable<NotificationVM>
-  container: HTMLElement
-}>
+type NotificationQueueItem = {
+  vm: NotificationVM
+  $el: HTMLElement
+}
+
+export type NotificationQueue = Array<NotificationQueueItem>
 
 
 export const defaultProps = {
