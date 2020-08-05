@@ -1,10 +1,10 @@
 <template>
   <div class="block">
-    <span class="demonstration">默认不区分颜色</span>
+    <span class="demonstration">Default</span>
     <el-rate v-model="value1" /> {{ value1 }}✨
   </div>
   <div class="block">
-    <span class="demonstration">区分颜色</span>
+    <span class="demonstration">Progressive discoloration</span>
     <el-rate
       v-model="value2"
       :colors="colors"
