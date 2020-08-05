@@ -16,19 +16,19 @@
       <slot></slot>
     </span>
 
-    <template v-if="$slots.icon">
-      <slot v-if="$slots.icon" name="icon"></slot>
-    </template>
+    <slot v-if="$slots.icon" name="icon"></slot>
   </a>
 </template>
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+
+type ILinkType = PropType<'primary' | 'success' | 'warning' | 'info' | 'error' | ''>
 
 export default defineComponent({
   name: 'ElLink',
   props: {
     type: {
-      type: String,
+      type: String as ILinkType,
       default: '',
       validator: (val: string) => {
         return ['', 'primary', 'success', 'warning', 'info', 'error'].includes(val)
@@ -46,7 +46,7 @@ export default defineComponent({
   setup(props, { emit }) {
 
     function handleClick(event: Event) {
-      if (!props.disabled && !!props.href) {
+      if (!props.disabled) {
         emit('click', event)
       }
     }
