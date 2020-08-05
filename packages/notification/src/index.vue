@@ -80,35 +80,28 @@ export default defineComponent({
       ...props,
     })
 
-    const typeClass = computed(() => {
-      const { type } = data
+    data.typeClass = computed(() => {
+      const type = data.type
       return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
     })
 
-    const horizontalClass = computed(() => {
-      const { position } = data
-      return position.indexOf('right') > 1 ? 'right' : 'left'
+    data.horizontalClass = computed(() => {
+      return data.position.indexOf('right') > 1 ? 'right' : 'left'
     })
 
-    const verticalProperty = computed(() => {
-      const { position } = data
-      return position.startsWith('top') ? 'top' : 'bottom'
+    data.verticalProperty = computed(() => {
+      return data.position.startsWith('top') ? 'top' : 'bottom'
     })
 
-    const positionStyle = ref({
-      [verticalProperty.value]: props.offset,
+    data.positionStyle = ref({
+      [data.verticalProperty]: props.offset,
     })
 
-    const visible = ref(true)
+    console.log(data.positionStyle)
 
-    return {
-      ...data,
-      visible,
-      typeClass,
-      horizontalClass,
-      verticalProperty,
-      positionStyle,
-    }
+    data.visible = ref(true)
+
+    return data
   },
   watch: {
     closed(newVal: boolean) {
@@ -134,7 +127,7 @@ export default defineComponent({
     // When using notification programmably, this is line of code is critical
     // to obtain the public component instance
     if (typeof this._init === 'function') {
-      this._init(this._idx, this)
+      // this._init(this._idx, this)
     }
     on(document, 'keydown', this.keydown)
   },
@@ -144,7 +137,6 @@ export default defineComponent({
   methods: {
     destroyElement() {
       off(this.$el, 'transitionend', this.destroyElement)
-      this.$destroy(true)
       this.$el.parentNode.removeChild(this.$el)
     },
     // start counting down to destroy notification instance
