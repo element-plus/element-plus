@@ -4,7 +4,7 @@
   </aside>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'ElAside',
@@ -14,5 +14,5 @@ export default defineComponent({
       default: '300px',
     },
   },
-});
+})
 </script>
