@@ -35,7 +35,7 @@
     </span>
   </label>
 </template>
-<script>
+<script lang="ts">
 import { computed, nextTick, inject, ref } from 'vue'
 
 export default {
@@ -51,17 +51,17 @@ export default {
     const ELEMENT = {}
     const elForm = {}
     const elFormItem = {}
-    const _radioGroup = inject('RadioGroup')
+    const _radioGroup: any = inject('RadioGroup')
     const focus = ref(false)
     const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
     const _elFormItemSize = computed(() => {
-      return (elFormItem || {}).elFormItemSize
+      return (elFormItem || {} as any).elFormItemSize
     })
     const size = computed(() => {
-      return _radioGroup.radioGroupSize || _elFormItemSize || (ELEMENT || {}).size
+      return _radioGroup.radioGroupSize || _elFormItemSize || (ELEMENT || {} as any).size
     })
     const isDisabled = computed(() => {
-      return props.disabled || _radioGroup.disabled || (elForm || {}).disabled
+      return props.disabled || _radioGroup.disabled || (elForm || {} as any).disabled
     })
     const tabIndex = computed(() => {
       return (isDisabled.value || (_radioGroup && value.value !== props.label)) ? -1 : 0
