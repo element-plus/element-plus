@@ -47,10 +47,6 @@
 <script lang='ts'>
 import { ref, defineComponent, computed, getCurrentInstance, nextTick, inject } from 'vue'
 
-interface IRadioGroupInject {
-  name: string
-}
-
 export default defineComponent({
   name: 'ElRadio',
   componentName: 'ElRadio',
@@ -72,9 +68,8 @@ export default defineComponent({
     const elForm = null
     const elFormItem = null
     const ELEMENT = null
-    const _radioGroup = inject('RadioGroup') as any
+    const _radioGroup : any = inject('RadioGroup') as any
     const focus = ref(false)
-    const parent: IRadioGroupInject = inject('RadioGroup')
     const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
     const _elFormItemSize = computed(() => {
       return (elFormItem || {}).elFormItemSize
