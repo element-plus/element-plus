@@ -49,9 +49,9 @@ describe('Container.vue', () => {
       },
       data() {
         return {
-          direction: 'horizontal'
-        };
-      }
+          direction: 'horizontal',
+        }
+      },
     }
     const wrapper = mount(TestComponent)
     expect(wrapper.vm.$el.classList.contains('is-vertical')).toBe(false)
@@ -76,7 +76,7 @@ describe('Header', () => {
     })
     const vm = wrapper.vm
     expect(vm.$el.style.height).toEqual('100px')
-  });
+  })
 })
 
 describe('Aside', () => {
@@ -93,7 +93,7 @@ describe('Aside', () => {
     })
     const vm = wrapper.vm
     expect(vm.$el.style.width).toEqual('200px')
-  });
+  })
 })
 
 describe('Main', () => {
@@ -117,7 +117,7 @@ describe('Footer', () => {
     })
     const vm = wrapper.vm
     expect(vm.$el.style.height).toEqual('100px')
-  });
+  })
 
 
 })
