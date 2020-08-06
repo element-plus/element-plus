@@ -84,8 +84,7 @@ export default defineComponent({
       rAF(frameFunc)
     }
     const onScroll = () => {
-      const scrollTop = el.scrollTop
-      visible.value = scrollTop >= props.visibilityHeight
+      visible.value = el.scrollTop >= props.visibilityHeight
     }
     const handleClick = (event) => {
       scrollToTop()
