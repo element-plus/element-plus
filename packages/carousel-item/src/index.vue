@@ -1,20 +1,20 @@
 <template>
   <div
-    v-show="ready"
+    v-show="data.ready"
     class="el-carousel__item"
     :class="{
-      'is-active': active,
+      'is-active': data.active,
       'el-carousel__item--card': $parent.type === 'card',
-      'is-in-stage': inStage,
-      'is-hover': hover,
-      'is-animating': animating,
+      'is-in-stage': data.inStage,
+      'is-hover': data.hover,
+      'is-animating': data.animating,
     }"
     @click="handleItemClick"
     :style="itemStyle"
   >
     <div
       v-if="$parent.type === 'card'"
-      v-show="!active"
+      v-show="!data.active"
       class="el-carousel__mask"
     ></div>
     <slot></slot>
@@ -27,7 +27,9 @@ import {
   SetupContext,
   onMounted,
   inject,
+  provide,
   computed,
+  watch,
 } from 'vue'
 // import { autoprefixer } from 'element-ui/src/utils/util'
 
@@ -46,7 +48,6 @@ export default defineComponent({
       type: [String, Number],
       default: '',
     },
-    todo: String,
   },
   setup(props: ICarouselItemProps, { attrs, emit }) {
     // data
@@ -68,6 +69,7 @@ export default defineComponent({
       type: string
       items: any[]
       loop: boolean
+      itemUpdate: () => any
       updateItems: () => void
     } = inject('injectCarouselScope')
 
@@ -120,7 +122,11 @@ export default defineComponent({
       return distance * (index - activeIndex)
     }
 
-    function translateItem(index, activeIndex, oldIndex) {
+    function translateItem(
+      index: number,
+      activeIndex: number,
+      oldIndex: number,
+    ) {
       const parentType = injectCarouselScopeData.type
       const length = injectCarouselScopeData.items.length
       if (parentType !== 'card' && oldIndex !== undefined) {
@@ -147,12 +153,19 @@ export default defineComponent({
       data.ready = true
     }
 
+    // watch
+    watch(injectCarouselScopeData.itemUpdate, (current, pre) => {
+      console.log(current)
+      current(translateItem)
+      //   current();
+    })
+
     // lifecycle
     onMounted(() => {
       injectCarouselScopeData.updateItems()
     })
 
-    return { itemStyle }
+    return { itemStyle, data, translateItem }
   },
 })
 </script>

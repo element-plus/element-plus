@@ -63,14 +63,16 @@ import {
   computed,
   ref,
   provide,
+  inject,
   onMounted,
   VNode,
   VNodeNormalizedChildren,
   Component,
   onRenderTriggered,
   onBeforeUnmount,
+  watch,
 } from 'vue'
-// import throttle from "throttle-debounce";
+import throttle from 'throttle-debounce'
 
 interface ICarouselProps {
   initialIndex: number
@@ -146,6 +148,7 @@ export default {
 
     // refs
     const root = ref(null)
+    const itemUpdate = ref(cb => null)
 
     // computed
     const arrowDisplay = computed(
@@ -179,6 +182,13 @@ export default {
     })
 
     // methods
+    const throttledArrowClick = throttle(300, true, index => {
+      setActiveItem(index)
+    })
+    const throttledIndicatorHover = throttle(300, index => {
+      handleIndicatorHover(index)
+    })
+
     function handleMouseEnter() {
       data.hover = true
       pauseTimer()
@@ -236,8 +246,10 @@ export default {
     }
 
     function resetItemPosition(oldIndex) {
+      console.log('resetItemPosition')
       data.items.forEach((item, index) => {
-        // item.translateItem(index, this.activeIndex, oldIndex);
+        itemUpdate.value = (cb: (i: number, v: number, t: number) => void) =>
+          cb(index, data.activeIndex, oldIndex)
       })
     }
 
@@ -276,10 +288,21 @@ export default {
       }
     }
 
+    // watch
+    watch(
+      () => data.activeIndex,
+      (current, prev) => {
+        console.log(current)
+        resetItemPosition(prev)
+        if (prev > -1) {
+          //   this.$emit("change", val, oldVal);
+        }
+      },
+    )
+
     // lifecycle
     onMounted(() => {
       updateItems()
-      // console.log(data.items)
     })
 
     // TODO: addResizeListener
@@ -298,11 +321,12 @@ export default {
     // provide
     provide('injectCarouselScope', {
       direction: props.direction,
-      offsetWidth: (root as HTMLElement).offsetWidth,
-      offsetHeight: (root as HTMLElement).offsetHeight,
+      offsetWidth: root.offsetWidth,
+      offsetHeight: root.offsetHeight,
       type: props.type,
       items: data.items,
       loop: props.loop,
+      itemUpdate,
       updateItems: () => {
         updateItems()
       },
