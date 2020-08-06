@@ -36,8 +36,7 @@
   </label>
 </template>
 <script>
-import { useELEMENT } from 'src'
-import { computed, nextTick, ref } from 'vue'
+import { computed, nextTick, inject, ref } from 'vue'
 
 export default {
   name: 'ElRadioButton',
@@ -72,7 +71,7 @@ export default {
         return _radioGroup.modelValue.value
       },
       set(value) {
-        _radioGroup.emit(value)
+        _radioGroup.changeEvent(value)
       },
     })
     const activeStyle = computed(() => {
