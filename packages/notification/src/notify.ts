@@ -1,6 +1,6 @@
 import { createVNode, render } from 'vue'
 import NotificationConstructor from './index.vue'
-import type { INotificationOptions, INotification, NotificationQueue, NotificationVM } from './notification.constants'
+import type { INotificationOptions, INotification, NotificationQueue, NotificationVM } from './notification'
 import isServer from '../../utils/isServer'
 import PopupManager from '../../utils/popup-manager'
 import { isVNode } from '../../utils/util'
@@ -43,19 +43,27 @@ const Notification: INotification = function(options = {}) {
   container.className = `container_${id}`
   container.style.zIndex = String()
 
-  vm = createVNode(NotificationConstructor, options, isVNode(options.message) ? {
-    default: () => options.message,
-  }: null)
+  vm = createVNode(
+    NotificationConstructor,
+    options,
+    isVNode(options.message)
+      ? {
+        default: () => options.message,
+      }
+      : null,
+  )
   render(vm, container)
   notifications.push({ vm, $el: container })
-  document.body.appendChild(container.firstElementChild)
+  document.body.appendChild(container)
 
-  return vm
+  return {
+    close: options.onClose,
+  }
 };
 
 (['success', 'warning', 'info', 'error'] as const).forEach(type => {
   Object.assign(Notification, {
-    type: options => {
+    [type]: (options: NotificationVM | INotificationOptions | string = {}) => {
       if (typeof options === 'string' || isVNode(options)) {
         options = {
           message: options,
@@ -82,6 +90,7 @@ export function close(
   const { vm, $el } = notifications[idx]
   if (!vm) return
   userOnClose?.(vm)
+
   const removedHeight = vm.el.offsetHeight
   render(null, $el)
 
@@ -92,14 +101,16 @@ export function close(
   for (let i = idx; i < len; i++) {
     if (notifications[i].vm.component.props.position === position) {
       const verticalPos = vm.props.position.split('-')[0]
-      notifications[i].vm.el.style[verticalPos] =
-        parseInt(
-          notifications[i].vm.el.style[verticalPos],
-          10,
-        ) -
-        removedHeight -
-        16 +
-        'px'
+      const pos = parseInt(
+        notifications[i].vm.el.style[verticalPos],
+        10,
+      ) -
+      removedHeight -
+      16
+
+      notifications[i].vm.component.props.offset = pos
+      render(notifications[i].vm, notifications[i].$el)
+      // .vm.el.style[verticalPos] = pos
     }
   }
 }

@@ -1,6 +1,11 @@
 import type { VNode } from 'vue'
 
-export type INotification = (options?: INotificationOptions) => NotificationVM
+
+export interface INotificationHandle {
+  close: () => void
+}
+
+export type INotification = (options?: INotificationOptions) => INotificationHandle
 
 export type INotificationOptions = {
   customClass?: string
@@ -10,8 +15,8 @@ export type INotificationOptions = {
   id?: string
   message?: string | VNode
   zIndex?: number
-  onClose?: () => unknown
-  onClick?: () => unknown
+  onClose?: () => void
+  onClick?: () => void
   offset?: number // defaults 0
   position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' // default top-right
   showClose?: boolean

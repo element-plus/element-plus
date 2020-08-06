@@ -1,6 +1,5 @@
-import { isVNode } from 'vue'
 import Notification, { close, closeAll } from '../src/notify'
-import type { NotificationVM } from '../src/notification.constants'
+import type { INotificationHandle } from '../src/notification'
 
 jest.useFakeTimers()
 
@@ -11,11 +10,12 @@ describe('Notification on command', () => {
     closeAll()
   })
 
-  test('it should get component instance when calling notification constructor', async () => {
-    const vm = Notification()
-    expect(isVNode(vm)).toBe(true)
+  test('it should get component handle', async () => {
+    const handle = Notification()
     expect(document.querySelector(selector)).toBeDefined()
     jest.runAllTicks()
+    handle.close()
+    expect(document.querySelector(selector)).toBeNull()
   })
 
 
@@ -28,7 +28,7 @@ describe('Notification on command', () => {
   })
 
   test('it should close all notifications', () => {
-    const notifications: NotificationVM[] = []
+    const notifications: INotificationHandle[] = []
     const onClose = jest.fn()
     for (let i = 0; i < 4; i++) {
       notifications.push(Notification({
@@ -43,4 +43,10 @@ describe('Notification on command', () => {
     expect(document.querySelectorAll(selector).length).toBe(0)
   })
 
+  test('it should be able to render all types notification', () => {
+    for (const type of ['success', 'warning', 'error', 'info'] as const) {
+      Notification[type]()
+      expect(document.querySelector(`.el-icon-${type}`)).toBeDefined()
+    }
+  })
 })
