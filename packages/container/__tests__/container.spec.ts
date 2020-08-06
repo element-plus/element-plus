@@ -32,7 +32,7 @@ describe('Container.vue', () => {
     }
 
     const wrapper = mount(TestComponent)
-    expect(wrapper.vm.$el.classList.contains('is-vertical')).toBe(true)
+    expect(wrapper.classes('is-vertical')).toBe(true)
   })
 
   test('direction', () => {
