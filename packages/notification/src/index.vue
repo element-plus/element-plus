@@ -1,7 +1,7 @@
 <template>
   <transition name="el-notification-fade">
     <div
-      v-if="visible"
+      v-show="visible"
       :id="id"
       :class="['el-notification', customClass, horizontalClass]"
       :style="positionStyle"
@@ -10,8 +10,15 @@
       @mouseleave="startTimer()"
       @click="click"
     >
-      <i v-if="type || iconClass" class="el-notification__icon" :class="[typeClass, iconClass]"></i>
-      <div class="el-notification__group" :class="{ 'is-with-icon': typeClass || iconClass }">
+      <i
+        v-if="type || iconClass"
+        class="el-notification__icon"
+        :class="[typeClass, iconClass]"
+      ></i>
+      <div
+        class="el-notification__group"
+        :class="{ 'is-with-icon': typeClass || iconClass }"
+      >
         <h2 class="el-notification__title" v-text="title"></h2>
         <div v-show="message" class="el-notification__content">
           <slot>
@@ -21,13 +28,17 @@
             <p v-else v-html="message"></p>
           </slot>
         </div>
-        <div v-if="showClose" class="el-notification__closeBtn el-icon-close" @click.stop="close"></div>
+        <div
+          v-if="showClose"
+          class="el-notification__closeBtn el-icon-close"
+          @click.stop="close"
+        ></div>
       </div>
     </div>
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from 'vue'
+import { defineComponent, computed, ref, PropType, nextTick } from 'vue'
 // notificationVM is an alias of vue.VNode
 import type { NotificationVM } from './notification.constants'
 import { eventKeys } from '../../utils/aria'
@@ -92,7 +103,7 @@ export default defineComponent({
       }
     })
 
-    const visible = ref(true)
+    const visible = ref(false)
     const closed = ref(false)
     const timer = ref(null)
 
@@ -122,6 +133,7 @@ export default defineComponent({
         }
       }, this.duration)
     }
+    this.visible = true
     on(document, 'keydown', this.keydown)
   },
   beforeUnmount() {
@@ -129,8 +141,9 @@ export default defineComponent({
   },
   methods: {
     destroyElement() {
+      this.visible = false
       off(this.$el, 'transitionend', this.destroyElement)
-      this.$el.parentNode.removeChild(this.$el)
+      this.onClose()
     },
     // start counting down to destroy notification instance
     startTimer() {
@@ -154,7 +167,6 @@ export default defineComponent({
     close() {
       this.closed = true
       this.timer = null
-      this.onClose()
     },
     keydown({ keyCode }: KeyboardEvent) {
       if (keyCode === eventKeys.delete || keyCode === eventKeys.backspace) {
@@ -171,3 +183,16 @@ export default defineComponent({
   },
 })
 </script>
+
+<style>
+/* Due to the code  */
+/* TODO: remove these code  */
+.el-notification-fade-enter-active.right {
+  right: 0;
+  transform: translateX(100%);
+}
+.el-notification-fade-enter-active.left {
+  left: 0;
+  transform: translateX(-100%);
+}
+</style>

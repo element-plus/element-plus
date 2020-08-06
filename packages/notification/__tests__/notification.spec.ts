@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
-import { h } from 'vue'
+import { mount, VueWrapper } from '@vue/test-utils'
+import { h, ComponentPublicInstance, nextTick } from 'vue'
 import * as domExports from '../../utils/dom'
 import { eventKeys } from '../../utils/aria'
 import Notification from '../src/index.vue'
@@ -102,48 +102,17 @@ describe('Notification.vue', () => {
   })
 
   describe('Notification.type', () => {
-    test('should be able to render success notification', () => {
-      const type = 'success'
-      const wrapper = _mount({
-        props: {
-          type,
-        },
-      })
+    test('should be able to render typed notification', () => {
+      let wrapper: VueWrapper<ComponentPublicInstance>
 
-      expect(wrapper.find(`.el-icon-${type}`).exists()).toBe(true)
-    })
-
-    test('should be able to render warning notification', () => {
-      const type = 'warning'
-      const wrapper = _mount({
-        props: {
-          type,
-        },
-      })
-
-      expect(wrapper.find(`.el-icon-${type}`).exists()).toBe(true)
-    })
-
-    test('should be able to render info notification', () => {
-      const type = 'info'
-      const wrapper = _mount({
-        props: {
-          type,
-        },
-      })
-
-      expect(wrapper.find(`.el-icon-${type}`).exists()).toBe(true)
-    })
-
-    test('should be able to render error notification', () => {
-      const type = 'error'
-      const wrapper = _mount({
-        props: {
-          type,
-        },
-      })
-
-      expect(wrapper.find(`.el-icon-${type}`).exists()).toBe(true)
+      for (const type of ['success', 'warning', 'info', 'error']) {
+        wrapper = _mount({
+          props: {
+            type,
+          },
+        })
+        expect(wrapper.find('.el-notification__icon').classes()).toContain(`el-icon-${type}`)
+      }
     })
 
     test('should not be able to render invalid type icon', () => {
@@ -154,7 +123,7 @@ describe('Notification.vue', () => {
         },
       })
 
-      expect(wrapper.find(`.el-icon-${type}`).exists()).toBe(false)
+      expect(wrapper.find('.el-notification__icon').classes()).not.toContain(`el-icon-${type}`)
     })
   })
 
@@ -170,7 +139,8 @@ describe('Notification.vue', () => {
 
       const closeBtn = wrapper.find('.el-notification__closeBtn')
       expect(closeBtn.exists()).toBe(true)
-      await closeBtn.trigger('click')
+      wrapper.vm.destroyElement()
+
       expect(onClose).toHaveBeenCalled()
     })
 
