@@ -66,6 +66,7 @@
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.4",
-    "lodash-es": "^4.17.15"
+    "lodash-es": "^4.17.15",
+    "mitt": "^2.1.0"
   }
 }
