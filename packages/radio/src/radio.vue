@@ -60,14 +60,14 @@ export default defineComponent({
     size: String,
   },
 
-  emits: ['update:modelValue', 'change-value'],
+  emits: ['update:modelValue', 'change'],
 
   setup(props, ctx) {
     const instance = getCurrentInstance()
-    //todo: elFormItem elForm ELEMENT
-    const elForm = null
-    const elFormItem = null
+    //todo: ELEMENT
     const ELEMENT = null
+    const elForm = inject('elForm')
+    const elFormItem = inject('elFormItem')
     const _radioGroup : any = inject('RadioGroup') as any
     const focus = ref(false)
     const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
@@ -103,11 +103,9 @@ export default defineComponent({
       },
     })
 
-    // methods
     function handleChange() {
       nextTick(() => {
-        ctx.emit('change-value', model.value)
-        // isGroup.value && this.dispatch('ElRadioGroup', 'handleChange', model.value)
+        ctx.emit('change', model.value)
       })
     }
 

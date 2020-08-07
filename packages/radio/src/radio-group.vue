@@ -13,7 +13,7 @@
 import {
   nextTick,
   computed,
-  provide, getCurrentInstance, onMounted,
+  provide, getCurrentInstance, onMounted, inject,
 } from 'vue'
 
 const keyCode = Object.freeze({
@@ -37,12 +37,12 @@ export default {
     disabled: Boolean,
   },
 
-  emits: ['update:modelValue', 'change-value'],
+  emits: ['update:modelValue', 'change'],
 
   setup(props, ctx) {
     const instance = getCurrentInstance()
-    //todo: elFormItem elForm ELEMENT
-    const elFormItem = {}
+    //todo: ELEMENT
+    const elFormItem = inject('elFormItem')
     const ELEMENT = {}
     const _elFormItemSize = computed(() => {
       return (elFormItem || {} as any).elFormItemSize
@@ -67,13 +67,14 @@ export default {
     const changeEvent = value => {
       ctx.emit('update:modelValue', value)
       nextTick(() => {
-        ctx.emit('change-value', value)
+        ctx.emit('change', value)
       })
     }
 
     provide('RadioGroup', {
       name: 'ElRadioGroup',
       changeEvent: changeEvent,
+      radioGroupSize: radioGroupSize,
       ...props,
       modelValue,
     })
