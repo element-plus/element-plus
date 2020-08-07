@@ -2,7 +2,7 @@
   <label
     class="el-radio-button"
     :class="[
-      size ? 'el-radio-button--' + size : '',
+      size ? 'el-radio-button--' + size.value : '',
       { 'is-active': value === label },
       { 'is-disabled': isDisabled },
       { 'is-focus': focus }
@@ -21,7 +21,6 @@
       :name="name"
       :disabled="isDisabled"
       tabindex="-1"
-      @change="handleChange"
       @focus="focus = true"
       @blur="focus = false"
     >
@@ -47,10 +46,10 @@ export default {
     name: String,
   },
   setup(props, ctx) {
-    //todo: elFormItem elForm ELEMENT
+    //todo: ELEMENT
     const ELEMENT = {}
-    const elForm = {}
-    const elFormItem = {}
+    const elForm = inject('elForm')
+    const elFormItem = inject('elFormItem')
     const _radioGroup: any = inject('RadioGroup')
     const focus = ref(false)
     const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
@@ -83,12 +82,6 @@ export default {
       }
     })
 
-    const handleChange = () => {
-      nextTick(() => {
-        // this.dispatch('ElRadioGroup', 'handleChange', this.value);
-      })
-    }
-
     return {
       isGroup,
       size,
@@ -97,7 +90,6 @@ export default {
       value,
       focus,
       activeStyle,
-      handleChange,
     }
   },
 }
