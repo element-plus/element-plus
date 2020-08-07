@@ -19,6 +19,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { throttle } from 'lodash-es'
+import { on, off } from '../../utils/dom'
+import { easeInOutCubic } from '../../utils/util'
 
 interface IElBacktopProps {
   visibilityHeight: number
@@ -26,9 +28,6 @@ interface IElBacktopProps {
   right: number
   bottom: number
 }
-
-const cubic = value => Math.pow(value, 3)
-const easeInOutCubic = value => value < 0.5 ? cubic(value * 2) / 2 : 1 - cubic((1 - value) * 2) / 2
 
 export default defineComponent({
   name: 'ElBacktop',
@@ -52,39 +51,29 @@ export default defineComponent({
   },
   emits: ['click'],
   setup(props: IElBacktopProps, ctx) {
-    let el, container
+    const el = ref(null)
+    const container = ref(null)
     const visible = ref(false)
     const styleBottom = computed(() => `${props.bottom}px`)
     const styleRight = computed(() => `${props.right}px`)
 
-    const init = () => {
-      container = document
-      el = document.documentElement
-      if (props.target) {
-        el = document.querySelector(props.target)
-        if (!el) {
-          throw new Error(`target is not existed: ${props.target}`)
-        }
-        container = el
-      }
-    }
     const scrollToTop = () => {
       const beginTime = Date.now()
-      const beginValue = el.scrollTop
+      const beginValue = el.value.scrollTop
       const rAF = window.requestAnimationFrame || (func => setTimeout(func, 16))
       const frameFunc = () => {
         const progress = (Date.now() - beginTime) / 500
         if (progress < 1) {
-          el.scrollTop = beginValue * (1 - easeInOutCubic(progress))
+          el.value.scrollTop = beginValue * (1 - easeInOutCubic(progress))
           rAF(frameFunc)
         } else {
-          el.scrollTop = 0
+          el.value.scrollTop = 0
         }
       }
       rAF(frameFunc)
     }
     const onScroll = () => {
-      visible.value = el.scrollTop >= props.visibilityHeight
+      visible.value = el.value.scrollTop >= props.visibilityHeight
     }
     const handleClick = (event) => {
       scrollToTop()
@@ -94,14 +83,24 @@ export default defineComponent({
     const throttledScrollHandler = throttle(onScroll, 300)
 
     onMounted(() => {
-      init()
-      container.addEventListener('scroll', throttledScrollHandler)
+      container.value = document
+      el.value = document.documentElement
+      if (props.target) {
+        el.value = document.querySelector(props.target)
+        if (!el.value) {
+          throw new Error(`target is not existed: ${props.target}`)
+        }
+        container.value = el.value
+      }
+      on(container.value, 'scroll', throttledScrollHandler)
     })
     onBeforeUnmount(() => {
-      container.removeEventListener('scroll', throttledScrollHandler)
+      off(container.value, 'scroll', throttledScrollHandler)
     })
 
     return {
+      el,
+      container,
       visible,
       styleBottom,
       styleRight,
