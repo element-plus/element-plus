@@ -275,28 +275,21 @@ describe('Radio Button', () => {
     }))
     expect(wrapper.findAll('.el-radio-button--large').length).toBe(3)
   })
-  // it('keyboard event', async () => {
-  //   const wrapper = _mount(` <el-radio-group v-model="radio">
-  //   <el-radio-button ref="radio1" :label="3">3</el-radio-button>
-  //   <el-radio-button ref="radio2" :label="6">6</el-radio-button>
-  //   <el-radio-button ref="radio3" :label="9">9</el-radio-button>
-  // </el-radio-group>`, () => ({
-  //     radio: 6,
-  //   }))
-  //   const radio1 = wrapper.findComponent({ ref: 'radio1' })
-  //   const radio2 = wrapper.findComponent({ ref: 'radio2' })
-  //   const radio3 = wrapper.findComponent({ ref: 'radio3' })
-  //   const vm = wrapper.vm as any
-  //   expect(vm.radio).toEqual(6)
-  //   radio2.trigger('keydown.left')
-  //   expect(vm.radio).toEqual(3)
-  //   radio1.trigger('keydown.left')
-  //   expect(vm.radio).toEqual(9)
-  //   radio3.trigger('keydown.right')
-  //   expect(vm.radio).toEqual(3)
-  //   radio1.trigger('keydown.right')
-  //   expect(vm.radio).toEqual(6)
-  //   radio1.trigger('keydown.enter')
-  //   expect(vm.radio).toEqual(6)
-  // })
+  it('keyboard event', async () => {
+    const wrapper = _mount(` <el-radio-group v-model="radio">
+    <el-radio-button ref="radio1" :label="3">3</el-radio-button>
+    <el-radio-button ref="radio2" :label="6">6</el-radio-button>
+    <el-radio-button ref="radio3" :label="9">9</el-radio-button>
+  </el-radio-group>`, () => ({
+      radio: 6,
+    }))
+    const radio1 = wrapper.findComponent({ ref: 'radio1' })
+    const radio2 = wrapper.findComponent({ ref: 'radio2' })
+    const vm = wrapper.vm as any
+    expect(vm.radio).toEqual(6)
+    radio2.trigger('keydown.left')
+    expect(vm.radio).toEqual(3)
+    radio1.trigger('keydown.left')
+    expect(vm.radio).toEqual(9)
+  })
 })
