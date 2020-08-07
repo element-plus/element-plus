@@ -35,7 +35,7 @@
   </label>
 </template>
 <script lang="ts">
-import { computed, nextTick, inject, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 
 export default {
   name: 'ElRadioButton',
