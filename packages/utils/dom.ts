@@ -124,6 +124,8 @@ export const getStyle = function(
   }
   try {
     const computed = document.defaultView.getComputedStyle(element, '')
+    console.log('---computed', element, styleName, computed[styleName], computed.height)
+    // console.log('--_values:', computed._values)
     return element.style[styleName] || computed ? computed[styleName] : null
   } catch (e) {
     return element.style[styleName]
@@ -156,14 +158,12 @@ export const isScroll = (
   isVertical?: Nullable<boolean>,
 ): RegExpMatchArray => {
   if (isServer) return
-
-  const determinedDirection = isVertical !== null || isVertical !== undefined
+  const determinedDirection = isVertical === null || isVertical === undefined
   const overflow = determinedDirection
-    ? isVertical
+    ? getStyle(el, 'overflow')
+    : isVertical
       ? getStyle(el, 'overflow-y')
       : getStyle(el, 'overflow-x')
-    : getStyle(el, 'overflow')
-
   return overflow.match(/(scroll|auto)/)
 }
 
@@ -183,7 +183,7 @@ export const getScrollContainer = (
     }
     parent = parent.parentNode as HTMLElement
   }
-
+  // console.log('==========parent', parent)
   return parent
 }
 

@@ -8,9 +8,9 @@
       <span class="demonstration">自定义</span>
       <el-image>
         <template #error>
-            <div class="image-slot">
-                <i class="el-icon-picture-outline"></i>
-            </div>
+          <div class="image-slot">
+            <i class="el-icon-picture-outline"></i>
+          </div>
         </template>
       </el-image>
     </div>
