@@ -10,6 +10,12 @@ import ElDivider from '@element-plus/divider'
 import ElTimeline from '@element-plus/timeline'
 import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
+import ElIcon from '@element-plus/icon'
+import ElLink from '@element-plus/link'
+import ElRate from '@element-plus/rate'
+import ElSwitch from '@element-plus/switch'
+import ElContainer from '@element-plus/container'
+import ElNotification from '@element-plus/notification'
 import ElRadio from '@element-plus/radio'
 
 export {
@@ -24,6 +30,12 @@ export {
   ElTimeline,
   ElProgress,
   ElBreadcrumb,
+  ElIcon,
+  ElLink,
+  ElRate,
+  ElSwitch,
+  ElContainer,
+  ElNotification,
   ElRadio,
 }
 
@@ -39,5 +51,11 @@ export default function install(app: App): void {
   ElTimeline(app)
   ElProgress(app)
   ElBreadcrumb(app)
+  ElIcon(app)
+  ElLink(app)
+  ElRate(app)
+  ElSwitch(app)
+  ElContainer(app)
+  ElNotification(app)
   ElRadio(app)
 }
