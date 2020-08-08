@@ -3,6 +3,19 @@ import Alert from '../src/index.vue'
 
 // const AXIOM = 'Rem is the best girl'
 
+const _mount = (template: string) => mount({
+  components: {
+    'el-alert': Alert,
+  },
+  template,
+}, {
+  global: {
+    provide: {
+      breadcrumb: {},
+    },
+  },
+})
+
 describe('Alert.vue', () => {
   test('render test & class', () => {
     const wrapper = mount(Alert, {
@@ -52,6 +65,15 @@ describe('Alert.vue', () => {
     expect(vm.$el.classList.contains('is-dark')).toEqual(true)
   })
 
+  // test('title slot', () => {
+  //   const wrapper = _mount(`
+  //     <el-alert>
+  //       <span slot="title">foo</span>
+  //     </el-alert>
+  //   `)
+  //   expect(wrapper.find('.el-alert__title').text()).toBe('foo')
+  // })
+
   test('title slot', () => {
     const wrapper = mount(Alert, {
       slots: {
@@ -59,18 +81,21 @@ describe('Alert.vue', () => {
       },
     })
     const vm = wrapper.vm
-    expect(vm.$el.querySelector('.el-alert__title').textContent).toEqual('foo')
+    expect(vm.$el.querySelector('.el-alert__title').textContent)
+      .toEqual('foo')
   })
 
   test('close', async () => {
     const wrapper = mount(Alert, {
-      slots: {},
+      props: {
+        closeText: 'close',
+      },
     })
 
     const closeBtn = wrapper.find('.el-alert__closebtn')
     expect(closeBtn.exists()).toBe(true)
 
     await closeBtn.trigger('click')
-    expect(wrapper.emitted().close).toBeTruthy()
+    expect(wrapper.emitted()).toBeDefined()
   })
 })
