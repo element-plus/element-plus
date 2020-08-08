@@ -1,7 +1,7 @@
 <template>
   <transition name="el-alert-fade">
     <div
-      v-show="visible"
+      v-show="state.visible"
       class="el-alert"
       :class="[typeClass, center ? 'is-center' : '', 'is-' + effect]"
       role="alert"
@@ -26,7 +26,7 @@
   </transition>
 </template>
 <script lang='ts'>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, reactive } from 'vue'
 
 interface AlertProps {
   title: string;
@@ -38,11 +38,6 @@ interface AlertProps {
   center: boolean;
   effect: string;
 }
-
-// interface AlertSetups {
-//   typeClass: string;
-//   iconClass: string;
-// }
 
 const TYPE_CLASSES_MAP = {
   'success': 'el-icon-success',
@@ -85,6 +80,11 @@ export default defineComponent({
   },
   emits: ['click'],
   setup(props: AlertProps, ctx) {
+    // state
+    const state = reactive({
+      visible: true,
+    })
+
     // computed
     const typeClass = computed(() => {
       return `el-alert--${ props.type }`
@@ -93,10 +93,10 @@ export default defineComponent({
       return TYPE_CLASSES_MAP[props.type] || 'el-icon-info'
     })
     const isBigIcon = computed(() => {
-      return props.description || ctx.$slots.default ? 'is-big' : ''
+      return props.description || ctx.slots.default ? 'is-big' : ''
     })
     const isBoldTitle = computed(() => {
-      return props.description || ctx.$slots.default ? 'is-bold' : ''
+      return props.description || ctx.slots.default ? 'is-bold' : ''
     })
 
     // methods
@@ -105,6 +105,7 @@ export default defineComponent({
     }
 
     return {
+      state,
       typeClass,
       iconClass,
       isBigIcon,
@@ -114,5 +115,3 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
-</style>
