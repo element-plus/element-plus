@@ -63,7 +63,6 @@ import {
   computed,
   ref,
   provide,
-  inject,
   onMounted,
   VNode,
   VNodeNormalizedChildren,
@@ -72,7 +71,7 @@ import {
   onBeforeUnmount,
   watch,
 } from 'vue'
-import throttle from 'throttle-debounce'
+import { throttle } from 'throttle-debounce'
 
 interface ICarouselProps {
   initialIndex: number
@@ -148,7 +147,7 @@ export default {
 
     // refs
     const root = ref(null)
-    const itemUpdate = ref(cb => null)
+    const itemUpdate = ref((cb) => null)
 
     // computed
     const arrowDisplay = computed(
@@ -156,7 +155,7 @@ export default {
     )
 
     const hasLabel = computed(() => {
-      return data.items.some(item => item.props.label.toString().length > 0)
+      return data.items.some((item) => item.props.label.toString().length > 0)
     })
 
     const carouselClasses = computed(() => {
@@ -182,10 +181,10 @@ export default {
     })
 
     // methods
-    const throttledArrowClick = throttle(300, true, index => {
+    const throttledArrowClick = throttle(300, true, (index) => {
       setActiveItem(index)
     })
-    const throttledIndicatorHover = throttle(300, index => {
+    const throttledIndicatorHover = throttle(300, (index) => {
       handleIndicatorHover(index)
     })
 
@@ -221,7 +220,7 @@ export default {
 
     function setActiveItem(index) {
       if (typeof index === 'string') {
-        const filteredItems = data.items.filter(item => item.name === index)
+        const filteredItems = data.items.filter((item) => item.name === index)
         if (filteredItems.length > 0) {
           index = data.items.indexOf(filteredItems[0])
         }
@@ -265,9 +264,41 @@ export default {
         }
 
         if ((VnodeInChillren?.type as Component).name === 'ElCarouselItem') {
-          return all.concat(next.children.map(f => (f as any).type))
+          return all.concat(next.children.map((f) => (f as any).type))
         }
       }, [] as Component[])
+    }
+
+    function itemInStage(item, index) {
+      const length = data.items.length
+      if (
+        (index === length - 1 && item.inStage && data.items[0].active) ||
+        (item.inStage && data.items[index + 1] && data.items[index + 1].active)
+      ) {
+        return 'left'
+      } else if (
+        (index === 0 && item.inStage && data.items[length - 1].active) ||
+        (item.inStage && data.items[index - 1] && data.items[index - 1].active)
+      ) {
+        return 'right'
+      }
+      return false
+    }
+
+    function handleButtonEnter(arrow) {
+      if (props.direction === 'vertical') return
+      data.items.forEach((item, index) => {
+        if (arrow === itemInStage(item, index)) {
+          item.hover = true
+        }
+      })
+    }
+
+    function handleButtonLeave() {
+      if (props.direction === 'vertical') return
+      data.items.forEach((item) => {
+        item.hover = false
+      })
     }
 
     function prev() {
@@ -321,8 +352,8 @@ export default {
     // provide
     provide('injectCarouselScope', {
       direction: props.direction,
-      offsetWidth: root.offsetWidth,
-      offsetHeight: root.offsetHeight,
+      offsetWidth: (root as HTMLElement).offsetWidth,
+      offsetHeight: (root as HTMLElement).offsetHeight,
       type: props.type,
       items: data.items,
       loop: props.loop,
@@ -341,6 +372,12 @@ export default {
       props,
 
       handleMouseEnter,
+      handleMouseLeave,
+      handleIndicatorClick,
+      throttledArrowClick,
+      throttledIndicatorHover,
+      handleButtonEnter,
+      handleButtonLeave,
 
       root,
     }

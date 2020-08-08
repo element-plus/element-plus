@@ -6,6 +6,8 @@ import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
 import ElTimeLine from '@element-plus/time-line'
+import ElCarousel from '@element-plus/carousel'
+import ElCarouselItem from '@element-plus/carousel-item'
 
 export {
   ElLayout,
@@ -15,6 +17,8 @@ export {
   ElDivider,
   ElTag,
   ElTimeLine,
+  ElCarousel,
+  ElCarouselItem,
 }
 
 export default function install(app: App): void {
@@ -25,4 +29,6 @@ export default function install(app: App): void {
   ElLayout(app)
   ElDivider(app)
   ElTimeLine(app)
+  ElCarousel(app)
+  ElCarouselItem(app)
 }
