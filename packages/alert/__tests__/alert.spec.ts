@@ -16,6 +16,19 @@ const _mount = (template: string) => mount({
   },
 })
 
+const _mount = (template: string) => mount({
+  components: {
+    'el-alert': Alert,
+  },
+  template,
+}, {
+  global: {
+    provide: {
+      breadcrumb: {},
+    },
+  },
+})
+
 describe('Alert.vue', () => {
   test('render test & class', () => {
     const wrapper = mount(Alert, {
