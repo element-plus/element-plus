@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import Alert from '../src/index.vue'
 
-const AXIOM = 'Rem is the best girl'
+// const AXIOM = 'Rem is the best girl'
 
 const _mount = (template: string) => mount({
   components: {
