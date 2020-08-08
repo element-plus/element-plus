@@ -15,6 +15,15 @@
       :class="{ 'el-image__inner--center': alignCenter, 'el-image__preview': preview }"
       @click="clickHandler"
     >
+    <template v-if="preview">
+      <image-viewer
+        v-if="showViewer"
+        :z-index="zIndex"
+        :initial-index="imageIndex"
+        :on-close="closeViewer"
+        :url-list="previewSrcList"
+      />
+    </template>
   </div>
 </template>
 
@@ -26,6 +35,7 @@ import isServer from '@element-plus/utils/isServer'
 import { on, off, getScrollContainer, isInContainer } from '@element-plus/utils/dom'
 import { isString } from '@vue/shared'
 import { throttle } from 'lodash-es'
+import ImageViewer from './image-viewer'
 
 const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined
 const isHtmlEle = (e) => e && e.nodeType === 1
@@ -42,11 +52,26 @@ let prevOverflow = ''
 
 export default defineComponent({
   name: 'ElImage',
+  components: {
+    ImageViewer,
+  },
   props: {
-    src: String,
-    fit: String,
-    lazy: Boolean,
-    scrollContainer: {},
+    src: {
+      type: String,
+      default: '',
+    },
+    fit: {
+      type: String,
+      default: '',
+    },
+    lazy: {
+      type: Boolean,
+      default: false,
+    },
+    scrollContainer: {
+      type: [String, Object],
+      default: null,
+    },
     previewSrcList: {
       type: Array,
       default: () => [],
@@ -60,7 +85,7 @@ export default defineComponent({
   setup(props, { emit, attrs }) {
     // init here
     const hasLoadError = ref(false)
-    const loading = ref(false)
+    const loading = ref(true)
     const imgWidth = ref(false)
     const imgHeight = ref(false)
     const showViewer = ref(false)
@@ -89,7 +114,6 @@ export default defineComponent({
       const { previewSrcList } = props
       return Array.isArray(previewSrcList) && previewSrcList.length > 0
     })
-
     const imageIndex = computed(() => {
       const { src , previewSrcList } = props
       let previewIndex = 0
@@ -165,38 +189,32 @@ export default defineComponent({
       emit('error', e)
     }
 
-    const handleLazyLoad = () => {
-      console.log('------handleLazyLoad', _scrollContainer)
+    function handleLazyLoad() {
       if (isInContainer(container.value, _scrollContainer)) {
-        show.value = true
+        loadImage()
         removeLazyLoadListener()
       }
     }
 
-    const addLazyLoadListener = () => {
+    function addLazyLoadListener() {
       if (isServer) return
 
       const { scrollContainer } = props
-      // let _scrollContainer = null
       if (isHtmlEle(scrollContainer)) {
         _scrollContainer = scrollContainer
-      } else if (isString(scrollContainer)) {
+      } else if (isString(scrollContainer) && scrollContainer !== '') {
         _scrollContainer = document.querySelector(scrollContainer)
       } else {
-        console.log('---------getScrollContainer', container.value)
         _scrollContainer = getScrollContainer(container.value)
       }
-      console.log('=======scrollContainer', _scrollContainer, container.value, typeof throttle, this)
       if (_scrollContainer) {
         _lazyLoadHandler = throttle(handleLazyLoad, 200)
         on(_scrollContainer, 'scroll', _lazyLoadHandler)
-        handleLazyLoad()
+        setTimeout(() => handleLazyLoad(), 100)
       }
     }
 
     function removeLazyLoadListener() {
-      // const { _scrollContainer, _lazyLoadHandler } = this
-
       if (isServer || !_scrollContainer || !_lazyLoadHandler) return
 
       off(_scrollContainer, 'scroll', _lazyLoadHandler)
@@ -220,17 +238,13 @@ export default defineComponent({
       showViewer.value = false
     }
 
-    watch(() => show, () => {
-      show.value && loadImage()
-    })
-
     watch(() => props.src, () => {
       show.value && loadImage()
     })
 
     onMounted(() => {
       if (props.lazy) {
-        addLazyLoadListener()
+        setTimeout(() => addLazyLoadListener(), 0)
       } else {
         loadImage()
       }
@@ -240,11 +254,10 @@ export default defineComponent({
       props.lazy && removeLazyLoadListener()
     })
 
-    // console.log(loading.value, 'loading======', hasLoadError.value)
-
     return {
       loading,
       hasLoadError,
+      showViewer,
       imgWidth,
       imgHeight,
       imageStyle,

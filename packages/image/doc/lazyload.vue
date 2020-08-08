@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-image__lazy">
+  <div class="demo-image__lazy" style="overflow: auto;height: 400px;">
     <el-image
       v-for="url in urls"
       :key="url"
@@ -27,14 +27,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .demo-image__lazy {
       height: 400px;
       overflow: auto;
   }
   .demo-image__lazy .el-image {
     display: block;
-    min-height: 200px;
+    min-height: 250px;
     margin-bottom: 10px;
     width: 50%;
   }

@@ -124,9 +124,7 @@ export const getStyle = function(
   }
   try {
     const computed = document.defaultView.getComputedStyle(element, '')
-    console.log('---computed', element, styleName, computed[styleName], computed.height)
-    // console.log('--_values:', computed._values)
-    return element.style[styleName] || computed ? computed[styleName] : null
+    return element.style[styleName] || (computed ? computed[styleName] : null)
   } catch (e) {
     return element.style[styleName]
   }
@@ -164,6 +162,7 @@ export const isScroll = (
     : isVertical
       ? getStyle(el, 'overflow-y')
       : getStyle(el, 'overflow-x')
+
   return overflow.match(/(scroll|auto)/)
 }
 
@@ -183,7 +182,6 @@ export const getScrollContainer = (
     }
     parent = parent.parentNode as HTMLElement
   }
-  // console.log('==========parent', parent)
   return parent
 }
 
@@ -210,7 +208,6 @@ export const isInContainer = (
   } else {
     containerRect = container.getBoundingClientRect()
   }
-
   return (
     elRect.top < containerRect.bottom &&
     elRect.bottom > containerRect.top &&
