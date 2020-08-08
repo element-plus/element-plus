@@ -29,14 +29,14 @@
 import { defineComponent, computed, reactive } from 'vue'
 
 interface AlertProps {
-  title: string;
-  description: string;
-  type: string;
-  closable: boolean;
-  closeText: string;
-  showIcon: boolean;
-  center: boolean;
-  effect: string;
+  title: string
+  description: string
+  type: string
+  closable: boolean
+  closeText: string
+  showIcon: boolean
+  center: boolean
+  effect: string
 }
 
 const TYPE_CLASSES_MAP = {
