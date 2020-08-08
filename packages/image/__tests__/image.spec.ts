@@ -4,13 +4,6 @@ import { nextTick } from 'vue'
 
 import { IMAGE_SUCCESS, IMAGE_FAIL } from '../../test-utils/mock'
 
-/**
- * 等待 ms 毫秒，返回 Promise
- * @param {Number} ms
- */
-export const sleep = function(ms = 50) {
-  return new Promise(resolve => setTimeout(() => resolve(), ms))
-}
 
 describe('Image.vue', () => {
 

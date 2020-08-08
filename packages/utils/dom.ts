@@ -117,14 +117,16 @@ export const getStyle = function(
   styleName: string,
 ): string {
   if (isServer) return
-  if (!element || !styleName) return null
+  if (!element || !styleName) return ''
   styleName = camelCase(styleName)
   if (styleName === 'float') {
     styleName = 'cssFloat'
   }
   try {
+    const style = element.style[styleName]
+    if (style) return style
     const computed = document.defaultView.getComputedStyle(element, '')
-    return element.style[styleName] || (computed ? computed[styleName] : null)
+    return computed ? computed[styleName] : ''
   } catch (e) {
     return element.style[styleName]
   }
