@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import Alert from '../src/index.vue'
 
-// const AXIOM = 'Rem is the best girl'
+const AXIOM = 'Rem is the best girl'
 
 const _mount = (template: string) => mount({
   components: {
@@ -20,12 +20,12 @@ describe('Alert.vue', () => {
   test('render test & class', () => {
     const wrapper = mount(Alert, {
       props: {
-        title: 'test',
+        title: AXIOM,
         showIcon: true,
       },
     })
     const vm = wrapper.vm
-    expect(vm.$el.querySelector('.el-alert__title').textContent).toEqual('test')
+    expect(vm.$el.querySelector('.el-alert__title').textContent).toEqual(AXIOM)
     expect(vm.$el.classList.contains('el-alert--info')).toEqual(true)
   })
 
@@ -45,13 +45,13 @@ describe('Alert.vue', () => {
     const wrapper = mount(Alert, {
       props: {
         title: 'Dorne',
-        description: 'Unbowed, Unbent, Unbroken',
+        description: AXIOM,
         showIcon: true,
       },
     })
     const vm = wrapper.vm
     expect(vm.$el.querySelector('.el-alert__description').textContent)
-      .toEqual('Unbowed, Unbent, Unbroken')
+      .toEqual(AXIOM)
   })
 
   test('theme', () => {
@@ -77,12 +77,12 @@ describe('Alert.vue', () => {
   test('title slot', () => {
     const wrapper = mount(Alert, {
       slots: {
-        title: 'foo',
+        title: AXIOM,
       },
     })
     const vm = wrapper.vm
     expect(vm.$el.querySelector('.el-alert__title').textContent)
-      .toEqual('foo')
+      .toEqual(AXIOM)
   })
 
   test('close', async () => {
