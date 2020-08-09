@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'
 import RadioButton from '../src/radio-button.vue'
@@ -15,7 +16,9 @@ const _mount = (template: string, data, otherObj?) => mount({
 }, {
   global: {
     provide: {
-      breadcrumb: {},
+      elForm: {},
+      elFormItem: {},
+      RadioGroup: {},
     },
   },
 })
@@ -92,7 +95,7 @@ describe('Radio', () => {
     })
     const vm = wrapper.vm as any
     vm.radio = '3'
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await nextTick()
     expect(vm.changeData).toEqual('')
     expect(vm.radio).toEqual('3')
   })
@@ -173,7 +176,7 @@ describe('Radio group', () => {
     })
     const vm = wrapper.vm as any
     vm.radio = 6
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await nextTick()
     expect(vm.data).toEqual(0)
   })
   it('disabled when children is radio button', async () => {
@@ -261,7 +264,7 @@ describe('Radio Button', () => {
     })
     const vm = wrapper.vm as any
     vm.radio = 6
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await nextTick()
     expect(vm.data).toEqual(0)
   })
 

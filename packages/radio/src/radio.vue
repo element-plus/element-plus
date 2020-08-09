@@ -1,13 +1,13 @@
 <template>
   <label
     class="el-radio"
-    :class="[
-      border && radioSize ? 'el-radio--' + radioSize : '',
-      { 'is-disabled': isDisabled },
-      { 'is-focus': focus },
-      { 'is-bordered': border },
-      { 'is-checked': model === label }
-    ]"
+    :class="{
+      [`el-radio--${radioSize || ''}`]: border && radioSize,
+      'is-disabled': isDisabled,
+      'is-focus': focus,
+      'is-bordered': border,
+      'is-checked': model === label
+    }"
     role="radio"
     :aria-checked="model === label"
     :aria-disabled="isDisabled"
@@ -66,13 +66,13 @@ export default defineComponent({
     const instance = getCurrentInstance()
     //todo: ELEMENT
     const ELEMENT = null
-    const elForm = inject('elForm')
-    const elFormItem = inject('elFormItem')
-    const _radioGroup : any = inject('RadioGroup') as any
+    const elForm = inject('elForm', {})
+    const elFormItem = inject('elFormItem', {})
+    const _radioGroup = inject('RadioGroup', {}) as any
     const focus = ref(false)
     const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
     const _elFormItemSize = computed(() => {
-      return (elFormItem || {}).elFormItemSize
+      return (elFormItem || {} as any).elFormItemSize
     })
     const radioSize = computed(() => {
       const temRadioSize = props.size || _elFormItemSize || (ELEMENT || {}).size
