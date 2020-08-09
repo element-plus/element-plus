@@ -35,7 +35,8 @@
   </label>
 </template>
 <script lang="ts">
-import { computed, inject, ref } from 'vue'
+import { computed } from 'vue'
+import useRadio from './useRadio'
 
 export default {
   name: 'ElRadioButton',
@@ -46,16 +47,8 @@ export default {
     name: String,
   },
   setup(props, ctx) {
-    //todo: ELEMENT
-    const ELEMENT = {}
-    const elForm = inject('elForm', {})
-    const elFormItem = inject('elFormItem', {})
-    const _radioGroup: any = inject('RadioGroup', {})
-    const focus = ref(false)
-    const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
-    const _elFormItemSize = computed(() => {
-      return (elFormItem || {} as any).elFormItemSize
-    })
+    const { isGroup, _radioGroup, elForm,
+      ELEMENT, focus, _elFormItemSize } = useRadio()
     const size = computed(() => {
       return _radioGroup.radioGroupSize || _elFormItemSize || (ELEMENT || {} as any).size
     })

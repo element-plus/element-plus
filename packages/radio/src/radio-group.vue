@@ -42,8 +42,8 @@ export default {
   setup(props, ctx) {
     const instance = getCurrentInstance()
     //todo: ELEMENT
-    const elFormItem = inject('elFormItem')
     const ELEMENT = {}
+    const elFormItem = inject('elFormItem', {})
     const _elFormItemSize = computed(() => {
       return (elFormItem || {} as any).elFormItemSize
     })
@@ -86,7 +86,7 @@ export default {
       const length = radios.length
       const index = [].indexOf.call(radios, target)
       const roleRadios = instance.vnode.el.querySelectorAll('[role=radio]')
-      let nextIndex
+      let nextIndex = null
       switch (e.keyCode) {
         case keyCode.LEFT:
         case keyCode.UP:
@@ -103,6 +103,7 @@ export default {
         default:
           break
       }
+      if (nextIndex === null) return
       roleRadios[nextIndex].click()
       roleRadios[nextIndex].focus()
     }

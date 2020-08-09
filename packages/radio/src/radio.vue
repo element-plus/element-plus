@@ -45,7 +45,8 @@
 </template>
 
 <script lang='ts'>
-import { ref, defineComponent, computed, getCurrentInstance, nextTick, inject } from 'vue'
+import { defineComponent, computed, getCurrentInstance, nextTick } from 'vue'
+import useRadio from './useRadio'
 
 export default defineComponent({
   name: 'ElRadio',
@@ -63,32 +64,9 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
 
   setup(props, ctx) {
+    const { isGroup, _radioGroup,
+      _elFormItemSize, ELEMENT, focus, elForm } = useRadio()
     const instance = getCurrentInstance()
-    //todo: ELEMENT
-    const ELEMENT = null
-    const elForm = inject('elForm', {})
-    const elFormItem = inject('elFormItem', {})
-    const _radioGroup = inject('RadioGroup', {}) as any
-    const focus = ref(false)
-    const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
-    const _elFormItemSize = computed(() => {
-      return (elFormItem || {} as any).elFormItemSize
-    })
-    const radioSize = computed(() => {
-      const temRadioSize = props.size || _elFormItemSize || (ELEMENT || {}).size
-      return isGroup.value
-        ? _radioGroup.radioGroupSize || temRadioSize
-        : temRadioSize
-    })
-    const isDisabled = computed(() => {
-      return isGroup.value
-        ? _radioGroup.disabled || props.disabled || (elForm || {}).disabled
-        : props.disabled || (elForm || {}).disabled
-    })
-    const tabIndex = computed(() => {
-      return (isDisabled.value || (isGroup.value && model.value !== props.label)) ? -1 : 0
-    })
-
     const model = computed({
       get() {
         return isGroup.value ? _radioGroup.modelValue.value : props.modelValue
@@ -101,6 +79,23 @@ export default defineComponent({
         }
         instance.refs.radio && (instance.refs.radio.checked = props.modelValue === props.label)
       },
+    })
+
+    const tabIndex = computed(() => {
+      return (isDisabled.value || (isGroup.value && model.value !== props.label)) ? -1 : 0
+    })
+
+    const isDisabled = computed(() => {
+      return isGroup.value
+        ? _radioGroup.disabled || props.disabled || (elForm || {}).disabled
+        : props.disabled || (elForm || {}).disabled
+    })
+
+    const radioSize = computed(() => {
+      const temRadioSize = props.size || _elFormItemSize || (ELEMENT || {}).size
+      return isGroup.value
+        ? _radioGroup.radioGroupSize || temRadioSize
+        : temRadioSize
     })
 
     function handleChange() {
