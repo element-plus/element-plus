@@ -101,6 +101,7 @@ export default defineComponent({
 
     // methods
     const close = (evt) => {
+      state.visible = false
       ctx.emit('click', evt)
     }
 
