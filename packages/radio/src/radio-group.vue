@@ -48,7 +48,7 @@ export default {
       return (elFormItem || {} as any).elFormItemSize
     })
     const _elTag = computed(() => {
-      return ((instance.vnode as any).data || {}).tag || 'div'
+      return (instance.vnode as any).data?.tag || 'div'
     })
     const radioGroupSize = computed(() => {
       return props.size || _elFormItemSize || (ELEMENT || {} as any).size
@@ -86,34 +86,25 @@ export default {
       const length = radios.length
       const index = [].indexOf.call(radios, target)
       const roleRadios = instance.vnode.el.querySelectorAll('[role=radio]')
+      let nextIndex
       switch (e.keyCode) {
         case keyCode.LEFT:
         case keyCode.UP:
           e.stopPropagation()
           e.preventDefault()
-          if (index === 0) {
-            roleRadios[length - 1].click()
-            roleRadios[length - 1].focus()
-          } else {
-            roleRadios[index - 1].click()
-            roleRadios[index - 1].focus()
-          }
+          nextIndex = index === 0 ? length - 1 : index - 1
           break
         case keyCode.RIGHT:
         case keyCode.DOWN:
-          if (index === (length - 1)) {
-            e.stopPropagation()
-            e.preventDefault()
-            roleRadios[0].click()
-            roleRadios[0].focus()
-          } else {
-            roleRadios[index + 1].click()
-            roleRadios[index + 1].focus()
-          }
+          e.stopPropagation()
+          e.preventDefault()
+          nextIndex = (index === (length - 1)) ? 0 : index + 1
           break
         default:
           break
       }
+      roleRadios[nextIndex].click()
+      roleRadios[nextIndex].focus()
     }
 
     onMounted(() => {

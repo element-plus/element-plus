@@ -48,9 +48,9 @@ export default {
   setup(props, ctx) {
     //todo: ELEMENT
     const ELEMENT = {}
-    const elForm = inject('elForm')
-    const elFormItem = inject('elFormItem')
-    const _radioGroup: any = inject('RadioGroup')
+    const elForm = inject('elForm', {})
+    const elFormItem = inject('elFormItem', {})
+    const _radioGroup: any = inject('RadioGroup', {})
     const focus = ref(false)
     const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
     const _elFormItemSize = computed(() => {
