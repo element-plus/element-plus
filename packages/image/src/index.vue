@@ -29,12 +29,12 @@
 
 <script lang='ts'>
 
-import { t } from '@element-plus/locale'
 import { defineComponent, computed, ref, onMounted, onBeforeUnmount, watch } from 'vue'
-import isServer from '@element-plus/utils/isServer'
-import { on, off, getScrollContainer, isInContainer } from '@element-plus/utils/dom'
 import { isString } from '@vue/shared'
 import { throttle } from 'lodash-es'
+import isServer from '@element-plus/utils/isServer'
+import { on, off, getScrollContainer, isInContainer } from '@element-plus/utils/dom'
+import { t } from '@element-plus/locale'
 import ImageViewer from './image-viewer'
 
 const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined
