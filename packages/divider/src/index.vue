@@ -16,7 +16,7 @@
 import { defineComponent } from 'vue'
 
 interface IDividerProps {
-  direction: string,
+  direction: string
   contentPosition: string
 }
 

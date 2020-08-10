@@ -7,6 +7,8 @@ export const eventKeys = {
   right: 39,
   down: 40,
   esc: 27,
+  backspace: 8,
+  delete: 46,
 }
 
 /**

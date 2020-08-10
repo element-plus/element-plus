@@ -23,15 +23,15 @@
 import { computed } from 'vue'
 
 interface IBadgeProps {
-  value: string | number;
-  max: number;
-  isDot: boolean;
-  hidden: boolean;
-  type: string;
+  value: string | number
+  max: number
+  isDot: boolean
+  hidden: boolean
+  type: string
 }
 
 interface IBadgeSetups {
-  content: number | string;
+  content: number | string
 }
 export default {
   name: 'ElBadge',

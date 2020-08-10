@@ -31,17 +31,17 @@
 <script lang='ts'>
 import { computed, defineComponent } from 'vue'
 const ELEMENT: {
-  size?: number;
+  size?: number
 } = {}
 
 interface ITagProps {
-  closable: boolean,
-    type: string,
-    hit: boolean,
-    disableTransitions: boolean,
-    color: string,
-    size: string,
-    effect: string;
+  closable: boolean
+    type: string
+    hit: boolean
+    disableTransitions: boolean
+    color: string
+    size: string
+    effect: string
 }
 export default defineComponent({
   name: 'ElTag',

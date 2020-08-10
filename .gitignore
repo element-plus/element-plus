@@ -6,5 +6,7 @@ dist
 *.local
 yarn-error.log
 lerna-debug.json
+lerna-debug.log
 yarn-error.log
 storybook-static
+coverage/

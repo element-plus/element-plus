@@ -1,7 +1,8 @@
-import { addDecorator } from '@storybook/html';
-import { createApp } from 'vue';
-import '../src/style/element-ui@2.13.2.css';
+import { addDecorator } from '@storybook/html'
+import { createApp } from 'vue'
+import '../src/style/element-ui@2.13.2.css'
 import install from '../packages/element-plus'
+import './demo.css'
 
 /**
  * Wraps a story into a Vue Element
@@ -11,11 +12,11 @@ import install from '../packages/element-plus'
 const Wrapper = (template) => {
   return {
     data() {
-      return {};
+      return {}
     },
     template,
-  };
-};
+  }
+}
 
 /**
  * Custom Addon for previewing ElementPlus component in Vue3
@@ -25,15 +26,15 @@ const Wrapper = (template) => {
  * @return {HTMLElement}
  */
 function CustomDecorator(content, context) {
-  const templateOrComponent = content();
+  const templateOrComponent = content()
   const app = typeof templateOrComponent === 'string'
     ? createApp(Wrapper(templateOrComponent))
     : createApp(templateOrComponent)
   install(app)
-  const entry = document.createElement('div');
-  entry.className = 'element-plus-previewer';
-  app.mount(entry);
-  return entry;
+  const entry = document.createElement('div')
+  entry.className = 'element-plus-previewer'
+  app.mount(entry)
+  return entry
 }
 
 addDecorator(CustomDecorator);

@@ -12,5 +12,8 @@ module.exports = {
     '^.+\\.vue$': 'vue-jest',
     '^.+\\.(t|j)sx?$': ['@swc-node/jest'],
   },
+  moduleNameMapper: {
+    '^lodash-es$': 'lodash',
+  },
   moduleFileExtensions: ['vue', 'json', 'ts', 'tsx', 'js', 'json'],
 }

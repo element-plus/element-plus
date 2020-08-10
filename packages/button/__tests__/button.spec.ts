@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
-import Button from '../src/index.vue'
+import Button from '../src/button.vue'
+import ButtonGroup from '../src/button-group.vue'
 
 const AXIOM = 'Rem is the best girl'
 const COMMON_CONFIG = {
@@ -126,4 +127,22 @@ describe('Button.vue', () => {
     expect(wrapper.emitted('click')).toBeUndefined()
   })
 
+})
+describe('Button Group', () => {
+  const TestComponent = {
+    template: `<el-button-group>
+      <el-button type="primary">Prev</el-button>
+      <el-button type="primary">Next</el-button>
+    </el-button-group>`,
+    components: {
+      'el-button-group': ButtonGroup,
+      'el-button': Button,
+    },
+  }
+
+  it('create', () => {
+    const wrapper = mount(TestComponent)
+    expect(wrapper.classes()).toContain('el-button-group')
+    expect(wrapper.findAll('button').length).toBe(2)
+  })
 })
