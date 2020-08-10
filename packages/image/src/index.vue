@@ -89,8 +89,8 @@ export default defineComponent({
     const imgWidth = ref(false)
     const imgHeight = ref(false)
     const showViewer = ref(false)
-    const container = ref(null)
-    const show = ref(props.lazy)
+    const container = ref<HTMLElement | null>(null)
+    const show= ref(props.lazy)
 
     let _scrollContainer = null
     let _lazyLoadHandler = null

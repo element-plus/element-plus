@@ -61,9 +61,10 @@
 
 <script lang='ts'>
 
-import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
+import { defineComponent, computed, ref, onMounted, watch, nextTick, PropType } from 'vue'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 import { on, off } from '@element-plus/utils/dom'
+import { eventKeys } from '@element-plus/utils/aria'
 const Mode = {
   CONTAIN: {
     name: 'contain',
@@ -81,7 +82,7 @@ export default defineComponent({
   name: 'ElImageViewer',
   props: {
     urlList: {
-      type: Array,
+      type: Array as PropType<string[]>,
       default: () => [],
     },
     zIndex: {
@@ -114,7 +115,6 @@ export default defineComponent({
     const infinite = ref(true)
     const wrapper = ref(null)
     const img = ref(null)
-
     const mode = ref(Mode.CONTAIN)
     let transform = ref({
       scale: 1,
@@ -149,7 +149,7 @@ export default defineComponent({
         'margin-left': `${offsetX}px`,
         'margin-top': `${offsetY}px`,
       }
-      if (mode.value === Mode.CONTAIN) {
+      if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
       }
       return style
@@ -165,27 +165,27 @@ export default defineComponent({
         const keyCode = e.keyCode
         switch (keyCode) {
           // ESC
-          case 27:
+          case eventKeys.esc:
             hide()
             break
           // SPACE
-          case 32:
+          case eventKeys.space:
             toggleMode()
             break
           // LEFT_ARROW
-          case 37:
+          case eventKeys.left:
             prev()
             break
           // UP_ARROW
-          case 38:
+          case eventKeys.up:
             handleActions('zoomIn')
             break
           // RIGHT_ARROW
-          case 39:
+          case eventKeys.right:
             next()
             break
           // DOWN_ARROW
-          case 40:
+          case eventKeys.down:
             handleActions('zoomOut')
             break
         }
@@ -261,7 +261,8 @@ export default defineComponent({
 
       const modeNames = Object.keys(Mode)
       const modeValues = Object.values(Mode)
-      const index = modeValues.indexOf(mode.value)
+      const currentMode = mode.value.name
+      const index = modeValues.findIndex(i => i.name === currentMode)
       const nextIndex = (index + 1) % modeNames.length
       mode.value = Mode[modeNames[nextIndex]]
       reset()
@@ -325,7 +326,7 @@ export default defineComponent({
       deviceSupportInstall()
       // add tabindex then wrapper can be focusable via Javascript
       // focus wrapper so arrow key can't cause inner scroll behavior underneath
-      wrapper.value && wrapper.value.focus()
+      wrapper.value?.focus()
     })
 
     return {
