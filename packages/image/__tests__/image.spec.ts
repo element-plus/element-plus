@@ -30,8 +30,8 @@ describe('Image.vue', () => {
         alt,
       },
     })
-    await nextTick()
     expect(wrapper.find('.el-image__placeholder').exists()).toBe(true)
+    await nextTick()
     await nextTick()
     expect(wrapper.find('.el-image__inner').exists()).toBe(true)
     expect(wrapper.find('img').exists()).toBe(true)
@@ -100,7 +100,7 @@ describe('Image.vue', () => {
     const wrapper = mount(Image, {
       props: {
         src: IMAGE_SUCCESS,
-        onClick: (e) => result = true,
+        onClick: () => result = true,
       },
     })
     await nextTick()

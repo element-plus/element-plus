@@ -23,17 +23,4 @@ export default {
 </script>
 
 <style scoped>
-  .demo-image__lazy {
-      height: 400px;
-      overflow: auto;
-  }
-  .demo-image__lazy .el-image {
-    display: block;
-    min-height: 250px;
-    margin-bottom: 10px;
-    width: 50%;
-  }
-  .demo-image__lazy .el-image:last-child {
-      margin-bottom: 0;
-  }
 </style>
