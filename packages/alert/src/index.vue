@@ -28,17 +28,6 @@
 <script lang='ts'>
 import { defineComponent, computed, reactive } from 'vue'
 
-interface AlertProps {
-  title: string
-  description: string
-  type: string
-  closable: boolean
-  closeText: string
-  showIcon: boolean
-  center: boolean
-  effect: string
-}
-
 const TYPE_CLASSES_MAP = {
   'success': 'el-icon-success',
   'warning': 'el-icon-warning',
@@ -73,31 +62,21 @@ export default defineComponent({
     effect: {
       type: String,
       default: 'light',
-      validator: (value: string): boolean => {
-        return ['light', 'dark'].indexOf(value) > -1
-      },
+      validator: (value: string): boolean => ['light', 'dark'].indexOf(value) > -1,
     },
   },
   emits: ['click'],
-  setup(props: AlertProps, ctx) {
+  setup(props, ctx) {
     // state
     const state = reactive({
       visible: true,
     })
 
     // computed
-    const typeClass = computed(() => {
-      return `el-alert--${ props.type }`
-    })
-    const iconClass = computed(() => {
-      return TYPE_CLASSES_MAP[props.type] || 'el-icon-info'
-    })
-    const isBigIcon = computed(() => {
-      return props.description || ctx.slots.default ? 'is-big' : ''
-    })
-    const isBoldTitle = computed(() => {
-      return props.description || ctx.slots.default ? 'is-bold' : ''
-    })
+    const typeClass = computed(() => `el-alert--${ props.type }`)
+    const iconClass = computed(() => TYPE_CLASSES_MAP[props.type] || 'el-icon-info')
+    const isBigIcon = computed(() => props.description || ctx.slots.default ? 'is-big' : '')
+    const isBoldTitle = computed(() => props.description || ctx.slots.default ? 'is-bold' : '')
 
     // methods
     const close = (evt) => {
