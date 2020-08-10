@@ -16,9 +16,8 @@ import ElRate from '@element-plus/rate'
 import ElSwitch from '@element-plus/switch'
 import ElContainer from '@element-plus/container'
 import ElNotification from '@element-plus/notification'
-import ElRadio from '@element-plus/radio'
 import ElPageHeader from '@element-plus/page-header'
-import ElCollapse from '@element-plus/collapse'
+import ElScrollBar from '@element-plus/scrollbar'
 
 export {
   ElAvatar,
@@ -38,9 +37,8 @@ export {
   ElSwitch,
   ElContainer,
   ElNotification,
-  ElRadio,
   ElPageHeader,
-  ElCollapse,
+  ElScrollBar,
 }
 
 export default function install(app: App): void {
@@ -61,7 +59,6 @@ export default function install(app: App): void {
   ElSwitch(app)
   ElContainer(app)
   ElNotification(app)
-  ElRadio(app)
   ElPageHeader(app)
-  ElCollapse(app)
+  ElScrollBar(app)
 }
