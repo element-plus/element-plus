@@ -5,6 +5,7 @@
    "noImplicitAny": false,
    "removeComments": true,
    "moduleResolution": "node",
+   "esModuleInterop": true,
    "noLib": false,
    "target": "es6",
    "sourceMap": true,
