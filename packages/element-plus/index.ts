@@ -4,6 +4,7 @@ import ElBacktop from '@element-plus/backtop'
 import ElButton from '@element-plus/button'
 import ElBadge from '@element-plus/badge'
 import ElCard from '@element-plus/card'
+import ElCheckbox from '@element-plus/checkbox'
 import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
@@ -28,6 +29,7 @@ export {
   ElButton,
   ElBadge,
   ElCard,
+  ElCheckbox,
   ElDivider,
   ElTag,
   ElTimeline,
@@ -51,6 +53,7 @@ export default function install(app: App): void {
   ElButton(app)
   ElBadge(app)
   ElCard(app)
+  ElCheckbox(app)
   ElTag(app)
   ElLayout(app)
   ElDivider(app)
