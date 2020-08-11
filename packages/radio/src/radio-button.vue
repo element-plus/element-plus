@@ -42,13 +42,24 @@ export default {
   name: 'ElRadioButton',
 
   props: {
-    label: {},
+    label: {
+      type: [Boolean, String, Number],
+      default: '',
+    },
     disabled: Boolean,
-    name: String,
+    name: {
+      type: String,
+      default: '',
+    },
   },
-  setup(props, ctx) {
-    const { isGroup, _radioGroup, elForm,
-      ELEMENT, focus, _elFormItemSize } = useRadio()
+  setup(props) {
+    const radioUse = useRadio()
+    const isGroup = radioUse.isGroup
+    const _radioGroup = radioUse._radioGroup
+    const _elFormItemSize = radioUse._elFormItemSize
+    const ELEMENT = radioUse.ELEMENT
+    const focus = radioUse.focus
+    const elForm = radioUse.elForm
     const size = computed(() => {
       return _radioGroup.radioGroupSize || _elFormItemSize || (ELEMENT || {} as any).size
     })
