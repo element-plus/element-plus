@@ -1,12 +1,12 @@
 <template>
-  <component
-    :is="_elTag"
+  <div
+    ref="radioGroup"
     class="el-radio-group"
     role="radiogroup"
     @keydown="handleKeydown"
   >
     <slot></slot>
-  </component>
+  </div>
 </template>
 
 <script lang="ts">
@@ -14,9 +14,9 @@ import {
   nextTick,
   computed,
   provide,
-  getCurrentInstance,
   onMounted,
   inject,
+  ref,
 } from 'vue'
 import { eventKeys } from '@element-plus/utils/aria'
 
@@ -48,15 +48,12 @@ export default {
   emits: ['update:modelValue', 'change'],
 
   setup(props, ctx) {
-    const instance = getCurrentInstance()
+    const radioGroup = ref(null)
     //todo: ELEMENT
     const ELEMENT = {}
     const elFormItem = inject('elFormItem', {})
     const _elFormItemSize = computed(() => {
       return (elFormItem || {} as any).elFormItemSize
-    })
-    const _elTag = computed(() => {
-      return (instance.vnode as any).data?.tag || 'div'
     })
     const radioGroupSize = computed(() => {
       return props.size || _elFormItemSize || (ELEMENT || {} as any).size
@@ -92,10 +89,10 @@ export default {
     const handleKeydown = (e) => { // 左右上下按键 可以在radio组内切换不同选项
       const target = e.target
       const className = target.nodeName === 'INPUT' ? '[type=radio]' : '[role=radio]'
-      const radios = instance.vnode.el.querySelectorAll(className)
+      const radios = radioGroup.value.querySelectorAll(className)
       const length = radios.length
       const index = [].indexOf.call(radios, target)
-      const roleRadios = instance.vnode.el.querySelectorAll('[role=radio]')
+      const roleRadios = radioGroup.value.querySelectorAll('[role=radio]')
       let nextIndex = null
       switch (e.keyCode) {
         case eventKeys.left:
@@ -119,8 +116,8 @@ export default {
     }
 
     onMounted(() => {
-      const radios = instance.vnode.el.querySelectorAll('[type=radio]')
-      const firstLabel = instance.vnode.el.querySelectorAll('[role=radio]')[0]
+      const radios = radioGroup.value.querySelectorAll('[type=radio]')
+      const firstLabel = radioGroup.value.querySelectorAll('[role=radio]')[0]
       if (![].some.call(radios, radio => radio.checked) && firstLabel) {
         firstLabel.tabIndex = 0
       }
@@ -128,7 +125,7 @@ export default {
     return {
       handleKeydown,
       radioGroupSize,
-      _elTag,
+      radioGroup,
     }
   },
 }
