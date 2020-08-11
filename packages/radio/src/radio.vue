@@ -38,8 +38,9 @@
       >
     </span>
     <span class="el-radio__label" @keydown.stop>
-      <slot></slot>
-      <template v-if="!$slots.default">{{ label }}</template>
+      <slot>
+        {{ label }}
+      </slot>
     </span>
   </label>
 </template>
@@ -53,19 +54,36 @@ export default defineComponent({
   componentName: 'ElRadio',
 
   props: {
-    modelValue: {},
-    label: {},
+    modelValue: {
+      type: [Boolean, String, Number],
+      default: '',
+    },
+    label: {
+      type: [Boolean, String, Number],
+      default: '',
+    },
     disabled: Boolean,
-    name: String,
+    name: {
+      type: String,
+      default: '',
+    },
     border: Boolean,
-    size: String,
+    size: {
+      type: String,
+      default: '',
+    },
   },
 
   emits: ['update:modelValue', 'change'],
 
   setup(props, ctx) {
-    const { isGroup, _radioGroup,
-      _elFormItemSize, ELEMENT, focus, elForm } = useRadio()
+    const radioUse = useRadio()
+    const isGroup = radioUse.isGroup
+    const _radioGroup = radioUse._radioGroup
+    const _elFormItemSize = radioUse._elFormItemSize
+    const ELEMENT = radioUse.ELEMENT
+    const focus = radioUse.focus
+    const elForm = radioUse.elForm
     const instance = getCurrentInstance()
     const model = computed({
       get() {

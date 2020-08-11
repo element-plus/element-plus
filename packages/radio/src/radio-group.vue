@@ -13,16 +13,12 @@
 import {
   nextTick,
   computed,
-  provide, getCurrentInstance, onMounted, inject,
+  provide,
+  getCurrentInstance,
+  onMounted,
+  inject,
 } from 'vue'
-
-const keyCode = Object.freeze({
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40,
-})
-
+import { eventKeys } from '@element-plus/utils/aria'
 
 export default {
   name: 'ElRadioGroup',
@@ -30,10 +26,22 @@ export default {
   componentName: 'ElRadioGroup',
 
   props: {
-    modelValue: {},
-    size: String,
-    fill: String,
-    textColor: String,
+    modelValue: {
+      type: [Boolean, String, Number],
+      default: '',
+    },
+    size: {
+      type: String,
+      default: '',
+    },
+    fill: {
+      type: String,
+      default: '',
+    },
+    textColor: {
+      type: String,
+      default: '',
+    },
     disabled: Boolean,
   },
 
@@ -75,7 +83,9 @@ export default {
       name: 'ElRadioGroup',
       changeEvent: changeEvent,
       radioGroupSize: radioGroupSize,
-      ...props,
+      fill: props.fill,
+      textColor: props.textColor,
+      disabled: props.disabled,
       modelValue,
     })
 
@@ -88,14 +98,14 @@ export default {
       const roleRadios = instance.vnode.el.querySelectorAll('[role=radio]')
       let nextIndex = null
       switch (e.keyCode) {
-        case keyCode.LEFT:
-        case keyCode.UP:
+        case eventKeys.left:
+        case eventKeys.up:
           e.stopPropagation()
           e.preventDefault()
           nextIndex = index === 0 ? length - 1 : index - 1
           break
-        case keyCode.RIGHT:
-        case keyCode.DOWN:
+        case eventKeys.right:
+        case eventKeys.down:
           e.stopPropagation()
           e.preventDefault()
           nextIndex = (index === (length - 1)) ? 0 : index + 1
