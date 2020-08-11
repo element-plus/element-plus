@@ -13,7 +13,7 @@
         :id="`el-collapse-head-${id}`"
         class="el-collapse-item__header"
         role="button"
-        :tabindex="disabled ? undefined : 0"
+        :tabindex="disabled ? -1 : 0"
         :class="{
           'focusing': focusing,
           'is-active': isActive
@@ -50,8 +50,8 @@
 <script lang='ts'>
 import { defineComponent, PropType, inject, computed, ref } from 'vue'
 import { CollapseProvider } from './collapse.vue'
-import { generateId } from '../../utils/util'
-import ElCollapseTransition from '../../transitions/collapse-transition.vue'
+import { generateId } from '@element-plus/utils/util'
+import ElCollapseTransition from '@element-plus/transition/collapse-transition/index.vue'
 
 export default defineComponent({
   name: 'ElCollapseItem',
@@ -98,13 +98,13 @@ export default defineComponent({
 
     const handleHeaderClick = () => {
       if(props.disabled) return
-      collapseMitt && collapseMitt.emit('item-click', props.name)
+      collapseMitt?.emit('item-click', props.name)
       focusing.value = false
       isClick.value = true
     }
 
     const handleEnterClick = () => {
-      collapseMitt && collapseMitt.emit('item-click', props.name)
+      collapseMitt?.emit('item-click', props.name)
     }
 
     return {

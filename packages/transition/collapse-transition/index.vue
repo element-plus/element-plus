@@ -5,7 +5,7 @@
   </transition>
 </template>
 <script lang='ts'>
-import { addClass, removeClass } from '../utils/dom'
+import { addClass, removeClass } from '@element-plus/utils/dom'
 
 export default {
   name: 'ElCollapseTransition',
