@@ -17,6 +17,7 @@ import ElSwitch from '@element-plus/switch'
 import ElContainer from '@element-plus/container'
 import ElNotification from '@element-plus/notification'
 import ElPageHeader from '@element-plus/page-header'
+import ElRadio from '@element-plus/radio'
 import ElScrollBar from '@element-plus/scrollbar'
 
 export {
@@ -39,6 +40,7 @@ export {
   ElNotification,
   ElPageHeader,
   ElScrollBar,
+  ElRadio,
 }
 
 export default function install(app: App): void {
@@ -61,4 +63,5 @@ export default function install(app: App): void {
   ElNotification(app)
   ElPageHeader(app)
   ElScrollBar(app)
+  ElRadio(app)
 }
