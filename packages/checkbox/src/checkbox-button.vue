@@ -1,67 +1,58 @@
 <template>
   <label
-    :id="id"
-    class="el-checkbox"
+    class="el-checkbox-button"
     :class="[
-      border && checkboxSize ? 'el-checkbox--' + checkboxSize : '',
+      size ? 'el-checkbox-button--' + size : '',
       { 'is-disabled': isDisabled },
-      { 'is-bordered': border },
-      { 'is-checked': isChecked }
+      { 'is-checked': isChecked },
+      { 'is-focus': focus },
     ]"
+    role="checkbox"
+    :aria-checked="isChecked"
+    :aria-disabled="isDisabled"
   >
-    <span
-      class="el-checkbox__input"
-      :class="{
-        'is-disabled': isDisabled,
-        'is-checked': isChecked,
-        'is-indeterminate': indeterminate,
-        'is-focus': focus
-      }"
-      :tabindex="indeterminate ? 0 : false"
-      :role="indeterminate ? 'checkbox' : false"
-      :aria-checked="indeterminate ? 'mixed' : false"
+    <input
+      v-if="trueLabel || falseLabel"
+      v-model="model"
+      class="el-checkbox-button__original"
+      type="checkbox"
+      :name="name"
+      :disabled="isDisabled"
+      :true-value="trueLabel"
+      :false-value="falseLabel"
+      @change="handleChange"
+      @focus="focus = true"
+      @blur="focus = false"
     >
-      <span class="el-checkbox__inner"></span>
-      <input
-        v-if="trueLabel || falseLabel"
-        v-model="model"
-        class="el-checkbox__original"
-        type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
-        :name="name"
-        :disabled="isDisabled"
-        :true-value="trueLabel"
-        :false-value="falseLabel"
-        @change="handleChange"
-        @focus="focus = true"
-        @blur="focus = false"
-      >
-      <input
-        v-else
-        v-model="model"
-        class="el-checkbox__original"
-        type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
-        :disabled="isDisabled"
-        :value="label"
-        :name="name"
-        @change="handleChange"
-        @focus="focus = true"
-        @blur="focus = false"
-      >
+    <input
+      v-else
+      v-model="model"
+      class="el-checkbox-button__original"
+      type="checkbox"
+      :name="name"
+      :disabled="isDisabled"
+      :value="label"
+      @change="handleChange"
+      @focus="focus = true"
+      @blur="focus = false"
+    >
+
+    <span
+      v-if="$slots.default || label"
+      class="el-checkbox-button__inner"
+      :style="isChecked ? activeStyle : null"
+    >
+      <slot>{{ label }}</slot>
     </span>
-    <span v-if="$slots.default || label" class="el-checkbox__label">
-      <slot></slot>
-      <template v-if="!$slots.default">{{ label }}</template>
-    </span>
+
   </label>
 </template>
 <script lang='ts'>
-import { defineComponent, ref, computed, getCurrentInstance, watch, onMounted, nextTick } from 'vue'
+import { defineComponent, ref, computed, nextTick, watch } from 'vue'
 import { useCheckbox } from './useCheckbox'
 
 export default defineComponent({
-  name: 'ElCheckbox',
+  name: 'ElCheckboxButton',
   props: {
     modelValue: {
       type: [Object, Boolean] as never,
@@ -86,24 +77,10 @@ export default defineComponent({
       type: [String, Number],
       default: undefined,
     },
-    id: {
-      type: String,
-      default: undefined,
-    },
-    controls: {
-      type: String,
-      default: undefined,
-    },
-    border: Boolean,
-    size: {
-      type: String,
-      default: undefined,
-    },
   },
   emits: ['update:modelValue', 'change'],
   setup(props, { emit }) {
     const { elForm, isGroup, _checkboxGroup, _elFormItemSize, elFormItem, ELEMENT } = useCheckbox()
-    const instance = getCurrentInstance()
     const selfModel = ref(false)
     const focus = ref(false)
     const isLimitExceeded = ref(false)
@@ -155,13 +132,17 @@ export default defineComponent({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         : props.disabled || (elForm as any || {} as any).disabled
     })
-    const checkboxSize = computed(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const temCheckboxSize = props.size || _elFormItemSize.value || (ELEMENT || {} as any).size
-      return isGroup.value
-        ? _checkboxGroup.checkboxGroupSize || temCheckboxSize
-        : temCheckboxSize
+
+    const activeStyle = computed(() => {
+      return {
+        backgroundColor: _checkboxGroup.fill || '',
+        borderColor: _checkboxGroup.fill || '',
+        color: _checkboxGroup.textColor || '',
+        'box-shadow': '-1px 0 0 0 ' + _checkboxGroup.fill,
+      }
     })
+
+    const size = computed(() => _checkboxGroup.checkboxGroupSize || _elFormItemSize || (ELEMENT || {}).size)
 
     function addToStore() {
       if (
@@ -197,17 +178,15 @@ export default defineComponent({
 
     props.checked && addToStore()
 
-    onMounted(() => {
-      instance.vnode.el.setAttribute('aria-controls', props.controls)
-    })
 
     return {
       focus,
       isChecked,
       isDisabled,
-      checkboxSize,
       model,
       handleChange,
+      activeStyle,
+      size,
     }
   },
 })
