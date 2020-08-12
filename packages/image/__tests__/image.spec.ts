@@ -12,7 +12,7 @@ describe('Image.vue', () => {
       set(src) {
         const type = !src || src === IMAGE_FAIL ? 'error' : 'load'
         const event = new Event(type)
-        nextTick(() => this.dispatchEvent(event))
+        this.dispatchEvent(event)
       },
     })
   })
@@ -32,7 +32,6 @@ describe('Image.vue', () => {
     })
     expect(wrapper.find('.el-image__placeholder').exists()).toBe(true)
     await nextTick()
-    await nextTick()
     expect(wrapper.find('.el-image__inner').exists()).toBe(true)
     expect(wrapper.find('img').exists()).toBe(true)
     expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
@@ -45,8 +44,6 @@ describe('Image.vue', () => {
         src: IMAGE_FAIL,
       },
     })
-
-    await nextTick()
     expect(wrapper.emitted('error')).toBeDefined()
     await nextTick()
     expect(wrapper.find('.el-image__inner').exists()).toBe(false)
@@ -61,7 +58,6 @@ describe('Image.vue', () => {
         props: { fit, src: IMAGE_SUCCESS },
       })
       await nextTick()
-      await nextTick()
       expect(wrapper.find('img').attributes('style')).toContain(`object-fit: ${fit};`)
     }
   })
@@ -74,7 +70,6 @@ describe('Image.vue', () => {
         previewSrcList: new Array(3).fill(IMAGE_SUCCESS),
       },
     })
-    await nextTick()
     await nextTick()
     expect(wrapper.find('img').classes()).toContain('el-image__preview')
   })
@@ -90,7 +85,6 @@ describe('Image.vue', () => {
       },
     })
     await nextTick()
-    await nextTick()
     expect(wrapper.find('img').attributes('alt')).toBe(alt)
     expect(wrapper.find('img').attributes('referrerpolicy')).toBe('origin')
   })
@@ -103,7 +97,6 @@ describe('Image.vue', () => {
         onClick: () => result = true,
       },
     })
-    await nextTick()
     await nextTick()
     const inner = wrapper.find('.el-image__inner').element as HTMLElement
     inner.click()
@@ -120,16 +113,11 @@ describe('Image.vue', () => {
       },
     })
     await nextTick()
-    await nextTick()
     expect(wrapper.find('.el-image__inner').exists()).toBe(true)
-    const inner = wrapper.find('.el-image__inner').element as HTMLElement
-    inner.click()
-    await nextTick()
+    await wrapper.find('.el-image__inner').trigger('click')
     const viewer = wrapper.find('.el-image-viewer__wrapper')
     expect(viewer.exists()).toBe(true)
-    const close = wrapper.find('.el-image-viewer__close').element as HTMLElement
-    close.click()
-    await nextTick()
+    await wrapper.find('.el-image-viewer__close').trigger('click')
     expect(wrapper.find('.el-image-viewer__wrapper').exists()).toBe(false)
   })
 })
