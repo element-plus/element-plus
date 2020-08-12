@@ -13,8 +13,8 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: [Object, Boolean, Array] as never,
-      default: () => ({}),
+      type: [Object, Boolean, Array],
+      default: () => undefined,
     },
     disabled: Boolean,
     min: {

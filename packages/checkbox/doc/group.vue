@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">全选</el-checkbox>
+    <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">All Selected</el-checkbox>
     <div style="margin: 15px 0;"></div>
     <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
       <el-checkbox v-for="city in cities" :key="city" :label="city">{{ city }}</el-checkbox>
@@ -32,7 +32,7 @@
           v-for="city in cities"
           :key="city"
           :label="city"
-          :disabled="city === '北京'"
+          :disabled="city === 'London'"
         >
           {{ city }}
         </el-checkbox-button>
@@ -47,19 +47,19 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-const cityOptions = ['上海', '北京', '广州', '深圳']
+const cityOptions = ['NYC', 'London', 'Tokyo', 'Singapore']
 
 export default defineComponent({
   data() {
     return {
       checkAll: false,
-      checkedCities: ['上海', '北京'],
+      checkedCities: ['NYC', 'London'],
       cities: cityOptions,
       isIndeterminate: true,
-      checkboxGroup1: ['上海'],
-      checkboxGroup2: ['上海'],
-      checkboxGroup3: ['上海'],
-      checkboxGroup4: ['上海'],
+      checkboxGroup1: ['NYC'],
+      checkboxGroup2: ['NYC'],
+      checkboxGroup3: ['NYC'],
+      checkboxGroup4: ['NYC'],
     }
   },
   methods: {

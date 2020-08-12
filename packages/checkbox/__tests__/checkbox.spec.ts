@@ -31,7 +31,7 @@ describe('Checkbox', () => {
     vm.$nextTick(async () => {
       expect(wrapper.classes()).toContain('is-checked')
       await wrapper.trigger('click')
-      expect(wrapper.classes()).not.toContain('is-checked')
+      expect(wrapper.classes('is-checked')).toBe(false)
       done()
     })
   })
@@ -91,11 +91,11 @@ describe('Checkbox', () => {
     )
     const vm = wrapper.vm
     expect(vm.checkList.length).toBe(0)
-    ;(vm.$refs.a as any).$el.click()
-    vm.$nextTick(() => {
+    await wrapper.findComponent({ ref: 'a' }).trigger('click')
+    vm.$nextTick(async () => {
       expect(vm.checkList.length).toBe(1)
       expect(vm.checkList).toContain('a')
-      ;(vm.$refs.b as any).$el.click()
+      await wrapper.findComponent({ ref: 'b' }).trigger('click')
       vm.$nextTick(() => {
         expect(vm.checkList.length).toBe(2)
         expect(vm.checkList).toContain('a')
@@ -128,10 +128,10 @@ describe('Checkbox', () => {
       },
     )
     const vm = wrapper.vm
-    ;(vm.$refs.a as any).$el.click()
-    vm.$nextTick(() => {
+    await wrapper.findComponent({ ref: 'a' }).trigger('click')
+    vm.$nextTick(async () => {
       expect(vm.data).toEqual(['a'])
-      ;(vm.$refs.b as any).$el.click()
+      await wrapper.findComponent({ ref: 'b' }).trigger('click')
       vm.$nextTick(() => {
         expect(vm.data).toEqual(['a', 'b'])
         done()
@@ -157,7 +157,7 @@ describe('Checkbox', () => {
     expect((vm.$refs.a as any).$el.querySelector('.el-checkbox-button__inner').style.borderColor).toEqual('#ff0000')
   })
 
-  test('min and max', done => {
+  test('min and max', async done => {
     const wrapper = _mount(
       `
       <el-checkbox-group
@@ -178,13 +178,13 @@ describe('Checkbox', () => {
     )
     const vm = wrapper.vm
     expect(vm.checkList.length).toBe(1)
-    ;(vm.$refs.a as any).$el.click()
-    vm.$nextTick(() => {
+    await wrapper.findComponent({ ref: 'a' }).trigger('click')
+    vm.$nextTick(async () => {
       expect(vm.checkList.length).toBe(1)
-      ;(vm.$refs.b as any).$el.click()
-      vm.$nextTick(() => {
+      await wrapper.findComponent({ ref: 'b' }).trigger('click')
+      vm.$nextTick(async () => {
         expect(vm.checkList.length).toBe(2)
-        ;(vm.$refs.c as any).$el.click()
+        await wrapper.findComponent({ ref: 'c' }).trigger('click')
         vm.$nextTick(() => {
           expect(vm.checkList.length).toBe(2)
           expect(vm.checkList).toEqual(['a', 'b'])

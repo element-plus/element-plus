@@ -61,8 +61,8 @@ export default defineComponent({
   name: 'ElCheckboxButton',
   props: {
     modelValue: {
-      type: [Object, Boolean] as never,
-      default: () => ({}),
+      type: [Object, Boolean],
+      default: () => undefined,
     },
     label: {
       type: [Object, Boolean, String],
@@ -99,16 +99,14 @@ export default defineComponent({
       set(val: any) {
         if (isGroup.value) {
           isLimitExceeded.value = false
-          ;(
-            _checkboxGroup.min !== undefined &&
-            val.length < _checkboxGroup.min &&
-            (isLimitExceeded.value = true)
-          )
-          ;(
-            _checkboxGroup.max !== undefined &&
-            val.length > _checkboxGroup.max &&
-            (isLimitExceeded.value = true)
-          )
+
+          if (_checkboxGroup.min !== undefined && val.length < _checkboxGroup.min) {
+            isLimitExceeded.value = true
+          }
+          if (_checkboxGroup.max !== undefined && val.length > _checkboxGroup.max) {
+            isLimitExceeded.value = true
+          }
+
           isLimitExceeded.value === false && _checkboxGroup.changeEvent?.(val)
         } else {
           emit('update:modelValue', val)
