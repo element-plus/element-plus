@@ -12,10 +12,22 @@ export default {
 
   props: {
     native: Boolean,
-    wrapStyle: {},
-    wrapClass: {},
-    viewClass: {},
-    viewStyle: {},
+    wrapStyle: {
+      type: [String, Array],
+      default: '',
+    },
+    wrapClass: {
+      type: [String, Array],
+      default: '',
+    },
+    viewClass: {
+      type: [String, Array],
+      default: '',
+    },
+    viewStyle: {
+      type: [String, Array],
+      default: '',
+    },
     noresize: Boolean, // 如果 container 尺寸不会发生变化，最好设置它可以优化性能
     tag: {
       type: String,
