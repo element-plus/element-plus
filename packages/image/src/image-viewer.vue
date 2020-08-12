@@ -65,6 +65,8 @@ import { defineComponent, computed, ref, onMounted, watch, nextTick, PropType } 
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 import { on, off } from '@element-plus/utils/dom'
 import { eventKeys } from '@element-plus/utils/aria'
+import { t } from '@element-plus/locale'
+
 const Mode = {
   CONTAIN: {
     name: 'contain',
@@ -222,7 +224,7 @@ export default defineComponent({
 
     function handleImgError(e) {
       loading.value = false
-      e.target.alt = '加载失败'
+      e.target.alt = t('el.image.error')
     }
 
     function handleMouseDown(e) {
