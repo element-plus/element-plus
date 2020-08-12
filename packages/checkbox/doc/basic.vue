@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <el-checkbox v-model="checked">{{ checked }}</el-checkbox>
+    <el-checkbox v-model="checked" @change="onChange">{{ checked }}</el-checkbox>
     <el-checkbox v-model="checked1" disabled>{{ checked1 }}</el-checkbox>
     <el-checkbox v-model="checked2" disabled>{{ checked2 }}</el-checkbox>
     <el-checkbox v-model="checked1" label="A" border />
@@ -26,6 +26,11 @@ export default defineComponent({
       checked2: true,
       checkList: ['Ha','A'],
     }
+  },
+  methods: {
+    onChange(val) {
+      console.log(val)
+    },
   },
 })
 </script>
