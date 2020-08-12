@@ -14,7 +14,7 @@ export default {
   setup(props) {
     const instance = getCurrentInstance()
     const thumb = ref(null)
-    const wrap = inject('scroll-bar-wrap', {}) as Ref
+    const wrap = inject('scroll-bar-wrap', {} as Ref<Nullable<HTMLElement>>)
     const bar = computed(() => {
       return BAR_MAP[props.vertical ? 'vertical' : 'horizontal']
     })
