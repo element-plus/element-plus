@@ -57,7 +57,15 @@
   </label>
 </template>
 <script lang='ts'>
-import { defineComponent, ref, computed, getCurrentInstance, watch, onMounted, nextTick } from 'vue'
+import {
+  defineComponent,
+  ref,
+  computed,
+  getCurrentInstance,
+  watch,
+  onMounted,
+  // nextTick,
+} from 'vue'
 import { useCheckbox } from './useCheckbox'
 
 export default defineComponent({
@@ -112,7 +120,7 @@ export default defineComponent({
       get() {
         return isGroup.value ? store.value : props.modelValue !== undefined ? props.modelValue : selfModel
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       set(val: any) {
         if (isGroup.value) {
           isLimitExceeded.value = false
@@ -137,7 +145,7 @@ export default defineComponent({
       if (Object.prototype.toString.call(model.value) === '[object Boolean]') {
         return model.value
       } else if (Array.isArray(model.value)) {
-        return model.value.indexOf(props.label) > -1
+        return model.value.includes(props.label)
       } else if (model.value !== null && model.value !== undefined) {
         return model.value === props.trueLabel
       }
@@ -150,13 +158,10 @@ export default defineComponent({
     })
     const isDisabled = computed(() => {
       return isGroup.value
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ? _checkboxGroup.disabled || props.disabled ||  (elForm as any || {} as any).disabled || isLimitDisabled.value
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         : props.disabled || (elForm as any || {} as any).disabled
     })
     const checkboxSize = computed(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const temCheckboxSize = props.size || _elFormItemSize.value || (ELEMENT || {} as any).size
       return isGroup.value
         ? _checkboxGroup.checkboxGroupSize || temCheckboxSize
@@ -166,7 +171,7 @@ export default defineComponent({
     function addToStore() {
       if (
         Array.isArray(model.value) &&
-        model.value.indexOf(props.label) === -1
+        !model.value.includes(props.label)
       ) {
         model.value.push(props.label)
       } else {
@@ -184,11 +189,14 @@ export default defineComponent({
       }
 
       emit('change', value.value, e)
-      nextTick(() => {
-        if (isGroup.value) {
-          _checkboxGroup.changeEvent?.(_checkboxGroup.modelValue.value)
-        }
-      })
+      /**
+       * to discuss does it is useful
+       */
+      // nextTick(() => {
+      //   if (isGroup.value) {
+      //     _checkboxGroup.changeEvent?.(_checkboxGroup.modelValue.value)
+      //   }
+      // })
     }
 
     watch(() => props.modelValue, (val) => {
