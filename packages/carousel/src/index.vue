@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="root"
     :class="carouselClasses"
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
@@ -129,7 +130,7 @@ export default {
       },
     },
   },
-  setup(props: ICarouselProps, { slots }) {
+  setup(props: ICarouselProps, { slots, emit }) {
     // init here
     const data = reactive<{
       items: Component[]
@@ -148,6 +149,9 @@ export default {
     // refs
     const root = ref(null)
     const itemUpdate = ref((cb) => null)
+    const items = ref<Component[]>([])
+    const offsetWidth = ref(0)
+    const offsetHeight = ref(0)
 
     // computed
     const arrowDisplay = computed(
@@ -206,13 +210,14 @@ export default {
     }
 
     function startTimer() {
+      // console.log('startTimer', props.interval, props.autoplay)
       if (props.interval <= 0 || !props.autoplay || data.timer) return
-      data.timer = setInterval(playSlides, props.interval)
+      data.timer = setInterval(() => playSlides(), props.interval)
     }
 
-    function playSlides() {
+    const playSlides = () => {
       if (data.activeIndex < data.items.length - 1) {
-        data.activeIndex++
+        data.activeIndex = data.activeIndex + 1
       } else if (props.loop) {
         data.activeIndex = 0
       }
@@ -245,17 +250,17 @@ export default {
     }
 
     function resetItemPosition(oldIndex) {
-      console.log('resetItemPosition')
       data.items.forEach((item, index) => {
-        itemUpdate.value = (cb: (i: number, v: number, t: number) => void) =>
-          cb(index, data.activeIndex, oldIndex)
+        itemUpdate.value = (
+          cb: (i: number, v: number, t: number, item: Component) => void,
+        ) => cb(index, data.activeIndex, oldIndex, item as any)
       })
     }
 
     function updateItems() {
-      data.items = slots.default().reduce((all, next) => {
+      const arr = slots.default().reduce((all, next) => {
         const VnodeInChillren: VNode = next.children[0]
-        console.log(next.children)
+        // console.log(next.children)
         if (
           typeof next.children === 'string' ||
           !(next.children instanceof Array)
@@ -267,6 +272,8 @@ export default {
           return all.concat(next.children.map((f) => (f as any).type))
         }
       }, [] as Component[])
+      data.items = arr
+      items.value = arr
     }
 
     function itemInStage(item, index) {
@@ -323,10 +330,10 @@ export default {
     watch(
       () => data.activeIndex,
       (current, prev) => {
-        console.log(current)
         resetItemPosition(prev)
+        console.log('index Change', data.items)
         if (prev > -1) {
-          //   this.$emit("change", val, oldVal);
+          emit('change', current, prev)
         }
       },
     )
@@ -334,17 +341,20 @@ export default {
     // lifecycle
     onMounted(() => {
       updateItems()
+      // TODO: nextTick
+      setTimeout(() => {
+        startTimer()
+      }, 200)
     })
 
     // TODO: addResizeListener
 
     onRenderTriggered(() => {
-      if (props.initialIndex < data.items.length && props.initialIndex >= 0) {
-        data.activeIndex = props.initialIndex
+      if (root.value) {
+        offsetWidth.value = root.value.offsetWidth
+        offsetHeight.value = root.value.offsetHeight
       }
-      startTimer()
     })
-
     onBeforeUnmount(() => {
       pauseTimer()
     })
@@ -352,10 +362,10 @@ export default {
     // provide
     provide('injectCarouselScope', {
       direction: props.direction,
-      offsetWidth: (root as HTMLElement).offsetWidth,
-      offsetHeight: (root as HTMLElement).offsetHeight,
+      offsetWidth,
+      offsetHeight,
       type: props.type,
-      items: data.items,
+      items,
       loop: props.loop,
       itemUpdate,
       updateItems: () => {

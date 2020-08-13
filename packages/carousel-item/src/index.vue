@@ -9,14 +9,10 @@
       'is-hover': data.hover,
       'is-animating': data.animating,
     }"
-    @click="handleItemClick"
     :style="itemStyle"
+    @click="handleItemClick"
   >
-    <div
-      v-if="$parent.type === 'card'"
-      v-show="!data.active"
-      class="el-carousel__mask"
-    ></div>
+    <div v-if="$parent.type === 'card'" v-show="!data.active" class="el-carousel__mask"></div>
     <slot></slot>
   </div>
 </template>
@@ -27,16 +23,18 @@ import {
   SetupContext,
   onMounted,
   inject,
-  provide,
   computed,
+  Component,
   watch,
+  Ref,
+  getCurrentInstance,
 } from 'vue'
 // import { autoprefixer } from 'element-ui/src/utils/util'
 
 interface ICarouselItemProps {
   name: string
   label: string | number
-  todo: string
+  key: string
 }
 
 const CARD_SCALE = 0.83
@@ -50,6 +48,9 @@ export default defineComponent({
     },
   },
   setup(props: ICarouselItemProps, { attrs, emit }) {
+    // instance
+    const instance = getCurrentInstance()
+    console.log(instance.type)
     // data
     const data = reactive({
       hover: false,
@@ -64,10 +65,10 @@ export default defineComponent({
     // inject
     const injectCarouselScopeData: {
       direction: string
-      offsetWidth: number
-      offsetHeight: number
+      offsetWidth: Ref<number>
+      offsetHeight: Ref<number>
       type: string
-      items: any[]
+      items: Ref<Component[]>
       loop: boolean
       itemUpdate: () => any
       updateItems: () => void
@@ -104,7 +105,7 @@ export default defineComponent({
     }
 
     function calcCardTranslate(index, activeIndex) {
-      const parentWidth = injectCarouselScopeData.offsetWidth
+      const parentWidth = injectCarouselScopeData.offsetWidth.value
       if (data.inStage) {
         return (
           (parentWidth * ((2 - CARD_SCALE) * (index - activeIndex) + 1)) / 4
@@ -119,6 +120,7 @@ export default defineComponent({
     function calcTranslate(index, activeIndex, isVertical) {
       const distance =
         injectCarouselScopeData[isVertical ? 'offsetHeight' : 'offsetWidth']
+          .value
       return distance * (index - activeIndex)
     }
 
@@ -126,9 +128,16 @@ export default defineComponent({
       index: number,
       activeIndex: number,
       oldIndex: number,
+      c: any,
     ) {
+      console.group('ElCarouselItem')
+
+      console.log({ index, activeIndex, oldIndex })
+      console.log(injectCarouselScopeData.items.value)
+      console.log(c)
+
       const parentType = injectCarouselScopeData.type
-      const length = injectCarouselScopeData.items.length
+      const length = injectCarouselScopeData.items.value.length
       if (parentType !== 'card' && oldIndex !== undefined) {
         data.animating = index === activeIndex || index === oldIndex
       }
@@ -151,6 +160,7 @@ export default defineComponent({
         data.translate = calcTranslate(index, activeIndex, isVertical)
       }
       data.ready = true
+      console.groupEnd()
     }
 
     // watch
@@ -163,6 +173,8 @@ export default defineComponent({
     // lifecycle
     onMounted(() => {
       injectCarouselScopeData.updateItems()
+      // console.log('props', props)
+      // console.log('props', props.key)
     })
 
     return { itemStyle, data, translateItem }
