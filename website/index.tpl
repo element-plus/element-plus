@@ -9,8 +9,8 @@
   </head>
   <body>
     <div id="app"></div>
-    <link rel="stylesheet" href="https://unpkg.com/browse/element-ui@2.13.2/lib/theme-chalk/index.css">
   </body>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   <% if (process.env.NODE_ENV === 'production') { %><script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

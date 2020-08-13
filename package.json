@@ -24,7 +24,6 @@
     "@storybook/html": "^5.3.19",
     "@swc-node/jest": "^0.1.9",
     "@types/jest": "^26.0.7",
-    "@types/lodash-es": "^4.17.3",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
     "@vue/compiler-sfc": "^3.0.0-rc.1",
@@ -88,7 +87,7 @@
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.4",
-    "lodash-es": "^4.17.15",
+    "lodash": "^4.17.20",
     "mitt": "^2.1.0"
   }
 }

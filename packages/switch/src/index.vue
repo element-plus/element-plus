@@ -131,7 +131,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change', 'input'],
   setup(props: ISwitchProps, ctx) {
-    const elForm = inject<ElForm>('elForm')
+    const elForm = inject<ElForm>('elForm', {} as any)
     const coreWidth = ref(props.width)
     const isModelValue = ref(props.modelValue !== false)
     const input = ref(null)
