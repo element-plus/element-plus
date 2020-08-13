@@ -1,5 +1,9 @@
 import isServer from './isServer'
-import { isObject, castArray, isEmpty, isEqual, capitalize } from 'lodash-es'
+import isObject from 'lodash/isObject'
+import castArray from 'lodash/castArray'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import capitalize from 'lodash/capitalize'
 
 const { hasOwnProperty } = Object.prototype
 

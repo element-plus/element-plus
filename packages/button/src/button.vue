@@ -89,8 +89,8 @@ export default defineComponent({
 
   setup(props, ctx): IButtonSetups {
     // inject
-    const elForm = inject<ElForm>('elForm')
-    const elFormItem = inject<ElFormItem>('elFormItem')
+    const elForm = inject<ElForm>('elForm', {} as any)
+    const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
 
     // computed
     const _elFormItemSize = computed(() => {

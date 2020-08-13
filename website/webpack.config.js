@@ -2,6 +2,7 @@
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -82,6 +83,7 @@ module.exports = {
       filename: './index.html',
       favicon: './website/favicon.ico',
     }),
+    // new BundleAnalyzerPlugin(),
   ],
   devServer: {
     inline: true,
