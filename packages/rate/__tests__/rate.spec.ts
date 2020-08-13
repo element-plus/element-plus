@@ -7,6 +7,11 @@ describe('Rate.vue', () => {
       props: {
         max: 10,
       },
+      global: {
+        provide: {
+          elForm: {},
+        },
+      },
     })
     const stars = wrapper.findAll('.el-rate__item')
     expect(stars.length).toEqual(10)
@@ -19,6 +24,11 @@ describe('Rate.vue', () => {
         modelValue: 4,
         texts: ['1', '2', '3', '4', '5'],
       },
+      global: {
+        provide: {
+          elForm: {},
+        },
+      },
     })
     const text = wrapper.find('.el-rate__text').element
     expect(text.textContent).toEqual('4')
@@ -28,6 +38,11 @@ describe('Rate.vue', () => {
     const wrapper = mount(Rate, {
       props: {
         modelValue: 0,
+      },
+      global: {
+        provide: {
+          elForm: {},
+        },
       },
     })
     const vm = wrapper.vm
@@ -52,7 +67,10 @@ describe('Rate.vue', () => {
         'el-rate': Rate,
       },
     }, {
-      props: {
+      global: {
+        provide: {
+          elForm: {},
+        },
       },
     })
     const vm = wrapper.vm
