@@ -178,7 +178,7 @@ export default {
   .content {
     padding-top: 50px;
 
-    ::v-deep> {
+    ::v-deep(>) {
       h3 {
         margin: 55px 0 20px;
       }

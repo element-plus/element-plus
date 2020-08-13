@@ -99,7 +99,7 @@ export default {
       position: relative;
       color: #5e6d82;
 
-      ::v-deep {
+      ::v-deep(.timeline) {
         > li {
           position: relative;
           padding-bottom: 15px;

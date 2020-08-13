@@ -45,7 +45,7 @@ export default {
   .content {
     padding-left: 25px;
     margin-left: -1px;
-    ::v-deep{
+    ::v-deep(.content){
       h2 {
         margin-bottom: 10px;
       }
