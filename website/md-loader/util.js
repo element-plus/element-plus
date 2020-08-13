@@ -27,10 +27,15 @@ function pad(source) {
     .join('\n')
 }
 
+const templateReplaceRegex = /<template>([\s\S]+)<\/template>/g
 function genInlineComponentText(template, script) {
   // https://github.com/vuejs/vue-loader/blob/423b8341ab368c2117931e909e2da9af74503635/lib/loaders/templateLoader.js#L46
+  let source = template
+  if (templateReplaceRegex.test(source)) {
+    source = source.replace(templateReplaceRegex, '$1')
+  }
   const finalOptions = {
-    source: `<div>${template}</div>`,
+    source: `<div>${source}</div>`,
     filename: 'inline-component', // TODO：这里有待调整
     compiler: TemplateCompiler,
     compilerOptions: {
