@@ -1,6 +1,6 @@
 import { createApp, reactive, nextTick } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
-import hljs from 'highlight.js'
+// import hljs from 'highlight.js'
 import routes from './route.config'
 import demoBlock from './components/demo-block'
 import MainFooter from './components/footer'
@@ -8,7 +8,7 @@ import MainHeader from './components/header'
 import SideNav from './components/side-nav'
 import FooterNav from './components/footer-nav'
 import title from './i18n/title'
-import 'highlight.js/styles/color-brewer.css'
+// import 'highlight.js/styles/color-brewer.css'
 import './demo-styles/index.scss'
 import './assets/styles/common.css'
 import './assets/styles/fonts/style.css'
@@ -16,7 +16,7 @@ import icon from './icon.json'
 
 import App from './app.vue'
 import install from 'element-plus'
-import '../src/style/element-ui@2.13.2.css'
+// import '../src/style/element-ui@2.13.2.css'
 
 const app = createApp(App)
 
@@ -51,8 +51,8 @@ router.isReady().then(()=>{
   router.afterEach(async route => {
     // https://github.com/highlightjs/highlight.js/issues/909#issuecomment-131686186
     await nextTick()
-    const blocks = document.querySelectorAll('pre code:not(.hljs)')
-    Array.prototype.forEach.call(blocks, hljs.highlightBlock)
+    // const blocks = document.querySelectorAll('pre code:not(.hljs)')
+    // Array.prototype.forEach.call(blocks, hljs.highlightBlock)
     const data = title[route.meta.lang]
     for (let val in data) {
       if (new RegExp('^' + val, 'g').test(route.name)) {
