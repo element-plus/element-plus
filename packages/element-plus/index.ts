@@ -19,6 +19,7 @@ import ElNotification from '@element-plus/notification'
 import ElPageHeader from '@element-plus/page-header'
 import ElRadio from '@element-plus/radio'
 import ElScrollBar from '@element-plus/scrollbar'
+import ElCollapse from '@element-plus/collapse'
 
 export {
   ElAvatar,
@@ -41,6 +42,7 @@ export {
   ElPageHeader,
   ElScrollBar,
   ElRadio,
+  ElCollapse,
 }
 
 export default function install(app: App): void {
@@ -64,4 +66,5 @@ export default function install(app: App): void {
   ElPageHeader(app)
   ElScrollBar(app)
   ElRadio(app)
+  ElCollapse(app)
 }
