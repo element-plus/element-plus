@@ -21,6 +21,7 @@ export default defineComponent({
     direction: {
       type: String,
       default: 'horizontal',
+      validator: (val: string): boolean => ['horizontal', 'vertical'].indexOf(val) > -1,
     },
     alignCenter: {
       type: Boolean,
@@ -33,10 +34,12 @@ export default defineComponent({
     finishStatus: {
       type: String,
       default: 'finish',
+      validator: (val: string): boolean => ['wait', 'process', 'finish', 'error', 'success'].indexOf(val) > -1,
     },
     processStatus: {
       type: String,
       default: 'process',
+      validator: (val: string): boolean => ['wait', 'process', 'finish', 'error', 'success'].indexOf(val) > -1,
     },
   },
   setup(props) {

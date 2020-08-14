@@ -84,6 +84,7 @@ export default defineComponent({
     status: {
       type: String,
       default: '',
+      validator: (val: string): boolean => ['', 'wait', 'process', 'finish', 'error', 'success'].indexOf(val) > -1,
     },
   },
   setup(props) {
