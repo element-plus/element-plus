@@ -1,6 +1,6 @@
 <template>
   <div style="margin: 20px;">
-    <el-input v-model="input" placeholder="请输入内容" />
+    <el-button>TEST</el-button>
   </div>
 </template>
 
