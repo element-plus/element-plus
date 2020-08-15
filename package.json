@@ -72,7 +72,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit-disable": "lint-staged",
       "pre-push-todo-open": "npm run test",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
