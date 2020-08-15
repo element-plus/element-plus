@@ -1,5 +1,5 @@
 <template>
-  <div ref="OutterRef" class="el-time-spinner" :class="{ 'has-seconds': showSeconds }">
+  <div class="el-time-spinner" :class="{ 'has-seconds': showSeconds }">
     <template v-if="!arrowControl">
       <el-scrollbar
         ref="listHourRef"
@@ -70,7 +70,7 @@
       >
         <i v-repeat-click="decrease" class="el-time-spinner__arrow el-icon-arrow-up"></i>
         <i v-repeat-click="increase" class="el-time-spinner__arrow el-icon-arrow-down"></i>
-        <ul ref="hours" class="el-time-spinner__list">
+        <ul class="el-time-spinner__list">
           <li
             v-for="(hour, key) in arrowHourList"
             :key="key"
@@ -87,7 +87,7 @@
       >
         <i v-repeat-click="decrease" class="el-time-spinner__arrow el-icon-arrow-up"></i>
         <i v-repeat-click="increase" class="el-time-spinner__arrow el-icon-arrow-down"></i>
-        <ul ref="minutes" class="el-time-spinner__list">
+        <ul class="el-time-spinner__list">
           <li
             v-for="(minute, key) in arrowMinuteList"
             :key="key"
@@ -105,7 +105,7 @@
       >
         <i v-repeat-click="decrease" class="el-time-spinner__arrow el-icon-arrow-up"></i>
         <i v-repeat-click="increase" class="el-time-spinner__arrow el-icon-arrow-down"></i>
-        <ul ref="seconds" class="el-time-spinner__list">
+        <ul class="el-time-spinner__list">
           <li
             v-for="(second, key) in arrowSecondList"
             :key="key"
@@ -188,7 +188,9 @@ import {
   defineComponent,
   ref,
   Ref,
+  nextTick,
   computed,
+  onMounted,
 } from 'vue'
 export default defineComponent({
 
@@ -198,7 +200,7 @@ export default defineComponent({
 
   props: {
     date: {
-      type: Date,
+      type: Object,
       default: new Date(),
     },
     showSeconds: {
@@ -218,11 +220,6 @@ export default defineComponent({
     const selectableRange = ref([])
     const currentScrollbar = ref(null)
     const listHourRef: Ref<Nullable<HTMLElement>> = ref(null)
-    const OutterRef: Ref<Nullable<HTMLElement>> = ref(null)
-
-    listHourRef.value // 没有
-    OutterRef.value // dom 
-
     const listMinuteRef: Ref<Nullable<HTMLElement>> = ref(null)
     const listSecondRef: Ref<Nullable<HTMLElement>> = ref(null)
     const listRefsMap = {
@@ -278,6 +275,7 @@ export default defineComponent({
       if (isCapital) content = content.toUpperCase()
       return content
     }
+
     const emitSelectRange = (type) =>{
       if (type === 'hours') {
         ctx.emit('select-range', 0, 2)
@@ -288,25 +286,115 @@ export default defineComponent({
       }
       currentScrollbar.value = type
     }
+
     const adjustCurrentSpinner = (type) =>{
       adjustSpinner(type, timePartsMap[type].value)
     }
+
+    // NOTE: used by datetime / date-range panel
+    //       renamed from adjustScrollTop
+    //       should try to refactory it
+
+    // const adjustSpinners = () => {
+    //   adjustSpinner('hours', hours.value)
+    //   adjustSpinner('minutes', minutes.value)
+    //   adjustSpinner('seconds', seconds.value)
+    // }
 
     const adjustSpinner = (type, value) => {
       if (props.arrowControl) return
       const el = listRefsMap[type]
       if (el) {
-        el.scrollTop = Math.max(0, value * typeItemHeight(type))
+        el.value.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(0, value * typeItemHeight(type))
       }
     }
-    setInterval(() => {
-      console.log('el: ', listHourRef.value.querySelector)
-    }, 1000)
-    const  typeItemHeight  = (type) =>{
-      return 100
-      // return this.$refs[type].$el.querySelector('li').offsetHeight
+
+    const typeItemHeight  = (type) =>{
+      const el = listRefsMap[type]
+      return el.value.$el.querySelector('li').offsetHeight
     }
 
+    const increase = () => {
+      scrollDown(1)
+    }
+
+    const decrease = () => {
+      scrollDown(-1)
+    }
+
+    const scrollDown = (step) => {
+      if (!currentScrollbar.value) {
+        emitSelectRange('hours')
+      }
+
+      const label = currentScrollbar.value
+      const _hoursList = hoursList.value
+      let now = timePartsMap[label].value
+
+      if (currentScrollbar.value === 'hours') {
+        let total = Math.abs(step)
+        step = step > 0 ? 1 : -1
+        let length = _hoursList.length
+        while (length-- && total) {
+          now = (now + step + _hoursList.length) % _hoursList.length
+          if (_hoursList[now]) {
+            continue
+          }
+          total--
+        }
+        if (_hoursList[now]) return
+      } else {
+        now = (now + step + 60) % 60
+      }
+
+      modifyDateField(label, now)
+      adjustSpinner(label, now)
+      nextTick(() => emitSelectRange(currentScrollbar.value))
+    }
+
+    const  modifyDateField = (type, value) =>{
+      switch (type) {
+        case 'hours': ctx.emit('change', modifyTime(props.date, value, minutes.value, seconds.value)); break
+        case 'minutes': ctx.emit('change', modifyTime(props.date, hours.value, value, seconds.value)); break
+        case 'seconds': ctx.emit('change', modifyTime(props.date, hours.value, minutes.value, value)); break
+      }
+    }
+
+    const handleClick = (type, { value, disabled }) => {
+      if (!disabled) {
+        modifyDateField(type, value)
+        emitSelectRange(type)
+        adjustSpinner(type, value)
+      }
+    }
+
+    const  handleScroll = (type) => {
+      const value = Math.min(Math.round((listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap').scrollTop - (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) + 3) / typeItemHeight(type)), (type === 'hours' ? 23 : 59))
+      modifyDateField(type, value)
+    }
+
+    const scrollBarHeight = (type) => {
+      return listRefsMap[type].value.$el.offsetHeight
+    }
+
+    const bindScrollEvent = () => {
+      const bindFuntion = (type) => {
+        listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap').onscroll = () => {
+          // TODO: scroll is emitted when set scrollTop programatically
+          // should find better solutions in the future!
+          handleScroll(type)
+        }
+      }
+      bindFuntion('hours')
+      bindFuntion('minutes')
+      bindFuntion('seconds')
+    }
+
+    onMounted(() => {
+      nextTick(() => {
+        !props.arrowControl && bindScrollEvent()
+      })
+    })
 
     return {
       selectableRange,
@@ -326,105 +414,10 @@ export default defineComponent({
       listHourRef,
       listMinuteRef,
       listSecondRef,
+      increase,
+      decrease,
+      handleClick,
     }
   },
-
-
-  // mounted() {
-  //   // this.$nextTick(() => {
-  //   //   !this.arrowControl && this.bindScrollEvent()
-  //   // })
-  // },
-
-  // methods: {
-  //   increase() {
-  //     this.scrollDown(1)
-  //   },
-
-  //   decrease() {
-  //     this.scrollDown(-1)
-  //   },
-
-  //   modifyDateField(type, value) {
-  //     switch (type) {
-  //       case 'hours': this.$emit('change', modifyTime(this.date, value, this.minutes, this.seconds)); break
-  //       case 'minutes': this.$emit('change', modifyTime(this.date, this.hours, value, this.seconds)); break
-  //       case 'seconds': this.$emit('change', modifyTime(this.date, this.hours, this.minutes, value)); break
-  //     }
-  //   },
-
-  //   handleClick(type, { value, disabled }) {
-  //     if (!disabled) {
-  //       this.modifyDateField(type, value)
-  //       this.emitSelectRange(type)
-  //       this.adjustSpinner(type, value)
-  //     }
-  //   },
-
-
-
-  //   bindScrollEvent() {
-  //     const bindFuntion = (type) => {
-  //       this.$refs[type].wrap.onscroll = (e) => {
-  //         // TODO: scroll is emitted when set scrollTop programatically
-  //         // should find better solutions in the future!
-  //         this.handleScroll(type, e)
-  //       }
-  //     }
-  //     bindFuntion('hours')
-  //     bindFuntion('minutes')
-  //     bindFuntion('seconds')
-  //   },
-
-  //   handleScroll(type) {
-  //     const value = Math.min(Math.round((this.$refs[type].wrap.scrollTop - (this.scrollBarHeight(type) * 0.5 - 10) / this.typeItemHeight(type) + 3) / this.typeItemHeight(type)), (type === 'hours' ? 23 : 59))
-  //     this.modifyDateField(type, value)
-  //   },
-
-  //   // NOTE: used by datetime / date-range panel
-  //   //       renamed from adjustScrollTop
-  //   //       should try to refactory it
-  //   adjustSpinners() {
-  //     this.adjustSpinner('hours', this.hours)
-  //     this.adjustSpinner('minutes', this.minutes)
-  //     this.adjustSpinner('seconds', this.seconds)
-  //   },
-
-
-  //   scrollDown(step) {
-  //     if (!this.currentScrollbar) {
-  //       this.emitSelectRange('hours')
-  //     }
-
-  //     const label = this.currentScrollbar
-  //     const hoursList = this.hoursList
-  //     let now = this[label]
-
-  //     if (this.currentScrollbar === 'hours') {
-  //       let total = Math.abs(step)
-  //       step = step > 0 ? 1 : -1
-  //       let length = hoursList.length
-  //       while (length-- && total) {
-  //         now = (now + step + hoursList.length) % hoursList.length
-  //         if (hoursList[now]) {
-  //           continue
-  //         }
-  //         total--
-  //       }
-  //       if (hoursList[now]) return
-  //     } else {
-  //       now = (now + step + 60) % 60
-  //     }
-
-  //     this.modifyDateField(label, now)
-  //     this.adjustSpinner(label, now)
-  //     this.$nextTick(() => this.emitSelectRange(this.currentScrollbar))
-  //   },
-
-
-  //   scrollBarHeight(type) {
-  //     return this.$refs[type].$el.offsetHeight
-  //   },
-  // },
 })
 </script>
