@@ -92,6 +92,11 @@ interface ICarouselProps {
   direction: string
 }
 
+interface ComponentInternalInstanceWithContext
+  extends ComponentInternalInstance {
+  ctx?: any
+}
+
 export default {
   name: 'ElCarousel',
   props: {
@@ -134,10 +139,11 @@ export default {
       },
     },
   },
+  emits: ['change'],
   setup(props: ICarouselProps, { emit }) {
     // init here
     const data = reactive<{
-      items: ComponentInternalInstance[]
+      items: ComponentInternalInstanceWithContext[]
       activeIndex: number
       containerWidth: number
       timer: null | ReturnType<typeof setInterval>
@@ -218,7 +224,7 @@ export default {
     function setActiveItem(index) {
       if (typeof index === 'string') {
         const filteredItems = data.items.filter(
-          item => (item as any).ctx.name === index,
+          item => item.ctx?.name === index,
         )
         if (filteredItems.length > 0) {
           index = data.items.indexOf(filteredItems[0])
@@ -245,7 +251,7 @@ export default {
 
     function resetItemPosition(oldIndex) {
       data.items.forEach((item, index) => {
-        item.ctx.translateItem(index, data.activeIndex, oldIndex)
+        item.ctx?.translateItem(index, data.activeIndex, oldIndex)
       })
     }
 
@@ -255,23 +261,23 @@ export default {
 
     function itemInStage(item, index) {
       const length = data.items.length
-      console.log(data.items[0].ctx.data.active)
+      console.log(data.items[0].ctx?.data.active)
       if (
         (index === length - 1 &&
           item.inStage &&
-          data.items[0].ctx.data.active) ||
+          data.items[0].ctx?.data.active) ||
         (item.inStage &&
           data.items[index + 1] &&
-          data.items[index + 1].ctx.data.active)
+          data.items[index + 1].ctx?.data.active)
       ) {
         return 'left'
       } else if (
         (index === 0 &&
           item.inStage &&
-          data.items[length - 1].ctx.data.active) ||
+          data.items[length - 1].ctx?.data.active) ||
         (item.inStage &&
           data.items[index - 1] &&
-          data.items[index - 1].ctx.data.active)
+          data.items[index - 1].ctx?.data.active)
       ) {
         return 'right'
       }
@@ -349,6 +355,7 @@ export default {
     // lifecycle
     onMounted(() => {
       nextTick(() => {
+        console.log(data.items)
         addResizeListener(root.value, resetItemPosition)
         if (props.initialIndex < data.items.length && props.initialIndex >= 0) {
           data.activeIndex = props.initialIndex
