@@ -51,7 +51,7 @@
         @click.stop="handleIndicatorClick(index)"
       >
         <button class="el-carousel__button">
-          <span v-if="hasLabel">{{ item.label }}</span>
+          <span v-if="hasLabel">{{ item.ctx.label }}</span>
         </button>
       </li>
     </ul>
@@ -71,6 +71,7 @@ import {
   onBeforeUnmount,
   watch,
   nextTick,
+  getCurrentInstance,
 } from 'vue'
 import { throttle } from 'throttle-debounce'
 import {
@@ -155,6 +156,8 @@ export default {
       timer: null,
       hover: false,
     })
+
+    // console.log(getCurrentInstance())
 
     // refs
     const root = ref(null)
@@ -261,7 +264,6 @@ export default {
 
     function itemInStage(item, index) {
       const length = data.items.length
-      console.log(data.items[0].ctx?.data.active)
       if (
         (index === length - 1 &&
           item.inStage &&
@@ -355,7 +357,7 @@ export default {
     // lifecycle
     onMounted(() => {
       nextTick(() => {
-        console.log(data.items)
+        // console.log(data.items)
         addResizeListener(root.value, resetItemPosition)
         if (props.initialIndex < data.items.length && props.initialIndex >= 0) {
           data.activeIndex = props.initialIndex
@@ -405,6 +407,7 @@ export default {
 
       prev,
       next,
+      setActiveItem,
 
       root,
     }
