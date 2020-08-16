@@ -280,9 +280,6 @@ export default defineComponent({
     function handleBlur(event) {
       focused.value = false
 
-      if (state.validateEvent) {
-        console.log('ElFormItem', 'el.form.blur', [state.modelValue])
-      }
     }
 
     function resizeTextarea() {
@@ -385,10 +382,6 @@ export default defineComponent({
       // update DOM dependent value and styles
       // https://github.com/ElemeFE/element/issues/14857
       nextTick(resizeTextarea)
-
-      if (state.validateEvent) {
-        console.log('ElFormItem', 'el.form.change', [val])
-      }
     })
 
     // when change between <input> and <textarea>,

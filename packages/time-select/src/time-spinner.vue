@@ -212,12 +212,12 @@ export default defineComponent({
       type: String,
       default: '', // 'a': am/pm; 'A': AM/PM
     },
+    selectableRange: [],
   },
 
   emits: ['change', 'select-range'],
 
   setup(props, ctx) {
-    const selectableRange = ref([])
     const currentScrollbar = ref(null)
     const listHourRef: Ref<Nullable<HTMLElement>> = ref(null)
     const listMinuteRef: Ref<Nullable<HTMLElement>> = ref(null)
@@ -238,10 +238,10 @@ export default defineComponent({
       hours, minutes, seconds,
     }
     const hoursList = computed(() =>{
-      return getRangeHours(selectableRange.value)
+      return getRangeHours(props.selectableRange)
     })
     const minutesList = computed(() =>{
-      return getRangeMinutes(selectableRange.value, hours)
+      return getRangeMinutes(props.selectableRange, hours.value)
     })
     const arrowHourList = computed(() => {
       const hour = hours.value
@@ -271,6 +271,7 @@ export default defineComponent({
       let shouldShowAmPm = props.amPmMode.toLowerCase() === 'a'
       if (!shouldShowAmPm) return ''
       let isCapital = props.amPmMode === 'A'
+      // todo locale
       let content = (hour < 12) ? ' am' : ' pm'
       if (isCapital) content = content.toUpperCase()
       return content
@@ -294,12 +295,11 @@ export default defineComponent({
     // NOTE: used by datetime / date-range panel
     //       renamed from adjustScrollTop
     //       should try to refactory it
-
-    // const adjustSpinners = () => {
-    //   adjustSpinner('hours', hours.value)
-    //   adjustSpinner('minutes', minutes.value)
-    //   adjustSpinner('seconds', seconds.value)
-    // }
+    const adjustSpinners = () => {
+      adjustCurrentSpinner('hours')
+      adjustCurrentSpinner('minutes')
+      adjustCurrentSpinner('seconds')
+    }
 
     const adjustSpinner = (type, value) => {
       if (props.arrowControl) return
@@ -393,11 +393,11 @@ export default defineComponent({
     onMounted(() => {
       nextTick(() => {
         !props.arrowControl && bindScrollEvent()
+        adjustSpinners()
       })
     })
 
     return {
-      selectableRange,
       currentScrollbar,
       hours,
       minutes,
