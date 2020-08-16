@@ -4,6 +4,7 @@ import ElBacktop from '@element-plus/backtop'
 import ElButton from '@element-plus/button'
 import ElBadge from '@element-plus/badge'
 import ElCard from '@element-plus/card'
+import ElCheckbox from '@element-plus/checkbox'
 import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
@@ -19,6 +20,9 @@ import ElSwitch from '@element-plus/switch'
 import ElContainer from '@element-plus/container'
 import ElNotification from '@element-plus/notification'
 import ElPageHeader from '@element-plus/page-header'
+import ElRadio from '@element-plus/radio'
+import ElScrollBar from '@element-plus/scrollbar'
+import ElCollapse from '@element-plus/collapse'
 
 export {
   ElAvatar,
@@ -27,6 +31,7 @@ export {
   ElButton,
   ElBadge,
   ElCard,
+  ElCheckbox,
   ElDivider,
   ElTag,
   ElCarousel,
@@ -41,6 +46,9 @@ export {
   ElContainer,
   ElNotification,
   ElPageHeader,
+  ElScrollBar,
+  ElRadio,
+  ElCollapse,
 }
 
 export default function install(app: App): void {
@@ -49,6 +57,7 @@ export default function install(app: App): void {
   ElButton(app)
   ElBadge(app)
   ElCard(app)
+  ElCheckbox(app)
   ElTag(app)
   ElLayout(app)
   ElDivider(app)
@@ -64,4 +73,7 @@ export default function install(app: App): void {
   ElContainer(app)
   ElNotification(app)
   ElPageHeader(app)
+  ElScrollBar(app)
+  ElRadio(app)
+  ElCollapse(app)
 }
