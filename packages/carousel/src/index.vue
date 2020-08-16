@@ -65,14 +65,18 @@ import {
   ref,
   provide,
   onMounted,
-  VNode,
-  VNodeNormalizedChildren,
+  ComponentInternalInstance,
   Component,
   onRenderTriggered,
   onBeforeUnmount,
   watch,
+  nextTick,
 } from 'vue'
 import { throttle } from 'throttle-debounce'
+import {
+  addResizeListener,
+  removeResizeListener,
+} from '@element-plus/utils/resize-event'
 
 interface ICarouselProps {
   initialIndex: number
@@ -95,7 +99,7 @@ export default {
       type: Number,
       default: 0,
     },
-    height: String,
+    height: { type: String, default: '' },
     trigger: {
       type: String,
       default: 'hover',
@@ -108,7 +112,7 @@ export default {
       type: Number,
       default: 3000,
     },
-    indicatorPosition: String,
+    indicatorPosition: { type: String, default: '' },
     indicator: {
       type: Boolean,
       default: true,
@@ -117,7 +121,7 @@ export default {
       type: String,
       default: 'hover',
     },
-    type: String,
+    type: { type: String, default: '' },
     loop: {
       type: Boolean,
       default: true,
@@ -130,10 +134,10 @@ export default {
       },
     },
   },
-  setup(props: ICarouselProps, { slots, emit }) {
+  setup(props: ICarouselProps, { emit }) {
     // init here
     const data = reactive<{
-      items: Component[]
+      items: ComponentInternalInstance[]
       activeIndex: number
       containerWidth: number
       timer: null | ReturnType<typeof setInterval>
@@ -148,7 +152,6 @@ export default {
 
     // refs
     const root = ref(null)
-    const itemUpdate = ref((cb) => null)
     const items = ref<Component[]>([])
     const offsetWidth = ref(0)
     const offsetHeight = ref(0)
@@ -159,7 +162,7 @@ export default {
     )
 
     const hasLabel = computed(() => {
-      return data.items.some((item) => item.props.label.toString().length > 0)
+      return data.items.some(item => item.props.label.toString().length > 0)
     })
 
     const carouselClasses = computed(() => {
@@ -185,22 +188,12 @@ export default {
     })
 
     // methods
-    const throttledArrowClick = throttle(300, true, (index) => {
+    const throttledArrowClick = throttle(300, true, index => {
       setActiveItem(index)
     })
-    const throttledIndicatorHover = throttle(300, (index) => {
+    const throttledIndicatorHover = throttle(300, index => {
       handleIndicatorHover(index)
     })
-
-    function handleMouseEnter() {
-      data.hover = true
-      pauseTimer()
-    }
-
-    function handleMouseLeave() {
-      data.hover = false
-      startTimer()
-    }
 
     function pauseTimer() {
       if (data.timer) {
@@ -210,7 +203,6 @@ export default {
     }
 
     function startTimer() {
-      // console.log('startTimer', props.interval, props.autoplay)
       if (props.interval <= 0 || !props.autoplay || data.timer) return
       data.timer = setInterval(() => playSlides(), props.interval)
     }
@@ -225,7 +217,9 @@ export default {
 
     function setActiveItem(index) {
       if (typeof index === 'string') {
-        const filteredItems = data.items.filter((item) => item.name === index)
+        const filteredItems = data.items.filter(
+          item => (item as any).ctx.name === index,
+        )
         if (filteredItems.length > 0) {
           index = data.items.indexOf(filteredItems[0])
         }
@@ -251,69 +245,63 @@ export default {
 
     function resetItemPosition(oldIndex) {
       data.items.forEach((item, index) => {
-        itemUpdate.value = (
-          cb: (i: number, v: number, t: number, item: Component) => void,
-        ) => cb(index, data.activeIndex, oldIndex, item as any)
+        item.ctx.translateItem(index, data.activeIndex, oldIndex)
       })
     }
 
-    function updateItems() {
-      const arr = slots.default().reduce((all, next) => {
-        const VnodeInChillren: VNode = next.children[0]
-        // console.log(next.children)
-        if (
-          typeof next.children === 'string' ||
-          !(next.children instanceof Array)
-        ) {
-          return all.concat([])
-        }
-
-        if ((VnodeInChillren?.type as Component).name === 'ElCarouselItem') {
-          return all.concat(next.children.map((f) => (f as any).type))
-        }
-      }, [] as Component[])
-      data.items = arr
-      items.value = arr
+    function updateItems(item: ComponentInternalInstance) {
+      data.items.push(item)
     }
 
     function itemInStage(item, index) {
       const length = data.items.length
+      console.log(data.items[0].ctx.data.active)
       if (
-        (index === length - 1 && item.inStage && data.items[0].active) ||
-        (item.inStage && data.items[index + 1] && data.items[index + 1].active)
+        (index === length - 1 &&
+          item.inStage &&
+          data.items[0].ctx.data.active) ||
+        (item.inStage &&
+          data.items[index + 1] &&
+          data.items[index + 1].ctx.data.active)
       ) {
         return 'left'
       } else if (
-        (index === 0 && item.inStage && data.items[length - 1].active) ||
-        (item.inStage && data.items[index - 1] && data.items[index - 1].active)
+        (index === 0 &&
+          item.inStage &&
+          data.items[length - 1].ctx.data.active) ||
+        (item.inStage &&
+          data.items[index - 1] &&
+          data.items[index - 1].ctx.data.active)
       ) {
         return 'right'
       }
       return false
     }
 
+    function handleMouseEnter() {
+      data.hover = true
+      pauseTimer()
+    }
+
+    function handleMouseLeave() {
+      data.hover = false
+      startTimer()
+    }
+
     function handleButtonEnter(arrow) {
       if (props.direction === 'vertical') return
       data.items.forEach((item, index) => {
         if (arrow === itemInStage(item, index)) {
-          item.hover = true
+          item.ctx.hover = true
         }
       })
     }
 
     function handleButtonLeave() {
       if (props.direction === 'vertical') return
-      data.items.forEach((item) => {
-        item.hover = false
+      data.items.forEach(item => {
+        item.ctx.hover = false
       })
-    }
-
-    function prev() {
-      setActiveItem(data.activeIndex - 1)
-    }
-
-    function next() {
-      setActiveItem(data.activeIndex + 1)
     }
 
     function handleIndicatorClick(index) {
@@ -326,28 +314,48 @@ export default {
       }
     }
 
+    function prev() {
+      setActiveItem(data.activeIndex - 1)
+    }
+
+    function next() {
+      setActiveItem(data.activeIndex + 1)
+    }
+
     // watch
     watch(
       () => data.activeIndex,
       (current, prev) => {
         resetItemPosition(prev)
-        console.log('index Change', data.items)
         if (prev > -1) {
           emit('change', current, prev)
         }
       },
     )
 
+    watch(
+      () => props.autoplay,
+      current => {
+        current ? startTimer() : pauseTimer()
+      },
+    )
+    watch(
+      () => props.loop,
+      () => {
+        setActiveItem(data.activeIndex)
+      },
+    )
+
     // lifecycle
     onMounted(() => {
-      updateItems()
-      // TODO: nextTick
-      setTimeout(() => {
+      nextTick(() => {
+        addResizeListener(root.value, resetItemPosition)
+        if (props.initialIndex < data.items.length && props.initialIndex >= 0) {
+          data.activeIndex = props.initialIndex
+        }
         startTimer()
-      }, 200)
+      })
     })
-
-    // TODO: addResizeListener
 
     onRenderTriggered(() => {
       if (root.value) {
@@ -355,7 +363,9 @@ export default {
         offsetHeight.value = root.value.offsetHeight
       }
     })
+
     onBeforeUnmount(() => {
+      if (root.value) removeResizeListener(root.value, resetItemPosition)
       pauseTimer()
     })
 
@@ -367,10 +377,7 @@ export default {
       type: props.type,
       items,
       loop: props.loop,
-      itemUpdate,
-      updateItems: () => {
-        updateItems()
-      },
+      updateItems,
     })
     return {
       arrowDisplay,
@@ -388,6 +395,9 @@ export default {
       throttledIndicatorHover,
       handleButtonEnter,
       handleButtonLeave,
+
+      prev,
+      next,
 
       root,
     }

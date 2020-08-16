@@ -4,7 +4,7 @@
     class="el-carousel__item"
     :class="{
       'is-active': data.active,
-      'el-carousel__item--card': $parent.type === 'card',
+      'el-carousel__item--card': type === 'card',
       'is-in-stage': data.inStage,
       'is-hover': data.hover,
       'is-animating': data.animating,
@@ -12,7 +12,11 @@
     :style="itemStyle"
     @click="handleItemClick"
   >
-    <div v-if="$parent.type === 'card'" v-show="!data.active" class="el-carousel__mask"></div>
+    <div
+      v-if="type === 'card'"
+      v-show="!data.active"
+      class="el-carousel__mask"
+    ></div>
     <slot></slot>
   </div>
 </template>
@@ -20,16 +24,18 @@
 import {
   defineComponent,
   reactive,
-  SetupContext,
   onMounted,
   inject,
   computed,
   Component,
-  watch,
   Ref,
   getCurrentInstance,
+  ComponentInternalInstance,
 } from 'vue'
-// import { autoprefixer } from 'element-ui/src/utils/util'
+import {
+  autoprefixer,
+  PartialCSSStyleDeclaration,
+} from '@element-plus/utils/util'
 
 interface ICarouselItemProps {
   name: string
@@ -41,16 +47,16 @@ const CARD_SCALE = 0.83
 export default defineComponent({
   name: 'ElCarouselItem',
   props: {
-    name: String,
+    name: { type: String, default: '' },
     label: {
       type: [String, Number],
       default: '',
     },
   },
-  setup(props: ICarouselItemProps, { attrs, emit }) {
+  setup() {
     // instance
     const instance = getCurrentInstance()
-    console.log(instance.type)
+
     // data
     const data = reactive({
       hover: false,
@@ -64,14 +70,13 @@ export default defineComponent({
 
     // inject
     const injectCarouselScopeData: {
-      direction: string
-      offsetWidth: Ref<number>
-      offsetHeight: Ref<number>
-      type: string
-      items: Ref<Component[]>
-      loop: boolean
-      itemUpdate: () => any
-      updateItems: () => void
+      direction?: string
+      offsetWidth?: Ref<number>
+      offsetHeight?: Ref<number>
+      type?: string
+      items?: Ref<Component[]>
+      loop?: boolean
+      updateItems?: (item: ComponentInternalInstance) => void
     } = inject('injectCarouselScope')
 
     // computed
@@ -83,10 +88,10 @@ export default defineComponent({
       const translateType =
         parentDirection.value === 'vertical' ? 'translateY' : 'translateX'
       const value = `${translateType}(${data.translate}px) scale(${data.scale})`
-      const style = {
+      const style: PartialCSSStyleDeclaration = {
         transform: value,
       }
-      return style
+      return autoprefixer(style)
     })
 
     // methods
@@ -128,14 +133,7 @@ export default defineComponent({
       index: number,
       activeIndex: number,
       oldIndex: number,
-      c: any,
     ) {
-      console.group('ElCarouselItem')
-
-      console.log({ index, activeIndex, oldIndex })
-      console.log(injectCarouselScopeData.items.value)
-      console.log(c)
-
       const parentType = injectCarouselScopeData.type
       const length = injectCarouselScopeData.items.value.length
       if (parentType !== 'card' && oldIndex !== undefined) {
@@ -163,21 +161,18 @@ export default defineComponent({
       console.groupEnd()
     }
 
-    // watch
-    watch(injectCarouselScopeData.itemUpdate, (current, pre) => {
-      console.log(current)
-      current(translateItem)
-      //   current();
-    })
-
     // lifecycle
     onMounted(() => {
-      injectCarouselScopeData.updateItems()
-      // console.log('props', props)
-      // console.log('props', props.key)
+      injectCarouselScopeData.updateItems &&
+        injectCarouselScopeData.updateItems(instance)
     })
 
-    return { itemStyle, data, translateItem }
+    return {
+      itemStyle,
+      data,
+      translateItem,
+      type: injectCarouselScopeData.type,
+    }
   },
 })
 </script>

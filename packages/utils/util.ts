@@ -8,12 +8,15 @@ import capitalize from 'lodash/capitalize'
 const { hasOwnProperty } = Object.prototype
 
 type Any = Record<string, unknown> | unknown
+export type PartialCSSStyleDeclaration = Partial<
+  Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>
+>
 
 export function hasOwn(obj: Any, key: string): boolean {
   return hasOwnProperty.call(obj, key)
 }
 
-function extend<T, K>(to: T, _from: K): T & K  {
+function extend<T, K>(to: T, _from: K): T & K {
   return Object.assign(to, _from)
 }
 
@@ -35,7 +38,11 @@ export const getValueByPath = (obj: Any, paths = ''): unknown => {
   return ret
 }
 
-export function getPropByPath(obj: Any, path: string, strict: boolean): {
+export function getPropByPath(
+  obj: Any,
+  path: string,
+  strict: boolean,
+): {
   o: unknown
   k: string
   v: Nullable<unknown>
@@ -71,8 +78,7 @@ export const generateId = (): number => Math.floor(Math.random() * 10000)
 // use isEqual instead
 // export const valueEquals
 
-
-export const escapeRegexpString = (value = ''): string=>
+export const escapeRegexpString = (value = ''): string =>
   String(value).replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
 
 // Use native Array.find, Array.findIndex instead
@@ -89,13 +95,12 @@ export const isEdge = function(): boolean {
 }
 
 export const isFirefox = function(): boolean {
-  return (
-    !isServer && !!window.navigator.userAgent.match(/firefox/i)
-  )
+  return !isServer && !!window.navigator.userAgent.match(/firefox/i)
 }
 
-export const autoprefixer = function(style: CSSStyleDeclaration): CSSStyleDeclaration {
-  if (typeof style !== 'object') return style
+export const autoprefixer = function(
+  style: PartialCSSStyleDeclaration,
+): PartialCSSStyleDeclaration {
   const rules = ['transform', 'transition', 'animation']
   const prefixes = ['ms-', 'webkit-']
   rules.forEach(rule => {
@@ -130,13 +135,11 @@ export const looseEqual = function<T, K>(a: T, b: K): boolean {
 }
 
 // reexport from lodash
-export {
-  isEmpty,
-  isEqual,
-  capitalize,
-}
+export { isEmpty, isEqual, capitalize }
 
-export function rafThrottle(fn: (args: Record<string, unknown>) => unknown): (...args: unknown[]) => unknown {
+export function rafThrottle(
+  fn: (args: Record<string, unknown>) => unknown,
+): (...args: unknown[]) => unknown {
   let locked = false
   return function(...args) {
     if (locked) return
