@@ -3,15 +3,27 @@
     <el-input
       ref="refInput"
       class="el-date-editor el-date-editor--time-select"
+      :readonly="!editable || readonly"
+      :disabled="pickerDisabled"
       :placeholder="placeholder"
       :model-value="displayValue"
       @focus="handleFocus"
+      @mouseenter="onMouseEnter"
+      @mouseleave="onMouseLeave"
     >
       <template #prefix>
         <i
-          class="el-input__icon el-icon-time"
+          class="el-input__icon"
           :class="triggerClass"
           @click="handleFocus"
+        >
+        </i>
+      </template>
+      <template #suffix>
+        <i
+          class="el-input__icon"
+          :class="[showClose ? '' + clearIcon : '']"
+          @click="onClearIconClick"
         >
         </i>
       </template>
@@ -30,6 +42,7 @@ import {
   defineComponent,
   ref,
   computed,
+  inject,
 } from 'vue'
 import dayjs from 'dayjs'
 import TimePick from './time-pick.vue'
@@ -40,6 +53,34 @@ export default defineComponent({
     TimePick,
   },
   props: {
+    editable: {
+      type: Boolean,
+      default: true,
+    },
+    clearable: {
+      type: Boolean,
+      default: true,
+    },
+    clearIcon: {
+      type: String,
+      default: 'el-icon-circle-close',
+    },
+    prefixIcon:{
+      type: String,
+      default: '',
+    },
+    size:{
+      type: String,
+      default: '',
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     placeholder: {
       type: String,
       default: '',
@@ -50,6 +91,7 @@ export default defineComponent({
     },
     pickerOptions: {}, // todo top level config
   },
+  emits: ['update:modelValue', 'change'],
   setup(props, ctx) {
     const refInput = ref(null)
     const pickerVisible = ref(false)
@@ -81,7 +123,10 @@ export default defineComponent({
     const handleFocus = () => {
       pickerVisible.value = true
     }
-
+    const elForm = inject('elForm', {})
+    const pickerDisabled = computed(() =>{
+      return props.disabled || elForm.disabled
+    })
     const parsedValue = computed(() => {
       if (!props.modelValue) return props.modelValue // component value is not set
       return props.modelValue
@@ -90,8 +135,42 @@ export default defineComponent({
     const displayValue = computed(() => {
       return dayjs(props.modelValue).format('HH:mm:ss')
     })
+    const triggerClass = computed(() => {
+      return props.prefixIcon || 'el-icon-time'
+    })
+    const showClose = ref(false)
+    const emitChange = (val) => {
+      // determine user real change only
+      // if (!valueEquals(val, this.valueOnOpen)) {
+      ctx.emit('change', val)
+    }
+    const onClearIconClick = (event) =>{
+      if (props.readonly || pickerDisabled.value) return
+      if (showClose.value) {
+        event.stopPropagation()
+        emitInput(null)
+        emitChange(null)
+        showClose.value = false
+      }
+    }
+    const valueIsEmpty = computed(() => {
+      return !props.modelValue
+    })
+    const onMouseEnter = () => {
+      if (props.readonly || pickerDisabled.value) return
+      if (!valueIsEmpty.value && props.clearable) {
+        showClose.value = true
+      }
+    }
+    const onMouseLeave = () => {
+      showClose.value = false
+    }
     return {
-      triggerClass: [],
+      onMouseLeave,
+      onMouseEnter,
+      onClearIconClick,
+      showClose,
+      triggerClass,
       onPick,
       handleFocus,
       pickerVisible,
@@ -99,6 +178,7 @@ export default defineComponent({
       parsedValue,
       setSelectionRange,
       refInput,
+      pickerDisabled,
     }
   },
 })
