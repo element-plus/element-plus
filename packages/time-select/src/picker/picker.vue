@@ -28,13 +28,13 @@
         </i>
       </template>
     </el-input>
-    <TimePick
+    <slot
       :visible="pickerVisible"
       :parsed-value="parsedValue"
       :picker-options="pickerOptions"
       @pick="onPick"
       @select-range="setSelectionRange"
-    />
+    ></slot>
   </div>
 </template>
 <script lang='ts'>
@@ -45,13 +45,9 @@ import {
   inject,
 } from 'vue'
 import dayjs from 'dayjs'
-import TimePick from './time-pick.vue'
 
 export default defineComponent({
-  name: 'ElTimePicker',
-  components: {
-    TimePick,
-  },
+  name: 'Picker',
   props: {
     editable: {
       type: Boolean,
@@ -123,7 +119,7 @@ export default defineComponent({
     const handleFocus = () => {
       pickerVisible.value = true
     }
-    const elForm = inject('elForm', {})
+    const elForm = inject('elForm', {} as any)
     const pickerDisabled = computed(() =>{
       return props.disabled || elForm.disabled
     })
