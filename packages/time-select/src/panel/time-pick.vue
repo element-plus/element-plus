@@ -8,7 +8,7 @@
       <div class="el-time-panel__content" :class="{ 'has-seconds': showSeconds }">
         <time-spinner
           ref="spinner"
-          :arrow-control="useArrow"
+          :arrow-control="timeArrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
           :date="parsedValue"
@@ -39,10 +39,10 @@
 </template>
 
 <script type="ts">
-const modifyDate = function(date, y, m, d) {
+export const modifyDate = function(date, y, m, d) {
   return new Date(y, m, d, date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds())
 }
-const limitTimeRange = function(date, ranges, format = 'HH:mm:ss') {
+export const limitTimeRange = function(date, ranges, format = 'HH:mm:ss') {
   // TODO: refactory a more elegant solution
   if (ranges.length === 0) return date
   const normalizeDate = date => {
@@ -74,12 +74,15 @@ const isDate = function(date) {
   if (Array.isArray(date)) return false // deal with `new Date([ new Date() ]) -> new Date()`
   return true
 }
-const clearMilliseconds = function(date) {
+export const clearMilliseconds = function(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0)
 }
-const timeWithinRange = function(date, selectableRange, format) {
+export const timeWithinRange = function(date, selectableRange, format) {
   const limitedDate = limitTimeRange(date, selectableRange, format)
   return limitedDate.getTime() === date.getTime()
+}
+export const parseDate = (string, format ) => {
+  return dayjs(string, format).toDate()
 }
 import {
   defineComponent,
@@ -101,7 +104,7 @@ export default defineComponent({
   },
 
   props: {
-    visible:{
+    visible: {
       type: [Boolean],
       default: false,
     },
@@ -109,9 +112,15 @@ export default defineComponent({
       type: [String, Date],
       default: '',
     },
-    timeArrowControl: Boolean,
-    pickerOptions: {},
-    rangeSeparator: {
+    timeArrowControl: {
+      type: [Boolean],
+      default: false,
+    },
+    pickerOptions: {
+      type: Object,
+      default: () => ({}),
+    },
+    rangeSeparator: { // todo move to top picker
       type: String,
       default: '-',
     },
@@ -126,9 +135,6 @@ export default defineComponent({
     const selectionRange = ref([0, 2])
     const showSeconds = computed(() => {
       return (format.value || '').indexOf('ss') !== -1
-    })
-    const useArrow = computed(() => {
-      return props.timeArrowControl || false
     })
     const amPmMode = computed(() => {
       if ((format.value || '').indexOf('A') !== -1) return 'A'
@@ -193,7 +199,6 @@ export default defineComponent({
       setSelectionRange,
       date,
       amPmMode,
-      useArrow,
       showSeconds,
       handleCancel,
       selectableRange,

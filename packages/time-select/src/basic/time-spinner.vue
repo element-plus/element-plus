@@ -212,7 +212,10 @@ export default defineComponent({
       type: String,
       default: '', // 'a': am/pm; 'A': AM/PM
     },
-    selectableRange: [],
+    selectableRange: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   emits: ['change', 'select-range'],
