@@ -3,19 +3,6 @@ import Alert from '../src/index.vue'
 
 const AXIOM = 'Rem is the best girl'
 
-const _mount = (template: string) => mount({
-  components: {
-    'el-alert': Alert,
-  },
-  template,
-}, {
-  global: {
-    provide: {
-      breadcrumb: {},
-    },
-  },
-})
-
 describe('Alert.vue', () => {
   test('render test & class', () => {
     const wrapper = mount(Alert, {
@@ -60,15 +47,6 @@ describe('Alert.vue', () => {
     })
     expect(wrapper.find('.el-alert').classes()).toContain('is-dark')
   })
-
-  // test('title slot', () => {
-  //   const wrapper = _mount(`
-  //     <el-alert>
-  //       <span slot="title">foo</span>
-  //     </el-alert>
-  //   `)
-  //   expect(wrapper.find('.el-alert__title').text()).toBe('foo')
-  // })
 
   test('title slot', () => {
     const wrapper = mount(Alert, {
