@@ -1,7 +1,7 @@
 <template>
   <transition name="el-alert-fade">
     <div
-      v-show="state.visible"
+      v-show="visible"
       class="el-alert"
       :class="[typeClass, center ? 'is-center' : '', 'is-' + effect]"
       role="alert"
@@ -11,10 +11,13 @@
         <span v-if="title || $slots.title" class="el-alert__title" :class="[ isBoldTitle ]">
           <slot name="title">{{ title }}</slot>
         </span>
-        <p v-if="$slots.default && !description" class="el-alert__description"><slot></slot></p>
-        <p v-if="description && !$slots.default" class="el-alert__description">{{ description }}</p>
+        <p class="el-alert__description">
+          <slot>
+            {{ description }}
+          </slot>
+        </p>
         <i
-          v-show="closable"
+          v-if="closable"
           class="el-alert__closebtn"
           :class="{ 'is-customed': closeText !== '', 'el-icon-close': closeText === '' }"
           @click="close"
@@ -26,7 +29,7 @@
   </transition>
 </template>
 <script lang='ts'>
-import { defineComponent, computed, reactive } from 'vue'
+import { defineComponent, computed, ref, PropType } from 'vue'
 
 const TYPE_CLASSES_MAP = {
   'success': 'el-icon-success',
@@ -46,7 +49,7 @@ export default defineComponent({
       default: '',
     },
     type: {
-      type: String,
+      type: String as PropType<'success' | 'info' | 'error' | 'warning'>,
       default: 'info',
     },
     closable: {
@@ -68,9 +71,7 @@ export default defineComponent({
   emits: ['click'],
   setup(props, ctx) {
     // state
-    const state = reactive({
-      visible: true,
-    })
+    const visible = ref(true)
 
     // computed
     const typeClass = computed(() => `el-alert--${ props.type }`)
@@ -80,12 +81,12 @@ export default defineComponent({
 
     // methods
     const close = (evt) => {
-      state.visible = false
+      visible.value = false
       ctx.emit('click', evt)
     }
 
     return {
-      state,
+      visible,
       typeClass,
       iconClass,
       isBigIcon,

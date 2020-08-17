@@ -24,9 +24,8 @@ describe('Alert.vue', () => {
         showIcon: true,
       },
     })
-    const vm = wrapper.vm
-    expect(vm.$el.querySelector('.el-alert__title').textContent).toEqual(AXIOM)
-    expect(vm.$el.classList.contains('el-alert--info')).toEqual(true)
+    expect(wrapper.find('.el-alert__title').text()).toEqual(AXIOM)
+    expect(wrapper.find('.el-alert').classes()).toContain('el-alert--info')
   })
 
   test('type', () => {
@@ -37,8 +36,8 @@ describe('Alert.vue', () => {
         showIcon: true,
       },
     })
-    const vm = wrapper.vm
-    expect(vm.$el.classList.contains('el-alert--success')).toEqual(true)
+    expect(wrapper.find('.el-alert').classes()).toContain('el-alert--success')
+    expect(wrapper.find('.el-alert__icon').classes()).toContain('el-icon-success')
   })
 
   test('description', () => {
@@ -49,9 +48,7 @@ describe('Alert.vue', () => {
         showIcon: true,
       },
     })
-    const vm = wrapper.vm
-    expect(vm.$el.querySelector('.el-alert__description').textContent)
-      .toEqual(AXIOM)
+    expect(wrapper.find('.el-alert__description').text()).toEqual(AXIOM)
   })
 
   test('theme', () => {
@@ -61,8 +58,7 @@ describe('Alert.vue', () => {
         effect: 'dark',
       },
     })
-    const vm = wrapper.vm
-    expect(vm.$el.classList.contains('is-dark')).toEqual(true)
+    expect(wrapper.find('.el-alert').classes()).toContain('is-dark')
   })
 
   // test('title slot', () => {
@@ -80,9 +76,7 @@ describe('Alert.vue', () => {
         title: AXIOM,
       },
     })
-    const vm = wrapper.vm
-    expect(vm.$el.querySelector('.el-alert__title').textContent)
-      .toEqual(AXIOM)
+    expect(wrapper.find('.el-alert__title').text()).toEqual(AXIOM)
   })
 
   test('close', async () => {
