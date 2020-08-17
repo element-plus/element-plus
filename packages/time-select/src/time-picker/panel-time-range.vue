@@ -74,9 +74,9 @@ import {
   modifyDate,
   clearMilliseconds,
   timeWithinRange,
-} from './time-pick'
+} from './panel-time-pick'
 import { t } from '@element-plus/locale'
-import TimeSpinner from '../basic/time-spinner.vue'
+import TimeSpinner from './basic-time-spinner.vue'
 import {
   defineComponent,
   ref,

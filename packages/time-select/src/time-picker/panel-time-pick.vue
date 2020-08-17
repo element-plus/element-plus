@@ -93,7 +93,7 @@ import {
   onMounted,
 } from 'vue'
 import { t } from '@element-plus/locale'
-import TimeSpinner from '../basic/time-spinner.vue'
+import TimeSpinner from './basic-time-spinner.vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 dayjs.extend(customParseFormat)
