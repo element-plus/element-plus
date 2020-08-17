@@ -1,4 +1,5 @@
 import type { App } from 'vue'
+import ElAlert from '@element-plus/alert'
 import ElAvatar from '@element-plus/avatar'
 import ElBacktop from '@element-plus/backtop'
 import ElButton from '@element-plus/button'
@@ -24,6 +25,7 @@ import ElSteps from '@element-plus/steps'
 import ElCollapse from '@element-plus/collapse'
 
 export {
+  ElAlert,
   ElAvatar,
   ElBacktop,
   ElLayout,
@@ -50,6 +52,7 @@ export {
 }
 
 export default function install(app: App): void {
+  ElAlert(app)
   ElAvatar(app)
   ElBacktop(app)
   ElButton(app)
