@@ -1,5 +1,4 @@
 import { mount } from '@vue/test-utils'
-import { h } from 'vue'
 import * as Vue from 'vue'
 import * as popperExports from '@popperjs/core'
 import ElPopper from '../src/index.vue'
@@ -10,19 +9,41 @@ type UnKnownProps = Record<string, unknown>
 
 jest.mock('lodash')
 
-const AXIOM = 'Rem is the best girl'
-const Wrapped = (props: UnKnownProps, { slots }) => h('div', h(ElPopper, props, slots))
+jest.useFakeTimers()
 
+const { h } = Vue
+const AXIOM = 'Rem is the best girl'
+const selector = '[role="tooltip"]'
+const TEST_TRIGGER = 'test-trigger'
+const MOUSE_ENTER_EVENT = 'mouseenter'
+const MOUSE_LEAVE_EVENT = 'mouseleave'
+const DISPLAY_NONE = 'display: none'
+
+const Wrapped = (props: UnKnownProps, { slots }) => h('div', h(ElPopper, props, slots))
 const Transition = (_: UnKnownProps, { attrs, slots }) => h('div', attrs, slots)
+const errorHandler = jest.fn()
 Transition.displayName = 'Transition'
 // eslint-disable-next-line
 const _mount = (props: Record<string, unknown> = {}, slots = {}): VueWrapper<any> =>
   mount(Wrapped, {
     props,
-    slots,
+    slots: {
+      trigger: () => h('div', {
+        class: TEST_TRIGGER,
+      }),
+      ...slots,
+    },
+    global: {
+      config: {
+        errorHandler(err: Error) {
+          errorHandler(err)
+        },
+        warnHandler() {
+          // suppress warning
+        },
+      },
+    },
   })
-
-const selector = '[role="tooltip"]'
 
 
 const popperMock = jest.spyOn(popperExports, 'createPopper').mockImplementation(() => ({
@@ -50,6 +71,7 @@ describe('Popper.vue', () => {
 
   beforeEach(() => {
     popperMock.mockClear()
+    errorHandler.mockClear()
   })
 
   test('render test', () => {
@@ -88,92 +110,88 @@ describe('Popper.vue', () => {
   })
 
   test('should show popper when mouse entered and hide when popper left', async () => {
-    const referrer = document.createElement('div')
     const wrapper = _mount({
-      referrer,
       appendToBody: false,
     })
 
-    expect(wrapper.find(selector).attributes('style')).toContain('display: none')
-    await wrapper.find(selector).trigger('mouseenter')
+    expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
+    await wrapper.find(selector).trigger(MOUSE_ENTER_EVENT)
 
-    expect(wrapper.find(selector).attributes('style')).not.toContain('display: none')
+    expect(wrapper.find(selector).attributes('style')).not.toContain(DISPLAY_NONE)
 
-    await wrapper.find(selector).trigger('mouseleave')
+    await wrapper.find(selector).trigger(MOUSE_LEAVE_EVENT)
 
-    expect(wrapper.find(selector).attributes('style')).toContain('display: none')
+    expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
   })
 
   test('should be able to manual open', async () => {
-    const referrer = document.createElement('div')
     const wrapper = _mount({
-      referrer,
       manualMode: true,
       appendToBody: false,
       value: false,
     })
-    expect(wrapper.find(selector).attributes('style')).toContain('display: none')
-    await wrapper.find(selector).trigger('mouseenter')
+    expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
+    await wrapper.find(selector).trigger(MOUSE_ENTER_EVENT)
 
-    expect(wrapper.find(selector).attributes('style')).toContain('display: none')
+    expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
     await wrapper.setProps({
       value: true,
     })
 
-    expect(wrapper.find(selector).attributes('style')).not.toContain('display: none')
+    expect(wrapper.find(selector).attributes('style')).not.toContain(DISPLAY_NONE)
   })
 
   test('should disable popper to popup', async () => {
-    const referrer = document.createElement('div')
     const wrapper = _mount({
-      referrer,
       disabled: true,
       appendToBody: false,
     })
 
-    expect(wrapper.find(selector).attributes('style')).toContain('display: none')
-    await wrapper.find(selector).trigger('mouseenter')
+    expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
+    await wrapper.find(selector).trigger(MOUSE_ENTER_EVENT)
 
-    expect(wrapper.find(selector).attributes('style')).toContain('display: none')
+    expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
 
     await wrapper.setProps({
       disabled: false,
     })
-    await wrapper.find(selector).trigger('mouseenter')
+    await wrapper.find(selector).trigger(MOUSE_ENTER_EVENT)
 
-    expect(wrapper.find(selector).attributes('style')).not.toContain('display: none')
+    expect(wrapper.find(selector).attributes('style')).not.toContain(DISPLAY_NONE)
   })
 
-  test('should add tabindex to referrer', async () => {
-    const referrer = document.createElement('div')
+  test('should add tab index to referrer', async () => {
     const wrapper = _mount({
       appendToBody: false,
     })
-    expect(referrer.getAttribute('tabindex')).toBeNull()
-
-    await wrapper.setProps({
-      referrer,
-    })
-
-    expect(referrer.getAttribute('tabindex')).not.toBeNull()
+    expect(wrapper.find(`.${TEST_TRIGGER}`).attributes('tabindex')).toBe('0')
   })
 
-  test('should destroy old popper and initialize a new popper', async () => {
-    const referrer = document.createElement('div')
-    const wrapper = _mount({
+  test('should initialize a new popper when component mounted', async () => {
+    _mount({
       appendToBody: false,
-    })
-
-    await wrapper.setProps({
-      referrer,
     })
 
     expect(popperExports.createPopper).toHaveBeenCalledTimes(1)
 
-    await wrapper.setProps({
-      referrer: document.createElement('div'),
+  })
+
+  test('should hide after hide after is given', async () => {
+
+    const wrapper = _mount({
+      hideAfter: 200,
+      appendToBody: false,
     })
 
-    expect(popperExports.createPopper).toHaveBeenCalledTimes(2)
+    await wrapper.find(selector).trigger(MOUSE_ENTER_EVENT)
+    jest.runOnlyPendingTimers()
+    expect(wrapper.find(selector).attributes('style')).not.toContain(DISPLAY_NONE)
+  })
+
+  test('should throw error when there is no trigger', () => {
+    _mount({ }, {
+      trigger: undefined,
+    })
+    expect(errorHandler).toHaveBeenCalledTimes(1)
   })
 })
