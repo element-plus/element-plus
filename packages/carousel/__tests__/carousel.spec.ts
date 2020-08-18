@@ -185,16 +185,14 @@ describe('Carousel', () => {
     it('setActiveItem', done => {
       const wrapper = _mount(`
         <div>
-          <el-carousel :autoplay="false">
+          <el-carousel :autoplay="false" ref="carousel">
             <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
           </el-carousel>
         </div>
       `)
 
       setTimeout(() => {
-        console.log(wrapper.vm)
-        console.log(wrapper.vm.$refs.carousel)
-        wrapper.vm.setActiveItem(1)
+        wrapper.vm.$refs.carousel.setActiveItem(1)
         setTimeout(() => {
           expect(
             wrapper.vm.$el
@@ -206,71 +204,71 @@ describe('Carousel', () => {
       }, 10)
     })
 
-    // it('slide', done => {
-    //   const wrapper = _mount(`
-    //     <div>
-    //       <el-carousel :autoplay="false">
-    //         <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-    //       </el-carousel>
-    //     </div>
-    //   `)
+    it('slide', done => {
+      const wrapper = _mount(`
+        <div>
+          <el-carousel :autoplay="false" ref="carousel">
+            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
+          </el-carousel>
+        </div>
+      `)
 
-    //   setTimeout(() => {
-    //     wrapper.vm.prev(1)
-    //     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
-    //     setTimeout(() => {
-    //       expect(items[2].classList.contains('is-active')).toBeTruthy()
-    //       wrapper.vm.next(1)
-    //       setTimeout(() => {
-    //         expect(items[0].classList.contains('is-active')).toBeTruthy()
-    //         done()
-    //       }, 10)
-    //     }, 10)
-    //   }, 10)
-    // })
+      setTimeout(() => {
+        wrapper.vm.$refs.carousel.prev(1)
+        const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
+        setTimeout(() => {
+          expect(items[2].classList.contains('is-active')).toBeTruthy()
+          wrapper.vm.$refs.carousel.next(1)
+          setTimeout(() => {
+            expect(items[0].classList.contains('is-active')).toBeTruthy()
+            done()
+          }, 10)
+        }, 10)
+      }, 10)
+    })
   })
 
-  // it('card', done => {
-  //   const wrapper = _mount(`
-  //       <div>
-  //         <el-carousel :autoplay="false" type="card">
-  //           <el-carousel-item v-for="item in 7" :key="item"></el-carousel-item>
-  //         </el-carousel>
-  //       </div>
-  //     `)
+  it('card', done => {
+    const wrapper = _mount(`
+        <div>
+          <el-carousel :autoplay="false" type="card">
+            <el-carousel-item v-for="item in 7" :key="item"></el-carousel-item>
+          </el-carousel>
+        </div>
+      `)
 
-  //   setTimeout(() => {
-  //     const items = vm.$el.querySelectorAll('.el-carousel__item')
-  //     expect(items[0].classList.contains('is-active')).to.true
-  //     expect(items[1].classList.contains('is-in-stage')).to.true
-  //     expect(items[6].classList.contains('is-in-stage')).to.true
-  //     items[1].click()
-  //     setTimeout(() => {
-  //       expect(items[1].classList.contains('is-active')).to.true
-  //       vm.$el.querySelector('.el-carousel__arrow--left').click()
-  //       setTimeout(() => {
-  //         expect(items[0].classList.contains('is-active')).to.true
-  //         items[6].click()
-  //         setTimeout(() => {
-  //           expect(items[6].classList.contains('is-active')).to.true
-  //           done()
-  //         }, 10)
-  //       }, 10)
-  //     }, 10)
-  //   }, 10)
-  // })
+    setTimeout(() => {
+      const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
+      expect(items[0].classList.contains('is-active')).toBeTruthy()
+      expect(items[1].classList.contains('is-in-stage')).toBeTruthy()
+      expect(items[6].classList.contains('is-in-stage')).toBeTruthy()
+      items[1].click()
+      setTimeout(() => {
+        expect(items[1].classList.contains('is-active')).toBeTruthy()
+        wrapper.vm.$el.querySelector('.el-carousel__arrow--left').click()
+        setTimeout(() => {
+          expect(items[0].classList.contains('is-active')).toBeTruthy()
+          items[6].click()
+          setTimeout(() => {
+            expect(items[6].classList.contains('is-active')).toBeTruthy()
+            done()
+          }, 10)
+        }, 10)
+      }, 10)
+    }, 10)
+  })
 
-  // it('vertical direction', () => {
-  //   const wrapper = _mount(`
-  //       <div>
-  //         <el-carousel ref="carousel" :autoplay="false" direction="vertical" height="100px">
-  //           <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-  //         </el-carousel>
-  //       </div>
-  //     `)
-  //   const items = vm.$el.querySelectorAll('.el-carousel__item')
+  it('vertical direction', () => {
+    const wrapper = _mount(`
+        <div>
+          <el-carousel ref="carousel" :autoplay="false" direction="vertical" height="100px">
+            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
+          </el-carousel>
+        </div>
+      `)
+    const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
 
-  //   expect(vm.$refs.carousel.direction).toBe.equal('vertical')
-  //   expect(items[0].style.transform.indexOf('translateY') !== -1).toBe.true
-  // })
+    expect(wrapper.vm.$refs.carousel.direction).toBe('vertical')
+    expect(items[0].style.transform.indexOf('translateY') !== -1).toBeTruthy()
+  })
 })

@@ -1,5 +1,5 @@
-describe('CarouselItem.vue', () => {
-  test('render test', () => {
-    console.log('pass')
+describe('CarouselItem', () => {
+  it('render test', done => {
+    done()
   })
 })
