@@ -25,7 +25,7 @@
         <button
           v-show="
             (arrow === 'always' || data.hover) &&
-              (props.loop || data.activeIndex < data.items.length - 1)
+              (props.loop || data.activeIndex < items.value.length - 1)
           "
           type="button"
           class="el-carousel__arrow el-carousel__arrow--right"
@@ -40,7 +40,7 @@
     </div>
     <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
       <li
-        v-for="(item, index) in data.items"
+        v-for="(item, index) in items"
         :key="index"
         :class="[
           'el-carousel__indicator',
@@ -66,12 +66,10 @@ import {
   provide,
   onMounted,
   ComponentInternalInstance,
-  Component,
   onRenderTriggered,
   onBeforeUnmount,
   watch,
   nextTick,
-  getCurrentInstance,
 } from 'vue'
 import { throttle } from 'throttle-debounce'
 import {
@@ -142,26 +140,22 @@ export default {
   },
   emits: ['change'],
   setup(props: ICarouselProps, { emit }) {
-    // init here
+    // data
     const data = reactive<{
-      items: ComponentInternalInstanceWithContext[]
       activeIndex: number
       containerWidth: number
       timer: null | ReturnType<typeof setInterval>
       hover: boolean
     }>({
-      items: [],
       activeIndex: -1,
       containerWidth: 0,
       timer: null,
       hover: false,
     })
 
-    // console.log(getCurrentInstance())
-
     // refs
     const root = ref(null)
-    const items = ref<Component[]>([])
+    const items = ref<ComponentInternalInstanceWithContext[]>([])
     const offsetWidth = ref(0)
     const offsetHeight = ref(0)
 
@@ -171,7 +165,7 @@ export default {
     )
 
     const hasLabel = computed(() => {
-      return data.items.some(item => item.props.label.toString().length > 0)
+      return items.value.some(item => item.props.label.toString().length > 0)
     })
 
     const carouselClasses = computed(() => {
@@ -200,6 +194,7 @@ export default {
     const throttledArrowClick = throttle(300, true, index => {
       setActiveItem(index)
     })
+
     const throttledIndicatorHover = throttle(300, index => {
       handleIndicatorHover(index)
     })
@@ -217,7 +212,7 @@ export default {
     }
 
     const playSlides = () => {
-      if (data.activeIndex < data.items.length - 1) {
+      if (data.activeIndex < items.value.length - 1) {
         data.activeIndex = data.activeIndex + 1
       } else if (props.loop) {
         data.activeIndex = 0
@@ -226,11 +221,11 @@ export default {
 
     function setActiveItem(index) {
       if (typeof index === 'string') {
-        const filteredItems = data.items.filter(
+        const filteredItems = items.value.filter(
           item => item.ctx?.name === index,
         )
         if (filteredItems.length > 0) {
-          index = data.items.indexOf(filteredItems[0])
+          index = items.value.indexOf(filteredItems[0])
         }
       }
       index = Number(index)
@@ -238,7 +233,7 @@ export default {
         console.warn('[Element Warn][Carousel]index must be an integer.')
         return
       }
-      let length = data.items.length
+      let length = items.value.length
       const oldIndex = data.activeIndex
       if (index < 0) {
         data.activeIndex = props.loop ? length - 1 : 0
@@ -253,33 +248,33 @@ export default {
     }
 
     function resetItemPosition(oldIndex) {
-      data.items.forEach((item, index) => {
+      items.value.forEach((item, index) => {
         item.ctx?.translateItem(index, data.activeIndex, oldIndex)
       })
     }
 
     function updateItems(item: ComponentInternalInstance) {
-      data.items.push(item)
+      items.value.push(item)
     }
 
     function itemInStage(item, index) {
-      const length = data.items.length
+      const length = items.value.length
       if (
         (index === length - 1 &&
           item.inStage &&
-          data.items[0].ctx?.data.active) ||
+          items.value[0].ctx?.data.active) ||
         (item.inStage &&
-          data.items[index + 1] &&
-          data.items[index + 1].ctx?.data.active)
+          items.value[index + 1] &&
+          items.value[index + 1].ctx?.data.active)
       ) {
         return 'left'
       } else if (
         (index === 0 &&
           item.inStage &&
-          data.items[length - 1].ctx?.data.active) ||
+          items.value[length - 1].ctx?.data.active) ||
         (item.inStage &&
-          data.items[index - 1] &&
-          data.items[index - 1].ctx?.data.active)
+          items.value[index - 1] &&
+          items.value[index - 1].ctx?.data.active)
       ) {
         return 'right'
       }
@@ -298,7 +293,7 @@ export default {
 
     function handleButtonEnter(arrow) {
       if (props.direction === 'vertical') return
-      data.items.forEach((item, index) => {
+      items.value.forEach((item, index) => {
         if (arrow === itemInStage(item, index)) {
           item.ctx.hover = true
         }
@@ -307,7 +302,7 @@ export default {
 
     function handleButtonLeave() {
       if (props.direction === 'vertical') return
-      data.items.forEach(item => {
+      items.value.forEach(item => {
         item.ctx.hover = false
       })
     }
@@ -340,7 +335,6 @@ export default {
         }
       },
     )
-
     watch(
       () => props.autoplay,
       current => {
@@ -357,9 +351,11 @@ export default {
     // lifecycle
     onMounted(() => {
       nextTick(() => {
-        // console.log(data.items)
         addResizeListener(root.value, resetItemPosition)
-        if (props.initialIndex < data.items.length && props.initialIndex >= 0) {
+        if (
+          props.initialIndex < items.value.length &&
+          props.initialIndex >= 0
+        ) {
           data.activeIndex = props.initialIndex
         }
         startTimer()
@@ -387,15 +383,18 @@ export default {
       items,
       loop: props.loop,
       updateItems,
+      setActiveItem,
     })
+
     return {
+      data,
+      props,
+      items,
+
       arrowDisplay,
       carouselClasses,
       indicatorsClasses,
       hasLabel,
-
-      data,
-      props,
 
       handleMouseEnter,
       handleMouseLeave,

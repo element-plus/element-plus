@@ -27,7 +27,6 @@ import {
   onMounted,
   inject,
   computed,
-  Component,
   Ref,
   getCurrentInstance,
   ComponentInternalInstance,
@@ -74,9 +73,10 @@ export default defineComponent({
       offsetWidth?: Ref<number>
       offsetHeight?: Ref<number>
       type?: string
-      items?: Ref<Component[]>
+      items?: Ref<ComponentInternalInstance[]>
       loop?: boolean
       updateItems?: (item: ComponentInternalInstance) => void
+      setActiveItem: (index: number) => void
     } = inject('injectCarouselScope')
 
     // computed
@@ -158,7 +158,13 @@ export default defineComponent({
         data.translate = calcTranslate(index, activeIndex, isVertical)
       }
       data.ready = true
-      console.groupEnd()
+    }
+
+    function handleItemClick() {
+      if (injectCarouselScopeData && injectCarouselScopeData.type === 'card') {
+        const index = injectCarouselScopeData.items.value.indexOf(instance)
+        injectCarouselScopeData.setActiveItem(index)
+      }
     }
 
     // lifecycle
@@ -168,10 +174,13 @@ export default defineComponent({
     })
 
     return {
-      itemStyle,
       data,
+
+      itemStyle,
       translateItem,
       type: injectCarouselScopeData.type,
+
+      handleItemClick,
     }
   },
 })
