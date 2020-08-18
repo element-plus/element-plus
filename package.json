@@ -49,7 +49,7 @@
     "sass": "^1.26.10",
     "sass-loader": "^9.0.3",
     "style-loader": "^1.2.1",
-    "throttle-debounce": "1.0.1",
+    "throttle-debounce": "^2.2.1",
     "transliteration": "^2.1.11",
     "ts-loader": "^8.0.1",
     "typescript": "^3.9.7",
