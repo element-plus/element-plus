@@ -24,6 +24,10 @@
     "@storybook/html": "^5.3.19",
     "@swc-node/jest": "^0.1.9",
     "@types/jest": "^26.0.7",
+<<<<<<< HEAD
+=======
+    "@types/lodash": "^4.14.159",
+>>>>>>> chore(popper): replace lodash with lodash-es
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
     "@vue/compiler-sfc": "^3.0.0-rc.1",

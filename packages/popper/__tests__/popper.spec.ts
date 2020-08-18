@@ -6,13 +6,14 @@ import ElPopper from '../src/index.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
 
+type UnKnownProps = Record<string, unknown>
+
+jest.mock('lodash')
+
 const AXIOM = 'Rem is the best girl'
+const Wrapped = (props: UnKnownProps, { slots }) => h('div', h(ElPopper, props, slots))
 
-jest.mock('lodash-es')
-
-const Wrapped = (props, { slots }) => h('div', h(ElPopper, props, slots))
-
-const Transition = (_, { attrs, slots }) => h('div', attrs, slots)
+const Transition = (_: UnKnownProps, { attrs, slots }) => h('div', attrs, slots)
 Transition.displayName = 'Transition'
 // eslint-disable-next-line
 const _mount = (props: Record<string, unknown> = {}, slots = {}): VueWrapper<any> =>
@@ -24,20 +25,23 @@ const _mount = (props: Record<string, unknown> = {}, slots = {}): VueWrapper<any
 const selector = '[role="tooltip"]'
 
 
+const popperMock = jest.spyOn(popperExports, 'createPopper').mockImplementation(() => ({
+  update: jest.fn(),
+  forceUpdate: jest.fn(),
+  setOptions: jest.fn(),
+  destroy: jest.fn(),
+  state: null,
+}))
+
 describe('Popper.vue', () => {
-  let popperMock
+  // eslint-disable-next-line
+  // eslint-disable-next-line
   const oldTransition = Vue.Transition
   beforeAll(() => {
-    popperMock = jest.spyOn(popperExports, 'createPopper').mockImplementation(() => ({
-      update: jest.fn(),
-      forceUpdate: jest.fn(),
-      setOptions: jest.fn(),
-      destroy: jest.fn(),
-      state: null,
-    }))
     // eslint-disable-next-line
     ;(Vue as any).Transition = Transition
   })
+
   afterAll(() => {
     popperMock.mockReset()
     // eslint-disable-next-line
@@ -110,6 +114,7 @@ describe('Popper.vue', () => {
     })
     expect(wrapper.find(selector).attributes('style')).toContain('display: none')
     await wrapper.find(selector).trigger('mouseenter')
+
     expect(wrapper.find(selector).attributes('style')).toContain('display: none')
     await wrapper.setProps({
       value: true,
@@ -134,8 +139,8 @@ describe('Popper.vue', () => {
     await wrapper.setProps({
       disabled: false,
     })
-
     await wrapper.find(selector).trigger('mouseenter')
+
     expect(wrapper.find(selector).attributes('style')).not.toContain('display: none')
   })
 
