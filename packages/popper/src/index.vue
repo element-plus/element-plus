@@ -32,11 +32,10 @@ import {
   ref,
   onBeforeUnmount,
   onMounted,
-  onUnmounted,
   watch,
 } from 'vue'
 import { isArray } from '@vue/shared'
-import { debounce } from 'lodash-es'
+import { debounce } from 'lodash'
 import { createPopper } from '@popperjs/core'
 
 import { generateId } from '@element-plus/utils/util'
