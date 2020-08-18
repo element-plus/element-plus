@@ -1,4 +1,5 @@
 import type { App } from 'vue'
+import ElAlert from '@element-plus/alert'
 import ElAvatar from '@element-plus/avatar'
 import ElBacktop from '@element-plus/backtop'
 import ElButton from '@element-plus/button'
@@ -22,9 +23,11 @@ import ElNotification from '@element-plus/notification'
 import ElPageHeader from '@element-plus/page-header'
 import ElRadio from '@element-plus/radio'
 import ElScrollBar from '@element-plus/scrollbar'
+import ElSteps from '@element-plus/steps'
 import ElCollapse from '@element-plus/collapse'
 
 export {
+  ElAlert,
   ElAvatar,
   ElBacktop,
   ElLayout,
@@ -47,11 +50,13 @@ export {
   ElNotification,
   ElPageHeader,
   ElScrollBar,
+  ElSteps,
   ElRadio,
   ElCollapse,
 }
 
 export default function install(app: App): void {
+  ElAlert(app)
   ElAvatar(app)
   ElBacktop(app)
   ElButton(app)
@@ -74,6 +79,7 @@ export default function install(app: App): void {
   ElNotification(app)
   ElPageHeader(app)
   ElScrollBar(app)
+  ElSteps(app)
   ElRadio(app)
   ElCollapse(app)
 }

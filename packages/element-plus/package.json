@@ -14,6 +14,7 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "dependencies": {
+    "@element-plus/alert": "^0.0.0",
     "@element-plus/avatar": "^0.0.0",
     "@element-plus/badge": "^0.0.0",
     "@element-plus/backtop": "^0.0.0",
@@ -31,6 +32,7 @@
     "@element-plus/radio": "^0.0.0",
     "@element-plus/page-header": "^0.0.0",
     "@element-plus/scrollbar": "^0.0.0",
+    "@element-plus/steps": "^0.0.0",
     "@element-plus/notification": "^0.0.0",
     "@element-plus/collapse": "^0.0.0"
   }
