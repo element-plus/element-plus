@@ -1,15 +1,32 @@
 import { mount } from '@vue/test-utils'
-import Timeselect from '../src/index.vue'
+import TimePicker from '../src/time-picker'
 
-const AXIOM = 'Rem is the best girl'
+const _mount = (template: string, data, otherObj?) => mount({
+  components: {
+    'el-time-picker': TimePicker,
+  },
+  template,
+  data,
+  ...otherObj,
+}, {
+  global: {
+    provide: {
+      elForm: {},
+      elFormItem: {},
+    },
+  },
+})
 
-describe('Timeselect.vue', () => {
-  test('render test', () => {
-    const wrapper = mount(Timeselect, {
-      slots: {
-        default: AXIOM,
-      },
-    })
-    expect(wrapper.text()).toEqual(AXIOM)
+
+describe('TimePicker', () => {
+  test('create', async () => {
+    const wrapper = _mount(`<el-time-picker
+    :placeholder="placeholder"
+    :readonly="readonly"
+  />`, () => ({ placeholder: 'test_',
+      readonly: true }))
+    const input = wrapper.find('input')
+    expect(input.attributes('placeholder')).toBe('test_')
+    expect(input.attributes()).toBeTruthy()
   })
 })

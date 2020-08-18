@@ -2,6 +2,9 @@ import { h } from 'vue'
 import Picker from './picker/picker.vue'
 import TimePickPanel from './time-picker/panel-time-pick.vue'
 import TimeRangePanel from './time-picker/panel-time-range.vue'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat)
 export default {
   name: 'ElTimePicker',
   props: {

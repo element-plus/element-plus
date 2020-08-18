@@ -67,23 +67,20 @@
   </transition>
 </template>
 
-<script type="ts">
+<script lang="ts">
 import {
   parseDate,
   limitTimeRange,
   modifyDate,
   clearMilliseconds,
   timeWithinRange,
-} from './panel-time-pick'
+} from './time-picker-utils'
 import { t } from '@element-plus/locale'
 import TimeSpinner from './basic-time-spinner.vue'
 import {
   defineComponent,
   ref,
-  Ref,
-  nextTick,
   computed,
-  onMounted,
 } from 'vue'
 
 const MIN_TIME = parseDate('00:00:00', 'HH:mm:ss')

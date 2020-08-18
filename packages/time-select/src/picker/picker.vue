@@ -95,9 +95,12 @@ import {
   inject,
 } from 'vue'
 import dayjs from 'dayjs'
-
+import ElInput from '../../input/input.vue'
 export default defineComponent({
   name: 'Picker',
+  components: {
+    ElInput,
+  },
   props: {
     type: {
       type: String,
