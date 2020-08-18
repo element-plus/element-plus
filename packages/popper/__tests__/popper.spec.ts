@@ -11,7 +11,7 @@ jest.mock('lodash')
 
 jest.useFakeTimers()
 
-const { h } = Vue
+const { h, nextTick } = Vue
 const AXIOM = 'Rem is the best girl'
 const selector = '[role="tooltip"]'
 const TEST_TRIGGER = 'test-trigger'
@@ -21,7 +21,6 @@ const DISPLAY_NONE = 'display: none'
 
 const Wrapped = (props: UnKnownProps, { slots }) => h('div', h(ElPopper, props, slots))
 const Transition = (_: UnKnownProps, { attrs, slots }) => h('div', attrs, slots)
-const errorHandler = jest.fn()
 Transition.displayName = 'Transition'
 // eslint-disable-next-line
 const _mount = (props: Record<string, unknown> = {}, slots = {}): VueWrapper<any> =>
@@ -32,16 +31,6 @@ const _mount = (props: Record<string, unknown> = {}, slots = {}): VueWrapper<any
         class: TEST_TRIGGER,
       }),
       ...slots,
-    },
-    global: {
-      config: {
-        errorHandler(err: Error) {
-          errorHandler(err)
-        },
-        warnHandler() {
-          // suppress warning
-        },
-      },
     },
   })
 
@@ -71,7 +60,6 @@ describe('Popper.vue', () => {
 
   beforeEach(() => {
     popperMock.mockClear()
-    errorHandler.mockClear()
   })
 
   test('render test', () => {
@@ -182,16 +170,32 @@ describe('Popper.vue', () => {
       hideAfter: 200,
       appendToBody: false,
     })
-
     await wrapper.find(selector).trigger(MOUSE_ENTER_EVENT)
-    jest.runOnlyPendingTimers()
     expect(wrapper.find(selector).attributes('style')).not.toContain(DISPLAY_NONE)
+    jest.runOnlyPendingTimers()
+    await nextTick()
+    expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
   })
 
   test('should throw error when there is no trigger', () => {
-    _mount({ }, {
-      trigger: undefined,
+    const errorHandler = jest.fn()
+    mount(Wrapped, {
+      slots: {
+        trigger: undefined,
+      },
+      global: {
+        config: {
+          errorHandler(err: Error) {
+            errorHandler(err)
+          },
+          warnHandler() {
+            // suppress warning
+          },
+        },
+      },
     })
+    // due to vue catches the error during rendering, and throws it asynchronously
+    // the only way to test this is by providing an error handler to catch it
     expect(errorHandler).toHaveBeenCalledTimes(1)
   })
 })
