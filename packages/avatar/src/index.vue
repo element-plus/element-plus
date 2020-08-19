@@ -15,7 +15,6 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
-import type { EventEmitter } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElAvatar',
@@ -28,6 +27,7 @@ export default defineComponent({
         }
         return typeof val === 'number'
       },
+      default: 'large',
     },
     shape: {
       type: String,
@@ -46,6 +46,7 @@ export default defineComponent({
       default: 'cover',
     },
   },
+  emits: ['error'],
   setup(props, { emit }) {
     const hasLoadError = ref(false)
 

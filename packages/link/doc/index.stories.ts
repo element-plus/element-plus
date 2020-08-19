@@ -1,5 +1,3 @@
-import ElLink from '../index'
-
 export default {
   title: 'Link',
 }
