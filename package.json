@@ -89,6 +89,7 @@
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.4",
+    "dayjs": "1.x",
     "lodash": "^4.17.20",
     "mitt": "^2.1.0"
   }
