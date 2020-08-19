@@ -23,6 +23,7 @@ import ElRadio from '@element-plus/radio'
 import ElScrollBar from '@element-plus/scrollbar'
 import ElSteps from '@element-plus/steps'
 import ElCollapse from '@element-plus/collapse'
+import ElPopper from '@element-plus/popper'
 
 export {
   ElAlert,
@@ -76,4 +77,5 @@ export default function install(app: App): void {
   ElSteps(app)
   ElRadio(app)
   ElCollapse(app)
+  ElPopper(app)
 }
