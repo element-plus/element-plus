@@ -38,7 +38,7 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, PropType, nextTick } from 'vue'
+import { defineComponent, computed, ref, PropType } from 'vue'
 // notificationVM is an alias of vue.VNode
 import type { NotificationVM } from './notification.constants'
 import { eventKeys } from '../../utils/aria'

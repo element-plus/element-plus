@@ -56,7 +56,7 @@ export default {
       wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
     }
 
-    function mouseUpDocumentHandler(e) {
+    function mouseUpDocumentHandler() {
       cursorDown.value = false
       barStore.value[bar.value.axis] = 0
       off(document, 'mousemove', mouseMoveDocumentHandler)
