@@ -102,6 +102,10 @@ export default defineComponent({
     ElInput,
   },
   props: {
+    format: {
+      type: String,
+      default: 'HH:mm:ss',
+    },
     type: {
       type: String,
       default: '',
@@ -199,9 +203,9 @@ export default defineComponent({
 
     const displayValue = computed(() => {
       if (Array.isArray(props.modelValue)) {
-        return props.modelValue.map(_ => dayjs(_).format('HH:mm:ss'))
+        return props.modelValue.map(_ => dayjs(_).format(props.format))
       }
-      return dayjs(props.modelValue).format('HH:mm:ss')
+      return dayjs(props.modelValue).format(props.format)
     })
     const triggerClass = computed(() => {
       return props.prefixIcon || 'el-icon-time'

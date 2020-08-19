@@ -19,7 +19,7 @@ const _mount = (template: string, data, otherObj?) => mount({
 
 
 describe('TimePicker', () => {
-  test('create', async () => {
+  it('create', async () => {
     const wrapper = _mount(`<el-time-picker
     :placeholder="placeholder"
     :readonly="readonly"
@@ -27,6 +27,16 @@ describe('TimePicker', () => {
       readonly: true }))
     const input = wrapper.find('input')
     expect(input.attributes('placeholder')).toBe('test_')
-    expect(input.attributes()).toBeTruthy()
+    // todo readonly
+    // expect(input.attributes('readonly')).toBeTruthy()
+  })
+
+  it('format', () => {
+    const wrapper = _mount(`<el-time-picker
+        :format="format"
+        v-model="value"
+      />`, () => ({ format: 'HH-mm-ss',
+      value: new Date(2016, 9, 10, 18, 40) }))
+    expect(wrapper.find('input').element.value).toBe('18-40-00')
   })
 })
