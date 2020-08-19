@@ -40,7 +40,7 @@ const loadDocs = function(lang, path) {
   return LOAD_DOCS_MAP[lang](path)
 }
 
-const registerRoute = (navConfig) => {
+const registerRoute = navConfig => {
   let route = []
   Object.keys(navConfig).forEach((lang, index) => {
     let navs = navConfig[lang]

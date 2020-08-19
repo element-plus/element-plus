@@ -80,7 +80,7 @@ export default defineComponent({
     const isBoldTitle = computed(() => props.description || ctx.slots.default ? 'is-bold' : '')
 
     // methods
-    const close = (evt) => {
+    const close = evt => {
       visible.value = false
       ctx.emit('click', evt)
     }

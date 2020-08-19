@@ -197,7 +197,7 @@ export default defineComponent({
       // })
     }
 
-    watch(() => props.modelValue, (val) => {
+    watch(() => props.modelValue, val => {
       elFormItem.changeEvent?.(val)
     })
 

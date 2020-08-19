@@ -75,7 +75,7 @@ export default defineComponent({
     const onScroll = () => {
       visible.value = el.value.scrollTop >= props.visibilityHeight
     }
-    const handleClick = (event) => {
+    const handleClick = event => {
       scrollToTop()
       ctx.emit('click', event)
     }
