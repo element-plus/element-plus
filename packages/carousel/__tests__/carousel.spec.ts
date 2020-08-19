@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
-import Carousel from '../src/index.vue'
-import CarouselItem from '../../carousel-item/src/index.vue'
+import Carousel from '../src/main.vue'
+import CarouselItem from '../src/item.vue'
 
 const _mount = (template: string, data?: () => void, methods?: any) =>
   mount({
@@ -127,7 +127,7 @@ describe('Carousel', () => {
           </el-carousel>
         </div>
       `)
-    setTimeout(_ => {
+    setTimeout(() => {
       expect(wrapper.find('.el-carousel__button span').text()).toBe('1')
       done()
     }, 10)

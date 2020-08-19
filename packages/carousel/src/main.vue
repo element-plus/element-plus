@@ -51,7 +51,7 @@
         @click.stop="handleIndicatorClick(index)"
       >
         <button class="el-carousel__button">
-          <span v-if="hasLabel">{{ item.ctx.label }}</span>
+          <span v-if="hasLabel">{{ item.label }}</span>
         </button>
       </li>
     </ul>
@@ -68,7 +68,6 @@ import {
   onMounted,
   ToRefs,
   UnwrapRef,
-  onRenderTriggered,
   onBeforeUnmount,
   watch,
   nextTick,
@@ -235,10 +234,6 @@ export default {
       }
     }
 
-    function itemIndexToUid(index: number) {
-      return items.value[index].uid
-    }
-
     function setActiveItem(index) {
       if (typeof index === 'string') {
         const filteredItems = items.value.filter(item => item.name === index)
@@ -277,7 +272,6 @@ export default {
 
     function itemInStage(item, index) {
       const length = items.value.length
-      console.log(item.inStage)
       if (
         (index === length - 1 && item.inStage && items.value[0].active) ||
         (item.inStage &&
@@ -367,6 +361,10 @@ export default {
     onMounted(() => {
       nextTick(() => {
         addResizeListener(root.value, resetItemPosition)
+        if (root.value) {
+          offsetWidth.value = root.value.offsetWidth
+          offsetHeight.value = root.value.offsetHeight
+        }
         if (
           props.initialIndex < items.value.length &&
           props.initialIndex >= 0
@@ -377,12 +375,12 @@ export default {
       })
     })
 
-    onRenderTriggered(() => {
-      if (root.value) {
-        offsetWidth.value = root.value.offsetWidth
-        offsetHeight.value = root.value.offsetHeight
-      }
-    })
+    // onRenderTriggered(() => {
+    //   if (root.value) {
+    //     offsetWidth.value = root.value.offsetWidth
+    //     offsetHeight.value = root.value.offsetHeight
+    //   }
+    // })
 
     onBeforeUnmount(() => {
       if (root.value) removeResizeListener(root.value, resetItemPosition)

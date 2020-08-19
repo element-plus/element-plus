@@ -173,8 +173,6 @@ export default defineComponent({
       }
     }
 
-    // watch
-
     // lifecycle
     onMounted(() => {
       if (injectCarouselScope.updateItems) {
