@@ -105,7 +105,7 @@ export default defineComponent({
     })
 
     //methods
-    const handleClick = (evt) => {
+    const handleClick = evt => {
       ctx.emit('click', evt)
     }
 

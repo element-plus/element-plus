@@ -37,22 +37,10 @@ export default defineComponent({
         return ['circle', 'square'].includes(val)
       },
     },
-    icon: {
-      type: String,
-      default: undefined,
-    },
-    src: {
-      type: String,
-      default: undefined,
-    },
-    alt: {
-      type: String,
-      default: undefined,
-    },
-    srcSet: {
-      type: String,
-      default: undefined,
-    },
+    icon: String,
+    src: String,
+    alt: String,
+    srcSet: String,
     fit: {
       type: String,
       default: 'cover',

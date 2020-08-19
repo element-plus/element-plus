@@ -81,7 +81,7 @@ describe('Popper.vue', () => {
 
   test('append to body', () => {
     const { appendChild } = document.body
-    document.body.appendChild = jest.fn((child) => {
+    document.body.appendChild = jest.fn(child => {
       return appendChild.call(document.body, child)
     })
 

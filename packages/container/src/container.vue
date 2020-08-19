@@ -23,7 +23,7 @@ export default defineComponent({
       }
       if (slots && slots.default) {
         const vNodes: VNode[] = slots.default()
-        return vNodes.some((vNode) => {
+        return vNodes.some(vNode => {
           const tag = vNode.type.name
           return tag === 'ElHeader' || tag === 'ElFooter'
         })
