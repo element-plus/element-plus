@@ -168,7 +168,6 @@ export default defineComponent({
         const index = injectCarouselScope.items.value
           .map(d => d.uid)
           .indexOf(instance.uid)
-        console.log(index)
         injectCarouselScope.setActiveItem(index)
       }
     }

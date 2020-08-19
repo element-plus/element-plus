@@ -72,7 +72,7 @@ import {
   watch,
   nextTick,
 } from 'vue'
-import { throttle } from 'throttle-debounce'
+import throttle from 'lodash/throttle'
 import {
   addResizeListener,
   removeResizeListener,
@@ -93,8 +93,7 @@ interface ICarouselProps {
   direction: string
 }
 
-type g = ToRefs<ICarouselItemData>
-type UnionCarouselItemData = ICarouselItemProps & g
+type UnionCarouselItemData = ICarouselItemProps & ToRefs<ICarouselItemData>
 interface CarouselItem extends UnionCarouselItemData {
   uid: number
   translateItem: (index: number, activeIndex: number, oldIndex: number) => void
@@ -206,13 +205,17 @@ export default {
     })
 
     // methods
-    const throttledArrowClick = throttle(300, true, index => {
-      setActiveItem(index)
-    })
+    const throttledArrowClick = throttle(
+      index => {
+        setActiveItem(index)
+      },
+      300,
+      { trailing: true },
+    )
 
-    const throttledIndicatorHover = throttle(300, index => {
+    const throttledIndicatorHover = throttle(index => {
       handleIndicatorHover(index)
-    })
+    }, 300)
 
     function pauseTimer() {
       if (data.timer) {
@@ -374,13 +377,6 @@ export default {
         startTimer()
       })
     })
-
-    // onRenderTriggered(() => {
-    //   if (root.value) {
-    //     offsetWidth.value = root.value.offsetWidth
-    //     offsetHeight.value = root.value.offsetHeight
-    //   }
-    // })
 
     onBeforeUnmount(() => {
       if (root.value) removeResizeListener(root.value, resetItemPosition)
