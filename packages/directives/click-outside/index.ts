@@ -1,7 +1,7 @@
 import isServer from '@element-plus/utils/isServer'
 import { on } from '@element-plus/utils/dom'
 
-import type { DirectiveBinding, ObjectDirective, VNode, ComponentPublicInstance } from 'vue'
+import type { DirectiveBinding, ObjectDirective, ComponentPublicInstance } from 'vue'
 
 type DocumentHandler = <T extends Event>(mouseup: T, mousedown: T) => void;
 
