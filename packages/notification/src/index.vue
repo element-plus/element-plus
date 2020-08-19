@@ -40,7 +40,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, PropType } from 'vue'
 // notificationVM is an alias of vue.VNode
-import type { NotificationVM } from './notification.constants'
+import type { NotificationVM } from './notification'
 import { eventKeys } from '../../utils/aria'
 import { on, off } from '../../utils/dom'
 
