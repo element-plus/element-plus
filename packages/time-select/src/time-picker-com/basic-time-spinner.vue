@@ -192,10 +192,15 @@ import {
   computed,
   onMounted,
 } from 'vue'
+import ElScrollbar from '@element-plus/scrollbar/src'
 export default defineComponent({
 
   directives: {
     repeatClick: RepeatClick,
+  },
+
+  components: {
+    ElScrollbar,
   },
 
   props: {

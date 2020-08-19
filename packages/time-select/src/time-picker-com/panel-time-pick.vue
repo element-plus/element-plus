@@ -50,7 +50,6 @@ import TimeSpinner from './basic-time-spinner.vue'
 import dayjs from 'dayjs'
 
 export default defineComponent({
-
   components: {
     TimeSpinner,
   },
