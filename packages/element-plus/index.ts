@@ -10,7 +10,6 @@ import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
 import ElCarousel from '@element-plus/carousel'
-import ElCarouselItem from '@element-plus/carousel-item'
 import ElTimeline from '@element-plus/timeline'
 import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
@@ -38,7 +37,6 @@ export {
   ElDivider,
   ElTag,
   ElCarousel,
-  ElCarouselItem,
   ElTimeline,
   ElProgress,
   ElBreadcrumb,
@@ -67,7 +65,6 @@ export default function install(app: App): void {
   ElLayout(app)
   ElDivider(app)
   ElCarousel(app)
-  ElCarouselItem(app)
   ElTimeline(app)
   ElProgress(app)
   ElBreadcrumb(app)
