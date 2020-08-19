@@ -191,6 +191,7 @@ import {
   nextTick,
   computed,
   onMounted,
+  PropType
 } from 'vue'
 import ElScrollbar from '@element-plus/scrollbar/src'
 export default defineComponent({
@@ -204,9 +205,9 @@ export default defineComponent({
   },
 
   props: {
-    date: {
-      type: Object,
-      default: new Date(),
+    spinnerDate: {
+      type: Date as PropType<Date>,
+      required: true,
     },
     showSeconds: {
       type: Boolean,
@@ -234,13 +235,13 @@ export default defineComponent({
       hours: listHourRef, minutes: listMinuteRef, seconds: listSecondRef,
     }
     const hours = computed(() => {
-      return props.date.getHours()
+      return props.spinnerDate.getHours()
     })
     const minutes = computed(() => {
-      return props.date.getMinutes()
+      return props.spinnerDate.getMinutes()
     })
     const seconds = computed(() => {
-      return props.date.getSeconds()
+      return props.spinnerDate.getSeconds()
     })
     const timePartsMap = {
       hours, minutes, seconds,
@@ -362,9 +363,9 @@ export default defineComponent({
 
     const  modifyDateField = (type, value) =>{
       switch (type) {
-        case 'hours': ctx.emit('change', modifyTime(props.date, value, minutes.value, seconds.value)); break
-        case 'minutes': ctx.emit('change', modifyTime(props.date, hours.value, value, seconds.value)); break
-        case 'seconds': ctx.emit('change', modifyTime(props.date, hours.value, minutes.value, value)); break
+        case 'hours': ctx.emit('change', modifyTime(props.spinnerDate, value, minutes.value, seconds.value)); break
+        case 'minutes': ctx.emit('change', modifyTime(props.spinnerDate, hours.value, value, seconds.value)); break
+        case 'seconds': ctx.emit('change', modifyTime(props.spinnerDate, hours.value, minutes.value, value)); break
       }
     }
 

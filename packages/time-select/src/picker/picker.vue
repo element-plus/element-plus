@@ -82,6 +82,8 @@
       :visible="pickerVisible"
       :parsed-value="parsedValue"
       :picker-options="pickerOptions"
+      :format="format"
+      :default-value="defaultValue"
       @pick="onPick"
       @select-range="setSelectionRange"
     ></slot>
@@ -93,6 +95,8 @@ import {
   ref,
   computed,
   inject,
+  PropType,
+  watch,
 } from 'vue'
 import dayjs from 'dayjs'
 import ElInput from '../../input/input.vue'
@@ -143,7 +147,7 @@ export default defineComponent({
       default: '',
     },
     modelValue: {
-      type: [String, Date],
+      type: [String, Date, Array] as PropType<string | number | Array<Date | string>>,
       default: '',
     },
     rangeSeparator: {
@@ -153,9 +157,14 @@ export default defineComponent({
     pickerOptions: {}, // todo top level config
     startPlaceholder: String,
     endPlaceholder: String,
+    defaultValue: {
+      type: Date,
+      default: new Date(),
+    },
   },
   emits: ['update:modelValue', 'change'],
   setup(props, ctx) {
+    const oldValue = props.modelValue // eslint-disable-line vue/no-setup-props-destructure
     const refContainer = ref(null)
     const pickerVisible = ref(false)
     const emitInput = (val) => {
@@ -183,10 +192,10 @@ export default defineComponent({
         _inputs[1].focus()
       }
     }
-    const onPick = (date = '', visible = false) => {
+    const onPick = (date = '', visible = false, useOldValue = false) => {
       // userInput = null
       pickerVisible.value = visible
-      emitInput(date)
+      emitInput(useOldValue ? oldValue : date)
     }
     const handleFocus = () => {
       pickerVisible.value = true
@@ -196,16 +205,28 @@ export default defineComponent({
       return props.disabled || elForm.disabled
     })
     const parsedValue = computed(() => {
-      if (!props.modelValue) return props.modelValue // component value is not set
-      //todo if no modelValue but has defaultValue
+      if (!pickerVisible.value) return props.modelValue
+      if (!props.modelValue) {
+        if (isRangeInput.value) {
+          if (Array.isArray(props.defaultValue)) return props.defaultValue
+          return [
+            props.defaultValue,
+            dayjs(props.defaultValue).add(60,'m').toDate(),
+          ]
+        } else {
+          return props.defaultValue
+        }
+      }
+      // todo modelValue is string with format
       return props.modelValue
     })
 
     const displayValue = computed(() => {
-      if (Array.isArray(props.modelValue)) {
-        return props.modelValue.map(_ => dayjs(_).format(props.format))
+      if (!parsedValue.value) return
+      if (Array.isArray(parsedValue.value)) {
+        return parsedValue.value.map(_ => dayjs(_).format(props.format))
       }
-      return dayjs(props.modelValue).format(props.format)
+      return dayjs(parsedValue.value).format(props.format)
     })
     const triggerClass = computed(() => {
       return props.prefixIcon || 'el-icon-time'

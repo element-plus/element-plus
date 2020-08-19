@@ -3,7 +3,6 @@
     <div
       v-if="visible"
       class="el-time-panel el-popper"
-      :class="popperClass"
     >
       <div class="el-time-panel__content" :class="{ 'has-seconds': showSeconds }">
         <time-spinner
@@ -11,7 +10,7 @@
           :arrow-control="timeArrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
-          :date="parsedValue"
+          :spinner-date="spinnerValue"
           :selectable-range="selectableRange"
           @change="handleChange"
           @select-range="setSelectionRange"
@@ -27,8 +26,7 @@
         </button>
         <button
           type="button"
-          class="el-time-panel__btn"
-          :class="{confirm: !disabled}"
+          class="el-time-panel__btn confirm"
           @click="handleConfirm()"
         >
           {{ t('el.datepicker.confirm') }}
@@ -75,21 +73,22 @@ export default defineComponent({
       type: String,
       default: '-',
     },
+    format: {
+      type: String,
+      default: '',
+    },
   },
 
   emits: ['pick', 'select-range'],
 
   setup(props, ctx) {
-    const date = ref(new Date())
-    const oldValue = ref(new Date())
-    const format = ref('HH:mm:ss')
     const selectionRange = ref([0, 2])
     const showSeconds = computed(() => {
-      return (format.value || '').indexOf('ss') !== -1
+      return (props.format || '').indexOf('ss') !== -1
     })
     const amPmMode = computed(() => {
-      if ((format.value || '').indexOf('A') !== -1) return 'A'
-      if ((format.value || '').indexOf('a') !== -1) return 'a'
+      if ((props.format || '').indexOf('A') !== -1) return 'A'
+      if ((props.format || '').indexOf('a') !== -1) return 'a'
       return ''
     })
     const selectableRange = computed(() => {
@@ -121,34 +120,37 @@ export default defineComponent({
     })
     const handleConfirm = (visible = false, first) => {
       if (first) return
-      const _date = clearMilliseconds(limitTimeRange(date.value, selectableRange.value, format.value))
+      const _date = clearMilliseconds(limitTimeRange(props.parsedValue, selectableRange.value, props.format))
       ctx.emit('pick', _date, visible)
     }
     const handleChange = (_date) => {
       // visible avoids edge cases, when use scrolls during panel closing animation
-      if (!props.visible) {return}
-      date.value = clearMilliseconds(_date)
+      if (!props.visible) { return }
+      const result = clearMilliseconds(_date)
       // if date is out of range, do not emit
-      if (isValidValue(date.value)) {
-        ctx.emit('pick', date.value, true)
+      if (isValidValue(result)) {
+        ctx.emit('pick', result, true)
       }
     }
     const isValidValue = (_date) => {
-      return timeWithinRange(_date, selectableRange.value, format.value)
+      return timeWithinRange(_date, selectableRange.value, props.format)
     }
     const setSelectionRange = (start, end) => {
       ctx.emit('select-range', start, end)
       selectionRange.value = [start, end]
     }
     const handleCancel = () => {
-      ctx.emit('pick', oldValue.value, false)
+      ctx.emit('pick', '', false, true)
     }
+    const spinnerValue = computed(() => {
+      return limitTimeRange(props.parsedValue, selectableRange.value, props.format)
+    })
     return {
+      spinnerValue,
       t,
       handleConfirm,
       handleChange,
       setSelectionRange,
-      date,
       amPmMode,
       showSeconds,
       handleCancel,
@@ -158,10 +160,8 @@ export default defineComponent({
 
   // data() {
   //   return {
-  //     popperClass: '',
   //     value: '',
   //     defaultValue: null,
-  //     disabled: false,
   //     needInitAdjust: true,
   //   }
   // },

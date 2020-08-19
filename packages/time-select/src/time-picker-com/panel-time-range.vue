@@ -20,7 +20,7 @@
               :show-seconds="showSeconds"
               :am-pm-mode="amPmMode"
               :arrow-control="timeArrowControl"
-              :date="minDate"
+              :spinner-date="minDate"
               :selectable-range="minSelectableRange"
               @change="handleMinChange"
               @select-range="setMinSelectionRange"
@@ -39,7 +39,7 @@
               :am-pm-mode="amPmMode"
               :selectable-range="maxSelectableRange"
               :arrow-control="timeArrowControl"
-              :date="maxDate"
+              :spinner-date="maxDate"
               @change="handleMaxChange"
               @select-range="setMaxSelectionRange"
             />
@@ -129,11 +129,10 @@ export default defineComponent({
   emits: ['pick', 'select-range'],
 
   setup(props, ctx) {
-    const oldValue = ref(props.parsedValue)
     const minDate = computed(() => props.parsedValue[0])
     const maxDate = computed(() => props.parsedValue[1])
     const handleCancel = () =>{
-      ctx.emit('pick', oldValue.value)
+      ctx.emit('pick', null, null, true)
     }
 
     const format = 'HH:mm:ss'
