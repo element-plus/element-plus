@@ -4,7 +4,6 @@
     <el-time-picker
       v-model="value1"
       is-range
-      size="mini"
     />
     <div>
     </div>
