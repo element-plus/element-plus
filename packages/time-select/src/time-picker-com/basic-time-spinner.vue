@@ -191,7 +191,7 @@ import {
   nextTick,
   computed,
   onMounted,
-  PropType
+  PropType,
 } from 'vue'
 import ElScrollbar from '@element-plus/scrollbar/src'
 export default defineComponent({

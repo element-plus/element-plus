@@ -5,6 +5,7 @@
     <el-input
       v-if="!isRangeInput"
       ref="refContainer"
+      :size="pickerSize"
       class="el-date-editor el-date-editor--time-select"
       :readonly="!editable || readonly"
       :disabled="pickerDisabled"
@@ -51,9 +52,7 @@
         :placeholder="startPlaceholder"
         :value="displayValue && displayValue[0]"
         :disabled="pickerDisabled"
-        v-bind="firstInputId"
         :readonly="!editable || readonly"
-        :name="name && name[0]"
         class="el-range-input"
         @focus="handleFocus"
       >
@@ -65,9 +64,7 @@
         :placeholder="endPlaceholder"
         :value="displayValue && displayValue[1]"
         :disabled="pickerDisabled"
-        v-bind="secondInputId"
         :readonly="!editable || readonly"
-        :name="name && name[1]"
         class="el-range-input"
         @focus="handleFocus"
       >
@@ -100,6 +97,10 @@ import {
 } from 'vue'
 import dayjs from 'dayjs'
 import ElInput from '../../input/input.vue'
+// todo element
+const ELEMENT = {
+  size: '',
+}
 export default defineComponent({
   name: 'Picker',
   components: {
@@ -158,15 +159,18 @@ export default defineComponent({
     startPlaceholder: String,
     endPlaceholder: String,
     defaultValue: {
-      type: Date,
+      type: [Date, Array],
       default: new Date(),
     },
   },
-  emits: ['update:modelValue', 'change'],
+  emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup(props, ctx) {
-    const oldValue = props.modelValue // eslint-disable-line vue/no-setup-props-destructure
+    const oldValue = ref(props.modelValue)
     const refContainer = ref(null)
     const pickerVisible = ref(false)
+    watch(pickerVisible, (val) => {
+      if (!val) ctx.emit('blur')
+    })
     const emitInput = (val) => {
       ctx.emit('update:modelValue', val)
       // const formatted = formatToValue(val)
@@ -195,17 +199,19 @@ export default defineComponent({
     const onPick = (date = '', visible = false, useOldValue = false) => {
       // userInput = null
       pickerVisible.value = visible
-      emitInput(useOldValue ? oldValue : date)
+      const result = useOldValue ? oldValue : date
+      emitInput(result)
+      emitChange(result)
     }
-    const handleFocus = () => {
+    const handleFocus = (e) => {
       pickerVisible.value = true
+      ctx.emit('focus', e)
     }
     const elForm = inject('elForm', {} as any)
     const pickerDisabled = computed(() =>{
       return props.disabled || elForm.disabled
     })
     const parsedValue = computed(() => {
-      if (!pickerVisible.value) return props.modelValue
       if (!props.modelValue) {
         if (isRangeInput.value) {
           if (Array.isArray(props.defaultValue)) return props.defaultValue
@@ -222,7 +228,7 @@ export default defineComponent({
     })
 
     const displayValue = computed(() => {
-      if (!parsedValue.value) return
+      if (!pickerVisible.value && !props.modelValue) return
       if (Array.isArray(parsedValue.value)) {
         return parsedValue.value.map(_ => dayjs(_).format(props.format))
       }
@@ -261,7 +267,17 @@ export default defineComponent({
     const isRangeInput = computed(() => {
       return props.type.indexOf('range') > -1
     })
+    const elFormItem = inject('elFormItem', {} as any)
+
+    // computed
+    const elFormItemSize = computed(() => {
+      return elFormItem.elFormItemSize
+    })
+    const pickerSize = computed(() => {
+      return props.size || elFormItemSize.value || (ELEMENT || {}).size
+    })
     return {
+      pickerSize,
       isRangeInput,
       onMouseLeave,
       onMouseEnter,

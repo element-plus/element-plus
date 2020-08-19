@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-zoom-in-top" @after-leave="$emit('dodestroy')">
+  <transition name="el-zoom-in-top">
     <div
       v-if="visible"
       class="el-time-panel el-popper"

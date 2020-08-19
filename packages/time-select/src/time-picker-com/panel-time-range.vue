@@ -1,18 +1,16 @@
 <template>
   <transition
     name="el-zoom-in-top"
-    @after-leave="$emit('dodestroy')"
   >
     <div
       v-if="visible"
       class="el-time-range-picker el-picker-panel el-popper"
-      :class="popperClass"
     >
       <div class="el-time-range-picker__content">
         <div class="el-time-range-picker__cell">
           <div class="el-time-range-picker__header">{{ t('el.datepicker.startTime') }}</div>
           <div
-            :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
+            :class="{ 'has-seconds': showSeconds, 'is-arrow': timeArrowControl }"
             class="el-time-range-picker__body el-time-panel__content"
           >
             <time-spinner
@@ -30,7 +28,7 @@
         <div class="el-time-range-picker__cell">
           <div class="el-time-range-picker__header">{{ t('el.datepicker.endTime') }}</div>
           <div
-            :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
+            :class="{ 'has-seconds': showSeconds, 'is-arrow': timeArrowControl }"
             class="el-time-range-picker__body el-time-panel__content"
           >
             <time-spinner
@@ -81,17 +79,26 @@ import {
   defineComponent,
   ref,
   computed,
+  PropType,
 } from 'vue'
 
-const MIN_TIME = parseDate('00:00:00', 'HH:mm:ss')
-const MAX_TIME = parseDate('23:59:59', 'HH:mm:ss')
+const MIN_TIME = () => {
+  let _d
+  if (!_d) _d = parseDate('00:00:00', 'HH:mm:ss')
+  return _d
+}
+const MAX_TIME = () => {
+  let _d
+  if (!_d) _d = parseDate('23:59:59', 'HH:mm:ss')
+  return _d
+}
 
 const minTimeOfDay = function(date) {
-  return modifyDate(MIN_TIME, date.getFullYear(), date.getMonth(), date.getDate())
+  return modifyDate(MIN_TIME(), date.getFullYear(), date.getMonth(), date.getDate())
 }
 
 const maxTimeOfDay = function(date) {
-  return modifyDate(MAX_TIME, date.getFullYear(), date.getMonth(), date.getDate())
+  return modifyDate(MAX_TIME(), date.getFullYear(), date.getMonth(), date.getDate())
 }
 
 // increase time by amount of milliseconds, but within the range of day
@@ -113,7 +120,7 @@ export default defineComponent({
       default: false,
     },
     parsedValue: {
-      type: [String, Date],
+      type: Array as PropType<Array<Date>>,
       default: '',
     },
     pickerOptions: {
@@ -124,24 +131,26 @@ export default defineComponent({
       type: String,
       default: '-',
     },
+    format: {
+      type: String,
+      default: '',
+    },
   },
 
   emits: ['pick', 'select-range'],
 
   setup(props, ctx) {
-    const minDate = computed(() => props.parsedValue[0])
-    const maxDate = computed(() => props.parsedValue[1])
+    const minDate = computed(() => props.parsedValue[0] as Date)
+    const maxDate = computed(() => props.parsedValue[1] as Date)
     const handleCancel = () =>{
       ctx.emit('pick', null, null, true)
     }
-
-    const format = 'HH:mm:ss'
     const showSeconds = computed(() => {
-      return (format || '').indexOf('ss') !== -1
+      return (props.format || '').indexOf('ss') !== -1
     })
     const amPmMode = computed(() => {
-      if ((format.value || '').indexOf('A') !== -1) return 'A'
-      if ((format.value || '').indexOf('a') !== -1) return 'a'
+      if ((props.format || '').indexOf('A') !== -1) return 'A'
+      if ((props.format || '').indexOf('a') !== -1) return 'a'
       return ''
     })
 
@@ -149,10 +158,8 @@ export default defineComponent({
     const maxSelectableRange = ref([])
 
     const handleConfirm = (visible = false) => {
-
-      const _minDate = limitTimeRange(minDate.value, minSelectableRange.value, format)
-      const _maxDate = limitTimeRange(maxDate.value, maxSelectableRange.value, format)
-
+      const _minDate = limitTimeRange(minDate.value, minSelectableRange.value, props.format)
+      const _maxDate = limitTimeRange(maxDate.value, maxSelectableRange.value, props.format)
       ctx.emit('pick', [_minDate, _maxDate], visible)
     }
 
@@ -165,8 +172,8 @@ export default defineComponent({
 
     const isValidValue = (date) => {
       return Array.isArray(date) &&
-          timeWithinRange(date[0], minSelectableRange.value) &&
-          timeWithinRange(date[1], maxSelectableRange.value)
+          timeWithinRange(date[0], minSelectableRange.value, props.format) &&
+          timeWithinRange(date[1], maxSelectableRange.value, props.format)
     }
 
     const handleChange = (_minDate, _maxDate) => {
@@ -176,9 +183,9 @@ export default defineComponent({
         ctx.emit('pick', [_minDate, _maxDate], true)
       }
     }
-    const btnConfirmDisabled = () => {
+    const btnConfirmDisabled = computed(() => {
       return minDate.value.getTime() > maxDate.value.getTime()
-    }
+    })
 
     const selectionRange = ref([0,2])
     const setMinSelectionRange = (start, end) => {

@@ -119,4 +119,108 @@ describe('TimePicker', () => {
     const secondsDom = wrapper.element.querySelectorAll('.el-time-spinner__wrapper')[2] as any
     expect(secondsDom.style.display).toBe('none')
   })
+
+  it('event change, focus, blur', async () => {
+    const changeHandler = jest.fn()
+    const focusHandler = jest.fn()
+    const blurHandler = jest.fn()
+    const wrapper = _mount(`<el-time-picker
+        v-model="value"
+        @change="onChange"
+        @focus="onFocus"
+        @blur="onBlur"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }), {
+      methods: {
+        onChange(e) {
+          return changeHandler(e)
+        },
+        onFocus(e) {
+          return focusHandler(e)
+        },
+        onBlur(e) {
+          return blurHandler(e)
+        },
+      },
+    })
+
+    const input = wrapper.find('input').element
+    input.focus()
+    await nextTick()
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+    const list = wrapper.element.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    hourEl.click()
+    await nextTick()
+    expect(changeHandler).toHaveBeenCalledTimes(1);
+    (wrapper.element.querySelector('.el-time-panel__btn.cancel') as any).click()
+    await nextTick()
+    expect(blurHandler).toHaveBeenCalledTimes(1)
+  })
 })
+
+describe('TimePicker(range)', () => {
+  it('create', async () => {
+    const wrapper = _mount(`<el-time-picker
+        v-model="value"
+        size="mini"
+        :is-range="true"
+      />`, () => ({ value: [new Date(2016, 9, 10, 18, 40), new Date(2016, 9, 10, 19, 40)] }))
+    expect(wrapper.find('.el-range-editor--mini').exists()).toBeTruthy()
+    const input = wrapper.find('input').element
+    input.blur()
+    input.focus()
+    await nextTick()
+    const list = wrapper.findAll('.el-time-spinner__list .el-time-spinner__item.active');
+
+    ['18','40','00','19','40','00'].forEach((_, i) => {
+      expect(list[i].element.textContent).toBe(_)
+    })
+  })
+
+  it('default value', async() => {
+    const defaultValue = [new Date(2000, 9, 1, 10, 20, 0), new Date(2000, 9, 1, 11, 10, 0)]
+    const wrapper = _mount(`<el-time-picker
+        v-model="value"
+        :default-value="defaultValue"
+        :is-range="true"
+      />`, () => ({ value: '',
+      defaultValue }))
+
+    const input = wrapper.find('input').element
+    input.blur()
+    input.focus()
+    await nextTick()
+
+    const list = wrapper.findAll('.el-time-spinner__list .el-time-spinner__item.active');
+
+    ['10','20','00','11','10','00'].forEach((_, i) => {
+      expect(list[i].element.textContent).toBe(_)
+    })
+  })
+
+  it('cancel button', async () => {
+    const wrapper = _mount(`<el-time-picker
+        v-model="value"
+        is-range
+      />`, () => ({ value: '' }))
+
+    const input = wrapper.find('input').element
+    input.blur()
+    input.focus()
+    await nextTick();
+    (wrapper.element.querySelector('.el-time-panel__btn.cancel') as any).click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toBe('')
+    input.blur()
+    input.focus()
+    await nextTick();
+    (wrapper.element.querySelector('.el-time-panel__btn.confirm') as any).click()
+    expect(vm.value instanceof Array).toBeTruthy()
+    vm.value.forEach((_) => {
+      expect(_ instanceof Date).toBeTruthy()
+    })
+  })
+})
+
