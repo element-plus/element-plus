@@ -43,6 +43,7 @@ import { createPopper } from '@popperjs/core'
 
 import { generateId } from '@element-plus/utils/util'
 import { on, off } from '@element-plus/utils/dom'
+import throwError from '@element-plus/utils/error'
 
 import useModifer from './useModifier'
 
@@ -55,11 +56,10 @@ import type {
 import useModifier from './useModifier'
 
 type Effect = 'dark' | 'light';
+type RefElement = Nullable<HTMLElement>
 
-const stop = (e) => e.stopPropagation()
-const throwError = (e: string) => {
-  throw new Error(e)
-}
+const stop = (e: Event) => e.stopPropagation()
+
 const getTrigger = () => {
   const {
     subTree: { dynamicChildren },
@@ -67,8 +67,9 @@ const getTrigger = () => {
   return dynamicChildren[0].children
 }
 
+const compName = 'ElPopper'
 export default defineComponent({
-  name: 'ElPopper',
+  name: compName,
   props: {
     arrowOffset: {
       type: Number,
@@ -118,7 +119,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    openDelay: {
+    showAfter: {
       type: Number,
       default: 0,
     },
@@ -163,15 +164,17 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const popperRef = ref(null as Nullable<HTMLElement>)
-    const arrowRef = ref(null as Nullable<HTMLElement>)
-    const popperInstance = ref(null as PopperInstance)
+    const popperRef = ref<RefElement>(null)
+    const arrowRef = ref<RefElement>(null)
+    const trigger = ref<RefElement>(null)
+
     const exceptionState = ref(false)
-    const timeout = ref(null as NodeJS.Timeout)
-    const timeoutPending = ref(null as NodeJS.Timeout)
     const show = ref(false)
     const popperId = ref(`el-tooltip-${generateId()}`)
-    const trigger = ref(null as Nullable<HTMLElement>)
+
+    const popperInstance = ref<Nullable<PopperInstance>>(null)
+    const timeout = ref<NodeJS.Timeout>(null)
+    const timeoutPending = ref<NodeJS.Timeout>(null)
 
     const visible = computed(() => {
       return props.manualMode ? props.value : !props.disabled && show.value
@@ -198,7 +201,7 @@ export default defineComponent({
       timer.value = null
     }
     if (!slots.trigger) {
-      throwError('Trigger must be provided')
+      throwError(compName, 'Trigger must be provided')
     }
     // this is a reference that we need to pass down to child component
     // to obtain the child instance
@@ -226,26 +229,25 @@ export default defineComponent({
     const showPopper = () => {
       if (!exceptionState.value || props.manualMode || props.disabled) return
       clearTimer(timeout)
-      if (props.openDelay === 0) {
-        show.value = true
+      const handleHideAfter = () => {
         if (props.hideAfter > 0) {
           timeoutPending.value = setTimeout(() => {
             show.value = false
           }, props.hideAfter)
         }
+      }
+      if (props.showAfter === 0) {
+        show.value = true
+        handleHideAfter()
       } else {
         timeout.value = setTimeout(() => {
           show.value = true
-          if (props.hideAfter > 0) {
-            timeoutPending.value = setTimeout(() => {
-              show.value = false
-            }, props.hideAfter)
-          }
-        }, props.openDelay)
+          handleHideAfter()
+        }, props.showAfter)
       }
     }
 
-    const closePopper = () => {
+    const debouncedClose = debounce(() => {
       if (props.enterable && exceptionState.value) return
       clearTimer(timeout)
       if (timeoutPending.value !== null) {
@@ -255,10 +257,6 @@ export default defineComponent({
       if (props.disabled) {
         doDestroy(true)
       }
-    }
-
-    const debouncedClose = debounce(() => {
-      closePopper()
     }, props.closeDelay)
 
     function setExpectionState(state: boolean) {
@@ -298,7 +296,7 @@ export default defineComponent({
         referenceElement = subTree[0].el
       }
       if (!referenceElement) {
-        throwError('Cannot find referrer to attach popper to')
+        throwError(compName, 'Cannot find referrer to attach popper to')
       }
       trigger.value = referenceElement
       const modifiers = useModifer(popperOptions.value.modifierOptions)
