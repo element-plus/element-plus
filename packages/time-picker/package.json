@@ -1,5 +1,5 @@
 {
-  "name": "@element-plus/timeselect",
+  "name": "@element-plus/time-picker",
   "version": "0.0.0",
   "main": "dist/index.js",
   "license": "MIT",

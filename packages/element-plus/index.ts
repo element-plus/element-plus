@@ -24,7 +24,7 @@ import ElScrollBar from '@element-plus/scrollbar'
 import ElSteps from '@element-plus/steps'
 import ElCollapse from '@element-plus/collapse'
 import ElPopper from '@element-plus/popper'
-import ElTimeSelect from '@element-plus/timeselect'
+import ElTimePicker from '@element-plus/time-picker'
 
 export {
   ElAlert,
@@ -51,7 +51,7 @@ export {
   ElSteps,
   ElRadio,
   ElCollapse,
-  ElTimeSelect
+  ElTimePicker
 }
 
 export default function install(app: App): void {
@@ -80,5 +80,5 @@ export default function install(app: App): void {
   ElRadio(app)
   ElCollapse(app)
   ElPopper(app)
-  ElTimeSelect(app)
+  ElTimePicker(app)
 }
