@@ -4,7 +4,7 @@
   >
     <div
       v-if="visible"
-      class="el-time-range-picker el-picker-panel el-popper"
+      class="el-time-range-picker el-picker-panel"
     >
       <div class="el-time-range-picker__content">
         <div class="el-time-range-picker__cell">

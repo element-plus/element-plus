@@ -2,7 +2,7 @@
   <transition name="el-zoom-in-top">
     <div
       v-if="visible"
-      class="el-time-panel el-popper"
+      class="el-time-panel"
     >
       <div class="el-time-panel__content" :class="{ 'has-seconds': showSeconds }">
         <time-spinner

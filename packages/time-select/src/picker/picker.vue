@@ -2,11 +2,16 @@
   <div>
     <!-- todo remove this div after using popper -->
     <!-- todo no popper time range middle .el-time-panel__content::before zindex error-->
-    <el-popper>
+    <el-popper
+      effect="light"
+      :manual-mode="true"
+      :value="pickerVisible"
+    >
       <template #trigger>
         <el-input
           v-if="!isRangeInput"
           ref="refContainer"
+          v-clickoutside="onClickOutside"
           :size="pickerSize"
           class="el-date-editor el-date-editor--time-select"
           :readonly="!editable || readonly"
@@ -37,6 +42,7 @@
         <div
           v-else
           ref="refContainer"
+          v-clickoutside="onClickOutside"
           class="el-date-editor el-range-editor el-input__inner"
           :class="[
             'el-date-editor--' + type,
@@ -102,6 +108,7 @@ import {
   watch,
 } from 'vue'
 import dayjs from 'dayjs'
+import { ClickOutside } from '@element-plus/directives'
 import ElInput from '../../input/input.vue'
 // todo element
 const ELEMENT = {
@@ -112,6 +119,7 @@ export default defineComponent({
   components: {
     ElInput,
   },
+  directives: { clickoutside: ClickOutside },
   props: {
     format: {
       type: String,
@@ -282,7 +290,12 @@ export default defineComponent({
     const pickerSize = computed(() => {
       return props.size || elFormItemSize.value || (ELEMENT || {}).size
     })
+    const onClickOutside = () => {
+      if (!pickerVisible.value) return
+      pickerVisible.value = false
+    }
     return {
+      onClickOutside,
       pickerSize,
       isRangeInput,
       onMouseLeave,
