@@ -31,7 +31,7 @@ export default defineComponent({
       const sizeName = ['top', 'bottom'].includes(rootTabs.props.tabPosition) ? 'width' : 'height'
       const sizeDir = sizeName === 'width' ? 'x' : 'y'
 
-      props.tabs.every((tab) => {
+      props.tabs.every(tab => {
         let $el = instance.parent.refs?.[`tab-${tab.setupState.paneName}`]
         if (!$el) { return false }
         if (!tab.setupState.active) {

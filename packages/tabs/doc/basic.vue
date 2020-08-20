@@ -218,7 +218,7 @@ export default {
         })
       }
       this.editableTabsValue = activeName
-      this.editableTabs = tabs.filter((tab) => tab.name !== targetName)
+      this.editableTabs = tabs.filter(tab => tab.name !== targetName)
     },
     handleTabsEdit(targetName, action) {
       if (action === 'add') {
@@ -245,7 +245,7 @@ export default {
         }
         this.editableTabsValue = activeName
         this.editableTabs = tabs.filter(
-          (tab) => tab.name !== targetName,
+          tab => tab.name !== targetName,
         )
       }
     },

@@ -41,11 +41,11 @@ export default defineComponent({
     const panes = ref<ComponentInternalInstance[]>([])
     const instance = getCurrentInstance()
 
-    watch(() => props.activeName, (modelValue) => {
+    watch(() => props.activeName, modelValue => {
       setCurrentName(modelValue)
     })
 
-    watch(() => props.modelValue, (modelValue) => {
+    watch(() => props.modelValue, modelValue => {
       setCurrentName(modelValue)
     })
 
@@ -61,7 +61,7 @@ export default defineComponent({
     })
 
     const getPaneInstanceFromSlot = (vnode, paneInstanceList = []) => {
-      [...(vnode.children || [])].forEach((node) => {
+      [...(vnode.children || [])].forEach(node => {
         let type = node.type
         type = type.name || type
         if (type === 'ElTabPane' && node.component) {
@@ -94,13 +94,13 @@ export default defineComponent({
       }
     }
 
-    const changeCurrentName = (value) => {
+    const changeCurrentName = value => {
       currentName.value = value
       ctx.emit('input', value)
       ctx.emit('update:modelValue', value)
     }
 
-    const setCurrentName = (value) => {
+    const setCurrentName = value => {
       if(currentName.value !== value && props.beforeLeave) {
         const before = props.beforeLeave(value, currentName.value)
         if(before && before.then) {
@@ -177,7 +177,7 @@ export default defineComponent({
         class: 'el-tabs__new-tab',
         tabindex: '0',
         onClick: handleTabAdd,
-        onKeydown: (ev) => { if (ev.keyCode === 13) { handleTabAdd() }},
+        onKeydown: ev => { if (ev.keyCode === 13) { handleTabAdd() }},
       },
       [h('i', { class: 'el-icon-plus' })],
     ) : null
