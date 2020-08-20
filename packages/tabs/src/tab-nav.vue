@@ -143,7 +143,7 @@ export default defineComponent({
       }
     }
 
-    const changeTab = (e) => {
+    const changeTab = e => {
       const keyCode = e.keyCode
       let nextIndex
       let currentIndex, tabList
@@ -301,7 +301,7 @@ export default defineComponent({
           'span',
           {
             class: 'el-icon-close',
-            onClick: (ev) => { onTabRemove(pane, ev) },
+            onClick: ev => { onTabRemove(pane, ev) },
           },
         ) : null
 
@@ -328,8 +328,8 @@ export default defineComponent({
           tabindex: tabindex,
           onFocus: () => { setFocus() },
           onBlur: () => { removeFocus() },
-          onClick: (ev) => { removeFocus(); onTabClick(pane, tabName, ev) },
-          onKeydown: (ev) => { if (closable && (ev.keyCode === 46 || ev.keyCode === 8)) { onTabRemove(pane, ev)} },
+          onClick: ev => { removeFocus(); onTabClick(pane, tabName, ev) },
+          onKeydown: ev => { if (closable && (ev.keyCode === 46 || ev.keyCode === 8)) { onTabRemove(pane, ev)} },
         },
         [tabLabelContent, btnClose],
       )
