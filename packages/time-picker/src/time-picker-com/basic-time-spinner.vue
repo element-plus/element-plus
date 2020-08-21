@@ -314,7 +314,6 @@ export default defineComponent({
       if (props.arrowControl) return
       const el = listRefsMap[type]
       if (el) {
-        console.log(el.value.$el)
         el.value.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(0, value * typeItemHeight(type))
       }
     }

@@ -93,6 +93,7 @@
           :default-value="defaultValue"
           @pick="onPick"
           @select-range="setSelectionRange"
+          @mousedown.stop
         ></slot>
       </template>
     </el-popper>
