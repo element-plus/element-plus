@@ -111,6 +111,7 @@ import {
 import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '../../input/input.vue'
+import { Popper as ElPopper } from '@element-plus/popper'
 // todo element
 const ELEMENT = {
   size: '',
@@ -119,6 +120,7 @@ export default defineComponent({
   name: 'Picker',
   components: {
     ElInput,
+    ElPopper,
   },
   directives: { clickoutside: ClickOutside },
   props: {

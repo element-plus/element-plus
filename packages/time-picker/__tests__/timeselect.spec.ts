@@ -55,6 +55,18 @@ describe('TimePicker', () => {
     expect(times[0].element.textContent).toBe('06 PM')
     expect(times[1].element.textContent).toBe('40') // default value
     expect(times[2].element.textContent).toBe('00')
+
+    // const list = document.querySelectorAll('.el-time-spinner__list')
+    // const hoursEl = list[0]
+    // const items = hoursEl.querySelectorAll('.el-time-spinner__item')
+    // expect(items[0].textContent).toBe('12 AM') // am pm
+    // expect(items[1].textContent).toBe('01 AM')
+    // expect(items[12].textContent).toBe('12 PM')
+    // expect(items[15].textContent).toBe('03 PM')
+    // const times = document.querySelectorAll('.el-time-spinner__list .active')
+    // expect(times[0].textContent).toBe('06 PM')
+    // expect(times[1].textContent).toBe('40') // default value
+    // expect(times[2].textContent).toBe('00')
   })
 
   it('select time', async () => {
