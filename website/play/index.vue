@@ -1,8 +1,10 @@
 <template>
   <div>
     value1: {{ value1 }}
-    <el-time-picker
+    <el-date-picker
       v-model="value1"
+      type="date"
+      placeholder="Pick a day"
     />
     <div>
     </div>
