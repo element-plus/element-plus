@@ -74,6 +74,7 @@ describe('Radio', () => {
     })
     const vm = wrapper.vm as any
     await wrapper.trigger('click')
+    await nextTick()
     expect(vm.changeData).toEqual('3')
   })
 
@@ -156,6 +157,7 @@ describe('Radio group', () => {
 
     const radio2 = wrapper.findComponent({ ref: 'radio2' })
     await radio2.trigger('click')
+    await nextTick()
     const vm = wrapper.vm as any
     expect(vm.data).toEqual(6)
   })

@@ -329,7 +329,7 @@ export default defineComponent({
       },
     )
 
-    watch(() => popperOptions.value, (val) => {
+    watch(() => popperOptions.value, val => {
       popperInstance.value.setOptions({
         placement: val.placement,
         strategy: val.strategy,

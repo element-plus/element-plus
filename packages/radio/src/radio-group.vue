@@ -86,7 +86,7 @@ export default {
       modelValue,
     })
 
-    const handleKeydown = (e) => { // 左右上下按键 可以在radio组内切换不同选项
+    const handleKeydown = e => { // 左右上下按键 可以在radio组内切换不同选项
       const target = e.target
       const className = target.nodeName === 'INPUT' ? '[type=radio]' : '[role=radio]'
       const radios = radioGroup.value.querySelectorAll(className)

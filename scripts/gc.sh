@@ -65,7 +65,7 @@ cat > $DIRNAME/package.json <<EOF
   "main": "dist/index.js",
   "license": "MIT",
   "peerDependencies": {
-    "vue": "^3.0.0-rc.1"
+    "vue": "^3.0.0-rc.6"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.0.0-beta.0"

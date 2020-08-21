@@ -14,13 +14,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed, ref, PropType } from 'vue'
 
+const ERROR_EVENT = 'error'
 export default defineComponent({
   name: 'ElAvatar',
   props: {
     size: {
-      type: [Number, String],
+      type: [Number, String] as PropType<number | string>,
       validator(this: never, val: unknown) {
         if (typeof val === 'string') {
           return ['large', 'medium', 'small'].includes(val)
@@ -40,13 +41,12 @@ export default defineComponent({
     src: String,
     alt: String,
     srcSet: String,
-    error: Function,
     fit: {
       type: String,
       default: 'cover',
     },
   },
-  emits: ['error'],
+  emits: [ERROR_EVENT],
   setup(props, { emit }) {
     const hasLoadError = ref(false)
 
@@ -80,7 +80,7 @@ export default defineComponent({
 
     function handleError(e: Event) {
       hasLoadError.value = true
-      emit('error', e)
+      emit(ERROR_EVENT, e)
     }
     return {
       hasLoadError, avatarClass, sizeStyle, handleError,

@@ -28,7 +28,7 @@ app.mixin({
   computed: {
     $isEle: {
       get: () => (globalEle.data.$isEle),
-      set: (data) => {globalEle.data.$isEle = data},
+      set: data => {globalEle.data.$isEle = data},
     },
   },
 })
