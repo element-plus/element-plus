@@ -24,7 +24,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
 
     const getBarStyle = () => {
-      let style: CSSStyleDeclaration = {} as CSSStyleDeclaration
+      let style = {} as CSSStyleDeclaration
       let offset = 0
       let tabSize = 0
 

@@ -29,7 +29,7 @@ export default defineComponent({
       default: 'top',
     },
     beforeLeave: {
-      type: Function,
+      type: Function as PropType<(newTabName: string, oldTabName: string) => void>,
       default: null,
     },
     stretch: Boolean,
@@ -61,7 +61,8 @@ export default defineComponent({
     })
 
     const getPaneInstanceFromSlot = (vnode, paneInstanceList = []) => {
-      [...(vnode.children || [])].forEach(node => {
+
+      Array.from(vnode.children || []).forEach(node => {
         let type = node.type
         type = type.name || type
         if (type === 'ElTabPane' && node.component) {
@@ -77,7 +78,7 @@ export default defineComponent({
       if(ctx.slots.default) {
         const children = instance.subTree.children
 
-        const content = [...children].find(({ props }) => {
+        const content = Array.from(children).find(({ props }) => {
           return props.class === 'el-tabs__content'
         })
 

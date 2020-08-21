@@ -20,10 +20,6 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    labelContent: {
-      type: Function,
-      default: null,
-    },
     name: {
       type: String,
       default: '',

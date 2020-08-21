@@ -1,6 +1,8 @@
 <script lang='ts'>
 import { h, defineComponent, ref, inject, computed, onUpdated, onMounted, onBeforeUnmount } from 'vue'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
+import { eventKeys } from '@element-plus/utils/aria'
+import { on, off } from '@element-plus/utils/dom'
 import TabBar from './tab-bar.vue'
 import { NOOP, capitalize } from '@vue/shared'
 
@@ -22,11 +24,11 @@ export default defineComponent({
     },
     editable: Boolean,
     onTabClick: {
-      type: Function,
+      type: Function as PropType<(tab: ComponentInternalInstance, tabName: string, ev: Event) => void>,
       default: NOOP,
     },
     onTabRemove: {
-      type: Function,
+      type: Function as PropType<(tab: ComponentInternalInstance, ev: Event) => void>,
       default: NOOP,
     },
     type: {
@@ -147,13 +149,15 @@ export default defineComponent({
       const keyCode = e.keyCode
       let nextIndex
       let currentIndex, tabList
-      if ([37, 38, 39, 40].indexOf(keyCode) !== -1) { // 左右上下键更换tab
+
+      const { up, down, left, right } = eventKeys
+      if ([up, down, left, right].indexOf(keyCode) !== -1) { // 左右上下键更换tab
         tabList = e.currentTarget.querySelectorAll('[role=tab]')
         currentIndex = Array.prototype.indexOf.call(tabList, e.target)
       } else {
         return
       }
-      if (keyCode === 37 || keyCode === 38) { // left
+      if (keyCode === left || keyCode === up) { // left
         if (currentIndex === 0) { // first
           nextIndex = tabList.length - 1
         } else {
@@ -208,9 +212,9 @@ export default defineComponent({
 
     onMounted(() => {
       addResizeListener(el$.value, update)
-      document.addEventListener('visibilitychange', visibilityChangeHandler)
-      window.addEventListener('blur', windowBlurHandler)
-      window.addEventListener('focus', windowFocusHandler)
+      on(document, 'visibilitychange', visibilityChangeHandler)
+      on(window, 'blur', windowBlurHandler)
+      on(window, 'focus', windowFocusHandler)
       setTimeout(() => {
         scrollToActiveTab()
       }, 0)
@@ -220,9 +224,9 @@ export default defineComponent({
       if(el$.value) {
         removeResizeListener(el$.value, update)
       }
-      document.removeEventListener('visibilitychange', visibilityChangeHandler)
-      window.removeEventListener('blur', windowBlurHandler)
-      window.removeEventListener('focus', windowFocusHandler)
+      off(document, 'visibilitychange', visibilityChangeHandler)
+      off(window, 'blur', windowBlurHandler)
+      off(window, 'focus', windowFocusHandler)
     })
 
     return {
