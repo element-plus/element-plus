@@ -3,7 +3,6 @@
     value1: {{ value1 }}
     <el-time-picker
       v-model="value1"
-      is-range
     />
     <div>
     </div>
