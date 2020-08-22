@@ -283,6 +283,8 @@ export default defineComponent({
       _show()
     }
 
+    let cachedPopperOptions = null
+
     function initializePopper() {
       const subTree = getTrigger()
 
@@ -301,7 +303,7 @@ export default defineComponent({
       trigger.value = referenceElement
       const modifiers = useModifer(popperOptions.value.modifierOptions)
 
-      popperInstance.value = createPopper(referenceElement, popperRef.value, {
+      popperInstance.value = createPopper(referenceElement, popperRef.value, cachedPopperOptions !== null ? cachedPopperOptions : {
         placement: popperOptions.value.placement,
         onFirstUpdate: () => {
           popperInstance.value.forceUpdate()
@@ -309,6 +311,7 @@ export default defineComponent({
         strategy: popperOptions.value.strategy,
         modifiers,
       })
+      cachedPopperOptions = null
       referenceElement.setAttribute('aria-describedby', popperId.value)
       referenceElement.setAttribute('tabindex', props.tabIndex)
       on(referenceElement, 'mouseenter', _show)
@@ -330,6 +333,14 @@ export default defineComponent({
     )
 
     watch(() => popperOptions.value, val => {
+      if(!popperInstance.value){
+        cachedPopperOptions = {
+          placement: val.placement,
+          strategy: val.strategy,
+          modifiers: useModifier(val.modifierOptions),
+        }
+        return
+      }
       popperInstance.value.setOptions({
         placement: val.placement,
         strategy: val.strategy,
