@@ -9,7 +9,6 @@ export const useCheckbox = () => {
   const focus = ref(false)
   const isGroup = computed(() => _checkboxGroup && _checkboxGroup.name === 'ElCheckboxGroup')
   const _elFormItemSize = computed(() => {
-
     return (elFormItem || {} as any).elFormItemSize
   })
   return {
