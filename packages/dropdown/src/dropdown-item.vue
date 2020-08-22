@@ -8,6 +8,8 @@
     :aria-disabled="disabled"
     :tabindex="disabled ? null : -1"
     @click="handleClick"
+    @mouseenter.stop="show"
+    @mouseleave.stop="hide"
   >
     <i v-if="icon" :class="icon"></i>
     <slot></slot>
@@ -32,9 +34,20 @@ export default defineComponent({
     const { elDropdown } = useDropdown()
 
     function handleClick(e: UIEvent) {
-      elDropdown.ClickEvent?.(props.command, getCurrentInstance(), e)
+      elDropdown.handleClick?.(props.command, getCurrentInstance(), e)
     }
-    return { handleClick }
+    function show() {
+      elDropdown.show?.()
+    }
+    function hide() {
+      elDropdown.hide?.()
+    }
+
+    return {
+      handleClick,
+      show,
+      hide,
+    }
   },
 })
 </script>

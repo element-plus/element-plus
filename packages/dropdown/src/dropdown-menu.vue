@@ -1,19 +1,13 @@
 <template>
-  <transition
-    name="el-zoom-in-top"
-    @after-leave="doDestroy"
+  <ul
+    class="el-dropdown-menu"
+    :class="[size && `el-dropdown-menu--${size}`]"
   >
-    <ul
-      v-show="showPopper"
-      class="el-dropdown-menu el-popper"
-      :class="[size && `el-dropdown-menu--${size}`]"
-    >
-      <slot></slot>
-    </ul>
-  </transition>
+    <slot></slot>
+  </ul>
 </template>
 <script lang='ts'>
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useDropdown } from './useDropdown'
 
 export default defineComponent({
@@ -30,7 +24,7 @@ export default defineComponent({
   },
   setup() {
     const { _elDropdownSize } = useDropdown()
-    const size = ref(_elDropdownSize || '')
+    const size = _elDropdownSize.value
 
     return {
       size,
