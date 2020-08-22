@@ -56,8 +56,8 @@ export default defineComponent({
     const visible = ref(false)
     const { visibilityHeight, target, right, bottom } = toRefs(props)
 
-    const styleBottom = computed(() => `${right.value}px`)
-    const styleRight = computed(() => `${bottom.value}px`)
+    const styleBottom = computed(() => `${bottom.value}px`)
+    const styleRight = computed(() => `${right.value}px`)
 
     const scrollToTop = () => {
       const beginTime = Date.now()
