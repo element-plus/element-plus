@@ -32,7 +32,7 @@ export default {
       referrer: ref(null),
       placement,
       toggle: () => {
-        const random = Math.floor(Math.random() * 13)
+        const random = Math.floor(Math.random() * 11)
         placement.value = placements[random]
       },
     }
