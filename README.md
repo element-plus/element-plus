@@ -13,6 +13,10 @@ This project is still under heavy development. Feel free to join us and make you
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody <a href="https://discord.link/ElementPlus" target="_blank" rel="noreferrer noopener" align="center"> ![Discord](https://discord.com/api/guilds/746641026239954954/widget.png?style=shield)</a>
 
+Or join our QQ Disscussion Group
+
+<img src="https://user-images.githubusercontent.com/16429512/90955211-36059780-e4ae-11ea-8e6e-2f3e232aa7c4.jpeg" alt="QQ Discussion Group-1" width="375" height="508">
+
 ## Bootstrap project
 With command
 ```bash
