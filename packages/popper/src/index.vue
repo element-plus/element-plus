@@ -319,6 +319,9 @@ export default defineComponent({
       on(referenceElement, 'focus', handleFocus)
       on(referenceElement, 'blur', handleBlur)
       on(popperRef.value, 'click', stop)
+      if (props.appendToBody && popperRef.value) {
+        document.body.appendChild(popperRef.value)
+      }
     }
 
     watch(
@@ -351,9 +354,6 @@ export default defineComponent({
 
     onMounted(() => {
       initializePopper()
-      if (props.appendToBody && popperRef.value) {
-        document.body.appendChild(popperRef.value)
-      }
     })
 
     onBeforeUnmount(() => {
