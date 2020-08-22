@@ -147,7 +147,7 @@ export default defineComponent({
         if (props.labelWidth === 'auto') {
           ret.marginLeft = computedLabelWidth.value
         } else if (form.value.labelWidth === 'auto') {
-          ret.marginLeft = elForm.autoLabelWidth
+          ret.marginLeft = elForm.autoLabelWidth.value
         }
       } else {
         ret.marginLeft = labelWidth

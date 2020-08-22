@@ -8,6 +8,7 @@ import {
   onMounted,
   onUpdated,
   onBeforeUnmount,
+  nextTick,
 } from 'vue'
 
 export default defineComponent({
@@ -39,13 +40,15 @@ export default defineComponent({
       }
     }
     const updateLabelWidth = (action = 'update') => {
-      if (slots.default && props.isAutoWidth && el.value.firstElementChild) {
-        if (action === 'update') {
-          computedWidth.value = getLabelWidth()
-        } else if (action === 'remove') {
-          elForm.deregisterLabelWidth(computedWidth.value)
+      nextTick(() => {
+        if (slots.default && props.isAutoWidth) {
+          if (action === 'update') {
+            computedWidth.value = getLabelWidth()
+          } else if (action === 'remove') {
+            elForm.deregisterLabelWidth(computedWidth.value)
+          }
         }
-      }
+      })
     }
 
     onMounted(() => updateLabelWidth('update'))
@@ -60,7 +63,7 @@ export default defineComponent({
       const autoLabelWidth = elForm.autoLabelWidth
       const style = {} as any
       if (autoLabelWidth && autoLabelWidth !== 'auto') {
-        const marginLeft = parseInt(autoLabelWidth, 10) - computedWidth.value
+        const marginLeft = parseInt(autoLabelWidth.value, 10) - computedWidth.value
         if (marginLeft) {
           style.marginLeft = marginLeft + 'px'
         }
@@ -69,13 +72,14 @@ export default defineComponent({
         h(
           'div',
           {
+            ref: el,
             class: ['el-form-item__label-wrap'],
             style: style,
           },
           slots.default?.(),
         )
     } else {
-      return () => h('div', slots.default?.())
+      return () => h('div', { ref: el }, slots.default?.())
     }
   },
 })
