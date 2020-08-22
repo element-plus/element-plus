@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { defineComponent, ref, computed, onMounted, onBeforeUnmount, toRefs } from 'vue'
 import throttle from 'lodash/throttle'
 import { on, off } from '@element-plus/utils/dom'
 import { easeInOutCubic } from '@element-plus/utils/animation'
@@ -54,8 +54,10 @@ export default defineComponent({
     const el = ref(null)
     const container = ref(null)
     const visible = ref(false)
-    const styleBottom = computed(() => `${props.bottom}px`)
-    const styleRight = computed(() => `${props.right}px`)
+    const { visibilityHeight, target, right, bottom } = toRefs(props)
+
+    const styleBottom = computed(() => `${right.value}px`)
+    const styleRight = computed(() => `${bottom.value}px`)
 
     const scrollToTop = () => {
       const beginTime = Date.now()
@@ -73,7 +75,7 @@ export default defineComponent({
       rAF(frameFunc)
     }
     const onScroll = () => {
-      visible.value = el.value.scrollTop >= props.visibilityHeight
+      visible.value = el.value.scrollTop >= visibilityHeight.value
     }
     const handleClick = event => {
       scrollToTop()
@@ -85,10 +87,10 @@ export default defineComponent({
     onMounted(() => {
       container.value = document
       el.value = document.documentElement
-      if (props.target) {
-        el.value = document.querySelector(props.target)
+      if (target.value) {
+        el.value = document.querySelector(target.value)
         if (!el.value) {
-          throw new Error(`target is not existed: ${props.target}`)
+          throw new Error(`target is not existed: ${target.value}`)
         }
         container.value = el.value
       }
