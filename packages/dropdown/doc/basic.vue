@@ -35,7 +35,4 @@ export default defineComponent({
 .el-dropdown-menu__item {
   word-break: keep-all;
 }
-.el-dropdown-menu__item.is-disabled {
-  pointer-events: inherit;
-}
 </style>
