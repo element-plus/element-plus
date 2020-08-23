@@ -1,41 +1,19 @@
-<template>
-  <slot name="trigger"></slot>
-  <transition :name="transition">
-    <div
-      v-show="visible"
-      :id="popperId"
-      ref="popperRef"
-      role="tooltip"
-      :aria-hidden="visible ? 'false' : 'true'"
-      :class="['el-popper', 'is-' + effect, popperClass]"
-      @mouseenter="_show"
-      @mouseleave="_hide"
-    >
-      <!-- mark this parent container un-indexable to disable it from being indexed -->
-      <slot>
-        <div>{{ content }}</div>
-      </slot>
-      <div
-        v-if="showArrow"
-        ref="arrowRef"
-        class="el-popper__arrow"
-        data-popper-arrow
-      ></div>
-    </div>
-  </transition>
-</template>
-
 <script lang="ts">
 import {
   computed,
   defineComponent,
   getCurrentInstance,
+  h,
   ref,
   onBeforeUnmount,
   onMounted,
   onUpdated,
   watch,
   Fragment,
+  Teleport,
+  Transition,
+  withDirectives,
+  vShow,
 } from 'vue'
 import { isArray } from '@vue/shared'
 import { debounce } from 'lodash'
@@ -45,26 +23,34 @@ import { generateId } from '@element-plus/utils/util'
 import { on, off } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
 
-import useModifer from './useModifier'
-
-import type { PropType, Ref } from 'vue'
-import type {
-  Placement,
-  Instance as PopperInstance,
-  PositioningStrategy,
-} from '@popperjs/core'
 import useModifier from './useModifier'
 
-type Effect = 'dark' | 'light';
-type RefElement = Nullable<HTMLElement>
+import type { PropType, Ref } from 'vue'
+
+import type { Effect, Offset, Placement, PopperInstance, PositioningStrategy, RefElement, Options } from './popper'
 
 const stop = (e: Event) => e.stopPropagation()
 
 const getTrigger = () => {
-  const {
-    subTree: { dynamicChildren },
-  } = getCurrentInstance()
-  return dynamicChildren[0].children
+  const { subTree: { children } } = getCurrentInstance()
+  // SubTree is formed by <slot name="trigger"/><popper />
+  // So that the trigger element is within the slot, we need to take it out of the slot in order to attach
+  // events on top of it
+  const targetSlot = children[0]
+  if (targetSlot.length > 1) {
+    console.warn('Popper will only be attached to the first child')
+  }
+
+  // This indicates if the slot is rendered with directives (e.g. v-if) or templates (e.g. <template />)
+  // if it's true, then the children needs to be taken by accessing targetSlots.children to get it
+
+  const trigger: HTMLElement = targetSlot.type === Fragment
+    ? targetSlot.children[0].el
+    : targetSlot.el
+  if (!trigger) {
+    throwError(compName, 'Cannot find referrer to attach popper to')
+  }
+  return trigger
 }
 
 const compName = 'ElPopper'
@@ -124,9 +110,9 @@ export default defineComponent({
       default: 0,
     },
     offset: {
-      type: [Number, Array] as PropType<[number, number] | number>,
-      default: [0, 12] as [number, number],
-      validator: (val: [number, number] | number): boolean => {
+      type: [Number, Array] as PropType<Offset>,
+      default: [0, 12] as Offset,
+      validator: (val: Offset): boolean => {
         return (isArray(val) && val.length === 2) || typeof val === 'number'
       },
     },
@@ -137,6 +123,15 @@ export default defineComponent({
     popperClass: {
       type: String,
       default: '',
+    },
+    pure: {
+      type: Boolean,
+      default: false,
+    },
+    // Once this option were given, the entire popper is under the users' control, top priority
+    popperOptions: {
+      type: Object as PropType<Options>,
+      default: () => null,
     },
     referrer: {
       type: HTMLElement as PropType<Nullable<HTMLElement>>,
@@ -160,7 +155,7 @@ export default defineComponent({
     },
     value: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   setup(props, { slots }) {
@@ -209,10 +204,6 @@ export default defineComponent({
       /* istanbul ignore if */
       if (!popperInstance.value || (visible.value && !forceDestroy)) return
       detach()
-      if (popperRef.value && props.appendToBody) {
-        off(popperRef.value, 'click', stop)
-        document.body.removeChild(popperRef.value)
-      }
     }
 
     function detach() {
@@ -265,6 +256,7 @@ export default defineComponent({
       }
       exceptionState.value = state
     }
+
     function _show() {
       setExpectionState(true)
       showPopper()
@@ -284,38 +276,28 @@ export default defineComponent({
     }
 
     function initializePopper() {
-      const subTree = getTrigger()
+      const _trigger = getTrigger()
 
-      if (subTree.length > 1) {
-        console.warn('Popper will only be attached to the first child')
-      }
-      let referenceElement: HTMLElement
-      if (subTree[0].type === Fragment) {
-        referenceElement = subTree[0].children[0].el
-      } else {
-        referenceElement = subTree[0].el
-      }
-      if (!referenceElement) {
-        throwError(compName, 'Cannot find referrer to attach popper to')
-      }
-      trigger.value = referenceElement
-      const modifiers = useModifer(popperOptions.value.modifierOptions)
 
-      popperInstance.value = createPopper(referenceElement, popperRef.value, {
-        placement: popperOptions.value.placement,
-        onFirstUpdate: () => {
-          popperInstance.value.forceUpdate()
-        },
-        strategy: popperOptions.value.strategy,
-        modifiers,
-      })
-      referenceElement.setAttribute('aria-describedby', popperId.value)
-      referenceElement.setAttribute('tabindex', props.tabIndex)
-      on(referenceElement, 'mouseenter', _show)
-      on(referenceElement, 'mouseleave', _hide)
-      on(referenceElement, 'focus', handleFocus)
-      on(referenceElement, 'blur', handleBlur)
-      on(popperRef.value, 'click', stop)
+      trigger.value = _trigger
+
+      popperInstance.value = createPopper(_trigger, popperRef.value,
+        props.popperOptions !== null
+          ? props.popperOptions
+          : {
+            placement: popperOptions.value.placement,
+            onFirstUpdate: () => {
+              popperInstance.value.forceUpdate()
+            },
+            strategy: popperOptions.value.strategy,
+            modifiers: useModifier(popperOptions.value.modifierOptions),
+          })
+      _trigger.setAttribute('aria-describedby', popperId.value)
+      _trigger.setAttribute('tabindex', props.tabIndex)
+      on(_trigger, 'mouseenter', _show)
+      on(_trigger, 'mouseleave', _hide)
+      on(_trigger, 'focus', handleFocus)
+      on(_trigger, 'blur', handleBlur)
     }
 
     watch(
@@ -330,6 +312,7 @@ export default defineComponent({
     )
 
     watch(() => popperOptions.value, val => {
+      if (!popperInstance.value) return
       popperInstance.value.setOptions({
         placement: val.placement,
         strategy: val.strategy,
@@ -340,9 +323,6 @@ export default defineComponent({
 
     onMounted(() => {
       initializePopper()
-      if (props.appendToBody && popperRef.value) {
-        document.body.appendChild(popperRef.value)
-      }
     })
 
     onBeforeUnmount(() => {
@@ -350,8 +330,8 @@ export default defineComponent({
     })
 
     onUpdated(() => {
-      const subTree = getTrigger()
-      if (subTree[0].el !== trigger.value && popperInstance.value) {
+      const _trigger = getTrigger()
+      if (_trigger !== trigger.value && popperInstance.value) {
         detach()
       }
       if (popperInstance.value) {
@@ -378,6 +358,73 @@ export default defineComponent({
   activated() {
     this.initializePopper()
   },
+  render() {
+    const arrow = this.showArrow
+      ? h(
+        'div',
+        {
+          ref: 'arrowRef',
+          class: 'el-popper__arrow',
+          'data-popper-arrow': '',
+        },
+      )
+      : null
+
+    const popper = h(
+      Transition,
+      {
+        name: this.transition,
+      },
+      {
+        default: () =>
+          withDirectives(
+            h(
+              'div',
+              {
+                ariaHidden: this.visible ? 'false' : 'true',
+                class: [
+                  'el-popper',
+                  'is-' + this.effect,
+                  this.popperClass,
+                  this.pure
+                    ? 'el-popper__pure'
+                    : '',
+                ],
+                id: this.popperId,
+                ref: 'popperRef',
+                role: 'tooltip',
+                onMouseEnter: this._show,
+                onMouseLeave: this._hide,
+                onClick: stop,
+              },
+              [
+                this.$slots.default ? this.$slots.default() : this.content,
+                arrow,
+              ],
+            ),
+            [
+              [vShow, this.visible],
+            ],
+          ),
+      },
+    )
+    return h(
+      Fragment,
+      null,
+      [
+        this.$slots.trigger?.(),
+        this.appendToBody
+          ? h(
+            Teleport,
+            {
+              to: 'body',
+            },
+            popper,
+          )
+          : popper,
+      ],
+    )
+  },
 })
 </script>
 
@@ -396,8 +443,8 @@ export default defineComponent({
 .el-popper__arrow,
 .el-popper__arrow::before {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   z-index: -1;
 }
 
@@ -409,19 +456,19 @@ export default defineComponent({
 }
 
 .el-popper[data-popper-placement^="top"] > .el-popper__arrow {
-  bottom: -4px;
+  bottom: -5px;
 }
 
 .el-popper[data-popper-placement^="bottom"] > .el-popper__arrow {
-  top: -4px;
+  top: -5px;
 }
 
 .el-popper[data-popper-placement^="left"] > .el-popper__arrow {
-  right: -4px;
+  right: -5px;
 }
 
 .el-popper[data-popper-placement^="right"] > .el-popper__arrow {
-  left: -4px;
+  left: -5px;
 }
 
 .el-popper.is-dark {
@@ -443,22 +490,31 @@ export default defineComponent({
 }
 
 .el-popper.is-light[data-popper-placement^="top"] .el-popper__arrow::before {
-  border-top: none;
-  border-left: none;
+  border-top-color: transparent;
+  border-left-color: transparent;
 }
 
 .el-popper.is-light[data-popper-placement^="bottom"] .el-popper__arrow::before {
-  border-top: none;
-  border-left: none;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
 }
 
 .el-popper.is-light[data-popper-placement^="left"] .el-popper__arrow::before {
-  border-left: none;
-  border-bottom: none;
+  border-left-color: transparent;
+  border-bottom-color: transparent;
 }
 
 .el-popper.is-light[data-popper-placement^="right"] .el-popper__arrow::before {
-  border-top: none;
-  border-right: none;
+  border-top-color: transparent;
+  border-right-color: transparent;
+}
+
+.el-popper.el-popper__pure {
+  padding: 0;
+  border: none;
+}
+
+.el-popper.el-popper__pure .el-popper__arrow::before {
+  border: none;
 }
 </style>
