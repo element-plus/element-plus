@@ -1,12 +1,18 @@
 <script lang='ts'>
-import { h, defineComponent, ref, inject, computed, onUpdated, onMounted, onBeforeUnmount } from 'vue'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
+import { h, defineComponent, ref, inject, computed, onUpdated, onMounted, onBeforeUnmount, PropType } from 'vue'
+import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
 import { eventKeys } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import TabBar from './tab-bar.vue'
 import { NOOP, capitalize } from '@vue/shared'
+import { RootTabs, Pane } from './tabs.vue'
 
 type RefElement = Nullable<HTMLElement>
+
+interface Scrollable {
+  next?: boolean
+  prev?: number
+}
 
 export default defineComponent({
   name: 'ElTabNav',
@@ -15,8 +21,8 @@ export default defineComponent({
   },
   props: {
     panes: {
-      type: Array as PropType<ComponentInternalInstance[]>,
-      default: () => ([] as ComponentInternalInstance[]),
+      type: Array as PropType<Pane[]>,
+      default: () => ([] as Pane[]),
     },
     currentName: {
       type: String,
@@ -24,11 +30,11 @@ export default defineComponent({
     },
     editable: Boolean,
     onTabClick: {
-      type: Function as PropType<(tab: ComponentInternalInstance, tabName: string, ev: Event) => void>,
+      type: Function as PropType<(tab: Pane, tabName: string, ev: Event) => void>,
       default: NOOP,
     },
     onTabRemove: {
-      type: Function as PropType<(tab: ComponentInternalInstance, ev: Event) => void>,
+      type: Function as PropType<(tab: Pane, ev: Event) => void>,
       default: NOOP,
     },
     type: {
@@ -38,12 +44,12 @@ export default defineComponent({
     stretch: Boolean,
   },
   setup() {
-    const rootTabs = inject('rootTabs')
+    const rootTabs = inject<RootTabs>('rootTabs')
     if (!rootTabs) {
       throw new Error(`ElTabNav must use with ElTabs`)
     }
 
-    const scrollable = ref(false)
+    const scrollable = ref<boolean | Scrollable>(false)
     const navOffset = ref(0)
     const isFocus = ref(false)
     const focusable = ref(true)
@@ -131,7 +137,7 @@ export default defineComponent({
 
       if (containerSize < navSize) {
         const currentOffset = navOffset.value
-        scrollable.value = scrollable.value || {}
+        scrollable.value = (scrollable.value || {}) as Scrollable
         scrollable.value.prev = currentOffset
         scrollable.value.next = currentOffset + containerSize < navSize
         if (navSize - currentOffset < containerSize) {
@@ -211,7 +217,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      addResizeListener(el$.value, update)
+      addResizeListener(el$.value as ResizableElement, update)
       on(document, 'visibilitychange', visibilityChangeHandler)
       on(window, 'blur', windowBlurHandler)
       on(window, 'focus', windowFocusHandler)
@@ -222,7 +228,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       if(el$.value) {
-        removeResizeListener(el$.value, update)
+        removeResizeListener(el$.value as ResizableElement, update)
       }
       off(document, 'visibilitychange', visibilityChangeHandler)
       off(window, 'blur', windowBlurHandler)
@@ -295,10 +301,10 @@ export default defineComponent({
     ] : null
 
     const tabs = panes.map((pane, index) => {
-      let tabName = pane.props.name || pane.setupState.index || `${index}`
-      const closable = pane.setupState.isClosable || editable
+      let tabName = pane.props.name || pane.index || `${index}`
+      const closable = pane.isClosable || editable
 
-      pane.setupState.index = `${index}`
+      pane.index = `${index}`
 
       const btnClose = closable ?
         h(
@@ -309,8 +315,8 @@ export default defineComponent({
           },
         ) : null
 
-      const tabLabelContent = pane.slots.label?.() || pane.props.label
-      const tabindex = pane.setupState.active ? 0 : -1
+      const tabLabelContent = pane.instance.slots.label?.() || pane.props.label
+      const tabindex = pane.active ? 0 : -1
 
       return h(
         'div',
@@ -318,7 +324,7 @@ export default defineComponent({
           class: {
             'el-tabs__item': true,
             [`is-${ rootTabs.props.tabPosition }`]: true,
-            'is-active': pane.setupState.active,
+            'is-active': pane.active,
             'is-disabled': pane.props.disabled,
             'is-closable': closable,
             'is-focus': isFocus,
@@ -327,7 +333,7 @@ export default defineComponent({
           key: `tab-${tabName}`,
           'aria-controls': `pane-${tabName}`,
           role: 'tab',
-          'aria-selected': pane.setupState.active ,
+          'aria-selected': pane.active ,
           ref: `tab-${tabName}`,
           tabindex: tabindex,
           onFocus: () => { setFocus() },

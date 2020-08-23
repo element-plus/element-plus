@@ -1,9 +1,48 @@
 <script lang='ts'>
-import { h, defineComponent, ref, onMounted, onUpdated, provide, watch, nextTick, getCurrentInstance, ComponentInternalInstance } from 'vue'
+import { h, defineComponent, ref, onMounted, onUpdated, provide, watch, nextTick, getCurrentInstance, ComputedRef, PropType, Ref, ComponentInternalInstance, VNode, Component } from 'vue'
 import { Fragment } from '@vue/runtime-core'
 import TabNav from './tab-nav.vue'
 
 type RefElement = Nullable<HTMLElement>
+
+type BeforeLeave = (newTabName: string, oldTabName: string) => void | Promise<void> | boolean
+
+export interface IETabsProps {
+  type: string
+  activeName: string
+  closable: boolean
+  addable: boolean
+  modelValue: string
+  editable: boolean
+  tabPosition: string
+  beforeLeave: BeforeLeave
+  stretch: boolean
+}
+
+export interface RootTabs {
+  props: IETabsProps
+  currentName: Ref<string>
+}
+
+export interface IEPaneProps {
+  label: string
+  name: string
+  closable: boolean
+  disabled: boolean
+  lazy: boolean
+}
+
+export interface Pane {
+  uid: number
+  instance: ComponentInternalInstance
+  props: IEPaneProps
+  paneName: ComputedRef<string>
+  active: ComputedRef<boolean>
+  index: Ref<string>
+  isClosable: ComputedRef<boolean>
+}
+
+export type UpdatePaneStateCallback = (pane: Pane) => void
 
 export default defineComponent({
   name: 'ElTabs',
@@ -29,17 +68,27 @@ export default defineComponent({
       default: 'top',
     },
     beforeLeave: {
-      type: Function as PropType<(newTabName: string, oldTabName: string) => void>,
+      type: Function as PropType<BeforeLeave>,
       default: null,
     },
     stretch: Boolean,
   },
   emits: ['tab-click', 'edit', 'tab-remove', 'tab-add', 'input', 'update:modelValue'],
-  setup(props, ctx) {
-    const nav$ = ref<RefElement>(null)
+  setup(props: IETabsProps, ctx) {
+    const nav$ = ref<typeof TabNav>(null)
     const currentName = ref(props.modelValue || props.activeName || '0')
-    const panes = ref<ComponentInternalInstance[]>([])
+    const panes = ref([])
     const instance = getCurrentInstance()
+    const paneStatesMap = {}
+
+    provide<RootTabs>('rootTabs', {
+      props,
+      currentName,
+    })
+
+    provide<UpdatePaneStateCallback>('updatePaneState', (pane: Pane) => {
+      paneStatesMap[pane.uid] = pane
+    })
 
     watch(() => props.activeName, modelValue => {
       setCurrentName(modelValue)
@@ -60,11 +109,11 @@ export default defineComponent({
       setPaneInstances(true)
     })
 
-    const getPaneInstanceFromSlot = (vnode, paneInstanceList = []) => {
+    const getPaneInstanceFromSlot = (vnode: VNode, paneInstanceList: ComponentInternalInstance[] = []) => {
 
-      Array.from(vnode.children || []).forEach(node => {
+      Array.from((vnode.children || []) as ArrayLike<VNode>).forEach(node => {
         let type = node.type
-        type = type.name || type
+        type = (type as Component).name || type
         if (type === 'ElTabPane' && node.component) {
           paneInstanceList.push(node.component)
         } else if(type === Fragment || type === 'template') {
@@ -78,13 +127,15 @@ export default defineComponent({
       if(ctx.slots.default) {
         const children = instance.subTree.children
 
-        const content = Array.from(children).find(({ props }) => {
+        const content = Array.from(children as ArrayLike<VNode>).find(({ props }) => {
           return props.class === 'el-tabs__content'
         })
 
         if(!content) return
 
-        const paneInstanceList = getPaneInstanceFromSlot(content)
+        const paneInstanceList: Pane[] = getPaneInstanceFromSlot(content).map(paneComponent => {
+          return paneStatesMap[paneComponent.uid]
+        })
         const panesChanged = !(paneInstanceList.length === panes.value.length && paneInstanceList.every((pane, index) => pane.uid === panes.value[index].uid))
 
         if (isForceUpdate || panesChanged) {
@@ -104,8 +155,8 @@ export default defineComponent({
     const setCurrentName = value => {
       if(currentName.value !== value && props.beforeLeave) {
         const before = props.beforeLeave(value, currentName.value)
-        if(before && before.then) {
-          before.then(() => {
+        if(before && (before as Promise<void>).then) {
+          (before as Promise<void>).then(() => {
             changeCurrentName(value)
             nav$.value && nav$.value.removeFocus()
           }, () => {
@@ -136,8 +187,6 @@ export default defineComponent({
       ctx.emit('edit', null, 'add')
       ctx.emit('tab-add')
     }
-
-    provide('rootTabs', getCurrentInstance())
 
     onUpdated(() => {
       setPaneInstances()

@@ -5,19 +5,20 @@
   ></div>
 </template>
 <script lang='ts'>
-import { defineComponent, inject, getCurrentInstance, watch, nextTick, ref, ComponentInternalInstance } from 'vue'
+import { defineComponent, inject, getCurrentInstance, watch, nextTick, ref, PropType } from 'vue'
 import { capitalize } from '@vue/shared'
+import { Pane, RootTabs } from './tabs.vue'
 
 export default defineComponent({
   name: 'ElTabBar',
   props: {
     tabs: {
-      type: Array as PropType<ComponentInternalInstance[]>,
-      default: () => ([] as ComponentInternalInstance[]),
+      type: Array as PropType<Pane[]>,
+      default: () => ([] as Pane[]),
     },
   },
   setup(props) {
-    const rootTabs = inject('rootTabs')
+    const rootTabs = inject<RootTabs>('rootTabs')
     if (!rootTabs) {
       throw new Error(`ElTabBar must use with ElTabs`)
     }
@@ -32,9 +33,9 @@ export default defineComponent({
       const sizeDir = sizeName === 'width' ? 'x' : 'y'
 
       props.tabs.every(tab => {
-        let $el = instance.parent.refs?.[`tab-${tab.setupState.paneName}`]
+        let $el = instance.parent.refs?.[`tab-${tab.paneName}`] as Element
         if (!$el) { return false }
-        if (!tab.setupState.active) {
+        if (!tab.active) {
           offset += $el[`client${capitalize(sizeName)}`]
           return true
         } else {

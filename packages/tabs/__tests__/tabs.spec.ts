@@ -55,7 +55,7 @@ describe('Tabs.vue', () => {
       },
       methods: {
         handleClick(tab) {
-          this.activeName = tab.setupState.paneName
+          this.activeName = tab.paneName
         },
       },
       template: `

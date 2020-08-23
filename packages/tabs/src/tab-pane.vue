@@ -12,7 +12,9 @@
   </div>
 </template>
 <script lang='ts'>
-import { defineComponent, ref, computed, inject } from 'vue'
+import { defineComponent, ref, computed, inject, getCurrentInstance } from 'vue'
+import { RootTabs, UpdatePaneStateCallback, IEPaneProps } from './tabs.vue'
+
 export default defineComponent({
   name: 'ElTabPane',
   props: {
@@ -28,12 +30,13 @@ export default defineComponent({
     disabled: Boolean,
     lazy: Boolean,
   },
-  setup(props) {
-    const index = ref(null)
+  setup(props: IEPaneProps) {
+    const index = ref<string>(null)
     const loaded = ref(false)
-    const rootTabs = inject('rootTabs')
+    const rootTabs = inject<RootTabs>('rootTabs')
+    const updatePaneState = inject<UpdatePaneStateCallback>('updatePaneState')
 
-    if (!rootTabs) {
+    if (!rootTabs || !updatePaneState) {
       throw new Error(`ElTabPane must use with ElTabs`)
     }
 
@@ -42,19 +45,30 @@ export default defineComponent({
     })
 
     const active = computed(() => {
-      const active = rootTabs.setupState.currentName === (props.name || index.value)
+      const active = rootTabs.currentName.value === (props.name || index.value)
       if (active) {
         loaded.value = true
       }
       return active
     })
 
-    const paneName = computed(() => {
+    const paneName = computed((): string => {
       return props.name || index.value
     })
 
     const shouldBeRender = computed(() => {
       return (!props.lazy || loaded.value) || active.value
+    })
+
+    const instance = getCurrentInstance()
+    updatePaneState({
+      uid: instance.uid,
+      instance,
+      props,
+      paneName,
+      active,
+      index,
+      isClosable,
     })
 
     return {
