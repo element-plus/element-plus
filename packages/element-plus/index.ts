@@ -28,7 +28,11 @@ import ElCollapse from '@element-plus/collapse'
 import ElPopper from '@element-plus/popper'
 import ElTabs from '@element-plus/tabs'
 import ElTooltip from '@element-plus/tooltip'
+<<<<<<< HEAD
 import ElSlider from '@element-plus/slider'
+=======
+import ElInput from '@element-plus/input'
+>>>>>>> feat(input): migrate input component simply
 
 export {
   ElAlert,
@@ -60,6 +64,7 @@ export {
   ElTabs,
   ElTooltip,
   ElSlider,
+  ElInput,
 }
 
 export default function install(app: App): void {
@@ -93,4 +98,5 @@ export default function install(app: App): void {
   ElTabs(app)
   ElTooltip(app)
   ElSlider(app)
+  ElInput(app)
 }
