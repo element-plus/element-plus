@@ -34,9 +34,8 @@ describe('Form.vue', () => {
       },
     })
 
-    const vm = wrapper.vm
-    expect(vm.$el.querySelector('.el-form-item__label').style.width).toEqual('80px')
-    expect(vm.$el.querySelector('.el-form-item__content').style.marginLeft).toEqual('80px')
+    expect(wrapper.find('.el-form-item__label').attributes('style')).toContain('width: 80px')
+    expect(wrapper.find('.el-form-item__content').attributes('style')).toContain('margin-left: 80px')
   })
 
   test('auto label width', () => {
@@ -66,9 +65,9 @@ describe('Form.vue', () => {
 
     const vm = wrapper.vm
     vm.$nextTick(() => {
-      const formItems = vm.$el.querySelectorAll('.el-form-item__content')
-      const marginLeft = parseInt(formItems[0].style.marginLeft, 10)
-      const marginLeft1 = parseInt(formItems[1].style.marginLeft, 10)
+      const formItems = wrapper.findAll('.el-form-item__content')
+      const marginLeft = parseInt((formItems[0].element as HTMLElement).style.marginLeft, 10)
+      const marginLeft1 = parseInt((formItems[1].element as HTMLElement).style.marginLeft, 10)
       expect(marginLeft === marginLeft1).toBe(true)
     })
   })
@@ -97,8 +96,7 @@ describe('Form.vue', () => {
       },
     })
 
-    const vm = wrapper.vm
-    expect(vm.$el.classList.contains('el-form--inline')).toBe(true)
+    expect(wrapper.classes()).toContain('el-form--inline')
   })
 
   test('label position', () => {
@@ -129,9 +127,10 @@ describe('Form.vue', () => {
       },
     })
 
-    const vm = wrapper.vm
-    expect((vm.$refs.labelTop as any).$el.classList.contains('el-form--label-top')).toBe(true)
-    expect((vm.$refs.labelLeft as any).$el.classList.contains('el-form--label-left')).toBe(true)
+    const labelTop = wrapper.findComponent({ ref: 'labelTop' })
+    const labelLeft = wrapper.findComponent({ ref: 'labelLeft' })
+    expect(labelTop.classes()).toContain('el-form--label-top')
+    expect(labelLeft.classes()).toContain('el-form--label-left')
   })
 
   test('label size', () => {
@@ -157,8 +156,8 @@ describe('Form.vue', () => {
       },
     })
 
-    const vm = wrapper.vm
-    expect((vm.$refs.labelMini as any).$el.children[0].classList.contains('el-form-item--mini')).toBe(true)
+    const labelLeft = wrapper.findComponent({ ref: 'labelMini' })
+    expect(labelLeft.findComponent(FromItem).classes()).toContain('el-form-item--mini')
   })
 
 })
