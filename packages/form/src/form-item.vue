@@ -102,15 +102,15 @@ export default defineComponent({
 
     const elForm = inject('elForm', {} as any)
 
-    const validateState = ref<string>('')
-    const validateMessage = ref<string>('')
-    const validateDisabled = ref<boolean>(false)
+    const validateState = ref('')
+    const validateMessage = ref('')
+    const validateDisabled = ref(false)
     // const validator = ref<any>({})
-    const isNested = ref<boolean>(false)
-    const computedLabelWidth = ref<string>('')
+    const isNested = ref(false)
+    const computedLabelWidth = ref('')
 
     //
-    const initialValue = ref<any>(null)
+    const initialValue = ref(null)
 
     watch(
       () => props.error,
@@ -129,7 +129,7 @@ export default defineComponent({
     const form = computed(() => elForm)
     const labelFor = computed(() => props.for || props.prop)
     const labelStyle = computed(() => {
-      const ret: any = {}
+      const ret: { width?: string; } = {}
       if (form.value.labelPosition === 'top') return ret
       const labelWidth = props.labelWidth || form.value.labelWidth
       if (labelWidth) {

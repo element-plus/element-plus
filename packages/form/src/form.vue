@@ -47,8 +47,8 @@ export default defineComponent({
   setup(props) {
     const formMitt: mitt.Emitter = mitt()
 
-    const fields = ref<any>([])
-    const potentialLabelWidthArr = ref<any>([])
+    const fields = ref([])
+    const potentialLabelWidthArr = ref([])
 
     watch(
       () => props.rules,

@@ -22,7 +22,7 @@ export default defineComponent({
     const elForm = inject('elForm', {} as any)
     const elFormItem = inject('elFormItem', {} as any)
 
-    const computedWidth = ref<number>(0)
+    const computedWidth = ref(0)
     watch(computedWidth, (val: any, oldVal: any) => {
       if (props.updateAll) {
         elForm.registerLabelWidth(val, oldVal)
