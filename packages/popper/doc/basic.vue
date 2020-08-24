@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <div>referrer</div>
-    <el-popper :placement="placement" :disabled="disabled">
+  <div class="popper-container">
+    <el-popper
+      :placement="placement"
+      :disabled="disabled"
+      effect="light"
+    >
       <template #default>content</template>
       <template #trigger>
         <el-button v-if="showButton" @click="disabled = !disabled">
@@ -21,6 +24,7 @@
 
 <script lang="ts">
 import { ref } from 'vue'
+import { getRandomInt } from '@element-plus/utils/util'
 
 const placements = ['top','top-start','top-end','bottom','bottom-start','bottom-end','left','left-start','left-end','right','right-start', 'right-end']
 export default {
@@ -32,10 +36,19 @@ export default {
       referrer: ref(null),
       placement,
       toggle: () => {
-        const random = Math.floor(Math.random() * 13)
+        const random = getRandomInt(12) // range [0, 11]
         placement.value = placements[random]
       },
     }
   },
 }
 </script>
+
+<style scoped>
+.popper-container {
+  width: 100%;
+  height: 100%;
+  padding: 150px;
+}
+
+</style>

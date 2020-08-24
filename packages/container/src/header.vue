@@ -1,7 +1,7 @@
 <template>
-  <footer class="el-header" :style="{ height }">
+  <header class="el-header" :style="{ height }">
     <slot></slot>
-  </footer>
+  </header>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
