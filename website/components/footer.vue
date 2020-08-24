@@ -38,6 +38,9 @@
         <a :href="gitterLink" target="_blank">
           <i class="doc-icon-gitter elementdoc"></i>
         </a>
+        <a href="https://www.netlify.com">
+          <img src="https://www.netlify.com/img/global/badges/netlify-light.svg" alt="Deploys by Netlify">
+        </a>
       </div>
     </div>
   </footer>

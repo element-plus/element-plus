@@ -6,8 +6,14 @@ export default defineComponent({
       type: String,
       default: 'div',
     },
-    gutter: Number,
-    type: String,
+    gutter: {
+      type: Number,
+      default: 0,
+    },
+    type: {
+      type: String,
+      default: '',
+    },
     justify: {
       type: String,
       default: 'start',

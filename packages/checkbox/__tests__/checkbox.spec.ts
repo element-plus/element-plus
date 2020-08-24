@@ -23,7 +23,7 @@ const _mount = <T={data: any; checkList: [];}>(template: string, data, otherObj?
 })
 
 describe('Checkbox', () => {
-  test('create', async (done) => {
+  test('create', async done => {
     const wrapper = _mount('<el-checkbox v-model="checkbox" label="a"/>', () => ({ checkbox: false }))
     const vm = wrapper.vm
     expect(wrapper.classes()).toContain('el-checkbox')
@@ -36,7 +36,7 @@ describe('Checkbox', () => {
     })
   })
 
-  test('disabled', async (done) => {
+  test('disabled', async done => {
     const wrapper = _mount('<el-checkbox v-model="checkbox" disabled label="a"/>', () => ({ checkbox: false }))
     const vm = wrapper.vm
     expect(wrapper.classes()).toContain('is-disabled')
@@ -47,7 +47,7 @@ describe('Checkbox', () => {
     })
   })
 
-  test('change event', async (done) => {
+  test('change event', async done => {
     const wrapper = _mount(
       `
       <el-checkbox v-model="checked" @change="onChange" />
@@ -74,7 +74,7 @@ describe('Checkbox', () => {
     })
   })
 
-  test('checkbox group', async (done) => {
+  test('checkbox group', async done => {
     const wrapper = _mount(
       `
       <el-checkbox-group v-model="checkList">
@@ -187,7 +187,7 @@ describe('Checkbox', () => {
 })
 
 describe('check-button', () => {
-  test('create', async (done) => {
+  test('create', async done => {
     const wrapper = _mount('<el-checkbox-button v-model="checkbox" label="a"/>', () => ({ checkbox: false }))
     const vm = wrapper.vm
     expect(wrapper.classes()).toContain('el-checkbox-button')
@@ -200,7 +200,7 @@ describe('check-button', () => {
     })
   })
 
-  test('disabled', async (done) => {
+  test('disabled', async done => {
     const wrapper = _mount('<el-checkbox-button v-model="checkbox" disabled label="a"/>', () => ({ checkbox: false }))
     const vm = wrapper.vm
     expect(wrapper.classes()).toContain('is-disabled')
@@ -211,7 +211,7 @@ describe('check-button', () => {
     })
   })
 
-  test('change event', async (done) => {
+  test('change event', async done => {
     const wrapper = _mount(
       `
       <el-checkbox-button v-model="checked" @change="onChange" />

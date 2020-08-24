@@ -10,8 +10,8 @@ function getPackages (context) {
       const project = new Project(cwd)
       return project.getPackages()
     })
-    .then((packages) => {
-      return packages.map((pkg) => pkg.name).map((name) => (name.charAt(0) === '@' ? name.split('/')[1] : name))
+    .then(packages => {
+      return packages.map(pkg => pkg.name).map(name => (name.charAt(0) === '@' ? name.split('/')[1] : name))
     })
 }
 
@@ -29,7 +29,7 @@ const scopes = [
 
 module.exports = {
   rules: {
-    'scope-enum': (ctx) => getPackages(ctx).then((packages) => [2, 'always', [...packages, ...scopes]]),
+    'scope-enum': ctx => getPackages(ctx).then(packages => [2, 'always', [...packages, ...scopes]]),
     'body-leading-blank': [1, 'always'],
     'footer-leading-blank': [1, 'always'],
     'header-max-length': [2, 'always', 72],
