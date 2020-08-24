@@ -22,6 +22,7 @@ import { createPopper } from '@popperjs/core'
 import { generateId } from '@element-plus/utils/util'
 import { on, off } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 
 import useModifier from './useModifier'
 
@@ -70,6 +71,10 @@ export default defineComponent({
       default: 0,
     },
     content: {
+      type: String,
+      default: '',
+    },
+    class: {
       type: String,
       default: '',
     },
@@ -153,12 +158,18 @@ export default defineComponent({
       type: String,
       default: '0',
     },
+    modelValue: {
+      type: Boolean,
+      default: undefined,
+      validator: val => typeof val === 'boolean',
+    },
     value: {
       type: Boolean,
       default: false,
     },
   },
-  setup(props, { slots }) {
+  emits: [UPDATE_MODEL_EVENT],
+  setup(props, { slots, emit }) {
     const popperRef = ref<RefElement>(null)
     const arrowRef = ref<RefElement>(null)
     const trigger = ref<RefElement>(null)
@@ -294,6 +305,7 @@ export default defineComponent({
           })
       _trigger.setAttribute('aria-describedby', popperId.value)
       _trigger.setAttribute('tabindex', props.tabIndex)
+      _trigger.classList.add(props.class)
       on(_trigger, 'mouseenter', _show)
       on(_trigger, 'mouseleave', _hide)
       on(_trigger, 'focus', handleFocus)
@@ -302,11 +314,14 @@ export default defineComponent({
 
     watch(
       () => visible.value,
-      () => {
+      val => {
         if (popperInstance.value) {
           popperInstance.value.update()
         } else {
           initializePopper()
+        }
+        if (props.manualMode) {
+          emit(UPDATE_MODEL_EVENT, val)
         }
       },
     )
