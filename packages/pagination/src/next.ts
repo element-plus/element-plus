@@ -18,6 +18,8 @@ export default defineComponent({
     },
   },
 
+  emits: ['click'],
+
   setup(props) {
     console.log('next props: ', props)
   },

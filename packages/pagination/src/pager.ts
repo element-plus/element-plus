@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 
 export default defineComponent({
   name: 'ElPager',
@@ -18,6 +18,8 @@ export default defineComponent({
     },                  // 页码按钮的数量
     disabled: Boolean,
   },
+
+  emits: ['change'],
 
   data() {
     return {
@@ -65,8 +67,10 @@ export default defineComponent({
           array.push(i)
         }
       }
-      this.showPrevMore = showPrevMore
-      this.showNextMore = showNextMore
+      nextTick(() => {
+        this.showPrevMore = showPrevMore
+        this.showNextMore = showNextMore
+      })
       return array
     },
   },
@@ -97,7 +101,6 @@ export default defineComponent({
           newPage = currentPage + pagerCountOffset
         }
       }
-      /* istanbul ignore if */
       if (!isNaN(newPage)) {
         if (newPage < 1) {
           newPage = 1
