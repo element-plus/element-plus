@@ -32,7 +32,7 @@ mkdir -p "$DIRNAME/__tests__"
 
 cat > $DIRNAME/src/index.vue <<EOF
 <template>
-  <div>
+  <div class="el-${INPUT_NAME}">
     <slot></slot>
   </div>
 </template>
@@ -46,7 +46,7 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
+<style>
 </style>
 EOF
 
