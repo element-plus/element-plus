@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { throttle } from 'lodash-es'
+import throttle from 'lodash/throttle'
 import { on, off } from '@element-plus/utils/dom'
 import { easeInOutCubic } from '@element-plus/utils/animation'
 
@@ -75,7 +75,7 @@ export default defineComponent({
     const onScroll = () => {
       visible.value = el.value.scrollTop >= props.visibilityHeight
     }
-    const handleClick = (event) => {
+    const handleClick = event => {
       scrollToTop()
       ctx.emit('click', event)
     }

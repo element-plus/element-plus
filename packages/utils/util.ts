@@ -1,5 +1,6 @@
 import isServer from './isServer'
-import { isObject, castArray, isEmpty, isEqual, capitalize } from 'lodash-es'
+import { isObject, capitalize } from '@vue/shared'
+import { isEmpty, castArray, isEqual } from 'lodash'
 
 const { hasOwnProperty } = Object.prototype
 
@@ -145,5 +146,13 @@ export function rafThrottle(fn: (args: Record<string, unknown>) => unknown): (..
 }
 
 export const objToArray = castArray
+
+/**
+ * Generating a random int in range (0, max - 1)
+ * @param max {number}
+ */
+export function getRandomInt(max: number) {
+  return Math.floor(Math.random() * Math.floor(max))
+}
 
 export { isVNode } from 'vue'
