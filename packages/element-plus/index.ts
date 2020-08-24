@@ -16,6 +16,7 @@ import ElRate from '@element-plus/rate'
 import ElSwitch from '@element-plus/switch'
 import ElContainer from '@element-plus/container'
 import ElNotification from '@element-plus/notification'
+import ElPagination from '@element-plus/pagination'
 
 export {
   ElAvatar,
@@ -35,6 +36,7 @@ export {
   ElSwitch,
   ElContainer,
   ElNotification,
+  ElPagination,
 }
 
 export default function install(app: App): void {
@@ -55,4 +57,5 @@ export default function install(app: App): void {
   ElSwitch(app)
   ElContainer(app)
   ElNotification(app)
+  ElPagination(app)
 }

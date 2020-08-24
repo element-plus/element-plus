@@ -32,6 +32,7 @@
     "@element-plus/breadcrumb": "^0.0.0",
     "@element-plus/icon": "^0.0.0",
     "@element-plus/switch": "^0.0.0",
-    "@element-plus/notification": "^0.0.0"
+    "@element-plus/notification": "^0.0.0",
+    "@element-plus/pagination": "^0.0.0"
   }
 }
