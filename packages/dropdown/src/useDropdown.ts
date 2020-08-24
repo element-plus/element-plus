@@ -13,17 +13,24 @@ export const useDropdown = () => {
   }
 }
 
-export const useDropdownDomEvent = async (dropdownChildren, triggerElm, _instance) => {
+export const useDropdownDomEvent = (dropdownChildren, triggerElm, _instance) => {
   const menuItems = ref(null)
   const menuItemsArray = ref(null)
   const dropdownElm = ref<Nullable<HTMLElement>>(null)
   const listId = ref(`dropdown-menu-${generateId()}`)
   dropdownElm.value = dropdownChildren.subTree.el
 
+  function removeTabindex() {
+    triggerElm.setAttribute('tabindex', '-1')
+    menuItemsArray.value?.forEach(item => {
+      item.setAttribute('tabindex', '-1')
+    })
+  }
+
   function handleTriggerKeyDown(ev: KeyboardEvent) {
     const keyCode = ev.keyCode
     if ([38, 40].includes(keyCode)) { // up/down
-      _instance.removeTabindex()
+      removeTabindex()
       _instance.resetTabindex(menuItems.value[0])
       menuItems.value[0].focus()
       ev.preventDefault()
@@ -47,7 +54,7 @@ export const useDropdownDomEvent = async (dropdownChildren, triggerElm, _instanc
       } else { // down
         nextIndex = currentIndex < max ? currentIndex + 1 : max
       }
-      _instance.removeTabindex()
+      removeTabindex()
       _instance.resetTabindex(menuItems.value[nextIndex])
       menuItems.value[nextIndex].focus()
       ev.preventDefault()
@@ -56,7 +63,7 @@ export const useDropdownDomEvent = async (dropdownChildren, triggerElm, _instanc
       triggerElmFocus()
       target.click()
       if (_instance.props.hideOnClick) { // click
-        _instance.visible.value = false
+        _instance.hide()
       }
     } else if ([9, 27].includes(keyCode)) { // tab // esc
       _instance.hide()

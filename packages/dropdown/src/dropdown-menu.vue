@@ -31,6 +31,7 @@ export default defineComponent({
       elDropdown.show?.()
     }
     function hide() {
+      if (elDropdown.trigger.value === 'click') return
       elDropdown.hide?.()
     }
 

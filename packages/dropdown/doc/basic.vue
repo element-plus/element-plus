@@ -1,9 +1,55 @@
 <template>
   <div class="block">
     <el-dropdown>
+      <span class="el-dropdown-link">
+        下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item>黄金糕</el-dropdown-item>
+          <el-dropdown-item>狮子头</el-dropdown-item>
+          <el-dropdown-item>螺蛳粉</el-dropdown-item>
+          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    <br>
+    <br>
+    <el-dropdown trigger="click">
+      <span class="el-dropdown-link">
+        下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item>黄金糕</el-dropdown-item>
+          <el-dropdown-item>狮子头</el-dropdown-item>
+          <el-dropdown-item>螺蛳粉</el-dropdown-item>
+          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    <br>
+    <br>
+    <el-dropdown>
       <el-button type="primary">
         更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
       </el-button>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item>黄金糕</el-dropdown-item>
+          <el-dropdown-item>狮子头</el-dropdown-item>
+          <el-dropdown-item>螺蛳粉</el-dropdown-item>
+          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    <br>
+    <br>
+    <el-dropdown split-button type="primary" @click="handleClick">
+      更多菜单
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>黄金糕</el-dropdown-item>
@@ -20,7 +66,11 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 export default defineComponent({
-  // setup(props, context) {},
+  methods: {
+    handleClick() {
+      alert('button click')
+    },
+  },
 })
 </script>
 

@@ -8,6 +8,8 @@ import {
   computed,
   watch,
   onMounted,
+  withDirectives,
+  resolveDirective,
 } from 'vue'
 import ClickOutside from '@element-plus/directives/click-outside'
 import ElButton from '@element-plus/button/src/button.vue'
@@ -44,10 +46,6 @@ export default defineComponent({
       type: String,
       default: 'bottom-end',
     },
-    visibleArrow: {
-      type: Boolean,
-      default: true,
-    },
     showTimeout: {
       type: Number,
       default: 250,
@@ -72,6 +70,7 @@ export default defineComponent({
     watch(
       () => visible.value,
       val => {
+        if(val) triggerElmFocus()
         emit('visible-change', val)
       },
     )
@@ -94,9 +93,8 @@ export default defineComponent({
     const triggerElm = computed<Nullable<HTMLElement & { disabled: boolean; }>>(() =>
       !props.splitButton
         ? _instance.subTree.el.nextElementSibling
-        : dropdownVnode.el.querySelector('.el-icon-arrow-down'),
+        : dropdownVnode.el.querySelector('.el-dropdown__caret-button'),
     )
-    const menuItemsArray = ref<Nullable<Array<HTMLElement>>>(null)
 
     function handleClick() {
       if (triggerElm.value?.disabled) return
@@ -109,7 +107,6 @@ export default defineComponent({
 
     function show() {
       if (triggerElm.value?.disabled) return
-      triggerElmFocus()
       timeout.value && clearTimeout(timeout.value)
       timeout.value = window.setTimeout(() => {
         visible.value = true
@@ -130,9 +127,6 @@ export default defineComponent({
 
     function removeTabindex() {
       triggerElm.value?.setAttribute('tabindex', '-1')
-      menuItemsArray.value?.forEach(item => {
-        item.setAttribute('tabindex', '-1')
-      })
     }
 
     function resetTabindex(ele) {
@@ -149,8 +143,6 @@ export default defineComponent({
       handleClick,
       hide,
       resetTabindex,
-      removeTabindex,
-      visible,
     })
 
     const dropdownSize = computed(() => props.size || (ELEMENT || {}).size)
@@ -170,6 +162,7 @@ export default defineComponent({
       show,
       hide,
       initDom,
+      trigger: computed(() => props.trigger),
     })
 
     onMounted(() => {
@@ -216,6 +209,8 @@ export default defineComponent({
       class: 'el-dropdown',
     }, [triggerVnode])
 
+    const clickOutside = resolveDirective('ClickOutside')
+
     return () => h(ELPopper, {
       placement: 'bottom',
       effect: 'light',
@@ -225,7 +220,7 @@ export default defineComponent({
       pure: false,
     }, {
       default: () => slots.dropdown?.(),
-      trigger: () => dropdownVnode,
+      trigger: () => withDirectives(dropdownVnode, [[clickOutside, hide]]),
     })
   },
 })
