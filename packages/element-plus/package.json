@@ -35,6 +35,7 @@
     "@element-plus/steps": "^0.0.0",
     "@element-plus/notification": "^0.0.0",
     "@element-plus/collapse": "^0.0.0",
-    "@element-plus/tabs": "^0.0.0"
+    "@element-plus/tabs": "^0.0.0",
+    "@element-plus/pagination": "^0.0.0"
   }
 }
