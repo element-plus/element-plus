@@ -37,10 +37,8 @@ export default {
     })
     const formatTooltip = (val:number) => `当前: ${val}`
     return {
-      slider,
       ...toRefs(values),
       formatTooltip,
-      click,
     }
   },
 }
