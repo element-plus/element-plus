@@ -88,12 +88,12 @@ export default defineComponent({
     })
 
     // methods
-    const handleClose = (event) => {
+    const handleClose = event => {
       event.stopPropagation()
       ctx.emit('close', event)
     }
 
-    const handleClick = (event) => {
+    const handleClick = event => {
       ctx.emit('close', event)
     }
 

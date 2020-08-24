@@ -5,12 +5,14 @@
    "noImplicitAny": false,
    "removeComments": true,
    "moduleResolution": "node",
+   "esModuleInterop": true,
    "noLib": false,
    "target": "es6",
    "sourceMap": true,
    "lib": [
      "es2020", "dom"
-   ]
+   ],
+   "allowSyntheticDefaultImports": true
  },
  "exclude": [
    "node_modules"
