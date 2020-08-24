@@ -8,8 +8,6 @@ import {
   computed,
   watch,
   onMounted,
-  withDirectives,
-  resolveDirective,
 } from 'vue'
 import ClickOutside from '@element-plus/directives/click-outside'
 import ElButton from '@element-plus/button/src/button.vue'
@@ -92,7 +90,7 @@ export default defineComponent({
 
     const triggerElm = computed<Nullable<HTMLElement & { disabled: boolean; }>>(() =>
       !props.splitButton
-        ? _instance.subTree.el.nextElementSibling
+        ? _instance.subTree.el?.nextElementSibling
         : dropdownVnode.el.querySelector('.el-dropdown__caret-button'),
     )
 
@@ -163,6 +161,8 @@ export default defineComponent({
       hide,
       initDom,
       trigger: computed(() => props.trigger),
+      hideOnClick: computed(() => props.hideOnClick),
+      triggerElm,
     })
 
     onMounted(() => {
@@ -209,8 +209,6 @@ export default defineComponent({
       class: 'el-dropdown',
     }, [triggerVnode])
 
-    const clickOutside = resolveDirective('ClickOutside')
-
     return () => h(ELPopper, {
       placement: 'bottom',
       effect: 'light',
@@ -220,7 +218,7 @@ export default defineComponent({
       pure: false,
     }, {
       default: () => slots.dropdown?.(),
-      trigger: () => withDirectives(dropdownVnode, [[clickOutside, hide]]),
+      trigger: () => dropdownVnode,
     })
   },
 })

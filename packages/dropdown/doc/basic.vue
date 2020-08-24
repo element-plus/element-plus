@@ -16,7 +16,7 @@
     </el-dropdown>
     <br>
     <br>
-    <el-dropdown trigger="click">
+    <el-dropdown trigger="click" :hide-on-click="false">
       <span class="el-dropdown-link">
         下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
@@ -48,7 +48,7 @@
     </el-dropdown>
     <br>
     <br>
-    <el-dropdown split-button type="primary" @click="handleClick">
+    <!-- <el-dropdown split-button type="primary" @click="handleClick">
       更多菜单
       <template #dropdown>
         <el-dropdown-menu>
@@ -59,7 +59,7 @@
           <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
         </el-dropdown-menu>
       </template>
-    </el-dropdown>
+    </el-dropdown> -->
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Dropdown from '../src/index.vue'
+import Dropdown from '../src/dropdown.vue'
 
 const AXIOM = 'Rem is the best girl'
 
