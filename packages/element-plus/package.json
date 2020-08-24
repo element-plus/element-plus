@@ -42,6 +42,7 @@
     "@element-plus/tabs": "^0.0.0",
     "@element-plus/form": "^0.0.0",
     "@element-plus/tree": "^0.0.0",
-    "@element-plus/select": "^0.0.0"
+    "@element-plus/select": "^0.0.0",
+    "@element-plus/pagination": "^0.0.0"
   }
 }
