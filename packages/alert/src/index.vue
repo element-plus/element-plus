@@ -31,6 +31,20 @@
 <script lang='ts'>
 import { defineComponent, computed, ref, PropType } from 'vue'
 
+type AlertType = 'success' | 'info' | 'error' | 'warning';
+type AlertEffect = 'light' | 'dark';
+
+interface IAlertProps {
+  title: string
+  description: string
+  type: AlertType
+  closable: boolean
+  closeText: string
+  showIcon: boolean
+  center: boolean
+  effect: AlertEffect
+}
+
 const TYPE_CLASSES_MAP = {
   'success': 'el-icon-success',
   'warning': 'el-icon-warning',
@@ -49,7 +63,7 @@ export default defineComponent({
       default: '',
     },
     type: {
-      type: String as PropType<'success' | 'info' | 'error' | 'warning'>,
+      type: String as PropType<AlertType>,
       default: 'info',
     },
     closable: {
@@ -63,13 +77,13 @@ export default defineComponent({
     showIcon: Boolean,
     center: Boolean,
     effect: {
-      type: String,
+      type: String as PropType<AlertEffect>,
       default: 'light',
       validator: (value: string): boolean => ['light', 'dark'].indexOf(value) > -1,
     },
   },
   emits: ['click'],
-  setup(props, ctx) {
+  setup(props: IAlertProps, ctx) {
     // state
     const visible = ref(true)
 
