@@ -9,20 +9,20 @@
     :aria-orientation="vertical ? 'vertical': 'horizontal'"
     :aria-disabled="sliderDisabled"
   >
-    <el-input-number
-      v-if="showInput && !range"
-      ref="input"
-      v-model="firstValue"
-      class="el-slider__input"
-      :step="step"
-      :disabled="sliderDisabled"
-      :controls="showInputControls"
-      :min="min"
-      :max="max"
-      :debounce="debounce"
-      :size="inputSize"
-      @change="emitChange"
-    />
+    <!--    <el-input-number-->
+    <!--      v-if="showInput && !range"-->
+    <!--      ref="input"-->
+    <!--      v-model="firstValue"-->
+    <!--      class="el-slider__input"-->
+    <!--      :step="step"-->
+    <!--      :disabled="sliderDisabled"-->
+    <!--      :controls="showInputControls"-->
+    <!--      :min="min"-->
+    <!--      :max="max"-->
+    <!--      :debounce="debounce"-->
+    <!--      :size="inputSize"-->
+    <!--      @change="emitChange"-->
+    <!--    />-->
     <div
       ref="slider"
       class="el-slider__runway"
@@ -51,7 +51,6 @@
       <div v-if="showStops">
         <div
           v-for="(item, key) in stops"
-
           :key="key"
           class="el-slider__stop"
           :style="getStopStyle(item)"
@@ -89,11 +88,10 @@ import {
   provide,
   computed,
   watch,
-  readonly,
-  Ref,
-  ComputedRef,
+  nextTick,
   onMounted,
   onBeforeUnmount,
+  Ref,
 } from 'vue'
 // import ElInputNumber from '@element-plus/input-number'
 import SliderButton from './button.vue'
@@ -101,13 +99,13 @@ import SliderMarker from './marker.vue'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 import { useMarks } from './useMarks'
-import { ISliderInitData, ISliderProps } from './Slider'
+import { ISliderProps } from './Slider'
 
 export default defineComponent({
   name: 'ElSlider',
 
   components: {
-    ElInputNumber,
+    // ElInputNumber,
     SliderButton,
     SliderMarker,
   },
@@ -128,10 +126,6 @@ export default defineComponent({
     step: {
       type: Number,
       default: 1,
-    },
-    value: {
-      type: [Number, Array],
-      default: 0,
     },
     showInput: {
       type: Boolean,
@@ -194,8 +188,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
 
   setup(props: ISliderProps, { emit }){
-
-    const initData:ISliderInitData = reactive({
+    const initData = reactive({
       firstValue: null,
       secondValue: null,
       oldValue: null,
@@ -228,7 +221,7 @@ export default defineComponent({
 
     useWatch(props, initData, minValue, maxValue, emit)
 
-    const precision:ComputedRef<number> = computed(() => {
+    const precision = computed(() => {
       let precisions = [props.min, props.max, props.step].map(item => {
         let decimal = ('' + item).split('.')[1]
         return decimal ? decimal.length : 0
@@ -236,7 +229,7 @@ export default defineComponent({
       return Math.max.apply(null, precisions)
     })
 
-    useLifecycle(props, initData, resetSize)
+    const { sliderWrapper } = useLifecycle(props, initData, resetSize)
 
 
 
@@ -252,19 +245,19 @@ export default defineComponent({
       initData.dragging = val
     }
 
-    provide('SliderProvider', readonly({
-      sliderDisabled: sliderDisabled,
-      min: props.min,
-      max: props.max,
-      step: props.step,
-      showTooltip: props.showTooltip,
+    provide('SliderProvider', {
+      disabled: sliderDisabled,
+      min: computed(() => props.min),
+      max: computed(() => props.max),
+      step: computed(() => props.step),
+      showTooltip: computed(() => props.showTooltip),
       precision: precision,
-      sliderSize: sliderSize,
-      formatTooltip: props.formatTooltip,
+      sliderSize: computed(() => sliderSize.value),
+      formatTooltip: (val:number) => props.formatTooltip(val),
       emitChange: emitChange,
       resetSize: resetSize,
       updateDragging: updateDragging,
-    }))
+    })
 
     return {
       firstValue,
@@ -285,6 +278,8 @@ export default defineComponent({
 
       stops,
       markList,
+
+      sliderWrapper,
     }
   },
 })
@@ -296,7 +291,7 @@ const useWatch = (props, initData, minValue, maxValue, emit) => {
       return ![minValue.value, maxValue.value]
         .every((item, index) => item === initData.oldValue[index])
     } else {
-      return props.value !== initData.oldValue
+      return props.modelValue !== initData.oldValue
     }
   }
 
@@ -305,16 +300,16 @@ const useWatch = (props, initData, minValue, maxValue, emit) => {
       console.error('[Element Error][Slider]min should not be greater than max.')
       return
     }
-    const val = props.value
+    const val = props.modelValue
     if (props.range && Array.isArray(val)) {
       if (val[1] < props.min) {
-        emit('input', [props.min, props.min])
+        emit('update:modelValue', [props.min, props.min])
       } else if (val[0] > props.max) {
-        emit('input', [props.max, props.max])
+        emit('update:modelValue', [props.max, props.max])
       } else if (val[0] < props.min) {
-        emit('input', [props.min, val[1]])
+        emit('update:modelValue', [props.min, val[1]])
       } else if (val[1] > props.max) {
-        emit('input', [val[0], props.max])
+        emit('update:modelValue', [val[0], props.max])
       } else {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
@@ -325,9 +320,9 @@ const useWatch = (props, initData, minValue, maxValue, emit) => {
       }
     } else if (!props.range && typeof val === 'number' && !isNaN(val)) {
       if (val < props.min) {
-        emit('input', props.min)
+        emit('update:modelValue', props.min)
       } else if (val > props.max) {
-        emit('input', props.max)
+        emit('update:modelValue', props.max)
       } else {
         initData.firstValue = val
         if (valueChanged()) {
@@ -346,19 +341,19 @@ const useWatch = (props, initData, minValue, maxValue, emit) => {
 
   watch(() => initData.firstValue, val => {
     if (props.range) {
-      emit('input', [minValue.value, maxValue.value])
+      emit('update:modelValue', [minValue.value, maxValue.value])
     } else {
-      emit('input', val)
+      emit('update:modelValue', val)
     }
   })
 
   watch(() => initData.secondValue, () => {
     if (props.range) {
-      emit('input', [minValue.value, maxValue.value])
+      emit('update:modelValue', [minValue.value, maxValue.value])
     }
   })
 
-  watch(() => props.value, (val, oldVal) => {
+  watch(() => props.modelValue, (val, oldVal) => {
     if (initData.dragging ||
       Array.isArray(val) &&
       Array.isArray(oldVal) &&
@@ -383,9 +378,9 @@ const useLifecycle = (props, initData, resetSize) => {
   onMounted(() => {
     let valuetext
     if (props.range) {
-      if (Array.isArray(props.value)) {
-        initData.firstValue = Math.max(props.min, props.value[0])
-        initData.secondValue = Math.min(props.max, props.value[1])
+      if (Array.isArray(props.modelValue)) {
+        initData.firstValue = Math.max(props.min, props.modelValue[0])
+        initData.secondValue = Math.min(props.max, props.modelValue[1])
       } else {
         initData.firstValue = props.min
         initData.secondValue = props.max
@@ -393,10 +388,10 @@ const useLifecycle = (props, initData, resetSize) => {
       initData.oldValue = [initData.firstValue, initData.secondValue]
       valuetext = `${initData.firstValue}-${initData.secondValue}`
     } else {
-      if (typeof props.value !== 'number' || isNaN(props.value)) {
+      if (typeof props.modelValue !== 'number' || isNaN(props.modelValue)) {
         initData.firstValue = props.min
       } else {
-        initData.firstValue = Math.min(props.max, Math.max(props.min, props.value))
+        initData.firstValue = Math.min(props.max, Math.max(props.min, props.modelValue))
       }
       initData.oldValue = initData.firstValue
       valuetext = initData.firstValue
@@ -407,12 +402,18 @@ const useLifecycle = (props, initData, resetSize) => {
     // label screen reader
     sliderWrapper.value.setAttribute('aria-label', props.label ? props.label : `slider between ${props.min} and ${props.max}`)
 
-    resetSize()
+    nextTick().then(() => {
+      resetSize()
+    })
     window.addEventListener('resize', resetSize)
   })
 
   onBeforeUnmount(() => {
     window.removeEventListener('resize', resetSize)
   })
+
+  return {
+    sliderWrapper,
+  }
 }
 </script>

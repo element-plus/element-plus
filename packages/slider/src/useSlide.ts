@@ -1,4 +1,4 @@
-import { computed, inject, nextTick, ref, ComputedRef } from 'vue'
+import { computed, inject, nextTick, ref,Ref, ComputedRef } from 'vue'
 import { ISliderButton, ISliderInitData, ISliderProps, Slide } from './Slider'
 
 export const useSlide = (props:ISliderProps, initData: ISliderInitData, emit):Slide => {
@@ -10,13 +10,13 @@ export const useSlide = (props:ISliderProps, initData: ISliderInitData, emit):Sl
 
   const button2 = ref(null)
 
-  const buttonRefs:{[s:string]:ISliderButton;} = {
+  const buttonRefs:{[s:string]:Ref<ISliderButton>;} = {
     button1,
     button2,
   }
 
   const sliderDisabled = computed(() => {
-    return props.disabled || (elForm || {}).disabled
+    return props.disabled || ((elForm || {}).disabled || false)
   })
 
   const minValue = computed(() => {
@@ -46,11 +46,11 @@ export const useSlide = (props:ISliderProps, initData: ISliderInitData, emit):Sl
   const barStyle = computed(() => {
     return props.vertical
       ? {
-        height: barSize,
-        bottom: barStart,
+        height: barSize.value,
+        bottom: barStart.value,
       } : {
-        width: barSize,
-        left: barStart,
+        width: barSize.value,
+        left: barStart.value,
       }
   })
 
@@ -72,12 +72,12 @@ export const useSlide = (props:ISliderProps, initData: ISliderInitData, emit):Sl
     } else {
       buttonRefName = initData.firstValue > initData.secondValue ? 'button1' : 'button2'
     }
-    buttonRefs[buttonRefName].setPosition(percent)
+    buttonRefs[buttonRefName].value.setPosition(percent)
   }
 
   const emitChange = () => {
     nextTick().then(() => {
-      emit('change', props.range ? [minValue.value, maxValue.value] : props.value)
+      emit('change', props.range ? [minValue.value, maxValue.value] : props.modelValue)
     })
   }
 

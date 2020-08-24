@@ -1,4 +1,4 @@
-import { ISliderProvider, ISliderButton } from './Slider'
+import { ISliderButton, ISliderProvider } from './Slider'
 import { computed, inject, nextTick, ref, watch } from 'vue'
 
 
@@ -6,6 +6,8 @@ const useTooltip = (props, formatTooltip) => {
 
   // add type to tooltip after tooltip refactored
   const tooltip = ref(null)
+
+  const tooltipVisible = ref(false)
 
   const enableFormat = computed(() => {
     return formatTooltip instanceof Function
@@ -16,15 +18,16 @@ const useTooltip = (props, formatTooltip) => {
   })
 
   const displayTooltip = () => {
-    tooltip.value && (tooltip.value.showPopper = true)
+    tooltipVisible.value = true
   }
 
   const hideTooltip = () => {
-    tooltip.value && (tooltip.value.showPopper = false)
+    tooltipVisible.value = false
   }
 
   return {
     tooltip,
+    tooltipVisible,
     formatValue,
     displayTooltip,
     hideTooltip,
@@ -34,7 +37,7 @@ const useTooltip = (props, formatTooltip) => {
 
 export const useSliderButton = (props, initData, emit):ISliderButton => {
   const {
-    sliderDisabled: disabled,
+    disabled,
     min,
     max,
     step,
@@ -47,16 +50,16 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
     updateDragging,
   }:ISliderProvider = inject('SliderProvider')
 
-
   const {
     tooltip,
+    tooltipVisible,
     formatValue,
     displayTooltip,
     hideTooltip,
   } = useTooltip(props, formatTooltip)
 
   const currentPosition = computed(() => {
-    return `${ (props.modelValue - min) / (max - min) * 100 }%`
+    return `${ (props.modelValue - min.value) / (max.value - min.value) * 100 }%`
   })
 
   const wrapperStyle = computed(() => {
@@ -87,14 +90,14 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
 
   const onLeftKeyDown = () => {
     if (disabled.value) return
-    initData.newPosition = parseFloat(currentPosition.value) - step / (max - min) * 100
+    initData.newPosition = parseFloat(currentPosition.value) - step.value / (max.value - min.value) * 100
     setPosition(initData.newPosition)
     emitChange()
   }
 
   const onRightKeyDown = () => {
     if (disabled.value) return
-    initData.newPosition = parseFloat(currentPosition.value) + step / (max - min) * 100
+    initData.newPosition = parseFloat(currentPosition.value) + step.value / (max.value - min.value) * 100
     setPosition(initData.newPosition)
     emitChange()
   }
@@ -182,14 +185,14 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
     } else if (newPosition > 100) {
       newPosition = 100
     }
-    const lengthPerStep = 100 / ((max - min) / step)
+    const lengthPerStep = 100 / ((max.value - min.value) / step.value)
     const steps = Math.round(newPosition / lengthPerStep)
-    let value = steps * lengthPerStep * (max - min) * 0.01 + min
+    let value = steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
     value = parseFloat(value.toFixed(precision.value))
     emit('update:modelValue', value)
     nextTick().then(() => {
-      displayTooltip()
-      tooltip.value && tooltip.value.updatePopper()
+      initData.dragging && displayTooltip()
+      tooltip.value && tooltip.value.popperInstance.update()
     })
     if (!initData.dragging && props.modelValue !== initData.oldValue) {
       initData.oldValue = props.modelValue
@@ -201,6 +204,8 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
   })
 
   return {
+    tooltip,
+    tooltipVisible,
     showTooltip,
     wrapperStyle,
     formatValue,

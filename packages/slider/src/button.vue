@@ -16,15 +16,19 @@
     @keydown.down.prevent="onLeftKeyDown"
     @keydown.up.prevent="onRightKeyDown"
   >
-    <el-tooltip
+    <el-popper
       ref="tooltip"
       placement="top"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
+      manual-mode
+      :value="tooltipVisible"
     >
-      <template #content>{{ formatValue }}</template>
-      <div class="el-slider__button" :class="{ 'hover': hovering, 'dragging': dragging }"></div>
-    </el-tooltip>
+      <template #default>{{ formatValue }}</template>
+      <template #trigger>
+        <div class="el-slider__button el-tooltip" :class="{ 'hover': hovering, 'dragging': dragging }"></div>
+      </template>
+    </el-popper>
   </div>
 </template>
 
@@ -34,15 +38,15 @@ import {
   reactive,
   toRefs,
 } from 'vue'
-import ElTooltip from '@element-plus/tooltip'
-import { ISliderButton, ISliderButtonInitData, ISliderButtonProps } from './Slider'
+import { Popper as ElPopper } from '@element-plus/popper'
+import { ISliderButtonProps } from './Slider'
 import { useSliderButton } from './useSliderButton'
 
 export default defineComponent({
   name: 'ElSliderButton',
 
   components: {
-    ElTooltip,
+    ElPopper,
   },
 
   props: {
@@ -64,7 +68,7 @@ export default defineComponent({
 
   setup(props:ISliderButtonProps, { emit }) {
 
-    const initData:ISliderButtonInitData = reactive({
+    const initData = reactive({
       hovering: false,
       dragging: false,
       isClick: false,
@@ -73,11 +77,13 @@ export default defineComponent({
       startY: 0,
       currentY: 0,
       startPosition: 0,
-      newPosition: null,
+      newPosition: null as Nullable<0>,
       oldValue: props.modelValue,
     })
 
     const {
+      tooltip,
+      tooltipVisible,
       showTooltip,
       wrapperStyle,
       formatValue,
@@ -87,7 +93,7 @@ export default defineComponent({
       onLeftKeyDown,
       onRightKeyDown,
       setPosition,
-    }:ISliderButton = useSliderButton(props, initData, emit)
+    } = useSliderButton(props, initData, emit)
 
 
     const {
@@ -96,6 +102,8 @@ export default defineComponent({
     } = toRefs(initData)
 
     return {
+      tooltip,
+      tooltipVisible,
       showTooltip,
       wrapperStyle,
       formatValue,

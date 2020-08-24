@@ -1,5 +1,4 @@
 import { ComputedRef, Ref } from 'vue'
-import { UnwrapRef } from '@vue/reactivity'
 
 export interface ISliderProps {
   modelValue: number | number[]
@@ -12,7 +11,7 @@ export interface ISliderProps {
   inputSize: string
   showStops: boolean
   showTooltip: boolean
-  formatTooltip: (val:string) => string
+  formatTooltip: (val:number) => number|string
   disabled: boolean
   range: boolean
   vertical: boolean
@@ -24,21 +23,21 @@ export interface ISliderProps {
 }
 
 export interface ISliderInitData {
-  firstValue: UnwrapRef<Nullable<number>>
-  secondValue: UnwrapRef<Nullable<number>>
-  oldValue: UnwrapRef<Nullable<number>>
-  dragging: UnwrapRef<boolean>
-  sliderSize: UnwrapRef<number>
+  firstValue: Nullable<number>
+  secondValue: Nullable<number>
+  oldValue: Nullable<number>
+  dragging: boolean
+  sliderSize: number
 }
 
 export interface ISliderProvider{
-  readonly sliderDisabled: ComputedRef<boolean>
-  readonly min: number
-  readonly max: number
-  readonly step: number
-  readonly showTooltip: boolean
-  readonly precision: ComputedRef<number>
-  readonly sliderSize: ComputedRef<number>
+  disabled: ComputedRef<boolean>
+  min: ComputedRef<number>
+  max: ComputedRef<number>
+  step: ComputedRef<number>
+  showTooltip: ComputedRef<boolean>
+  precision: ComputedRef<number>
+  sliderSize: ComputedRef<number>
   formatTooltip: (value:number) => number
   emitChange: () => void
   resetSize: () => void
@@ -82,20 +81,22 @@ export interface ISliderButtonProps {
 }
 
 export interface ISliderButtonInitData {
-  hovering: UnwrapRef<boolean>
-  dragging: UnwrapRef<boolean>
-  isClick: UnwrapRef<boolean>
-  startX: UnwrapRef<number>
-  currentX: UnwrapRef<number>
-  startY: UnwrapRef<number>
-  currentY: UnwrapRef<number>
-  startPosition: UnwrapRef<number>
-  newPosition: UnwrapRef<Nullable<number>>
-  oldValue: UnwrapRef<number>
+  hovering: boolean
+  dragging: boolean
+  isClick: boolean
+  startX: number
+  currentX: number
+  startY: number
+  currentY: number
+  startPosition: number
+  newPosition: Nullable<number>
+  oldValue: number
 }
 
 export interface ISliderButton {
-  readonly showTooltip: boolean
+  tooltip: Ref<Nullable<HTMLHtmlElement>>
+  tooltipVisible: Ref<boolean>
+  showTooltip: Ref<boolean>
   wrapperStyle:ComputedRef<Record<string, any>>
   formatValue:ComputedRef<number>
   handleMouseEnter: () => void
