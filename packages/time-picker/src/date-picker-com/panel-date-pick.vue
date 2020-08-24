@@ -1,7 +1,6 @@
 <template>
   <transition name="el-zoom-in-top" @after-enter="handleEnter" @after-leave="handleLeave">
     <div
-      v-show="visible"
       class="el-picker-panel el-date-picker el-popper"
       :class="[{
         'has-sidebar': $slots.sidebar || shortcuts,
@@ -60,7 +59,7 @@
               type="button"
               :aria-label="t(`el.datepicker.prevYear`)"
               class="el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-d-arrow-left"
-              @click="prevYear"
+              @click="prevYear_"
             >
             </button>
             <button
@@ -68,7 +67,7 @@
               type="button"
               :aria-label="t(`el.datepicker.prevMonth`)"
               class="el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-arrow-left"
-              @click="prevMonth"
+              @click="prevMonth_"
             >
             </button>
             <span
@@ -87,7 +86,7 @@
               type="button"
               :aria-label="t(`el.datepicker.nextYear`)"
               class="el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right"
-              @click="nextYear"
+              @click="nextYear_"
             >
             </button>
             <button
@@ -95,7 +94,7 @@
               type="button"
               :aria-label="t(`el.datepicker.nextMonth`)"
               class="el-picker-panel__icon-btn el-date-picker__next-btn el-icon-arrow-right"
-              @click="nextMonth"
+              @click="nextMonth_"
             >
             </button>
           </div>
@@ -107,7 +106,7 @@
               :first-day-of-week="firstDayOfWeek"
               :value="value"
               :default-value="defaultValue ? new Date(defaultValue) : null"
-              :date="date"
+              :date="innerDate"
               :cell-class-name="cellClassName"
               :disabled-date="disabledDate"
               @pick="handleDatePick"
@@ -166,428 +165,446 @@ import { t } from '@element-plus/locale'
 import ElInput from '../../input/input.vue'
 // import ElButton from '@element-plus/button'
 import DateTable from './basic-date-table.vue'
+import {
+  defineComponent,
+  computed,
+  ref,
+  PropType,
+} from 'vue'
 
 export default {
-
   components: {
     DateTable, ElInput,
   },
 
-  data() {
+  props: {
+    parsedValue: {
+      type: Date as PropType<Date>,
+      default: '',
+    },
+    format: {
+      type: String,
+      default: '',
+    },
+  },
+  emits: ['pick'],
+  setup(props, ctx) {
+    const innerDate = ref(props.parsedValue)
+    const month = computed(() =>  {
+      return innerDate.value.getMonth()
+    })
+    const selectionMode = ref('day')
+    const showTime = ref(false)
+    const selectableRange = ref([])
+    const checkDateWithinRange = date => {
+      return selectableRange.value.length > 0
+        ? timeWithinRange(date, selectableRange.value, props.format || 'HH:mm:ss')
+        : true
+    }
+    const emit = (value, ...args) => {
+      if (!value) {
+        ctx.emit('pick', value, ...args)
+      } else if (Array.isArray(value)) {
+        const dates = value.map(date => showTime.value ? clearMilliseconds(date) : clearTime(date))
+        ctx.emit('pick', dates, ...args)
+      } else {
+        ctx.emit('pick', showTime.value ? clearMilliseconds(value) : clearTime(value), ...args)
+      }
+      // this.userInputDate = null
+      // this.userInputTime = null
+    }
+    const handleDatePick = value => {
+      if (selectionMode.value === 'day') {
+        let newDate = modifyDate(props.parsedValue, value.getFullYear(), value.getMonth(), value.getDate())
+        // change default time while out of selectableRange
+        if (!checkDateWithinRange(newDate)) {
+          newDate = modifyDate(selectableRange.value[0][0], value.getFullYear(), value.getMonth(), value.getDate())
+        }
+        innerDate.value = newDate
+        emit(newDate, showTime.value)
+      } else if (selectionMode.value === 'week') {
+        emit(value.date)
+      } else if (selectionMode.value === 'dates') {
+        emit(value, true) // set false to keep panel open
+      }
+    }
+    const prevMonth_ = () => {
+      innerDate.value = prevMonth(innerDate.value)
+    }
+
+    const nextMonth_ = () => {
+      innerDate.value = nextMonth(innerDate.value)
+    }
+
+    const prevYear_ = () => {
+      if (currentView.value === 'year') {
+        innerDate.value = prevYear(innerDate.value, 10)
+      } else {
+        innerDate.value = prevYear(innerDate.value)
+      }
+    }
+
+    const nextYear_ = () => {
+      if (currentView.value === 'year') {
+        innerDate.value = nextYear(innerDate.value, 10)
+      } else {
+        innerDate.value = nextYear(innerDate.value)
+      }
+    }
+
+    const currentView = ref('date')
+
     return {
-      popperClass: '',
-      date: new Date(),
-      value: '',
-      defaultValue: null, // use getDefaultValue() for time computation
-      defaultTime: null,
-      showTime: false,
-      selectionMode: 'day',
-      shortcuts: '',
-      visible: false,
-      currentView: 'date',
-      disabledDate: '',
-      cellClassName: '',
-      selectableRange: [],
-      firstDayOfWeek: 7,
-      showWeekNumber: false,
-      timePickerVisible: false,
-      format: '',
-      arrowControl: false,
-      userInputDate: null,
-      userInputTime: null,
+      prevYear_,
+      nextYear_,
+      prevMonth_,
+      nextMonth_,
+      innerDate,
+      t,
+      currentView,
+      month,
+      handleDatePick,
     }
   },
 
-  computed: {
-    year() {
-      return this.date.getFullYear()
-    },
+  // data() {
+  //   return {
+  //     popperClass: '',
+  //     value: '',
+  //     defaultValue: null, // use getDefaultValue() for time computation
+  //     defaultTime: null,
+  //     shortcuts: '',
+  //     visible: false,
+  //     disabledDate: '',
+  //     cellClassName: '',
+  //     selectableRange: [],
+  //     firstDayOfWeek: 7,
+  //     showWeekNumber: false,
+  //     timePickerVisible: false,
+  //     format: '',
+  //     arrowControl: false,
+  //     userInputDate: null,
+  //     userInputTime: null,
+  //   }
+  // },
 
-    month() {
-      return this.date.getMonth()
-    },
+  // computed: {
+  //   year() {
+  //     return this.date.getFullYear()
+  //   },
 
-    week() {
-      return getWeekNumber(this.date)
-    },
+  //   week() {
+  //     return getWeekNumber(this.date)
+  //   },
 
-    monthDate() {
-      return this.date.getDate()
-    },
+  //   monthDate() {
+  //     return this.date.getDate()
+  //   },
 
-    footerVisible() {
-      return this.showTime || this.selectionMode === 'dates'
-    },
+  //   footerVisible() {
+  //     return this.showTime || this.selectionMode === 'dates'
+  //   },
 
-    visibleTime() {
-      if (this.userInputTime !== null) {
-        return this.userInputTime
-      } else {
-        return formatDate(this.value || this.defaultValue, this.timeFormat)
-      }
-    },
+  //   visibleTime() {
+  //     if (this.userInputTime !== null) {
+  //       return this.userInputTime
+  //     } else {
+  //       return formatDate(this.value || this.defaultValue, this.timeFormat)
+  //     }
+  //   },
 
-    visibleDate() {
-      if (this.userInputDate !== null) {
-        return this.userInputDate
-      } else {
-        return formatDate(this.value || this.defaultValue, this.dateFormat)
-      }
-    },
+  //   visibleDate() {
+  //     if (this.userInputDate !== null) {
+  //       return this.userInputDate
+  //     } else {
+  //       return formatDate(this.value || this.defaultValue, this.dateFormat)
+  //     }
+  //   },
 
-    yearLabel() {
-      const yearTranslation = this.t('el.datepicker.year')
-      if (this.currentView === 'year') {
-        const startYear = Math.floor(this.year / 10) * 10
-        if (yearTranslation) {
-          return startYear + ' ' + yearTranslation + ' - ' + (startYear + 9) + ' ' + yearTranslation
-        }
-        return startYear + ' - ' + (startYear + 9)
-      }
-      return this.year + ' ' + yearTranslation
-    },
+  //   yearLabel() {
+  //     const yearTranslation = this.t('el.datepicker.year')
+  //     if (this.currentView === 'year') {
+  //       const startYear = Math.floor(this.year / 10) * 10
+  //       if (yearTranslation) {
+  //         return startYear + ' ' + yearTranslation + ' - ' + (startYear + 9) + ' ' + yearTranslation
+  //       }
+  //       return startYear + ' - ' + (startYear + 9)
+  //     }
+  //     return this.year + ' ' + yearTranslation
+  //   },
 
-    timeFormat() {
-      if (this.format) {
-        return extractTimeFormat(this.format)
-      } else {
-        return 'HH:mm:ss'
-      }
-    },
+  //   timeFormat() {
+  //     if (this.format) {
+  //       return extractTimeFormat(this.format)
+  //     } else {
+  //       return 'HH:mm:ss'
+  //     }
+  //   },
 
-    dateFormat() {
-      if (this.format) {
-        return extractDateFormat(this.format)
-      } else {
-        return 'yyyy-MM-dd'
-      }
-    },
-  },
+  //   dateFormat() {
+  //     if (this.format) {
+  //       return extractDateFormat(this.format)
+  //     } else {
+  //       return 'yyyy-MM-dd'
+  //     }
+  //   },
+  // },
 
-  watch: {
-    showTime(val) {
-      /* istanbul ignore if */
-      if (!val) return
-      this.$nextTick(_ => {
-        const inputElm = this.$refs.input.$el
-        if (inputElm) {
-          this.pickerWidth = inputElm.getBoundingClientRect().width + 10
-        }
-      })
-    },
+  // watch: {
+  //   showTime(val) {
+  //     /* istanbul ignore if */
+  //     if (!val) return
+  //     this.$nextTick(_ => {
+  //       const inputElm = this.$refs.input.$el
+  //       if (inputElm) {
+  //         this.pickerWidth = inputElm.getBoundingClientRect().width + 10
+  //       }
+  //     })
+  //   },
 
-    value(val) {
-      if (this.selectionMode === 'dates' && this.value) return
-      if (isDate(val)) {
-        this.date = new Date(val)
-      } else {
-        this.date = this.getDefaultValue()
-      }
-    },
+  //   value(val) {
+  //     if (this.selectionMode === 'dates' && this.value) return
+  //     if (isDate(val)) {
+  //       this.date = new Date(val)
+  //     } else {
+  //       this.date = this.getDefaultValue()
+  //     }
+  //   },
 
-    defaultValue(val) {
-      if (!isDate(this.value)) {
-        this.date = val ? new Date(val) : new Date()
-      }
-    },
+  //   defaultValue(val) {
+  //     if (!isDate(this.value)) {
+  //       this.date = val ? new Date(val) : new Date()
+  //     }
+  //   },
 
-    timePickerVisible(val) {
-      if (val) this.$nextTick(() => this.$refs.timepicker.adjustSpinners())
-    },
+  //   timePickerVisible(val) {
+  //     if (val) this.$nextTick(() => this.$refs.timepicker.adjustSpinners())
+  //   },
 
-    selectionMode(newVal) {
-      if (newVal === 'month') {
-        /* istanbul ignore next */
-        if (this.currentView !== 'year' || this.currentView !== 'month') {
-          this.currentView = 'month'
-        }
-      } else if (newVal === 'dates') {
-        this.currentView = 'date'
-      }
-    },
-  },
+  //   selectionMode(newVal) {
+  //     if (newVal === 'month') {
+  //       /* istanbul ignore next */
+  //       if (this.currentView !== 'year' || this.currentView !== 'month') {
+  //         this.currentView = 'month'
+  //       }
+  //     } else if (newVal === 'dates') {
+  //       this.currentView = 'date'
+  //     }
+  //   },
+  // },
 
-  methods: {
-    t(e) {
-      return t(e)
-    },
-    proxyTimePickerDataProperties() {
-      const format = timeFormat => {this.$refs.timepicker.format = timeFormat}
-      const value = value => {this.$refs.timepicker.value = value}
-      const date = date => {this.$refs.timepicker.date = date}
-      const selectableRange = selectableRange => {this.$refs.timepicker.selectableRange = selectableRange}
+  // methods: {
+  //   t(e) {
+  //     return t(e)
+  //   },
+  //   proxyTimePickerDataProperties() {
+  //     const format = timeFormat => {this.$refs.timepicker.format = timeFormat}
+  //     const value = value => {this.$refs.timepicker.value = value}
+  //     const date = date => {this.$refs.timepicker.date = date}
+  //     const selectableRange = selectableRange => {this.$refs.timepicker.selectableRange = selectableRange}
 
-      this.$watch('value', value)
-      this.$watch('date', date)
-      this.$watch('selectableRange', selectableRange)
+  //     this.$watch('value', value)
+  //     this.$watch('date', date)
+  //     this.$watch('selectableRange', selectableRange)
 
-      format(this.timeFormat)
-      value(this.value)
-      date(this.date)
-      selectableRange(this.selectableRange)
-    },
+  //     format(this.timeFormat)
+  //     value(this.value)
+  //     date(this.date)
+  //     selectableRange(this.selectableRange)
+  //   },
 
-    handleClear() {
-      this.date = this.getDefaultValue()
-      this.$emit('pick', null)
-    },
+  //   handleClear() {
+  //     this.date = this.getDefaultValue()
+  //     this.$emit('pick', null)
+  //   },
 
-    emit(value, ...args) {
-      if (!value) {
-        this.$emit('pick', value, ...args)
-      } else if (Array.isArray(value)) {
-        const dates = value.map(date => this.showTime ? clearMilliseconds(date) : clearTime(date))
-        this.$emit('pick', dates, ...args)
-      } else {
-        this.$emit('pick', this.showTime ? clearMilliseconds(value) : clearTime(value), ...args)
-      }
-      this.userInputDate = null
-      this.userInputTime = null
-    },
+  //   // resetDate() {
+  //   //   this.date = new Date(this.date);
+  //   // },
 
-    // resetDate() {
-    //   this.date = new Date(this.date);
-    // },
+  //   showMonthPicker() {
+  //     this.currentView = 'month'
+  //   },
 
-    showMonthPicker() {
-      this.currentView = 'month'
-    },
+  //   showYearPicker() {
+  //     this.currentView = 'year'
+  //   },
 
-    showYearPicker() {
-      this.currentView = 'year'
-    },
+  //   handleShortcutClick(shortcut) {
+  //     if (shortcut.onClick) {
+  //       shortcut.onClick(this)
+  //     }
+  //   },
 
-    // XXX: 没用到
-    // handleLabelClick() {
-    //   if (this.currentView === 'date') {
-    //     this.showMonthPicker();
-    //   } else if (this.currentView === 'month') {
-    //     this.showYearPicker();
-    //   }
-    // },
+  //   handleTimePick(value, visible, first) {
+  //     if (isDate(value)) {
+  //       const newDate = this.value
+  //         ? modifyTime(this.value, value.getHours(), value.getMinutes(), value.getSeconds())
+  //         : modifyWithTimeString(this.getDefaultValue(), this.defaultTime)
+  //       this.date = newDate
+  //       this.emit(this.date, true)
+  //     } else {
+  //       this.emit(value, true)
+  //     }
+  //     if (!first) {
+  //       this.timePickerVisible = visible
+  //     }
+  //   },
 
-    prevMonth() {
-      this.date = prevMonth(this.date)
-    },
+  //   handleTimePickClose() {
+  //     this.timePickerVisible = false
+  //   },
 
-    nextMonth() {
-      this.date = nextMonth(this.date)
-    },
+  //   handleMonthPick(month) {
+  //     if (this.selectionMode === 'month') {
+  //       this.date = modifyDate(this.date, this.year, month, 1)
+  //       this.emit(this.date)
+  //     } else {
+  //       this.date = changeYearMonthAndClampDate(this.date, this.year, month)
+  //       // TODO: should emit intermediate value ??
+  //       // this.emit(this.date);
+  //       this.currentView = 'date'
+  //     }
+  //   },
 
-    prevYear() {
-      if (this.currentView === 'year') {
-        this.date = prevYear(this.date, 10)
-      } else {
-        this.date = prevYear(this.date)
-      }
-    },
+  //   handleYearPick(year) {
+  //     if (this.selectionMode === 'year') {
+  //       this.date = modifyDate(this.date, year, 0, 1)
+  //       this.emit(this.date)
+  //     } else {
+  //       this.date = changeYearMonthAndClampDate(this.date, year, this.month)
+  //       // TODO: should emit intermediate value ??
+  //       // this.emit(this.date, true);
+  //       this.currentView = 'month'
+  //     }
+  //   },
 
-    nextYear() {
-      if (this.currentView === 'year') {
-        this.date = nextYear(this.date, 10)
-      } else {
-        this.date = nextYear(this.date)
-      }
-    },
+  //   changeToNow() {
+  //     // NOTE: not a permanent solution
+  //     //       consider disable "now" button in the future
+  //     if ((!this.disabledDate || !this.disabledDate(new Date())) && this.checkDateWithinRange(new Date())) {
+  //       this.date = new Date()
+  //       this.emit(this.date)
+  //     }
+  //   },
 
-    handleShortcutClick(shortcut) {
-      if (shortcut.onClick) {
-        shortcut.onClick(this)
-      }
-    },
+  //   confirm() {
+  //     if (this.selectionMode === 'dates') {
+  //       this.emit(this.value)
+  //     } else {
+  //       // value were emitted in handle{Date,Time}Pick, nothing to update here
+  //       // deal with the scenario where: user opens the picker, then confirm without doing anything
+  //       const value = this.value
+  //         ? this.value
+  //         : modifyWithTimeString(this.getDefaultValue(), this.defaultTime)
+  //       this.date = new Date(value) // refresh date
+  //       this.emit(value)
+  //     }
+  //   },
 
-    handleTimePick(value, visible, first) {
-      if (isDate(value)) {
-        const newDate = this.value
-          ? modifyTime(this.value, value.getHours(), value.getMinutes(), value.getSeconds())
-          : modifyWithTimeString(this.getDefaultValue(), this.defaultTime)
-        this.date = newDate
-        this.emit(this.date, true)
-      } else {
-        this.emit(value, true)
-      }
-      if (!first) {
-        this.timePickerVisible = visible
-      }
-    },
+  //   resetView() {
+  //     if (this.selectionMode === 'month') {
+  //       this.currentView = 'month'
+  //     } else if (this.selectionMode === 'year') {
+  //       this.currentView = 'year'
+  //     } else {
+  //       this.currentView = 'date'
+  //     }
+  //   },
 
-    handleTimePickClose() {
-      this.timePickerVisible = false
-    },
+  //   handleEnter() {
+  //     document.body.addEventListener('keydown', this.handleKeydown)
+  //   },
 
-    handleMonthPick(month) {
-      if (this.selectionMode === 'month') {
-        this.date = modifyDate(this.date, this.year, month, 1)
-        this.emit(this.date)
-      } else {
-        this.date = changeYearMonthAndClampDate(this.date, this.year, month)
-        // TODO: should emit intermediate value ??
-        // this.emit(this.date);
-        this.currentView = 'date'
-      }
-    },
+  //   handleLeave() {
+  //     this.$emit('dodestroy')
+  //     document.body.removeEventListener('keydown', this.handleKeydown)
+  //   },
 
-    handleDatePick(value) {
-      if (this.selectionMode === 'day') {
-        let newDate = this.value
-          ? modifyDate(this.value, value.getFullYear(), value.getMonth(), value.getDate())
-          : modifyWithTimeString(value, this.defaultTime)
-          // change default time while out of selectableRange
-        if (!this.checkDateWithinRange(newDate)) {
-          newDate = modifyDate(this.selectableRange[0][0], value.getFullYear(), value.getMonth(), value.getDate())
-        }
-        this.date = newDate
-        this.emit(this.date, this.showTime)
-      } else if (this.selectionMode === 'week') {
-        this.emit(value.date)
-      } else if (this.selectionMode === 'dates') {
-        this.emit(value, true) // set false to keep panel open
-      }
-    },
+  //   handleKeydown(event) {
+  //     const keyCode = event.keyCode
+  //     const list = [38, 40, 37, 39]
+  //     if (this.visible && !this.timePickerVisible) {
+  //       if (list.indexOf(keyCode) !== -1) {
+  //         this.handleKeyControl(keyCode)
+  //         event.stopPropagation()
+  //         event.preventDefault()
+  //       }
+  //       if (keyCode === 13 && this.userInputDate === null && this.userInputTime === null) { // Enter
+  //         this.emit(this.date, false)
+  //       }
+  //     }
+  //   },
 
-    handleYearPick(year) {
-      if (this.selectionMode === 'year') {
-        this.date = modifyDate(this.date, year, 0, 1)
-        this.emit(this.date)
-      } else {
-        this.date = changeYearMonthAndClampDate(this.date, year, this.month)
-        // TODO: should emit intermediate value ??
-        // this.emit(this.date, true);
-        this.currentView = 'month'
-      }
-    },
+  //   handleKeyControl(keyCode) {
+  //     const mapping = {
+  //       'year': {
+  //         38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setFullYear(date.getFullYear() + step),
+  //       },
+  //       'month': {
+  //         38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setMonth(date.getMonth() + step),
+  //       },
+  //       'week': {
+  //         38: -1, 40: 1, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step * 7),
+  //       },
+  //       'day': {
+  //         38: -7, 40: 7, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step),
+  //       },
+  //     }
+  //     const mode = this.selectionMode
+  //     const year = 3.1536e10
+  //     const now = this.date.getTime()
+  //     const newDate = new Date(this.date.getTime())
+  //     while (Math.abs(now - newDate.getTime()) <= year) {
+  //       const map = mapping[mode]
+  //       map.offset(newDate, map[keyCode])
+  //       if (typeof this.disabledDate === 'function' && this.disabledDate(newDate)) {
+  //         continue
+  //       }
+  //       this.date = newDate
+  //       this.$emit('pick', newDate, true)
+  //       break
+  //     }
+  //   },
 
-    changeToNow() {
-      // NOTE: not a permanent solution
-      //       consider disable "now" button in the future
-      if ((!this.disabledDate || !this.disabledDate(new Date())) && this.checkDateWithinRange(new Date())) {
-        this.date = new Date()
-        this.emit(this.date)
-      }
-    },
+  //   handleVisibleTimeChange(value) {
+  //     const time = parseDate(value, this.timeFormat)
+  //     if (time && this.checkDateWithinRange(time)) {
+  //       this.date = modifyDate(time, this.year, this.month, this.monthDate)
+  //       this.userInputTime = null
+  //       this.$refs.timepicker.value = this.date
+  //       this.timePickerVisible = false
+  //       this.emit(this.date, true)
+  //     }
+  //   },
 
-    confirm() {
-      if (this.selectionMode === 'dates') {
-        this.emit(this.value)
-      } else {
-        // value were emitted in handle{Date,Time}Pick, nothing to update here
-        // deal with the scenario where: user opens the picker, then confirm without doing anything
-        const value = this.value
-          ? this.value
-          : modifyWithTimeString(this.getDefaultValue(), this.defaultTime)
-        this.date = new Date(value) // refresh date
-        this.emit(value)
-      }
-    },
+  //   handleVisibleDateChange(value) {
+  //     const date = parseDate(value, this.dateFormat)
+  //     if (date) {
+  //       if (typeof this.disabledDate === 'function' && this.disabledDate(date)) {
+  //         return
+  //       }
+  //       this.date = modifyTime(date, this.date.getHours(), this.date.getMinutes(), this.date.getSeconds())
+  //       this.userInputDate = null
+  //       this.resetView()
+  //       this.emit(this.date, true)
+  //     }
+  //   },
 
-    resetView() {
-      if (this.selectionMode === 'month') {
-        this.currentView = 'month'
-      } else if (this.selectionMode === 'year') {
-        this.currentView = 'year'
-      } else {
-        this.currentView = 'date'
-      }
-    },
+  //   isValidValue(value) {
+  //     return value && !isNaN(value) && (
+  //       typeof this.disabledDate === 'function'
+  //         ? !this.disabledDate(value)
+  //         : true
+  //     ) && this.checkDateWithinRange(value)
+  //   },
 
-    handleEnter() {
-      document.body.addEventListener('keydown', this.handleKeydown)
-    },
+  //   getDefaultValue() {
+  //     // if default-value is set, return it
+  //     // otherwise, return now (the moment this method gets called)
+  //     return this.defaultValue ? new Date(this.defaultValue) : new Date()
+  //   },
 
-    handleLeave() {
-      this.$emit('dodestroy')
-      document.body.removeEventListener('keydown', this.handleKeydown)
-    },
-
-    handleKeydown(event) {
-      const keyCode = event.keyCode
-      const list = [38, 40, 37, 39]
-      if (this.visible && !this.timePickerVisible) {
-        if (list.indexOf(keyCode) !== -1) {
-          this.handleKeyControl(keyCode)
-          event.stopPropagation()
-          event.preventDefault()
-        }
-        if (keyCode === 13 && this.userInputDate === null && this.userInputTime === null) { // Enter
-          this.emit(this.date, false)
-        }
-      }
-    },
-
-    handleKeyControl(keyCode) {
-      const mapping = {
-        'year': {
-          38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setFullYear(date.getFullYear() + step),
-        },
-        'month': {
-          38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setMonth(date.getMonth() + step),
-        },
-        'week': {
-          38: -1, 40: 1, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step * 7),
-        },
-        'day': {
-          38: -7, 40: 7, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step),
-        },
-      }
-      const mode = this.selectionMode
-      const year = 3.1536e10
-      const now = this.date.getTime()
-      const newDate = new Date(this.date.getTime())
-      while (Math.abs(now - newDate.getTime()) <= year) {
-        const map = mapping[mode]
-        map.offset(newDate, map[keyCode])
-        if (typeof this.disabledDate === 'function' && this.disabledDate(newDate)) {
-          continue
-        }
-        this.date = newDate
-        this.$emit('pick', newDate, true)
-        break
-      }
-    },
-
-    handleVisibleTimeChange(value) {
-      const time = parseDate(value, this.timeFormat)
-      if (time && this.checkDateWithinRange(time)) {
-        this.date = modifyDate(time, this.year, this.month, this.monthDate)
-        this.userInputTime = null
-        this.$refs.timepicker.value = this.date
-        this.timePickerVisible = false
-        this.emit(this.date, true)
-      }
-    },
-
-    handleVisibleDateChange(value) {
-      const date = parseDate(value, this.dateFormat)
-      if (date) {
-        if (typeof this.disabledDate === 'function' && this.disabledDate(date)) {
-          return
-        }
-        this.date = modifyTime(date, this.date.getHours(), this.date.getMinutes(), this.date.getSeconds())
-        this.userInputDate = null
-        this.resetView()
-        this.emit(this.date, true)
-      }
-    },
-
-    isValidValue(value) {
-      return value && !isNaN(value) && (
-        typeof this.disabledDate === 'function'
-          ? !this.disabledDate(value)
-          : true
-      ) && this.checkDateWithinRange(value)
-    },
-
-    getDefaultValue() {
-      // if default-value is set, return it
-      // otherwise, return now (the moment this method gets called)
-      return this.defaultValue ? new Date(this.defaultValue) : new Date()
-    },
-
-    checkDateWithinRange(date) {
-      return this.selectableRange.length > 0
-        ? timeWithinRange(date, this.selectableRange, this.format || 'HH:mm:ss')
-        : true
-    },
-  },
+  // },
 }
 </script>

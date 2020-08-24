@@ -126,7 +126,7 @@ export default defineComponent({
   props: {
     format: {
       type: String,
-      default: 'HH:mm:ss',
+      required: true,
     },
     type: {
       type: String,
@@ -185,10 +185,10 @@ export default defineComponent({
     const oldValue = ref(props.modelValue)
     const refContainer = ref(null)
     const pickerVisible = ref(false)
-    watch(pickerVisible, (val) => {
+    watch(pickerVisible, val => {
       if (!val) ctx.emit('blur')
     })
-    const emitInput = (val) => {
+    const emitInput = val => {
       ctx.emit('update:modelValue', val)
       // const formatted = formatToValue(val)
       // if (!valueEquals(this.value, formatted)) {
@@ -220,7 +220,7 @@ export default defineComponent({
       emitInput(result)
       emitChange(result)
     }
-    const handleFocus = (e) => {
+    const handleFocus = e => {
       pickerVisible.value = true
       ctx.emit('focus', e)
     }
@@ -255,12 +255,12 @@ export default defineComponent({
       return props.prefixIcon || 'el-icon-time'
     })
     const showClose = ref(false)
-    const emitChange = (val) => {
+    const emitChange = val => {
       // determine user real change only
       // if (!valueEquals(val, this.valueOnOpen)) {
       ctx.emit('change', val)
     }
-    const onClearIconClick = (event) =>{
+    const onClearIconClick = event =>{
       if (props.readonly || pickerDisabled.value) return
       if (showClose.value) {
         event.stopPropagation()
