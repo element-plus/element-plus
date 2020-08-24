@@ -38,7 +38,7 @@ export interface ISliderProvider{
   showTooltip: ComputedRef<boolean>
   precision: ComputedRef<number>
   sliderSize: ComputedRef<number>
-  formatTooltip: (value:number) => number
+  formatTooltip: (value:number) => number|string
   emitChange: () => void
   resetSize: () => void
   updateDragging: (val:boolean) => void
@@ -98,7 +98,7 @@ export interface ISliderButton {
   tooltipVisible: Ref<boolean>
   showTooltip: Ref<boolean>
   wrapperStyle:ComputedRef<Record<string, any>>
-  formatValue:ComputedRef<number>
+  formatValue:ComputedRef<number|string>
   handleMouseEnter: () => void
   handleMouseLeave: () => void
   onButtonDown: (event:MouseEvent|TouchEvent) => void

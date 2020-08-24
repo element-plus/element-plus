@@ -1,8 +1,8 @@
-import { ISliderButton, ISliderProvider } from './Slider'
-import { computed, inject, nextTick, ref, watch } from 'vue'
+import { ISliderButton, ISliderButtonProps, ISliderProvider } from './Slider'
+import { computed, ComputedRef, inject, nextTick, ref, watch } from 'vue'
 
 
-const useTooltip = (props, formatTooltip) => {
+const useTooltip = (props:ISliderButtonProps, formatTooltip:(value:number) => number|string, showTooltip:ComputedRef<boolean>) => {
 
   // add type to tooltip after tooltip refactored
   const tooltip = ref(null)
@@ -18,11 +18,11 @@ const useTooltip = (props, formatTooltip) => {
   })
 
   const displayTooltip = () => {
-    tooltipVisible.value = true
+    showTooltip.value && (tooltipVisible.value = true)
   }
 
   const hideTooltip = () => {
-    tooltipVisible.value = false
+    showTooltip.value && (tooltipVisible.value = false)
   }
 
   return {
@@ -56,7 +56,7 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
     formatValue,
     displayTooltip,
     hideTooltip,
-  } = useTooltip(props, formatTooltip)
+  } = useTooltip(props, formatTooltip, showTooltip)
 
   const currentPosition = computed(() => {
     return `${ (props.modelValue - min.value) / (max.value - min.value) * 100 }%`
