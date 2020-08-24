@@ -12,7 +12,7 @@
       role="tooltip"
       class="el-popper el-popover is-light"
       :class="[popperClass, content && 'el-popover--plain']"
-      :style="{ minWidth: width + 'px' }"
+      :style="{ width: width + 'px' }"
     >
       <div v-if="title" class="el-popover__title" v-text="title"></div>
       <slot>
@@ -36,7 +36,7 @@ import {
   ref,
   getCurrentInstance,
   onMounted,
-  watchEffect,
+  watch,
   onUnmounted,
 } from 'vue'
 import { Placement, Options } from '@popperjs/core'
@@ -54,10 +54,10 @@ export interface PopoverProps {
   trigger: Trigger
   title: string
   content: string
-  width: number
+  width: number | string
   placement: Placement
   disabled: boolean
-  value: boolean
+  modelValue: boolean
   offset: number | [number, number]
   transition: string
   visibleArrow: boolean
@@ -97,8 +97,8 @@ export default defineComponent({
       default: '',
     },
     width: {
-      type: Number,
-      default: 15,
+      type: [Number, String],
+      default: 150,
     },
     placement: {
       type: String as PropType<Placement>,
@@ -108,7 +108,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    value: {
+    modelValue: {
       type: Boolean,
       default: false,
     },
@@ -157,36 +157,44 @@ export default defineComponent({
   },
   /** @ts-ignore */
   setup(props: PopoverProps, { slots, emit }) {
-    if (!slots.reference) {
-      throwError(COMPONENT_NAME, 'Reference must be provided')
-    }
-
     const popperId = `el-popover-${generateId()}`
 
     const reference = ref<HTMLElement>(null)
 
     const arrowRef = ref<HTMLElement>(null)
 
-    const { popperRef, instance } = usePopper(reference, {
+    const { popperRef, instance, visible: showPopper, show, hide, update, destroy } = usePopper(reference, {
       offset: props.offset,
       placement: props.placement,
       arrow: {
         element: arrowRef.value,
         offset: props.arrowOffset,
       },
+      modelValue: props.modelValue,
     })
 
-    const showPopper = ref(false)
-
     const visible = computed(() => !props.disabled && showPopper.value)
+
+    watch(() => visible.value, (value) => {
+      if (value) {
+        update()
+      } else {
+        destroy()
+      }
+      emit('update:modelValue', value)
+    })
+
+    watch(() => props.modelValue, (value) => {
+      if (value) {
+        show()
+      } else {
+        hide()
+      }
+    })
 
     let timeout: NodeJS.Timeout = null
 
     const FOCUSING_CLASS = 'focusing'
-
-    const show = () => (showPopper.value = true)
-
-    const hide = () => (showPopper.value = false)
 
     const handleFocus = () => {
       addClass(reference.value, FOCUSING_CLASS)
@@ -287,7 +295,7 @@ export default defineComponent({
     }
 
     const init = () => {
-      reference.value = getReference()[0].el
+      reference.value = (getCurrentInstance() as any).ctx.reference || getReference()[0].el
       reference.value.setAttribute('aria-describedby', popperId)
       reference.value.setAttribute('tabindex', props.tabindex)
       popperRef.value.setAttribute('tabindex', '0')
@@ -314,6 +322,7 @@ export default defineComponent({
       arrowRef,
       handleAfterEnter,
       handleAfterLeave,
+      reference,
     }
   },
 })
@@ -345,7 +354,7 @@ export default defineComponent({
 
 .el-popper[data-popper-placement^="bottom"] .popper__arrow {
   top: -6px;
-  /* left: 50%; */
+  left: 50%;
   margin-right: 3px;
   border-top-width: 0;
   border-bottom-color: #ebeef5;

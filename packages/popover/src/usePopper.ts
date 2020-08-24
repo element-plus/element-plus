@@ -1,4 +1,4 @@
-import { ref, watchEffect, onMounted, onUnmounted, Ref, computed } from 'vue'
+import { ref, watchEffect, onMounted, onUnmounted, Ref, computed, watch } from 'vue'
 import { Instance, createPopper, Placement, PositioningStrategy } from '@popperjs/core'
 
 export interface PopperArrow {
@@ -7,6 +7,7 @@ export interface PopperArrow {
 }
 
 export interface PopperOptions {
+  modelValue: boolean
   appendToBody: boolean
   boundariesPadding: number
   placement: Placement
@@ -18,7 +19,8 @@ export interface PopperOptions {
 export function usePopper(reference: Ref<HTMLElement>, defaultOptions?: Partial<PopperOptions>) {
   const instance = ref<Instance>(null)
   const popperRef = ref<HTMLElement>(null)
-  const { appendToBody = true, ...opts } = defaultOptions
+  const visible = ref(false)
+  const { appendToBody = true, modelValue = true, ...opts } = defaultOptions
   const options = ref(opts)
 
   const popperOptions = computed(() => {
@@ -36,8 +38,6 @@ export function usePopper(reference: Ref<HTMLElement>, defaultOptions?: Partial<
           name: 'preventOverflow',
           options: {
             padding: options.value.boundariesPadding,
-            altBoundary: true,
-            tether: false,
           },
         },
         {
@@ -57,7 +57,13 @@ export function usePopper(reference: Ref<HTMLElement>, defaultOptions?: Partial<
     }
   })
 
+  const show = () => (visible.value = true)
+
+  const hide = () => (visible.value = false)
+
   const create = () => {
+    if (instance.value) instance.value.destroy()
+
     instance.value = createPopper(reference.value, popperRef.value, {
       ...popperOptions.value,
       onFirstUpdate: () => {
@@ -70,10 +76,19 @@ export function usePopper(reference: Ref<HTMLElement>, defaultOptions?: Partial<
     if (instance.value) {
       instance.value.destroy()
       instance.value = null
+      popperRef.value = null
     }
 
     if (popperRef.value && appendToBody) {
       document.body.removeChild(popperRef.value)
+    }
+  }
+
+  const update = () => {
+    if (instance.value) {
+      instance.value.update()
+    } else {
+      create()
     }
   }
 
@@ -94,8 +109,13 @@ export function usePopper(reference: Ref<HTMLElement>, defaultOptions?: Partial<
   })
 
   return {
+    visible,
     instance,
     popperRef,
     options,
+    update,
+    destroy,
+    show,
+    hide,
   }
 }

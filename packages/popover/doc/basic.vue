@@ -1,44 +1,45 @@
 <template>
   <div>
-    <div>referrer</div>
     <el-popover
+      ref="popover1"
+      placement="top-start"
+      title="标题"
+      width="200"
+      trigger="hover"
+      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+    />
+
+    <el-popover
+      ref="popover2"
+      placement="bottom"
+      title="标题"
+      width="200"
       trigger="click"
-      title="222"
-      content="content"
+      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+    />
+
+    <el-button v-popover:popover1>hover 激活</el-button>
+    <el-button v-popover:popover2>click 激活</el-button>
+    <el-popover
+      placement="right"
+      title="标题"
+      width="200"
+      trigger="focus"
+      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
     >
       <template #reference>
-        <el-button v-if="showButton" @click="disabled = !disabled">
-          Trigger
-        </el-button>
-        <el-button v-else>
-          Not trigger
-        </el-button>
+        <el-button>focus 激活</el-button>
       </template>
     </el-popover>
-
-    <!-- <el-button @click="toggle">
-      Toggle
-    </el-button> -->
   </div>
 </template>
 
 <script lang="ts">
 import { ref } from 'vue'
 
-const placements = ['top','top-start','top-end','bottom','bottom-start','bottom-end','left','left-start','left-end','right','right-start', 'right-end']
 export default {
   setup() {
-    const placement = ref('bottom')
-    return {
-      showButton: ref(true),
-      disabled: ref(false),
-      referrer: ref(null),
-      placement,
-      toggle: () => {
-        const random = Math.floor(Math.random() * 13)
-        placement.value = placements[random]
-      },
-    }
+    return {}
   },
 }
 </script>
