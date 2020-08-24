@@ -80,16 +80,11 @@ describe('Popper.vue', () => {
   })
 
   test('append to body', () => {
-    const { appendChild } = document.body
-    document.body.appendChild = jest.fn(child => {
-      return appendChild.call(document.body, child)
-    })
-
     let wrapper = _mount()
-    expect(wrapper.find('[role="tooltip"]').exists()).toBe(false)
-    expect(document.body.appendChild).toHaveBeenCalled()
-
-    document.body.appendChild = appendChild
+    const selector = '[role="tooltip"]'
+    expect(wrapper.find(selector).exists()).toBe(false)
+    // Due to the parent node of popper is Transition so we should match the grandparent
+    expect(document.querySelector(selector).parentElement.parentElement).toBe(document.body)
     wrapper = _mount({
       appendToBody: false,
     })
