@@ -106,7 +106,20 @@ Timeline 可拆分成多个按照时间戳正序或倒序排列的 activity，�
 :::demo
 ```html
 <div class="block">
-  <el-timeline>
+<div class="radio">
+    排序：
+    <el-radio-group v-model="reverse">
+      <el-radio :label="true">倒序</el-radio>
+      <el-radio :label="false">正序</el-radio>
+    </el-radio-group>
+  </div>
+  <el-timeline :reverse="reverse">
+  <el-timeline-item timestamp="2018/4/15" placement="top">
+        <el-card>
+          <h4>更新 Github 模板</h4>
+          <p>王小虎 提交于 2018/4/15 20:46</p>
+        </el-card>
+      </el-timeline-item>
     <el-timeline-item timestamp="2018/4/12" placement="top">
       <el-card>
         <h4>更新 Github 模板</h4>
@@ -127,6 +140,26 @@ Timeline 可拆分成多个按照时间戳正序或倒序排列的 activity，�
     </el-timeline-item>
   </el-timeline>
 </div>
+<script>
+  export default {
+    data() {
+          return {
+            reverse: true,
+            activities: [{
+              content: '活动按期开始',
+              timestamp: '2018-04-15'
+            }, {
+              content: '通过审核',
+              timestamp: '2018-04-13'
+            }, {
+              content: '创建成功',
+              timestamp: '2018-04-11'
+            }]
+          };
+        }
+  };
+</script>
+
 ```
 :::
 
