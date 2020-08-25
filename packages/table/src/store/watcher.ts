@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import merge from 'element-ui/src/utils/merge'
+import merge from '@element-plus/utils/merge'
 import { getKeysMap, getRowIdentity, getColumnById, getColumnByKey, orderBy, toggleRowStatus } from '../util'
 import expand from './expand'
 import current from './current'
@@ -17,6 +17,7 @@ const doFlattenColumns = columns => {
   const result = []
   columns.forEach(column => {
     if (column.children) {
+      // eslint-disable-next-line prefer-spread
       result.push.apply(result, doFlattenColumns(column.children))
     } else {
       result.push(column)
@@ -140,7 +141,7 @@ export default Vue.extend({
         deleted = []
         const selectedMap = getKeysMap(selection, rowKey)
         const dataMap = getKeysMap(data, rowKey)
-        for (let key in selectedMap) {
+        for (const key in selectedMap) {
           if (selectedMap.hasOwnProperty(key) && !dataMap[key]) {
             deleted.push(selectedMap[key].row)
           }
@@ -223,7 +224,7 @@ export default Vue.extend({
       if (rowKey) {
         selectedMap = getKeysMap(selection, rowKey)
       }
-      const isSelected = function(row) {
+      const isSelected = function (row) {
         if (selectedMap) {
           return !!selectedMap[getRowIdentity(row, rowKey)]
         } else {

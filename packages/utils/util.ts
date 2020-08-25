@@ -10,7 +10,7 @@ export function hasOwn(obj: Any, key: string): boolean {
   return hasOwnProperty.call(obj, key)
 }
 
-function extend<T, K>(to: T, _from: K): T & K  {
+function extend<T, K>(to: T, _from: K): T & K {
   return Object.assign(to, _from)
 }
 
@@ -69,7 +69,7 @@ export const generateId = (): number => Math.floor(Math.random() * 10000)
 // export const valueEquals
 
 
-export const escapeRegexpString = (value = ''): string=>
+export const escapeRegexpString = (value = ''): string =>
   String(value).replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
 
 // Use native Array.find, Array.findIndex instead
@@ -77,21 +77,21 @@ export const escapeRegexpString = (value = ''): string=>
 // coerce truthy value to array
 export const coerceTruthyValueToArray = castArray
 
-export const isIE = function(): boolean {
+export const isIE = function (): boolean {
   return !isServer && !isNaN(Number(document.DOCUMENT_NODE))
 }
 
-export const isEdge = function(): boolean {
+export const isEdge = function (): boolean {
   return !isServer && navigator.userAgent.indexOf('Edge') > -1
 }
 
-export const isFirefox = function(): boolean {
+export const isFirefox = function (): boolean {
   return (
     !isServer && !!window.navigator.userAgent.match(/firefox/i)
   )
 }
 
-export const autoprefixer = function(style: CSSStyleDeclaration): CSSStyleDeclaration {
+export const autoprefixer = function (style: CSSStyleDeclaration): CSSStyleDeclaration {
   if (typeof style !== 'object') return style
   const rules = ['transform', 'transition', 'animation']
   const prefixes = ['ms-', 'webkit-']
@@ -106,7 +106,7 @@ export const autoprefixer = function(style: CSSStyleDeclaration): CSSStyleDeclar
   return style
 }
 
-export const kebabCase = function(str: string): string {
+export const kebabCase = function (str: string): string {
   const hyphenateRE = /([^-])([A-Z])/g
   return str
     .replace(hyphenateRE, '$1-$2')
@@ -114,7 +114,7 @@ export const kebabCase = function(str: string): string {
     .toLowerCase()
 }
 
-export const looseEqual = function<T, K>(a: T, b: K): boolean {
+export const looseEqual = function <T, K>(a: T, b: K): boolean {
   const isObjectA = isObject(a)
   const isObjectB = isObject(b)
   if (isObjectA && isObjectB) {
@@ -135,7 +135,7 @@ export {
 
 export function rafThrottle(fn: (args: Record<string, unknown>) => unknown): (...args: unknown[]) => unknown {
   let locked = false
-  return function(...args) {
+  return function (...args) {
     if (locked) return
     locked = true
     window.requestAnimationFrame(() => {
@@ -156,3 +156,18 @@ export function getRandomInt(max: number) {
 }
 
 export { isVNode } from 'vue'
+
+// TODO: use native Array.find, Array.findIndex when IE support is dropped
+export const arrayFindIndex = function (arr: Array<unknown>, pred: (any) => boolean): number {
+  for (let i = 0; i !== arr.length; ++i) {
+    if (pred(arr[i])) {
+      return i
+    }
+  }
+  return -1
+}
+
+export const arrayFind = function (arr: Array<unknown>, pred: (any) => boolean): any {
+  const idx = arrayFindIndex(arr, pred)
+  return idx !== -1 ? arr[idx] : undefined
+}

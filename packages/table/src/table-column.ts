@@ -135,7 +135,7 @@ export default {
       const type = column.type
       const source = cellForced[type] || {}
       Object.keys(source).forEach(prop => {
-        let value = source[prop]
+        const value = source[prop]
         if (value !== undefined) {
           column[prop] = prop === 'className' ? `${column[prop]} ${value}` : value
         }
@@ -158,9 +158,8 @@ export default {
       // TODO: 这里的实现调整
       if (column.type === 'expand') {
         // 对于展开行，renderCell 不允许配置的。在上一步中已经设置过，这里需要简单封装一下。
-        column.renderCell = (h, data) => (<div class="cell">
-          { originRenderCell(h, data) }
-        </div>)
+        // ***********************
+        column.renderCell = (h, data) => { return }
         this.owner.renderExpanded = (h, data) => {
           return this.$scopedSlots.default
             ? this.$scopedSlots.default(data)
@@ -185,10 +184,8 @@ export default {
             props.class += ' el-tooltip'
             props.style = { width: (data.column.realWidth || data.column.width) - 1 + 'px' }
           }
-          return (<div { ...props }>
-            { prefix }
-            { children }
-          </div>)
+          // ***********************
+          return
         }
       }
       return column

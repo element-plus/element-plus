@@ -1,9 +1,9 @@
-import Vue from 'vue'
-var dropdowns = []
+import isServer from '@element-plus/utils/isServer'
+const dropdowns = []
 
-!Vue.prototype.$isServer && document.addEventListener('click', function(event) {
-  dropdowns.forEach(function(dropdown) {
-    var target = event.target
+!isServer && document.addEventListener('click', function (event) {
+  dropdowns.forEach(function (dropdown) {
+    const target = event.target
     if (!dropdown || !dropdown.$el) return
     if (target === dropdown.$el || dropdown.$el.contains(target)) {
       return
@@ -20,7 +20,7 @@ export default {
   },
 
   close(instance) {
-    var index = dropdowns.indexOf(instance)
+    const index = dropdowns.indexOf(instance)
     if (index !== -1) {
       dropdowns.splice(instance, 1)
     }

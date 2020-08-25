@@ -9,24 +9,12 @@
       <div class="el-table-filter__content">
         <el-scrollbar wrap-class="el-table-filter__wrap">
           <el-checkbox-group v-model="filteredValue" class="el-table-filter__checkbox-group">
-            <el-checkbox
-              v-for="filter in filters"
-              :key="filter.value"
-              :label="filter.value"
-            >
-              {{ filter.text }}
-            </el-checkbox>
+            <el-checkbox v-for="filter in filters" :key="filter.value" :label="filter.value">{{ filter.text }}</el-checkbox>
           </el-checkbox-group>
         </el-scrollbar>
       </div>
       <div class="el-table-filter__bottom">
-        <button
-          :class="{ 'is-disabled': filteredValue.length === 0 }"
-          :disabled="filteredValue.length === 0"
-          @click="handleConfirm"
-        >
-          {{ t('el.table.confirmFilter') }}
-        </button>
+        <button :class="{ 'is-disabled': filteredValue.length === 0 }" :disabled="filteredValue.length === 0" @click="handleConfirm">{{ t('el.table.confirmFilter') }}</button>
         <button @click="handleReset">{{ t('el.table.resetFilter') }}</button>
       </div>
     </div>
@@ -37,19 +25,13 @@
       class="el-table-filter"
     >
       <ul class="el-table-filter__list">
-        <li
-          class="el-table-filter__list-item"
-          :class="{ 'is-active': filterValue === undefined || filterValue === null }"
-          @click="handleSelect(null)"
-        >
-          {{ t('el.table.clearFilter') }}
-        </li>
+        <li :class="{ 'is-active': filterValue === undefined || filterValue === null }" class="el-table-filter__list-item" @click="handleSelect(null)">{{ t('el.table.clearFilter') }}</li>
         <li
           v-for="filter in filters"
           :key="filter.value"
-          class="el-table-filter__list-item"
-          :label="filter.value"
           :class="{ 'is-active': isActive(filter) }"
+          :label="filter.value"
+          class="el-table-filter__list-item"
           @click="handleSelect(filter.value)"
         >
           {{ filter.text }}
@@ -110,7 +92,7 @@ export default {
       },
       set(value) {
         if (this.filteredValue) {
-          if ((typeof value !== 'undefined') && (value !== null)) {
+          if (typeof value !== 'undefined' && value !== null) {
             this.filteredValue.splice(0, 1, value)
           } else {
             this.filteredValue.splice(0, 1)
@@ -190,7 +172,7 @@ export default {
     handleSelect(filterValue) {
       this.filterValue = filterValue
 
-      if ((typeof filterValue !== 'undefined') && (filterValue !== null)) {
+      if (typeof filterValue !== 'undefined' && filterValue !== null) {
         this.confirmFilter(this.filteredValue)
       } else {
         this.confirmFilter([])

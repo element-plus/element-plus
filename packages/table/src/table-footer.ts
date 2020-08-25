@@ -22,7 +22,7 @@ export default {
         values.forEach(value => {
           if (!isNaN(value)) {
             notNumber = false
-            let decimal = ('' + value).split('.')[1]
+            const decimal = ('' + value).split('.')[1]
             precisions.push(decimal ? decimal.length : 0)
           }
         })
@@ -41,43 +41,8 @@ export default {
         }
       })
     }
-
-    return (
-      <table
-        class="el-table__footer"
-        cellspacing="0"
-        cellpadding="0"
-        border="0">
-        <colgroup>
-          {
-            this.columns.map(column => <col name={ column.id } key={column.id} />)
-          }
-          {
-            this.hasGutter ? <col name="gutter" /> : ''
-          }
-        </colgroup>
-        <tbody class={ [{ 'has-gutter': this.hasGutter }] }>
-          <tr>
-            {
-              this.columns.map((column, cellIndex) => <td
-                key={cellIndex}
-                colspan={ column.colSpan }
-                rowspan={ column.rowSpan }
-                class={ this.getRowClasses(column, cellIndex) }>
-                <div class={ ['cell', column.labelClassName] }>
-                  {
-                    sums[cellIndex]
-                  }
-                </div>
-              </td>)
-            }
-            {
-              this.hasGutter ? <th class="gutter"></th> : ''
-            }
-          </tr>
-        </tbody>
-      </table>
-    )
+    // *********************
+    return
   },
 
   props: {

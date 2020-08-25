@@ -1,8 +1,8 @@
-import { arrayFindIndex } from 'element-ui/src/utils/util'
+import { arrayFindIndex } from '@element-plus/utils/util'
 import { getCell, getColumnByCell, getRowIdentity } from './util'
-import { getStyle, hasClass, removeClass, addClass } from 'element-ui/src/utils/dom'
-import ElCheckbox from 'element-ui/packages/checkbox'
-import ElTooltip from 'element-ui/packages/tooltip'
+import { getStyle, hasClass, removeClass, addClass } from '@element-plus/utils/dom'
+import ElCheckbox from '@element-plus/checkbox/src/checkBox.vue'
+// import ElTooltip from 'element-ui/packages/tooltip'
 import debounce from 'throttle-debounce/debounce'
 import LayoutObserver from './layout-observer'
 import { mapStates } from './store/helper'
@@ -14,7 +14,7 @@ export default {
 
   components: {
     ElCheckbox,
-    ElTooltip,
+    // ElTooltip,
   },
 
   props: {
@@ -31,27 +31,7 @@ export default {
 
   render(h) {
     const data = this.data || []
-    return (
-      <table
-        class="el-table__body"
-        cellspacing="0"
-        cellpadding="0"
-        border="0">
-        <colgroup>
-          {
-            this.columns.map(column => <col name={ column.id } key={column.id} />)
-          }
-        </colgroup>
-        <tbody>
-          {
-            data.reduce((acc, row) => {
-              return acc.concat(this.wrappedRowRender(row, acc.length))
-            }, [])
-          }
-          <el-tooltip effect={ this.table.tooltipEffect } placement="top" ref="tooltip" content={ this.tooltipContent }></el-tooltip>
-        </tbody>
-      </table>
-    )
+    return
   },
 
   computed: {
@@ -83,7 +63,7 @@ export default {
       if (!this.store.states.isComplex || this.$isServer) return
       let raf = window.requestAnimationFrame
       if (!raf) {
-        raf = fn => setTimeout(fn, 16)
+        raf = fn => window.setTimeout(fn, 16)
       }
       raf(() => {
         const rows = this.$el.querySelectorAll('.el-table__row')
@@ -278,11 +258,11 @@ export default {
       this.table.$emit('cell-mouse-leave', oldHoverState.row, oldHoverState.column, oldHoverState.cell, event)
     },
 
-    handleMouseEnter: debounce(30, function(index) {
+    handleMouseEnter: debounce(30, function (index) {
       this.store.commit('setHoverRow', index)
     }),
 
-    handleMouseLeave: debounce(30, function() {
+    handleMouseLeave: debounce(30, function () {
       this.store.commit('setHoverRow', null)
     }),
 
@@ -323,70 +303,10 @@ export default {
       }
       // 指令 v-show 会覆盖 row-style 中 display
       // 使用 :style 代替 v-show https://github.com/ElemeFE/element/issues/16995
-      let displayStyle = display ? null : {
+      const displayStyle = display ? null : {
         display: 'none',
       }
-      return (<tr
-        style={ [displayStyle, this.getRowStyle(row, $index)] }
-        class={ rowClasses }
-        key={ this.getKeyOfRow(row, $index) }
-        on-dblclick={ $event => this.handleDoubleClick($event, row) }
-        on-click={ $event => this.handleClick($event, row) }
-        on-contextmenu={ $event => this.handleContextMenu($event, row) }
-        on-mouseenter={ _ => this.handleMouseEnter($index) }
-        on-mouseleave={ this.handleMouseLeave }>
-        {
-          columns.map((column, cellIndex) => {
-            const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex)
-            if (!rowspan || !colspan) {
-              return null
-            }
-            const columnData = { ...column }
-            columnData.realWidth = this.getColspanRealWidth(columns, colspan, cellIndex)
-            const data = {
-              store: this.store,
-              _self: this.context || this.table.$vnode.context,
-              column: columnData,
-              row,
-              $index,
-            }
-            if (cellIndex === firstDefaultColumnIndex && treeRowData) {
-              data.treeNode = {
-                indent: treeRowData.level * treeIndent,
-                level: treeRowData.level,
-              }
-              if (typeof treeRowData.expanded === 'boolean') {
-                data.treeNode.expanded = treeRowData.expanded
-                // 表明是懒加载
-                if ('loading' in treeRowData) {
-                  data.treeNode.loading = treeRowData.loading
-                }
-                if ('noLazyChildren' in treeRowData) {
-                  data.treeNode.noLazyChildren = treeRowData.noLazyChildren
-                }
-              }
-            }
-            return (
-              <td
-                style={ this.getCellStyle($index, cellIndex, row, column) }
-                class={ this.getCellClass($index, cellIndex, row, column) }
-                rowspan={ rowspan }
-                colspan={ colspan }
-                on-mouseenter={ $event => this.handleCellMouseEnter($event, row) }
-                on-mouseleave={ this.handleCellMouseLeave }>
-                {
-                  column.renderCell.call(
-                    this._renderProxy,
-                    this.$createElement,
-                    data,
-                    columnsHidden[cellIndex],
-                  )
-                }
-              </td>
-            )
-          })
-        }
-      </tr>)
+      return
     },
 
     wrappedRowRender(row, $index) {
@@ -401,13 +321,7 @@ export default {
           return tr
         }
         // 使用二维数组，避免修改 $index
-        return [[
-          tr,
-          <tr key={'expanded-row__' + tr.key}>
-            <td colspan={ this.columnsCount } class="el-table__expanded-cell">
-              { renderExpanded(this.$createElement, { row, $index, store: this.store }) }
-            </td>
-          </tr>]]
+        return
       } else if (Object.keys(treeData).length) {
         assertRowKey()
         // TreeTable 时，rowKey 必须由用户设定，不使用 getKeyOfRow 计算
@@ -440,6 +354,9 @@ export default {
               const innerTreeRowData = {
                 display: parent.display && parent.expanded,
                 level: parent.level + 1,
+                expanded: false,
+                noLazyChildren: false,
+                loading: false,
               }
               const childKey = getRowIdentity(node, rowKey)
               if (childKey === undefined || childKey === null) {

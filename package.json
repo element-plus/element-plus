@@ -89,6 +89,7 @@
   "dependencies": {
     "@popperjs/core": "^2.4.4",
     "lodash": "^4.17.20",
-    "mitt": "^2.1.0"
+    "mitt": "^2.1.0",
+    "normalize-wheel": "^1.0.1"
   }
 }

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import scrollbarWidth from 'element-ui/src/utils/scrollbar-width'
+import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import { parseHeight } from './util'
 
 class TableLayout {
@@ -173,7 +173,7 @@ class TableLayout {
         }
       } else { // HAVE HORIZONTAL SCROLL BAR
         this.scrollX = true
-        flexColumns.forEach(function(column) {
+        flexColumns.forEach(function (column) {
           column.realWidth = column.minWidth
         })
       }
@@ -199,7 +199,7 @@ class TableLayout {
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0
-      fixedColumns.forEach(function(column) {
+      fixedColumns.forEach(function (column) {
         fixedWidth += column.realWidth || column.width
       })
 
@@ -209,7 +209,7 @@ class TableLayout {
     const rightFixedColumns = this.store.states.rightFixedColumns
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0
-      rightFixedColumns.forEach(function(column) {
+      rightFixedColumns.forEach(function (column) {
         rightFixedWidth += column.realWidth || column.width
       })
 
