@@ -1,5 +1,5 @@
 import { mount, VueWrapper } from '@vue/test-utils'
-import { h, ComponentPublicInstance, nextTick } from 'vue'
+import { h, ComponentPublicInstance } from 'vue'
 import * as domExports from '../../utils/dom'
 import { eventKeys } from '../../utils/aria'
 import Notification from '../src/index.vue'

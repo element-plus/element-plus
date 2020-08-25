@@ -1,4 +1,17 @@
-# Element-Plus
+<p align="center">
+  <img src="https://cdn.rawgit.com/ElemeFE/element/dev/element_logo.svg">
+</p>
+
+<p align="center">Element Plus - A Vue.js 3.0 UI library</p>
+
+* 💪 Vue 3.0 Composition API
+* 🔥 Written in TypeScript
+
+This project is still under heavy development. Feel free to join us and make your first pull request.
+
+---
+
+Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody <a href="https://discord.link/ElementPlus" target="_blank" rel="noreferrer noopener" align="center"> ![Discord](https://discord.com/api/guilds/746641026239954954/widget.png?style=shield)</a>
 
 ## Bootstrap project
 With command

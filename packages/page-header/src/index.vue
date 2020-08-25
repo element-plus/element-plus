@@ -22,7 +22,10 @@ export default defineComponent({
       type: String,
       default: () => t('el.pageHeader.title'),
     },
-    content: String,
+    content: {
+      type: String,
+      default: '',
+    },
   },
   emits: ['back'],
   setup(props, { emit }) {

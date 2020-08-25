@@ -26,7 +26,24 @@ module.exports = {
     semi: ['error', 'never'],
     indent: ['error', 2, { SwitchCase: 1 }],
     'object-curly-spacing': ['error', 'always'],
+    'arrow-parens': ['error', 'as-needed'],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      {
+        multiline: {
+          delimiter: 'none',
+          requireLast: false,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: true,
+        },
+      },
+    ],
     // vue
+    'vue/no-v-html': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/html-self-closing': ['error', {
       html: {
@@ -39,20 +56,7 @@ module.exports = {
       singleline: 3,
       multiline: 1,
     }],
-    '@typescript-eslint/member-delimiter-style': [
-      2,
-      {
-        multiline: {
-          delimiter: 'none',
-          requireLast: false,
-        },
-        singleline: {
-          delimiter: 'semi',
-          requireLast: true,
-        },
-      },
-    ],
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'vue/require-default-prop': 'off',
     'vue/html-closing-bracket-spacing': 'error',
   },
 }
