@@ -77,7 +77,6 @@ export default defineComponent({
     },
     label: {
       type: [Object, Boolean, String],
-      default: '  ',
     },
     indeterminate: Boolean,
     disabled: Boolean,

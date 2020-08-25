@@ -69,6 +69,7 @@ export default defineComponent({
       () => visible.value,
       val => {
         if(val) triggerElmFocus()
+        if(!val) triggerElmBlur()
         emit('visible-change', val)
       },
     )
@@ -135,6 +136,9 @@ export default defineComponent({
     function triggerElmFocus() {
       triggerElm.value?.focus?.()
     }
+    function triggerElmBlur() {
+      triggerElm.value?.blur?.()
+    }
 
     // for dom
     Object.assign(_instance, {
@@ -192,18 +196,26 @@ export default defineComponent({
 
     const triggerVnode = !props.splitButton
       ? slots.default?.()
-      : h(ElButtonGroup, {}, [
-        h(ElButton, {
-          type: props.type,
-          size: dropdownSize.value,
-          onClick: handlerMainButtonClick,
-        }, slots.default?.()),
-        h(ElButton, {
-          type: props.type,
-          size: dropdownSize.value,
-          class: 'el-dropdown__caret-button',
-        }, h('i', { class: 'el-dropdown__icon el-icon-arrow-down' })),
-      ])
+      : h(ElButtonGroup, {}, {
+        default: () => (
+          [
+            h(ElButton, {
+              type: props.type,
+              size: dropdownSize.value,
+              onClick: handlerMainButtonClick,
+            }, {
+              default: () => slots.default?.(),
+            }),
+            h(ElButton, {
+              type: props.type,
+              size: dropdownSize.value,
+              class: 'el-dropdown__caret-button',
+            }, {
+              default: () => h('i', { class: 'el-dropdown__icon el-icon-arrow-down' }),
+            }),
+          ]
+        ),
+      })
 
     const dropdownVnode = h('div', {
       class: 'el-dropdown',

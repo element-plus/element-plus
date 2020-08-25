@@ -1,16 +1,16 @@
 <template>
   <div class="block">
-    <el-dropdown>
+    <el-dropdown placement="right">
       <span class="el-dropdown-link">
-        下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+        dropdown<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>黄金糕</el-dropdown-item>
-          <el-dropdown-item>狮子头</el-dropdown-item>
-          <el-dropdown-item>螺蛳粉</el-dropdown-item>
-          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+          <el-dropdown-item>Apple</el-dropdown-item>
+          <el-dropdown-item>Orange</el-dropdown-item>
+          <el-dropdown-item>Cherry</el-dropdown-item>
+          <el-dropdown-item disabled>Peach</el-dropdown-item>
+          <el-dropdown-item divided>Pear</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -18,15 +18,15 @@
     <br>
     <el-dropdown trigger="click" :hide-on-click="false">
       <span class="el-dropdown-link">
-        下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+        dropdown<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>黄金糕</el-dropdown-item>
-          <el-dropdown-item>狮子头</el-dropdown-item>
-          <el-dropdown-item>螺蛳粉</el-dropdown-item>
-          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+          <el-dropdown-item>Apple</el-dropdown-item>
+          <el-dropdown-item>Orange</el-dropdown-item>
+          <el-dropdown-item>Cherry</el-dropdown-item>
+          <el-dropdown-item disabled>Peach</el-dropdown-item>
+          <el-dropdown-item divided>Pear</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -34,32 +34,105 @@
     <br>
     <el-dropdown>
       <el-button type="primary">
-        更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+        dropdown<i class="el-icon-arrow-down el-icon--right"></i>
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>黄金糕</el-dropdown-item>
-          <el-dropdown-item>狮子头</el-dropdown-item>
-          <el-dropdown-item>螺蛳粉</el-dropdown-item>
-          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+          <el-dropdown-item>Apple</el-dropdown-item>
+          <el-dropdown-item>Orange</el-dropdown-item>
+          <el-dropdown-item>Cherry</el-dropdown-item>
+          <el-dropdown-item disabled>Peach</el-dropdown-item>
+          <el-dropdown-item divided>Pear</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
     <br>
     <br>
-    <!-- <el-dropdown split-button type="primary" @click="handleClick">
-      更多菜单
+    <el-dropdown @command="handleCommand">
+      <el-button type="primary">
+        dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+      </el-button>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>黄金糕</el-dropdown-item>
-          <el-dropdown-item>狮子头</el-dropdown-item>
-          <el-dropdown-item>螺蛳粉</el-dropdown-item>
-          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+          <el-dropdown-item command="a">Apple</el-dropdown-item>
+          <el-dropdown-item command="b">Orange</el-dropdown-item>
+          <el-dropdown-item command="c">Cherry</el-dropdown-item>
+          <el-dropdown-item command="d" disabled>Peach</el-dropdown-item>
+          <el-dropdown-item command="e" divided>Pear</el-dropdown-item>
         </el-dropdown-menu>
       </template>
-    </el-dropdown> -->
+    </el-dropdown>
+    <br>
+    <br>
+    <el-dropdown split-button type="primary" @click="handleClick">
+      dropdown
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item>Apple</el-dropdown-item>
+          <el-dropdown-item>Orange</el-dropdown-item>
+          <el-dropdown-item>Cherry</el-dropdown-item>
+          <el-dropdown-item disabled>Peach</el-dropdown-item>
+          <el-dropdown-item divided>Pear</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    <br>
+    <br>
+    <el-dropdown
+      split-button
+      size="medium"
+      type="primary"
+      @click="handleClick"
+    >
+      dropdown
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item>Apple</el-dropdown-item>
+          <el-dropdown-item>Orange</el-dropdown-item>
+          <el-dropdown-item>Cherry</el-dropdown-item>
+          <el-dropdown-item disabled>Peach</el-dropdown-item>
+          <el-dropdown-item divided>Pear</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    <br>
+    <br>
+    <el-dropdown
+      split-button
+      size="small"
+      type="primary"
+      @click="handleClick"
+    >
+      dropdown
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item>Apple</el-dropdown-item>
+          <el-dropdown-item>Orange</el-dropdown-item>
+          <el-dropdown-item>Cherry</el-dropdown-item>
+          <el-dropdown-item disabled>Peach</el-dropdown-item>
+          <el-dropdown-item divided>Pear</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    <br>
+    <br>
+    <el-dropdown
+      split-button
+      size="mini"
+      type="primary"
+      @click="handleClick"
+    >
+      dropdown
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item>Apple</el-dropdown-item>
+          <el-dropdown-item>Orange</el-dropdown-item>
+          <el-dropdown-item>Cherry</el-dropdown-item>
+          <el-dropdown-item disabled>Peach</el-dropdown-item>
+          <el-dropdown-item divided>Pear</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </div>
 </template>
 
@@ -69,6 +142,9 @@ export default defineComponent({
   methods: {
     handleClick() {
       alert('button click')
+    },
+    handleCommand(command) {
+      alert('click on item ' + command)
     },
   },
 })

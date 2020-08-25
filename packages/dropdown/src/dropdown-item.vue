@@ -21,7 +21,7 @@ export default defineComponent({
   name: 'ElDropdownItem',
   props: {
     command: {
-      type: Object,
+      type: [Object, String, Number],
       defautl: () => ({}),
     },
     disabled: Boolean,
