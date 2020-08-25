@@ -31,14 +31,14 @@
 
 import { defineComponent, computed, ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { isString } from '@vue/shared'
-import { throttle } from 'lodash-es'
+import throttle from 'lodash/throttle'
 import isServer from '@element-plus/utils/isServer'
 import { on, off, getScrollContainer, isInContainer } from '@element-plus/utils/dom'
 import { t } from '@element-plus/locale'
 import ImageViewer from './image-viewer'
 
 const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined
-const isHtmlEle = (e) => e && e.nodeType === 1
+const isHtmlEle = e => e && e.nodeType === 1
 
 const ObjectFit = {
   NONE: 'none',
@@ -169,7 +169,7 @@ export default defineComponent({
       // bind html attrs
       // so it can behave consistently
       Object.keys(attrs)
-        .forEach((key) => {
+        .forEach(key => {
           const value = attrs[key]
           img.setAttribute(key, value)
         })

@@ -319,7 +319,7 @@ export default defineComponent({
       })
     })
 
-    watch(index, (val) => {
+    watch(index, val => {
       reset()
       props.onSwitch(val)
     })
