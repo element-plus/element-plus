@@ -11,4 +11,4 @@
 //   year: 'yyyy'
 // };
 export const DEFAULT_FORMATS_TIME = 'HH:mm:ss'
-export const DEFAULT_FORMATS_DATE = 'YYYY-MM-dd'
+export const DEFAULT_FORMATS_DATE = 'YYYY-MM-DD'

@@ -254,6 +254,22 @@ export default {
 
     const currentView = ref('date')
 
+    const year = computed(() => {
+      return innerDate.value.getFullYear()
+    })
+
+    const yearLabel = computed(() => {
+      const yearTranslation = t('el.datepicker.year')
+      if (currentView.value === 'year') {
+        const startYear = Math.floor(year.value / 10) * 10
+        if (yearTranslation) {
+          return startYear + ' ' + yearTranslation + ' - ' + (startYear + 9) + ' ' + yearTranslation
+        }
+        return startYear + ' - ' + (startYear + 9)
+      }
+      return year.value + ' ' + yearTranslation
+    })
+
     return {
       prevYear_,
       nextYear_,
@@ -261,6 +277,7 @@ export default {
       nextMonth_,
       innerDate,
       t,
+      yearLabel,
       currentView,
       month,
       handleDatePick,
@@ -289,9 +306,6 @@ export default {
   // },
 
   // computed: {
-  //   year() {
-  //     return this.date.getFullYear()
-  //   },
 
   //   week() {
   //     return getWeekNumber(this.date)
@@ -319,18 +333,6 @@ export default {
   //     } else {
   //       return formatDate(this.value || this.defaultValue, this.dateFormat)
   //     }
-  //   },
-
-  //   yearLabel() {
-  //     const yearTranslation = this.t('el.datepicker.year')
-  //     if (this.currentView === 'year') {
-  //       const startYear = Math.floor(this.year / 10) * 10
-  //       if (yearTranslation) {
-  //         return startYear + ' ' + yearTranslation + ' - ' + (startYear + 9) + ' ' + yearTranslation
-  //       }
-  //       return startYear + ' - ' + (startYear + 9)
-  //     }
-  //     return this.year + ' ' + yearTranslation
   //   },
 
   //   timeFormat() {
@@ -394,9 +396,6 @@ export default {
   // },
 
   // methods: {
-  //   t(e) {
-  //     return t(e)
-  //   },
   //   proxyTimePickerDataProperties() {
   //     const format = timeFormat => {this.$refs.timepicker.format = timeFormat}
   //     const value = value => {this.$refs.timepicker.value = value}

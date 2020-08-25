@@ -252,7 +252,7 @@ export default defineComponent({
       return dayjs(parsedValue.value).format(props.format)
     })
     const triggerClass = computed(() => {
-      return props.prefixIcon || 'el-icon-time'
+      return props.prefixIcon || (props.type.indexOf('time') !== -1 ? 'el-icon-time' : 'el-icon-date')
     })
     const showClose = ref(false)
     const emitChange = val => {
