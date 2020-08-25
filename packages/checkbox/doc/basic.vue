@@ -4,7 +4,7 @@
     <el-checkbox v-model="checked1" disabled>{{ checked1 }}</el-checkbox>
     <el-checkbox v-model="checked2" disabled>{{ checked2 }}</el-checkbox>
     <el-checkbox v-model="checked1" label="A" border />
-    <el-checkbox v-model="checked2" label="B" border />
+    <el-checkbox v-model="checked2" border />
 
     <el-checkbox-group v-model="checkList">
       <el-checkbox label="A" />
