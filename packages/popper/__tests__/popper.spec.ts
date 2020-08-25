@@ -83,8 +83,14 @@ describe('Popper.vue', () => {
     let wrapper = _mount()
     const selector = '[role="tooltip"]'
     expect(wrapper.find(selector).exists()).toBe(false)
-    // Due to the parent node of popper is Transition so we should match the grandparent
-    expect(document.querySelector(selector).parentElement.parentElement).toBe(document.body)
+    /**
+     * Current layout of `ElPopper`
+     *  --> Teleport
+     *   --> mask
+     *    --> transition
+     *     --> popper
+     */
+
     wrapper = _mount({
       appendToBody: false,
     })

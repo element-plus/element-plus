@@ -1,17 +1,13 @@
 import isServer from './isServer'
-import { isObject, capitalize } from '@vue/shared'
+import { isObject, capitalize, hyphenate, looseEqual, extend, camelize } from '@vue/shared'
 import { isEmpty, castArray, isEqual } from 'lodash'
+
+import type { AnyFunction } from './types'
 
 const { hasOwnProperty } = Object.prototype
 
-type Any = Record<string, unknown> | unknown
-
-export function hasOwn(obj: Any, key: string): boolean {
+export function hasOwn(obj: any, key: string): boolean {
   return hasOwnProperty.call(obj, key)
-}
-
-function extend<T, K>(to: T, _from: K): T & K  {
-  return Object.assign(to, _from)
 }
 
 export function toObject<T>(arr: Array<T>): Record<string, T> {
@@ -24,7 +20,7 @@ export function toObject<T>(arr: Array<T>): Record<string, T> {
   return res
 }
 
-export const getValueByPath = (obj: Any, paths = ''): unknown => {
+export const getValueByPath = (obj: any, paths = ''): unknown => {
   let ret: unknown = obj
   paths.split('.').map(path => {
     ret = ret?.[path]
@@ -32,13 +28,12 @@ export const getValueByPath = (obj: Any, paths = ''): unknown => {
   return ret
 }
 
-export function getPropByPath(obj: Any, path: string, strict: boolean): {
+export function getPropByPath(obj: any, path: string, strict: boolean): {
   o: unknown
   k: string
   v: Nullable<unknown>
 } {
-  // we can't use any here, the only option here is unknown
-  let tempObj: unknown = obj
+  let tempObj = obj
   path = path.replace(/\[(\w+)\]/g, '.$1')
   path = path.replace(/^\./, '')
 
@@ -68,8 +63,7 @@ export const generateId = (): number => Math.floor(Math.random() * 10000)
 // use isEqual instead
 // export const valueEquals
 
-
-export const escapeRegexpString = (value = ''): string=>
+export const escapeRegexpString = (value = ''): string =>
   String(value).replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
 
 // Use native Array.find, Array.findIndex instead
@@ -106,36 +100,22 @@ export const autoprefixer = function(style: CSSStyleDeclaration): CSSStyleDeclar
   return style
 }
 
-export const kebabCase = function(str: string): string {
-  const hyphenateRE = /([^-])([A-Z])/g
-  return str
-    .replace(hyphenateRE, '$1-$2')
-    .replace(hyphenateRE, '$1-$2')
-    .toLowerCase()
-}
-
-export const looseEqual = function<T, K>(a: T, b: K): boolean {
-  const isObjectA = isObject(a)
-  const isObjectB = isObject(b)
-  if (isObjectA && isObjectB) {
-    return JSON.stringify(a) === JSON.stringify(b)
-  } else if (!isObjectA && !isObjectB) {
-    return String(a) === String(b)
-  } else {
-    return false
-  }
-}
+export const kebabCase = hyphenate
 
 // reexport from lodash
 export {
   isEmpty,
   isEqual,
+  isObject,
   capitalize,
+  camelize,
+  looseEqual,
+  extend,
 }
 
-export function rafThrottle(fn: (args: Record<string, unknown>) => unknown): (...args: unknown[]) => unknown {
+export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void> {
   let locked = false
-  return function(...args) {
+  return function(...args: any[]) {
     if (locked) return
     locked = true
     window.requestAnimationFrame(() => {
