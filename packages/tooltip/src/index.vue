@@ -1,7 +1,8 @@
 <script lang='ts'>
-import { computed, defineComponent, h, watch } from 'vue'
+import { defineComponent, h } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import throwError from '@element-plus/utils/error'
 
 import type { PropType } from 'vue'
 import type {
@@ -86,11 +87,6 @@ export default defineComponent({
       type: String,
       default: 'el-fade-in-linear',
     },
-    value: {
-      type: Boolean,
-      default: undefined,
-      validator: val => typeof val === 'boolean',
-    },
     visibleArrow: {
       type: Boolean,
       default: true,
@@ -99,21 +95,18 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT],
   setup(props, ctx) {
     // init here
-    const shouldShow = computed(() => {
-      return props.manual
-        ? props.modelValue !== undefined
-          ? props.modelValue
-          : props.value
-        : null
-    })
 
-    watch(shouldShow, (val, preVal) => {
-      if (val !== preVal) {
-        ctx.emit(UPDATE_MODEL_EVENT, val)
-      }
-    })
+    // when manual mode is true, v-model must be passed down
+    if (props.manual && typeof props.modelValue === 'undefined') {
+      throwError('[ElTooltip]', 'You need to pass a v-model to el-tooltip when `manual` is true')
+    }
+
+    const onUpdateValue = val => {
+      ctx.emit(UPDATE_MODEL_EVENT, val)
+    }
+
     return {
-      shouldShow,
+      onUpdateValue,
     }
   },
   render() {
@@ -127,10 +120,10 @@ export default defineComponent({
       manual,
       offset,
       openDelay,
+      onUpdateValue,
       placement,
       popperOptions,
       showAfter,
-      shouldShow,
       transition,
       tabindex,
       visibleArrow,
@@ -144,7 +137,6 @@ export default defineComponent({
         enterable,
         hideAfter,
         manualMode: manual,
-        modelValue: shouldShow,
         offset,
         placement,
         showAfter: openDelay || showAfter, // this is for mapping API due to we decided to rename the current openDelay API to showAfter for better readability,
@@ -152,6 +144,8 @@ export default defineComponent({
         transition,
         tabIndex: String(tabindex),
         popperOptions, // Breakings!: Once popperOptions is provided, the whole popper is under user's control, ElPopper nolonger generates the default options for popper, this is by design if the user wants the full contorl on @PopperJS, read the doc @https://popper.js.org/docs/v2/
+        value: this.modelValue,
+        onUpdateValue,
       },
       {
         default: () => ($slots.content ? $slots.content() : content),

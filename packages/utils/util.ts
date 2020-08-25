@@ -1,5 +1,5 @@
 import isServer from './isServer'
-import { isObject, capitalize, hyphenate, looseEqual, extend } from '@vue/shared'
+import { isObject, capitalize, hyphenate, looseEqual, extend, camelize } from '@vue/shared'
 import { isEmpty, castArray, isEqual } from 'lodash'
 
 import type { AnyFunction } from './types'
@@ -108,6 +108,7 @@ export {
   isEqual,
   isObject,
   capitalize,
+  camelize,
   looseEqual,
   extend,
 }
