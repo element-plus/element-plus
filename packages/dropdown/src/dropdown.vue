@@ -42,7 +42,7 @@ export default defineComponent({
     },
     placement: {
       type: String,
-      default: 'bottom-end',
+      default: 'bottom',
     },
     showTimeout: {
       type: Number,
@@ -210,12 +210,11 @@ export default defineComponent({
     }, [triggerVnode])
 
     return () => h(ELPopper, {
-      placement: 'bottom',
+      placement: props.placement,
       effect: 'light',
       value: visible.value,
       manualMode: true,
       popperClass: 'el-dropdown-popper',
-      pure: false,
     }, {
       default: () => slots.dropdown?.(),
       trigger: () => dropdownVnode,
