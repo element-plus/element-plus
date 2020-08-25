@@ -2,10 +2,12 @@
   <div class="box">
     <div class="top">
       <el-tooltip
+        v-model="model"
         class="item"
         effect="dark"
         content="Top Left prompts info"
         placement="top-start"
+        :manual="true"
       >
         <el-button>top-start</el-button>
       </el-tooltip>
@@ -107,6 +109,22 @@
     </div>
   </div>
 </template>
+<script>
+import ClickOutside from '@element-plus/directives/click-outside'
+
+export default {
+  directives: {
+    ClickOutside,
+  },
+  data() {
+    return {
+      model: true,
+    }
+  },
+  methods: {
+  },
+}
+</script>
 <style>
 .box {
   width: 400px;
