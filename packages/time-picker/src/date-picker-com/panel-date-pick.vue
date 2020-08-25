@@ -3,13 +3,13 @@
     <div
       class="el-picker-panel el-date-picker el-popper"
       :class="[{
-        'has-sidebar': $slots.sidebar || shortcuts,
+        'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime
       }, popperClass]"
     >
       <div class="el-picker-panel__body-wrapper">
         <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
-        <div v-if="shortcuts" class="el-picker-panel__sidebar">
+        <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
           <button
             v-for="(shortcut, key) in shortcuts"
             :key="key"
@@ -104,12 +104,25 @@
               v-show="currentView === 'date'"
               :selection-mode="selectionMode"
               :first-day-of-week="firstDayOfWeek"
-              :value="value"
               :default-value="defaultValue ? new Date(defaultValue) : null"
               :date="innerDate"
               :cell-class-name="cellClassName"
               :disabled-date="disabledDate"
               @pick="handleDatePick"
+            />
+            <year-table
+              v-show="currentView === 'year'"
+              :default-value="defaultValue ? new Date(defaultValue) : null"
+              :date="innerDate"
+              :disabled-date="disabledDate"
+              @pick="handleYearPick"
+            />
+            <month-table
+              v-show="currentView === 'month'"
+              :default-value="defaultValue ? new Date(defaultValue) : null"
+              :date="innerDate"
+              :disabled-date="disabledDate"
+              @pick="handleMonthPick"
             />
           </div>
         </div>
@@ -162,19 +175,23 @@ import {
   timeWithinRange,
 } from '../time-picker-com/time-picker-utils'
 import { t } from '@element-plus/locale'
+import { NOOP } from '@vue/shared'
 import ElInput from '../../input/input.vue'
 // import ElButton from '@element-plus/button'
 import DateTable from './basic-date-table.vue'
+import MonthTable from './basic-month-table.vue'
+import YearTable from './basic-year-table.vue'
 import {
   defineComponent,
   computed,
   ref,
   PropType,
+  watch,
 } from 'vue'
 
-export default {
+export default defineComponent({
   components: {
-    DateTable, ElInput,
+    DateTable, ElInput, MonthTable, YearTable,
   },
 
   props: {
@@ -186,6 +203,18 @@ export default {
       type: String,
       default: '',
     },
+    shortcuts: {
+      type: Array,
+      default: () => ([]),
+    },
+    disabledDate: {
+      type: Function,
+      default: NOOP,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
   },
   emits: ['pick'],
   setup(props, ctx) {
@@ -193,7 +222,6 @@ export default {
     const month = computed(() =>  {
       return innerDate.value.getMonth()
     })
-    const selectionMode = ref('day')
     const showTime = ref(false)
     const selectableRange = ref([])
     const checkDateWithinRange = date => {
@@ -224,6 +252,7 @@ export default {
         emit(newDate, showTime.value)
       } else if (selectionMode.value === 'week') {
         emit(value.date)
+        innerDate.value = value.date
       } else if (selectionMode.value === 'dates') {
         emit(value, true) // set false to keep panel open
       }
@@ -270,7 +299,66 @@ export default {
       return year.value + ' ' + yearTranslation
     })
 
+    const handleShortcutClick = shortcut => {
+      if (shortcut.onClick) {
+        shortcut.onClick(ctx)
+      }
+    }
+
+    const selectionMode = computed(() => {
+      if (['week', 'month', 'year', 'dates'].includes(props.type)) {
+        return props.type
+      }
+      return 'day'
+    })
+
+    watch(() => selectionMode.value, val => {
+      if(['month', 'year'].includes(val)) {
+        currentView.value = val
+        return
+      }
+      currentView.value = 'date'
+    }, { immediate: true })
+
+    const hasShortcuts = computed(() => !!props.shortcuts.length)
+
+    const handleMonthPick = month => {
+      if (selectionMode.value === 'month') {
+        innerDate.value = modifyDate(innerDate.value, year.value, month, 1)
+        emit(innerDate.value)
+      }
+      // else {
+      //   innerDate.value = changeYearMonthAndClampDate(innerDate.value, year.value, month)
+      // TODO: should emit intermediate value ??
+      // this.emit(this.date);
+      // currentView = 'date'
+      // }
+    }
+
+    const handleYearPick = year => {
+      if (selectionMode.value === 'year') {
+        innerDate.value = modifyDate(innerDate.value, year, 0, 1)
+        emit(innerDate.value)
+      }
+      // else {
+      //   this.date = changeYearMonthAndClampDate(this.date, year, this.month)
+      //   // TODO: should emit intermediate value ??
+      //   // this.emit(this.date, true);
+      //   this.currentView = 'month'
+      // }
+    }
+
+    const showMonthPicker = () => {
+      currentView.value = 'month'
+    }
+
     return {
+      handleYearPick,
+      showMonthPicker,
+      handleMonthPick,
+      hasShortcuts,
+      selectionMode,
+      handleShortcutClick,
       prevYear_,
       nextYear_,
       prevMonth_,
@@ -421,18 +509,8 @@ export default {
   //   //   this.date = new Date(this.date);
   //   // },
 
-  //   showMonthPicker() {
-  //     this.currentView = 'month'
-  //   },
-
   //   showYearPicker() {
   //     this.currentView = 'year'
-  //   },
-
-  //   handleShortcutClick(shortcut) {
-  //     if (shortcut.onClick) {
-  //       shortcut.onClick(this)
-  //     }
   //   },
 
   //   handleTimePick(value, visible, first) {
@@ -452,30 +530,6 @@ export default {
 
   //   handleTimePickClose() {
   //     this.timePickerVisible = false
-  //   },
-
-  //   handleMonthPick(month) {
-  //     if (this.selectionMode === 'month') {
-  //       this.date = modifyDate(this.date, this.year, month, 1)
-  //       this.emit(this.date)
-  //     } else {
-  //       this.date = changeYearMonthAndClampDate(this.date, this.year, month)
-  //       // TODO: should emit intermediate value ??
-  //       // this.emit(this.date);
-  //       this.currentView = 'date'
-  //     }
-  //   },
-
-  //   handleYearPick(year) {
-  //     if (this.selectionMode === 'year') {
-  //       this.date = modifyDate(this.date, year, 0, 1)
-  //       this.emit(this.date)
-  //     } else {
-  //       this.date = changeYearMonthAndClampDate(this.date, year, this.month)
-  //       // TODO: should emit intermediate value ??
-  //       // this.emit(this.date, true);
-  //       this.currentView = 'month'
-  //     }
   //   },
 
   //   changeToNow() {
@@ -605,5 +659,5 @@ export default {
   //   },
 
   // },
-}
+})
 </script>

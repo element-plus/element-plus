@@ -3,7 +3,6 @@
 //   month: 'yyyy-MM',
 //   datetime: 'yyyy-MM-dd HH:mm:ss',
 //   time: 'HH:mm:ss',
-//   week: 'yyyywWW',
 //   timerange: 'HH:mm:ss',
 //   daterange: 'yyyy-MM-dd',
 //   monthrange: 'yyyy-MM',
@@ -12,3 +11,4 @@
 // };
 export const DEFAULT_FORMATS_TIME = 'HH:mm:ss'
 export const DEFAULT_FORMATS_DATE = 'YYYY-MM-DD'
+export const DEFAULT_FORMATS_WEEK = 'yyyywWW'

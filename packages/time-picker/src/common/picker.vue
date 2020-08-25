@@ -88,9 +88,10 @@
         <slot
           :visible="pickerVisible"
           :parsed-value="parsedValue"
-          :picker-options="pickerOptions"
           :format="format"
+          :type="type"
           :default-value="defaultValue"
+          v-bind="$attrs"
           @pick="onPick"
           @select-range="setSelectionRange"
           @mousedown.stop

@@ -3,6 +3,14 @@ import dayjs from 'dayjs'
 export const modifyDate = function(date, y, m, d) {
   return new Date(y, m, d, date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds())
 }
+export const range = function(n) {
+  // see https://stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n
+  return Array.apply(null, { length: n }).map((_, n) => n)
+}
+export const getDayCountOfYear = function(year) {
+  const isLeapYear = year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0)
+  return isLeapYear ? 366 : 365
+}
 export const limitTimeRange = function(date, ranges, format = 'HH:mm:ss') {
   // TODO: refactory a more elegant solution
   if (ranges.length === 0) return date

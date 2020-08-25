@@ -154,9 +154,9 @@ export default defineComponent({
 
       newDate.setDate(parseInt(cell.text, 10))
 
-      if (isDate(props.value)) {
-        const dayOffset = (props.value.getDay() - props.firstDayOfWeek + 7) % 7 - 1
-        const weekDate = prevDate(props.value, dayOffset)
+      if (isDate(props.date)) {
+        const dayOffset = (props.date.getDay() - props.firstDayOfWeek + 7) % 7 - 1
+        const weekDate = prevDate(props.date, dayOffset)
         return weekDate.getTime() === newDate.getTime()
       }
       return false
@@ -177,7 +177,7 @@ export default defineComponent({
       const startDate_ = startDate.value
       const disabledDate = props.disabledDate
       const cellClassName = props.cellClassName
-      const selectedDate = props.selectionMode === 'dates' ? coerceTruthyValueToArray(props.value) : []
+      const selectedDate = props.selectionMode === 'dates' ? coerceTruthyValueToArray(props.date) : []
       const now = getDateTimestamp(new Date())
 
       for (let i = 0; i < 6; i++) {
@@ -271,7 +271,7 @@ export default defineComponent({
         classes.push('default')
       }
 
-      if (selectionMode === 'day' && (cell.type === 'normal' || cell.type === 'today') && cellMatchesDate(cell, props.value)) {
+      if (selectionMode === 'day' && (cell.type === 'normal' || cell.type === 'today') && cellMatchesDate(cell, props.date)) {
         classes.push('current')
       }
 
@@ -389,7 +389,7 @@ export default defineComponent({
           date: newDate,
         })
       } else if (props.selectionMode === 'dates') {
-        const value = props.value || [] as any
+        const value = props.date || [] as any
         const newValue = cell.selected
           ? removeFromArray(value, date => date.getTime() === newDate.getTime())
           : [...value, newDate]

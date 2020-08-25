@@ -123,7 +123,7 @@ export default defineComponent({
       const _date = clearMilliseconds(limitTimeRange(props.parsedValue, selectableRange.value, props.format))
       ctx.emit('pick', _date, visible)
     }
-    const handleChange = (_date) => {
+    const handleChange = _date => {
       // visible avoids edge cases, when use scrolls during panel closing animation
       if (!props.visible) { return }
       const result = clearMilliseconds(_date)
@@ -132,7 +132,7 @@ export default defineComponent({
         ctx.emit('pick', result, true)
       }
     }
-    const isValidValue = (_date) => {
+    const isValidValue = _date => {
       return timeWithinRange(_date, selectableRange.value, props.format)
     }
     const setSelectionRange = (start, end) => {

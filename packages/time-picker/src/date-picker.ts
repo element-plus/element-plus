@@ -9,7 +9,7 @@ export default {
   name: 'ElDatePicker',
   setup(props) {
     return () => h(Picker, {
-      props,
+      ...props,
       format: DEFAULT_FORMATS_DATE,
     },
     {

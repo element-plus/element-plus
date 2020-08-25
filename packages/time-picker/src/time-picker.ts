@@ -18,7 +18,7 @@ export default {
     const type = props.isRange ? 'timerange' : 'time'
     const panel = props.isRange ? TimeRangePanel : TimePickPanel
     return () => h(Picker, {
-      props,
+      ...props,
       type,
       format: DEFAULT_FORMATS_TIME,
     },
