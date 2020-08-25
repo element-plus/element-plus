@@ -1,6 +1,6 @@
 <template>
-  <div style="margin: 20px;">
-    <el-input v-model="input" placeholder="请输入内容" />
+  <div>
+    <el-button>{{ value1 }}</el-button>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   data() {
     return {
-      input: 'Hello Element UI!',
+      value1: 'TEST',
     }
   },
 }

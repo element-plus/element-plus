@@ -5,11 +5,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const isProd = process.env.NODE_ENV === 'production'
+const isPlay = !!process.env.PLAY_ENV
 
 module.exports = {
   mode: isProd ? 'production' : 'development',
   devtool: isProd ? 'source-map' : 'cheap-module-eval-source-map',
-  entry: path.resolve(__dirname, './entry.js'),
+  entry: isPlay ? path.resolve(__dirname, './play.js') : path.resolve(__dirname, './entry.js'),
   output: {
     path: path.resolve(__dirname, '../website-dist'),
     publicPath: '/',

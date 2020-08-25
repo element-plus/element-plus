@@ -8,7 +8,7 @@ export const t = (path:string): string => {
   let current = lang
   for (let i = 0, j = array.length; i < j; i++) {
     const property = array[i]
-    value = current[property] || property
+    value = current[property]
     if (i === j - 1) return value
     if (!value) return ''
     current = value
