@@ -1,12 +1,6 @@
 <template>
   <div>
-    value1: {{ value1 }}
-    <el-time-picker
-      v-model="value1"
-      placeholder="Arbitrary time"
-    />
-    <div>
-    </div>
+    <el-button>{{ value1 }}</el-button>
   </div>
 </template>
 
@@ -14,7 +8,7 @@
 export default {
   data() {
     return {
-      value1: '',
+      value1: 'TEST',
     }
   },
 }
