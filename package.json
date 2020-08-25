@@ -11,7 +11,8 @@
     "build": "yarn bootstrap && yarn build-storybook",
     "lint": "eslint ./packages --ext .vue,.js,.ts",
     "website-build": "webpack --config ./website/webpack.config.js",
-    "website-dev": "webpack-dev-server --config ./website/webpack.config.js"
+    "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
+    "website-dev:play": "PLAY_ENV=true yarn website-dev"
   },
   "peerDependencies": {
     "vue": "^3.0.0-rc.7"
@@ -92,6 +93,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "throttle-debounce": "^2.2.1",
     "@popperjs/core": "^2.4.4",
+    "dayjs": "1.x",
     "lodash": "^4.17.20",
     "mitt": "^2.1.0"
   }
