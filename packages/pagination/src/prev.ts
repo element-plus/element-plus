@@ -15,6 +15,8 @@ export default defineComponent({
     },
   },
 
+  emits: ['click'],
+
   computed: {
     internalDisabled() {
       return this.disabled || this.currentPage <= 1

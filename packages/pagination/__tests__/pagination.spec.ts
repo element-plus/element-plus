@@ -81,7 +81,7 @@ describe('Pagination.vue', () => {
     expect(wrapper.findAll('li.number').length).toBe(21)
   })
 
-  it('will work without total & page-count', (done) => {
+  it('will work without total & page-count', done => {
     const wrapper = mount(Pagination, {
       props: {
         pageSize: 25,

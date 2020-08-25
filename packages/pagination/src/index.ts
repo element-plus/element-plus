@@ -78,6 +78,7 @@ export default defineComponent({
     },
 
     layout: {
+      type: String,
       default: 'prev, pager, next, jumper, ->, total',
     },
 
@@ -251,7 +252,7 @@ export default defineComponent({
       total: h(Total, { total: this.total }),
     }
 
-    const components = layout.split(',').map((item) => item.trim())
+    const components = layout.split(',').map(item => item.trim())
 
     let haveRightWrapper = false
 
