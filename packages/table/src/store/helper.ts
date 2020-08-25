@@ -6,7 +6,7 @@ export function createStore(table, initialState = {}) {
     throw new Error('Table is required.')
   }
 
-  const store = new Store()
+  const store = Store() as any
   store.table = table
   // fix https://github.com/ElemeFE/element/issues/14075
   // related pr https://github.com/ElemeFE/element/pull/14146
@@ -23,11 +23,11 @@ export function mapStates(mapper) {
     const value = mapper[key]
     let fn
     if (typeof value === 'string') {
-      fn = function () {
+      fn = function() {
         return this.store.states[value]
       }
     } else if (typeof value === 'function') {
-      fn = function () {
+      fn = function() {
         return value.call(this, this.store.states)
       }
     } else {
