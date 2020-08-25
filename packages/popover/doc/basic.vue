@@ -31,6 +31,18 @@
         <el-button>focus 激活</el-button>
       </template>
     </el-popover>
+    <el-popover
+      v-model="visible"
+      placement="bottom"
+      title="标题"
+      width="200"
+      trigger="manual"
+      content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+    >
+      <template #reference>
+        <el-button @click="visible = !visible">手动激活</el-button>
+      </template>
+    </el-popover>
   </div>
 </template>
 
@@ -39,7 +51,11 @@ import { ref } from 'vue'
 
 export default {
   setup() {
-    return {}
+    const visible = ref(false)
+
+    return {
+      visible,
+    }
   },
 }
 </script>
