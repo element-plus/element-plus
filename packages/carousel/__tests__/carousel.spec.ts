@@ -169,11 +169,21 @@ describe('Carousel', () => {
         const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
         wrapper.findAll('.el-carousel__indicator')[2].trigger('click')
         setTimeout(() => {
-          expect(items[2].classList.contains('is-active')).toBeTruthy()
+          expect(
+            wrapper
+              .findAll('.el-carousel__item')[2]
+              .classes()
+              .includes('is-active'),
+          ).toBeTruthy()
           wrapper.find('.el-carousel__arrow--right').trigger('mouseenter')
           wrapper.find('.el-carousel__arrow--right').trigger('click')
           setTimeout(() => {
-            expect(items[0].classList.contains('is-active')).toBeTruthy()
+            expect(
+              wrapper
+                .findAll('.el-carousel__item')[0]
+                .classes()
+                .includes('is-active'),
+            ).toBeTruthy()
             done()
           }, 10)
         }, 10)
@@ -217,7 +227,12 @@ describe('Carousel', () => {
         wrapper.vm.$refs.carousel.prev(1)
         const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
         setTimeout(() => {
-          expect(items[2].classList.contains('is-active')).toBeTruthy()
+          expect(
+            wrapper
+              .findAll('.el-carousel__item')[2]
+              .classes()
+              .includes('is-active'),
+          ).toBeTruthy()
           wrapper.vm.$refs.carousel.next(1)
           setTimeout(() => {
             expect(items[0].classList.contains('is-active')).toBeTruthy()
