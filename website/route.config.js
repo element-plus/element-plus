@@ -129,12 +129,6 @@ langs.forEach(lang => {
   route = route.concat(generateMiscRoutes(lang.lang))
 })
 
-route.push({
-  path: '/play',
-  name: 'play',
-  component: require('./play/index.vue'),
-})
-
 let userLanguage = localStorage.getItem('ELEMENT_LANGUAGE') || window.navigator.language || 'en-US'
 let defaultPath = '/en-US'
 if (userLanguage.indexOf('zh-') !== -1) {

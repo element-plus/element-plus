@@ -25,6 +25,8 @@ import ElSteps from '@element-plus/steps'
 import ElCollapse from '@element-plus/collapse'
 import ElPopper from '@element-plus/popper'
 import ELSlider from '@element-plus/slider'
+import ElTabs from '@element-plus/tabs'
+
 
 export {
   ElAlert,
@@ -52,6 +54,7 @@ export {
   ElRadio,
   ElCollapse,
   ELSlider,
+  ElTabs,
 }
 
 export default function install(app: App): void {
@@ -81,4 +84,5 @@ export default function install(app: App): void {
   ElCollapse(app)
   ElPopper(app)
   ELSlider(app)
+  ElTabs(app)
 }
