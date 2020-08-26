@@ -33,6 +33,7 @@
     "algoliasearch": "^4.4.0",
     "babel-loader": "^8.1.0",
     "babel-preset-vue": "^2.0.2",
+    "cross-env": "^7.0.2",
     "css-loader": "^4.2.1",
     "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.5.0",
@@ -63,8 +64,7 @@
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "cross-env": "^7.0.2"
+    "webpack-dev-server": "^3.11.0"
   },
   "config": {
     "commitizen": {

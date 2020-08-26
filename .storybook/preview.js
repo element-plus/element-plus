@@ -1,7 +1,7 @@
 import { addDecorator } from '@storybook/html'
 import { createApp } from 'vue'
-import '../src/style/element-ui@2.13.2.css'
-// import '../packages/theme-chalk/src/index.scss'
+// import '../src/style/element-ui@2.13.2.css'
+import '../packages/theme-chalk/src/index.scss'
 import install from '../packages/element-plus'
 import './demo.css'
 
