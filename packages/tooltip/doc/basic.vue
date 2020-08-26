@@ -16,6 +16,7 @@
         effect="dark"
         content="Top Center prompts info"
         placement="top"
+        :trigger="['click', 'hover']"
       >
         <el-button>top</el-button>
       </el-tooltip>
@@ -24,6 +25,7 @@
         effect="dark"
         content="Top Right prompts info"
         placement="top-end"
+        :trigger="['click']"
       >
         <el-button>top-end</el-button>
       </el-tooltip>

@@ -14,7 +14,7 @@ import throwError from '@element-plus/utils/error'
 import { ClickOutside } from '@element-plus/directives'
 import { default as usePopper, DEFAULT_TRIGGER, UPDATE_VALUE_EVENT } from './usePopper'
 
-import type { PropType } from 'vue'
+import type { PropType, SetupContext } from 'vue'
 
 import type {
   Effect,
@@ -153,31 +153,7 @@ export default defineComponent({
     // this is a reference that we need to pass down to child component
     // to obtain the child instance
 
-    const {
-      arrowRef,
-      clickMask,
-      doDestroy,
-      onShow,
-      onHide,
-      popperInstance,
-      popperId,
-      popperRef,
-      initializePopper,
-      visible,
-    } = usePopper(props as IPopperOptions, ctx)
-
-    return {
-      arrowRef,
-      clickMask,
-      popperId,
-      doDestroy,
-      onShow,
-      onHide,
-      popperRef,
-      popperInstance,
-      initializePopper,
-      visible,
-    }
+    return usePopper(props as IPopperOptions, ctx as SetupContext)
   },
   deactivated() {
     this.doDestroy()
@@ -186,6 +162,7 @@ export default defineComponent({
     this.initializePopper()
   },
   render() {
+    const { $slots } = this
     const arrow = this.showArrow
       ? h(
         'div',
@@ -225,7 +202,7 @@ export default defineComponent({
                 onClick: stop,
               },
               [
-                this.$slots.default ? this.$slots.default() : this.content,
+                $slots.default ? $slots.default() : this.content,
                 arrow,
               ],
             ),
@@ -235,11 +212,13 @@ export default defineComponent({
           ),
       },
     )
+
+    const _t = $slots.trigger?.()
     return h(
       Fragment,
       null,
       [
-        this.$slots.trigger?.(),
+        _t,
         this.appendToBody
           ? h(
             Teleport,
@@ -255,7 +234,7 @@ export default defineComponent({
                 },
                 popper,
               ),
-              [[ClickOutside, () => this.$emit(UPDATE_VALUE_EVENT, false)]],
+              [[ClickOutside, this.onHide, [this.excludes] as any]],
             ),
           )
           : popper,
@@ -266,18 +245,6 @@ export default defineComponent({
 </script>
 
 <style>
-
-.el-popper__mask {
-  font-size: 14px;
-  font-weight: 400;
-  position: fixed;
-  z-index: 1000000;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
-  visibility: hidden;
-}
 .el-popper {
   position: absolute;
   border-radius: 4px;

@@ -3,7 +3,7 @@ import { on } from '@element-plus/utils/dom'
 
 import type { DirectiveBinding, ObjectDirective, ComponentPublicInstance } from 'vue'
 
-type DocumentHandler = <T extends Event>(mouseup: T, mousedown: T) => void;
+type DocumentHandler = <T extends MouseEvent>(mouseup: T, mousedown: T) => void;
 
 type FlushList = Map<
   HTMLElement,
@@ -15,11 +15,11 @@ type FlushList = Map<
 
 const nodeList: FlushList = new Map()
 
-let startClick: Event
+let startClick: MouseEvent
 
 if (!isServer) {
-  on(document, 'mousedown', e => (startClick = e))
-  on(document, 'mouseup', e => {
+  on(document, 'mousedown', (e: MouseEvent) => (startClick = e))
+  on(document, 'mouseup', (e: MouseEvent) => {
     for (const { documentHandler } of nodeList.values()) {
       documentHandler(e, startClick)
     }
@@ -30,21 +30,44 @@ function createDocumentHandler(
   el: HTMLElement,
   binding: DirectiveBinding,
 ): DocumentHandler {
+  let excludes: HTMLElement[] = []
+  if (Array.isArray(binding.arg)) {
+    excludes = binding.arg
+  } else {
+    // due to current implementation on binding type is wrong the type casting is necessary here
+    excludes.push(binding.arg as unknown as HTMLElement)
+  }
   return function(mouseup, mousedown) {
     const popperRef = (binding.instance as ComponentPublicInstance<{
       popperRef: Nullable<HTMLElement>
     }>).popperRef
+    const mouseUpTarget = mouseup.target as Node
+    const mouseDownTarget = mousedown.target as Node
+    const isBound = !binding || !binding.instance
+    const isTargetExists = !mouseUpTarget || !mouseDownTarget
+    const isContainedByEl = el.contains(mouseUpTarget) || el.contains(mouseDownTarget)
+    const isSelf = el === mouseUpTarget
+    console.log(excludes[0], mouseUpTarget)
+    const isTargetExcluded =
+      ( excludes.length &&
+        excludes.some(item => item?.contains(mouseUpTarget))
+      ) || (
+        excludes.length && excludes.includes(mouseDownTarget as HTMLElement)
+      )
+    const isContainedByPopper = (
+      popperRef &&
+      (
+        popperRef.contains(mouseUpTarget) ||
+          popperRef.contains(mouseDownTarget)
+      )
+    )
     if (
-      !binding ||
-      !binding.instance ||
-      !mouseup.target ||
-      !mousedown.target ||
-      el.contains(mouseup.target as Node) ||
-      el.contains(mousedown.target as Node) ||
-      el === mouseup.target ||
-      (popperRef &&
-        (popperRef.contains(mouseup.target as Node) ||
-          popperRef.contains(mousedown.target as Node)))
+      isBound ||
+      isTargetExists ||
+      isContainedByEl ||
+      isSelf ||
+      isTargetExcluded ||
+      isContainedByPopper
     ) {
       return
     }
