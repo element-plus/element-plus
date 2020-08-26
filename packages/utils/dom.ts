@@ -1,19 +1,9 @@
 import isServer from './isServer'
-
-const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g
-const MOZ_HACK_REGEXP = /^moz([A-Z])/
+import { camelize } from './util'
 
 /* istanbul ignore next */
 const trim = function(s: string) {
   return (s || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
-}
-/* istanbul ignore next */
-const camelCase = function(name: string) {
-  return name
-    .replace(SPECIAL_CHARS_REGEXP, function(_, __, letter, offset) {
-      return offset ? letter.toUpperCase() : letter
-    })
-    .replace(MOZ_HACK_REGEXP, 'Moz$1')
 }
 
 /* istanbul ignore next */
@@ -110,7 +100,7 @@ export function removeClass(el: HTMLElement, cls: string): void {
 /* istanbul ignore next */
 // Here I want to use the type CSSStyleDeclaration, but the definition for CSSStyleDeclaration
 // has { [index: number]: string } in its type annotation, which does not satisfy the method
-// camelCase(s: string)
+// camelize(s: string)
 // Same as the return type
 export const getStyle = function(
   element: HTMLElement,
@@ -118,7 +108,7 @@ export const getStyle = function(
 ): string {
   if (isServer) return
   if (!element || !styleName) return null
-  styleName = camelCase(styleName)
+  styleName = camelize(styleName)
   if (styleName === 'float') {
     styleName = 'cssFloat'
   }
@@ -145,7 +135,7 @@ export function setStyle(
       }
     }
   } else {
-    styleName = camelCase(styleName)
+    styleName = camelize(styleName)
 
     element.style[styleName] = value
   }
