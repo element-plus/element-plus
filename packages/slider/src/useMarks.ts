@@ -1,9 +1,9 @@
-import { computed, ComputedRef } from 'vue'
-import { ISliderProps, Mark, Marks } from './Slider'
+import { computed } from 'vue'
+import { ISliderProps, Mark } from './Slider'
 
 
-export const useMarks = (props: ISliderProps):Marks => {
-  const markList:ComputedRef<Mark[]> = computed(() => {
+export const useMarks = (props: ISliderProps) => {
+  return computed(() => {
     if (!props.marks) {
       return []
     }
@@ -12,13 +12,10 @@ export const useMarks = (props: ISliderProps):Marks => {
     return marksKeys.map(parseFloat)
       .sort((a, b) => a - b)
       .filter(point => point <= props.max && point >= props.min)
-      .map(point => ({
+      .map((point): Mark => ({
         point,
         position: (point - props.min) * 100 / (props.max - props.min),
         mark: props.marks[point],
       }))
   })
-  return {
-    markList,
-  }
 }

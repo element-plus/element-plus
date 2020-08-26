@@ -39,7 +39,7 @@ import {
   toRefs,
 } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
-import { ISliderButtonProps } from './Slider'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useSliderButton } from './useSliderButton'
 
 export default defineComponent({
@@ -64,9 +64,9 @@ export default defineComponent({
     },
   },
 
-  emits: ['update:modelValue'],
+  emits: [UPDATE_MODEL_EVENT],
 
-  setup(props:ISliderButtonProps, { emit }) {
+  setup(props, { emit }) {
 
     const initData = reactive({
       hovering: false,
@@ -77,7 +77,7 @@ export default defineComponent({
       startY: 0,
       currentY: 0,
       startPosition: 0,
-      newPosition: null as Nullable<0>,
+      newPosition: 0,
       oldValue: props.modelValue,
     })
 

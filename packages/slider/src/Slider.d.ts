@@ -11,13 +11,13 @@ export interface ISliderProps {
   inputSize: string
   showStops: boolean
   showTooltip: boolean
-  formatTooltip: (val:number) => number|string
+  formatTooltip: (val: number) => number | string
   disabled: boolean
   range: boolean
   vertical: boolean
   height: string
   debounce: number
-  label:string
+  label: string
   tooltipClass: string
   marks: Record<number, any>
 }
@@ -38,45 +38,47 @@ export interface ISliderProvider{
   showTooltip: ComputedRef<boolean>
   precision: ComputedRef<number>
   sliderSize: ComputedRef<number>
-  formatTooltip: (value:number) => number|string
+  formatTooltip: (value: number) => number | string
   emitChange: () => void
   resetSize: () => void
-  updateDragging: (val:boolean) => void
+  updateDragging: (val: boolean) => void
 }
 
 export type Mark = {
   point: number
   position: number
-  mark: {[s:string]: any;}
+  mark: {[s: string]: any;}
 }
 
-export type Marks = {
-  markList: ComputedRef<Mark[]>
-}
+export type Marks = ComputedRef<Mark[]>
 
 export type Stops = {
   stops: ComputedRef<number[]>
-  getStopStyle: (position: number) => { bottom?: string; left?: string;}
+  getStopStyle: (position: number) => CSSStyleDeclaration
 }
 
 export type Slide = {
-  slider:Ref<HTMLHtmlElement>
-  button1:Ref<ISliderButton>
-  button2:Ref<ISliderButton>
-  sliderDisabled:ComputedRef<boolean>
-  minValue:ComputedRef<number>
-  maxValue:ComputedRef<number>
-  runwayStyle:ComputedRef<Record<string, any>>
-  barStyle:ComputedRef<Record<string, any>>
-  resetSize:() => void
-  setPosition:(percent: number) => void
-  emitChange:() => void
-  onSliderClick:(event:MouseEvent) => void
+  slider: Ref<HTMLElement>
+  firstButton: Ref<ISliderButton>
+  secondButton: Ref<ISliderButton>
+  sliderDisabled: ComputedRef<boolean>
+  minValue: ComputedRef<number>
+  maxValue: ComputedRef<number>
+  runwayStyle: ComputedRef<CSSStyleDeclaration>
+  barStyle: ComputedRef<CSSStyleDeclaration >
+  resetSize: () => void
+  setPosition: (percent: number) => void
+  emitChange: () => void
+  onSliderClick: (event: MouseEvent) => void
+}
+
+export type ButtonRefs = {
+  [s in 'firstButton' | 'secondButton']: Ref<Nullable<ISliderButton>>
 }
 
 export interface ISliderButtonProps {
   modelValue: number
-  vertical:boolean
+  vertical: boolean
   tooltipClass:string
 }
 
@@ -89,20 +91,20 @@ export interface ISliderButtonInitData {
   startY: number
   currentY: number
   startPosition: number
-  newPosition: Nullable<number>
+  newPosition: number
   oldValue: number
 }
 
 export interface ISliderButton {
-  tooltip: Ref<Nullable<HTMLHtmlElement>>
+  tooltip: Ref<Nullable<HTMLElement>>
   tooltipVisible: Ref<boolean>
   showTooltip: Ref<boolean>
-  wrapperStyle:ComputedRef<Record<string, any>>
-  formatValue:ComputedRef<number|string>
+  wrapperStyle: ComputedRef<CSSStyleDeclaration>
+  formatValue: ComputedRef<number | string>
   handleMouseEnter: () => void
   handleMouseLeave: () => void
-  onButtonDown: (event:MouseEvent|TouchEvent) => void
+  onButtonDown: (event: MouseEvent | TouchEvent) => void
   onLeftKeyDown: () => void
   onRightKeyDown: () => void
-  setPosition: (newPosition:number) => void
+  setPosition: (newPosition: number) => void
 }

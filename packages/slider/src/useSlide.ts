@@ -1,22 +1,22 @@
-import { computed, inject, nextTick, ref,Ref, ComputedRef } from 'vue'
-import { ISliderButton, ISliderInitData, ISliderProps, Slide } from './Slider'
+import { computed, inject, nextTick, ref } from 'vue'
+import { ISliderInitData, ISliderProps, ButtonRefs } from './Slider'
 
-export const useSlide = (props:ISliderProps, initData: ISliderInitData, emit):Slide => {
-  const elForm:{ disabled?: boolean;} = inject('elForm', {})
+export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) => {
+  const elForm: { disabled?: boolean;} = inject('elForm', {})
 
-  const slider = ref(null)
+  const slider = ref<Nullable<HTMLElement>>(null)
 
-  const button1 = ref(null)
+  const firstButton = ref(null)
 
-  const button2 = ref(null)
+  const secondButton = ref(null)
 
-  const buttonRefs:{[s:string]:Ref<ISliderButton>;} = {
-    button1,
-    button2,
+  const buttonRefs: ButtonRefs = {
+    firstButton,
+    secondButton,
   }
 
   const sliderDisabled = computed(() => {
-    return props.disabled || ((elForm || {}).disabled || false)
+    return props.disabled || (elForm?.disabled || false)
   })
 
   const minValue = computed(() => {
@@ -27,31 +27,31 @@ export const useSlide = (props:ISliderProps, initData: ISliderInitData, emit):Sl
     return Math.max(initData.firstValue, initData.secondValue)
   })
 
-  const barSize:ComputedRef<string> = computed(() => {
+  const barSize = computed(() => {
     return props.range
       ? `${ 100 * (maxValue.value - minValue.value) / (props.max - props.min) }%`
       : `${ 100 * (initData.firstValue - props.min) / (props.max - props.min) }%`
   })
 
-  const barStart:ComputedRef<string> = computed(() => {
+  const barStart = computed(() => {
     return props.range
       ? `${ 100 * (minValue.value - props.min) / (props.max - props.min) }%`
       : '0%'
   })
 
   const runwayStyle = computed(() => {
-    return props.vertical ? { height: props.height } : {}
+    return (props.vertical ? { height: props.height } : {}) as CSSStyleDeclaration
   })
 
   const barStyle = computed(() => {
-    return props.vertical
+    return (props.vertical
       ? {
         height: barSize.value,
         bottom: barStart.value,
       } : {
         width: barSize.value,
         left: barStart.value,
-      }
+      }) as CSSStyleDeclaration
   })
 
   const resetSize = () => {
@@ -60,28 +60,27 @@ export const useSlide = (props:ISliderProps, initData: ISliderInitData, emit):Sl
     }
   }
 
-  const setPosition = (percent:number) => {
+  const setPosition = (percent: number) => {
     const targetValue = props.min + percent * (props.max - props.min) / 100
     if (!props.range) {
-      button1.value.setPosition(percent)
+      firstButton.value.setPosition(percent)
       return
     }
-    let buttonRefName:string
+    let buttonRefName: string
     if (Math.abs(minValue.value - targetValue) < Math.abs(maxValue.value - targetValue)) {
-      buttonRefName = initData.firstValue < initData.secondValue ? 'button1' : 'button2'
+      buttonRefName = initData.firstValue < initData.secondValue ? 'firstButton' : 'secondButton'
     } else {
-      buttonRefName = initData.firstValue > initData.secondValue ? 'button1' : 'button2'
+      buttonRefName = initData.firstValue > initData.secondValue ? 'firstButton' : 'secondButton'
     }
     buttonRefs[buttonRefName].value.setPosition(percent)
   }
 
-  const emitChange = () => {
-    nextTick().then(() => {
-      emit('change', props.range ? [minValue.value, maxValue.value] : props.modelValue)
-    })
+  const emitChange = async () => {
+    await nextTick()
+    emit('change', props.range ? [minValue.value, maxValue.value] : props.modelValue)
   }
 
-  const onSliderClick = (event:MouseEvent) => {
+  const onSliderClick = (event: MouseEvent) => {
     if (sliderDisabled.value || initData.dragging) return
     resetSize()
     if (props.vertical) {
@@ -96,8 +95,8 @@ export const useSlide = (props:ISliderProps, initData: ISliderInitData, emit):Sl
 
   return {
     slider,
-    button1,
-    button2,
+    firstButton,
+    secondButton,
     sliderDisabled,
     minValue,
     maxValue,

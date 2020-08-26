@@ -36,14 +36,14 @@
       >
       </div>
       <slider-button
-        ref="button1"
+        ref="firstButton"
         v-model="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
       />
       <slider-button
         v-if="range"
-        ref="button2"
+        ref="secondButton"
         v-model="secondValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
@@ -92,7 +92,12 @@ import {
   onMounted,
   onBeforeUnmount,
   Ref,
+  PropType,
 } from 'vue'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { on, off } from '@element-plus/utils/dom'
+import throwError from '@element-plus/utils/error'
+// TODO: waiting for ElInputNumber component refactored
 // import ElInputNumber from '@element-plus/input-number'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
@@ -112,7 +117,7 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: [Number, Array],
+      type: [Number, Array] as PropType<number | number[]>,
       default: 0,
     },
     min: {
@@ -148,8 +153,8 @@ export default defineComponent({
       default: true,
     },
     formatTooltip: {
-      type: Function,
-      default: (value:number) => value,
+      type: Function as PropType<(val: number) => number | string>,
+      default: (value: number) => value,
     },
     disabled: {
       type: Boolean,
@@ -173,19 +178,19 @@ export default defineComponent({
     },
     label: {
       type: String,
-      default: () => undefined,
+      default: undefined,
     },
     tooltipClass: {
       type: String,
-      default: () => undefined,
+      default: undefined,
     },
     marks: {
-      type:Object,
+      type: Object,
       default: value => value,
     },
   },
 
-  emits: ['update:modelValue', 'change'],
+  emits: [UPDATE_MODEL_EVENT, 'change'],
 
   setup(props: ISliderProps, { emit }){
     const initData = reactive({
@@ -198,8 +203,8 @@ export default defineComponent({
 
     const {
       slider,
-      button1,
-      button2,
+      firstButton,
+      secondButton,
       sliderDisabled,
       minValue,
       maxValue,
@@ -215,9 +220,7 @@ export default defineComponent({
       getStopStyle,
     } = useStops(props, initData, minValue, maxValue)
 
-    const {
-      markList,
-    } = useMarks(props)
+    const markList = useMarks(props)
 
     useWatch(props, initData, minValue, maxValue, emit)
 
@@ -241,7 +244,7 @@ export default defineComponent({
       sliderSize,
     } = toRefs(initData)
 
-    const updateDragging = (val:boolean) => {
+    const updateDragging = (val: boolean) => {
       initData.dragging = val
     }
 
@@ -253,7 +256,7 @@ export default defineComponent({
       showTooltip: computed(() => props.showTooltip),
       precision: precision,
       sliderSize: computed(() => sliderSize.value),
-      formatTooltip: (val:number) => props.formatTooltip(val),
+      formatTooltip: val => props.formatTooltip(val),
       emitChange: emitChange,
       resetSize: resetSize,
       updateDragging: updateDragging,
@@ -267,8 +270,8 @@ export default defineComponent({
       sliderSize,
 
       slider,
-      button1,
-      button2,
+      firstButton,
+      secondButton,
       sliderDisabled,
       runwayStyle,
       barStyle,
@@ -286,6 +289,10 @@ export default defineComponent({
 
 const useWatch = (props, initData, minValue, maxValue, emit) => {
 
+  const _emit = (val: number | number[]) => {
+    emit(UPDATE_MODEL_EVENT, val)
+  }
+
   const valueChanged = () => {
     if (props.range) {
       return ![minValue.value, maxValue.value]
@@ -297,36 +304,36 @@ const useWatch = (props, initData, minValue, maxValue, emit) => {
 
   const setValues = () => {
     if (props.min > props.max) {
-      console.error('[Element Error][Slider]min should not be greater than max.')
+      throwError('Slider', 'min should not be greater than max.' )
       return
     }
     const val = props.modelValue
     if (props.range && Array.isArray(val)) {
       if (val[1] < props.min) {
-        emit('update:modelValue', [props.min, props.min])
+        _emit([props.min, props.min])
       } else if (val[0] > props.max) {
-        emit('update:modelValue', [props.max, props.max])
+        _emit([props.max, props.max])
       } else if (val[0] < props.min) {
-        emit('update:modelValue', [props.min, val[1]])
+        _emit([props.min, val[1]])
       } else if (val[1] > props.max) {
-        emit('update:modelValue', [val[0], props.max])
+        _emit([val[0], props.max])
       } else {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          emit('update:modelValue', [minValue.value, maxValue.value])
+          _emit([minValue.value, maxValue.value])
           initData.oldValue = val.slice()
         }
       }
     } else if (!props.range && typeof val === 'number' && !isNaN(val)) {
       if (val < props.min) {
-        emit('update:modelValue', props.min)
+        _emit(props.min)
       } else if (val > props.max) {
-        emit('update:modelValue', props.max)
+        _emit(props.max)
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          emit('update:modelValue', val)
+          _emit(val)
           initData.oldValue = val
         }
       }
@@ -341,41 +348,37 @@ const useWatch = (props, initData, minValue, maxValue, emit) => {
 
   watch(() => initData.firstValue, val => {
     if (props.range) {
-      emit('update:modelValue', [minValue.value, maxValue.value])
+      _emit([minValue.value, maxValue.value])
     } else {
-      emit('update:modelValue', val)
+      _emit(val)
     }
   })
 
   watch(() => initData.secondValue, () => {
     if (props.range) {
-      emit('update:modelValue', [minValue.value, maxValue.value])
+      _emit([minValue.value, maxValue.value])
     }
   })
 
   watch(() => props.modelValue, (val, oldVal) => {
-    if (initData.dragging ||
-      Array.isArray(val) &&
-      Array.isArray(oldVal) &&
-      val.every((item, index) => item === oldVal[index])) {
+    if (initData.dragging
+      || Array.isArray(val)
+      && Array.isArray(oldVal)
+      && val.every((item, index) => item === oldVal[index])) {
       return
     }
     setValues()
   })
 
-  watch(() => props.min, () => {
-    setValues()
-  })
-
-  watch(() => props.max, () => {
+  watch(() => [props.min, props.max], () => {
     setValues()
   })
 }
 
 const useLifecycle = (props, initData, resetSize) => {
-  const sliderWrapper:Ref<HTMLHtmlElement> = ref(null)
+  const sliderWrapper: Ref<Nullable<HTMLElement>> = ref(null)
 
-  onMounted(() => {
+  onMounted(async () => {
     let valuetext
     if (props.range) {
       if (Array.isArray(props.modelValue)) {
@@ -402,14 +405,14 @@ const useLifecycle = (props, initData, resetSize) => {
     // label screen reader
     sliderWrapper.value.setAttribute('aria-label', props.label ? props.label : `slider between ${props.min} and ${props.max}`)
 
-    nextTick().then(() => {
-      resetSize()
-    })
-    window.addEventListener('resize', resetSize)
+    on(window, 'resize', resetSize)
+
+    await nextTick()
+    resetSize()
   })
 
   onBeforeUnmount(() => {
-    window.removeEventListener('resize', resetSize)
+    off(window, 'resize', resetSize)
   })
 
   return {

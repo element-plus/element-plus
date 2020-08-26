@@ -1,7 +1,7 @@
 
 
 
-export const jestMock = (object:any, method: string, implementation:() => any, accessType?: 'get' | 'set') => {
+export const jestMock = (object: any, method: string, implementation: () => any, accessType?: 'get' | 'set') => {
   let mockSpy = null
   if(!accessType){
     mockSpy = jest.spyOn(object, method)

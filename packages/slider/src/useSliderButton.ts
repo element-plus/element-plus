@@ -1,20 +1,17 @@
-import { ISliderButton, ISliderButtonProps, ISliderProvider } from './Slider'
-import { computed, ComputedRef, inject, nextTick, ref, watch } from 'vue'
+import { computed, inject, nextTick, ref, watch, ComputedRef } from 'vue'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { on, off } from '@element-plus/utils/dom'
+import { ISliderButtonInitData, ISliderButtonProps, ISliderProvider } from './Slider'
 
 
-const useTooltip = (props:ISliderButtonProps, formatTooltip:(value:number) => number|string, showTooltip:ComputedRef<boolean>) => {
+const useTooltip = (props: ISliderButtonProps, formatTooltip: (value: number) => number | string, showTooltip: ComputedRef<boolean>) => {
 
-  // add type to tooltip after tooltip refactored
   const tooltip = ref(null)
 
   const tooltipVisible = ref(false)
 
-  const enableFormat = computed(() => {
-    return formatTooltip instanceof Function
-  })
-
   const formatValue = computed(() => {
-    return enableFormat.value && formatTooltip(props.modelValue) || props.modelValue
+    return formatTooltip(props.modelValue)
   })
 
   const displayTooltip = () => {
@@ -35,7 +32,7 @@ const useTooltip = (props:ISliderButtonProps, formatTooltip:(value:number) => nu
 }
 
 
-export const useSliderButton = (props, initData, emit):ISliderButton => {
+export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButtonInitData, emit) => {
   const {
     disabled,
     min,
@@ -48,7 +45,7 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
     emitChange,
     resetSize,
     updateDragging,
-  }:ISliderProvider = inject('SliderProvider')
+  } = inject<ISliderProvider>('SliderProvider')
 
   const {
     tooltip,
@@ -63,7 +60,7 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
   })
 
   const wrapperStyle = computed(() => {
-    return props.vertical ? { bottom: currentPosition.value } : { left: currentPosition.value }
+    return (props.vertical ? { bottom: currentPosition.value } : { left: currentPosition.value }) as CSSStyleDeclaration
   })
 
 
@@ -77,15 +74,15 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
     hideTooltip()
   }
 
-  const onButtonDown = (event:MouseEvent|TouchEvent) => {
+  const onButtonDown = (event: MouseEvent | TouchEvent) => {
     if (disabled.value) return
     event.preventDefault()
     onDragStart(event)
-    window.addEventListener('mousemove', onDragging)
-    window.addEventListener('touchmove', onDragging)
-    window.addEventListener('mouseup', onDragEnd)
-    window.addEventListener('touchend', onDragEnd)
-    window.addEventListener('contextmenu', onDragEnd)
+    on(window, 'mousemove', onDragging)
+    on(window, 'touchmove', onDragging)
+    on(window, 'mouseup', onDragEnd)
+    on(window, 'touchend', onDragEnd)
+    on(window, 'contextmenu', onDragEnd)
   }
 
   const onLeftKeyDown = () => {
@@ -102,9 +99,9 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
     emitChange()
   }
 
-  const getClientXY = (event:MouseEvent|TouchEvent) => {
-    let clientX:number
-    let clientY:number
+  const getClientXY = (event: MouseEvent | TouchEvent) => {
+    let clientX: number
+    let clientY: number
     if (event.type === 'touchstart') {
       clientY = (event as TouchEvent).touches[0].clientY
       clientX = (event as TouchEvent).touches[0].clientX
@@ -118,7 +115,7 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
     }
   }
 
-  const onDragStart = (event:MouseEvent|TouchEvent) => {
+  const onDragStart = (event: MouseEvent | TouchEvent) => {
     initData.dragging = true
     initData.isClick = true
     const {
@@ -134,7 +131,7 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
     initData.newPosition = initData.startPosition
   }
 
-  const onDragging = (event:MouseEvent|TouchEvent) => {
+  const onDragging = (event: MouseEvent | TouchEvent) => {
     if (initData.dragging) {
       initData.isClick = false
       displayTooltip()
@@ -170,15 +167,15 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
           emitChange()
         }
       }, 0)
-      window.removeEventListener('mousemove', onDragging)
-      window.removeEventListener('touchmove', onDragging)
-      window.removeEventListener('mouseup', onDragEnd)
-      window.removeEventListener('touchend', onDragEnd)
-      window.removeEventListener('contextmenu', onDragEnd)
+      off(window, 'mousemove', onDragging)
+      off(window, 'touchmove', onDragging)
+      off(window, 'mouseup', onDragEnd)
+      off(window, 'touchend', onDragEnd)
+      off(window, 'contextmenu', onDragEnd)
     }
   }
 
-  const setPosition = (newPosition:number) => {
+  const setPosition = async (newPosition: number) => {
     if (newPosition === null || isNaN(newPosition)) return
     if (newPosition < 0) {
       newPosition = 0
@@ -189,14 +186,15 @@ export const useSliderButton = (props, initData, emit):ISliderButton => {
     const steps = Math.round(newPosition / lengthPerStep)
     let value = steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
     value = parseFloat(value.toFixed(precision.value))
-    emit('update:modelValue', value)
-    nextTick().then(() => {
-      initData.dragging && displayTooltip()
-      tooltip.value && tooltip.value.popperInstance.update()
-    })
+    emit(UPDATE_MODEL_EVENT, value)
+
     if (!initData.dragging && props.modelValue !== initData.oldValue) {
       initData.oldValue = props.modelValue
     }
+
+    await nextTick()
+    initData.dragging && displayTooltip()
+    tooltip.value && tooltip.value.popperInstance.update()
   }
 
   watch(() => initData.dragging, val => {
