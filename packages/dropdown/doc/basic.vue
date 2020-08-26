@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <el-dropdown ref="c" placement="right">
+    <el-dropdown ref="c" placement="right" :hide-on-click="false">
       <span ref="a" class="el-dropdown-link">
         dropdown<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
@@ -139,9 +139,6 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 export default defineComponent({
-  mounted() {
-    console.log(this.$refs.c.$refs.popper.$refs.popperRef)
-  },
   methods: {
     handleClick() {
       alert('button click')
