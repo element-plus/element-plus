@@ -18,7 +18,7 @@ export const useDropdownDomEvent = (dropdownChildren, triggerElm, _instance) => 
   const menuItemsArray = ref(null)
   const dropdownElm = ref<Nullable<HTMLElement>>(null)
   const listId = ref(`dropdown-menu-${generateId()}`)
-  dropdownElm.value = dropdownChildren.subTree.el
+  dropdownElm.value = dropdownChildren?.subTree.el
 
   function removeTabindex() {
     triggerElm.setAttribute('tabindex', '-1')

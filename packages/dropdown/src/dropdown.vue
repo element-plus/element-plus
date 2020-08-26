@@ -8,6 +8,7 @@ import {
   computed,
   watch,
   onMounted,
+  VNode,
 } from 'vue'
 import ClickOutside from '@element-plus/directives/click-outside'
 import ElButton from '@element-plus/button/src/button.vue'
@@ -56,6 +57,10 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    effect: {
+      type: String,
+      default: 'light',
+    },
   },
   emits: ['visible-change', 'click', 'command'],
   setup(props, { emit, slots }) {
@@ -89,10 +94,11 @@ export default defineComponent({
       },
     )
 
-    const triggerElm = computed<Nullable<HTMLElement & { disabled: boolean; }>>(() =>
+    const triggerVnode = ref<Nullable<VNode>>(null)
+    const triggerElm = computed<Nullable<HTMLButtonElement>>(() =>
       !props.splitButton
-        ? _instance.subTree.el?.nextElementSibling
-        : dropdownVnode.el.querySelector('.el-dropdown__caret-button'),
+        ? triggerVnode.value?.el
+        : triggerVnode.value?.el.querySelector('.el-dropdown__caret-button'),
     )
 
     function handleClick() {
@@ -194,8 +200,8 @@ export default defineComponent({
       hide()
     }
 
-    const triggerVnode = !props.splitButton
-      ? slots.default?.()
+    triggerVnode.value = !props.splitButton
+      ? slots.default?.()[0] // trigger must be a single root element
       : h(ElButtonGroup, {}, {
         default: () => (
           [
@@ -204,7 +210,7 @@ export default defineComponent({
               size: dropdownSize.value,
               onClick: handlerMainButtonClick,
             }, {
-              default: () => slots.default?.(),
+              default: () => slots.default?.()[0],
             }),
             h(ElButton, {
               type: props.type,
@@ -216,17 +222,20 @@ export default defineComponent({
           ]
         ),
       })
+    slots.default?.().length > 1 && console.warn('trigger must be a single root element')
 
     const dropdownVnode = h('div', {
       class: 'el-dropdown',
-    }, [triggerVnode])
+    }, [triggerVnode.value])
 
     return () => h(ELPopper, {
+      ref: 'popper',
       placement: props.placement,
-      effect: 'light',
+      effect: props.effect,
       value: visible.value,
       manualMode: true,
       popperClass: 'el-dropdown-popper',
+      trigger: props.trigger,
     }, {
       default: () => slots.dropdown?.(),
       trigger: () => dropdownVnode,

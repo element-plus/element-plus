@@ -1,11 +1,11 @@
 <template>
   <div class="block">
-    <el-dropdown placement="right">
-      <span class="el-dropdown-link">
+    <el-dropdown ref="c" placement="right">
+      <span ref="a" class="el-dropdown-link">
         dropdown<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <template #dropdown>
-        <el-dropdown-menu>
+        <el-dropdown-menu ref="b">
           <el-dropdown-item>Apple</el-dropdown-item>
           <el-dropdown-item>Orange</el-dropdown-item>
           <el-dropdown-item>Cherry</el-dropdown-item>
@@ -139,6 +139,9 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 export default defineComponent({
+  mounted() {
+    console.log(this.$refs.c.$refs.popper.$refs.popperRef)
+  },
   methods: {
     handleClick() {
       alert('button click')
