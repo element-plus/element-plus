@@ -2,26 +2,19 @@ import { computed, Fragment, getCurrentInstance, ref, onMounted, onBeforeUnmount
 import { debounce } from 'lodash'
 import { createPopper } from '@popperjs/core'
 
-import { generateId } from '@element-plus/utils/util'
-import { addClass } from '@element-plus/utils/dom'
+import { generateId, clearTimer } from '@element-plus/utils/util'
+import { off, addClass } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
 
 import { default as useEvents } from '@element-plus/hooks/use-events'
 
 import useModifier from './useModifier'
 
-import type { Ref } from 'vue'
+import type { SetupContext } from '@vue/runtime-core'
 import type { IPopperOptions, RefElement, PopperInstance } from './popper'
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VALUE_EVENT = 'updateValue'
-
-const clearTimer = (timer: Ref<Nullable<NodeJS.Timeout>>) => {
-  if (timer.value) {
-    clearTimeout(timer.value)
-  }
-  timer.value = null
-}
 
 const getTrigger = () => {
   const { subTree: { children } } = getCurrentInstance()

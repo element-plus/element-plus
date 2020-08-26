@@ -1,8 +1,10 @@
 import isServer from './isServer'
+
 import { isObject, capitalize, hyphenate, looseEqual, extend, camelize } from '@vue/shared'
 import { isEmpty, castArray, isEqual } from 'lodash'
 
 import type { AnyFunction } from './types'
+import type { Ref } from 'vue'
 
 const { hasOwnProperty } = Object.prototype
 
@@ -126,6 +128,11 @@ export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void
 }
 
 export const objToArray = castArray
+
+export const clearTimer = (timer: Ref<Nullable<NodeJS.Timeout>>) => {
+  clearTimeout(timer.value)
+  timer.value = null
+}
 
 /**
  * Generating a random int in range (0, max - 1)

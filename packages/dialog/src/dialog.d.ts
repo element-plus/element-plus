@@ -1,6 +1,13 @@
 export interface UseDialogProps {
+  beforeClose?: (close: (shouldCancel: boolean) => void) => void
+  closeOnClickModal: boolean
+  closeDelay: number
+  destroyOnClose: boolean
   fullscreen: boolean
+  lockScroll: boolean
+  modelValue: boolean
+  openDelay: number
   top: string
-  visible: boolean
   width: string
+  zIndex: number
 }

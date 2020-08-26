@@ -1,8 +1,8 @@
 <script lang='ts'>
-import { defineComponent, Transition, Teleport, h } from 'vue'
+import { defineComponent, Transition, Teleport, h, withDirectives, vShow } from 'vue'
 
-import { NOOP } from '@vue/shared'
 import ElOverlay from '@element-plus/overlay'
+import { default as useDialog, CLOSE_EVENT, CLOSED_EVENT, OPEN_EVENT, OPENED_EVENT, UPDATE_MODEL_EVENT } from './useDialog'
 
 import type { PropType } from 'vue'
 
@@ -15,7 +15,9 @@ export default defineComponent({
     },
     beforeClose: {
       type: Function as PropType<(...args: any[]) => unknown>,
-      default: NOOP,
+      validator: val => {
+        return typeof val === 'function'
+      },
     },
     destroyOnClose: {
       type: Boolean,
@@ -60,9 +62,9 @@ export default defineComponent({
       type: String,
       default: '15vh',
     },
-    visible: {
+    modelValue: {
       type: Boolean,
-      default: false,
+      required: true,
     },
     width: {
       type: String,
@@ -70,13 +72,16 @@ export default defineComponent({
       validator: (val: string) => ['px', 'rem', 'em', 'vw', '%'].some(unit => val.endsWith(unit)),
     },
   },
-  emits: [],
-  setup(props) {
+  emits: [OPEN_EVENT, OPENED_EVENT, CLOSE_EVENT, CLOSED_EVENT, UPDATE_MODEL_EVENT],
+  setup(props, ctx) {
     // init here
+    return useDialog(props, ctx)
   },
 
   render() {
-
+    if (this.destroyOnClose && !this.modelValue) {
+      return null
+    }
     const { $slots } = this
     const closeBtn = this.showClose
       ? h(
@@ -85,9 +90,9 @@ export default defineComponent({
           type: 'button',
           class: 'el-dialog__headerbtn',
           ariaLabel: 'close',
-          onClose: this.handleClose,
+          onClick: this.handleClose,
         },
-        h('i', { class: 'el-dialog__close el-icon el-icon-close' })
+        h('i', { class: 'el-dialog__close el-icon el-icon-close' }),
       )
       : null
     const header = h(
@@ -113,34 +118,34 @@ export default defineComponent({
       ? h('div', { class: 'el-dialog__footer' }, $slots.footer())
       : null
 
-    const dialog = this.rendered
-      ? h(
-        'div',
-        {
-          ariaModal: true,
-          ariaLabel: this.title || 'dialog',
-          class: ['el-dialog', { 'is-fullscreen': this.fullscreen, 'el-dialog--center': this.center }, this.customClass],
-          ref: 'dialog',
-          role: 'dialog',
-          style: this.style,
-        },
-        [
-          header,
-          body,
-          footer,
-        ],
-      )
-      : null
-    const overlay = () => h(
-      ElOverlay,
+    const dialog = h(
+      'div',
       {
-        mask: this.modal,
-        onClick: this.onModalClicked,
+        ariaModal: true,
+        ariaLabel: this.title || 'dialog',
+        class: ['el-dialog', { 'is-fullscreen': this.fullscreen, 'el-dialog--center': this.center }, this.customClass],
+        ref: 'dialogRef',
+        role: 'dialog',
+        style: this.style,
       },
-      {
-        default: () => dialog,
-      },
+      [
+        header,
+        body,
+        footer,
+      ],
     )
+    const overlay = withDirectives(
+      h(
+        ElOverlay,
+        {
+          mask: this.modal,
+          onClick: this.onModalClick,
+          zIndex: this.zIndex,
+        },
+        {
+          default: () => dialog,
+        },
+      ), [[vShow, this.visible]])
 
     const renderer = h(
       Transition,
@@ -150,15 +155,7 @@ export default defineComponent({
         onAfterLeave: this.afterLeave,
       },
       {
-        default: () => h(
-          ElOverlay,
-          {
-
-          },
-          {
-            default: () => dialog,
-          },
-        ),
+        default: () => overlay,
       },
     )
     if (this.appendToBody) {
@@ -174,5 +171,60 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
+<style>
+
+.dialog-fade-enter-active {
+  -webkit-animation: modal-fade-in 0.3s !important;
+  animation: modal-fade-in 0.3s !important;
+}
+.dialog-fade-leave-active {
+  -webkit-animation: modal-fade-out 0.3s !important;
+  animation: modal-fade-out 0.3s !important;
+}
+
+.dialog-fade-enter-active .el-dialog {
+  -webkit-animation: dialog-fade-in 0.3s;
+  animation: dialog-fade-in 0.3s;
+}
+.dialog-fade-leave-active .el-dialog {
+  -webkit-animation: dialog-fade-out 0.3s;
+  animation: dialog-fade-out 0.3s;
+}
+
+@-webkit-keyframes modal-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes modal-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes modal-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes modal-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 </style>

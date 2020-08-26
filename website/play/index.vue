@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-button>{{ value1 }}</el-button>
+    <el-button @click="visible = true">{{ value1 }}</el-button>
+    <el-dialog v-model="visible" :destroy-on-close="false">
+      dialog content
+    </el-dialog>
   </div>
 </template>
 
@@ -9,6 +12,7 @@ export default {
   data() {
     return {
       value1: 'TEST',
+      visible: false,
     }
   },
 }
