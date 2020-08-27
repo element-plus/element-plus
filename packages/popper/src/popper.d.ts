@@ -30,4 +30,5 @@ export type IPopperOptions = {
   strategy: PositioningStrategy
   tabIndex: string
   value: boolean
+  trigger: TriggerType
 }

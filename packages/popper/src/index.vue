@@ -134,7 +134,7 @@ export default defineComponent({
     },
     trigger: {
       type: [String, Array] as PropType<TriggerType | Array<TriggerType>>,
-      default: DEFAULT_TRIGGER,
+      default: 'hover',
     },
     tabIndex: {
       type: String,

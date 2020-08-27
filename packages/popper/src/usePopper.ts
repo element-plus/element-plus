@@ -13,6 +13,7 @@ import useModifier from './useModifier'
 import type { Ref } from 'vue'
 import type { SetupContext } from '@vue/runtime-core'
 import type { IPopperOptions, RefElement, PopperInstance } from './popper'
+import { eventKeys } from '@element-plus/utils/aria'
 
 export const DEFAULT_TRIGGER = ['click', 'hover', 'focus', 'contextMenu']
 export const UPDATE_VALUE_EVENT = 'updateValue'
@@ -119,6 +120,14 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
     closePopper()
   }
 
+  function onToggle() {
+    show.value ? onShow() : onHide()
+  }
+
+  function onKeydown(e: KeyboardEvent) {
+    if (e.keyCode === eventKeys.esc && !props.manualMode) onHide()
+  }
+
   function setExpectionState(state: boolean) {
     if (!state) {
       clearTimer(timeoutPending)
@@ -147,22 +156,58 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
 
     const events = [
       {
-        name: 'mouseenter',
-        handler: onShow,
-      },
-      {
-        name: 'mouseleave',
-        handler: onHide,
-      },
-      {
-        name: 'focus',
-        handler: onShow,
-      },
-      {
-        name: 'blur',
-        handler: onHide,
+        name: 'keydown',
+        handler: onKeydown,
       },
     ]
+
+    switch (props.trigger) {
+      case 'click':
+        events.push({
+          name: 'click',
+          handler: onToggle,
+        })
+        break
+      case 'focus':
+        if (trigger.value.querySelector('input, textarea')) {
+          events.push(
+            {
+              name: 'focus',
+              handler: onShow,
+            },
+            {
+              name: 'blur',
+              handler: onHide,
+            },
+          )
+        } else {
+          events.push(
+            {
+              name: 'mousedown',
+              handler: onShow,
+            },
+            {
+              name: 'mouseup',
+              handler: onHide,
+            },
+          )
+        }
+        break
+      case 'hover':
+      default:
+        events.push(
+          {
+            name: 'mouseenter',
+            handler: onShow,
+          },
+          {
+            name: 'mouseleave',
+            handler: onHide,
+          },
+        )
+        break
+    }
+
     useEvents(trigger, events)
   }
 
