@@ -13,4 +13,4 @@ type BiArgEmitter<T, Keys extends keyof T> = <K extends Keys>(evt: K, arg: T[K])
 export type EventEmitter<T extends Record<string, unknown>> =
   MonoArgEmitter<T, OptionalKeys<T>> & BiArgEmitter<T, RequiredKeys<T>>
 
-type A = Required<Record<string, unknown>>
+export type AnyFunction<T> = (...args: any[]) => T

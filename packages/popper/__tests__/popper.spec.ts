@@ -80,16 +80,17 @@ describe('Popper.vue', () => {
   })
 
   test('append to body', () => {
-    const { appendChild } = document.body
-    document.body.appendChild = jest.fn(child => {
-      return appendChild.call(document.body, child)
-    })
-
     let wrapper = _mount()
-    expect(wrapper.find('[role="tooltip"]').exists()).toBe(false)
-    expect(document.body.appendChild).toHaveBeenCalled()
+    const selector = '[role="tooltip"]'
+    expect(wrapper.find(selector).exists()).toBe(false)
+    /**
+     * Current layout of `ElPopper`
+     *  --> Teleport
+     *   --> mask
+     *    --> transition
+     *     --> popper
+     */
 
-    document.body.appendChild = appendChild
     wrapper = _mount({
       appendToBody: false,
     })

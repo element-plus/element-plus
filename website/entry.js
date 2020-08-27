@@ -16,7 +16,8 @@ import icon from './icon.json'
 
 import App from './app.vue'
 import install from 'element-plus'
-// import '../src/style/element-ui@2.13.2.css'
+if(process.env.NODE_ENV === 'development') require('../src/style/element-ui@2.13.2.css')
+
 
 const app = createApp(App)
 
