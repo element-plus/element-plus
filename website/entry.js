@@ -16,7 +16,8 @@ import icon from './icon.json'
 
 import App from './app.vue'
 import install from 'element-plus'
-// import '../src/style/element-ui@2.13.2.css'
+if(process.env.NODE_ENV === 'development') require('../src/style/element-ui@2.13.2.css')
+
 
 const app = createApp(App)
 
@@ -28,7 +29,7 @@ app.mixin({
   computed: {
     $isEle: {
       get: () => (globalEle.data.$isEle),
-      set: (data) => {globalEle.data.$isEle = data},
+      set: data => {globalEle.data.$isEle = data},
     },
   },
 })

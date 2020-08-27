@@ -1,5 +1,10 @@
 import { defineComponent, computed, inject, h } from 'vue'
+import type { PropType } from 'vue'
 
+type SizeObject = {
+  span: number
+  offset: number
+}
 const ElCol = defineComponent({
   name: 'ElCol',
   props: {
@@ -7,14 +12,38 @@ const ElCol = defineComponent({
       type: Number,
       default: 24,
     },
-    offset: Number,
-    pull: Number,
-    push: Number,
-    xs: [Number, Object],
-    sm: [Number, Object],
-    md: [Number, Object],
-    lg: [Number, Object],
-    xl: [Number, Object],
+    offset: {
+      type: Number,
+      default: 0,
+    },
+    pull: {
+      type: Number,
+      default: 0,
+    },
+    push:{
+      type:  Number,
+      default: 0,
+    },
+    xs: {
+      type: [Number, Object] as PropType<number | SizeObject>,
+      default: () => ({} as SizeObject),
+    },
+    sm: {
+      type: [Number, Object] as PropType<number | SizeObject>,
+      default: () => ({} as SizeObject),
+    },
+    md: {
+      type: [Number, Object] as PropType<number | SizeObject>,
+      default: () => ({} as SizeObject),
+    },
+    lg: {
+      type: [Number, Object] as PropType<number | SizeObject>,
+      default: () => ({} as SizeObject),
+    },
+    xl: {
+      type: [Number, Object] as PropType<number | SizeObject>,
+      default: () => ({} as SizeObject),
+    },
   },
   setup(props, { slots }) {
     const gutter = inject('ElRow', 0)
@@ -30,14 +59,14 @@ const ElCol = defineComponent({
     })
     const classList = computed(() => {
       const ret: string[] = []
-      const pos: ['span', 'offset', 'pull', 'push'] = ['span', 'offset', 'pull', 'push']
+      const pos = ['span', 'offset', 'pull', 'push'] as const
       pos.forEach(prop => {
         const size = props[prop]
         if (typeof size === 'number' && size >= 0) {
           ret.push(prop !== 'span' ? `el-col-${prop}-${props[prop]}` : `el-col-${props[prop]}`)
         }
       })
-      const sizes: ['xs', 'sm', 'md', 'lg', 'xl'] = ['xs', 'sm', 'md', 'lg', 'xl']
+      const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
       sizes.forEach(size => {
         if (typeof props[size] === 'number') {
           ret.push(`el-col-${size}-${props[size]}`)

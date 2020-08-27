@@ -74,6 +74,7 @@ describe('Radio', () => {
     })
     const vm = wrapper.vm as any
     await wrapper.trigger('click')
+    await nextTick()
     expect(vm.changeData).toEqual('3')
   })
 
@@ -156,6 +157,7 @@ describe('Radio group', () => {
 
     const radio2 = wrapper.findComponent({ ref: 'radio2' })
     await radio2.trigger('click')
+    await nextTick()
     const vm = wrapper.vm as any
     expect(vm.data).toEqual(6)
   })
@@ -288,11 +290,20 @@ describe('Radio Button', () => {
     }))
     const radio1 = wrapper.findComponent({ ref: 'radio1' })
     const radio2 = wrapper.findComponent({ ref: 'radio2' })
+    const radio3 = wrapper.findComponent({ ref: 'radio3' })
     const vm = wrapper.vm as any
     expect(vm.radio).toEqual(6)
     radio2.trigger('keydown.left')
     expect(vm.radio).toEqual(3)
     radio1.trigger('keydown.left')
     expect(vm.radio).toEqual(9)
+    await nextTick()
+    radio3.trigger('keydown.right')
+    expect(vm.radio).toEqual(3)
+    radio1.trigger('keydown.right')
+    expect(vm.radio).toEqual(6)
+    await nextTick()
+    radio1.trigger('keydown.enter')
+    expect(vm.radio).toEqual(6)
   })
 })

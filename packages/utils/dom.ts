@@ -1,19 +1,9 @@
 import isServer from './isServer'
-
-const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g
-const MOZ_HACK_REGEXP = /^moz([A-Z])/
+import { camelize } from './util'
 
 /* istanbul ignore next */
 const trim = function(s: string) {
   return (s || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
-}
-/* istanbul ignore next */
-const camelCase = function(name: string) {
-  return name
-    .replace(SPECIAL_CHARS_REGEXP, function(_, __, letter, offset) {
-      return offset ? letter.toUpperCase() : letter
-    })
-    .replace(MOZ_HACK_REGEXP, 'Moz$1')
 }
 
 /* istanbul ignore next */
@@ -110,7 +100,7 @@ export function removeClass(el: HTMLElement, cls: string): void {
 /* istanbul ignore next */
 // Here I want to use the type CSSStyleDeclaration, but the definition for CSSStyleDeclaration
 // has { [index: number]: string } in its type annotation, which does not satisfy the method
-// camelCase(s: string)
+// camelize(s: string)
 // Same as the return type
 export const getStyle = function(
   element: HTMLElement,
@@ -118,13 +108,15 @@ export const getStyle = function(
 ): string {
   if (isServer) return
   if (!element || !styleName) return null
-  styleName = camelCase(styleName)
+  styleName = camelize(styleName)
   if (styleName === 'float') {
     styleName = 'cssFloat'
   }
   try {
+    const style = element.style[styleName]
+    if (style) return style
     const computed = document.defaultView.getComputedStyle(element, '')
-    return element.style[styleName] || computed ? computed[styleName] : null
+    return computed ? computed[styleName] : ''
   } catch (e) {
     return element.style[styleName]
   }
@@ -145,7 +137,7 @@ export function setStyle(
       }
     }
   } else {
-    styleName = camelCase(styleName)
+    styleName = camelize(styleName)
 
     element.style[styleName] = value
   }
@@ -156,13 +148,12 @@ export const isScroll = (
   isVertical?: Nullable<boolean>,
 ): RegExpMatchArray => {
   if (isServer) return
-
-  const determinedDirection = isVertical !== null || isVertical !== undefined
+  const determinedDirection = isVertical === null || isVertical === undefined
   const overflow = determinedDirection
-    ? isVertical
+    ? getStyle(el, 'overflow')
+    : isVertical
       ? getStyle(el, 'overflow-y')
       : getStyle(el, 'overflow-x')
-    : getStyle(el, 'overflow')
 
   return overflow.match(/(scroll|auto)/)
 }
@@ -183,7 +174,6 @@ export const getScrollContainer = (
     }
     parent = parent.parentNode as HTMLElement
   }
-
   return parent
 }
 
@@ -210,7 +200,6 @@ export const isInContainer = (
   } else {
     containerRect = container.getBoundingClientRect()
   }
-
   return (
     elRect.top < containerRect.bottom &&
     elRect.bottom > containerRect.top &&

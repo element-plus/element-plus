@@ -77,7 +77,7 @@ export default defineComponent({
     },
     label: {
       type: [Object, Boolean, String],
-      default: () => ({}),
+      default: '  ',
     },
     indeterminate: Boolean,
     disabled: Boolean,
@@ -197,7 +197,7 @@ export default defineComponent({
       // })
     }
 
-    watch(() => props.modelValue, (val) => {
+    watch(() => props.modelValue, val => {
       elFormItem.changeEvent?.(val)
     })
 

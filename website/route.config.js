@@ -40,7 +40,7 @@ const loadDocs = function(lang, path) {
   return LOAD_DOCS_MAP[lang](path)
 }
 
-const registerRoute = (navConfig) => {
+const registerRoute = navConfig => {
   let route = []
   Object.keys(navConfig).forEach((lang, index) => {
     let navs = navConfig[lang]
@@ -127,12 +127,6 @@ const generateMiscRoutes = function(lang) {
 
 langs.forEach(lang => {
   route = route.concat(generateMiscRoutes(lang.lang))
-})
-
-route.push({
-  path: '/play',
-  name: 'play',
-  component: require('./play/index.vue'),
 })
 
 let userLanguage = localStorage.getItem('ELEMENT_LANGUAGE') || window.navigator.language || 'en-US'

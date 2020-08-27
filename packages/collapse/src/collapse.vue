@@ -26,13 +26,13 @@ export default defineComponent({
     const activeNames = ref([].concat(props.modelValue))
     const collapseMitt: mitt.Emitter = mitt()
 
-    const setActiveNames = (_activeNames) => {
+    const setActiveNames = _activeNames => {
       activeNames.value = [].concat(_activeNames)
       const value = props.accordion ? activeNames.value[0] : activeNames.value
       emit('update:modelValue', value)
     }
 
-    const handleItemClick = (name) => {
+    const handleItemClick = name => {
       if(props.accordion) {
         setActiveNames(
           (activeNames.value[0] || activeNames.value[0] === 0) &&
