@@ -113,8 +113,10 @@ export const getStyle = function(
     styleName = 'cssFloat'
   }
   try {
+    const style = element.style[styleName]
+    if (style) return style
     const computed = document.defaultView.getComputedStyle(element, '')
-    return element.style[styleName] || computed ? computed[styleName] : null
+    return computed ? computed[styleName] : ''
   } catch (e) {
     return element.style[styleName]
   }
@@ -146,13 +148,12 @@ export const isScroll = (
   isVertical?: Nullable<boolean>,
 ): RegExpMatchArray => {
   if (isServer) return
-
-  const determinedDirection = isVertical !== null || isVertical !== undefined
+  const determinedDirection = isVertical === null || isVertical === undefined
   const overflow = determinedDirection
-    ? isVertical
+    ? getStyle(el, 'overflow')
+    : isVertical
       ? getStyle(el, 'overflow-y')
       : getStyle(el, 'overflow-x')
-    : getStyle(el, 'overflow')
 
   return overflow.match(/(scroll|auto)/)
 }
@@ -173,7 +174,6 @@ export const getScrollContainer = (
     }
     parent = parent.parentNode as HTMLElement
   }
-
   return parent
 }
 
@@ -200,7 +200,6 @@ export const isInContainer = (
   } else {
     containerRect = container.getBoundingClientRect()
   }
-
   return (
     elRect.top < containerRect.bottom &&
     elRect.bottom > containerRect.top &&

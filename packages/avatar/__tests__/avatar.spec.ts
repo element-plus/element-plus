@@ -78,3 +78,4 @@ describe('Avatar.vue', () => {
     }
   })
 })
+
