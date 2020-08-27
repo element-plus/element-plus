@@ -27,17 +27,18 @@ const getTrigger = () => {
   // SubTree is formed by <slot name="trigger"/><popper />
   // So that the trigger element is within the slot, we need to take it out of the slot in order to attach
   // events on top of it
-  const targetSlot = children[0]
+  let targetSlot = children[0]
   if (targetSlot.length > 1) {
     console.warn('Popper will only be attached to the first child')
   }
 
   // This indicates if the slot is rendered with directives (e.g. v-if) or templates (e.g. <template />)
   // if it's true, then the children needs to be taken by accessing targetSlots.children to get it
+  while(targetSlot.type === Fragment) {
+    targetSlot = targetSlot.children[0]
+  }
 
-  const trigger: HTMLElement = targetSlot.type === Fragment
-    ? targetSlot.children[0].el
-    : targetSlot.el
+  const trigger: HTMLElement = targetSlot.el
   if (!trigger) {
     throwError('ElPopper', 'Cannot find referrer to attach popper to')
   }
