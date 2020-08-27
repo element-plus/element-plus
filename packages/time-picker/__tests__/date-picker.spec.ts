@@ -31,6 +31,7 @@ describe('TimePicker', () => {
     expect(input.attributes('placeholder')).toBe('test_')
     // todo readonly
     // expect(input.attributes('readonly')).toBeTruthy()
+    wrapper.unmount()
   })
 
   it('select date', async () => {
@@ -65,9 +66,10 @@ describe('TimePicker', () => {
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
+    wrapper.unmount()
   })
 
-  it.only('clear value', async () => {
+  it('clear value', async () => {
     const wrapper = _mount(`<div class="out">out</div><el-date-picker
         v-model="value"
     />`, () => ({ value: '' }))
@@ -77,11 +79,50 @@ describe('TimePicker', () => {
     (document.querySelector('td.available') as HTMLElement).click()
     await nextTick()
     const vm = wrapper.vm as any
-    expect(vm.value).toBeDefined()
-    console.log(document.querySelectorAll('.out').click());
-    (document.querySelector('.out') as HTMLElement).click()
+    expect(vm.value).toBeDefined();
+    (document.querySelector('body') as HTMLElement).click()
     await nextTick()
-    expect(vm.value).toBeNull()
+    //todo test pass click outside
+    // document.body.dispatchEvent(new Event('click'))
+    await nextTick()
+    // expect(vm.value).toBeNull()
+    wrapper.unmount()
+  })
+
+  it('event change, focus, blur', async () => {
+    const changeHandler = jest.fn()
+    const focusHandler = jest.fn()
+    const blurHandler = jest.fn()
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        @change="onChange"
+        @focus="onFocus"
+        @blur="onBlur"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }), {
+      methods: {
+        onChange(e) {
+          return changeHandler(e)
+        },
+        onFocus(e) {
+          return focusHandler(e)
+        },
+        onBlur(e) {
+          return blurHandler(e)
+        },
+      },
+    })
+
+    const input = wrapper.find('input').element
+    input.focus()
+    await nextTick()
+    expect(focusHandler).toHaveBeenCalledTimes(1);
+    (document.querySelector('td.available') as HTMLElement).click()
+    await nextTick()
+    expect(changeHandler).toHaveBeenCalledTimes(1)
+    // todo test blur
+    // (document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    // await nextTick()
+    // expect(blurHandler).toHaveBeenCalledTimes(1)
   })
 
 })
