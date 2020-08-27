@@ -2,8 +2,9 @@
   value1: {{ value1 }}
   <el-date-picker
     v-model="value1"
-    type="datetime"
-    placeholder="Pick a month"
+    :readonly="true"
+    placeholder="test_"
+    format="HH-mm-ss"
   />
 </template>
 

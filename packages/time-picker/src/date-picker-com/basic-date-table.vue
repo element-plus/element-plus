@@ -98,7 +98,7 @@ export default defineComponent({
       default: false,
     },
     parsedValue: {
-      type: Array,
+      type: [Array, Date] as PropType<Date | Array<Date>>,
       default: () => ([]),
     },
     disabledDate: {},

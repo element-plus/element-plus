@@ -163,14 +163,14 @@ export default defineComponent({
       ctx.emit('pick', [_minDate, _maxDate], visible)
     }
 
-    const handleMinChange = (date) => {
+    const handleMinChange = date => {
       handleChange(clearMilliseconds(date), maxDate.value)
     }
-    const handleMaxChange = (date) => {
+    const handleMaxChange = date => {
       handleChange(minDate.value, clearMilliseconds(date))
     }
 
-    const isValidValue = (date) => {
+    const isValidValue = date => {
       return Array.isArray(date) &&
           timeWithinRange(date[0], minSelectableRange.value, props.format) &&
           timeWithinRange(date[1], maxSelectableRange.value, props.format)
@@ -302,3 +302,8 @@ export default defineComponent({
   // },
 })
 </script>
+<style scoped>
+.el-time-range-picker__content {
+  z-index: 1
+}
+</style>

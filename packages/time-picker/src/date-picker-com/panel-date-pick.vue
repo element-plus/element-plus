@@ -1,11 +1,11 @@
 <template>
-  <transition name="el-zoom-in-top" @after-enter="handleEnter" @after-leave="handleLeave">
+  <transition name="el-zoom-in-top">
     <div
       class="el-picker-panel el-date-picker"
       :class="[{
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime
-      }, popperClass]"
+      }]"
     >
       <div class="el-picker-panel__body-wrapper">
         <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
@@ -103,25 +103,23 @@
 
           <div class="el-picker-panel__content">
             <date-table
-              v-show="currentView === 'date'"
+              v-if="currentView === 'date'"
               :selection-mode="selectionMode"
-              :first-day-of-week="firstDayOfWeek"
               :default-value="defaultValue ? new Date(defaultValue) : null"
               :date="innerDate"
               :parsed-value="parsedDatePickerValue"
-              :cell-class-name="cellClassName"
               :disabled-date="disabledDate"
               @pick="handleDatePick"
             />
             <year-table
-              v-show="currentView === 'year'"
+              v-if="currentView === 'year'"
               :default-value="defaultValue ? new Date(defaultValue) : null"
               :date="innerDate"
               :disabled-date="disabledDate"
               @pick="handleYearPick"
             />
             <month-table
-              v-show="currentView === 'month'"
+              v-if="currentView === 'month'"
               :default-value="defaultValue ? new Date(defaultValue) : null"
               :date="innerDate"
               :disabled-date="disabledDate"
@@ -181,7 +179,7 @@ import { t } from '@element-plus/locale'
 import { NOOP } from '@vue/shared'
 import ElInput from '../../input/input.vue'
 import { ClickOutside } from '@element-plus/directives'
-// import ElButton from '@element-plus/button'
+import { Button as ElButton } from '@element-plus/button'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -196,7 +194,7 @@ import {
 
 export default defineComponent({
   components: {
-    DateTable, ElInput, MonthTable, YearTable, TimePicker,
+    DateTable, ElInput, MonthTable, YearTable, TimePicker, ElButton,
   },
 
   directives: { clickoutside: ClickOutside },
@@ -437,21 +435,19 @@ export default defineComponent({
       currentView,
       month,
       handleDatePick,
+      defaultValue: new Date(),
     }
   },
 
   // data() {
   //   return {
-  //     popperClass: '',
   //     value: '',
   //     defaultValue: null, // use getDefaultValue() for time computation
   //     defaultTime: null,
   //     shortcuts: '',
   //     visible: false,
   //     disabledDate: '',
-  //     cellClassName: '',
   //     selectableRange: [],
-  //     firstDayOfWeek: 7,
   //     showWeekNumber: false,
   //     format: '',
   //     arrowControl: false,
@@ -647,3 +643,8 @@ export default defineComponent({
   // },
 })
 </script>
+<style scoped>
+.el-time-panel {
+  position: absolute;
+}
+</style>

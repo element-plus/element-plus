@@ -1,105 +1,101 @@
 <template>
-  <div>
-    <!-- todo remove this div after using popper -->
-    <!-- todo no popper time range middle .el-time-panel__content::before zindex error-->
-    <el-popper
-      effect="light"
-      :manual-mode="true"
-      :value="pickerVisible"
-      pure
-    >
-      <template #trigger>
-        <el-input
-          v-if="!isRangeInput"
-          ref="refContainer"
-          v-clickoutside="onClickOutside"
-          :size="pickerSize"
-          class="el-date-editor el-date-editor--time-select"
-          :readonly="!editable || readonly"
-          :disabled="pickerDisabled"
-          :placeholder="placeholder"
-          :model-value="displayValue"
-          @focus="handleFocus"
-          @mouseenter="onMouseEnter"
-          @mouseleave="onMouseLeave"
-        >
-          <template #prefix>
-            <i
-              class="el-input__icon"
-              :class="triggerClass"
-              @click="handleFocus"
-            >
-            </i>
-          </template>
-          <template #suffix>
-            <i
-              class="el-input__icon"
-              :class="[showClose ? '' + clearIcon : '']"
-              @click="onClearIconClick"
-            >
-            </i>
-          </template>
-        </el-input>
-        <div
-          v-else
-          ref="refContainer"
-          v-clickoutside="onClickOutside"
-          class="el-date-editor el-range-editor el-input__inner"
-          :class="[
-            'el-date-editor--' + type,
-            pickerSize ? `el-range-editor--${ pickerSize }` : '',
-            pickerDisabled ? 'is-disabled' : '',
-            pickerVisible ? 'is-active' : ''
-          ]"
-          @click="handleFocus"
-          @mouseenter="onMouseEnter"
-          @mouseleave="onMouseLeave"
-        >
-          <i :class="['el-input__icon', 'el-range__icon', triggerClass]"></i>
-          <input
-            autocomplete="off"
-            :placeholder="startPlaceholder"
-            :value="displayValue && displayValue[0]"
-            :disabled="pickerDisabled"
-            :readonly="!editable || readonly"
-            class="el-range-input"
-            @focus="handleFocus"
-          >
-          <slot name="range-separator">
-            <span class="el-range-separator">{{ rangeSeparator }}</span>
-          </slot>
-          <input
-            autocomplete="off"
-            :placeholder="endPlaceholder"
-            :value="displayValue && displayValue[1]"
-            :disabled="pickerDisabled"
-            :readonly="!editable || readonly"
-            class="el-range-input"
-            @focus="handleFocus"
-          >
+  <el-popper
+    effect="light"
+    :manual-mode="true"
+    :value="pickerVisible"
+    pure
+  >
+    <template #trigger>
+      <el-input
+        v-if="!isRangeInput"
+        ref="refContainer"
+        v-clickoutside="onClickOutside"
+        :size="pickerSize"
+        class="el-date-editor el-date-editor--time-select"
+        :readonly="!editable || readonly"
+        :disabled="pickerDisabled"
+        :placeholder="placeholder"
+        :model-value="displayValue"
+        @focus="handleFocus"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      >
+        <template #prefix>
           <i
+            class="el-input__icon"
+            :class="triggerClass"
+            @click="handleFocus"
+          >
+          </i>
+        </template>
+        <template #suffix>
+          <i
+            class="el-input__icon"
             :class="[showClose ? '' + clearIcon : '']"
-            class="el-input__icon el-range__close-icon"
             @click="onClearIconClick"
           >
           </i>
-        </div>
-      </template>
-      <template #default>
-        <slot
-          :visible="pickerVisible"
-          :parsed-value="parsedValue"
-          :format="format"
-          :type="type"
-          :default-value="defaultValue"
-          v-bind="$attrs"
-          @pick="onPick"
-          @select-range="setSelectionRange"
-          @mousedown.stop
-        ></slot>
-      </template>
-    </el-popper>
-  </div>
+        </template>
+      </el-input>
+      <div
+        v-else
+        ref="refContainer"
+        v-clickoutside="onClickOutside"
+        class="el-date-editor el-range-editor el-input__inner"
+        :class="[
+          'el-date-editor--' + type,
+          pickerSize ? `el-range-editor--${ pickerSize }` : '',
+          pickerDisabled ? 'is-disabled' : '',
+          pickerVisible ? 'is-active' : ''
+        ]"
+        @click="handleFocus"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      >
+        <i :class="['el-input__icon', 'el-range__icon', triggerClass]"></i>
+        <input
+          autocomplete="off"
+          :placeholder="startPlaceholder"
+          :value="displayValue && displayValue[0]"
+          :disabled="pickerDisabled"
+          :readonly="!editable || readonly"
+          class="el-range-input"
+          @focus="handleFocus"
+        >
+        <slot name="range-separator">
+          <span class="el-range-separator">{{ rangeSeparator }}</span>
+        </slot>
+        <input
+          autocomplete="off"
+          :placeholder="endPlaceholder"
+          :value="displayValue && displayValue[1]"
+          :disabled="pickerDisabled"
+          :readonly="!editable || readonly"
+          class="el-range-input"
+          @focus="handleFocus"
+        >
+        <i
+          :class="[showClose ? '' + clearIcon : '']"
+          class="el-input__icon el-range__close-icon"
+          @click="onClearIconClick"
+        >
+        </i>
+      </div>
+    </template>
+    <template #default>
+      <slot
+        :visible="pickerVisible"
+        :parsed-value="parsedValue"
+        :format="format"
+        :type="type"
+        :default-value="defaultValue"
+        v-bind="$attrs"
+        @pick="onPick"
+        @select-range="setSelectionRange"
+        @mousedown.stop
+      ></slot>
+    </template>
+  </el-popper>
 </template>
 <script lang='ts'>
 import {
