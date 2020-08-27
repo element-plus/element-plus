@@ -14,7 +14,3 @@ declare type CustomizedHTMLElement<T> = HTMLElement & T;
 declare type Indexable<T> = {
   [key: string]: T
 };
-
-import type { Ref } from 'vue'
-
-declare type DOMRef = Ref<HTMLElement>
