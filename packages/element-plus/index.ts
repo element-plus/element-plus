@@ -13,6 +13,7 @@ import ElTimeline from '@element-plus/timeline'
 import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
 import ElIcon from '@element-plus/icon'
+import ElImage from '@element-plus/image'
 import ElLink from '@element-plus/link'
 import ElRate from '@element-plus/rate'
 import ElSwitch from '@element-plus/switch'
@@ -42,6 +43,7 @@ export {
   ElProgress,
   ElBreadcrumb,
   ElIcon,
+  ElImage,
   ElLink,
   ElRate,
   ElSwitch,
@@ -71,6 +73,7 @@ export default function install(app: App): void {
   ElProgress(app)
   ElBreadcrumb(app)
   ElIcon(app)
+  ElImage(app)
   ElLink(app)
   ElRate(app)
   ElSwitch(app)
