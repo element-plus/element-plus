@@ -3,7 +3,7 @@ import { debounce } from 'lodash'
 import { createPopper } from '@popperjs/core'
 
 import { generateId } from '@element-plus/utils/util'
-import { off, addClass } from '@element-plus/utils/dom'
+import { addClass } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
 
 import { default as useEvents } from '@element-plus/hooks/use-events'
@@ -11,7 +11,6 @@ import { default as useEvents } from '@element-plus/hooks/use-events'
 import useModifier from './useModifier'
 
 import type { Ref } from 'vue'
-import type { SetupContext } from '@vue/runtime-core'
 import type { IPopperOptions, RefElement, PopperInstance } from './popper'
 
 export const DEFAULT_TRIGGER = ['hover']
@@ -46,7 +45,7 @@ const getTrigger = () => {
   return trigger
 }
 
-export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
+export default <T extends IPopperOptions>(props: T) => {
   const arrowRef = ref<RefElement>(null)
   const triggerRef = ref<RefElement>(null)
   const exceptionState = ref(false)
@@ -79,30 +78,22 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
     return props.manualMode ? props.value : !props.disabled && show.value
   })
 
-  const emitOrToggle = (val: boolean) => {
-    if (props.manualMode) {
-      ctx.emit(UPDATE_VALUE_EVENT, val)
-    } else {
-      show.value = val
-    }
-  }
-
   const showPopper = () => {
     if (!exceptionState.value || props.manualMode || props.disabled) return
     clearTimer(timeout)
     const handleHideAfter = () => {
       if (props.hideAfter > 0) {
         timeoutPending.value = setTimeout(() => {
-          emitOrToggle(false)
+          show.value = false
         }, props.hideAfter)
       }
     }
     if (props.showAfter === 0) {
-      emitOrToggle(true)
+      show.value = true
       handleHideAfter()
     } else {
       timeout.value = setTimeout(() => {
-        emitOrToggle(true)
+        show.value = true
         handleHideAfter()
       }, props.showAfter)
     }
@@ -112,7 +103,7 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
     if (props.enterable && exceptionState.value) return
     clearTimer(timeout)
     clearTimer(timeoutPending)
-    emitOrToggle(false)
+    show.value = false
     if (props.disabled) {
       doDestroy(true)
     }
@@ -164,88 +155,84 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
     detachPopper()
   }
 
-  function clickMask() {
-    if (props.manualMode) {
-      ctx.emit(UPDATE_VALUE_EVENT, false)
-    }
-  }
-
   function detachPopper() {
     popperInstance.value.destroy()
     popperInstance.value = null
     triggerRef.value = null
   }
-  const toggleState = () => {
-    if (visible.value) {
-      onHide()
-    } else {
-      onShow()
+
+  if (!props.manualMode) {
+    const toggleState = () => {
+      if (visible.value) {
+        onHide()
+      } else {
+        onShow()
+      }
     }
-  }
-  const handlePopperEvents = (e: Event) => {
-    e.stopImmediatePropagation()
-    switch (e.type) {
-      case 'click': {
-        if (triggerFocused.value) {
-          // reset previous focus event
-          triggerFocused.value = false
-          return
+
+    const handlePopperEvents = (e: Event) => {
+      e.stopImmediatePropagation()
+      switch (e.type) {
+        case 'click': {
+          if (triggerFocused.value) {
+            // reset previous focus event
+            triggerFocused.value = false
+          }
+          toggleState()
+          break
         }
-        toggleState()
-        break
-      }
-      case 'mouseenter': {
-        onShow()
-        break
-      }
-      case 'mouseleave': {
-        onHide()
-        break
-      }
-      case 'focus': {
-        triggerFocused.value = true
-        onShow()
-        break
-      }
-      case 'blur': {
-        triggerFocused.value = false
-        onHide()
-        break
+        case 'mouseenter': {
+          onShow()
+          break
+        }
+        case 'mouseleave': {
+          onHide()
+          break
+        }
+        case 'focus': {
+          triggerFocused.value = true
+          onShow()
+          break
+        }
+        case 'blur': {
+          triggerFocused.value = false
+          onHide()
+          break
+        }
       }
     }
-  }
-  const events = []
-  const handler = handlePopperEvents
-  if (props.trigger.includes('click')) {
-    events.push({
-      name: 'click',
-      handler,
-    })
-  }
+    const events = []
+    const handler = handlePopperEvents
+    if (props.trigger.includes('click')) {
+      events.push({
+        name: 'click',
+        handler,
+      })
+    }
 
-  if (props.trigger.includes('hover')) {
-    events.push({
-      name: 'mouseenter',
-      handler,
-    },
-    {
-      name: 'mouseleave',
-      handler,
-    })
-  }
+    if (props.trigger.includes('hover')) {
+      events.push({
+        name: 'mouseenter',
+        handler,
+      },
+      {
+        name: 'mouseleave',
+        handler,
+      })
+    }
 
-  if (props.trigger.includes('focus')) {
-    events.push({
-      name: 'focus',
-      handler,
-    },
-    {
-      name: 'blur',
-      handler,
-    })
+    if (props.trigger.includes('focus')) {
+      events.push({
+        name: 'focus',
+        handler,
+      },
+      {
+        name: 'blur',
+        handler,
+      })
+    }
+    useEvents(triggerRef, events)
   }
-
-  useEvents(triggerRef, events)
 
   watch(popperOptions, val => {
     if (!popperInstance.value) return
@@ -288,17 +275,16 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
   })
 
   return {
-    clickMask,
     doDestroy,
     onShow,
     onHide,
-    toggleState,
     initializePopper,
     arrowRef,
     excludes,
     popperId,
     popperInstance,
     popperRef,
+    triggerRef,
     visible,
   }
 }

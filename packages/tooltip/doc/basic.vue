@@ -15,8 +15,9 @@
         class="item"
         effect="dark"
         content="Top Center prompts info"
+        :append-to-body="false"
         placement="top"
-        :trigger="['click', 'hover']"
+        :trigger="['click', 'focus', 'hover']"
       >
         <el-button>top</el-button>
       </el-tooltip>

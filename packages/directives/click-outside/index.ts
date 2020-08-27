@@ -47,7 +47,7 @@ function createDocumentHandler(
     const isTargetExists = !mouseUpTarget || !mouseDownTarget
     const isContainedByEl = el.contains(mouseUpTarget) || el.contains(mouseDownTarget)
     const isSelf = el === mouseUpTarget
-    console.log(excludes[0], mouseUpTarget)
+
     const isTargetExcluded =
       ( excludes.length &&
         excludes.some(item => item?.contains(mouseUpTarget))

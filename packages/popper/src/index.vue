@@ -14,7 +14,7 @@ import throwError from '@element-plus/utils/error'
 import { ClickOutside } from '@element-plus/directives'
 import { default as usePopper, DEFAULT_TRIGGER, UPDATE_VALUE_EVENT } from './usePopper'
 
-import type { PropType, SetupContext } from 'vue'
+import type { PropType } from 'vue'
 
 import type {
   Effect,
@@ -153,7 +153,7 @@ export default defineComponent({
     // this is a reference that we need to pass down to child component
     // to obtain the child instance
 
-    return usePopper(props as IPopperOptions, ctx as SetupContext)
+    return usePopper(props as IPopperOptions)
   },
   deactivated() {
     this.doDestroy()
@@ -202,7 +202,7 @@ export default defineComponent({
                 onClick: stop,
               },
               [
-                $slots.default ? $slots.default() : this.content,
+                ($slots.default?.()) || this.content,
                 arrow,
               ],
             ),
@@ -230,7 +230,6 @@ export default defineComponent({
                 'div',
                 {
                   class: 'el-popper__mask',
-                  onClick: this.clickMask,
                 },
                 popper,
               ),
@@ -245,6 +244,14 @@ export default defineComponent({
 </script>
 
 <style>
+
+.el-popper__mask {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+
 .el-popper {
   position: absolute;
   border-radius: 4px;
