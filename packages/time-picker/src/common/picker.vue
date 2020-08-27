@@ -6,6 +6,7 @@
       effect="light"
       :manual-mode="true"
       :value="pickerVisible"
+      pure
     >
       <template #trigger>
         <el-input

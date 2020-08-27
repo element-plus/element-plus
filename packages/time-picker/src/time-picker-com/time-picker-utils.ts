@@ -65,7 +65,7 @@ export const extractDateFormat = function(format) {
 
 export const extractTimeFormat = function(format) {
   return format
-    .replace(/\W?D{1,2}|\W?Do|\W?d{1,4}|\W?M{1,4}|\W?y{2,4}/g, '')
+    .replace(/\W?D{1,2}|\W?Do|\W?d{1,4}|\W?M{1,4}|\W?Y{2,4}/g, '')
     .trim()
 }
 
@@ -150,7 +150,7 @@ export const getWeekNumber = function(src) {
 export const formatDate = function(date, format) {
   date = toDate(date)
   if (!date) return ''
-  return dayjs(date, format || 'yyyy-MM-dd')
+  return dayjs(date).format(format)
 }
 
 export const getFirstDayOfMonth = function(date) {

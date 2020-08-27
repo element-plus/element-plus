@@ -1,14 +1,14 @@
 // const DEFAULT_FORMATS = {
-//   date: 'yyyy-MM-dd',
-//   month: 'yyyy-MM',
-//   datetime: 'yyyy-MM-dd HH:mm:ss',
-//   time: 'HH:mm:ss',
-//   timerange: 'HH:mm:ss',
-//   daterange: 'yyyy-MM-dd',
-//   monthrange: 'yyyy-MM',
-//   datetimerange: 'yyyy-MM-dd HH:mm:ss',
-//   year: 'yyyy'
+//   daterange: 'YYYY-MM-DD',
+//   monthrange: 'YYYY-MM',
+//   datetimerange: 'yyyy-MM-DD HH:mm:ss',
 // };
 export const DEFAULT_FORMATS_TIME = 'HH:mm:ss'
 export const DEFAULT_FORMATS_DATE = 'YYYY-MM-DD'
-export const DEFAULT_FORMATS_WEEK = 'yyyywWW'
+export const DEFAULT_FORMATS_DATEPICKER = {
+  'date': DEFAULT_FORMATS_DATE,
+  'week': 'YYYYwWW',
+  'year': 'YYYY',
+  'month': 'YYYY-MM',
+  'datetime': 'YYYY-MM-DD HH:mm:ss',
+}

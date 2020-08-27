@@ -1,7 +1,7 @@
 <template>
   <transition name="el-zoom-in-top" @after-enter="handleEnter" @after-leave="handleLeave">
     <div
-      class="el-picker-panel el-date-picker el-popper"
+      class="el-picker-panel el-date-picker"
       :class="[{
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime
@@ -25,28 +25,30 @@
             <span class="el-date-picker__editor-wrap">
               <el-input
                 :placeholder="t('el.datepicker.selectDate')"
-                :value="visibleDate"
+                :model-value="visibleDate"
                 size="small"
                 @input="val => userInputDate = val"
                 @change="handleVisibleDateChange"
               />
             </span>
-            <span class="el-date-picker__editor-wrap">
+            <span v-clickoutside="handleTimePickClose" class="el-date-picker__editor-wrap">
               <el-input
                 ref="input"
                 :placeholder="t('el.datepicker.selectTime')"
-                :value="visibleTime"
+                :model-value="visibleTime"
                 size="small"
-                @focus="timePickerVisible = true"
+                @focus="onTimePickerInputFocus"
                 @input="val => userInputTime = val"
                 @change="handleVisibleTimeChange"
               />
               <time-picker
+                v-if="timePickerVisible"
                 ref="timepicker"
-                :time-arrow-control="arrowControl"
+                :format="format"
                 :visible="timePickerVisible"
+                :time-arrow-control="arrowControl"
+                :parsed-value="parsedDatePickerValue"
                 @pick="handleTimePick"
-                @mounted="proxyTimePickerDataProperties"
               />
             </span>
           </div>
@@ -106,6 +108,7 @@
               :first-day-of-week="firstDayOfWeek"
               :default-value="defaultValue ? new Date(defaultValue) : null"
               :date="innerDate"
+              :parsed-value="parsedDatePickerValue"
               :cell-class-name="cellClassName"
               :disabled-date="disabledDate"
               @pick="handleDatePick"
@@ -145,7 +148,7 @@
           plain
           size="mini"
           class="el-picker-panel__link-btn"
-          @click="confirm"
+          @click="onConfirm"
         >
           {{ t('el.datepicker.confirm') }}
         </el-button>
@@ -177,10 +180,12 @@ import {
 import { t } from '@element-plus/locale'
 import { NOOP } from '@vue/shared'
 import ElInput from '../../input/input.vue'
+import { ClickOutside } from '@element-plus/directives'
 // import ElButton from '@element-plus/button'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
+import TimePicker from '../time-picker-com/panel-time-pick.vue'
 import {
   defineComponent,
   computed,
@@ -191,9 +196,10 @@ import {
 
 export default defineComponent({
   components: {
-    DateTable, ElInput, MonthTable, YearTable,
+    DateTable, ElInput, MonthTable, YearTable, TimePicker,
   },
 
+  directives: { clickoutside: ClickOutside },
   props: {
     parsedValue: {
       type: Date as PropType<Date>,
@@ -218,11 +224,16 @@ export default defineComponent({
   },
   emits: ['pick'],
   setup(props, ctx) {
+    const parsedDatePickerValue = computed(() => {
+      if (selectionMode.value === 'dates') {
+        if (!Array.isArray(props.parsedValue)) return []
+      }
+      return props.parsedValue
+    })
     const innerDate = ref(props.parsedValue)
     const month = computed(() =>  {
       return innerDate.value.getMonth()
     })
-    const showTime = ref(false)
     const selectableRange = ref([])
     const checkDateWithinRange = date => {
       return selectableRange.value.length > 0
@@ -352,7 +363,64 @@ export default defineComponent({
       currentView.value = 'month'
     }
 
+    const showTime = computed(() => props.type === 'datetime' || props.type === 'datetimerange')
+
+    const footerVisible = () => {
+      return showTime.value || selectionMode.value === 'dates'
+    }
+
+    const onConfirm = () => {
+      // if (selectionMode.value === 'dates') {
+      //   emit(parsedDatePickerValue.value)
+      // }
+      emit(parsedDatePickerValue.value)
+    }
+
+    const changeToNow = () => {
+      // NOTE: not a permanent solution
+      //       consider disable "now" button in the future
+      if ((!props.disabledDate || !props.disabledDate(new Date())) && checkDateWithinRange(new Date())) {
+        innerDate.value = new Date()
+        emit(innerDate.value)
+      }
+    }
+
+    const visibleTime = computed(() => {
+      return formatDate(parsedDatePickerValue.value, extractTimeFormat(props.format))
+    })
+
+    const visibleDate = computed(() => {
+      return formatDate(parsedDatePickerValue.value, extractDateFormat(props.format))
+    })
+
+    const timePickerVisible = ref(false)
+    const onTimePickerInputFocus = () => {
+      timePickerVisible.value = true
+    }
+    const handleTimePickClose = () => {
+      timePickerVisible.value = false
+    }
+
+    const handleTimePick = (value, visible, first) => {
+      const newDate = modifyTime(parsedDatePickerValue.value, value.getHours(), value.getMinutes(), value.getSeconds())
+      innerDate.value = newDate
+      emit(innerDate.value, true)
+      if (!first) {
+        timePickerVisible.value = visible
+      }
+    }
     return {
+      handleTimePick,
+      handleTimePickClose,
+      onTimePickerInputFocus,
+      timePickerVisible,
+      visibleTime,
+      visibleDate,
+      showTime,
+      changeToNow,
+      onConfirm,
+      parsedDatePickerValue,
+      footerVisible,
       handleYearPick,
       showMonthPicker,
       handleMonthPick,
@@ -385,7 +453,6 @@ export default defineComponent({
   //     selectableRange: [],
   //     firstDayOfWeek: 7,
   //     showWeekNumber: false,
-  //     timePickerVisible: false,
   //     format: '',
   //     arrowControl: false,
   //     userInputDate: null,
@@ -403,41 +470,8 @@ export default defineComponent({
   //     return this.date.getDate()
   //   },
 
-  //   footerVisible() {
-  //     return this.showTime || this.selectionMode === 'dates'
-  //   },
 
-  //   visibleTime() {
-  //     if (this.userInputTime !== null) {
-  //       return this.userInputTime
-  //     } else {
-  //       return formatDate(this.value || this.defaultValue, this.timeFormat)
-  //     }
-  //   },
 
-  //   visibleDate() {
-  //     if (this.userInputDate !== null) {
-  //       return this.userInputDate
-  //     } else {
-  //       return formatDate(this.value || this.defaultValue, this.dateFormat)
-  //     }
-  //   },
-
-  //   timeFormat() {
-  //     if (this.format) {
-  //       return extractTimeFormat(this.format)
-  //     } else {
-  //       return 'HH:mm:ss'
-  //     }
-  //   },
-
-  //   dateFormat() {
-  //     if (this.format) {
-  //       return extractDateFormat(this.format)
-  //     } else {
-  //       return 'yyyy-MM-dd'
-  //     }
-  //   },
   // },
 
   // watch: {
@@ -511,48 +545,6 @@ export default defineComponent({
 
   //   showYearPicker() {
   //     this.currentView = 'year'
-  //   },
-
-  //   handleTimePick(value, visible, first) {
-  //     if (isDate(value)) {
-  //       const newDate = this.value
-  //         ? modifyTime(this.value, value.getHours(), value.getMinutes(), value.getSeconds())
-  //         : modifyWithTimeString(this.getDefaultValue(), this.defaultTime)
-  //       this.date = newDate
-  //       this.emit(this.date, true)
-  //     } else {
-  //       this.emit(value, true)
-  //     }
-  //     if (!first) {
-  //       this.timePickerVisible = visible
-  //     }
-  //   },
-
-  //   handleTimePickClose() {
-  //     this.timePickerVisible = false
-  //   },
-
-  //   changeToNow() {
-  //     // NOTE: not a permanent solution
-  //     //       consider disable "now" button in the future
-  //     if ((!this.disabledDate || !this.disabledDate(new Date())) && this.checkDateWithinRange(new Date())) {
-  //       this.date = new Date()
-  //       this.emit(this.date)
-  //     }
-  //   },
-
-  //   confirm() {
-  //     if (this.selectionMode === 'dates') {
-  //       this.emit(this.value)
-  //     } else {
-  //       // value were emitted in handle{Date,Time}Pick, nothing to update here
-  //       // deal with the scenario where: user opens the picker, then confirm without doing anything
-  //       const value = this.value
-  //         ? this.value
-  //         : modifyWithTimeString(this.getDefaultValue(), this.defaultTime)
-  //       this.date = new Date(value) // refresh date
-  //       this.emit(value)
-  //     }
   //   },
 
   //   resetView() {
@@ -650,12 +642,6 @@ export default defineComponent({
   //         ? !this.disabledDate(value)
   //         : true
   //     ) && this.checkDateWithinRange(value)
-  //   },
-
-  //   getDefaultValue() {
-  //     // if default-value is set, return it
-  //     // otherwise, return now (the moment this method gets called)
-  //     return this.defaultValue ? new Date(this.defaultValue) : new Date()
   //   },
 
   // },

@@ -2,7 +2,7 @@
   value1: {{ value1 }}
   <el-date-picker
     v-model="value1"
-    type="dates"
+    type="datetime"
     placeholder="Pick a month"
   />
 </template>

@@ -97,6 +97,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    parsedValue: {
+      type: Array,
+      default: () => ([]),
+    },
     disabledDate: {},
     cellClassName: {},
     minDate: {},
@@ -177,7 +181,7 @@ export default defineComponent({
       const startDate_ = startDate.value
       const disabledDate = props.disabledDate
       const cellClassName = props.cellClassName
-      const selectedDate = props.selectionMode === 'dates' ? coerceTruthyValueToArray(props.date) : []
+      const selectedDate = props.selectionMode === 'dates' ? coerceTruthyValueToArray(props.parsedValue) : []
       const now = getDateTimestamp(new Date())
 
       for (let i = 0; i < 6; i++) {
@@ -389,10 +393,10 @@ export default defineComponent({
           date: newDate,
         })
       } else if (props.selectionMode === 'dates') {
-        const value = props.date || [] as any
+        const value = props.parsedValue
         const newValue = cell.selected
           ? removeFromArray(value, date => date.getTime() === newDate.getTime())
-          : [...value, newDate]
+          : value.concat([newDate])
         ctx.emit('pick', newValue)
       }
     }

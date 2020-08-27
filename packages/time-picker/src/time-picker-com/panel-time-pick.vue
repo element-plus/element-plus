@@ -245,3 +245,8 @@ export default defineComponent({
   // },
 })
 </script>
+<style scoped>
+.el-time-panel {
+  position: relative;
+}
+</style>
