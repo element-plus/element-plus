@@ -33,7 +33,9 @@ export default defineComponent({
     const _instance = getCurrentInstance()
 
     function handleClick(e: UIEvent) {
-      elDropdown.hideOnClick.value && elDropdown.handleClick?.()
+      if (elDropdown.hideOnClick.value) {
+        elDropdown.handleClick?.()
+      }
       elDropdown.commandHandler?.(props.command, _instance, e)
     }
 

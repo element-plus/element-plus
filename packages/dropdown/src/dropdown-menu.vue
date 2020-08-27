@@ -12,7 +12,7 @@
 <script lang='ts'>
 import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue'
 import ClickOutside from '@element-plus/directives/click-outside'
-import { useDropdown } from './useDropdown'
+import { useDropdown, initDropdownDomEvent } from './useDropdown'
 
 export default defineComponent({
   name: 'ElDropdownMenu',
@@ -36,8 +36,8 @@ export default defineComponent({
 
     onMounted(() => {
       const dropdownMenu = getCurrentInstance()
-      elDropdown.initDom?.(dropdownMenu)
       _trigger.value = elDropdown.triggerElm.value
+      initDropdownDomEvent(dropdownMenu, _trigger.value, elDropdown.instance)
     })
 
     return {

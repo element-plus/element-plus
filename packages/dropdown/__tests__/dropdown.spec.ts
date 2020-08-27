@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { eventKeys } from '@element-plus/utils/aria'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
@@ -223,7 +224,7 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep()
     await triggerElm.trigger('keydown', {
-      code: '13',
+      code: `${eventKeys.enter}`,
     })
     await sleep()
     expect(content.value).toBe(false)
@@ -231,7 +232,7 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep()
     await triggerElm.trigger('keydown', {
-      code: '27',
+      code: `${eventKeys.tab}`,
     })
     await sleep()
     expect(content.value).toBe(false)
@@ -263,7 +264,7 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep()
     await content.trigger('keydown', {
-      code: '40',
+      code: `${eventKeys.down}`,
     })
     await sleep()
     expect(wrapper.findComponent({ ref: 'd' }).attributes('tabindex')).toBe('0')

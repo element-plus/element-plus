@@ -10,11 +10,12 @@ import {
   onMounted,
   VNode,
 } from 'vue'
+import { on } from '@element-plus/utils/dom'
 import ClickOutside from '@element-plus/directives/click-outside'
 import ElButton from '@element-plus/button/src/button.vue'
 import ElButtonGroup from '@element-plus/button/src/button-group.vue'
 import ELPopper from '@element-plus/popper/src/index.vue'
-import { useDropdown, useDropdownDomEvent } from './useDropdown'
+import { useDropdown } from './useDropdown'
 
 export default defineComponent({
   name: 'ElDropdown',
@@ -157,9 +158,6 @@ export default defineComponent({
     function commandHandler (...args) {
       emit('command', ...args)
     }
-    function initDom(instance) {
-      useDropdownDomEvent(instance, triggerElm.value, _instance)
-    }
 
     provide('elDropdown', {
       instance: _instance,
@@ -169,7 +167,6 @@ export default defineComponent({
       commandHandler,
       show,
       hide,
-      initDom,
       trigger: computed(() => props.trigger),
       hideOnClick: computed(() => props.hideOnClick),
       triggerElm,
@@ -177,21 +174,21 @@ export default defineComponent({
 
     onMounted(() => {
       if (!props.splitButton) {
-        triggerElm.value?.addEventListener('focus', () => {
+        on(triggerElm.value, 'focus', () => {
           focusing.value = true
         })
-        triggerElm.value?.addEventListener('blur', () => {
+        on(triggerElm.value, 'blur', () => {
           focusing.value = false
         })
-        triggerElm.value?.addEventListener('click', () => {
+        on(triggerElm.value, 'click', () => {
           focusing.value = false
         })
       }
       if (props.trigger === 'hover') {
-        triggerElm.value.addEventListener('mouseenter', show)
-        triggerElm.value.addEventListener('mouseleave', hide)
+        on(triggerElm.value, 'mouseenter', show)
+        on(triggerElm.value, 'mouseleave', hide)
       } else if (props.trigger === 'click') {
-        triggerElm.value.addEventListener('click', handleClick)
+        on(triggerElm.value, 'click', handleClick)
       }
     })
 

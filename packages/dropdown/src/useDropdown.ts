@@ -1,9 +1,12 @@
 import { inject, computed, ref } from 'vue'
 import { generateId } from '@element-plus/utils/util'
+import { eventKeys } from '@element-plus/utils/aria'
+import { on } from '@element-plus/utils/dom'
+import { IElDropdownInstance } from './dropdown'
 
 export const useDropdown = () => {
   const ELEMENT = null
-  const elDropdown = inject('elDropdown', {}) as any
+  const elDropdown = inject<IElDropdownInstance>('elDropdown', {})
   const _elDropdownSize = computed(() => (elDropdown || {}).dropdownSize)
 
   return {
@@ -13,9 +16,9 @@ export const useDropdown = () => {
   }
 }
 
-export const useDropdownDomEvent = (dropdownChildren, triggerElm, _instance) => {
-  const menuItems = ref(null)
-  const menuItemsArray = ref(null)
+export const initDropdownDomEvent = (dropdownChildren, triggerElm, _instance) => {
+  const menuItems = ref<Nullable<NodeList>>(null)
+  const menuItemsArray = ref<Nullable<HTMLElement[]>>(null)
   const dropdownElm = ref<Nullable<HTMLElement>>(null)
   const listId = ref(`dropdown-menu-${generateId()}`)
   dropdownElm.value = dropdownChildren?.subTree.el
@@ -27,17 +30,22 @@ export const useDropdownDomEvent = (dropdownChildren, triggerElm, _instance) => 
     })
   }
 
+  function resetTabindex(ele) {
+    removeTabindex()
+    ele?.setAttribute('tabindex', '0')
+  }
+
   function handleTriggerKeyDown(ev: KeyboardEvent) {
     const keyCode = ev.keyCode
-    if ([38, 40].includes(keyCode)) { // up/down
+    if ([eventKeys.up, eventKeys.down].includes(keyCode)) { // up/down
       removeTabindex()
-      _instance.resetTabindex(menuItems.value[0])
-      menuItems.value[0].focus()
+      resetTabindex(menuItems.value[0])
+      ;(menuItems.value[0] as HTMLButtonElement).focus()
       ev.preventDefault()
       ev.stopPropagation()
-    } else if (keyCode === 13) { // space enter
+    } else if (keyCode === eventKeys.enter) { // space enter
       _instance.handleClick()
-    } else if ([9, 27].includes(keyCode)) { // tab || esc
+    } else if ([eventKeys.tab, eventKeys.esc].includes(keyCode)) { // tab || esc
       _instance.hide()
     }
   }
@@ -48,24 +56,24 @@ export const useDropdownDomEvent = (dropdownChildren, triggerElm, _instance) => 
     const currentIndex = menuItemsArray.value.indexOf(target)
     const max = menuItemsArray.value.length - 1
     let nextIndex
-    if ([38, 40].includes(keyCode)) { // up/down
-      if (keyCode === 38) { // up
+    if ([eventKeys.up, eventKeys.down].includes(keyCode)) { // up/down
+      if (keyCode === eventKeys.up) { // up
         nextIndex = currentIndex !== 0 ? currentIndex - 1 : 0
       } else { // down
         nextIndex = currentIndex < max ? currentIndex + 1 : max
       }
       removeTabindex()
-      _instance.resetTabindex(menuItems.value[nextIndex])
-      menuItems.value[nextIndex].focus()
+      resetTabindex(menuItems.value[nextIndex])
+      ;(menuItems.value[nextIndex] as HTMLButtonElement).focus()
       ev.preventDefault()
       ev.stopPropagation()
-    } else if (keyCode === 13) { // enter
+    } else if (keyCode === eventKeys.enter) { // enter
       triggerElmFocus()
       target.click()
       if (_instance.props.hideOnClick) { // click
         _instance.hide()
       }
-    } else if ([9, 27].includes(keyCode)) { // tab // esc
+    } else if ([eventKeys.tab, eventKeys.esc].includes(keyCode)) { // tab // esc
       _instance.hide()
       triggerElmFocus()
     }
@@ -75,7 +83,7 @@ export const useDropdownDomEvent = (dropdownChildren, triggerElm, _instance) => 
     dropdownElm.value.setAttribute('id', listId.value)
     triggerElm.setAttribute('aria-haspopup', 'list')
     triggerElm.setAttribute('aria-controls', listId.value)
-    if (!_instance.props.splitButton) { // 自定义
+    if (!_instance.props.splitButton) {
       triggerElm.setAttribute('role', 'button')
       triggerElm.setAttribute('tabindex', _instance.tabindex)
       triggerElm.classList.add('el-dropdown-selfdefine')
@@ -83,8 +91,8 @@ export const useDropdownDomEvent = (dropdownChildren, triggerElm, _instance) => 
   }
 
   function initEvent() {
-    triggerElm?.addEventListener('keydown', handleTriggerKeyDown)
-    dropdownElm.value.addEventListener('keydown', handleItemKeyDown, true)
+    on(triggerElm, 'keydown', handleTriggerKeyDown)
+    on(dropdownElm.value, 'keydown', handleItemKeyDown, true)
   }
 
   function initDomOperation() {
