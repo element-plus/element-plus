@@ -1,6 +1,5 @@
 <template>
   <div
-    class="el-table"
     :class="[{
       'el-table--fit': fit,
       'el-table--striped': stripe,
@@ -13,9 +12,10 @@
       'el-table--enable-row-hover': !store.states.isComplex,
       'el-table--enable-row-transition': (store.states.data || []).length !== 0 && (store.states.data || []).length < 100
     }, tableSize ? `el-table--${ tableSize }` : '']"
+    class="el-table"
     @mouseleave="handleMouseLeave($event)"
   >
-    <div ref="hiddenColumns" class="hidden-columns"><slot></slot></div>
+    <!-- <div ref="hiddenColumns" class="hidden-columns"><slot></slot></div>
     <div
       v-if="showHeader"
       ref="headerWrapper"
@@ -231,7 +231,7 @@
         height: layout.headerHeight + 'px'
       }"
     ></div>
-    <div v-show="resizeProxyVisible" ref="resizeProxy" class="el-table__column-resize-proxy"></div>
+    <div v-show="resizeProxyVisible" ref="resizeProxy" class="el-table__column-resize-proxy"></div>-->
   </div>
 </template>
 
@@ -240,54 +240,54 @@ import { defineComponent, getCurrentInstance, reactive } from 'vue'
 import { createStore } from '@element-plus/table/src/store/helper'
 import TableLayout from '@element-plus/table/src/table-layout'
 
-interface fn {
-  (...args: any[]): any
-}
+  interface fn {
+    (...args: any[]): any
+  }
 
-interface ITable {
-  data: any[]
-  size: string
-  width: string | number
-  height: string | number
-  maxHeight: string | number
-  fit: boolean
-  stripe: boolean
-  border: boolean
-  rowKey: string | fn
-  context: unknown
-  showHeader: boolean
-  showSummary: boolean
-  sumText: string
-  summaryMethod: fn
-  rowClassName: string | fn
-  rowStyle: unknown | fn
-  cellClassName: string | fn
-  cellStyle: unknown | fn
-  headerRowClassName: string | fn
-  headerRowStyle: unknown | fn
-  headerCellClassName: string | fn
-  headerCellStyle: unknown | fn
-  highlightCurrentRow: boolean
-  currentRowKey: string | number
-  emptyText: string
-  expandRowKeys: any[]
-  defaultExpandAll: boolean
-  defaultSort: unknown
-  tooltipEffect: string
-  spanMethod: fn
-  selectOnIndeterminate: boolean
-  indent: number
-  treeProps: any
-  lazy: boolean
-  load: fn
-}
+  interface ITable {
+    data: any[]
+    size: string
+    width: string | number
+    height: string | number
+    maxHeight: string | number
+    fit: boolean
+    stripe: boolean
+    border: boolean
+    rowKey: string | fn
+    context: unknown
+    showHeader: boolean
+    showSummary: boolean
+    sumText: string
+    summaryMethod: fn
+    rowClassName: string | fn
+    rowStyle: unknown | fn
+    cellClassName: string | fn
+    cellStyle: unknown | fn
+    headerRowClassName: string | fn
+    headerRowStyle: unknown | fn
+    headerCellClassName: string | fn
+    headerCellStyle: unknown | fn
+    highlightCurrentRow: boolean
+    currentRowKey: string | number
+    emptyText: string
+    expandRowKeys: any[]
+    defaultExpandAll: boolean
+    defaultSort: unknown
+    tooltipEffect: string
+    spanMethod: fn
+    selectOnIndeterminate: boolean
+    indent: number
+    treeProps: any
+    lazy: boolean
+    load: fn
+  }
 
 export default defineComponent({
   name: 'ElTable',
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       },
     },
@@ -393,7 +393,6 @@ export default defineComponent({
       childrenColumnName: props.treeProps.children || 'children',
     })
     table.store = store
-    debugger
     const layout = new TableLayout({
       store: table.store,
       table,
@@ -401,7 +400,6 @@ export default defineComponent({
       showHeader: props.showHeader,
     })
     const that = reactive({
-      layout,
       isHidden: false,
       renderExpanded: null,
       resizeProxyVisible: false,
@@ -416,10 +414,12 @@ export default defineComponent({
     table = {
       ...table,
       ...that,
+      layout,
     }
 
     return {
       ...that,
+      layout,
       store,
     }
   },

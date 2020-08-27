@@ -1,9 +1,8 @@
-import{ nextTick, getCurrentInstance } from 'vue'
+import { nextTick, getCurrentInstance } from 'vue'
 import { arrayFind } from '@element-plus/utils/util'
 import useWatcher from './watcher'
-import { debug } from 'webpack'
 
-function useStore () {
+function useStore() {
   const instance = getCurrentInstance() as any
   const mutations = {
     setData(states, data) {
@@ -133,7 +132,7 @@ function useStore () {
       this.updateCurrentRow(row)
     },
   }
-  const commit = function(name, ...args) {
+  const commit = function (name, ...args) {
     const mutations = this.mutations
     if (mutations[name]) {
       mutations[name].apply(this, [this.states].concat(args))
@@ -141,8 +140,8 @@ function useStore () {
       throw new Error(`Action not found: ${name}`)
     }
   }
-  const updateTableScrollY = function() {
-    nextTick(instance.ctx.layout.updateScrollY)
+  const updateTableScrollY = function () {
+    nextTick(instance.ctx.layout.updateScrollY.apply(instance.ctx.layout))
   }
   instance.mutations = mutations
   instance.commit = commit
