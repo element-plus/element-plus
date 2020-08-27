@@ -15,7 +15,9 @@
     class="el-table"
     @mouseleave="handleMouseLeave($event)"
   >
-    <!-- <div ref="hiddenColumns" class="hidden-columns"><slot></slot></div>
+    <div ref="hiddenColumns" class="hidden-columns">
+      <slot></slot>
+    </div>
     <div
       v-if="showHeader"
       ref="headerWrapper"
@@ -24,15 +26,15 @@
     >
       <table-header
         ref="tableHeader"
-        :store="store"
         :border="border"
         :default-sort="defaultSort"
+        :store="store"
         :style="{
           width: layout.bodyWidth ? layout.bodyWidth + 'px' : ''
         }"
       />
     </div>
-    <div
+    <!-- <div
       ref="bodyWrapper"
       class="el-table__body-wrapper"
       :class="[layout.scrollX ? `is-scrolling-${scrollPosition}` : 'is-scrolling-none']"
@@ -239,6 +241,7 @@
 import { defineComponent, getCurrentInstance, reactive } from 'vue'
 import { createStore } from '@element-plus/table/src/store/helper'
 import TableLayout from '@element-plus/table/src/table-layout'
+import mousewheel from '@element-plus/directives/mousewheel/index'
 
   interface fn {
     (...args: any[]): any
@@ -284,6 +287,9 @@ import TableLayout from '@element-plus/table/src/table-layout'
 
 export default defineComponent({
   name: 'ElTable',
+  directives: {
+    mousewheel,
+  },
   props: {
     data: {
       type: Array,
@@ -417,10 +423,18 @@ export default defineComponent({
       layout,
     }
 
+    const handleHeaderFooterMousewheel = (event, data) => {
+      const { pixelX, pixelY } = data
+      if (Math.abs(pixelX) >= Math.abs(pixelY)) {
+        // this.bodyWrapper.scrollLeft += data.pixelX / 5;
+      }
+    }
+
     return {
       ...that,
       layout,
       store,
+      handleHeaderFooterMousewheel,
     }
   },
 })
