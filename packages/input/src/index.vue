@@ -113,6 +113,7 @@ import {
   onUpdated,
 } from 'vue'
 import isServer from '../../utils/isServer'
+import { isKorean } from '../../utils/isDef'
 import calcTextareaHeight from './calcTextareaHeight'
 
 const ELEMENT: {
@@ -286,7 +287,6 @@ export default defineComponent({
       return isWordLimitVisible.value && (textLength.value > upperLimit.value)
     })
 
-    // methods
     const resizeTextarea = () => {
       if (isServer) return
       if (props.type !== 'textarea') return
@@ -355,9 +355,9 @@ export default defineComponent({
     const focus = () => {
       getInput().focus()
     }
-    // const blur = () => {
-    //   getInput().blur()
-    // }
+    const blur = () => {
+      getInput().blur()
+    }
     const handleFocus = event => {
       focused.value = true
       ctx.emit('focus', event)
@@ -369,17 +369,16 @@ export default defineComponent({
       //   this.dispatch('ElFormItem', 'el.form.blur', [props.modelValue])
       // }
     }
-    // const select = () => {
-    //   getInput().select()
-    // }
+    const select = () => {
+      getInput().select()
+    }
     const handleCompositionStart = () => {
       isComposing.value = true
     }
     const handleCompositionUpdate = event => {
-      // TODO: korean support?
-      // const text = event.target.value
-      // const lastCharacter = text[text.length - 1] || ''
-      // isComposing.value = !isKorean(lastCharacter)
+      const text = event.target.value
+      const lastCharacter = text[text.length - 1] || ''
+      isComposing.value = !isKorean(lastCharacter)
     }
     const handleCompositionEnd = event => {
       if (isComposing.value) {
@@ -405,7 +404,6 @@ export default defineComponent({
         (validateState.value && needStatusIcon.value)
     }
 
-    // watch
     watch(() => props.modelValue, val => {
       nextTick(resizeTextarea)
       // TODO: should dispatch event to parent component <el-form-item>;
@@ -429,10 +427,6 @@ export default defineComponent({
         updateIconOffset()
       })
     })
-
-    // created() {
-    //   this.$on('inputSelect', this.select);
-    // }
 
     onMounted(() => {
       setNativeInputValue()
@@ -467,6 +461,9 @@ export default defineComponent({
       handleCompositionEnd,
       handlePasswordVisible,
       clear,
+      select,
+      focus,
+      blur,
       getSuffixVisible,
     }
   },

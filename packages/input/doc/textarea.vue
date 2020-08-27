@@ -11,16 +11,16 @@
   <div class="demo-input">
     <h3>可自适应文本高度的文本域</h3>
     <el-input
-      v-model="textarea1"
+      v-model="textarea2"
       type="textarea"
       autosize
       placeholder="请输入内容"
     />
     <div style="margin: 20px 0;"></div>
     <el-input
-      v-model="textarea2"
+      v-model="textarea3"
       type="textarea"
-      :autosize="{ minRows: 2, maxRows: 4 }"
+      :autosize="{minRows: 3, maxRows: 5}"
       placeholder="请输入内容"
     />
   </div>
@@ -33,11 +33,11 @@ const basic = defineComponent({
   data() {
     return {
       textarea1: 'sda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasd',
-      textarea2: '',
+      textarea2: 'sda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasd',
+      textarea3: '',
     }
   },
 })
-
 export default basic
 </script>
 
