@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "cz": "git add -A && npx git-cz",
+    "cz": "npx git-cz",
     "test": "jest",
     "gen": "bash ./scripts/gc.sh",
     "storybook": "start-storybook",
