@@ -64,7 +64,7 @@ import {
   getCurrentInstance,
   watch,
   onMounted,
-  // nextTick,
+  PropType,
 } from 'vue'
 import { useCheckbox } from './useCheckbox'
 
@@ -72,12 +72,11 @@ export default defineComponent({
   name: 'ElCheckbox',
   props: {
     modelValue: {
-      type: [Object, Boolean],
+      type: [Object, Boolean, String, Number] as PropType<Record<string, unknown> | boolean | number>,
       default: () => undefined,
     },
     label: {
-      type: [Object, Boolean, String],
-      default: '  ',
+      type: [Object, Boolean, String] as PropType<Record<string, unknown> | boolean | string>,
     },
     indeterminate: Boolean,
     disabled: Boolean,

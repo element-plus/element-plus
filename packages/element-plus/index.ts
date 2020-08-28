@@ -6,6 +6,7 @@ import ElButton from '@element-plus/button'
 import ElBadge from '@element-plus/badge'
 import ElCard from '@element-plus/card'
 import ElCheckbox from '@element-plus/checkbox'
+import ElDropdown from '@element-plus/dropdown'
 import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
@@ -38,6 +39,7 @@ export {
   ElCard,
   ElCheckbox,
   ElDivider,
+  ElDropdown,
   ElTag,
   ElTimeline,
   ElProgress,
@@ -66,6 +68,7 @@ export default function install(app: App): void {
   ElBadge(app)
   ElCard(app)
   ElCheckbox(app)
+  ElDropdown(app)
   ElTag(app)
   ElLayout(app)
   ElDivider(app)
