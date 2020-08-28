@@ -68,7 +68,7 @@ export const initDropdownDomEvent = (dropdownChildren, triggerElm, _instance) =>
       }
       removeTabindex()
       resetTabindex(menuItems.value[nextIndex])
-      menuItems.value[0].focus()
+      menuItems.value[nextIndex].focus()
       ev.preventDefault()
       ev.stopPropagation()
     } else if (keyCode === eventKeys.enter) {
