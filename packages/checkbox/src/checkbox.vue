@@ -72,7 +72,7 @@ export default defineComponent({
   name: 'ElCheckbox',
   props: {
     modelValue: {
-      type: [Object, Boolean] as PropType<Record<string, unknown> | boolean>,
+      type: [Object, Boolean, String, Number] as PropType<Record<string, unknown> | boolean | number>,
       default: () => undefined,
     },
     label: {
