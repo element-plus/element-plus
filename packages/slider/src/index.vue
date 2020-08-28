@@ -192,7 +192,7 @@ export default defineComponent({
 
   emits: [UPDATE_MODEL_EVENT, 'change'],
 
-  setup(props: ISliderProps, { emit }){
+  setup(props, { emit }){
     const initData = reactive({
       firstValue: null,
       secondValue: null,
