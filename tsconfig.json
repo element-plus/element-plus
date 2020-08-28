@@ -1,5 +1,6 @@
 {
  "compilerOptions": {
+   "strict": true,
    "module": "ES2020",
    "declaration": true,
    "noImplicitAny": false,
