@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData" style="width: 500px; height: 300px">
+  <el-table :data="tableData" style="width: 500px;">
     <el-table-column label="日期" prop="date" width="180" />
     <el-table-column label="姓名" prop="name" width="180" />
     <el-table-column label="地址" prop="address" />

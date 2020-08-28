@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
+import { debug } from 'webpack'
 
 class TableLayout {
   observers = []
@@ -66,7 +67,7 @@ class TableLayout {
     const height = this.height
     if (height === null) return false
     const bodyWrapper = this.table.bodyWrapper
-    if (this.table.$el && bodyWrapper) {
+    if (this.table.vnode.el && bodyWrapper) {
       const body = bodyWrapper.querySelector('.el-table__body')
       const prevScrollY = this.scrollY
       const scrollY = body.offsetHeight > this.bodyHeight
@@ -78,7 +79,7 @@ class TableLayout {
 
   setHeight(value, prop = 'height') {
     if (isServer) return
-    const el = this.table.$el
+    const el = this.table.vnode.el
     value = parseHeight(value)
     this.height = value
 
@@ -99,7 +100,7 @@ class TableLayout {
 
   getFlattenColumns() {
     const flattenColumns = []
-    const columns = this.table.columns
+    const columns = this.table.ctx.columns()
     columns.forEach(column => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread
@@ -114,7 +115,7 @@ class TableLayout {
 
   updateElsHeight() {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
-    const { headerWrapper, appendWrapper, footerWrapper } = this.table.$refs
+    const { headerWrapper, appendWrapper, footerWrapper } = this.table.refs
     this.appendHeight = appendWrapper ? appendWrapper.offsetHeight : 0
 
     if (this.showHeader && !headerWrapper) return
@@ -127,7 +128,7 @@ class TableLayout {
     if (this.showHeader && !noneHeader && headerWrapper.offsetWidth > 0 && (this.table.columns || []).length > 0 && headerHeight < 2) {
       return nextTick(() => this.updateElsHeight())
     }
-    const tableHeight = this.tableHeight = this.table.$el.clientHeight
+    const tableHeight = this.tableHeight = this.table.vnode.el.clientHeight
     const footerHeight = this.footerHeight = footerWrapper ? footerWrapper.offsetHeight : 0
     if (this.height !== null) {
       this.bodyHeight = tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0)
@@ -156,7 +157,7 @@ class TableLayout {
   updateColumnsWidth() {
     if (isServer) return
     const fit = this.fit
-    const bodyWidth = this.table.$el.clientWidth
+    const bodyWidth = this.table.vnode.el.clientWidth
     let bodyMinWidth = 0
 
     const flattenColumns = this.getFlattenColumns()

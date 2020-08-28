@@ -238,10 +238,12 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, reactive } from 'vue'
+import { defineComponent, getCurrentInstance, reactive, onMounted, computed } from 'vue'
 import { createStore } from '@element-plus/table/src/store/helper'
 import TableLayout from '@element-plus/table/src/table-layout'
+import { mapStates } from './store/helper'
 import mousewheel from '@element-plus/directives/mousewheel/index'
+import TableHeader from './table-header.vue'
 
   interface fn {
     (...args: any[]): any
@@ -285,10 +287,14 @@ import mousewheel from '@element-plus/directives/mousewheel/index'
     load: fn
   }
 
+let tableIdSeed = 1
 export default defineComponent({
   name: 'ElTable',
   directives: {
     mousewheel,
+  },
+  components: {
+    TableHeader,
   },
   props: {
     data: {
@@ -398,6 +404,13 @@ export default defineComponent({
       lazyColumnIdentifier: props.treeProps.hasChildren || 'hasChildren',
       childrenColumnName: props.treeProps.children || 'children',
     })
+    const storeData = mapStates({
+      selection: 'selection',
+      columns: 'columns',
+      tableData: 'data',
+      fixedColumns: 'fixedColumns',
+      rightFixedColumns: 'rightFixedColumns',
+    })
     table.store = store
     const layout = new TableLayout({
       store: table.store,
@@ -417,6 +430,10 @@ export default defineComponent({
       isGroup: false,
       scrollPosition: 'left',
     })
+    const handleMouseLeave = () => {
+      store.commit('setHoverRow', null)
+      if (table.hoverState) table.hoverState = null
+    }
     table = {
       ...table,
       ...that,
@@ -430,11 +447,52 @@ export default defineComponent({
       }
     }
 
+    const bindEvents = () => {
+      // this.bodyWrapper.addEventListener('scroll', this.syncPostion, { passive: true });
+      // if (this.fit) {
+      //   addResizeListener(this.$el, this.resizeListener);
+      // }
+    }
+    const shouldUpdateHeight = computed(() => {
+      return props.height || props.maxHeight || table.ctx.fixedColumns().length > 0 || table.ctx.rightFixedColumns().length > 0
+    })
+    const doLayout = () => {
+      if (shouldUpdateHeight.value) {
+        layout.updateElsHeight()
+      }
+      layout.updateColumnsWidth()
+    }
+    onMounted(() => {
+      bindEvents()
+      store.updateColumns()
+      doLayout()
+
+      that.resizeState = {
+        width: table.vnode.el.offsetWidth,
+        height: table.vnode.el.offsetHeight,
+      }
+
+      // init filters
+      store.states.columns.forEach(column => {
+        if (column.filteredValue && column.filteredValue.length) {
+          table.commit('filterChange', {
+            column,
+            values: column.filteredValue,
+            silent: true,
+          })
+        }
+      })
+      table.$ready = true
+    })
+
+    const tableId = 'el-table_' + tableIdSeed++
     return {
       ...that,
       layout,
       store,
       handleHeaderFooterMousewheel,
+      ...storeData,
+      tableId,
     }
   },
 })

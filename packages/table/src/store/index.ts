@@ -47,7 +47,7 @@ function useStore() {
         states.reserveSelection = column.reserveSelection
       }
 
-      if (this.table.$ready) {
+      if (this.$ready) {
         this.updateColumns() // hack for dynamics insert column
         this.scheduleLayout()
       }
@@ -63,7 +63,7 @@ function useStore() {
         array.splice(array.indexOf(column), 1)
       }
 
-      if (this.table.$ready) {
+      if (this.$ready) {
         this.updateColumns() // hack for dynamics remove column
         this.scheduleLayout()
       }
@@ -135,7 +135,7 @@ function useStore() {
   const commit = function (name, ...args) {
     const mutations = this.mutations
     if (mutations[name]) {
-      mutations[name].apply(this, [this.states].concat(args))
+      mutations[name].apply(this, [this.store.states].concat(args))
     } else {
       throw new Error(`Action not found: ${name}`)
     }
