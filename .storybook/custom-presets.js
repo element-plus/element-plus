@@ -1,4 +1,5 @@
 var VueLoaderPlugin = require('vue-loader/dist/plugin');
+const path = require('path')
 
 function webpack(config) {
   return {
@@ -12,6 +13,20 @@ function webpack(config) {
           test: /\.vue$/,
           loader: require.resolve('vue-loader'),
           options: {},
+        },
+        {
+          test: /\.(sass|scss)$/,
+          use: [
+            'style-loader',
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require('sass'),
+              },
+            },
+          ],
+          include: path.resolve(__dirname, '../'),
         },
         {
           test: /\.stories\.ts$/,

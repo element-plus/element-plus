@@ -43,7 +43,7 @@ class MenuItem {
         case keys.space: {
           prevDef = true
 
-          (event.currentTarget as HTMLElement).click()
+          ;(event.currentTarget as HTMLElement).click()
           break
         }
       }

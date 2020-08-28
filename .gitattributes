@@ -1,0 +1,5 @@
+*.ts linguist-detectable=false
+*.css linguist-detectable=false
+*.scss linguist-detectable=false
+*.js linguist-detectable=true
+*.vue linguist-detectable=true
