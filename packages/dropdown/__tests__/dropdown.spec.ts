@@ -224,7 +224,7 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep()
     await triggerElm.trigger('keydown', {
-      code: `${eventKeys.enter}`,
+      keyCode: eventKeys.enter,
     })
     await sleep()
     expect(content.value).toBe(false)
@@ -232,7 +232,7 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep()
     await triggerElm.trigger('keydown', {
-      code: `${eventKeys.tab}`,
+      keyCode: eventKeys.tab,
     })
     await sleep()
     expect(content.value).toBe(false)
@@ -264,7 +264,7 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep()
     await content.trigger('keydown', {
-      code: `${eventKeys.down}`,
+      keyCode: eventKeys.down,
     })
     await sleep()
     expect(wrapper.findComponent({ ref: 'd' }).attributes('tabindex')).toBe('0')

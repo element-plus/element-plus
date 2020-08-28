@@ -10,7 +10,7 @@ import {
   onMounted,
   VNode,
 } from 'vue'
-import { on } from '@element-plus/utils/dom'
+import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import ClickOutside from '@element-plus/directives/click-outside'
 import ElButton from '@element-plus/button/src/button.vue'
 import ElButtonGroup from '@element-plus/button/src/button-group.vue'
@@ -87,9 +87,9 @@ export default defineComponent({
         const selfDefine = triggerElm.value
         if (selfDefine) {
           if (val) {
-            selfDefine.classList.add('focusing')
+            addClass(selfDefine, 'focusing')
           } else {
-            selfDefine.classList.remove('focusing')
+            removeClass(selfDefine, 'focusing')
           }
         }
       },
