@@ -4,14 +4,18 @@ import { on, off } from '@element-plus/utils/dom'
 import { ISliderButtonInitData, ISliderButtonProps, ISliderProvider } from './Slider'
 
 
-const useTooltip = (props: ISliderButtonProps, formatTooltip: (value: number) => number | string, showTooltip: ComputedRef<boolean>) => {
+const useTooltip = (props: ISliderButtonProps, formatTooltip: ComputedRef<(value: number) => number | string>, showTooltip: ComputedRef<boolean>) => {
 
   const tooltip = ref(null)
 
   const tooltipVisible = ref(false)
 
+  const enableFormat = computed(() => {
+    return formatTooltip.value instanceof Function
+  })
+
   const formatValue = computed(() => {
-    return formatTooltip(props.modelValue)
+    return enableFormat.value && formatTooltip.value(props.modelValue) || props.modelValue
   })
 
   const displayTooltip = () => {

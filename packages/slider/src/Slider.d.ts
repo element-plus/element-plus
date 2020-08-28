@@ -38,7 +38,7 @@ export interface ISliderProvider{
   showTooltip: ComputedRef<boolean>
   precision: ComputedRef<number>
   sliderSize: ComputedRef<number>
-  formatTooltip: (value: number) => number | string
+  formatTooltip: ComputedRef<(value: number) => number | string>
   emitChange: () => void
   resetSize: () => void
   updateDragging: (val: boolean) => void
@@ -79,7 +79,7 @@ export type ButtonRefs = {
 export interface ISliderButtonProps {
   modelValue: number
   vertical: boolean
-  tooltipClass:string
+  tooltipClass: string
 }
 
 export interface ISliderButtonInitData {

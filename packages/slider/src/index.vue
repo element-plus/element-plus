@@ -154,7 +154,7 @@ export default defineComponent({
     },
     formatTooltip: {
       type: Function as PropType<(val: number) => number | string>,
-      default: (value: number) => value,
+      default: undefined,
     },
     disabled: {
       type: Boolean,
@@ -256,7 +256,7 @@ export default defineComponent({
       showTooltip: computed(() => props.showTooltip),
       precision: precision,
       sliderSize: computed(() => sliderSize.value),
-      formatTooltip: val => props.formatTooltip(val),
+      formatTooltip: computed(() => props.formatTooltip),
       emitChange: emitChange,
       resetSize: resetSize,
       updateDragging: updateDragging,
