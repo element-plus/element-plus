@@ -11,6 +11,31 @@ export const eventKeys = {
   delete: 46,
 }
 
+const FOCUSABLE_ELEMENT_SELECTORS =`
+  a[href],
+  button:not([disabled]),
+  button:not([hidden]),
+  [tabindex]:not([tabindex="-1"]),
+  input:not([disabled]),
+  input:not([type="hidden"]),
+  select,
+  textarea,
+`
+
+/**
+ * Determine if the testing element is visible on screen no matter if its on the viewport or not
+ */
+const isVisible = (element: HTMLElement) => {
+  const computed = getComputedStyle(element)
+  // element.offsetParent won't work on fix positioned
+  return computed.position === 'fix' ? false : element.offsetParent !== null
+}
+
+export const obtainAllFocusableElements = (element: HTMLElement): HTMLElement[] => {
+  return Array.from(element.querySelectorAll(FOCUSABLE_ELEMENT_SELECTORS))
+    .filter(isVisible) as HTMLElement[]
+}
+
 /**
  * @desc Determine if target element is focusable
  * @param element {HTMLElement}
@@ -60,7 +85,7 @@ export const attemptFocus = (element: HTMLElement): boolean => {
   }
   Utils.IgnoreUtilFocusChanges = true
   // Remove the old try catch block since there will be no error to be thrown
-  element.focus && element.focus()
+  element.focus?.()
   Utils.IgnoreUtilFocusChanges = false
   return document.activeElement === element
 }
