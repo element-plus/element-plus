@@ -3,22 +3,23 @@ import { debounce } from 'lodash'
 import { createPopper } from '@popperjs/core'
 
 import { generateId } from '@element-plus/utils/util'
-import { off, addClass } from '@element-plus/utils/dom'
+import { addClass } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
 
-import useEvents from '@element-plus/hooks/use-events'
+import { default as useEvents } from '@element-plus/hooks/use-events'
 
 import useModifier from './useModifier'
 
 import type { Ref } from 'vue'
-import type { SetupContext } from '@vue/runtime-core'
 import type { IPopperOptions, RefElement, PopperInstance } from './popper'
 
-export const DEFAULT_TRIGGER = ['click', 'hover', 'focus', 'contextMenu']
+export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VALUE_EVENT = 'updateValue'
 
 const clearTimer = (timer: Ref<Nullable<NodeJS.Timeout>>) => {
-  clearTimeout(timer.value)
+  if (timer.value) {
+    clearTimeout(timer.value)
+  }
   timer.value = null
 }
 
@@ -45,9 +46,9 @@ const getTrigger = () => {
   return trigger
 }
 
-export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
+export default <T extends IPopperOptions>(props: T) => {
   const arrowRef = ref<RefElement>(null)
-  const trigger = ref<RefElement>(null)
+  const triggerRef = ref<RefElement>(null)
   const exceptionState = ref(false)
   const popperInstance = ref<Nullable<PopperInstance>>(null)
   const popperId = ref(`el-popper-${generateId()}`)
@@ -55,6 +56,8 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
   const show = ref(false)
   const timeout = ref<NodeJS.Timeout>(null)
   const timeoutPending = ref<NodeJS.Timeout>(null)
+  const excludes = computed(() => triggerRef.value)
+  const triggerFocused = ref(false)
 
   const popperOptions = computed(() => {
     return {
@@ -97,17 +100,18 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
     }
   }
 
-  const closePopper = debounce(() => {
+  const close = () => {
     if (props.enterable && exceptionState.value) return
     clearTimer(timeout)
-    if (timeoutPending.value !== null) {
-      clearTimer(timeoutPending)
-    }
+    clearTimer(timeoutPending)
     show.value = false
     if (props.disabled) {
       doDestroy(true)
     }
-  }, props.closeDelay)
+  }
+  const closePopper = props.closeDelay
+    ? debounce(close, props.closeDelay)
+    : close
 
   function onShow() {
     setExpectionState(true)
@@ -128,7 +132,7 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
 
   function initializePopper() {
     const _trigger = getTrigger()
-    trigger.value = _trigger
+    triggerRef.value = _trigger
 
     popperInstance.value = createPopper(_trigger, popperRef.value,
       props.popperOptions !== null
@@ -144,26 +148,6 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
     _trigger.setAttribute('aria-describedby', popperId.value)
     _trigger.setAttribute('tabindex', props.tabIndex)
     addClass(_trigger, props.class)
-
-    const events = [
-      {
-        name: 'mouseenter',
-        handler: onShow,
-      },
-      {
-        name: 'mouseleave',
-        handler: onHide,
-      },
-      {
-        name: 'focus',
-        handler: onShow,
-      },
-      {
-        name: 'blur',
-        handler: onHide,
-      },
-    ]
-    useEvents(trigger, events)
   }
 
   function doDestroy(forceDestroy: boolean) {
@@ -172,21 +156,83 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
     detachPopper()
   }
 
-  function clickMask() {
-    if (props.manualMode) {
-      ctx.emit(UPDATE_VALUE_EVENT, false)
-    }
-  }
-
   function detachPopper() {
     popperInstance.value.destroy()
     popperInstance.value = null
-    const _trigger = trigger.value
-    off(_trigger, 'mouseenter', onShow)
-    off(_trigger, 'mouseleave', onHide)
-    off(_trigger, 'focus', onShow)
-    off(_trigger, 'blur', onHide)
-    trigger.value = null
+    triggerRef.value = null
+  }
+
+  if (!props.manualMode) {
+    const toggleState = () => {
+      if (visible.value) {
+        onHide()
+      } else {
+        onShow()
+      }
+    }
+
+    const handlePopperEvents = (e: Event) => {
+      e.stopImmediatePropagation()
+      switch (e.type) {
+        case 'click': {
+          if (triggerFocused.value) {
+            // reset previous focus event
+            triggerFocused.value = false
+          }
+          toggleState()
+          break
+        }
+        case 'mouseenter': {
+          onShow()
+          break
+        }
+        case 'mouseleave': {
+          onHide()
+          break
+        }
+        case 'focus': {
+          triggerFocused.value = true
+          onShow()
+          break
+        }
+        case 'blur': {
+          triggerFocused.value = false
+          onHide()
+          break
+        }
+      }
+    }
+    const events = []
+    const handler = handlePopperEvents
+    if (props.trigger.includes('click')) {
+      events.push({
+        name: 'click',
+        handler,
+      })
+    }
+
+    if (props.trigger.includes('hover')) {
+      events.push({
+        name: 'mouseenter',
+        handler,
+      },
+      {
+        name: 'mouseleave',
+        handler,
+      })
+    }
+
+    if (props.trigger.includes('focus')) {
+      events.push({
+        name: 'focus',
+        handler,
+      },
+      {
+        name: 'blur',
+        handler,
+      })
+    }
+    useEvents(triggerRef, events)
   }
 
   watch(popperOptions, val => {
@@ -219,7 +265,7 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
 
   onUpdated(() => {
     const _trigger = getTrigger()
-    if (_trigger !== trigger.value && popperInstance.value) {
+    if (_trigger !== triggerRef.value && popperInstance.value) {
       detachPopper()
     }
     if (popperInstance.value) {
@@ -230,15 +276,16 @@ export default <T extends IPopperOptions>(props: T, ctx: SetupContext) => {
   })
 
   return {
-    clickMask,
     doDestroy,
     onShow,
     onHide,
     initializePopper,
     arrowRef,
+    excludes,
     popperId,
     popperInstance,
     popperRef,
+    triggerRef,
     visible,
   }
 }
