@@ -104,7 +104,6 @@ import SliderMarker from './marker.vue'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 import { useMarks } from './useMarks'
-import { ISliderProps } from './Slider'
 
 export default defineComponent({
   name: 'ElSlider',
