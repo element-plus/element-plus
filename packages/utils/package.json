@@ -2,10 +2,13 @@
   "name": "@element-plus/utils",
   "version": "0.0.0",
   "license": "MIT",
+  "dependencies": {
+    "resize-observer-polyfill": "^1.5.1"
+  },
   "peerDependencies": {
-    "vue": "^3.0.0-rc.7"
+    "vue": "^3.0.0-rc.9"
   },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.0"
+    "@vue/test-utils": "^2.0.0-beta.3"
   }
 }
