@@ -55,17 +55,10 @@
   </div>
 </template>
 
-<style>
-.transfer-footer {
-  margin-left: 20px;
-  padding: 6px 5px;
-}
-</style>
-
 <script>
 export default {
   data() {
-    const generateData = _ => {
+    const generateData = () => {
       const data = []
       for (let i = 1; i <= 15; i++) {
         data.push({
@@ -93,3 +86,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.transfer-footer {
+  margin-left: 20px;
+  padding: 6px 5px;
+}
+</style>

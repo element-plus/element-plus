@@ -11,7 +11,7 @@
 <script>
 export default {
   data () {
-    const generateData = _ => {
+    const generateData = () => {
       const data = []
       const states = ['California', 'Illinois', 'Maryland', 'Texas', 'Florida', 'Colorado', 'Connecticut ']
       const initials = ['CA', 'IL', 'MD', 'TX', 'FL', 'CO', 'CT']

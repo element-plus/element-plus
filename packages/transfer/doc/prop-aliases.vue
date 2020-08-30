@@ -12,7 +12,7 @@
 <script>
 export default {
   data() {
-    const generateData = _ => {
+    const generateData = () => {
       const data = []
       for (let i = 1; i <= 15; i++) {
         data.push({
