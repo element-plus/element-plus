@@ -4,6 +4,21 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  methods: {
+    open(): void {
+      this.$msgbox({
+        title: '消息',
+      }).then(()=> {
+        //
+      })
+    },
+  },
+}
+
+</script>
+
 <style scoped>
 .el-alert {
   margin: 6px;

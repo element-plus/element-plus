@@ -20,6 +20,7 @@ import ElRate from '@element-plus/rate'
 import ElSwitch from '@element-plus/switch'
 import ElContainer from '@element-plus/container'
 import ElNotification from '@element-plus/notification'
+import ElMessageBox from '@element-plus/message-box'
 import ElPageHeader from '@element-plus/page-header'
 import ElRadio from '@element-plus/radio'
 import ElScrollBar from '@element-plus/scrollbar'
@@ -58,6 +59,7 @@ export {
   ElCollapse,
   ElTabs,
   ElTooltip,
+  ElMessageBox,
 }
 
 export default function install(app: App): void {
@@ -90,4 +92,5 @@ export default function install(app: App): void {
   ElPopper(app)
   ElTabs(app)
   ElTooltip(app)
+  ElMessageBox(app)
 }
