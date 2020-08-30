@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button>{{ value1 }}</el-button>
+    <el-color-picker />
   </div>
 </template>
 
