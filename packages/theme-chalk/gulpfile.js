@@ -1,5 +1,6 @@
-'use strict'
 /* eslint-disable @typescript-eslint/no-var-requires */
+'use strict'
+
 const { series, src, dest } = require('gulp')
 const sass = require('gulp-dart-sass')
 const autoprefixer = require('gulp-autoprefixer')

@@ -1,8 +1,8 @@
 @import "mixins/mixins";
 @import "common/var";
-@import "./checkbox";
-@import "./radio";
-@import "./scrollbar";
+@import "checkbox";
+@import "radio";
+@import "scrollbar";
 
 @include b(cascader-panel) {
   display: flex;
