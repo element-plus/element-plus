@@ -126,15 +126,15 @@ MessageBox.setDefaults = defaults => {
   MessageBox.defaults = defaults
 }
 
-MessageBox.alert = (message, title, options) => {
+MessageBox.alert = () => {
   // TODO
 }
 
-MessageBox.confirm = (message, title, options) => {
+MessageBox.confirm = () => {
   // TODO
 }
 
-MessageBox.prompt = (message, title, options) => {
+MessageBox.prompt = () => {
   // TODO
 }
 
