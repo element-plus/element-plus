@@ -34,7 +34,7 @@ export default {
 <style>
 .demonstration {
   font-size: 14px;
-  color: #8492a6;
+  color: #8492A6;
   line-height: 44px;
 }
 </style>

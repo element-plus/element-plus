@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { ref, h } from 'vue'
+import { h, ref } from 'vue'
 
 export default {
   setup() {

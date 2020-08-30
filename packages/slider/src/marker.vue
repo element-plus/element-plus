@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, h, computed, PropType } from 'vue'
+import { computed, defineComponent, h, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElMarker',
@@ -9,7 +9,7 @@ export default defineComponent({
       default: () => undefined,
     },
   },
-  setup(props){
+  setup(props) {
     const label = computed(() => {
       return typeof props.mark === 'string' ? props.mark : props.mark.label
     })

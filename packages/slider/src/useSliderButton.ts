@@ -1,6 +1,6 @@
-import { computed, inject, nextTick, ref, watch, ComputedRef } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { on, off } from '@element-plus/utils/dom'
+import { off, on } from '@element-plus/utils/dom'
+import { computed, ComputedRef, inject, nextTick, ref, watch } from 'vue'
 import { ISliderButtonInitData, ISliderButtonProps, ISliderProvider } from './Slider'
 
 
@@ -127,9 +127,9 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
       clientY,
     } = getClientXY(event)
     if (props.vertical) {
-      initData.startY =  clientY
+      initData.startY = clientY
     } else {
-      initData.startX =  clientX
+      initData.startX = clientX
     }
     initData.startPosition = parseFloat(currentPosition.value)
     initData.newPosition = initData.startPosition

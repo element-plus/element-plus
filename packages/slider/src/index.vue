@@ -80,30 +80,30 @@
 </template>
 
 <script lang="ts">
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { off, on } from '@element-plus/utils/dom'
+import throwError from '@element-plus/utils/error'
 import {
+  computed,
   defineComponent,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  PropType,
+  provide,
   reactive,
   ref,
-  toRefs,
-  provide,
-  computed,
-  watch,
-  nextTick,
-  onMounted,
-  onBeforeUnmount,
   Ref,
-  PropType,
+  toRefs,
+  watch,
 } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { on, off } from '@element-plus/utils/dom'
-import throwError from '@element-plus/utils/error'
 // TODO: waiting for ElInputNumber component refactored
 // import ElInputNumber from '@element-plus/input-number'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
+import { useMarks } from './useMarks'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
-import { useMarks } from './useMarks'
 
 export default defineComponent({
   name: 'ElSlider',
@@ -191,7 +191,7 @@ export default defineComponent({
 
   emits: [UPDATE_MODEL_EVENT, 'change'],
 
-  setup(props, { emit }){
+  setup(props, { emit }) {
     const initData = reactive({
       firstValue: null,
       secondValue: null,
@@ -232,7 +232,6 @@ export default defineComponent({
     })
 
     const { sliderWrapper } = useLifecycle(props, initData, resetSize)
-
 
 
     const {
@@ -303,7 +302,7 @@ const useWatch = (props, initData, minValue, maxValue, emit) => {
 
   const setValues = () => {
     if (props.min > props.max) {
-      throwError('Slider', 'min should not be greater than max.' )
+      throwError('Slider', 'min should not be greater than max.')
       return
     }
     const val = props.modelValue
@@ -388,7 +387,7 @@ const useLifecycle = (props, initData, resetSize) => {
         initData.secondValue = props.max
       }
       initData.oldValue = [initData.firstValue, initData.secondValue]
-      valuetext = `${initData.firstValue}-${initData.secondValue}`
+      valuetext = `${ initData.firstValue }-${ initData.secondValue }`
     } else {
       if (typeof props.modelValue !== 'number' || isNaN(props.modelValue)) {
         initData.firstValue = props.min
@@ -402,7 +401,7 @@ const useLifecycle = (props, initData, resetSize) => {
     sliderWrapper.value.setAttribute('aria-valuetext', valuetext)
 
     // label screen reader
-    sliderWrapper.value.setAttribute('aria-label', props.label ? props.label : `slider between ${props.min} and ${props.max}`)
+    sliderWrapper.value.setAttribute('aria-label', props.label ? props.label : `slider between ${ props.min } and ${ props.max }`)
 
     on(window, 'resize', resetSize)
 

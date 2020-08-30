@@ -33,7 +33,7 @@ export default {
       value4: 48,
       value5: 42,
     })
-    const formatTooltip = (val:number) => `当前: ${val}`
+    const formatTooltip = (val: number) => `当前: ${ val }`
     return {
       ...toRefs(values),
       formatTooltip,
@@ -42,14 +42,15 @@ export default {
 }
 </script>
 <style>
-.block{
+.block {
   padding: 30px 24px;
   overflow: hidden;
-  border-bottom: 1px solid #eff2f6;
+  border-bottom: 1px solid #EFF2F6;
 }
-.demonstration{
+
+.demonstration {
   font-size: 14px;
-  color: #8492a6;
+  color: #8492A6;
   line-height: 44px;
 }
 </style>

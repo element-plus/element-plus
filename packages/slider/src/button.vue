@@ -33,13 +33,9 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  toRefs,
-} from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { defineComponent, reactive, toRefs } from 'vue'
 import { useSliderButton } from './useSliderButton'
 
 export default defineComponent({

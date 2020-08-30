@@ -1,8 +1,8 @@
 import { computed, inject, nextTick, ref } from 'vue'
-import { ISliderInitData, ISliderProps, ButtonRefs } from './Slider'
+import { ButtonRefs, ISliderInitData, ISliderProps } from './Slider'
 
 export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) => {
-  const elForm: { disabled?: boolean;} = inject('elForm', {})
+  const elForm: {disabled?: boolean;} = inject('elForm', {})
 
   const slider = ref<Nullable<HTMLElement>>(null)
 

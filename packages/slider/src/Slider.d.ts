@@ -30,7 +30,7 @@ export interface ISliderInitData {
   sliderSize: number
 }
 
-export interface ISliderProvider{
+export interface ISliderProvider {
   disabled: ComputedRef<boolean>
   min: ComputedRef<number>
   max: ComputedRef<number>
@@ -65,7 +65,7 @@ export type Slide = {
   minValue: ComputedRef<number>
   maxValue: ComputedRef<number>
   runwayStyle: ComputedRef<CSSStyleDeclaration>
-  barStyle: ComputedRef<CSSStyleDeclaration >
+  barStyle: ComputedRef<CSSStyleDeclaration>
   resetSize: () => void
   setPosition: (percent: number) => void
   emitChange: () => void
