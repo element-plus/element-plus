@@ -1,14 +1,7 @@
 <script lang="ts">
 import {
-  computed,
   defineComponent,
-  getCurrentInstance,
   h,
-  ref,
-  onBeforeUnmount,
-  onMounted,
-  onUpdated,
-  watch,
   Fragment,
   Teleport,
   Transition,
@@ -16,46 +9,32 @@ import {
   vShow,
 } from 'vue'
 import { isArray } from '@vue/shared'
-import { debounce } from 'lodash'
-import { createPopper } from '@popperjs/core'
 
-import { generateId } from '@element-plus/utils/util'
-import { on, off } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
+import { ClickOutside } from '@element-plus/directives'
+import { default as usePopper, DEFAULT_TRIGGER, UPDATE_VALUE_EVENT } from './usePopper'
 
-import useModifier from './useModifier'
+import type { PropType } from 'vue'
 
-import type { PropType, Ref } from 'vue'
-
-import type { Effect, Offset, Placement, PopperInstance, PositioningStrategy, RefElement, Options } from './popper'
+import type {
+  Effect,
+  Offset,
+  Options,
+  Placement,
+  PositioningStrategy,
+  TriggerType,
+  IPopperOptions,
+} from './popper'
 
 const stop = (e: Event) => e.stopPropagation()
 
-const getTrigger = () => {
-  const { subTree: { children } } = getCurrentInstance()
-  // SubTree is formed by <slot name="trigger"/><popper />
-  // So that the trigger element is within the slot, we need to take it out of the slot in order to attach
-  // events on top of it
-  const targetSlot = children[0]
-  if (targetSlot.length > 1) {
-    console.warn('Popper will only be attached to the first child')
-  }
-
-  // This indicates if the slot is rendered with directives (e.g. v-if) or templates (e.g. <template />)
-  // if it's true, then the children needs to be taken by accessing targetSlots.children to get it
-
-  const trigger: HTMLElement = targetSlot.type === Fragment
-    ? targetSlot.children[0].el
-    : targetSlot.el
-  if (!trigger) {
-    throwError(compName, 'Cannot find referrer to attach popper to')
-  }
-  return trigger
-}
-
 const compName = 'ElPopper'
+
 export default defineComponent({
   name: compName,
+  directives: {
+    ClickOutside,
+  },
   props: {
     arrowOffset: {
       type: Number,
@@ -73,6 +52,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    class: {
+      type: String,
+      default: '',
+    },
     closeDelay: {
       type: Number,
       default: 200,
@@ -83,7 +66,7 @@ export default defineComponent({
     },
     disabled: {
       type: Boolean,
-      defualt: false,
+      default: false,
     },
     effect: {
       type: String as PropType<Effect>,
@@ -149,6 +132,10 @@ export default defineComponent({
       type: String,
       default: 'el-fade-in-linear',
     },
+    trigger: {
+      type: [String, Array] as PropType<TriggerType | Array<TriggerType>>,
+      default: DEFAULT_TRIGGER,
+    },
     tabIndex: {
       type: String,
       default: '0',
@@ -158,199 +145,15 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props, { slots }) {
-    const popperRef = ref<RefElement>(null)
-    const arrowRef = ref<RefElement>(null)
-    const trigger = ref<RefElement>(null)
-
-    const exceptionState = ref(false)
-    const show = ref(false)
-    const popperId = ref(`el-tooltip-${generateId()}`)
-
-    const popperInstance = ref<Nullable<PopperInstance>>(null)
-    const timeout = ref<NodeJS.Timeout>(null)
-    const timeoutPending = ref<NodeJS.Timeout>(null)
-
-    const visible = computed(() => {
-      return props.manualMode ? props.value : !props.disabled && show.value
-    })
-
-    const popperOptions = computed(() => {
-      return {
-        modifierOptions: {
-          arrowOffset: props.arrowOffset,
-          arrowRef: arrowRef.value,
-          boundariesPadding: props.boundariesPadding,
-          cutoff: props.cutoff,
-          offset: props.offset,
-          showArrow: props.showArrow,
-          fallbackOptions: props.flip ? {} : { fallbackPlacements: [] },
-        },
-        placement: props.placement,
-        strategy: props.strategy,
-      }
-    })
-
-    const clearTimer = (timer: Ref<Nullable<NodeJS.Timeout>>) => {
-      clearTimeout(timer.value)
-      timer.value = null
-    }
-    if (!slots.trigger) {
+  emits: [UPDATE_VALUE_EVENT],
+  setup(props, ctx) {
+    if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
     }
     // this is a reference that we need to pass down to child component
     // to obtain the child instance
-    function doDestroy(forceDestroy: boolean) {
-      /* istanbul ignore if */
-      if (!popperInstance.value || (visible.value && !forceDestroy)) return
-      detach()
-    }
 
-    function detach() {
-      popperInstance.value.destroy()
-      popperInstance.value = null
-      const _trigger = trigger.value
-      off(_trigger, 'mouseenter', _show)
-      off(_trigger, 'mouseleave', _hide)
-      off(_trigger, 'focus', handleFocus)
-      off(_trigger, 'blur', handleBlur)
-      trigger.value = null
-    }
-
-    const showPopper = () => {
-      if (!exceptionState.value || props.manualMode || props.disabled) return
-      clearTimer(timeout)
-      const handleHideAfter = () => {
-        if (props.hideAfter > 0) {
-          timeoutPending.value = setTimeout(() => {
-            show.value = false
-          }, props.hideAfter)
-        }
-      }
-      if (props.showAfter === 0) {
-        show.value = true
-        handleHideAfter()
-      } else {
-        timeout.value = setTimeout(() => {
-          show.value = true
-          handleHideAfter()
-        }, props.showAfter)
-      }
-    }
-
-    const debouncedClose = debounce(() => {
-      if (props.enterable && exceptionState.value) return
-      clearTimer(timeout)
-      if (timeoutPending.value !== null) {
-        clearTimer(timeoutPending)
-      }
-      show.value = false
-      if (props.disabled) {
-        doDestroy(true)
-      }
-    }, props.closeDelay)
-
-    function setExpectionState(state: boolean) {
-      if (!state) {
-        clearTimer(timeoutPending)
-      }
-      exceptionState.value = state
-    }
-
-    function _show() {
-      setExpectionState(true)
-      showPopper()
-    }
-
-    function _hide() {
-      setExpectionState(false)
-      debouncedClose()
-    }
-
-    function handleBlur() {
-      _hide()
-    }
-
-    function handleFocus() {
-      _show()
-    }
-
-    function initializePopper() {
-      const _trigger = getTrigger()
-
-
-      trigger.value = _trigger
-
-      popperInstance.value = createPopper(_trigger, popperRef.value,
-        props.popperOptions !== null
-          ? props.popperOptions
-          : {
-            placement: popperOptions.value.placement,
-            onFirstUpdate: () => {
-              popperInstance.value.forceUpdate()
-            },
-            strategy: popperOptions.value.strategy,
-            modifiers: useModifier(popperOptions.value.modifierOptions),
-          })
-      _trigger.setAttribute('aria-describedby', popperId.value)
-      _trigger.setAttribute('tabindex', props.tabIndex)
-      on(_trigger, 'mouseenter', _show)
-      on(_trigger, 'mouseleave', _hide)
-      on(_trigger, 'focus', handleFocus)
-      on(_trigger, 'blur', handleBlur)
-    }
-
-    watch(
-      () => visible.value,
-      () => {
-        if (popperInstance.value) {
-          popperInstance.value.update()
-        } else {
-          initializePopper()
-        }
-      },
-    )
-
-    watch(() => popperOptions.value, val => {
-      if (!popperInstance.value) return
-      popperInstance.value.setOptions({
-        placement: val.placement,
-        strategy: val.strategy,
-        modifiers: useModifier(val.modifierOptions),
-      })
-      popperInstance.value.update()
-    })
-
-    onMounted(() => {
-      initializePopper()
-    })
-
-    onBeforeUnmount(() => {
-      doDestroy(true)
-    })
-
-    onUpdated(() => {
-      const _trigger = getTrigger()
-      if (_trigger !== trigger.value && popperInstance.value) {
-        detach()
-      }
-      if (popperInstance.value) {
-        popperInstance.value.update()
-      } else {
-        initializePopper()
-      }
-    })
-
-    return {
-      arrowRef,
-      popperId,
-      doDestroy,
-      _show,
-      _hide,
-      popperRef,
-      popperInstance,
-      visible,
-    }
+    return usePopper(props as IPopperOptions)
   },
   deactivated() {
     this.doDestroy()
@@ -359,6 +162,7 @@ export default defineComponent({
     this.initializePopper()
   },
   render() {
+    const { $slots } = this
     const arrow = this.showArrow
       ? h(
         'div',
@@ -393,12 +197,12 @@ export default defineComponent({
                 id: this.popperId,
                 ref: 'popperRef',
                 role: 'tooltip',
-                onMouseEnter: this._show,
-                onMouseLeave: this._hide,
+                onMouseEnter: this.onShow,
+                onMouseLeave: this.onHide,
                 onClick: stop,
               },
               [
-                this.$slots.default ? this.$slots.default() : this.content,
+                ($slots.default?.()) || this.content,
                 arrow,
               ],
             ),
@@ -408,18 +212,29 @@ export default defineComponent({
           ),
       },
     )
+
+    const _t = $slots.trigger?.()
     return h(
       Fragment,
       null,
       [
-        this.$slots.trigger?.(),
+        _t,
         this.appendToBody
           ? h(
             Teleport,
             {
               to: 'body',
             },
-            popper,
+            withDirectives(
+              h(
+                'div',
+                {
+                  class: 'el-popper__mask',
+                },
+                popper,
+              ),
+              [[ClickOutside, this.onHide, [this.excludes] as any]],
+            ),
           )
           : popper,
       ],
@@ -429,6 +244,14 @@ export default defineComponent({
 </script>
 
 <style>
+
+.el-popper__mask {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+
 .el-popper {
   position: absolute;
   border-radius: 4px;
@@ -438,6 +261,7 @@ export default defineComponent({
   line-height: 1.2;
   min-width: 10px;
   word-wrap: break-word;
+  visibility: visible;
 }
 
 .el-popper__arrow,

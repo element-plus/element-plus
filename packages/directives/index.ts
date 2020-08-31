@@ -1,5 +1,2 @@
-import ClickOutside from './click-outside/index'
+export { default as ClickOutside } from './click-outside'
 
-export {
-  ClickOutside,
-}
