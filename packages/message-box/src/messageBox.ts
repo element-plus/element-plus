@@ -143,3 +143,4 @@ MessageBox.close = () => {
 }
 
 export default MessageBox
+export { MessageBox }
