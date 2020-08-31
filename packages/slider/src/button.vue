@@ -17,10 +17,10 @@
     @keydown.up.prevent="onRightKeyDown"
   >
     <el-popper
+      v-if="showTooltip"
       ref="tooltip"
       placement="top"
       :popper-class="tooltipClass"
-      :disabled="!showTooltip"
       manual-mode
       :value="tooltipVisible"
     >
@@ -29,6 +29,7 @@
         <div class="el-slider__button el-tooltip" :class="{ 'hover': hovering, 'dragging': dragging }"></div>
       </template>
     </el-popper>
+    <div v-else class="el-slider__button el-tooltip" :class="{ 'hover': hovering, 'dragging': dragging }"></div>
   </div>
 </template>
 
