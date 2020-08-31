@@ -39,7 +39,7 @@
       </el-checkbox-group>
     </div>
     <div style="margin-top: 20px">
-      <el-checkbox-group v-model="checkboxGroup4" size="mini" disabled>
+      <el-checkbox-group v-model="checkboxGroup4" :size="size" disabled>
         <el-checkbox-button v-for="city in cities" :key="city" :label="city">{{ city }}</el-checkbox-button>
       </el-checkbox-group>
     </div>
@@ -60,7 +60,12 @@ export default defineComponent({
       checkboxGroup2: ['NYC'],
       checkboxGroup3: ['NYC'],
       checkboxGroup4: ['NYC'],
+
+      size: 'mini',
     }
+  },
+  mounted() {
+    setTimeout(() => this.size = 'medium', 3000)
   },
   methods: {
     handleCheckAllChange(val) {
