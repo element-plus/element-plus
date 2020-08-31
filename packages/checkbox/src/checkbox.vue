@@ -62,6 +62,7 @@ import {
   defineComponent,
   PropType,
 } from 'vue'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useCheckbox, setAria } from './useCheckbox'
 
 export default defineComponent({
@@ -103,7 +104,7 @@ export default defineComponent({
       default: undefined,
     },
   },
-  emits: ['update:modelValue', 'change'],
+  emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props) {
     const { focus, isChecked, isDisabled, checkboxSize, model, handleChange } = useCheckbox(props)
 

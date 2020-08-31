@@ -54,6 +54,7 @@ import {
   computed,
   PropType,
 } from 'vue'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useCheckbox, useCheckboxGroup } from './useCheckbox'
 
 export default defineComponent({
@@ -82,17 +83,17 @@ export default defineComponent({
       default: undefined,
     },
   },
-  emits: ['update:modelValue', 'change'],
+  emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props) {
     const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(props)
     const { checkboxGroup } = useCheckboxGroup()
 
     const activeStyle = computed(() => {
       return {
-        backgroundColor: checkboxGroup.fill || '',
-        borderColor: checkboxGroup.fill || '',
-        color: checkboxGroup.textColor || '',
-        boxShadow: '-1px 0 0 0 ' + checkboxGroup.fill,
+        backgroundColor: checkboxGroup.fill?.value || '',
+        borderColor: checkboxGroup.fill?.value || '',
+        color: checkboxGroup.textColor?.value || '',
+        boxShadow: '-1px 0 0 0 ' + checkboxGroup.fill?.value,
       }
     })
 
