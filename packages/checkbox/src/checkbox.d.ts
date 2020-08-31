@@ -2,12 +2,12 @@ import { ComputedRef } from 'vue'
 export interface ICheckboxGroupInstance {
   name?: string
   modelValue?: ComputedRef
-  disabled?: boolean
-  min?: string | number
-  max?: string | number
-  size?: string
-  fill?: string
-  textColor?: string
+  disabled?: ComputedRef<boolean>
+  min?: ComputedRef<string | number>
+  max?: ComputedRef<string | number>
+  size?: ComputedRef<string>
+  fill?: ComputedRef<string>
+  textColor?: ComputedRef<string>
   checkboxGroupSize?: ComputedRef<string>
   changeEvent?: (val: any) => void
 }
