@@ -1,5 +1,10 @@
 <template>
-  <div ref="container" class="el-image">
+  <div
+    ref="container"
+    class="el-image"
+    :class="rootClass"
+    :style="rootStyle"
+  >
     <slot v-if="loading" name="placeholder">
       <div class="el-image__placeholder"></div>
     </slot>
@@ -35,7 +40,7 @@ import throttle from 'lodash/throttle'
 import isServer from '@element-plus/utils/isServer'
 import { on, off, getScrollContainer, isInContainer } from '@element-plus/utils/dom'
 import { t } from '@element-plus/locale'
-import ImageViewer from './image-viewer'
+import ImageViewer from './image-viewer.vue'
 
 const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined
 const isHtmlEle = e => e && e.nodeType === 1
@@ -55,7 +60,10 @@ export default defineComponent({
   components: {
     ImageViewer,
   },
+  inheritAttrs: false,
   props: {
+    class: String,
+    style: Object,
     src: {
       type: String,
       default: '',
@@ -86,8 +94,8 @@ export default defineComponent({
     // init here
     const hasLoadError = ref(false)
     const loading = ref(true)
-    const imgWidth = ref(false)
-    const imgHeight = ref(false)
+    const imgWidth = ref(0)
+    const imgHeight = ref(0)
     const showViewer = ref(false)
     const container = ref<HTMLElement | null>(null)
     const show = ref(props.lazy)
@@ -115,7 +123,7 @@ export default defineComponent({
       return Array.isArray(previewSrcList) && previewSrcList.length > 0
     })
     const imageIndex = computed(() => {
-      const { src , previewSrcList } = props
+      const { src, previewSrcList } = props
       let previewIndex = 0
       const srcIndex = previewSrcList.indexOf(src)
       if (srcIndex >= 0) {
@@ -170,13 +178,13 @@ export default defineComponent({
       // so it can behave consistently
       Object.keys(attrs)
         .forEach(key => {
-          const value = attrs[key]
+          const value = attrs[key] as string
           img.setAttribute(key, value)
         })
       img.src = props.src
     }
 
-    function handleLoad(e: Event, img: Any) {
+    function handleLoad(e: Event, img: HTMLImageElement) {
       imgWidth.value = img.width
       imgHeight.value = img.height
       loading.value = false
@@ -254,6 +262,10 @@ export default defineComponent({
       props.lazy && removeLazyLoadListener()
     })
 
+    // class is keyword of JS, so cannot pass it on root, like :class="class".
+    const rootClass = computed(() => props.class)
+    const rootStyle = computed(() => props.style)
+
     return {
       loading,
       hasLoadError,
@@ -268,6 +280,8 @@ export default defineComponent({
       closeViewer,
       container,
       t,
+      rootClass,
+      rootStyle,
     }
   },
 })
