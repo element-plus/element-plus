@@ -1,4 +1,4 @@
-import { ComputedRef, PropType } from 'vue'
+import { ComputedRef } from 'vue'
 export interface ICheckboxGroupInstance {
   name?: string
   modelValue?: ComputedRef
@@ -13,8 +13,8 @@ export interface ICheckboxGroupInstance {
 }
 
 export interface ICheckboxProps {
-  modelValue: ICheckboxModelValue
-  label?:ICheckboxLabel
+  modelValue: string | boolean | number
+  label?:string | boolean | number
   indeterminate?: boolean
   disabled?: boolean
   checked?: boolean
@@ -27,6 +27,4 @@ export interface ICheckboxProps {
   size?: string
 }
 
-export type ICheckboxLabel = PropType<string | boolean | number>
-export type ICheckboxModelValue = PropType<string | boolean | number>
-
+export type IArgs<T extends (...args: any) => any> = Partial<ReturnType<T>>
