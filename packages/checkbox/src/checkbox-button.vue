@@ -92,7 +92,7 @@ export default defineComponent({
         backgroundColor: checkboxGroup.fill || '',
         borderColor: checkboxGroup.fill || '',
         color: checkboxGroup.textColor || '',
-        'box-shadow': '-1px 0 0 0 ' + checkboxGroup.fill,
+        boxShadow: '-1px 0 0 0 ' + checkboxGroup.fill,
       }
     })
 
