@@ -23,20 +23,9 @@ import {
   computed,
   ref,
   PropType,
+  watch,
 } from 'vue'
-const arrayFindIndex = function(arr, pred) {
-  for (let i = 0; i !== arr.length; ++i) {
-    if (pred(arr[i])) {
-      return i
-    }
-  }
-  return -1
-}
 
-const arrayFind = function(arr, pred) {
-  const idx = arrayFindIndex(arr, pred)
-  return idx !== -1 ? arr[idx] : undefined
-}
 const datesInMonth = (year, month) => {
   const numOfDays = getDayCountOfMonth(year, month)
   const firstDay = new Date(year, month, 1)
@@ -57,14 +46,19 @@ const getMonthTimestamp = function(time) {
   }
 }
 export default defineComponent({
-
   props: {
     disabledDate: {},
+    value: {},
     selectionMode: {
+      type: String,
       default: 'month',
     },
-    minDate: {},
-    maxDate: {},
+    minDate: {
+      type: Date as PropType<Date>,
+    },
+    maxDate: {
+      type: Date as PropType<Date>,
+    },
     defaultValue: {
       validator: (val: any):boolean => (
         // null or valid Date Object
@@ -75,6 +69,7 @@ export default defineComponent({
       type: Date as PropType<Date>,
     },
     rangeState: {
+      type: Object,
       default: () => ({
         endDate: null,
         selecting: false,
@@ -82,7 +77,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['changerange', 'pick'],
+  emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
     const months = ref(['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'])
@@ -119,7 +114,7 @@ export default defineComponent({
           cell.text = index
           let cellDate = new Date(time)
           cell.disabled = typeof disabledDate === 'function' && disabledDate(cellDate)
-          cell.selected = arrayFind(selectedDate, date => date.getTime() === cellDate.getTime())
+          cell.selected = selectedDate.find(date => date.getTime() === cellDate.getTime())
           row[j] = cell
         }
       }
@@ -134,7 +129,7 @@ export default defineComponent({
       style.disabled = typeof props.disabledDate === 'function'
         ? datesInMonth(year, month).every(props.disabledDate)
         : false
-      style.current = arrayFindIndex(coerceTruthyValueToArray(props.date), date => date.getFullYear() === year && date.getMonth() === month) >= 0
+      style.current = coerceTruthyValueToArray(props.value).findIndex(date => date.getFullYear() === year && date.getMonth() === month) >= 0
       style.today = today.getFullYear() === year && today.getMonth() === month
       style.default = defaultValue.some(date => cellMatchesDate(cell, date))
 
@@ -205,16 +200,14 @@ export default defineComponent({
       if (props.selectionMode === 'range') {
         if (!props.rangeState.selecting) {
           ctx.emit('pick', { minDate: newDate, maxDate: null })
-          //todo props
-          // this.rangeState.selecting = true
+          ctx.emit('select', true)
         } else {
           if (newDate >= props.minDate) {
             ctx.emit('pick', { minDate: props.minDate, maxDate: newDate })
           } else {
             ctx.emit('pick', { minDate: newDate, maxDate: props.minDate })
           }
-          //todo props
-          // this.rangeState.selecting = false
+          ctx.emit('select', false)
         }
       } else {
         ctx.emit('pick', month)
@@ -224,25 +217,42 @@ export default defineComponent({
       const year = props.date.getFullYear()
       return new Date(year, month, 1)
     }
-    // markRange(minDate, maxDate) {
-    //   minDate = getMonthTimestamp(minDate)
-    //   maxDate = getMonthTimestamp(maxDate) || minDate;
-    //   [minDate, maxDate] = [Math.min(minDate, maxDate), Math.max(minDate, maxDate)]
-    //   const rows = this.rows
-    //   for (let i = 0, k = rows.length; i < k; i++) {
-    //     const row = rows[i]
-    //     for (let j = 0, l = row.length; j < l; j++) {
 
-    //       const cell = row[j]
-    //       const index = i * 4 + j
-    //       const time = new Date(this.date.getFullYear(), index).getTime()
+    const markRange = (minDate, maxDate) => {
+      minDate = getMonthTimestamp(minDate)
+      maxDate = getMonthTimestamp(maxDate) || minDate;
+      [minDate, maxDate] = [Math.min(minDate, maxDate), Math.max(minDate, maxDate)]
+      for (let i = 0, k = rows.value.length; i < k; i++) {
+        const row = rows.value[i]
+        for (let j = 0, l = row.length; j < l; j++) {
 
-    //       cell.inRange = minDate && time >= minDate && time <= maxDate
-    //       cell.start = minDate && time === minDate
-    //       cell.end = maxDate && time === maxDate
-    //     }
-    //   }
-    // }
+          const cell = row[j]
+          const index = i * 4 + j
+          const time = new Date(props.date.getFullYear(), index).getTime()
+
+          cell.inRange = minDate && time >= minDate && time <= maxDate
+          cell.start = minDate && time === minDate
+          cell.end = maxDate && time === maxDate
+        }
+      }
+    }
+
+    watch(() => props.rangeState.endDate, newVal => {
+      markRange(props.minDate, newVal)
+    })
+
+    watch(() => props.minDate, (newVal, oldVal) => {
+      if (getMonthTimestamp(newVal) !== getMonthTimestamp(oldVal)) {
+        markRange(props.minDate, props.maxDate)
+      }
+    })
+
+    watch(() => props.maxDate, (newVal, oldVal) => {
+      if (getMonthTimestamp(newVal) !== getMonthTimestamp(oldVal)) {
+        markRange(props.minDate, props.maxDate)
+      }
+    })
+
     return {
       handleMouseMove,
       handleMonthTableClick,
@@ -252,25 +262,6 @@ export default defineComponent({
       months,
     }
   },
-
-  // watch: {
-  //   'rangeState.endDate'(newVal) {
-  //     this.markRange(this.minDate, newVal)
-  //   },
-
-  //   minDate(newVal, oldVal) {
-  //     if (getMonthTimestamp(newVal) !== getMonthTimestamp(oldVal)) {
-  //       this.markRange(this.minDate, this.maxDate)
-  //     }
-  //   },
-
-  //   maxDate(newVal, oldVal) {
-  //     if (getMonthTimestamp(newVal) !== getMonthTimestamp(oldVal)) {
-  //       this.markRange(this.minDate, this.maxDate)
-  //     }
-  //   },
-  // },
-
 
 })
 </script>

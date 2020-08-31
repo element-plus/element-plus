@@ -444,7 +444,6 @@ export default defineComponent({
   //     value: '',
   //     defaultValue: null, // use getDefaultValue() for time computation
   //     defaultTime: null,
-  //     shortcuts: '',
   //     visible: false,
   //     disabledDate: '',
   //     selectableRange: [],
