@@ -41,11 +41,11 @@ describe('TimePicker', () => {
     const wrapper = _mount(`<el-date-picker
         v-model="value"
     />`, () => ({ value: '' }))
-    const input = wrapper.find('input').element
     const date = dayjs()
 
-    input.blur()
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
     const spans = document.querySelectorAll('.el-date-picker__header-label')
     const arrowLeftElm = document.querySelector('.el-date-picker__prev-btn.el-icon-arrow-left') as HTMLElement
@@ -75,8 +75,9 @@ describe('TimePicker', () => {
     const wrapper = _mount(`<div class="out">out</div><el-date-picker
         v-model="value"
     />`, () => ({ value: '' }))
-    const input = wrapper.find('input').element
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick();
     (document.querySelector('td.available') as HTMLElement).click()
     await nextTick()
@@ -113,8 +114,9 @@ describe('TimePicker', () => {
       },
     })
 
-    const input = wrapper.find('input').element
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
     expect(focusHandler).toHaveBeenCalledTimes(1);
     (document.querySelector('td.available') as HTMLElement).click()
