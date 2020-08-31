@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, watch, provide, nextTick } from 'vue'
-import { useCheckbox } from './useCheckbox'
+import { useCheckboxGroup } from './useCheckbox'
 
 export default defineComponent({
   name: 'ElCheckboxGroup',
@@ -42,8 +42,8 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
 
   setup(props, ctx) {
-    const { elFormItem, _elFormItemSize, ELEMENT } = useCheckbox()
-    const checkboxGroupSize = computed(() => props.size || _elFormItemSize.value || (ELEMENT || {}).size)
+    const { elFormItem, elFormItemSize, ELEMENT } = useCheckboxGroup()
+    const checkboxGroupSize = computed(() => props.size || elFormItemSize.value || (ELEMENT || {}).size)
 
     const changeEvent = value => {
       ctx.emit('update:modelValue', value)
@@ -71,7 +71,7 @@ export default defineComponent({
       fill: props.fill,
       textColor: props.textColor,
       checkboxGroupSize: checkboxGroupSize.value,
-      changeEvent: changeEvent,
+      changeEvent,
     })
 
     watch(() => props.modelValue, val => {
