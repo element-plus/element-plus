@@ -18,6 +18,9 @@ const _mount = (template: string, data, otherObj?) => mount({
   },
 })
 
+afterEach(() => {
+  document.documentElement.innerHTML = ''
+})
 
 describe('TimePicker', () => {
   it('create', async () => {
@@ -30,7 +33,6 @@ describe('TimePicker', () => {
     expect(input.attributes('placeholder')).toBe('test_')
     // todo readonly
     // expect(input.attributes('readonly')).toBeTruthy()
-    wrapper.unmount()
   })
 
   it('set format && default value && set AM/PM spinner', async () => {
@@ -39,10 +41,10 @@ describe('TimePicker', () => {
         v-model="value"
       />`, () => ({ format: 'hh-mm:ss A',
       value: new Date(2016, 9, 10, 18, 40) }))
-    const input = wrapper.find('input').element
-    expect(input.value).toBe('06-40:00 PM') // format
-    input.blur()
-    input.focus()
+    const input = wrapper.find('input')
+    expect(input.element.value).toBe('06-40:00 PM') // format
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
     const list = document.querySelectorAll('.el-time-spinner__list')
     const hoursEl = list[0]
@@ -55,16 +57,15 @@ describe('TimePicker', () => {
     expect(times[0].textContent).toBe('06 PM')
     expect(times[1].textContent).toBe('40') // default value
     expect(times[2].textContent).toBe('00')
-    wrapper.unmount()
   })
 
   it('select time', async () => {
     const wrapper = _mount(`<el-time-picker
         v-model="value"
       />`, () => ({ value: '' }))
-    const input = wrapper.find('input').element
-    input.blur()
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
     const list = document.querySelectorAll('.el-time-spinner__list')
     const hoursEl = list[0]
@@ -88,26 +89,24 @@ describe('TimePicker', () => {
     expect(date.getHours()).toBe(4)
     expect(date.getMinutes()).toBe(36)
     expect(date.getSeconds()).toBe(20)
-    wrapper.unmount()
   })
 
   it('click confirm / cancel button', async () => {
     const wrapper = _mount(`<el-time-picker
         v-model="value"
       />`, () => ({ value: '' }))
-    const input = wrapper.find('input').element
-    input.blur()
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick();
     (document.querySelector('.el-time-panel__btn.cancel') as any).click()
     const vm = wrapper.vm as any
     expect(vm.value).toBe('')
-    input.blur()
-    input.focus()
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick();
     (document.querySelector('.el-time-panel__btn.confirm') as any).click()
     expect(vm.value instanceof Date).toBeTruthy()
-    wrapper.unmount()
   })
 
   it('set format', async () => {
@@ -115,13 +114,12 @@ describe('TimePicker', () => {
         v-model="value"
         format='HH:mm'
       />`, () => ({ value: '' }))
-    const input = wrapper.find('input').element
-    input.blur()
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
     const secondsDom = document.querySelectorAll('.el-time-spinner__wrapper')[2] as any
     expect(secondsDom.style.display).toBe('none')
-    wrapper.unmount()
   })
 
   it('event change, focus, blur', async () => {
@@ -147,8 +145,8 @@ describe('TimePicker', () => {
       },
     })
 
-    const input = wrapper.find('input').element
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('focus')
     await nextTick()
     expect(focusHandler).toHaveBeenCalledTimes(1)
     const list = document.querySelectorAll('.el-time-spinner__list')
@@ -160,7 +158,6 @@ describe('TimePicker', () => {
     (document.querySelector('.el-time-panel__btn.cancel') as any).click()
     await nextTick()
     expect(blurHandler).toHaveBeenCalledTimes(1)
-    wrapper.unmount()
   })
 })
 
@@ -172,16 +169,15 @@ describe('TimePicker(range)', () => {
         :is-range="true"
       />`, () => ({ value: [new Date(2016, 9, 10, 18, 40), new Date(2016, 9, 10, 19, 40)] }))
     expect(wrapper.find('.el-range-editor--mini').exists()).toBeTruthy()
-    const input = wrapper.find('input').element
-    input.blur()
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
     const list = document.querySelectorAll('.el-time-spinner__list .el-time-spinner__item.active');
 
     ['18','40','00','19','40','00'].forEach((_, i) => {
       expect(list[i].textContent).toBe(_)
     })
-    wrapper.unmount()
   })
 
   it('default value', async() => {
@@ -193,9 +189,9 @@ describe('TimePicker(range)', () => {
       />`, () => ({ value: '',
       defaultValue }))
 
-    const input = wrapper.find('input').element
-    input.blur()
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick()
 
     const list = document.querySelectorAll('.el-time-spinner__list .el-time-spinner__item.active');
@@ -203,7 +199,6 @@ describe('TimePicker(range)', () => {
     ['10','20','00','11','10','00'].forEach((_, i) => {
       expect(list[i].textContent).toBe(_)
     })
-    wrapper.unmount()
   })
 
   it('cancel button', async () => {
@@ -212,23 +207,22 @@ describe('TimePicker(range)', () => {
         is-range
       />`, () => ({ value: '' }))
 
-    const input = wrapper.find('input').element
-    input.blur()
-    input.focus()
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick();
     (document.querySelector('.el-time-panel__btn.cancel') as any).click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBe('')
-    input.blur()
-    input.focus()
+    input.trigger('blur')
+    input.trigger('focus')
     await nextTick();
     (document.querySelector('.el-time-panel__btn.confirm') as any).click()
     expect(vm.value instanceof Array).toBeTruthy()
     vm.value.forEach(_ => {
       expect(_ instanceof Date).toBeTruthy()
     })
-    wrapper.unmount()
   })
 })
 

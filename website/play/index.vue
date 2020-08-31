@@ -1,6 +1,6 @@
 <template>
   value1: {{ value1 }}
-  <el-date-picker
+  <el-time-picker
     v-model="value1"
   />
 </template>

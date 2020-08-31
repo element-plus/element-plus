@@ -1,7 +1,7 @@
 <template>
   <el-popper
     effect="light"
-    :manual-mode="true"
+    manual-mode
     :value="pickerVisible"
     pure
   >
