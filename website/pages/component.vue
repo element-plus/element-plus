@@ -20,7 +20,7 @@
 <script>
 import bus from '../bus'
 import navsData from '../nav.config.json'
-import throttle from 'throttle-debounce/throttle'
+import { throttle } from 'throttle-debounce'
 
 export default {
   beforeRouteUpdate(to, from, next) {
