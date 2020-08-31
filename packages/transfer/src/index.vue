@@ -312,15 +312,9 @@ const useMove = (props, initData, propsKey, emit) => {
 
   const addToRight = () => {
     let currentValue = props.modelValue.slice()
-    const itemsToBeMoved = []
-    props.data.forEach(item => {
+    const itemsToBeMoved = props.data.filter(item => {
       const itemKey = item[propsKey.value]
-      if (
-        initData.leftChecked.indexOf(itemKey) > -1 &&
-        props.modelValue.indexOf(itemKey) === -1
-      ) {
-        itemsToBeMoved.push(itemKey)
-      }
+      return initData.leftChecked.inclides(itemKey) && !props.modelValue.includes(itemKey)
     })
     currentValue =
       props.targetOrder === 'unshift'
