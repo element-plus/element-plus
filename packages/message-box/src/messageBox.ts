@@ -1,11 +1,26 @@
-import { createApp } from 'vue'
+import { createVNode, nextTick, render } from 'vue'
 import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
 import { isVNode } from '../../utils/util'
 import { ElMessageBoxOptions } from './message-box'
+import fa from '../../locale/lang/fa'
+import ca from '../../locale/lang/ca'
 
-let currentVm, vm
+let currentMsg, instance
 
+// component default props
+const PROP_KEYS = [
+  'modal',
+  'lockScroll',
+  'showClose',
+  'closeOnClickModal',
+  'closeOnPressEscape',
+  'closeOnHashChange',
+  'center',
+  'roundButton',
+]
+
+// component default merge props & data
 const defaults = {
   title: null,
   message: '',
@@ -40,52 +55,81 @@ const defaults = {
   roundButton: false,
   distinguishCancelAndClose: false,
 }
-const msgQueue = []
 
-const defaultCallback = () => {
-  //
-}
+let msgQueue = []
 
-const initInstance = options => {
-  vm = createApp(MessageBoxConstructor, options)
-  vm.callback = defaultCallback
+const defaultCallback = action => {
+  if (currentMsg) {
+    const callback = currentMsg.callback
+    if (typeof callback === 'function') {
+      if (instance.showInput) {
+        callback(instance.inputValue, action)
+      } else {
+        callback(action)
+      }
+    }
+    if (currentMsg.resolve) {
+      if (action === 'confirm') {
+        if (instance.showInput) {
+          currentMsg.resolve({ value: instance.inputValue, action })
+        } else {
+          currentMsg.resolve(action)
+        }
+      } else if (currentMsg.reject && (action === 'cancel' || action === 'close')) {
+        currentMsg.reject(action)
+      }
+    }
+  }
 }
 
 const showNextMsg = async () => {
   if (msgQueue.length > 0) {
-    currentVm = msgQueue.shift()
-    const options = currentVm.options
-    if (!vm) {
-      initInstance(options)
+    if (!!instance && instance.component.proxy.visible) { return }
+    let options
+    const props = {}
+    const state = {}
+    if (!instance) {
+      currentMsg = msgQueue.shift()
+      options = currentMsg.options
+      Object.keys(options).forEach(key => {
+        if (PROP_KEYS.includes(key)) {
+          props[key] = options[key]
+        } else {
+          state[key] = options[key]
+        }
+      })
+      instance = createVNode(
+        MessageBoxConstructor,
+        props,
+        isVNode(options.message)
+          ? {
+            default: () => options.message,
+          }
+          : null,
+      )
+      console.log(instance)
     }
-    vm.action = ''
-    for (const prop in options) {
-      if (options.hasOwnProperty(prop)) {
-        vm[prop] = options[prop]
+    const container = document.createElement('div')
+    render(instance, container)
+    const vmProxy = instance.component.proxy
+    vmProxy.action = ''
+    if (options.callback === undefined) {
+      options.callback = defaultCallback
+    }
+    for (const prop in state) {
+      if (state.hasOwnProperty(prop)) {
+        vmProxy[prop] = state[prop]
       }
     }
-    if (options.callback === undefined) {
-      vm.callback = defaultCallback
-    }
-    const oldCb = vm.callback
-    vm.callback = (action, vm) => {
-      oldCb(action, vm)
+    const oldCb = options.callback
+    vmProxy.callback = (action, inst) => {
+      oldCb(action, inst)
       showNextMsg()
     }
-    if (isVNode(vm.message)) {
-      // vm.$slots.default = [vm.message]
-      vm.message = null
-    } else {
-      // delete vm.$slots.default
-    }
-    ['modal', 'showClose', 'closeOnClickModal', 'closeOnPressEscape', 'closeOnHashChange'].forEach(prop => {
-      if (vm[prop] === undefined) {
-        vm[prop] = true
-      }
+    document.body.appendChild(instance.component.ctx.$el)
+    await nextTick(() => {
+      vmProxy.visible = true
     })
-    const container = document.createElement('div')
-    vm.mount(container)
-    document.body.appendChild(container)
   }
 }
 
@@ -104,7 +148,7 @@ const MessageBox = function(options: ElMessageBoxOptions, callback?): void | Pro
   if (typeof Promise !== 'undefined') {
     return new Promise((resolve, reject) => {
       msgQueue.push({
-        options: Object.assign({}, defaults, MessageBox.defaults, options),
+        options: Object.assign({}, defaults, options),
         callback: callback,
         resolve: resolve,
         reject: reject,
@@ -114,16 +158,12 @@ const MessageBox = function(options: ElMessageBoxOptions, callback?): void | Pro
     })
   } else {
     msgQueue.push({
-      options: Object.assign({}, defaults, MessageBox.defaults, options),
+      options: Object.assign({}, defaults, options),
       callback: callback,
     })
 
     showNextMsg()
   }
-}
-
-MessageBox.setDefaults = defaults => {
-  MessageBox.defaults = defaults
 }
 
 MessageBox.alert = () => {
@@ -139,7 +179,10 @@ MessageBox.prompt = () => {
 }
 
 MessageBox.close = () => {
-  // TODO
+  instance.doClose()
+  instance.visible = false
+  msgQueue = []
+  currentMsg = null
 }
 
 export default MessageBox

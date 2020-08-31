@@ -83,9 +83,12 @@
   </transition>
 </template>
 <script lang='ts'>
-import { defineComponent } from 'vue'
-import ElButton from '@element-plus/button/src/button'
+import { defineComponent, render } from 'vue'
+import ElButton from '@element-plus/button/src/button.vue'
 import { t } from '@element-plus/locale'
+import Dialog  from '@element-plus/utils/aria-dialog'
+
+let messageBox
 
 const TypeMap: Indexable<string> = {
   success: 'success',
@@ -133,13 +136,6 @@ export default defineComponent({
       type: Boolean,
     },
   },
-  // setup(props) {
-  //   // const visible = ref(false)
-  //   // // init here
-  //   // return {
-  //   //   visible,
-  //   // }
-  // },
   data() {
     return {
       uid: 1,
@@ -187,18 +183,75 @@ export default defineComponent({
       return `${ this.cancelButtonClass }`
     },
   },
-  mounted() {
-    this.visible = true
+  watch: {
+    visible(val) {
+      if (val) {
+        this.uid++
+        this.focusAfterClosed = document.activeElement
+        messageBox = new Dialog(this.$el, this.focusAfterClosed, this.getFirstFocus())
+      }
+
+      // if (this.$type !== 'prompt') return
+      // if (val) {
+      //   setTimeout(() => {
+      //     if (this.$refs.input && this.$refs.input.$el) {
+      //       this.getInputElement().focus()
+      //     }
+      //   }, 500)
+      // } else {
+      //   this.editorErrorMessage = ''
+      //   removeClass(this.getInputElement(), 'invalid')
+      // }
+    },
+  },
+  beforeUnmount() {
+    console.log('Unmount')
+    if (this.closeOnHashChange) {
+      window.removeEventListener('hashchange', this.close)
+    }
+    setTimeout(() => {
+      messageBox.closeDialog()
+    })
   },
   methods: {
-    handleWrapperClick() {
-      //
-    },
-    handleAction() {
-      //
+    handleAction(action) {
+      if (this.$type === 'prompt' && action === 'confirm' && !this.validate()) {
+        return
+      }
+      this.action = action
+      if (typeof this.beforeClose === 'function') {
+        this.close = this.getSafeClose()
+        this.beforeClose(action, this, this.close)
+      } else {
+        this.doClose()
+      }
     },
     handleInputEnter() {
       //
+    },
+    validate() {
+      return true
+    },
+    doClose() {
+      if (!this.visible) return
+      this.visible = false
+      // this.onClose && this.onClose()
+      messageBox.closeDialog() // 解绑
+      if (this.lockScroll) {
+        // setTimeout(this.restoreBodyStyle, 200)
+      }
+      setTimeout(() => {
+        if (this.action) this.callback(this.action, this)
+      }, 0)
+    },
+    getFirstFocus() {
+      const btn = this.$el.querySelector('.el-message-box__btns .el-button')
+      const title = this.$el.querySelector('.el-message-box__btns .el-message-box__title')
+      return btn || title
+    },
+    getInputElement() {
+      const inputRefs = this.$refs.input.$refs
+      return inputRefs.input || inputRefs.textarea
     },
   },
 })

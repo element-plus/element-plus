@@ -10,6 +10,7 @@ export default {
     open(): void {
       this.$msgbox({
         title: '消息',
+        message: '1231232',
       }).then(()=> {
         //
       })
