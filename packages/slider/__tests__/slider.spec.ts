@@ -74,8 +74,7 @@ describe('Slider', () => {
         }
       },
     })
-    const slider:any = wrapper.findComponent({ name:'ElPopper' })
-    expect(slider.vm.disabled).toBeTruthy()
+    expect(wrapper.findComponent({ name:'ElPopper' }).exists()).toBeFalsy()
   })
 
   it('format tooltip', async() => {
