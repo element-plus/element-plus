@@ -88,7 +88,7 @@
 </template>
 <script>
 import pageLang from '../i18n/page.json'
-import throttle from 'throttle-debounce/throttle'
+import { throttle } from 'throttle-debounce'
 
 export default {
   data() {
