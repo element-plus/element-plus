@@ -19,6 +19,10 @@ const _mount = (template: string, data = () => ({}), otherObj?) => mount({
   },
 })
 
+afterEach(() => {
+  document.documentElement.innerHTML = ''
+})
+
 
 describe('TimePicker', () => {
   it('create', async () => {
@@ -31,7 +35,6 @@ describe('TimePicker', () => {
     expect(input.attributes('placeholder')).toBe('test_')
     // todo readonly
     // expect(input.attributes('readonly')).toBeTruthy()
-    wrapper.unmount()
   })
 
   it('select date', async () => {
@@ -66,7 +69,6 @@ describe('TimePicker', () => {
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
-    wrapper.unmount()
   })
 
   it('clear value', async () => {
@@ -86,7 +88,6 @@ describe('TimePicker', () => {
     // document.body.dispatchEvent(new Event('click'))
     await nextTick()
     // expect(vm.value).toBeNull()
-    wrapper.unmount()
   })
 
   it('event change, focus, blur', async () => {
