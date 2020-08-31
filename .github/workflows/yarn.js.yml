@@ -19,7 +19,7 @@ jobs:
 
   dependabot:
     needs:
-      - Test
+      - build
     runs-on: ubuntu-latest
     steps:
       - name: auto-merge
