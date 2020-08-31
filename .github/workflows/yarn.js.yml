@@ -1,14 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - dev
-      - 'feat/**'
-  pull_request:
-    branches:
-      - dev
-      - 'feat/**'
+on: [push, pull_request]
 
 jobs:
   build:
@@ -24,3 +16,14 @@ jobs:
         run: yarn lint
       - name: Test
         run: yarn test
+
+  dependabot:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: auto-merge
+        uses: ridedott/dependabot-auto-merge-action@master
+        with:
+          GITHUB_LOGIN: dependabot[bot]
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
