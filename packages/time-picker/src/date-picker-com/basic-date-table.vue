@@ -74,6 +74,7 @@ import {
   computed,
   ref,
   PropType,
+  watch,
 } from 'vue'
 export default defineComponent({
   props: {
@@ -113,7 +114,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['changerange', 'pick'],
+  emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
     const year = computed(()=> {
@@ -370,16 +371,14 @@ export default defineComponent({
       if (props.selectionMode === 'range') {
         if (!props.rangeState.selecting) {
           ctx.emit('pick', { minDate: newDate, maxDate: null })
-          // todo modify props
-          // props.rangeState.selecting = true
+          ctx.emit('select', true)
         } else {
           if (newDate >= props.minDate) {
             ctx.emit('pick', { minDate: props.minDate, maxDate: newDate })
           } else {
             ctx.emit('pick', { minDate: newDate, maxDate: props.minDate })
           }
-          // todo modify props
-          // props.rangeState.selecting = false
+          ctx.emit('select', false)
         }
       } else if (props.selectionMode === 'day') {
         ctx.emit('pick', newDate)
@@ -401,6 +400,42 @@ export default defineComponent({
       }
     }
 
+    const markRange = (minDate, maxDate) => {
+      minDate = getDateTimestamp(minDate)
+      maxDate = getDateTimestamp(maxDate) || minDate;
+      [minDate, maxDate] = [Math.min(minDate, maxDate), Math.max(minDate, maxDate)]
+
+      for (let i = 0, k = rows.value.length; i < k; i++) {
+        const row = rows[i]
+        for (let j = 0, l = row.length; j < l; j++) {
+          if (props.showWeekNumber && j === 0) continue
+
+          const cell = row[j]
+          const index = i * 7 + j + (props.showWeekNumber ? -1 : 0)
+          const time = nextDate(startDate.value, index - offsetDay.value).getTime()
+          cell.inRange = minDate && time >= minDate && time <= maxDate
+          cell.start = minDate && time === minDate
+          cell.end = maxDate && time === maxDate
+        }
+      }
+    }
+
+    watch(() => props.rangeState.endDate, newVal => {
+      markRange(props.minDate, newVal)
+    })
+
+    watch(() => props.minDate, (newVal, oldVal) => {
+      if (getDateTimestamp(newVal) !== getDateTimestamp(oldVal)) {
+        markRange(props.minDate, props.maxDate)
+      }
+    })
+
+    watch(() => props.maxDate, (newVal, oldVal) => {
+      if (getDateTimestamp(newVal) !== getDateTimestamp(oldVal)) {
+        markRange(props.minDate, props.maxDate)
+      }
+    })
+
     return {
       handleMouseMove,
       t,
@@ -411,49 +446,5 @@ export default defineComponent({
       handleClick,
     }
   },
-
-
-  // watch: {
-  //   'rangeState.endDate'(newVal) {
-  //     this.markRange(this.minDate, newVal)
-  //   },
-
-  //   minDate(newVal, oldVal) {
-  //     if (getDateTimestamp(newVal) !== getDateTimestamp(oldVal)) {
-  //       this.markRange(this.minDate, this.maxDate)
-  //     }
-  //   },
-
-  //   maxDate(newVal, oldVal) {
-  //     if (getDateTimestamp(newVal) !== getDateTimestamp(oldVal)) {
-  //       this.markRange(this.minDate, this.maxDate)
-  //     }
-  //   },
-  // },
-
-  // methods: {
-
-  //   markRange(minDate, maxDate) {
-  //     minDate = getDateTimestamp(minDate)
-  //     maxDate = getDateTimestamp(maxDate) || minDate;
-  //     [minDate, maxDate] = [Math.min(minDate, maxDate), Math.max(minDate, maxDate)]
-
-  //     const startDate = this.startDate
-  //     const rows = this.rows
-  //     for (let i = 0, k = rows.length; i < k; i++) {
-  //       const row = rows[i]
-  //       for (let j = 0, l = row.length; j < l; j++) {
-  //         if (this.showWeekNumber && j === 0) continue
-
-  //         const cell = row[j]
-  //         const index = i * 7 + j + (this.showWeekNumber ? -1 : 0)
-  //         const time = nextDate(startDate, index - this.offsetDay).getTime()
-
-  //         cell.inRange = minDate && time >= minDate && time <= maxDate
-  //         cell.start = minDate && time === minDate
-  //         cell.end = maxDate && time === maxDate
-  //       }
-  //     }
-  //   },
 })
 </script>

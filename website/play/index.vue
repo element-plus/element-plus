@@ -1,45 +1,46 @@
 <template>
-  <div class="block">
-    value1: {{ value1 }}
-    <el-date-picker
-      v-model="value1"
-      type="monthrange"
-      align="right"
-      unlink-panels
-      range-separator="To"
-      start-placeholder="Start month"
-      end-placeholder="End month"
-      :shortcuts="shortcuts"
-    />
-  </div>
+  <el-date-picker
+    v-model="value2"
+    type="daterange"
+    align="right"
+    unlink-panels
+    range-separator="To"
+    start-placeholder="Start date"
+    end-placeholder="End date"
+    :shortcuts="shortcuts"
+  />
 </template>
 
 <script>
 export default {
   data() {
     return {
-      value1: '',
       shortcuts: [{
-        text: 'This month',
-        onClick(picker) {
-          picker.emit('pick', [new Date(), new Date()])
-        },
-      }, {
-        text: 'This year',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date(new Date().getFullYear(), 0)
-          picker.emit('pick', [start, end])
-        },
-      }, {
-        text: 'Last 6 months',
+        text: 'Last week',
         onClick(picker) {
           const end = new Date()
           const start = new Date()
-          start.setMonth(start.getMonth() - 6)
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+          picker.emit('pick', [start, end])
+        },
+      }, {
+        text: 'Last month',
+        onClick(picker) {
+          const end = new Date()
+          const start = new Date()
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+          picker.emit('pick', [start, end])
+        },
+      }, {
+        text: 'Last 3 months',
+        onClick(picker) {
+          const end = new Date()
+          const start = new Date()
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
           picker.emit('pick', [start, end])
         },
       }],
+      value2: '',
     }
   },
 }
