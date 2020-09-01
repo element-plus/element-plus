@@ -10,7 +10,7 @@
     "bootstrap": "yarn && npx lerna bootstrap",
     "build": "yarn bootstrap && yarn build-storybook",
     "lint": "eslint ./packages --ext .vue,.js,.ts",
-    "lint-fix": "eslint --fix ./packages/table --ext .vue,.js,.ts",
+    "lint-fix": "eslint --fix ./packages --ext .vue,.js,.ts",
     "website-build": "webpack --config ./website/webpack.config.js",
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
     "website-dev:play": "PLAY_ENV=true yarn website-dev"
