@@ -29,17 +29,14 @@
           @mousemove="($event) => handleMouseMove($event, column)"
           @mouseout="handleMouseOut"
         >
-          <div :class="['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName]"></div>
-          {{
-            column.renderHeader
-              ? column.renderHeader({ column, $index: cellIndex, store: store, _self: $parent })
-              : column.label
-          }}
-          <span
-            v-if="column.sortable"
-            class="caret-wrapper"
-            @click="($event) => handleSortClick($event, column)"
-          >
+          <div :class="['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName]">
+            {{
+              column.renderHeader
+                ? column.renderHeader({ column, $index: cellIndex, store: store, _self: $parent })
+                : column.label
+            }}
+          </div>
+          <span v-if="column.sortable" class="caret-wrapper" @click="($event) => handleSortClick($event, column)">
             <i class="sort-caret ascending" @click="($event) => handleSortClick($event, column, 'ascending')"></i>
             <i class="sort-caret descending" @click="($event) => handleSortClick($event, column, 'descending')"></i>
           </span>
