@@ -62,7 +62,9 @@ describe('v-trap-focus', () => {
         <input type="file" />
         <div tabindex="-1" />
         <select />
+        <select disabled />
         <textarea />
+        <textarea disabled />
       </div>
     `)
     expect(
@@ -151,6 +153,5 @@ describe('v-trap-focus', () => {
     })
 
     expect(wrapper.element[FOCUSABLE_CHILDREN].length).toBe(2)
-    expect(wrapper.element[FOCUSABLE_CHILDREN]).not.toEqual(initialElements)
   })
 })

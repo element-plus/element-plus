@@ -26,7 +26,7 @@ export const EVENT_CODE = {
   backspace: 'Backspace',
 }
 
-const FOCUSABLE_ELEMENT_SELECTORS =`a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select,textarea`
+const FOCUSABLE_ELEMENT_SELECTORS =`a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`
 
 /**
  * Determine if the testing element is visible on screen no matter if its on the viewport or not
@@ -35,6 +35,7 @@ export const isVisible = (element: HTMLElement) => {
   if (process.env.NODE_ENV === 'test') return true
   const computed = getComputedStyle(element)
   // element.offsetParent won't work on fix positioned
+  // WARNING: potential issue here, going to need some expert advices on this issue
   return computed.position === 'fix' ? false : element.offsetParent !== null
 }
 

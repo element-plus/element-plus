@@ -37,13 +37,12 @@ const TrapFocus: ObjectDirective = {
         // the is critical since jsdom did not implement user actions, you can only mock it
         // DELETE ME: when testing env switches to puppeteer
         if (process.env.NODE_ENV === 'test') {
-          if (goingBackward) {
-            ((e.target as HTMLElement).previousElementSibling as HTMLElement)?.focus()
-          } else {
-            ((e.target as HTMLElement).nextElementSibling as HTMLElement)?.focus()
+
+          const index = focusableElement.findIndex(element => element === e.target)
+          if (index !== -1) {
+            focusableElement[goingBackward ? index - 1 : index + 1]?.focus()
           }
         }
-
       }
     }
     on(document, 'keydown', el[TRAP_FOCUS_HANDLER])
