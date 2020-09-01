@@ -1,7 +1,6 @@
 
 const _ = jest.requireActual('lodash')
 
-
 const debounce = jest.fn(fn => {
   const caller = () => {
     return fn()
