@@ -265,6 +265,8 @@ export default defineComponent({
     },
   },
 
+  emits: ['pick'],
+
   setup(props, ctx) {
     const leftDate =  ref(new Date())
     const rightDate = ref(nextMonth(new Date()))
