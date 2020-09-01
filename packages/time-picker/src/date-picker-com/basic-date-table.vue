@@ -176,7 +176,7 @@ export default defineComponent({
       day = (day === 0 ? 7 : day)
 
       const offset = offsetDay.value
-      const rows = tableRows.value
+      const rows_ = tableRows.value
       let count = 1
 
       const startDate_ = startDate.value
@@ -186,7 +186,7 @@ export default defineComponent({
       const now = getDateTimestamp(new Date())
 
       for (let i = 0; i < 6; i++) {
-        const row = rows[i]
+        const row = rows_[i]
 
         if (props.showWeekNumber) {
           if (!row[0]) {
@@ -249,7 +249,7 @@ export default defineComponent({
           row[end].end = isWeekActive_
         }
       }
-      return rows
+      return rows_
     })
 
     const cellMatchesDate = (cell, date) => {
@@ -406,7 +406,7 @@ export default defineComponent({
       [minDate, maxDate] = [Math.min(minDate, maxDate), Math.max(minDate, maxDate)]
 
       for (let i = 0, k = rows.value.length; i < k; i++) {
-        const row = rows[i]
+        const row = rows.value[i]
         for (let j = 0, l = row.length; j < l; j++) {
           if (props.showWeekNumber && j === 0) continue
 

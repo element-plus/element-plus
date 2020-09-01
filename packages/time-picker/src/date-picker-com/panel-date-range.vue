@@ -354,15 +354,15 @@ export default defineComponent({
       rightDate.value = prevMonth(rightDate.value)
     }
 
-    const enableMonthArrow = () => {
+    const enableMonthArrow = computed(() => {
       const nextMonth = (leftMonth.value + 1) % 12
       const yearOffset = leftMonth.value + 1 >= 12 ? 1 : 0
       return props.unlinkPanels && new Date(leftYear.value + yearOffset, nextMonth) < new Date(rightYear.value, rightMonth.value)
-    }
+    })
 
-    const enableYearArrow = () => {
+    const enableYearArrow = computed(() => {
       return props.unlinkPanels && rightYear.value * 12 + rightMonth.value - (leftYear.value * 12 + leftMonth.value + 1) >= 12
-    }
+    })
 
     const isValidValue = value => {
       return Array.isArray(value) &&
@@ -417,7 +417,17 @@ export default defineComponent({
       handleConfirm()
     }
 
+    const handleShortcutClick = shortcut => {
+      if (shortcut.onClick) {
+        shortcut.onClick(ctx)
+      }
+    }
+
     return {
+      handleShortcutClick,
+      rangeState,
+      minDate,
+      maxDate,
       handleRangePick,
       onSelect,
       handleChangeRange,
@@ -691,12 +701,6 @@ export default defineComponent({
   //   },
 
 
-
-  //   handleShortcutClick(shortcut) {
-  //     if (shortcut.onClick) {
-  //       shortcut.onClick(this)
-  //     }
-  //   },
 
   //   handleMinTimePick(value, visible, first) {
   //     this.minDate = this.minDate || new Date()
