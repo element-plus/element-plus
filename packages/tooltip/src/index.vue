@@ -87,6 +87,10 @@ export default defineComponent({
       type: String,
       default: 'el-fade-in-linear',
     },
+    trigger: {
+      type: [String, Array] as PropType<string | string[]>,
+      default: () => ['hover'],
+    },
     visibleArrow: {
       type: Boolean,
       default: true,
@@ -124,8 +128,9 @@ export default defineComponent({
       placement,
       popperOptions,
       showAfter,
-      transition,
       tabindex,
+      transition,
+      trigger,
       visibleArrow,
     } = this
     const popper = h(
@@ -141,8 +146,9 @@ export default defineComponent({
         placement,
         showAfter: openDelay || showAfter, // this is for mapping API due to we decided to rename the current openDelay API to showAfter for better readability,
         showArrow: visibleArrow,
-        transition,
         tabIndex: String(tabindex),
+        transition,
+        trigger,
         popperOptions, // Breakings!: Once popperOptions is provided, the whole popper is under user's control, ElPopper nolonger generates the default options for popper, this is by design if the user wants the full contorl on @PopperJS, read the doc @https://popper.js.org/docs/v2/
         value: this.modelValue,
         onUpdateValue,

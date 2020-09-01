@@ -6,6 +6,7 @@ import ElButton from '@element-plus/button'
 import ElBadge from '@element-plus/badge'
 import ElCard from '@element-plus/card'
 import ElCheckbox from '@element-plus/checkbox'
+import ElDropdown from '@element-plus/dropdown'
 import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
@@ -13,6 +14,7 @@ import ElTimeline from '@element-plus/timeline'
 import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
 import ElIcon from '@element-plus/icon'
+import ElImage from '@element-plus/image'
 import ElLink from '@element-plus/link'
 import ElRate from '@element-plus/rate'
 import ElSwitch from '@element-plus/switch'
@@ -26,6 +28,7 @@ import ElCollapse from '@element-plus/collapse'
 import ElPopper from '@element-plus/popper'
 import ElTabs from '@element-plus/tabs'
 import ElTooltip from '@element-plus/tooltip'
+import ElSlider from '@element-plus/slider'
 
 export {
   ElAlert,
@@ -37,11 +40,13 @@ export {
   ElCard,
   ElCheckbox,
   ElDivider,
+  ElDropdown,
   ElTag,
   ElTimeline,
   ElProgress,
   ElBreadcrumb,
   ElIcon,
+  ElImage,
   ElLink,
   ElRate,
   ElSwitch,
@@ -54,6 +59,7 @@ export {
   ElCollapse,
   ElTabs,
   ElTooltip,
+  ElSlider,
 }
 
 export default function install(app: App): void {
@@ -64,6 +70,7 @@ export default function install(app: App): void {
   ElBadge(app)
   ElCard(app)
   ElCheckbox(app)
+  ElDropdown(app)
   ElTag(app)
   ElLayout(app)
   ElDivider(app)
@@ -71,6 +78,7 @@ export default function install(app: App): void {
   ElProgress(app)
   ElBreadcrumb(app)
   ElIcon(app)
+  ElImage(app)
   ElLink(app)
   ElRate(app)
   ElSwitch(app)
@@ -84,4 +92,5 @@ export default function install(app: App): void {
   ElPopper(app)
   ElTabs(app)
   ElTooltip(app)
+  ElSlider(app)
 }
