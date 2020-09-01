@@ -9,8 +9,8 @@
       'el-table--fluid-height': maxHeight,
       'el-table--scrollable-x': layout.scrollX,
       'el-table--scrollable-y': layout.scrollY,
-      'el-table--enable-row-hover': !store.states.isComplex,
-      'el-table--enable-row-transition': (store.states.data || []).length !== 0 && (store.states.data || []).length < 100
+      'el-table--enable-row-hover': !store.states.isComplex.value,
+      'el-table--enable-row-transition': (store.states.data.value || []).length !== 0 && (store.states.data.value || []).length < 100
     }, tableSize ? `el-table--${ tableSize }` : '']"
     class="el-table"
     @mouseleave="handleMouseLeave($event)"
@@ -234,14 +234,15 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, reactive, onMounted, computed, watch, toRefs, ref } from 'vue'
+import { defineComponent, getCurrentInstance, onMounted, onUnmounted, computed, ref } from 'vue'
 import { createStore } from '@element-plus/table/src/store/helper'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import TableLayout from '@element-plus/table/src/table-layout'
 import mousewheel from '@element-plus/directives/mousewheel/index'
 import TableHeader from './table-header.vue'
 import TableBody from './table-body.vue'
+import { debounce, throttle } from 'throttle-debounce'
 import { parseHeight } from './util'
-import { debug } from 'webpack'
 
   interface fn {
     (...args: any[]): any
@@ -302,81 +303,49 @@ export default defineComponent({
         return []
       },
     },
-
     size: String,
-
     width: [String, Number],
-
     height: [String, Number],
-
     maxHeight: [String, Number],
-
     fit: {
       type: Boolean,
       default: true,
     },
-
     stripe: Boolean,
-
     border: Boolean,
-
     rowKey: [String, Function],
-
     context: {},
-
     showHeader: {
       type: Boolean,
       default: true,
     },
-
     showSummary: Boolean,
-
     sumText: String,
-
     summaryMethod: Function,
-
     rowClassName: [String, Function],
-
     rowStyle: [Object, Function],
-
     cellClassName: [String, Function],
-
     cellStyle: [Object, Function],
-
     headerRowClassName: [String, Function],
-
     headerRowStyle: [Object, Function],
-
     headerCellClassName: [String, Function],
-
     headerCellStyle: [Object, Function],
-
     highlightCurrentRow: Boolean,
-
     currentRowKey: [String, Number],
-
     emptyText: String,
-
     expandRowKeys: Array,
-
     defaultExpandAll: Boolean,
-
     defaultSort: Object,
-
     tooltipEffect: String,
-
     spanMethod: Function,
-
     selectOnIndeterminate: {
       type: Boolean,
       default: true,
     },
-
     indent: {
       type: Number,
       default: 16,
     },
-
     treeProps: {
       type: Object,
       default() {
@@ -386,9 +355,7 @@ export default defineComponent({
         }
       },
     },
-
     lazy: Boolean,
-
     load: Function,
   },
   setup(props: ITable) {
@@ -402,12 +369,13 @@ export default defineComponent({
       lazy: props.lazy,
       lazyColumnIdentifier: props.treeProps.hasChildren || 'hasChildren',
       childrenColumnName: props.treeProps.children || 'children',
+      data: props.data,
     })
     table.store = store
     const layout = new TableLayout({
       store: table.store,
       table,
-      fit: table.fit,
+      fit: props.fit,
       showHeader: props.showHeader,
     })
     const isHidden = ref(false)
@@ -435,14 +403,8 @@ export default defineComponent({
       }
     }
 
-    const bindEvents = () => {
-      // this.bodyWrapper.addEventListener('scroll', this.syncPostion, { passive: true });
-      // if (this.fit) {
-      //   addResizeListener(this.$el, this.resizeListener);
-      // }
-    }
     const shouldUpdateHeight = computed(() => {
-      return props.height || props.maxHeight || store.states.fixedColumns.length > 0 || store.states.rightFixedColumns.length > 0
+      return props.height || props.maxHeight || store.states.fixedColumns.value.length > 0 || store.states.rightFixedColumns.value.length > 0
     })
     const doLayout = () => {
       if (shouldUpdateHeight.value) {
@@ -461,7 +423,7 @@ export default defineComponent({
       }
 
       // init filters
-      store.states.columns.forEach(column => {
+      store.states.columns.value.forEach(column => {
         if (column.filteredValue && column.filteredValue.length) {
           table.commit('filterChange', {
             column,
@@ -472,6 +434,61 @@ export default defineComponent({
       })
       table.$ready = true
     })
+    const syncPostion = throttle(20, function() {
+      const { scrollLeft, scrollTop, offsetWidth, scrollWidth } = table.ctx.$refs.bodyWrapper
+      const { headerWrapper, footerWrapper, fixedBodyWrapper, rightFixedBodyWrapper } = table.ctx.$refs
+      if (headerWrapper) headerWrapper.scrollLeft = scrollLeft
+      if (footerWrapper) footerWrapper.scrollLeft = scrollLeft
+      if (fixedBodyWrapper) fixedBodyWrapper.scrollTop = scrollTop
+      if (rightFixedBodyWrapper) rightFixedBodyWrapper.scrollTop = scrollTop
+      const maxScrollLeftPosition = scrollWidth - offsetWidth - 1
+      if (scrollLeft >= maxScrollLeftPosition) {
+        scrollPosition.value = 'right'
+      } else if (scrollLeft === 0) {
+        scrollPosition.value = 'left'
+      } else {
+        scrollPosition.value = 'middle'
+      }
+    })
+    const bindEvents = () => {
+      table.ctx.$refs.bodyWrapper.addEventListener('scroll', syncPostion, { passive: true })
+      if (props.fit) {
+        addResizeListener(table.vnode.el, resizeListener)
+      }
+    }
+    onUnmounted(() => {
+      unbindEvents()
+    })
+    const unbindEvents = () => {
+      table.ctx.$refs.bodyWrapper.removeEventListener('scroll', syncPostion, { passive: true })
+      if (props.fit) {
+        removeResizeListener(table.vnode.el, resizeListener)
+      }
+    }
+    const resizeListener = () => {
+      if (!table.$ready) return
+      let shouldUpdateLayout = false
+      const el = table.vnode.el
+      const { width: oldWidth, height: oldHeight } = resizeState.value
+
+      const width = el.offsetWidth
+      if (oldWidth !== width) {
+        shouldUpdateLayout = true
+      }
+
+      const height = el.offsetHeight
+      if ((props.height || shouldUpdateHeight.value) && oldHeight !== height) {
+        shouldUpdateLayout = true
+      }
+
+      if (shouldUpdateLayout) {
+        resizeState.value = {
+          width,
+          height,
+        }
+        doLayout()
+      }
+    }
     const tableSize = computed(() => {
       return props.size
     })

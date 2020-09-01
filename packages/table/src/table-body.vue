@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, getCurrentInstance, h } from 'vue'
+import { defineComponent, getCurrentInstance, h, computed } from 'vue'
 import useLayoutObserver from './layout-observer'
 import { arrayFindIndex } from '@element-plus/utils/util'
 import { getCell, getColumnByCell, getRowIdentity } from './util'
@@ -15,9 +15,13 @@ export default defineComponent({
   props: {
     store: {
       required: true,
+      type: Object,
     },
     stripe: Boolean,
-    context: {},
+    context: {
+      default: () => ({}),
+      type: Object,
+    },
     rowClassName: [String, Function],
     rowStyle: [Object, Function],
     fixed: String,
@@ -31,11 +35,11 @@ export default defineComponent({
 
     const isColumnHidden = index => {
       if (!!props.fixed === true || props.fixed === 'left') {
-        return index >= store.states.leftFixedLeafCount
+        return index >= store.states.fixedLeafColumnsLength.value
       } else if (props.fixed === 'right') {
-        return index < store.states.columnsCount - store.states.rightFixedLeafCount
+        return index < store.states.columns.value.length.value - store.states.rightFixedLeafColumnsLength.value.value
       } else {
-        return index < store.states.leftFixedLeafCount || index >= store.states.columnsCount - store.states.rightFixedLeafCount
+        return index < store.states.fixedLeafColumnsLength.value || index >= store.states.columns.value.length.value - store.states.rightFixedLeafColumnsLength.value.value
       }
     }
     const getRowStyle = (row, rowIndex) => {
@@ -51,7 +55,7 @@ export default defineComponent({
 
     const getRowClass = (row, rowIndex) => {
       const classes = ['el-table__row']
-      if (parent.ctx.highlightCurrentRow && row === store.states.currentRow) {
+      if (parent.ctx.highlightCurrentRow && row === store.states.currentRow.value) {
         classes.push('current-row')
       }
 
@@ -70,7 +74,7 @@ export default defineComponent({
         )
       }
 
-      if (store.states.expandRows.indexOf(row) > -1) {
+      if (store.states.expandRows.value.indexOf(row) > -1) {
         classes.push('expanded')
       }
 
@@ -154,7 +158,9 @@ export default defineComponent({
       const cell = getCell(event)
       let column
       if (cell) {
-        column = getColumnByCell(table, cell)
+        column = getColumnByCell({
+          columns: props.store.states.columns.value,
+        }, cell)
         if (column) {
           table.$emit(`cell-${name}`, row, column, cell, event)
         }
@@ -174,7 +180,7 @@ export default defineComponent({
     const handleMouseEnter = debounce(30, function (index) {
       parent.commit('setHoverRow', index)
     })
-    const handleMouseLeave = debounce(30, function (index) {
+    const handleMouseLeave = debounce(30, function () {
       parent.commit('setHoverRow', null)
     })
     const handleCellMouseEnter = (event, row) => {
@@ -182,7 +188,9 @@ export default defineComponent({
       const cell = getCell(event)
 
       if (cell) {
-        const column = getColumnByCell(table, cell)
+        const column = getColumnByCell({
+          columns: props.store.states.columns.value,
+        }, cell)
         const hoverState = (table.hoverState = { cell, column, row })
         table.emit('cell-mouse-enter', hoverState.row, hoverState.column, hoverState.cell, event)
       }
@@ -222,9 +230,12 @@ export default defineComponent({
       const oldHoverState = parent.ctx.hoverState || {}
       parent.emit('cell-mouse-leave', oldHoverState.row, oldHoverState.column, oldHoverState.cell, event)
     }
+    const firstDefaultColumnIndex = computed(() => {
+      return arrayFindIndex(props.store.states.columns.value, ({ type }) => type === 'default')
+    })
     const rowRender = (row, $index, treeRowData) => {
-      const { treeIndent, columns, firstDefaultColumnIndex } = instance.ctx
-      const columnsHidden = columns.map((column, index) => isColumnHidden(index))
+      const { indent, columns } = props.store.states
+      const columnsHidden = columns.value.map((column, index) => isColumnHidden(index))
       const rowClasses = getRowClass(row, $index)
       let display = true
       if (treeRowData) {
@@ -250,13 +261,13 @@ export default defineComponent({
           onMouseenter: () => handleMouseEnter($index),
           onMouseleave: handleMouseLeave,
         },
-        columns.map((column, cellIndex) => {
+        columns.value.map((column, cellIndex) => {
           const { rowspan, colspan } = getSpan(row, column, $index, cellIndex)
           if (!rowspan || !colspan) {
             return null
           }
           const columnData = { ...column }
-          columnData.realWidth = getColspanRealWidth(columns, colspan, cellIndex)
+          columnData.realWidth = getColspanRealWidth(columns.value, colspan, cellIndex)
           const data = {
             store: props.store,
             _self: props.context || parent.ctx,
@@ -271,9 +282,9 @@ export default defineComponent({
               level: 0,
             },
           }
-          if (cellIndex === firstDefaultColumnIndex && treeRowData) {
+          if (cellIndex === firstDefaultColumnIndex.value && treeRowData) {
             data.treeNode = {
-              indent: treeRowData.level * treeIndent,
+              indent: treeRowData.level * indent.value,
               level: treeRowData.level,
               expanded: false,
               loading: false,
@@ -300,9 +311,9 @@ export default defineComponent({
               onMouseenter: $event => handleCellMouseEnter($event, row),
               onMouseleave: handleCellMouseLeave,
             },
-            {
-              default: () => column.renderCell(data),
-            },
+            [
+              column.renderCell(data),
+            ],
           )
         }),
       )
@@ -312,7 +323,8 @@ export default defineComponent({
       const store = props.store as any
       const { isRowExpanded, assertRowKey } = store
       const { treeData, lazyTreeNodeMap, childrenColumnName, rowKey } = store.states
-      if (store.states.hasExpandColumn && isRowExpanded(row)) {
+      const hasExpandColumn = store.states.columns.value.some(({ type }) => type === 'expand')
+      if (hasExpandColumn && isRowExpanded(row)) {
         const renderExpanded = parent.renderExpanded
         const tr = rowRender(row, $index, undefined)
         if (!renderExpanded) {
@@ -333,7 +345,7 @@ export default defineComponent({
                   h(
                     'td',
                     {
-                      colspan: store.states.columnsCount,
+                      colspan: store.states.columns.value.length.value,
                       class: 'el-table__expanded-cell',
                     },
                     {
@@ -344,12 +356,12 @@ export default defineComponent({
             ),
           ],
         ]
-      } else if (Object.keys(treeData).length) {
+      } else if (Object.keys(treeData.value).length) {
         assertRowKey()
         // TreeTable 时，rowKey 必须由用户设定，不使用 getKeyOfRow 计算
         // 在调用 rowRender 函数时，仍然会计算 rowKey，不太好的操作
-        const key = getRowIdentity(row, rowKey)
-        let cur = treeData[key]
+        const key = getRowIdentity(row, rowKey.value)
+        let cur = treeData.value[key]
         let treeRowData = null
         if (cur) {
           treeRowData = {
@@ -380,11 +392,11 @@ export default defineComponent({
                 noLazyChildren: false,
                 loading: false,
               }
-              const childKey = getRowIdentity(node, rowKey)
+              const childKey = getRowIdentity(node, rowKey.value)
               if (childKey === undefined || childKey === null) {
                 throw new Error('for nested data item, row-key is required.')
               }
-              cur = { ...treeData[childKey] }
+              cur = { ...treeData.value[childKey] }
               // 对于当前节点，分成有无子节点两种情况。
               // 如果包含子节点的，设置 expanded 属性。
               // 对于它子节点的 display 属性由它本身的 expanded 与 display 共同决定。
@@ -403,14 +415,14 @@ export default defineComponent({
               i++
               tmp.push(rowRender(node, $index + i, innerTreeRowData))
               if (cur) {
-                const nodes = lazyTreeNodeMap[childKey] || node[childrenColumnName]
+                const nodes = lazyTreeNodeMap.value[childKey] || node[childrenColumnName.value]
                 traverse(nodes, cur)
               }
             })
           }
           // 对于 root 节点，display 一定为 true
           cur.display = true
-          const nodes = lazyTreeNodeMap[key] || row[childrenColumnName]
+          const nodes = lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
           traverse(nodes, cur)
         }
         return tmp
@@ -426,7 +438,7 @@ export default defineComponent({
     }
   },
   render() {
-    const data = this.store.states.data || []
+    const data = this.store.states.data.value || []
     return h(
       'table',
       {
@@ -439,7 +451,7 @@ export default defineComponent({
         h(
           'colgroup',
           {},
-          this.store.states.columns.map(column =>
+          this.store.states.columns.value.map(column =>
             h('col', {
               name: column.id,
               key: column.id,
@@ -450,7 +462,6 @@ export default defineComponent({
           data.reduce((acc, row) => {
             return acc.concat(this.wrappedRowRender(row, acc.length))
           }, []),
-          // todo: tooltip
         ]),
       ],
     )

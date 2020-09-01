@@ -34,8 +34,8 @@ export const cellForced = {
       return h(
         ElCheckbox,
         {
-          disabled: store.states.data && store.states.data.length === 0,
-          indeterminate: store.states.selection.length > 0 && !this.isAllSelected,
+          disabled: store.states.data.value && store.states.data.value.length === 0,
+          indeterminate: store.states.selection.value.length > 0 && !this.isAllSelected,
           nativeOnClick: this.toggleAllSelection,
           value: this.isAllSelected,
         },
@@ -84,7 +84,7 @@ export const cellForced = {
     },
     renderCell: function ({ row, store }) {
       const classes = ['el-table__expand-icon']
-      if (store.states.expandRows.indexOf(row) > -1) {
+      if (store.states.expandRows.value.indexOf(row) > -1) {
         classes.push('el-table__expand-icon--expanded')
       }
       const callback = function (e) {

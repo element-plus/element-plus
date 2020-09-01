@@ -1,4 +1,4 @@
-import { reactive, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance } from 'vue'
 import merge from '@element-plus/utils/merge'
 import { getKeysMap, getRowIdentity, getColumnById, getColumnByKey, orderBy, toggleRowStatus } from '../util'
 import useExpand from './expand'
@@ -28,81 +28,60 @@ const doFlattenColumns = columns => {
 
 function useWatcher() {
   const instance = getCurrentInstance() as any
-  const that = reactive({
-    states: {
-      // 3.0 版本后要求必须设置该属性
-      rowKey: null,
-
-      // 渲染的数据来源，是对 table 中的 data 过滤排序后的结果
-      data: [],
-
-      // 是否包含固定列
-      isComplex: false,
-
-      // 列
-      _columns: [], // 不可响应的
-      originColumns: [],
-      columns: [],
-      fixedColumns: [],
-      rightFixedColumns: [],
-      leafColumns: [],
-      fixedLeafColumns: [],
-      rightFixedLeafColumns: [],
-      leafColumnsLength: 0,
-      fixedLeafColumnsLength: 0,
-      rightFixedLeafColumnsLength: 0,
-
-      // 选择
-      isAllSelected: false,
-      selection: [],
-      reserveSelection: false,
-      selectOnIndeterminate: false,
-      selectable: null,
-
-      // 过滤
-      filters: {}, // 不可响应的
-      filteredData: null,
-
-      // 排序
-      sortingColumn: null,
-      sortProp: null,
-      sortOrder: null,
-
-      hoverRow: null,
-    },
-  })
+  const rowKey = ref(null)
+  const data = ref([])
+  const isComplex = ref(false)
+  const _columns = ref([])
+  const originColumns = ref([])
+  const columns = ref([])
+  const fixedColumns = ref([])
+  const rightFixedColumns = ref([])
+  const leafColumns = ref([])
+  const fixedLeafColumns = ref([])
+  const rightFixedLeafColumns = ref([])
+  const leafColumnsLength = ref(0)
+  const fixedLeafColumnsLength = ref(0)
+  const rightFixedLeafColumnsLength = ref(0)
+  const isAllSelected = ref(false)
+  const selection = ref([])
+  const reserveSelection = ref(false)
+  const selectOnIndeterminate = ref(false)
+  const selectable = ref(null)
+  const filters = ref(null)
+  const filteredData = ref(null)
+  const sortingColumn = ref(null)
+  const sortProp = ref(null)
+  const sortOrder = ref(null)
+  const hoverRow = ref(null)
 
   // 检查 rowKey 是否存在
   const assertRowKey = () => {
-    const rowKey = that.states.rowKey
-    if (!rowKey) throw new Error('[ElTable] prop row-key is required')
+    if (!rowKey.value) throw new Error('[ElTable] prop row-key is required')
   }
 
   // 更新列
   const updateColumns = () => {
-    const states = that.states
-    const _columns = states._columns || []
-    states.fixedColumns = _columns.filter(column => column.fixed === true || column.fixed === 'left')
-    states.rightFixedColumns = _columns.filter(column => column.fixed === 'right')
+    fixedColumns.value = _columns.value.filter(column => column.fixed === true || column.fixed === 'left')
+    rightFixedColumns.value = _columns.value.filter(column => column.fixed === 'right')
 
-    if (states.fixedColumns.length > 0 && _columns[0] && _columns[0].type === 'selection' && !_columns[0].fixed) {
-      _columns[0].fixed = true
-      states.fixedColumns.unshift(_columns[0])
+    if (fixedColumns.value.length > 0 && _columns.value[0] && _columns.value[0].type === 'selection' && !_columns.value[0].fixed) {
+      _columns.value[0].fixed = true
+      fixedColumns.value.unshift(_columns.value[0])
     }
 
-    const notFixedColumns = _columns.filter(column => !column.fixed)
-    states.originColumns = [].concat(states.fixedColumns).concat(notFixedColumns).concat(states.rightFixedColumns)
+    const notFixedColumns = _columns.value.filter(column => !column.fixed)
+    originColumns.value = [].concat(fixedColumns.value).concat(notFixedColumns).concat(rightFixedColumns.value)
 
     const leafColumns = doFlattenColumns(notFixedColumns)
-    const fixedLeafColumns = doFlattenColumns(states.fixedColumns)
-    const rightFixedLeafColumns = doFlattenColumns(states.rightFixedColumns)
+    const fixedLeafColumns = doFlattenColumns(fixedColumns.value)
+    const rightFixedLeafColumns = doFlattenColumns(rightFixedColumns.value)
 
-    states.leafColumnsLength = leafColumns.length
-    states.fixedLeafColumnsLength = fixedLeafColumns.length
-    states.rightFixedLeafColumnsLength = rightFixedLeafColumns.length
+    leafColumnsLength.value = leafColumns.length
+    fixedLeafColumnsLength.value = fixedLeafColumns.length
+    rightFixedLeafColumnsLength.value = rightFixedLeafColumns.length
 
-    states.columns = [].concat(fixedLeafColumns).concat(leafColumns).concat(rightFixedLeafColumns)
-    states.isComplex = states.fixedColumns.length > 0 || states.rightFixedColumns.length > 0
+    columns.value = [].concat(fixedLeafColumns).concat(leafColumns).concat(rightFixedLeafColumns)
+    isComplex.value = fixedColumns.value.length > 0 || rightFixedColumns.value.length > 0
   }
 
   // 更新 DOM
@@ -115,47 +94,44 @@ function useWatcher() {
 
   // 选择
   const isSelected = row => {
-    const { selection = [] } = that.states
-    return selection.indexOf(row) > -1
+    return selection.value.indexOf(row) > -1
   }
 
   const clearSelection = () => {
-    const states = that.states
-    states.isAllSelected = false
-    const oldSelection = states.selection
+    isAllSelected.value = false
+    const oldSelection = selection.value
     if (oldSelection.length) {
-      states.selection = []
+      selection.value = []
       instance.table.$emit('selection-change', [])
     }
   }
 
   const cleanSelection = () => {
-    const states = that.states
-    const { data, rowKey, selection } = states
+    // const { data, rowKey, selection } = states
     let deleted
-    if (rowKey) {
+    if (rowKey.value) {
       deleted = []
-      const selectedMap = getKeysMap(selection, rowKey)
-      const dataMap = getKeysMap(data, rowKey)
+      const selectedMap = getKeysMap(selection.value, rowKey.value)
+      const dataMap = getKeysMap(data.value, rowKey.value)
       for (const key in selectedMap) {
         if (selectedMap.hasOwnProperty(key) && !dataMap[key]) {
           deleted.push(selectedMap[key].row)
         }
       }
     } else {
-      deleted = selection.filter(item => data.indexOf(item) === -1)
+      deleted = selection.value.filter(item => data.value.indexOf(item) === -1)
     }
     if (deleted.length) {
-      const newSelection = selection.filter(item => deleted.indexOf(item) === -1)
-      states.selection = newSelection
+      const newSelection = selection.value.filter(item => deleted.indexOf(item) === -1)
+      selection.value = newSelection
       instance.table.$emit('selection-change', newSelection.slice())
     }
   }
 
   const toggleRowSelection = (row, selected, emitChange = true) => {
-    const changed = toggleRowStatus(that.states.selection, row, selected)
+    const changed = toggleRowStatus(selection.value, row, selected)
     if (changed) {
-      const newSelection = (that.states.selection || []).slice()
+      const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
       if (emitChange) {
         instance.table.$emit('select', newSelection, row)
@@ -165,19 +141,17 @@ function useWatcher() {
   }
 
   const _toggleAllSelection = () => {
-    const states = that.states
-    const { data = [], selection } = states
     // when only some rows are selected (but not all), select or deselect all of them
     // depending on the value of selectOnIndeterminate
-    const value = states.selectOnIndeterminate
-      ? !states.isAllSelected
-      : !(states.isAllSelected || selection.length)
-    states.isAllSelected = value
+    const value = selectOnIndeterminate.value
+      ? !isAllSelected.value
+      : !(isAllSelected.value || selection.value.length)
+    isAllSelected.value = value
 
     let selectionChanged = false
-    data.forEach((row, index) => {
-      if (states.selectable) {
-        if (states.selectable.call(null, row, index) && toggleRowStatus(selection, row, value)) {
+    data.value.forEach((row, index) => {
+      if (selectable.value) {
+        if (selectable.value.call(null, row, index) && toggleRowStatus(selection, row, value)) {
           selectionChanged = true
         }
       } else {
@@ -188,17 +162,15 @@ function useWatcher() {
     })
 
     if (selectionChanged) {
-      instance.table.$emit('selection-change', selection ? selection.slice() : [])
+      instance.table.$emit('selection-change', selection.value ? selection.value.slice() : [])
     }
     instance.table.$emit('select-all', selection)
   }
 
   const updateSelectionByRowKey = () => {
-    const states = that.states
-    const { selection, rowKey, data } = states
-    const selectedMap = getKeysMap(selection, rowKey)
-    data.forEach(row => {
-      const rowId = getRowIdentity(row, rowKey)
+    const selectedMap = getKeysMap(selection.value, rowKey.value)
+    data.value.forEach(row => {
+      const rowId = getRowIdentity(row, rowKey.value)
       const rowInfo = selectedMap[rowId]
       if (rowInfo) {
         selection[rowInfo.index] = row
@@ -207,34 +179,31 @@ function useWatcher() {
   }
 
   const updateAllSelected = () => {
-    const states = that.states
-    const { selection, rowKey, selectable } = states
     // data 为 null 时，解构时的默认值会被忽略
-    const data = states.data || []
-    if (data.length === 0) {
-      states.isAllSelected = false
+    if (data.value?.length === 0) {
+      isAllSelected.value = false
       return
     }
 
     let selectedMap
-    if (rowKey) {
+    if (rowKey.value) {
       selectedMap = getKeysMap(selection, rowKey)
     }
     const isSelected = function (row) {
       if (selectedMap) {
         return !!selectedMap[getRowIdentity(row, rowKey)]
       } else {
-        return selection.indexOf(row) !== -1
+        return selection.value.indexOf(row) !== -1
       }
     }
-    let isAllSelected = true
+    let isAllSelected_ = true
     let selectedCount = 0
-    for (let i = 0, j = data.length; i < j; i++) {
+    for (let i = 0, j = data.value.length; i < j; i++) {
       const item = data[i]
-      const isRowSelectable = selectable && selectable.call(null, item, i)
+      const isRowSelectable = selectable.value && selectable.value.call(null, item, i)
       if (!isSelected(item)) {
-        if (!selectable || isRowSelectable) {
-          isAllSelected = false
+        if (!selectable.value || isRowSelectable) {
+          isAllSelected_ = false
           break
         }
       } else {
@@ -242,8 +211,8 @@ function useWatcher() {
       }
     }
 
-    if (selectedCount === 0) isAllSelected = false
-    states.isAllSelected = isAllSelected
+    if (selectedCount === 0) isAllSelected_ = false
+    isAllSelected.value = isAllSelected_
   }
 
   // 过滤与排序
@@ -251,10 +220,9 @@ function useWatcher() {
     if (!Array.isArray(columns)) {
       columns = [columns]
     }
-    const states = that.states
     const filters = {}
     columns.forEach(col => {
-      states.filters[col.id] = values
+      filters[col.id] = values
       filters[col.columnKey || col.id] = values
     })
 
@@ -262,36 +230,37 @@ function useWatcher() {
   }
 
   const updateSort = (column, prop, order) => {
-    if (that.states.sortingColumn && that.states.sortingColumn !== column) {
-      that.states.sortingColumn.order = null
+    if (sortingColumn.value && sortingColumn.value !== column) {
+      sortingColumn.value.order = null
     }
-    that.states.sortingColumn = column
-    that.states.sortProp = prop
-    that.states.sortOrder = order
+    sortingColumn.value = column
+    sortProp.value = prop
+    sortOrder.value = order
   }
 
   const execFilter = () => {
-    const states = that.states
-    const { data, filters } = states
-    let _data = data
-
-    Object.keys(filters).forEach(columnId => {
-      const values = states.filters[columnId]
+    Object.keys(filters.value).forEach(columnId => {
+      const values = filters.value[columnId]
       if (!values || values.length === 0) return
-      const column = getColumnById(that.states, columnId)
+      const column = getColumnById({
+        columns: columns.value,
+      }, columnId)
       if (column && column.filterMethod) {
-        _data = _data.filter(row => {
+        data.value = data.value.filter(row => {
           return values.some(value => column.filterMethod.call(null, value, row, column))
         })
       }
     })
 
-    states.filteredData = data
+    filteredData.value = data.value
   }
 
   const execSort = () => {
-    const states = that.states
-    states.data = sortData(states.filteredData, states)
+    data.value = sortData(filteredData.value, {
+      sortingColumn: sortingColumn.value,
+      sortProp: sortProp.value,
+      sortOrder: sortOrder.value,
+    })
   }
 
   // 根据 filters 与 sort 去过滤 data
@@ -303,7 +272,6 @@ function useWatcher() {
   }
 
   const clearFilter = columnKeys => {
-    const states = that.states
     const { tableHeader, fixedTableHeader, rightFixedTableHeader } = instance.table.$refs
 
     let panels = {}
@@ -319,7 +287,9 @@ function useWatcher() {
     }
 
     if (Array.isArray(columnKeys)) {
-      const columns = columnKeys.map(key => getColumnByKey(states, key))
+      const columns = columnKeys.map(key => getColumnByKey({
+        columns: columns.value,
+      }, key))
       keys.forEach(key => {
         const column = columns.find(col => col.id === key)
         if (column) {
@@ -339,7 +309,7 @@ function useWatcher() {
         panels[key].filteredValue = []
       })
 
-      states.filters = {}
+      filters.value = {}
       instance.commit('filterChange', {
         column: {},
         values: [],
@@ -349,8 +319,7 @@ function useWatcher() {
   }
 
   const clearSort = () => {
-    const states = that.states
-    if (!states.sortingColumn) return
+    if (!sortingColumn.value) return
 
     updateSort(null, null, null)
     instance.commit('changeSortCondition', {
@@ -360,11 +329,20 @@ function useWatcher() {
   const {
     setExpandRowKeys,
     toggleRowExpansion,
-  } = useExpand(that)
+    states: expandStates,
+    isRowExpanded,
+  } = useExpand({
+    data,
+    rowKey,
+  })
   const {
     updateTreeExpandKeys,
     toggleTreeExpansion,
-  } = useTree(that)
+    states: treeStates,
+  } = useTree({
+    data,
+    rowKey,
+  })
   // 适配层，expand-row-keys 在 Expand 与 TreeTable 中都有使用
   const setExpandRowKeysAdapter = val => {
     // 这里会触发额外的计算，但为了兼容性，暂时这么做
@@ -374,7 +352,7 @@ function useWatcher() {
 
   // 展开行与 TreeTable 都要使用
   const toggleRowExpansionAdapter = (row, expanded) => {
-    const hasExpandColumn = that.states.columns.some(({ type }) => type === 'expand')
+    const hasExpandColumn = columns.value.some(({ type }) => type === 'expand')
     if (hasExpandColumn) {
       toggleRowExpansion(row, expanded)
     } else {
@@ -402,7 +380,36 @@ function useWatcher() {
     clearSort,
     setExpandRowKeysAdapter,
     toggleRowExpansionAdapter,
-    ...that,
+    isRowExpanded,
+    states: {
+      rowKey,
+      data,
+      isComplex,
+      _columns,
+      originColumns,
+      columns,
+      fixedColumns,
+      rightFixedColumns,
+      leafColumns,
+      fixedLeafColumns,
+      rightFixedLeafColumns,
+      leafColumnsLength,
+      fixedLeafColumnsLength,
+      rightFixedLeafColumnsLength,
+      isAllSelected,
+      selection,
+      reserveSelection,
+      selectOnIndeterminate,
+      selectable,
+      filters,
+      filteredData,
+      sortingColumn,
+      sortProp,
+      sortOrder,
+      hoverRow,
+      ...expandStates,
+      ...treeStates,
+    },
   }
 }
 

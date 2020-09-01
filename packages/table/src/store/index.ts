@@ -1,4 +1,4 @@
-import { nextTick, getCurrentInstance } from 'vue'
+import { nextTick, getCurrentInstance, unref } from 'vue'
 import { arrayFind } from '@element-plus/utils/util'
 import useWatcher from './watcher'
 
@@ -6,15 +6,15 @@ function useStore() {
   const instance = getCurrentInstance() as any
   const mutations = {
     setData(states, data) {
-      const dataInstanceChanged = states._data !== data
-      states._data = data
+      const dataInstanceChanged = unref(states._data) !== data
+      states._data.value = data
 
       this.execQuery()
       // 数据变化，更新部分数据。
       // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
       this.updateCurrentRowData()
       this.updateExpandRows()
-      if (states.reserveSelection) {
+      if (unref(states.reserveSelection)) {
         this.assertRowKey()
         this.updateSelectionByRowKey()
       } else {
@@ -30,7 +30,7 @@ function useStore() {
     },
 
     insertColumn(states, column, index, parent) {
-      let array = states._columns
+      let array = unref(states._columns)
       if (parent) {
         array = parent.children
         if (!array) array = parent.children = []
@@ -43,8 +43,8 @@ function useStore() {
       }
 
       if (column.type === 'selection') {
-        states.selectable = column.selectable
-        states.reserveSelection = column.reserveSelection
+        states.selectable.value = column.selectable
+        states.reserveSelection.value = column.reserveSelection
       }
 
       if (this.$ready) {
@@ -54,7 +54,7 @@ function useStore() {
     },
 
     removeColumn(states, column, parent) {
-      let array = states._columns
+      let array = unref(states._columns)
       if (parent) {
         array = parent.children
         if (!array) array = parent.children = []
@@ -72,7 +72,7 @@ function useStore() {
     sort(states, options) {
       const { prop, order, init } = options
       if (prop) {
-        const column = arrayFind(states.columns, column => column.property === prop)
+        const column = arrayFind(unref(states.columns), column => column.property === prop)
         if (column) {
           column.order = order
           this.updateSort(column, prop, order)
@@ -85,17 +85,17 @@ function useStore() {
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
       const { sortingColumn: column, sortProp: prop, sortOrder: order } = states
       if (order === null) {
-        states.sortingColumn = null
-        states.sortProp = null
+        states.sortingColumn.value = null
+        states.sortProp.value = null
       }
       const ingore = { filter: true }
       this.execQuery(ingore)
 
       if (!options || !(options.silent || options.init)) {
         this.table.$emit('sort-change', {
-          column,
-          prop,
-          order,
+          column: unref(column),
+          prop: unref(prop),
+          order: unref(order),
         })
       }
 
@@ -125,7 +125,7 @@ function useStore() {
     },
 
     setHoverRow(states, row) {
-      states.hoverRow = row
+      states.hoverRow.value = row
     },
 
     setCurrentRow(states, row) {

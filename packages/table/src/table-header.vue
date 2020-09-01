@@ -175,11 +175,11 @@ export default defineComponent({
       }
       const after = start + columns[index].colSpan - 1
       if (!!props.fixed === true || props.fixed === 'left') {
-        return after >= storeData.leftFixedLeafCount
+        return after >= storeData.fixedLeafColumnsLength.value
       } else if (props.fixed === 'right') {
-        return start < storeData.columnsCount - storeData.rightFixedLeafCount
+        return start < storeData.columns.value.length.value - storeData.rightFixedLeafColumnsLength.value.value
       } else {
-        return after < storeData.leftFixedLeafCount || start >= storeData.columnsCount - storeData.rightFixedLeafCount
+        return after < storeData.fixedLeafColumnsLength.value || start >= storeData.columns.value.length.value - storeData.rightFixedLeafColumnsLength.value.value
       }
     }
 
@@ -269,6 +269,7 @@ export default defineComponent({
       }
 
       if (!filterPanel) {
+        // todo
         // filterPanel = defineComponent(FilterPanel);
         // filterPanels[column.id] = filterPanel;
         // if (column.filterPlacement) {
@@ -435,15 +436,15 @@ export default defineComponent({
       if (!column.sortable) return
 
       const states = props.store.states
-      let sortProp = states.sortProp
+      let sortProp = states.sortProp.value
       let sortOrder
-      const sortingColumn = states.sortingColumn
+      const sortingColumn = states.sortingColumn.value
 
       if (sortingColumn !== column || (sortingColumn === column && sortingColumn.order === null)) {
         if (sortingColumn) {
           sortingColumn.order = null
         }
-        states.sortingColumn = column
+        states.sortingColumn.value = column
         sortProp = column.property
       }
 
@@ -453,20 +454,19 @@ export default defineComponent({
         sortOrder = column.order = order
       }
 
-      states.sortProp = sortProp
-      states.sortOrder = sortOrder
+      states.sortProp.value = sortProp
+      states.sortOrder.value = sortOrder
 
       parent.commit('changeSortCondition')
     }
     const columnRows = computed(() => {
-      return convertToRows(props.store.states.originColumns)
+      return convertToRows(props.store.states.originColumns.value)
     })
     // 是否拥有多级表头
     const isGroup = columnRows.value.length > 1
     if (isGroup) parent.isGroup = true
-
     return {
-      columns: toRef(storeData, 'columns'),
+      columns: storeData.columns,
       hasGutter,
       onColumnsChange,
       onScrollableChange,

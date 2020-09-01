@@ -1,37 +1,32 @@
 import { walkTreeNode, getRowIdentity } from '../util'
-import { reactive, computed, watch, getCurrentInstance } from 'vue'
+import { ref, computed, watch, getCurrentInstance, unref } from 'vue'
 
 function useTree (watcherData: any) {
-  const that = reactive({
-    states: {
-      expandRowKeys: [],
-      treeData: {},
-      indent: 16,
-      lazy: false,
-      lazyTreeNodeMap: {},
-      lazyColumnIdentifier: 'hasChildren',
-      childrenColumnName: 'children',
-    },
-  })
+  const expandRowKeys = ref([])
+  const treeData = ref({})
+  const indent = ref(16)
+  const lazy = ref(false)
+  const lazyTreeNodeMap = ref({})
+  const lazyColumnIdentifier = ref('hasChildren')
+  const childrenColumnName = ref('children')
   const instance = getCurrentInstance() as any
   const normalizedData = computed(() => {
-    if (!watcherData.states.rowKey) return {}
-    const data = watcherData.states.data || []
+    if (!watcherData.rowKey.value) return {}
+    const data = watcherData.states.data.value || []
     return normalize(data)
   })
   const normalizedLazyNode = computed(() => {
-    const { rowKey } = watcherData.states
-    const { lazyTreeNodeMap, lazyColumnIdentifier } = that.states
-    const keys = Object.keys(lazyTreeNodeMap)
+    const rowKey = watcherData.rowKey.value
+    const keys = Object.keys(lazyTreeNodeMap.value)
     const res = {}
     if (!keys.length) return res
     keys.forEach(key => {
-      if (lazyTreeNodeMap[key].length) {
+      if (lazyTreeNodeMap.value[key].length) {
         const item = { children: [] }
-        lazyTreeNodeMap[key].forEach(row => {
+        lazyTreeNodeMap.value[key].forEach(row => {
           const currentRowKey = getRowIdentity(row, rowKey)
           item.children.push(currentRowKey)
-          if (row[lazyColumnIdentifier] && !res[currentRowKey]) {
+          if (row[lazyColumnIdentifier.value] && !res[currentRowKey]) {
             res[currentRowKey] = { children: [] }
           }
         })
@@ -42,14 +37,7 @@ function useTree (watcherData: any) {
   })
 
   const normalize = data => {
-    const {
-      childrenColumnName,
-      lazyColumnIdentifier,
-      lazy,
-    } = that.states
-    const {
-      rowKey,
-    } = watcherData
+    const rowKey = watcherData.rowKey.value
     const res = {}
     walkTreeNode(
       data,
@@ -60,7 +48,7 @@ function useTree (watcherData: any) {
             children: children.map(row => getRowIdentity(row, rowKey)),
             level,
           }
-        } else if (lazy) {
+        } else if (lazy.value) {
           // 当 children 不存在且 lazy 为 true，该节点即为懒加载的节点
           res[parentId] = {
             children: [],
@@ -69,8 +57,8 @@ function useTree (watcherData: any) {
           }
         }
       },
-      childrenColumnName,
-      lazyColumnIdentifier,
+      childrenColumnName.value,
+      lazyColumnIdentifier.value,
     )
     return res
   }
@@ -81,11 +69,7 @@ function useTree (watcherData: any) {
     const keys = Object.keys(nested)
     const newTreeData = {}
     if (keys.length) {
-      const {
-        treeData: oldTreeData,
-        expandRowKeys,
-        lazy,
-      } = that.states
+      const oldTreeData = unref(treeData)
       const {
         defaultExpandAll,
       } = instance
@@ -93,7 +77,7 @@ function useTree (watcherData: any) {
       const getExpanded = (oldValue, key) => {
         const included =
           defaultExpandAll ||
-          (expandRowKeys && expandRowKeys.indexOf(key) !== -1)
+          (expandRowKeys.value && expandRowKeys.value.indexOf(key) !== -1)
         return !!((oldValue && oldValue.expanded) || included)
       }
       // 合并 expanded 与 display，确保数据刷新后，状态不变
@@ -111,7 +95,7 @@ function useTree (watcherData: any) {
       })
       // 根据懒加载数据更新 treeData
       const lazyKeys = Object.keys(normalizedLazyNode_)
-      if (lazy && lazyKeys.length && rootLazyRowKeys.length) {
+      if (lazy.value && lazyKeys.length && rootLazyRowKeys.length) {
         lazyKeys.forEach(key => {
           const oldValue = oldTreeData[key]
           const lazyNodeChildren = normalizedLazyNode_[key].children
@@ -135,7 +119,7 @@ function useTree (watcherData: any) {
         })
       }
     }
-    that.states.treeData = newTreeData
+    treeData.value = newTreeData
     instance.updateTableScrollY()
   }
 
@@ -143,21 +127,20 @@ function useTree (watcherData: any) {
   watch(() => normalizedLazyNode.value, updateTreeData)
 
   const updateTreeExpandKeys = value => {
-    that.states.expandRowKeys = value
+    expandRowKeys.value = value
     updateTreeData()
   }
 
   const toggleTreeExpansion = (row, expanded) => {
     instance.assertRowKey()
 
-    const { treeData } = that.states
-    const { rowKey } = watcherData.states
+    const rowKey = watcherData.rowKey.value
     const id = getRowIdentity(row, rowKey)
-    const data = id && treeData[id]
+    const data = id && treeData.value[id]
     if (id && data && ('expanded' in data)) {
       const oldExpanded = data.expanded
       expanded = typeof expanded === 'undefined' ? !data.expanded : expanded
-      treeData[id].expanded = expanded
+      treeData.value[id].expanded = expanded
       if (oldExpanded !== expanded) {
         instance.table.$emit('expand-change', row, expanded)
       }
@@ -167,11 +150,10 @@ function useTree (watcherData: any) {
 
   const loadOrToggle = row => {
     instance.assertRowKey()
-    const { lazy, treeData } = that.states
-    const { rowKey } = watcherData.states
+    const rowKey = watcherData.rowKey.value
     const id = getRowIdentity(row, rowKey)
-    const data = treeData[id]
-    if (lazy && data && 'loaded' in data && !data.loaded) {
+    const data = treeData.value[id]
+    if (lazy.value && data && 'loaded' in data && !data.loaded) {
       loadData(row, id, data)
     } else {
       toggleTreeExpansion(row, undefined)
@@ -180,18 +162,17 @@ function useTree (watcherData: any) {
 
   const loadData = (row, key, treeNode) => {
     const { load } = instance.table
-    const { lazyTreeNodeMap, treeData } = that.states
-    if (load && !treeData[key].loaded) {
-      treeData[key].loading = true
+    if (load && !treeData.value[key].loaded) {
+      treeData.value[key].loading = true
       load(row, treeNode, data => {
         if (!Array.isArray(data)) {
           throw new Error('[ElTable] data must be an array')
         }
-        treeData[key].loading = false
-        treeData[key].loaded = true
-        treeData[key].expanded = true
+        treeData.value[key].loading = false
+        treeData.value[key].loaded = true
+        treeData.value[key].expanded = true
         if (data.length) {
-          instance.$set(lazyTreeNodeMap, key, data)
+          instance.$set(lazyTreeNodeMap.value, key, data)
         }
         instance.table.$emit('expand-change', row, true)
       })
@@ -205,6 +186,15 @@ function useTree (watcherData: any) {
     updateTreeExpandKeys,
     updateTreeData,
     normalize,
+    states: {
+      expandRowKeys,
+      treeData,
+      indent,
+      lazy,
+      lazyTreeNodeMap,
+      lazyColumnIdentifier,
+      childrenColumnName,
+    },
   }
 }
 

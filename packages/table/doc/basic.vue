@@ -1,14 +1,16 @@
 <template>
-  <el-table :data="tableData" style="width: 500px;">
-    <el-table-column label="日期" prop="date" width="180" />
-    <el-table-column label="姓名" prop="name" width="180" />
-    <el-table-column label="地址" prop="address" />
-  </el-table>
+  <div class="block">
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column label="日期" prop="date" width="180" />
+      <el-table-column label="姓名" prop="name" width="180" />
+      <el-table-column label="地址" prop="address" />
+    </el-table>
+  </div>
 </template>
 
 <script lang='ts'>
 export default {
-  data() {
+  setup() {
     return {
       tableData: [
         {

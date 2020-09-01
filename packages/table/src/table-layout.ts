@@ -26,34 +26,12 @@ class TableLayout {
   fixedBodyHeight = null // Table Height - Table Header Height - Scroll Bar Height
   gutterWidth = scrollbarWidth()
   constructor(options) {
-    this.observers = []
-    this.table = null
-    this.store = null
-    this.columns = null
-    this.fit = true
-    this.showHeader = true
-
-    this.height = null
-    this.scrollX = false
-    this.scrollY = false
-    this.bodyWidth = null
-    this.fixedWidth = null
-    this.rightFixedWidth = null
-    this.tableHeight = null
-    this.headerHeight = 44 // Table Header Height
-    this.appendHeight = 0 // Append Slot Height
-    this.footerHeight = 44 // Table Footer Height
-    this.viewportHeight = null // Table Height - Scroll Bar Height
-    this.bodyHeight = null // Table Height - Table Header Height
-    this.fixedBodyHeight = null // Table Height - Table Header Height - Scroll Bar Height
     this.gutterWidth = scrollbarWidth()
-
     for (const name in options) {
       if (options.hasOwnProperty(name)) {
         this[name] = options[name]
       }
     }
-
     if (!this.table) {
       throw new Error('table is required for Table Layout')
     }
@@ -99,7 +77,7 @@ class TableLayout {
 
   getFlattenColumns() {
     const flattenColumns = []
-    const columns = this.table.store.states.columns
+    const columns = this.table.store.states.columns.value
     columns.forEach(column => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread
@@ -134,7 +112,7 @@ class TableLayout {
     }
     this.fixedBodyHeight = this.scrollX ? (this.bodyHeight - this.gutterWidth) : this.bodyHeight
 
-    const noData = !(this.store.states.data && this.store.states.data.length)
+    const noData = !(this.store.states.data.value && this.store.states.data.value.length)
     this.viewportHeight = this.scrollX ? tableHeight - (noData ? 0 : this.gutterWidth) : tableHeight
 
     this.updateScrollY()
@@ -165,7 +143,6 @@ class TableLayout {
     flattenColumns.forEach(column => { // Clean those columns whose width changed from flex to unflex
       if (typeof column.width === 'number' && column.realWidth) column.realWidth = null
     })
-
     if (flexColumns.length > 0 && fit) {
       flattenColumns.forEach(column => {
         bodyMinWidth += column.width || column.minWidth || 80
@@ -202,7 +179,7 @@ class TableLayout {
       }
 
       this.bodyWidth = Math.max(bodyMinWidth, bodyWidth)
-      this.table.resizeState.width = this.bodyWidth
+      this.table.ctx.resizeState.width = this.bodyWidth
     } else {
       flattenColumns.forEach(column => {
         if (!column.width && !column.minWidth) {
@@ -210,7 +187,6 @@ class TableLayout {
         } else {
           column.realWidth = column.width || column.minWidth
         }
-
         bodyMinWidth += column.realWidth
       })
       this.scrollX = bodyMinWidth > bodyWidth
@@ -218,7 +194,7 @@ class TableLayout {
       this.bodyWidth = bodyMinWidth
     }
 
-    const fixedColumns = this.store.states.fixedColumns
+    const fixedColumns = this.store.states.fixedColumns.value
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0
@@ -229,7 +205,7 @@ class TableLayout {
       this.fixedWidth = fixedWidth
     }
 
-    const rightFixedColumns = this.store.states.rightFixedColumns
+    const rightFixedColumns = this.store.states.rightFixedColumns.value
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0
       rightFixedColumns.forEach(function (column) {

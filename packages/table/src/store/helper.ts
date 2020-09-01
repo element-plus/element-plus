@@ -12,7 +12,7 @@ export function createStore(table, initialState = {}) {
   // related pr https://github.com/ElemeFE/element/pull/14146
   store.toggleAllSelection = debounce(10, store._toggleAllSelection)
   Object.keys(initialState).forEach(key => {
-    store.states[key] = initialState[key]
+    store.states[key].value = initialState[key]
   })
   return store
 }
