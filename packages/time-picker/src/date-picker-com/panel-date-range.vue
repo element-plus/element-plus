@@ -263,6 +263,10 @@ export default defineComponent({
       type: Date as PropType<Date>,
       default: '',
     },
+    type: {
+      type: String,
+      required: true,
+    },
   },
 
   emits: ['pick'],
@@ -392,7 +396,7 @@ export default defineComponent({
       rangeState.value.selecting = selecting
     }
 
-    const showTime = ref(false)
+    const showTime = computed(() => props.type === 'datetime' || props.type === 'datetimerange')
 
     const handleConfirm = (visible = false) => {
       if (isValidValue([minDate.value, maxDate.value])) {
@@ -447,6 +451,7 @@ export default defineComponent({
       rightLabel,
       leftDate,
       rightDate,
+      showTime,
       t,
     }
   },
