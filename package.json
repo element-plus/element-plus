@@ -18,7 +18,7 @@
     "vue": "^3.0.0-rc.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.4",
+    "@babel/core": "^7.11.5",
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.2",
     "@storybook/addon-storysource": "^6.0.21",
