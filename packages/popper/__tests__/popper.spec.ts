@@ -17,6 +17,9 @@ const selector = '[role="tooltip"]'
 const TEST_TRIGGER = 'test-trigger'
 const MOUSE_ENTER_EVENT = 'mouseenter'
 const MOUSE_LEAVE_EVENT = 'mouseleave'
+const CLICK_EVENT = 'click'
+const FOCUS_EVENT = 'focus'
+const BLUR_EVENT = 'blur'
 const DISPLAY_NONE = 'display: none'
 
 const Wrapped = (props: UnKnownProps, { slots }) => h('div', h(ElPopper, props, slots))
@@ -81,10 +84,15 @@ describe('Popper.vue', () => {
 
   test('append to body', () => {
     let wrapper = _mount()
-    const selector = '[role="tooltip"]'
     expect(wrapper.find(selector).exists()).toBe(false)
-    // Due to the parent node of popper is Transition so we should match the grandparent
-    expect(document.querySelector(selector).parentElement.parentElement).toBe(document.body)
+    /**
+     * Current layout of `ElPopper`
+     *  --> Teleport
+     *   --> mask
+     *    --> transition
+     *     --> popper
+     */
+
     wrapper = _mount({
       appendToBody: false,
     })
@@ -192,5 +200,114 @@ describe('Popper.vue', () => {
     // due to vue catches the error during rendering, and throws it asynchronously
     // the only way to test this is by providing an error handler to catch it
     expect(errorHandler).toHaveBeenCalledTimes(1)
+  })
+  describe('trigger', () => {
+
+    test('should work with click trigger', async () => {
+      const wrapper = _mount({
+        trigger: ['click'],
+        appendToBody: false,
+      })
+      await nextTick()
+
+      const trigger = wrapper.find(`.${TEST_TRIGGER}`)
+      const popper = wrapper.findComponent(ElPopper)
+      expect(popper.vm.visible).toBe(false)
+      // for now triggering event on element via DOMWrapper is not available so we need to apply
+      // old way
+      await trigger.trigger(CLICK_EVENT)
+
+      expect(popper.vm.visible).toBe(true)
+
+      await trigger.trigger(MOUSE_ENTER_EVENT)
+      expect(popper.vm.visible).toBe(true)
+      await trigger.trigger(FOCUS_EVENT)
+      expect(popper.vm.visible).toBe(true)
+    })
+
+    test('should work with hover trigger', async () => {
+      const wrapper = _mount({
+        trigger: ['hover'],
+        appendToBody: false,
+      })
+      await nextTick()
+
+      const trigger = wrapper.find(`.${TEST_TRIGGER}`)
+      const popper = wrapper.findComponent(ElPopper)
+      expect(popper.vm.visible).toBe(false)
+      // for now triggering event on element via DOMWrapper is not available so we need to apply
+      // old way
+      await trigger.trigger(MOUSE_ENTER_EVENT)
+
+      expect(popper.vm.visible).toBe(true)
+
+      await trigger.trigger(MOUSE_LEAVE_EVENT)
+      expect(popper.vm.visible).toBe(false)
+
+      await trigger.trigger(FOCUS_EVENT)
+      expect(popper.vm.visible).toBe(false)
+
+      await trigger.trigger(CLICK_EVENT)
+      expect(popper.vm.visible).toBe(false)
+    })
+
+    test('should work with focus trigger', async () => {
+      const wrapper = _mount({
+        trigger: [FOCUS_EVENT],
+        appendToBody: false,
+      })
+      await nextTick()
+
+
+      const trigger = wrapper.find(`.${TEST_TRIGGER}`)
+      const popper = wrapper.findComponent(ElPopper)
+      expect(popper.vm.visible).toBe(false)
+      // for now triggering event on element via DOMWrapper is not available so we need to apply
+      // old way
+      await trigger.trigger(FOCUS_EVENT)
+
+      expect(popper.vm.visible).toBe(true)
+
+      await trigger.trigger(BLUR_EVENT)
+      expect(popper.vm.visible).toBe(false)
+
+      await trigger.trigger(MOUSE_ENTER_EVENT)
+      expect(popper.vm.visible).toBe(false)
+
+      await trigger.trigger(CLICK_EVENT)
+      expect(popper.vm.visible).toBe(false)
+    })
+
+    test('combined trigger', async () => {
+      const wrapper = _mount({
+        trigger: [FOCUS_EVENT, CLICK_EVENT, 'hover'],
+        appendToBody: false,
+      })
+      await nextTick()
+
+      const trigger = wrapper.find(`.${TEST_TRIGGER}`)
+      const popper = wrapper.findComponent(ElPopper)
+      expect(popper.vm.visible).toBe(false)
+      // for now triggering event on element via DOMWrapper is not available so we need to apply
+      // old way
+      await trigger.trigger(CLICK_EVENT)
+
+      expect(popper.vm.visible).toBe(true)
+
+      await trigger.trigger(BLUR_EVENT)
+      expect(popper.vm.visible).toBe(false)
+
+      await trigger.trigger(MOUSE_ENTER_EVENT)
+      expect(popper.vm.visible).toBe(true)
+
+      await trigger.trigger(CLICK_EVENT)
+      expect(popper.vm.visible).toBe(false)
+
+      await trigger.trigger(FOCUS_EVENT)
+      expect(popper.vm.visible).toBe(true)
+
+      await trigger.trigger(CLICK_EVENT)
+      expect(popper.vm.visible).toBe(false)
+    })
   })
 })
