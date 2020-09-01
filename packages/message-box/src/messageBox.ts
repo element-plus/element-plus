@@ -3,8 +3,6 @@ import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
 import { isVNode } from '../../utils/util'
 import { ElMessageBoxOptions } from './message-box'
-import fa from '../../locale/lang/fa'
-import ca from '../../locale/lang/ca'
 
 let currentMsg, instance
 
@@ -82,35 +80,33 @@ const defaultCallback = action => {
   }
 }
 
+const initInstance = () => {
+  const container = document.createElement('div')
+  instance = createVNode(MessageBoxConstructor)
+  render(instance, container)
+}
+
 const showNextMsg = async () => {
+  if (!instance) {
+    initInstance()
+  }
+  if (instance.component && instance.component.proxy.visible) { return }
   if (msgQueue.length > 0) {
-    if (!!instance && instance.component.proxy.visible) { return }
-    let options
     const props = {}
     const state = {}
-    if (!instance) {
-      currentMsg = msgQueue.shift()
-      options = currentMsg.options
-      Object.keys(options).forEach(key => {
-        if (PROP_KEYS.includes(key)) {
-          props[key] = options[key]
-        } else {
-          state[key] = options[key]
-        }
-      })
-      instance = createVNode(
-        MessageBoxConstructor,
-        props,
-        isVNode(options.message)
-          ? {
-            default: () => options.message,
-          }
-          : null,
-      )
-      console.log(instance)
-    }
-    const container = document.createElement('div')
-    render(instance, container)
+    currentMsg = msgQueue.shift()
+    const options = currentMsg.options
+    Object.keys(options).forEach(key => {
+      if (PROP_KEYS.includes(key)) {
+        props[key] = options[key]
+      } else {
+        state[key] = options[key]
+      }
+    })
+    // TODO update props to instance/**/
+    // instance.props = Object.assign({}, props)
+    // instance.children = isVNode(options.message) ? { default: () => options.message } : null
+    // render(instance, container)
     const vmProxy = instance.component.proxy
     vmProxy.action = ''
     if (options.callback === undefined) {
@@ -166,16 +162,51 @@ const MessageBox = function(options: ElMessageBoxOptions, callback?): void | Pro
   }
 }
 
-MessageBox.alert = () => {
-  // TODO
+MessageBox.alert = (message, title, options) => {
+  if (typeof title === 'object') {
+    options = title
+    title = ''
+  } else if (title === undefined) {
+    title = ''
+  }
+  return MessageBox(Object.assign({
+    title: title,
+    message: message,
+    $type: 'alert',
+    closeOnPressEscape: false,
+    closeOnClickModal: false,
+  }, options))
 }
 
-MessageBox.confirm = () => {
-  // TODO
+MessageBox.confirm = (message, title, options) => {
+  if (typeof title === 'object') {
+    options = title
+    title = ''
+  } else if (title === undefined) {
+    title = ''
+  }
+  return MessageBox(Object.assign({
+    title: title,
+    message: message,
+    $type: 'confirm',
+    showCancelButton: true,
+  }, options))
 }
 
-MessageBox.prompt = () => {
-  // TODO
+MessageBox.prompt = (message, title, options) => {
+  if (typeof title === 'object') {
+    options = title
+    title = ''
+  } else if (title === undefined) {
+    title = ''
+  }
+  return MessageBox(Object.assign({
+    title: title,
+    message: message,
+    showCancelButton: true,
+    showInput: true,
+    $type: 'prompt',
+  }, options))
 }
 
 MessageBox.close = () => {
