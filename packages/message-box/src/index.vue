@@ -204,8 +204,14 @@ export default defineComponent({
       // }
     },
   },
+  mounted() {
+    nextTick(() => {
+      if (this.closeOnHashChange) {
+        window.addEventListener('hashchange', this.close)
+      }
+    })
+  },
   beforeUnmount() {
-    console.log('Unmount')
     if (this.closeOnHashChange) {
       window.removeEventListener('hashchange', this.close)
     }
