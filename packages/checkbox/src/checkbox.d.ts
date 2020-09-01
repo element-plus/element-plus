@@ -27,4 +27,4 @@ export interface ICheckboxProps {
   size?: string
 }
 
-export type IArgs<T extends (...args: any) => any> = Partial<ReturnType<T>>
+export type PartialReturnType<T extends (...args: unknown[]) =>  unknown> = Partial<ReturnType<T>>
