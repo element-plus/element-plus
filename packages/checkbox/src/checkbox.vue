@@ -60,20 +60,19 @@
 <script lang='ts'>
 import {
   defineComponent,
-  PropType,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { useCheckbox, setAria } from './useCheckbox'
+import { useCheckbox, useSetAria } from './useCheckbox'
 
 export default defineComponent({
   name: 'ElCheckbox',
   props: {
     modelValue: {
-      type: [Boolean, Number, String] as PropType<boolean | number | string>,
+      type: [Boolean, Number, String],
       default: () => undefined,
     },
     label: {
-      type: [Boolean, Number, String] as PropType<boolean | number | string>,
+      type: [Boolean, Number, String],
     },
     indeterminate: Boolean,
     disabled: Boolean,
@@ -108,7 +107,7 @@ export default defineComponent({
   setup(props) {
     const { focus, isChecked, isDisabled, checkboxSize, model, handleChange } = useCheckbox(props)
 
-    setAria(props)
+    useSetAria(props)
 
     return {
       focus,

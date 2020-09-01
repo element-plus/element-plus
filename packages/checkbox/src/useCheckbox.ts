@@ -8,7 +8,7 @@ import {
 } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { ICheckboxGroupInstance, ICheckboxProps, IArgs } from './checkbox'
+import { ICheckboxGroupInstance, ICheckboxProps, PartialReturnType } from './checkbox'
 
 export const useCheckboxGroup = () => {
   //todo: ELEMENT
@@ -38,7 +38,9 @@ const useModel = (props: ICheckboxProps) => {
   const store = computed(() => checkboxGroup ? checkboxGroup.modelValue?.value : props.modelValue)
   const model = computed({
     get() {
-      return isGroup.value ? store.value : props.modelValue !== undefined ? props.modelValue : selfModel
+      return isGroup.value
+        ? store.value
+        : props.modelValue ?? selfModel
     },
 
     set(val: unknown) {
@@ -66,10 +68,10 @@ const useModel = (props: ICheckboxProps) => {
   }
 }
 
-const useCheckboxStatus = (props: ICheckboxProps, { model }: IArgs<typeof useModel>) => {
+const useCheckboxStatus = (props: ICheckboxProps, { model }: PartialReturnType<typeof useModel>) => {
   const { isGroup, checkboxGroup, elFormItemSize, ELEMENT } = useCheckboxGroup()
   const focus = ref(false)
-  const size = computed<string|undefined>(() => checkboxGroup.checkboxGroupSize?.value || elFormItemSize || (ELEMENT || {}).size)
+  const size = computed<string|undefined>(() => checkboxGroup.checkboxGroupSize?.value || elFormItemSize.value || (ELEMENT || {}).size)
   const isChecked = computed(() => {
     const value = model.value
     if (toTypeString(value) === '[object Boolean]') {
@@ -97,7 +99,7 @@ const useCheckboxStatus = (props: ICheckboxProps, { model }: IArgs<typeof useMod
 
 const useDisabled = (
   props: ICheckboxProps,
-  { model, isChecked }: IArgs<typeof useModel> & IArgs<typeof useCheckboxStatus>,
+  { model, isChecked }: PartialReturnType<typeof useModel> & PartialReturnType<typeof useCheckboxStatus>,
 ) => {
   const { elForm, isGroup, checkboxGroup } = useCheckboxGroup()
   const isLimitDisabled = computed(() => {
@@ -118,7 +120,7 @@ const useDisabled = (
   }
 }
 
-const setStoreValue = (props: ICheckboxProps, { model }: IArgs<typeof useModel>) => {
+const setStoreValue = (props: ICheckboxProps, { model }: PartialReturnType<typeof useModel>) => {
   function addToStore() {
     if (
       Array.isArray(model.value) &&
@@ -132,7 +134,7 @@ const setStoreValue = (props: ICheckboxProps, { model }: IArgs<typeof useModel>)
   props.checked && addToStore()
 }
 
-const useEvent = (props: ICheckboxProps, { isLimitExceeded }: IArgs<typeof useModel>) => {
+const useEvent = (props: ICheckboxProps, { isLimitExceeded }: PartialReturnType<typeof useModel>) => {
   const { elFormItem } = useCheckboxGroup()
   const { emit } = getCurrentInstance()
   function handleChange(e: InputEvent) {
@@ -154,7 +156,7 @@ const useEvent = (props: ICheckboxProps, { isLimitExceeded }: IArgs<typeof useMo
   }
 }
 
-export const setAria = (props: ICheckboxProps) => {
+export const useSetAria = (props: ICheckboxProps) => {
   const instance = getCurrentInstance()
   onMounted(() => {
     instance.vnode.el.setAttribute('aria-controls', props.controls)
