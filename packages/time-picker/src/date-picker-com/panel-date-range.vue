@@ -51,7 +51,6 @@
                   :time-arrow-control="arrowControl"
                   :visible="minTimePickerVisible"
                   @pick="handleMinTimePick"
-                  @mounted="$refs.minTimePicker.format=timeFormat"
                 />
               </span>
             </span>
@@ -86,7 +85,6 @@
                   :time-arrow-control="arrowControl"
                   :visible="maxTimePickerVisible"
                   @pick="handleMaxTimePick"
-                  @mounted="$refs.maxTimePicker.format=timeFormat"
                 />
               </span>
             </span>
@@ -427,7 +425,22 @@ export default defineComponent({
       }
     }
 
+    const minTimePickerVisible = ref(false)
+    const maxTimePickerVisible = ref(false)
+
+    const handleMinTimeClose = () => {
+      minTimePickerVisible.value = false
+    }
+
+    const handleMaxTimeClose = () => {
+      maxTimePickerVisible.value = false
+    }
+
     return {
+      minTimePickerVisible,
+      maxTimePickerVisible,
+      handleMinTimeClose,
+      handleMaxTimeClose,
       handleShortcutClick,
       rangeState,
       minDate,
@@ -465,8 +478,6 @@ export default defineComponent({
   //     disabledDate: '',
   //     cellClassName: '',
   //     firstDayOfWeek: 7,
-  //     minTimePickerVisible: false,
-  //     maxTimePickerVisible: false,
   //     format: '',
   //     arrowControl: false,
   //     unlinkPanels: false,
@@ -722,9 +733,7 @@ export default defineComponent({
   //     }
   //   },
 
-  //   handleMinTimeClose() {
-  //     this.minTimePickerVisible = false
-  //   },
+
 
   //   handleMaxTimePick(value, visible, first) {
   //     if (this.maxDate && value) {
@@ -738,10 +747,6 @@ export default defineComponent({
   //     if (this.maxDate && this.minDate && this.minDate.getTime() > this.maxDate.getTime()) {
   //       this.minDate = new Date(this.maxDate)
   //     }
-  //   },
-
-  //   handleMaxTimeClose() {
-  //     this.maxTimePickerVisible = false
   //   },
 
   //   resetView() {
