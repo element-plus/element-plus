@@ -52,7 +52,6 @@
 import {
   defineComponent,
   computed,
-  PropType,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useCheckbox, useCheckboxGroup } from './useCheckbox'
@@ -61,11 +60,11 @@ export default defineComponent({
   name: 'ElCheckboxButton',
   props: {
     modelValue: {
-      type: [Boolean, Number, String] as PropType<boolean | number | string>,
+      type: [Boolean, Number, String],
       default: () => undefined,
     },
     label: {
-      type: [Boolean, Number, String] as PropType<boolean | number | string>,
+      type: [Boolean, Number, String],
     },
     indeterminate: Boolean,
     disabled: Boolean,
