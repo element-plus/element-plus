@@ -83,7 +83,7 @@
   </transition>
 </template>
 <script lang='ts'>
-import { defineComponent, render } from 'vue'
+import { defineComponent, render, nextTick } from 'vue'
 import ElButton from '@element-plus/button/src/button.vue'
 import { t } from '@element-plus/locale'
 import Dialog  from '@element-plus/utils/aria-dialog'
@@ -214,6 +214,19 @@ export default defineComponent({
     })
   },
   methods: {
+    getSafeClose() {
+      const currentId = this.uid
+      return () => {
+        nextTick(() => {
+          if (currentId === this.uid) this.doClose()
+        })
+      }
+    },
+    handleWrapperClick() {
+      if (this.closeOnClickModal) {
+        this.handleAction(this.distinguishCancelAndClose ? 'close' : 'cancel')
+      }
+    },
     handleAction(action) {
       if (this.$type === 'prompt' && action === 'confirm' && !this.validate()) {
         return

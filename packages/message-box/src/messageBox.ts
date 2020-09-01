@@ -3,6 +3,7 @@ import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
 import { isVNode } from '../../utils/util'
 import { ElMessageBoxOptions } from './message-box'
+import de from '../../locale/lang/de'
 
 let currentMsg, instance
 
@@ -90,7 +91,7 @@ const showNextMsg = async () => {
   if (!instance) {
     initInstance()
   }
-  if (instance.component && instance.component.proxy.visible) { return }
+  if (instance.component && instance.component.data.visible) { return }
   if (msgQueue.length > 0) {
     const props = {}
     const state = {}
@@ -104,10 +105,17 @@ const showNextMsg = async () => {
       }
     })
     // TODO update props to instance/**/
-    // instance.props = Object.assign({}, props)
-    // instance.children = isVNode(options.message) ? { default: () => options.message } : null
-    // render(instance, container)
-    const vmProxy = instance.component.proxy
+    const vmPropProxy = instance.component.props
+    for (const prop in props) {
+      if (props.hasOwnProperty(prop)) {
+        vmPropProxy[prop] = props[prop]
+      }
+    }
+    if (isVNode(options.message)) {
+      // TODO
+      // how to add slots
+    }
+    const vmProxy = instance.component.data
     vmProxy.action = ''
     if (options.callback === undefined) {
       options.callback = defaultCallback
@@ -125,6 +133,7 @@ const showNextMsg = async () => {
     document.body.appendChild(instance.component.ctx.$el)
     await nextTick(() => {
       vmProxy.visible = true
+      console.log(instance)
     })
   }
 }
