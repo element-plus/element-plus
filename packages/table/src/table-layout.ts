@@ -2,7 +2,6 @@ import { nextTick } from 'vue'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
-import { debug } from 'webpack'
 
 class TableLayout {
   observers = []
@@ -100,7 +99,7 @@ class TableLayout {
 
   getFlattenColumns() {
     const flattenColumns = []
-    const columns = this.table.ctx.columns()
+    const columns = this.table.store.states.columns
     columns.forEach(column => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread
@@ -259,10 +258,10 @@ class TableLayout {
     observers.forEach(observer => {
       switch (event) {
         case 'columns':
-          observer.onColumnsChange(this)
+          observer.ctx.onColumnsChange(this)
           break
         case 'scrollable':
-          observer.onScrollableChange(this)
+          observer.ctx.onScrollableChange(this)
           break
         default:
           throw new Error(`Table Layout don't have event ${event}.`)

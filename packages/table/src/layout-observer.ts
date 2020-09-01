@@ -57,6 +57,8 @@ function useLayoutObserver(root) {
 
   return {
     tableLayout: tableLayout.value,
+    onColumnsChange,
+    onScrollableChange,
   }
 }
 

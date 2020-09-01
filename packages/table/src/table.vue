@@ -34,19 +34,19 @@
         }"
       />
     </div>
-    <!-- <div
+    <div
       ref="bodyWrapper"
-      class="el-table__body-wrapper"
       :class="[layout.scrollX ? `is-scrolling-${scrollPosition}` : 'is-scrolling-none']"
       :style="[bodyHeight]"
+      class="el-table__body-wrapper"
     >
       <table-body
         :context="context"
-        :store="store"
-        :stripe="stripe"
+        :highlight="highlightCurrentRow"
         :row-class-name="rowClassName"
         :row-style="rowStyle"
-        :highlight="highlightCurrentRow"
+        :store="store"
+        :stripe="stripe"
         :style="{
           width: bodyWidth
         }"
@@ -54,22 +54,18 @@
       <div
         v-if="!data || data.length === 0"
         ref="emptyBlock"
-        class="el-table__empty-block"
         :style="emptyBlockStyle"
+        class="el-table__empty-block"
       >
         <span class="el-table__empty-text">
           <slot name="empty">{{ emptyText || t('el.table.emptyText') }}</slot>
         </span>
       </div>
-      <div
-        v-if="$slots.append"
-        ref="appendWrapper"
-        class="el-table__append-wrapper"
-      >
+      <div v-if="$slots.append" ref="appendWrapper" class="el-table__append-wrapper">
         <slot name="append"></slot>
       </div>
     </div>
-    <div
+    <!-- <div
       v-if="showSummary"
       v-show="data && data.length > 0"
       ref="footerWrapper"
@@ -238,12 +234,14 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, reactive, onMounted, computed } from 'vue'
+import { defineComponent, getCurrentInstance, reactive, onMounted, computed, watch, toRefs, ref } from 'vue'
 import { createStore } from '@element-plus/table/src/store/helper'
 import TableLayout from '@element-plus/table/src/table-layout'
-import { mapStates } from './store/helper'
 import mousewheel from '@element-plus/directives/mousewheel/index'
 import TableHeader from './table-header.vue'
+import TableBody from './table-body.vue'
+import { parseHeight } from './util'
+import { debug } from 'webpack'
 
   interface fn {
     (...args: any[]): any
@@ -295,6 +293,7 @@ export default defineComponent({
   },
   components: {
     TableHeader,
+    TableBody,
   },
   props: {
     data: {
@@ -396,20 +395,13 @@ export default defineComponent({
     let table = getCurrentInstance() as any
     const store = createStore(table, {
       rowKey: props.rowKey,
-      defaultExpandAll: table.defaultExpandAll,
-      selectOnIndeterminate: table.selectOnIndeterminate,
+      defaultExpandAll: props.defaultExpandAll,
+      selectOnIndeterminate: props.selectOnIndeterminate,
       // TreeTable 的相关配置
-      indent: table.indent,
-      lazy: table.lazy,
+      indent: props.indent,
+      lazy: props.lazy,
       lazyColumnIdentifier: props.treeProps.hasChildren || 'hasChildren',
       childrenColumnName: props.treeProps.children || 'children',
-    })
-    const storeData = mapStates({
-      selection: 'selection',
-      columns: 'columns',
-      tableData: 'data',
-      fixedColumns: 'fixedColumns',
-      rightFixedColumns: 'rightFixedColumns',
     })
     table.store = store
     const layout = new TableLayout({
@@ -418,25 +410,21 @@ export default defineComponent({
       fit: table.fit,
       showHeader: props.showHeader,
     })
-    const that = reactive({
-      isHidden: false,
-      renderExpanded: null,
-      resizeProxyVisible: false,
-      resizeState: {
-        width: null,
-        height: null,
-      },
-      // 是否拥有多级表头
-      isGroup: false,
-      scrollPosition: 'left',
+    const isHidden = ref(false)
+    const renderExpanded = ref(null)
+    const resizeProxyVisible = ref(false)
+    const resizeState = ref({
+      width: null,
+      height: null,
     })
+    const isGroup = ref(false)
+    const scrollPosition = ref('left')
     const handleMouseLeave = () => {
-      store.commit('setHoverRow', null)
+      table.commit('setHoverRow', null)
       if (table.hoverState) table.hoverState = null
     }
     table = {
       ...table,
-      ...that,
       layout,
     }
 
@@ -454,7 +442,7 @@ export default defineComponent({
       // }
     }
     const shouldUpdateHeight = computed(() => {
-      return props.height || props.maxHeight || table.ctx.fixedColumns().length > 0 || table.ctx.rightFixedColumns().length > 0
+      return props.height || props.maxHeight || store.states.fixedColumns.length > 0 || store.states.rightFixedColumns.length > 0
     })
     const doLayout = () => {
       if (shouldUpdateHeight.value) {
@@ -467,7 +455,7 @@ export default defineComponent({
       store.updateColumns()
       doLayout()
 
-      that.resizeState = {
+      resizeState.value = {
         width: table.vnode.el.offsetWidth,
         height: table.vnode.el.offsetHeight,
       }
@@ -484,15 +472,57 @@ export default defineComponent({
       })
       table.$ready = true
     })
-
+    const tableSize = computed(() => {
+      return props.size
+    })
+    const bodyWidth = computed(() => {
+      const { bodyWidth, scrollY, gutterWidth } = layout
+      return bodyWidth ? bodyWidth - (scrollY ? gutterWidth : 0) + 'px' : ''
+    })
+    const bodyHeight = computed(() => {
+      const { headerHeight = 0, bodyHeight, footerHeight = 0 } = layout
+      if (props.height) {
+        return {
+          height: bodyHeight ? bodyHeight + 'px' : '',
+        }
+      } else if (props.maxHeight) {
+        const maxHeight = parseHeight(props.maxHeight)
+        if (typeof maxHeight === 'number') {
+          return {
+            'max-height': maxHeight - footerHeight - (props.showHeader ? headerHeight : 0) + 'px',
+          }
+        }
+      }
+      return {}
+    })
+    const emptyBlockStyle = computed(() => {
+      if (props.data && props.data.length) return null
+      let height = '100%'
+      if (layout.appendHeight) {
+        height = `calc(100% - ${layout.appendHeight}px)`
+      }
+      return {
+        width: bodyWidth.value,
+        height,
+      }
+    })
     const tableId = 'el-table_' + tableIdSeed++
     return {
-      ...that,
       layout,
       store,
       handleHeaderFooterMousewheel,
-      ...storeData,
+      handleMouseLeave,
       tableId,
+      tableSize,
+      isHidden,
+      renderExpanded,
+      resizeProxyVisible,
+      resizeState,
+      isGroup,
+      scrollPosition,
+      bodyWidth,
+      bodyHeight,
+      emptyBlockStyle,
     }
   },
 })

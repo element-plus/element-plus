@@ -133,8 +133,8 @@ export default defineComponent({
       return props.headerAlign ? 'is-' + props.headerAlign : realAlign.value
     })
     const isSubColumn = ref(false)
-    const getPropsData = (...props: unknown[]) => {
-      return props.reduce((prev, cur) => {
+    const getPropsData = (...propsKey: unknown[]) => {
+      return propsKey.reduce((prev, cur) => {
         if (Array.isArray(cur)) {
           cur.forEach(key => {
             prev[key] = props[key]
@@ -148,7 +148,7 @@ export default defineComponent({
       if (props.renderHeader) {
         console.warn('[Element Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.')
       } else if (column.type !== 'selection') {
-        column.renderHeader = (h, scope) => {
+        column.renderHeader = scope => {
           const renderHeader = slots.header
           return renderHeader ? renderHeader(scope) : column.label
         }
@@ -158,7 +158,7 @@ export default defineComponent({
       // TODO: 这里的实现调整
       if (column.type === 'expand') {
         // 对于展开行，renderCell 不允许配置的。在上一步中已经设置过，这里需要简单封装一下。
-        column.renderCell = (h, data) =>
+        column.renderCell = data =>
           h(
             'div',
             {
@@ -174,14 +174,14 @@ export default defineComponent({
       } else {
         originRenderCell = originRenderCell || defaultRenderCell
         // 对 renderCell 进行包装
-        column.renderCell = (h, data) => {
+        column.renderCell = data => {
           let children = null
           if (slots.default) {
             children = slots.default(data)
           } else {
-            children = originRenderCell(h, data)
+            children = originRenderCell(data)
           }
-          const prefix = treeCellPrefix(h, data)
+          const prefix = treeCellPrefix(data)
           const props = {
             class: 'cell',
             style: {},

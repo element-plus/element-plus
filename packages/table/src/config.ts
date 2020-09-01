@@ -1,5 +1,6 @@
 import { getPropByPath } from '@element-plus/utils/util'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
+import { h } from 'vue'
 
 export const cellStarts = {
   default: {
@@ -29,7 +30,7 @@ export const cellStarts = {
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader: function (h, { store }) {
+    renderHeader: function ({ store }) {
       return h(
         ElCheckbox,
         {
@@ -40,7 +41,7 @@ export const cellForced = {
         },
       )
     },
-    renderCell: function (h, { row, column, store, $index }) {
+    renderCell: function ({ row, column, store, $index }) {
       return h(
         ElCheckbox,
         {
@@ -55,10 +56,10 @@ export const cellForced = {
     resizable: false,
   },
   index: {
-    renderHeader: function (h, { column }) {
+    renderHeader: function ({ column }) {
       return column.label || '#'
     },
-    renderCell: function (h, { $index, column }) {
+    renderCell: function ({ $index, column }) {
       let i = $index + 1
       const index = column.index
 
@@ -78,10 +79,10 @@ export const cellForced = {
     sortable: false,
   },
   expand: {
-    renderHeader: function (h, { column }) {
+    renderHeader: function ({ column }) {
       return column.label || ''
     },
-    renderCell: function (h, { row, store }) {
+    renderCell: function ({ row, store }) {
       const classes = ['el-table__expand-icon']
       if (store.states.expandRows.indexOf(row) > -1) {
         classes.push('el-table__expand-icon--expanded')
@@ -112,7 +113,7 @@ export const cellForced = {
   },
 }
 
-export function defaultRenderCell(h, { row, column, $index }) {
+export function defaultRenderCell({ row, column, $index }) {
   const property = column.property
   const value = property && getPropByPath(row, property, false).v
   if (column && column.formatter) {
@@ -121,7 +122,7 @@ export function defaultRenderCell(h, { row, column, $index }) {
   return value
 }
 
-export function treeCellPrefix(h, { row, treeNode, store }) {
+export function treeCellPrefix({ row, treeNode, store }) {
   if (!treeNode) return null
   const ele = []
   const callback = function (e) {

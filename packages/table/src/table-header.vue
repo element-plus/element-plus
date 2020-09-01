@@ -9,17 +9,56 @@
       <col v-for="column in columns" :key="column.id" :name="column.id">
       <col v-if="hasGutter" name="gutter">
     </colgroup>
+    <thead :class="{'is-group': isGroup, 'has-gutter': hasGutter}">
+      <tr
+        v-for="(subColumns, rowIndex) in columnRows"
+        :key="rowIndex"
+        :class="getHeaderRowClass(rowIndex)"
+        :style="getHeaderRowStyle(rowIndex)"
+      >
+        <th
+          v-for="(column, cellIndex) in subColumns"
+          :key="`${column.id}-thead`"
+          :class="getHeaderCellClass(rowIndex, cellIndex, subColumns, column)"
+          :colspan="column.colSpan"
+          :rowspan="column.rowSpan"
+          :style="getHeaderCellStyle(rowIndex, cellIndex, subColumns, column)"
+          @click="($event) => handleHeaderClick($event, column)"
+          @contextmenu="($event) => handleHeaderContextMenu($event, column)"
+          @mousedown="($event) => handleMouseDown($event, column)"
+          @mousemove="($event) => handleMouseMove($event, column)"
+          @mouseout="handleMouseOut"
+        >
+          <div :class="['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName]"></div>
+          {{
+            column.renderHeader
+              ? column.renderHeader({ column, $index: cellIndex, store: store, _self: $parent })
+              : column.label
+          }}
+          <span
+            v-if="column.sortable"
+            class="caret-wrapper"
+            @click="($event) => handleSortClick($event, column)"
+          >
+            <i class="sort-caret ascending" @click="($event) => handleSortClick($event, column, 'ascending')"></i>
+            <i class="sort-caret descending" @click="($event) => handleSortClick($event, column, 'descending')"></i>
+          </span>
+          <span v-if="column.filterable" class="el-table__column-filter-trigger" @click="($event) => handleFilterClick($event, column)">
+            <i :class="['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : '']"></i>
+          </span>
+        </th>
+      </tr>
+    </thead>
   </table>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, computed, onMounted, nextTick, onBeforeUnmount, ref } from 'vue'
+import { defineComponent, getCurrentInstance, computed, onMounted, nextTick, onBeforeUnmount, ref, toRef } from 'vue'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
 // import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
 // import FilterPanel from './filter-panel.vue'
 import useLayoutObserver from './layout-observer'
 import isServer from '@element-plus/utils/isServer'
-import { mapStates } from './store/helper'
 
 const getAllColumns = columns => {
   const result = []
@@ -110,19 +149,11 @@ export default defineComponent({
   setup(props: ITableHeaderProps) {
     const instance = getCurrentInstance()
     const parent = instance.parent as any
+    const storeData = parent.store.states
     const filterPanels = {}
-    const { tableLayout } = useLayoutObserver(parent)
+    const { tableLayout, onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
     const hasGutter = computed(() => {
       return !props.fixed && tableLayout.gutterWidth
-    })
-    const storeData = mapStates({
-      columns: 'columns',
-      isAllSelected: 'isAllSelected',
-      leftFixedLeafCount: 'fixedLeafColumnsLength',
-      rightFixedLeafCount: 'rightFixedLeafColumnsLength',
-      columnsCount: states => states.columns.length,
-      leftFixedCount: states => states.fixedColumns.length,
-      rightFixedCount: states => states.rightFixedColumns.length,
     })
     onMounted(() => {
       nextTick(() => {
@@ -156,7 +187,7 @@ export default defineComponent({
     }
 
     const getHeaderRowStyle = rowIndex => {
-      const headerRowStyle = parent.table.headerRowStyle
+      const headerRowStyle = parent.ctx.headerRowStyle
       if (typeof headerRowStyle === 'function') {
         return headerRowStyle.call(null, { rowIndex })
       }
@@ -165,8 +196,7 @@ export default defineComponent({
 
     const getHeaderRowClass = rowIndex => {
       const classes = []
-
-      const headerRowClassName = parent.table.headerRowClassName
+      const headerRowClassName = parent.ctx.headerRowClassName
       if (typeof headerRowClassName === 'string') {
         classes.push(headerRowClassName)
       } else if (typeof headerRowClassName === 'function') {
@@ -177,7 +207,7 @@ export default defineComponent({
     }
 
     const getHeaderCellStyle = (rowIndex, columnIndex, row, column) => {
-      const headerCellStyle = parent.table.headerCellStyle
+      const headerCellStyle = parent.ctx.headerCellStyle
       if (typeof headerCellStyle === 'function') {
         return headerCellStyle.call(null, {
           rowIndex,
@@ -204,7 +234,7 @@ export default defineComponent({
         classes.push('is-sortable')
       }
 
-      const headerCellClassName = parent.table.headerCellClassName
+      const headerCellClassName = parent.ctx.headerCellClassName
       if (typeof headerCellClassName === 'string') {
         classes.push(headerCellClassName)
       } else if (typeof headerCellClassName === 'function') {
@@ -265,11 +295,11 @@ export default defineComponent({
         handleFilterClick(event, column)
       }
 
-      parent.$emit('header-click', column, event)
+      parent.emit('header-click', column, event)
     }
 
     const handleHeaderContextMenu = (event, column) => {
-      parent.$emit('header-contextmenu', column, event)
+      parent.emit('header-contextmenu', column, event)
     }
     const draggingColumn = ref(null)
     const dragging = ref(false)
@@ -431,10 +461,31 @@ export default defineComponent({
 
       parent.commit('changeSortCondition')
     }
+    const columnRows = computed(() => {
+      return convertToRows(props.store.states.originColumns)
+    })
+    // 是否拥有多级表头
+    const isGroup = columnRows.value.length > 1
+    if (isGroup) parent.isGroup = true
 
     return {
-      columns: parent.ctx.columns(),
+      columns: toRef(storeData, 'columns'),
       hasGutter,
+      onColumnsChange,
+      onScrollableChange,
+      columnRows,
+      getHeaderRowClass,
+      getHeaderRowStyle,
+      getHeaderCellClass,
+      getHeaderCellStyle,
+      handleHeaderClick,
+      handleHeaderContextMenu,
+      handleMouseDown,
+      handleMouseMove,
+      handleMouseOut,
+      handleSortClick,
+      handleFilterClick,
+      isGroup,
     }
   },
 })

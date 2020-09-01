@@ -2,7 +2,7 @@ import { reactive, getCurrentInstance } from 'vue'
 import merge from '@element-plus/utils/merge'
 import { getKeysMap, getRowIdentity, getColumnById, getColumnByKey, orderBy, toggleRowStatus } from '../util'
 import useExpand from './expand'
-import useCurrent from './current'
+// import useCurrent from './current'
 import useTree from './tree'
 
 const sortData = (data, states) => {
@@ -26,7 +26,7 @@ const doFlattenColumns = columns => {
   return result
 }
 
-function useWatcher () {
+function useWatcher() {
   const instance = getCurrentInstance() as any
   const that = reactive({
     states: {
@@ -220,7 +220,7 @@ function useWatcher () {
     if (rowKey) {
       selectedMap = getKeysMap(selection, rowKey)
     }
-    const isSelected = function(row) {
+    const isSelected = function (row) {
       if (selectedMap) {
         return !!selectedMap[getRowIdentity(row, rowKey)]
       } else {
