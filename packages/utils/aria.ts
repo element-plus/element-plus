@@ -1,3 +1,4 @@
+// since event.keyCode will be deprecated at any time refer to: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
 export const eventKeys = {
   tab: 9,
   enter: 13,
@@ -11,28 +12,34 @@ export const eventKeys = {
   delete: 46,
 }
 
-const FOCUSABLE_ELEMENT_SELECTORS =`
-  a[href],
-  button:not([disabled]),
-  button:not([hidden]),
-  [tabindex]:not([tabindex="-1"]),
-  input:not([disabled]),
-  input:not([type="hidden"]),
-  select,
-  textarea,
-`
+// TODO: refactor all event.keyCode to event.code
+export const EVENT_CODE = {
+  tab: 'Tab',
+  enter: 'Enter',
+  space: 'Space',
+  left: 'ArrowLeft',
+  right: 'ArrowRight',
+  top: 'ArrowTop',
+  down: 'ArrowDown',
+  esc: 'Esc',
+  delete: 'Delete',
+  backspace: 'Backspace',
+}
+
+const FOCUSABLE_ELEMENT_SELECTORS =`a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select,textarea`
 
 /**
  * Determine if the testing element is visible on screen no matter if its on the viewport or not
  */
-const isVisible = (element: HTMLElement) => {
+export const isVisible = (element: HTMLElement) => {
+  if (process.env.NODE_ENV === 'test') return true
   const computed = getComputedStyle(element)
   // element.offsetParent won't work on fix positioned
   return computed.position === 'fix' ? false : element.offsetParent !== null
 }
 
 export const obtainAllFocusableElements = (element: HTMLElement): HTMLElement[] => {
-  return Array.from(element.querySelectorAll(FOCUSABLE_ELEMENT_SELECTORS))
+  return Array.from(element.querySelectorAll(FOCUSABLE_ELEMENT_SELECTORS)).filter(isFocusable)
     .filter(isVisible) as HTMLElement[]
 }
 
