@@ -70,7 +70,7 @@
               label: 'Layout 布局'
             }, {
               value: 'color',
-              label: 'Color 色彩'
+              label: '_color 色彩'
             }, {
               value: 'typography',
               label: 'Typography 字体'
@@ -290,7 +290,7 @@
               label: 'Layout 布局'
             }, {
               value: 'color',
-              label: 'Color 色彩'
+              label: '_color 色彩'
             }, {
               value: 'typography',
               label: 'Typography 字体'
@@ -504,7 +504,7 @@
               label: 'Layout 布局'
             }, {
               value: 'color',
-              label: 'Color 色彩'
+              label: '_color 色彩'
             }, {
               value: 'typography',
               label: 'Typography 字体'
@@ -718,7 +718,7 @@
               label: 'Layout 布局'
             }, {
               value: 'color',
-              label: 'Color 色彩'
+              label: '_color 色彩'
             }, {
               value: 'typography',
               label: 'Typography 字体'
@@ -1027,7 +1027,7 @@
               label: 'Layout 布局'
             }, {
               value: 'color',
-              label: 'Color 色彩'
+              label: '_color 色彩'
             }, {
               value: 'typography',
               label: 'Typography 字体'
@@ -1292,7 +1292,7 @@
               label: 'Layout 布局'
             }, {
               value: 'color',
-              label: 'Color 色彩'
+              label: '_color 色彩'
             }, {
               value: 'typography',
               label: 'Typography 字体'
@@ -1511,7 +1511,7 @@
               label: 'Layout 布局'
             }, {
               value: 'color',
-              label: 'Color 色彩'
+              label: '_color 色彩'
             }, {
               value: 'typography',
               label: 'Typography 字体'
@@ -1725,7 +1725,7 @@
               label: 'Layout 布局'
             }, {
               value: 'color',
-              label: 'Color 色彩'
+              label: '_color 色彩'
             }, {
               value: 'typography',
               label: 'Typography 字体'

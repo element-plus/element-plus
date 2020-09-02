@@ -1,6 +1,6 @@
 @import "../common/var";
 @import "../mixins/mixins";
-@import "./picker-panel.scss";
+@import "picker-panel";
 
 @include b(date-picker) {
   width: 322px;

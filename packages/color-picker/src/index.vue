@@ -1,42 +1,55 @@
 <template>
-  <div
-    v-click-outside="hide"
-    :class="[
-      'el-color-picker',
-      colorDisabled ? 'is-disabled' : '',
-      colorSize ? `el-color-picker--${ colorSize }` : ''
-    ]"
+  <el-popper
+    :trigger="['click']"
   >
-    <div v-if="colorDisabled" class="el-color-picker__mask"></div>
-    <div class="el-color-picker__trigger" @click="handleTrigger">
-      <span class="el-color-picker__color" :class="{ 'is-alpha': showAlpha }">
-        <span
-          class="el-color-picker__color-inner"
-          :style="{
-            backgroundColor: displayedColor
-          }"
-        ></span>
-        <span v-if="!value && !showPanelColor" class="el-color-picker__empty el-icon-close"></span>
-      </span>
-      <span v-show="value || showPanelColor" class="el-color-picker__icon el-icon-arrow-down"></span>
-    </div>
-    <!--<picker-dropdown
-      ref="dropdown"
-      :class="['el-color-picker__panel', popperClass || '']"
-      v-model="showPicker"
-      @pick="confirmValue"
-      @clear="clearValue"
-      :color="color"
-      :show-alpha="showAlpha"
-      :predefine="predefine">
-    </picker-dropdown>-->
-  </div>
+    <template #default>
+      <div>
+        <sv-panel :color="color" />
+      </div>
+    </template>
+    <template #trigger>
+      <div
+        v-click-outside="hide"
+        :class="[
+          'el-color-picker',
+          colorDisabled ? 'is-disabled' : '',
+          colorSize ? `el-color-picker--${ colorSize }` : ''
+        ]"
+      >
+        <div v-if="colorDisabled" class="el-color-picker__mask"></div>
+        <div class="el-color-picker__trigger" @click="handleTrigger">
+          <span class="el-color-picker__color" :class="{ 'is-alpha': showAlpha }">
+            <span
+              class="el-color-picker__color-inner"
+              :style="{
+                backgroundColor: displayedColor
+              }"
+            ></span>
+            <span v-if="!value && !showPanelColor" class="el-color-picker__empty el-icon-close"></span>
+          </span>
+          <span v-show="value || showPanelColor" class="el-color-picker__icon el-icon-arrow-down"></span>
+        </div>
+        <!--<picker-dropdown
+          ref="dropdown"
+          :class="['el-color-picker__panel', popperClass || '']"
+          v-model="showPicker"
+          @pick="confirmValue"
+          @clear="clearValue"
+          :color="color"
+          :show-alpha="showAlpha"
+          :predefine="predefine">
+        </picker-dropdown>-->
+      </div>
+    </template>
+  </el-popper>
 </template>
 
 <script lang="ts">
 import { defineComponent,computed,ref,nextTick } from 'vue'
 import ClickOutside from '@element-plus/directives/click-outside'
-import Color from './color'
+import Color from './color.ts'
+import SvPanel from './components/sv-panel'
+import ElPopper from '@element-plus/popper/src/index.vue'
 
 interface IELEMENT {
   size?: string
@@ -51,6 +64,10 @@ interface IELFormItem {
 
 export default defineComponent( {
   name: 'ElColorPicker',
+  components: {
+    ElPopper,
+    SvPanel,
+  },
   directives: {
     ClickOutside,
   },
@@ -63,18 +80,6 @@ export default defineComponent( {
     popperClass: String,
     predefine: Array,
   },
-  /*data() {
-    const color = new Color({
-      enableAlpha: this.showAlpha,
-      format: this.colorFormat
-    })
-
-    return {
-      color,
-      showPicker: false,
-      showPanelColor: false
-    }
-  },*/
   setup(props) {
     const ELEMENT: IELEMENT = {}
     const elForm:IElForm = {}
@@ -107,7 +112,7 @@ export default defineComponent( {
     // methods
     function displayedRgb(color, showAlpha) {
       if (!(color instanceof Color)) {
-        throw Error('color should be instance of Color Class')
+        throw Error('color should be instance of _color Class')
       }
 
       const { r, g, b } = color.toRgb()
@@ -132,26 +137,8 @@ export default defineComponent( {
       if (colorDisabled.value) return
       showPicker.value = !showPicker.value
     }
-    /*displayedColor() {
-      if (!this.value && !this.showPanelColor) {
-        return 'transparent';
-      }
-
-      return this.displayedRgb(this.color, this.showAlpha);
-    },
-
-    _elFormItemSize() {
-      return (this.elFormItem || {}).elFormItemSize;
-    },
-
-    colorSize() {
-      return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
-    },
-
-    colorDisabled() {
-      return this.disabled || (this.elForm || {}).disabled;
-    }*/
     return {
+      color,
       colorDisabled,
       colorSize,
       displayedColor,

@@ -1,5 +1,5 @@
 @import "mixins/mixins";
-@import "mixins/_button";
+@import "mixins/button";
 @import "common/var";
 
 @include b(radio-button) {

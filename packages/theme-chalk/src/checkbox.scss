@@ -1,6 +1,6 @@
 @import "common/var";
 @import "mixins/mixins";
-@import "mixins/_button";
+@import "mixins/button";
 @import "mixins/utils";
 
 @include b(checkbox) {

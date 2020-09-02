@@ -146,7 +146,7 @@ const hsv2rgb = function(h, s, v) {
   }
 }
 
-export default class Color {
+export default class _color {
   constructor(options) {
     this._hue = 0
     this._saturation = 100

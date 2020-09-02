@@ -1,9 +1,9 @@
 @import "mixins/mixins";
 @import "common/var";
-@import "./input";
-@import "./popper";
-@import "./tag";
-@import "./cascader-panel";
+@import "input";
+@import "popper";
+@import "tag";
+@import "cascader-panel";
 
 @include b(cascader) {
   display: inline-block;

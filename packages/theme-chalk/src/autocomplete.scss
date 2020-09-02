@@ -1,9 +1,9 @@
 @import "mixins/mixins";
 @import "mixins/utils";
 @import "common/var";
-@import "./input.scss";
-@import "./scrollbar.scss";
-@import "./popper";
+@import "input";
+@import "scrollbar";
+@import "popper";
 
 @include b(autocomplete) {
   position: relative;
