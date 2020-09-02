@@ -1,3 +1,4 @@
+// since event.keyCode will be deprecated at any time refer to: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
 export const eventKeys = {
   tab: 9,
   enter: 13,
@@ -9,6 +10,38 @@ export const eventKeys = {
   esc: 27,
   backspace: 8,
   delete: 46,
+}
+
+// TODO: refactor all event.keyCode to event.code
+export const EVENT_CODE = {
+  tab: 'Tab',
+  enter: 'Enter',
+  space: 'Space',
+  left: 'ArrowLeft',
+  right: 'ArrowRight',
+  top: 'ArrowTop',
+  down: 'ArrowDown',
+  esc: 'Esc',
+  delete: 'Delete',
+  backspace: 'Backspace',
+}
+
+const FOCUSABLE_ELEMENT_SELECTORS =`a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`
+
+/**
+ * Determine if the testing element is visible on screen no matter if its on the viewport or not
+ */
+export const isVisible = (element: HTMLElement) => {
+  if (process.env.NODE_ENV === 'test') return true
+  const computed = getComputedStyle(element)
+  // element.offsetParent won't work on fix positioned
+  // WARNING: potential issue here, going to need some expert advices on this issue
+  return computed.position === 'fixed' ? false : element.offsetParent !== null
+}
+
+export const obtainAllFocusableElements = (element: HTMLElement): HTMLElement[] => {
+  return Array.from(element.querySelectorAll(FOCUSABLE_ELEMENT_SELECTORS)).filter(isFocusable)
+    .filter(isVisible) as HTMLElement[]
 }
 
 /**
@@ -60,7 +93,7 @@ export const attemptFocus = (element: HTMLElement): boolean => {
   }
   Utils.IgnoreUtilFocusChanges = true
   // Remove the old try catch block since there will be no error to be thrown
-  element.focus && element.focus()
+  element.focus?.()
   Utils.IgnoreUtilFocusChanges = false
   return document.activeElement === element
 }
