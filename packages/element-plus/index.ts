@@ -29,6 +29,7 @@ import ElCollapse from '@element-plus/collapse'
 import ElPopper from '@element-plus/popper'
 import ElTabs from '@element-plus/tabs'
 import ElTooltip from '@element-plus/tooltip'
+import ElSlider from '@element-plus/slider'
 
 export {
   ElAlert,
@@ -60,6 +61,7 @@ export {
   ElTabs,
   ElTooltip,
   ElMessageBox,
+  ElSlider,
 }
 
 export default function install(app: App): void {
@@ -93,4 +95,5 @@ export default function install(app: App): void {
   ElTabs(app)
   ElTooltip(app)
   ElMessageBox(app)
+  ElSlider(app)
 }

@@ -25,6 +25,7 @@
       <input
         v-if="trueLabel || falseLabel"
         v-model="model"
+        :checked="isChecked"
         class="el-checkbox__original"
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"
@@ -111,19 +112,18 @@ export default defineComponent({
   setup(props, { emit }) {
     const { elForm, isGroup, _checkboxGroup, _elFormItemSize, elFormItem, ELEMENT } = useCheckbox()
     const instance = getCurrentInstance()
-    const selfModel = ref(false)
+    const selfModel = ref<unknown>(false)
     const focus = ref(false)
     const isLimitExceeded = ref(false)
     const store = computed(() => _checkboxGroup ? _checkboxGroup.modelValue.value : props.modelValue)
-    const model = computed({
+    const model = computed<unknown>({
       get() {
-        return isGroup.value ? store.value : props.modelValue !== undefined ? props.modelValue : selfModel
+        return isGroup.value
+          ? store.value : props.modelValue !== undefined ? props.modelValue : selfModel.value
       },
-
-      set(val: any) {
-        if (isGroup.value) {
+      set(val: unknown) {
+        if (isGroup.value && Array.isArray(val)) {
           isLimitExceeded.value = false
-
           if (_checkboxGroup.min !== undefined && val.length < _checkboxGroup.min) {
             isLimitExceeded.value = true
           }
@@ -139,12 +139,13 @@ export default defineComponent({
       },
     })
     const isChecked = computed(() => {
-      if (Object.prototype.toString.call(model.value) === '[object Boolean]') {
-        return model.value
-      } else if (Array.isArray(model.value)) {
-        return model.value.includes(props.label)
-      } else if (model.value !== null && model.value !== undefined) {
-        return model.value === props.trueLabel
+      const value = model.value
+      if (Object.prototype.toString.call(value) === '[object Boolean]') {
+        return Boolean(value)
+      } else if (Array.isArray(value)) {
+        return value.includes(props.label)
+      } else if (value !== null && value !== undefined) {
+        return value === props.trueLabel
       }
     })
     const isLimitDisabled = computed(() => {
@@ -176,16 +177,14 @@ export default defineComponent({
       }
     }
 
-    function handleChange(e: UIEvent) {
+    function handleChange(e: InputEvent) {
       if (isLimitExceeded.value) return
-      let value = ref(undefined)
-      if ((e.target as HTMLInputElement).checked) {
-        value.value = props.trueLabel === undefined ? true : props.trueLabel
-      } else {
-        value.value = props.falseLabel === undefined ? false : props.falseLabel
-      }
+      const target = e.target as HTMLInputElement
+      const value = target.checked
+        ? props.trueLabel ?? true
+        : props.falseLabel ?? false
 
-      emit('change', value.value, e)
+      emit('change', value, e)
       /**
        * to discuss does it is useful
        */
