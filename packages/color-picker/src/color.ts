@@ -196,7 +196,7 @@ export default class Color {
     this.doOnChange()
   }
 
-  get(prop) {
+  get(prop: string) {
     return this['_' + prop]
   }
 

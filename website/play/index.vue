@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-color-picker />
+    <el-color-picker v-model="color" />
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   data() {
     return {
-      value1: 'TEST',
+      color: '#333333',
     }
   },
 }
