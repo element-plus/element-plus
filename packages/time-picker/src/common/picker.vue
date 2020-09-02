@@ -1,5 +1,4 @@
 <template>
-  <!-- todo el-input @keydown="handleKeydown" @change="handleChange" -->
   <!-- todo popper props align left  -->
   <!-- todo popper custom popper-class  -->
   <el-popper
@@ -13,6 +12,7 @@
         v-if="!isRangeInput"
         ref="refContainer"
         v-clickoutside="onClickOutside"
+        :model-value="displayValue"
         :name="name"
         :size="pickerSize"
         :disabled="pickerDisabled"
@@ -20,9 +20,10 @@
         class="el-date-editor"
         :class="'el-date-editor--' + type"
         :readonly="readonly || type === 'dates' || type === 'week'"
-        :value="displayValue"
-        @input="value => userInput = value"
+        @input="onUserInput"
         @focus="handleFocus"
+        @keydown="handleKeydown"
+        @change="handleChange"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
       >
@@ -118,6 +119,8 @@ import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '../../input/input.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
+import { parseDate } from '../time-picker-com/time-picker-utils'
+import { eventKeys } from '@element-plus/utils/aria'
 // todo element
 const ELEMENT = {
   size: '',
@@ -192,7 +195,10 @@ export default defineComponent({
     const refContainer = ref(null)
     const pickerVisible = ref(false)
     watch(pickerVisible, val => {
-      if (!val) ctx.emit('blur')
+      if (!val) {
+        ctx.emit('blur')
+        blurInput()
+      }
     })
     const emitInput = val => {
       ctx.emit('update:modelValue', val)
@@ -253,6 +259,9 @@ export default defineComponent({
 
     const displayValue = computed(() => {
       if (!pickerVisible.value && !props.modelValue) return
+      if (userInput.value !== null) {
+        return userInput.value
+      }
       if (Array.isArray(parsedValue.value)) {
         return parsedValue.value.map(_ => dayjs(_).format(props.format))
       }
@@ -308,7 +317,104 @@ export default defineComponent({
       if (!pickerVisible.value) return
       pickerVisible.value = false
     }
+
+    const userInput =ref(null)
+
+    const handleChange = () => {
+      if (userInput.value) {
+        const value = parseString(displayValue.value)
+        if (value) {
+          if (isValidValue(value)) {
+            emitInput(value)
+            userInput.value = null
+          }
+        }
+      }
+      if (userInput.value === '') {
+        emitInput(null)
+        emitChange(null)
+        userInput.value = null
+      }
+    }
+
+    const blurInput = () => {
+      refInput.value.forEach(input => input.blur())
+    }
+
+    const DATE_PARSER = function(text, format) {
+      if (format === 'timestamp') return new Date(Number(text))
+      return parseDate(text, format)
+    }
+
+    const parseAsFormatAndType = (value, customFormat, type, rangeSeparator = '-') => {
+      if (!value) return null
+      const parser = DATE_PARSER
+      const format = customFormat
+      return parser(value, format)
+    }
+
+    const parseString = value => {
+      const type = Array.isArray(value) ? props.type : props.type.replace('range', '')
+      return parseAsFormatAndType(value, props.format, type)
+    }
+
+    const isValidValue = value => {
+      console.log(value)
+      return false
+      // return instance.value.isValidValue(value)
+    }
+
+    const handleKeydown = event => {
+      const keyCode = event.keyCode
+
+      if (keyCode === eventKeys.esc) {
+        pickerVisible.value = false
+        event.stopPropagation()
+        return
+      }
+
+      if (keyCode === eventKeys.tab) {
+        if (!isRangeInput.value) {
+          handleChange()
+          pickerVisible.value = false
+          event.stopPropagation()
+        }
+        // else {
+        //   // user may change focus between two input
+        //   setTimeout(() => {
+        //     if (this.refInput.indexOf(document.activeElement) === -1) {
+        //       this.pickerVisible = false
+        //       this.blur()
+        //       event.stopPropagation()
+        //     }
+        //   }, 0)
+        // }
+        return
+      }
+
+      if (keyCode === eventKeys.enter) {
+        if (userInput.value === '' || isValidValue(parseString(displayValue.value))) {
+          handleChange()
+          pickerVisible.value = false
+        }
+        event.stopPropagation()
+        return
+      }
+
+      // if user is typing, do not let picker handle key input
+      if (userInput.value) {
+        event.stopPropagation()
+        return
+      }
+
+    }
+    const onUserInput = e => {
+      userInput.value = e.target.value
+    }
     return {
+      onUserInput,
+      handleChange,
+      handleKeydown,
       onClickOutside,
       pickerSize,
       isRangeInput,
