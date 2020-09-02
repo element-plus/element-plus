@@ -10,7 +10,7 @@
   &:focus {
     > .el-scrollbar__bar {
       opacity: 1;
-      transition: opacity 340ms ease-out, width 340ms, height 340ms;
+      transition: opacity 340ms ease-out;
     }
   }
 
@@ -19,6 +19,7 @@
     height: 100%;
 
     @include m(hidden-default) {
+      scrollbar-width: none;
       &::-webkit-scrollbar {
         width: 0;
         height: 0;
@@ -57,9 +58,6 @@
       > div {
         width: 100%;
       }
-      &:hover {
-        width: 17px;
-      }
     }
 
     @include when(horizontal) {
@@ -68,9 +66,6 @@
 
       > div {
         height: 100%;
-      }
-      &:hover {
-        height: 17px;
       }
     }
   }
