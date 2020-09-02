@@ -1,4 +1,5 @@
 <template>
+  <!-- todo el-input @keydown="handleKeydown" @change="handleChange" -->
   <el-popper
     effect="light"
     manual-mode
@@ -11,11 +12,13 @@
         ref="refContainer"
         v-clickoutside="onClickOutside"
         :size="pickerSize"
-        class="el-date-editor el-date-editor--time-select"
-        :readonly="!editable || readonly"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
-        :model-value="displayValue"
+        class="el-date-editor"
+        :class="'el-date-editor--' + type"
+        :readonly="!editable || readonly || type === 'dates' || type === 'week'"
+        :value="displayValue"
+        @input="value => userInput = value"
         @focus="handleFocus"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
@@ -219,6 +222,7 @@ export default defineComponent({
       emitChange(result)
     }
     const handleFocus = e => {
+      if (props.readonly || pickerDisabled.value) return
       pickerVisible.value = true
       ctx.emit('focus', e)
     }
@@ -276,7 +280,9 @@ export default defineComponent({
         showClose.value = true
       }
     }
-    const onMouseLeave = () => {
+    const onMouseLeave = e => {
+      // if not el-icon
+      if (e.relatedTarget.className.includes('icon')) return
       showClose.value = false
     }
     const isRangeInput = computed(() => {
