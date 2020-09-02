@@ -1,42 +1,52 @@
 <template>
-  <div
-    v-click-outside="hide"
-    :class="[
-      'el-color-picker',
-      colorDisabled ? 'is-disabled' : '',
-      colorSize ? `el-color-picker--${ colorSize }` : ''
-    ]"
+  <el-popper
+    :trigger="['click']"
   >
-    <div v-if="colorDisabled" class="el-color-picker__mask"></div>
-    <div class="el-color-picker__trigger" @click="handleTrigger">
-      <span class="el-color-picker__color" :class="{ 'is-alpha': showAlpha }">
-        <span
-          class="el-color-picker__color-inner"
-          :style="{
-            backgroundColor: displayedColor
-          }"
-        ></span>
-        <span v-if="!value && !showPanelColor" class="el-color-picker__empty el-icon-close"></span>
-      </span>
-      <span v-show="value || showPanelColor" class="el-color-picker__icon el-icon-arrow-down"></span>
-    </div>
-    <!--<picker-dropdown
-      ref="dropdown"
-      :class="['el-color-picker__panel', popperClass || '']"
-      v-model="showPicker"
-      @pick="confirmValue"
-      @clear="clearValue"
-      :color="color"
-      :show-alpha="showAlpha"
-      :predefine="predefine">
-    </picker-dropdown>-->
-  </div>
+    <template #default>
+      这是选取颜色的地方
+    </template>
+    <template #trigger>
+      <div
+        v-click-outside="hide"
+        :class="[
+          'el-color-picker',
+          colorDisabled ? 'is-disabled' : '',
+          colorSize ? `el-color-picker--${ colorSize }` : ''
+        ]"
+      >
+        <div v-if="colorDisabled" class="el-color-picker__mask"></div>
+        <div class="el-color-picker__trigger" @click="handleTrigger">
+          <span class="el-color-picker__color" :class="{ 'is-alpha': showAlpha }">
+            <span
+              class="el-color-picker__color-inner"
+              :style="{
+                backgroundColor: displayedColor
+              }"
+            ></span>
+            <span v-if="!value && !showPanelColor" class="el-color-picker__empty el-icon-close"></span>
+          </span>
+          <span v-show="value || showPanelColor" class="el-color-picker__icon el-icon-arrow-down"></span>
+        </div>
+        <!--<picker-dropdown
+          ref="dropdown"
+          :class="['el-color-picker__panel', popperClass || '']"
+          v-model="showPicker"
+          @pick="confirmValue"
+          @clear="clearValue"
+          :color="color"
+          :show-alpha="showAlpha"
+          :predefine="predefine">
+        </picker-dropdown>-->
+      </div>
+    </template>
+  </el-popper>
 </template>
 
 <script lang="ts">
 import { defineComponent,computed,ref,nextTick } from 'vue'
 import ClickOutside from '@element-plus/directives/click-outside'
 import Color from './color'
+import ElPopper from '@element-plus/popper/src/index.vue'
 
 interface IELEMENT {
   size?: string
@@ -51,6 +61,9 @@ interface IELFormItem {
 
 export default defineComponent( {
   name: 'ElColorPicker',
+  components: {
+    ElPopper,
+  },
   directives: {
     ClickOutside,
   },
