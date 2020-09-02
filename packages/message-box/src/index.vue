@@ -83,10 +83,11 @@
   </transition>
 </template>
 <script lang='ts'>
-import { defineComponent, render, nextTick } from 'vue'
+import { defineComponent, nextTick, getCurrentInstance, onMounted } from 'vue'
 import ElButton from '@element-plus/button/src/button.vue'
 import { t } from '@element-plus/locale'
 import Dialog  from '@element-plus/utils/aria-dialog'
+import usePopup from '@element-plus/utils/popup/usePopup'
 
 let messageBox
 
@@ -102,6 +103,7 @@ export default defineComponent({
   components: {
     ElButton,
   },
+  mixins: [usePopup],
   props: {
     modal: {
       type: Boolean,
@@ -136,11 +138,13 @@ export default defineComponent({
       type: Boolean,
     },
   },
+  setup() {
+    onMounted(() => { console.log(getCurrentInstance()) })
+  },
   data() {
     return {
       uid: 1,
       title: undefined,
-      visible: false,
       message: '',
       type: '',
       iconClass: '',
@@ -187,25 +191,30 @@ export default defineComponent({
     visible(val) {
       if (val) {
         this.uid++
+        if (this.$type === 'alert' || this.$type === 'confirm') {
+          nextTick().then(() => { this.$refs.confirm.$el.focus() })
+        }
         this.focusAfterClosed = document.activeElement
         messageBox = new Dialog(this.$el, this.focusAfterClosed, this.getFirstFocus())
+        nextTick().then(() => {
+          console.log('执行', this.$slots)
+        })
       }
 
-      // if (this.$type !== 'prompt') return
-      // if (val) {
-      //   setTimeout(() => {
-      //     if (this.$refs.input && this.$refs.input.$el) {
-      //       this.getInputElement().focus()
-      //     }
-      //   }, 500)
-      // } else {
-      //   this.editorErrorMessage = ''
-      //   removeClass(this.getInputElement(), 'invalid')
-      // }
+      if (this.$type !== 'prompt') return
+      if (val) {
+        setTimeout(() => {
+          if (this.$refs.input && this.$refs.input.$el) {
+            this.getInputElement().focus()
+          }}, 500)
+      } else {
+        this.editorErrorMessage = ''
+        removeClass(this.getInputElement(), 'invalid')
+      }
     },
   },
   mounted() {
-    nextTick(() => {
+    nextTick().then(() => {
       if (this.closeOnHashChange) {
         window.addEventListener('hashchange', this.close)
       }
@@ -223,16 +232,41 @@ export default defineComponent({
     getSafeClose() {
       const currentId = this.uid
       return () => {
-        nextTick(() => {
+        nextTick().then(() => {
           if (currentId === this.uid) this.doClose()
         })
       }
     },
+
+    doClose() {
+      if (!this.visible) return
+      this.visible = false
+      this._closing = true
+
+      this.onClose && this.onClose()
+      messageBox.closeDialog() // 解绑
+      if (this.lockScroll) {
+        setTimeout(this.restoreBodyStyle, 200)
+      }
+      this.opened = false
+      this.doAfterClose()
+      setTimeout(() => {
+        if (this.action) this.callback(this.action, this)
+      })
+    },
+
     handleWrapperClick() {
       if (this.closeOnClickModal) {
         this.handleAction(this.distinguishCancelAndClose ? 'close' : 'cancel')
       }
     },
+
+    handleInputEnter() {
+      if (this.inputType !== 'textarea') {
+        return this.handleAction('confirm')
+      }
+    },
+
     handleAction(action) {
       if (this.$type === 'prompt' && action === 'confirm' && !this.validate()) {
         return
@@ -245,32 +279,47 @@ export default defineComponent({
         this.doClose()
       }
     },
-    handleInputEnter() {
-      //
-    },
     validate() {
+      if (this.$type === 'prompt') {
+        const inputPattern = this.inputPattern
+        if (inputPattern && !inputPattern.test(this.inputValue || '')) {
+          this.editorErrorMessage = this.inputErrorMessage || t('el.messagebox.error')
+          addClass(this.getInputElement(), 'invalid')
+          return false
+        }
+        const inputValidator = this.inputValidator
+        if (typeof inputValidator === 'function') {
+          const validateResult = inputValidator(this.inputValue)
+          if (validateResult === false) {
+            this.editorErrorMessage = this.inputErrorMessage || t('el.messagebox.error')
+            addClass(this.getInputElement(), 'invalid')
+            return false
+          }
+          if (typeof validateResult === 'string') {
+            this.editorErrorMessage = validateResult
+            addClass(this.getInputElement(), 'invalid')
+            return false
+          }
+        }
+      }
+      this.editorErrorMessage = ''
+      removeClass(this.getInputElement(), 'invalid')
       return true
     },
-    doClose() {
-      if (!this.visible) return
-      this.visible = false
-      // this.onClose && this.onClose()
-      messageBox.closeDialog() // 解绑
-      if (this.lockScroll) {
-        // setTimeout(this.restoreBodyStyle, 200)
-      }
-      setTimeout(() => {
-        if (this.action) this.callback(this.action, this)
-      }, 0)
-    },
+
     getFirstFocus() {
       const btn = this.$el.querySelector('.el-message-box__btns .el-button')
       const title = this.$el.querySelector('.el-message-box__btns .el-message-box__title')
       return btn || title
     },
+
     getInputElement() {
       const inputRefs = this.$refs.input.$refs
       return inputRefs.input || inputRefs.textarea
+    },
+
+    handleClose() {
+      this.handleAction('close')
     },
   },
 })

@@ -1,8 +1,10 @@
 <template>
-  <el-button type="text" @click="open">
-    点击打开 Message Box
-    <slot></slot>
-  </el-button>
+  <div>
+    <h1>自定义</h1>
+    <el-button type="text" @click="open">
+      点击打开 Message Box
+    </el-button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -12,7 +14,6 @@ export default {
   name: 'Msgbox',
   methods: {
     open() {
-      console.log(this.$slots)
       this.$msgbox({
         title: '消息',
         message: h('p', null, [
@@ -37,10 +38,7 @@ export default {
           }
         },
       }).then(action => {
-        this.$message({
-          type: 'info',
-          message: 'action: ' + action,
-        })
+        alert('action: ' + action)
       })
     },
   },

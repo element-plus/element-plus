@@ -4,3 +4,5 @@ export default {
 
 export { default as AlertUsage } from './alert.vue'
 export { default as MsgboxUsage } from './msgbox.vue'
+export { default as ConfirmUsage } from './confirm.vue'
+export { default as PromptUsage } from './prompt.vue'

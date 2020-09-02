@@ -3,7 +3,6 @@ import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
 import { isVNode } from '../../utils/util'
 import { ElMessageBoxOptions } from './message-box'
-import de from '../../locale/lang/de'
 
 let currentMsg, instance
 
@@ -104,7 +103,7 @@ const showNextMsg = async () => {
         state[key] = options[key]
       }
     })
-    // TODO update props to instance/**/
+    // update props to instance/**/
     const vmPropProxy = instance.component.props
     for (const prop in props) {
       if (props.hasOwnProperty(prop)) {
@@ -112,8 +111,7 @@ const showNextMsg = async () => {
       }
     }
     if (isVNode(options.message)) {
-      // TODO
-      // how to add slots
+      instance.component.slots.default = () => [options.message]
     }
     const vmProxy = instance.component.data
     vmProxy.action = ''
@@ -131,10 +129,8 @@ const showNextMsg = async () => {
       showNextMsg()
     }
     document.body.appendChild(instance.component.ctx.$el)
-    await nextTick(() => {
-      vmProxy.visible = true
-      console.log(instance)
-    })
+    await nextTick()
+    vmProxy.visible = true
   }
 }
 
