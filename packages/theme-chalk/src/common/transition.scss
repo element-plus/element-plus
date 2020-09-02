@@ -4,8 +4,8 @@
 .fade-in-linear-leave-active {
   transition: $--fade-linear-transition;
 }
-.fade-in-linear-enter-from,
-.fade-in-linear-leave-from,
+.fade-in-linear-enter,
+.fade-in-linear-leave,
 .fade-in-linear-leave-active {
   opacity: 0;
 }
@@ -14,8 +14,8 @@
 .el-fade-in-linear-leave-active {
   transition: $--fade-linear-transition;
 }
-.el-fade-in-linear-enter-from,
-.el-fade-in-linear-leave-from,
+.el-fade-in-linear-enter,
+.el-fade-in-linear-leave,
 .el-fade-in-linear-leave-active {
   opacity: 0;
 }
@@ -24,31 +24,16 @@
 .el-fade-in-leave-active {
   transition: all .3s cubic-bezier(.55,0,.1,1);
 }
-.el-fade-in-enter-from,
+.el-fade-in-enter,
 .el-fade-in-leave-active {
   opacity: 0;
-}
-
-.el-fade-in-top-enter-from,
-.el-fade-in-top-leave-to{
-  opacity: 0;
-  transform: translate3d(0, -10%, 0);
-}
-.el-fade-in-top-enter-active,
-.el-fade-in-top-leave-active {
-  transition: $--md-fade-transition;
-}
-.el-fade-in-top-enter-to,
-.el-fade-in-top-leave-from{
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
 }
 
 .el-zoom-in-center-enter-active,
 .el-zoom-in-center-leave-active {
   transition: all .3s cubic-bezier(.55,0,.1,1);
 }
-.el-zoom-in-center-enter-from,
+.el-zoom-in-center-enter,
 .el-zoom-in-center-leave-active {
   opacity: 0;
   transform: scaleX(0);
@@ -61,7 +46,7 @@
   transition: $--md-fade-transition;
   transform-origin: center top;
 }
-.el-zoom-in-top-enter-from,
+.el-zoom-in-top-enter,
 .el-zoom-in-top-leave-active {
   opacity: 0;
   transform: scaleY(0);
@@ -74,7 +59,7 @@
   transition: $--md-fade-transition;
   transform-origin: center bottom;
 }
-.el-zoom-in-bottom-enter-from,
+.el-zoom-in-bottom-enter,
 .el-zoom-in-bottom-leave-active {
   opacity: 0;
   transform: scaleY(0);
@@ -87,7 +72,7 @@
   transition: $--md-fade-transition;
   transform-origin: top left;
 }
-.el-zoom-in-left-enter-from,
+.el-zoom-in-left-enter,
 .el-zoom-in-left-leave-active {
   opacity: 0;
   transform: scale(.45, .45);
@@ -104,7 +89,7 @@
 .el-list-leave-active {
   transition: all 1s;
 }
-.el-list-enter-from, .el-list-leave-active {
+.el-list-enter, .el-list-leave-active {
   opacity: 0;
   transform: translateY(-30px);
 }
