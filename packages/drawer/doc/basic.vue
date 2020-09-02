@@ -36,7 +36,7 @@ export default defineComponent(() => {
   const open = () => {
     visible.value = true
   }
-  const change = (val) => {
+  const change = val => {
     direction.value = val
   }
   return {
