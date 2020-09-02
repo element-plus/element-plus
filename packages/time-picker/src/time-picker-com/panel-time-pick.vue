@@ -7,7 +7,7 @@
       <div class="el-time-panel__content" :class="{ 'has-seconds': showSeconds }">
         <time-spinner
           ref="spinner"
-          :arrow-control="timeArrowControl"
+          :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
           :spinner-date="spinnerValue"
@@ -61,7 +61,7 @@ export default defineComponent({
       type: [String, Date],
       default: '',
     },
-    timeArrowControl: {
+    arrowControl: {
       type: [Boolean],
       default: false,
     },

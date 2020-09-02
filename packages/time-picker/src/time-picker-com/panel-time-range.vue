@@ -10,14 +10,14 @@
         <div class="el-time-range-picker__cell">
           <div class="el-time-range-picker__header">{{ t('el.datepicker.startTime') }}</div>
           <div
-            :class="{ 'has-seconds': showSeconds, 'is-arrow': timeArrowControl }"
+            :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
             class="el-time-range-picker__body el-time-panel__content"
           >
             <time-spinner
               ref="minSpinner"
               :show-seconds="showSeconds"
               :am-pm-mode="amPmMode"
-              :arrow-control="timeArrowControl"
+              :arrow-control="arrowControl"
               :spinner-date="minDate"
               :selectable-range="minSelectableRange"
               @change="handleMinChange"
@@ -28,7 +28,7 @@
         <div class="el-time-range-picker__cell">
           <div class="el-time-range-picker__header">{{ t('el.datepicker.endTime') }}</div>
           <div
-            :class="{ 'has-seconds': showSeconds, 'is-arrow': timeArrowControl }"
+            :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
             class="el-time-range-picker__body el-time-panel__content"
           >
             <time-spinner
@@ -36,7 +36,7 @@
               :show-seconds="showSeconds"
               :am-pm-mode="amPmMode"
               :selectable-range="maxSelectableRange"
-              :arrow-control="timeArrowControl"
+              :arrow-control="arrowControl"
               :spinner-date="maxDate"
               @change="handleMaxChange"
               @select-range="setMaxSelectionRange"
@@ -115,7 +115,7 @@ export default defineComponent({
       type: [Boolean],
       default: false,
     },
-    timeArrowControl: {
+    arrowControl: {
       type: [Boolean],
       default: false,
     },

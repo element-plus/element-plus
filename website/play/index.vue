@@ -2,9 +2,10 @@
   <div>
     <el-time-picker
       v-model="value1"
+      is-range
+      arrow-control
       placeholder="Arbitrary time"
       :default-value="new Date(2016, 9, 10, 18, 40)"
-      :editable="false"
     />
     value1: {{ value1 }}
   </div>
