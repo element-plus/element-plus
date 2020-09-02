@@ -58,7 +58,7 @@ export default {
       computedBodyPaddingRight: 0,
       withoutHiddenClass: true,
       rendered: false,
-      visible: false,
+      // visible: false,
     }
   },
 

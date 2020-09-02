@@ -16,6 +16,14 @@ const PROP_KEYS = [
   'closeOnHashChange',
   'center',
   'roundButton',
+  'openDelay',
+  'closeDelay',
+  'zIndex',
+  'modal',
+  'modalFade',
+  'modalClass',
+  'modalAppendToBody',
+  'lockScroll',
 ]
 
 // component default merge props & data
@@ -110,10 +118,7 @@ const showNextMsg = async () => {
         vmPropProxy[prop] = props[prop]
       }
     }
-    if (isVNode(options.message)) {
-      instance.component.slots.default = () => [options.message]
-    }
-    const vmProxy = instance.component.data
+    const vmProxy = instance.component.proxy
     vmProxy.action = ''
     if (options.callback === undefined) {
       options.callback = defaultCallback
@@ -122,6 +127,9 @@ const showNextMsg = async () => {
       if (state.hasOwnProperty(prop)) {
         vmProxy[prop] = state[prop]
       }
+    }
+    if (isVNode(options.message)) {
+      instance.component.slots.default = () => [options.message]
     }
     const oldCb = options.callback
     vmProxy.callback = (action, inst) => {
@@ -177,7 +185,7 @@ MessageBox.alert = (message, title, options) => {
   return MessageBox(Object.assign({
     title: title,
     message: message,
-    $type: 'alert',
+    type$: 'alert',
     closeOnPressEscape: false,
     closeOnClickModal: false,
   }, options))
@@ -193,7 +201,7 @@ MessageBox.confirm = (message, title, options) => {
   return MessageBox(Object.assign({
     title: title,
     message: message,
-    $type: 'confirm',
+    type$: 'confirm',
     showCancelButton: true,
   }, options))
 }
@@ -210,7 +218,7 @@ MessageBox.prompt = (message, title, options) => {
     message: message,
     showCancelButton: true,
     showInput: true,
-    $type: 'prompt',
+    type$: 'prompt',
   }, options))
 }
 

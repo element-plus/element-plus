@@ -83,11 +83,23 @@
   </transition>
 </template>
 <script lang='ts'>
-import { defineComponent, nextTick, getCurrentInstance, onMounted } from 'vue'
+import {
+  defineComponent,
+  nextTick,
+  ref,
+  onMounted,
+  computed,
+  watch,
+  getCurrentInstance,
+  reactive,
+  toRefs,
+} from 'vue'
+import { addClass, removeClass } from '@element-plus/utils/dom'
 import ElButton from '@element-plus/button/src/button.vue'
 import { t } from '@element-plus/locale'
 import Dialog  from '@element-plus/utils/aria-dialog'
 import usePopup from '@element-plus/utils/popup/usePopup'
+import fa from '../../locale/lang/fa'
 
 let messageBox
 
@@ -138,11 +150,9 @@ export default defineComponent({
       type: Boolean,
     },
   },
-  setup() {
-    onMounted(() => { console.log(getCurrentInstance()) })
-  },
-  data() {
-    return {
+  setup(props) {
+    let vm
+    const state = reactive<State>({
       uid: 1,
       title: undefined,
       message: '',
@@ -173,52 +183,83 @@ export default defineComponent({
       isOnComposition: false,
       distinguishCancelAndClose: false,
       t,
-    }
-  },
-  computed: {
-    icon() {
-      const { type, iconClass } = this
-      return iconClass || (type && TypeMap[type] ? `el-icon-${ TypeMap[type] }` : '')
-    },
-    confirmButtonClasses() {
-      return `el-button--primary ${ this.confirmButtonClass }`
-    },
-    cancelButtonClasses() {
-      return `${ this.cancelButtonClass }`
-    },
-  },
-  watch: {
-    visible(val) {
-      if (val) {
-        this.uid++
-        if (this.$type === 'alert' || this.$type === 'confirm') {
-          nextTick().then(() => { this.$refs.confirm.$el.focus() })
-        }
-        this.focusAfterClosed = document.activeElement
-        messageBox = new Dialog(this.$el, this.focusAfterClosed, this.getFirstFocus())
-        nextTick().then(() => {
-          console.log('执行', this.$slots)
-        })
-      }
+      visible: false,
+    })
+    const icon = computed(() => state.iconClass || (state.type && TypeMap[state.type] ? `el-icon-${ TypeMap[state.type] }` : ''))
 
-      if (this.$type !== 'prompt') return
+    const confirmButtonClasses = computed(() => `el-button--primary ${ state.confirmButtonClass }`)
+
+    const cancelButtonClasses = computed(() => `${ state.cancelButtonClass }`)
+
+    watch(state.visible, val => {
+      if (val) {
+        state.uid++
+        if (state.type$ === 'alert' || state.type$ === 'confirm') {
+          nextTick().then(() => { vm.refs.confirm.$el.focus() })
+        }
+        state.focusAfterClosed = document.activeElement
+        messageBox = new Dialog(vm.vnode.el, state.focusAfterClosed, getFirstFocus())
+      }
+      //
+      if (state.type$ !== 'prompt') return
       if (val) {
         setTimeout(() => {
-          if (this.$refs.input && this.$refs.input.$el) {
+          if (vm.refs.input && vm.refs.input.$el) {
             this.getInputElement().focus()
           }}, 500)
       } else {
-        this.editorErrorMessage = ''
+        state.editorErrorMessage = ''
         removeClass(this.getInputElement(), 'invalid')
       }
-    },
-  },
-  mounted() {
-    nextTick().then(() => {
-      if (this.closeOnHashChange) {
-        window.addEventListener('hashchange', this.close)
+    })
+
+    onMounted(async () => {
+      vm = getCurrentInstance()
+      await nextTick()
+      if (props.closeOnHashChange) {
+        // window.addEventListener('hashchange', this.close)
       }
     })
+
+    const getSafeClose = () => {
+      const currentId = state.uid
+      return () => {
+        nextTick().then(() => {
+          if (currentId === state.uid) doClose()
+        })
+      }
+    }
+
+    const doClose = () => {
+      if (!state.visible) return
+      state.visible = false
+      this._closing = true
+
+      this.onClose && this.onClose()
+      messageBox.closeDialog() // 解绑
+      if (props.lockScroll) {
+        setTimeout(this.restoreBodyStyle, 200)
+      }
+      this.opened = false
+      this.doAfterClose()
+      setTimeout(() => {
+        if (state.action) callback.value(state.action, vm)
+      })
+    }
+
+    const getFirstFocus = () => {
+      const btn = vm.vnode.el.querySelector('.el-message-box__btns .el-button')
+      const title = vm.vnode.el.querySelector('.el-message-box__btns .el-message-box__title')
+      return btn || title
+    }
+
+
+    return {
+      ...toRefs(state),
+      icon,
+      confirmButtonClasses,
+      cancelButtonClasses,
+    }
   },
   beforeUnmount() {
     if (this.closeOnHashChange) {
@@ -229,32 +270,6 @@ export default defineComponent({
     })
   },
   methods: {
-    getSafeClose() {
-      const currentId = this.uid
-      return () => {
-        nextTick().then(() => {
-          if (currentId === this.uid) this.doClose()
-        })
-      }
-    },
-
-    doClose() {
-      if (!this.visible) return
-      this.visible = false
-      this._closing = true
-
-      this.onClose && this.onClose()
-      messageBox.closeDialog() // 解绑
-      if (this.lockScroll) {
-        setTimeout(this.restoreBodyStyle, 200)
-      }
-      this.opened = false
-      this.doAfterClose()
-      setTimeout(() => {
-        if (this.action) this.callback(this.action, this)
-      })
-    },
-
     handleWrapperClick() {
       if (this.closeOnClickModal) {
         this.handleAction(this.distinguishCancelAndClose ? 'close' : 'cancel')
@@ -268,7 +283,7 @@ export default defineComponent({
     },
 
     handleAction(action) {
-      if (this.$type === 'prompt' && action === 'confirm' && !this.validate()) {
+      if (this.type$ === 'prompt' && action === 'confirm' && !this.validate()) {
         return
       }
       this.action = action
@@ -280,7 +295,7 @@ export default defineComponent({
       }
     },
     validate() {
-      if (this.$type === 'prompt') {
+      if (this.type$ === 'prompt') {
         const inputPattern = this.inputPattern
         if (inputPattern && !inputPattern.test(this.inputValue || '')) {
           this.editorErrorMessage = this.inputErrorMessage || t('el.messagebox.error')
