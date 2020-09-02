@@ -1,5 +1,7 @@
 <template>
   <!-- todo el-input @keydown="handleKeydown" @change="handleChange" -->
+  <!-- todo popper props align left  -->
+  <!-- todo popper custom popper-class  -->
   <el-popper
     effect="light"
     manual-mode
@@ -11,12 +13,13 @@
         v-if="!isRangeInput"
         ref="refContainer"
         v-clickoutside="onClickOutside"
+        :name="name"
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
         class="el-date-editor"
         :class="'el-date-editor--' + type"
-        :readonly="!editable || readonly || type === 'dates' || type === 'week'"
+        :readonly="readonly || type === 'dates' || type === 'week'"
         :value="displayValue"
         @input="value => userInput = value"
         @focus="handleFocus"
@@ -58,10 +61,11 @@
         <i :class="['el-input__icon', 'el-range__icon', triggerClass]"></i>
         <input
           autocomplete="off"
+          :name="name && name[0]"
           :placeholder="startPlaceholder"
           :value="displayValue && displayValue[0]"
           :disabled="pickerDisabled"
-          :readonly="!editable || readonly"
+          :readonly="readonly"
           class="el-range-input"
           @focus="handleFocus"
         >
@@ -70,10 +74,11 @@
         </slot>
         <input
           autocomplete="off"
+          :name="name && name[1]"
           :placeholder="endPlaceholder"
           :value="displayValue && displayValue[1]"
           :disabled="pickerDisabled"
-          :readonly="!editable || readonly"
+          :readonly="readonly"
           class="el-range-input"
           @focus="handleFocus"
         >
@@ -125,6 +130,10 @@ export default defineComponent({
   },
   directives: { clickoutside: ClickOutside },
   props: {
+    name: {
+      type: [Array, String],
+      default: '',
+    },
     format: {
       type: String,
       required: true,
@@ -132,10 +141,6 @@ export default defineComponent({
     type: {
       type: String,
       default: '',
-    },
-    editable: {
-      type: Boolean,
-      default: true,
     },
     clearable: {
       type: Boolean,
@@ -281,8 +286,10 @@ export default defineComponent({
       }
     }
     const onMouseLeave = e => {
-      // if not el-icon
-      if (e.relatedTarget.className.includes('icon')) return
+      if (e.relatedTarget && e.relatedTarget.className.includes('icon')) {
+        // if not el-icon
+        return
+      }
       showClose.value = false
     }
     const isRangeInput = computed(() => {
