@@ -276,7 +276,7 @@ export default defineComponent({
         second < 59 ? second + 1 : undefined,
       ]
     })
-    const amPm = (hour) => {
+    const amPm = hour => {
       let shouldShowAmPm = props.amPmMode.toLowerCase() === 'a'
       if (!shouldShowAmPm) return ''
       let isCapital = props.amPmMode === 'A'
@@ -286,7 +286,7 @@ export default defineComponent({
       return content
     }
 
-    const emitSelectRange = (type) =>{
+    const emitSelectRange = type =>{
       if (type === 'hours') {
         ctx.emit('select-range', 0, 2)
       } else if (type === 'minutes') {
@@ -297,7 +297,7 @@ export default defineComponent({
       currentScrollbar.value = type
     }
 
-    const adjustCurrentSpinner = (type) =>{
+    const adjustCurrentSpinner = type =>{
       adjustSpinner(type, timePartsMap[type].value)
     }
 
@@ -318,7 +318,7 @@ export default defineComponent({
       }
     }
 
-    const typeItemHeight  = (type) =>{
+    const typeItemHeight  = type =>{
       const el = listRefsMap[type]
       return el.value.$el.querySelector('li').offsetHeight
     }
@@ -331,7 +331,7 @@ export default defineComponent({
       scrollDown(-1)
     }
 
-    const scrollDown = (step) => {
+    const scrollDown = step => {
       if (!currentScrollbar.value) {
         emitSelectRange('hours')
       }
@@ -377,17 +377,17 @@ export default defineComponent({
       }
     }
 
-    const  handleScroll = (type) => {
+    const  handleScroll = type => {
       const value = Math.min(Math.round((listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap').scrollTop - (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) + 3) / typeItemHeight(type)), (type === 'hours' ? 23 : 59))
       modifyDateField(type, value)
     }
 
-    const scrollBarHeight = (type) => {
+    const scrollBarHeight = type => {
       return listRefsMap[type].value.$el.offsetHeight
     }
 
     const bindScrollEvent = () => {
-      const bindFuntion = (type) => {
+      const bindFuntion = type => {
         listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap').onscroll = () => {
           // TODO: scroll is emitted when set scrollTop programatically
           // should find better solutions in the future!
