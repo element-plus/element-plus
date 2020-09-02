@@ -1,5 +1,5 @@
 
-const _ = jest.genMockFromModule('lodash')
+const _ = jest.requireActual('lodash')
 
 
 const debounce = jest.fn(fn => {
