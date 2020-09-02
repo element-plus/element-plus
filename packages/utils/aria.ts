@@ -36,7 +36,7 @@ export const isVisible = (element: HTMLElement) => {
   const computed = getComputedStyle(element)
   // element.offsetParent won't work on fix positioned
   // WARNING: potential issue here, going to need some expert advices on this issue
-  return computed.position === 'fix' ? false : element.offsetParent !== null
+  return computed.position === 'fixed' ? false : element.offsetParent !== null
 }
 
 export const obtainAllFocusableElements = (element: HTMLElement): HTMLElement[] => {
