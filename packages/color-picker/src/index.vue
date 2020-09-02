@@ -3,7 +3,9 @@
     :trigger="['click']"
   >
     <template #default>
-      这是选取颜色的地方
+      <div>
+        <sv-panel :color="color" />
+      </div>
     </template>
     <template #trigger>
       <div
@@ -45,7 +47,8 @@
 <script lang="ts">
 import { defineComponent,computed,ref,nextTick } from 'vue'
 import ClickOutside from '@element-plus/directives/click-outside'
-import Color from './color'
+import Color from './color.ts'
+import SvPanel from './components/sv-panel'
 import ElPopper from '@element-plus/popper/src/index.vue'
 
 interface IELEMENT {
@@ -63,6 +66,7 @@ export default defineComponent( {
   name: 'ElColorPicker',
   components: {
     ElPopper,
+    SvPanel,
   },
   directives: {
     ClickOutside,
@@ -76,18 +80,6 @@ export default defineComponent( {
     popperClass: String,
     predefine: Array,
   },
-  /*data() {
-    const color = new Color({
-      enableAlpha: this.showAlpha,
-      format: this.colorFormat
-    })
-
-    return {
-      color,
-      showPicker: false,
-      showPanelColor: false
-    }
-  },*/
   setup(props) {
     const ELEMENT: IELEMENT = {}
     const elForm:IElForm = {}
@@ -120,7 +112,7 @@ export default defineComponent( {
     // methods
     function displayedRgb(color, showAlpha) {
       if (!(color instanceof Color)) {
-        throw Error('color should be instance of Color Class')
+        throw Error('color should be instance of _color Class')
       }
 
       const { r, g, b } = color.toRgb()
@@ -145,26 +137,8 @@ export default defineComponent( {
       if (colorDisabled.value) return
       showPicker.value = !showPicker.value
     }
-    /*displayedColor() {
-      if (!this.value && !this.showPanelColor) {
-        return 'transparent';
-      }
-
-      return this.displayedRgb(this.color, this.showAlpha);
-    },
-
-    _elFormItemSize() {
-      return (this.elFormItem || {}).elFormItemSize;
-    },
-
-    colorSize() {
-      return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
-    },
-
-    colorDisabled() {
-      return this.disabled || (this.elForm || {}).disabled;
-    }*/
     return {
+      color,
       colorDisabled,
       colorSize,
       displayedColor,
