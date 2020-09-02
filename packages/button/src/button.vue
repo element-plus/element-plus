@@ -68,10 +68,24 @@ export default defineComponent({
     type: {
       type: String as IButtonType,
       default: 'default',
+      validator: (val: string) => {
+        return [
+          '',
+          'primary',
+          'success',
+          'warning',
+          'info',
+          'danger',
+          'text',
+        ].includes(val)
+      },
     },
     size: {
       type: String as IButtonType,
       default: '',
+      validator: (val: string) => {
+        return ['', 'medium', 'small', 'mini'].includes(val)
+      },
     },
     icon: {
       type: String,
@@ -80,6 +94,9 @@ export default defineComponent({
     nativeType: {
       type: String as IButtonNativeType,
       default: 'button',
+      validator: (val: string) => {
+        return ['button', 'submit', 'reset'].includes(val)
+      },
     },
     loading: Boolean,
     disabled: Boolean,
