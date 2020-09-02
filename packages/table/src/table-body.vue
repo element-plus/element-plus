@@ -1,12 +1,14 @@
 <script lang="ts">
-import { defineComponent, getCurrentInstance, h, computed } from 'vue'
+import { defineComponent, getCurrentInstance, h, computed, watch } from 'vue'
 import useLayoutObserver from './layout-observer'
 import { arrayFindIndex } from '@element-plus/utils/util'
 import { getCell, getColumnByCell, getRowIdentity } from './util'
 import { getStyle, hasClass, removeClass, addClass } from '@element-plus/utils/dom'
+import isServer from '@element-plus/utils/isServer'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
 // import ElTooltip from '@element-plus/tooltip';
 import { debounce } from 'throttle-debounce'
+import { RenderRowData } from './types'
 export default defineComponent({
   name: 'ElTableBody',
   components: {
@@ -31,15 +33,34 @@ export default defineComponent({
     const instance = getCurrentInstance() as any
     const parent = instance.parent as any
     const store = props.store as any
+    watch(props.store.states.hoverRow, (newVal: number | null, oldVal: number | null) => {
+      if (!props.store.states.isComplex.value || isServer) return
+      let raf = window.requestAnimationFrame
+      if (!raf) {
+        raf = fn => window.setTimeout(fn, 16)
+      }
+      raf(() => {
+        const rows = instance.vnode.el.querySelectorAll('.el-table__row')
+        const oldRow = rows[oldVal]
+        const newRow = rows[newVal]
+        if (oldRow) {
+          removeClass(oldRow, 'hover-row')
+        }
+        if (newRow) {
+          addClass(newRow, 'hover-row')
+        }
+      })
+    })
+
     const { tableLayout, onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
 
     const isColumnHidden = index => {
-      if (!!props.fixed === true || props.fixed === 'left') {
+      if (props.fixed === 'left') {
         return index >= store.states.fixedLeafColumnsLength.value
       } else if (props.fixed === 'right') {
-        return index < store.states.columns.value.length.value - store.states.rightFixedLeafColumnsLength.value.value
+        return index < store.states.columns.value.length - store.states.rightFixedLeafColumnsLength.value
       } else {
-        return index < store.states.fixedLeafColumnsLength.value || index >= store.states.columns.value.length.value - store.states.rightFixedLeafColumnsLength.value.value
+        return index < store.states.fixedLeafColumnsLength.value || index >= store.states.columns.value.length - store.states.rightFixedLeafColumnsLength.value
       }
     }
     const getRowStyle = (row, rowIndex) => {
@@ -158,11 +179,14 @@ export default defineComponent({
       const cell = getCell(event)
       let column
       if (cell) {
-        column = getColumnByCell({
-          columns: props.store.states.columns.value,
-        }, cell)
+        column = getColumnByCell(
+          {
+            columns: props.store.states.columns.value,
+          },
+          cell,
+        )
         if (column) {
-          table.$emit(`cell-${name}`, row, column, cell, event)
+          table.emit(`cell-${name}`, row, column, cell, event)
         }
       }
       table.emit(`row-${name}`, row, column, event)
@@ -171,26 +195,29 @@ export default defineComponent({
       handleEvent(event, row, 'dblclick')
     }
     const handleClick = (event, row) => {
-      parent.commit('setCurrentRow', row)
+      parent.store.commit('setCurrentRow', row)
       handleEvent(event, row, 'click')
     }
     const handleContextMenu = (event, row) => {
       handleEvent(event, row, 'contextmenu')
     }
     const handleMouseEnter = debounce(30, function (index) {
-      parent.commit('setHoverRow', index)
+      parent.store.commit('setHoverRow', index)
     })
     const handleMouseLeave = debounce(30, function () {
-      parent.commit('setHoverRow', null)
+      parent.store.commit('setHoverRow', null)
     })
     const handleCellMouseEnter = (event, row) => {
       const table = parent
       const cell = getCell(event)
 
       if (cell) {
-        const column = getColumnByCell({
-          columns: props.store.states.columns.value,
-        }, cell)
+        const column = getColumnByCell(
+          {
+            columns: props.store.states.columns.value,
+          },
+          cell,
+        )
         const hoverState = (table.hoverState = { cell, column, row })
         table.emit('cell-mouse-enter', hoverState.row, hoverState.column, hoverState.cell, event)
       }
@@ -268,19 +295,12 @@ export default defineComponent({
           }
           const columnData = { ...column }
           columnData.realWidth = getColspanRealWidth(columns.value, colspan, cellIndex)
-          const data = {
+          const data: RenderRowData = {
             store: props.store,
             _self: props.context || parent.ctx,
             column: columnData,
             row,
             $index,
-            treeNode: {
-              expanded: false,
-              loading: false,
-              noLazyChildren: false,
-              indent: 0,
-              level: 0,
-            },
           }
           if (cellIndex === firstDefaultColumnIndex.value && treeRowData) {
             data.treeNode = {
@@ -311,9 +331,7 @@ export default defineComponent({
               onMouseenter: $event => handleCellMouseEnter($event, row),
               onMouseleave: handleCellMouseLeave,
             },
-            [
-              column.renderCell(data),
-            ],
+            [column.renderCell(data)],
           )
         }),
       )

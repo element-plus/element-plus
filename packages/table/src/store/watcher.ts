@@ -2,7 +2,7 @@ import { ref, getCurrentInstance } from 'vue'
 import merge from '@element-plus/utils/merge'
 import { getKeysMap, getRowIdentity, getColumnById, getColumnByKey, orderBy, toggleRowStatus } from '../util'
 import useExpand from './expand'
-// import useCurrent from './current'
+import useCurrent from './current'
 import useTree from './tree'
 
 const sortData = (data, states) => {
@@ -47,7 +47,7 @@ function useWatcher() {
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
   const selectable = ref(null)
-  const filters = ref(null)
+  const filters = ref({})
   const filteredData = ref(null)
   const sortingColumn = ref(null)
   const sortProp = ref(null)
@@ -102,7 +102,7 @@ function useWatcher() {
     const oldSelection = selection.value
     if (oldSelection.length) {
       selection.value = []
-      instance.table.$emit('selection-change', [])
+      instance.emit('selection-change', [])
     }
   }
 
@@ -124,7 +124,7 @@ function useWatcher() {
     if (deleted.length) {
       const newSelection = selection.value.filter(item => deleted.indexOf(item) === -1)
       selection.value = newSelection
-      instance.table.$emit('selection-change', newSelection.slice())
+      instance.emit('selection-change', newSelection.slice())
     }
   }
 
@@ -134,9 +134,9 @@ function useWatcher() {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
       if (emitChange) {
-        instance.table.$emit('select', newSelection, row)
+        instance.emit('select', newSelection, row)
       }
-      instance.table.$emit('selection-change', newSelection)
+      instance.emit('selection-change', newSelection)
     }
   }
 
@@ -162,9 +162,9 @@ function useWatcher() {
     })
 
     if (selectionChanged) {
-      instance.table.$emit('selection-change', selection.value ? selection.value.slice() : [])
+      instance.emit('selection-change', selection.value ? selection.value.slice() : [])
     }
-    instance.table.$emit('select-all', selection)
+    instance.emit('select-all', selection)
   }
 
   const updateSelectionByRowKey = () => {
@@ -187,11 +187,11 @@ function useWatcher() {
 
     let selectedMap
     if (rowKey.value) {
-      selectedMap = getKeysMap(selection, rowKey)
+      selectedMap = getKeysMap(selection, rowKey.value)
     }
     const isSelected = function (row) {
       if (selectedMap) {
-        return !!selectedMap[getRowIdentity(row, rowKey)]
+        return !!selectedMap[getRowIdentity(row, rowKey.value)]
       } else {
         return selection.value.indexOf(row) !== -1
       }
@@ -297,7 +297,7 @@ function useWatcher() {
           panels[key].filteredValue = []
         }
       })
-      instance.commit('filterChange', {
+      instance.store.commit('filterChange', {
         column: columns,
         values: [],
         silent: true,
@@ -310,7 +310,7 @@ function useWatcher() {
       })
 
       filters.value = {}
-      instance.commit('filterChange', {
+      instance.store.commit('filterChange', {
         column: {},
         values: [],
         silent: true,
@@ -322,13 +322,14 @@ function useWatcher() {
     if (!sortingColumn.value) return
 
     updateSort(null, null, null)
-    instance.commit('changeSortCondition', {
+    instance.store.commit('changeSortCondition', {
       silent: true,
     })
   }
   const {
     setExpandRowKeys,
     toggleRowExpansion,
+    updateExpandRows,
     states: expandStates,
     isRowExpanded,
   } = useExpand({
@@ -338,8 +339,17 @@ function useWatcher() {
   const {
     updateTreeExpandKeys,
     toggleTreeExpansion,
+    loadOrToggle,
     states: treeStates,
   } = useTree({
+    data,
+    rowKey,
+  })
+  const {
+    updateCurrentRowData,
+    updateCurrentRow,
+    states: currentData,
+  } = useCurrent({
     data,
     rowKey,
   })
@@ -372,6 +382,7 @@ function useWatcher() {
     updateSelectionByRowKey,
     updateAllSelected,
     updateFilters,
+    updateCurrentRow,
     updateSort,
     execFilter,
     execSort,
@@ -381,6 +392,9 @@ function useWatcher() {
     setExpandRowKeysAdapter,
     toggleRowExpansionAdapter,
     isRowExpanded,
+    updateExpandRows,
+    updateCurrentRowData,
+    loadOrToggle,
     states: {
       rowKey,
       data,
@@ -409,6 +423,7 @@ function useWatcher() {
       hoverRow,
       ...expandStates,
       ...treeStates,
+      ...currentData,
     },
   }
 }

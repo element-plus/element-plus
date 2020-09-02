@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, ref, isRef } from 'vue'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
@@ -11,25 +11,28 @@ class TableLayout {
   fit = true
   showHeader = true
 
-  height = null
-  scrollX = false
-  scrollY = false
-  bodyWidth = null
-  fixedWidth = null
-  rightFixedWidth = null
-  tableHeight = null
-  headerHeight = 44 // Table Header Height
-  appendHeight = 0 // Append Slot Height
-  footerHeight = 44 // Table Footer Height
-  viewportHeight = null // Table Height - Scroll Bar Height
-  bodyHeight = null // Table Height - Table Header Height
-  fixedBodyHeight = null // Table Height - Table Header Height - Scroll Bar Height
+  height = ref(null)
+  scrollX = ref(false)
+  scrollY = ref(false)
+  bodyWidth = ref(null)
+  fixedWidth = ref(null)
+  rightFixedWidth = ref(null)
+  tableHeight = ref(null)
+  headerHeight = ref(44) // Table Header Height
+  appendHeight = ref(0) // Append Slot Height
+  footerHeight = ref(44) // Table Footer Height
+  viewportHeight = ref(null) // Table Height - Scroll Bar Height
+  bodyHeight = ref(null) // Table Height - Table Header Height
+  fixedBodyHeight = ref(null) // Table Height - Table Header Height - Scroll Bar Height
   gutterWidth = scrollbarWidth()
   constructor(options) {
-    this.gutterWidth = scrollbarWidth()
     for (const name in options) {
       if (options.hasOwnProperty(name)) {
-        this[name] = options[name]
+        if (isRef(this[name])) {
+          this[name].value = options[name]
+        } else {
+          this[name] = options[name]
+        }
       }
     }
     if (!this.table) {
@@ -41,14 +44,14 @@ class TableLayout {
   }
 
   updateScrollY() {
-    const height = this.height
+    const height = this.height.value
     if (height === null) return false
-    const bodyWrapper = this.table.bodyWrapper
+    const bodyWrapper = this.table.refs.bodyWrapper
     if (this.table.vnode.el && bodyWrapper) {
       const body = bodyWrapper.querySelector('.el-table__body')
-      const prevScrollY = this.scrollY
-      const scrollY = body.offsetHeight > this.bodyHeight
-      this.scrollY = scrollY
+      const prevScrollY = this.scrollY.value
+      const scrollY = body.offsetHeight > this.bodyHeight.value
+      this.scrollY.value = scrollY
       return prevScrollY !== scrollY
     }
     return false
@@ -58,7 +61,7 @@ class TableLayout {
     if (isServer) return
     const el = this.table.vnode.el
     value = parseHeight(value)
-    this.height = value
+    this.height.value = value
 
     if (!el && (value || value === 0)) return nextTick(() => this.setHeight(value, prop))
 
@@ -93,7 +96,7 @@ class TableLayout {
   updateElsHeight() {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
     const { headerWrapper, appendWrapper, footerWrapper } = this.table.refs
-    this.appendHeight = appendWrapper ? appendWrapper.offsetHeight : 0
+    this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
 
     if (this.showHeader && !headerWrapper) return
 
@@ -101,19 +104,19 @@ class TableLayout {
     const headerTrElm = headerWrapper ? headerWrapper.querySelector('.el-table__header tr') : null
     const noneHeader = this.headerDisplayNone(headerTrElm)
 
-    const headerHeight = this.headerHeight = !this.showHeader ? 0 : headerWrapper.offsetHeight
+    const headerHeight = this.headerHeight.value = !this.showHeader ? 0 : headerWrapper.offsetHeight
     if (this.showHeader && !noneHeader && headerWrapper.offsetWidth > 0 && (this.table.columns || []).length > 0 && headerHeight < 2) {
       return nextTick(() => this.updateElsHeight())
     }
-    const tableHeight = this.tableHeight = this.table.vnode.el.clientHeight
-    const footerHeight = this.footerHeight = footerWrapper ? footerWrapper.offsetHeight : 0
-    if (this.height !== null) {
-      this.bodyHeight = tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0)
+    const tableHeight = this.tableHeight.value = this.table.vnode.el.clientHeight
+    const footerHeight = this.footerHeight.value = footerWrapper ? footerWrapper.offsetHeight : 0
+    if (this.height.value !== null) {
+      this.bodyHeight.value = tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0)
     }
-    this.fixedBodyHeight = this.scrollX ? (this.bodyHeight - this.gutterWidth) : this.bodyHeight
+    this.fixedBodyHeight.value = this.scrollX.value ? (this.bodyHeight.value - this.gutterWidth) : this.bodyHeight.value
 
     const noData = !(this.store.states.data.value && this.store.states.data.value.length)
-    this.viewportHeight = this.scrollX ? tableHeight - (noData ? 0 : this.gutterWidth) : tableHeight
+    this.viewportHeight.value = this.scrollX.value ? tableHeight - (noData ? 0 : this.gutterWidth) : tableHeight
 
     this.updateScrollY()
     this.notifyObservers('scrollable')
@@ -148,10 +151,10 @@ class TableLayout {
         bodyMinWidth += column.width || column.minWidth || 80
       })
 
-      const scrollYWidth = this.scrollY ? this.gutterWidth : 0
+      const scrollYWidth = this.scrollY.value ? this.gutterWidth : 0
 
       if (bodyMinWidth <= bodyWidth - scrollYWidth) { // DON'T HAVE SCROLL BAR
-        this.scrollX = false
+        this.scrollX.value = false
 
         const totalFlexWidth = bodyWidth - scrollYWidth - bodyMinWidth
 
@@ -172,14 +175,14 @@ class TableLayout {
           flexColumns[0].realWidth = (flexColumns[0].minWidth || 80) + totalFlexWidth - noneFirstWidth
         }
       } else { // HAVE HORIZONTAL SCROLL BAR
-        this.scrollX = true
+        this.scrollX.value = true
         flexColumns.forEach(function (column) {
           column.realWidth = column.minWidth
         })
       }
 
-      this.bodyWidth = Math.max(bodyMinWidth, bodyWidth)
-      this.table.ctx.resizeState.width = this.bodyWidth
+      this.bodyWidth.value = Math.max(bodyMinWidth, bodyWidth)
+      this.table.ctx.resizeState.width = this.bodyWidth.value
     } else {
       flattenColumns.forEach(column => {
         if (!column.width && !column.minWidth) {
@@ -189,9 +192,9 @@ class TableLayout {
         }
         bodyMinWidth += column.realWidth
       })
-      this.scrollX = bodyMinWidth > bodyWidth
+      this.scrollX.value = bodyMinWidth > bodyWidth
 
-      this.bodyWidth = bodyMinWidth
+      this.bodyWidth.value = bodyMinWidth
     }
 
     const fixedColumns = this.store.states.fixedColumns.value
@@ -202,7 +205,7 @@ class TableLayout {
         fixedWidth += column.realWidth || column.width
       })
 
-      this.fixedWidth = fixedWidth
+      this.fixedWidth.value = fixedWidth
     }
 
     const rightFixedColumns = this.store.states.rightFixedColumns.value
@@ -212,7 +215,7 @@ class TableLayout {
         rightFixedWidth += column.realWidth || column.width
       })
 
-      this.rightFixedWidth = rightFixedWidth
+      this.rightFixedWidth.value = rightFixedWidth
     }
 
     this.notifyObservers('columns')

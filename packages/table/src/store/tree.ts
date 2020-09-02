@@ -1,7 +1,7 @@
 import { walkTreeNode, getRowIdentity } from '../util'
 import { ref, computed, watch, getCurrentInstance, unref } from 'vue'
 
-function useTree (watcherData: any) {
+function useTree(watcherData: any) {
   const expandRowKeys = ref([])
   const treeData = ref({})
   const indent = ref(16)
@@ -120,7 +120,7 @@ function useTree (watcherData: any) {
       }
     }
     treeData.value = newTreeData
-    instance.updateTableScrollY()
+    instance.store.updateTableScrollY()
   }
 
   watch(() => normalizedData.value, updateTreeData)
@@ -132,7 +132,7 @@ function useTree (watcherData: any) {
   }
 
   const toggleTreeExpansion = (row, expanded) => {
-    instance.assertRowKey()
+    instance.store.assertRowKey()
 
     const rowKey = watcherData.rowKey.value
     const id = getRowIdentity(row, rowKey)
@@ -142,14 +142,14 @@ function useTree (watcherData: any) {
       expanded = typeof expanded === 'undefined' ? !data.expanded : expanded
       treeData.value[id].expanded = expanded
       if (oldExpanded !== expanded) {
-        instance.table.$emit('expand-change', row, expanded)
+        instance.emit('expand-change', row, expanded)
       }
-      instance.updateTableScrollY()
+      instance.store.updateTableScrollY()
     }
   }
 
   const loadOrToggle = row => {
-    instance.assertRowKey()
+    instance.store.assertRowKey()
     const rowKey = watcherData.rowKey.value
     const id = getRowIdentity(row, rowKey)
     const data = treeData.value[id]
@@ -174,7 +174,7 @@ function useTree (watcherData: any) {
         if (data.length) {
           instance.$set(lazyTreeNodeMap.value, key, data)
         }
-        instance.table.$emit('expand-change', row, true)
+        instance.emit('expand-change', row, true)
       })
     }
   }

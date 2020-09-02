@@ -324,12 +324,12 @@ export default defineComponent({
       const parent = columnOrTableParent.value
       const children = isSubColumn.value ? parent.vnode.el.children : parent.refs.hiddenColumns.children
       const columnIndex = getColumnElIndex(children, instance.vnode.el)
-      owner.value.commit('insertColumn', instance.columnConfig, columnIndex, isSubColumn.value ? parent.columnConfig : null)
+      owner.value.store.commit('insertColumn', instance.columnConfig, columnIndex, isSubColumn.value ? parent.columnConfig : null)
     })
     onUnmounted(() => {
       if (!instance.parent) return
       const parent = instance.parent as ComponentInternalInstance & { columnConfig: any; }
-      owner.value.commit('removeColumn', instance.columnConfig, isSubColumn.value ? parent.columnConfig : null)
+      owner.value.store.commit('removeColumn', instance.columnConfig, isSubColumn.value ? parent.columnConfig : null)
     })
     return {
       row,

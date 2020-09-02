@@ -7,8 +7,8 @@
       'el-table--hidden': isHidden,
       'el-table--group': isGroup,
       'el-table--fluid-height': maxHeight,
-      'el-table--scrollable-x': layout.scrollX,
-      'el-table--scrollable-y': layout.scrollY,
+      'el-table--scrollable-x': layout.scrollX.value,
+      'el-table--scrollable-y': layout.scrollY.value,
       'el-table--enable-row-hover': !store.states.isComplex.value,
       'el-table--enable-row-transition': (store.states.data.value || []).length !== 0 && (store.states.data.value || []).length < 100
     }, tableSize ? `el-table--${ tableSize }` : '']"
@@ -30,13 +30,13 @@
         :default-sort="defaultSort"
         :store="store"
         :style="{
-          width: layout.bodyWidth ? layout.bodyWidth + 'px' : ''
+          width: layout.bodyWidth.value ? layout.bodyWidth.value + 'px' : ''
         }"
       />
     </div>
     <div
       ref="bodyWrapper"
-      :class="[layout.scrollX ? `is-scrolling-${scrollPosition}` : 'is-scrolling-none']"
+      :class="[layout.scrollX.value ? `is-scrolling-${scrollPosition}` : 'is-scrolling-none']"
       :style="[bodyHeight]"
       class="el-table__body-wrapper"
     >
@@ -82,159 +82,129 @@
           width: layout.bodyWidth ? layout.bodyWidth + 'px' : ''
         }"
       />
-    </div>
+    </div>-->
     <div
-      v-if="fixedColumns.length > 0"
+      v-if="store.states.fixedColumns.value.length > 0"
       ref="fixedWrapper"
       v-mousewheel="handleFixedMousewheel"
-      class="el-table__fixed"
       :style="[{
-                 width: layout.fixedWidth ? layout.fixedWidth + 'px' : ''
+                 width: layout.fixedWidth.value ? layout.fixedWidth.value + 'px' : ''
                },
                fixedHeight]"
+      class="el-table__fixed"
     >
-      <div
-        v-if="showHeader"
-        ref="fixedHeaderWrapper"
-        class="el-table__fixed-header-wrapper"
-      >
+      <div v-if="showHeader" ref="fixedHeaderWrapper" class="el-table__fixed-header-wrapper">
         <table-header
           ref="fixedTableHeader"
-          fixed="left"
           :border="border"
           :store="store"
           :style="{
             width: bodyWidth
           }"
+          fixed="left"
         />
       </div>
       <div
         ref="fixedBodyWrapper"
-        class="el-table__fixed-body-wrapper"
         :style="[{
-                   top: layout.headerHeight + 'px'
+                   top: layout.headerHeight.value + 'px'
                  },
                  fixedBodyHeight]"
+        class="el-table__fixed-body-wrapper"
       >
         <table-body
-          fixed="left"
-          :store="store"
-          :stripe="stripe"
           :highlight="highlightCurrentRow"
           :row-class-name="rowClassName"
           :row-style="rowStyle"
+          :store="store"
+          :stripe="stripe"
           :style="{
             width: bodyWidth
           }"
+          fixed="left"
         />
-        <div
-          v-if="$slots.append"
-          class="el-table__append-gutter"
-          :style="{ height: layout.appendHeight + 'px'}"
-        ></div>
+        <div v-if="$slots.append" :style="{ height: layout.appendHeight.value + 'px'}" class="el-table__append-gutter"></div>
       </div>
       <div
         v-if="showSummary"
-        v-show="data && data.length > 0"
+        v-show="data && data.value.length > 0"
         ref="fixedFooterWrapper"
         class="el-table__fixed-footer-wrapper"
       >
-        <table-footer
-          fixed="left"
-          :border="border"
-          :sum-text="sumText || t('el.table.sumText')"
-          :summary-method="summaryMethod"
-          :store="store"
-          :style="{
+        <!-- <table-footer :border="border" :store="store" :style="{
             width: bodyWidth
-          }"
-        />
+        }" :sum-text="sumText || t('el.table.sumText')" :summary-method="summaryMethod" fixed="left" />-->
       </div>
     </div>
     <div
-      v-if="rightFixedColumns.length > 0"
+      v-if="store.states.rightFixedColumns.value.length > 0"
       ref="rightFixedWrapper"
       v-mousewheel="handleFixedMousewheel"
-      class="el-table__fixed-right"
       :style="[{
-                 width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : '',
-                 right: layout.scrollY ? (border ? layout.gutterWidth : (layout.gutterWidth || 0)) + 'px' : ''
+                 width: layout.rightFixedWidth.value ? layout.rightFixedWidth.value + 'px' : '',
+                 right: layout.scrollY.value ? (border ? layout.gutterWidth : (layout.gutterWidth || 0)) + 'px' : ''
                },
                fixedHeight]"
+      class="el-table__fixed-right"
     >
-      <div
-        v-if="showHeader"
-        ref="rightFixedHeaderWrapper"
-        class="el-table__fixed-header-wrapper"
-      >
+      <div v-if="showHeader" ref="rightFixedHeaderWrapper" class="el-table__fixed-header-wrapper">
         <table-header
           ref="rightFixedTableHeader"
-          fixed="right"
           :border="border"
           :store="store"
           :style="{
             width: bodyWidth
           }"
+          fixed="right"
         />
       </div>
       <div
         ref="rightFixedBodyWrapper"
+        :style="[
+          {top: layout.headerHeight.value + 'px'},
+          fixedBodyHeight
+        ]"
         class="el-table__fixed-body-wrapper"
-        :style="[{
-                   top: layout.headerHeight + 'px'
-                 },
-                 fixedBodyHeight]"
       >
         <table-body
-          fixed="right"
-          :store="store"
-          :stripe="stripe"
+          :highlight="highlightCurrentRow"
           :row-class-name="rowClassName"
           :row-style="rowStyle"
-          :highlight="highlightCurrentRow"
+          :store="store"
+          :stripe="stripe"
           :style="{
             width: bodyWidth
           }"
+          fixed="right"
         />
-        <div
-          v-if="$slots.append"
-          class="el-table__append-gutter"
-          :style="{ height: layout.appendHeight + 'px' }"
-        ></div>
+        <div v-if="$slots.append" :style="{ height: layout.appendHeight.value + 'px' }" class="el-table__append-gutter"></div>
       </div>
       <div
         v-if="showSummary"
-        v-show="data && data.length > 0"
+        v-show="data && data.value.length > 0"
         ref="rightFixedFooterWrapper"
         class="el-table__fixed-footer-wrapper"
       >
-        <table-footer
-          fixed="right"
-          :border="border"
-          :sum-text="sumText || t('el.table.sumText')"
-          :summary-method="summaryMethod"
-          :store="store"
-          :style="{
+        <!-- <table-footer :border="border" :store="store" :style="{
             width: bodyWidth
-          }"
-        />
+        }" :sum-text="sumText || t('el.table.sumText')" :summary-method="summaryMethod" fixed="right" />-->
       </div>
     </div>
     <div
-      v-if="rightFixedColumns.length > 0"
+      v-if="store.states.rightFixedColumns.value.length > 0"
       ref="rightFixedPatch"
-      class="el-table__fixed-right-patch"
       :style="{
-        width: layout.scrollY ? layout.gutterWidth + 'px' : '0',
-        height: layout.headerHeight + 'px'
+        width: layout.scrollY.value ? layout.gutterWidth + 'px' : '0',
+        height: layout.headerHeight.value + 'px'
       }"
+      class="el-table__fixed-right-patch"
     ></div>
-    <div v-show="resizeProxyVisible" ref="resizeProxy" class="el-table__column-resize-proxy"></div>-->
+    <div v-show="resizeProxyVisible" ref="resizeProxy" class="el-table__column-resize-proxy"></div>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, onMounted, onUnmounted, computed, ref } from 'vue'
+import { defineComponent, getCurrentInstance, onMounted, onUnmounted, computed, ref, watchEffect } from 'vue'
 import { createStore } from '@element-plus/table/src/store/helper'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import TableLayout from '@element-plus/table/src/table-layout'
@@ -378,6 +348,7 @@ export default defineComponent({
       fit: props.fit,
       showHeader: props.showHeader,
     })
+    table.layout = layout
     const isHidden = ref(false)
     const renderExpanded = ref(null)
     const resizeProxyVisible = ref(false)
@@ -387,19 +358,36 @@ export default defineComponent({
     })
     const isGroup = ref(false)
     const scrollPosition = ref('left')
+
+    watchEffect(() => {
+      layout.setHeight(props.height)
+    })
+    watchEffect(() => {
+      layout.setMaxHeight(props.maxHeight)
+    })
+    watchEffect(() => {
+      if (!store.states.rowKey.value) return
+      store.setCurrentRowKey(props.currentRowKey)
+    })
+    watchEffect(() => {
+      table.store.commit('setData', props.data)
+    })
+    watchEffect(() => {
+      if (props.expandRowKeys) {
+        store.setExpandRowKeysAdapter(props.expandRowKeys)
+      }
+    })
+
     const handleMouseLeave = () => {
-      table.commit('setHoverRow', null)
+      table.store.commit('setHoverRow', null)
       if (table.hoverState) table.hoverState = null
-    }
-    table = {
-      ...table,
-      layout,
     }
 
     const handleHeaderFooterMousewheel = (event, data) => {
+      console.log(2)
       const { pixelX, pixelY } = data
       if (Math.abs(pixelX) >= Math.abs(pixelY)) {
-        // this.bodyWrapper.scrollLeft += data.pixelX / 5;
+        table.refs.bodyWrapper.scrollLeft += data.pixelX / 5
       }
     }
 
@@ -425,7 +413,7 @@ export default defineComponent({
       // init filters
       store.states.columns.value.forEach(column => {
         if (column.filteredValue && column.filteredValue.length) {
-          table.commit('filterChange', {
+          table.store.commit('filterChange', {
             column,
             values: column.filteredValue,
             silent: true,
@@ -434,7 +422,7 @@ export default defineComponent({
       })
       table.$ready = true
     })
-    const syncPostion = throttle(20, function() {
+    const syncPostion = throttle(20, function () {
       const { scrollLeft, scrollTop, offsetWidth, scrollWidth } = table.ctx.$refs.bodyWrapper
       const { headerWrapper, footerWrapper, fixedBodyWrapper, rightFixedBodyWrapper } = table.ctx.$refs
       if (headerWrapper) headerWrapper.scrollLeft = scrollLeft
@@ -460,10 +448,10 @@ export default defineComponent({
       unbindEvents()
     })
     const unbindEvents = () => {
-      table.ctx.$refs.bodyWrapper.removeEventListener('scroll', syncPostion, { passive: true })
-      if (props.fit) {
-        removeResizeListener(table.vnode.el, resizeListener)
-      }
+        table.ctx.$refs.bodyWrapper?.removeEventListener('scroll', syncPostion, { passive: true })
+        if (props.fit) {
+          removeResizeListener(table.vnode.el, resizeListener)
+        }
     }
     const resizeListener = () => {
       if (!table.$ready) return
@@ -494,10 +482,12 @@ export default defineComponent({
     })
     const bodyWidth = computed(() => {
       const { bodyWidth, scrollY, gutterWidth } = layout
-      return bodyWidth ? bodyWidth - (scrollY ? gutterWidth : 0) + 'px' : ''
+      return bodyWidth.value ? bodyWidth.value - (scrollY.value ? gutterWidth : 0) + 'px' : ''
     })
     const bodyHeight = computed(() => {
-      const { headerHeight = 0, bodyHeight, footerHeight = 0 } = layout
+      const headerHeight = layout.headerHeight.value || 0
+      const bodyHeight = layout.bodyHeight.value
+      const footerHeight = layout.footerHeight.value || 0
       if (props.height) {
         return {
           height: bodyHeight ? bodyHeight + 'px' : '',
@@ -515,13 +505,72 @@ export default defineComponent({
     const emptyBlockStyle = computed(() => {
       if (props.data && props.data.length) return null
       let height = '100%'
-      if (layout.appendHeight) {
-        height = `calc(100% - ${layout.appendHeight}px)`
+      if (layout.appendHeight.value) {
+        height = `calc(100% - ${layout.appendHeight.value}px)`
       }
       return {
         width: bodyWidth.value,
         height,
       }
+    })
+    /**
+       * fix layout
+       */
+    const handleFixedMousewheel = (event, data) => {
+      const bodyWrapper = table.refs.bodyWrapper
+      if (Math.abs(data.spinY) > 0) {
+        const currentScrollTop = bodyWrapper.scrollTop
+        if (data.pixelY < 0 && currentScrollTop !== 0) {
+          event.preventDefault()
+        }
+        if (data.pixelY > 0 && bodyWrapper.scrollHeight - bodyWrapper.clientHeight > currentScrollTop) {
+          event.preventDefault()
+        }
+        bodyWrapper.scrollTop += Math.ceil(data.pixelY / 5)
+      } else {
+        bodyWrapper.scrollLeft += Math.ceil(data.pixelX / 5)
+      }
+    }
+    const fixedHeight = computed(() => {
+      if (props.maxHeight) {
+        if (props.showSummary) {
+          return {
+            bottom: 0,
+          }
+        }
+        return {
+          bottom: layout.scrollX.value && props.data.length ? layout.gutterWidth + 'px' : '',
+        }
+      } else {
+        if (props.showSummary) {
+          return {
+            height: layout.tableHeight.value ? layout.tableHeight.value + 'px' : '',
+          }
+        }
+        return {
+          height: layout.viewportHeight.value ? layout.viewportHeight.value + 'px' : '',
+        }
+      }
+    })
+    const fixedBodyHeight = computed(() => {
+      if (props.height) {
+        return {
+          height: layout.fixedBodyHeight.value ? layout.fixedBodyHeight.value + 'px' : '',
+        }
+      } else if (props.maxHeight) {
+        let maxHeight = parseHeight(props.maxHeight)
+        if (typeof maxHeight === 'number') {
+          maxHeight = layout.scrollX.value ? maxHeight - layout.gutterWidth : maxHeight
+          if (props.showHeader) {
+            maxHeight -= layout.headerHeight.value
+          }
+          maxHeight -= layout.footerHeight.value
+          return {
+            'max-height': maxHeight + 'px',
+          }
+        }
+      }
+      return {}
     })
     const tableId = 'el-table_' + tableIdSeed++
     return {
@@ -540,6 +589,10 @@ export default defineComponent({
       bodyWidth,
       bodyHeight,
       emptyBlockStyle,
+
+      handleFixedMousewheel,
+      fixedHeight,
+      fixedBodyHeight,
     }
   },
 })

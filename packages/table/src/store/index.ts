@@ -6,27 +6,27 @@ function useStore() {
   const instance = getCurrentInstance() as any
   const mutations = {
     setData(states, data) {
-      const dataInstanceChanged = unref(states._data) !== data
-      states._data.value = data
+      const dataInstanceChanged = unref(states.data) !== data
+      states.data.value = data
 
-      this.execQuery()
+      instance.store.execQuery()
       // 数据变化，更新部分数据。
       // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
-      this.updateCurrentRowData()
-      this.updateExpandRows()
+      instance.store.updateCurrentRowData()
+      instance.store.updateExpandRows()
       if (unref(states.reserveSelection)) {
-        this.assertRowKey()
-        this.updateSelectionByRowKey()
+        instance.store.assertRowKey()
+        instance.store.updateSelectionByRowKey()
       } else {
         if (dataInstanceChanged) {
-          this.clearSelection()
+          instance.store.clearSelection()
         } else {
-          this.cleanSelection()
+          instance.store.cleanSelection()
         }
       }
-      this.updateAllSelected()
+      instance.store.updateAllSelected()
 
-      this.updateTableScrollY()
+      instance.store.updateTableScrollY()
     },
 
     insertColumn(states, column, index, parent) {
@@ -47,9 +47,9 @@ function useStore() {
         states.reserveSelection.value = column.reserveSelection
       }
 
-      if (this.$ready) {
-        this.updateColumns() // hack for dynamics insert column
-        this.scheduleLayout()
+      if (instance.ready) {
+        instance.store.updateColumns() // hack for dynamics insert column
+        instance.store.scheduleLayout()
       }
     },
 
@@ -63,9 +63,9 @@ function useStore() {
         array.splice(array.indexOf(column), 1)
       }
 
-      if (this.$ready) {
-        this.updateColumns() // hack for dynamics remove column
-        this.scheduleLayout()
+      if (instance.ready) {
+        instance.store.updateColumns() // hack for dynamics remove column
+        instance.store.scheduleLayout()
       }
     },
 
@@ -75,8 +75,8 @@ function useStore() {
         const column = arrayFind(unref(states.columns), column => column.property === prop)
         if (column) {
           column.order = order
-          this.updateSort(column, prop, order)
-          this.commit('changeSortCondition', { init })
+          instance.store.updateSort(column, prop, order)
+          instance.store.commit('changeSortCondition', { init })
         }
       }
     },
@@ -89,39 +89,39 @@ function useStore() {
         states.sortProp.value = null
       }
       const ingore = { filter: true }
-      this.execQuery(ingore)
+      instance.store.execQuery(ingore)
 
       if (!options || !(options.silent || options.init)) {
-        this.table.$emit('sort-change', {
+        instance.emit('sort-change', {
           column: unref(column),
           prop: unref(prop),
           order: unref(order),
         })
       }
 
-      this.updateTableScrollY()
+      instance.store.updateTableScrollY()
     },
 
     filterChange(states, options) {
       const { column, values, silent } = options
-      const newFilters = this.updateFilters(column, values)
+      const newFilters = instance.store.updateFilters(column, values)
 
-      this.execQuery()
+      instance.store.execQuery()
 
       if (!silent) {
-        this.table.$emit('filter-change', newFilters)
+        instance.emit('filter-change', newFilters)
       }
 
-      this.updateTableScrollY()
+      instance.store.updateTableScrollY()
     },
 
     toggleAllSelection() {
-      this.toggleAllSelection()
+      instance.store.toggleAllSelection()
     },
 
     rowSelectedChanged(states, row) {
-      this.toggleRowSelection(row)
-      this.updateAllSelected()
+      instance.store.toggleRowSelection(row)
+      instance.store.updateAllSelected()
     },
 
     setHoverRow(states, row) {
@@ -129,26 +129,26 @@ function useStore() {
     },
 
     setCurrentRow(states, row) {
-      this.updateCurrentRow(row)
+      instance.store.updateCurrentRow(row)
     },
   }
   const commit = function (name, ...args) {
-    const mutations = this.mutations
+    const mutations = instance.store.mutations
     if (mutations[name]) {
-      mutations[name].apply(this, [this.store.states].concat(args))
+      mutations[name].apply(instance, [instance.store.states].concat(args))
     } else {
       throw new Error(`Action not found: ${name}`)
     }
   }
   const updateTableScrollY = function () {
-    nextTick(instance.ctx.layout.updateScrollY.apply(instance.ctx.layout))
+    nextTick(instance.layout.updateScrollY.apply(instance.layout))
   }
-  instance.mutations = mutations
-  instance.commit = commit
-  instance.updateTableScrollY = updateTableScrollY
   const watcher = useWatcher()
   return {
     ...watcher,
+    mutations,
+    commit,
+    updateTableScrollY,
   }
 }
 

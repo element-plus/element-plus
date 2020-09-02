@@ -1,7 +1,7 @@
 import { ref, getCurrentInstance } from 'vue'
 import { toggleRowStatus, getKeysMap, getRowIdentity } from '../util'
 
-function useExpand (watcherData) {
+function useExpand(watcherData) {
   const instance = getCurrentInstance() as any
   const defaultExpandAll = ref(false)
   const expandRows = ref([])
@@ -29,13 +29,13 @@ function useExpand (watcherData) {
   const toggleRowExpansion = (row, expanded) => {
     const changed = toggleRowStatus(expandRows.value, row, expanded)
     if (changed) {
-      instance.table.$emit('expand-change', row, expandRows.value.slice())
+      instance.emit('expand-change', row, expandRows.value.slice())
       instance.scheduleLayout()
     }
   }
 
   const setExpandRowKeys = rowKeys => {
-    instance.assertRowKey()
+    instance.store.assertRowKey()
     // TODO：这里的代码可以优化
     const data = watcherData.data.value || []
     const rowKey = watcherData.rowKey.value

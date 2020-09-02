@@ -1,7 +1,7 @@
 <template>
   <div class="block">
-    <h3>基础表格</h3>
-    <el-table :data="tableData" style="width: 100%">
+    <h3>带斑马纹表格</h3>
+    <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column label="日期" prop="date" width="180" />
       <el-table-column label="姓名" prop="name" width="180" />
       <el-table-column label="地址" prop="address" />

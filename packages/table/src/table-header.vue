@@ -156,7 +156,7 @@ export default defineComponent({
       nextTick(() => {
         const { prop, order } = props.defaultSort
         const init = true
-        parent.commit('sort', { prop, order, init })
+        parent.store.commit('sort', { prop, order, init })
       })
     })
     onBeforeUnmount(() => {
@@ -174,7 +174,7 @@ export default defineComponent({
         start += columns[i].colSpan
       }
       const after = start + columns[index].colSpan - 1
-      if (!!props.fixed === true || props.fixed === 'left') {
+      if (props.fixed === 'left') {
         return after >= storeData.fixedLeafColumnsLength.value
       } else if (props.fixed === 'right') {
         return start < storeData.columns.value.length.value - storeData.rightFixedLeafColumnsLength.value.value
@@ -218,7 +218,6 @@ export default defineComponent({
 
     const getHeaderCellClass = (rowIndex, columnIndex, row, column) => {
       const classes = [column.id, column.order, column.headerAlign, column.className, column.labelClassName]
-
       if (rowIndex === 0 && isCellHidden(columnIndex, row)) {
         classes.push('is-hidden')
       }
@@ -250,7 +249,7 @@ export default defineComponent({
 
     const toggleAllSelection = event => {
       event.stopPropagation()
-      parent.commit('toggleAllSelection')
+      parent.store.commit('toggleAllSelection')
     }
 
     const handleFilterClick = (event, column) => {
@@ -350,7 +349,7 @@ export default defineComponent({
             const finalLeft = parseInt(resizeProxy.style.left, 10)
             const columnWidth = finalLeft - startColumnLeft
             column.width = column.realWidth = columnWidth
-            table.$emit('header-dragend', column.width, startLeft - startColumnLeft, column, event)
+            table.emit('header-dragend', column.width, startLeft - startColumnLeft, column, event)
 
             props.store.scheduleLayout()
 
@@ -457,7 +456,7 @@ export default defineComponent({
       states.sortProp.value = sortProp
       states.sortOrder.value = sortOrder
 
-      parent.commit('changeSortCondition')
+      parent.store.commit('changeSortCondition')
     }
     const columnRows = computed(() => {
       return convertToRows(props.store.states.originColumns.value)

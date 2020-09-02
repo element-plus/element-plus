@@ -45,13 +45,13 @@ function useLayoutObserver(root) {
     const cols = root.vnode.el.querySelectorAll('colgroup > col[name=gutter]')
     for (let i = 0, j = cols.length; i < j; i++) {
       const col = cols[i]
-      col.setAttribute('width', layout.scrollY ? layout.gutterWidth : '0')
+      col.setAttribute('width', layout.scrollY.value ? layout.gutterWidth : '0')
     }
     const ths = root.vnode.el.querySelectorAll('th.gutter')
     for (let i = 0, j = ths.length; i < j; i++) {
       const th = ths[i]
-      th.style.width = layout.scrollY ? layout.gutterWidth + 'px' : '0'
-      th.style.display = layout.scrollY ? '' : 'none'
+      th.style.width = layout.scrollY.value ? layout.gutterWidth + 'px' : '0'
+      th.style.display = layout.scrollY.value ? '' : 'none'
     }
   }
 
