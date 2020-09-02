@@ -4,7 +4,12 @@
     @after-enter="afterEnter"
     @after-leave="afterLeave"
   >
-    <div v-show="visible" ref="root" class="el-drawer__wrapper" tabindex="-1">
+    <div
+      v-show="visible"
+      ref="root"
+      class="el-drawer__wrapper"
+      tabindex="-1"
+    >
       <div
         class="el-drawer__container"
         :class="visible && 'el-drawer__open'"

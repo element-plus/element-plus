@@ -1,18 +1,23 @@
 <template>
   <label>
-    <input type="radio" :checked="direction === 'ltr'" @click="change('ltr')" />从左到右
+    <input type="radio" :checked="direction === 'ltr'" @click="change('ltr')">从左到右
   </label>
   <label>
-    <input type="radio" :checked="direction === 'rtl'" @click="change('rtl')" />从右到左
+    <input type="radio" :checked="direction === 'rtl'" @click="change('rtl')">从右到左
   </label>
   <label>
-    <input type="radio" :checked="direction === 'ttb'" @click="change('ttb')" />从上到下
+    <input type="radio" :checked="direction === 'ttb'" @click="change('ttb')">从上到下
   </label>
   <label>
-    <input type="radio" :checked="direction === 'btt'" @click="change('btt')" />从下到上
+    <input type="radio" :checked="direction === 'btt'" @click="change('btt')">从下到上
   </label>
   <el-button @click="open">点击打开</el-button>
-  <el-drawer v-model:visible="visible" size="50%" title="我是标题" :direction="direction">
+  <el-drawer
+    v-model:visible="visible"
+    size="50%"
+    title="我是标题"
+    :direction="direction"
+  >
     <span>嵌套一层!</span>
     <el-button @click="visible2 = true">点击打开</el-button>
     <el-drawer
