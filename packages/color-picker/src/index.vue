@@ -1,10 +1,21 @@
 <template>
   <el-popper
+    transition="el-zoom-in-top"
     :trigger="['click']"
   >
     <template #default>
-      <div>
-        <sv-panel :color="color" />
+      <div
+        style="width: 300px"
+      >
+        <div class="el-color-dropdown__main-wrapper">
+          <hue-slider
+            ref="hue"
+            :color="color"
+            vertical
+            style="float: right;"
+          />
+          <sv-panel :color="color" />
+        </div>
       </div>
     </template>
     <template #trigger>
@@ -25,9 +36,9 @@
                 backgroundColor: displayedColor
               }"
             ></span>
-            <span v-if="!value && !showPanelColor" class="el-color-picker__empty el-icon-close"></span>
+            <span v-if="!modelValue && !showPanelColor" class="el-color-picker__empty el-icon-close"></span>
           </span>
-          <span v-show="value || showPanelColor" class="el-color-picker__icon el-icon-arrow-down"></span>
+          <span v-show="modelValue || showPanelColor" class="el-color-picker__icon el-icon-arrow-down"></span>
         </div>
         <!--<picker-dropdown
           ref="dropdown"
@@ -45,10 +56,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,computed,ref,nextTick } from 'vue'
+import { defineComponent,computed,ref,nextTick,reactive } from 'vue'
 import ClickOutside from '@element-plus/directives/click-outside'
 import Color from './color.ts'
 import SvPanel from './components/sv-panel'
+import HueSlider from './components/hue-slider'
 import ElPopper from '@element-plus/popper/src/index.vue'
 
 interface IELEMENT {
@@ -67,6 +79,7 @@ export default defineComponent( {
   components: {
     ElPopper,
     SvPanel,
+    HueSlider,
   },
   directives: {
     ClickOutside,
@@ -85,10 +98,10 @@ export default defineComponent( {
     const elForm:IElForm = {}
     const elFormItem:IELFormItem = {}
     // data
-    const color = new Color({
+    const color = reactive(new Color({
       enableAlpha: props.showAlpha,
       format: props.colorFormat,
-    })
+    }))
     const showPicker = ref(false)
     const showPanelColor = ref(false)
     // computed

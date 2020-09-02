@@ -20,7 +20,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, getCurrentInstance, onMounted, PropType } from 'vue'
+import { defineComponent, ref, computed, watch, getCurrentInstance, onMounted } from 'vue'
+import type { PropType } from 'vue'
 import type Color from '../color'
 import draggable from '../draggable'
 
