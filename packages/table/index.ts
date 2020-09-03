@@ -1,6 +1,6 @@
 import { App } from 'vue'
 import Table from './src/table.vue'
-import TableColumn from './src/table-column.vue'
+import TableColumn from './src/table-column'
 export default (app: App): void => {
   app.component(Table.name, Table)
   app.component(TableColumn.name, TableColumn)

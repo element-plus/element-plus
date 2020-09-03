@@ -204,13 +204,13 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, onMounted, onUnmounted, computed, ref, watchEffect } from 'vue'
+import { defineComponent, getCurrentInstance, onMounted, onUnmounted, computed, ref, watchEffect, watch } from 'vue'
 import { createStore } from '@element-plus/table/src/store/helper'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import TableLayout from '@element-plus/table/src/table-layout'
 import mousewheel from '@element-plus/directives/mousewheel/index'
-import TableHeader from './table-header.vue'
-import TableBody from './table-body.vue'
+import TableHeader from './table-header'
+import TableBody from './table-body'
 import { debounce, throttle } from 'throttle-debounce'
 import { parseHeight } from './util'
 
@@ -369,9 +369,15 @@ export default defineComponent({
       if (!store.states.rowKey.value) return
       store.setCurrentRowKey(props.currentRowKey)
     })
-    watchEffect(() => {
-      table.store.commit('setData', props.data)
-    })
+    watch(
+      () => props.data,
+      () => {
+        table.store.commit('setData', props.data)
+      },
+      {
+        immediate: true,
+      },
+    )
     watchEffect(() => {
       if (props.expandRowKeys) {
         store.setExpandRowKeysAdapter(props.expandRowKeys)
@@ -383,8 +389,9 @@ export default defineComponent({
       if (table.hoverState) table.hoverState = null
     }
 
+    const debouncedUpdateLayout = debounce(50, () => doLayout())
+
     const handleHeaderFooterMousewheel = (event, data) => {
-      console.log(2)
       const { pixelX, pixelY } = data
       if (Math.abs(pixelX) >= Math.abs(pixelY)) {
         table.refs.bodyWrapper.scrollLeft += data.pixelX / 5
@@ -572,6 +579,23 @@ export default defineComponent({
       }
       return {}
     })
+
+    /**
+       * open functions
+       */
+    const setCurrentRow = row => {
+      store.commit('setCurrentRow', row)
+    }
+    const toggleRowSelection = (row, selected) => {
+      store.toggleRowSelection(row, selected, false)
+      store.updateAllSelected()
+    }
+    const clearSelection = () => {
+      store.clearSelection()
+    }
+    const clearFilter = columnKeys => {
+      store.clearFilter(columnKeys)
+    }
     const tableId = 'el-table_' + tableIdSeed++
     return {
       layout,
@@ -589,10 +613,13 @@ export default defineComponent({
       bodyWidth,
       bodyHeight,
       emptyBlockStyle,
-
+      debouncedUpdateLayout,
       handleFixedMousewheel,
       fixedHeight,
       fixedBodyHeight,
+      setCurrentRow,
+      toggleRowSelection,
+      clearSelection,
     }
   },
 })

@@ -1,6 +1,13 @@
 import { ref, getCurrentInstance } from 'vue'
 import merge from '@element-plus/utils/merge'
-import { getKeysMap, getRowIdentity, getColumnById, getColumnByKey, orderBy, toggleRowStatus } from '../util'
+import {
+  getKeysMap,
+  getRowIdentity,
+  getColumnById,
+  getColumnByKey,
+  orderBy,
+  toggleRowStatus,
+} from '../util'
 import useExpand from './expand'
 import useCurrent from './current'
 import useTree from './tree'
@@ -10,7 +17,13 @@ const sortData = (data, states) => {
   if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
     return data
   }
-  return orderBy(data, states.sortProp, states.sortOrder, sortingColumn.sortMethod, sortingColumn.sortBy)
+  return orderBy(
+    data,
+    states.sortProp,
+    states.sortOrder,
+    sortingColumn.sortMethod,
+    sortingColumn.sortBy,
+  )
 }
 
 const doFlattenColumns = columns => {
@@ -61,16 +74,28 @@ function useWatcher() {
 
   // 更新列
   const updateColumns = () => {
-    fixedColumns.value = _columns.value.filter(column => column.fixed === true || column.fixed === 'left')
-    rightFixedColumns.value = _columns.value.filter(column => column.fixed === 'right')
+    fixedColumns.value = _columns.value.filter(
+      column => column.fixed === true || column.fixed === 'left',
+    )
+    rightFixedColumns.value = _columns.value.filter(
+      column => column.fixed === 'right',
+    )
 
-    if (fixedColumns.value.length > 0 && _columns.value[0] && _columns.value[0].type === 'selection' && !_columns.value[0].fixed) {
+    if (
+      fixedColumns.value.length > 0 &&
+      _columns.value[0] &&
+      _columns.value[0].type === 'selection' &&
+      !_columns.value[0].fixed
+    ) {
       _columns.value[0].fixed = true
       fixedColumns.value.unshift(_columns.value[0])
     }
 
     const notFixedColumns = _columns.value.filter(column => !column.fixed)
-    originColumns.value = [].concat(fixedColumns.value).concat(notFixedColumns).concat(rightFixedColumns.value)
+    originColumns.value = []
+      .concat(fixedColumns.value)
+      .concat(notFixedColumns)
+      .concat(rightFixedColumns.value)
 
     const leafColumns = doFlattenColumns(notFixedColumns)
     const fixedLeafColumns = doFlattenColumns(fixedColumns.value)
@@ -80,8 +105,12 @@ function useWatcher() {
     fixedLeafColumnsLength.value = fixedLeafColumns.length
     rightFixedLeafColumnsLength.value = rightFixedLeafColumns.length
 
-    columns.value = [].concat(fixedLeafColumns).concat(leafColumns).concat(rightFixedLeafColumns)
-    isComplex.value = fixedColumns.value.length > 0 || rightFixedColumns.value.length > 0
+    columns.value = []
+      .concat(fixedLeafColumns)
+      .concat(leafColumns)
+      .concat(rightFixedLeafColumns)
+    isComplex.value =
+      fixedColumns.value.length > 0 || rightFixedColumns.value.length > 0
   }
 
   // 更新 DOM
@@ -89,7 +118,7 @@ function useWatcher() {
     if (needUpdateColumns) {
       updateColumns()
     }
-    instance.table.debouncedUpdateLayout()
+    instance.ctx.debouncedUpdateLayout()
   }
 
   // 选择
@@ -107,7 +136,6 @@ function useWatcher() {
   }
 
   const cleanSelection = () => {
-    // const { data, rowKey, selection } = states
     let deleted
     if (rowKey.value) {
       deleted = []
@@ -119,17 +147,21 @@ function useWatcher() {
         }
       }
     } else {
-      deleted = selection.value.filter(item => data.value.indexOf(item) === -1)
+      deleted = selection.value.filter(
+        item => data.value.indexOf(item) === -1,
+      )
     }
     if (deleted.length) {
-      const newSelection = selection.value.filter(item => deleted.indexOf(item) === -1)
+      const newSelection = selection.value.filter(
+        item => deleted.indexOf(item) === -1,
+      )
       selection.value = newSelection
       instance.emit('selection-change', newSelection.slice())
     }
   }
 
   const toggleRowSelection = (row, selected, emitChange = true) => {
-    const changed = toggleRowStatus(selection.value, row, selected)
+    const changed = toggleRowStatus(selection, row, selected)
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
@@ -151,7 +183,10 @@ function useWatcher() {
     let selectionChanged = false
     data.value.forEach((row, index) => {
       if (selectable.value) {
-        if (selectable.value.call(null, row, index) && toggleRowStatus(selection, row, value)) {
+        if (
+          selectable.value.call(null, row, index) &&
+          toggleRowStatus(selection, row, value)
+        ) {
           selectionChanged = true
         }
       } else {
@@ -162,7 +197,10 @@ function useWatcher() {
     })
 
     if (selectionChanged) {
-      instance.emit('selection-change', selection.value ? selection.value.slice() : [])
+      instance.emit(
+        'selection-change',
+        selection.value ? selection.value.slice() : [],
+      )
     }
     instance.emit('select-all', selection)
   }
@@ -200,7 +238,8 @@ function useWatcher() {
     let selectedCount = 0
     for (let i = 0, j = data.value.length; i < j; i++) {
       const item = data[i]
-      const isRowSelectable = selectable.value && selectable.value.call(null, item, i)
+      const isRowSelectable =
+        selectable.value && selectable.value.call(null, item, i)
       if (!isSelected(item)) {
         if (!selectable.value || isRowSelectable) {
           isAllSelected_ = false
@@ -242,12 +281,17 @@ function useWatcher() {
     Object.keys(filters.value).forEach(columnId => {
       const values = filters.value[columnId]
       if (!values || values.length === 0) return
-      const column = getColumnById({
-        columns: columns.value,
-      }, columnId)
+      const column = getColumnById(
+        {
+          columns: columns.value,
+        },
+        columnId,
+      )
       if (column && column.filterMethod) {
         data.value = data.value.filter(row => {
-          return values.some(value => column.filterMethod.call(null, value, row, column))
+          return values.some(value =>
+            column.filterMethod.call(null, value, row, column),
+          )
         })
       }
     })
@@ -272,12 +316,17 @@ function useWatcher() {
   }
 
   const clearFilter = columnKeys => {
-    const { tableHeader, fixedTableHeader, rightFixedTableHeader } = instance.table.$refs
+    const {
+      tableHeader,
+      fixedTableHeader,
+      rightFixedTableHeader,
+    } = instance.refs
 
     let panels = {}
     if (tableHeader) panels = merge(panels, tableHeader.filterPanels)
     if (fixedTableHeader) panels = merge(panels, fixedTableHeader.filterPanels)
-    if (rightFixedTableHeader) panels = merge(panels, rightFixedTableHeader.filterPanels)
+    if (rightFixedTableHeader)
+      panels = merge(panels, rightFixedTableHeader.filterPanels)
 
     const keys = Object.keys(panels)
     if (!keys.length) return
@@ -287,9 +336,14 @@ function useWatcher() {
     }
 
     if (Array.isArray(columnKeys)) {
-      const columns = columnKeys.map(key => getColumnByKey({
-        columns: columns.value,
-      }, key))
+      const columns = columnKeys.map(key =>
+        getColumnByKey(
+          {
+            columns: columns.value,
+          },
+          key,
+        ),
+      )
       keys.forEach(key => {
         const column = columns.find(col => col.id === key)
         if (column) {

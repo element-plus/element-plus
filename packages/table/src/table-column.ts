@@ -1,50 +1,49 @@
-<script lang="ts">
 import { defineComponent, ref, onBeforeMount, onMounted, onUnmounted, computed, getCurrentInstance, h, ComponentInternalInstance, watch } from 'vue'
 import { cellStarts, cellForced, defaultRenderCell, treeCellPrefix } from './config'
 import { mergeOptions, parseWidth, parseMinWidth, compose } from './util'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
 
-  interface fn {
-    (...args: unknown[]): unknown
-  }
+interface fn {
+  (...args: unknown[]): unknown
+}
 
-  interface ITableColumn {
-    type: string
-    label: string
-    className: string
-    labelClassName: string
-    property: string
-    prop: string
-    width: any
-    minWidth: any
-    renderHeader: fn
-    sortable: boolean | string
-    sortMethod: fn
-    sortBy: string | fn | unknown[]
-    resizable: {
-      type: boolean
-      default: true
-    }
-    columnKey: string
-    align: string
-    headerAlign: string
-    showTooltipWhenOverflow: boolean
-    showOverflowTooltip: boolean
-    fixed: boolean | string
-    formatter: fn
-    selectable: fn
-    reserveSelection: boolean
-    filterMethod: fn
-    filteredValue: unknown[]
-    filters: unknown[]
-    filterPlacement: string
-    filterMultiple: {
-      type: boolean
-      default: true
-    }
-    index: number | fn
-    sortOrders: unknown[]
+interface ITableColumn {
+  type: string
+  label: string
+  className: string
+  labelClassName: string
+  property: string
+  prop: string
+  width: any
+  minWidth: any
+  renderHeader: fn
+  sortable: boolean | string
+  sortMethod: fn
+  sortBy: string | fn | unknown[]
+  resizable: {
+    type: boolean
+    default: true
   }
+  columnKey: string
+  align: string
+  headerAlign: string
+  showTooltipWhenOverflow: boolean
+  showOverflowTooltip: boolean
+  fixed: boolean | string
+  formatter: fn
+  selectable: fn
+  reserveSelection: boolean
+  filterMethod: fn
+  filteredValue: unknown[]
+  filters: unknown[]
+  filterPlacement: string
+  filterMultiple: {
+    type: boolean
+    default: true
+  }
+  index: number | fn
+  sortOrders: unknown[]
+}
 
 let columnIdSeed = 1
 export default defineComponent({
@@ -111,11 +110,10 @@ export default defineComponent({
     const r = ref({})
     const $index = ref(0)
     const columnId = ref('')
-
     const columnOrTableParent = computed(() => {
-      let parent = instance.parent as any
+      let parent = (instance.vnode as any).vParent || (instance.parent as any)
       while (parent && !parent.ctx.tableId && !parent.ctx.columnId) {
-        parent = parent.parent
+        parent = (parent.vnode as any).vParent || (parent.parent as any)
       }
       return parent
     })
@@ -142,6 +140,19 @@ export default defineComponent({
         }
         return prev
       }, {})
+    }
+
+    const checkSubColumn = children => {
+      if (children instanceof Array) {
+        children.forEach(child => check(child))
+      } else {
+        check(children)
+      }
+      function check(item) {
+        if (item.type?.name === 'ElTableColumn') {
+          item.vParent = instance
+        }
+      }
     }
     const setColumnRenders = column => {
       // renderHeader 属性不推荐使用。
@@ -190,6 +201,7 @@ export default defineComponent({
             props.class += ' el-tooltip'
             props.style = { width: (data.column.realWidth || data.column.width) - 1 + 'px' }
           }
+          checkSubColumn(children)
           return h('div', props, [prefix, children])
         }
       }
@@ -217,7 +229,7 @@ export default defineComponent({
       const type = column.type
       const source = cellForced[type] || {}
       Object.keys(source).forEach(prop => {
-        let value = source[prop]
+        const value = source[prop]
         if (value !== undefined) {
           column[prop] = prop === 'className' ? `${column[prop]} ${value}` : value
         }
@@ -342,4 +354,3 @@ export default defineComponent({
     return h('div', this.$slots.default)
   },
 })
-</script>

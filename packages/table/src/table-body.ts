@@ -1,4 +1,3 @@
-<script lang="ts">
 import { defineComponent, getCurrentInstance, h, computed, watch } from 'vue'
 import useLayoutObserver from './layout-observer'
 import { arrayFindIndex } from '@element-plus/utils/util'
@@ -271,7 +270,7 @@ export default defineComponent({
       }
       // 指令 v-show 会覆盖 row-style 中 display
       // 使用 :style 代替 v-show https://github.com/ElemeFE/element/issues/16995
-      let displayStyle = display
+      const displayStyle = display
         ? null
         : {
           display: 'none',
@@ -485,4 +484,3 @@ export default defineComponent({
     )
   },
 })
-</script>

@@ -1,13 +1,13 @@
 <template>
   <h3>多级表头</h3>
-  <el-table :data="tableData" style="width: 100%">
+  <el-table :data="tableData" border style="width: 100%">
     <el-table-column label="日期" prop="date" width="150" />
     <el-table-column label="配送信息">
       <el-table-column label="姓名" prop="name" width="120" />
       <el-table-column label="地址">
         <el-table-column label="省份" prop="province" width="120" />
         <el-table-column label="市区" prop="city" width="120" />
-        <el-table-column label="地址" prop="address" width="300" />
+        <el-table-column label="地址" prop="address" />
         <el-table-column label="邮编" prop="zip" width="120" />
       </el-table-column>
     </el-table-column>

@@ -41,13 +41,13 @@ function useStore() {
       } else {
         array.push(column)
       }
-
+      states._columns.value = array
       if (column.type === 'selection') {
         states.selectable.value = column.selectable
         states.reserveSelection.value = column.reserveSelection
       }
 
-      if (instance.ready) {
+      if (instance.$ready) {
         instance.store.updateColumns() // hack for dynamics insert column
         instance.store.scheduleLayout()
       }
@@ -63,7 +63,8 @@ function useStore() {
         array.splice(array.indexOf(column), 1)
       }
 
-      if (instance.ready) {
+      states._columns.value = array
+      if (instance.$ready) {
         instance.store.updateColumns() // hack for dynamics remove column
         instance.store.scheduleLayout()
       }
@@ -84,7 +85,7 @@ function useStore() {
     changeSortCondition(states, options) {
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
       const { sortingColumn: column, sortProp: prop, sortOrder: order } = states
-      if (order === null) {
+      if (unref(order) === null) {
         states.sortingColumn.value = null
         states.sortProp.value = null
       }

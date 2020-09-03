@@ -1,6 +1,6 @@
 import { getPropByPath } from '@element-plus/utils/util'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
-import { h } from 'vue'
+import { h, getCurrentInstance } from 'vue'
 
 export const cellStarts = {
   default: {
@@ -31,13 +31,14 @@ export const cellStarts = {
 export const cellForced = {
   selection: {
     renderHeader: function ({ store }) {
+      const instance = getCurrentInstance() as any
       return h(
         ElCheckbox,
         {
           disabled: store.states.data.value && store.states.data.value.length === 0,
-          indeterminate: store.states.selection.value.length > 0 && !this.isAllSelected,
-          nativeOnClick: this.toggleAllSelection,
-          value: this.isAllSelected,
+          indeterminate: store.states.selection.value.length > 0 && !store.states.isAllSelected.value,
+          onClick: instance.ctx.toggleAllSelection,
+          modelValue: store.states.isAllSelected.value,
         },
       )
     },
@@ -48,7 +49,7 @@ export const cellForced = {
           disabled: column.selectable ? !column.selectable.call(null, row, $index) : false,
           onInput: () => { store.commit('rowSelectedChanged', row) },
           nativeOnClick: event => event.stopPropagation(),
-          value: store.isSelected(row),
+          modelValue: store.isSelected(row),
         },
       )
     },

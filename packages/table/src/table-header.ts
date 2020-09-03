@@ -1,59 +1,7 @@
-<template>
-  <table
-    border="0"
-    cellpadding="0"
-    cellspacing="0"
-    class="el-table__header"
-  >
-    <colgroup>
-      <col v-for="column in columns" :key="column.id" :name="column.id">
-      <col v-if="hasGutter" name="gutter">
-    </colgroup>
-    <thead :class="{'is-group': isGroup, 'has-gutter': hasGutter}">
-      <tr
-        v-for="(subColumns, rowIndex) in columnRows"
-        :key="rowIndex"
-        :class="getHeaderRowClass(rowIndex)"
-        :style="getHeaderRowStyle(rowIndex)"
-      >
-        <th
-          v-for="(column, cellIndex) in subColumns"
-          :key="`${column.id}-thead`"
-          :class="getHeaderCellClass(rowIndex, cellIndex, subColumns, column)"
-          :colspan="column.colSpan"
-          :rowspan="column.rowSpan"
-          :style="getHeaderCellStyle(rowIndex, cellIndex, subColumns, column)"
-          @click="($event) => handleHeaderClick($event, column)"
-          @contextmenu="($event) => handleHeaderContextMenu($event, column)"
-          @mousedown="($event) => handleMouseDown($event, column)"
-          @mousemove="($event) => handleMouseMove($event, column)"
-          @mouseout="handleMouseOut"
-        >
-          <div :class="['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName]">
-            {{
-              column.renderHeader
-                ? column.renderHeader({ column, $index: cellIndex, store: store, _self: $parent })
-                : column.label
-            }}
-          </div>
-          <span v-if="column.sortable" class="caret-wrapper" @click="($event) => handleSortClick($event, column)">
-            <i class="sort-caret ascending" @click="($event) => handleSortClick($event, column, 'ascending')"></i>
-            <i class="sort-caret descending" @click="($event) => handleSortClick($event, column, 'descending')"></i>
-          </span>
-          <span v-if="column.filterable" class="el-table__column-filter-trigger" @click="($event) => handleFilterClick($event, column)">
-            <i :class="['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : '']"></i>
-          </span>
-        </th>
-      </tr>
-    </thead>
-  </table>
-</template>
-
-<script lang="ts">
-import { defineComponent, getCurrentInstance, computed, onMounted, nextTick, onBeforeUnmount, ref, toRef } from 'vue'
+import { defineComponent, getCurrentInstance, computed, onMounted, nextTick, onBeforeUnmount, ref, h } from 'vue'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
-// import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
-// import FilterPanel from './filter-panel.vue'
+import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
+import FilterPanel from './filter-panel.vue'
 import useLayoutObserver from './layout-observer'
 import isServer from '@element-plus/utils/isServer'
 
@@ -62,6 +10,7 @@ const getAllColumns = columns => {
   columns.forEach(column => {
     if (column.children) {
       result.push(column)
+      // eslint-disable-next-line prefer-spread
       result.push.apply(result, getAllColumns(column.children))
     } else {
       result.push(column)
@@ -115,22 +64,23 @@ const convertToRows = originColumns => {
   return rows
 }
 
-  interface ITableHeaderProps {
-    fixed: string
-    store: any
-    border: boolean
-    defaultSort: any
-  }
+interface ITableHeaderProps {
+  fixed: string
+  store: any
+  border: boolean
+  defaultSort: any
+}
 
 export default defineComponent({
   name: 'ElTableHeader',
-  // components: {
-  //   ElCheckbox
-  // },
+  components: {
+    ElCheckbox,
+  },
   props: {
     fixed: String,
     store: {
       required: true,
+      type: Object,
     },
     border: Boolean,
     defaultSort: {
@@ -161,7 +111,7 @@ export default defineComponent({
     })
     onBeforeUnmount(() => {
       const panels = filterPanels
-      for (let prop in panels) {
+      for (const prop in panels) {
         if (panels.hasOwnProperty(prop) && panels[prop]) {
           panels[prop].$destroy(true)
         }
@@ -254,35 +204,37 @@ export default defineComponent({
 
     const handleFilterClick = (event, column) => {
       event.stopPropagation()
-      const target = event.target
-      let cell = target.tagName === 'TH' ? target : target.parentNode
-      if (hasClass(cell, 'noclick')) return
-      cell = cell.querySelector('.el-table__column-filter-trigger') || cell
-      const table = parent
+      return
+      // const target = event.target
+      // let cell = target.tagName === 'TH' ? target : target.parentNode
+      // if (hasClass(cell, 'noclick')) return
+      // cell = cell.querySelector('.el-table__column-filter-trigger') || cell
 
-      let filterPanel = filterPanels[column.id]
+      // const filterPanel = filterPanels[column.id]
 
-      if (filterPanel && column.filterOpened) {
-        filterPanel.showPopper = false
-        return
-      }
+      // if (filterPanel && column.filterOpened) {
+      //   filterPanel.ctx.tooltipVisible = false
+      //   return
+      // }
 
-      if (!filterPanel) {
-        // todo
-        // filterPanel = defineComponent(FilterPanel);
-        // filterPanels[column.id] = filterPanel;
-        // if (column.filterPlacement) {
-        //   filterPanel.placement = column.filterPlacement;
-        // }
-        // filterPanel.table = table;
-        // filterPanel.cell = cell;
-        // filterPanel.column = column;
-        // !isServer && filterPanel.$mount(document.createElement('div'));
-      }
+      // if (!filterPanel) {
+      //   // todo
+      //   const filterPanel = createApp(FilterPanel)
+      //   filterPanels[column.id] = filterPanel
+      //   if (column.filterPlacement) {
+      //     // filterPanel.ctx.placement = column.filterPlacement
+      //   }
+      //   // filterPanel.props.store = parent.store
+      //   // filterPanel.cell = cell
+      //   // filterPanel.column = column
+      //   const div = document.createElement('div')
+      //   document.body.appendChild(div)
+      //   !isServer && filterPanel.mount(div)
+      // }
 
-      setTimeout(() => {
-        filterPanel.showPopper = true
-      }, 16)
+      // setTimeout(() => {
+      //   filterPanel.ctx.tooltipVisible = true
+      // }, 16)
     }
 
     const handleHeaderClick = (event, column) => {
@@ -386,7 +338,7 @@ export default defineComponent({
       if (!column || !column.resizable) return
 
       if (!dragging.value && props.border) {
-        let rect = target.getBoundingClientRect()
+        const rect = target.getBoundingClientRect()
 
         const bodyStyle = document.body.style
         if (rect.width > 12 && rect.right - event.pageX < 8) {
@@ -418,7 +370,7 @@ export default defineComponent({
 
     const handleSortClick = (event, column, givenOrder) => {
       event.stopPropagation()
-      let order = column.order === givenOrder ? null : givenOrder || toggleOrder(column)
+      const order = column.order === givenOrder ? null : givenOrder || toggleOrder(column)
 
       let target = event.target
       while (target && target.tagName !== 'TH') {
@@ -446,7 +398,6 @@ export default defineComponent({
         states.sortingColumn.value = column
         sortProp = column.property
       }
-
       if (!order) {
         sortOrder = column.order = null
       } else {
@@ -461,9 +412,11 @@ export default defineComponent({
     const columnRows = computed(() => {
       return convertToRows(props.store.states.originColumns.value)
     })
-    // 是否拥有多级表头
-    const isGroup = columnRows.value.length > 1
-    if (isGroup) parent.isGroup = true
+    const isGroup = computed(() => {
+      const result = columnRows.value.length > 1
+      if (result) parent.ctx.isGroup = true
+      return result
+    })
     return {
       columns: storeData.columns,
       hasGutter,
@@ -482,7 +435,115 @@ export default defineComponent({
       handleSortClick,
       handleFilterClick,
       isGroup,
+      toggleAllSelection,
     }
   },
+  render() {
+    return h(
+      'table',
+      {
+        border: '0',
+        cellpadding: '0',
+        cellspacing: '0',
+        class: 'el-table__header',
+      },
+      [
+        h('colgroup', {}, [
+          ...this.columns.map(column =>
+            h('col', {
+              key: column.id,
+              name: column.id,
+            }),
+          ),
+          this.hasGutter &&
+          h('col', {
+            name: 'gutter',
+          }),
+        ]),
+        h(
+          'thead',
+          {
+            class: { 'is-group': this.isGroup, 'has-gutter': this.hasGutter },
+          },
+          this.columnRows.map((subColumns, rowIndex) =>
+            h(
+              'tr',
+              {
+                class: this.getHeaderRowClass(rowIndex),
+                key: rowIndex,
+                style: this.getHeaderRowStyle(rowIndex),
+              },
+              subColumns.map((column, cellIndex) =>
+                h(
+                  'th',
+                  {
+                    class: this.getHeaderCellClass(rowIndex, cellIndex, subColumns, column),
+                    colspan: column.colSpan,
+                    key: `${column.id}-thead`,
+                    rowSpan: column.rowSpan,
+                    style: this.getHeaderCellStyle(rowIndex, cellIndex, subColumns, column),
+                    onClick: $event => this.handleHeaderClick($event, column),
+                    onContextmenu: $event => this.handleHeaderContextMenu($event, column),
+                    onMousedown: $event => this.handleMouseDown($event, column),
+                    onMouseMove: $event => this.handleMouseMove($event, column),
+                    onMouseout: this.handleMouseOut,
+                  },
+                  [
+                    h(
+                      'div',
+                      {
+                        class: ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName],
+                      },
+                      [
+                        column.renderHeader ? column.renderHeader({ column, $index: cellIndex, store: this.store, _self: this.$parent }) : column.label,
+                        column.sortable &&
+                        h(
+                          'span',
+                          {
+                            onClick: $event => this.handleSortClick($event, column),
+                            class: 'caret-wrapper',
+                          },
+                          [
+                            h('i', {
+                              onClick: $event => this.handleSortClick($event, column, 'ascending'),
+                              class: 'sort-caret ascending',
+                            }),
+                            h('i', {
+                              onClick: $event => this.handleSortClick($event, column, 'descending'),
+                              class: 'sort-caret descending',
+                            }),
+                          ],
+                        ),
+                        column.filterable &&
+                        // h(
+                        //   'span',
+                        //   {
+                        //     onClick: $event => this.handleFilterClick($event, column),
+                        //     class: 'el-table__column-filter-trigger',
+                        //   },
+                        //   [
+                        //     h('i', {
+                        //       class: ['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : ''],
+                        //     }),
+                        //   ],
+                        // ),
+                        h(
+                          FilterPanel,
+                          {
+                            store: this.$parent.store,
+                            placement: column.filterPlacement,
+                            column: column,
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    )
+  },
 })
-</script>
