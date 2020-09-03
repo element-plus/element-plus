@@ -1,33 +1,38 @@
 <template>
-  <el-popper trigger="click" manualMode :value="visible" effect="light">
+  <el-popper
+    trigger="click"
+    manual-mode
+    :value="visible"
+    effect="light"
+  >
     <template #default>
-    <div class="el-popconfirm">
-      <p class="el-popconfirm__main">
-        <i
-          v-if="!hideIcon"
-          :class="icon"
-          class="el-popconfirm__icon"
-          :style="{color: iconColor}"
-        ></i>
-        {{title}}
-      </p>
-      <div class="el-popconfirm__action">
-        <el-button
-          size="mini"
-          :type="cancelButtonType"
-          @click="cancel"
-        >
-          {{cancelButtonText}}
-        </el-button>
-        <el-button
-          size="mini"
-          :type="confirmButtonType"
-          @click="confirm"
-        >
-          {{confirmButtonText}}
-        </el-button>
+      <div class="el-popconfirm">
+        <p class="el-popconfirm__main">
+          <i
+            v-if="!hideIcon"
+            :class="icon"
+            class="el-popconfirm__icon"
+            :style="{color: iconColor}"
+          ></i>
+          {{ title }}
+        </p>
+        <div class="el-popconfirm__action">
+          <el-button
+            size="mini"
+            :type="cancelButtonType"
+            @click="cancel"
+          >
+            {{ cancelButtonText }}
+          </el-button>
+          <el-button
+            size="mini"
+            :type="confirmButtonType"
+            @click="confirm"
+          >
+            {{ confirmButtonText }}
+          </el-button>
+        </div>
       </div>
-    </div>
     </template>
     <template #trigger>
       <div style="display: inline-block" @click="open">
@@ -38,66 +43,67 @@
 </template>
 
 <script lang="ts">
-  import { Popper as ElPopper } from '@element-plus/popper'
-  import { defineComponent,ref } from 'vue';
-  export default defineComponent({
-    name: 'ElPopconfirm',
-    props: {
-      title: {
-        type: String
-      },
-      confirmButtonText: {
-        type: String,
-        default: '确定'
-      },
-      cancelButtonText: {
-        type: String,
-        default: '取消'
-      },
-      confirmButtonType: {
-        type: String,
-        default: 'primary'
-      },
-      cancelButtonType: {
-        type: String,
-        default: 'text'
-      },
-      icon: {
-        type: String,
-        default: 'el-icon-question'
-      },
-      iconColor: {
-        type: String,
-        default: '#f90'
-      },
-      hideIcon: {
-        type: Boolean,
-        default: false
-      }
+import { Popper as ElPopper } from '@element-plus/popper'
+import { defineComponent,ref } from 'vue'
+import { t } from '../../locale'
+export default defineComponent({
+  name: 'ElPopconfirm',
+  props: {
+    title: {
+      type: String,
     },
-    components: {
-      ElPopper,
+    confirmButtonText: {
+      type: String,
+      default: t('el.popconfirm.confirmButtonText'),
     },
-    setup(props,ctx){
-      const visible = ref(false)
+    cancelButtonText: {
+      type: String,
+      default: t('el.popconfirm.cancelButtonText'),
+    },
+    confirmButtonType: {
+      type: String,
+      default: 'primary',
+    },
+    cancelButtonType: {
+      type: String,
+      default: 'text',
+    },
+    icon: {
+      type: String,
+      default: 'el-icon-question',
+    },
+    iconColor: {
+      type: String,
+      default: '#f90',
+    },
+    hideIcon: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  components: {
+    ElPopper,
+  },
+  setup(props,ctx){
+    const visible = ref(false)
 
-      const confirm = (): void => {
-        visible.value = false;
-          ctx.emit('onConfirm');
-      }
-      const cancel = (): void => {
-        visible.value = false;
-        ctx.emit('onCancel');
-      }
-      const open = (): void => {
-        visible.value = !visible.value
-      }
-      return {
-        visible,
-        confirm,
-        cancel,
-        open
-      }
+    const confirm = () => {
+      visible.value = false
+      ctx.emit('confirm')
     }
-  });
+    const cancel = () => {
+      visible.value = false
+      ctx.emit('cancel')
+    }
+    const open = (): void => {
+      visible.value = !visible.value
+    }
+    return {
+      visible,
+      confirm,
+      cancel,
+      open,
+    }
+  },
+})
 </script>
