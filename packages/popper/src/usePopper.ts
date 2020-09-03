@@ -3,14 +3,13 @@ import { debounce } from 'lodash'
 import { createPopper } from '@popperjs/core'
 
 import { generateId, clearTimer } from '@element-plus/utils/util'
-import { off, addClass } from '@element-plus/utils/dom'
+import { addClass } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
 
 import { default as useEvents } from '@element-plus/hooks/use-events'
 
 import useModifier from './useModifier'
 
-import type { SetupContext } from '@vue/runtime-core'
 import type { IPopperOptions, RefElement, PopperInstance } from './popper'
 
 export const DEFAULT_TRIGGER = ['hover']

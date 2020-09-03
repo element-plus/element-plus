@@ -1,8 +1,26 @@
 <script lang='ts'>
-import { defineComponent, Transition, Teleport, h, withDirectives, vShow } from 'vue'
+import {
+  defineComponent,
+  Transition,
+  Teleport,
+  h,
+  withDirectives,
+  vShow,
+} from 'vue'
+
+import {
+  TrapFocus,
+} from '@element-plus/directives'
 
 import ElOverlay from '@element-plus/overlay'
-import { default as useDialog, CLOSE_EVENT, CLOSED_EVENT, OPEN_EVENT, OPENED_EVENT, UPDATE_MODEL_EVENT } from './useDialog'
+import {
+  default as useDialog,
+  CLOSE_EVENT,
+  CLOSED_EVENT,
+  OPEN_EVENT,
+  OPENED_EVENT,
+  UPDATE_MODEL_EVENT,
+} from './useDialog'
 
 import type { PropType } from 'vue'
 
@@ -69,10 +87,17 @@ export default defineComponent({
     width: {
       type: String,
       default: '50%',
-      validator: (val: string) => ['px', 'rem', 'em', 'vw', '%'].some(unit => val.endsWith(unit)),
+      validator: (val: string) =>
+        ['px', 'rem', 'em', 'vw', '%'].some(unit => val.endsWith(unit)),
     },
   },
-  emits: [OPEN_EVENT, OPENED_EVENT, CLOSE_EVENT, CLOSED_EVENT, UPDATE_MODEL_EVENT],
+  emits: [
+    OPEN_EVENT,
+    OPENED_EVENT,
+    CLOSE_EVENT,
+    CLOSED_EVENT,
+    UPDATE_MODEL_EVENT,
+  ],
   setup(props, ctx) {
     // init here
     return useDialog(props, ctx)
@@ -101,7 +126,9 @@ export default defineComponent({
         class: 'el-dialog__header',
       },
       [
-        $slots.header ? $slots.header() : h('span', { class: 'el-dialog__title' }, this.title),
+        $slots.header
+          ? $slots.header()
+          : h('span', { class: 'el-dialog__title' }, this.title),
         closeBtn,
       ],
     )
@@ -123,17 +150,23 @@ export default defineComponent({
       {
         ariaModal: true,
         ariaLabel: this.title || 'dialog',
-        class: ['el-dialog', { 'is-fullscreen': this.fullscreen, 'el-dialog--center': this.center }, this.customClass],
+        class: [
+          'el-dialog',
+          {
+            'is-fullscreen': this.fullscreen,
+            'el-dialog--center': this.center,
+          },
+          this.customClass,
+        ],
         ref: 'dialogRef',
         role: 'dialog',
         style: this.style,
+        onClick: (e: MouseEvent) => e.stopPropagation(),
       },
-      [
-        header,
-        body,
-        footer,
-      ],
+      [header, body, footer],
     )
+
+    const trappedDialog = withDirectives(dialog, [[TrapFocus]])
     const overlay = withDirectives(
       h(
         ElOverlay,
@@ -143,9 +176,11 @@ export default defineComponent({
           zIndex: this.zIndex,
         },
         {
-          default: () => dialog,
+          default: () => trappedDialog,
         },
-      ), [[vShow, this.visible]])
+      ),
+      [[vShow, this.visible]],
+    )
 
     const renderer = h(
       Transition,
@@ -172,7 +207,6 @@ export default defineComponent({
 })
 </script>
 <style>
-
 .dialog-fade-enter-active {
   -webkit-animation: modal-fade-in 0.3s !important;
   animation: modal-fade-in 0.3s !important;

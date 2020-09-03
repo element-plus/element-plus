@@ -1,11 +1,10 @@
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
 
 import isServer from '@element-plus/utils/isServer'
-import { on, off } from '@element-plus/utils/dom'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { clearTimer } from '@element-plus/utils/util'
-import { useLockScreen } from '@element-plus/hooks'
+import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
 
 import type { UseDialogProps } from './dialog'
 import type { SetupContext } from '@vue/runtime-core'
@@ -110,6 +109,18 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
     visible.value = false
   }
 
+  if (props.lockScroll) {
+    useLockScreen(visible)
+  }
+
+  if (props.closeOnPressEscape) {
+    useModal({
+      handleClose,
+    }, visible)
+  }
+
+  useRestoreActive(visible)
+
   watch(() => props.modelValue, val => {
     if (val) {
       closed.value = false
@@ -127,10 +138,6 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
       }
     }
   })
-
-  if (props.lockScroll) {
-    useLockScreen(visible)
-  }
 
   onMounted(() => {
     if (props.modelValue) {

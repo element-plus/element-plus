@@ -11,7 +11,7 @@ import type { Ref } from 'vue'
  * When the trigger became true, it assumes modal is now opened and vice versa.
  * @param trigger {Ref<boolean>}
  */
-export default function useLockScreen(trigger: Ref<boolean>) {
+export default (trigger: Ref<boolean>) => {
   if (!isRef(trigger)) {
     throwError('[useLockScreen]', 'You need to pass a ref param to this function')
   }
