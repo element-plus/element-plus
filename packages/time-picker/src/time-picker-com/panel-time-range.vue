@@ -80,6 +80,7 @@ import {
   ref,
   computed,
   PropType,
+  inject,
 } from 'vue'
 
 const MIN_TIME = () => {
@@ -198,6 +199,9 @@ export default defineComponent({
       ctx.emit('select-range', start, end, 'max')
       selectionRange.value = [start + offset.value, end + offset.value]
     }
+
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    pickerBase.emit('isValidValue', isValidValue)
 
     return {
       setMaxSelectionRange,

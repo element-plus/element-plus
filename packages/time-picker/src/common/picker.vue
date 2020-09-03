@@ -19,7 +19,7 @@
         :placeholder="placeholder"
         class="el-date-editor"
         :class="'el-date-editor--' + type"
-        :readonly="readonly || type === 'dates' || type === 'week'"
+        :readonly="!editable || readonly || type === 'dates' || type === 'week'"
         @input="onUserInput"
         @focus="handleFocus"
         @keydown="handleKeydown"
@@ -58,6 +58,7 @@
         @click="handleFocus"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
+        @keydown="handleKeydown"
       >
         <i :class="['el-input__icon', 'el-range__icon', triggerClass]"></i>
         <input
@@ -66,8 +67,10 @@
           :placeholder="startPlaceholder"
           :value="displayValue && displayValue[0]"
           :disabled="pickerDisabled"
-          :readonly="readonly"
+          :readonly="!editable || readonly"
           class="el-range-input"
+          @input="handleStartInput"
+          @change="handleStartChange"
           @focus="handleFocus"
         >
         <slot name="range-separator">
@@ -79,9 +82,11 @@
           :placeholder="endPlaceholder"
           :value="displayValue && displayValue[1]"
           :disabled="pickerDisabled"
-          :readonly="readonly"
+          :readonly="!editable || readonly"
           class="el-range-input"
           @focus="handleFocus"
+          @input="handleEndInput"
+          @change="handleEndChange"
         >
         <i
           :class="[showClose ? '' + clearIcon : '']"
@@ -119,6 +124,7 @@ import {
 import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '../../input/input.vue'
+import { formatDate } from '../time-picker-com/time-picker-utils'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { eventKeys } from '@element-plus/utils/aria'
 import mitt from 'mitt'
@@ -156,6 +162,10 @@ export default defineComponent({
     clearIcon: {
       type: String,
       default: 'el-icon-circle-close',
+    },
+    editable: {
+      type: Boolean,
+      default: true,
     },
     prefixIcon:{
       type: String,
@@ -264,6 +274,13 @@ export default defineComponent({
 
     const displayValue = computed(() => {
       if (!pickerVisible.value && !props.modelValue) return
+      const formattedValue = formatAsFormatAndType(parsedValue.value, props.format, props.type)
+      if (Array.isArray(userInput.value)) {
+        return [
+          userInput.value[0] || (formattedValue && formattedValue[0]) || '',
+          userInput.value[1] || (formattedValue && formattedValue[1]) || '',
+        ]
+      }
       if (userInput.value !== null) {
         return userInput.value
       }
@@ -351,9 +368,19 @@ export default defineComponent({
       return dayjs(text, format).toDate()
     }
 
-    const parseAsFormatAndType = (value, customFormat, type, rangeSeparator = '-') => {
+    const RANGE_PARSER = function(array, format) {
+      if (array.length === 2) {
+        const range1 = array[0]
+        const range2 = array[1]
+
+        return [DATE_PARSER(range1, format), DATE_PARSER(range2, format)]
+      }
+      return []
+    }
+
+    const parseAsFormatAndType = (value, customFormat, type) => {
       if (!value) return null
-      const parser = DATE_PARSER
+      const parser = type === 'timerange' ? RANGE_PARSER : DATE_PARSER
       const format = customFormat
       return parser(value, format)
     }
@@ -361,6 +388,35 @@ export default defineComponent({
     const parseString = value => {
       const type = Array.isArray(value) ? props.type : props.type.replace('range', '')
       return parseAsFormatAndType(value, props.format, type)
+    }
+
+    const DATE_FORMATTER = function(value, format) {
+      if (format === 'timestamp') return value.getTime()
+      return formatDate(value, format)
+    }
+
+    const RANGE_FORMATTER = function(value, format) {
+      if (Array.isArray(value) && value.length === 2) {
+        const start = value[0]
+        const end = value[1]
+
+        if (start && end) {
+          return [DATE_FORMATTER(start, format), DATE_FORMATTER(end, format)]
+        }
+      }
+      return ''
+    }
+
+    const formatAsFormatAndType = (value, customFormat, type) => {
+      if (!value) return null
+      const formatter = RANGE_FORMATTER
+      const format = customFormat
+      return formatter(value, format)
+    }
+
+    const formatToString = value => {
+      const type = Array.isArray(value) ? props.type : props.type.replace('range', '')
+      return formatAsFormatAndType(value, props.format, type)
     }
 
     const isValidValue = value => {
@@ -381,17 +437,16 @@ export default defineComponent({
           handleChange()
           pickerVisible.value = false
           event.stopPropagation()
+        } else {
+          // user may change focus between two input
+          setTimeout(() => {
+            if (refInput.value.indexOf(document.activeElement) === -1) {
+              pickerVisible.value = false
+              blurInput()
+              event.stopPropagation()
+            }
+          }, 0)
         }
-        // else {
-        //   // user may change focus between two input
-        //   setTimeout(() => {
-        //     if (this.refInput.indexOf(document.activeElement) === -1) {
-        //       this.pickerVisible = false
-        //       this.blur()
-        //       event.stopPropagation()
-        //     }
-        //   }, 0)
-        // }
         return
       }
 
@@ -414,6 +469,47 @@ export default defineComponent({
     const onUserInput = e => {
       userInput.value = e.target.value
     }
+
+    const handleStartInput = event => {
+      if (userInput.value) {
+        userInput.value = [event.target.value, userInput.value[1]]
+      } else {
+        userInput.value = [event.target.value, null]
+      }
+    }
+
+    const handleEndInput = event => {
+      if (userInput.value) {
+        userInput.value = [userInput.value[0], event.target.value]
+      } else {
+        userInput.value = [null, event.target.value]
+      }
+    }
+
+    const handleStartChange = () => {
+      const value = parseString(userInput.value && userInput.value[0])
+      if (value) {
+        userInput.value = [formatToString(value), displayValue.value[1]]
+        const newValue = [value, parsedValue.value && parsedValue.value[1]]
+        if (isValidValue(newValue)) {
+          emitInput(newValue)
+          userInput.value = null
+        }
+      }
+    }
+
+    const handleEndChange = () => {
+      const value = parseString(userInput.value && userInput.value[1])
+      if (value) {
+        userInput.value = [displayValue.value[0], formatToString(value)]
+        const newValue = [parsedValue.value && parsedValue.value[0], value]
+        if (isValidValue(newValue)) {
+          emitInput(newValue)
+          userInput.value = null
+        }
+      }
+    }
+
     const pickerOptions = {} as PickerOptions
     const pickerHub = mitt()
     pickerHub.on('isValidValue', e => {
@@ -421,6 +517,10 @@ export default defineComponent({
     })
     provide('EP_PICKER_BASE', pickerHub)
     return {
+      handleEndChange,
+      handleStartChange,
+      handleStartInput,
+      handleEndInput,
       onUserInput,
       handleChange,
       handleKeydown,

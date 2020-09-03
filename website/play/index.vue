@@ -2,14 +2,10 @@
   <div>
     <el-time-picker
       v-model="value1"
-      :picker-options="{
-        selectableRange: '18:30:00 - 20:30:00'
-      }"
-      placeholder="place holder"
-      :default-value="new Date(2016, 9, 10, 18, 40)"
-      :disabled-hours="disabledHours"
-      :disabled-minutes="disabledMinutes"
-      :disabled-seconds="disabledSeconds"
+      is-range
+      range-separator="To"
+      start-placeholder="Start time"
+      end-placeholder="End time"
     />
     value1: {{ value1 }}
   </div>
