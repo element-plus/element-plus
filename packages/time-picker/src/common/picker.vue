@@ -124,7 +124,6 @@ import {
 import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '../../input/input.vue'
-import { formatDate } from '../time-picker-com/time-picker-utils'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { eventKeys } from '@element-plus/utils/aria'
 import mitt from 'mitt'
@@ -391,8 +390,7 @@ export default defineComponent({
     }
 
     const DATE_FORMATTER = function(value, format) {
-      if (format === 'timestamp') return value.getTime()
-      return formatDate(value, format)
+      return dayjs(value).format(format)
     }
 
     const RANGE_FORMATTER = function(value, format) {
