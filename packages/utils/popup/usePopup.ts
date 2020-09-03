@@ -1,67 +1,23 @@
-import { nextTick } from 'vue'
+import {
+  nextTick,
+  reactive,
+  toRefs,
+  onBeforeMount,
+  onBeforeUnmount,
+  onMounted,
+  getCurrentInstance,
+  watch,
+} from 'vue'
 import PopupManager from '../popup-manager'
 import getScrollBarWidth from '../scrollbar-width'
 import { getStyle, addClass, removeClass, hasClass } from '../dom'
+import isServer from '../isServer'
 
 let idSeed = 1
 
 let scrollBarWidth
 
-export default {
-  props: {
-    openDelay: {},
-    closeDelay: {},
-    zIndex: {},
-    modal: {
-      type: Boolean,
-      default: false,
-    },
-    modalFade: {
-      type: Boolean,
-      default: true,
-    },
-    modalClass: {},
-    modalAppendToBody: {
-      type: Boolean,
-      default: false,
-    },
-    lockScroll: {
-      type: Boolean,
-      default: true,
-    },
-    closeOnPressEscape: {
-      type: Boolean,
-      default: false,
-    },
-    closeOnClickModal: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  beforeMount() {
-    this._popupId = 'popup-' + idSeed++
-    PopupManager.register(this._popupId, this)
-  },
-
-  beforeDestroy() {
-    PopupManager.deregister(this._popupId)
-    PopupManager.closeModal(this._popupId)
-
-    this.restoreBodyStyle()
-  },
-
-  data() {
-    return {
-      opened: false,
-      bodyPaddingRight: null,
-      computedBodyPaddingRight: 0,
-      withoutHiddenClass: true,
-      rendered: false,
-      // visible: false,
-    }
-  },
-
+export const usePopup1 = {
   watch: {
     visible(val) {
       if (val) {
@@ -81,136 +37,206 @@ export default {
       }
     },
   },
+}
 
-  methods: {
-    open(options) {
-      if (!this.rendered) {
-        this.rendered = true
+const usePopup = (props, doClose) => {
+  let _popupId
+  let _opening = false
+  let _closing = false
+  let vm
+  let _closeTimer = null
+  let _openTimer = null
+  const state = reactive<State>({
+    opened: false,
+    bodyPaddingRight: null,
+    computedBodyPaddingRight: 0,
+    withoutHiddenClass: true,
+    rendered: false,
+    visible: false,
+  })
+
+  onMounted(() => {
+    vm = getCurrentInstance()
+  })
+
+  onBeforeMount(() => {
+    _popupId = 'popup-' + idSeed++
+    PopupManager.register(_popupId, vm)
+  })
+
+  onBeforeUnmount(() => {
+    PopupManager.deregister(_popupId)
+    PopupManager.closeModal(_popupId)
+    restoreBodyStyle()
+  })
+
+  const doOpen = merProps => {
+    if (isServer) return
+    if (vm.ctx.willOpen && !vm.ctx.willOpen()) return
+    if (state.opened) return
+
+    _opening = true
+
+    const dom = vm.vnode.el
+
+    const modal = merProps.modal
+
+    const zIndex = merProps.zIndex
+    if (zIndex) {
+      PopupManager.zIndex = zIndex
+    }
+
+    if (modal) {
+      if (_closing) {
+        PopupManager.closeModal(_popupId)
+        _closing = false
       }
-
-      const props = Object.assign({}, this.$props || this, options)
-
-      if (this._closeTimer) {
-        clearTimeout(this._closeTimer)
-        this._closeTimer = null
-      }
-      clearTimeout(this._openTimer)
-
-      const openDelay = Number(props.openDelay)
-      if (openDelay > 0) {
-        this._openTimer = setTimeout(() => {
-          this._openTimer = null
-          this.doOpen(props)
-        }, openDelay)
-      } else {
-        this.doOpen(props)
-      }
-    },
-
-    doOpen(props) {
-      if (this.$isServer) return
-      if (this.willOpen && !this.willOpen()) return
-      if (this.opened) return
-
-      this._opening = true
-
-      const dom = this.$el
-
-      const modal = props.modal
-
-      const zIndex = props.zIndex
-      if (zIndex) {
-        PopupManager.zIndex = zIndex
-      }
-
-      if (modal) {
-        if (this._closing) {
-          PopupManager.closeModal(this._popupId)
-          this._closing = false
+      PopupManager.openModal(_popupId, PopupManager.nextZIndex(), props.modalAppendToBody ? undefined : dom, merProps.modalClass, merProps.modalFade)
+      if (merProps.lockScroll) {
+        state.withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
+        if (state.withoutHiddenClass) {
+          state.bodyPaddingRight = document.body.style.paddingRight
+          state.computedBodyPaddingRight = parseInt(getStyle(document.body, 'paddingRight'), 10)
         }
-        PopupManager.openModal(this._popupId, PopupManager.nextZIndex(), this.modalAppendToBody ? undefined : dom, props.modalClass, props.modalFade)
-        if (props.lockScroll) {
-          this.withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
-          if (this.withoutHiddenClass) {
-            this.bodyPaddingRight = document.body.style.paddingRight
-            this.computedBodyPaddingRight = parseInt(getStyle(document.body, 'paddingRight'), 10)
-          }
-          scrollBarWidth = getScrollBarWidth()
-          const bodyHasOverflow = document.documentElement.clientHeight < document.body.scrollHeight
-          const bodyOverflowY = getStyle(document.body, 'overflowY')
-          if (scrollBarWidth > 0 && (bodyHasOverflow || bodyOverflowY === 'scroll') && this.withoutHiddenClass) {
-            document.body.style.paddingRight = this.computedBodyPaddingRight + scrollBarWidth + 'px'
-          }
-          addClass(document.body, 'el-popup-parent--hidden')
+        scrollBarWidth = getScrollBarWidth()
+        const bodyHasOverflow = document.documentElement.clientHeight < document.body.scrollHeight
+        const bodyOverflowY = getStyle(document.body, 'overflowY')
+        if (scrollBarWidth > 0 && (bodyHasOverflow || bodyOverflowY === 'scroll') && state.withoutHiddenClass) {
+          document.body.style.paddingRight = state.computedBodyPaddingRight + scrollBarWidth + 'px'
         }
+        addClass(document.body, 'el-popup-parent--hidden')
       }
+    }
 
-      if (getComputedStyle(dom).position === 'static') {
-        dom.style.position = 'absolute'
-      }
+    if (getComputedStyle(dom).position === 'static') {
+      dom.style.position = 'absolute'
+    }
 
-      dom.style.zIndex = PopupManager.nextZIndex()
-      this.opened = true
+    dom.style.zIndex = PopupManager.nextZIndex()
+    state.opened = true
 
-      this.onOpen && this.onOpen()
+    vm.ctx.onOpen && vm.ctx.onOpen()
 
-      this.doAfterOpen()
-    },
+    doAfterOpen()
+  }
 
-    doAfterOpen() {
-      this._opening = false
-    },
+  const open = function (options?) {
+    if (!state.rendered) {
+      state.rendered = true
+    }
+    const _props = Object.assign({}, props || vm.proxy, options)
 
-    close() {
-      if (this.willClose && !this.willClose()) return
+    if (_closeTimer) {
+      clearTimeout(_closeTimer)
+      _closeTimer = null
+    }
+    clearTimeout(_openTimer)
 
-      if (this._openTimer !== null) {
-        clearTimeout(this._openTimer)
-        this._openTimer = null
-      }
-      clearTimeout(this._closeTimer)
+    const openDelay = Number(_props.openDelay)
+    if (openDelay > 0) {
+      _openTimer = setTimeout(() => {
+        _openTimer = null
+        doOpen(_props)
+      }, openDelay)
+    } else {
+      doOpen(_props)
+    }
+  }
 
-      const closeDelay = Number(this.closeDelay)
+  const close = () => {
+    // if (this.willClose && !this.willClose()) return
+    if (_openTimer !== null) {
+      clearTimeout(_openTimer)
+      _openTimer = null
+    }
+    clearTimeout(_closeTimer)
 
-      if (closeDelay > 0) {
-        this._closeTimer = setTimeout(() => {
-          this._closeTimer = null
-          this.doClose()
-        }, closeDelay)
+    const closeDelay = Number(props.closeDelay)
+
+    if (closeDelay > 0) {
+      _closeTimer = setTimeout(() => {
+        _closeTimer = null
+        doClose()
+      }, closeDelay)
+    } else {
+      doClose()
+    }
+  }
+
+  const doAfterOpen = () => {
+    _opening = false
+  }
+
+  const restoreBodyStyle = () => {
+    if (props.modal && state.withoutHiddenClass) {
+      document.body.style.paddingRight = state.bodyPaddingRight
+      removeClass(document.body, 'el-popup-parent--hidden')
+    }
+    state.withoutHiddenClass = true
+  }
+
+  const doAfterClose = () => {
+    PopupManager.closeModal(_popupId)
+    _closing = false
+  }
+
+  const updateClosingFlag = value => {
+    _closing = value
+  }
+
+  watch(() => state.visible, async val => {
+    if (val) {
+      if (_opening) return
+      if (!state.rendered) {
+        state.rendered = true
+        await nextTick()
+        open()
       } else {
-        this.doClose()
+        open()
       }
-    },
+    } else {
+      close()
+    }
+  })
 
-    doClose() {
-      this._closing = true
+  return {
+    state,
+    close,
+    doAfterClose,
+    updateClosingFlag,
+    restoreBodyStyle,
+  }
+}
 
-      this.onClose && this.onClose()
-
-      if (this.lockScroll) {
-        setTimeout(this.restoreBodyStyle, 200)
-      }
-
-      this.opened = false
-
-      this.doAfterClose()
-    },
-
-    doAfterClose() {
-      PopupManager.closeModal(this._popupId)
-      this._closing = false
-    },
-
-    restoreBodyStyle() {
-      if (this.modal && this.withoutHiddenClass) {
-        document.body.style.paddingRight = this.bodyPaddingRight
-        removeClass(document.body, 'el-popup-parent--hidden')
-      }
-      this.withoutHiddenClass = true
-    },
+usePopup.comPropsTypes = {
+  openDelay: {},
+  closeDelay: {},
+  zIndex: {},
+  modal: {
+    type: Boolean,
+    default: false,
+  },
+  modalFade: {
+    type: Boolean,
+    default: true,
+  },
+  modalClass: {},
+  modalAppendToBody: {
+    type: Boolean,
+    default: false,
+  },
+  lockScroll: {
+    type: Boolean,
+    default: true,
+  },
+  closeOnPressEscape: {
+    type: Boolean,
+    default: false,
+  },
+  closeOnClickModal: {
+    type: Boolean,
+    default: false,
   },
 }
 
-export {
-  PopupManager,
-}
+export default usePopup

@@ -8,7 +8,6 @@ let currentMsg, instance
 
 // component default props
 const PROP_KEYS = [
-  'modal',
   'lockScroll',
   'showClose',
   'closeOnClickModal',

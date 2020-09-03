@@ -86,8 +86,8 @@
 import {
   defineComponent,
   nextTick,
-  ref,
   onMounted,
+  onBeforeUnmount,
   computed,
   watch,
   getCurrentInstance,
@@ -99,7 +99,6 @@ import ElButton from '@element-plus/button/src/button.vue'
 import { t } from '@element-plus/locale'
 import Dialog  from '@element-plus/utils/aria-dialog'
 import usePopup from '@element-plus/utils/popup/usePopup'
-import fa from '../../locale/lang/fa'
 
 let messageBox
 
@@ -115,8 +114,7 @@ export default defineComponent({
   components: {
     ElButton,
   },
-  mixins: [usePopup],
-  props: {
+  props: Object.assign({}, usePopup.comPropsTypes, {
     modal: {
       type: Boolean,
       default: true,
@@ -149,9 +147,10 @@ export default defineComponent({
       default: false,
       type: Boolean,
     },
-  },
+  }) ,
   setup(props) {
     let vm
+    const popup = usePopup(props, doClose)
     const state = reactive<State>({
       uid: 1,
       title: undefined,
@@ -183,7 +182,6 @@ export default defineComponent({
       isOnComposition: false,
       distinguishCancelAndClose: false,
       t,
-      visible: false,
     })
     const icon = computed(() => state.iconClass || (state.type && TypeMap[state.type] ? `el-icon-${ TypeMap[state.type] }` : ''))
 
@@ -191,7 +189,7 @@ export default defineComponent({
 
     const cancelButtonClasses = computed(() => `${ state.cancelButtonClass }`)
 
-    watch(state.visible, val => {
+    watch(() => popup.state.visible, val => {
       if (val) {
         state.uid++
         if (state.type$ === 'alert' || state.type$ === 'confirm') {
@@ -205,11 +203,11 @@ export default defineComponent({
       if (val) {
         setTimeout(() => {
           if (vm.refs.input && vm.refs.input.$el) {
-            this.getInputElement().focus()
+            getInputElement().focus()
           }}, 500)
       } else {
         state.editorErrorMessage = ''
-        removeClass(this.getInputElement(), 'invalid')
+        removeClass(getInputElement(), 'invalid')
       }
     })
 
@@ -217,11 +215,20 @@ export default defineComponent({
       vm = getCurrentInstance()
       await nextTick()
       if (props.closeOnHashChange) {
-        // window.addEventListener('hashchange', this.close)
+        window.addEventListener('hashchange', popup.close)
       }
     })
 
-    const getSafeClose = () => {
+    onBeforeUnmount(() => {
+      if (props.closeOnHashChange) {
+        window.removeEventListener('hashchange', popup.close)
+      }
+      setTimeout(() => {
+        messageBox.closeDialog()
+      })
+    })
+
+    function getSafeClose () {
       const currentId = state.uid
       return () => {
         nextTick().then(() => {
@@ -230,20 +237,20 @@ export default defineComponent({
       }
     }
 
-    const doClose = () => {
-      if (!state.visible) return
-      state.visible = false
-      this._closing = true
+    function doClose() {
+      if (!popup.state.visible) return
+      popup.state.visible = false
+      popup.updateClosingFlag(true)
 
-      this.onClose && this.onClose()
+      // this.onClose && this.onClose()
       messageBox.closeDialog() // 解绑
       if (props.lockScroll) {
-        setTimeout(this.restoreBodyStyle, 200)
+        setTimeout(popup.restoreBodyStyle, 200)
       }
-      this.opened = false
-      this.doAfterClose()
+      popup.state.opened = false
+      popup.doAfterClose()
       setTimeout(() => {
-        if (state.action) callback.value(state.action, vm)
+        if (state.action) state.callback(state.action, vm.ctx)
       })
     }
 
@@ -253,89 +260,79 @@ export default defineComponent({
       return btn || title
     }
 
-
-    return {
-      ...toRefs(state),
-      icon,
-      confirmButtonClasses,
-      cancelButtonClasses,
-    }
-  },
-  beforeUnmount() {
-    if (this.closeOnHashChange) {
-      window.removeEventListener('hashchange', this.close)
-    }
-    setTimeout(() => {
-      messageBox.closeDialog()
-    })
-  },
-  methods: {
-    handleWrapperClick() {
-      if (this.closeOnClickModal) {
-        this.handleAction(this.distinguishCancelAndClose ? 'close' : 'cancel')
+    const handleWrapperClick = () => {
+      if (props.closeOnClickModal) {
+        handleAction(state.distinguishCancelAndClose ? 'close' : 'cancel')
       }
-    },
+    }
 
-    handleInputEnter() {
-      if (this.inputType !== 'textarea') {
-        return this.handleAction('confirm')
+    const handleInputEnter = () => {
+      if (state.inputType !== 'textarea') {
+        return handleAction('confirm')
       }
-    },
+    }
 
-    handleAction(action) {
-      if (this.type$ === 'prompt' && action === 'confirm' && !this.validate()) {
+    const handleAction = action => {
+      if (state.type$ === 'prompt' && action === 'confirm' && !validate()) {
         return
       }
-      this.action = action
-      if (typeof this.beforeClose === 'function') {
-        this.close = this.getSafeClose()
-        this.beforeClose(action, this, this.close)
+      state.action = action
+      if (typeof vm.proxy.beforeClose === 'function') {
+        vm.proxy.close = getSafeClose()
+        vm.proxy.beforeClose(action, vm.proxy, vm.proxy.close)
       } else {
-        this.doClose()
+        doClose()
       }
-    },
-    validate() {
-      if (this.type$ === 'prompt') {
-        const inputPattern = this.inputPattern
-        if (inputPattern && !inputPattern.test(this.inputValue || '')) {
-          this.editorErrorMessage = this.inputErrorMessage || t('el.messagebox.error')
-          addClass(this.getInputElement(), 'invalid')
+    }
+
+    const validate = () => {
+      if (state.type$ === 'prompt') {
+        const inputPattern = state.inputPattern
+        if (inputPattern && !inputPattern.test(state.inputValue || '')) {
+          state.editorErrorMessage = state.inputErrorMessage || t('el.messagebox.error')
+          addClass(getInputElement(), 'invalid')
           return false
         }
-        const inputValidator = this.inputValidator
+        const inputValidator = state.inputValidator
         if (typeof inputValidator === 'function') {
-          const validateResult = inputValidator(this.inputValue)
+          const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
-            this.editorErrorMessage = this.inputErrorMessage || t('el.messagebox.error')
-            addClass(this.getInputElement(), 'invalid')
+            state.editorErrorMessage = state.inputErrorMessage || t('el.messagebox.error')
+            addClass(getInputElement(), 'invalid')
             return false
           }
           if (typeof validateResult === 'string') {
-            this.editorErrorMessage = validateResult
-            addClass(this.getInputElement(), 'invalid')
+            state.editorErrorMessage = validateResult
+            addClass(getInputElement(), 'invalid')
             return false
           }
         }
       }
-      this.editorErrorMessage = ''
-      removeClass(this.getInputElement(), 'invalid')
+      state.editorErrorMessage = ''
+      removeClass(getInputElement(), 'invalid')
       return true
-    },
+    }
 
-    getFirstFocus() {
-      const btn = this.$el.querySelector('.el-message-box__btns .el-button')
-      const title = this.$el.querySelector('.el-message-box__btns .el-message-box__title')
-      return btn || title
-    },
-
-    getInputElement() {
-      const inputRefs = this.$refs.input.$refs
+    const getInputElement = () => {
+      const inputRefs = vm.refs.input.$refs
       return inputRefs.input || inputRefs.textarea
-    },
+    }
 
-    handleClose() {
-      this.handleAction('close')
-    },
+    const handleClose = () => {
+      handleAction('close')
+    }
+
+    return {
+      ...toRefs(state),
+      ...toRefs(popup.state),
+      icon,
+      confirmButtonClasses,
+      cancelButtonClasses,
+      handleWrapperClick,
+      handleInputEnter,
+      handleAction,
+      handleClose,
+    }
   },
 })
 </script>
