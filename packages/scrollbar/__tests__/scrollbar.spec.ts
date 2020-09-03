@@ -19,10 +19,11 @@ describe('ScrollBar', () => {
       </el-scrollbar>
     `)
 
-    defineGetter(window.HTMLElement.prototype, 'clientHeight', outerHeight)
-    defineGetter(window.HTMLElement.prototype, 'scrollHeight', innerHeight)
-
     const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    defineGetter(scrollDom, 'clientHeight', outerHeight)
+    defineGetter(scrollDom, 'scrollHeight', innerHeight)
+
     await makeScroll(scrollDom, 'scrollTop', 100)
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain('height: 40%; transform: translateY(50%); webkit-transform: translateY(50%)')
     await makeScroll(scrollDom, 'scrollTop', 300)
@@ -38,10 +39,11 @@ describe('ScrollBar', () => {
       </el-scrollbar>
     `)
 
-    defineGetter(window.HTMLElement.prototype, 'clientWidth', outerWidth)
-    defineGetter(window.HTMLElement.prototype, 'scrollWidth', innerWidth)
-
     const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    defineGetter(scrollDom, 'clientWidth', outerWidth)
+    defineGetter(scrollDom, 'scrollWidth', innerWidth)
+
     await makeScroll(scrollDom, 'scrollLeft', 100)
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain('width: 40%; transform: translateX(50%); webkit-transform: translateX(50%)')
     await makeScroll(scrollDom, 'scrollLeft', 300)
