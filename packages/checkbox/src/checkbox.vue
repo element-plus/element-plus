@@ -60,9 +60,11 @@
 <script lang='ts'>
 import {
   defineComponent,
+  getCurrentInstance,
+  onMounted,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { useCheckbox, useSetAria } from './useCheckbox'
+import { useCheckbox } from './useCheckbox'
 
 export default defineComponent({
   name: 'ElCheckbox',
@@ -106,8 +108,11 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props) {
     const { focus, isChecked, isDisabled, checkboxSize, model, handleChange } = useCheckbox(props)
+    const instance = getCurrentInstance()
 
-    useSetAria(props)
+    onMounted(() => {
+      instance.vnode.el.setAttribute('aria-controls', props.controls)
+    })
 
     return {
       focus,
