@@ -127,6 +127,39 @@ import ElInput from '../../input/input.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { eventKeys } from '@element-plus/utils/aria'
 import mitt from 'mitt'
+/*
+ * Considers:
+ *   1. Date object
+ *   2. date string
+ *   3. array of 1 or 2
+ */
+const valueEquals = function(a, b) {
+  // considers Date object and string
+  const dateEquals = function(a, b) {
+    const aIsDate = a instanceof Date
+    const bIsDate = b instanceof Date
+    if (aIsDate && bIsDate) {
+      return a.getTime() === b.getTime()
+    }
+    if (!aIsDate && !bIsDate) {
+      return a === b
+    }
+    return false
+  }
+
+  const aIsArray = a instanceof Array
+  const bIsArray = b instanceof Array
+  if (aIsArray && bIsArray) {
+    if (a.length !== b.length) {
+      return false
+    }
+    return a.every((item, index) => dateEquals(item, b[index]))
+  }
+  if (!aIsArray && !bIsArray) {
+    return dateEquals(a, b)
+  }
+  return false
+}
 // todo element
 const ELEMENT = {
   size: '',
@@ -207,19 +240,26 @@ export default defineComponent({
     const oldValue = ref(props.modelValue)
     const refContainer = ref(null)
     const pickerVisible = ref(false)
+    const valueOnOpen = ref(null)
     watch(pickerVisible, val => {
       if (!val) {
         userInput.value = null
         ctx.emit('blur')
         blurInput()
+      } else {
+        valueOnOpen.value = props.modelValue
       }
     })
+    const emitChange = val => {
+      // determine user real change only
+      if (!valueEquals(val, valueOnOpen.value)) {
+        ctx.emit('change', val)
+      }
+    }
     const emitInput = val => {
-      ctx.emit('update:modelValue', val)
-      // const formatted = formatToValue(val)
-      // if (!valueEquals(this.value, formatted)) {
-      //   ctx.emit('input', formatted)
-      // }
+      if (!valueEquals(props.modelValue, val)) {
+        ctx.emit('update:modelValue', val)
+      }
     }
     const refInput = computed(() => {
       if (refContainer.value) {
@@ -240,9 +280,9 @@ export default defineComponent({
       }
     }
     const onPick = (date = '', visible = false, useOldValue = false) => {
-      // userInput = null
       pickerVisible.value = visible
       const result = useOldValue ? oldValue : date
+      userInput.value = null
       emitInput(result)
       emitChange(result)
     }
@@ -267,7 +307,6 @@ export default defineComponent({
           return props.defaultValue
         }
       }
-      // todo modelValue is string with format
       return props.modelValue
     })
 
@@ -283,20 +322,17 @@ export default defineComponent({
       if (userInput.value !== null) {
         return userInput.value
       }
-      if (Array.isArray(parsedValue.value)) {
-        return parsedValue.value.map(_ => dayjs(_).format(props.format))
+      if (formattedValue) {
+        return props.type === 'dates'
+          ? formattedValue.join(', ')
+          : formattedValue
       }
-      return dayjs(parsedValue.value).format(props.format)
+      return ''
     })
     const triggerClass = computed(() => {
       return props.prefixIcon || (props.type.indexOf('time') !== -1 ? 'el-icon-time' : 'el-icon-date')
     })
     const showClose = ref(false)
-    const emitChange = val => {
-      // determine user real change only
-      // if (!valueEquals(val, this.valueOnOpen)) {
-      ctx.emit('change', val)
-    }
     const onClearIconClick = event =>{
       if (props.readonly || pickerDisabled.value) return
       if (showClose.value) {
@@ -363,7 +399,6 @@ export default defineComponent({
     }
 
     const DATE_PARSER = function(text, format) {
-      if (format === 'timestamp') return new Date(Number(text))
       return dayjs(text, format).toDate()
     }
 
