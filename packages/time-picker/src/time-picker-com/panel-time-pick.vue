@@ -42,6 +42,7 @@ import {
   defineComponent,
   ref,
   computed,
+  inject,
 } from 'vue'
 import { t } from '@element-plus/locale'
 import TimeSpinner from './basic-time-spinner.vue'
@@ -145,6 +146,8 @@ export default defineComponent({
     const spinnerValue = computed(() => {
       return limitTimeRange(props.parsedValue, selectableRange.value, props.format)
     })
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    pickerBase.emit('isValidValue', isValidValue)
     return {
       spinnerValue,
       t,

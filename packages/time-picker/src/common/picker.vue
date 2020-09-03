@@ -114,6 +114,7 @@ import {
   inject,
   PropType,
   watch,
+  provide,
 } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
@@ -121,9 +122,13 @@ import ElInput from '../../input/input.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { parseDate } from '../time-picker-com/time-picker-utils'
 import { eventKeys } from '@element-plus/utils/aria'
+import mitt from 'mitt'
 // todo element
 const ELEMENT = {
   size: '',
+}
+interface PickerOptions {
+  isValidValue: Function
 }
 export default defineComponent({
   name: 'Picker',
@@ -359,9 +364,7 @@ export default defineComponent({
     }
 
     const isValidValue = value => {
-      console.log(value)
-      return false
-      // return instance.value.isValidValue(value)
+      return pickerOptions.isValidValue(value)
     }
 
     const handleKeydown = event => {
@@ -411,6 +414,12 @@ export default defineComponent({
     const onUserInput = e => {
       userInput.value = e.target.value
     }
+    const pickerOptions = {} as PickerOptions
+    const pickerHub = mitt()
+    pickerHub.on('isValidValue', e => {
+      pickerOptions.isValidValue = e
+    })
+    provide('EP_PICKER_BASE', pickerHub)
     return {
       onUserInput,
       handleChange,
