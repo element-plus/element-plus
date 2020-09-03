@@ -1,4 +1,5 @@
 import { ComputedRef } from 'vue'
+import { AnyFunction } from '@element-plus/utils/types'
 export interface ICheckboxGroupInstance {
   name?: string
   modelValue?: ComputedRef
@@ -9,22 +10,20 @@ export interface ICheckboxGroupInstance {
   fill?: ComputedRef<string>
   textColor?: ComputedRef<string>
   checkboxGroupSize?: ComputedRef<string>
-  changeEvent?: (val: any) => void
+  changeEvent?: AnyFunction<any>
 }
 
 export interface ICheckboxProps {
   modelValue: string | boolean | number
-  label?:string | boolean | number
+  label?: string | boolean | number
   indeterminate?: boolean
   disabled?: boolean
   checked?: boolean
   name?: string
-  trueLabel?: string| number
-  falseLabel?: string| number
+  trueLabel?: string | number
+  falseLabel?: string | number
   id?: string
   controls?: string
   border?: boolean
   size?: string
 }
-
-export type PartialReturnType<T extends (...args: unknown[]) =>  unknown> = Partial<ReturnType<T>>
