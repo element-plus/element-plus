@@ -5,11 +5,11 @@ import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
 
+const TIMEOUT = 250
 const MOUSE_ENTER_EVENT = 'mouseenter'
 const MOUSE_LEAVE_EVENT = 'mouseleave'
 const CLICK = 'click'
 
-const _sleep = () => sleep(250)
 const _mount = (template: string, data, otherObj?) => mount({
   components: {
     [Dropdown.name]: Dropdown,
@@ -46,10 +46,10 @@ describe('Dropdown', () => {
     const triggerElm = wrapper.find('.el-dropdown-link')
     expect(content.value).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await _sleep()
+    await sleep(TIMEOUT)
     expect(content.value).toBe(true)
     await triggerElm.trigger(MOUSE_LEAVE_EVENT)
-    await _sleep()
+    await sleep(TIMEOUT)
     expect(content.value).toBe(false)
   })
 
@@ -86,9 +86,9 @@ describe('Dropdown', () => {
     // const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await _sleep()
+    await sleep(TIMEOUT)
     await wrapper.findComponent({ ref: 'c' }).trigger('click')
-    await _sleep()
+    await sleep(TIMEOUT)
     expect((wrapper.vm as any).name).toBe('CommandC')
   })
 
@@ -119,10 +119,10 @@ describe('Dropdown', () => {
     const triggerElm = wrapper.find('.el-dropdown-link')
     expect(content.value).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await _sleep()
+    await sleep(TIMEOUT)
     expect(content.value).toBe(false)
     await triggerElm.trigger(CLICK)
-    await _sleep()
+    await sleep(TIMEOUT)
     expect(content.value).toBe(true)
   })
 
@@ -161,7 +161,7 @@ describe('Dropdown', () => {
     await button.trigger('click')
     expect((wrapper.vm as any).name).toBe('click')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await _sleep()
+    await sleep(TIMEOUT)
     expect(content.value).toBe(true)
   })
 
@@ -189,9 +189,9 @@ describe('Dropdown', () => {
     const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await _sleep()
+    await sleep(TIMEOUT)
     await wrapper.findComponent({ ref: 'c' }).trigger('click')
-    await _sleep()
+    await sleep(TIMEOUT)
     expect(content.value).toBe(true)
   })
 
@@ -219,19 +219,19 @@ describe('Dropdown', () => {
     const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await _sleep()
+    await sleep(TIMEOUT)
     await triggerElm.trigger('keydown', {
       keyCode: eventKeys.enter,
     })
-    await _sleep()
+    await sleep(TIMEOUT)
     expect(content.value).toBe(false)
 
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await _sleep()
+    await sleep(TIMEOUT)
     await triggerElm.trigger('keydown', {
       keyCode: eventKeys.tab,
     })
-    await _sleep()
+    await sleep(TIMEOUT)
     expect(content.value).toBe(false)
   })
 
@@ -259,11 +259,11 @@ describe('Dropdown', () => {
     const content = wrapper.findComponent({ ref: 'a' })
     const triggerElm = wrapper.find('.el-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await _sleep()
+    await sleep(TIMEOUT)
     await content.trigger('keydown', {
       keyCode: eventKeys.down,
     })
-    await _sleep()
+    await sleep(TIMEOUT)
     expect(wrapper.findComponent({ ref: 'd' }).attributes('tabindex')).toBe('0')
 
   })
