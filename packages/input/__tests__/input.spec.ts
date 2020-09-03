@@ -1,5 +1,6 @@
+import { ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { wait } from '../../test-utils'
+import { sleep, defineGetter } from '@element-plus/test-utils'
 import Input from '../src/index.vue'
 
 const _mount = options => mount({
@@ -12,6 +13,7 @@ const _mount = options => mount({
 describe('Input.vue', () => {
 
   test('create', async () => {
+    const handleFocus = jest.fn()
     const wrapper = _mount({
       template: `
         <el-input
@@ -22,36 +24,36 @@ describe('Input.vue', () => {
           :model-value="input">
         </el-input>
       `,
-      data() {
+      setup() {
+        const input = ref('input')
+
         return {
-          input: 'input',
-          inputFocus: false,
+          input,
+          handleFocus,
         }
       },
-      methods: {
-        handleFocus() {
-          this.inputFocus = true
-        },
-      },
     })
+
     const inputElm = wrapper.find('input')
     const vm = wrapper.vm as any
+
+    await inputElm.trigger('focus')
+
     expect(inputElm.exists()).toBe(true)
-    inputElm.element.focus()
-    expect(vm.inputFocus).toBe(true)
+    expect(handleFocus).toHaveBeenCalled()
     expect(wrapper.attributes('placeholder')).toBe('请输入内容')
     expect(inputElm.element.value).toBe('input')
     expect(wrapper.attributes('minlength')).toBe('3')
     expect(wrapper.attributes('maxlength')).toBe('5')
 
     vm.input = 'text'
-    await wait()
+    await sleep()
     expect(inputElm.element.value).toBe('text')
   })
 
   test('default to empty', () => {
     const wrapper = _mount({
-      template: '<el-input/>',
+      template: '<el-input />',
     })
     const inputElm = wrapper.find('input')
     expect(inputElm.element.value).toBe('')
@@ -62,7 +64,7 @@ describe('Input.vue', () => {
       template: `<el-input disabled />`,
     })
     const inputElm = wrapper.find('input')
-    expect(inputElm.element.getAttribute('disabled')).not.toBeNull()
+    expect(inputElm.element.disabled).not.toBeNull()
   })
 
   test('suffixIcon', () => {
@@ -99,14 +101,16 @@ describe('Input.vue', () => {
     const wrapper = _mount({
       template: `<el-input type="textarea" :rows="3" />`,
     })
-    expect(wrapper.find('.el-textarea__inner').element.getAttribute('rows')).toEqual('3')
+    expect(wrapper.find('textarea').element.rows).toEqual(3)
   })
 
   test('resize', async() => {
     const wrapper = _mount({
-      template: `<div>
-        <el-input type="textarea" :resize="resize" />
-      </div>`,
+      template: `
+        <div>
+          <el-input type="textarea" :resize="resize" />
+        </div>
+      `,
       data() {
         return {
           resize: 'none',
@@ -114,11 +118,12 @@ describe('Input.vue', () => {
       },
     })
     const vm = wrapper.vm as any
-    await wait()
-    expect(wrapper.find('.el-textarea__inner').element.style.resize).toEqual(vm.resize)
+    const textarea = wrapper.find('textarea').element
+    await sleep()
+    expect(textarea.style.resize).toEqual(vm.resize)
     vm.resize = 'horizontal'
-    await wait()
-    expect(wrapper.find('.el-textarea__inner').element.style.resize).toEqual(vm.resize)
+    await sleep()
+    expect(textarea.style.resize).toEqual(vm.resize)
   })
 
   // TODO: Due to jsdom's reason this case cannot run well, may be fixed later using headlesschrome or puppeteer
@@ -140,12 +145,12 @@ describe('Input.vue', () => {
   //   })
   //   const limitSizeInput = wrapper.vm.$refs.limitSize
   //   const limitlessSizeInput = wrapper.vm.$refs.limitlessSize
-  //   await wait()
+  //   await sleep()
   //   expect(limitSizeInput.textareaStyle.height).toEqual('117px')
   //   expect(limitlessSizeInput.textareaStyle.height).toEqual('201px')
 
   //   wrapper.vm.textareaValue = ''
-  //   await wait()
+  //   await sleep()
   //   expect(limitSizeInput.textareaStyle.height).toEqual('75px')
   //   expect(limitlessSizeInput.textareaStyle.height).toEqual('33px')
   // })
@@ -163,10 +168,10 @@ describe('Input.vue', () => {
     const vm = wrapper.vm as any
     expect(vm.$el.querySelector('input').value).toEqual('123')
     vm.type = 'textarea'
-    await wait()
+    await sleep()
     expect(vm.$el.querySelector('textarea').value).toEqual('123')
     vm.type = 'password'
-    await wait()
+    await sleep()
     expect(vm.$el.querySelector('input').value).toEqual('123')
   })
 
@@ -227,11 +232,11 @@ describe('Input.vue', () => {
 
     const vm = wrapper.vm as any
     vm.show = true
-    await wait()
+    await sleep()
     expect(inputElm1.querySelectorAll('.el-input__count').length).toEqual(1)
 
     vm.input4 = '1'
-    await wait()
+    await sleep()
     expect(inputElm4.classList.contains('is-exceed')).toBe(false)
   })
 
@@ -248,33 +253,30 @@ describe('Input.vue', () => {
         },
       })
 
+      const input = wrapper.find('input').element
       // mock selectionRange behaviour, due to jsdom's reason this case cannot run well, may be fixed later using headlesschrome or puppeteer
       let selected = false
-      Object.defineProperties(window.HTMLInputElement.prototype, {
-        selectionStart: {
-          get() {
-            return selected ? 0 : this.value.length
-          },
-        },
-        selectionEnd: {
-          get() {
-            return this.value.length
-          },
-        },
+      defineGetter(input, 'selectionStart', function() {
+        return selected ? 0 : this.value.length
+      })
+      defineGetter(input, 'selectionEnd', function() {
+        return this.value.length
       })
 
-      expect(wrapper.find('input').element.selectionStart).toEqual(testContent.length)
-      expect(wrapper.find('input').element.selectionEnd).toEqual(testContent.length)
+      expect(input.selectionStart).toEqual(testContent.length)
+      expect(input.selectionEnd).toEqual(testContent.length)
 
-      wrapper.find('input').element.select()
+      input.select()
       selected = true
-      await wait()
-      expect(wrapper.find('input').element.selectionStart).toEqual(0)
-      expect(wrapper.find('input').element.selectionEnd).toEqual(testContent.length)
+      await sleep()
+      expect(input.selectionStart).toEqual(0)
+      expect(input.selectionEnd).toEqual(testContent.length)
     })
   })
 
   describe('Input Events', () => {
+    const handleFocus = jest.fn()
+    const handleBlur = jest.fn()
 
     test('event:focus & blur', async () => {
       const wrapper = _mount({
@@ -284,30 +286,24 @@ describe('Input.vue', () => {
           @focus="handleFocus"
           @blur="handleBlur"
         />`,
-        data() {
+        setup() {
+          const input = ref('')
+
           return {
-            input: '',
-            focused: false,
+            input,
+            handleFocus,
+            handleBlur,
           }
         },
-        methods: {
-          handleFocus() {
-            this.focused = true
-          },
-          handleBlur() {
-            this.focused = false
-          },
-        },
       })
-      const vm = wrapper.vm as any
-      const el = wrapper.find('input').element
-      el.focus()
-      await wait()
-      expect(vm.focused).toBe(true)
 
-      el.blur()
-      await wait()
-      expect(vm.focused).toBe(false)
+      const input = wrapper.find('input')
+
+      await input.trigger('focus')
+      expect(handleFocus).toBeCalled()
+
+      await input.trigger('blur')
+      expect(handleBlur).toBeCalled()
     })
 
     test('event:change', async() => {
@@ -342,48 +338,47 @@ describe('Input.vue', () => {
 
       // simplified test, component should emit change when native does
       simulateEvent('2', 'change')
-      await wait()
+      await sleep()
       expect(vm.val).toBe('2')
       simulateEvent('1', 'input')
-      await wait()
+      await sleep()
       expect(vm.val).toBe('2')
     })
 
     test('event:clear', async() => {
+      const handleClear = jest.fn()
       const wrapper = _mount({
         template: `
           <el-input
             placeholder="请输入内容"
             clearable
             v-model="input"
-            @clear="handleCleared"
+            @clear="handleClear"
           />
         `,
-        data() {
+        setup() {
+          const input = ref('a')
+
           return {
-            input: 'a',
-            cleared: false,
+            input,
+            handleClear,
           }
-        },
-        methods: {
-          handleCleared() {
-            this.cleared = true
-          },
         },
       })
 
-      const el = wrapper.find('input').element
+      const input = wrapper.find('input')
       const vm = wrapper.vm as any
       // focus to show clear button
-      el.focus()
-      await wait()
+      await input.trigger('focus')
+      await sleep()
       vm.$el.querySelector('.el-input__clear').click()
-      await wait()
+      await sleep()
       expect(vm.input).toEqual('')
-      expect(vm.cleared).toBe(true)
+      expect(handleClear).toBeCalled()
     })
 
     test('event:input', async() => {
+      const handleInput = jest.fn()
       const wrapper = _mount({
         template: `
           <el-input
@@ -393,16 +388,12 @@ describe('Input.vue', () => {
             @input="handleInput"
           />
         `,
-        data() {
+        setup() {
+          const input = ref('a')
           return {
-            input: 'a',
-            inputCalled: false,
+            input,
+            handleInput,
           }
-        },
-        methods: {
-          handleInput() {
-            this.inputCalled = true
-          },
         },
       })
       const vm = wrapper.vm as any
@@ -415,7 +406,7 @@ describe('Input.vue', () => {
       await inputWrapper.trigger('compositionupdate')
       await inputWrapper.trigger('input')
       await inputWrapper.trigger('compositionend')
-      expect(vm.inputCalled).toBe(true)
+      expect(handleInput).toBeCalled()
       // native input value is controlled
       expect(vm.input).toEqual('a')
       expect(nativeInput.value).toEqual('a')

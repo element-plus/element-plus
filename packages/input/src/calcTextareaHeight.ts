@@ -7,7 +7,7 @@ const HIDDEN_STYLE = `
   position:absolute !important;
   z-index:-1000 !important;
   top:0 !important;
-  right:0 !important
+  right:0 !important;
 `
 
 const CONTEXT_STYLE = [
@@ -110,7 +110,7 @@ export default function calcTextareaHeight(
     height = Math.min(maxHeight, height)
   }
   result.height = `${ height }px`
-  hiddenTextarea.parentNode && hiddenTextarea.parentNode.removeChild(hiddenTextarea)
+  hiddenTextarea.parentNode?.removeChild(hiddenTextarea)
   hiddenTextarea = null
 
   return result
