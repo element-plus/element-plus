@@ -120,7 +120,6 @@ import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '../../input/input.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
-import { parseDate } from '../time-picker-com/time-picker-utils'
 import { eventKeys } from '@element-plus/utils/aria'
 import mitt from 'mitt'
 // todo element
@@ -128,7 +127,7 @@ const ELEMENT = {
   size: '',
 }
 interface PickerOptions {
-  isValidValue: Function
+  isValidValue: any
 }
 export default defineComponent({
   name: 'Picker',
@@ -201,6 +200,7 @@ export default defineComponent({
     const pickerVisible = ref(false)
     watch(pickerVisible, val => {
       if (!val) {
+        userInput.value = null
         ctx.emit('blur')
         blurInput()
       }
@@ -348,7 +348,7 @@ export default defineComponent({
 
     const DATE_PARSER = function(text, format) {
       if (format === 'timestamp') return new Date(Number(text))
-      return parseDate(text, format)
+      return dayjs(text, format).toDate()
     }
 
     const parseAsFormatAndType = (value, customFormat, type, rangeSeparator = '-') => {
