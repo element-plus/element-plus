@@ -141,7 +141,7 @@ const showNextMsg = async () => {
   }
 }
 
-const MessageBox = function(options: ElMessageBoxOptions, callback?): void | Promise<any> {
+const MessageBox = function(options: ElMessageBoxOptions | string, callback?): Promise<any> {
   if (isServer) return
   if (typeof options === 'string' || isVNode(options)) {
     options = {
@@ -222,8 +222,8 @@ MessageBox.prompt = (message, title, options) => {
 }
 
 MessageBox.close = () => {
-  instance.doClose()
-  instance.visible = false
+  instance.component.ctx.doClose()
+  instance.component.proxy.visible = false
   msgQueue = []
   currentMsg = null
 }

@@ -43,13 +43,13 @@
             </slot>
           </div>
           <div v-show="showInput" class="el-message-box__input">
-            <el-input
-              ref="input"
-              v-model="inputValue"
-              :type="inputType"
-              :placeholder="inputPlaceholder"
-              @keydown.enter="handleInputEnter"
-            />
+            <!--            <el-input-->
+            <!--              ref="input"-->
+            <!--              v-model="inputValue"-->
+            <!--              :type="inputType"-->
+            <!--              :placeholder="inputPlaceholder"-->
+            <!--              @keydown.enter="handleInputEnter"-->
+            <!--            />-->
             <div class="el-message-box__errormsg" :style="{ visibility: !!editorErrorMessage ? 'visible' : 'hidden' }">{{ editorErrorMessage }}</div>
           </div>
         </div>
@@ -100,7 +100,7 @@ import { t } from '@element-plus/locale'
 import Dialog  from '@element-plus/utils/aria-dialog'
 import usePopup from '@element-plus/utils/popup/usePopup'
 
-let messageBox
+let dialog
 
 const TypeMap: Indexable<string> = {
   success: 'success',
@@ -181,7 +181,6 @@ export default defineComponent({
       focusAfterClosed: null,
       isOnComposition: false,
       distinguishCancelAndClose: false,
-      t,
     })
     const icon = computed(() => state.iconClass || (state.type && TypeMap[state.type] ? `el-icon-${ TypeMap[state.type] }` : ''))
 
@@ -196,7 +195,7 @@ export default defineComponent({
           nextTick().then(() => { vm.refs.confirm.$el.focus() })
         }
         state.focusAfterClosed = document.activeElement
-        messageBox = new Dialog(vm.vnode.el, state.focusAfterClosed, getFirstFocus())
+        dialog = new Dialog(vm.vnode.el, state.focusAfterClosed, getFirstFocus())
       }
       //
       if (state.type$ !== 'prompt') return
@@ -242,8 +241,8 @@ export default defineComponent({
       popup.state.visible = false
       popup.updateClosingFlag(true)
 
-      // this.onClose && this.onClose()
-      messageBox.closeDialog() // 解绑
+      vm.ctx.onClose && vm.ctx.onClose()
+      dialog.closeDialog() // 解绑
       if (props.lockScroll) {
         setTimeout(popup.restoreBodyStyle, 200)
       }
@@ -332,6 +331,8 @@ export default defineComponent({
       handleInputEnter,
       handleAction,
       handleClose,
+      t,
+      doClose,
     }
   },
 })
