@@ -13,7 +13,7 @@
       'el-table--enable-row-transition': (store.states.data.value || []).length !== 0 && (store.states.data.value || []).length < 100
     }, tableSize ? `el-table--${ tableSize }` : '']"
     class="el-table"
-    @mouseleave="handleMouseLeave($event)"
+    @mouseleave="handleMouseLeave()"
   >
     <div ref="hiddenColumns" class="hidden-columns">
       <slot></slot>
@@ -65,7 +65,7 @@
         <slot name="append"></slot>
       </div>
     </div>
-    <!-- <div
+    <div
       v-if="showSummary"
       v-show="data && data.length > 0"
       ref="footerWrapper"
@@ -73,16 +73,16 @@
       class="el-table__footer-wrapper"
     >
       <table-footer
-        :store="store"
         :border="border"
+        :default-sort="defaultSort"
+        :store="store"
+        :style="{
+          width: layout.bodyWidth.value ? layout.bodyWidth.value + 'px' : ''
+        }"
         :sum-text="sumText || t('el.table.sumText')"
         :summary-method="summaryMethod"
-        :default-sort="defaultSort"
-        :style="{
-          width: layout.bodyWidth ? layout.bodyWidth + 'px' : ''
-        }"
       />
-    </div>-->
+    </div>
     <div
       v-if="store.states.fixedColumns.value.length > 0"
       ref="fixedWrapper"
@@ -127,13 +127,20 @@
       </div>
       <div
         v-if="showSummary"
-        v-show="data && data.value.length > 0"
+        v-show="data && data.length > 0"
         ref="fixedFooterWrapper"
         class="el-table__fixed-footer-wrapper"
       >
-        <!-- <table-footer :border="border" :store="store" :style="{
+        <table-footer
+          :border="border"
+          :store="store"
+          :style="{
             width: bodyWidth
-        }" :sum-text="sumText || t('el.table.sumText')" :summary-method="summaryMethod" fixed="left" />-->
+          }"
+          :sum-text="sumText || t('el.table.sumText')"
+          :summary-method="summaryMethod"
+          fixed="left"
+        />
       </div>
     </div>
     <div
@@ -181,13 +188,20 @@
       </div>
       <div
         v-if="showSummary"
-        v-show="data && data.value.length > 0"
+        v-show="data && data.length > 0"
         ref="rightFixedFooterWrapper"
         class="el-table__fixed-footer-wrapper"
       >
-        <!-- <table-footer :border="border" :store="store" :style="{
+        <table-footer
+          :border="border"
+          :store="store"
+          :style="{
             width: bodyWidth
-        }" :sum-text="sumText || t('el.table.sumText')" :summary-method="summaryMethod" fixed="right" />-->
+          }"
+          :sum-text="sumText || t('el.table.sumText')"
+          :summary-method="summaryMethod"
+          fixed="right"
+        />
       </div>
     </div>
     <div
@@ -207,10 +221,12 @@
 import { defineComponent, getCurrentInstance, onMounted, onUnmounted, computed, ref, watchEffect, watch } from 'vue'
 import { createStore } from '@element-plus/table/src/store/helper'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import TableLayout from '@element-plus/table/src/table-layout'
+import { t } from '@element-plus/locale'
 import mousewheel from '@element-plus/directives/mousewheel/index'
+import TableLayout from '@element-plus/table/src/table-layout'
 import TableHeader from './table-header'
 import TableBody from './table-body'
+import TableFooter from './table-footer'
 import { debounce, throttle } from 'throttle-debounce'
 import { parseHeight } from './util'
 
@@ -265,6 +281,7 @@ export default defineComponent({
   components: {
     TableHeader,
     TableBody,
+    TableFooter,
   },
   props: {
     data: {
@@ -620,6 +637,8 @@ export default defineComponent({
       setCurrentRow,
       toggleRowSelection,
       clearSelection,
+      clearFilter,
+      t,
     }
   },
 })

@@ -1,9 +1,14 @@
+interface Sort {
+  prop: string
+  order: string
+}
+
 interface TreeNode {
-  expanded: boolean
-  loading: boolean
-  noLazyChildren: boolean
-  indent: number
-  level: number
+  expanded?: boolean
+  loading?: boolean
+  noLazyChildren?: boolean
+  indent?: number
+  level?: number
 }
 
 interface RenderRowData {
@@ -15,7 +20,17 @@ interface RenderRowData {
   treeNode?: TreeNode
 }
 
+interface TableFooter {
+  fixed: string
+  store: unknown
+  summaryMethod: () => void
+  sumText: string
+  border: boolean
+  defaultSort: Sort
+}
+
 export {
   TreeNode,
   RenderRowData,
+  TableFooter,
 }

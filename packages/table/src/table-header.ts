@@ -1,4 +1,13 @@
-import { defineComponent, getCurrentInstance, computed, onMounted, nextTick, onBeforeUnmount, ref, h } from 'vue'
+import {
+  defineComponent,
+  getCurrentInstance,
+  computed,
+  onMounted,
+  nextTick,
+  onBeforeUnmount,
+  ref,
+  h,
+} from 'vue'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
 import FilterPanel from './filter-panel.vue'
@@ -77,7 +86,10 @@ export default defineComponent({
     ElCheckbox,
   },
   props: {
-    fixed: String,
+    fixed: {
+      type: String,
+      default: '',
+    },
     store: {
       required: true,
       type: Object,
@@ -97,8 +109,12 @@ export default defineComponent({
     const instance = getCurrentInstance()
     const parent = instance.parent as any
     const storeData = parent.store.states
-    const filterPanels = {}
-    const { tableLayout, onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
+    const filterPanels = ref({})
+    const {
+      tableLayout,
+      onColumnsChange,
+      onScrollableChange,
+    } = useLayoutObserver(parent)
     const hasGutter = computed(() => {
       return !props.fixed && tableLayout.gutterWidth
     })
@@ -110,12 +126,12 @@ export default defineComponent({
       })
     })
     onBeforeUnmount(() => {
-      const panels = filterPanels
-      for (const prop in panels) {
-        if (panels.hasOwnProperty(prop) && panels[prop]) {
-          panels[prop].$destroy(true)
-        }
-      }
+      // const panels = filterPanels
+      // for (const prop in panels) {
+      //   if (panels.hasOwnProperty(prop) && panels[prop]) {
+      //     panels[prop].$destroy(true)
+      //   }
+      // }
     })
 
     const isCellHidden = (index, columns) => {
@@ -127,9 +143,18 @@ export default defineComponent({
       if (props.fixed === 'left') {
         return after >= storeData.fixedLeafColumnsLength.value
       } else if (props.fixed === 'right') {
-        return start < storeData.columns.value.length.value - storeData.rightFixedLeafColumnsLength.value.value
+        return (
+          start <
+          storeData.columns.value.length.value -
+          storeData.rightFixedLeafColumnsLength.value.value
+        )
       } else {
-        return after < storeData.fixedLeafColumnsLength.value || start >= storeData.columns.value.length.value - storeData.rightFixedLeafColumnsLength.value.value
+        return (
+          after < storeData.fixedLeafColumnsLength.value ||
+          start >=
+          storeData.columns.value.length.value -
+          storeData.rightFixedLeafColumnsLength.value.value
+        )
       }
     }
 
@@ -167,7 +192,13 @@ export default defineComponent({
     }
 
     const getHeaderCellClass = (rowIndex, columnIndex, row, column) => {
-      const classes = [column.id, column.order, column.headerAlign, column.className, column.labelClassName]
+      const classes = [
+        column.id,
+        column.order,
+        column.headerAlign,
+        column.className,
+        column.labelClassName,
+      ]
       if (rowIndex === 0 && isCellHidden(columnIndex, row)) {
         classes.push('is-hidden')
       }
@@ -205,36 +236,6 @@ export default defineComponent({
     const handleFilterClick = (event, column) => {
       event.stopPropagation()
       return
-      // const target = event.target
-      // let cell = target.tagName === 'TH' ? target : target.parentNode
-      // if (hasClass(cell, 'noclick')) return
-      // cell = cell.querySelector('.el-table__column-filter-trigger') || cell
-
-      // const filterPanel = filterPanels[column.id]
-
-      // if (filterPanel && column.filterOpened) {
-      //   filterPanel.ctx.tooltipVisible = false
-      //   return
-      // }
-
-      // if (!filterPanel) {
-      //   // todo
-      //   const filterPanel = createApp(FilterPanel)
-      //   filterPanels[column.id] = filterPanel
-      //   if (column.filterPlacement) {
-      //     // filterPanel.ctx.placement = column.filterPlacement
-      //   }
-      //   // filterPanel.props.store = parent.store
-      //   // filterPanel.cell = cell
-      //   // filterPanel.column = column
-      //   const div = document.createElement('div')
-      //   document.body.appendChild(div)
-      //   !isServer && filterPanel.mount(div)
-      // }
-
-      // setTimeout(() => {
-      //   filterPanel.ctx.tooltipVisible = true
-      // }, 16)
     }
 
     const handleHeaderClick = (event, column) => {
@@ -289,7 +290,8 @@ export default defineComponent({
         }
 
         const handleMouseMove = event => {
-          const deltaLeft = event.clientX - (dragState.value as any).startMouseLeft
+          const deltaLeft =
+            event.clientX - (dragState.value as any).startMouseLeft
           const proxyLeft = (dragState.value as any).startLeft + deltaLeft
 
           resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px'
@@ -301,7 +303,13 @@ export default defineComponent({
             const finalLeft = parseInt(resizeProxy.style.left, 10)
             const columnWidth = finalLeft - startColumnLeft
             column.width = column.realWidth = columnWidth
-            table.emit('header-dragend', column.width, startLeft - startColumnLeft, column, event)
+            table.emit(
+              'header-dragend',
+              column.width,
+              startLeft - startColumnLeft,
+              column,
+              event,
+            )
 
             props.store.scheduleLayout()
 
@@ -370,7 +378,8 @@ export default defineComponent({
 
     const handleSortClick = (event, column, givenOrder) => {
       event.stopPropagation()
-      const order = column.order === givenOrder ? null : givenOrder || toggleOrder(column)
+      const order =
+        column.order === givenOrder ? null : givenOrder || toggleOrder(column)
 
       let target = event.target
       while (target && target.tagName !== 'TH') {
@@ -391,7 +400,10 @@ export default defineComponent({
       let sortOrder
       const sortingColumn = states.sortingColumn.value
 
-      if (sortingColumn !== column || (sortingColumn === column && sortingColumn.order === null)) {
+      if (
+        sortingColumn !== column ||
+        (sortingColumn === column && sortingColumn.order === null)
+      ) {
         if (sortingColumn) {
           sortingColumn.order = null
         }
@@ -419,6 +431,7 @@ export default defineComponent({
     })
     return {
       columns: storeData.columns,
+      filterPanels,
       hasGutter,
       onColumnsChange,
       onScrollableChange,
@@ -477,11 +490,21 @@ export default defineComponent({
                 h(
                   'th',
                   {
-                    class: this.getHeaderCellClass(rowIndex, cellIndex, subColumns, column),
+                    class: this.getHeaderCellClass(
+                      rowIndex,
+                      cellIndex,
+                      subColumns,
+                      column,
+                    ),
                     colspan: column.colSpan,
                     key: `${column.id}-thead`,
                     rowSpan: column.rowSpan,
-                    style: this.getHeaderCellStyle(rowIndex, cellIndex, subColumns, column),
+                    style: this.getHeaderCellStyle(
+                      rowIndex,
+                      cellIndex,
+                      subColumns,
+                      column,
+                    ),
                     onClick: $event => this.handleHeaderClick($event, column),
                     onContextmenu: $event => this.handleHeaderContextMenu($event, column),
                     onMousedown: $event => this.handleMouseDown($event, column),
@@ -492,49 +515,59 @@ export default defineComponent({
                     h(
                       'div',
                       {
-                        class: ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName],
+                        class: [
+                          'cell',
+                          column.filteredValue &&
+                            column.filteredValue.length > 0
+                            ? 'highlight'
+                            : '',
+                          column.labelClassName,
+                        ],
                       },
                       [
-                        column.renderHeader ? column.renderHeader({ column, $index: cellIndex, store: this.store, _self: this.$parent }) : column.label,
+                        column.renderHeader
+                          ? column.renderHeader({
+                            column,
+                            $index: cellIndex,
+                            store: this.store,
+                            _self: this.$parent,
+                          })
+                          : column.label,
                         column.sortable &&
                         h(
                           'span',
                           {
-                            onClick: $event => this.handleSortClick($event, column),
+                            onClick: $event =>
+                              this.handleSortClick($event, column),
                             class: 'caret-wrapper',
                           },
                           [
                             h('i', {
-                              onClick: $event => this.handleSortClick($event, column, 'ascending'),
+                              onClick: $event =>
+                                this.handleSortClick(
+                                  $event,
+                                  column,
+                                  'ascending',
+                                ),
                               class: 'sort-caret ascending',
                             }),
                             h('i', {
-                              onClick: $event => this.handleSortClick($event, column, 'descending'),
+                              onClick: $event =>
+                                this.handleSortClick(
+                                  $event,
+                                  column,
+                                  'descending',
+                                ),
                               class: 'sort-caret descending',
                             }),
                           ],
                         ),
                         column.filterable &&
-                        // h(
-                        //   'span',
-                        //   {
-                        //     onClick: $event => this.handleFilterClick($event, column),
-                        //     class: 'el-table__column-filter-trigger',
-                        //   },
-                        //   [
-                        //     h('i', {
-                        //       class: ['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : ''],
-                        //     }),
-                        //   ],
-                        // ),
-                        h(
-                          FilterPanel,
-                          {
-                            store: this.$parent.store,
-                            placement: column.filterPlacement,
-                            column: column,
-                          },
-                        ),
+                        h(FilterPanel, {
+                          store: this.$parent.store,
+                          placement: column.filterPlacement || 'bottom-start',
+                          column: column,
+                        }),
                       ],
                     ),
                   ],

@@ -1,4 +1,4 @@
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, unref } from 'vue'
 import merge from '@element-plus/utils/merge'
 import {
   getKeysMap,
@@ -43,6 +43,7 @@ function useWatcher() {
   const instance = getCurrentInstance() as any
   const rowKey = ref(null)
   const data = ref([])
+  const _data = ref([])
   const isComplex = ref(false)
   const _columns = ref([])
   const originColumns = ref([])
@@ -161,7 +162,7 @@ function useWatcher() {
   }
 
   const toggleRowSelection = (row, selected, emitChange = true) => {
-    const changed = toggleRowStatus(selection, row, selected)
+    const changed = toggleRowStatus(selection.value, row, selected)
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
@@ -211,7 +212,7 @@ function useWatcher() {
       const rowId = getRowIdentity(row, rowKey.value)
       const rowInfo = selectedMap[rowId]
       if (rowInfo) {
-        selection[rowInfo.index] = row
+        selection.value[rowInfo.index] = row
       }
     })
   }
@@ -225,7 +226,7 @@ function useWatcher() {
 
     let selectedMap
     if (rowKey.value) {
-      selectedMap = getKeysMap(selection, rowKey.value)
+      selectedMap = getKeysMap(selection.value, rowKey.value)
     }
     const isSelected = function (row) {
       if (selectedMap) {
@@ -237,7 +238,7 @@ function useWatcher() {
     let isAllSelected_ = true
     let selectedCount = 0
     for (let i = 0, j = data.value.length; i < j; i++) {
-      const item = data[i]
+      const item = data.value[i]
       const isRowSelectable =
         selectable.value && selectable.value.call(null, item, i)
       if (!isSelected(item)) {
@@ -259,13 +260,12 @@ function useWatcher() {
     if (!Array.isArray(columns)) {
       columns = [columns]
     }
-    const filters = {}
+    const filters_ = {}
     columns.forEach(col => {
-      filters[col.id] = values
-      filters[col.columnKey || col.id] = values
+      filters.value[col.id] = values
+      filters_[col.columnKey || col.id] = values
     })
-
-    return filters
+    return filters_
   }
 
   const updateSort = (column, prop, order) => {
@@ -278,6 +278,7 @@ function useWatcher() {
   }
 
   const execFilter = () => {
+    let sourceData = unref(_data)
     Object.keys(filters.value).forEach(columnId => {
       const values = filters.value[columnId]
       if (!values || values.length === 0) return
@@ -288,7 +289,7 @@ function useWatcher() {
         columnId,
       )
       if (column && column.filterMethod) {
-        data.value = data.value.filter(row => {
+        sourceData = sourceData.filter(row => {
           return values.some(value =>
             column.filterMethod.call(null, value, row, column),
           )
@@ -296,7 +297,7 @@ function useWatcher() {
       }
     })
 
-    filteredData.value = data.value
+    filteredData.value = sourceData
   }
 
   const execSort = () => {
@@ -321,12 +322,10 @@ function useWatcher() {
       fixedTableHeader,
       rightFixedTableHeader,
     } = instance.refs
-
     let panels = {}
     if (tableHeader) panels = merge(panels, tableHeader.filterPanels)
     if (fixedTableHeader) panels = merge(panels, fixedTableHeader.filterPanels)
-    if (rightFixedTableHeader)
-      panels = merge(panels, rightFixedTableHeader.filterPanels)
+    if (rightFixedTableHeader) panels = merge(panels, rightFixedTableHeader.filterPanels)
 
     const keys = Object.keys(panels)
     if (!keys.length) return
@@ -336,7 +335,7 @@ function useWatcher() {
     }
 
     if (Array.isArray(columnKeys)) {
-      const columns = columnKeys.map(key =>
+      const columns_ = columnKeys.map(key =>
         getColumnByKey(
           {
             columns: columns.value,
@@ -345,22 +344,23 @@ function useWatcher() {
         ),
       )
       keys.forEach(key => {
-        const column = columns.find(col => col.id === key)
+        const column = columns_.find(col => col.id === key)
         if (column) {
-          // TODO: 优化这里的代码
-          panels[key].filteredValue = []
+          column.filteredValue = []
         }
       })
       instance.store.commit('filterChange', {
-        column: columns,
+        column: columns_,
         values: [],
         silent: true,
         multi: true,
       })
     } else {
       keys.forEach(key => {
-        // TODO: 优化这里的代码
-        panels[key].filteredValue = []
+        const column = columns.value.find(col => col.id === key)
+        if (column) {
+          column.filteredValue = []
+        }
       })
 
       filters.value = {}
@@ -402,6 +402,7 @@ function useWatcher() {
   const {
     updateCurrentRowData,
     updateCurrentRow,
+    setCurrentRowKey,
     states: currentData,
   } = useCurrent({
     data,
@@ -443,7 +444,9 @@ function useWatcher() {
     execQuery,
     clearFilter,
     clearSort,
+    toggleRowExpansion,
     setExpandRowKeysAdapter,
+    setCurrentRowKey,
     toggleRowExpansionAdapter,
     isRowExpanded,
     updateExpandRows,
@@ -452,6 +455,7 @@ function useWatcher() {
     states: {
       rowKey,
       data,
+      _data,
       isComplex,
       _columns,
       originColumns,

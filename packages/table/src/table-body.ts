@@ -25,7 +25,10 @@ export default defineComponent({
     },
     rowClassName: [String, Function],
     rowStyle: [Object, Function],
-    fixed: String,
+    fixed: {
+      type: String,
+      default: '',
+    },
     highlight: Boolean,
   },
   setup(props) {
@@ -305,9 +308,6 @@ export default defineComponent({
             data.treeNode = {
               indent: treeRowData.level * indent.value,
               level: treeRowData.level,
-              expanded: false,
-              loading: false,
-              noLazyChildren: false,
             }
             if (typeof treeRowData.expanded === 'boolean') {
               data.treeNode.expanded = treeRowData.expanded
@@ -357,19 +357,18 @@ export default defineComponent({
               {
                 key: 'expanded-row__' + tr.key,
               },
-              {
-                default: () =>
-                  h(
-                    'td',
-                    {
-                      colspan: store.states.columns.value.length.value,
-                      class: 'el-table__expanded-cell',
-                    },
-                    {
-                      default: () => renderExpanded({ row, $index, store }),
-                    },
-                  ),
-              },
+              [
+                h(
+                  'td',
+                  {
+                    colspan: store.states.columns.value.length,
+                    class: 'el-table__expanded-cell',
+                  },
+                  [
+                    renderExpanded({ row, $index, store }),
+                  ],
+                ),
+              ],
             ),
           ],
         ]

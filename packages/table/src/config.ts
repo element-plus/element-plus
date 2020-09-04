@@ -72,9 +72,9 @@ export const cellForced = {
       return h(
         'div',
         {},
-        {
-          default: () => i,
-        },
+        [
+          i,
+        ],
       )
     },
     sortable: false,
@@ -98,14 +98,14 @@ export const cellForced = {
           class: classes,
           onClick: callback,
         },
-        {
-          default: () => h(
+        [
+          h(
             'i',
             {
               class: 'el-icon el-icon-arrow-right',
             },
           ),
-        },
+        ],
       )
     },
     sortable: false,
@@ -152,14 +152,14 @@ export function treeCellPrefix({ row, treeNode, store }) {
         class: expandClasses,
         onClick: callback,
       },
-      {
-        default: () => h(
+      [
+        h(
           'i',
           {
             class: iconClasses,
           },
         ),
-      },
+      ],
     ))
   } else {
     ele.push(h(

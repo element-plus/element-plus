@@ -8,7 +8,7 @@ function useStore() {
     setData(states, data) {
       const dataInstanceChanged = unref(states.data) !== data
       states.data.value = data
-
+      states._data.value = data
       instance.store.execQuery()
       // 数据变化，更新部分数据。
       // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
@@ -30,6 +30,7 @@ function useStore() {
     },
 
     insertColumn(states, column, index, parent) {
+      debugger
       let array = unref(states._columns)
       if (parent) {
         array = parent.children
@@ -106,13 +107,11 @@ function useStore() {
     filterChange(states, options) {
       const { column, values, silent } = options
       const newFilters = instance.store.updateFilters(column, values)
-
       instance.store.execQuery()
 
       if (!silent) {
         instance.emit('filter-change', newFilters)
       }
-
       instance.store.updateTableScrollY()
     },
 

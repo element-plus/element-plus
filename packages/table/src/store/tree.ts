@@ -12,7 +12,7 @@ function useTree(watcherData: any) {
   const instance = getCurrentInstance() as any
   const normalizedData = computed(() => {
     if (!watcherData.rowKey.value) return {}
-    const data = watcherData.states.data.value || []
+    const data = watcherData.data.value || []
     return normalize(data)
   })
   const normalizedLazyNode = computed(() => {
@@ -161,7 +161,7 @@ function useTree(watcherData: any) {
   }
 
   const loadData = (row, key, treeNode) => {
-    const { load } = instance.table
+    const { load } = instance.ctx
     if (load && !treeData.value[key].loaded) {
       treeData.value[key].loading = true
       load(row, treeNode, data => {
@@ -172,7 +172,7 @@ function useTree(watcherData: any) {
         treeData.value[key].loaded = true
         treeData.value[key].expanded = true
         if (data.length) {
-          instance.$set(lazyTreeNodeMap.value, key, data)
+          lazyTreeNodeMap.value[key] = data
         }
         instance.emit('expand-change', row, true)
       })

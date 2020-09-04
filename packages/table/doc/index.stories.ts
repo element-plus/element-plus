@@ -11,6 +11,13 @@ export { default as SingleSelect } from './singleSelect.vue'
 export { default as MulCheck } from './mulCheck.vue'
 export { default as Sort } from './sort.vue'
 export { default as Filter } from './filter.vue'
+export { default as DiyTemplate } from './diyTemplate.vue'
+export { default as ExpandRow } from './expandRow.vue'
+export { default as TreeTable } from './treeTable.vue'
+export { default as DiyHeader } from './diyHeader.vue'
+export { default as FooterCount } from './footerCount.vue'
+export { default as MergeRowCol } from './mergeRowCol.vue'
+export { default as DiyIndex } from './diyIndex.vue'
 
 export default {
   title: 'Table',

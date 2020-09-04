@@ -1,6 +1,7 @@
-export default function (target: any, ...arg: any[]) {
-  for (let i = 1, j = arg.length; i < j; i++) {
-    const source = arg[i] || {}
+export default function (target: any) {
+  for (let i = 1, j = arguments.length; i < j; i++) {
+    // eslint-disable-next-line prefer-rest-params
+    const source = arguments[i] || {}
     for (const prop in source) {
       if (source.hasOwnProperty(prop)) {
         const value = source[prop]

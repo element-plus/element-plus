@@ -197,15 +197,15 @@ export function compose(...funcs) {
 
 export function toggleRowStatus(statusArr, row, newVal) {
   let changed = false
-  const index = statusArr.value.indexOf(row)
+  const index = statusArr.indexOf(row)
   const included = index !== -1
 
   const addRow = () => {
-    statusArr.value.push(row)
+    statusArr.push(row)
     changed = true
   }
   const removeRow = () => {
-    statusArr.value.splice(index, 1)
+    statusArr.splice(index, 1)
     changed = true
   }
 

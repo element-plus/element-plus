@@ -175,11 +175,11 @@ export default defineComponent({
             {
               class: 'cell',
             },
-            {
-              default: () => originRenderCell(h, data),
-            },
+            [
+              originRenderCell(data),
+            ],
           )
-        owner.value.renderExpanded = (h, data) => {
+        owner.value.renderExpanded = data => {
           return slots.default ? slots.default(data) : slots.default
         }
       } else {
@@ -335,7 +335,23 @@ export default defineComponent({
     onMounted(() => {
       const parent = columnOrTableParent.value
       const children = isSubColumn.value ? parent.vnode.el.children : parent.refs.hiddenColumns.children
-      const columnIndex = getColumnElIndex(children, instance.vnode.el)
+      let columnIndex = getColumnElIndex(children, instance.vnode.el)
+      if (columnIndex < 0 && isSubColumn.value) {
+        const children = parent.slots.default?.() || []
+        for (let i = 0; i < children.length; i++) {
+          const child = children[i]
+          let ifMatch = true
+          for (const key in child.props) {
+            if (!instance.props.hasOwnProperty(key) || child.props[key] !== instance.props[key]) {
+              ifMatch = false
+              break
+            }
+          }
+          if (ifMatch) {
+            columnIndex = i
+          }
+        }
+      }
       owner.value.store.commit('insertColumn', instance.columnConfig, columnIndex, isSubColumn.value ? parent.columnConfig : null)
     })
     onUnmounted(() => {

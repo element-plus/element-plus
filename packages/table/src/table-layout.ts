@@ -105,7 +105,7 @@ class TableLayout {
     const noneHeader = this.headerDisplayNone(headerTrElm)
 
     const headerHeight = this.headerHeight.value = !this.showHeader ? 0 : headerWrapper.offsetHeight
-    if (this.showHeader && !noneHeader && headerWrapper.offsetWidth > 0 && (this.table.columns || []).length > 0 && headerHeight < 2) {
+    if (this.showHeader && !noneHeader && headerWrapper.offsetWidth > 0 && (this.table.store.states.columns.value || []).length > 0 && headerHeight < 2) {
       return nextTick(() => this.updateElsHeight())
     }
     const tableHeight = this.tableHeight.value = this.table.vnode.el.clientHeight
@@ -219,6 +219,7 @@ class TableLayout {
     }
 
     this.notifyObservers('columns')
+    this.updateElsHeight()
   }
 
   addObserver(observer) {

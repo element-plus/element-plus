@@ -5,6 +5,7 @@
   <el-table ref="filterTable" :data="tableData" style="width: 100%">
     <el-table-column
       :filter-method="filterHandler"
+      :filter-multiple="false"
       :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
       column-key="date"
       label="日期"
@@ -17,7 +18,7 @@
     <el-table-column
       :filter-method="filterTag"
       :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
-      filter-placement="bottom-end"
+      filter-placement="bottom-start"
       label="标签"
       prop="tag"
       width="100"

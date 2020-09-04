@@ -12,7 +12,7 @@ function useExpand(watcherData) {
       expandRows.value = data.slice()
     } else if (rowKey) {
       // TODO：这里的代码可以优化
-      const expandRowsMap = getKeysMap(expandRows, rowKey)
+      const expandRowsMap = getKeysMap(expandRows.value, rowKey)
       expandRows.value = data.reduce((prev, row) => {
         const rowId = getRowIdentity(row, rowKey)
         const rowInfo = expandRowsMap[rowId]
@@ -30,7 +30,7 @@ function useExpand(watcherData) {
     const changed = toggleRowStatus(expandRows.value, row, expanded)
     if (changed) {
       instance.emit('expand-change', row, expandRows.value.slice())
-      instance.scheduleLayout()
+      instance.store.scheduleLayout()
     }
   }
 
@@ -52,7 +52,7 @@ function useExpand(watcherData) {
   const isRowExpanded = row => {
     const rowKey = watcherData.rowKey.value
     if (rowKey) {
-      const expandMap = getKeysMap(expandRows, rowKey)
+      const expandMap = getKeysMap(expandRows.value, rowKey)
       return !!expandMap[getRowIdentity(row, rowKey)]
     }
     return expandRows.value.indexOf(row) !== -1
