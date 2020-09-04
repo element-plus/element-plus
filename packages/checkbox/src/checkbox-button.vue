@@ -89,10 +89,10 @@ export default defineComponent({
 
     const activeStyle = computed(() => {
       return {
-        backgroundColor: checkboxGroup.fill?.value || '',
-        borderColor: checkboxGroup.fill?.value || '',
-        color: checkboxGroup.textColor?.value || '',
-        boxShadow: '-1px 0 0 0 ' + checkboxGroup.fill?.value,
+        backgroundColor: checkboxGroup?.fill?.value ?? '',
+        borderColor: checkboxGroup?.fill?.value ?? '',
+        color: checkboxGroup?.textColor?.value ?? '',
+        boxShadow: '-1px 0 0 0 ' + checkboxGroup?.fill?.value ?? '',
       }
     })
 
