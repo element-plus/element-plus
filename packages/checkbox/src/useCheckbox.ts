@@ -13,9 +13,9 @@ import { ICheckboxGroupInstance, ICheckboxProps } from './checkbox'
 export const useCheckboxGroup = () => {
   //todo: ELEMENT
   const ELEMENT = null
-  const elForm = inject<any>('elForm')
-  const elFormItem = inject<any>('elFormItem')
-  const checkboxGroup = inject<ICheckboxGroupInstance>('CheckboxGroup')
+  const elForm = inject<any>('elForm', {})
+  const elFormItem = inject<any>('elFormItem', {})
+  const checkboxGroup = inject<ICheckboxGroupInstance>('CheckboxGroup', {})
   const isGroup = computed(() => checkboxGroup && checkboxGroup?.name === 'ElCheckboxGroup')
   const elFormItemSize = computed(() => {
     return elFormItem?.elFormItemSize
@@ -71,7 +71,7 @@ const useModel = (props: ICheckboxProps) => {
 const useCheckboxStatus = (props: ICheckboxProps, { model }: PartialReturnType<typeof useModel>) => {
   const { isGroup, checkboxGroup, elFormItemSize, ELEMENT } = useCheckboxGroup()
   const focus = ref(false)
-  const size = computed<string|undefined>(() => checkboxGroup?.checkboxGroupSize?.value || elFormItemSize.value || ELEMENT?.size)
+  const size = computed<string | undefined>(() => checkboxGroup?.checkboxGroupSize?.value || elFormItemSize.value || ELEMENT?.size)
   const isChecked = computed(() => {
     const value = model.value
     if (toTypeString(value) === '[object Boolean]') {
@@ -110,7 +110,7 @@ const useDisabled = (
   })
   const isDisabled = computed(() => {
     return isGroup.value
-      ? checkboxGroup?.disabled?.value || props.disabled ||  elForm?.disabled?.value || isLimitDisabled.value
+      ? checkboxGroup?.disabled?.value || props.disabled || elForm?.disabled?.value || isLimitDisabled.value
       : props.disabled || elForm?.disabled?.value
   })
 
