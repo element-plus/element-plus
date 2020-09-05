@@ -1,9 +1,11 @@
 <template>
-  <p style="text-align: center; margin: 0 0 20px">Customize data items using render-content</p>
-  <div style="text-align: center">
+  <p style="text-align: center; margin: 0 0 20px;">
+    Customize data items using render-content
+  </p>
+  <div style="text-align: center;">
     <el-transfer
       v-model="value"
-      style="text-align: left; display: inline-block"
+      style="text-align: left; display: inline-block;"
       filterable
       :left-default-checked="['2', '3']"
       :right-default-checked="['1']"
@@ -12,7 +14,7 @@
       :button-texts="['To left', 'To right']"
       :format="{
         noChecked: '${total}',
-        hasChecked: '${checked}/${total}'
+        hasChecked: '${checked}/${total}',
       }"
       :data="data"
       @change="handleChange"
@@ -24,11 +26,13 @@
         <el-button class="transfer-footer" size="small">Operation</el-button>
       </template>
     </el-transfer>
-    <p style="text-align: center; margin: 50px 0 20px">Customize data items using scoped slot</p>
-    <div style="text-align: center">
+    <p style="text-align: center; margin: 50px 0 20px;">
+      Customize data items using scoped slot
+    </p>
+    <div style="text-align: center;">
       <el-transfer
         v-model="value4"
-        style="text-align: left; display: inline-block"
+        style="text-align: left; display: inline-block;"
         filterable
         :left-default-checked="['2', '3']"
         :right-default-checked="['1']"
@@ -36,7 +40,7 @@
         :button-texts="['To left', 'To right']"
         :format="{
           noChecked: '${total}',
-          hasChecked: '${checked}/${total}'
+          hasChecked: '${checked}/${total}',
         }"
         :data="data"
         @change="handleChange"
@@ -63,7 +67,7 @@ export default {
       for (let i = 1; i <= 15; i++) {
         data.push({
           key: i + '',
-          label: `Option ${ i }`,
+          label: `Option ${i}`,
           disabled: i % 4 === 0,
         })
       }
@@ -74,7 +78,7 @@ export default {
       value: ['1'],
       value4: ['1'],
       renderFunc(h, option) {
-        return h('span', `${ option.key } - ${ option.label }`)
+        return h('span', `${option.key} - ${option.label}`)
       },
     }
   },

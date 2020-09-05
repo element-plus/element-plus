@@ -3,7 +3,7 @@
     <transfer-panel
       ref="leftPanel"
       :data="sourceData"
-      :render-content="renderContent"
+      :option-render="optionRender"
       :placeholder="panelFilterPlaceholder"
       :title="leftPanelTitle"
       :filterable="filterable"
@@ -13,9 +13,7 @@
       :props="props"
       @checked-change="onSourceCheckedChange"
     >
-      <template #default>
-        <slot name="left-footer"></slot>
-      </template>
+      <slot name="left-footer"></slot>
     </transfer-panel>
     <div class="el-transfer__buttons">
       <el-button
@@ -40,7 +38,7 @@
     <transfer-panel
       ref="rightPanel"
       :data="targetData"
-      :render-content="renderContent"
+      :option-render="optionRender"
       :placeholder="panelFilterPlaceholder"
       :filterable="filterable"
       :format="format"
@@ -50,15 +48,13 @@
       :props="props"
       @checked-change="onTargetCheckedChange"
     >
-      <template #default>
-        <slot name="right-footer"></slot>
-      </template>
+      <slot name="right-footer"></slot>
     </transfer-panel>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, provide, reactive, ref, toRefs, VNode, watch } from 'vue'
+import { computed, defineComponent, h, reactive, ref, toRefs, watch, VNode, PropType  } from 'vue'
 import { t } from '@element-plus/locale'
 import ElButton from '@element-plus/button/src/button.vue'
 import TransferPanel from './transfer-panel.vue'
@@ -165,7 +161,7 @@ export default defineComponent({
   ],
 
   setup(props, { emit, slots }) {
-    const initData = reactive({
+    const checkedState = reactive({
       leftChecked: [],
       rightChecked: [],
     })
@@ -179,11 +175,12 @@ export default defineComponent({
     const {
       onSourceCheckedChange,
       onTargetCheckedChange,
-    } = useCheckedChange(initData, emit)
+    } = useCheckedChange(checkedState, emit)
 
-    const { addToLeft,
+    const {
+      addToLeft,
       addToRight,
-    } = useMove(props, initData, propsKey, emit)
+    } = useMove(props, checkedState, propsKey, emit)
 
     const leftPanel = ref(null)
     const rightPanel = ref(null)
@@ -206,12 +203,13 @@ export default defineComponent({
 
     watch(() => props.modelValue, (val: Key[]) => emit(UPDATE_MODEL_EVENT, val))
 
-    provide('defaultScopedSlots', computed(() => slots.default))
+    const optionRender = computed(() => option => {
+      if (props.renderContent) return props.renderContent(h, option)
 
-    const {
-      leftChecked,
-      rightChecked,
-    } = toRefs(initData)
+      if (slots.default) return slots.default({ option })
+
+      return h('span', option[props.props.label] || option[porps.props.key])
+    })
 
     return {
       sourceData,
@@ -221,14 +219,15 @@ export default defineComponent({
       addToLeft,
       addToRight,
 
-      leftChecked,
-      rightChecked,
+      ...toRefs(checkedState),
 
       hasButtonTexts,
       leftPanelTitle,
       rightPanelTitle,
       panelFilterPlaceholder,
       clearQuery,
+
+      optionRender,
     }
   },
 })
