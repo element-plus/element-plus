@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import Transfer from '../src/index.vue'
 
@@ -46,7 +47,7 @@ describe('Transfer', () => {
     expect(ElTransfer.vm.sourceData.length).toBe(13)
   })
 
-  it('filterable', done => {
+  it('filterable', async () => {
     const wrapper = mount({
       template: `
         <transfer
@@ -72,13 +73,11 @@ describe('Transfer', () => {
     })
     const leftList: any = wrapper.findComponent({ name: 'ElTransferPanel' })
     leftList.vm.query = '1'
-    setTimeout(() => {
-      expect(leftList.vm.filteredData.length).toBe(1)
-      done()
-    }, 50)
+    await leftList.find('input').setValue('1')
+    expect(leftList.vm.filteredData.length).toBe(1)
   })
 
-  it('transfer', done => {
+  it('transfer', async () => {
     const wrapper = mount({
       template: `
         <transfer
@@ -100,17 +99,12 @@ describe('Transfer', () => {
     })
     const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
 
-    setTimeout(() => {
-      ElTransfer.vm.addToLeft()
-      setTimeout(() => {
-        expect(ElTransfer.vm.sourceData.length).toBe(14)
-        ElTransfer.vm.addToRight()
-        setTimeout(() => {
-          expect(ElTransfer.vm.sourceData.length).toBe(12)
-          done()
-        }, 50)
-      }, 50)
-    }, 50)
+    ElTransfer.vm.addToLeft()
+    await nextTick()
+    expect(ElTransfer.vm.sourceData.length).toBe(14)
+    ElTransfer.vm.addToRight()
+    await nextTick()
+    expect(ElTransfer.vm.sourceData.length).toBe(12)
   })
 
   it('customize', () => {
@@ -173,7 +167,7 @@ describe('Transfer', () => {
   })
 
   describe('target order', () => {
-    it('original(default)', done => {
+    it('original(default)', async () => {
       const wrapper = mount({
         template: `
           <transfer
@@ -194,17 +188,13 @@ describe('Transfer', () => {
       })
 
       const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
-      setTimeout(() => {
-        ElTransfer.vm.addToRight()
-        setTimeout(() => {
-          const targetItems = [].slice.call(wrapper.findAll('.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span'))
-          expect(targetItems.map(item => item.text())).toStrictEqual(['备选项 1', '备选项 2', '备选项 3', '备选项 4'])
-          done()
-        }, 50)
-      }, 50)
+      ElTransfer.vm.addToRight()
+      await nextTick()
+      const targetItems = wrapper.findAll('.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span')
+      expect(targetItems.map(item => item.text())).toStrictEqual(['备选项 1', '备选项 2', '备选项 3', '备选项 4'])
     })
 
-    it('push', done => {
+    it('push', async () => {
       const wrapper = mount({
         template: `
           <transfer
@@ -226,17 +216,14 @@ describe('Transfer', () => {
       })
 
       const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
-      setTimeout(() => {
-        ElTransfer.vm.addToRight()
-        setTimeout(() => {
-          const targetItems = [].slice.call(wrapper.findAll('.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span'))
-          expect(targetItems.map(item => item.text())).toStrictEqual(['备选项 1', '备选项 4', '备选项 2', '备选项 3'])
-          done()
-        }, 50)
-      }, 50)
+      ElTransfer.vm.addToRight()
+      await nextTick()
+      const targetItems = wrapper.findAll('.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span')
+      expect(targetItems.map(item => item.text()))
+        .toStrictEqual(['备选项 1', '备选项 4', '备选项 2', '备选项 3'])
     })
 
-    it('unshift', done => {
+    it('unshift', async () => {
       const wrapper = mount({
         template: `
           <transfer
@@ -258,14 +245,10 @@ describe('Transfer', () => {
       })
 
       const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
-      setTimeout(() => {
-        ElTransfer.vm.addToRight()
-        setTimeout(() => {
-          const targetItems = [].slice.call(wrapper.findAll('.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span'))
-          expect(targetItems.map(item => item.text())).toStrictEqual(['备选项 2', '备选项 3', '备选项 1', '备选项 4'])
-          done()
-        }, 50)
-      }, 50)
+      ElTransfer.vm.addToRight()
+      await nextTick()
+      const targetItems = wrapper.findAll('.el-transfer__buttons + .el-transfer-panel .el-transfer-panel__body .el-checkbox__label span')
+      expect(targetItems.map(item => item.text())).toStrictEqual(['备选项 2', '备选项 3', '备选项 1', '备选项 4'])
     })
   })
 })
