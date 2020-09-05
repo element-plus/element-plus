@@ -35,14 +35,14 @@ export declare interface TransferProps {
   targetOrder: 'original' | 'push' | 'unshift'
 }
 
-export declare interface TransferInitData {
+export declare interface TransferCheckedState {
   leftChecked: Key[]
   rightChecked: Key[]
 }
 
 export declare interface TransferPanelProps {
   data: DataItem[]
-  renderContent: (h, option) => VNode
+  optionRender: ({ option: VNode }) => VNode
   placeholder: string
   title: string
   filterable: boolean
@@ -52,7 +52,7 @@ export declare interface TransferPanelProps {
   props: Props
 }
 
-export declare interface TransferPanelInitData {
+export declare interface TransferPanelState {
   checked: Key[]
   allChecked: boolean
   query: string

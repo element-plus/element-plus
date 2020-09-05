@@ -1,9 +1,9 @@
 import { ComputedRef } from 'vue'
 import { UPDATE_MODEL_EVENT } from '../../utils/constants'
 import { CHANGE_EVENT } from './index.vue'
-import { TransferProps, TransferInitData, DataItem, Key } from './transfer'
+import { TransferProps, TransferCheckedState, DataItem, Key } from './transfer'
 
-export const useMove = (props: TransferProps, initData: TransferInitData, propsKey: ComputedRef<string>, emit) => {
+export const useMove = (props: TransferProps, checkedState: TransferCheckedState, propsKey: ComputedRef<string>, emit) => {
   const _emit = (value, type: 'left' | 'right', checked: Key[]) => {
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value, type, checked)
@@ -12,13 +12,13 @@ export const useMove = (props: TransferProps, initData: TransferInitData, propsK
   const addToLeft = () => {
     const currentValue = props.modelValue.slice()
 
-    initData.rightChecked.forEach(item => {
+    checkedState.rightChecked.forEach(item => {
       const index = currentValue.indexOf(item)
       if (index > -1) {
         currentValue.splice(index, 1)
       }
     })
-    _emit(currentValue, 'left', initData.rightChecked)
+    _emit(currentValue, 'left', checkedState.rightChecked)
   }
 
   const addToRight = () => {
@@ -27,7 +27,7 @@ export const useMove = (props: TransferProps, initData: TransferInitData, propsK
     const itemsToBeMoved = props.data
       .filter((item: DataItem) => {
         const itemKey = item[propsKey.value]
-        return initData.leftChecked.includes(itemKey) && !props.modelValue.includes(itemKey)
+        return checkedState.leftChecked.includes(itemKey) && !props.modelValue.includes(itemKey)
       })
       .map(item => item[propsKey.value])
 
@@ -35,7 +35,7 @@ export const useMove = (props: TransferProps, initData: TransferInitData, propsK
       ? itemsToBeMoved.concat(currentValue)
       : currentValue.concat(itemsToBeMoved)
 
-    _emit(currentValue, 'right', initData.leftChecked)
+    _emit(currentValue, 'right', checkedState.leftChecked)
   }
 
   return {

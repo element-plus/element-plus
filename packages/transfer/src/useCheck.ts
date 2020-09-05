@@ -1,9 +1,9 @@
 import { computed, watch } from 'vue'
-import { TransferPanelProps, TransferPanelInitData, Key } from './transfer'
+import { TransferPanelProps, TransferPanelState, Key } from './transfer'
 
 import { CHECKED_CHANGE_EVENT } from './transfer-panel.vue'
 
-export const useCheck = (props: TransferPanelProps, initData: TransferPanelInitData, emit) => {
+export const useCheck = (props: TransferPanelProps, panelState: TransferPanelState, emit) => {
 
   const labelProp = computed(() => props.props.label || 'label')
 
@@ -15,18 +15,20 @@ export const useCheck = (props: TransferPanelProps, initData: TransferPanelInitD
   const filteredData = computed(() => {
     return props.data.filter(item => {
       if (typeof props.filterMethod === 'function') {
-        return props.filterMethod(initData.query, item)
+        return props.filterMethod(panelState.query, item)
       } else {
         const label = item[labelProp.value] || item[keyProp.value].toString()
-        return label.toLowerCase().includes(initData.query.toLowerCase())
+        return label.toLowerCase().includes(panelState.query.toLowerCase())
       }
     })
   })
 
-  const checkableData = computed(() => filteredData.value.filter(item => !item[disabledProp.value]))
+  const checkableData = computed(() => {
+    return filteredData.value.filter(item => !item[disabledProp.value])
+  })
 
   const checkedSummary = computed(() => {
-    const checkedLength = initData.checked.length
+    const checkedLength = panelState.checked.length
     const dataLength = props.data.length
     const { noChecked, hasChecked } = props.format
 
@@ -42,31 +44,31 @@ export const useCheck = (props: TransferPanelProps, initData: TransferPanelInitD
   })
 
   const isIndeterminate = computed(() => {
-    const checkedLength = initData.checked.length
+    const checkedLength = panelState.checked.length
     return checkedLength > 0 && checkedLength < checkableData.value.length
   })
 
 
   const updateAllChecked = () => {
     const checkableDataKeys = checkableData.value.map(item => item[keyProp.value])
-    initData.allChecked = checkableDataKeys.length > 0 && checkableDataKeys.every(item => initData.checked.includes(item))
+    panelState.allChecked = checkableDataKeys.length > 0 && checkableDataKeys.every(item => panelState.checked.includes(item))
   }
 
   const handleAllCheckedChange = (value: Key[]) => {
-    initData.checked = value ? checkableData.value.map(item => item[keyProp.value]) : []
+    panelState.checked = value ? checkableData.value.map(item => item[keyProp.value]) : []
   }
 
-  watch(() => initData.checked, (val, oldVal) => {
+  watch(() => panelState.checked, (val, oldVal) => {
     updateAllChecked()
 
-    if (initData.checkChangeByUser) {
+    if (panelState.checkChangeByUser) {
       const movedKeys = val
         .concat(oldVal)
         .filter(v => !val.includes(v) || !oldVal.includes(v))
       emit(CHECKED_CHANGE_EVENT, val, movedKeys)
     } else {
       emit(CHECKED_CHANGE_EVENT, val)
-      initData.checkChangeByUser = true
+      panelState.checkChangeByUser = true
     }
   })
 
@@ -78,13 +80,13 @@ export const useCheck = (props: TransferPanelProps, initData: TransferPanelInitD
   watch(() => props.data, () => {
     const checked = []
     const filteredDataKeys = filteredData.value.map(item => item[keyProp.value])
-    initData.checked.forEach(item => {
+    panelState.checked.forEach(item => {
       if (filteredDataKeys.includes(item)) {
         checked.push(item)
       }
     })
-    initData.checkChangeByUser = false
-    initData.checked = checked
+    panelState.checkChangeByUser = false
+    panelState.checked = checked
   })
 
   watch(() => props.defaultChecked, (val, oldVal) => {
@@ -98,8 +100,8 @@ export const useCheck = (props: TransferPanelProps, initData: TransferPanelInitD
         checked.push(item)
       }
     })
-    initData.checkChangeByUser = false
-    initData.checked = checked
+    panelState.checkChangeByUser = false
+    panelState.checked = checked
   }, {
     immediate: true,
   })

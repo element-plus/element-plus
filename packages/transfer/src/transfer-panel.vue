@@ -24,7 +24,10 @@
         @mouseleave="inputHover = false"
       >
         <template #prefix>
-          <i :class="['el-input__icon', 'el-icon-' + inputIcon]" @click="clearQuery"></i>
+          <i
+            :class="['el-input__icon', 'el-icon-' + inputIcon]"
+            @click="clearQuery"
+          ></i>
         </template>
       </el-input>
       <el-checkbox-group
@@ -41,21 +44,12 @@
           :disabled="item[disabledProp]"
         >
           <option-content
-            :option="item"
-            :render-content="renderContent"
-            :label-prop="labelProp"
-            :key-prop="keyProp"
+            :option="optionRender(item)"
           />
         </el-checkbox>
       </el-checkbox-group>
-      <p v-show="hasNoMatch" class="el-transfer-panel__empty">
-        {{ t('el.transfer.noMatch') }}
-      </p>
-      <p
-        v-show="data.length === 0 && !hasNoMatch"
-        class="el-transfer-panel__empty"
-      >
-        {{ t('el.transfer.noData') }}
+      <p v-show="hasNoMatch || data.length === 0" class="el-transfer-panel__empty">
+        {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
       </p>
     </div>
     <p v-if="hasFooter" class="el-transfer-panel__footer">
@@ -70,9 +64,7 @@ import { t } from '@element-plus/locale'
 import ElCheckboxGroup from '@element-plus/checkbox/src/checkbox-group.vue'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
 import ElInput from '@element-plus/input/src/index.vue'
-import OptionContent from './option-content.vue'
 import { useCheck } from './useCheck'
-
 
 export const CHECKED_CHANGE_EVENT = 'checked-change'
 
@@ -83,7 +75,7 @@ export default defineComponent({
     ElCheckboxGroup,
     ElCheckbox,
     ElInput,
-    OptionContent,
+    OptionContent: ({ option }) => option,
   },
 
   props: {
@@ -93,7 +85,7 @@ export default defineComponent({
         return []
       },
     },
-    renderContent: Function,
+    optionRender: Function,
     placeholder: String,
     title: String,
     filterable: Boolean,
@@ -106,14 +98,13 @@ export default defineComponent({
   emits: [CHECKED_CHANGE_EVENT],
 
   setup(props, { emit, slots }) {
-    const initData = reactive({
+    const panelState = reactive({
       checked: [],
       allChecked: false,
       query: '',
       inputHover: false,
       checkChangeByUser: true,
     })
-
 
     const {
       labelProp,
@@ -123,13 +114,14 @@ export default defineComponent({
       checkedSummary,
       isIndeterminate,
       handleAllCheckedChange,
-    } = useCheck(props, initData, emit)
+    } = useCheck(props, panelState, emit)
 
-
-    const hasNoMatch = computed(() => initData.query.length > 0 && filteredData.value.length === 0)
+    const hasNoMatch = computed(() => {
+      return panelState.query.length > 0 && filteredData.value.length === 0
+    })
 
     const inputIcon = computed(() => {
-      return initData.query.length > 0 && initData.inputHover
+      return panelState.query.length > 0 && panelState.inputHover
         ? 'circle-close'
         : 'search'
     })
@@ -138,7 +130,7 @@ export default defineComponent({
 
     const clearQuery = () => {
       if (inputIcon.value === 'circle-close') {
-        initData.query = ''
+        panelState.query = ''
       }
     }
 
@@ -148,7 +140,7 @@ export default defineComponent({
       query,
       inputHover,
       checkChangeByUser,
-    } = toRefs(initData)
+    } = toRefs(panelState)
 
     return {
       labelProp,
