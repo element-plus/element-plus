@@ -5,6 +5,8 @@
     icon="el-icon-info"
     icon-color="red"
     title="这是一段内容确定删除吗？"
+    confirm-button-type="success"
+    cancel-button-type="info"
     @confirm="onConfirm"
     @cancel="onConfirm"
   >

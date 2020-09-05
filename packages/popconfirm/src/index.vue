@@ -14,7 +14,7 @@
             class="el-popconfirm__icon"
             :style="{color: iconColor}"
           ></i>
-          {{ title }}
+          <span lass="el-popconfirm__title">{{ title }}</span>
         </p>
         <div class="el-popconfirm__action">
           <el-button
@@ -35,7 +35,7 @@
       </div>
     </template>
     <template #trigger>
-      <div style="display: inline-block" @click="open">
+      <div class="click-trigger" style="display: inline-block" @click="open">
         <slot name="reference"></slot>
       </div>
     </template>
