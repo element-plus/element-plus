@@ -1,25 +1,25 @@
 import { VNode } from 'vue'
 
-export declare type Key = string | number
+export type Key = string | number
 
-export declare type DataItem = {
+export type DataItem = {
   key: Key
   label: string
   disabled: boolean
 }
 
-export declare type Format = {
+export type Format = {
   noChecked: string
   hasChecked: string
 }
 
-export declare type Props = {
+export type Props = {
   label: string
   key: string
   disabled: string
 }
 
-export declare interface TransferProps {
+export interface TransferProps {
   data: DataItem[]
   titles: [string, string]
   buttonTexts: [string, string]
@@ -35,12 +35,12 @@ export declare interface TransferProps {
   targetOrder: 'original' | 'push' | 'unshift'
 }
 
-export declare interface TransferCheckedState {
+export interface TransferCheckedState {
   leftChecked: Key[]
   rightChecked: Key[]
 }
 
-export declare interface TransferPanelProps {
+export interface TransferPanelProps {
   data: DataItem[]
   optionRender: ({ option: VNode }) => VNode
   placeholder: string
@@ -52,7 +52,7 @@ export declare interface TransferPanelProps {
   props: Props
 }
 
-export declare interface TransferPanelState {
+export interface TransferPanelState {
   checked: Key[]
   allChecked: boolean
   query: string
