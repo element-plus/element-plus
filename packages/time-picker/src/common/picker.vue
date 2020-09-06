@@ -353,7 +353,7 @@ export default defineComponent({
     }
     const onMouseLeave = e => {
       if (e.relatedTarget && e.relatedTarget.className.includes('icon')) {
-        // if not el-icon
+        // if not el-icon then close
         return
       }
       showClose.value = false
@@ -363,7 +363,6 @@ export default defineComponent({
     })
     const elFormItem = inject('elFormItem', {} as any)
 
-    // computed
     const elFormItemSize = computed(() => {
       return elFormItem.elFormItemSize
     })

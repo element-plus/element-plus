@@ -203,6 +203,29 @@ export default defineComponent({
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.emit('isValidValue', isValidValue)
 
+    // const handleKeydown = event => {
+    //   const keyCode = event.keyCode
+    //   const mapping = { 38: -1, 40: 1, 37: -1, 39: 1 }
+
+    //   // Left or Right
+    //   if (keyCode === 37 || keyCode === 39) {
+    //     const step = mapping[keyCode]
+    //     console.log('step: ', step)
+    //     // this.changeSelectionRange(step)
+    //     event.preventDefault()
+    //     return
+    //   }
+
+    //   // Up or Down
+    //   if (keyCode === 38 || keyCode === 40) {
+    //     const step = mapping[keyCode]
+    //     console.log('step: ', step)
+    //     // this.spinner.scrollDown(step)
+    //     event.preventDefault()
+    //     return
+    //   }
+    // }
+
     return {
       setMaxSelectionRange,
       setMinSelectionRange,
@@ -274,35 +297,6 @@ export default defineComponent({
   //   },
 
 
-  //   handleKeydown(event) {
-
-  // move here together
-  // computed: {
-  //   spinner() {
-  //     return this.selectionRange[0] < this.offset ? this.$refs.minSpinner : this.$refs.maxSpinner
-  //   },
-  // },
-
-
-  //     const keyCode = event.keyCode
-  //     const mapping = { 38: -1, 40: 1, 37: -1, 39: 1 }
-
-  //     // Left or Right
-  //     if (keyCode === 37 || keyCode === 39) {
-  //       const step = mapping[keyCode]
-  //       this.changeSelectionRange(step)
-  //       event.preventDefault()
-  //       return
-  //     }
-
-  //     // Up or Down
-  //     if (keyCode === 38 || keyCode === 40) {
-  //       const step = mapping[keyCode]
-  //       this.spinner.scrollDown(step)
-  //       event.preventDefault()
-  //       return
-  //     }
-  //   },
   // },
 })
 </script>
