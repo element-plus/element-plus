@@ -31,8 +31,7 @@ describe('TimePicker', () => {
       readonly: true }))
     const input = wrapper.find('input')
     expect(input.attributes('placeholder')).toBe('test_')
-    // todo readonly
-    // expect(input.attributes('readonly')).toBeTruthy()
+    expect(input.attributes('readonly')).not.toBeUndefined()
   })
 
   it('set format && default value && set AM/PM spinner', async () => {
