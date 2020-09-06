@@ -123,7 +123,7 @@ import {
 } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
-import ElInput from '../../input/input.vue'
+import ElInput from '@element-plus/input/src/index.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { eventKeys } from '@element-plus/utils/aria'
 import mitt from 'mitt'

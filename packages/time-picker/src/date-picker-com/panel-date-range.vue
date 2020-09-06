@@ -231,7 +231,7 @@ import { t } from '@element-plus/locale'
 import { ClickOutside } from '@element-plus/directives'
 import TimePicker from '../time-picker-com/panel-time-pick.vue'
 import DateTable from './basic-date-table.vue'
-import ElInput from '../../input/input.vue'
+import ElInput from '@element-plus/input/src/index.vue'
 import { Button as ElButton } from '@element-plus/button'
 
 const calcDefaultValue = defaultValue => {

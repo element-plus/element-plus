@@ -177,7 +177,7 @@ import {
 } from '../time-picker-com/time-picker-utils'
 import { t } from '@element-plus/locale'
 import { NOOP } from '@vue/shared'
-import ElInput from '../../input/input.vue'
+import ElInput from '@element-plus/input/src/index.vue'
 import { ClickOutside } from '@element-plus/directives'
 import { Button as ElButton } from '@element-plus/button'
 import DateTable from './basic-date-table.vue'
