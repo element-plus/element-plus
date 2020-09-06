@@ -58,7 +58,7 @@ interface IStepsProps {
 
 interface IStepInstance extends ComponentInternalInstance {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ctx: any
+  setupState: any
 }
 
 interface IStepsInject {
@@ -111,7 +111,7 @@ export default defineComponent({
     })
     const prevStatus = computed(() => {
       const prevStep = parent.steps[index.value - 1]
-      return prevStep ? prevStep.ctx.currentStatus : 'wait'
+      return prevStep ? prevStep.setupState.currentStatus : 'wait'
     })
     const isCenter = computed(() => {
       return parent.props.alignCenter
@@ -173,7 +173,7 @@ export default defineComponent({
         internalStatus.value = 'wait'
       }
       const prevChild = parent.steps.value[stepsCount.value - 1]
-      if (prevChild) prevChild.ctx.calcProgress(internalStatus.value)
+      if (prevChild) prevChild.setupState.calcProgress(internalStatus.value)
     }
 
     return {
