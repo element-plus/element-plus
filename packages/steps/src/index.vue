@@ -47,7 +47,7 @@ export default defineComponent({
 
     watch(steps, () => {
       steps.value.forEach((instance, index) => {
-        instance.ctx.setIndex(index)
+        instance.setupState.setIndex(index)
       })
     })
 
