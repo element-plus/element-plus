@@ -31,7 +31,7 @@ export default defineComponent({
   setup(props) {
     const { currentColor } = useOptions()
     //data
-    const rgbaColors = ref(parseColors(props.colors,props.color))
+    const rgbaColors = ref(parseColors(props.colors, props.color))
 
     //watch
     watch(currentColor, val => {
