@@ -56,9 +56,14 @@ interface IStepsProps {
   processStatus: string
 }
 
+interface IStepsSetupState {
+  currentStatus: string
+  setIndex: (val: number) => void
+  calcProgress: (status: string) => void
+}
+
 interface IStepInstance extends ComponentInternalInstance {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setupState: any
+  setupState: IStepsSetupState
 }
 
 interface IStepsInject {
@@ -84,7 +89,7 @@ export default defineComponent({
     status: {
       type: String,
       default: '',
-      validator: (val: string): boolean => ['', 'wait', 'process', 'finish', 'error', 'success'].indexOf(val) > -1,
+      validator: (val: string): boolean => ['', 'wait', 'process', 'finish', 'error', 'success'].includes(val) > -1,
     },
   },
   setup(props) {
