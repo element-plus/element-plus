@@ -24,7 +24,11 @@
 </template>
 
 <script lang='ts'>
-import { computed, inject, defineComponent } from 'vue'
+import { computed, inject, defineComponent, PropType } from 'vue'
+
+type IButtonType = PropType<'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'>
+type IButtonSize = PropType<'medium' | 'small' | 'mini'>
+type IButtonNativeType = PropType<'button' | 'submit' | 'reset'>
 const ELEMENT: {
   size?: number
 } = {}
@@ -62,20 +66,36 @@ export default defineComponent({
 
   props: {
     type: {
-      type: String,
+      type: String as IButtonType,
       default: 'default',
+      validator: (val: string) => {
+        return [
+          'default',
+          'primary',
+          'success',
+          'warning',
+          'info',
+          'danger',
+          'text',
+        ].includes(val)
+      },
     },
     size: {
-      type: String,
-      default: '',
+      type: String as IButtonType,
+      validator: (val: string) => {
+        return ['medium', 'small', 'mini'].includes(val)
+      },
     },
     icon: {
       type: String,
       default: '',
     },
     nativeType: {
-      type: String,
+      type: String as IButtonNativeType,
       default: 'button',
+      validator: (val: string) => {
+        return ['button', 'submit', 'reset'].includes(val)
+      },
     },
     loading: Boolean,
     disabled: Boolean,

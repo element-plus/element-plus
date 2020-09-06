@@ -22,16 +22,16 @@
 <script lang='ts'>
 import { defineComponent, PropType } from 'vue'
 
-type ILinkType = PropType<'primary' | 'success' | 'warning' | 'info' | 'error' | ''>
+type ILinkType = PropType<'primary' | 'success' | 'warning' | 'info' | 'danger' | 'default'>
 
 export default defineComponent({
   name: 'ElLink',
   props: {
     type: {
       type: String as ILinkType,
-      default: '',
+      default: 'default',
       validator: (val: string) => {
-        return ['', 'primary', 'success', 'warning', 'info', 'error'].includes(val)
+        return ['default', 'primary', 'success', 'warning', 'info', 'danger'].includes(val)
       },
     },
     underline: {
