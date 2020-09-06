@@ -66,7 +66,7 @@ describe('Drawer', () => {
   test('should append to body, when append-to-body flag is true', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title='title' :visible='visible' :append-to-body='true'>
+      <el-drawer ref='d' :title='title' :visible='visible' :append-to-body='true'>
         <span> content </span>
       </el-drawer>
       `,
@@ -79,7 +79,8 @@ describe('Drawer', () => {
     await sleep()
     vm.visible = true
     await sleep()
-    expect(vm.$el.parentNode).toEqual(document.body)
+    const drawer = wrapper.findComponent(Drawer).vm
+    expect(drawer.drawer.$el.parentNode).toEqual(document.body)
   })
 
   test('should open and close drawer properly', async () => {
@@ -110,7 +111,7 @@ describe('Drawer', () => {
   test('should destroy every child after drawer was closed when destroy-on-close flag is true', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title='title' :visible='visible' :append-to-body='true' :destroy-on-close='true' ref='drawer'>
+      <el-drawer :title='title' :visible='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
         <span>${content}</span>
       </el-drawer>
       `,
@@ -130,7 +131,7 @@ describe('Drawer', () => {
   test('should close dialog by clicking the close button', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title='title' v-model:visible='visible' :append-to-body='true' :destroy-on-close='true' ref='drawer'>
+      <el-drawer :title='title' v-model:visible='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
         <span>${content}</span>
       </el-drawer>
       `,
