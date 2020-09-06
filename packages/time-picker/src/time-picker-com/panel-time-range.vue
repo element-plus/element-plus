@@ -15,6 +15,7 @@
           >
             <time-spinner
               ref="minSpinner"
+              role="min"
               :show-seconds="showSeconds"
               :am-pm-mode="amPmMode"
               :arrow-control="arrowControl"
@@ -33,6 +34,7 @@
           >
             <time-spinner
               ref="maxSpinner"
+              role="max"
               :show-seconds="showSeconds"
               :am-pm-mode="amPmMode"
               :selectable-range="maxSelectableRange"
@@ -75,12 +77,15 @@ import {
 } from './time-picker-utils'
 import { t } from '@element-plus/locale'
 import TimeSpinner from './basic-time-spinner.vue'
+import mitt from 'mitt'
+import { eventKeys } from '@element-plus/utils/aria'
 import {
   defineComponent,
   ref,
   computed,
   PropType,
   inject,
+  provide,
 } from 'vue'
 
 const MIN_TIME = () => {
@@ -200,31 +205,49 @@ export default defineComponent({
       selectionRange.value = [start + offset.value, end + offset.value]
     }
 
+    const changeSelectionRange = step => {
+      const list = showSeconds.value ? [0, 3, 6, 11, 14, 17] : [0, 3, 8, 11]
+      const mapping = ['hours', 'minutes'].concat(showSeconds.value ? ['seconds'] : [])
+      const index = list.indexOf(selectionRange.value[0])
+      const next = (index + step + list.length) % list.length
+      const half = list.length / 2
+      if (next < half) {
+        timePickeOptions['min_emitSelectRange'](mapping[next])
+      } else {
+        timePickeOptions['max_emitSelectRange'](mapping[next - half])
+      }
+    }
+
+    const handleKeydown = event => {
+      const keyCode = event.keyCode
+      const mapping = { 38: -1, 40: 1, 37: -1, 39: 1 }
+
+      if (keyCode === eventKeys.left || keyCode === eventKeys.right) {
+        const step = mapping[keyCode]
+        changeSelectionRange(step)
+        event.preventDefault()
+        return
+      }
+
+      if (keyCode === eventKeys.up || keyCode === eventKeys.down) {
+        const step = mapping[keyCode]
+        const role = selectionRange.value[0] < offset.value ? 'min' : 'max'
+        timePickeOptions[`${role}_scrollDown`](step)
+        event.preventDefault()
+        return
+      }
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.emit('isValidValue', isValidValue)
+    pickerBase.emit('SetPickerOption',['handleKeydown', handleKeydown])
 
-    // const handleKeydown = event => {
-    //   const keyCode = event.keyCode
-    //   const mapping = { 38: -1, 40: 1, 37: -1, 39: 1 }
-
-    //   // Left or Right
-    //   if (keyCode === 37 || keyCode === 39) {
-    //     const step = mapping[keyCode]
-    //     console.log('step: ', step)
-    //     // this.changeSelectionRange(step)
-    //     event.preventDefault()
-    //     return
-    //   }
-
-    //   // Up or Down
-    //   if (keyCode === 38 || keyCode === 40) {
-    //     const step = mapping[keyCode]
-    //     console.log('step: ', step)
-    //     // this.spinner.scrollDown(step)
-    //     event.preventDefault()
-    //     return
-    //   }
-    // }
+    const timePickeOptions = {} as any
+    const pickerHub = mitt()
+    pickerHub.on('SetOption', e => {
+      timePickeOptions[e[0]] = e[1]
+    })
+    provide('EP_TIMEPICK_PANEL', pickerHub)
 
     return {
       setMaxSelectionRange,
@@ -243,61 +266,6 @@ export default defineComponent({
       maxSelectableRange,
     }
   },
-
-
-  // watch: {
-  //   value(value) {
-  //     if (Array.isArray(value)) {
-  //       this.minDate = new Date(value[0])
-  //       this.maxDate = new Date(value[1])
-  //     } else {
-  //       if (Array.isArray(this.defaultValue)) {
-  //         this.minDate = new Date(this.defaultValue[0])
-  //         this.maxDate = new Date(this.defaultValue[1])
-  //       } else if (this.defaultValue) {
-  //         this.minDate = new Date(this.defaultValue)
-  //         this.maxDate = advanceTime(new Date(this.defaultValue), 60 * 60 * 1000)
-  //       } else {
-  //         this.minDate = new Date()
-  //         this.maxDate = advanceTime(new Date(), 60 * 60 * 1000)
-  //       }
-  //     }
-  //   },
-
-  //   visible(val) {
-  //     if (val) {
-  //       this.oldValue = this.value
-  //       this.$nextTick(() => this.$refs.minSpinner.emitSelectRange('hours'))
-  //     }
-  //   },
-  // },
-
-  // methods: {
-
-
-
-
-
-  //   adjustSpinners() {
-  //     this.$refs.minSpinner.adjustSpinners()
-  //     this.$refs.maxSpinner.adjustSpinners()
-  //   },
-
-  //   changeSelectionRange(step) {
-  //     const list = this.showSeconds ? [0, 3, 6, 11, 14, 17] : [0, 3, 8, 11]
-  //     const mapping = ['hours', 'minutes'].concat(this.showSeconds ? ['seconds'] : [])
-  //     const index = list.indexOf(this.selectionRange[0])
-  //     const next = (index + step + list.length) % list.length
-  //     const half = list.length / 2
-  //     if (next < half) {
-  //       this.$refs.minSpinner.emitSelectRange(mapping[next])
-  //     } else {
-  //       this.$refs.maxSpinner.emitSelectRange(mapping[next - half])
-  //     }
-  //   },
-
-
-  // },
 })
 </script>
 <style scoped>

@@ -7,6 +7,7 @@
       <div class="el-time-panel__content" :class="{ 'has-seconds': showSeconds }">
         <time-spinner
           ref="spinner"
+          role="min"
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
@@ -44,8 +45,11 @@ import {
   ref,
   computed,
   inject,
+  provide,
 } from 'vue'
+import { eventKeys } from '@element-plus/utils/aria'
 import { t } from '@element-plus/locale'
+import mitt from 'mitt'
 import TimeSpinner from './basic-time-spinner.vue'
 import dayjs from 'dayjs'
 
@@ -148,9 +152,43 @@ export default defineComponent({
       return limitTimeRange(props.parsedValue, selectableRange.value, props.format)
     })
 
+    const changeSelectionRange = step => {
+      const list = [0, 3].concat(showSeconds.value ? [6] : [])
+      const mapping = ['hours', 'minutes'].concat(showSeconds.value ? ['seconds'] : [])
+      const index = list.indexOf(selectionRange.value[0])
+      const next = (index + step + list.length) % list.length
+      timePickeOptions['min_emitSelectRange'](mapping[next])
+    }
+
+    const handleKeydown = event => {
+      const keyCode = event.keyCode
+      const mapping = { 38: -1, 40: 1, 37: -1, 39: 1 }
+
+      if (keyCode === eventKeys.left || keyCode === eventKeys.right) {
+        const step = mapping[keyCode]
+        changeSelectionRange(step)
+        event.preventDefault()
+        return
+      }
+
+      if (keyCode === eventKeys.up || keyCode === eventKeys.down) {
+        const step = mapping[keyCode]
+        timePickeOptions['min_scrollDown'](step)
+        event.preventDefault()
+        return
+      }
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.emit('SetPickerOption', ['isValidValue', isValidValue])
+    pickerBase.emit('SetPickerOption',['handleKeydown', handleKeydown])
 
+    const timePickeOptions = {} as any
+    const pickerHub = mitt()
+    pickerHub.on('SetOption', e => {
+      timePickeOptions[e[0]] = e[1]
+    })
+    provide('EP_TIMEPICK_PANEL', pickerHub)
     return {
       spinnerValue,
       t,
@@ -163,55 +201,6 @@ export default defineComponent({
       selectableRange,
     }
   },
-
-  // watch: {
-  //   visible(val) {
-  //     if (val) {
-  //       this.oldValue = this.value
-  //       this.$nextTick(() => this.$refs.spinner.emitSelectRange('hours'))
-  //     } else {
-  //       this.needInitAdjust = true
-  //     }
-  //   },
-
-  //   value(newVal) {
-  //     let date
-  //     if (newVal instanceof Date) {
-  //       date = limitTimeRange(newVal, this.selectableRange, this.format)
-  //     } else if (!newVal) {
-  //       date = this.defaultValue ? new Date(this.defaultValue) : new Date()
-  //     }
-
-  //     this.date = date
-  //     if (this.visible && this.needInitAdjust) {
-  //       this.$nextTick(_ => this.adjustSpinners())
-  //       this.needInitAdjust = false
-  //     }
-  //   },
-
-  //   selectableRange(val) {
-  //     this.$refs.spinner.selectableRange = val
-  //   },
-
-  //   defaultValue(val) {
-  //     if (!isDate(this.value)) {
-  //       this.date = val ? new Date(val) : new Date()
-  //     }
-  //   },
-  // },
-
-  // mounted() {
-  //   this.$nextTick(() => this.handleConfirm(true, true))
-  //   this.$emit('mounted')
-  // },
-
-  // methods: {
-
-
-  //   adjustSpinners() {
-  //     return this.$refs.spinner.adjustSpinners()
-  //   },
-
 })
 </script>
 <style scoped>
