@@ -192,7 +192,9 @@ import {
   computed,
   onMounted,
   PropType,
+  inject,
 } from 'vue'
+import { eventKeys } from '@element-plus/utils/aria'
 import ElScrollbar from '@element-plus/scrollbar/src'
 export default defineComponent({
 
@@ -219,6 +221,10 @@ export default defineComponent({
       default: '', // 'a': am/pm; 'A': AM/PM
     },
     selectableRange: {
+      type: Array,
+      default: () => [],
+    },
+    selectionRange: {
       type: Array,
       default: () => [],
     },
@@ -405,6 +411,36 @@ export default defineComponent({
         adjustSpinners()
       })
     })
+
+    const changeSelectionRange = step => {
+      const list = [0, 3].concat(props.showSeconds ? [6] : [])
+      const mapping = ['hours', 'minutes'].concat(props.showSeconds ? ['seconds'] : [])
+      const index = list.indexOf(props.selectionRange[0] as number)
+      const next = (index + step + list.length) % list.length
+      emitSelectRange(mapping[next])
+    }
+
+    const handleKeydown = event => {
+      const keyCode = event.keyCode
+      const mapping = { 38: -1, 40: 1, 37: -1, 39: 1 }
+
+      if (keyCode === eventKeys.left || keyCode === eventKeys.right) {
+        const step = mapping[keyCode]
+        changeSelectionRange(step)
+        event.preventDefault()
+        return
+      }
+
+      if (keyCode === eventKeys.up || keyCode === eventKeys.down) {
+        const step = mapping[keyCode]
+        scrollDown(step)
+        event.preventDefault()
+        return
+      }
+    }
+
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    pickerBase.emit('SetPickerOption',['handleKeydown', handleKeydown])
 
     return {
       currentScrollbar,

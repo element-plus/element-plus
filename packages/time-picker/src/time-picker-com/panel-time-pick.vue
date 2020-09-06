@@ -12,6 +12,7 @@
           :am-pm-mode="amPmMode"
           :spinner-date="spinnerValue"
           :selectable-range="selectableRange"
+          :selection-range="selectionRange"
           @change="handleChange"
           @select-range="setSelectionRange"
         />
@@ -146,8 +147,10 @@ export default defineComponent({
     const spinnerValue = computed(() => {
       return limitTimeRange(props.parsedValue, selectableRange.value, props.format)
     })
+
     const pickerBase = inject('EP_PICKER_BASE') as any
-    pickerBase.emit('isValidValue', isValidValue)
+    pickerBase.emit('SetPickerOption', ['isValidValue', isValidValue])
+
     return {
       spinnerValue,
       t,
@@ -160,14 +163,6 @@ export default defineComponent({
       selectableRange,
     }
   },
-
-  // data() {
-  //   return {
-  //     value: '',
-  //     defaultValue: null,
-  //     needInitAdjust: true,
-  //   }
-  // },
 
   // watch: {
   //   visible(val) {
@@ -212,40 +207,11 @@ export default defineComponent({
 
   // methods: {
 
-  //   handleKeydown(event) {
-  //     const keyCode = event.keyCode
-  //     const mapping = { 38: -1, 40: 1, 37: -1, 39: 1 }
-
-  //     // Left or Right
-  //     if (keyCode === 37 || keyCode === 39) {
-  //       const step = mapping[keyCode]
-  //       this.changeSelectionRange(step)
-  //       event.preventDefault()
-  //       return
-  //     }
-
-  //     // Up or Down
-  //     if (keyCode === 38 || keyCode === 40) {
-  //       const step = mapping[keyCode]
-  //       this.$refs.spinner.scrollDown(step)
-  //       event.preventDefault()
-  //       return
-  //     }
-  //   },
-
 
   //   adjustSpinners() {
   //     return this.$refs.spinner.adjustSpinners()
   //   },
 
-  //   changeSelectionRange(step) {
-  //     const list = [0, 3].concat(this.showSeconds ? [6] : [])
-  //     const mapping = ['hours', 'minutes'].concat(this.showSeconds ? ['seconds'] : [])
-  //     const index = list.indexOf(this.selectionRange[0])
-  //     const next = (index + step + list.length) % list.length
-  //     this.$refs.spinner.emitSelectRange(mapping[next])
-  //   },
-  // },
 })
 </script>
 <style scoped>

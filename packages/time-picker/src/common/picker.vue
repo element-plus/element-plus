@@ -1,6 +1,7 @@
 <template>
   <!-- todo popper props align left  -->
   <!-- todo popper custom popper-class  -->
+  <!-- todo bug handleKeydown event twice  -->
   <el-popper
     effect="light"
     manual-mode
@@ -166,6 +167,7 @@ const ELEMENT = {
 }
 interface PickerOptions {
   isValidValue: any
+  handleKeydown: any
 }
 export default defineComponent({
   name: 'Picker',
@@ -441,7 +443,7 @@ export default defineComponent({
 
     const formatAsFormatAndType = (value, customFormat, type) => {
       if (!value) return null
-      const formatter = RANGE_FORMATTER
+      const formatter = type === 'timerange' ? RANGE_FORMATTER : DATE_FORMATTER
       const format = customFormat
       return formatter(value, format)
     }
@@ -497,6 +499,9 @@ export default defineComponent({
         return
       }
 
+      if (pickerOptions.handleKeydown) {
+        pickerOptions.handleKeydown(event)
+      }
     }
     const onUserInput = e => {
       userInput.value = e.target.value
@@ -544,8 +549,8 @@ export default defineComponent({
 
     const pickerOptions = {} as PickerOptions
     const pickerHub = mitt()
-    pickerHub.on('isValidValue', e => {
-      pickerOptions.isValidValue = e
+    pickerHub.on('SetPickerOption', e => {
+      pickerOptions[e[0]] = e[1]
     })
     provide('EP_PICKER_BASE', pickerHub)
     return {
