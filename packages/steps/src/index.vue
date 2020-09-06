@@ -7,6 +7,8 @@
 <script lang="ts">
 import { defineComponent, watch, ref, provide } from 'vue'
 
+const CHANGE_EVENT = 'change'
+
 export default defineComponent({
   name: 'ElSteps',
   props: {
@@ -42,7 +44,8 @@ export default defineComponent({
       validator: (val: string): boolean => ['wait', 'process', 'finish', 'error', 'success'].indexOf(val) > -1,
     },
   },
-  setup(props) {
+  emits: [CHANGE_EVENT],
+  setup(props, { emit }) {
     const steps = ref([])
 
     watch(steps, () => {
@@ -52,6 +55,10 @@ export default defineComponent({
     })
 
     provide('ElSteps', { props, steps })
+
+    watch(() => props.active, (newVal, oldVal) => {
+      emit(CHANGE_EVENT, newVal, oldVal)
+    })
 
     return {
       steps,
