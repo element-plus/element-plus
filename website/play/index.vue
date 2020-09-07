@@ -3,10 +3,10 @@
     :picker-options="{
     selectableRange: '18:30:05 - 20:30:50'
     }"
-
+    is-range
+    arrow-control
     <el-time-picker
       v-model="value1"
-      arrow-control
       placeholder="Arbitrary time"
       :enabled-hours="enabledHours"
       :enabled-minutes="enabledMinutes"

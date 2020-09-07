@@ -2,117 +2,50 @@
   <div class="el-time-spinner" :class="{ 'has-seconds': showSeconds }">
     <template v-if="!arrowControl">
       <el-scrollbar
-        ref="listHourRef"
+        v-for="item in spinnerItems"
+        :key="item"
+        :ref="getRefId(item)"
         class="el-time-spinner__wrapper"
         wrap-style="max-height: inherit;"
         view-class="el-time-spinner__list"
         noresize
         tag="ul"
-        @mouseenter="emitSelectRange('hours')"
-        @mousemove="adjustCurrentSpinner('hours')"
+        @mouseenter="emitSelectRange(item)"
+        @mousemove="adjustCurrentSpinner(item)"
       >
         <li
-          v-for="(disabled, hour) in hoursList"
-          :key="hour"
-          class="el-time-spinner__item"
-          :class="{ 'active': hour === hours, disabled }"
-          @click="handleClick('hours', { value: hour, disabled })"
-        >
-          {{ ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) }}{{ getAmPmFlag(hour) }}
-        </li>
-      </el-scrollbar>
-      <el-scrollbar
-        ref="listMinuteRef"
-        class="el-time-spinner__wrapper"
-        wrap-style="max-height: inherit;"
-        view-class="el-time-spinner__list"
-        noresize
-        tag="ul"
-        @mouseenter="emitSelectRange('minutes')"
-        @mousemove="adjustCurrentSpinner('minutes')"
-      >
-        <li
-          v-for="(disabled, key) in minutesList"
+          v-for="(disabled, key) in listMap[item].value"
           :key="key"
           class="el-time-spinner__item"
-          :class="{ 'active': key === minutes, disabled }"
-          @click="handleClick('minutes', { value: key, disabled })"
+          :class="{ 'active': key === timePartsMap[item].value, disabled }"
+          @click="handleClick(item, { value: key, disabled })"
         >
-          {{ ('0' + key).slice(-2) }}
-        </li>
-      </el-scrollbar>
-      <el-scrollbar
-        v-show="showSeconds"
-        ref="listSecondRef"
-        class="el-time-spinner__wrapper"
-        wrap-style="max-height: inherit;"
-        view-class="el-time-spinner__list"
-        noresize
-        tag="ul"
-        @mouseenter="emitSelectRange('seconds')"
-        @mousemove="adjustCurrentSpinner('seconds')"
-      >
-        <li
-          v-for="(disabled, key) in secondsList"
-          :key="key"
-          class="el-time-spinner__item"
-          :class="{ 'active': key === seconds, disabled }"
-          @click="handleClick('seconds', { value: key, disabled })"
-        >
-          {{ ('0' + key).slice(-2) }}
+          <template v-if="item === 'hours'">
+            {{ ('0' + (amPmMode ? (key % 12 || 12) : key )).slice(-2) }}{{ getAmPmFlag(key) }}
+          </template>
+          <template v-else>
+            {{ ('0' + key).slice(-2) }}
+          </template>
         </li>
       </el-scrollbar>
     </template>
     <template v-if="arrowControl">
       <div
+        v-for="item in spinnerItems"
+        :key="item"
         class="el-time-spinner__wrapper is-arrow"
-        @mouseenter="emitSelectRange('hours')"
+        @mouseenter="emitSelectRange(item)"
       >
         <i v-repeat-click="onDecreaseClick" class="el-time-spinner__arrow el-icon-arrow-up"></i>
         <i v-repeat-click="onIncreaseClick" class="el-time-spinner__arrow el-icon-arrow-down"></i>
         <ul class="el-time-spinner__list">
           <li
-            v-for="(hour, key) in arrowHourList"
+            v-for="(time, key) in arrowListMap[item].value"
             :key="key"
             class="el-time-spinner__item"
-            :class="{ 'active': hour === hours, 'disabled': hoursList[hour] }"
+            :class="{ 'active': time === timePartsMap[item].value, 'disabled': listMap[item].value[time] }"
           >
-            {{ hour === undefined ? '' : ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) + getAmPmFlag(hour) }}
-          </li>
-        </ul>
-      </div>
-      <div
-        class="el-time-spinner__wrapper is-arrow"
-        @mouseenter="emitSelectRange('minutes')"
-      >
-        <i v-repeat-click="onDecreaseClick" class="el-time-spinner__arrow el-icon-arrow-up"></i>
-        <i v-repeat-click="onIncreaseClick" class="el-time-spinner__arrow el-icon-arrow-down"></i>
-        <ul class="el-time-spinner__list">
-          <li
-            v-for="(minute, key) in arrowMinuteList"
-            :key="key"
-            class="el-time-spinner__item"
-            :class="{ 'active': minute === minutes, 'disabled': minutesList[minute] }"
-          >
-            {{ minute === undefined ? '' : ('0' + minute).slice(-2) }}
-          </li>
-        </ul>
-      </div>
-      <div
-        v-if="showSeconds"
-        class="el-time-spinner__wrapper is-arrow"
-        @mouseenter="emitSelectRange('seconds')"
-      >
-        <i v-repeat-click="onDecreaseClick" class="el-time-spinner__arrow el-icon-arrow-up"></i>
-        <i v-repeat-click="onIncreaseClick" class="el-time-spinner__arrow el-icon-arrow-down"></i>
-        <ul class="el-time-spinner__list">
-          <li
-            v-for="(second, key) in arrowSecondList"
-            :key="key"
-            class="el-time-spinner__item"
-            :class="{ 'active': second === seconds, 'disabled': secondsList[second] }"
-          >
-            {{ second === undefined ? '' : ('0' + second).slice(-2) }}
+            {{ time === undefined ? '' : ('0' + (amPmMode ? (time % 12 || 12) : time )).slice(-2) + getAmPmFlag(time) }}
           </li>
         </ul>
       </div>
@@ -133,6 +66,15 @@ import {
 import { Dayjs } from 'dayjs'
 import RepeatClick from './repeat-click'
 import ElScrollbar from '@element-plus/scrollbar/src'
+
+const getList = (total, method, methodFunc) => {
+  const arr = []
+  const enabledArr = method ? methodFunc() : []
+  for (let i = 0; i < total; i++) {
+    arr[i] = !enabledArr.includes(i)
+  }
+  return arr
+}
 export default defineComponent({
 
   directives: {
@@ -168,14 +110,18 @@ export default defineComponent({
   setup(props, ctx) {
     // data
     const currentScrollbar = ref(null)
-    const listHourRef: Ref<Nullable<HTMLElement>> = ref(null)
-    const listMinuteRef: Ref<Nullable<HTMLElement>> = ref(null)
-    const listSecondRef: Ref<Nullable<HTMLElement>> = ref(null)
+    const listHoursRef: Ref<Nullable<HTMLElement>> = ref(null)
+    const listMinutesRef: Ref<Nullable<HTMLElement>> = ref(null)
+    const listSecondsRef: Ref<Nullable<HTMLElement>> = ref(null)
     const listRefsMap = {
-      hours: listHourRef, minutes: listMinuteRef, seconds: listSecondRef,
+      hours: listHoursRef, minutes: listMinutesRef, seconds: listSecondsRef,
     }
 
     // computed
+    const spinnerItems = computed(() => {
+      const arr = ['hours', 'minutes', 'seconds']
+      return props.showSeconds ? arr : arr.slice(0, 2)
+    })
     const hours = computed(() => {
       return props.spinnerDate.hour()
     })
@@ -185,33 +131,23 @@ export default defineComponent({
     const seconds = computed(() => {
       return props.spinnerDate.second()
     })
-    const timePartsMap = {
+    const timePartsMap = computed(() => ({
       hours, minutes, seconds,
-    }
+    }))
     const hoursList = computed(() =>{
-      const arr = []
-      const enabledArr = pickerBase.props.enabledHours()
-      for (let i = 0; i < 24; i++) {
-        arr[i] = !enabledArr.includes(i)
-      }
-      return arr
+      return getList(24, pickerBase.props.enabledHours, pickerBase.props.enabledHours)
     })
     const minutesList = computed(() =>{
-      const arr = []
-      const enabledArr = pickerBase.props.enabledMinutes(hours.value)
-      for (let i = 0; i < 60; i++) {
-        arr[i] = !enabledArr.includes(i)
-      }
-      return arr
+      return getList(60, pickerBase.props.enabledMinutes, () => pickerBase.props.enabledMinutes(hours.value))
     })
     const secondsList = computed(() =>{
-      const arr = []
-      const enabledArr = pickerBase.props.enabledSeconds(hours.value, minutes.value)
-      for (let i = 0; i < 60; i++) {
-        arr[i] = !enabledArr.includes(i)
-      }
-      return arr
+      return getList(60, pickerBase.props.enabledSeconds, () => pickerBase.props.enabledSeconds(hours.value, minutes.value))
     })
+    const listMap = computed(() => ({
+      hours: hoursList,
+      minutes: minutesList,
+      seconds: secondsList,
+    }))
     const arrowHourList = computed(() => {
       const hour = hours.value
       return [
@@ -236,6 +172,11 @@ export default defineComponent({
         second < 59 ? second + 1 : undefined,
       ]
     })
+    const arrowListMap = computed(() => ({
+      hours: arrowHourList,
+      minutes: arrowMinuteList,
+      seconds: arrowSecondList,
+    }))
     const getAmPmFlag = hour => {
       let shouldShowAmPm = !!props.amPmMode
       if (!shouldShowAmPm) return ''
@@ -258,7 +199,7 @@ export default defineComponent({
     }
 
     const adjustCurrentSpinner = type =>{
-      adjustSpinner(type, timePartsMap[type].value)
+      adjustSpinner(type, timePartsMap.value[type].value)
     }
 
     // NOTE: used by datetime / date-range panel
@@ -297,7 +238,7 @@ export default defineComponent({
       }
 
       const label = currentScrollbar.value
-      let now = timePartsMap[label].value
+      let now = timePartsMap.value[label].value
       const total = currentScrollbar.value === 'hours' ? 24 : 60
       now = (now + step + total) % total
 
@@ -366,12 +307,18 @@ export default defineComponent({
       })
     })
 
+    const getRefId = item => {
+      return `list${item.charAt(0).toUpperCase() + item.slice(1)}Ref`
+    }
+
     const pickerPanel = inject('EP_TIMEPICK_PANEL') as any
     pickerPanel.emit('SetOption',[`${props.role}_scrollDown`, scrollDown])
     pickerPanel.emit('SetOption',[`${props.role}_emitSelectRange`, emitSelectRange])
     const pickerBase = inject('EP_PICKER_BASE') as any
 
     return {
+      getRefId,
+      spinnerItems,
       currentScrollbar,
       hours,
       minutes,
@@ -385,13 +332,16 @@ export default defineComponent({
       emitSelectRange,
       adjustCurrentSpinner,
       typeItemHeight,
-      listHourRef,
-      listMinuteRef,
-      listSecondRef,
+      listHoursRef,
+      listMinutesRef,
+      listSecondsRef,
       onIncreaseClick,
       onDecreaseClick,
       handleClick,
       secondsList,
+      timePartsMap,
+      arrowListMap,
+      listMap,
     }
   },
 })
