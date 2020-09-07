@@ -11,8 +11,7 @@
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
-          :spinner-date="spinnerValue"
-          :selectable-range="selectableRange"
+          :spinner-date="parsedValue"
           :selection-range="selectionRange"
           @change="handleChange"
           @select-range="setSelectionRange"
@@ -39,19 +38,20 @@
 </template>
 
 <script lang="ts">
-import { parseDate, timeWithinRange, clearMilliseconds, limitTimeRange } from './time-picker-utils'
+import { timeWithinRange, limitTimeRange } from './time-picker-utils'
 import {
   defineComponent,
   ref,
   computed,
   inject,
   provide,
+  PropType,
 } from 'vue'
 import { eventKeys } from '@element-plus/utils/aria'
 import { t } from '@element-plus/locale'
 import mitt from 'mitt'
 import TimeSpinner from './basic-time-spinner.vue'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 
 export default defineComponent({
   components: {
@@ -64,7 +64,7 @@ export default defineComponent({
       default: false,
     },
     parsedValue: {
-      type: [String, Date],
+      type: Dayjs as PropType<Dayjs>,
       default: '',
     },
     arrowControl: {
@@ -75,10 +75,6 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
-    rangeSeparator: { // todo move to top picker
-      type: String,
-      default: '-',
-    },
     format: {
       type: String,
       default: '',
@@ -88,69 +84,43 @@ export default defineComponent({
   emits: ['pick', 'select-range'],
 
   setup(props, ctx) {
+    // data
     const selectionRange = ref([0, 2])
+    // computed
     const showSeconds = computed(() => {
-      return (props.format || '').indexOf('ss') !== -1
+      return props.format.includes('ss')
     })
     const amPmMode = computed(() => {
-      if ((props.format || '').indexOf('A') !== -1) return 'A'
-      if ((props.format || '').indexOf('a') !== -1) return 'a'
+      if (props.format.includes('A')) return 'A'
+      if (props.format.includes('a')) return 'a'
       return ''
     })
-    const selectableRange = computed(() => {
-      if (!props.pickerOptions || !props.pickerOptions.selectableRange) {
-        return []
-      }
-      let ranges = props.pickerOptions.selectableRange
-      const DATE_PARSER = function(text, format) {
-        if (format === 'timestamp') return new Date(Number(text))
-        return parseDate(text, format)
-      }
-      const RANGE_PARSER = function(array, format, separator) {
-        if (!Array.isArray(array)) {
-          array = array.split(separator)
-        }
-        if (array.length === 2) {
-          const range1 = array[0]
-          const range2 = array[1]
-
-          return [dayjs(range1, format).toDate(), dayjs(range2, format).toDate()]
-        }
-        return []
-      }
-      const parser = RANGE_PARSER
-      const format = 'HH:mm:ss'
-      ranges = [ranges]
-      const result = ranges.map(range => parser(range, format, props.rangeSeparator))
-      return result
-    })
+    // method
+    const isValidValue = _date => {
+      const result = getRangeAvaliableTime(_date)
+      return _date.isSame(result)
+    }
+    const handleCancel = () => {
+      ctx.emit('pick', '', false, true)
+    }
     const handleConfirm = (visible = false, first) => {
       if (first) return
-      const _date = clearMilliseconds(limitTimeRange(props.parsedValue, selectableRange.value, props.format))
-      ctx.emit('pick', _date, visible)
+      ctx.emit('pick', props.parsedValue.millisecond(0), visible)
     }
-    const handleChange = _date => {
+    const handleChange = (_date: Dayjs) => {
       // visible avoids edge cases, when use scrolls during panel closing animation
       if (!props.visible) { return }
-      const result = clearMilliseconds(_date)
+      const result = _date.millisecond(0)
       // if date is out of range, do not emit
       if (isValidValue(result)) {
         ctx.emit('pick', result, true)
       }
     }
-    const isValidValue = _date => {
-      return timeWithinRange(_date, selectableRange.value, props.format)
-    }
+
     const setSelectionRange = (start, end) => {
       ctx.emit('select-range', start, end)
       selectionRange.value = [start, end]
     }
-    const handleCancel = () => {
-      ctx.emit('pick', '', false, true)
-    }
-    const spinnerValue = computed(() => {
-      return limitTimeRange(props.parsedValue, selectableRange.value, props.format)
-    })
 
     const changeSelectionRange = step => {
       const list = [0, 3].concat(showSeconds.value ? [6] : [])
@@ -179,10 +149,28 @@ export default defineComponent({
       }
     }
 
-    const pickerBase = inject('EP_PICKER_BASE') as any
-    pickerBase.emit('SetPickerOption', ['isValidValue', isValidValue])
-    pickerBase.emit('SetPickerOption',['handleKeydown', handleKeydown])
+    const getRangeAvaliableTime = (date: Dayjs) => {
+      const enabledMap = {
+        hour: pickerBase.props.enabledHours,
+        minute: pickerBase.props.enabledMinutes,
+        second: pickerBase.props.enabledSeconds,
+      }
+      let result = date;
+      ['hour', 'minute', 'second'].forEach(_ => {
+        if (enabledMap[_]) {
+          const avaliableArr = enabledMap[_]()
+          if (!avaliableArr.includes(result[_]())) {
+            result = result[_](avaliableArr[0])
+          }
+        }
+      })
+      return result
+    }
 
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
+    pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
+    pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])
     const timePickeOptions = {} as any
     const pickerHub = mitt()
     pickerHub.on('SetOption', e => {
@@ -190,7 +178,6 @@ export default defineComponent({
     })
     provide('EP_TIMEPICK_PANEL', pickerHub)
     return {
-      spinnerValue,
       t,
       handleConfirm,
       handleChange,
@@ -198,7 +185,6 @@ export default defineComponent({
       amPmMode,
       showSeconds,
       handleCancel,
-      selectableRange,
     }
   },
 })

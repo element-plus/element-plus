@@ -15,8 +15,8 @@
           v-for="(disabled, hour) in hoursList"
           :key="hour"
           class="el-time-spinner__item"
-          :class="{ 'active': hour === hours, 'disabled': disabled }"
-          @click="handleClick('hours', { value: hour, disabled: disabled })"
+          :class="{ 'active': hour === hours, disabled }"
+          @click="handleClick('hours', { value: hour, disabled })"
         >
           {{ ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) }}{{ amPm(hour) }}
         </li>
@@ -32,11 +32,11 @@
         @mousemove="adjustCurrentSpinner('minutes')"
       >
         <li
-          v-for="(enabled, key) in minutesList"
+          v-for="(disabled, key) in minutesList"
           :key="key"
           class="el-time-spinner__item"
-          :class="{ 'active': key === minutes, disabled: !enabled }"
-          @click="handleClick('minutes', { value: key, disabled: false })"
+          :class="{ 'active': key === minutes, disabled }"
+          @click="handleClick('minutes', { value: key, disabled })"
         >
           {{ ('0' + key).slice(-2) }}
         </li>
@@ -53,11 +53,11 @@
         @mousemove="adjustCurrentSpinner('seconds')"
       >
         <li
-          v-for="(second, key) in 60"
+          v-for="(disabled, key) in secondsList"
           :key="key"
           class="el-time-spinner__item"
-          :class="{ 'active': key === seconds }"
-          @click="handleClick('seconds', { value: key, disabled: false })"
+          :class="{ 'active': key === seconds, disabled }"
+          @click="handleClick('seconds', { value: key, disabled })"
         >
           {{ ('0' + key).slice(-2) }}
         </li>
@@ -92,7 +92,7 @@
             v-for="(minute, key) in arrowMinuteList"
             :key="key"
             class="el-time-spinner__item"
-            :class="{ 'active': minute === minutes }"
+            :class="{ 'active': minute === minutes, 'disabled': minutesList[minute] }"
           >
             {{ minute === undefined ? '' : ('0' + minute).slice(-2) }}
           </li>
@@ -110,7 +110,7 @@
             v-for="(second, key) in arrowSecondList"
             :key="key"
             class="el-time-spinner__item"
-            :class="{ 'active': second === seconds }"
+            :class="{ 'active': second === seconds, 'disabled': secondsList[second] }"
           >
             {{ second === undefined ? '' : ('0' + second).slice(-2) }}
           </li>
@@ -120,69 +120,14 @@
   </div>
 </template>
 <script lang='ts'>
-const newArray = function(start, end) {
+const newArray = (start, end) => {
   let result = []
   for (let i = start; i <= end; i++) {
     result.push(i)
   }
   return result
 }
-const getRangeHours = function(ranges) {
-  const hours = []
-  let disabledHours = [];
 
-  (ranges || []).forEach(range => {
-    const value = range.map(date => date.getHours())
-
-    disabledHours = disabledHours.concat(newArray(value[0], value[1]))
-  })
-
-  if (disabledHours.length) {
-    for (let i = 0; i < 24; i++) {
-      hours[i] = disabledHours.indexOf(i) === -1
-    }
-  } else {
-    for (let i = 0; i < 24; i++) {
-      hours[i] = false
-    }
-  }
-  return hours
-}
-const setRangeData = (arr, start, end, value) => {
-  for (let i = start; i < end; i++) {
-    arr[i] = value
-  }
-}
-
-const getRangeMinutes = function(ranges, hour) {
-  const minutes = new Array(60)
-
-  if (ranges.length > 0) {
-    ranges.forEach(range => {
-      const start = range[0]
-      const end = range[1]
-      const startHour = start.getHours()
-      const startMinute = start.getMinutes()
-      const endHour = end.getHours()
-      const endMinute = end.getMinutes()
-      if (startHour === hour && endHour !== hour) {
-        setRangeData(minutes, startMinute, 60, true)
-      } else if (startHour === hour && endHour === hour) {
-        setRangeData(minutes, startMinute, endMinute + 1, true)
-      } else if (startHour !== hour && endHour === hour) {
-        setRangeData(minutes, 0, endMinute + 1, true)
-      } else if (startHour < hour && endHour > hour) {
-        setRangeData(minutes, 0, 60, true)
-      }
-    })
-  } else {
-    setRangeData(minutes, 0, 60, true)
-  }
-  return minutes
-}
-export const modifyTime = function(date, h, m, s) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m, s, date.getMilliseconds())
-}
 import RepeatClick from './repeat-click'
 import {
   defineComponent,
@@ -195,6 +140,7 @@ import {
   inject,
 } from 'vue'
 import ElScrollbar from '@element-plus/scrollbar/src'
+import { Dayjs } from 'dayjs'
 export default defineComponent({
 
   directives: {
@@ -211,7 +157,7 @@ export default defineComponent({
       required: true,
     },
     spinnerDate: {
-      type: Date as PropType<Date>,
+      type: Dayjs as PropType<Dayjs>,
       required: true,
     },
     showSeconds: {
@@ -222,10 +168,6 @@ export default defineComponent({
     amPmMode: {
       type: String,
       default: '', // 'a': am/pm; 'A': AM/PM
-    },
-    selectableRange: {
-      type: Array,
-      default: () => [],
     },
   },
 
@@ -240,22 +182,40 @@ export default defineComponent({
       hours: listHourRef, minutes: listMinuteRef, seconds: listSecondRef,
     }
     const hours = computed(() => {
-      return props.spinnerDate.getHours()
+      return props.spinnerDate.hour()
     })
     const minutes = computed(() => {
-      return props.spinnerDate.getMinutes()
+      return props.spinnerDate.minute()
     })
     const seconds = computed(() => {
-      return props.spinnerDate.getSeconds()
+      return props.spinnerDate.second()
     })
     const timePartsMap = {
       hours, minutes, seconds,
     }
     const hoursList = computed(() =>{
-      return getRangeHours(props.selectableRange)
+      const arr = []
+      const enabledArr = pickerBase.props.enabledHours()
+      for (let i = 0; i < 24; i++) {
+        arr[i] = !enabledArr.includes(i)
+      }
+      return arr
     })
     const minutesList = computed(() =>{
-      return getRangeMinutes(props.selectableRange, hours.value)
+      const arr = []
+      const enabledArr = pickerBase.props.enabledMinutes(hours.value)
+      for (let i = 0; i < 60; i++) {
+        arr[i] = !enabledArr.includes(i)
+      }
+      return arr
+    })
+    const secondsList = computed(() =>{
+      const arr = []
+      const enabledArr = pickerBase.props.enabledSeconds(hours.value, minutes.value)
+      for (let i = 0; i < 60; i++) {
+        arr[i] = !enabledArr.includes(i)
+      }
+      return arr
     })
     const arrowHourList = computed(() => {
       const hour = hours.value
@@ -366,11 +326,26 @@ export default defineComponent({
       nextTick(() => emitSelectRange(currentScrollbar.value))
     }
 
-    const  modifyDateField = (type, value) =>{
+    const modifyDateField = (type, value) =>{
       switch (type) {
-        case 'hours': ctx.emit('change', modifyTime(props.spinnerDate, value, minutes.value, seconds.value)); break
-        case 'minutes': ctx.emit('change', modifyTime(props.spinnerDate, hours.value, value, seconds.value)); break
-        case 'seconds': ctx.emit('change', modifyTime(props.spinnerDate, hours.value, minutes.value, value)); break
+        case 'hours': ctx.emit('change',
+          props.spinnerDate
+            .hour(value)
+            .minute(minutes.value)
+            .second(seconds.value))
+          break
+        case 'minutes': ctx.emit('change',
+          props.spinnerDate
+            .hour(hours.value)
+            .minute(value)
+            .second(seconds.value))
+          break
+        case 'seconds': ctx.emit('change',
+          props.spinnerDate
+            .hour(hours.value)
+            .minute(minutes.value)
+            .second(value))
+          break
       }
     }
 
@@ -411,9 +386,10 @@ export default defineComponent({
       })
     })
 
-    const pickerBase = inject('EP_TIMEPICK_PANEL') as any
-    pickerBase.emit('SetOption',[`${props.role}_scrollDown`, scrollDown])
-    pickerBase.emit('SetOption',[`${props.role}_emitSelectRange`, emitSelectRange])
+    const pickerPanel = inject('EP_TIMEPICK_PANEL') as any
+    pickerPanel.emit('SetOption',[`${props.role}_scrollDown`, scrollDown])
+    pickerPanel.emit('SetOption',[`${props.role}_emitSelectRange`, emitSelectRange])
+    const pickerBase = inject('EP_PICKER_BASE') as any
 
     return {
       currentScrollbar,
@@ -435,6 +411,7 @@ export default defineComponent({
       increase,
       decrease,
       handleClick,
+      secondsList,
     }
   },
 })

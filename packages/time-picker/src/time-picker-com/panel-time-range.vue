@@ -239,8 +239,8 @@ export default defineComponent({
     }
 
     const pickerBase = inject('EP_PICKER_BASE') as any
-    pickerBase.emit('isValidValue', isValidValue)
-    pickerBase.emit('SetPickerOption',['handleKeydown', handleKeydown])
+    pickerBase.hub.emit('isValidValue', isValidValue)
+    pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
 
     const timePickeOptions = {} as any
     const pickerHub = mitt()

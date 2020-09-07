@@ -108,7 +108,7 @@ export const clearMilliseconds = function(date) {
 }
 export const timeWithinRange = function(date, selectableRange, format) {
   const limitedDate = limitTimeRange(date, selectableRange, format)
-  return limitedDate.getTime() === date.getTime()
+  return dayjs(limitedDate).isSame(dayjs(date))
 }
 export const parseDate = (string, format ) => {
   return dayjs(string, format).toDate()

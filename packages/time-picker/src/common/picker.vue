@@ -168,6 +168,7 @@ const ELEMENT = {
 interface PickerOptions {
   isValidValue: any
   handleKeydown: any
+  getRangeAvaliableTime: any
 }
 export default defineComponent({
   name: 'Picker',
@@ -222,19 +223,30 @@ export default defineComponent({
       default: '',
     },
     modelValue: {
-      type: [String, Date, Array] as PropType<string | number | Array<Date | string>>,
+      type: [Date, Array] as PropType<Date | Date[]>,
       default: '',
     },
     rangeSeparator: {
       type: String,
       default: '-',
     },
-    pickerOptions: {}, // todo top level config
     startPlaceholder: String,
     endPlaceholder: String,
     defaultValue: {
-      type: [Date, Array],
+      type: [Date, Array] as PropType<Date | Date[]>,
       default: new Date(),
+    },
+    enabledHours: {
+      type: Function,
+      default: null,
+    },
+    enabledMinutes: {
+      type: Function,
+      default: null,
+    },
+    enabledSeconds: {
+      type: Function,
+      default: null,
     },
   },
   emits: ['update:modelValue', 'change', 'focus', 'blur'],
@@ -281,9 +293,10 @@ export default defineComponent({
         _inputs[1].focus()
       }
     }
-    const onPick = (date = '', visible = false, useOldValue = false) => {
+    const onPick = (date: any = '', visible = false, useOldValue = false) => {
       pickerVisible.value = visible
-      const result = useOldValue ? oldValue : date
+      const emitDate = date.toDate()
+      const result = useOldValue ? oldValue : emitDate
       userInput.value = null
       emitInput(result)
       emitChange(result)
@@ -298,6 +311,7 @@ export default defineComponent({
       return props.disabled || elForm.disabled
     })
     const parsedValue = computed(() => {
+      let result
       if (!props.modelValue) {
         if (isRangeInput.value) {
           if (Array.isArray(props.defaultValue)) return props.defaultValue
@@ -306,12 +320,18 @@ export default defineComponent({
             dayjs(props.defaultValue).add(60,'m').toDate(),
           ]
         } else {
-          return props.defaultValue
+          result = dayjs(props.defaultValue as Date)
         }
+      } else {
+        result = dayjs(props.modelValue as Date)
       }
-      return props.modelValue
+      if (pickerOptions.value.getRangeAvaliableTime) {
+        result = pickerOptions.value.getRangeAvaliableTime(result)
+      }
+      return result
     })
 
+    // todo parsedArrayValue
     const displayValue = computed(() => {
       if (!pickerVisible.value && !props.modelValue) return
       const formattedValue = formatAsFormatAndType(parsedValue.value, props.format, props.type)
@@ -454,7 +474,7 @@ export default defineComponent({
     }
 
     const isValidValue = value => {
-      return pickerOptions.isValidValue(value)
+      return pickerOptions.value.isValidValue(value)
     }
 
     const handleKeydown = event => {
@@ -499,8 +519,8 @@ export default defineComponent({
         return
       }
 
-      if (pickerOptions.handleKeydown) {
-        pickerOptions.handleKeydown(event)
+      if (pickerOptions.value.handleKeydown) {
+        pickerOptions.value.handleKeydown(event)
       }
     }
     const onUserInput = e => {
@@ -547,12 +567,15 @@ export default defineComponent({
       }
     }
 
-    const pickerOptions = {} as PickerOptions
+    const pickerOptions = ref({} as PickerOptions)
     const pickerHub = mitt()
     pickerHub.on('SetPickerOption', e => {
-      pickerOptions[e[0]] = e[1]
+      pickerOptions.value[e[0]] = e[1]
     })
-    provide('EP_PICKER_BASE', pickerHub)
+    provide('EP_PICKER_BASE', {
+      hub: pickerHub,
+      props,
+    })
     return {
       handleEndChange,
       handleStartChange,
