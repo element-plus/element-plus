@@ -3551,7 +3551,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.0-rc.9.tgz#81e71c2c40dbbfc4f05b3b4a3f92cb2842864aa3"
   integrity sha512-SHD7qwziiG6208nKrs0qqbWbYckvBiCBCLwlRjUb6NEDUMN0TOVyzyaTvdnHND9ion/ZMdwEKMtWWtgJJkHDdw==
 
-"@vue/test-utils@^2.0.0-beta.3":
+"@vue/test-utils@^2.0.0-beta.0", "@vue/test-utils@^2.0.0-beta.3":
   version "2.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-beta.3.tgz#6dcf4a98e0b379918ca590245ed8e249ea36ade4"
   integrity sha512-fPHEeF/PYTNtTfx/t/KpvSek3Gv5npcufiCqu3Ghlxzg8r36dGIPnLXPZLdVB/0zHUezx48sWZNH1PuxoWwHBw==

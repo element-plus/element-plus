@@ -51,22 +51,20 @@
 <script lang='ts'>
 import {
   defineComponent,
-  ref,
   computed,
-  PropType,
-  watch,
 } from 'vue'
-import { useCheckbox } from './useCheckbox'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { useCheckbox, useCheckboxGroup } from './useCheckbox'
 
 export default defineComponent({
   name: 'ElCheckboxButton',
   props: {
     modelValue: {
-      type: [Object, Boolean, String, Number] as PropType<Record<string, unknown> | boolean | number>,
+      type: [Boolean, Number, String],
       default: () => undefined,
     },
     label: {
-      type: [Object, Boolean, String] as PropType<Record<string, unknown> | boolean | string>,
+      type: [Boolean, Number, String],
     },
     indeterminate: Boolean,
     disabled: Boolean,
@@ -84,104 +82,19 @@ export default defineComponent({
       default: undefined,
     },
   },
-  emits: ['update:modelValue', 'change'],
-  setup(props, { emit }) {
-    const { elForm, isGroup, _checkboxGroup, _elFormItemSize, elFormItem, ELEMENT } = useCheckbox()
-    const selfModel = ref(false)
-    const focus = ref(false)
-    const isLimitExceeded = ref(false)
-    const store = computed(() => _checkboxGroup ? _checkboxGroup.modelValue.value : props.modelValue)
-    const model = computed({
-      get() {
-        return isGroup.value ? store.value : props.modelValue !== undefined ? props.modelValue : selfModel
-      },
-
-      set(val: any) {
-        if (isGroup.value) {
-          isLimitExceeded.value = false
-
-          if (_checkboxGroup.min !== undefined && val.length < _checkboxGroup.min) {
-            isLimitExceeded.value = true
-          }
-          if (_checkboxGroup.max !== undefined && val.length > _checkboxGroup.max) {
-            isLimitExceeded.value = true
-          }
-
-          isLimitExceeded.value === false && _checkboxGroup.changeEvent?.(val)
-        } else {
-          emit('update:modelValue', val)
-          selfModel.value = val
-        }
-      },
-    })
-    const isChecked = computed(() => {
-      if (Object.prototype.toString.call(model.value) === '[object Boolean]') {
-        return model.value
-      } else if (Array.isArray(model.value)) {
-        return model.value.includes(props.label)
-      } else if (model.value !== null && model.value !== undefined) {
-        return model.value === props.trueLabel
-      }
-    })
-    const isLimitDisabled = computed(() => {
-      const max = _checkboxGroup.max
-      const min = _checkboxGroup.min
-      return !!(max || min) && (model.value.length >= max && !isChecked.value) ||
-          (model.value.length <= min && isChecked.value)
-    })
-    const isDisabled = computed(() => {
-      return isGroup.value
-        ? _checkboxGroup.disabled || props.disabled ||  (elForm as any || {} as any).disabled || isLimitDisabled.value
-        : props.disabled || (elForm as any || {} as any).disabled
-    })
+  emits: [UPDATE_MODEL_EVENT, 'change'],
+  setup(props) {
+    const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(props)
+    const { checkboxGroup } = useCheckboxGroup()
 
     const activeStyle = computed(() => {
       return {
-        backgroundColor: _checkboxGroup.fill || '',
-        borderColor: _checkboxGroup.fill || '',
-        color: _checkboxGroup.textColor || '',
-        'box-shadow': '-1px 0 0 0 ' + _checkboxGroup.fill,
+        backgroundColor: checkboxGroup?.fill?.value ?? '',
+        borderColor: checkboxGroup?.fill?.value ?? '',
+        color: checkboxGroup?.textColor?.value ?? '',
+        boxShadow: '-1px 0 0 0 ' + checkboxGroup?.fill?.value ?? '',
       }
     })
-
-    const size = computed(() => _checkboxGroup.checkboxGroupSize || _elFormItemSize || (ELEMENT || {}).size)
-
-    function addToStore() {
-      if (
-        Array.isArray(model.value) &&
-        !model.value.includes(props.label)
-      ) {
-        model.value.push(props.label)
-      } else {
-        model.value = props.trueLabel || true
-      }
-    }
-
-    function handleChange(e: UIEvent) {
-      if (isLimitExceeded.value) return
-      let value = ref(undefined)
-      if ((e.target as HTMLInputElement).checked) {
-        value.value = props.trueLabel === undefined ? true : props.trueLabel
-      } else {
-        value.value = props.falseLabel === undefined ? false : props.falseLabel
-      }
-
-      emit('change', value.value, e)
-      /**
-       * to discuss it's useful
-       */
-      // nextTick(() => {
-      //   if (isGroup.value) {
-      //     _checkboxGroup.changeEvent?.(_checkboxGroup.modelValue.value)
-      //   }
-      // })
-    }
-
-    watch(() => props.modelValue, val => {
-      elFormItem.changeEvent?.(val)
-    })
-
-    props.checked && addToStore()
 
 
     return {
