@@ -26,8 +26,8 @@
 <script lang='ts'>
 import { computed, inject, defineComponent, PropType } from 'vue'
 
-type IButtonType = PropType<'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | ''>
-type IButtonSize = PropType<'medium' | 'small' | 'mini' | ''>
+type IButtonType = PropType<'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'>
+type IButtonSize = PropType<'medium' | 'small' | 'mini'>
 type IButtonNativeType = PropType<'button' | 'submit' | 'reset'>
 const ELEMENT: {
   size?: number
@@ -70,7 +70,7 @@ export default defineComponent({
       default: 'default',
       validator: (val: string) => {
         return [
-          '',
+          'default',
           'primary',
           'success',
           'warning',
@@ -82,9 +82,8 @@ export default defineComponent({
     },
     size: {
       type: String as IButtonType,
-      default: '',
       validator: (val: string) => {
-        return ['', 'medium', 'small', 'mini'].includes(val)
+        return ['medium', 'small', 'mini'].includes(val)
       },
     },
     icon: {
