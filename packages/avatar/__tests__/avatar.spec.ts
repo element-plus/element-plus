@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import Avatar from '../src/index.vue'
-import { IMAGE_SUCCESS, IMAGE_FAIL } from '../../test-utils/mock'
+import { IMAGE_SUCCESS, IMAGE_FAIL } from '@element-plus/test-utils'
 
 beforeAll(() => {
   Object.defineProperty(global.Image.prototype, 'src', {
@@ -78,3 +78,4 @@ describe('Avatar.vue', () => {
     }
   })
 })
+
