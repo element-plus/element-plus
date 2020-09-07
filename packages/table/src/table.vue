@@ -230,7 +230,7 @@ import TableLayout from '@element-plus/table/src/table-layout'
 import TableHeader from './table-header'
 import TableBody from './table-body'
 import TableFooter from './table-footer'
-import { debounce, throttle } from 'throttle-debounce'
+import { debounce, throttle } from 'lodash'
 import { parseHeight } from './util'
 
   interface fn {
@@ -412,7 +412,7 @@ export default defineComponent({
       if (table.hoverState) table.hoverState = null
     }
 
-    const debouncedUpdateLayout = debounce(50, () => doLayout())
+    const debouncedUpdateLayout = debounce(() => doLayout(), 50)
 
     const handleHeaderFooterMousewheel = (event, data) => {
       const { pixelX, pixelY } = data
@@ -446,7 +446,7 @@ export default defineComponent({
       })
       table.$ready = true
     })
-    const syncPostion = throttle(20, function () {
+    const syncPostion = throttle(function () {
       const { scrollLeft, scrollTop, offsetWidth, scrollWidth } = table.ctx.$refs.bodyWrapper
       const { headerWrapper, footerWrapper, fixedBodyWrapper, rightFixedBodyWrapper } = table.ctx.$refs
       if (headerWrapper) headerWrapper.scrollLeft = scrollLeft
@@ -461,7 +461,7 @@ export default defineComponent({
       } else {
         scrollPosition.value = 'middle'
       }
-    })
+    }, 20)
     const bindEvents = () => {
       table.ctx.$refs.bodyWrapper.addEventListener('scroll', syncPostion, { passive: true })
       if (props.fit) {

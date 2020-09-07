@@ -1,17 +1,14 @@
-import { defineComponent, getCurrentInstance, h, computed, watch } from 'vue'
+import { defineComponent, getCurrentInstance, h, computed, watch, ref } from 'vue'
 import useLayoutObserver from './layout-observer'
 import { arrayFindIndex } from '@element-plus/utils/util'
 import { getCell, getColumnByCell, getRowIdentity } from './util'
 import { getStyle, hasClass, removeClass, addClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
-import ElTooltip from '@element-plus/tooltip'
-import { debounce } from 'throttle-debounce'
+import ElTooltip from '@element-plus/tooltip/src/index.vue'
+import { debounce } from 'lodash'
 import { RenderRowData } from './types'
 export default defineComponent({
   name: 'ElTableBody',
-  components: {
-    ElTooltip,
-  },
   props: {
     store: {
       required: true,
@@ -34,6 +31,9 @@ export default defineComponent({
     const instance = getCurrentInstance() as any
     const parent = instance.parent as any
     const store = props.store as any
+    const tooltipVisible = ref(false)
+    const tooltipContent = ref('')
+    const tooltipTrigger = ref(h('div'))
     watch(props.store.states.hoverRow, (newVal: number | null, oldVal: number | null) => {
       if (!props.store.states.isComplex.value || isServer) return
       let raf = window.requestAnimationFrame
@@ -53,7 +53,7 @@ export default defineComponent({
       })
     })
 
-    const { tableLayout, onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
+    const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
 
     const isColumnHidden = index => {
       if (props.fixed === 'left') {
@@ -202,12 +202,12 @@ export default defineComponent({
     const handleContextMenu = (event, row) => {
       handleEvent(event, row, 'contextmenu')
     }
-    const handleMouseEnter = debounce(30, function (index) {
+    const handleMouseEnter = debounce(function (index) {
       parent.store.commit('setHoverRow', index)
-    })
-    const handleMouseLeave = debounce(30, function () {
+    }, 30)
+    const handleMouseLeave = debounce(function () {
       parent.store.commit('setHoverRow', null)
-    })
+    }, 30)
     const handleCellMouseEnter = (event, row) => {
       const table = parent
       const cell = getCell(event)
@@ -235,23 +235,15 @@ export default defineComponent({
       range.setEnd(cellChild, cellChild.childNodes.length)
       const rangeWidth = range.getBoundingClientRect().width
       const padding = (parseInt(getStyle(cellChild, 'paddingLeft'), 10) || 0) + (parseInt(getStyle(cellChild, 'paddingRight'), 10) || 0)
-      // if ((rangeWidth + padding > cellChild.offsetWidth || cellChild.scrollWidth > cellChild.offsetWidth) && this.$refs.tooltip) {
-      //   const tooltip = this.$refs.tooltip;
-      //   // TODO 会引起整个 Table 的重新渲染，需要优化
-      //   this.tooltipContent = cell.innerText || cell.textContent;
-      //   tooltip.referenceElm = cell;
-      //   tooltip.$refs.popper && (tooltip.$refs.popper.style.display = 'none');
-      //   tooltip.doDestroy();
-      //   tooltip.setExpectedState(true);
-      //   this.activateTooltip(tooltip);
-      // }
+      if (rangeWidth + padding > cellChild.offsetWidth || cellChild.scrollWidth > cellChild.offsetWidth) {
+        // TODO 会引起整个 Table 的重新渲染，需要优化
+        tooltipContent.value = cell.innerText || cell.textContent
+        tooltipVisible.value = true
+        tooltipTrigger.value = cell
+      }
     }
     const handleCellMouseLeave = event => {
-      // const tooltip = this.$refs.tooltip;
-      // if (tooltip) {
-      //   tooltip.setExpectedState(false);
-      //   tooltip.handleClosePopper();
-      // }
+      tooltipVisible.value = false
       const cell = getCell(event)
       if (!cell) return
 
@@ -450,6 +442,9 @@ export default defineComponent({
       onColumnsChange,
       onScrollableChange,
       wrappedRowRender,
+      tooltipVisible,
+      tooltipContent,
+      tooltipTrigger,
     }
   },
   render() {
@@ -478,12 +473,16 @@ export default defineComponent({
             return acc.concat(this.wrappedRowRender(row, acc.length))
           }, []),
           h(
-            'el-tooltip',
+            ElTooltip,
             {
+              modelValue: this.tooltipVisible,
+              content: this.tooltipContent,
+              manual: true,
               effect: this.$parent.tooltipEffect,
               placement: 'top',
-              ref: 'tooltip',
-              content: '',
+            },
+            {
+              default: () => this.tooltipTrigger,
             },
           ),
         ]),

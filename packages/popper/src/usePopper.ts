@@ -32,14 +32,13 @@ const getTrigger = () => {
   if (targetSlot.length > 1) {
     console.warn('Popper will only be attached to the first child')
   }
-
   // This indicates if the slot is rendered with directives (e.g. v-if) or templates (e.g. <template />)
   // if it's true, then the children needs to be taken by accessing targetSlots.children to get it
-  while(targetSlot.type === Fragment) {
+  while (targetSlot.type === Fragment) {
     targetSlot = targetSlot.children[0]
   }
 
-  const trigger: HTMLElement = targetSlot.el
+  const trigger: HTMLElement = targetSlot.el || targetSlot.children[0]
   if (!trigger) {
     throwError('ElPopper', 'Cannot find referrer to attach popper to')
   }
