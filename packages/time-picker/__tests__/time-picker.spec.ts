@@ -117,8 +117,11 @@ describe('TimePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const secondsDom = document.querySelectorAll('.el-time-spinner__wrapper')[2] as any
-    expect(secondsDom.style.display).toBe('none')
+    const spinnerDom = document.querySelectorAll('.el-time-spinner__wrapper')
+    const minutesDom = spinnerDom[1]
+    const secondsDom = spinnerDom[2]
+    expect(minutesDom).not.toBeUndefined()
+    expect(secondsDom).toBeUndefined()
   })
 
   it('event change, focus, blur', async () => {

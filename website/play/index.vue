@@ -8,9 +8,7 @@
     <el-time-picker
       v-model="value1"
       placeholder="Arbitrary time"
-      :enabled-hours="enabledHours"
-      :enabled-minutes="enabledMinutes"
-      :enabled-seconds="enabledSeconds"
+      format="HH:mm"
     />
     value1: {{ value1 }}
   </div>

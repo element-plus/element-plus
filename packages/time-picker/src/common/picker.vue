@@ -223,7 +223,7 @@ export default defineComponent({
       default: '',
     },
     modelValue: {
-      type: [Date, Array] as PropType<Date | Date[]>,
+      type: [Date, Array, String] as PropType<string | Date | Date[]>,
       default: '',
     },
     rangeSeparator: {
@@ -295,8 +295,7 @@ export default defineComponent({
     }
     const onPick = (date: any = '', visible = false, useOldValue = false) => {
       pickerVisible.value = visible
-      const emitDate = date.toDate()
-      const result = useOldValue ? oldValue : emitDate
+      const result = useOldValue ? oldValue : date.toDate()
       userInput.value = null
       emitInput(result)
       emitChange(result)

@@ -69,9 +69,9 @@ import ElScrollbar from '@element-plus/scrollbar/src'
 
 const getList = (total, method, methodFunc) => {
   const arr = []
-  const enabledArr = method ? methodFunc() : []
+  const enabledArr = method && methodFunc()
   for (let i = 0; i < total; i++) {
-    arr[i] = !enabledArr.includes(i)
+    arr[i] = enabledArr ? !enabledArr.includes(i) : false
   }
   return arr
 }
@@ -214,7 +214,7 @@ export default defineComponent({
     const adjustSpinner = (type, value) => {
       if (props.arrowControl) return
       const el = listRefsMap[type]
-      if (el) {
+      if (el.value) {
         el.value.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(0, value * typeItemHeight(type))
       }
     }
@@ -278,7 +278,7 @@ export default defineComponent({
       }
     }
 
-    const  handleScroll = type => {
+    const handleScroll = type => {
       const value = Math.min(Math.round((listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap').scrollTop - (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) + 3) / typeItemHeight(type)), (type === 'hours' ? 23 : 59))
       modifyDateField(type, value)
     }
@@ -289,10 +289,12 @@ export default defineComponent({
 
     const bindScrollEvent = () => {
       const bindFuntion = type => {
-        listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap').onscroll = () => {
+        if (listRefsMap[type].value) {
+          listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap').onscroll = () => {
           // TODO: scroll is emitted when set scrollTop programatically
           // should find better solutions in the future!
-          handleScroll(type)
+            handleScroll(type)
+          }
         }
       }
       bindFuntion('hours')
