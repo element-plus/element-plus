@@ -18,7 +18,7 @@
           :class="{ 'active': hour === hours, disabled }"
           @click="handleClick('hours', { value: hour, disabled })"
         >
-          {{ ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) }}{{ amPm(hour) }}
+          {{ ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) }}{{ getAmPmFlag(hour) }}
         </li>
       </el-scrollbar>
       <el-scrollbar
@@ -68,8 +68,8 @@
         class="el-time-spinner__wrapper is-arrow"
         @mouseenter="emitSelectRange('hours')"
       >
-        <i v-repeat-click="decrease" class="el-time-spinner__arrow el-icon-arrow-up"></i>
-        <i v-repeat-click="increase" class="el-time-spinner__arrow el-icon-arrow-down"></i>
+        <i v-repeat-click="onDecreaseClick" class="el-time-spinner__arrow el-icon-arrow-up"></i>
+        <i v-repeat-click="onIncreaseClick" class="el-time-spinner__arrow el-icon-arrow-down"></i>
         <ul class="el-time-spinner__list">
           <li
             v-for="(hour, key) in arrowHourList"
@@ -77,7 +77,7 @@
             class="el-time-spinner__item"
             :class="{ 'active': hour === hours, 'disabled': hoursList[hour] }"
           >
-            {{ hour === undefined ? '' : ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) + amPm(hour) }}
+            {{ hour === undefined ? '' : ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) + getAmPmFlag(hour) }}
           </li>
         </ul>
       </div>
@@ -85,8 +85,8 @@
         class="el-time-spinner__wrapper is-arrow"
         @mouseenter="emitSelectRange('minutes')"
       >
-        <i v-repeat-click="decrease" class="el-time-spinner__arrow el-icon-arrow-up"></i>
-        <i v-repeat-click="increase" class="el-time-spinner__arrow el-icon-arrow-down"></i>
+        <i v-repeat-click="onDecreaseClick" class="el-time-spinner__arrow el-icon-arrow-up"></i>
+        <i v-repeat-click="onIncreaseClick" class="el-time-spinner__arrow el-icon-arrow-down"></i>
         <ul class="el-time-spinner__list">
           <li
             v-for="(minute, key) in arrowMinuteList"
@@ -103,8 +103,8 @@
         class="el-time-spinner__wrapper is-arrow"
         @mouseenter="emitSelectRange('seconds')"
       >
-        <i v-repeat-click="decrease" class="el-time-spinner__arrow el-icon-arrow-up"></i>
-        <i v-repeat-click="increase" class="el-time-spinner__arrow el-icon-arrow-down"></i>
+        <i v-repeat-click="onDecreaseClick" class="el-time-spinner__arrow el-icon-arrow-up"></i>
+        <i v-repeat-click="onIncreaseClick" class="el-time-spinner__arrow el-icon-arrow-down"></i>
         <ul class="el-time-spinner__list">
           <li
             v-for="(second, key) in arrowSecondList"
@@ -120,15 +120,6 @@
   </div>
 </template>
 <script lang='ts'>
-const newArray = (start, end) => {
-  let result = []
-  for (let i = start; i <= end; i++) {
-    result.push(i)
-  }
-  return result
-}
-
-import RepeatClick from './repeat-click'
 import {
   defineComponent,
   ref,
@@ -139,8 +130,9 @@ import {
   PropType,
   inject,
 } from 'vue'
-import ElScrollbar from '@element-plus/scrollbar/src'
 import { Dayjs } from 'dayjs'
+import RepeatClick from './repeat-click'
+import ElScrollbar from '@element-plus/scrollbar/src'
 export default defineComponent({
 
   directives: {
@@ -174,6 +166,7 @@ export default defineComponent({
   emits: ['change', 'select-range'],
 
   setup(props, ctx) {
+    // data
     const currentScrollbar = ref(null)
     const listHourRef: Ref<Nullable<HTMLElement>> = ref(null)
     const listMinuteRef: Ref<Nullable<HTMLElement>> = ref(null)
@@ -181,6 +174,8 @@ export default defineComponent({
     const listRefsMap = {
       hours: listHourRef, minutes: listMinuteRef, seconds: listSecondRef,
     }
+
+    // computed
     const hours = computed(() => {
       return props.spinnerDate.hour()
     })
@@ -241,8 +236,8 @@ export default defineComponent({
         second < 59 ? second + 1 : undefined,
       ]
     })
-    const amPm = hour => {
-      let shouldShowAmPm = props.amPmMode.toLowerCase() === 'a'
+    const getAmPmFlag = hour => {
+      let shouldShowAmPm = !!props.amPmMode
       if (!shouldShowAmPm) return ''
       let isCapital = props.amPmMode === 'A'
       // todo locale
@@ -288,11 +283,11 @@ export default defineComponent({
       return el.value.$el.querySelector('li').offsetHeight
     }
 
-    const increase = () => {
+    const onIncreaseClick = () => {
       scrollDown(1)
     }
 
-    const decrease = () => {
+    const onDecreaseClick = () => {
       scrollDown(-1)
     }
 
@@ -302,31 +297,16 @@ export default defineComponent({
       }
 
       const label = currentScrollbar.value
-      const _hoursList = hoursList.value
       let now = timePartsMap[label].value
-
-      if (currentScrollbar.value === 'hours') {
-        let total = Math.abs(step)
-        step = step > 0 ? 1 : -1
-        let length = _hoursList.length
-        while (length-- && total) {
-          now = (now + step + _hoursList.length) % _hoursList.length
-          if (_hoursList[now]) {
-            continue
-          }
-          total--
-        }
-        if (_hoursList[now]) return
-      } else {
-        now = (now + step + 60) % 60
-      }
+      const total = currentScrollbar.value === 'hours' ? 24 : 60
+      now = (now + step + total) % total
 
       modifyDateField(label, now)
       adjustSpinner(label, now)
       nextTick(() => emitSelectRange(currentScrollbar.value))
     }
 
-    const modifyDateField = (type, value) =>{
+    const modifyDateField = (type, value) => {
       switch (type) {
         case 'hours': ctx.emit('change',
           props.spinnerDate
@@ -401,15 +381,15 @@ export default defineComponent({
       arrowHourList,
       arrowMinuteList,
       arrowSecondList,
-      amPm,
+      getAmPmFlag,
       emitSelectRange,
       adjustCurrentSpinner,
       typeItemHeight,
       listHourRef,
       listMinuteRef,
       listSecondRef,
-      increase,
-      decrease,
+      onIncreaseClick,
+      onDecreaseClick,
       handleClick,
       secondsList,
     }

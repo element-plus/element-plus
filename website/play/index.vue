@@ -35,7 +35,10 @@ export default {
       // type start | end
       return range(5, 10)
     },
-    enabledMinutes() {
+    enabledMinutes(hour) {
+      if (hour === 8) {
+        return range(0, 29)
+      }
       return range(30, 60)
     },
     enabledSeconds() {

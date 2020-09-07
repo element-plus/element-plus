@@ -105,16 +105,13 @@ export default defineComponent({
     }
     const handleConfirm = (visible = false, first) => {
       if (first) return
-      ctx.emit('pick', props.parsedValue.millisecond(0), visible)
+      ctx.emit('pick', props.parsedValue, visible)
     }
     const handleChange = (_date: Dayjs) => {
       // visible avoids edge cases, when use scrolls during panel closing animation
       if (!props.visible) { return }
-      const result = _date.millisecond(0)
-      // if date is out of range, do not emit
-      if (isValidValue(result)) {
-        ctx.emit('pick', result, true)
-      }
+      const result = getRangeAvaliableTime(_date).millisecond(0)
+      ctx.emit('pick', result, true)
     }
 
     const setSelectionRange = (start, end) => {
@@ -158,7 +155,15 @@ export default defineComponent({
       let result = date;
       ['hour', 'minute', 'second'].forEach(_ => {
         if (enabledMap[_]) {
-          const avaliableArr = enabledMap[_]()
+          let avaliableArr
+          const method = enabledMap[_]
+          if (_ === 'minute') {
+            avaliableArr = method(result.hour())
+          } else if (_ === 'second') {
+            avaliableArr = method(result.hour(), result.minute())
+          } else {
+            avaliableArr = method()
+          }
           if (!avaliableArr.includes(result[_]())) {
             result = result[_](avaliableArr[0])
           }
