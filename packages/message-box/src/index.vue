@@ -31,25 +31,26 @@
           </button>
         </div>
         <div class="el-message-box__content">
-          <div
-            v-if="icon && !center && message !== ''"
-            :class="['el-message-box__status', icon]"
-          >
-          </div>
-          <div v-if="message !== ''" class="el-message-box__message">
-            <slot>
-              <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
-              <p v-else v-html="message"></p>
-            </slot>
+          <div class="el-message-box__container">
+            <div
+              v-if="icon && !center && message !== ''"
+              :class="['el-message-box__status', icon]"
+            >
+            </div>
+            <div v-if="message !== ''" class="el-message-box__message">
+              <slot>
+                <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
+                <p v-else v-html="message"></p>
+              </slot>
+            </div>
           </div>
           <div v-show="showInput" class="el-message-box__input">
             <!--            <el-input-->
-            <!--              ref="input"-->
             <!--              v-model="inputValue"-->
             <!--              :type="inputType"-->
+            <!--              @keydown.enter.native="handleInputEnter"-->
             <!--              :placeholder="inputPlaceholder"-->
-            <!--              @keydown.enter="handleInputEnter"-->
-            <!--            />-->
+            <!--              ref="input"></el-input>-->
             <div class="el-message-box__errormsg" :style="{ visibility: !!editorErrorMessage ? 'visible' : 'hidden' }">{{ editorErrorMessage }}</div>
           </div>
         </div>

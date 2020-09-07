@@ -38,6 +38,8 @@ export declare class ElMessageBoxComponent {
   confirmButtonDisabled: boolean
   cancelButtonClass: string
   editorErrorMessage: string
+
+  close(): any
 }
 
 /** Options used in MessageBox */

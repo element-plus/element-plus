@@ -174,7 +174,7 @@ const MessageBox = function(options: ElMessageBoxOptions | string, callback?): P
   }
 }
 
-MessageBox.alert = (message, title, options) => {
+MessageBox.alert = (message, title, options?: ElMessageBoxOptions) => {
   if (typeof title === 'object') {
     options = title
     title = ''
@@ -190,7 +190,7 @@ MessageBox.alert = (message, title, options) => {
   }, options))
 }
 
-MessageBox.confirm = (message, title, options) => {
+MessageBox.confirm = (message, title, options?: ElMessageBoxOptions) => {
   if (typeof title === 'object') {
     options = title
     title = ''
@@ -205,7 +205,7 @@ MessageBox.confirm = (message, title, options) => {
   }, options))
 }
 
-MessageBox.prompt = (message, title, options) => {
+MessageBox.prompt = (message, title, options?: ElMessageBoxOptions) => {
   if (typeof title === 'object') {
     options = title
     title = ''

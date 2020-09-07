@@ -2,11 +2,6 @@ import MessageBox from '../src/messageBox'
 
 const sleep = (time = 250) => new Promise(resolve => setTimeout(resolve, time))
 
-const timeout = async (fn, time = 250) => {
-  await sleep(time)
-  fn()
-}
-
 const selector = '.el-message-box__wrapper'
 
 describe('MessageBox', () => {
@@ -26,7 +21,7 @@ describe('MessageBox', () => {
       title: '消息',
       message: '这是一段内容',
     })
-    const msgbox = document.querySelector(selector)
+    const msgbox: HTMLElement = document.querySelector(selector)
     expect(msgbox).toBeDefined()
     await sleep()
     expect(msgbox.querySelector('.el-message-box__title span').textContent).toEqual('消息')
@@ -64,8 +59,7 @@ describe('MessageBox', () => {
     expect(message.textContent).toEqual('html string')
   })
 
-  test('distinguish cancel and close', async () => {
-    // BUG TODO FIX
+  test('distinguish cancel and close', done => {
     let msgAction = ''
     MessageBox({
       title: '消息',
@@ -74,9 +68,116 @@ describe('MessageBox', () => {
     }, action => {
       msgAction = action
     })
-    MessageBox.close()
-    document.querySelector('.el-message-box__close').click()
+    setTimeout(() => {
+      const btn: HTMLElement = document.querySelector('.el-message-box__close')
+      btn.click()
+      setTimeout(() => {
+        console.log('4444', msgAction)
+        expect(msgAction).toEqual('close')
+        done()
+      }, 200)
+    }, 200)
+  })
+
+  test('alert', async () => {
+    MessageBox.alert('这是一段内容', {
+      title: '标题名称',
+      type: 'warning',
+    })
     await sleep()
-    expect(msgAction).toEqual('')
+    const vModal: HTMLElement = document.querySelector('.v-modal')
+    vModal.click()
+    await sleep()
+    const msgbox: HTMLElement = document.querySelector(selector)
+    expect(msgbox.style.display).toEqual('')
+    expect(msgbox.querySelector('.el-icon-warning')).toBeDefined()
+  })
+
+  test('confirm',  async () => {
+    MessageBox.confirm('这是一段内容', {
+      title: '标题名称',
+      type: 'warning',
+    })
+    await sleep()
+    const btn: HTMLElement = document.querySelector(selector).querySelector('.el-button--primary')
+    btn.click()
+    await sleep()
+    const msgbox: HTMLElement = document.querySelector(selector)
+    expect(msgbox.style.display).toEqual('none')
+  })
+
+  test('prompt', () => {
+    // TODO dependencies ElInput
+    MessageBox.prompt('这是一段内容', {
+      title: '标题名称',
+      inputPattern: /test/,
+      inputErrorMessage: 'validation failed',
+    })
+  })
+
+  test('prompt: focus on textarea', () => {
+    // TODO dependencies ElInput
+    MessageBox.prompt('这是一段内容', {
+      inputType: 'textarea',
+      title: '标题名称',
+    })
+  })
+
+  test('callback', async () => {
+    let msgAction = ''
+    MessageBox({
+      title: '消息',
+      message: '这是一段内容',
+    }, action => {
+      msgAction = action
+    })
+    await sleep()
+    const closeBtn: HTMLElement = document.querySelector('.el-message-box__close')
+    closeBtn.click()
+    await sleep()
+    expect(msgAction).toEqual('cancel')
+  })
+
+  test('beforeClose', async() => {
+    let msgAction = ''
+    MessageBox({
+      title: '消息',
+      message: '这是一段内容',
+      beforeClose: (action, instance) => {
+        instance.close()
+      },
+    }, action => {
+      msgAction = action
+    })
+    await sleep(10)
+  })
+
+  describe('promise', () => {
+    test('resolve', async done => {
+      MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示')
+        .then(action => {
+          expect(action).toEqual('confirm')
+          done()
+        })
+      await sleep(10)
+      const btn: HTMLElement = document.querySelector('.el-message-box__wrapper .el-button')
+      btn.click()
+    })
+
+    test('reject', async done => {
+      const testP = () => new Promise(resolve => {
+        setTimeout(() => {
+          resolve()
+        })
+      })
+      MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示')
+        .catch(action => {
+          expect(action).toEqual('cancel')
+          done()
+        })
+      await sleep(10)
+      const btn: HTMLElement = document.querySelector('.el-message-box__wrapper .el-button')
+      btn.click()
+    })
   })
 })

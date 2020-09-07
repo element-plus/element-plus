@@ -12,9 +12,9 @@ export default {
     open() {
       this.$alert('这是一段内容', '标题名称', {
         confirmButtonText: '确定',
-        callback: action => {
-          alert(`action: ${ action }`)
-        },
+        // callback: action => {
+        //   alert(`action: ${ action }`)
+        // },
       })
     },
   },
