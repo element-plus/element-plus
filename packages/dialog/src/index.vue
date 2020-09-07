@@ -1,4 +1,5 @@
 <script lang='ts'>
+// TODO: Replace this file with single .ts file after styles merged
 import {
   defineComponent,
   Transition,
@@ -33,9 +34,7 @@ export default defineComponent({
     },
     beforeClose: {
       type: Function as PropType<(...args: any[]) => unknown>,
-      validator: val => {
-        return typeof val === 'function'
-      },
+      validator: val => typeof val === 'function',
     },
     destroyOnClose: {
       type: Boolean,
@@ -75,6 +74,17 @@ export default defineComponent({
     },
     title: {
       type: String,
+      default: '',
+    },
+    openDelay: {
+      type: Number,
+      validator: val => typeof val === 'number',
+      default: 0,
+    },
+    closeDelay: {
+      type: Number,
+      validator: val => typeof val === 'number',
+      default: 0,
     },
     top: {
       type: String,
@@ -138,7 +148,7 @@ export default defineComponent({
       {
         class: 'el-dialog__body',
       },
-      $slots?.default(),
+      $slots.default?.(),
     )
 
     const footer = $slots.footer
@@ -154,7 +164,7 @@ export default defineComponent({
           'el-dialog',
           {
             'is-fullscreen': this.fullscreen,
-            'el-dialog--center': this.center,
+            'el-dialog__center': this.center,
           },
           this.customClass,
         ],
@@ -193,6 +203,7 @@ export default defineComponent({
         default: () => overlay,
       },
     )
+
     if (this.appendToBody) {
       return h(
         Teleport,
@@ -206,6 +217,7 @@ export default defineComponent({
   },
 })
 </script>
+
 <style>
 .dialog-fade-enter-active {
   -webkit-animation: modal-fade-in 0.3s !important;
