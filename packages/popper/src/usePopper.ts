@@ -1,62 +1,48 @@
-import { computed, Fragment, getCurrentInstance, ref, onMounted, onBeforeUnmount, onUpdated, watch } from 'vue'
-import { debounce } from 'lodash'
+import {
+  computed,
+  ref,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  onUpdated,
+  watch,
+} from 'vue'
 import { createPopper } from '@popperjs/core'
 
-import { generateId } from '@element-plus/utils/util'
-import { addClass } from '@element-plus/utils/dom'
-import throwError from '@element-plus/utils/error'
-
-import { default as useEvents } from '@element-plus/hooks/use-events'
+import {
+  generateId,
+  clearTimer,
+  isBool,
+  isHTMLElement,
+  isArray,
+  isString,
+} from '@element-plus/utils/util'
 
 import useModifier from './useModifier'
 
-import type { Ref } from 'vue'
-import type { IPopperOptions, RefElement, PopperInstance } from './popper'
+import type {
+  IPopperOptions,
+  RefElement,
+  PopperInstance,
+  TriggerType,
+} from './popper'
+import type { ComponentPublicInstance, SetupContext } from 'vue'
 
 export const DEFAULT_TRIGGER = ['hover']
-export const UPDATE_VALUE_EVENT = 'updateValue'
+export const UPDATE_VISIBLE_EVENT = 'update:visible'
 
-const clearTimer = (timer: Ref<Nullable<NodeJS.Timeout>>) => {
-  if (timer.value) {
-    clearTimeout(timer.value)
-  }
-  timer.value = null
-}
-
-const getTrigger = () => {
-  const { subTree: { children } } = getCurrentInstance()
-  // SubTree is formed by <slot name="trigger"/><popper />
-  // So that the trigger element is within the slot, we need to take it out of the slot in order to attach
-  // events on top of it
-  let targetSlot = children[0]
-  if (targetSlot.length > 1) {
-    console.warn('Popper will only be attached to the first child')
-  }
-
-  // This indicates if the slot is rendered with directives (e.g. v-if) or templates (e.g. <template />)
-  // if it's true, then the children needs to be taken by accessing targetSlots.children to get it
-  while(targetSlot.type === Fragment) {
-    targetSlot = targetSlot.children[0]
-  }
-
-  const trigger: HTMLElement = targetSlot.el
-  if (!trigger) {
-    throwError('ElPopper', 'Cannot find referrer to attach popper to')
-  }
-  return trigger
-}
-
-export default <T extends IPopperOptions>(props: T) => {
+export default (props: IPopperOptions, { emit }: SetupContext) => {
   const arrowRef = ref<RefElement>(null)
-  const triggerRef = ref<RefElement>(null)
+  const triggerRef = ref<ComponentPublicInstance | HTMLElement>(null)
+  const triggerId = ref<number>(-1)
   const exceptionState = ref(false)
   const popperInstance = ref<Nullable<PopperInstance>>(null)
   const popperId = ref(`el-popper-${generateId()}`)
   const popperRef = ref<RefElement>(null)
-  const show = ref(false)
-  const timeout = ref<NodeJS.Timeout>(null)
-  const timeoutPending = ref<NodeJS.Timeout>(null)
-  const excludes = computed(() => triggerRef.value)
+  const timeout = ref<TimeoutHandle>(null)
+  const timeoutPending = ref<TimeoutHandle>(null)
+
   const triggerFocused = ref(false)
 
   const popperOptions = computed(() => {
@@ -75,55 +61,99 @@ export default <T extends IPopperOptions>(props: T) => {
     }
   })
 
-  const visible = computed(() => {
-    return props.manualMode ? props.value : !props.disabled && show.value
+  const _visible = ref(false)
+  // visible has been taken by props.visible, avoiding name collision
+  const visibility = computed(() => {
+    if (props.disabled) {
+      return false
+    } else {
+      return isBool(props.visible) ? props.visible : _visible.value
+    }
   })
+
+  function _show() {
+    if (props.hideAfter > 0) {
+      timeoutPending.value = window.setTimeout(() => {
+        _hide()
+      }, props.hideAfter)
+    }
+    isBool(props.visible)
+      ? emit(UPDATE_VISIBLE_EVENT, true)
+      : (_visible.value = true)
+  }
+
+  function _hide() {
+    isBool(props.visible)
+      ? emit(UPDATE_VISIBLE_EVENT, false)
+      : (_visible.value = false)
+  }
+
+  function clearTimers() {
+    clearTimer(timeout)
+    clearTimer(timeoutPending)
+  }
 
   const showPopper = () => {
     if (!exceptionState.value || props.manualMode || props.disabled) return
-    clearTimer(timeout)
-    const handleHideAfter = () => {
-      if (props.hideAfter > 0) {
-        timeoutPending.value = setTimeout(() => {
-          show.value = false
-        }, props.hideAfter)
-      }
-    }
+    clearTimers()
     if (props.showAfter === 0) {
-      show.value = true
-      handleHideAfter()
+      _show()
     } else {
-      timeout.value = setTimeout(() => {
-        show.value = true
-        handleHideAfter()
+      timeout.value = window.setTimeout(() => {
+        _show()
       }, props.showAfter)
     }
   }
 
+  const closePopper = () => {
+    if ((props.enterable && exceptionState.value) || props.manualMode) return
+    clearTimers()
+    if (props.closeDelay > 0) {
+      timeoutPending.value = window.setTimeout(() => {
+        close()
+      }, props.closeDelay)
+    } else {
+      close()
+    }
+  }
   const close = () => {
-    if (props.enterable && exceptionState.value) return
-    clearTimer(timeout)
-    clearTimer(timeoutPending)
-    show.value = false
+    _hide()
     if (props.disabled) {
       doDestroy(true)
     }
   }
-  const closePopper = props.closeDelay
-    ? debounce(close, props.closeDelay)
-    : close
 
   function onShow() {
-    setExpectionState(true)
+    setExceptionState(true)
     showPopper()
   }
 
   function onHide() {
-    setExpectionState(false)
+    setExceptionState(false)
     closePopper()
   }
 
-  function setExpectionState(state: boolean) {
+  function onPopperMouseEnter() {
+    clearTimer(timeoutPending)
+  }
+
+  function onPopperMouseLeave() {
+    const { trigger } = props
+    const shouldPrevent =
+      (isString(trigger) && (trigger === 'click' || trigger === 'focus')) ||
+      // we'd like to test array type trigger here, but the only case we need to cover is trigger === 'click' or
+      // trigger === 'focus', because that when trigger is string
+      // trigger.length === 1 and trigger[0] === 5 chars string is mutually exclusive.
+      // so there will be no need to test if trigger is array type.
+      (trigger.length === 1 &&
+        (trigger[0] === 'click' || trigger[0] === 'focus'))
+
+    if (shouldPrevent) return
+
+    onHide()
+  }
+
+  function setExceptionState(state: boolean) {
     if (!state) {
       clearTimer(timeoutPending)
     }
@@ -131,10 +161,12 @@ export default <T extends IPopperOptions>(props: T) => {
   }
 
   function initializePopper() {
-    const _trigger = getTrigger()
-    triggerRef.value = _trigger
-
-    popperInstance.value = createPopper(_trigger, popperRef.value,
+    const _trigger = isHTMLElement(triggerRef.value)
+      ? triggerRef.value
+      : (triggerRef.value as ComponentPublicInstance).$el
+    popperInstance.value = createPopper(
+      _trigger,
+      popperRef.value,
       props.popperOptions !== null
         ? props.popperOptions
         : {
@@ -144,42 +176,48 @@ export default <T extends IPopperOptions>(props: T) => {
           },
           strategy: popperOptions.value.strategy,
           modifiers: useModifier(popperOptions.value.modifierOptions),
-        })
-    _trigger.setAttribute('aria-describedby', popperId.value)
-    _trigger.setAttribute('tabindex', props.tabIndex)
-    addClass(_trigger, props.class)
+        },
+    )
   }
 
   function doDestroy(forceDestroy: boolean) {
     /* istanbul ignore if */
-    if (!popperInstance.value || (visible.value && !forceDestroy)) return
+    if (!popperInstance.value || (visibility.value && !forceDestroy)) return
     detachPopper()
   }
 
   function detachPopper() {
     popperInstance.value.destroy()
     popperInstance.value = null
-    triggerRef.value = null
+  }
+
+  const events = {} as {
+    onClick?: (e: Event) => void
+    onMouseEnter?: (e: Event) => void
+    onMouseLeave?: (e: Event) => void
+    onFocus?: (e: Event) => void
+    onBlur?: (e: Event) => void
   }
 
   if (!props.manualMode) {
     const toggleState = () => {
-      if (visible.value) {
+      if (visibility.value) {
         onHide()
       } else {
         onShow()
       }
     }
 
-    const handlePopperEvents = (e: Event) => {
-      e.stopImmediatePropagation()
+    const popperEventsHandler = (e: Event) => {
+      e.stopPropagation()
       switch (e.type) {
         case 'click': {
           if (triggerFocused.value) {
             // reset previous focus event
             triggerFocused.value = false
+          } else {
+            toggleState()
           }
-          toggleState()
           break
         }
         case 'mouseenter': {
@@ -202,39 +240,43 @@ export default <T extends IPopperOptions>(props: T) => {
         }
       }
     }
-    const events = []
-    const handler = handlePopperEvents
-    if (props.trigger.includes('click')) {
-      events.push({
-        name: 'click',
-        handler,
-      })
-    }
 
-    if (props.trigger.includes('hover')) {
-      events.push({
-        name: 'mouseenter',
-        handler,
-      },
-      {
-        name: 'mouseleave',
-        handler,
-      })
+    const mapEvents = (t: TriggerType) => {
+      switch (t) {
+        case 'click': {
+          events.onClick = popperEventsHandler
+          break
+        }
+        case 'hover': {
+          events.onMouseEnter = popperEventsHandler
+          events.onMouseLeave = popperEventsHandler
+          break
+        }
+        case 'focus': {
+          events.onFocus = popperEventsHandler
+          events.onBlur = popperEventsHandler
+          break
+        }
+        default: {
+          break
+        }
+      }
     }
-
-    if (props.trigger.includes('focus')) {
-      events.push({
-        name: 'focus',
-        handler,
-      },
-      {
-        name: 'blur',
-        handler,
-      })
+    if (isArray(props.trigger)) {
+      Object.values(props.trigger).map(mapEvents)
+    } else {
+      mapEvents(props.trigger)
     }
-    useEvents(triggerRef, events)
   }
 
+  const transitionEmitters = {
+    onAfterEnter: () => {
+      emit('after-enter')
+    },
+    onAfterLeave: () => {
+      emit('after-leave')
+    },
+  }
   watch(popperOptions, val => {
     if (!popperInstance.value) return
     popperInstance.value.setOptions({
@@ -245,29 +287,7 @@ export default <T extends IPopperOptions>(props: T) => {
     popperInstance.value.update()
   })
 
-  watch(visible,
-    () => {
-      if (popperInstance.value) {
-        popperInstance.value.update()
-      } else {
-        initializePopper()
-      }
-    },
-  )
-
-  onMounted(() => {
-    initializePopper()
-  })
-
-  onBeforeUnmount(() => {
-    doDestroy(true)
-  })
-
-  onUpdated(() => {
-    const _trigger = getTrigger()
-    if (_trigger !== triggerRef.value && popperInstance.value) {
-      detachPopper()
-    }
+  watch(visibility, () => {
     if (popperInstance.value) {
       popperInstance.value.update()
     } else {
@@ -275,17 +295,35 @@ export default <T extends IPopperOptions>(props: T) => {
     }
   })
 
+  onMounted(initializePopper)
+
+  onUpdated(initializePopper)
+
+  onBeforeUnmount(() => {
+    doDestroy(true)
+  })
+
+  onActivated(initializePopper)
+
+  onDeactivated(() => {
+    doDestroy(true)
+  })
+
   return {
     doDestroy,
     onShow,
     onHide,
+    onPopperMouseEnter,
+    onPopperMouseLeave,
     initializePopper,
     arrowRef,
-    excludes,
+    events,
     popperId,
     popperInstance,
     popperRef,
     triggerRef,
-    visible,
+    triggerId,
+    visibility,
+    transitionEmitters,
   }
 }

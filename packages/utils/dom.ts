@@ -1,5 +1,5 @@
 import isServer from './isServer'
-import { camelize } from './util'
+import { camelize, isObject } from './util'
 
 /* istanbul ignore next */
 const trim = function(s: string) {
@@ -127,20 +127,29 @@ export const getStyle = function(
 export function setStyle(
   element: HTMLElement,
   styleName: CSSStyleDeclaration | string,
-  value: string,
+  value?: string,
 ): void {
   if (!element || !styleName) return
 
-  if (typeof styleName === 'object') {
-    for (const prop in styleName) {
-      if (styleName.hasOwnProperty(prop)) {
-        setStyle(element, prop, styleName[prop])
-      }
-    }
+  if (isObject(styleName)) {
+    Object.keys(styleName).forEach(prop => {
+      setStyle(element, prop, styleName[prop])
+    })
   } else {
     styleName = camelize(styleName)
-
     element.style[styleName] = value
+  }
+}
+
+export function removeStyle(element: HTMLElement, style: CSSStyleDeclaration | string) {
+  if (!element || !style) return
+
+  if (isObject(style)) {
+    Object.keys(style).forEach(prop => {
+      setStyle(element, prop, '')
+    })
+  } else {
+    setStyle(element, style, '')
   }
 }
 
@@ -164,7 +173,7 @@ export const getScrollContainer = (
   isVertical?: Nullable<boolean>,
 ): Window | HTMLElement => {
   if (isServer) return
-  el.classList
+
   let parent: HTMLElement = el
   while (parent) {
     if ([window, document, document.documentElement].includes(parent)) {
@@ -208,3 +217,20 @@ export const isInContainer = (
     elRect.left < containerRect.right
   )
 }
+
+export const getOffsetTop = (el: HTMLElement) => {
+  let offset = 0
+  let parent = el
+
+  while (parent) {
+    offset += parent.offsetTop
+    parent = parent.offsetParent as HTMLElement
+  }
+
+  return offset
+}
+
+export const getOffsetTopDistance = (el: HTMLElement, containerEl: HTMLElement) => {
+  return Math.abs(getOffsetTop(el) - getOffsetTop(containerEl))
+}
+export const stop = (e: Event) => e.stopPropagation()

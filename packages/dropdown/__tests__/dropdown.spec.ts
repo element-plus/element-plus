@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import { sleep } from '@element-plus/test-utils'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
@@ -44,13 +44,13 @@ describe('Dropdown', () => {
     )
     const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
     const triggerElm = wrapper.find('.el-dropdown-link')
-    expect(content.value).toBe(false)
+    expect(content.visible).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
-    expect(content.value).toBe(true)
+    expect(content.visible).toBe(true)
     await triggerElm.trigger(MOUSE_LEAVE_EVENT)
     await sleep(TIMEOUT)
-    expect(content.value).toBe(false)
+    expect(content.visible).toBe(false)
   })
 
   test('menu click', async () => {
@@ -117,13 +117,13 @@ describe('Dropdown', () => {
     )
     const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
     const triggerElm = wrapper.find('.el-dropdown-link')
-    expect(content.value).toBe(false)
+    expect(content.visible).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
-    expect(content.value).toBe(false)
+    expect(content.visible).toBe(false)
     await triggerElm.trigger(CLICK)
     await sleep(TIMEOUT)
-    expect(content.value).toBe(true)
+    expect(content.visible).toBe(true)
   })
 
   test('split button', async () => {
@@ -157,12 +157,12 @@ describe('Dropdown', () => {
     const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
     const triggerElm = wrapper.find('.el-dropdown__caret-button')
     const button = wrapper.find('.el-button')
-    expect(content.value).toBe(false)
+    expect(content.visible).toBe(false)
     await button.trigger('click')
     expect((wrapper.vm as any).name).toBe('click')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
-    expect(content.value).toBe(true)
+    expect(content.visible).toBe(true)
   })
 
   test('hide on click', async () => {
@@ -192,7 +192,7 @@ describe('Dropdown', () => {
     await sleep(TIMEOUT)
     await wrapper.findComponent({ ref: 'c' }).trigger('click')
     await sleep(TIMEOUT)
-    expect(content.value).toBe(true)
+    expect(content.visible).toBe(true)
   })
 
   test('triggerElm keydown', async () => {
@@ -221,18 +221,18 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
     await triggerElm.trigger('keydown', {
-      keyCode: eventKeys.enter,
+      code: EVENT_CODE.enter,
     })
     await sleep(TIMEOUT)
-    expect(content.value).toBe(false)
+    expect(content.visible).toBe(false)
 
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
     await triggerElm.trigger('keydown', {
-      keyCode: eventKeys.tab,
+      code: EVENT_CODE.tab,
     })
     await sleep(TIMEOUT)
-    expect(content.value).toBe(false)
+    expect(content.visible).toBe(false)
   })
 
   test('dropdown menu keydown', async () => {
@@ -261,7 +261,7 @@ describe('Dropdown', () => {
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
     await content.trigger('keydown', {
-      keyCode: eventKeys.down,
+      code: EVENT_CODE.down,
     })
     await sleep(TIMEOUT)
     expect(wrapper.findComponent({ ref: 'd' }).attributes('tabindex')).toBe('0')

@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import Tabs from '../src/tabs.vue'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav.vue'
@@ -573,19 +574,19 @@ describe('Tabs.vue', () => {
     const vm = wrapper.vm
     await nextTick()
 
-    await wrapper.find('#tab-second').trigger('keydown', { keyCode: 39 })
+    await wrapper.find('#tab-second').trigger('keydown', { code: EVENT_CODE.right })
     expect(vm.activeName).toEqual('third')
 
-    await wrapper.find('#tab-third').trigger('keydown', { keyCode: 39 })
+    await wrapper.find('#tab-third').trigger('keydown', { code: EVENT_CODE.right })
     expect(vm.activeName).toEqual('fourth')
 
-    await wrapper.find('#tab-fourth').trigger('keydown', { keyCode: 39 })
+    await wrapper.find('#tab-fourth').trigger('keydown', { code: EVENT_CODE.right })
     expect(vm.activeName).toEqual('first')
 
-    await wrapper.find('#tab-first').trigger('keydown', { keyCode: 37 })
+    await wrapper.find('#tab-first').trigger('keydown', { code: EVENT_CODE.left })
     expect(vm.activeName).toEqual('fourth')
 
-    await wrapper.find('#tab-fourth').trigger('keydown', { keyCode: 37 })
+    await wrapper.find('#tab-fourth').trigger('keydown', { code: EVENT_CODE.left })
     expect(vm.activeName).toEqual('third')
   })
 })

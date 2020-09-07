@@ -1,4 +1,4 @@
-import { eventKeys, triggerEvent } from '../aria'
+import { EVENT_CODE, triggerEvent } from '../aria'
 import MenuItem from './menu-item'
 
 class SubMenu {
@@ -25,30 +25,29 @@ class SubMenu {
   }
 
   addListeners(): void {
-    const keys = eventKeys
     const parentNode = this.parent.domNode
     Array.prototype.forEach.call(this.subMenuItems, (el: Element) => {
       el.addEventListener('keydown', (event: KeyboardEvent) => {
         let prevDef = false
-        switch (event.keyCode) {
-          case keys.down: {
+        switch (event.code) {
+          case EVENT_CODE.down: {
             this.gotoSubIndex(this.subIndex + 1)
             prevDef = true
             break
           }
-          case keys.up: {
+          case EVENT_CODE.up: {
             this.gotoSubIndex(this.subIndex - 1)
             prevDef = true
             break
           }
-          case keys.tab: {
+          case EVENT_CODE.tab: {
             triggerEvent(parentNode as HTMLElement, 'mouseleave')
             break
           }
-          case keys.enter:
-          case keys.space: {
+          case EVENT_CODE.enter:
+          case EVENT_CODE.space: {
             prevDef = true
-            (event.currentTarget as HTMLElement).click()
+            ;(event.currentTarget as HTMLElement).click()
             break
           }
         }

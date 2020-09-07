@@ -1,15 +1,17 @@
 <template>
-  <el-tooltip
-    v-model="showPicker"
+  <el-popper
+    ref="popper"
+    v-model:visible="showPicker"
     effect="light"
-    manual
-    :trigger="['click']"
-    :visible-arrow="false"
+    manual-mode
+    trigger="click"
+    :show-arrow="false"
+    popper-class="el-color-picker__panel el-color-dropdown"
+    @after-leave="doDestroy"
   >
-    <template #content>
+    <template #default>
       <div
         v-click-outside="hide"
-        class="color-content"
       >
         <div class="el-color-dropdown__main-wrapper">
           <hue-slider
@@ -18,19 +20,24 @@
             :color="color"
             vertical
           />
-          <sv-panel :color="color" />
+          <sv-panel ref="svPanel" :color="color" />
         </div>
         <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
-        <predefine v-if="predefine" :color="color" :colors="predefine" />
+        <predefine
+          v-if="predefine"
+          ref="predefine"
+          :color="color"
+          :colors="predefine"
+        />
         <div class="el-color-dropdown__btns">
           <span class="el-color-dropdown__value">
-            <input
+            <el-input
               v-model="customInput"
               :validate-event="false"
               size="mini"
               @keyup.enter="handleConfirm"
               @blur="handleConfirm"
-            >
+            />
           </span>
           <el-button
             size="mini"
@@ -51,7 +58,7 @@
         </div>
       </div>
     </template>
-    <template #default>
+    <template #trigger>
       <div
         :class="[
           'el-color-picker',
@@ -74,11 +81,11 @@
         </div>
       </div>
     </template>
-  </el-tooltip>
+  </el-popper>
 </template>
 
 <script lang="ts">
-import { defineComponent,computed,ref,nextTick,reactive,watch,provide,inject } from 'vue'
+import { defineComponent,computed,ref,nextTick,reactive,watch,provide,inject, onMounted } from 'vue'
 import type { ComputedRef } from '@vue/reactivity'
 import ClickOutside from '@element-plus/directives/click-outside'
 import Color from './color'
@@ -86,9 +93,11 @@ import SvPanel from './components/sv-panel.vue'
 import HueSlider from './components/hue-slider.vue'
 import AlphaSlider from './components/alpha-slider.vue'
 import Predefine from './components/predefine.vue'
-import ElTooltip from '@element-plus/tooltip/src/index.vue'
+import ElPopper from '@element-plus/popper/src/index.vue'
 import ElButton from '@element-plus/button/src/button.vue'
-import { t } from '@element-plus/locale/index'
+import ElInput from '@element-plus/input/src/index.vue'
+
+import { t } from '@element-plus/locale'
 import { UPDATE_MODEL_EVENT }  from '@element-plus/utils/constants'
 const OPTIONS_KEY = Symbol()
 
@@ -107,6 +116,16 @@ interface IUseOptions {
   currentColor: ComputedRef<string>
 }
 
+interface IProps {
+  modelValue?: string
+  showAlpha?: boolean
+  colorFormat?: string
+  disabled?: boolean
+  size?: string
+  popperClass?: string
+  predefine?: Array<string>
+}
+
 export const useOptions = () => {
   return inject<IUseOptions>(OPTIONS_KEY)
 }
@@ -114,7 +133,8 @@ export const useOptions = () => {
 export default defineComponent( {
   name: 'ElColorPicker',
   components: {
-    ElTooltip,
+    ElPopper,
+    ElInput,
     SvPanel,
     HueSlider,
     AlphaSlider,
@@ -135,12 +155,17 @@ export default defineComponent( {
   },
   emits: {
     change: null,
+    'active-change': null,
     [UPDATE_MODEL_EVENT]: null,
   },
-  setup(props, { emit }) {
+  setup(props: IProps, { emit }) {
     const ELEMENT: IELEMENT = {}
     const elForm:IElForm = {}
     const elFormItem:IELFormItem = {}
+    const hue = ref(null)
+    const svPanel = ref(null)
+    const alpha = ref(null)
+    const popper = ref(null)
     // data
     const color = reactive(new Color({
       enableAlpha: props.showAlpha,
@@ -154,21 +179,20 @@ export default defineComponent( {
       if (!props.modelValue && !showPanelColor.value) {
         return 'transparent'
       }
-
       return displayedRgb(color, props.showAlpha)
     })
     const colorSize = computed(() => {
-      return props.size || _elFormItemSize || (ELEMENT || {}).size
+      return props.size || elFormItemSize.value || (ELEMENT || {}).size
     })
     const colorDisabled = computed(() => {
       return props.disabled || (elForm || {}).disabled
     })
-    const _elFormItemSize = computed(() => {
+    const elFormItemSize = computed(() => {
       return (elFormItem || {}).elFormItemSize
     })
 
-    const currentColor = computed<string>(() => {
-      return showPanelColor.value ? '' : color.value
+    const currentColor = computed(() => {
+      return !props.modelValue && !showPanelColor.value ? '' : color.value
     })
     // watch
     watch(() => props.modelValue, newVal => {
@@ -180,8 +204,14 @@ export default defineComponent( {
     })
     watch(currentColor, val => {
       customInput.value = val
-    }, {
-      immediate: true,
+      emit('active-change', val)
+      // showPanelColor.value = true
+    })
+
+    watch(() => color.value, () => {
+      if (!props.modelValue && !showPanelColor.value) {
+        showPanelColor.value = true
+      }
     })
 
     // methods
@@ -219,21 +249,34 @@ export default defineComponent( {
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
-      // this.dispatch('ElFormItem', 'el.form.change', value)
       showPicker.value = false
     }
     function clear() {
-      customInput.value = ''
       showPicker.value = false
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
       if (props.modelValue !== null) {
         // todo in ElForm
       }
-      showPanelColor.value = false
-      showPicker.value = false
       resetColor()
     }
+    function doDestroy() {
+      popper.value.doDestroy()
+    }
+
+    onMounted(() => {
+      if (props.modelValue) {
+        color.fromString(props.modelValue)
+        customInput.value = currentColor.value
+      }
+    })
+    watch(showPicker, () => {
+      nextTick(() => {
+        hue.value?.update()
+        svPanel.value?.update()
+        alpha.value?.update()
+      })
+    })
 
     provide<IUseOptions>(OPTIONS_KEY, {
       currentColor,
@@ -252,7 +295,12 @@ export default defineComponent( {
       handleTrigger,
       clear,
       confirmValue,
+      doDestroy,
       t,
+      hue,
+      svPanel,
+      alpha,
+      popper,
     }
   },
 })
@@ -262,10 +310,12 @@ export default defineComponent( {
 .el-color-picker:focus {
   outline: none;
 }
-.color-content {
-  width: 300px;
-}
 .hue-slider {
   float: right;
+}
+</style>
+<style>
+.el-popper.el-color-picker__panel {
+  border-color: #ebeef5;
 }
 </style>

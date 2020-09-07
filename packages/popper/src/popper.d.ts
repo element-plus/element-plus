@@ -9,7 +9,7 @@ export type {
 
 export { Placement, PositioningStrategy, PopperInstance, Options }
 
-export type TriggerType = 'click' | 'hover' | 'focus' | 'contextMenu'
+export type TriggerType = 'click' | 'hover' | 'focus'
 
 export type IPopperOptions = {
   arrowOffset: number
@@ -29,6 +29,6 @@ export type IPopperOptions = {
   showArrow: boolean
   strategy: PositioningStrategy
   tabIndex: string
-  trigger: TriggerType[]
-  value: boolean
+  trigger: TriggerType[] | TriggerType
+  visible: boolean
 }

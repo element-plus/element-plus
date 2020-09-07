@@ -101,6 +101,8 @@ export default defineComponent({
       cursorLeft,
       background,
       colorValue,
+      handleDrag,
+      update,
     }
   },
 })

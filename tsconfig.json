@@ -6,11 +6,12 @@
    "removeComments": true,
    "moduleResolution": "node",
    "esModuleInterop": true,
+   "jsx": "preserve",
    "noLib": false,
    "target": "es6",
    "sourceMap": true,
    "lib": [
-     "es2020", "dom"
+     "es2020", "DOM"
    ],
    "allowSyntheticDefaultImports": true
  },
@@ -18,4 +19,3 @@
    "node_modules"
  ]
 }
-

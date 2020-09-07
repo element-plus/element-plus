@@ -67,12 +67,11 @@ export default defineComponent({
         hue = Math.round((left - thumb.value.offsetWidth / 2) / (rect.width - thumb.value.offsetWidth) * 360)
       } else {
         let top = event.clientY - rect.top
+
         top = Math.min(top, rect.height - thumb.value.offsetHeight / 2)
         top = Math.max(thumb.value.offsetHeight / 2, top)
-
         hue = Math.round((top - thumb.value.offsetHeight / 2) / (rect.height - thumb.value.offsetHeight) * 360)
       }
-
       props.color.set('hue', hue)
     }
     function getThumbLeft() {
@@ -86,7 +85,7 @@ export default defineComponent({
     }
 
     function getThumbTop() {
-      const el = instance.vnode.el
+      const el = instance.vnode.el as HTMLElement
       if (!props.vertical) return 0
       const hue = props.color.get('hue')
 
@@ -120,6 +119,7 @@ export default defineComponent({
       thumbTop,
       hueValue,
       handleClick,
+      update,
     }
   },
 })

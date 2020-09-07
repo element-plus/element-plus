@@ -139,6 +139,7 @@ export default defineComponent({
       thumbTop,
       background,
       handleClick,
+      update,
     }
   },
 })

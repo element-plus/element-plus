@@ -63,16 +63,16 @@
 }
 
 @include b(dropdown-menu) {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   z-index: 10;
   padding: 10px 0;
-  margin: 5px 0;
+  margin: 0;
   background-color: $--color-white;
-  border: 1px solid $--border-color-lighter;
+  border: none;
   border-radius: $--border-radius-base;
-  box-shadow: $--dropdown-menu-box-shadow;
+  box-shadow: none;
 
   @include e(item) {
     list-style: none;

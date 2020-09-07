@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-color-picker v-model="color" :show-alpha="true" :predefine="predefineColors" />
+    <el-color-picker v-model="color" :predefine="predefineColors" @active-change="actChange" />
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   data() {
     return {
-      color: null,
+      color: '#20A0FF',
       predefineColors: [
         '#ff4500',
         '#ff8c00',
@@ -26,18 +26,10 @@ export default {
       ],
     }
   },
-  mounted() {
-    setTimeout(() => {
-      this.predefineColors = [
-        '#ff4500',
-        '#ff8c00',
-        '#ffd700',
-        '#90ee90',
-        '#00ced1',
-        '#1e90ff',
-        '#c71585',
-      ]
-    }, 3000)
+  methods: {
+    actChange(colorString) {
+      console.log(colorString)
+    },
   },
 }
 </script>
