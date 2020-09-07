@@ -5,12 +5,19 @@ export const IMAGE_SUCCESS = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAA
 export const IMAGE_FAIL = 'data:image/png;base64,fail'
 
 export function mockImageEvent() {
-  Object.defineProperty(global.Image.prototype, 'src', {
-    set(src) {
-      const evt = !src || src === IMAGE_FAIL
-        ? 'error' : 'load'
-      const event = new Event(evt)
-      nextTick(() => this.dispatchEvent(event))
-    },
+  const imageProto = global.Image.prototype
+  const oldDescriptor = Object.getOwnPropertyDescriptor(imageProto, 'src')
+  beforeAll(() => {
+    Object.defineProperty(imageProto, 'src', {
+      set(src) {
+        const evt = !src || src === IMAGE_FAIL
+          ? 'error' : 'load'
+        const event = new Event(evt)
+        nextTick(() => this.dispatchEvent(event))
+      },
+    })
+  })
+  afterAll(() => {
+    Object.defineProperty(imageProto, 'src', oldDescriptor)
   })
 }

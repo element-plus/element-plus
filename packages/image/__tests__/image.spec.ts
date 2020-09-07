@@ -12,7 +12,7 @@ async function doubleWait() {
 }
 
 describe('Image.vue', () => {
-  beforeAll(mockImageEvent)
+  mockImageEvent()
 
   test('render test', () => {
     const wrapper = mount(Image)

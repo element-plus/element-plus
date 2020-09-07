@@ -4,7 +4,7 @@ import Avatar from '../src/index.vue'
 import { IMAGE_SUCCESS, IMAGE_FAIL, mockImageEvent } from '@element-plus/test-utils'
 
 describe('Avatar.vue', () => {
-  beforeAll(mockImageEvent)
+  mockImageEvent()
 
   test('render test', () => {
     const wrapper = mount(Avatar)
