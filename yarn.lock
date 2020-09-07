@@ -3628,6 +3628,17 @@
     "@typescript-eslint/types" "4.0.0"
     eslint-visitor-keys "^2.0.0"
 
+"@vue/compiler-core@3.0.0-rc.10":
+  version "3.0.0-rc.10"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.0.0-rc.10.tgz#a76f713fb0462429ec0ec10a472fff1f539c5772"
+  integrity sha512-kQzHzRsM0NPAWHeqSTb2J4VsHhjRkGeLTsGzeMnW+sojgTnS3T94KacwvYgVS4qeZAKiDq0bMNZoJWrHVQ3T8g==
+  dependencies:
+    "@babel/parser" "^7.10.4"
+    "@babel/types" "^7.10.4"
+    "@vue/shared" "3.0.0-rc.10"
+    estree-walker "^2.0.1"
+    source-map "^0.6.1"
+
 "@vue/compiler-core@3.0.0-rc.9":
   version "3.0.0-rc.9"
   resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.0.0-rc.9.tgz#f2baef360dec3630a230a056dde1e76c9c7bb5f5"
@@ -3639,7 +3650,15 @@
     estree-walker "^2.0.1"
     source-map "^0.6.1"
 
-"@vue/compiler-dom@3.0.0-rc.9", "@vue/compiler-dom@^3.0.0-rc.5":
+"@vue/compiler-dom@3.0.0-rc.10", "@vue/compiler-dom@^3.0.0-rc.5":
+  version "3.0.0-rc.10"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.0.0-rc.10.tgz#dd1380d1ee61170de76f9eb91e0d8ac7985f0ae0"
+  integrity sha512-pqIUf5leZm0P9379utrRSVBMxhV8XaqJTEFFp5etCtbEa/H5ALs29EjFMtMcm9sQaVkZlKLu86mgIacbYB9Q3w==
+  dependencies:
+    "@vue/compiler-core" "3.0.0-rc.10"
+    "@vue/shared" "3.0.0-rc.10"
+
+"@vue/compiler-dom@3.0.0-rc.9":
   version "3.0.0-rc.9"
   resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.0.0-rc.9.tgz#2a122181db498c0605213fe541af24ecb03ef27e"
   integrity sha512-0hCnrIxwp0TKVXKnGYFztM4LMUvFpfXW7YoEglvHqIfZsGkyKcnCYDx4FPk1frDM21xnrr5HgcHt42rlz8lDBA==
@@ -3648,16 +3667,16 @@
     "@vue/shared" "3.0.0-rc.9"
 
 "@vue/compiler-sfc@^3.0.0-rc.5", "@vue/compiler-sfc@^3.0.0-rc.9":
-  version "3.0.0-rc.9"
-  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.0.0-rc.9.tgz#8b1af6bf1cb2561b5f92ce11053e5d21b558ca8b"
-  integrity sha512-kmjGzcyp93Q+ZKfvxC3GtI9bEXCa9TxsuO+Q9WtiyvOWBLxZkklQc1n5DFn6vtAUIjjlIE5GZoKawvn9LfKejA==
+  version "3.0.0-rc.10"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.0.0-rc.10.tgz#4351ece66cdf4d758877482f69421c43d994dbaf"
+  integrity sha512-VIJ+VXqeM7WoRNgD9uYSARVb6CYq+JS2NNHfeerfNc7Uk3pjYHRv1MwEicAvN6zWFm5GLC1ZYTVD+WFg3xGAkQ==
   dependencies:
     "@babel/parser" "^7.10.4"
     "@babel/types" "^7.10.4"
-    "@vue/compiler-core" "3.0.0-rc.9"
-    "@vue/compiler-dom" "3.0.0-rc.9"
-    "@vue/compiler-ssr" "3.0.0-rc.9"
-    "@vue/shared" "3.0.0-rc.9"
+    "@vue/compiler-core" "3.0.0-rc.10"
+    "@vue/compiler-dom" "3.0.0-rc.10"
+    "@vue/compiler-ssr" "3.0.0-rc.10"
+    "@vue/shared" "3.0.0-rc.10"
     consolidate "^0.15.1"
     estree-walker "^2.0.1"
     hash-sum "^2.0.0"
@@ -3669,13 +3688,13 @@
     postcss-selector-parser "^6.0.2"
     source-map "^0.6.1"
 
-"@vue/compiler-ssr@3.0.0-rc.9":
-  version "3.0.0-rc.9"
-  resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.0.0-rc.9.tgz#52e4523b54d993ca0ad137813c5b1212988e62af"
-  integrity sha512-lpbnkJrhkI5QgprLPXcB1Uq402QiibPFKRUQZ5vu3zeAvUeMYuQUtZS/Dslurcvqd1dbBC/HM0gCpLtjEQ+2qA==
+"@vue/compiler-ssr@3.0.0-rc.10":
+  version "3.0.0-rc.10"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.0.0-rc.10.tgz#95a5f6b65b19a514c94f056994ec144b3b1b03ae"
+  integrity sha512-JBPil8sO5j7puB8acX2CQMRXEYB/EP8PoEur7RcF/+aqATI7C4yqWcSLC5TRJpigj6xE6ku6sx8om+j7ZHvgBw==
   dependencies:
-    "@vue/compiler-dom" "3.0.0-rc.9"
-    "@vue/shared" "3.0.0-rc.9"
+    "@vue/compiler-dom" "3.0.0-rc.10"
+    "@vue/shared" "3.0.0-rc.10"
 
 "@vue/component-compiler-utils@^3.2.0":
   version "3.2.0"
@@ -3716,6 +3735,11 @@
     "@vue/runtime-core" "3.0.0-rc.9"
     "@vue/shared" "3.0.0-rc.9"
     csstype "^2.6.8"
+
+"@vue/shared@3.0.0-rc.10":
+  version "3.0.0-rc.10"
+  resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.0-rc.10.tgz#e7ab62abcabbfc738545902b96a3aa78f59f3286"
+  integrity sha512-fI6gVhhgb3cAmEkY4oeVVA2hWZ2xvkgogHdBI5PL7gSvZnOB6XZ2eQGsYjC4W+7BegvEkoMBuZsFXVa4ZQ07XQ==
 
 "@vue/shared@3.0.0-rc.9":
   version "3.0.0-rc.9"
