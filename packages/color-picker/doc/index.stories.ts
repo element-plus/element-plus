@@ -1,5 +1,5 @@
 export default {
-  title: 'Color-picker',
+  title: '_color-Picker',
 }
 
 export { default as BasicUsage } from './basic.vue'
