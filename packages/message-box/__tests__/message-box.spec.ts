@@ -59,7 +59,7 @@ describe('MessageBox', () => {
     expect(message.textContent).toEqual('html string')
   })
 
-  test('distinguish cancel and close', done => {
+  test('distinguish cancel and close', async () => {
     let msgAction = ''
     MessageBox({
       title: '消息',
@@ -68,15 +68,11 @@ describe('MessageBox', () => {
     }, action => {
       msgAction = action
     })
-    setTimeout(() => {
-      const btn: HTMLElement = document.querySelector('.el-message-box__close')
-      btn.click()
-      setTimeout(() => {
-        console.log('4444', msgAction)
-        expect(msgAction).toEqual('close')
-        done()
-      }, 200)
-    }, 200)
+    await sleep()
+    const btn: HTMLElement = document.querySelector('.el-message-box__close')
+    btn.click()
+    await sleep()
+    expect(msgAction).toEqual('close')
   })
 
   test('alert', async () => {
