@@ -186,12 +186,12 @@ function useWatcher() {
       if (selectable.value) {
         if (
           selectable.value.call(null, row, index) &&
-          toggleRowStatus(selection, row, value)
+          toggleRowStatus(selection.value, row, value)
         ) {
           selectionChanged = true
         }
       } else {
-        if (toggleRowStatus(selection, row, value)) {
+        if (toggleRowStatus(selection.value, row, value)) {
           selectionChanged = true
         }
       }
@@ -203,7 +203,7 @@ function useWatcher() {
         selection.value ? selection.value.slice() : [],
       )
     }
-    instance.emit('select-all', selection)
+    instance.emit('select-all', selection.value)
   }
 
   const updateSelectionByRowKey = () => {

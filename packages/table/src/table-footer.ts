@@ -1,4 +1,3 @@
-import useLayoutObserver from './layout-observer'
 import { defineComponent, h, getCurrentInstance, computed } from 'vue'
 import { TableFooter } from './types'
 
@@ -7,7 +6,10 @@ export default defineComponent({
   name: 'ElTableFooter',
 
   props: {
-    fixed: String,
+    fixed: {
+      type: String,
+      default: '',
+    },
     store: {
       required: true,
       type: Object,
@@ -119,7 +121,6 @@ export default defineComponent({
         }
       })
     }
-
     return h(
       'table',
       {

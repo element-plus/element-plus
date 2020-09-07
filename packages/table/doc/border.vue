@@ -3,7 +3,12 @@
     <h3>带边框表格</h3>
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column label="日期" prop="date" width="180" />
-      <el-table-column label="姓名" prop="name" width="180" />
+      <el-table-column
+        label="姓名"
+        prop="name"
+        show-overflow-tooltip
+        width="80"
+      />
       <el-table-column label="地址" prop="address" />
     </el-table>
   </div>
@@ -21,7 +26,7 @@ export default {
         },
         {
           date: '2016-05-04',
-          name: '王小虎',
+          name: '王小虎王小虎王小虎王小虎王小虎',
           address: '上海市普陀区金沙江路 1517 弄',
         },
         {

@@ -15,8 +15,9 @@
     <el-table-column label="地址" prop="address" />
   </el-table>
   <div style="margin-top: 20px">
-    <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button>
-    <el-button @click="toggleSelection()">取消选择</el-button>
+    <el-button type @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button>
+    <el-button type @click="toggleAllSelection()">切换所有行选中状态</el-button>
+    <el-button type @click="toggleSelection()">取消选择</el-button>
   </div>
 </template>
 
@@ -37,6 +38,9 @@ export default {
     }
     const handleSelectionChange = val => {
       multipleSelection.value = val
+    }
+    const toggleAllSelection = () => {
+      instance.refs.multipleTable.toggleAllSelection()
     }
     return {
       tableData: [
@@ -79,6 +83,7 @@ export default {
       multipleSelection,
       toggleSelection,
       handleSelectionChange,
+      toggleAllSelection,
     }
   },
 }

@@ -30,7 +30,6 @@ function useStore() {
     },
 
     insertColumn(states, column, index, parent) {
-      debugger
       let array = unref(states._columns)
       if (parent) {
         array = parent.children

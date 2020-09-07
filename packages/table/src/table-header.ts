@@ -4,7 +4,6 @@ import {
   computed,
   onMounted,
   nextTick,
-  onBeforeUnmount,
   ref,
   h,
 } from 'vue'
@@ -105,7 +104,7 @@ export default defineComponent({
       },
     },
   },
-  setup(props: ITableHeaderProps) {
+  setup(props: ITableHeaderProps, { emit }) {
     const instance = getCurrentInstance()
     const parent = instance.parent as any
     const storeData = parent.store.states
@@ -124,14 +123,6 @@ export default defineComponent({
         const init = true
         parent.store.commit('sort', { prop, order, init })
       })
-    })
-    onBeforeUnmount(() => {
-      // const panels = filterPanels
-      // for (const prop in panels) {
-      //   if (panels.hasOwnProperty(prop) && panels[prop]) {
-      //     panels[prop].$destroy(true)
-      //   }
-      // }
     })
 
     const isCellHidden = (index, columns) => {
@@ -261,9 +252,8 @@ export default defineComponent({
       if (draggingColumn.value && props.border) {
         dragging.value = true
 
-        parent.resizeProxyVisible = true
-
         const table = parent
+        emit('set-drag-visible', true)
         const tableEl = table.vnode.el
         const tableLeft = tableEl.getBoundingClientRect().left
         const columnEl = instance.vnode.el.querySelector(`th.${column.id}`)
@@ -278,8 +268,7 @@ export default defineComponent({
           startColumnLeft: columnRect.left - tableLeft,
           tableLeft,
         }
-
-        const resizeProxy = table.$refs.resizeProxy
+        const resizeProxy = table.refs.resizeProxy
         resizeProxy.style.left = (dragState.value as any).startLeft + 'px'
 
         document.onselectstart = function () {
@@ -317,8 +306,7 @@ export default defineComponent({
             dragging.value = false
             draggingColumn.value = null
             dragState.value = {}
-
-            table.resizeProxyVisible = false
+            emit('set-drag-visible', false)
           }
 
           document.removeEventListener('mousemove', handleMouseMove)
@@ -567,6 +555,9 @@ export default defineComponent({
                           store: this.$parent.store,
                           placement: column.filterPlacement || 'bottom-start',
                           column: column,
+                          upDataColumn: (key, value) => {
+                            column[key] = value
+                          },
                         }),
                       ],
                     ),

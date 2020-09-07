@@ -70,9 +70,7 @@ function useTree(watcherData: any) {
     const newTreeData = {}
     if (keys.length) {
       const oldTreeData = unref(treeData)
-      const {
-        defaultExpandAll,
-      } = instance
+      const defaultExpandAll = instance.store.states.defaultExpandAll.value
       const rootLazyRowKeys = []
       const getExpanded = (oldValue, key) => {
         const included =

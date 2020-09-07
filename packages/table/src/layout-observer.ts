@@ -24,7 +24,7 @@ function useLayoutObserver(root) {
     return layout
   })
   const onColumnsChange = layout => {
-    const cols = root.vnode.el.querySelectorAll('colgroup > col')
+    const cols = root.vnode.el?.querySelectorAll('colgroup > col')
     if (!cols.length) return
     const flattenColumns = layout.getFlattenColumns()
     const columnsMap = {}

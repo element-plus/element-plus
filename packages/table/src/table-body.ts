@@ -4,14 +4,13 @@ import { arrayFindIndex } from '@element-plus/utils/util'
 import { getCell, getColumnByCell, getRowIdentity } from './util'
 import { getStyle, hasClass, removeClass, addClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
-import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
-// import ElTooltip from '@element-plus/tooltip';
+import ElTooltip from '@element-plus/tooltip'
 import { debounce } from 'throttle-debounce'
 import { RenderRowData } from './types'
 export default defineComponent({
   name: 'ElTableBody',
   components: {
-    ElCheckbox,
+    ElTooltip,
   },
   props: {
     store: {
@@ -256,7 +255,7 @@ export default defineComponent({
       const cell = getCell(event)
       if (!cell) return
 
-      const oldHoverState = parent.ctx.hoverState || {}
+      const oldHoverState = parent.hoverState || {}
       parent.emit('cell-mouse-leave', oldHoverState.row, oldHoverState.column, oldHoverState.cell, event)
     }
     const firstDefaultColumnIndex = computed(() => {
@@ -284,7 +283,7 @@ export default defineComponent({
           style: [displayStyle, getRowStyle(row, $index)],
           class: rowClasses,
           key: getKeyOfRow(row, $index),
-          onDbclick: $event => handleDoubleClick($event, row),
+          onDblclick: $event => handleDoubleClick($event, row),
           onClick: $event => handleClick($event, row),
           onContextmenu: $event => handleContextMenu($event, row),
           onMouseenter: () => handleMouseEnter($index),
@@ -478,6 +477,15 @@ export default defineComponent({
           data.reduce((acc, row) => {
             return acc.concat(this.wrappedRowRender(row, acc.length))
           }, []),
+          h(
+            'el-tooltip',
+            {
+              effect: this.$parent.tooltipEffect,
+              placement: 'top',
+              ref: 'tooltip',
+              content: '',
+            },
+          ),
         ]),
       ],
     )

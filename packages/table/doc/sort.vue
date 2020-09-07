@@ -1,6 +1,13 @@
 <template>
   <h3>排序</h3>
-  <el-table :data="tableData" :default-sort="{prop: 'date', order: 'descending'}" style="width: 100%">
+  <el-button type @click="clearSort">清空排序</el-button>
+  <el-button type @click="sort">手动为日期排序</el-button>
+  <el-table
+    ref="table"
+    :data="tableData"
+    :default-sort="{prop: 'date', order: 'descending'}"
+    style="width: 100%"
+  >
     <el-table-column
       label="日期"
       prop="date"
@@ -18,8 +25,10 @@
 </template>
 
 <script>
+import { getCurrentInstance } from 'vue'
 export default {
   setup() {
+    const instance = getCurrentInstance()
     const formatter = (row, column) => {
       return row.address
     }
@@ -47,6 +56,12 @@ export default {
         },
       ],
       formatter,
+      clearSort: () => {
+        instance.refs.table.clearSort()
+      },
+      sort: () => {
+        instance.refs.table.sort('date', 'ascending')
+      },
     }
   },
 }

@@ -86,6 +86,9 @@ export default {
     column: {
       type: Object,
     },
+    upDataColumn: {
+      type: Function,
+    },
   },
   setup(props) {
     const instance = getCurrentInstance() as any
@@ -122,7 +125,8 @@ export default {
       },
       set(value) {
         if (props.column) {
-          // props.column.filteredValue = value
+          // todo
+          props.upDataColumn('filteredValue', value)
         }
       },
     })
@@ -176,7 +180,10 @@ export default {
     watch(
       tooltipVisible,
       value => {
-        // if (props.column) props.column.filterOpened = value
+        // todo
+        if (props.column) {
+          props.upDataColumn('filterOpened', value)
+        }
         if (value) {
           open()
         } else {

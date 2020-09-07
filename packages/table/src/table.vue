@@ -32,6 +32,7 @@
         :style="{
           width: layout.bodyWidth.value ? layout.bodyWidth.value + 'px' : ''
         }"
+        @set-drag-visible="setDragVisible"
       />
     </div>
     <div
@@ -102,6 +103,7 @@
             width: bodyWidth
           }"
           fixed="left"
+          @set-drag-visible="setDragVisible"
         />
       </div>
       <div
@@ -163,6 +165,7 @@
             width: bodyWidth
           }"
           fixed="right"
+          @set-drag-visible="setDragVisible"
         />
       </div>
       <div
@@ -369,6 +372,9 @@ export default defineComponent({
     const isHidden = ref(false)
     const renderExpanded = ref(null)
     const resizeProxyVisible = ref(false)
+    const setDragVisible = visible => {
+      resizeProxyVisible.value = visible
+    }
     const resizeState = ref({
       width: null,
       height: null,
@@ -418,12 +424,6 @@ export default defineComponent({
     const shouldUpdateHeight = computed(() => {
       return props.height || props.maxHeight || store.states.fixedColumns.value.length > 0 || store.states.rightFixedColumns.value.length > 0
     })
-    const doLayout = () => {
-      if (shouldUpdateHeight.value) {
-        layout.updateElsHeight()
-      }
-      layout.updateColumnsWidth()
-    }
     onMounted(() => {
       bindEvents()
       store.updateColumns()
@@ -613,6 +613,24 @@ export default defineComponent({
     const clearFilter = columnKeys => {
       store.clearFilter(columnKeys)
     }
+    const toggleAllSelection = () => {
+      store.commit('toggleAllSelection')
+    }
+    const toggleRowExpansion = (row, expanded) => {
+      store.toggleRowExpansionAdapter(row, expanded)
+    }
+    const clearSort = () => {
+      store.clearSort()
+    }
+    const doLayout = () => {
+      if (shouldUpdateHeight.value) {
+        layout.updateElsHeight()
+      }
+      layout.updateColumnsWidth()
+    }
+    const sort = (prop, order) => {
+      store.commit('sort', { prop, order })
+    }
     const tableId = 'el-table_' + tableIdSeed++
     return {
       layout,
@@ -638,7 +656,13 @@ export default defineComponent({
       toggleRowSelection,
       clearSelection,
       clearFilter,
+      toggleAllSelection,
+      toggleRowExpansion,
+      clearSort,
+      doLayout,
+      sort,
       t,
+      setDragVisible,
     }
   },
 })

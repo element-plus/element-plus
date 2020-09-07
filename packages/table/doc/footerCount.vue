@@ -20,6 +20,7 @@
     height="200"
     show-summary
     style="width: 100%; margin-top: 20px"
+    sum-text="123"
   >
     <el-table-column label="ID" prop="id" width="180" />
     <el-table-column label="姓名" prop="name" />

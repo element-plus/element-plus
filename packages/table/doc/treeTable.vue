@@ -3,9 +3,9 @@
   <div>
     <el-table
       :data="tableData"
+      :expand-row-keys="['3']"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       border
-      default-expand-all
       row-key="id"
       style="width: 100%;margin-bottom: 20px;"
     >
