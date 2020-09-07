@@ -164,7 +164,7 @@ export const getScrollContainer = (
   isVertical?: Nullable<boolean>,
 ): Window | HTMLElement => {
   if (isServer) return
-  el.classList
+
   let parent: HTMLElement = el
   while (parent) {
     if ([window, document, document.documentElement].includes(parent)) {
@@ -207,4 +207,20 @@ export const isInContainer = (
     elRect.right > containerRect.left &&
     elRect.left < containerRect.right
   )
+}
+
+export const getOffsetTop = (el: HTMLElement) => {
+  let offset = 0
+  let parent = el
+
+  while (parent) {
+    offset += parent.offsetTop
+    parent = parent.offsetParent as HTMLElement
+  }
+
+  return offset
+}
+
+export const getOffsetTopDistance = (el: HTMLElement, containerEl: HTMLElement) => {
+  return Math.abs(getOffsetTop(el) - getOffsetTop(containerEl))
 }
