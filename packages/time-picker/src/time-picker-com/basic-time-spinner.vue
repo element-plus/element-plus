@@ -135,13 +135,13 @@ export default defineComponent({
       hours, minutes, seconds,
     }))
     const hoursList = computed(() =>{
-      return getList(24, pickerBase.props.enabledHours, pickerBase.props.enabledHours)
+      return getList(24, pickerPanel.methods.enabledHours, () => pickerPanel.methods.enabledHours(props.role))
     })
     const minutesList = computed(() =>{
-      return getList(60, pickerBase.props.enabledMinutes, () => pickerBase.props.enabledMinutes(hours.value))
+      return getList(60, pickerPanel.methods.enabledMinutes, () => pickerPanel.methods.enabledMinutes(hours.value, props.role))
     })
     const secondsList = computed(() =>{
-      return getList(60, pickerBase.props.enabledSeconds, () => pickerBase.props.enabledSeconds(hours.value, minutes.value))
+      return getList(60, pickerPanel.methods.enabledSeconds, () => pickerPanel.methods.enabledSeconds(hours.value, minutes.value, props.role))
     })
     const listMap = computed(() => ({
       hours: hoursList,
@@ -314,9 +314,8 @@ export default defineComponent({
     }
 
     const pickerPanel = inject('EP_TIMEPICK_PANEL') as any
-    pickerPanel.emit('SetOption',[`${props.role}_scrollDown`, scrollDown])
-    pickerPanel.emit('SetOption',[`${props.role}_emitSelectRange`, emitSelectRange])
-    const pickerBase = inject('EP_PICKER_BASE') as any
+    pickerPanel.hub.emit('SetOption',[`${props.role}_scrollDown`, scrollDown])
+    pickerPanel.hub.emit('SetOption',[`${props.role}_emitSelectRange`, emitSelectRange])
 
     return {
       getRefId,

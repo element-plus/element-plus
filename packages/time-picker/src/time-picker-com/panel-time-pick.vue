@@ -7,12 +7,11 @@
       <div class="el-time-panel__content" :class="{ 'has-seconds': showSeconds }">
         <time-spinner
           ref="spinner"
-          role="min"
+          role="start"
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
           :spinner-date="parsedValue"
-          :selection-range="selectionRange"
           @change="handleChange"
           @select-range="setSelectionRange"
         />
@@ -129,17 +128,16 @@ export default defineComponent({
 
     const handleKeydown = event => {
       const keyCode = event.keyCode
-      const mapping = { 38: -1, 40: 1, 37: -1, 39: 1 }
 
       if (keyCode === eventKeys.left || keyCode === eventKeys.right) {
-        const step = mapping[keyCode]
+        const step = (keyCode === eventKeys.left) ? -1 : 1
         changeSelectionRange(step)
         event.preventDefault()
         return
       }
 
       if (keyCode === eventKeys.up || keyCode === eventKeys.down) {
-        const step = mapping[keyCode]
+        const step = (keyCode === eventKeys.up) ? -1 : 1
         timePickeOptions['min_scrollDown'](step)
         event.preventDefault()
         return
@@ -181,7 +179,14 @@ export default defineComponent({
     pickerHub.on('SetOption', e => {
       timePickeOptions[e[0]] = e[1]
     })
-    provide('EP_TIMEPICK_PANEL', pickerHub)
+    provide('EP_TIMEPICK_PANEL', {
+      hub: pickerHub,
+      methods: {
+        enabledHours: pickerBase.props.enabledHours,
+        enabledMinutes: pickerBase.props.enabledMinutes,
+        enabledSeconds: pickerBase.props.enabledSeconds,
+      },
+    })
     return {
       t,
       handleConfirm,

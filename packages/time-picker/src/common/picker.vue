@@ -295,7 +295,16 @@ export default defineComponent({
     }
     const onPick = (date: any = '', visible = false, useOldValue = false) => {
       pickerVisible.value = visible
-      const result = useOldValue ? oldValue : date.toDate()
+      let result
+      if (useOldValue) {
+        result = oldValue.value
+      } else {
+        if (Array.isArray(date)) {
+          result = date.map(_ => _.toDate())
+        } else {
+          result = date.toDate()
+        }
+      }
       userInput.value = null
       emitInput(result)
       emitChange(result)
@@ -309,20 +318,28 @@ export default defineComponent({
     const pickerDisabled = computed(() =>{
       return props.disabled || elForm.disabled
     })
+
     const parsedValue = computed(() => {
       let result
-      if (!props.modelValue) {
-        if (isRangeInput.value) {
-          if (Array.isArray(props.defaultValue)) return props.defaultValue
-          return [
-            props.defaultValue,
-            dayjs(props.defaultValue).add(60,'m').toDate(),
-          ]
+      if (isRangeInput.value) {
+        if (!props.modelValue) {
+          if (Array.isArray(props.defaultValue)) {
+            result = (props.defaultValue as Array<Date>).map(_=> dayjs(_))
+          } else {
+            result = [
+              dayjs(props.defaultValue as Date),
+              dayjs(props.defaultValue as Date).add(60,'m'),
+            ]
+          }
         } else {
-          result = dayjs(props.defaultValue as Date)
+          result = (props.modelValue as Array<Date>).map(_=> dayjs(_))
         }
       } else {
-        result = dayjs(props.modelValue as Date)
+        if (!props.modelValue) {
+          result = dayjs(props.defaultValue as Date)
+        } else {
+          result = dayjs(props.modelValue as Date)
+        }
       }
       if (pickerOptions.value.getRangeAvaliableTime) {
         result = pickerOptions.value.getRangeAvaliableTime(result)
@@ -330,22 +347,15 @@ export default defineComponent({
       return result
     })
 
-    // todo parsedArrayValue
     const displayValue = computed(() => {
       if (!pickerVisible.value && !props.modelValue) return
       const formattedValue = formatAsFormatAndType(parsedValue.value, props.format, props.type)
-      if (Array.isArray(userInput.value)) {
-        return [
-          userInput.value[0] || (formattedValue && formattedValue[0]) || '',
-          userInput.value[1] || (formattedValue && formattedValue[1]) || '',
-        ]
-      }
       if (userInput.value !== null) {
         return userInput.value
       }
       if (formattedValue) {
         return props.type === 'dates'
-          ? formattedValue.join(', ')
+          ? (formattedValue as Array<string>).join(', ')
           : formattedValue
       }
       return ''

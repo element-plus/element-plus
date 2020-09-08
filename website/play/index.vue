@@ -1,16 +1,18 @@
 <template>
   <div>
+    <el-time-picker
+      v-model="value1"
+      is-range
+      placeholder="Arbitrary time"
+      :enabled-hours="enabledHours"
+      :enabled-minutes="enabledMinutes"
+      :enabled-seconds="enabledSeconds"
+    />
+    value1: {{ value1 }}
     :picker-options="{
     selectableRange: '18:30:05 - 20:30:50'
     }"
-    is-range
     arrow-control
-    <el-time-picker
-      v-model="value1"
-      placeholder="Arbitrary time"
-      format="HH:mm"
-    />
-    value1: {{ value1 }}
   </div>
 </template>
 
@@ -29,7 +31,10 @@ export default {
     }
   },
   methods: {
-    enabledHours() {
+    enabledHours(type) {
+      // if (type === 'end') {
+      //   return range(11, 13)
+      // }
       // type start | end
       return range(5, 10)
     },

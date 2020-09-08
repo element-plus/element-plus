@@ -15,12 +15,11 @@
           >
             <time-spinner
               ref="minSpinner"
-              role="min"
+              role="start"
               :show-seconds="showSeconds"
               :am-pm-mode="amPmMode"
               :arrow-control="arrowControl"
               :spinner-date="minDate"
-              :selectable-range="minSelectableRange"
               @change="handleMinChange"
               @select-range="setMinSelectionRange"
             />
@@ -34,10 +33,9 @@
           >
             <time-spinner
               ref="maxSpinner"
-              role="max"
+              role="end"
               :show-seconds="showSeconds"
               :am-pm-mode="amPmMode"
-              :selectable-range="maxSelectableRange"
               :arrow-control="arrowControl"
               :spinner-date="maxDate"
               @change="handleMaxChange"
@@ -69,17 +67,6 @@
 
 <script lang="ts">
 import {
-  parseDate,
-  limitTimeRange,
-  modifyDate,
-  clearMilliseconds,
-  timeWithinRange,
-} from './time-picker-utils'
-import { t } from '@element-plus/locale'
-import TimeSpinner from './basic-time-spinner.vue'
-import mitt from 'mitt'
-import { eventKeys } from '@element-plus/utils/aria'
-import {
   defineComponent,
   ref,
   computed,
@@ -87,31 +74,19 @@ import {
   inject,
   provide,
 } from 'vue'
+import dayjs, { Dayjs } from 'dayjs'
+import mitt from 'mitt'
+import { t } from '@element-plus/locale'
+import { eventKeys } from '@element-plus/utils/aria'
+import TimeSpinner from './basic-time-spinner.vue'
 
-const MIN_TIME = () => {
-  let _d
-  if (!_d) _d = parseDate('00:00:00', 'HH:mm:ss')
-  return _d
+const makeSelectRange = (start, end) => {
+  const result = []
+  for (let i = start; i < end; i++) {
+    result.push(i)
+  }
+  return result
 }
-const MAX_TIME = () => {
-  let _d
-  if (!_d) _d = parseDate('23:59:59', 'HH:mm:ss')
-  return _d
-}
-
-const minTimeOfDay = function(date) {
-  return modifyDate(MIN_TIME(), date.getFullYear(), date.getMonth(), date.getDate())
-}
-
-const maxTimeOfDay = function(date) {
-  return modifyDate(MAX_TIME(), date.getFullYear(), date.getMonth(), date.getDate())
-}
-
-// increase time by amount of milliseconds, but within the range of day
-const advanceTime = function(date, amount) {
-  return new Date(Math.min(date.getTime() + amount, maxTimeOfDay(date).getTime()))
-}
-
 export default defineComponent({
 
   components: { TimeSpinner },
@@ -126,16 +101,8 @@ export default defineComponent({
       default: false,
     },
     parsedValue: {
-      type: Array as PropType<Array<Date>>,
+      type: Array as PropType<Array<Dayjs>>,
       default: '',
-    },
-    pickerOptions: {
-      type: Object,
-      default: () => ({}),
-    },
-    rangeSeparator: { // todo move to time range picker
-      type: String,
-      default: '-',
     },
     format: {
       type: String,
@@ -146,17 +113,17 @@ export default defineComponent({
   emits: ['pick', 'select-range'],
 
   setup(props, ctx) {
-    const minDate = computed(() => props.parsedValue[0] as Date)
-    const maxDate = computed(() => props.parsedValue[1] as Date)
+    const minDate = computed(() => props.parsedValue[0])
+    const maxDate = computed(() => props.parsedValue[1])
     const handleCancel = () =>{
       ctx.emit('pick', null, null, true)
     }
     const showSeconds = computed(() => {
-      return (props.format || '').indexOf('ss') !== -1
+      return props.format.includes('ss')
     })
     const amPmMode = computed(() => {
-      if ((props.format || '').indexOf('A') !== -1) return 'A'
-      if ((props.format || '').indexOf('a') !== -1) return 'a'
+      if (props.format.includes('A')) return 'A'
+      if (props.format.includes('a')) return 'a'
       return ''
     })
 
@@ -164,33 +131,27 @@ export default defineComponent({
     const maxSelectableRange = ref([])
 
     const handleConfirm = (visible = false) => {
-      const _minDate = limitTimeRange(minDate.value, minSelectableRange.value, props.format)
-      const _maxDate = limitTimeRange(maxDate.value, maxSelectableRange.value, props.format)
-      ctx.emit('pick', [_minDate, _maxDate], visible)
+      ctx.emit('pick', [minDate.value, maxDate.value], visible)
     }
 
     const handleMinChange = date => {
-      handleChange(clearMilliseconds(date), maxDate.value)
+      handleChange(date.millisecond(0), maxDate.value)
     }
     const handleMaxChange = date => {
-      handleChange(minDate.value, clearMilliseconds(date))
+      handleChange(minDate.value, date.millisecond(0))
     }
 
     const isValidValue = date => {
-      return Array.isArray(date) &&
-          timeWithinRange(date[0], minSelectableRange.value, props.format) &&
-          timeWithinRange(date[1], maxSelectableRange.value, props.format)
+      const result = getRangeAvaliableTime(date)
+      return date[0].isSame(result[0]) && date[1].isSame(result[1])
     }
 
     const handleChange = (_minDate, _maxDate) => {
-      if (isValidValue([_minDate, _maxDate])) {
-        minSelectableRange.value = [[minTimeOfDay(_minDate), _maxDate]]
-        maxSelectableRange.value = [[_minDate, maxTimeOfDay(_maxDate)]]
-        ctx.emit('pick', [_minDate, _maxDate], true)
-      }
+      // todo getRangeAvaliableTime(_date).millisecond(0)
+      ctx.emit('pick', [_minDate, _maxDate], true)
     }
     const btnConfirmDisabled = computed(() => {
-      return minDate.value.getTime() > maxDate.value.getTime()
+      return minDate.value > maxDate.value
     })
 
     const selectionRange = ref([0,2])
@@ -220,34 +181,92 @@ export default defineComponent({
 
     const handleKeydown = event => {
       const keyCode = event.keyCode
-      const mapping = { 38: -1, 40: 1, 37: -1, 39: 1 }
 
       if (keyCode === eventKeys.left || keyCode === eventKeys.right) {
-        const step = mapping[keyCode]
+        const step = (keyCode === eventKeys.left) ? -1 : 1
         changeSelectionRange(step)
         event.preventDefault()
         return
       }
 
       if (keyCode === eventKeys.up || keyCode === eventKeys.down) {
-        const step = mapping[keyCode]
-        const role = selectionRange.value[0] < offset.value ? 'min' : 'max'
+        const step = (keyCode === eventKeys.up) ? -1 : 1
+        const role = selectionRange.value[0] < offset.value ? 'start' : 'end'
         timePickeOptions[`${role}_scrollDown`](step)
         event.preventDefault()
         return
       }
     }
 
+    const enabledHours = (role, compare) => {
+      const defaultEnable = pickerBase.props.enabledHours ? pickerBase.props.enabledHours(role) : makeSelectRange(0, 23)
+      const isStart = role === 'start'
+      const compareDate = compare || (isStart ? maxDate.value : minDate.value)
+      const hour = compareDate.hour()
+      const hourIndex = defaultEnable.indexOf(hour)
+      if (hourIndex < 0) {
+        return defaultEnable
+      }
+      return isStart ? defaultEnable.slice(0, hourIndex + 1) : defaultEnable.slice(hourIndex)
+    }
+    const enabledMinutes = (hour, role) => {
+      return pickerBase.props.enabledMinutes ? pickerBase.props.enabledMinutes(role) : makeSelectRange(0, 59)
+    }
+    const enabledSeconds = (hour, minute, role) => {
+      return pickerBase.props.enabledSeconds ? pickerBase.props.enabledSeconds(role) : makeSelectRange(0, 59)
+    }
+
+    const getRangeAvaliableTime = (dates: Array<Dayjs>) => {
+      return dates.map((_, index) => getRangeAvaliableTimeEach(dates[0], dates[1], index === 0 ? 'start' : 'end'))
+    }
+
+    const getRangeAvaliableTimeEach = (startDate: Dayjs, endDate: Dayjs, role) => {
+      const enabledMap = {
+        hour: enabledHours,
+        minute: enabledMinutes,
+        second: enabledSeconds,
+      }
+      const isStart = role === 'start'
+      let result = isStart ? startDate : endDate
+      const compareDate = isStart ? endDate : startDate;
+      ['hour', 'minute', 'second'].forEach(_ => {
+        if (enabledMap[_]) {
+          let avaliableArr
+          const method = enabledMap[_]
+          if (_ === 'minute') {
+            avaliableArr = method(result.hour(), role)
+          } else if (_ === 'second') {
+            avaliableArr = method(result.hour(), result.minute(), role)
+          } else {
+            avaliableArr = method(role, compareDate)
+          }
+          if (!avaliableArr.includes(result[_]())) {
+            const pos = isStart ? 0 : avaliableArr.length - 1
+            result = result[_](avaliableArr[pos])
+          }
+        }
+      })
+      return result
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.hub.emit('isValidValue', isValidValue)
     pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
+    pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])
 
     const timePickeOptions = {} as any
     const pickerHub = mitt()
     pickerHub.on('SetOption', e => {
       timePickeOptions[e[0]] = e[1]
     })
-    provide('EP_TIMEPICK_PANEL', pickerHub)
+    provide('EP_TIMEPICK_PANEL', {
+      hub: pickerHub,
+      methods: {
+        enabledHours,
+        enabledMinutes,
+        enabledSeconds,
+      },
+    })
 
     return {
       setMaxSelectionRange,
