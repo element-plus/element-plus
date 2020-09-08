@@ -15981,9 +15981,9 @@ vue-loader@16.0.0-beta.5:
     source-map "^0.6.1"
 
 vue-router@^4.0.0-beta.4:
-  version "4.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.0.0-beta.7.tgz#afd8469c8f2aa86a2c785c08dfb954223f86581f"
-  integrity sha512-98CSf1ssIu0cZgdoBTqGWn9e17pueKOy4fzVyFyUhuJkjEwWNOsMMfKru6e0GTwZEtYOd6vhizvh7mkFGvdjVg==
+  version "4.0.0-beta.9"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.0.0-beta.9.tgz#8552c38c9b015527e74c9c6cb4c54868219d601e"
+  integrity sha512-k8AGMm3LCTqnsEuF37AD4kcZVMwtnFEzdjACgmIII/xbLnTj3+o5XyH/zREBZutgv5q2hzlLltMVglqDQYMd/A==
 
 vue-template-compiler@^2.6.12:
   version "2.6.12"
