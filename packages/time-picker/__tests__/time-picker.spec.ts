@@ -18,6 +18,20 @@ const _mount = (template: string, data, otherObj?) => mount({
   },
 })
 
+const makeRange = (start, end) => {
+  const result = []
+  for (let i = start; i <= end; i++) {
+    result.push(i)
+  }
+  return result
+}
+
+const getSpinnerTextAsArray = (dom, selector) => {
+  return [].slice
+    .call(dom.querySelectorAll(selector))
+    .map(node => Number(node.textContent))
+}
+
 afterEach(() => {
   document.documentElement.innerHTML = ''
 })
@@ -162,6 +176,63 @@ describe('TimePicker', () => {
     await nextTick()
     expect(blurHandler).toHaveBeenCalledTimes(1)
   })
+
+  it('selectableRange ', async () => {
+    // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
+    const wrapper = _mount(`<el-time-picker
+        v-model="value"
+        :enabled-hours="enabledHours"
+        :enabled-minutes="enabledMinutes"
+        :enabled-seconds="enabledSeconds"
+      />`, () => ({ value: '' }), {
+      methods: {
+        enabledSeconds(hour, minute) {
+          if (hour === 18 && minute === 30) {
+            return [0]
+          }
+          if (hour === 20 && minute === 30) {
+            return [0]
+          }
+          if (hour === 22 && minute === 0) {
+            return [0]
+          }
+          return makeRange(0, 59)
+        },
+        enabledHours() {
+          return [17, 18, 19, 20, 21, 22]
+        },
+        enabledMinutes(hour) {
+          if (hour === 17) {
+            return makeRange(30, 59)
+          }
+          if (hour === 18) {
+            return makeRange(0, 30).concat(makeRange(50, 59))
+          }
+          if (hour === 20) {
+            return makeRange(0, 30)
+          }
+          if (hour === 22) {
+            return [0]
+          }
+          return makeRange(0, 59)
+        },
+      },
+    })
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const disabledHours = getSpinnerTextAsArray(hoursEl, '.disabled')
+    expect(disabledHours).toEqual([0,  1,  2,  3,  4,  5,  6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 23]);
+    (hoursEl.querySelectorAll('.el-time-spinner__item')[18] as any).click()
+    await nextTick()
+    const minutesEl = list[1]
+    const disabledMinutes = getSpinnerTextAsArray(minutesEl, '.disabled')
+    expect(disabledMinutes.every(t => t > 30 && t < 50)).toBeTruthy()
+    expect(disabledMinutes.length).toEqual(19)
+  })
 })
 
 describe('TimePicker(range)', () => {
@@ -226,6 +297,39 @@ describe('TimePicker(range)', () => {
     vm.value.forEach(_ => {
       expect(_ instanceof Date).toBeTruthy()
     })
+  })
+
+  it('selectableRange ', async () => {
+    // left ['08:00:00 - 12:59:59'] right ['11:00:00 - 16:59:59']
+    const wrapper = _mount(`<el-time-picker
+        v-model="value"
+        is-range
+        :enabled-hours="enabledHours"
+      />`, () => ({ value: '' }), {
+      methods: {
+        enabledHours(role) {
+          if (role === 'start') {
+            return makeRange(8, 12)
+          }
+          return makeRange(11, 16)
+        },
+      },
+    })
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const leftHoursEl = list[0]
+    const leftEndbledHours = getSpinnerTextAsArray(leftHoursEl, ':not(.disabled)')
+    expect(leftEndbledHours).toEqual([ 8, 9, 10, 11, 12 ])
+    const rightHoursEl = list[3]
+    const rightEndbledHours = getSpinnerTextAsArray(rightHoursEl, ':not(.disabled)')
+    expect(rightEndbledHours).toEqual([ 11, 12, 13, 14, 15, 16 ]);
+    (leftHoursEl.querySelectorAll('.el-time-spinner__item')[12] as any).click()
+    await nextTick()
+    const NextRightEndbledHours = getSpinnerTextAsArray(rightHoursEl, ':not(.disabled)')
+    expect(NextRightEndbledHours).toEqual([ 12, 13, 14, 15, 16 ])
   })
 })
 

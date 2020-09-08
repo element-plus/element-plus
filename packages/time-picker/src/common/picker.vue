@@ -128,26 +128,19 @@ import ElInput from '@element-plus/input/src/index.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { eventKeys } from '@element-plus/utils/aria'
 import mitt from 'mitt'
-/*
- * Considers:
- *   1. Date object
- *   2. date string
- *   3. array of 1 or 2
- */
-const valueEquals = function(a, b) {
-  // considers Date object and string
-  const dateEquals = function(a, b) {
-    const aIsDate = a instanceof Date
-    const bIsDate = b instanceof Date
-    if (aIsDate && bIsDate) {
-      return a.getTime() === b.getTime()
-    }
-    if (!aIsDate && !bIsDate) {
-      return a === b
-    }
-    return false
+// Date object and string
+const dateEquals = function(a, b) {
+  const aIsDate = a instanceof Date
+  const bIsDate = b instanceof Date
+  if (aIsDate && bIsDate) {
+    return a.getTime() === b.getTime()
   }
-
+  if (!aIsDate && !bIsDate) {
+    return a === b
+  }
+  return false
+}
+const valueEquals = function(a, b) {
   const aIsArray = a instanceof Array
   const bIsArray = b instanceof Array
   if (aIsArray && bIsArray) {

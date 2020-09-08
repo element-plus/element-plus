@@ -1,25 +1,20 @@
 <template>
   <div>
     <el-time-picker
-      v-model="value1"
+      v-model="value"
       is-range
-      placeholder="Arbitrary time"
       :enabled-hours="enabledHours"
-      :enabled-minutes="enabledMinutes"
-      :enabled-seconds="enabledSeconds"
     />
-    value1: {{ value1 }}
-    :picker-options="{
-    selectableRange: '18:30:05 - 20:30:50'
-    }"
-    arrow-control
+    value1: {{ value }}
+    <br>
+    // left ['08:00:00 - 12:59:59'] right ['11:00:00 - 16:59:59']
   </div>
 </template>
 
 <script>
-function range(start, end) {
+const makeRange = (start, end) => {
   const result = []
-  for (let i = start; i < end; i++) {
+  for (let i = start; i <= end; i++) {
     result.push(i)
   }
   return result
@@ -27,25 +22,15 @@ function range(start, end) {
 export default {
   data() {
     return {
-      value1: '',
+      value: '',
     }
   },
   methods: {
-    enabledHours(type) {
-      // if (type === 'end') {
-      //   return range(11, 13)
-      // }
-      // type start | end
-      return range(5, 10)
-    },
-    enabledMinutes(hour) {
-      if (hour === 8) {
-        return range(0, 29)
+    enabledHours(role) {
+      if (role === 'start') {
+        return makeRange(8, 12)
       }
-      return range(30, 60)
-    },
-    enabledSeconds() {
-      return [55, 56]
+      return makeRange(11, 16)
     },
   },
 }

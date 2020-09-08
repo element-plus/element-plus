@@ -163,7 +163,7 @@ export default defineComponent({
           } else {
             avaliableArr = method()
           }
-          if (!avaliableArr.includes(result[_]())) {
+          if (avaliableArr && !avaliableArr.includes(result[_]())) {
             result = result[_](avaliableArr[0])
           }
         }
