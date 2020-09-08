@@ -233,6 +233,10 @@ export default defineComponent({
       type: [Date, Array] as PropType<Date | Date[]>,
       default: new Date(),
     },
+    isRange: {
+      type: Boolean,
+      default: false,
+    },
     enabledHours: {
       type: Function,
       default: null,

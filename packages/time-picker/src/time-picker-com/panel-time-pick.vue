@@ -37,7 +37,6 @@
 </template>
 
 <script lang="ts">
-import { timeWithinRange, limitTimeRange } from './time-picker-utils'
 import {
   defineComponent,
   ref,
