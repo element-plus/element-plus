@@ -170,7 +170,9 @@ interface PickerOptions {
   isValidValue: any
   handleKeydown: any
   parseUserInput: any
+  formatToString: any
   getRangeAvaliableTime: any
+  panelReady: boolean
 }
 export default defineComponent({
   name: 'Picker',
@@ -350,8 +352,9 @@ export default defineComponent({
     })
 
     const displayValue = computed(() => {
+      if (!pickerOptions.value.panelReady) return
       if (!pickerVisible.value && !props.modelValue) return
-      const formattedValue = formatAsFormatAndType(parsedValue.value, props.format, props.type)
+      const formattedValue = formatDayjsToString(parsedValue.value)
       if (Array.isArray(userInput.value)) {
         return [
           userInput.value[0] || (formattedValue && formattedValue[0]) || '',
@@ -439,32 +442,8 @@ export default defineComponent({
       return pickerOptions.value.parseUserInput(value)
     }
 
-    const DATE_FORMATTER = function(value, format) {
-      return dayjs(value).format(format)
-    }
-
-    const RANGE_FORMATTER = function(value, format) {
-      if (Array.isArray(value) && value.length === 2) {
-        const start = value[0]
-        const end = value[1]
-
-        if (start && end) {
-          return [DATE_FORMATTER(start, format), DATE_FORMATTER(end, format)]
-        }
-      }
-      return ''
-    }
-
-    const formatAsFormatAndType = (value, customFormat, type) => {
-      if (!value) return null
-      const formatter = type === 'timerange' ? RANGE_FORMATTER : DATE_FORMATTER
-      const format = customFormat
-      return formatter(value, format)
-    }
-
-    const formatToString = value => {
-      const type = Array.isArray(value) ? props.type : props.type.replace('range', '')
-      return formatAsFormatAndType(value, props.format, type)
+    const formatDayjsToString = value => {
+      return pickerOptions.value.formatToString(value)
     }
 
     const isValidValue = value => {
@@ -540,7 +519,7 @@ export default defineComponent({
     const handleStartChange = () => {
       const value = parseUserInputToDayjs(userInput.value && userInput.value[0])
       if (value) {
-        userInput.value = [formatToString(value), displayValue.value[1]]
+        userInput.value = [formatDayjsToString(value), displayValue.value[1]]
         const newValue = [value, parsedValue.value && parsedValue.value[1]]
         if (isValidValue(newValue)) {
           emitInput(newValue)
@@ -552,7 +531,7 @@ export default defineComponent({
     const handleEndChange = () => {
       const value = parseUserInputToDayjs(userInput.value && userInput.value[1])
       if (value) {
-        userInput.value = [displayValue.value[0], formatToString(value)]
+        userInput.value = [displayValue.value[0], formatDayjsToString(value)]
         const newValue = [parsedValue.value && parsedValue.value[0], value]
         if (isValidValue(newValue)) {
           emitInput(newValue)
@@ -565,6 +544,7 @@ export default defineComponent({
     const pickerHub = mitt()
     pickerHub.on('SetPickerOption', e => {
       pickerOptions.value[e[0]] = e[1]
+      pickerOptions.value.panelReady = true
     })
     provide('EP_PICKER_BASE', {
       hub: pickerHub,

@@ -40,6 +40,7 @@ describe('TimePicker', () => {
         v-model="value"
       />`, () => ({ format: 'hh-mm:ss A',
       value: new Date(2016, 9, 10, 18, 40) }))
+    await nextTick()
     const input = wrapper.find('input')
     expect(input.element.value).toBe('06-40:00 PM') // format
     input.trigger('blur')

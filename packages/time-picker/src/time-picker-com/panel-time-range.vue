@@ -276,13 +276,23 @@ export default defineComponent({
     }
 
     const parseUserInput = value => {
+      if (!value) return null
       if (Array.isArray(value)) {
         return value.map(_=> dayjs(_, props.format))
       }
       return dayjs(value, props.format)
     }
 
+    const formatToString = value => {
+      if (!value) return null
+      if (Array.isArray(value)) {
+        return value.map(_=> _.format(props.format))
+      }
+      return value.format(props.format)
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
+    pickerBase.hub.emit('SetPickerOption',['formatToString', formatToString])
     pickerBase.hub.emit('SetPickerOption',['parseUserInput', parseUserInput])
     pickerBase.hub.emit('SetPickerOption',['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
