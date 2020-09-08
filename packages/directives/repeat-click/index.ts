@@ -1,4 +1,4 @@
-import { once, on } from '@element-plus/utils/dom'
+import { on, once } from '@element-plus/utils/dom'
 
 export default {
   beforeMount(el, binding) {
@@ -13,10 +13,10 @@ export default {
       interval = null
     }
 
-    on(el, 'mousedown', (e) => {
-      if (e.button !== 0) return
+    on(el, 'mousedown', e => {
+      if ((e as any).button !== 0) return
       startTime = Date.now()
-      once(document, 'mouseup', clear)
+      once(document as any, 'mouseup', clear)
       clearInterval(interval)
       interval = setInterval(handler, 100)
     })

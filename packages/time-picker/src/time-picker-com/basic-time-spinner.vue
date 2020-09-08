@@ -64,7 +64,7 @@ import {
   inject,
 } from 'vue'
 import { Dayjs } from 'dayjs'
-import RepeatClick from './repeat-click'
+import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/scrollbar/src'
 
 const getList = (total, method, methodFunc) => {
