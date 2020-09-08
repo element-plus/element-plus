@@ -96,8 +96,9 @@ export default defineComponent({
     })
     // method
     const isValidValue = _date => {
-      const result = getRangeAvaliableTime(_date)
-      return _date.isSame(result)
+      const parsedDate = dayjs(_date)
+      const result = getRangeAvaliableTime(parsedDate)
+      return parsedDate.isSame(result)
     }
     const handleCancel = () => {
       ctx.emit('pick', '', false, true)

@@ -141,9 +141,10 @@ export default defineComponent({
       handleChange(minDate.value, date.millisecond(0))
     }
 
-    const isValidValue = date => {
-      const result = getRangeAvaliableTime(date)
-      return date[0].isSame(result[0]) && date[1].isSame(result[1])
+    const isValidValue = _date => {
+      const parsedDate = _date.map(_=> dayjs(_))
+      const result = getRangeAvaliableTime(parsedDate)
+      return parsedDate[0].isSame(result[0]) && parsedDate[1].isSame(result[1])
     }
 
     const handleChange = (_minDate, _maxDate) => {
@@ -275,7 +276,7 @@ export default defineComponent({
     }
 
     const pickerBase = inject('EP_PICKER_BASE') as any
-    pickerBase.hub.emit('isValidValue', isValidValue)
+    pickerBase.hub.emit('SetPickerOption',['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
     pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])
 

@@ -350,7 +350,12 @@ export default defineComponent({
     const displayValue = computed(() => {
       if (!pickerVisible.value && !props.modelValue) return
       const formattedValue = formatAsFormatAndType(parsedValue.value, props.format, props.type)
-      if (userInput.value !== null) {
+      if (Array.isArray(userInput.value)) {
+        return [
+          userInput.value[0] || (formattedValue && formattedValue[0]) || '',
+          userInput.value[1] || (formattedValue && formattedValue[1]) || '',
+        ]
+      } else if (userInput.value !== null) {
         return userInput.value
       }
       if (formattedValue) {
