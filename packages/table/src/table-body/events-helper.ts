@@ -75,6 +75,7 @@ function useEvents(props: TableBodyProps) {
       // TODO 会引起整个 Table 的重新渲染，需要优化
       tooltipContent.value = cell.innerText || cell.textContent
       tooltipVisible.value = true
+      // TODO 动态绑定触发的元素会导致开发模式下产生警告
       tooltipTrigger.value = cell as unknown as VNode
     }
   }
