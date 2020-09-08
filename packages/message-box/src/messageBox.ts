@@ -63,20 +63,20 @@ const defaults = {
 
 let msgQueue = []
 
-const defaultCallback = action => {
+const defaultCallback = (action, ctx) => {
   if (currentMsg) {
     const callback = currentMsg.callback
     if (typeof callback === 'function') {
-      if (instance.showInput) {
-        callback(instance.inputValue, action)
+      if (ctx.showInput) {
+        callback(ctx.inputValue, action)
       } else {
         callback(action)
       }
     }
     if (currentMsg.resolve) {
       if (action === 'confirm') {
-        if (instance.showInput) {
-          currentMsg.resolve({ value: instance.inputValue, action })
+        if (ctx.showInput) {
+          currentMsg.resolve({ value: ctx.inputValue, action })
         } else {
           currentMsg.resolve(action)
         }

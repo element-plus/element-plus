@@ -102,13 +102,17 @@ describe('MessageBox', () => {
     expect(msgbox.style.display).toEqual('none')
   })
 
-  test('prompt', () => {
-    // TODO dependencies ElInput
+  test('prompt', async () => {
     MessageBox.prompt('这是一段内容', {
       title: '标题名称',
       inputPattern: /test/,
       inputErrorMessage: 'validation failed',
     })
+    await sleep(1000)
+    const inputElm: HTMLElement = document.querySelector(selector).querySelector('.el-message-box__input')
+    const haveFocus = inputElm.querySelector('input').isSameNode(document.activeElement)
+    expect(inputElm as HTMLElement).toBeDefined()
+    expect(haveFocus).toBe(true)
   })
 
   test('prompt: focus on textarea', () => {

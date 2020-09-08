@@ -92,6 +92,7 @@ import {
   onBeforeUnmount,
   computed,
   watch,
+  watchEffect,
   getCurrentInstance,
   reactive,
   toRefs,
@@ -185,12 +186,22 @@ export default defineComponent({
       focusAfterClosed: null,
       isOnComposition: false,
       distinguishCancelAndClose: false,
+      type$: '',
     })
     const icon = computed(() => state.iconClass || (state.type && TypeMap[state.type] ? `el-icon-${ TypeMap[state.type] }` : ''))
 
     const confirmButtonClasses = computed(() => `el-button--primary ${ state.confirmButtonClass }`)
 
     const cancelButtonClasses = computed(() => `${ state.cancelButtonClass }`)
+
+    watch(() => state.inputValue, val => {
+      nextTick().then(() => {
+        console.log(state.type$)
+        if (state.type$ === 'prompt' && val !== null) {
+          validate()
+        }
+      })
+    }, { immediate: true })
 
     watch(() => popup.state.visible, val => {
       if (val) {
@@ -201,7 +212,6 @@ export default defineComponent({
         state.focusAfterClosed = document.activeElement
         dialog = new Dialog(vm.vnode.el, state.focusAfterClosed, getFirstFocus())
       }
-      //
       if (state.type$ !== 'prompt') return
       if (val) {
         setTimeout(() => {
