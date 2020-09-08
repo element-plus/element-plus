@@ -79,17 +79,19 @@
 
 <script lang="ts">
 import { defineComponent,computed,ref,nextTick,reactive,watch,provide,inject } from 'vue'
+import type { ComputedRef } from '@vue/reactivity'
 import ClickOutside from '@element-plus/directives/click-outside'
 import Color from './color'
 import SvPanel from './components/sv-panel.vue'
 import HueSlider from './components/hue-slider.vue'
 import AlphaSlider from './components/alpha-slider.vue'
+import Predefine from './components/predefine.vue'
 import ElTooltip from '@element-plus/tooltip/src/index.vue'
 import ElButton from '@element-plus/button/src/button.vue'
 import { t } from '@element-plus/locale/index'
 import { UPDATE_MODEL_EVENT }  from '@element-plus/utils/constants'
-import Predefine from './components/predefine'
 // import ElPopper from '@element-plus/popper/src/index.vue'
+const OPTIONS_KEY = Symbol()
 
 interface IELEMENT {
   size?: string
@@ -102,16 +104,17 @@ interface IELFormItem {
   elFormItemSize?: string
 }
 
-const SY = Symbol()
+interface IUseOptions {
+  currentColor: ComputedRef<string>
+}
 
 export const useOptions = () => {
-  return inject(SY)
+  return inject<IUseOptions>(OPTIONS_KEY)
 }
 
 export default defineComponent( {
   name: 'ElColorPicker',
   components: {
-    // ElPopper,
     ElTooltip,
     SvPanel,
     HueSlider,
@@ -165,7 +168,7 @@ export default defineComponent( {
       return (elFormItem || {}).elFormItemSize
     })
 
-    const currentColor = computed(() => {
+    const currentColor = computed<string>(() => {
       return showPanelColor.value ? '' : color.value
     })
     // watch
@@ -226,7 +229,7 @@ export default defineComponent( {
       resetColor()
     }
 
-    provide(SY,{
+    provide<IUseOptions>(OPTIONS_KEY, {
       currentColor,
     })
 

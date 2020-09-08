@@ -30,6 +30,7 @@ import ElTabs from '@element-plus/tabs'
 import ElTooltip from '@element-plus/tooltip'
 import ElSlider from '@element-plus/slider'
 import ElInput from '@element-plus/input'
+import ElColorPicker from '@element-plus/color-picker'
 
 export {
   ElAlert,
@@ -62,6 +63,7 @@ export {
   ElTooltip,
   ElSlider,
   ElInput,
+  ElColorPicker,
 }
 
 export default function install(app: App): void {
@@ -96,4 +98,5 @@ export default function install(app: App): void {
   ElTooltip(app)
   ElSlider(app)
   ElInput(app)
+  ElColorPicker(app)
 }
