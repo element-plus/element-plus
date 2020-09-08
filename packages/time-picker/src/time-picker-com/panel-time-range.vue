@@ -209,11 +209,36 @@ export default defineComponent({
       }
       return isStart ? defaultEnable.slice(0, hourIndex + 1) : defaultEnable.slice(hourIndex)
     }
-    const enabledMinutes = (hour, role) => {
-      return pickerBase.props.enabledMinutes ? pickerBase.props.enabledMinutes(role) : makeSelectRange(0, 59)
+    const enabledMinutes = (hour, role, compare) => {
+      const defaultEnable = pickerBase.props.enabledMinutes ? pickerBase.props.enabledMinutes(hour, role) : makeSelectRange(0, 59)
+      const isStart = role === 'start'
+      const compareDate = compare || (isStart ? maxDate.value : minDate.value)
+      const compareHour = compareDate.hour()
+      if (hour !== compareHour) {
+        return defaultEnable
+      }
+      const minute = compareDate.minute()
+      const minuteIndex = defaultEnable.indexOf(minute)
+      if (minuteIndex < 0) {
+        return defaultEnable
+      }
+      return isStart ? defaultEnable.slice(0, minuteIndex + 1) : defaultEnable.slice(minuteIndex)
     }
-    const enabledSeconds = (hour, minute, role) => {
-      return pickerBase.props.enabledSeconds ? pickerBase.props.enabledSeconds(role) : makeSelectRange(0, 59)
+    const enabledSeconds = (hour, minute, role, compare) => {
+      const defaultEnable = pickerBase.props.enabledSeconds ? pickerBase.props.enabledSeconds(hour, minute ,role) : makeSelectRange(0, 59)
+      const isStart = role === 'start'
+      const compareDate = compare || (isStart ? maxDate.value : minDate.value)
+      const compareHour = compareDate.hour()
+      const compareMinute = compareDate.minute()
+      if (hour !== compareHour || minute !== compareMinute) {
+        return defaultEnable
+      }
+      const second = compareDate.second()
+      const secondIndex = defaultEnable.indexOf(second)
+      if (secondIndex < 0) {
+        return defaultEnable
+      }
+      return isStart ? defaultEnable.slice(0, secondIndex + 1) : defaultEnable.slice(secondIndex)
     }
 
     const getRangeAvaliableTime = (dates: Array<Dayjs>) => {
@@ -234,9 +259,9 @@ export default defineComponent({
           let avaliableArr
           const method = enabledMap[_]
           if (_ === 'minute') {
-            avaliableArr = method(result.hour(), role)
+            avaliableArr = method(result.hour(), role, compareDate)
           } else if (_ === 'second') {
-            avaliableArr = method(result.hour(), result.minute(), role)
+            avaliableArr = method(result.hour(), result.minute(), role, compareDate)
           } else {
             avaliableArr = method(role, compareDate)
           }

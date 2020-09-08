@@ -248,6 +248,9 @@ export default defineComponent({
     }
 
     const modifyDateField = (type, value) => {
+      const list = listMap.value[type].value
+      const isDisabled = list[value]
+      if (isDisabled) return
       switch (type) {
         case 'hours': ctx.emit('change',
           props.spinnerDate
