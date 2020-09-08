@@ -305,7 +305,7 @@ describe('TimePicker(range)', () => {
         v-model="value"
         is-range
         :enabled-hours="enabledHours"
-      />`, () => ({ value: '' }), {
+      />`, () => ({ value: [new Date(2016, 9, 10, 9, 40), new Date(2016, 9, 10, 15, 40)] }), {
       methods: {
         enabledHours(role) {
           if (role === 'start') {
