@@ -1,9 +1,10 @@
 import { nextTick, getCurrentInstance, unref } from 'vue'
 import { arrayFind } from '@element-plus/utils/util'
 import useWatcher from './watcher'
+import { Table, Store } from '../table'
 
-function useStore() {
-  const instance = getCurrentInstance() as any
+function useStore(): Store {
+  const instance = getCurrentInstance() as Table
   const mutations = {
     setData(states, data) {
       const dataInstanceChanged = unref(states.data) !== data

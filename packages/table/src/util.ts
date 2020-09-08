@@ -1,13 +1,14 @@
 import { getValueByPath } from '@element-plus/utils/util'
+import { AnyObject, TableColumn } from './table'
 
-export const getCell = function (event) {
-  let cell = event.target
+export const getCell = function (event: Event): HTMLElement {
+  let cell = event.target as HTMLElement
 
   while (cell && cell.tagName.toUpperCase() !== 'HTML') {
     if (cell.tagName.toUpperCase() === 'TD') {
       return cell
     }
-    cell = cell.parentNode
+    cell = cell.parentNode as HTMLElement
   }
 
   return null
@@ -74,7 +75,9 @@ export const orderBy = function (array, sortKey, reverse, sortMethod, sortBy) {
   }).map(item => item.value)
 }
 
-export const getColumnById = function (table, columnId) {
+export const getColumnById = function (table: {
+  columns: TableColumn[]
+}, columnId: string): null | TableColumn {
   let column = null
   table.columns.forEach(function (item) {
     if (item.id === columnId) {
@@ -84,7 +87,9 @@ export const getColumnById = function (table, columnId) {
   return column
 }
 
-export const getColumnByKey = function (table, columnKey) {
+export const getColumnByKey = function (table: {
+  columns: TableColumn[]
+}, columnKey: string): TableColumn {
   let column = null
   for (let i = 0; i < table.columns.length; i++) {
     const item = table.columns[i]
@@ -96,7 +101,9 @@ export const getColumnByKey = function (table, columnKey) {
   return column
 }
 
-export const getColumnByCell = function (table, cell) {
+export const getColumnByCell = function (table: {
+  columns: TableColumn[]
+}, cell: HTMLElement): null | TableColumn {
   const matches = (cell.className || '').match(/el-table_[^\s]+/gm)
   if (matches) {
     return getColumnById(table, matches[0])
@@ -104,7 +111,7 @@ export const getColumnByCell = function (table, cell) {
   return null
 }
 
-export const getRowIdentity = (row, rowKey) => {
+export const getRowIdentity = (row: AnyObject, rowKey: string | ((row: AnyObject) => any)): string => {
   if (!row) throw new Error('row is required when get row identity')
   if (typeof rowKey === 'string') {
     if (rowKey.indexOf('.') < 0) {
@@ -115,13 +122,13 @@ export const getRowIdentity = (row, rowKey) => {
     for (let i = 0; i < key.length; i++) {
       current = current[key[i]]
     }
-    return current
+    return current as unknown as string
   } else if (typeof rowKey === 'function') {
     return rowKey.call(null, row)
   }
 }
 
-export const getKeysMap = function (array, rowKey) {
+export const getKeysMap = function (array: AnyObject[], rowKey: string): AnyObject {
   const arrayMap = {};
   (array || []).forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index }
@@ -129,12 +136,12 @@ export const getKeysMap = function (array, rowKey) {
   return arrayMap
 }
 
-function hasOwn(obj, key) {
+function hasOwn(obj: AnyObject, key: string): boolean {
   return Object.prototype.hasOwnProperty.call(obj, key)
 }
 
-export function mergeOptions(defaults, config) {
-  const options = {}
+export function mergeOptions<T, K>(defaults: T, config: K): T & K {
+  const options = {} as T & K
   let key
   for (key in defaults) {
     options[key] = defaults[key]
@@ -150,9 +157,9 @@ export function mergeOptions(defaults, config) {
   return options
 }
 
-export function parseWidth(width) {
+export function parseWidth(width: number | string): number | string {
   if (width !== undefined) {
-    width = parseInt(width, 10)
+    width = parseInt(width as string, 10)
     if (isNaN(width)) {
       width = null
     }
@@ -160,7 +167,7 @@ export function parseWidth(width) {
   return width
 }
 
-export function parseMinWidth(minWidth) {
+export function parseMinWidth(minWidth): number {
   if (typeof minWidth !== 'undefined') {
     minWidth = parseWidth(minWidth)
     if (isNaN(minWidth)) {
@@ -170,7 +177,7 @@ export function parseMinWidth(minWidth) {
   return minWidth
 }
 
-export function parseHeight(height) {
+export function parseHeight(height: number | string) {
   if (typeof height === 'number') {
     return height
   }
@@ -195,7 +202,7 @@ export function compose(...funcs) {
   return funcs.reduce((a, b) => (...args) => a(b(...args)))
 }
 
-export function toggleRowStatus(statusArr, row, newVal) {
+export function toggleRowStatus(statusArr: AnyObject[], row: AnyObject, newVal: boolean): boolean {
   let changed = false
   const index = statusArr.indexOf(row)
   const included = index !== -1

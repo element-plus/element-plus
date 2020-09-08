@@ -1,7 +1,8 @@
 import { walkTreeNode, getRowIdentity } from '../util'
 import { ref, computed, watch, getCurrentInstance, unref } from 'vue'
+import { WatcherPropsData, Table } from '../table'
 
-function useTree(watcherData: any) {
+function useTree(watcherData: WatcherPropsData) {
   const expandRowKeys = ref([])
   const treeData = ref({})
   const indent = ref(16)
@@ -9,7 +10,7 @@ function useTree(watcherData: any) {
   const lazyTreeNodeMap = ref({})
   const lazyColumnIdentifier = ref('hasChildren')
   const childrenColumnName = ref('children')
-  const instance = getCurrentInstance() as any
+  const instance = getCurrentInstance() as Table
   const normalizedData = computed(() => {
     if (!watcherData.rowKey.value) return {}
     const data = watcherData.data.value || []

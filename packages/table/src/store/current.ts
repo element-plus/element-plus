@@ -1,13 +1,14 @@
 import { arrayFind } from '@element-plus/utils/util'
 import { getRowIdentity } from '../util'
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, unref } from 'vue'
+import { WatcherPropsData, Table, AnyObject } from '../table'
 
-function useCurrent(watcherData) {
-  const instance = getCurrentInstance() as any
+function useCurrent(watcherData: WatcherPropsData) {
+  const instance = getCurrentInstance() as Table
   const _currentRowKey = ref(null)
   const currentRow = ref(null)
 
-  const setCurrentRowKey = key => {
+  const setCurrentRowKey = (key: string) => {
     instance.store.assertRowKey()
     _currentRowKey.value = key
     setCurrentRowByKey(key)
@@ -17,16 +18,16 @@ function useCurrent(watcherData) {
     _currentRowKey.value = null
   }
 
-  const setCurrentRowByKey = key => {
+  const setCurrentRowByKey = (key: string) => {
     const { data = [], rowKey } = watcherData
     let _currentRow = null
     if (rowKey.value) {
-      _currentRow = arrayFind(data.value, item => getRowIdentity(item, rowKey.value) === key)
+      _currentRow = arrayFind(unref(data), item => getRowIdentity(item, rowKey.value) === key)
     }
     currentRow.value = _currentRow
   }
 
-  const updateCurrentRow = _currentRow => {
+  const updateCurrentRow = (_currentRow: AnyObject) => {
     const oldCurrentRow = currentRow.value
     if (_currentRow && _currentRow !== oldCurrentRow) {
       currentRow.value = _currentRow

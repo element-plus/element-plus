@@ -1,6 +1,7 @@
 import { defineComponent, h, getCurrentInstance, computed } from 'vue'
-import { TableFooter } from './types'
-
+import { TableFooter, Table, TableColumn } from '../table'
+import { hGutter, hColgroup } from '../h-helper'
+import useStyle from './style-helper'
 
 export default defineComponent({
   name: 'ElTableFooter',
@@ -28,62 +29,15 @@ export default defineComponent({
     },
   },
   setup(props: TableFooter) {
-    const instance = getCurrentInstance()
-    const table = instance.parent as any
-    const store = table.store
-
-    const hasGutter = computed(() => {
-      return !props.fixed && table.layout.gutterWidth
-    })
-    const leftFixedLeafCount = computed(() => {
-      return store.states.fixedLeafColumnsLength.value
-    })
-    const rightFixedLeafCount = computed(() => {
-      return store.states.rightFixedColumns.value.length
-    })
-    const columnsCount = computed(() => {
-      return store.states.columns.value.length
-    })
-    const leftFixedCount = computed(() => {
-      return store.states.fixedColumns.value.length
-    })
-    const rightFixedCount = computed(() => {
-      return store.states.rightFixedColumns.value.length
-    })
-    const isCellHidden = (index, columns, column) => {
-      if (props.fixed || props.fixed === 'left') {
-        return index >= leftFixedLeafCount.value
-      } else if (props.fixed === 'right') {
-        let before = 0
-        for (let i = 0; i < index; i++) {
-          before += columns[i].colSpan
-        }
-        return before < columnsCount.value - rightFixedLeafCount.value
-      } else if (!props.fixed && column.fixed) { // hide cell when footer instance is not fixed and column is fixed
-        return true
-      } else {
-        return (index < leftFixedCount.value) || (index >= columnsCount.value - rightFixedCount.value)
-      }
-    }
-
-    const getRowClasses = (column, cellIndex) => {
-      const classes = [column.id, column.align, column.labelClassName]
-      if (column.className) {
-        classes.push(column.className)
-      }
-      if (isCellHidden(cellIndex, store.states.columns.value, column)) {
-        classes.push('is-hidden')
-      }
-      if (!column.children) {
-        classes.push('is-leaf')
-      }
-      return classes
-    }
-
+    const {
+      hasGutter,
+      getRowClasses,
+      columns,
+    } = useStyle(props)
     return {
       getRowClasses,
       hasGutter,
-      columns: store.states.columns,
+      columns,
     }
   },
   render() {
@@ -130,25 +84,7 @@ export default defineComponent({
         border: '0',
       },
       [
-        h(
-          'colgroup',
-          {},
-          [
-            ...this.columns.map(column => h(
-              'col',
-              {
-                name: column.id,
-                key: column.id,
-              },
-            )),
-            this.hasGutter && h(
-              'col',
-              {
-                name: 'gutter',
-              },
-            ),
-          ],
-        ),
+        hColgroup(this.columns, this.hasGutter),
         h(
           'tbody',
           {
@@ -179,12 +115,7 @@ export default defineComponent({
                     ),
                   ],
                 )),
-                this.hasGutter && h(
-                  'col',
-                  {
-                    name: 'gutter',
-                  },
-                ),
+                this.hasGutter && hGutter(),
               ],
             ),
           ],

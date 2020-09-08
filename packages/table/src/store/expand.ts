@@ -1,8 +1,9 @@
 import { ref, getCurrentInstance } from 'vue'
 import { toggleRowStatus, getKeysMap, getRowIdentity } from '../util'
+import { WatcherPropsData, Table } from '../table'
 
-function useExpand(watcherData) {
-  const instance = getCurrentInstance() as any
+function useExpand(watcherData: WatcherPropsData) {
+  const instance = getCurrentInstance() as Table
   const defaultExpandAll = ref(false)
   const expandRows = ref([])
   const updateExpandRows = () => {
@@ -26,7 +27,7 @@ function useExpand(watcherData) {
     }
   }
 
-  const toggleRowExpansion = (row, expanded) => {
+  const toggleRowExpansion = (row, expanded: boolean | undefined) => {
     const changed = toggleRowStatus(expandRows.value, row, expanded)
     if (changed) {
       instance.emit('expand-change', row, expandRows.value.slice())
@@ -34,13 +35,13 @@ function useExpand(watcherData) {
     }
   }
 
-  const setExpandRowKeys = rowKeys => {
+  const setExpandRowKeys = (rowKeys: string[]) => {
     instance.store.assertRowKey()
     // TODO：这里的代码可以优化
     const data = watcherData.data.value || []
     const rowKey = watcherData.rowKey.value
     const keysMap = getKeysMap(data, rowKey)
-    expandRows.value = rowKeys.reduce((prev, cur) => {
+    expandRows.value = rowKeys.reduce((prev: string[], cur: string) => {
       const info = keysMap[cur]
       if (info) {
         prev.push(info.row)
@@ -49,7 +50,7 @@ function useExpand(watcherData) {
     }, [])
   }
 
-  const isRowExpanded = row => {
+  const isRowExpanded = (row): boolean => {
     const rowKey = watcherData.rowKey.value
     if (rowKey) {
       const expandMap = getKeysMap(expandRows.value, rowKey)

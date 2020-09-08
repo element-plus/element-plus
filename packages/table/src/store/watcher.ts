@@ -11,6 +11,7 @@ import {
 import useExpand from './expand'
 import useCurrent from './current'
 import useTree from './tree'
+import { AnyObject } from '../table'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
@@ -321,7 +322,7 @@ function useWatcher() {
       tableHeader,
       fixedTableHeader,
       rightFixedTableHeader,
-    } = instance.refs
+    } = instance.refs as AnyObject
     let panels = {}
     if (tableHeader) panels = merge(panels, tableHeader.filterPanels)
     if (fixedTableHeader) panels = merge(panels, fixedTableHeader.filterPanels)

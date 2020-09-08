@@ -2,12 +2,13 @@ import { nextTick, ref, isRef } from 'vue'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
+import { AnyObject, Table, Store, TableHeader, TableColumn } from './table'
 
 class TableLayout {
-  observers = []
-  table = null
-  store = null
-  columns = null
+  observers: TableHeader[] = []
+  table: Table = null
+  store: Store = null
+  columns: TableColumn[] = null
   fit = true
   showHeader = true
 
@@ -25,7 +26,7 @@ class TableLayout {
   bodyHeight = ref(null) // Table Height - Table Header Height
   fixedBodyHeight = ref(null) // Table Height - Table Header Height - Scroll Bar Height
   gutterWidth = scrollbarWidth()
-  constructor(options) {
+  constructor(options: AnyObject) {
     for (const name in options) {
       if (options.hasOwnProperty(name)) {
         if (isRef(this[name])) {
@@ -46,9 +47,9 @@ class TableLayout {
   updateScrollY() {
     const height = this.height.value
     if (height === null) return false
-    const bodyWrapper = this.table.refs.bodyWrapper
+    const bodyWrapper = this.table.refs.bodyWrapper as HTMLElement
     if (this.table.vnode.el && bodyWrapper) {
-      const body = bodyWrapper.querySelector('.el-table__body')
+      const body = bodyWrapper.querySelector('.el-table__body') as HTMLElement
       const prevScrollY = this.scrollY.value
       const scrollY = body.offsetHeight > this.bodyHeight.value
       this.scrollY.value = scrollY
@@ -57,7 +58,7 @@ class TableLayout {
     return false
   }
 
-  setHeight(value, prop = 'height') {
+  setHeight(value: string | number, prop = 'height') {
     if (isServer) return
     const el = this.table.vnode.el
     value = parseHeight(value)
@@ -74,11 +75,11 @@ class TableLayout {
     }
   }
 
-  setMaxHeight(value) {
+  setMaxHeight(value: string | number) {
     this.setHeight(value, 'max-height')
   }
 
-  getFlattenColumns() {
+  getFlattenColumns(): TableColumn[] {
     const flattenColumns = []
     const columns = this.table.store.states.columns.value
     columns.forEach(column => {
@@ -95,14 +96,17 @@ class TableLayout {
 
   updateElsHeight() {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
-    const { headerWrapper, appendWrapper, footerWrapper } = this.table.refs
+    const { headerWrapper: headerWrapper_, appendWrapper: appendWrapper_, footerWrapper: footerWrapper_ } = this.table.refs
+    const appendWrapper = appendWrapper_ as HTMLElement
+    const headerWrapper = headerWrapper_ as HTMLElement
+    const footerWrapper = footerWrapper_ as HTMLElement
     this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
 
     if (this.showHeader && !headerWrapper) return
 
     // fix issue (https://github.com/ElemeFE/element/pull/16956)
     const headerTrElm = headerWrapper ? headerWrapper.querySelector('.el-table__header tr') : null
-    const noneHeader = this.headerDisplayNone(headerTrElm)
+    const noneHeader = this.headerDisplayNone(headerTrElm as HTMLElement)
 
     const headerHeight = this.headerHeight.value = !this.showHeader ? 0 : headerWrapper.offsetHeight
     if (this.showHeader && !noneHeader && headerWrapper.offsetWidth > 0 && (this.table.store.states.columns.value || []).length > 0 && headerHeight < 2) {
@@ -122,7 +126,7 @@ class TableLayout {
     this.notifyObservers('scrollable')
   }
 
-  headerDisplayNone(elm) {
+  headerDisplayNone(elm: HTMLElement) {
     if (!elm) return true
     let headerChild = elm
     while (headerChild.tagName !== 'DIV') {
@@ -222,18 +226,18 @@ class TableLayout {
     this.updateElsHeight()
   }
 
-  addObserver(observer) {
+  addObserver(observer: TableHeader) {
     this.observers.push(observer)
   }
 
-  removeObserver(observer) {
+  removeObserver(observer: TableHeader) {
     const index = this.observers.indexOf(observer)
     if (index !== -1) {
       this.observers.splice(index, 1)
     }
   }
 
-  notifyObservers(event) {
+  notifyObservers(event: string) {
     const observers = this.observers
     observers.forEach(observer => {
       switch (event) {

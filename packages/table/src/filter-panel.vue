@@ -59,7 +59,8 @@ import useDropdown from './dropdown'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
 import ElCheckboxGroup from '@element-plus/checkbox/src/checkbox-group.vue'
 import ElScrollbar from '@element-plus/scrollbar/src/index'
-import { ref, computed, onMounted, getCurrentInstance, watch, WritableComputedRef } from 'vue'
+import { ref, computed, onMounted, getCurrentInstance, watch, WritableComputedRef, PropType } from 'vue'
+import { Table, Store, TableColumn } from './table'
 
 export default {
   name: 'ElTableFilterPanel',
@@ -81,18 +82,18 @@ export default {
       default: 'bottom-start',
     },
     store: {
-      type: Object,
+      type: Object as PropType<Store>,
     },
     column: {
-      type: Object,
+      type: Object as PropType<TableColumn>,
     },
     upDataColumn: {
       type: Function,
     },
   },
   setup(props) {
-    const instance = getCurrentInstance() as any
-    const parent = instance.parent
+    const instance = getCurrentInstance()
+    const parent = instance.parent as Table
     if (!parent.ctx.filterPanels[props.column.id]) {
       parent.ctx.filterPanels[props.column.id] = instance
     }
@@ -106,7 +107,7 @@ export default {
     })
     const filterValue = computed({
       get: () => (props.column.filteredValue || [])[0],
-      set: value => {
+      set: (value: string) => {
         if (filteredValue.value) {
           if (typeof value !== 'undefined' && value !== null) {
             filteredValue.value.splice(0, 1, value)
@@ -123,9 +124,8 @@ export default {
         }
         return []
       },
-      set(value) {
+      set(value: unknown[]) {
         if (props.column) {
-          // todo
           props.upDataColumn('filteredValue', value)
         }
       },
@@ -158,19 +158,17 @@ export default {
       handleOutsideClick()
     }
 
-    const handleSelect = _filterValue => {
+    const handleSelect = (_filterValue?: string | string[]) => {
       filterValue.value = _filterValue
-
       if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
         confirmFilter(filteredValue.value)
       } else {
         confirmFilter([])
       }
-
       handleOutsideClick()
     }
 
-    const confirmFilter = filteredValue => {
+    const confirmFilter = (filteredValue: unknown[]) => {
       props.store.commit('filterChange', {
         column: props.column,
         values: filteredValue,

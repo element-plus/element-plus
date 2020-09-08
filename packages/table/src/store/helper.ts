@@ -1,13 +1,13 @@
 import Store from './index'
 import { debounce } from 'lodash'
+import { Table } from '../table'
 
-export function createStore(table, initialState = {}) {
+export function createStore(table: Table, initialState = {}) {
   if (!table) {
     throw new Error('Table is required.')
   }
 
-  const store = Store() as any
-  store.table = table
+  const store = Store()
   // fix https://github.com/ElemeFE/element/issues/14075
   // related pr https://github.com/ElemeFE/element/pull/14146
   store.toggleAllSelection = debounce(store._toggleAllSelection, 10)

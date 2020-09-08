@@ -1,7 +1,7 @@
 import isServer from '@element-plus/utils/isServer'
 const dropdowns = []
 
-!isServer && document.addEventListener('click', function (event) {
+!isServer && document.addEventListener('click', function (event: Event) {
   dropdowns.forEach(function (dropdown) {
     const target = event.target
     if (!dropdown || !dropdown.$el) return
