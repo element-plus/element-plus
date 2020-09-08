@@ -1,8 +1,8 @@
+import { camelize, capitalize, extend, hyphenate, isObject, looseEqual } from '@vue/shared'
+import { castArray, isEmpty, isEqual } from 'lodash'
 import isServer from './isServer'
-import { isObject, capitalize, hyphenate, looseEqual, extend, camelize } from '@vue/shared'
-import { isEmpty, castArray, isEqual } from 'lodash'
-
 import type { AnyFunction } from './types'
+
 
 const { hasOwnProperty } = Object.prototype
 
@@ -69,7 +69,10 @@ export const escapeRegexpString = (value = ''): string =>
 // Use native Array.find, Array.findIndex instead
 
 // coerce truthy value to array
-export const coerceTruthyValueToArray = castArray
+export const coerceTruthyValueToArray = arr => {
+  if (!arr) { return [] }
+  return castArray(arr)
+}
 
 export const isIE = function(): boolean {
   return !isServer && !isNaN(Number(document.DOCUMENT_NODE))
@@ -103,6 +106,7 @@ export const autoprefixer = function(style: CSSStyleDeclaration): CSSStyleDeclar
 export const kebabCase = hyphenate
 
 // reexport from lodash
+export { isVNode } from 'vue'
 export {
   isEmpty,
   isEqual,
@@ -135,4 +139,4 @@ export function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max))
 }
 
-export { isVNode } from 'vue'
+
