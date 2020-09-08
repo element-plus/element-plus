@@ -124,7 +124,7 @@ export default defineComponent({
       const mapping = ['hours', 'minutes'].concat(showSeconds.value ? ['seconds'] : [])
       const index = list.indexOf(selectionRange.value[0])
       const next = (index + step + list.length) % list.length
-      timePickeOptions['min_emitSelectRange'](mapping[next])
+      timePickeOptions['start_emitSelectRange'](mapping[next])
     }
 
     const handleKeydown = event => {
@@ -171,8 +171,13 @@ export default defineComponent({
       return result
     }
 
+    const parseUserInput = value => {
+      return dayjs(value, props.format)
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
+    pickerBase.hub.emit('SetPickerOption', ['parseUserInput', parseUserInput])
     pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
     pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])
     const timePickeOptions = {} as any

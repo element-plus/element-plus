@@ -174,9 +174,9 @@ export default defineComponent({
       const next = (index + step + list.length) % list.length
       const half = list.length / 2
       if (next < half) {
-        timePickeOptions['min_emitSelectRange'](mapping[next])
+        timePickeOptions['start_emitSelectRange'](mapping[next])
       } else {
-        timePickeOptions['max_emitSelectRange'](mapping[next - half])
+        timePickeOptions['end_emitSelectRange'](mapping[next - half])
       }
     }
 
@@ -275,7 +275,15 @@ export default defineComponent({
       return result
     }
 
+    const parseUserInput = value => {
+      if (Array.isArray(value)) {
+        return value.map(_=> dayjs(_, props.format))
+      }
+      return dayjs(value, props.format)
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
+    pickerBase.hub.emit('SetPickerOption',['parseUserInput', parseUserInput])
     pickerBase.hub.emit('SetPickerOption',['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
     pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])

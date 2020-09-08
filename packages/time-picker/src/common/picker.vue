@@ -161,6 +161,7 @@ const valueEquals = function(a, b) {
   }
   return false
 }
+
 // todo element
 const ELEMENT = {
   size: '',
@@ -168,6 +169,7 @@ const ELEMENT = {
 interface PickerOptions {
   isValidValue: any
   handleKeydown: any
+  parseUserInput: any
   getRangeAvaliableTime: any
 }
 export default defineComponent({
@@ -414,7 +416,7 @@ export default defineComponent({
 
     const handleChange = () => {
       if (userInput.value) {
-        const value = parseString(displayValue.value)
+        const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
             emitInput(value)
@@ -433,30 +435,8 @@ export default defineComponent({
       refInput.value.forEach(input => input.blur())
     }
 
-    const DATE_PARSER = function(text, format) {
-      return dayjs(text, format).toDate()
-    }
-
-    const RANGE_PARSER = function(array, format) {
-      if (array.length === 2) {
-        const range1 = array[0]
-        const range2 = array[1]
-
-        return [DATE_PARSER(range1, format), DATE_PARSER(range2, format)]
-      }
-      return []
-    }
-
-    const parseAsFormatAndType = (value, customFormat, type) => {
-      if (!value) return null
-      const parser = type === 'timerange' ? RANGE_PARSER : DATE_PARSER
-      const format = customFormat
-      return parser(value, format)
-    }
-
-    const parseString = value => {
-      const type = Array.isArray(value) ? props.type : props.type.replace('range', '')
-      return parseAsFormatAndType(value, props.format, type)
+    const parseUserInputToDayjs = value => {
+      return pickerOptions.value.parseUserInput(value)
     }
 
     const DATE_FORMATTER = function(value, format) {
@@ -519,7 +499,7 @@ export default defineComponent({
       }
 
       if (keyCode === eventKeys.enter) {
-        if (userInput.value === '' || isValidValue(parseString(displayValue.value))) {
+        if (userInput.value === '' || isValidValue(parseUserInputToDayjs(displayValue.value))) {
           handleChange()
           pickerVisible.value = false
         }
@@ -558,7 +538,7 @@ export default defineComponent({
     }
 
     const handleStartChange = () => {
-      const value = parseString(userInput.value && userInput.value[0])
+      const value = parseUserInputToDayjs(userInput.value && userInput.value[0])
       if (value) {
         userInput.value = [formatToString(value), displayValue.value[1]]
         const newValue = [value, parsedValue.value && parsedValue.value[1]]
@@ -570,7 +550,7 @@ export default defineComponent({
     }
 
     const handleEndChange = () => {
-      const value = parseString(userInput.value && userInput.value[1])
+      const value = parseUserInputToDayjs(userInput.value && userInput.value[1])
       if (value) {
         userInput.value = [displayValue.value[0], formatToString(value)]
         const newValue = [parsedValue.value && parsedValue.value[0], value]
