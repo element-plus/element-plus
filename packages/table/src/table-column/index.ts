@@ -1,6 +1,6 @@
 import { defineComponent, ref, onBeforeMount, onMounted, onUnmounted, computed, getCurrentInstance, h, ComponentInternalInstance, watch } from 'vue'
-import { cellStarts, cellForced, defaultRenderCell, treeCellPrefix } from '../config'
-import { mergeOptions, parseWidth, parseMinWidth, compose } from '../util'
+import { cellStarts } from '../config'
+import { mergeOptions, compose } from '../util'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
 import { TableColumn, AnyObject } from '../table'
 import useWatcher from './watcher-helper'

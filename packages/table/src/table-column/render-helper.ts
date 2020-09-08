@@ -1,7 +1,6 @@
 import { getCurrentInstance, ComponentInternalInstance, h, ComputedRef, ref, computed } from 'vue'
-import { cellStarts, cellForced, defaultRenderCell, treeCellPrefix } from '../config'
-import { mergeOptions, parseWidth, parseMinWidth, compose } from '../util'
-import useWatcher from './watcher-helper'
+import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
+import { parseWidth, parseMinWidth } from '../util'
 import { TableColumn, AnyObject } from '../table'
 
 function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {

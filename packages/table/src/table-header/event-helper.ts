@@ -85,8 +85,7 @@ function useEvent(props: TableHeaderProps, emit) {
             column,
             event,
           )
-
-          props.store.scheduleLayout()
+          props.store.scheduleLayout(false, true)
 
           document.body.style.cursor = ''
           dragging.value = false

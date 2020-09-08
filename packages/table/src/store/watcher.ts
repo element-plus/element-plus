@@ -116,11 +116,15 @@ function useWatcher() {
   }
 
   // 更新 DOM
-  const scheduleLayout = needUpdateColumns => {
+  const scheduleLayout = (needUpdateColumns: boolean, immediate = false) => {
     if (needUpdateColumns) {
       updateColumns()
     }
-    instance.ctx.debouncedUpdateLayout()
+    if (immediate) {
+      instance.ctx.doLayout()
+    } else {
+      instance.ctx.debouncedUpdateLayout()
+    }
   }
 
   // 选择

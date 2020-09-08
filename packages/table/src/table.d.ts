@@ -105,7 +105,7 @@ interface StoreStates {
 interface Store {
   assertRowKey: () => void
   updateColumns: () => void
-  scheduleLayout: (needUpdateColumns?: boolean) => void
+  scheduleLayout: (needUpdateColumns?: boolean, immediate?: boolean) => void
   isSelected: (row: any) => boolean
   clearSelection: () => void
   cleanSelection: () => void

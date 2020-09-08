@@ -146,7 +146,6 @@ class TableLayout {
 
     const flattenColumns = this.getFlattenColumns()
     const flexColumns = flattenColumns.filter(column => typeof column.width !== 'number')
-
     flattenColumns.forEach(column => { // Clean those columns whose width changed from flex to unflex
       if (typeof column.width === 'number' && column.realWidth) column.realWidth = null
     })

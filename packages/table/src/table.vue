@@ -263,7 +263,6 @@ export default defineComponent({
     stripe: Boolean,
     border: Boolean,
     rowKey: [String, Function],
-    context: {},
     showHeader: {
       type: Boolean,
       default: true,
@@ -389,6 +388,7 @@ export default defineComponent({
       sort,
       t,
       setDragVisible,
+      context: table.ctx,
     }
   },
 })
