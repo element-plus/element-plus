@@ -45,12 +45,13 @@
             </div>
           </div>
           <div v-show="showInput" class="el-message-box__input">
-            <!--            <el-input-->
-            <!--              v-model="inputValue"-->
-            <!--              :type="inputType"-->
-            <!--              @keydown.enter.native="handleInputEnter"-->
-            <!--              :placeholder="inputPlaceholder"-->
-            <!--              ref="input"></el-input>-->
+            <el-input
+              ref="input"
+              v-model="inputValue"
+              :type="inputType"
+              :placeholder="inputPlaceholder"
+              @keydown.enter="handleInputEnter"
+            />
             <div class="el-message-box__errormsg" :style="{ visibility: !!editorErrorMessage ? 'visible' : 'hidden' }">{{ editorErrorMessage }}</div>
           </div>
         </div>
@@ -97,6 +98,7 @@ import {
 } from 'vue'
 import { addClass, removeClass } from '@element-plus/utils/dom'
 import ElButton from '@element-plus/button/src/button.vue'
+import ElInput from '@element-plus/input/src/index.vue'
 import { t } from '@element-plus/locale'
 import Dialog  from '@element-plus/utils/aria-dialog'
 import usePopup from '@element-plus/utils/popup/usePopup'
@@ -114,6 +116,7 @@ export default defineComponent({
   name: 'ElMessageBox',
   components: {
     ElButton,
+    ElInput,
   },
   props: Object.assign({}, usePopup.comPropsTypes, {
     modal: {
@@ -224,7 +227,7 @@ export default defineComponent({
         window.removeEventListener('hashchange', popup.close)
       }
       setTimeout(() => {
-        messageBox.closeDialog()
+        dialog.closeDialog()
       })
     })
 
