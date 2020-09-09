@@ -1,10 +1,10 @@
-import { getCurrentInstance, ComponentInternalInstance, h, ComputedRef, ref, computed } from 'vue'
+import { getCurrentInstance, h, ComputedRef, ref, computed } from 'vue'
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
-import { TableColumn, AnyObject } from '../table'
+import { TableColumn } from '../table'
 
 function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {
-  const instance = getCurrentInstance() as ComponentInternalInstance & { columnConfig: AnyObject; }
+  const instance = getCurrentInstance() as unknown as TableColumn
   const columnId = ref('')
   const isSubColumn = ref(false)
 
@@ -57,7 +57,7 @@ function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {
       check(children)
     }
     function check(item) {
-      if (item.type?.name === 'ElTableColumn') {
+      if (item?.type?.name === 'ElTableColumn') {
         item.vParent = instance
       }
     }
@@ -68,6 +68,8 @@ function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {
       console.warn('[Element Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.')
     } else if (column.type !== 'selection') {
       column.renderHeader = scope => {
+        // help render
+        instance.ctx.columnConfig['label']
         const renderHeader = slots.header
         return renderHeader ? renderHeader(scope) : column.label
       }

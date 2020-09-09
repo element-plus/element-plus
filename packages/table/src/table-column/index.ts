@@ -1,8 +1,8 @@
-import { defineComponent, ref, onBeforeMount, onMounted, onUnmounted, computed, getCurrentInstance, h, ComponentInternalInstance, watch } from 'vue'
+import { defineComponent, ref, onBeforeMount, onMounted, onUnmounted, computed, getCurrentInstance, h } from 'vue'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
-import { TableColumn, AnyObject } from '../table'
+import { TableColumn } from '../table'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 
@@ -64,7 +64,8 @@ export default defineComponent({
     },
   },
   setup(prop, { slots }) {
-    const instance = getCurrentInstance() as ComponentInternalInstance & { columnConfig: AnyObject; }
+    const instance = getCurrentInstance()
+    const columnConfig = ref({})
     const props = (prop as unknown) as TableColumn
 
     const row = ref({})
@@ -81,7 +82,7 @@ export default defineComponent({
     const {
       registerNormalWatchers,
       registerComplexWatchers,
-    } = useWatcher(owner)
+    } = useWatcher(owner, props)
     const {
       columnId,
       isSubColumn,
@@ -128,12 +129,14 @@ export default defineComponent({
       const filterProps = ['filterMethod', 'filters', 'filterMultiple', 'filterOpened', 'filteredValue', 'filterPlacement']
 
       let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
+
       column = mergeOptions(defaults, column)
 
       // 注意 compose 中函数执行的顺序是从右到左
       const chains = compose(setColumnRenders, setColumnWidth, setColumnForcedProps)
       column = chains(column)
-      instance.columnConfig = column
+      // instance.columnConfig = column
+      columnConfig.value = column
 
       // 注册 watcher
       registerNormalWatchers()
@@ -159,18 +162,19 @@ export default defineComponent({
           }
         }
       }
-      owner.value.store.commit('insertColumn', instance.columnConfig, columnIndex, isSubColumn.value ? parent.columnConfig : null)
+      owner.value.store.commit('insertColumn', columnConfig.value, columnIndex, isSubColumn.value ? parent.ctx.columnConfig : null)
     })
     onUnmounted(() => {
       if (!instance.parent) return
-      const parent = instance.parent as ComponentInternalInstance & { columnConfig: any; }
-      owner.value.store.commit('removeColumn', instance.columnConfig, isSubColumn.value ? parent.columnConfig : null)
+      const parent = instance.parent as unknown as TableColumn
+      owner.value.store.commit('removeColumn', columnConfig.value, isSubColumn.value ? parent.ctx.columnConfig : null)
     })
     return {
       row,
       r,
       $index,
       columnId,
+      columnConfig,
     }
   },
   render() {

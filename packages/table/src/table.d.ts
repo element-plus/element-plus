@@ -278,8 +278,8 @@ interface TableColumn {
   labelClassName: string
   property: string
   prop: string
-  width: any
-  minWidth: any
+  width: number
+  minWidth: number
   renderHeader: fn
   sortable: boolean | string
   sortMethod: fn
@@ -316,6 +316,9 @@ interface TableColumn {
   order: string
   isColumnGroup: boolean
   columns: TableColumn[]
+  ctx: {
+    columnConfig: AnyObject
+  }
 }
 
 export {

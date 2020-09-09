@@ -1,8 +1,8 @@
-import { watch, getCurrentInstance, ComponentInternalInstance, ComputedRef } from 'vue'
-import { AnyObject } from '../table'
+import { watch, getCurrentInstance, ComputedRef } from 'vue'
+import { TableColumn } from '../table'
 
-function useWatcher(owner: ComputedRef<any>) {
-  const instance = getCurrentInstance() as ComponentInternalInstance & { columnConfig: AnyObject; }
+function useWatcher(owner: ComputedRef<any>, props_: TableColumn) {
+  const instance = getCurrentInstance() as unknown as TableColumn
   const registerComplexWatchers = () => {
     const props = ['fixed']
     const aliases = {
@@ -16,15 +16,16 @@ function useWatcher(owner: ComputedRef<any>) {
 
     Object.keys(allAliases).forEach(key => {
       const columnKey = aliases[key]
-
-      watch(
-        () => key,
-        newVal => {
-          instance.columnConfig[columnKey] = newVal
-          const updateColumns = columnKey === 'fixed'
-          owner.value.store.scheduleLayout(updateColumns)
-        },
-      )
+      if (props_[columnKey]) {
+        watch(
+          () => props_[columnKey],
+          newVal => {
+            instance.ctx.columnConfig[columnKey] = newVal
+            const updateColumns = columnKey === 'fixed'
+            owner.value.store.scheduleLayout(updateColumns)
+          },
+        )
+      }
     })
   }
   const registerNormalWatchers = () => {
@@ -43,12 +44,14 @@ function useWatcher(owner: ComputedRef<any>) {
 
     Object.keys(allAliases).forEach(key => {
       const columnKey = aliases[key]
-      watch(
-        () => key,
-        newVal => {
-          instance.columnConfig[columnKey] = newVal
-        },
-      )
+      if (props_[key]) {
+        watch(
+          () => props_[key],
+          newVal => {
+            instance.ctx.columnConfig[columnKey] = newVal
+          },
+        )
+      }
     })
   }
 
