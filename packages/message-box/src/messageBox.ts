@@ -1,4 +1,4 @@
-import { createVNode, nextTick, render } from 'vue'
+import { createVNode, render } from 'vue'
 import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
 import { isVNode } from '../../utils/util'
@@ -136,7 +136,6 @@ const showNextMsg = async () => {
       showNextMsg()
     }
     document.body.appendChild(instance.component.ctx.$el)
-    await nextTick()
     vmProxy.visible = true
   }
 }

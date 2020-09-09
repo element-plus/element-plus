@@ -196,7 +196,6 @@ export default defineComponent({
 
     watch(() => state.inputValue, val => {
       nextTick().then(() => {
-        console.log(state.type$)
         if (state.type$ === 'prompt' && val !== null) {
           validate()
         }
