@@ -10,5 +10,5 @@ export interface UseDialogProps {
   openDelay: number
   top: string
   width: string
-  zIndex: number
+  zIndex?: number
 }

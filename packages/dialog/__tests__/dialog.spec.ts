@@ -74,7 +74,7 @@ describe('Dialog.vue', () => {
         center: true,
       },
     })
-    expect(wrapper.find('.el-dialog__center').exists()).toBe(true)
+    expect(wrapper.find('.el-dialog--center').exists()).toBe(true)
   })
 
   test('should show close button', () => {

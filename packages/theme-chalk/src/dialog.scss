@@ -79,7 +79,18 @@
   }
 
   // 内容居中布局
-  // removed contents: old includes
+  @include m(center) {
+    text-align: center;
+
+    @include e(body) {
+      text-align: initial;
+      padding: 25px ($--dialog-padding-primary + 5px) 30px;
+    }
+
+    @include e(footer) {
+      text-align: inherit;
+    }
+  }
 }
 
 .dialog-fade-enter-active {
@@ -96,16 +107,7 @@
   }
 }
 
-.el-dialog__center {
-  text-align: center;
-  .el-dialog__body {
-    text-align: initial;
-    padding: 25px ($--dialog-padding-primary + 5px) 30px;
-  }
-  .el-dialog__footer {
-    text-align: inherit;
-  }
-}
+
 
 
 @keyframes dialog-fade-in {

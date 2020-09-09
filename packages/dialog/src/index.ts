@@ -96,7 +96,6 @@ export default defineComponent({
     },
     zIndex: {
       type: Number,
-      default: 2000,
     },
   },
   emits: [
@@ -162,7 +161,7 @@ export default defineComponent({
           'el-dialog',
           {
             'is-fullscreen': this.fullscreen,
-            'el-dialog__center': this.center,
+            'el-dialog--center': this.center,
           },
           this.customClass,
         ],
