@@ -144,7 +144,6 @@ const usePopup = (props, doClose) => {
   }
 
   const close = () => {
-    // if (this.willClose && !this.willClose()) return
     if (_openTimer !== null) {
       clearTimeout(_openTimer)
       _openTimer = null
