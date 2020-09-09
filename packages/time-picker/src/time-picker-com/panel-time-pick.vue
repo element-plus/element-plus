@@ -50,6 +50,7 @@ import { t } from '@element-plus/locale'
 import mitt from 'mitt'
 import TimeSpinner from './basic-time-spinner.vue'
 import dayjs, { Dayjs } from 'dayjs'
+import { getAvaliableArrs } from './useTimePicker'
 
 export default defineComponent({
   components: {
@@ -145,16 +146,16 @@ export default defineComponent({
     }
 
     const getRangeAvaliableTime = (date: Dayjs) => {
-      const enabledMap = {
-        hour: pickerBase.props.enabledHours,
-        minute: pickerBase.props.enabledMinutes,
-        second: pickerBase.props.enabledSeconds,
+      const avaliableMap = {
+        hour: getAvaliableHours,
+        minute: getAvaliableMinutes,
+        second: getAvaliableSeconds,
       }
       let result = date;
       ['hour', 'minute', 'second'].forEach(_ => {
-        if (enabledMap[_]) {
+        if (avaliableMap[_]) {
           let avaliableArr
-          const method = enabledMap[_]
+          const method = avaliableMap[_]
           if (_ === 'minute') {
             avaliableArr = method(result.hour())
           } else if (_ === 'second') {
@@ -191,12 +192,17 @@ export default defineComponent({
     pickerHub.on('SetOption', e => {
       timePickeOptions[e[0]] = e[1]
     })
+
+    const { disabledHours, disabledMinutes, disabledSeconds } = pickerBase.props
+    const {
+      getAvaliableHours,
+      getAvaliableMinutes,
+      getAvaliableSeconds,
+    } = getAvaliableArrs(disabledHours, disabledMinutes, disabledSeconds)
     provide('EP_TIMEPICK_PANEL', {
       hub: pickerHub,
       methods: {
-        enabledHours: pickerBase.props.enabledHours,
-        enabledMinutes: pickerBase.props.enabledMinutes,
-        enabledSeconds: pickerBase.props.enabledSeconds,
+        disabledHours, disabledMinutes, disabledSeconds,
       },
     })
     return {

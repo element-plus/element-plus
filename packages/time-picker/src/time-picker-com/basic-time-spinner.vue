@@ -56,25 +56,19 @@
 import {
   defineComponent,
   ref,
-  Ref,
   nextTick,
   computed,
   onMounted,
-  PropType,
   inject,
+  Ref,
+  PropType,
+  watch,
 } from 'vue'
 import { Dayjs } from 'dayjs'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/scrollbar/src'
+import { getTimeLists } from './useTimePicker'
 
-const getList = (total, method, methodFunc) => {
-  const arr = []
-  const enabledArr = method && methodFunc()
-  for (let i = 0; i < total; i++) {
-    arr[i] = enabledArr ? !enabledArr.includes(i) : false
-  }
-  return arr
-}
 export default defineComponent({
 
   directives: {
@@ -135,13 +129,13 @@ export default defineComponent({
       hours, minutes, seconds,
     }))
     const hoursList = computed(() =>{
-      return getList(24, pickerPanel.methods.enabledHours, () => pickerPanel.methods.enabledHours(props.role))
+      return getHoursList(props.role)
     })
     const minutesList = computed(() =>{
-      return getList(60, pickerPanel.methods.enabledMinutes, () => pickerPanel.methods.enabledMinutes(hours.value, props.role))
+      return getMinutesList(hours.value, props.role)
     })
     const secondsList = computed(() =>{
-      return getList(60, pickerPanel.methods.enabledSeconds, () => pickerPanel.methods.enabledSeconds(hours.value, minutes.value, props.role))
+      return getSecondsList(hours.value, minutes.value, props.role)
     })
     const listMap = computed(() => ({
       hours: hoursList,
@@ -319,6 +313,20 @@ export default defineComponent({
     const pickerPanel = inject('EP_TIMEPICK_PANEL') as any
     pickerPanel.hub.emit('SetOption',[`${props.role}_scrollDown`, scrollDown])
     pickerPanel.hub.emit('SetOption',[`${props.role}_emitSelectRange`, emitSelectRange])
+
+    const {
+      getHoursList,
+      getMinutesList,
+      getSecondsList,
+    } = getTimeLists(
+      pickerPanel.methods.disabledHours,
+      pickerPanel.methods.disabledMinutes,
+      pickerPanel.methods.disabledSeconds,
+    )
+
+    watch(() => props.spinnerDate, () => {
+      adjustSpinners()
+    })
 
     return {
       getRefId,

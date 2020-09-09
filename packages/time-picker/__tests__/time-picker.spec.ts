@@ -179,42 +179,42 @@ describe('TimePicker', () => {
 
   it('selectableRange ', async () => {
     // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
+    const disabledHoursArr = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,23]
     const wrapper = _mount(`<el-time-picker
         v-model="value"
-        :enabled-hours="enabledHours"
-        :enabled-minutes="enabledMinutes"
-        :enabled-seconds="enabledSeconds"
+        :disabled-hours="disabledHours"
+        :disabled-minutes="disabledMinutes"
+        :disabled-seconds="disabledSeconds"
       />`, () => ({ value: '' }), {
       methods: {
-        enabledSeconds(hour, minute) {
-          if (hour === 18 && minute === 30) {
-            return [0]
-          }
-          if (hour === 20 && minute === 30) {
-            return [0]
-          }
-          if (hour === 22 && minute === 0) {
-            return [0]
-          }
-          return makeRange(0, 59)
+        disabledHours() {
+          return disabledHoursArr
         },
-        enabledHours() {
-          return [17, 18, 19, 20, 21, 22]
-        },
-        enabledMinutes(hour) {
+        disabledMinutes (hour) {
+          // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
           if (hour === 17) {
-            return makeRange(30, 59)
+            return makeRange(0, 29)
           }
           if (hour === 18) {
-            return makeRange(0, 30).concat(makeRange(50, 59))
+            return makeRange(31, 49)
           }
           if (hour === 20) {
-            return makeRange(0, 30)
+            return makeRange(31, 59)
           }
           if (hour === 22) {
-            return [0]
+            return makeRange(1, 59)
           }
-          return makeRange(0, 59)
+        },
+        disabledSeconds(hour, minute) {
+          if (hour === 18 && minute === 30) {
+            return makeRange(1, 59)
+          }
+          if (hour === 20 && minute === 30) {
+            return makeRange(1, 59)
+          }
+          if (hour === 22 && minute === 0) {
+            return makeRange(1, 59)
+          }
         },
       },
     })
@@ -224,14 +224,22 @@ describe('TimePicker', () => {
 
     const list = document.querySelectorAll('.el-time-spinner__list')
     const hoursEl = list[0]
-    const disabledHours = getSpinnerTextAsArray(hoursEl, '.disabled')
-    expect(disabledHours).toEqual([0,  1,  2,  3,  4,  5,  6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 23]);
-    (hoursEl.querySelectorAll('.el-time-spinner__item')[18] as any).click()
-    await nextTick()
     const minutesEl = list[1]
+    const secondsEl = list[2]
+    const disabledHours = getSpinnerTextAsArray(hoursEl, '.disabled')
+    expect(disabledHours).toEqual(disabledHoursArr)
+    const hourSpinners = hoursEl.querySelectorAll('.el-time-spinner__item');
+    (hourSpinners[18] as any).click()
+    await nextTick()
     const disabledMinutes = getSpinnerTextAsArray(minutesEl, '.disabled')
     expect(disabledMinutes.every(t => t > 30 && t < 50)).toBeTruthy()
-    expect(disabledMinutes.length).toEqual(19)
+    expect(disabledMinutes.length).toEqual(19);
+    (hourSpinners[22] as any).click()
+    await nextTick()
+    const enabledMinutes = getSpinnerTextAsArray(minutesEl, ':not(.disabled)')
+    const enabledSeconds = getSpinnerTextAsArray(secondsEl, ':not(.disabled)')
+    expect(enabledMinutes).toEqual([0])
+    expect(enabledSeconds).toEqual([0])
   })
 })
 
@@ -304,14 +312,14 @@ describe('TimePicker(range)', () => {
     const wrapper = _mount(`<el-time-picker
         v-model="value"
         is-range
-        :enabled-hours="enabledHours"
+        :disabled-hours="disabledHours"
       />`, () => ({ value: [new Date(2016, 9, 10, 9, 40), new Date(2016, 9, 10, 15, 40)] }), {
       methods: {
-        enabledHours(role) {
+        disabledHours(role) {
           if (role === 'start') {
-            return makeRange(8, 12)
+            return makeRange(0, 7).concat(makeRange(13, 23))
           }
-          return makeRange(11, 16)
+          return makeRange(0, 10).concat(makeRange(17, 23))
         },
       },
     })

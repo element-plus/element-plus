@@ -76,13 +76,15 @@ import {
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 import mitt from 'mitt'
+import union from 'lodash/union'
 import { t } from '@element-plus/locale'
 import { eventKeys } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'
+import { getAvaliableArrs, getTimeLists } from './useTimePicker'
 
 const makeSelectRange = (start, end) => {
   const result = []
-  for (let i = start; i < end; i++) {
+  for (let i = start; i <= end; i++) {
     result.push(i)
   }
   return result
@@ -199,66 +201,63 @@ export default defineComponent({
       }
     }
 
-    const enabledHours = (role, compare) => {
-      const defaultEnable = pickerBase.props.enabledHours ? pickerBase.props.enabledHours(role) : makeSelectRange(0, 23)
+    const disabledHours_ = (role, compare) => {
+      const defaultDisable = disabledHours ? disabledHours(role) : []
       const isStart = role === 'start'
       const compareDate = compare || (isStart ? maxDate.value : minDate.value)
-      const hour = compareDate.hour()
-      const hourIndex = defaultEnable.indexOf(hour)
-      if (hourIndex < 0) {
-        return defaultEnable
-      }
-      return isStart ? defaultEnable.slice(0, hourIndex + 1) : defaultEnable.slice(hourIndex)
+      const compareHour = compareDate.hour()
+      const nextDisable = isStart ? makeSelectRange(compareHour + 1, 23) : makeSelectRange(0, compareHour - 1)
+      return union(defaultDisable, nextDisable)
     }
-    const enabledMinutes = (hour, role, compare) => {
-      const defaultEnable = pickerBase.props.enabledMinutes ? pickerBase.props.enabledMinutes(hour, role) : makeSelectRange(0, 59)
+    const disabledMinutes_ = (hour, role, compare) => {
+      const defaultDisable = disabledMinutes ? disabledMinutes(hour, role) : []
       const isStart = role === 'start'
       const compareDate = compare || (isStart ? maxDate.value : minDate.value)
       const compareHour = compareDate.hour()
       if (hour !== compareHour) {
-        return defaultEnable
+        return defaultDisable
       }
-      const minute = compareDate.minute()
-      const minuteIndex = defaultEnable.indexOf(minute)
-      if (minuteIndex < 0) {
-        return defaultEnable
-      }
-      return isStart ? defaultEnable.slice(0, minuteIndex + 1) : defaultEnable.slice(minuteIndex)
+      const compareMinute = compareDate.minute()
+      const nextDisable = isStart ? makeSelectRange(compareMinute + 1, 59) : makeSelectRange(0, compareMinute - 1)
+      return union(defaultDisable, nextDisable)
     }
-    const enabledSeconds = (hour, minute, role, compare) => {
-      const defaultEnable = pickerBase.props.enabledSeconds ? pickerBase.props.enabledSeconds(hour, minute ,role) : makeSelectRange(0, 59)
+    const disabledSeconds_ = (hour, minute, role, compare) => {
+      const defaultDisable = disabledSeconds ? disabledSeconds(hour, minute, role) : []
       const isStart = role === 'start'
       const compareDate = compare || (isStart ? maxDate.value : minDate.value)
       const compareHour = compareDate.hour()
       const compareMinute = compareDate.minute()
       if (hour !== compareHour || minute !== compareMinute) {
-        return defaultEnable
+        return defaultDisable
       }
-      const second = compareDate.second()
-      const secondIndex = defaultEnable.indexOf(second)
-      if (secondIndex < 0) {
-        return defaultEnable
-      }
-      return isStart ? defaultEnable.slice(0, secondIndex + 1) : defaultEnable.slice(secondIndex)
+      const compareSecond = compareDate.second()
+      const nextDisable = isStart ? makeSelectRange(compareSecond + 1, 59) : makeSelectRange(0, compareSecond - 1)
+      return union(defaultDisable, nextDisable)
     }
 
     const getRangeAvaliableTime = (dates: Array<Dayjs>) => {
       return dates.map((_, index) => getRangeAvaliableTimeEach(dates[0], dates[1], index === 0 ? 'start' : 'end'))
     }
 
+    const {
+      getAvaliableHours,
+      getAvaliableMinutes,
+      getAvaliableSeconds,
+    } = getAvaliableArrs(disabledHours_, disabledMinutes_, disabledSeconds_)
+
     const getRangeAvaliableTimeEach = (startDate: Dayjs, endDate: Dayjs, role) => {
-      const enabledMap = {
-        hour: enabledHours,
-        minute: enabledMinutes,
-        second: enabledSeconds,
+      const avaliableMap = {
+        hour: getAvaliableHours,
+        minute: getAvaliableMinutes,
+        second: getAvaliableSeconds,
       }
       const isStart = role === 'start'
       let result = isStart ? startDate : endDate
       const compareDate = isStart ? endDate : startDate;
       ['hour', 'minute', 'second'].forEach(_ => {
-        if (enabledMap[_]) {
+        if (avaliableMap[_]) {
           let avaliableArr
-          const method = enabledMap[_]
+          const method = avaliableMap[_]
           if (_ === 'minute') {
             avaliableArr = method(result.hour(), role, compareDate)
           } else if (_ === 'second') {
@@ -303,12 +302,15 @@ export default defineComponent({
     pickerHub.on('SetOption', e => {
       timePickeOptions[e[0]] = e[1]
     })
+
+    const { disabledHours, disabledMinutes, disabledSeconds } = pickerBase.props
+
     provide('EP_TIMEPICK_PANEL', {
       hub: pickerHub,
       methods: {
-        enabledHours,
-        enabledMinutes,
-        enabledSeconds,
+        disabledHours: disabledHours_,
+        disabledMinutes: disabledMinutes_,
+        disabledSeconds: disabledSeconds_,
       },
     })
 

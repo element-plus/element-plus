@@ -237,15 +237,15 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    enabledHours: {
+    disabledHours: {
       type: Function,
       default: null,
     },
-    enabledMinutes: {
+    disabledMinutes: {
       type: Function,
       default: null,
     },
-    enabledSeconds: {
+    disabledSeconds: {
       type: Function,
       default: null,
     },
@@ -467,7 +467,6 @@ export default defineComponent({
             if (refInput.value.indexOf(document.activeElement) === -1) {
               pickerVisible.value = false
               blurInput()
-              event.stopPropagation()
             }
           }, 0)
         }
