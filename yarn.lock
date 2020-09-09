@@ -15985,10 +15985,10 @@ vue-jest@5.0.0-alpha.1:
     extract-from-css "^0.4.4"
     ts-jest "^24.0.0"
 
-vue-loader@16.0.0-beta.5:
-  version "16.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.0.0-beta.5.tgz#04edc889492b03a445e7ac66e9226a70175ca8a0"
-  integrity sha512-ciWfzNefqWlmzKznCWY9hl+fPP4KlQ0A9MtHbJ/8DpyY+dAM8gDrjufIdxwTgC4szE4EZC3A6ip/BbrqM84GqA==
+vue-loader@16.0.0-beta.6:
+  version "16.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.0.0-beta.6.tgz#69beda50a4475de23369a3f47845c592b3bc541a"
+  integrity sha512-ZhJp7FsSoQkjxp98i2+ECoSQX2G/Gil67Pp9/K/DmoIzAd2/dvQh3rDKtVvSZwM6Pqa8qIoYq/GRHCP348L7QA==
   dependencies:
     "@types/mini-css-extract-plugin" "^0.9.1"
     chalk "^3.0.0"
