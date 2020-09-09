@@ -2,20 +2,17 @@ import { mount } from '@vue/test-utils'
 import Image from '../src/index.vue'
 import { nextTick } from 'vue'
 
-import { IMAGE_SUCCESS, IMAGE_FAIL } from '../../test-utils/mock'
+import { IMAGE_SUCCESS, IMAGE_FAIL, mockImageEvent } from '../../test-utils/mock'
 
+// firstly wait for image event
+// secondly wait for vue render
+async function doubleWait() {
+  await nextTick()
+  await nextTick()
+}
 
 describe('Image.vue', () => {
-
-  beforeAll(() => {
-    Object.defineProperty(global.Image.prototype, 'src', {
-      set(src) {
-        const type = !src || src === IMAGE_FAIL ? 'error' : 'load'
-        const event = new Event(type)
-        this.dispatchEvent(event)
-      },
-    })
-  })
+  mockImageEvent()
 
   test('render test', () => {
     const wrapper = mount(Image)
@@ -31,7 +28,7 @@ describe('Image.vue', () => {
       },
     })
     expect(wrapper.find('.el-image__placeholder').exists()).toBe(true)
-    await nextTick()
+    await doubleWait()
     expect(wrapper.find('.el-image__inner').exists()).toBe(true)
     expect(wrapper.find('img').exists()).toBe(true)
     expect(wrapper.find('.el-image__placeholder').exists()).toBe(false)
@@ -44,8 +41,8 @@ describe('Image.vue', () => {
         src: IMAGE_FAIL,
       },
     })
+    await doubleWait()
     expect(wrapper.emitted('error')).toBeDefined()
-    await nextTick()
     expect(wrapper.find('.el-image__inner').exists()).toBe(false)
     expect(wrapper.find('img').exists()).toBe(false)
     expect(wrapper.find('.el-image__error').exists()).toBe(true)
@@ -57,7 +54,7 @@ describe('Image.vue', () => {
       const wrapper = mount(Image, {
         props: { fit, src: IMAGE_SUCCESS },
       })
-      await nextTick()
+      await doubleWait()
       expect(wrapper.find('img').attributes('style')).toContain(`object-fit: ${fit};`)
     }
   })
@@ -70,7 +67,7 @@ describe('Image.vue', () => {
         previewSrcList: new Array(3).fill(IMAGE_SUCCESS),
       },
     })
-    await nextTick()
+    await doubleWait()
     expect(wrapper.find('img').classes()).toContain('el-image__preview')
   })
 
@@ -84,7 +81,7 @@ describe('Image.vue', () => {
         referrerpolicy: 'origin',
       },
     })
-    await nextTick()
+    await doubleWait()
     expect(wrapper.find('img').attributes('alt')).toBe(alt)
     expect(wrapper.find('img').attributes('referrerpolicy')).toBe('origin')
   })
@@ -97,9 +94,8 @@ describe('Image.vue', () => {
         onClick: () => result = true,
       },
     })
-    await nextTick()
-    const inner = wrapper.find('.el-image__inner').element as HTMLElement
-    inner.click()
+    await doubleWait()
+    await wrapper.find('.el-image__inner').trigger('click')
     expect(result).toBeTruthy()
   })
 
@@ -112,7 +108,7 @@ describe('Image.vue', () => {
         previewSrcList: [IMAGE_SUCCESS],
       },
     })
-    await nextTick()
+    await doubleWait()
     expect(wrapper.find('.el-image__inner').exists()).toBe(true)
     await wrapper.find('.el-image__inner').trigger('click')
     const viewer = wrapper.find('.el-image-viewer__wrapper')
