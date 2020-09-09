@@ -36,7 +36,7 @@ import ElTransfer from '@element-plus/transfer'
 import ElDialog from '@element-plus/dialog'
 import ElCalendar from '@element-plus/calendar'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
-
+import ElMessage from '@element-plus/message'
 
 export {
   ElAlert,
@@ -75,6 +75,7 @@ export {
   ElDialog,
   ElCalendar,
   ElInfiniteScroll,
+  ElMessage,
 }
 
 const install = (app: App): void =>  {
@@ -115,6 +116,7 @@ const install = (app: App): void =>  {
   ElDialog(app)
   ElCalendar(app)
   ElInfiniteScroll(app)
+  ElMessage(app)
 }
 
 const elementUI = {
