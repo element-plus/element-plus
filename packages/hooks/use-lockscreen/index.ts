@@ -2,7 +2,12 @@ import { ref, watch, isRef } from 'vue'
 
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
 import throwError from '@element-plus/utils/error'
-import { addClass, removeClass, hasClass, getStyle } from '@element-plus/utils/dom'
+import {
+  addClass,
+  removeClass,
+  hasClass,
+  getStyle,
+} from '@element-plus/utils/dom'
 
 import type { Ref } from 'vue'
 
@@ -13,32 +18,44 @@ import type { Ref } from 'vue'
  */
 export default (trigger: Ref<boolean>) => {
   if (!isRef(trigger)) {
-    throwError('[useLockScreen]', 'You need to pass a ref param to this function')
+    throwError(
+      '[useLockScreen]',
+      'You need to pass a ref param to this function',
+    )
   }
-  const scrollBarWidth = ref(0)
-  const withoutHiddenClass = ref(false)
-  const bodyPaddingRight = ref('0')
-  const computedBodyPaddingRight = ref(0)
+  let scrollBarWidth = 0
+  let withoutHiddenClass = false
+  let bodyPaddingRight = '0'
+  let computedBodyPaddingRight = 0
   watch(trigger, val => {
     if (val) {
-      withoutHiddenClass.value = !hasClass(document.body, 'el-popup-parent--hidden')
-      if (withoutHiddenClass.value) {
-        bodyPaddingRight.value = document.body.style.paddingRight
-        computedBodyPaddingRight.value = parseInt(getStyle(document.body, 'paddingRight'), 10)
+      withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
+      if (withoutHiddenClass) {
+        bodyPaddingRight = document.body.style.paddingRight
+        computedBodyPaddingRight = parseInt(
+          getStyle(document.body, 'paddingRight'),
+          10,
+        )
       }
-      scrollBarWidth.value = getScrollBarWidth()
-      const bodyHasOverflow = document.documentElement.clientHeight < document.body.scrollHeight
+      scrollBarWidth = getScrollBarWidth()
+      const bodyHasOverflow =
+        document.documentElement.clientHeight < document.body.scrollHeight
       const bodyOverflowY = getStyle(document.body, 'overflowY')
-      if (scrollBarWidth.value > 0 && (bodyHasOverflow || bodyOverflowY === 'scroll') && withoutHiddenClass.value) {
-        document.body.style.paddingRight = computedBodyPaddingRight.value + scrollBarWidth.value + 'px'
+      if (
+        scrollBarWidth > 0 &&
+        (bodyHasOverflow || bodyOverflowY === 'scroll') &&
+        withoutHiddenClass
+      ) {
+        document.body.style.paddingRight =
+          computedBodyPaddingRight + scrollBarWidth + 'px'
       }
       addClass(document.body, 'el-popup-parent--hidden')
     } else {
-      if (withoutHiddenClass.value) {
-        document.body.style.paddingRight = bodyPaddingRight.value
+      if (withoutHiddenClass) {
+        document.body.style.paddingRight = bodyPaddingRight
         removeClass(document.body, 'el-popup-parent--hidden')
       }
-      withoutHiddenClass.value = true
+      withoutHiddenClass = true
     }
   })
 }

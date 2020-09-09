@@ -1,7 +1,7 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
-@import "common/popup";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
+@import 'common/popup';
 
 @include b(dialog) {
   position: relative;
@@ -50,7 +50,8 @@
       color: $--color-info;
     }
 
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
       .el-dialog__close {
         color: $--color-primary;
       }
@@ -78,27 +79,34 @@
   }
 
   // 内容居中布局
-  @include m(center) {
-    text-align: center;
-
-    @include e(body) {
-      text-align: initial;
-      padding: 25px ($--dialog-padding-primary + 5px) 30px;
-    }
-
-    @include e(footer) {
-      text-align: inherit;
-    }
-  }
+  // removed contents: old includes
 }
 
 .dialog-fade-enter-active {
-  animation: dialog-fade-in .3s;
+  animation: modal-fade-in 0.3s !important;
+  .el-dialog {
+    animation: dialog-fade-in 0.3s;
+  }
 }
 
 .dialog-fade-leave-active {
-  animation: dialog-fade-out .3s;
+  animation: modal-fade-out 0.3s;
+  .el-dialog {
+    animation: dialog-fade-out 0.3s;
+  }
 }
+
+.el-dialog__center {
+  text-align: center;
+  .el-dialog__body {
+    text-align: initial;
+    padding: 25px ($--dialog-padding-primary + 5px) 30px;
+  }
+  .el-dialog__footer {
+    text-align: inherit;
+  }
+}
+
 
 @keyframes dialog-fade-in {
   0% {
@@ -118,6 +126,25 @@
   }
   100% {
     transform: translate3d(0, -20px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes modal-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes modal-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
     opacity: 0;
   }
 }

@@ -129,7 +129,7 @@ export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void
 
 export const objToArray = castArray
 
-export const clearTimer = (timer: Ref<Nullable<NodeJS.Timeout>>) => {
+export const clearTimer = (timer: Ref<TimeoutHandle>) => {
   clearTimeout(timer.value)
   timer.value = null
 }

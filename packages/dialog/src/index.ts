@@ -1,4 +1,3 @@
-<script lang='ts'>
 // TODO: Replace this file with single .ts file after styles merged
 import {
   defineComponent,
@@ -9,9 +8,8 @@ import {
   vShow,
 } from 'vue'
 
-import {
-  TrapFocus,
-} from '@element-plus/directives'
+import { TrapFocus } from '@element-plus/directives'
+import { isValidWidthUnit } from '@element-plus/utils/validators'
 
 import ElOverlay from '@element-plus/overlay'
 import {
@@ -23,7 +21,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from './useDialog'
 
-import type { PropType } from 'vue'
+import type { PropType, SetupContext } from 'vue'
 
 export default defineComponent({
   name: 'ElDialog',
@@ -34,7 +32,6 @@ export default defineComponent({
     },
     beforeClose: {
       type: Function as PropType<(...args: any[]) => unknown>,
-      validator: val => typeof val === 'function',
     },
     destroyOnClose: {
       type: Boolean,
@@ -78,12 +75,10 @@ export default defineComponent({
     },
     openDelay: {
       type: Number,
-      validator: val => typeof val === 'number',
       default: 0,
     },
     closeDelay: {
       type: Number,
-      validator: val => typeof val === 'number',
       default: 0,
     },
     top: {
@@ -97,8 +92,11 @@ export default defineComponent({
     width: {
       type: String,
       default: '50%',
-      validator: (val: string) =>
-        ['px', 'rem', 'em', 'vw', '%'].some(unit => val.endsWith(unit)),
+      validator: isValidWidthUnit,
+    },
+    zIndex: {
+      type: Number,
+      default: 2000,
     },
   },
   emits: [
@@ -110,7 +108,7 @@ export default defineComponent({
   ],
   setup(props, ctx) {
     // init here
-    return useDialog(props, ctx)
+    return useDialog(props, ctx as SetupContext)
   },
 
   render() {
@@ -216,61 +214,3 @@ export default defineComponent({
     return renderer
   },
 })
-</script>
-
-<style>
-.dialog-fade-enter-active {
-  -webkit-animation: modal-fade-in 0.3s !important;
-  animation: modal-fade-in 0.3s !important;
-}
-.dialog-fade-leave-active {
-  -webkit-animation: modal-fade-out 0.3s !important;
-  animation: modal-fade-out 0.3s !important;
-}
-
-.dialog-fade-enter-active .el-dialog {
-  -webkit-animation: dialog-fade-in 0.3s;
-  animation: dialog-fade-in 0.3s;
-}
-.dialog-fade-leave-active .el-dialog {
-  -webkit-animation: dialog-fade-out 0.3s;
-  animation: dialog-fade-out 0.3s;
-}
-
-@-webkit-keyframes modal-fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@keyframes modal-fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@-webkit-keyframes modal-fade-out {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes modal-fade-out {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-</style>

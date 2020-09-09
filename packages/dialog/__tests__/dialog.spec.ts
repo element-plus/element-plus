@@ -1,21 +1,21 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Dialog from '../src/index.vue'
+import Dialog from '../src/index'
 
 const AXIOM = 'Rem is the best girl'
 
-const _mount = (params: {
-  props?: any
-  global?: any
-  slots?: any
-}) => mount(Dialog, {
-  slots: {
-    default: AXIOM,
-    ...params?.slots,
-  },
-  props: params?.props,
-  global: params?.global,
-})
+const _mount = ({
+  slots,
+  ...rest
+}: Indexable<any>) => {
+  return mount(Dialog, {
+    slots: {
+      default: AXIOM,
+      ...slots,
+    },
+    ...rest,
+  })
+}
 
 jest.useFakeTimers()
 

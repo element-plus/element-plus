@@ -18,10 +18,9 @@ export { UPDATE_MODEL_EVENT }
 export default function(props: UseDialogProps, ctx: SetupContext) {
   const visible = ref(false)
   const closed = ref(false)
-  const key = ref(0)
   const dialogRef = ref(null)
-  const openTimer = ref<NodeJS.Timeout>(null)
-  const closeTimer = ref<NodeJS.Timeout>(null)
+  const openTimer = ref<TimeoutHandle>(null)
+  const closeTimer = ref<TimeoutHandle>(null)
   const zIndex = ref(props.zIndex || PopupManager.nextZIndex())
   const modalRef = ref<HTMLElement>(null)
 
@@ -50,7 +49,7 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
     clearTimer(closeTimer)
     clearTimer(openTimer)
     if (props.openDelay && props.openDelay > 0) {
-      openTimer.value = setTimeout(() => {
+      openTimer.value = window.setTimeout(() => {
         openTimer.value = null
         doOpen()
       }, props.openDelay)
@@ -65,7 +64,7 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
     clearTimer(closeTimer)
 
     if (props.closeDelay && props.closeDelay > 0) {
-      closeTimer.value = setTimeout(() => {
+      closeTimer.value = window.setTimeout(() => {
         closeTimer.value = null
         doClose()
       }, props.closeDelay)
@@ -154,7 +153,6 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
     closed,
     dialogRef,
     style,
-    key,
     modalRef,
     visible,
     zIndex,
