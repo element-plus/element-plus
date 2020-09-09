@@ -378,6 +378,7 @@ export default defineComponent({
         emitInput(null)
         emitChange(null)
         showClose.value = false
+        pickerVisible.value = false
       }
     }
     const valueIsEmpty = computed(() => {

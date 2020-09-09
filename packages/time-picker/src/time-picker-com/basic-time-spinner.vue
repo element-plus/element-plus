@@ -303,6 +303,8 @@ export default defineComponent({
       nextTick(() => {
         !props.arrowControl && bindScrollEvent()
         adjustSpinners()
+        // set selection on the first hour part
+        if (props.role === 'start') emitSelectRange('hours')
       })
     })
 

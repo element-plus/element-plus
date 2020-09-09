@@ -265,7 +265,7 @@ export default defineComponent({
           } else {
             avaliableArr = method(role, compareDate)
           }
-          if (avaliableArr && !avaliableArr.includes(result[_]())) {
+          if (avaliableArr && avaliableArr.length && !avaliableArr.includes(result[_]())) {
             const pos = isStart ? 0 : avaliableArr.length - 1
             result = result[_](avaliableArr[pos])
           }
