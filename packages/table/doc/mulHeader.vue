@@ -1,6 +1,6 @@
 <template>
-  <h3>多级表头</h3>
-  <el-table :data="tableData" border style="width: 100%">
+  <h3>多级表头: TODO</h3>
+  <!-- <el-table :data="tableData" border style="width: 100%">
     <el-table-column label="日期" prop="date" width="150" />
     <el-table-column label="配送信息">
       <el-table-column label="姓名" prop="name" width="120" />
@@ -11,7 +11,7 @@
         <el-table-column label="邮编" prop="zip" width="120" />
       </el-table-column>
     </el-table-column>
-  </el-table>
+  </el-table>-->
 </template>
 
 <script>
