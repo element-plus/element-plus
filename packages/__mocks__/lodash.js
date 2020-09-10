@@ -1,16 +1,10 @@
 
 const _ = jest.requireActual('lodash')
 
-
-const debounce = jest.fn(fn => {
-  const caller = () => {
-    return fn()
-  }
-  caller.cancel = jest.fn()
-  caller.flush = jest.fn()
-  return caller
+_.debounce = _.throttle = jest.fn(fn => {
+  fn.cancel = jest.fn()
+  fn.flush = jest.fn()
+  return fn
 })
-
-_.debounce = debounce
 
 module.exports = _

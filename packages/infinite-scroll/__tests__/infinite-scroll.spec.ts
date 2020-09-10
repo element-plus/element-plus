@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
-import { ref } from 'vue'
-import { sleep, defineGetter, makeScroll } from '@element-plus/test-utils'
-import InfiniteScroll, { SCOPE, CHECK_INTERVAL, DEFAULT_DELAY } from '../src/index'
+import { ref, nextTick } from 'vue'
+import { tick, defineGetter, makeScroll } from '@element-plus/test-utils'
+import InfiniteScroll, { SCOPE, DEFAULT_DELAY } from '../src/index'
 
 const CONTAINER_HEIGHT = 200
 const ITEM_HEIGHT = 100
@@ -69,29 +69,24 @@ describe('InfiniteScroll', () => {
 
     const el = wrapper.element
 
-    // wait longer to ensure no more items are loaded
-    await sleep(CHECK_INTERVAL * (INITIAL_VALUE + 1))
+    // wait to ensure initial full check has finished
+    await tick(INITIAL_VALUE)
     expect(el[SCOPE].container).toEqual(el)
     expect(el[SCOPE].containerEl).toEqual(el)
+    expect(el[SCOPE].delay).toEqual(DEFAULT_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
     // ensure observer has been destroyed, otherwise will cause memory leak
     expect(el[SCOPE].observer).toBeUndefined()
 
     // won't trigger load when not reach the bottom distance
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT - 1)
-    await sleep(DEFAULT_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
-    // won't trigger load repeatly when scroll event is triggered multiple times in debounce time
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT)
-    await sleep(DEFAULT_DELAY / 2)
-    await makeScroll(el, 'scrollTop', ITEM_HEIGHT + 1)
-    await sleep(DEFAULT_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
 
     // won't trigger load when scroll back
     await makeScroll(el, 'scrollTop', 0)
-    await sleep(DEFAULT_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
   })
 
@@ -103,53 +98,37 @@ describe('InfiniteScroll', () => {
 
     const el = wrapper.element
 
-    // wait longer to ensure no more items are loaded
-    await sleep(CHECK_INTERVAL * INITIAL_VALUE)
-    await makeScroll(el, 'scrollTop', ITEM_HEIGHT)
-    await sleep(CUSTOM_DELAY)
-    expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
+    await nextTick()
+    expect(el[SCOPE].delay).toBe(CUSTOM_DELAY)
   })
 
   test('custom scroll distance', async () => {
     const wrapper = _mount({
-      extraAttrs: `
-        infinite-scroll-delay="${CUSTOM_DELAY}"
-        infinite-scroll-distance="${CUSTOM_DISTANCE}"
-        style="${CONTAINER_STYLE}"
-      `,
+      extraAttrs: `infinite-scroll-distance="${CUSTOM_DISTANCE}" style="${CONTAINER_STYLE}"`,
       setup,
     })
 
     const el = wrapper.element
 
-    // wait longer to ensure no more items are loaded
-    await sleep(CHECK_INTERVAL * INITIAL_VALUE)
+    // wait to ensure initial full check has finished
+    await tick(INITIAL_VALUE)
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT - CUSTOM_DISTANCE)
-    await sleep(CUSTOM_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
   })
 
   test('turn off immediate check', async () => {
     const wrapper = _mount({
-      extraAttrs: `
-        infinite-scroll-delay="${CUSTOM_DELAY}"
-        infinite-scroll-immediate="false"
-        style="${CONTAINER_STYLE}"
-      `,
+      extraAttrs: `infinite-scroll-immediate="false" style="${CONTAINER_STYLE}"`,
       setup,
     })
 
-    await sleep(CHECK_INTERVAL)
+    await tick(INITIAL_VALUE)
     expect(countListItem(wrapper)).toBe(0)
   })
 
   test('limited scroll with `disabled` option', async () => {
     const wrapper = _mount({
-      extraAttrs: `
-        infinite-scroll-delay="${CUSTOM_DELAY}"
-        infinite-scroll-disabled="disabled"
-        style="${CONTAINER_STYLE}"
-      `,
+      extraAttrs: `infinite-scroll-disabled="disabled" style="${CONTAINER_STYLE}"`,
       setup() {
         const count = ref(0)
         const disabled = ref(false)
@@ -164,47 +143,41 @@ describe('InfiniteScroll', () => {
 
     const el = wrapper.element
 
-    // wait longer to ensure no more items are loaded
-    await sleep(CHECK_INTERVAL * INITIAL_VALUE)
+    // wait to ensure initial full check has finished
+    await tick(INITIAL_VALUE)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT)
-    await sleep(CUSTOM_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
 
     // no more items are loaded since `disabled = true`
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT + 1)
-    await sleep(CUSTOM_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
   })
 
   test('scrollable container is document.documentElement', async () => {
     const wrapper = _mount({
-      extraAttrs: `infinite-scroll-delay="${CUSTOM_DELAY}"`,
       setup,
     })
 
     const el = wrapper.element
     const { documentElement } = document
 
-    // wait longer to ensure no more items are loaded
-    await sleep(CHECK_INTERVAL * INITIAL_VALUE)
+    // wait to ensure initial full check has finished
+    await tick(INITIAL_VALUE)
     expect(el[SCOPE].container).toEqual(window)
     expect(el[SCOPE].containerEl).toEqual(documentElement)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     // won't trigger load when not reach the bottom distance
     await makeScroll(documentElement, 'scrollTop', ITEM_HEIGHT - 1)
-    await sleep(CUSTOM_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     await makeScroll(documentElement, 'scrollTop', ITEM_HEIGHT)
-    await sleep(CUSTOM_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
 
     // won't trigger load when scroll back
     await makeScroll(documentElement, 'scrollTop', 0)
-    await sleep(CUSTOM_DELAY)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
   })
 

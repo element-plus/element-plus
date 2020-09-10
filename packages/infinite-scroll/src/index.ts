@@ -36,6 +36,7 @@ type InfiniteScrollEl = HTMLElement & {
     container: HTMLElement | Window
     containerEl: HTMLElement
     instance: ComponentPublicInstance
+    delay: number // for test
     cb: InfiniteScrollCallback
     onScroll: () => void
     observer?: MutationObserver
@@ -119,7 +120,7 @@ const InfiniteScroll: ObjectDirective<InfiniteScrollEl, InfiniteScrollCallback> 
 
     if (!container) return
 
-    el[SCOPE] = { instance, container, containerEl, cb, onScroll }
+    el[SCOPE] = { instance, container, containerEl, delay, cb, onScroll }
 
     if (immediate) {
       const observer = new MutationObserver(throttle(checkFull.bind(null, el, cb), CHECK_INTERVAL))
