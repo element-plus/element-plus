@@ -31,6 +31,8 @@ import ElTabs from '@element-plus/tabs'
 import ElTooltip from '@element-plus/tooltip'
 import ElSlider from '@element-plus/slider'
 import ElInput from '@element-plus/input'
+import ElTransfer from '@element-plus/transfer'
+import ElDialog from '@element-plus/dialog'
 
 export {
   ElAlert,
@@ -64,6 +66,8 @@ export {
   ElTooltip,
   ElSlider,
   ElInput,
+  ElTransfer,
+  ElDialog,
 }
 
 export default function install(app: App): void {
@@ -99,4 +103,6 @@ export default function install(app: App): void {
   ElTooltip(app)
   ElSlider(app)
   ElInput(app)
+  ElTransfer(app)
+  ElDialog(app)
 }
