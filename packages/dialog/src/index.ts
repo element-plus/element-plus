@@ -1,4 +1,3 @@
-// TODO: Replace this file with single .ts file after styles merged
 import {
   defineComponent,
   Transition,
