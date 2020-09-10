@@ -2,6 +2,7 @@ import { mount, VueWrapper } from '@vue/test-utils'
 import { ComponentPublicInstance } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
+import sinon from 'sinon'
 
 const DELAY = 10
 const testDataArr = []
@@ -1691,30 +1692,245 @@ describe('Table.vue', () => {
     }, DELAY)
   })
 
-  // it('table append is visible in viewport if height is 100%', async () => {
-  //   const wrapper = mount({
-  //     components: {
-  //       ElTable,
-  //       ElTableColumn,
-  //     },
-  //     template: `
-  //     <el-table :data="[]" height="100%">
-  //       <el-table-column prop="name" label="片名" />
-  //       <el-table-column prop="release" label="发行日期" />
-  //       <el-table-column prop="director" label="导演" />
-  //       <el-table-column prop="runtime" label="时长（分）" />
-  //       <template slot="append">
-  //         <div class="append-content" style="height: 48px;">
-  //           append 区域始终出现在视图内
-  //         </div>
-  //       </template>
-  //     </el-table>
-  //     `,
-  //   })
-  //   const vm = wrapper.vm
-  //   await waitImmediate()
-  //   const emptyBlockEl = vm.$el.querySelector('.el-table__empty-block')
-  //   expect(emptyBlockEl.style.height).toEqual('calc(100% - 48px)')
-  //   wrapper.unmount()
-  // })
+  it('table append is visible in viewport if height is 100%', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+      <el-table :data="[]" height="100%">
+        <el-table-column prop="name" label="片名" />
+        <el-table-column prop="release" label="发行日期" />
+        <el-table-column prop="director" label="导演" />
+        <el-table-column prop="runtime" label="时长（分）" />
+        <template #append>
+          <div class="append-content" style="height: 48px;">
+            append 区域始终出现在视图内
+          </div>
+        </template>
+      </el-table>
+      `,
+    })
+    await waitImmediate()
+    setTimeout(() => {
+      const emptyBlockEl = wrapper.find('.el-table__empty-block')
+      expect(emptyBlockEl.attributes('style')).toContain('height: calc(100% - 48px)')
+      wrapper.unmount()
+    }, DELAY)
+  })
+
+  describe('tree', () => {
+    let wrapper: VueWrapper<ComponentPublicInstance>
+    afterEach(() => wrapper.unmount())
+    it('render tree structual data', async () => {
+      wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table :data="testData" row-key="release">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          const testData = getTestData() as any
+          testData[1].children = [
+            {
+              name: 'A Bug\'s Life copy 1', release: '1998-11-25-1', director: 'John Lasseter', runtime: 95,
+            },
+            {
+              name: 'A Bug\'s Life copy 2', release: '1998-11-25-2', director: 'John Lasseter', runtime: 95,
+            },
+          ]
+          return {
+            testData: testData,
+          }
+        },
+      })
+      setTimeout(() => {
+        const rows = wrapper.findAll('.el-table__row')
+        expect(rows.length).toEqual(7)
+        const childRows = wrapper.findAll('.el-table__row--level-1')
+        expect(childRows.length).toEqual(2)
+        childRows.forEach(item => {
+          expect(item.attributes('style')).toContain('display: none')
+        })
+        wrapper.find('.el-table__expand-icon').trigger('click')
+
+        setTimeout(() => {
+          childRows.forEach(item => {
+            expect(item.attributes('style')).toBeUndefined
+          })
+        }, DELAY)
+      }, DELAY)
+    })
+
+    it('load substree row data', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" row-key="release" lazy :load="load">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          const testData = getTestData() as any
+          testData[testData.length - 1].children = [
+            {
+              name: 'A Bug\'s Life copy 1', release: '2008-1-25-1', director: 'John Lasseter', runtime: 95,
+            },
+          ]
+          testData[1].hasChildren = true
+          return {
+            testData: testData,
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            resolve([
+              {
+                name: 'A Bug\'s Life copy 1', release: '1998-11-25-1', director: 'John Lasseter', runtime: 95,
+              },
+              {
+                name: 'A Bug\'s Life copy 2', release: '1998-11-25-2', director: 'John Lasseter', runtime: 95,
+              },
+            ])
+          },
+        },
+      })
+      setTimeout(() => {
+        const expandIcon = wrapper.find('.el-table__expand-icon')
+        expandIcon.trigger('click')
+
+        setTimeout(() => {
+          expect(expandIcon.classes().includes('el-table__expand-icon--expanded')).toBeTruthy
+          expect(wrapper.findAll('.el-table__row').length).toEqual(8)
+        }, DELAY)
+      }, DELAY)
+    })
+
+    it('tree-props & default-expand-all & expand-change', async () => {
+      const spy = sinon.spy()
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData" lazy default-expand-all row-key="release" :tree-props="{children: 'childrenTest', hasChildren: 'hasChildrenTest'}"
+            :load="load" @expand-change="change">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          const testData = getTestData() as any
+          testData[testData.length - 1].childrenTest = [
+            {
+              name: 'A Bug\'s Life copy 1', release: '2008-1-25-1', director: 'John Lasseter', runtime: 95,
+            },
+          ]
+          testData[1].hasChildrenTest = true
+          return {
+            testData: testData,
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            resolve([
+              {
+                name: 'A Bug\'s Life copy 1', release: '1998-11-25-1', director: 'John Lasseter', runtime: 95,
+              },
+              {
+                name: 'A Bug\'s Life copy 2', release: '1998-11-25-2', director: 'John Lasseter', runtime: 95,
+              },
+            ])
+          },
+          change: spy,
+        },
+      })
+      setTimeout(() => {
+        const childRows = wrapper.findAll('.el-table__row--level-1')
+        childRows.forEach(item => {
+          expect(item.attributes('style')).toBeUndefined
+        })
+        const expandIcon = wrapper.find('.el-table__expand-icon')
+        expandIcon.trigger('click')
+        setTimeout(() => {
+          expect(expandIcon.classes().includes('el-table__expand-icon--expanded')).toBeTruthy
+          expect(wrapper.findAll('.el-table__row').length).toEqual(8)
+          expect(spy.args[0][0]).toBeInstanceOf(Object)
+          expect(spy.args[0][1]).toBeTruthy
+        })
+      }, DELAY)
+    })
+
+    it('expand-row-keys & toggleRowExpansion', async () => {
+      wrapper = mount({
+        template: `
+          <el-table :data="testData" row-key="release" lazy :load="load" :expand-row-keys="['2003-5-30']" ref="table">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          const testData = getTestData() as any
+          testData[testData.length - 1].children = [
+            {
+              name: 'A Bug\'s Life copy 1', release: '2003-5-30-1', director: 'John Lasseter', runtime: 95,
+              hasChildren: true,
+            },
+          ]
+          return {
+            testData: testData,
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            resolve([
+              {
+                name: 'A Bug\'s Life copy 1', release: '2003-5-30-2', director: 'John Lasseter', runtime: 95,
+              },
+            ])
+          },
+          closeExpandRow() {
+            const testData = this.testData
+            const row = testData[testData.length - 1].children[0]
+            this.$refs.table.toggleRowExpansion(row)
+          },
+        },
+      })
+      setTimeout(() => {
+        const childRows = wrapper.findAll('.el-table__row--level-1')
+        childRows.forEach(item => {
+          expect(item.attributes('style')).toBeUndefined
+        })
+        const expandIcon = childRows[0].find('.el-table__expand-icon')
+        expandIcon.trigger('click')
+        setTimeout(() => {
+          expect(expandIcon.classes().includes('el-table__expand-icon--expanded')).toBeTruthy
+          wrapper.vm.closeExpandRow()
+          setTimeout(() => {
+            expect(expandIcon.classes().includes('el-table__expand-icon--expanded')).toBeTruthy
+          }, DELAY)
+        }, DELAY)
+      }, DELAY)
+    })
+  })
 })
