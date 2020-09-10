@@ -5,8 +5,16 @@
       <el-pagination
         class="item"
         layout="prev, pager, next"
+        :pager-count="6"
         :total="50"
       />
+      <el-pagination
+        class="item"
+        layout="slot, prev, pager, next"
+        :total="50"
+      >
+        <span class="test-slot"> 666 </span>
+      </el-pagination>
     </div>
     <div class="item">
       <span class="demonstration">大于 7 页时的效果</span>

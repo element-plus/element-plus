@@ -1,8 +1,11 @@
 import { mount } from '@vue/test-utils'
+import { sleep } from '@element-plus/test-utils'
 import Pagination from '../src/index'
 
+const TIME_OUT = 100
+
 describe('Pagination.vue', () => {
-  it('layout', () => {
+  test('layout', () => {
     const wrapper = mount(Pagination, {
       props: {
         layout: 'prev, pager, next',
@@ -16,7 +19,7 @@ describe('Pagination.vue', () => {
     expect(wrapper.find('.el-pagination__total').exists()).toBe(false)
   })
 
-  it('slot', () => {
+  test('slot', () => {
     const TestComponent = {
       template: `
         <el-pagination
@@ -26,12 +29,15 @@ describe('Pagination.vue', () => {
           <span class="slot-test">slot test</span>
         </el-pagination>
       `,
+      components: {
+        'el-pagination': Pagination,
+      },
     }
     const wrapper = mount(TestComponent)
     expect(wrapper.find('.slot-test').exists()).toBe(true)
   })
 
-  it('small', () => {
+  test('small', () => {
     const wrapper = mount(Pagination, {
       props: {
         small: true,
@@ -40,7 +46,7 @@ describe('Pagination.vue', () => {
     expect(wrapper.vm.$el.classList.contains('el-pagination--small')).toBe(true)
   })
 
-  it('pageSize', () => {
+  test('pageSize', () => {
     const wrapper = mount(Pagination, {
       props: {
         pageSize: 25,
@@ -50,7 +56,7 @@ describe('Pagination.vue', () => {
     expect(wrapper.findAll('li.number').length).toBe(4)
   })
 
-  it('pageSize: NaN', () => {
+  test('pageSize: NaN', () => {
     const wrapper = mount(Pagination, {
       props: {
         pageSize: NaN,
@@ -60,7 +66,7 @@ describe('Pagination.vue', () => {
     expect(wrapper.findAll('li.number').length).toBe(7)
   })
 
-  it('pageCount', () => {
+  test('pageCount', () => {
     const wrapper = mount(Pagination, {
       props: {
         pageSize: 25,
@@ -70,7 +76,7 @@ describe('Pagination.vue', () => {
     expect(wrapper.findAll('li.number').length).toBe(4)
   })
 
-  it('pagerCount', () => {
+  test('pagerCount', () => {
     const wrapper = mount(Pagination, {
       props: {
         pageSize: 25,
@@ -81,7 +87,7 @@ describe('Pagination.vue', () => {
     expect(wrapper.findAll('li.number').length).toBe(21)
   })
 
-  it('will work without total & page-count', (done) => {
+  test('will work without total & page-count', async () => {
     const wrapper = mount(Pagination, {
       props: {
         pageSize: 25,
@@ -89,15 +95,13 @@ describe('Pagination.vue', () => {
       },
     })
     wrapper.find('.btn-prev').trigger('click')
-    setTimeout(() => {
-      expect(wrapper.vm.internalCurrentPage).toEqual(1)
-      wrapper.find('.btn-prev').trigger('click')
-      expect(wrapper.vm.internalCurrentPage).toEqual(1)
-      done()
-    }, 20)
+    await sleep(TIME_OUT)
+    expect(wrapper.vm.internalCurrentPage).toEqual(1)
+    wrapper.find('.btn-prev').trigger('click')
+    expect(wrapper.vm.internalCurrentPage).toEqual(1)
   })
 
-  it('currentPage', () => {
+  test('currentPage', () => {
     const wrapper = mount(Pagination, {
       props: {
         pageSize: 20,
@@ -108,7 +112,7 @@ describe('Pagination.vue', () => {
     expect(wrapper.find('li.number.active').text()).toEqual('3')
   })
 
-  it('currentPage: NaN', () => {
+  test('currentPage: NaN', () => {
     const wrapper = mount(Pagination, {
       props: {
         pageSize: 20,
@@ -120,7 +124,7 @@ describe('Pagination.vue', () => {
     expect(wrapper.vm.$el.querySelectorAll('li.number').length).toBe(7)
   })
 
-  it('layout is empty', () => {
+  test('layout is empty', () => {
     const wrapper = mount(Pagination, {
       props: {
         layout: '',
@@ -131,7 +135,7 @@ describe('Pagination.vue', () => {
 })
 
 describe('click pager', () => {
-  it('click ul', () => {
+  test('click ul', () => {
     const wrapper = mount(Pagination, {
       props: {
         total: 1000,
@@ -141,7 +145,7 @@ describe('click pager', () => {
     expect(wrapper.vm.internalCurrentPage).toEqual(1)
   })
 
-  it('click li', () => {
+  test('click li', () => {
     const wrapper = mount(Pagination, {
       props: {
         total: 1000,
@@ -151,32 +155,30 @@ describe('click pager', () => {
     expect(wrapper.vm.internalCurrentPage).toEqual(2)
   })
 
-  it('click next icon-more', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        total: 1000,
-      },
-    })
-    wrapper.find('.el-pager .more').trigger('click')
-    expect(wrapper.vm.internalCurrentPage).toEqual(6)
-  })
-
-  it('click prev icon-more', done => {
+  test('click next icon-more', () => {
     const wrapper = mount(Pagination, {
       props: {
         total: 1000,
       },
     })
     wrapper.find('.btn-quicknext.more').trigger('click')
-    setTimeout(() => {
-      expect(wrapper.find('.btn-quickprev.more').exists()).toBe(true)
-      wrapper.find('.btn-quickprev.more').trigger('click')
-      expect(wrapper.vm.internalCurrentPage).toEqual(1)
-      done()
-    }, 50)
+    expect(wrapper.vm.internalCurrentPage).toEqual(6)
   })
 
-  it('click last page', done => {
+  test('click prev icon-more', async () => {
+    const wrapper = mount(Pagination, {
+      props: {
+        total: 1000,
+      },
+    })
+    wrapper.find('.btn-quicknext.more').trigger('click')
+    await sleep(TIME_OUT)
+    expect(wrapper.find('.btn-quickprev.more').exists()).toBe(true)
+    wrapper.find('.btn-quickprev.more').trigger('click')
+    expect(wrapper.vm.internalCurrentPage).toEqual(1)
+  })
+
+  test('click last page', async () => {
     const wrapper = mount(Pagination, {
       props: {
         total: 1000,
@@ -184,11 +186,9 @@ describe('click pager', () => {
     })
     const nodes = wrapper.findAll('li.number')
     nodes[nodes.length - 1].trigger('click')
-    setTimeout(() => {
-      expect(wrapper.find('.btn-quickprev.more').exists()).toBe(true)
-      expect(wrapper.find('.btn-quicknext.more').exists()).toBe(false)
-      done()
-    }, 50)
+    await sleep(TIME_OUT)
+    expect(wrapper.find('.btn-quickprev.more').exists()).toBe(true)
+    expect(wrapper.find('.btn-quicknext.more').exists()).toBe(false)
   })
 })
 
