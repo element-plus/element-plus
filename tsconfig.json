@@ -10,7 +10,7 @@
    "target": "es6",
    "sourceMap": true,
    "lib": [
-     "es2020", "dom"
+     "es2020", "DOM"
    ],
    "allowSyntheticDefaultImports": true
  },
