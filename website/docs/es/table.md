@@ -358,7 +358,7 @@ Cuando se tienen demasiadas columnas, puede fijar alguna de estas.
       fixed="right"
       label="Operaciones"
       width="120">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button @click="handleClick" type="text" size="small">Detalle</el-button>
         <el-button type="text" size="small">Editar</el-button>
       </template>
@@ -567,7 +567,7 @@ Cuando los datos se modifican dinámicamente, es posible que necesite que la tab
       fixed="right"
       label="Operaciones"
       width="120">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -848,7 +848,7 @@ También puede seleccionar múltiples filas.
     <el-table-column
       label="Fecha"
       width="120">
-      <template slot-scope="scope">{{ scope.row.date }}</template>
+      <template v-slot="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       property="name"
@@ -1026,7 +1026,7 @@ Filtra la tabla para encontrar la información que necesita.
       :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-tag
           :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1098,7 +1098,7 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
     <el-table-column
       label="Fecha"
       width="180">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1106,7 +1106,7 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
     <el-table-column
       label="Nombre"
       width="180">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-popover trigger="hover" placement="top">
           <p>Name: {{ scope.row.name }}</p>
           <p>Addr: {{ scope.row.address }}</p>
@@ -1118,7 +1118,7 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
     </el-table-column>
     <el-table-column
       label="Operaciones">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Editar</el-button>
@@ -1186,13 +1186,13 @@ Se puede personalizar el encabezado de la tabla para que se pueda adaptar aún m
     </el-table-column>
     <el-table-column
       align="right">
-      <template slot="header" slot-scope="scope">
+      <template #header v-slot="scope">
         <el-input
           v-model="search"
           size="mini"
           placeholder="Type to search"/>
       </template>
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -1253,7 +1253,7 @@ Cuando el contenido de la fila es demasiado largo y busca no mostrar la barra de
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template slot-scope="props">
+      <template v-slot="props">
         <p>Estado: {{ props.row.state }}</p>
         <p>Ciudad: {{ props.row.city }}</p>
         <p>Dirección: {{ props.row.address }}</p>

@@ -358,7 +358,7 @@ Lorsque qu'il y a beaucoup de colonnes, il peut être utile d'en fixer certaines
       fixed="right"
       label="Opérations"
       width="120">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button @click="handleClick" type="text" size="small">Detail</el-button>
         <el-button type="text" size="small">Editer</el-button>
       </template>
@@ -567,7 +567,7 @@ Quand les données changent dynamiquement, vous pouvez avoir besoin d'une hauteu
       fixed="right"
       label="Opérations"
       width="120">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -848,7 +848,7 @@ Vous pouvez aussi sélectionner plusieurs lignes.
     <el-table-column
       label="Date"
       width="120">
-      <template slot-scope="scope">{{ scope.row.date }}</template>
+      <template v-slot="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       property="name"
@@ -1026,7 +1026,7 @@ Vous pouvez filtrer la table pour obtenir rapidement les lignes désirées.
       :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-tag
           :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1098,7 +1098,7 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
     <el-table-column
       label="Date"
       width="180">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1106,7 +1106,7 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
     <el-table-column
       label="Nom"
       width="180">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-popover trigger="hover" placement="top">
           <p>Nom: {{ scope.row.name }}</p>
           <p>Addr: {{ scope.row.address }}</p>
@@ -1118,7 +1118,7 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
     </el-table-column>
     <el-table-column
       label="Opérations">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Editer</el-button>
@@ -1187,13 +1187,13 @@ Vous pouvez également personnaliser le header de la table.
     </el-table-column>
     <el-table-column
       align="right">
-      <template slot="header" slot-scope="scope">
+      <template #header v-slot="scope">
         <el-input
           v-model="search"
           size="mini"
           placeholder="Type to search"/>
       </template>
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Editer</el-button>
@@ -1254,7 +1254,7 @@ Lorsque le contenu d'une ligne est trop long et que vous ne souhaitez pas affich
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template slot-scope="props">
+      <template v-slot="props">
         <p>État: {{ props.row.state }}</p>
         <p>Ville: {{ props.row.city }}</p>
         <p>Adresse: {{ props.row.address }}</p>
