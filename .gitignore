@@ -11,3 +11,4 @@ yarn-error.log
 storybook-static
 coverage/
 website-dist
+website/play/

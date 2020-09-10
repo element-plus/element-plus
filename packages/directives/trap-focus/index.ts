@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { on, off } from '@element-plus/utils/dom'
 import { obtainAllFocusableElements, EVENT_CODE } from '@element-plus/utils/aria'
 
@@ -20,6 +21,9 @@ const TrapFocus: ObjectDirective = {
       if (focusableElement.length > 0 && e.code === EVENT_CODE.tab) {
         if (focusableElement.length === 1) {
           e.preventDefault()
+          if (document.activeElement  !== focusableElement[0]) {
+            focusableElement[0].focus()
+          }
           return
         }
         const goingBackward = e.shiftKey
@@ -48,7 +52,9 @@ const TrapFocus: ObjectDirective = {
     on(document, 'keydown', el[TRAP_FOCUS_HANDLER])
   },
   updated(el: ITrapFocusElement) {
-    el[FOCUSABLE_CHILDREN] = obtainAllFocusableElements(el)
+    nextTick(() => {
+      el[FOCUSABLE_CHILDREN] = obtainAllFocusableElements(el)
+    })
   },
   unmounted(el: ITrapFocusElement) {
     off(document, 'keydown', el[TRAP_FOCUS_HANDLER])
