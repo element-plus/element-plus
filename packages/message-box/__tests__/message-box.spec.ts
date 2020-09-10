@@ -1,7 +1,5 @@
 import MessageBox from '../src/messageBox'
-import sl from '../../locale/lang/sl'
-
-const sleep = (time = 250) => new Promise(resolve => setTimeout(resolve, time))
+import { sleep } from '@element-plus/test-utils'
 
 const selector = '.el-message-box__wrapper'
 
@@ -24,11 +22,11 @@ describe('MessageBox', () => {
     })
     const msgbox: HTMLElement = document.querySelector(selector)
     expect(msgbox).toBeDefined()
-    await sleep()
+    await sleep(250)
     expect(msgbox.querySelector('.el-message-box__title span').textContent).toEqual('消息')
     expect(msgbox.querySelector('.el-message-box__message').querySelector('p').textContent).toEqual('这是一段内容')
     MessageBox.close()
-    await sleep()
+    await sleep(250)
     expect(msgbox.style.display).toEqual('none')
   })
 
@@ -44,7 +42,7 @@ describe('MessageBox', () => {
       iconClass: 'el-icon-question',
       message: '这是一段内容',
     })
-    await sleep()
+    await sleep(250)
     const icon = document.querySelector('.el-message-box__status')
     expect(icon.classList.contains('el-icon-question')).toBe(true)
   })
@@ -55,7 +53,7 @@ describe('MessageBox', () => {
       dangerouslyUseHTMLString: true,
       message: '<strong>html string</strong>',
     })
-    await sleep()
+    await sleep(250)
     const message = document.querySelector('.el-message-box__message strong')
     expect(message.textContent).toEqual('html string')
   })
@@ -70,10 +68,10 @@ describe('MessageBox', () => {
         msgAction = action
       },
     })
-    await sleep()
+    await sleep(250)
     const btn: HTMLElement = document.querySelector('.el-message-box__close')
     btn.click()
-    await sleep()
+    await sleep(250)
     expect(msgAction).toEqual('close')
   })
 
@@ -82,10 +80,10 @@ describe('MessageBox', () => {
       title: '标题名称',
       type: 'warning',
     })
-    await sleep()
+    await sleep(250)
     const vModal: HTMLElement = document.querySelector('.v-modal')
     vModal.click()
-    await sleep()
+    await sleep(250)
     const msgbox: HTMLElement = document.querySelector(selector)
     expect(msgbox.style.display).toEqual('')
     expect(msgbox.querySelector('.el-icon-warning')).toBeDefined()
@@ -96,10 +94,10 @@ describe('MessageBox', () => {
       title: '标题名称',
       type: 'warning',
     })
-    await sleep()
+    await sleep(250)
     const btn: HTMLElement = document.querySelector(selector).querySelector('.el-button--primary')
     btn.click()
-    await sleep()
+    await sleep(250)
     const msgbox: HTMLElement = document.querySelector(selector)
     expect(msgbox.style.display).toEqual('none')
   })
@@ -134,10 +132,10 @@ describe('MessageBox', () => {
         msgAction = action
       },
     })
-    await sleep()
+    await sleep(250)
     const closeBtn: HTMLElement = document.querySelector('.el-message-box__close')
     closeBtn.click()
-    await sleep()
+    await sleep(250)
     expect(msgAction).toEqual('cancel')
   })
 
@@ -162,10 +160,10 @@ describe('MessageBox', () => {
         .then(action => {
           msgAction = action
         })
-      await sleep()
+      await sleep(250)
       const btn: HTMLElement = document.querySelector('.el-message-box__btns .el-button--primary')
       btn.click()
-      await sleep()
+      await sleep(250)
       expect(msgAction).toEqual('confirm')
     })
 
@@ -175,10 +173,10 @@ describe('MessageBox', () => {
         .catch(action => {
           msgAction = action
         })
-      await sleep()
+      await sleep(250)
       const btn: NodeListOf<HTMLElement> = document.querySelectorAll('.el-message-box__btns .el-button')
       btn[0].click()
-      await sleep()
+      await sleep(250)
       expect(msgAction).toEqual('cancel')
     })
   })
