@@ -255,11 +255,11 @@ export default defineComponent({
         popperClass: this.popperClass,
         disabled: this.disabled,
       }),
-      slot: h('span', {}, this.$slots.default ? this.$slots.default() : ''),
+      slot: this.$slots?.default?.() ?? null,
       total: h(Total, { total: this.total }),
     }
 
-    const components = layout.split(',').map((item: any) => item.trim())
+    const components = layout.split(',').map((item: string) => item.trim())
 
     let haveRightWrapper = false
 

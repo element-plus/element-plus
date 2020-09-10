@@ -8,9 +8,8 @@
       :disabled="disabled"
       :model-value="innerValue"
       type="number"
-      @input="handleInput"
+      @update:modelValue="handleInput"
       @change="handleChange"
-      @keyup="handleKeyup"
     />
     {{ t('el.pagination.pageClassifier') }}
   </span>
@@ -23,7 +22,6 @@ import {
   ref,
 } from 'vue'
 import { t } from '@element-plus/locale'
-import { eventKeys } from '@element-plus/utils/aria'
 import ElInput from '@element-plus/input/src/index.vue'
 import { usePagination } from './usePagination'
 
@@ -36,19 +34,13 @@ export default defineComponent({
     const userInput = ref<Nullable<number>>(null)
     const innerValue = computed(() => userInput.value ?? currentPage.value)
 
-    function handleInput(event: InputEvent) {
-      userInput.value = +(event?.target as HTMLInputElement).value
+    function handleInput(val: number | string) {
+      userInput.value = Number(val)
     }
 
-    function handleChange(val: number) {
-      pagination?.changeEvent(+val)
+    function handleChange(val: number | string) {
+      pagination?.changeEvent(Number(val))
       userInput.value = null
-    }
-
-    function handleKeyup({ keyCode, target }: KeyboardEvent) {
-      if (keyCode === eventKeys.enter) {
-        handleChange(+(target as HTMLInputElement).value)
-      }
     }
 
     return {
@@ -57,7 +49,6 @@ export default defineComponent({
       pageCount,
       disabled,
       handleInput,
-      handleKeyup,
       handleChange,
       innerValue,
     }

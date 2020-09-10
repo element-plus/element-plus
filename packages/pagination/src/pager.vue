@@ -40,7 +40,7 @@
     </li>
   </ul>
 </template>
-<script lang="tsx">
+<script lang="ts">
 import {
   defineComponent,
   ref,
@@ -121,7 +121,7 @@ export default defineComponent({
         if (props.currentPage > props.pagerCount - halfPagerCount) {
           showPrevMore.value = true
         }
-        if (props.currentPage < props.pagerCount - halfPagerCount) {
+        if (props.currentPage < props.pageCount - halfPagerCount) {
           showNextMore.value = true
         }
       }
