@@ -30,6 +30,8 @@ import ElTabs from '@element-plus/tabs'
 import ElTooltip from '@element-plus/tooltip'
 import ElSlider from '@element-plus/slider'
 import ElInput from '@element-plus/input'
+import ElTransfer from '@element-plus/transfer'
+import ElDialog from '@element-plus/dialog'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
 
 export {
