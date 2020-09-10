@@ -6,20 +6,26 @@
 </template>
 
 <script lang="ts">
+import MessageBox from '../src/messageBox'
+
 export default {
   name: 'Alert',
   methods: {
     open() {
-      this.$prompt('请输入邮箱', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-        inputErrorMessage: '邮箱格式不正确',
-      }).then(({ value }) => {
-        alert('你的邮箱是: ' + value)
-      }).catch(() => {
-        alert('取消输入')
-      })
+      MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示')
+        .then(action => {
+          console.log(action)
+        })
+      // this.$prompt('请输入邮箱', '提示', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+      //   inputErrorMessage: '邮箱格式不正确',
+      // }).then(({ value }) => {
+      //   alert('你的邮箱是: ' + value)
+      // }).catch(() => {
+      //   alert('取消输入')
+      // })
     },
   },
 }

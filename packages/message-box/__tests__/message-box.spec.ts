@@ -1,4 +1,5 @@
 import MessageBox from '../src/messageBox'
+import sl from '../../locale/lang/sl'
 
 const sleep = (time = 250) => new Promise(resolve => setTimeout(resolve, time))
 
@@ -59,21 +60,22 @@ describe('MessageBox', () => {
     expect(message.textContent).toEqual('html string')
   })
 
-  // test('distinguish cancel and close', async () => {
-  //   let msgAction = ''
-  //   MessageBox({
-  //     title: '消息',
-  //     message: '这是一段内容',
-  //     distinguishCancelAndClose: true,
-  //   }, action => {
-  //     msgAction = action
-  //   })
-  //   await sleep()
-  //   const btn: HTMLElement = document.querySelector('.el-message-box__close')
-  //   btn.click()
-  //   await sleep()
-  //   expect(msgAction).toEqual('close')
-  // })
+  test('distinguish cancel and close', async () => {
+    let msgAction = ''
+    MessageBox({
+      title: '消息',
+      message: '这是一段内容',
+      distinguishCancelAndClose: true,
+      callback:  action => {
+        msgAction = action
+      },
+    })
+    await sleep()
+    const btn: HTMLElement = document.querySelector('.el-message-box__close')
+    btn.click()
+    await sleep()
+    expect(msgAction).toEqual('close')
+  })
 
   test('alert', async () => {
     MessageBox.alert('这是一段内容', {
@@ -123,20 +125,21 @@ describe('MessageBox', () => {
     })
   })
 
-  // test('callback', async () => {
-  //   let msgAction = ''
-  //   MessageBox({
-  //     title: '消息',
-  //     message: '这是一段内容',
-  //   }, action => {
-  //     msgAction = action
-  //   })
-  //   await sleep()
-  //   const closeBtn: HTMLElement = document.querySelector('.el-message-box__close')
-  //   closeBtn.click()
-  //   await sleep()
-  //   expect(msgAction).toEqual('cancel')
-  // })
+  test('callback', async () => {
+    let msgAction = ''
+    MessageBox({
+      title: '消息',
+      message: '这是一段内容',
+      callback: action => {
+        msgAction = action
+      },
+    })
+    await sleep()
+    const closeBtn: HTMLElement = document.querySelector('.el-message-box__close')
+    closeBtn.click()
+    await sleep()
+    expect(msgAction).toEqual('cancel')
+  })
 
   test('beforeClose', async() => {
     let msgAction = ''
@@ -153,26 +156,30 @@ describe('MessageBox', () => {
   })
 
   describe('promise', () => {
-    // test('resolve', async done => {
-    //   MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示')
-    //     .then(action => {
-    //       expect(action).toEqual('confirm')
-    //       done()
-    //     })
-    //   await sleep(10)
-    //   const btn: HTMLElement = document.querySelector('.el-message-box__wrapper .el-button')
-    //   btn.click()
-    // })
+    test('resolve',async () => {
+      let msgAction = ''
+      MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示')
+        .then(action => {
+          msgAction = action
+        })
+      await sleep()
+      const btn: HTMLElement = document.querySelector('.el-message-box__btns .el-button--primary')
+      btn.click()
+      await sleep()
+      expect(msgAction).toEqual('confirm')
+    })
 
-    test('reject', async done => {
+    test('reject', async () => {
+      let msgAction = ''
       MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示')
         .catch(action => {
-          expect(action).toEqual('cancel')
-          done()
+          msgAction = action
         })
-      await sleep(10)
-      const btn: HTMLElement = document.querySelector('.el-message-box__wrapper .el-button')
-      btn.click()
+      await sleep()
+      const btn: NodeListOf<HTMLElement> = document.querySelectorAll('.el-message-box__btns .el-button')
+      btn[0].click()
+      await sleep()
+      expect(msgAction).toEqual('cancel')
     })
   })
 })

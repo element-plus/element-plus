@@ -144,22 +144,22 @@ const usePopup = (props, doClose) => {
   }
 
   const close = () => {
-    if (_openTimer !== null) {
-      clearTimeout(_openTimer)
-      _openTimer = null
-    }
-    clearTimeout(_closeTimer)
-
-    const closeDelay = Number(props.closeDelay)
-
-    if (closeDelay > 0) {
-      _closeTimer = setTimeout(() => {
-        _closeTimer = null
-        doClose()
-      }, closeDelay)
-    } else {
-      doClose()
-    }
+    // if (_openTimer !== null) {
+    //   clearTimeout(_openTimer)
+    //   _openTimer = null
+    // }
+    // clearTimeout(_closeTimer)
+    //
+    // const closeDelay = Number(props.closeDelay)
+    //
+    // if (closeDelay > 0) {
+    //   _closeTimer = setTimeout(() => {
+    //     _closeTimer = null
+    //     doClose()
+    //   }, closeDelay)
+    // } else {
+    //   doClose()
+    // }
   }
 
   const doAfterOpen = () => {
