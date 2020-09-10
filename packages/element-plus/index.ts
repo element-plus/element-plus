@@ -32,6 +32,7 @@ import ElSlider from '@element-plus/slider'
 import ElInput from '@element-plus/input'
 import ElTransfer from '@element-plus/transfer'
 import ElDialog from '@element-plus/dialog'
+import ElMessageBox from '@element-plus/message-box'
 
 export {
   ElAlert,
@@ -66,6 +67,7 @@ export {
   ElInput,
   ElTransfer,
   ElDialog,
+  ElMessageBox,
 }
 
 export default function install(app: App): void {
@@ -102,4 +104,5 @@ export default function install(app: App): void {
   ElInput(app)
   ElTransfer(app)
   ElDialog(app)
+  ElMessageBox(app)
 }
