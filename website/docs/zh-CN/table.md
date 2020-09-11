@@ -1106,12 +1106,16 @@
       label="姓名"
       width="180">
       <template v-slot="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-          </div>
+        <el-popover effect="light" trigger="hover" placement="top">
+          <template #default>
+            <p>姓名: {{ scope.row.name }}</p>
+            <p>住址: {{ scope.row.address }}</p>
+          </template>
+          <template #trigger>
+            <div class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.name }}</el-tag>
+            </div>
+          </template>
         </el-popover>
       </template>
     </el-table-column>
