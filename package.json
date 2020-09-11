@@ -26,7 +26,7 @@
     "@swc-node/jest": "^0.3.4",
     "@types/jest": "^26.0.10",
     "@types/lodash": "^4.14.161",
-    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
     "@vue/compiler-sfc": "^3.0.0-rc.9",
     "@vue/component-compiler-utils": "^3.2.0",
