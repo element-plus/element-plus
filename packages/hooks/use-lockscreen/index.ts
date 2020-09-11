@@ -1,4 +1,4 @@
-import { ref, watch, isRef } from 'vue'
+import { watch, isRef } from 'vue'
 
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
 import throwError from '@element-plus/utils/error'
