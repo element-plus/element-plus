@@ -17,19 +17,20 @@ import {
 } from '@element-plus/utils/dom'
 import { merge } from 'lodash'
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
+import { IDrawerWithPopupOption, IDrawerPopupOption } from './drawer'
 
 let idSeed = 1
 let scrollBarWidth: number
 
 // XXX this may be replaced with other usePopup as Dialog?
-const usePopup = ({ props, $el, vVm }) => {
+const usePopup = ({ props, $el, vVm }: IDrawerPopupOption) => {
   let _popupId: string
   let _opening = false
   let _closing = false
   // let _closeTimer = null // XXX These code will be removed ？
   // let _openTimer = null
 
-  const data = reactive({
+  const drawerState = reactive({
     opened: false,
     bodyPaddingRight: null,
     computedBodyPaddingRight: 0,
@@ -37,9 +38,9 @@ const usePopup = ({ props, $el, vVm }) => {
     rendered: false,
   })
 
-  function open(options = {}) {
-    if (!data.rendered) {
-      data.rendered = true
+  function open(options: Partial<IDrawerWithPopupOption> = {}) {
+    if (!drawerState.rendered) {
+      drawerState.rendered = true
     }
 
     const propsNew = merge({}, props, options)
@@ -63,10 +64,10 @@ const usePopup = ({ props, $el, vVm }) => {
     // }
   }
 
-  function doOpen(props) {
+  function doOpen(props: IDrawerWithPopupOption) {
     if (isServer) return
     // if (props.willOpen && !props.willOpen()) return
-    if (data.opened) return
+    if (drawerState.opened) return
 
     _opening = true
     const dom = $el.value
@@ -85,17 +86,17 @@ const usePopup = ({ props, $el, vVm }) => {
         _popupId,
         PopupManager.nextZIndex(),
         props.modalAppendToBody ? undefined : dom,
-        props.modalClass,
-        props.modalFade,
+        props.modalClass || '',
+        props.modalFade || false,
       )
       if (props.lockScroll) {
-        data.withoutHiddenClass = !hasClass(
+        drawerState.withoutHiddenClass = !hasClass(
           document.body,
           'el-popup-parent--hidden',
         )
-        if (data.withoutHiddenClass) {
-          data.bodyPaddingRight = document.body.style.paddingRight
-          data.computedBodyPaddingRight = parseInt(
+        if (drawerState.withoutHiddenClass) {
+          drawerState.bodyPaddingRight = document.body.style.paddingRight
+          drawerState.computedBodyPaddingRight = parseInt(
             getStyle(document.body, 'paddingRight'),
             10,
           )
@@ -107,10 +108,10 @@ const usePopup = ({ props, $el, vVm }) => {
         if (
           scrollBarWidth > 0 &&
           (bodyHasOverflow || bodyOverflowY === 'scroll') &&
-          data.withoutHiddenClass
+          drawerState.withoutHiddenClass
         ) {
           document.body.style.paddingRight =
-            data.computedBodyPaddingRight + scrollBarWidth + 'px'
+          drawerState.computedBodyPaddingRight + scrollBarWidth + 'px'
         }
         addClass(document.body, 'el-popup-parent--hidden')
       }
@@ -121,7 +122,7 @@ const usePopup = ({ props, $el, vVm }) => {
     }
 
     dom.style.zIndex = String(PopupManager.nextZIndex())
-    data.opened = true
+    drawerState.opened = true
 
     // XXX These code will be removed ？
     // props.onOpen && onOpen();
@@ -165,7 +166,7 @@ const usePopup = ({ props, $el, vVm }) => {
       setTimeout(restoreBodyStyle, 200)
     }
 
-    data.opened = false
+    drawerState.opened = false
 
     doAfterClose()
   }
@@ -176,16 +177,16 @@ const usePopup = ({ props, $el, vVm }) => {
   }
 
   function restoreBodyStyle() {
-    if (props.modal && data.withoutHiddenClass) {
-      document.body.style.paddingRight = data.bodyPaddingRight
+    if (props.modal && drawerState.withoutHiddenClass) {
+      document.body.style.paddingRight = drawerState.bodyPaddingRight
       removeClass(document.body, 'el-popup-parent--hidden')
     }
-    data.withoutHiddenClass = true
+    drawerState.withoutHiddenClass = true
   }
 
   onMounted(() => {
     if (props.visible) {
-      data.rendered = true
+      drawerState.rendered = true
       open()
     }
   })
@@ -209,8 +210,8 @@ const usePopup = ({ props, $el, vVm }) => {
     val => {
       if (val) {
         if (_opening) return
-        if (!data.rendered) {
-          data.rendered = true
+        if (!drawerState.rendered) {
+          drawerState.rendered = true
           nextTick(() => {
             open()
           })
@@ -222,7 +223,7 @@ const usePopup = ({ props, $el, vVm }) => {
       }
     },
   )
-  return { popupData: data, open }
+  return { popupData: drawerState, open }
 }
 
 export default usePopup

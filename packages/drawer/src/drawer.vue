@@ -68,7 +68,7 @@ import {
 } from 'vue'
 import usePopup from './popup'
 import Utils from '@element-plus/utils/aria'
-import { IDrawerDirection, IElDrawerProps } from './drawer'
+import { IDrawerDirection, IDrawerProps } from './drawer'
 
 export default defineComponent({
   name: 'ElDrawer',
@@ -135,7 +135,7 @@ export default defineComponent({
 
   emits: ['open', 'opened', 'close', 'closed', 'update:visible'],
 
-  setup(props: IElDrawerProps, ctx) {
+  setup(props: IDrawerProps, ctx) {
     const drawer = ref<HTMLElement>(null)
     const root = ref<HTMLElement>(null)
     const prevActiveElement = ref<HTMLElement>(null)
@@ -196,9 +196,6 @@ export default defineComponent({
         if (val) {
           closed.value = false
           ctx.emit('open')
-          // if (props.appendToBody) {
-          //   document.body.appendChild(root.value)
-          // }
           prevActiveElement.value = document.activeElement as HTMLElement
           nextTick(() => {
             Utils.focusFirstDescendant(drawer.value)
@@ -213,13 +210,6 @@ export default defineComponent({
         }
       },
     )
-
-    // onUnmounted(() => {
-    //   // if appendToBody is true, remove DOM node after destroy
-    //   if (props.appendToBody && root && root.value.parentNode) {
-    //     root.value.parentNode.removeChild(root.value)
-    //   }
-    // })
 
     return {
       root,
