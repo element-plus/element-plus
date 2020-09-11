@@ -1,5 +1,7 @@
 import { nextTick } from 'vue'
-import { entries, isFunction, isNaN, throttle } from 'lodash'
+import { isFunction } from '@vue/shared'
+import { throttle } from 'lodash'
+import { entries } from '@element-plus/utils/util'
 import { getScrollContainer, getOffsetTopDistance } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
 import type { ObjectDirective, ComponentPublicInstance } from 'vue'
@@ -36,7 +38,8 @@ type InfiniteScrollEl = HTMLElement & {
     container: HTMLElement | Window
     containerEl: HTMLElement
     instance: ComponentPublicInstance
-    delay: number // for test
+    delay: number // export for test
+    lastScrollTop: number
     cb: InfiniteScrollCallback
     onScroll: () => void
     observer?: MutationObserver
@@ -51,7 +54,7 @@ const getScrollOptions = (el: HTMLElement, instance: ComponentPublicInstance): S
       let value = instance[attrVal] ?? attrVal ?? defaultValue
       value = value === 'false' ? false : value
       value = type(value)
-      acm[name] = isNaN(value) ? defaultValue : value
+      acm[name] = Number.isNaN(value) ? defaultValue : value
       return acm
     }, {} as ScrollOptions)
 }
@@ -66,13 +69,20 @@ const destroyObserver = (el: InfiniteScrollEl) => {
 }
 
 const handleScroll = (el: InfiniteScrollEl, cb: InfiniteScrollCallback) => {
-  const { container, containerEl, instance, observer } = el[SCOPE]
+  const {
+    container, containerEl,
+    instance, observer,
+    lastScrollTop,
+  } = el[SCOPE]
   const { disabled, distance } = getScrollOptions(el, instance)
-
-  // trigger only if full check has done and not disabled
-  if (observer || disabled) return
-
   const { clientHeight, scrollHeight, scrollTop } = containerEl
+  const delta = scrollTop - lastScrollTop
+
+  el[SCOPE].lastScrollTop = scrollTop
+
+  // trigger only if full check has done and not disabled and scroll down
+  if (observer || disabled || delta < 0 ) return
+
   let shouldTrigger = false
 
   if (container === el) {
@@ -120,7 +130,11 @@ const InfiniteScroll: ObjectDirective<InfiniteScrollEl, InfiniteScrollCallback> 
 
     if (!container) return
 
-    el[SCOPE] = { instance, container, containerEl, delay, cb, onScroll }
+    el[SCOPE] = {
+      instance, container, containerEl,
+      delay, cb, onScroll,
+      lastScrollTop: containerEl.scrollTop,
+    }
 
     if (immediate) {
       const observer = new MutationObserver(throttle(checkFull.bind(null, el, cb), CHECK_INTERVAL))
