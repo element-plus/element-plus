@@ -31,7 +31,7 @@ export const off = function(
 
 /* istanbul ignore next */
 export const once = function(
-  el: HTMLElement,
+  el: HTMLElement | Document,
   event: string,
   fn: EventListener,
 ): void {
