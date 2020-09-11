@@ -80,7 +80,7 @@ import union from 'lodash/union'
 import { t } from '@element-plus/locale'
 import { eventKeys } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'
-import { getAvaliableArrs, getTimeLists } from './useTimePicker'
+import { getAvaliableArrs } from './useTimePicker'
 
 const makeSelectRange = (start, end) => {
   const result = []
