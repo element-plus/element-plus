@@ -31,7 +31,7 @@ export default {
       setTimeout(() => {
         count.value += 2
         loading.value = false
-      }, 20000)
+      }, 2000)
     }
 
     return {
