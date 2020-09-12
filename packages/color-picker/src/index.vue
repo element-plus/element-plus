@@ -2,21 +2,21 @@
   <el-tooltip
     v-model="showPicker"
     effect="light"
-    :manual="true"
+    manual
     :trigger="['click']"
     :visible-arrow="false"
   >
     <template #content>
       <div
         v-click-outside="hide"
-        style="width: 300px"
+        class="color-content"
       >
         <div class="el-color-dropdown__main-wrapper">
           <hue-slider
             ref="hue"
+            class="hue-slider"
             :color="color"
             vertical
-            style="float: right;"
           />
           <sv-panel :color="color" />
         </div>
@@ -90,7 +90,6 @@ import ElTooltip from '@element-plus/tooltip/src/index.vue'
 import ElButton from '@element-plus/button/src/button.vue'
 import { t } from '@element-plus/locale/index'
 import { UPDATE_MODEL_EVENT }  from '@element-plus/utils/constants'
-// import ElPopper from '@element-plus/popper/src/index.vue'
 const OPTIONS_KEY = Symbol()
 
 interface IELEMENT {
@@ -172,6 +171,13 @@ export default defineComponent( {
       return showPanelColor.value ? '' : color.value
     })
     // watch
+    watch(() => props.modelValue, newVal => {
+      if (!newVal) {
+        showPanelColor.value = false
+      } else if (newVal && newVal !== color.value) {
+        color.fromString(newVal)
+      }
+    })
     watch(currentColor, val => {
       customInput.value = val
     }, {
@@ -255,5 +261,11 @@ export default defineComponent( {
 <style lang="scss" scoped>
 .el-color-picker:focus {
   outline: none;
+}
+.color-content {
+  width: 300px;
+}
+.hue-slider {
+  float: right;
 }
 </style>

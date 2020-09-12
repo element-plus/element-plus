@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { ref, watch, defineComponent, PropType } from 'vue'
+import { ref, watch, watchEffect, defineComponent, PropType } from 'vue'
 import Color from '../color'
 import { useOptions } from '../index'
 
@@ -42,11 +42,8 @@ export default defineComponent({
         item.selected = color.compare(item)
       })
     })
-    watch(props.colors, newVal => {
-      rgbaColors.value = parseColors(newVal, props.color)
-    })
-    watch(props.color, newVal => {
-      rgbaColors.value = parseColors(props.colors, newVal)
+    watchEffect(() => {
+      rgbaColors.value = parseColors(props.colors, props.color)
     })
 
     function handleSelect(index) {

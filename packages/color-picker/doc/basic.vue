@@ -8,7 +8,7 @@
 export default {
   data() {
     return {
-      color: '#333333',
+      color: null,
       predefineColors: [
         '#ff4500',
         '#ff8c00',
@@ -25,6 +25,19 @@ export default {
         'hsla(209, 100%, 56%, 0.73)',
       ],
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.predefineColors = [
+        '#ff4500',
+        '#ff8c00',
+        '#ffd700',
+        '#90ee90',
+        '#00ced1',
+        '#1e90ff',
+        '#c71585',
+      ]
+    }, 3000)
   },
 }
 </script>

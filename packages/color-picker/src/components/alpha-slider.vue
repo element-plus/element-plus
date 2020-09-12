@@ -4,7 +4,7 @@
       ref="bar"
       class="el-color-alpha-slider__bar"
       :style="{
-        background: background
+        background
       }"
       @click="handleClick"
     >
@@ -67,8 +67,9 @@ export default defineComponent({
     }
 
     function getThumbTop() {
+      const el = instance.vnode.el
       if (!props.vertical) return 0
-      const alpha = color.get('_alpha')
+      const alpha = props.color.get('alpha')
 
       if (!el) return 0
       return Math.round(alpha * (el.offsetHeight - thumb.value.offsetHeight / 2) / 100)

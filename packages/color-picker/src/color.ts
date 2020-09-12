@@ -160,6 +160,7 @@ export default class Color {
   public enableAlpha: boolean
   public format: string
   public value: string
+  public selected?: boolean
   constructor(options?: Options) {
     this._hue = 0
     this._saturation = 100
