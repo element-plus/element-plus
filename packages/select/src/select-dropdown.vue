@@ -15,6 +15,7 @@ import {
   getCurrentInstance,
   watch,
   onMounted,
+  ref,
 } from 'vue'
 
 export default {
@@ -59,11 +60,14 @@ export default {
     const minWidth = ref('')
     const instance = getCurrentInstance()
     // computed
-    const popperClass = computed(() => instance.$parent.popperClass)
+    // TODO: 需要补充
+    // const popperClass = computed(() => instance.$parent.popperClass)
+    const popperClass = 'test--'
     // watch
-    watch(() => instance.$parent.inputWidth, () => {
-      minWidth.value = instance.$parent.$el.getBoundingClientRect().width + 'px'
-    })
+    // TODO: 需要补充
+    // watch(() => instance.$parent.inputWidth, () => {
+    //   minWidth.value = instance.$parent.$el.getBoundingClientRect().width + 'px'
+    // })
 
     onMounted(() => {
       // TODO: 需要补充

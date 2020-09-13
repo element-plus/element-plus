@@ -1,6 +1,7 @@
 <template>
+  <!-- TODO: clickoutside -->
+  <!-- v-clickoutside="handleClose" -->
   <div
-    v-clickoutside="handleClose"
     class="el-select"
     :class="[selectSize ? 'el-select--' + selectSize : '']"
     @click.stop="toggleMenu"
@@ -128,7 +129,7 @@
           <el-option
             v-if="showNewOption"
             :value="query"
-            created
+            :created="true"
           />
           <slot></slot>
         </el-scrollbar>
@@ -147,11 +148,11 @@
 // import Emitter from 'element-ui/src/mixins/emitter'
 // import Focus from 'element-ui/src/mixins/focus'
 // import Locale from 'element-ui/src/mixins/locale'
-import ElInput from '@element-plus/input'
+import ElInput from '@element-plus/input/src/index.vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
-import ElTag from '@element-plus/tag'
-import ElScrollbar from '@element-plus/scrollbar'
+import ElTag from '@element-plus/tag/src/index.vue'
+import ElScrollbar from '@element-plus/scrollbar/src/index.ts'
 import isServer from '@element-plus/utils/isServer'
 import { debounce as lodashDebounce } from 'lodash'
 
@@ -162,6 +163,7 @@ import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import { getValueByPath, isEqual, isIE, isEdge } from '@element-plus/utils/util'
 // import NavigationMixin from './navigation-mixin'
 import { isKorean } from '@element-plus/utils/isDef'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import {
   computed,
   ref,
@@ -175,7 +177,7 @@ import {
   getCurrentInstance } from 'vue'
 
 // TODO: ELEMENT
-const ELEMENT = { size: '' }
+const ELEMENT = { size: 'medium' }
 
 export default defineComponent({
   name: 'ElSelect',
@@ -195,8 +197,8 @@ export default defineComponent({
   props: {
     name: String,
     id: String,
-    value: {
-      required: true,
+    modelValue: {
+      type: [Array, String],
     },
     autocomplete: {
       type: String,
@@ -249,6 +251,8 @@ export default defineComponent({
     },
   },
 
+  emits: ['remove-tag', 'clear', 'change',UPDATE_MODEL_EVENT],
+
   setup(props, ctx) {
     // data
     const options = ref([])
@@ -258,7 +262,7 @@ export default defineComponent({
     const selected = props.multiple ? [] : {}
     const inputLength = ref(inputLength)
     const inputWidth = ref(0)
-    const initialInputHeight = 0
+    const initialInputHeight = ref(0)
     const cachedPlaceHolder = ref('')
     const optionsCount = ref(0)
     const filteredOptionsCount = ref(0)
@@ -277,6 +281,8 @@ export default defineComponent({
     const elForm = inject('elForm', {})
     const elFormItem = inject('elFormItem', {})
     const instance = getCurrentInstance()
+
+    const reference = ref(null)
     // provide
     provide('select', instance)
     // computed
@@ -285,8 +291,8 @@ export default defineComponent({
     const selectDisabled = computed(() => props.disabled || (elForm || {}).disabled)
     const showClose = computed(() => {
       const hasValue = props.multiple
-        ? Array.isArray(props.value) && props.value.length > 0
-        : props.value !== undefined && props.value !== null && props.value !== ''
+        ? Array.isArray(props.modelValue) && props.modelValue.length > 0
+        : props.modelValue !== undefined && props.modelValue !== null && props.modelValue !== ''
       const criteria = props.clearable &&
         !selectDisabled.value &&
         inputHovering.value &&
@@ -301,23 +307,26 @@ export default defineComponent({
       } else {
         if (props.remote && query.value === '' && options.value.length === 0) return false
         if (props.filterable && query.value && options.value.length > 0 && filteredOptionsCount.value === 0) {
-          return props.noMatchText || this.t('el.select.noMatch')
+          return props.noMatchText || t('el.select.noMatch')
         }
         if (options.value.length === 0) {
-          return props.noDataText || this.t('el.select.noData')
+          return props.noDataText || t('el.select.noData')
         }
       }
       return null
     })
     const showNewOption = computed(() => {
-      let hasExistingOption = options.value.filter(option => !option.created)
-        .some(option => option.currentLabel === query.value)
-      return props.filterable && props.allowCreate && query,value !== '' && !hasExistingOption
+      let hasExistingOption = options.value.filter(option => {
+        return !option.created
+      }).some(option => {
+        return option.currentLabel === query.value
+      })
+      return props.filterable && props.allowCreate && query.value !== '' && !hasExistingOption
     })
     // TODO: ctx.$ELEMENT
     const selectSize = computed(() => props.size || _elFormItemSize.value || (ELEMENT || {}).size)
+    console.log('selectSize: ', selectSize.value)
     const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
-
     // watch
     watch(() => selectDisabled, () => {
       nextTick(() => {
@@ -327,7 +336,7 @@ export default defineComponent({
     watch(() => props.placeholder, val => {
       cachedPlaceHolder.value = currentPlaceholder.value = val
     })
-    watch(() => props.value, (val, oldVal) => {
+    watch(() => props.modelValue, (val, oldVal) => {
       if (props.multiple) {
         resetInputHeight()
         if ((val && val.length > 0) || (instance.$refs.input && query.value !== '')) {
@@ -405,7 +414,7 @@ export default defineComponent({
           }
         }
       }
-      ctx.$emit('visible-change', val)
+      ctx.emit('visible-change', val)
     })
 
     watch(() => options.value, () => {
@@ -527,7 +536,7 @@ export default defineComponent({
 
     function setSelected() {
       if (!props.multiple) {
-        let option = getOption(props.value)
+        let option = getOption(props.modelValue)
         if (option.created) {
           createdLabel.value = option.currentLabel
           createdSelected.value = true
@@ -540,8 +549,8 @@ export default defineComponent({
         return
       }
       let result = []
-      if (Array.isArray(props.value)) {
-        props.value.forEach(value => {
+      if (Array.isArray(props.modelValue)) {
+        props.modelValue.forEach(value => {
           result.push(getOption(value))
         })
       }
@@ -553,15 +562,15 @@ export default defineComponent({
 
     function getOption(value) {
       let option
-      const isObject = Object.prototype.toString.call(props.value).toLowerCase() === '[object object]'
-      const isNull = Object.prototype.toString.call(props.value).toLowerCase() === '[object null]'
-      const isUndefined = Object.prototype.toString.call(props.value).toLowerCase() === '[object undefined]'
+      const isObject = Object.prototype.toString.call(props.modelValue).toLowerCase() === '[object object]'
+      const isNull = Object.prototype.toString.call(props.modelValue).toLowerCase() === '[object null]'
+      const isUndefined = Object.prototype.toString.call(props.modelValue).toLowerCase() === '[object undefined]'
 
       for (let i = cachedOptions.value.length - 1; i >= 0; i--) {
         const cachedOption = cachedOptions.value[i]
         // TODO: getValueByPath 是做什么的
         const isEqual = isObject
-          ? getValueByPath(cachedOption.value, props.valueKey) === getValueByPath(props.value, props.valueKey)
+          ? getValueByPath(cachedOption.value, props.valueKey) === getValueByPath(props.modelValue, props.valueKey)
           : cachedOption.value === value
         if (isEqual) {
           option = cachedOption.value
@@ -610,28 +619,65 @@ export default defineComponent({
       }
     }
 
+    function deletePrevTag(e) {
+      if (e.target.value.length <= 0 && !this.toggleLastOptionHitState()) {
+        const value = this.value.slice()
+        value.pop()
+        ctx.emit(UPDATE_MODEL_EVENT, value)
+        emitChange(value)
+      }
+    }
+
+    function emitChange(val) {
+      if (!isEqual(props.modelValue, val)) {
+        ctx.emit('change', val)
+      }
+    }
+
+    function deleteTag(event, tag) {
+      let index = selected.value.indexOf(tag)
+      if (index > -1 && !selectDisabled.value) {
+        const value = props.modelValue.slice()
+        value.splice(index, 1)
+        ctx.emit(UPDATE_MODEL_EVENT, value)
+        emitChange(value)
+        ctx.emit('remove-tag', tag.value)
+      }
+      event.stopPropagation()
+    }
+
+    function deleteSelected(event) {
+      event.stopPropagation()
+      const value = props.multiple ? [] : ''
+      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emitChange(value)
+      visible.value = false
+      ctx.emit('clear')
+    }
+
     onMounted(() => {
-      if (props.multiple && Array.isArray(this.value) && props.value.length > 0) {
+      if (props.multiple && Array.isArray(this.value) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
       }
-      addResizeListener(instance.$el, handleResize)
-
-      const reference = instance.$refs.reference
-      if (reference && reference.$el) {
+      // TODO:
+      // addResizeListener(instance.$el, handleResize)
+      // console.log('ctx.$refs:', ctx.$refs)
+      // const reference = instance.$refs.reference
+      if (reference.value && reference.value.$el) {
         const sizeMap = {
           medium: 36,
           small: 32,
           mini: 28,
         }
-        const input = reference.$el.querySelector('input')
+        const input = reference.value.$el.querySelector('input')
         initialInputHeight.value = input.getBoundingClientRect().height || sizeMap[selectSize.value]
       }
       if (props.remote && props.multiple) {
         resetInputHeight()
       }
       nextTick(() => {
-        if (reference && reference.$el) {
-          inputWidth.value = reference.$el.getBoundingClientRect().width
+        if (reference.value && reference.value.$el) {
+          inputWidth.value = reference.value.$el.getBoundingClientRect().width
         }
       })
       setSelected()
@@ -644,13 +690,11 @@ export default defineComponent({
     // created
     // TODO: placeholder需要补充
     // cachedPlaceHolder.value = currentPlaceholder.value = props.placeholder
-    if (props.multiple && !Array.isArray(props.value)) {
-      // TODO: 需要补充
-      // ctx.$emit('input', [])
+    if (props.multiple && !Array.isArray(props.modelValue)) {
+      ctx.emit(UPDATE_MODEL_EVENT, [])
     }
-    if (!props.multiple && Array.isArray(props.value)) {
-      // TODO: 需要补充
-      // this.$emit('input', '')
+    if (!props.multiple && Array.isArray(props.modelValue)) {
+      ctx.emit(UPDATE_MODEL_EVENT, '')
     }
 
     const debouncedOnInputChange = lodashDebounce(() => {
@@ -687,6 +731,12 @@ export default defineComponent({
       inputWidth,
       debouncedOnInputChange,
       debouncedQueryChange,
+      deletePrevTag,
+      emitChange,
+      deleteTag,
+      deleteSelected,
+
+      reference,
     }
   },
 
@@ -695,7 +745,7 @@ export default defineComponent({
       const text = event.target.value
       if (event.type === 'compositionend') {
         this.isOnComposition = false
-        nextTick(_ => this.handleQueryChange(text))
+        nextTick(() => this.handleQueryChange(text))
       } else {
         const lastCharacter = text[text.length - 1] || ''
         this.isOnComposition = !isKorean(lastCharacter)
@@ -708,19 +758,13 @@ export default defineComponent({
         const menu = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap')
         scrollIntoView(menu, target)
       }
-      this.$refs.scrollbar && this.$refs.scrollbar.handleScroll()
+      // TODO:
+      // this.$refs.scrollbar && this.$refs.scrollbar.handleScroll()
     },
 
     handleMenuEnter() {
       nextTick(() => this.scrollToOption(this.selected))
     },
-
-    emitChange(val) {
-      if (!isEqual(this.value, val)) {
-        this.$emit('change', val)
-      }
-    },
-
 
     handleFocus(event) {
       if (!this.softFocus) {
@@ -738,7 +782,7 @@ export default defineComponent({
 
     blur() {
       this.visible = false
-      this.$refs.reference.blur()
+      reference.value.blur()
     },
 
     handleBlur(event) {
@@ -778,15 +822,6 @@ export default defineComponent({
       return option.hitState
     },
 
-    deletePrevTag(e) {
-      if (e.target.value.length <= 0 && !this.toggleLastOptionHitState()) {
-        const value = this.value.slice()
-        value.pop()
-        this.$emit('input', value)
-        this.emitChange(value)
-      }
-    },
-
     resetInputState(e) {
       if (e.keyCode !== 8) this.toggleLastOptionHitState(false)
       this.inputLength = this.$refs.input.value.length * 15 + 20
@@ -802,7 +837,7 @@ export default defineComponent({
         } else if (this.multipleLimit <= 0 || value.length < this.multipleLimit) {
           value.push(option.value)
         }
-        this.$emit('input', value)
+        this.$emit(UPDATE_MODEL_EVENT, value)
         this.emitChange(value)
         if (option.created) {
           this.query = ''
@@ -811,7 +846,7 @@ export default defineComponent({
         }
         if (this.filterable) this.$refs.input.focus()
       } else {
-        this.$emit('input', option.value)
+        this.$emit(UPDATE_MODEL_EVENT, option.value)
         this.emitChange(option.value)
         this.visible = false
       }
@@ -870,27 +905,6 @@ export default defineComponent({
           this.handleOptionSelect(this.options[this.hoverIndex])
         }
       }
-    },
-
-    deleteSelected(event) {
-      event.stopPropagation()
-      const value = this.multiple ? [] : ''
-      this.$emit('input', value)
-      this.emitChange(value)
-      this.visible = false
-      this.$emit('clear')
-    },
-
-    deleteTag(event, tag) {
-      let index = this.selected.indexOf(tag)
-      if (index > -1 && !this.selectDisabled) {
-        const value = this.value.slice()
-        value.splice(index, 1)
-        this.$emit('input', value)
-        this.emitChange(value)
-        this.$emit('remove-tag', tag.value)
-      }
-      event.stopPropagation()
     },
 
     onOptionDestroy(index) {

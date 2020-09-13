@@ -5,6 +5,7 @@
       :key="item.value"
       :label="item.label"
       :value="item.value"
+      created
     />
   </el-select>
 </template>
@@ -12,7 +13,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-// console.log(333)
 const basic = defineComponent({
   data() {
     return {
@@ -34,6 +34,9 @@ const basic = defineComponent({
       }],
       value: '',
     }
+  },
+  created() {
+    console.log(1122222)
   },
 })
 export default basic
