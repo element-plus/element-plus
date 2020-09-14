@@ -8,7 +8,7 @@
         content
       </template>
     </el-tooltip> -->
-    <el-popper v-model:visible="visible">
+    <el-popper v-model:visible="visible" :trigger="['click']">
       <template #trigger>
         <div>trigger</div>
         <el-button>I am trigger</el-button>
