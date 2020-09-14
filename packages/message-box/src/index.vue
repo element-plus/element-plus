@@ -119,7 +119,22 @@ export default defineComponent({
     ElButton,
     ElInput,
   },
-  props: Object.assign({}, usePopup.comPropsTypes, {
+  props: {
+    openDelay: {},
+    closeDelay: {},
+    zIndex: {},
+    modalFade: {
+      type: Boolean,
+      default: true,
+    },
+    modalClass: {
+      type: String,
+      default: '',
+    },
+    modalAppendToBody: {
+      type: Boolean,
+      default: false,
+    },
     modal: {
       type: Boolean,
       default: true,
@@ -152,7 +167,7 @@ export default defineComponent({
       default: false,
       type: Boolean,
     },
-  }) ,
+  } ,
   setup(props) {
     let vm
     const popup = usePopup(props, doClose)

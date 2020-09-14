@@ -144,22 +144,22 @@ const usePopup = (props, doClose) => {
   }
 
   const close = () => {
-    // if (_openTimer !== null) {
-    //   clearTimeout(_openTimer)
-    //   _openTimer = null
-    // }
-    // clearTimeout(_closeTimer)
-    //
-    // const closeDelay = Number(props.closeDelay)
-    //
-    // if (closeDelay > 0) {
-    //   _closeTimer = setTimeout(() => {
-    //     _closeTimer = null
-    //     doClose()
-    //   }, closeDelay)
-    // } else {
-    //   doClose()
-    // }
+    if (_openTimer !== null) {
+      clearTimeout(_openTimer)
+      _openTimer = null
+    }
+    clearTimeout(_closeTimer)
+
+    const closeDelay = Number(props.closeDelay)
+
+    if (closeDelay > 0) {
+      _closeTimer = setTimeout(() => {
+        _closeTimer = null
+        doClose()
+      }, closeDelay)
+    } else {
+      doClose()
+    }
   }
 
   const doAfterOpen = () => {
@@ -205,37 +205,6 @@ const usePopup = (props, doClose) => {
     updateClosingFlag,
     restoreBodyStyle,
   }
-}
-
-usePopup.comPropsTypes = {
-  openDelay: {},
-  closeDelay: {},
-  zIndex: {},
-  modal: {
-    type: Boolean,
-    default: false,
-  },
-  modalFade: {
-    type: Boolean,
-    default: true,
-  },
-  modalClass: {},
-  modalAppendToBody: {
-    type: Boolean,
-    default: false,
-  },
-  lockScroll: {
-    type: Boolean,
-    default: true,
-  },
-  closeOnPressEscape: {
-    type: Boolean,
-    default: false,
-  },
-  closeOnClickModal: {
-    type: Boolean,
-    default: false,
-  },
 }
 
 export default usePopup
