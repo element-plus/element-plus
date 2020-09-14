@@ -3,10 +3,11 @@ import {
   ref,
   onBeforeMount,
   onMounted,
-  onUnmounted,
   computed,
   getCurrentInstance,
   h,
+  ComponentInternalInstance,
+  VNode,
 } from 'vue'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
@@ -76,7 +77,11 @@ export default defineComponent({
     },
   },
   setup(prop, { slots }) {
-    const instance = getCurrentInstance()
+    const instance = getCurrentInstance() as ComponentInternalInstance & {
+      vnode: {
+        vParent: any
+      } & VNode
+    }
     const columnConfig = ref({})
     const props = (prop as unknown) as TableColumn
 
@@ -189,39 +194,11 @@ export default defineComponent({
       const children = isSubColumn.value
         ? parent.vnode.el.children
         : parent.refs.hiddenColumns.children
-      let columnIndex = getColumnElIndex(children, instance.vnode.el)
-      if (columnIndex < 0 && isSubColumn.value) {
-        const children = parent.slots.default?.() || []
-        for (let i = 0; i < children.length; i++) {
-          const child = children[i]
-          let ifMatch = true
-          for (const key in child.props) {
-            if (
-              !instance.props.hasOwnProperty(key) ||
-              child.props[key] !== instance.props[key]
-            ) {
-              ifMatch = false
-              break
-            }
-          }
-          if (ifMatch) {
-            columnIndex = i
-          }
-        }
-      }
+      const columnIndex = getColumnElIndex(children, instance.vnode.el)
       owner.value.store.commit(
         'insertColumn',
         columnConfig.value,
         columnIndex,
-        isSubColumn.value ? parent.ctx.columnConfig : null,
-      )
-    })
-    onUnmounted(() => {
-      if (!instance.parent) return
-      const parent = (instance.parent as unknown) as TableColumn
-      owner.value.store.commit(
-        'removeColumn',
-        columnConfig.value,
         isSubColumn.value ? parent.ctx.columnConfig : null,
       )
     })
@@ -234,6 +211,15 @@ export default defineComponent({
     }
   },
   render() {
-    return h('div', this.$slots.default)
+    return h(
+      'div',
+      this.$slots.default?.({
+        store: {},
+        _self: {},
+        column: {},
+        row: {},
+        $index: undefined,
+      }),
+    )
   },
 })

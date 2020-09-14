@@ -6,6 +6,7 @@ import {
   nextTick,
   ref,
   h,
+  watch,
 } from 'vue'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
 import FilterPanel from '../filter-panel.vue'
@@ -77,12 +78,7 @@ export default defineComponent({
       getHeaderCellStyle,
       getHeaderCellClass,
     } = useStyle(props)
-    const {
-      isGroup,
-      toggleAllSelection,
-      columnRows,
-    } = useUtils(props)
-
+    const { isGroup, toggleAllSelection, columnRows } = useUtils(props)
     return {
       columns: storeData.columns,
       filterPanels,
@@ -149,9 +145,12 @@ export default defineComponent({
                       column,
                     ),
                     onClick: $event => this.handleHeaderClick($event, column),
-                    onContextmenu: $event => this.handleHeaderContextMenu($event, column),
-                    onMousedown: $event => this.handleMouseDown($event, column),
-                    onMouseMove: $event => this.handleMouseMove($event, column),
+                    onContextmenu: $event =>
+                      this.handleHeaderContextMenu($event, column),
+                    onMousedown: $event =>
+                      this.handleMouseDown($event, column),
+                    onMouseMove: $event =>
+                      this.handleMouseMove($event, column),
                     onMouseout: this.handleMouseOut,
                   },
                   [
@@ -161,7 +160,7 @@ export default defineComponent({
                         class: [
                           'cell',
                           column.filteredValue &&
-                            column.filteredValue.length > 0
+                          column.filteredValue.length > 0
                             ? 'highlight'
                             : '',
                           column.labelClassName,
@@ -177,43 +176,43 @@ export default defineComponent({
                           })
                           : column.label,
                         column.sortable &&
-                        h(
-                          'span',
-                          {
-                            onClick: $event =>
-                              this.handleSortClick($event, column),
-                            class: 'caret-wrapper',
-                          },
-                          [
-                            h('i', {
+                          h(
+                            'span',
+                            {
                               onClick: $event =>
-                                this.handleSortClick(
-                                  $event,
-                                  column,
-                                  'ascending',
-                                ),
-                              class: 'sort-caret ascending',
-                            }),
-                            h('i', {
-                              onClick: $event =>
-                                this.handleSortClick(
-                                  $event,
-                                  column,
-                                  'descending',
-                                ),
-                              class: 'sort-caret descending',
-                            }),
-                          ],
-                        ),
+                                this.handleSortClick($event, column),
+                              class: 'caret-wrapper',
+                            },
+                            [
+                              h('i', {
+                                onClick: $event =>
+                                  this.handleSortClick(
+                                    $event,
+                                    column,
+                                    'ascending',
+                                  ),
+                                class: 'sort-caret ascending',
+                              }),
+                              h('i', {
+                                onClick: $event =>
+                                  this.handleSortClick(
+                                    $event,
+                                    column,
+                                    'descending',
+                                  ),
+                                class: 'sort-caret descending',
+                              }),
+                            ],
+                          ),
                         column.filterable &&
-                        h(FilterPanel, {
-                          store: this.$parent.store,
-                          placement: column.filterPlacement || 'bottom-start',
-                          column: column,
-                          upDataColumn: (key, value) => {
-                            column[key] = value
-                          },
-                        }),
+                          h(FilterPanel, {
+                            store: this.$parent.store,
+                            placement: column.filterPlacement || 'bottom-start',
+                            column: column,
+                            upDataColumn: (key, value) => {
+                              column[key] = value
+                            },
+                          }),
                       ],
                     ),
                   ],

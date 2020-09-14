@@ -306,6 +306,25 @@ export default defineComponent({
     lazy: Boolean,
     load: Function,
   },
+  emits: [
+    'select',
+    'select-all',
+    'selection-change',
+    'cell-mouse-enter',
+    'cell-mouse-leave',
+    'cell-click',
+    'cell-dblclick',
+    'row-click',
+    'row-contextmenu',
+    'row-dblclick',
+    'header-click',
+    'header-contextmenu',
+    'sort-change',
+    'filter-change',
+    'current-change',
+    'header-dragend',
+    'expand-change',
+  ],
   setup(props: TableProps) {
     let table = getCurrentInstance() as Table
     const store = createStore(table, {

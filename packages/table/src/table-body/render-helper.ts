@@ -31,7 +31,10 @@ function useRender(props: TableBodyProps) {
     isColumnHidden,
   } = useStyles(props)
   const firstDefaultColumnIndex = computed(() => {
-    return arrayFindIndex(props.store.states.columns.value, ({ type }) => type === 'default')
+    return arrayFindIndex(
+      props.store.states.columns.value,
+      ({ type }) => type === 'default',
+    )
   })
   const getKeyOfRow = (row: AnyObject, index: number) => {
     const rowKey = parent.ctx.rowKey
@@ -42,7 +45,9 @@ function useRender(props: TableBodyProps) {
   }
   const rowRender = (row, $index, treeRowData) => {
     const { indent, columns } = props.store.states
-    const columnsHidden = columns.value.map((column, index) => isColumnHidden(index))
+    const columnsHidden = columns.value.map((column, index) =>
+      isColumnHidden(index),
+    )
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
@@ -72,7 +77,11 @@ function useRender(props: TableBodyProps) {
           return null
         }
         const columnData = { ...column }
-        columnData.realWidth = getColspanRealWidth(columns.value, colspan, cellIndex)
+        columnData.realWidth = getColspanRealWidth(
+          columns.value,
+          colspan,
+          cellIndex,
+        )
         const data: RenderRowData = {
           store: props.store,
           _self: props.context || parent.ctx,
@@ -114,8 +123,15 @@ function useRender(props: TableBodyProps) {
   const wrappedRowRender = (row, $index) => {
     const store = props.store as any
     const { isRowExpanded, assertRowKey } = store
-    const { treeData, lazyTreeNodeMap, childrenColumnName, rowKey } = store.states
-    const hasExpandColumn = store.states.columns.value.some(({ type }) => type === 'expand')
+    const {
+      treeData,
+      lazyTreeNodeMap,
+      childrenColumnName,
+      rowKey,
+    } = store.states
+    const hasExpandColumn = store.states.columns.value.some(
+      ({ type }) => type === 'expand',
+    )
     if (hasExpandColumn && isRowExpanded(row)) {
       const renderExpanded = parent.renderExpanded
       const tr = rowRender(row, $index, undefined)
@@ -139,9 +155,7 @@ function useRender(props: TableBodyProps) {
                   colspan: store.states.columns.value.length,
                   class: 'el-table__expanded-cell',
                 },
-                [
-                  renderExpanded({ row, $index, store }),
-                ],
+                [renderExpanded({ row, $index, store })],
               ),
             ],
           ),
@@ -198,7 +212,9 @@ function useRender(props: TableBodyProps) {
               cur.display = !!(cur.expanded && innerTreeRowData.display)
               if (typeof cur.lazy === 'boolean') {
                 if (typeof cur.loaded === 'boolean' && cur.loaded) {
-                  innerTreeRowData.noLazyChildren = !(cur.children && cur.children.length)
+                  innerTreeRowData.noLazyChildren = !(
+                    cur.children && cur.children.length
+                  )
                 }
                 innerTreeRowData.loading = cur.loading
               }
@@ -206,14 +222,17 @@ function useRender(props: TableBodyProps) {
             i++
             tmp.push(rowRender(node, $index + i, innerTreeRowData))
             if (cur) {
-              const nodes = lazyTreeNodeMap.value[childKey] || node[childrenColumnName.value]
+              const nodes =
+                lazyTreeNodeMap.value[childKey] ||
+                node[childrenColumnName.value]
               traverse(nodes, cur)
             }
           })
         }
         // 对于 root 节点，display 一定为 true
         cur.display = true
-        const nodes = lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
+        const nodes =
+          lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
         traverse(nodes, cur)
       }
       return tmp
