@@ -1,7 +1,4 @@
-import {
-  getCurrentInstance,
-  computed,
-} from 'vue'
+import { getCurrentInstance, computed } from 'vue'
 import { Table, TableColumn } from '../table'
 import { TableHeaderProps } from './table-header'
 

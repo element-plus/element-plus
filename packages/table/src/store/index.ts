@@ -1,7 +1,18 @@
 import { nextTick, getCurrentInstance, unref } from 'vue'
 import { arrayFind } from '@element-plus/utils/util'
 import useWatcher from './watcher'
-import { Table, Store } from '../table'
+import { Table, Store, TableColumn } from '../table'
+
+function replaceColumn(array: TableColumn[], column: TableColumn) {
+  return array.map(item => {
+    if (item.id === column.id) {
+      return column
+    } else if (item.children?.length > 0) {
+      item.children = replaceColumn(item.children, column)
+    }
+    return item
+  })
+}
 
 function useStore(): Store {
   const instance = getCurrentInstance() as Table
@@ -31,18 +42,20 @@ function useStore(): Store {
     },
 
     insertColumn(states, column, index, parent) {
-      let array = unref(states._columns)
-      if (parent) {
-        array = parent.children
-        if (!array) array = parent.children = []
-      }
+      if (index < -1) return
+      const array = unref(states._columns)
 
-      if (typeof index !== 'undefined') {
+      if (!parent) {
         array.splice(index, 0, column)
+        states._columns.value = array
       } else {
-        array.push(column)
+        if (parent && !parent.children) {
+          parent.children = []
+        }
+        parent.children.push(column)
+        const newColumns = replaceColumn(array, parent)
+        states._columns.value = newColumns
       }
-      states._columns.value = array
       if (column.type === 'selection') {
         states.selectable.value = column.selectable
         states.reserveSelection.value = column.reserveSelection
@@ -55,16 +68,18 @@ function useStore(): Store {
     },
 
     removeColumn(states, column, parent) {
-      let array = unref(states._columns)
+      const array = unref(states._columns) || []
       if (parent) {
-        array = parent.children
-        if (!array) array = parent.children = []
-      }
-      if (array) {
+        parent.children.splice(
+          parent.children.findIndex(item => item.id === column.id),
+          1,
+        )
+        states._columns.value = replaceColumn(array, parent)
+      } else {
         array.splice(array.indexOf(column), 1)
+        states._columns.value = array
       }
 
-      states._columns.value = array
       if (instance.$ready) {
         instance.store.updateColumns() // hack for dynamics remove column
         instance.store.scheduleLayout()
@@ -74,7 +89,10 @@ function useStore(): Store {
     sort(states, options) {
       const { prop, order, init } = options
       if (prop) {
-        const column = arrayFind(unref(states.columns), column => column.property === prop)
+        const column = arrayFind(
+          unref(states.columns),
+          column => column.property === prop,
+        )
         if (column) {
           column.order = order
           instance.store.updateSort(column, prop, order)
@@ -85,7 +103,11 @@ function useStore(): Store {
 
     changeSortCondition(states, options) {
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
-      const { sortingColumn: column, sortProp: prop, sortOrder: order } = states
+      const {
+        sortingColumn: column,
+        sortProp: prop,
+        sortOrder: order,
+      } = states
       if (unref(order) === null) {
         states.sortingColumn.value = null
         states.sortProp.value = null

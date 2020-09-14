@@ -13,8 +13,8 @@
     <el-table-column label="地址" property="address" />
   </el-table>
   <div style="margin-top: 20px">
-    <el-button @click="setCurrent(tableData[1])">选中第二行</el-button>
-    <el-button @click="setCurrent()">取消选择</el-button>
+    <el-button type @click="setCurrent(tableData[1])">选中第二行</el-button>
+    <el-button type @click="setCurrent()">取消选择</el-button>
   </div>
 </template>
 

@@ -22,9 +22,7 @@ const triggerEvent = function (elm, name, ...opts) {
   const evt = document.createEvent(eventName)
 
   evt.initEvent(name, ...opts)
-  elm.dispatchEvent
-    ? elm.dispatchEvent(evt)
-    : elm.fireEvent('on' + name, evt)
+  elm.dispatchEvent ? elm.dispatchEvent(evt) : elm.fireEvent('on' + name, evt)
 
   return elm
 }
@@ -41,11 +39,41 @@ const wait = function (ms = 50) {
 const waitImmediate = () => wait(0)
 const getTestData = function () {
   return [
-    { id: 1, name: 'Toy Story', release: '1995-11-22', director: 'John Lasseter', runtime: 80 },
-    { id: 2, name: 'A Bug\'s Life', release: '1998-11-25', director: 'John Lasseter', runtime: 95 },
-    { id: 3, name: 'Toy Story 2', release: '1999-11-24', director: 'John Lasseter', runtime: 92 },
-    { id: 4, name: 'Monsters, Inc.', release: '2001-11-2', director: 'Peter Docter', runtime: 92 },
-    { id: 5, name: 'Finding Nemo', release: '2003-5-30', director: 'Andrew Stanton', runtime: 100 },
+    {
+      id: 1,
+      name: 'Toy Story',
+      release: '1995-11-22',
+      director: 'John Lasseter',
+      runtime: 80,
+    },
+    {
+      id: 2,
+      name: "A Bug's Life",
+      release: '1998-11-25',
+      director: 'John Lasseter',
+      runtime: 95,
+    },
+    {
+      id: 3,
+      name: 'Toy Story 2',
+      release: '1999-11-24',
+      director: 'John Lasseter',
+      runtime: 92,
+    },
+    {
+      id: 4,
+      name: 'Monsters, Inc.',
+      release: '2001-11-2',
+      director: 'Peter Docter',
+      runtime: 92,
+    },
+    {
+      id: 5,
+      name: 'Finding Nemo',
+      release: '2003-5-30',
+      director: 'Andrew Stanton',
+      runtime: 100,
+    },
   ]
 }
 
@@ -78,19 +106,26 @@ describe('Table.vue', () => {
     it('head', done => {
       setTimeout(() => {
         const ths = toArray(wrapper.findAll('thead th'))
-        expect(ths.map(node => node.text()).filter(o => o))
-          .toEqual(['片名', '发行日期', '导演', '时长（分）'])
+        expect(ths.map(node => node.text()).filter(o => o)).toEqual([
+          '片名',
+          '发行日期',
+          '导演',
+          '时长（分）',
+        ])
         done()
       }, DELAY)
     })
 
     it('row length', () => {
-      expect(wrapper.findAll('.el-table__body-wrapper tbody tr').length).toEqual(getTestData().length)
+      expect(
+        wrapper.findAll('.el-table__body-wrapper tbody tr').length,
+      ).toEqual(getTestData().length)
     })
 
     it('row data', () => {
-      const cells = toArray(wrapper.findAll('td .cell'))
-        .map(node => node.text())
+      const cells = toArray(wrapper.findAll('td .cell')).map(node =>
+        node.text(),
+      )
 
       expect(cells).toEqual(testDataArr)
       wrapper.unmount()
@@ -98,12 +133,14 @@ describe('Table.vue', () => {
   })
   describe('attributes', () => {
     const createTable = function (props, opts?) {
-      return mount(Object.assign({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
-        template: `
+      return mount(
+        Object.assign(
+          {
+            components: {
+              ElTable,
+              ElTableColumn,
+            },
+            template: `
           <el-table :data="testData" ${props}>
             <el-table-column prop="name" label="片名" />
             <el-table-column prop="release" label="发行日期" />
@@ -111,10 +148,13 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime" label="时长（分）" />
           </el-table>
         `,
-        created() {
-          this.testData = getTestData()
-        },
-      }, opts))
+            created() {
+              this.testData = getTestData()
+            },
+          },
+          opts,
+        ),
+      )
     }
 
     it('height', done => {
@@ -207,7 +247,9 @@ describe('Table.vue', () => {
       const wrapper = createTable(':row-style="{ height: \'60px\' }"', {})
 
       setTimeout(() => {
-        expect(wrapper.find('.el-table__body tr').attributes('style')).toContain('height: 60px')
+        expect(
+          wrapper.find('.el-table__body tr').attributes('style'),
+        ).toContain('height: 60px')
         wrapper.unmount()
         done()
       }, DELAY)
@@ -323,7 +365,8 @@ describe('Table.vue', () => {
     afterEach(() => wrapper.unmount())
 
     it('render', () => {
-      expect(wrapper.find('.el-table__column-filter-trigger')).not.toBeUndefined
+      expect(wrapper.find('.el-table__column-filter-trigger')).not
+        .toBeUndefined
     })
 
     it('click dropdown', done => {
@@ -344,13 +387,28 @@ describe('Table.vue', () => {
       setTimeout(() => {
         const filter = document.body.querySelector('.el-table-filter')
 
-        triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+        triggerEvent(
+          filter.querySelector('.el-checkbox'),
+          'click',
+          true,
+          false,
+        )
         // confrim button
         setTimeout(() => {
-          triggerEvent(filter.querySelector('.el-table-filter__bottom button'), 'click', true, false)
+          triggerEvent(
+            filter.querySelector('.el-table-filter__bottom button'),
+            'click',
+            true,
+            false,
+          )
           setTimeout(() => {
-            expect((wrapper.vm as ComponentPublicInstance & { filters: any; }).filters['director']).toEqual(['John Lasseter'])
-            expect(wrapper.findAll('.el-table__body-wrapper tbody tr').length).toEqual(3)
+            expect(
+              (wrapper.vm as ComponentPublicInstance & { filters: any; })
+                .filters['director'],
+            ).toEqual(['John Lasseter'])
+            expect(
+              wrapper.findAll('.el-table__body-wrapper tbody tr').length,
+            ).toEqual(3)
             filter.parentNode.removeChild(filter)
             done()
           }, DELAY)
@@ -364,12 +422,29 @@ describe('Table.vue', () => {
       setTimeout(() => {
         const filter = document.body.querySelector('.el-table-filter')
 
-        triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+        triggerEvent(
+          filter.querySelector('.el-checkbox'),
+          'click',
+          true,
+          false,
+        )
         setTimeout(() => {
-          triggerEvent(filter.querySelectorAll('.el-table-filter__bottom button')[1], 'click', true, false)
+          triggerEvent(
+            filter.querySelectorAll('.el-table-filter__bottom button')[1],
+            'click',
+            true,
+            false,
+          )
           setTimeout(() => {
-            expect((wrapper.vm as ComponentPublicInstance & { filters: any; }).filters['director']).toEqual([])
-            expect(filter.querySelector('.el-table-filter__bottom button').classList.contains('is-disabled')).toBeTruthy
+            expect(
+              (wrapper.vm as ComponentPublicInstance & { filters: any; })
+                .filters['director'],
+            ).toEqual([])
+            expect(
+              filter
+                .querySelector('.el-table-filter__bottom button')
+                .classList.contains('is-disabled'),
+            ).toBeTruthy
             filter.parentNode.removeChild(filter)
             wrapper.unmount()
             done()
@@ -505,13 +580,22 @@ describe('Table.vue', () => {
     })
   })
   describe('column attributes', () => {
-    const createTable = function (props1?, props2?, props3?, props4?, opts?, tableProps?) {
-      return mount(Object.assign({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
-        template: `
+    const createTable = function (
+      props1?,
+      props2?,
+      props3?,
+      props4?,
+      opts?,
+      tableProps?,
+    ) {
+      return mount(
+        Object.assign(
+          {
+            components: {
+              ElTable,
+              ElTableColumn,
+            },
+            template: `
           <el-table :data="testData" ${tableProps || ''}>
             <el-table-column prop="name" ${props1 || ''} />
             <el-table-column prop="release" ${props2 || ''} />
@@ -520,17 +604,21 @@ describe('Table.vue', () => {
           </el-table>
         `,
 
-        created() {
-          this.testData = getTestData()
-        },
-      }, opts))
+            created() {
+              this.testData = getTestData()
+            },
+          },
+          opts,
+        ),
+      )
     }
 
     it('label', done => {
       const wrapper = createTable('label="啊哈哈哈"', 'label="啊啦啦啦"')
       setTimeout(() => {
         const ths = toArray(wrapper.findAll('thead th'))
-          .map(node => node.text()).filter(o => o)
+          .map(node => node.text())
+          .filter(o => o)
 
         expect(ths).toEqual(['啊哈哈哈', '啊啦啦啦'])
         wrapper.unmount()
@@ -539,10 +627,15 @@ describe('Table.vue', () => {
     })
 
     it('width', done => {
-      const wrapper = createTable('width="123px"', ':width="102"', 'width="39"')
+      const wrapper = createTable(
+        'width="123px"',
+        ':width="102"',
+        'width="39"',
+      )
       setTimeout(() => {
         const ths = toArray(wrapper.findAll('.el-table__header-wrapper col'))
-          .map(node => node.width).filter(o => o)
+          .map(node => node.width)
+          .filter(o => o)
         expect(ths.includes('123')).toBeTruthy
         expect(ths.includes('102')).toBeTruthy
         expect(ths.includes('39')).toBeTruthy
@@ -555,16 +648,22 @@ describe('Table.vue', () => {
       const wrapper = createTable(
         'fixed label="test1"',
         'fixed="right" label="test2"',
-        'fixed="left" label="test3"')
+        'fixed="left" label="test3"',
+      )
       setTimeout(() => {
-        expect(toArray(wrapper.findAll('.el-table__fixed th:not(.is-hidden)'))
-          .map(node => node.text()))
-          .toEqual(['test1', 'test3'])
+        expect(
+          toArray(
+            wrapper.findAll('.el-table__fixed th:not(.is-hidden)'),
+          ).map(node => node.text()),
+        ).toEqual(['test1', 'test3'])
 
-        expect(toArray(wrapper.findAll('.el-table__fixed-right th:not(.is-hidden)'))
-          .map(node => node.text()))
-          .toEqual(['test2'])
-        expect(wrapper.find('.el-table__body-wrapper').attributes('style')).toBeFalsy
+        expect(
+          toArray(
+            wrapper.findAll('.el-table__fixed-right th:not(.is-hidden)'),
+          ).map(node => node.text()),
+        ).toEqual(['test2'])
+        expect(wrapper.find('.el-table__body-wrapper').attributes('style'))
+          .toBeFalsy
         wrapper.unmount()
         done()
       }, DELAY)
@@ -577,7 +676,8 @@ describe('Table.vue', () => {
         '',
         '',
         {},
-        'border')
+        'border',
+      )
 
       setTimeout(() => {
         const firstCol = wrapper.find('thead th')
@@ -589,18 +689,21 @@ describe('Table.vue', () => {
     })
 
     it('formatter', done => {
-      const wrapper = createTable(
-        ':formatter="renderCell"', '', '', '', {
-          methods: {
-            renderCell(row, column) {
-              return `[${row.name}]`
-            },
+      const wrapper = createTable(':formatter="renderCell"', '', '', '', {
+        methods: {
+          renderCell(row, column) {
+            return `[${row.name}]`
           },
-        })
+        },
+      })
 
       setTimeout(() => {
-        const cells = toArray(wrapper.findAll('.el-table__body-wrapper tbody tr td:first-child'))
-        expect(cells.map(n => n.text())).toEqual(getTestData().map(o => `[${o.name}]`))
+        const cells = toArray(
+          wrapper.findAll('.el-table__body-wrapper tbody tr td:first-child'),
+        )
+        expect(cells.map(n => n.text())).toEqual(
+          getTestData().map(o => `[${o.name}]`),
+        )
         wrapper.unmount()
         done()
       }, DELAY)
@@ -615,7 +718,8 @@ describe('Table.vue', () => {
       }, DELAY)
     })
 
-    it('show-tooltip-when-overflow', done => { // old version prop name
+    it('show-tooltip-when-overflow', done => {
+      // old version prop name
       const wrapper = createTable('show-tooltip-when-overflow')
       setTimeout(() => {
         expect(wrapper.findAll('.el-tooltip').length).toEqual(5)
@@ -625,7 +729,11 @@ describe('Table.vue', () => {
     })
 
     it('align', done => {
-      const wrapper = createTable('align="left"', 'align="right"', 'align="center"')
+      const wrapper = createTable(
+        'align="left"',
+        'align="right"',
+        'align="center"',
+      )
       setTimeout(() => {
         const len = getTestData().length + 1
         expect(wrapper.findAll('.is-left').length).toEqual(len)
@@ -637,7 +745,11 @@ describe('Table.vue', () => {
     })
 
     it('class-name', done => {
-      const wrapper = createTable('class-name="column-1"', 'class-name="column-2 column-class-a"', 'class-name="column-class-a"')
+      const wrapper = createTable(
+        'class-name="column-1"',
+        'class-name="column-2 column-class-a"',
+        'class-name="column-class-a"',
+      )
       setTimeout(() => {
         const len = getTestData().length + 1
         expect(wrapper.findAll('.column-1').length).toEqual(len)
@@ -727,7 +839,9 @@ describe('Table.vue', () => {
 
         it('render', done => {
           setTimeout(() => {
-            expect(wrapper.findAll('.el-checkbox').length).toEqual(getTestData().length + 1)
+            expect(wrapper.findAll('.el-checkbox').length).toEqual(
+              getTestData().length + 1,
+            )
             done()
           }, DELAY)
         })
@@ -750,7 +864,9 @@ describe('Table.vue', () => {
 
             setTimeout(() => {
               expect(wrapper2.vm.selected.length).toEqual(1)
-              expect(wrapper2.vm.selected[0].name).toEqual(getTestData()[0].name)
+              expect(wrapper2.vm.selected[0].name).toEqual(
+                getTestData()[0].name,
+              )
               wrapper2.unmount()
               done()
             }, DELAY)
@@ -763,8 +879,13 @@ describe('Table.vue', () => {
 
         it('render', done => {
           setTimeout(() => {
-            expect(toArray(wrapper.findAll('.el-table__body-wrapper tbody tr td:first-child'))
-              .map(node => node.text())).toEqual(['1', '2', '3', '4', '5'])
+            expect(
+              toArray(
+                wrapper.findAll(
+                  '.el-table__body-wrapper tbody tr td:first-child',
+                ),
+              ).map(node => node.text()),
+            ).toEqual(['1', '2', '3', '4', '5'])
             wrapper.unmount()
             done()
           }, DELAY)
@@ -782,7 +903,7 @@ describe('Table.vue', () => {
             template: `
             <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
               <el-table-column type="expand">
-                <template slot-scope="props">
+                <template v-slot="props">
                   <div>{{props.row.name}}</div>
                 </template>
               </el-table-column>
@@ -793,7 +914,11 @@ describe('Table.vue', () => {
           `,
 
             data() {
-              return { expandCount: 0, expandRowKeys: [], testData: getTestData() }
+              return {
+                expandCount: 0,
+                expandRowKeys: [],
+                testData: getTestData(),
+              }
             },
 
             methods: {
@@ -810,7 +935,9 @@ describe('Table.vue', () => {
         it('works', done => {
           const wrapper = createInstance()
           setTimeout(() => {
-            expect(wrapper.findAll('td.el-table__expand-column').length).toEqual(5)
+            expect(
+              wrapper.findAll('td.el-table__expand-column').length,
+            ).toEqual(5)
             wrapper.unmount()
             done()
           }, DELAY)
@@ -819,7 +946,6 @@ describe('Table.vue', () => {
     })
 
     describe('sortable', () => {
-
       it('render', done => {
         const wrapper = createTable('', '', '', 'sortable')
         setTimeout(() => {
@@ -830,15 +956,29 @@ describe('Table.vue', () => {
       })
 
       it('sortable orders', done => {
-        const wrapper = createTable('', '', '', 'sortable :sort-orders="[\'descending\', \'ascending\']"', {})
+        const wrapper = createTable(
+          '',
+          '',
+          '',
+          "sortable :sort-orders=\"['descending', 'ascending']\"",
+          {},
+        )
 
         setTimeout(() => {
           const elm = wrapper.find('.caret-wrapper')
           elm.trigger('click')
 
           setTimeout(() => {
-            const lastCells = wrapper.findAll('.el-table__body-wrapper tbody tr td:last-child')
-            expect(toArray(lastCells).map(node => node.text())).toEqual(['100', '95', '92', '92', '80'])
+            const lastCells = wrapper.findAll(
+              '.el-table__body-wrapper tbody tr td:last-child',
+            )
+            expect(toArray(lastCells).map(node => node.text())).toEqual([
+              '100',
+              '95',
+              '92',
+              '92',
+              '80',
+            ])
             wrapper.unmount()
             done()
           }, DELAY)
@@ -847,10 +987,14 @@ describe('Table.vue', () => {
 
       it('sortable method', done => {
         const wrapper = createTable(
-          'sortable :sort-method="sortMethod"', '', '', '', {
+          'sortable :sort-method="sortMethod"',
+          '',
+          '',
+          '',
+          {
             methods: {
               sortMethod(a, b) {
-              // sort method should return number
+                // sort method should return number
                 if (a.runtime < b.runtime) {
                   return 1
                 }
@@ -860,15 +1004,24 @@ describe('Table.vue', () => {
                 return 0
               },
             },
-          })
+          },
+        )
 
         setTimeout(() => {
           const elm = wrapper.find('.caret-wrapper')
           elm.trigger('click')
 
           setTimeout(() => {
-            const lastCells = wrapper.findAll('.el-table__body-wrapper tbody tr td:last-child')
-            expect(toArray(lastCells).map(node => node.text())).toEqual(['100', '95', '92', '92', '80'])
+            const lastCells = wrapper.findAll(
+              '.el-table__body-wrapper tbody tr td:last-child',
+            )
+            expect(toArray(lastCells).map(node => node.text())).toEqual([
+              '100',
+              '95',
+              '92',
+              '92',
+              '80',
+            ])
             wrapper.unmount()
             done()
           }, DELAY)
@@ -876,22 +1029,29 @@ describe('Table.vue', () => {
       })
 
       it('sortable by method', done => {
-        const wrapper = createTable(
-          'sortable :sort-by="sortBy"', '', '', '', {
-            methods: {
-              sortBy(a) {
-                return -a.runtime
-              },
+        const wrapper = createTable('sortable :sort-by="sortBy"', '', '', '', {
+          methods: {
+            sortBy(a) {
+              return -a.runtime
             },
-          })
+          },
+        })
 
         setTimeout(() => {
           const elm = wrapper.find('.caret-wrapper')
           elm.trigger('click')
 
           setTimeout(() => {
-            const lastCells = wrapper.findAll('.el-table__body-wrapper tbody tr td:last-child')
-            expect(toArray(lastCells).map(node => node.text())).toEqual(['100', '95', '92', '92', '80'])
+            const lastCells = wrapper.findAll(
+              '.el-table__body-wrapper tbody tr td:last-child',
+            )
+            expect(toArray(lastCells).map(node => node.text())).toEqual([
+              '100',
+              '95',
+              '92',
+              '92',
+              '80',
+            ])
             wrapper.unmount()
             done()
           }, DELAY)
@@ -900,15 +1060,28 @@ describe('Table.vue', () => {
 
       it('sortable by property', done => {
         const wrapper = createTable(
-          'sortable sort-by="runtime"', '', '', '', {})
+          'sortable sort-by="runtime"',
+          '',
+          '',
+          '',
+          {},
+        )
 
         setTimeout(() => {
           const elm = wrapper.find('.caret-wrapper')
           elm.trigger('click')
 
           setTimeout(() => {
-            const lastCells = wrapper.findAll('.el-table__body-wrapper tbody tr td:last-child')
-            expect(toArray(lastCells).map(node => node.text())).toEqual(['80', '92', '92', '95', '100'])
+            const lastCells = wrapper.findAll(
+              '.el-table__body-wrapper tbody tr td:last-child',
+            )
+            expect(toArray(lastCells).map(node => node.text())).toEqual([
+              '80',
+              '92',
+              '92',
+              '95',
+              '100',
+            ])
             wrapper.unmount()
             done()
           }, DELAY)
@@ -924,9 +1097,16 @@ describe('Table.vue', () => {
 
         elm.trigger('click')
         setTimeout(() => {
-          const lastCells = wrapper.findAll('.el-table__body-wrapper tbody tr td:last-child')
-          expect(toArray(lastCells).map(node => node.text()))
-            .toEqual(['80', '92', '92', '95', '100'])
+          const lastCells = wrapper.findAll(
+            '.el-table__body-wrapper tbody tr td:last-child',
+          )
+          expect(toArray(lastCells).map(node => node.text())).toEqual([
+            '80',
+            '92',
+            '92',
+            '95',
+            '100',
+          ])
           done()
         }, DELAY)
       })
@@ -936,9 +1116,16 @@ describe('Table.vue', () => {
 
         elm.trigger('click')
         setTimeout(() => {
-          const lastCells = wrapper.findAll('.el-table__body-wrapper tbody tr td:last-child')
-          expect(toArray(lastCells).map(node => node.text()))
-            .toEqual(['100', '95', '92', '92', '80'])
+          const lastCells = wrapper.findAll(
+            '.el-table__body-wrapper tbody tr td:last-child',
+          )
+          expect(toArray(lastCells).map(node => node.text())).toEqual([
+            '100',
+            '95',
+            '92',
+            '92',
+            '80',
+          ])
           wrapper.unmount()
           done()
         }, DELAY)
@@ -1031,10 +1218,14 @@ describe('Table.vue', () => {
               const prop = column.property
               if (prop === 'release') {
                 const dates = data.map(item => item[prop])
-                const releaseYears = dates.map(date => Number(date.slice(0, 4)))
-                result.push(releaseYears.reduce((prev, curr) => {
-                  return prev + curr
-                }))
+                const releaseYears = dates.map(date =>
+                  Number(date.slice(0, 4)),
+                )
+                result.push(
+                  releaseYears.reduce((prev, curr) => {
+                    return prev + curr
+                  }),
+                )
               } else {
                 result.push('')
               }
@@ -1047,6 +1238,139 @@ describe('Table.vue', () => {
       setTimeout(() => {
         const cells = toArray(wrapper.findAll('.el-table__footer .cell'))
         expect(cells[1].text()).toEqual('9996')
+        wrapper.unmount()
+        done()
+      }, DELAY)
+    })
+  })
+  describe('multi level column', () => {
+    it('should works', done => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData">
+            <el-table-column prop="name" />
+            <el-table-column label="group">
+              <el-table-column prop="release"/>
+              <el-table-column prop="director"/>
+            </el-table-column>
+            <el-table-column prop="runtime"/>
+          </el-table>
+        `,
+
+        created() {
+          this.testData = null
+        },
+      })
+
+      setTimeout(() => {
+        const trs = wrapper.findAll('.el-table__header tr')
+        expect(trs.length).toEqual(2)
+        const firstRowHeader = trs[0].findAll('th .cell').length
+        const secondRowHeader = trs[1].findAll('th .cell').length
+        expect(firstRowHeader).toEqual(3)
+        expect(secondRowHeader).toEqual(2)
+
+        expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual(
+          '2',
+        )
+        expect(trs[0].find('th:nth-child(2)').attributes('colspan')).toEqual(
+          '2',
+        )
+        wrapper.unmount()
+        done()
+      }, DELAY)
+    })
+
+    it('should works', done => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData">
+            <el-table-column prop="name" />
+            <el-table-column label="group">
+              <el-table-column label="group's group">
+                <el-table-column prop="release" />
+                <el-table-column prop="runtime"/>
+              </el-table-column>
+              <el-table-column prop="director" />
+            </el-table-column>
+            <el-table-column prop="runtime"/>
+          </el-table>
+        `,
+
+        created() {
+          this.testData = null
+        },
+      })
+
+      setTimeout(() => {
+        const trs = wrapper.findAll('.el-table__header tr')
+        expect(trs.length).toEqual(3)
+        const firstRowHeader = trs[0].findAll('th .cell').length
+        const secondRowHeader = trs[1].findAll('th .cell').length
+        const thirdRowHeader = trs[2].findAll('th .cell').length
+        expect(firstRowHeader).toEqual(3)
+        expect(secondRowHeader).toEqual(2)
+        expect(thirdRowHeader).toEqual(2)
+
+        expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual(
+          '3',
+        )
+        expect(trs[0].find('th:nth-child(2)').attributes('colspan')).toEqual(
+          '3',
+        )
+        expect(trs[1].find('th:first-child').attributes('colspan')).toEqual(
+          '2',
+        )
+        expect(trs[1].find('th:nth-child(2)').attributes('rowspan')).toEqual(
+          '2',
+        )
+
+        wrapper.unmount()
+        done()
+      }, DELAY)
+    })
+
+    it('should work in one column', done => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData">
+            <el-table-column label="group">
+              <el-table-column prop="release"/>
+            </el-table-column>
+          </el-table>
+        `,
+
+        created() {
+          this.testData = null
+        },
+      })
+
+      setTimeout(() => {
+        const trs = wrapper.findAll('.el-table__header tr')
+        expect(trs.length).toEqual(2)
+        const firstRowLength = trs[0].findAll('th .cell').length
+        const secondRowLength = trs[1].findAll('th .cell').length
+        expect(firstRowLength).toEqual(1)
+        expect(secondRowLength).toEqual(1)
+
+        expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual(
+          '1',
+        )
+        expect(trs[0].find('th:first-child').attributes('colspan')).toEqual(
+          '1',
+        )
         wrapper.unmount()
         done()
       }, DELAY)
@@ -1069,7 +1393,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime" />
           </el-table>
         `,
-
         data() {
           return {
             label: 'name',
@@ -1082,10 +1405,14 @@ describe('Table.vue', () => {
       })
 
       setTimeout(() => {
-        expect(wrapper.find('.el-table__header th .cell').text()).toEqual('name')
+        expect(wrapper.find('.el-table__header th .cell').text()).toEqual(
+          'name',
+        )
         wrapper.vm.label = 'NAME'
         wrapper.vm.$nextTick(() => {
-          expect(wrapper.find('.el-table__header th .cell').text()).toEqual('NAME')
+          expect(wrapper.find('.el-table__header th .cell').text()).toEqual(
+            'NAME',
+          )
           wrapper.unmount()
           done()
         })
@@ -1116,10 +1443,12 @@ describe('Table.vue', () => {
       })
 
       setTimeout(() => {
-        expect(wrapper.findAll('.el-table__body td.is-right').length === 0).toBeTruthy
+        expect(wrapper.findAll('.el-table__body td.is-right').length === 0)
+          .toBeTruthy
         wrapper.vm.align = 'right'
         wrapper.vm.$nextTick(() => {
-          expect(wrapper.findAll('.el-table__body td.is-right').length > 0).toBeTruthy
+          expect(wrapper.findAll('.el-table__body td.is-right').length > 0)
+            .toBeTruthy
           wrapper.unmount()
           done()
         })
@@ -1201,10 +1530,14 @@ describe('Table.vue', () => {
       })
 
       setTimeout(() => {
-        expect(wrapper.find('.el-table__body col').attributes('width')).toEqual('100')
+        expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+          '100',
+        )
         wrapper.vm.width = 200
         setTimeout(() => {
-          expect(wrapper.find('.el-table__body col').attributes('width')).toEqual('200')
+          expect(
+            wrapper.find('.el-table__body col').attributes('width'),
+          ).toEqual('200')
           wrapper.unmount()
           done()
         }, 100)
@@ -1235,10 +1568,14 @@ describe('Table.vue', () => {
       })
 
       setTimeout(() => {
-        expect(wrapper.find('.el-table__body col').attributes('width')).toEqual('100')
+        expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+          '100',
+        )
         wrapper.vm.width = 200
         setTimeout(() => {
-          expect(wrapper.find('.el-table__body col').attributes('width')).toEqual('200')
+          expect(
+            wrapper.find('.el-table__body col').attributes('width'),
+          ).toEqual('200')
           wrapper.unmount()
           done()
         }, 100)
@@ -1309,13 +1646,19 @@ describe('Table.vue', () => {
       })
 
       setTimeout(() => {
-        let firstColumnContent = wrapper.find('.el-table__body td .cell').text()
-        let secondColumnContent = wrapper.find('.el-table__body td:nth-child(2) .cell').text()
+        let firstColumnContent = wrapper
+          .find('.el-table__body td .cell')
+          .text()
+        let secondColumnContent = wrapper
+          .find('.el-table__body td:nth-child(2) .cell')
+          .text()
         expect(firstColumnContent !== secondColumnContent).toBeTruthy
         wrapper.vm.prop = 'release'
         setTimeout(() => {
           firstColumnContent = wrapper.find('.el-table__body td .cell').text()
-          secondColumnContent = wrapper.find('.el-table__body td:nth-child(2) .cell').text()
+          secondColumnContent = wrapper
+            .find('.el-table__body td:nth-child(2) .cell')
+            .text()
           expect(firstColumnContent === secondColumnContent).toBeTruthy
           wrapper.unmount()
           done()
@@ -1426,16 +1769,30 @@ describe('Table.vue', () => {
 
       setTimeout(() => {
         const vm = wrapper.vm
-        const lastCells = wrapper.findAll('.el-table__body-wrapper tbody tr td:last-child')
-        expect(toArray(lastCells).map(node => node.text()))
-          .toEqual(['80', '92', '92', '95', '100'])
+        const lastCells = wrapper.findAll(
+          '.el-table__body-wrapper tbody tr td:last-child',
+        )
+        expect(toArray(lastCells).map(node => node.text())).toEqual([
+          '80',
+          '92',
+          '92',
+          '95',
+          '100',
+        ])
 
         vm.$nextTick(() => {
-          vm.testData = vm.testData.map(data => Object.assign(data, { runtime: -data.runtime }))
+          vm.testData = vm.testData.map(data =>
+            Object.assign(data, { runtime: -data.runtime }),
+          )
           vm.$refs.table.sort('runtime', 'ascending')
           vm.$nextTick(() => {
-            expect(toArray(lastCells).map(node => node.text()))
-              .toEqual(['-100', '-95', '-92', '-92', '-80'])
+            expect(toArray(lastCells).map(node => node.text())).toEqual([
+              '-100',
+              '-95',
+              '-92',
+              '-92',
+              '-80',
+            ])
             wrapper.unmount()
             done()
           })
@@ -1445,7 +1802,9 @@ describe('Table.vue', () => {
 
     it('sort correct change icon', async () => {
       function assertSortIconCount($el, msg, count = 1) {
-        const sortIconCount = $el.querySelectorAll('th.ascending, th.descending').length
+        const sortIconCount = $el.querySelectorAll(
+          'th.ascending, th.descending',
+        ).length
         expect(sortIconCount).toEqual(count)
       }
 
@@ -1468,18 +1827,31 @@ describe('Table.vue', () => {
       })
       const vm = wrapper.vm
       await waitImmediate()
-      assertSortIconCount(wrapper.element, 'sorting icon is not empty after mount', 0)
+      assertSortIconCount(
+        wrapper.element,
+        'sorting icon is not empty after mount',
+        0,
+      )
       // manual click first column header
       const elm = wrapper.find('.caret-wrapper')
       elm.trigger('click')
       await waitImmediate()
-      assertSortIconCount(wrapper.element, 'sorting icon is not one after click header')
+      assertSortIconCount(
+        wrapper.element,
+        'sorting icon is not one after click header',
+      )
       vm.$refs.table.sort('director', 'descending')
       await waitImmediate()
-      assertSortIconCount(wrapper.element, 'sorting icon is not one after call sort')
+      assertSortIconCount(
+        wrapper.element,
+        'sorting icon is not one after call sort',
+      )
       vm.$refs.table.sort('director', 'ascending')
       await waitImmediate()
-      assertSortIconCount(wrapper.element, 'sorting icon is not one after sort same column')
+      assertSortIconCount(
+        wrapper.element,
+        'sorting icon is not one after sort same column',
+      )
       wrapper.unmount()
     })
 
@@ -1578,23 +1950,29 @@ describe('Table.vue', () => {
       },
     })
     const vm = wrapper.vm
-    setTimeout(_ => {
+    setTimeout(() => {
       const tr = vm.$el.querySelector('.el-table__body-wrapper tbody tr')
       triggerEvent(tr, 'click', true, false)
-      setTimeout(_ => {
+      setTimeout(() => {
         expect(tr.classList.contains('current-row')).toBeTruthy
-        const rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
+        const rows = vm.$el.querySelectorAll(
+          '.el-table__body-wrapper tbody tr',
+        )
 
         triggerEvent(rows[1], 'click', true, false)
-        setTimeout(_ => {
+        setTimeout(() => {
           expect(tr.classList.contains('current-row')).toBeFalsy
           expect(rows[1].classList.contains('current-row')).toBeTruthy
 
-          const ths = vm.$el.querySelectorAll('.el-table__header-wrapper thead th')
+          const ths = vm.$el.querySelectorAll(
+            '.el-table__header-wrapper thead th',
+          )
           triggerEvent(ths[3], 'click', true, false)
 
-          setTimeout(_ => {
-            const rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
+          setTimeout(() => {
+            const rows = vm.$el.querySelectorAll(
+              '.el-table__body-wrapper tbody tr',
+            )
 
             expect(rows[1].classList.contains('current-row')).toBeFalsy
             expect(rows[3].classList.contains('current-row')).toBeTruthy
@@ -1679,7 +2057,9 @@ describe('Table.vue', () => {
       triggerEvent(rows[1], 'click', true, false)
       setTimeout(() => {
         expect(rows[1].classList.contains('current-row')).toBeTruthy
-        const cells = vm.$el.querySelectorAll('.el-table__header-wrapper thead th > .cell')
+        const cells = vm.$el.querySelectorAll(
+          '.el-table__header-wrapper thead th > .cell',
+        )
         triggerEvent(cells[3], 'click', true, false)
 
         setTimeout(() => {
@@ -1715,7 +2095,9 @@ describe('Table.vue', () => {
     await waitImmediate()
     setTimeout(() => {
       const emptyBlockEl = wrapper.find('.el-table__empty-block')
-      expect(emptyBlockEl.attributes('style')).toContain('height: calc(100% - 48px)')
+      expect(emptyBlockEl.attributes('style')).toContain(
+        'height: calc(100% - 48px)',
+      )
       wrapper.unmount()
     }, DELAY)
   })
@@ -1741,10 +2123,16 @@ describe('Table.vue', () => {
           const testData = getTestData() as any
           testData[1].children = [
             {
-              name: 'A Bug\'s Life copy 1', release: '1998-11-25-1', director: 'John Lasseter', runtime: 95,
+              name: "A Bug's Life copy 1",
+              release: '1998-11-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
             },
             {
-              name: 'A Bug\'s Life copy 2', release: '1998-11-25-2', director: 'John Lasseter', runtime: 95,
+              name: "A Bug's Life copy 2",
+              release: '1998-11-25-2',
+              director: 'John Lasseter',
+              runtime: 95,
             },
           ]
           return {
@@ -1788,7 +2176,10 @@ describe('Table.vue', () => {
           const testData = getTestData() as any
           testData[testData.length - 1].children = [
             {
-              name: 'A Bug\'s Life copy 1', release: '2008-1-25-1', director: 'John Lasseter', runtime: 95,
+              name: "A Bug's Life copy 1",
+              release: '2008-1-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
             },
           ]
           testData[1].hasChildren = true
@@ -1800,10 +2191,16 @@ describe('Table.vue', () => {
           load(row, treeNode, resolve) {
             resolve([
               {
-                name: 'A Bug\'s Life copy 1', release: '1998-11-25-1', director: 'John Lasseter', runtime: 95,
+                name: "A Bug's Life copy 1",
+                release: '1998-11-25-1',
+                director: 'John Lasseter',
+                runtime: 95,
               },
               {
-                name: 'A Bug\'s Life copy 2', release: '1998-11-25-2', director: 'John Lasseter', runtime: 95,
+                name: "A Bug's Life copy 2",
+                release: '1998-11-25-2',
+                director: 'John Lasseter',
+                runtime: 95,
               },
             ])
           },
@@ -1814,7 +2211,9 @@ describe('Table.vue', () => {
         expandIcon.trigger('click')
 
         setTimeout(() => {
-          expect(expandIcon.classes().includes('el-table__expand-icon--expanded')).toBeTruthy
+          expect(
+            expandIcon.classes().includes('el-table__expand-icon--expanded'),
+          ).toBeTruthy
           expect(wrapper.findAll('.el-table__row').length).toEqual(8)
         }, DELAY)
       }, DELAY)
@@ -1841,7 +2240,10 @@ describe('Table.vue', () => {
           const testData = getTestData() as any
           testData[testData.length - 1].childrenTest = [
             {
-              name: 'A Bug\'s Life copy 1', release: '2008-1-25-1', director: 'John Lasseter', runtime: 95,
+              name: "A Bug's Life copy 1",
+              release: '2008-1-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
             },
           ]
           testData[1].hasChildrenTest = true
@@ -1853,10 +2255,16 @@ describe('Table.vue', () => {
           load(row, treeNode, resolve) {
             resolve([
               {
-                name: 'A Bug\'s Life copy 1', release: '1998-11-25-1', director: 'John Lasseter', runtime: 95,
+                name: "A Bug's Life copy 1",
+                release: '1998-11-25-1',
+                director: 'John Lasseter',
+                runtime: 95,
               },
               {
-                name: 'A Bug\'s Life copy 2', release: '1998-11-25-2', director: 'John Lasseter', runtime: 95,
+                name: "A Bug's Life copy 2",
+                release: '1998-11-25-2',
+                director: 'John Lasseter',
+                runtime: 95,
               },
             ])
           },
@@ -1871,7 +2279,9 @@ describe('Table.vue', () => {
         const expandIcon = wrapper.find('.el-table__expand-icon')
         expandIcon.trigger('click')
         setTimeout(() => {
-          expect(expandIcon.classes().includes('el-table__expand-icon--expanded')).toBeTruthy
+          expect(
+            expandIcon.classes().includes('el-table__expand-icon--expanded'),
+          ).toBeTruthy
           expect(wrapper.findAll('.el-table__row').length).toEqual(8)
           expect(spy.args[0][0]).toBeInstanceOf(Object)
           expect(spy.args[0][1]).toBeTruthy
@@ -1881,6 +2291,10 @@ describe('Table.vue', () => {
 
     it('expand-row-keys & toggleRowExpansion', async () => {
       wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
         template: `
           <el-table :data="testData" row-key="release" lazy :load="load" :expand-row-keys="['2003-5-30']" ref="table">
             <el-table-column prop="name" label="片名" />
@@ -1893,7 +2307,10 @@ describe('Table.vue', () => {
           const testData = getTestData() as any
           testData[testData.length - 1].children = [
             {
-              name: 'A Bug\'s Life copy 1', release: '2003-5-30-1', director: 'John Lasseter', runtime: 95,
+              name: "A Bug's Life copy 1",
+              release: '2003-5-30-1',
+              director: 'John Lasseter',
+              runtime: 95,
               hasChildren: true,
             },
           ]
@@ -1905,7 +2322,10 @@ describe('Table.vue', () => {
           load(row, treeNode, resolve) {
             resolve([
               {
-                name: 'A Bug\'s Life copy 1', release: '2003-5-30-2', director: 'John Lasseter', runtime: 95,
+                name: "A Bug's Life copy 1",
+                release: '2003-5-30-2',
+                director: 'John Lasseter',
+                runtime: 95,
               },
             ])
           },
@@ -1924,10 +2344,14 @@ describe('Table.vue', () => {
         const expandIcon = childRows[0].find('.el-table__expand-icon')
         expandIcon.trigger('click')
         setTimeout(() => {
-          expect(expandIcon.classes().includes('el-table__expand-icon--expanded')).toBeTruthy
+          expect(
+            expandIcon.classes().includes('el-table__expand-icon--expanded'),
+          ).toBeTruthy
           wrapper.vm.closeExpandRow()
           setTimeout(() => {
-            expect(expandIcon.classes().includes('el-table__expand-icon--expanded')).toBeTruthy
+            expect(
+              expandIcon.classes().includes('el-table__expand-icon--expanded'),
+            ).toBeTruthy
           }, DELAY)
         }, DELAY)
       }, DELAY)

@@ -4,7 +4,7 @@ import { parseWidth, parseMinWidth } from '../util'
 import { TableColumn } from '../table'
 
 function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {
-  const instance = getCurrentInstance() as unknown as TableColumn
+  const instance = (getCurrentInstance() as unknown) as TableColumn
   const columnId = ref('')
   const isSubColumn = ref(false)
 
@@ -34,7 +34,8 @@ function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {
     if (!column.minWidth) {
       column.minWidth = 80
     }
-    column.realWidth = column.width === undefined ? column.minWidth : column.width
+    column.realWidth =
+      column.width === undefined ? column.minWidth : column.width
     return column
   }
   const setColumnForcedProps = column => {
@@ -44,7 +45,8 @@ function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {
     Object.keys(source).forEach(prop => {
       const value = source[prop]
       if (value !== undefined) {
-        column[prop] = prop === 'className' ? `${column[prop]} ${value}` : value
+        column[prop] =
+          prop === 'className' ? `${column[prop]} ${value}` : value
       }
     })
     return column
@@ -65,7 +67,9 @@ function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {
   const setColumnRenders = column => {
     // renderHeader 属性不推荐使用。
     if (props.renderHeader) {
-      console.warn('[Element Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.')
+      console.warn(
+        '[Element Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.',
+      )
     } else if (column.type !== 'selection') {
       column.renderHeader = scope => {
         // help render
@@ -85,9 +89,7 @@ function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {
           {
             class: 'cell',
           },
-          [
-            originRenderCell(data),
-          ],
+          [originRenderCell(data)],
         )
       owner.value.renderExpanded = data => {
         return slots.default ? slots.default(data) : slots.default
@@ -109,7 +111,9 @@ function useRender(props: TableColumn, slots, owner: ComputedRef<any>) {
         }
         if (column.showOverflowTooltip) {
           props.class += ' el-tooltip'
-          props.style = { width: (data.column.realWidth || data.column.width) - 1 + 'px' }
+          props.style = {
+            width: (data.column.realWidth || data.column.width) - 1 + 'px',
+          }
         }
         checkSubColumn(children)
         return h('div', props, [prefix, children])

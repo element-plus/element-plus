@@ -82,7 +82,6 @@ function useWatcher() {
     rightFixedColumns.value = _columns.value.filter(
       column => column.fixed === 'right',
     )
-
     if (
       fixedColumns.value.length > 0 &&
       _columns.value[0] &&
@@ -242,7 +241,7 @@ function useWatcher() {
     }
     let isAllSelected_ = true
     let selectedCount = 0
-    for (let i = 0, j = data.value.length; i < j; i++) {
+    for (let i = 0, j = (data.value || []).length; i < j; i++) {
       const item = data.value[i]
       const isRowSelectable =
         selectable.value && selectable.value.call(null, item, i)
@@ -330,7 +329,8 @@ function useWatcher() {
     let panels = {}
     if (tableHeader) panels = merge(panels, tableHeader.filterPanels)
     if (fixedTableHeader) panels = merge(panels, fixedTableHeader.filterPanels)
-    if (rightFixedTableHeader) panels = merge(panels, rightFixedTableHeader.filterPanels)
+    if (rightFixedTableHeader)
+      panels = merge(panels, rightFixedTableHeader.filterPanels)
 
     const keys = Object.keys(panels)
     if (!keys.length) return

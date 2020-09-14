@@ -1,4 +1,14 @@
-import { defineComponent, ref, onBeforeMount, onMounted, onUnmounted, computed, getCurrentInstance, h } from 'vue'
+import {
+  defineComponent,
+  ref,
+  onBeforeMount,
+  onMounted,
+  computed,
+  getCurrentInstance,
+  h,
+  ComponentInternalInstance,
+  VNode,
+} from 'vue'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
@@ -59,12 +69,19 @@ export default defineComponent({
         return ['ascending', 'descending', null]
       },
       validator(val: unknown[]) {
-        return val.every((order: string) => ['ascending', 'descending', null].indexOf(order) > -1)
+        return val.every(
+          (order: string) =>
+            ['ascending', 'descending', null].indexOf(order) > -1,
+        )
       },
     },
   },
   setup(prop, { slots }) {
-    const instance = getCurrentInstance()
+    const instance = getCurrentInstance() as ComponentInternalInstance & {
+      vnode: {
+        vParent: any
+      } & VNode
+    }
     const columnConfig = ref({})
     const props = (prop as unknown) as TableColumn
 
@@ -79,10 +96,10 @@ export default defineComponent({
       return parent
     })
 
-    const {
-      registerNormalWatchers,
-      registerComplexWatchers,
-    } = useWatcher(owner, props)
+    const { registerNormalWatchers, registerComplexWatchers } = useWatcher(
+      owner,
+      props,
+    )
     const {
       columnId,
       isSubColumn,
@@ -99,7 +116,10 @@ export default defineComponent({
     onBeforeMount(() => {
       const parent = columnOrTableParent.value
       isSubColumn.value = owner.value !== parent
-      columnId.value = (parent.ctx.tableId || parent.ctx.columnId) + '_column_' + columnIdSeed++
+      columnId.value =
+        (parent.ctx.tableId || parent.ctx.columnId) +
+        '_column_' +
+        columnIdSeed++
 
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
@@ -110,7 +130,8 @@ export default defineComponent({
         property: props.prop || props.property,
         align: realAlign.value,
         headerAlign: realHeaderAlign.value,
-        showOverflowTooltip: props.showOverflowTooltip || props.showTooltipWhenOverflow,
+        showOverflowTooltip:
+          props.showOverflowTooltip || props.showTooltipWhenOverflow,
         // filter 相关属性
         filterable: props.filters || props.filterMethod,
         filteredValue: [],
@@ -123,17 +144,43 @@ export default defineComponent({
         index: props.index,
       }
 
-      const basicProps = ['columnKey', 'label', 'className', 'labelClassName', 'type', 'renderHeader', 'formatter', 'fixed', 'resizable']
+      const basicProps = [
+        'columnKey',
+        'label',
+        'className',
+        'labelClassName',
+        'type',
+        'renderHeader',
+        'formatter',
+        'fixed',
+        'resizable',
+      ]
       const sortProps = ['sortMethod', 'sortBy', 'sortOrders']
       const selectProps = ['selectable', 'reserveSelection']
-      const filterProps = ['filterMethod', 'filters', 'filterMultiple', 'filterOpened', 'filteredValue', 'filterPlacement']
+      const filterProps = [
+        'filterMethod',
+        'filters',
+        'filterMultiple',
+        'filterOpened',
+        'filteredValue',
+        'filterPlacement',
+      ]
 
-      let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
+      let column = getPropsData(
+        basicProps,
+        sortProps,
+        selectProps,
+        filterProps,
+      )
 
       column = mergeOptions(defaults, column)
 
       // 注意 compose 中函数执行的顺序是从右到左
-      const chains = compose(setColumnRenders, setColumnWidth, setColumnForcedProps)
+      const chains = compose(
+        setColumnRenders,
+        setColumnWidth,
+        setColumnForcedProps,
+      )
       column = chains(column)
       // instance.columnConfig = column
       columnConfig.value = column
@@ -144,30 +191,16 @@ export default defineComponent({
     })
     onMounted(() => {
       const parent = columnOrTableParent.value
-      const children = isSubColumn.value ? parent.vnode.el.children : parent.refs.hiddenColumns.children
-      let columnIndex = getColumnElIndex(children, instance.vnode.el)
-      if (columnIndex < 0 && isSubColumn.value) {
-        const children = parent.slots.default?.() || []
-        for (let i = 0; i < children.length; i++) {
-          const child = children[i]
-          let ifMatch = true
-          for (const key in child.props) {
-            if (!instance.props.hasOwnProperty(key) || child.props[key] !== instance.props[key]) {
-              ifMatch = false
-              break
-            }
-          }
-          if (ifMatch) {
-            columnIndex = i
-          }
-        }
-      }
-      owner.value.store.commit('insertColumn', columnConfig.value, columnIndex, isSubColumn.value ? parent.ctx.columnConfig : null)
-    })
-    onUnmounted(() => {
-      if (!instance.parent) return
-      const parent = instance.parent as unknown as TableColumn
-      owner.value.store.commit('removeColumn', columnConfig.value, isSubColumn.value ? parent.ctx.columnConfig : null)
+      const children = isSubColumn.value
+        ? parent.vnode.el.children
+        : parent.refs.hiddenColumns.children
+      const columnIndex = getColumnElIndex(children, instance.vnode.el)
+      owner.value.store.commit(
+        'insertColumn',
+        columnConfig.value,
+        columnIndex,
+        isSubColumn.value ? parent.ctx.columnConfig : null,
+      )
     })
     return {
       row,
@@ -178,6 +211,15 @@ export default defineComponent({
     }
   },
   render() {
-    return h('div', this.$slots.default)
+    return h(
+      'div',
+      this.$slots.default?.({
+        store: {},
+        _self: {},
+        column: {},
+        row: {},
+        $index: undefined,
+      }),
+    )
   },
 })
