@@ -1,74 +1,65 @@
-<template>
-  <transition
-    name="el-drawer-fade"
-    @after-enter="afterEnter"
-    @after-leave="afterLeave"
-  >
-    <div
-      v-show="visible"
-      ref="root"
-      class="el-drawer__wrapper"
-      tabindex="-1"
-    >
-      <div
-        class="el-drawer__container"
-        :class="visible && 'el-drawer__open'"
-        tabindex="-1"
-        role="document"
-        @click.self="handleWrapperClick"
-      >
-        <div
-          ref="drawer"
-          aria-modal="true"
-          aria-labelledby="el-drawer__title"
-          :aria-label="title"
-          class="el-drawer"
-          :class="[direction, customClass]"
-          :style="isHorizontal ? `width: ${size}` : `height: ${size}`"
-          role="dialog"
-          tabindex="-1"
-        >
-          <header
-            v-if="withHeader"
-            id="el-drawer__title"
-            class="el-drawer__header"
-          >
-            <slot name="title">
-              <span role="heading" tabindex="0" :title="title">{{
-                title
-              }}</span>
-            </slot>
-            <button
-              v-if="showClose"
-              :aria-label="`close ${title || 'drawer'}`"
-              class="el-drawer__close-btn"
-              type="button"
-              @click="closeDrawer"
-            >
-              <i class="el-drawer__close el-icon el-icon-close"></i>
-            </button>
-          </header>
-          <section v-if="popupData.rendered" class="el-drawer__body">
-            <slot></slot>
-          </section>
-        </div>
-      </div>
-    </div>
-  </transition>
-</template>
-
-<script lang="ts">
-import {
-  defineComponent,
-  PropType,
-  ref,
-  computed,
-  watch,
-  nextTick,
-} from 'vue'
+import { defineComponent, PropType, ref, computed, watch, nextTick } from 'vue'
 import usePopup from './popup'
 import Utils from '@element-plus/utils/aria'
 import { IDrawerDirection, IDrawerProps } from './drawer'
+
+const template = `
+<transition
+  name="el-drawer-fade"
+  @after-enter="afterEnter"
+  @after-leave="afterLeave"
+>
+  <div
+    v-show="modelValue"
+    ref="root"
+    class="el-drawer__wrapper"
+    tabindex="-1"
+  >
+    <div
+      class="el-drawer__container"
+      :class="modelValue && 'el-drawer__open'"
+      tabindex="-1"
+      role="document"
+      @click.self="handleWrapperClick"
+    >
+      <div
+        ref="drawer"
+        aria-modal="true"
+        aria-labelledby="el-drawer__title"
+        :aria-label="title"
+        class="el-drawer"
+        :class="[direction, customClass]"
+        :style="isHorizontal ? 'width: ' + size : 'height: ' + size"
+        role="dialog"
+        tabindex="-1"
+      >
+        <header
+          v-if="withHeader"
+          id="el-drawer__title"
+          class="el-drawer__header"
+        >
+          <slot name="title">
+            <span role="heading" tabindex="0" :title="title">{{
+              title
+            }}</span>
+          </slot>
+          <button
+            v-if="showClose"
+            :aria-label="'close ' + (title || 'drawer')"
+            class="el-drawer__close-btn"
+            type="button"
+            @click="closeDrawer"
+          >
+            <i class="el-drawer__close el-icon el-icon-close"></i>
+          </button>
+        </header>
+        <section v-if="popupData.rendered" class="el-drawer__body">
+          <slot></slot>
+        </section>
+      </div>
+    </div>
+  </div>
+</transition>`
 
 export default defineComponent({
   name: 'ElDrawer',
@@ -120,7 +111,7 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    visible: {
+    modelValue: {
       type: Boolean,
     },
     wrapperClosable: {
@@ -133,16 +124,14 @@ export default defineComponent({
     },
   },
 
-  emits: ['open', 'opened', 'close', 'closed', 'update:visible'],
+  emits: ['open', 'opened', 'close', 'closed', 'update:modelValue'],
 
   setup(props: IDrawerProps, ctx) {
     const drawer = ref<HTMLElement>(null)
     const root = ref<HTMLElement>(null)
     const prevActiveElement = ref<HTMLElement>(null)
     const closed = ref(false)
-    const isHorizontal = computed(
-      () => props.direction === 'rtl' || props.direction === 'ltr',
-    )
+    const isHorizontal = computed(() => props.direction === 'rtl' || props.direction === 'ltr')
 
     const { popupData, open } = usePopup({
       props,
@@ -160,7 +149,7 @@ export default defineComponent({
 
     function hide(cancel = true) {
       if (cancel !== false) {
-        ctx.emit('update:visible', false)
+        ctx.emit('update:modelValue', false)
         ctx.emit('close')
         if (props.destroyOnClose === true) {
           popupData.rendered = false
@@ -191,7 +180,7 @@ export default defineComponent({
     }
 
     watch(
-      () => props.visible,
+      () => props.modelValue,
       val => {
         if (val) {
           closed.value = false
@@ -224,5 +213,6 @@ export default defineComponent({
       open,
     }
   },
+
+  template: `<teleport v-if="appendToBody" to="body">${template}</teleport><template v-else>${template}</template>`,
 })
-</script>

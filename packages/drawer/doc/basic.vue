@@ -13,7 +13,7 @@
   </label>
   <el-button @click="open">点击打开</el-button>
   <el-drawer
-    v-model:visible="visible"
+    v-model="visible"
     size="50%"
     title="我是标题"
     :direction="direction"
@@ -21,7 +21,7 @@
     <span>嵌套一层!</span>
     <el-button @click="visible2 = true">点击打开</el-button>
     <el-drawer
-      v-model:visible="visible2"
+      v-model="visible2"
       :append-to-body="true"
       title="我是标题"
       :direction="direction"

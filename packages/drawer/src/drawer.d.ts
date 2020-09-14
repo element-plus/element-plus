@@ -13,7 +13,7 @@ export declare interface IDrawerProps {
   showClose: boolean
   size: string
   title: string
-  visible: boolean
+  modelValue: boolean
   wrapperClosable: boolean
   withHeader: boolean
   lockScroll: boolean

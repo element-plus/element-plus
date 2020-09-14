@@ -185,7 +185,7 @@ const usePopup = ({ props, $el, vVm }: IDrawerPopupOption) => {
   }
 
   onMounted(() => {
-    if (props.visible) {
+    if (props.modelValue) {
       drawerState.rendered = true
       open()
     }
@@ -206,7 +206,7 @@ const usePopup = ({ props, $el, vVm }: IDrawerPopupOption) => {
   })
 
   watch(
-    () => props.visible,
+    () => props.modelValue,
     val => {
       if (val) {
         if (_opening) return

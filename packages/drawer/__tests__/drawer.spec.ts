@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Drawer from '../src/index.vue'
+import Drawer from '../src/index'
 import Button from '../../button/src/button.vue'
 import { nextTick } from 'vue'
 
@@ -22,7 +22,7 @@ describe('Drawer', () => {
   test('create', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title="title" :visible="visible"></el-drawer>
+      <el-drawer :title="title" v-model="visible"></el-drawer>
       `,
       () => ({
         title,
@@ -38,7 +38,7 @@ describe('Drawer', () => {
   test('render correct content', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title='title' :visible='visible'>
+      <el-drawer :title='title' v-model='visible'>
         <span>this is a sentence</span>
         <el-button @click.native='dialogVisible = false'>cancel</el-button>
         <el-button type='primary' @click.native='dialogVisible = false'>confirm</el-button>
@@ -61,7 +61,7 @@ describe('Drawer', () => {
   test('should append to body, when append-to-body flag is true', async () => {
     const wrapper = _mount(
       `
-      <el-drawer ref='d' :title='title' :visible='visible' :append-to-body='true'>
+      <el-drawer ref='d' :title='title' v-model='visible' :append-to-body='true'>
         <span> content </span>
       </el-drawer>
       `,
@@ -74,14 +74,13 @@ describe('Drawer', () => {
 
     vm.visible = true
     await nextTick()
-    const drawer = wrapper.findComponent(Drawer).vm
-    expect(drawer.drawer.$el.parentNode).toEqual(document.body)
+    expect(document.querySelector('.el-drawer__wrapper').parentNode).toEqual(document.body)
   })
 
   test('should open and close drawer properly', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title='title' :visible='visible'>
+      <el-drawer :title='title' v-model='visible'>
         <span>${content}</span>
       </el-drawer>
       `,
@@ -110,7 +109,7 @@ describe('Drawer', () => {
   test('should destroy every child after drawer was closed when destroy-on-close flag is true', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title='title' :visible='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
+      <el-drawer :title='title' v-model='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
         <span>${content}</span>
       </el-drawer>
       `,
@@ -131,7 +130,7 @@ describe('Drawer', () => {
   test('should close dialog by clicking the close button', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title='title' v-model:visible='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
+      <el-drawer :title='title' v-model='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
         <span>${content}</span>
       </el-drawer>
       `,
@@ -153,7 +152,7 @@ describe('Drawer', () => {
       <el-drawer
           :before-close='beforeClose'
           :title='title'
-          v-model:visible='visible'
+          v-model='visible'
           :append-to-body='true'
           :destroy-on-close='true'
           ref='drawer'
@@ -176,7 +175,7 @@ describe('Drawer', () => {
   test('should not show close button when show-close flag is false', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title='title' :visible='visible' ref='drawer' :show-close='false'>
+      <el-drawer :title='title' v-model='visible' ref='drawer' :show-close='false'>
         <span>${content}</span>
       </el-drawer>
       `,
@@ -194,7 +193,7 @@ describe('Drawer', () => {
     const classes = 'some-custom-class'
     const wrapper = _mount(
       `
-      <el-drawer :title='title' :visible='visible' ref='drawer' custom-class='${classes}'>
+      <el-drawer :title='title' v-model='visible' ref='drawer' custom-class='${classes}'>
         <span>${content}</span>
       </el-drawer>
       `,
@@ -211,7 +210,7 @@ describe('Drawer', () => {
   test('should not render header when withHeader attribute is false', async () => {
     const wrapper = _mount(
       `
-      <el-drawer :title='title' :visible='visible' ref='drawer' :with-header='false'>
+      <el-drawer :title='title' v-model='visible' ref='drawer' :with-header='false'>
         <span>${content}</span>
       </el-drawer>
       `,
@@ -229,7 +228,7 @@ describe('Drawer', () => {
     const renderer = direction => {
       return _mount(
         `
-        <el-drawer :title='title' :visible='visible' direction='${direction}'>
+        <el-drawer :title='title' v-model='visible' direction='${direction}'>
           <span>${content}</span>
         </el-drawer>
         `,
@@ -265,7 +264,7 @@ describe('Drawer', () => {
       `
       <el-drawer 
         :title='title'
-        :visible='visible'
+        v-model='visible'
         ref="drawer"
         @open="open"
         @opened="opened"
@@ -288,7 +287,7 @@ describe('Drawer', () => {
       },
     )
     const vm = wrapper.vm as any
-    const drawer = wrapper.findComponent(Drawer).vm.drawer
+    const drawer = wrapper.findComponent(Drawer).vm
 
     vm.visible = true
     await nextTick()
@@ -309,7 +308,7 @@ describe('Drawer', () => {
     const renderer = (size, isVertical) =>
       _mount(
         `
-        <el-drawer :title='title' :visible='visible' direction='${isVertical ? 'ltr' : 'ttb'}' size='${size}'>
+        <el-drawer :title='title' v-model='visible' direction='${isVertical ? 'ltr' : 'ttb'}' size='${size}'>
           <span>${content}</span>
         </el-drawer>
         `,
