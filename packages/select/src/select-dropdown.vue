@@ -56,22 +56,20 @@ export default {
     },
   },
 
-  setup() {
+  setup(props, ctx) {
     const minWidth = ref('')
     const instance = getCurrentInstance()
     // computed
-    // TODO: 需要补充
-    // const popperClass = computed(() => instance.$parent.popperClass)
-    const popperClass = 'test--'
+    const popperClass = computed(() => instance.parent.popperClass)
     // watch
     // TODO: 需要补充
-    // watch(() => instance.$parent.inputWidth, () => {
-    //   minWidth.value = instance.$parent.$el.getBoundingClientRect().width + 'px'
-    // })
+    watch(() => instance.parent.inputWidth, () => {
+      minWidth.value = instance.parent.el?.getBoundingClientRect().width + 'px'
+    })
 
     onMounted(() => {
       // TODO: 需要补充
-      // this.referenceElm = this.$parent.$refs.reference.$el
+      // this.referenceElm = instance.parent.refs.reference?.$el
       // this.$parent.popperElm = this.popperElm = this.$el
       // this.$on('updatePopper', () => {
       //   if (this.$parent.visible) this.updatePopper()

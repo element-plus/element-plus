@@ -21,7 +21,8 @@ import {
   watch,
   defineComponent,
   getCurrentInstance,
-  onUnmounted } from 'vue'
+  onUnmounted,
+  ref } from 'vue'
 import useSelect from './useSelect'
 import { getValueByPath } from '@element-plus/utils/util'
 // escapeRegexpString
@@ -43,15 +44,19 @@ export default defineComponent({
   },
 
   setup(props, ctx) {
+    const visible = ref(true)
+    const groupDisabled = ref(false)
+    const hover = ref(false)
+
     const selectUse = useSelect()
     const _selectGroup = selectUse._selectGroup
     const select = selectUse._select
     const instance = getCurrentInstance()
 
-    select.options.push(instance)
-    select.cachedOptions.push(instance)
-    select.optionsCount++
-    select.filteredOptionsCount++
+    select.options.value.push(instance)
+    select.cachedOptions.value.push(instance)
+    select.optionsCount.value++
+    select.filteredOptionsCount.value++
 
     function contains(arr = [], target) {
       if (!isObject.value) {
@@ -75,7 +80,7 @@ export default defineComponent({
 
     function hoverItem() {
       if (!props.disabled && !_selectGroup.disabled) {
-        select.hoverIndex = select.options.indexOf(instance)
+        select.hoverIndex.value = select.options.value.indexOf(instance)
       }
     }
 
@@ -87,7 +92,7 @@ export default defineComponent({
       if (select.multiple) {
         return contains(select.value, props.value)
       } else {
-        return isEqual(props.value, select.value)
+        return isEqual(props.value, select.modelValue)
       }
     })
     const limitReached = computed(() => {
@@ -100,8 +105,9 @@ export default defineComponent({
       }
     })
 
+    // TODO: groupDisabled
     const isDisabled = computed(() => {
-      return props.disabled || _selectGroup.disabled || limitReached
+      return props.disabled || groupDisabled.value || limitReached.value
     })
 
     // TODO: should change visible
@@ -127,14 +133,14 @@ export default defineComponent({
     onUnmounted(() => {
       const { selected, multiple } = select
       let selectedOptions = multiple ? selected : [selected]
-      let index = select.cachedOptions.indexOf(instance)
+      let index = select.cachedOptions.value.indexOf(instance)
       let selectedIndex = selectedOptions.indexOf(instance)
 
       // if option is not selected, remove it from cache
       if (index > -1 && selectedIndex < 0) {
-        select.cachedOptions.splice(index, 1)
+        select.cachedOptions.value.splice(index, 1)
       }
-      select.onOptionDestroy(select.options.indexOf(this))
+      select.onOptionDestroy(select.options.value.indexOf(this))
     })
 
     return {
@@ -146,14 +152,15 @@ export default defineComponent({
       isDisabled,
       select,
       hoverItem,
+      visible,
+      hover,
     }
   },
 
   methods: {
     selectOptionClick() {
       if (this.disabled !== true && this.groupDisabled !== true) {
-        // TODO: should provide handleOptionClick
-        this.select.handleOptionClick()
+        this.select.handleOptionSelect(this, true)
       }
     },
   },
