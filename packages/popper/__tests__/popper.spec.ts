@@ -7,7 +7,6 @@ import type { VueWrapper } from '@vue/test-utils'
 
 type UnknownProps = Record<string, unknown>
 
-jest.mock('lodash')
 
 jest.useFakeTimers()
 
@@ -216,11 +215,13 @@ describe('Popper.vue', () => {
       const wrapper = _mount({
         trigger: [CLICK_EVENT],
         appendToBody: false,
+        closeDelay: 0,
       })
       await nextTick()
 
       const trigger = wrapper.find(`.${TEST_TRIGGER}`)
       const popper = wrapper.findComponent(ElPopper)
+
       expect(popper.vm.visibility).toBe(false)
       // for now triggering event on element via DOMWrapper is not available so we need to apply
       // old way
@@ -240,6 +241,7 @@ describe('Popper.vue', () => {
       const wrapper = _mount({
         trigger: ['hover'],
         appendToBody: false,
+        closeDelay: 0,
       })
       await nextTick()
 
@@ -269,6 +271,7 @@ describe('Popper.vue', () => {
       const wrapper = _mount({
         trigger: [FOCUS_EVENT],
         appendToBody: false,
+        closeDelay: 0,
       })
       await nextTick()
 
@@ -301,6 +304,7 @@ describe('Popper.vue', () => {
       const wrapper = _mount({
         trigger: [FOCUS_EVENT, CLICK_EVENT, 'hover'],
         appendToBody: false,
+        closeDelay: 0,
       })
       await nextTick()
 

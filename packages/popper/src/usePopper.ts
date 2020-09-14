@@ -7,7 +7,6 @@ import {
   onMounted,
   watch,
 } from 'vue'
-import { debounce } from 'lodash'
 import { createPopper } from '@popperjs/core'
 
 import { generateId, clearTimer, isBool, isHTMLElement } from '@element-plus/utils/util'
