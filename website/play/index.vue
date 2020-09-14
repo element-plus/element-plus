@@ -1,15 +1,26 @@
 <template>
   <div>
-    <el-button @click="visible = true">{{ value1 }}</el-button>
-    <el-dialog v-model="visible" :destroy-on-close="false">
-      dialog content
-      <el-button @click="innerVisible = true">
-        inner button
-      </el-button>
-      <el-dialog v-model="innerVisible" destroy-on-close>
-        I am inner dialog
-      </el-dialog>
-    </el-dialog>
+    <!-- <el-tooltip>
+      <div>
+        trigger
+      </div>
+      <template #content>
+        content
+      </template>
+    </el-tooltip> -->
+    <el-popper v-model:visible="visible">
+      <template #trigger>
+        <div>trigger</div>
+        <el-button>I am trigger</el-button>
+      </template>
+      <div>
+        I am popper content
+        <el-button @click="visible = false">
+          toggle visible
+        </el-button>
+      </div>
+    </el-popper>
+    <el-button @click="shouldShow = !shouldShow">I am not trigger</el-button>
   </div>
 </template>
 
@@ -17,10 +28,14 @@
 export default {
   data() {
     return {
-      value1: 'TEST',
-      visible: false,
-      innerVisible: false,
+      shouldShow: false,
+      visible: true,
     }
+  },
+  watch: {
+    shouldShow(val) {
+      console.log(val)
+    },
   },
 }
 </script>

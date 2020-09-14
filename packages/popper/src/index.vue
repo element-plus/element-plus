@@ -4,17 +4,21 @@ import {
   h,
   Fragment,
   Teleport,
-  Transition,
-  withDirectives,
-  vShow,
+  nextTick,
 } from 'vue'
-import { isArray } from '@vue/shared'
 
-import throwError from '@element-plus/utils/error'
+import { isNumber, isArray } from '@element-plus/utils/util'
 import { ClickOutside } from '@element-plus/directives'
-import { default as usePopper, DEFAULT_TRIGGER, UPDATE_VALUE_EVENT } from './usePopper'
+import throwError, { warn } from '@element-plus/utils/error'
 
-import type { PropType } from 'vue'
+import {
+  default as usePopper,
+  DEFAULT_TRIGGER,
+  UPDATE_VISIBLE_EVENT,
+} from './usePopper'
+import { renderMask, renderPopper, renderTrigger, renderArrow } from './renderers'
+
+import type { PropType, SetupContext } from 'vue'
 
 import type {
   Effect,
@@ -25,8 +29,6 @@ import type {
   TriggerType,
   IPopperOptions,
 } from './popper'
-
-const stop = (e: Event) => e.stopPropagation()
 
 const compName = 'ElPopper'
 
@@ -144,8 +146,12 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    visible: {
+      type: Boolean,
+      default: undefined,
+    },
   },
-  emits: [UPDATE_VALUE_EVENT],
+  emits: [UPDATE_VISIBLE_EVENT],
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
@@ -153,98 +159,85 @@ export default defineComponent({
     // this is a reference that we need to pass down to child component
     // to obtain the child instance
 
-    return usePopper(props as IPopperOptions)
+    return usePopper(props as IPopperOptions, ctx as SetupContext)
   },
-  deactivated() {
-    this.doDestroy()
-  },
-  activated() {
-    this.initializePopper()
-  },
-  render() {
-    const { $slots } = this
-    const arrow = this.showArrow
-      ? h(
-        'div',
-        {
-          ref: 'arrowRef',
-          class: 'el-popper__arrow',
-          'data-popper-arrow': '',
-        },
-      )
-      : null
 
-    const popper = h(
-      Transition,
+  render() {
+    const {
+      $slots,
+      appendToBody,
+      class: kls,
+      effect,
+      excludes,
+      onHide,
+      onPopperMouseEnter,
+      onPopperMouseLeave,
+      popperClass,
+      popperId,
+      pure,
+      showArrow,
+      tabIndex,
+      transition,
+      visibility,
+    } = this
+
+    const arrow = renderArrow(showArrow)
+
+    const popper = renderPopper(
       {
-        name: this.transition,
+        effect,
+        name: transition,
+        popperClass,
+        popperId,
+        pure,
+        onMouseEnter: onPopperMouseEnter,
+        onMouseLeave: onPopperMouseLeave,
+        visibility,
       },
-      {
-        default: () =>
-          withDirectives(
-            h(
-              'div',
-              {
-                ariaHidden: this.visible ? 'false' : 'true',
-                class: [
-                  'el-popper',
-                  'is-' + this.effect,
-                  this.popperClass,
-                  this.pure
-                    ? 'el-popper__pure'
-                    : '',
-                ],
-                id: this.popperId,
-                ref: 'popperRef',
-                role: 'tooltip',
-                onMouseEnter: this.onShow,
-                onMouseLeave: this.onHide,
-                onClick: stop,
-              },
-              [
-                ($slots.default?.()) || this.content,
-                arrow,
-              ],
-            ),
-            [
-              [vShow, this.visible],
-            ],
-          ),
-      },
+      [$slots.default?.() || this.content, arrow],
     )
 
     const _t = $slots.trigger?.()
-    return h(
-      Fragment,
-      null,
-      [
-        _t,
-        this.appendToBody
-          ? h(
-            Teleport,
-            {
-              to: 'body',
-            },
-            withDirectives(
-              h(
-                'div',
-                {
-                  class: 'el-popper__mask',
-                },
-                popper,
-              ),
-              [[ClickOutside, this.onHide, [this.excludes] as any]],
-            ),
-          )
-          : popper,
-      ],
-    )
+    if (_t?.length > 1 && process.env.NODE_ENV !== 'production') {
+      // TODO: using translate function to translate this hard coded string
+      warn(compName, 'accepts only one root')
+    }
+    const trigger = renderTrigger(_t, {
+      ariaDescribedby: popperId,
+      class: kls,
+      ref: 'triggerRef',
+      tabindex: tabIndex,
+      ...this.events,
+    })
+
+    nextTick(() => {
+      const uid = trigger?.component?.uid
+      if (isNumber(uid) && uid !== this.triggerId) {
+        this.triggerId = trigger?.component?.uid
+      }
+    })
+
+    return h(Fragment, null, [
+      trigger,
+      appendToBody
+        ? h(
+          Teleport,
+          {
+            to: 'body',
+          },
+          renderMask(popper, {
+            onHide,
+            excludes: excludes?.$el ?? excludes,
+          }),
+        )
+        : popper,
+    ])
   },
 })
+
 </script>
 
 <style>
-
 .el-popper__mask {
   position: absolute;
   top: 0px;
