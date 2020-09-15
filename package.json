@@ -101,7 +101,7 @@
     "lib",
     "types"
   ],
-  "main": "lib/index.js.js",
+  "main": "lib/index.js",
   "typings": "types/index.d.ts",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
