@@ -6,6 +6,9 @@ import { isEmpty, castArray, isEqual } from 'lodash'
 import type { AnyFunction } from './types'
 import type { Ref } from 'vue'
 
+export type PartialCSSStyleDeclaration = Partial<
+  Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>
+>
 const { hasOwnProperty } = Object.prototype
 
 export function hasOwn(obj: any, key: string): boolean {
@@ -82,13 +85,12 @@ export const isEdge = function(): boolean {
 }
 
 export const isFirefox = function(): boolean {
-  return (
-    !isServer && !!window.navigator.userAgent.match(/firefox/i)
-  )
+  return !isServer && !!window.navigator.userAgent.match(/firefox/i)
 }
 
-export const autoprefixer = function(style: CSSStyleDeclaration): CSSStyleDeclaration {
-  if (typeof style !== 'object') return style
+export const autoprefixer = function(
+  style: PartialCSSStyleDeclaration,
+): PartialCSSStyleDeclaration {
   const rules = ['transform', 'transition', 'animation']
   const prefixes = ['ms-', 'webkit-']
   rules.forEach(rule => {
