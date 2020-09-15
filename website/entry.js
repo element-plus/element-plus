@@ -15,7 +15,7 @@ import './assets/styles/fonts/style.css'
 import icon from './icon.json'
 
 import App from './app.vue'
-import install from 'element-plus'
+import ElementPlus from 'element-plus'
 if(process.env.NODE_ENV === 'development') require('../src/style/element-ui@2.13.2.css')
 
 
@@ -40,12 +40,12 @@ app.component('MainFooter', MainFooter)
 app.component('MainHeader', MainHeader)
 app.component('SideNav', SideNav)
 app.component('FooterNav', FooterNav)
-install(app)
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
 })
+app.use(ElementPlus)
 app.use(router)
 router.isReady().then(()=>{
 

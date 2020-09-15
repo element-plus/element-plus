@@ -72,7 +72,7 @@ export {
   ElInfiniteScroll,
 }
 
-export default function install(app: App): void {
+const install = (app: App): void =>  {
   ElAlert(app)
   ElAvatar(app)
   ElBacktop(app)
@@ -109,3 +109,9 @@ export default function install(app: App): void {
   ElDialog(app)
   ElInfiniteScroll(app)
 }
+
+const elementUI = {
+  install,
+}
+
+export default elementUI
