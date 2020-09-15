@@ -12,7 +12,9 @@
 <script lang="ts">
 import {
   defineComponent,
-  provide } from 'vue'
+  provide,
+  ref,
+} from 'vue'
 
 export default defineComponent({
   name: 'ElOptionGroup',

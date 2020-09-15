@@ -1,4 +1,4 @@
-import { inject } from 'vue'
+import { inject, nextTick } from 'vue'
 
 export default () => {
   const navigateOptions = (direction: string) => {
@@ -25,9 +25,16 @@ export default () => {
         !option.visible) {
         this.navigateOptions(direction)
       }
-      this.$nextTick(() => this.scrollToOption(this.hoverOption))
+      nextTick(() => this.scrollToOption(this.hoverOption))
     }
   }
+
+  // const queryChange = query => {
+  //   this.visible = new RegExp(escapeRegexpString(query), 'i').test(this.currentLabel) || this.created
+  //   if (!this.visible) {
+  //     this.select.filteredOptionsCount--
+  //   }
+  // }
 
   const _selectGroup = inject('SelectGroup', {}) as any
 

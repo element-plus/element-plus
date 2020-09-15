@@ -34,7 +34,6 @@
         </el-tag>
       </span>
       <transition-group v-if="!collapseTags" @after-leave="resetInputHeight">
-        {{ selected }}
         <el-tag
           v-for="item in selected"
           :key="getValueKey(item)"
@@ -48,7 +47,6 @@
           <span class="el-select__tags-text">{{ item.currentLabel }}</span>
         </el-tag>
       </transition-group>
-
       <input
         v-if="filterable"
         ref="input"
@@ -149,6 +147,7 @@
 // import Emitter from 'element-ui/src/mixins/emitter'
 // import Focus from 'element-ui/src/mixins/focus'
 // import Locale from 'element-ui/src/mixins/locale'
+import mitt from 'mitt'
 import ElInput from '@element-plus/input/src/index.vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
@@ -261,7 +260,7 @@ export default defineComponent({
     const cachedOptions = ref([])
     const createdLabel = ref(null)
     const createdSelected = ref(false)
-    const selected = props.multiple ? [] : {}
+    const selected = props.multiple ? ref([]) : ref({})
     const inputLength = ref(inputLength)
     const inputWidth = ref(0)
     const initialInputHeight = ref(0)
@@ -290,6 +289,8 @@ export default defineComponent({
     const popper = ref(null)
     const tags = ref(null)
 
+    const selectEmitter = mitt()
+
     // provide
     provide('Select', {
       options,
@@ -300,6 +301,8 @@ export default defineComponent({
       multiple: props.multiple,
       modelValue: props.modelValue,
       handleOptionSelect,
+      selectEmitter,
+      onOptionDestroy,
     })
     // computed
     const _elFormItemSize = computed(() => (elFormItem || {}).elFormItemSize)
@@ -333,10 +336,12 @@ export default defineComponent({
     })
     const showNewOption = computed(() => {
       let hasExistingOption = options.value.filter(option => {
-        return !option.created
+        return !option.props.created
       }).some(option => {
+        // console.log('option.value: ', option.value)
         return option.currentLabel === query.value
       })
+      console.log('query.value: ', query.value)
       return props.filterable && props.allowCreate && query.value !== '' && !hasExistingOption
     })
     // TODO: ctx.$ELEMENT
@@ -417,9 +422,9 @@ export default defineComponent({
             input.value.focus()
           } else {
             if (!props.remote) {
+              selectEmitter.emit('elOptionQueryChange', '')
               // TODO: 需要补充
-              this.broadcast('ElOption', 'queryChange', '')
-              this.broadcast('ElOptionGroup', 'queryChange')
+              // this.broadcast('ElOptionGroup', 'queryChange')
             }
 
             if (selectedLabel.value) {
@@ -483,13 +488,13 @@ export default defineComponent({
       }
       previousQuery.value = val
       nextTick(() => {
-        // TODO: 需要补充
-        if (visible.value) this.broadcast('ElSelectDropdown', 'updatePopper')
+        // TODO: updatePopper
+        // if (visible.value) this.broadcast('ElSelectDropdown', 'updatePopper')
       })
       hoverIndex.value = -1
       if (props.multiple && props.filterable) {
         nextTick(() => {
-          const length = instance.$refs.input.value.length * 15 + 20
+          const length = input.value.length * 15 + 20
           inputLength.value = props.collapseTags ? Math.min(50, length) : length
           managePlaceholder()
           resetInputHeight()
@@ -504,9 +509,9 @@ export default defineComponent({
         this.broadcast('ElOptionGroup', 'queryChange')
       } else {
         filteredOptionsCount.value = optionsCount.value
-        // TODO: 需要补充
-        this.broadcast('ElOption', 'queryChange', val)
-        this.broadcast('ElOptionGroup', 'queryChange')
+        selectEmitter.emit('elOptionQueryChange', val)
+        // TODO:
+        // this.broadcast('ElOptionGroup', 'queryChange')
       }
       if (props.defaultFirstOption && (props.filterable || props.remote) && filteredOptionsCount.value) {
         checkDefaultFirstOption()
@@ -585,7 +590,6 @@ export default defineComponent({
 
       for (let i = cachedOptions.value.length - 1; i >= 0; i--) {
         const cachedOption = cachedOptions.value[i]
-        // TODO: getValueByPath 是做什么的
         const isEqual = isObject
           ? getValueByPath(cachedOption.props.value, props.valueKey) === getValueByPath(props.modelValue, props.valueKey)
           : cachedOption.props.value === value
@@ -641,7 +645,7 @@ export default defineComponent({
 
     function deletePrevTag(e) {
       if (e.target.value.length <= 0 && !this.toggleLastOptionHitState()) {
-        const value = this.value.slice()
+        const value = props.modelValue.slice()
         value.pop()
         ctx.emit(UPDATE_MODEL_EVENT, value)
         emitChange(value)
@@ -741,6 +745,14 @@ export default defineComponent({
       // this.$refs.scrollbar && this.$refs.scrollbar.handleScroll()
     }
 
+    function onOptionDestroy(index) {
+      if (index > -1) {
+        optionsCount.value--
+        filteredOptionsCount.value--
+        options.value.splice(index, 1)
+      }
+    }
+
     onMounted(() => {
       if (props.multiple && Array.isArray(props.value) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
@@ -793,7 +805,6 @@ export default defineComponent({
     // TODO: 需要补充
     // this.$on('handleOptionClick', this.handleOptionSelect)
     // this.$on('setSelected', this.setSelected)
-
     return {
       readonly,
       showClose,
@@ -822,6 +833,7 @@ export default defineComponent({
       deleteTag,
       deleteSelected,
       inputHovering,
+      query,
 
       reference,
       input,
@@ -1002,14 +1014,6 @@ export default defineComponent({
         if (this.options[this.hoverIndex]) {
           this.handleOptionSelect(this.options[this.hoverIndex])
         }
-      }
-    },
-
-    onOptionDestroy(index) {
-      if (index > -1) {
-        this.optionsCount--
-        this.filteredOptionsCount--
-        this.options.splice(index, 1)
       }
     },
 

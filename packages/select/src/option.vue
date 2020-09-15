@@ -24,8 +24,7 @@ import {
   onUnmounted,
   ref } from 'vue'
 import useSelect from './useSelect'
-import { getValueByPath } from '@element-plus/utils/util'
-// escapeRegexpString
+import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
 
 export default defineComponent({
   name: 'ElOption',
@@ -86,7 +85,10 @@ export default defineComponent({
 
     // computed
     const isObject = computed(() => Object.prototype.toString.call(props.value).toLowerCase() === '[object object]')
-    const currentLabel = computed(() => props.label || (isObject.value ? '' : props.value))
+    const currentLabel = computed(() => {
+      console.log('props.value: ', props.value)
+      return props.label || (isObject.value ? '' : props.value)
+    })
     const currentValue = computed(() => props.value || props.label || '')
     const itemSelected = computed(() => {
       if (select.multiple) {
@@ -110,10 +112,18 @@ export default defineComponent({
       return props.disabled || groupDisabled.value || limitReached.value
     })
 
+    function queryChange(query) {
+      visible.value = new RegExp(escapeRegexpString(query), 'i').test(currentLabel.value) || props.created
+      if (!visible.value) {
+        select.filteredOptionsCount.value--
+      }
+    }
     // TODO: should change visible
     // this.$on('queryChange', queryChange)
+    select.selectEmitter.on('elOptionQueryChange', queryChange)
 
-    watch(() => currentLabel, () => {
+
+    watch(() => currentLabel.value, () => {
       if (!props.created && !select.remote) select.setSelected()
       // TODO: select should provide setSelected
       // this.dispatch('ElSelect', 'setSelected')
@@ -134,7 +144,7 @@ export default defineComponent({
       const { selected, multiple } = select
       let selectedOptions = multiple ? selected : [selected]
       let index = select.cachedOptions.value.indexOf(instance)
-      let selectedIndex = selectedOptions.indexOf(instance)
+      let selectedIndex = selectedOptions?.indexOf(instance)
 
       // if option is not selected, remove it from cache
       if (index > -1 && selectedIndex < 0) {
