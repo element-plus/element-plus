@@ -93,18 +93,20 @@
                 {{ displayedLang }}
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
-              <el-dropdown-menu
-                class="nav-dropdown-list"
-                @input="handleLangDropdownToggle"
-              >
-                <el-dropdown-item
-                  v-for="(value, key) in langs"
-                  :key="key"
-                  @click="switchLang(key)"
+              <template #dropdown>
+                <el-dropdown-menu
+                  class="nav-dropdown-list"
+                  @input="handleLangDropdownToggle"
                 >
-                  {{ value }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
+                  <el-dropdown-item
+                    v-for="(value, key) in langs"
+                    :key="key"
+                    @click="switchLang(key)"
+                  >
+                    {{ value }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
             </el-dropdown>
           </li>
         </ul>

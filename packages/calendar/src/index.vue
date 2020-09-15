@@ -30,7 +30,7 @@
         :selected-day="realSelectedDay"
         @pick="pickDay"
       >
-        <template v-for="(index, name) in $slots" #[name]="data">
+        <template v-for="(index_, name) in $slots" #[name]="data">
           <slot :name="name" v-bind="data"></slot>
         </template>
       </date-table>

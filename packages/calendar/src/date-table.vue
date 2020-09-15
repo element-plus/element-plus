@@ -26,11 +26,12 @@
           :onClick="() => pickDay(cell)"
         >
           <div class="el-calendar-day">
-            <span v-if="!$slots.default">{{ cell.text }}</span>
             <slot
-              v-else
+              name="dateCell"
               :data="getSlotData(cell)"
-            ></slot>
+            >
+              <span>{{ cell.text }}</span>
+            </slot>
           </div>
         </td>
       </tr>
@@ -85,7 +86,7 @@ export default defineComponent({
     const now = dayjs()
 
     // todo better way to get Day.js locale object
-    const firstDayOfWeek = (now as any).$locale.weekStart || 0
+    const firstDayOfWeek = (now as any).$locale().weekStart || 0
 
     const toNestedArr = days => {
       return rangeArr(days.length / 7).map((_, index) => {
@@ -95,11 +96,13 @@ export default defineComponent({
     }
 
     const getFormateDate = (day, type): Dayjs => {
-      let result = props.date.date(day)
+      let result
       if (type === 'prev') {
-        result = result.startOf('month').subtract(1, 'month').date(day)
+        result = props.date.startOf('month').subtract(1, 'month').date(day)
       } else if (type === 'next') {
-        result = result.startOf('month').add(1, 'month').date(day)
+        result = props.date.startOf('month').add(1, 'month').date(day)
+      } else {
+        result = props.date.date(day)
       }
       return result
     }
@@ -126,7 +129,7 @@ export default defineComponent({
     const getSlotData = ({ text, type }) => {
       const day = getFormateDate(text, type)
       return {
-        isSelected: props.selectedDay.isSame(day),
+        isSelected: day.isSame(props.selectedDay),
         type: `${type}-month`,
         day: day.format('YYYY-MM-DD'),
         date: day.toDate(),
