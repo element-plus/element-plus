@@ -36,25 +36,38 @@ export default function renderPopper(
     popperClass,
     pure ? 'el-popper__pure' : '',
   ]
-  return h(Transition, {
-    name,
-  }, {
-    default: () => withDirectives(
-      h(
-        'div',
-        {
-          'aria-hidden': String(!visibility),
-          class: kls,
-          id: popperId,
-          ref: 'popperRef',
-          role: 'tooltip',
-          onMouseEnter,
-          onMouseLeave,
-          onClick: stop,
-        },
-        children,
-      ),
-      [[vShow, visibility]],
-    ),
-  })
+  /**
+   * Equivalent to
+   * <transition :name="name">
+   *  <div  v-show="visibility" :aria-hidden="!visibility" :class="kls" ref="popperRef" role="tooltip" @mouseenter="" @mouseleave="" @click="">
+   *    {children}
+   *  </div>
+   * </transition>
+   */
+  return h(
+    Transition,
+    {
+      name,
+    },
+    {
+      default: () =>
+        withDirectives(
+          h(
+            'div',
+            {
+              'aria-hidden': String(!visibility),
+              class: kls,
+              id: popperId,
+              ref: 'popperRef',
+              role: 'tooltip',
+              onMouseEnter,
+              onMouseLeave,
+              onClick: stop,
+            },
+            children,
+          ),
+          [[vShow, visibility]],
+        ),
+    },
+  )
 }
