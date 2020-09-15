@@ -23,7 +23,7 @@
           v-for="(cell, key) in row"
           :key="key"
           :class="getCellClass(cell)"
-          :onClick="() => pickDay(cell)"
+          @click="pickDay(cell)"
         >
           <div class="el-calendar-day">
             <slot
