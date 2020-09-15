@@ -8,7 +8,9 @@ const babelOptions = {
 
 module.exports = {
   mode: 'production',
-  entry: path.resolve(__dirname, '../packages/element-plus/index.ts'),
+  entry: {
+    index: path.resolve(__dirname, '../packages/element-plus/index.ts'),
+  },
   output: {
     path: path.resolve(__dirname, '../lib'),
     publicPath: '/',
