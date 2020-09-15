@@ -2,21 +2,30 @@
 import {
   defineComponent,
   h,
+  openBlock,
+  createBlock,
   Fragment,
   Teleport,
   nextTick,
 } from 'vue'
 
-import { isNumber, isArray } from '@element-plus/utils/util'
+import { isArray } from '@element-plus/utils/util'
+import { stop } from '@element-plus/utils/dom'
 import { ClickOutside } from '@element-plus/directives'
 import throwError, { warn } from '@element-plus/utils/error'
+import { renderBlock } from '@element-plus/utils/vnode'
 
 import {
   default as usePopper,
   DEFAULT_TRIGGER,
   UPDATE_VISIBLE_EVENT,
 } from './usePopper'
-import { renderMask, renderPopper, renderTrigger, renderArrow } from './renderers'
+import {
+  renderMask,
+  renderPopper,
+  renderTrigger,
+  renderArrow,
+} from './renderers'
 
 import type { PropType, SetupContext } from 'vue'
 
@@ -197,44 +206,34 @@ export default defineComponent({
       [$slots.default?.() || this.content, arrow],
     )
 
-    const _t = $slots.trigger?.()
-    if (_t?.length > 1 && process.env.NODE_ENV !== 'production') {
-      // TODO: using translate function to translate this hard coded string
-      warn(compName, 'accepts only one root')
-    }
-    const trigger = renderTrigger(_t, {
+    const trigger = renderTrigger($slots.trigger?.(), {
       ariaDescribedby: popperId,
       class: kls,
       ref: 'triggerRef',
       tabindex: tabIndex,
+      onMouseDown: stop,
+      onMouseUp: stop,
       ...this.events,
     })
 
-    nextTick(() => {
-      const uid = trigger?.component?.uid
-      if (isNumber(uid) && uid !== this.triggerId) {
-        this.triggerId = trigger?.component?.uid
-      }
-    })
-
-    return h(Fragment, null, [
-      trigger,
-      appendToBody
-        ? h(
-          Teleport,
-          {
-            to: 'body',
-          },
-          renderMask(popper, {
-            onHide,
-            excludes: excludes?.$el ?? excludes,
-          }),
-        )
-        : popper,
-    ])
+    return (
+      renderBlock(Fragment, null, [
+        trigger,
+        appendToBody
+          ? h(
+            Teleport,
+            {
+              to: 'body',
+            },
+            renderMask(popper, {
+              onHide,
+            }),
+          )
+          : popper,
+      ])
+    )
   },
 })
-
 </script>
 
 <style>
@@ -266,25 +265,25 @@ export default defineComponent({
 }
 
 .el-popper__arrow::before {
-  content: " ";
+  content: ' ';
   transform: rotate(45deg);
   background: #303133;
   box-sizing: border-box;
 }
 
-.el-popper[data-popper-placement^="top"] > .el-popper__arrow {
+.el-popper[data-popper-placement^='top'] > .el-popper__arrow {
   bottom: -5px;
 }
 
-.el-popper[data-popper-placement^="bottom"] > .el-popper__arrow {
+.el-popper[data-popper-placement^='bottom'] > .el-popper__arrow {
   top: -5px;
 }
 
-.el-popper[data-popper-placement^="left"] > .el-popper__arrow {
+.el-popper[data-popper-placement^='left'] > .el-popper__arrow {
   right: -5px;
 }
 
-.el-popper[data-popper-placement^="right"] > .el-popper__arrow {
+.el-popper[data-popper-placement^='right'] > .el-popper__arrow {
   left: -5px;
 }
 
@@ -306,22 +305,22 @@ export default defineComponent({
   border: 1px solid #303133;
 }
 
-.el-popper.is-light[data-popper-placement^="top"] .el-popper__arrow::before {
+.el-popper.is-light[data-popper-placement^='top'] .el-popper__arrow::before {
   border-top-color: transparent;
   border-left-color: transparent;
 }
 
-.el-popper.is-light[data-popper-placement^="bottom"] .el-popper__arrow::before {
+.el-popper.is-light[data-popper-placement^='bottom'] .el-popper__arrow::before {
   border-bottom-color: transparent;
   border-right-color: transparent;
 }
 
-.el-popper.is-light[data-popper-placement^="left"] .el-popper__arrow::before {
+.el-popper.is-light[data-popper-placement^='left'] .el-popper__arrow::before {
   border-left-color: transparent;
   border-bottom-color: transparent;
 }
 
-.el-popper.is-light[data-popper-placement^="right"] .el-popper__arrow::before {
+.el-popper.is-light[data-popper-placement^='right'] .el-popper__arrow::before {
   border-top-color: transparent;
   border-right-color: transparent;
 }

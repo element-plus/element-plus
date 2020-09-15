@@ -4,7 +4,7 @@ import {
   onActivated,
   onBeforeUnmount,
   onDeactivated,
-  onMounted,
+  onUpdated,
   watch,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
@@ -182,7 +182,6 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
     }
 
     const popperEventsHandler = (e: Event) => {
-      e.stopImmediatePropagation()
       e.stopPropagation()
       switch (e.type) {
         case 'click': {
@@ -258,19 +257,15 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
     },
   )
 
-  watch(triggerId, () => {
-    initializePopper()
-  })
-
-  onMounted(() => {
-    initializePopper()
-  })
-
   onBeforeUnmount(() => {
     doDestroy(true)
   })
 
   onActivated(() => {
+    initializePopper()
+  })
+
+  onUpdated(() => {
     initializePopper()
   })
 
