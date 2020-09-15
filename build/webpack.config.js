@@ -8,12 +8,15 @@ const babelOptions = {
 
 module.exports = {
   mode: 'production',
-  entry: {
-    index: path.resolve(__dirname, '../packages/element-plus/index.ts'),
-  },
+  entry: path.resolve(__dirname, '../packages/element-plus/index.ts'),
   output: {
     path: path.resolve(__dirname, '../lib'),
     publicPath: '/',
+    filename: 'index.js',
+    libraryTarget: 'umd',
+    libraryExport: 'default',
+    library: 'ELEMENT',
+    umdNamedDefine: true,
   },
   stats: 'verbose',
   module: {
@@ -77,7 +80,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
   },
   externals: {
-    vue: 'Vue',
+    vue: 'vue',
   },
   plugins: [
     new VueLoaderPlugin(),
