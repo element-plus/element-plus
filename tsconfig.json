@@ -6,6 +6,7 @@
    "removeComments": true,
    "moduleResolution": "node",
    "esModuleInterop": true,
+   "jsx": "preserve",
    "noLib": false,
    "target": "es6",
    "sourceMap": true,
@@ -18,4 +19,3 @@
    "node_modules"
  ]
 }
-
