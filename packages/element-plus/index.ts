@@ -10,6 +10,7 @@ import ElDropdown from '@element-plus/dropdown'
 import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
+import ElCarousel from '@element-plus/carousel'
 import ElTimeline from '@element-plus/timeline'
 import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
@@ -33,6 +34,8 @@ import ElInput from '@element-plus/input'
 import ElTransfer from '@element-plus/transfer'
 import ElDialog from '@element-plus/dialog'
 import ElCalendar from '@element-plus/calendar'
+import ElInfiniteScroll from '@element-plus/infinite-scroll'
+
 
 export {
   ElAlert,
@@ -46,6 +49,7 @@ export {
   ElDivider,
   ElDropdown,
   ElTag,
+  ElCarousel,
   ElTimeline,
   ElProgress,
   ElBreadcrumb,
@@ -68,9 +72,10 @@ export {
   ElTransfer,
   ElDialog,
   ElCalendar,
+  ElInfiniteScroll,
 }
 
-export default function install(app: App): void {
+const install = (app: App): void =>  {
   ElAlert(app)
   ElAvatar(app)
   ElBacktop(app)
@@ -82,6 +87,7 @@ export default function install(app: App): void {
   ElTag(app)
   ElLayout(app)
   ElDivider(app)
+  ElCarousel(app)
   ElTimeline(app)
   ElProgress(app)
   ElBreadcrumb(app)
@@ -105,4 +111,11 @@ export default function install(app: App): void {
   ElTransfer(app)
   ElDialog(app)
   ElCalendar(app)
+  ElInfiniteScroll(app)
 }
+
+const elementUI = {
+  install,
+}
+
+export default elementUI

@@ -1,16 +1,24 @@
-import isServer from './isServer'
-
-import { isObject, capitalize, hyphenate, looseEqual, extend, camelize } from '@vue/shared'
 import { isEmpty, castArray, isEqual } from 'lodash'
 
+import {
+  isObject,
+  isArray,
+  capitalize,
+  hyphenate,
+  looseEqual,
+  extend,
+  camelize,
+  hasOwn,
+  toRawType,
+} from '@vue/shared'
+
+import isServer from './isServer'
 import type { AnyFunction } from './types'
 import type { Ref } from 'vue'
 
-const { hasOwnProperty } = Object.prototype
-
-export function hasOwn(obj: any, key: string): boolean {
-  return hasOwnProperty.call(obj, key)
-}
+export type PartialCSSStyleDeclaration = Partial<
+  Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>
+>
 
 export function toObject<T>(arr: Array<T>): Record<string, T> {
   const res = {}
@@ -82,13 +90,12 @@ export const isEdge = function(): boolean {
 }
 
 export const isFirefox = function(): boolean {
-  return (
-    !isServer && !!window.navigator.userAgent.match(/firefox/i)
-  )
+  return !isServer && !!window.navigator.userAgent.match(/firefox/i)
 }
 
-export const autoprefixer = function(style: CSSStyleDeclaration): CSSStyleDeclaration {
-  if (typeof style !== 'object') return style
+export const autoprefixer = function(
+  style: PartialCSSStyleDeclaration,
+): PartialCSSStyleDeclaration {
   const rules = ['transform', 'transition', 'animation']
   const prefixes = ['ms-', 'webkit-']
   rules.forEach(rule => {
@@ -104,16 +111,22 @@ export const autoprefixer = function(style: CSSStyleDeclaration): CSSStyleDeclar
 
 export const kebabCase = hyphenate
 
-// reexport from lodash
+// reexport from lodash & vue shared
 export {
+  hasOwn,
   isEmpty,
   isEqual,
   isObject,
+  isArray,
   capitalize,
   camelize,
   looseEqual,
   extend,
 }
+
+export const isBool = (val: unknown) => typeof val === 'boolean'
+export const isNumber = (val: unknown) => typeof val === 'number'
+export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
 
 export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void> {
   let locked = false
@@ -140,6 +153,12 @@ export const clearTimer = (timer: Ref<TimeoutHandle>) => {
  */
 export function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max))
+}
+
+export function entries<T>(obj: Hash<T>): [string, T][] {
+  return Object
+    .keys(obj)
+    .map((key: string) => ([key, obj[key]]))
 }
 
 export { isVNode } from 'vue'
