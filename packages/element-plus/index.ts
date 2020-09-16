@@ -39,6 +39,7 @@ import ElInfiniteScroll from '@element-plus/infinite-scroll'
 import ElDrawer from '@element-plus/drawer'
 import ElUpload from '@element-plus/upload'
 import ElTree from '@element-plus/tree'
+import ElSelect from '@element-plus/select'
 
 export {
   ElAlert,
@@ -80,6 +81,7 @@ export {
   ElDrawer,
   ElUpload,
   ElTree,
+  ElSelect,
 }
 
 const install = (app: App): void =>  {
@@ -123,6 +125,7 @@ const install = (app: App): void =>  {
   ElDrawer(app)
   ElUpload(app)
   ElTree(app)
+  ElSelect(app)
 }
 
 const elementUI = {
