@@ -339,7 +339,10 @@ export default defineComponent({
     }
 
     const focus = () => {
-      inputOrTextarea.value.focus()
+      // see: https://github.com/ElemeFE/element/issues/18573
+      nextTick(() => {
+        inputOrTextarea.value.focus()
+      })
     }
 
     const blur = () => {
