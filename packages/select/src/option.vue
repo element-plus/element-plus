@@ -42,7 +42,7 @@ export default defineComponent({
     },
   },
 
-  setup(props, ctx) {
+  setup(props) {
     const visible = ref(true)
     const groupDisabled = ref(false)
     const hover = ref(false)
@@ -52,8 +52,6 @@ export default defineComponent({
     const select = selectUse._select
     const instance = getCurrentInstance()
 
-    select.options.value.push(instance)
-    select.cachedOptions.value.push(instance)
     select.optionsCount.value++
     select.filteredOptionsCount.value++
 
@@ -86,15 +84,14 @@ export default defineComponent({
     // computed
     const isObject = computed(() => Object.prototype.toString.call(props.value).toLowerCase() === '[object object]')
     const currentLabel = computed(() => {
-      console.log('props.value: ', props.value)
       return props.label || (isObject.value ? '' : props.value)
     })
     const currentValue = computed(() => props.value || props.label || '')
     const itemSelected = computed(() => {
-      if (select.multiple) {
-        return contains(select.value, props.value)
+      if (select.props.multiple) {
+        return contains(select.props.modelValue, props.value)
       } else {
-        return isEqual(props.value, select.modelValue)
+        return isEqual(props.value, select.props.modelValue)
       }
     })
     const limitReached = computed(() => {
@@ -125,8 +122,6 @@ export default defineComponent({
 
     watch(() => currentLabel.value, () => {
       if (!props.created && !select.remote) select.setSelected()
-      // TODO: select should provide setSelected
-      // this.dispatch('ElSelect', 'setSelected')
     })
 
     watch(() => props.value, (val, oldVal) => {
@@ -165,6 +160,12 @@ export default defineComponent({
       visible,
       hover,
     }
+  },
+
+  created() {
+    console.log('this.select: ', this.select)
+    this.select.options.value.push(this)
+    this.select.cachedOptions.value.push(this)
   },
 
   methods: {

@@ -2,6 +2,8 @@
   <!-- TODO: clickoutside -->
   <!-- v-clickoutside="handleClose" -->
   <div
+    ref="trigger"
+    v-clickOutside:[trigger]="handleClose"
     class="el-select"
     :class="[selectSize ? 'el-select--' + selectSize : '']"
     @click.stop="toggleMenu"
@@ -96,8 +98,8 @@
       @keydown.esc.stop.prevent="visible = false"
       @keydown.tab="visible = false"
       @paste="debouncedOnInputChange"
-      @mouseenter="inputMouseenter"
-      @mouseleave="inputMouseLeave"
+      @mouseenter="inputHovering = true"
+      @mouseleave="inputHovering = false"
     >
       <template v-if="$slots.prefix" #prefix>
         <slot name="prefix"></slot>
@@ -235,9 +237,7 @@ export default defineComponent({
     },
     placeholder: {
       type: String,
-      default() {
-        return t('el.select.placeholder')
-      },
+      default: t('el.select.placeholder'),
     },
     defaultFirstOption: Boolean,
     reserveKeyword: Boolean,
@@ -252,7 +252,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['remove-tag', 'clear', 'change', 'visible-change',UPDATE_MODEL_EVENT],
+  emits: ['remove-tag', 'clear', 'change', 'visible-change', 'focus', 'blur',UPDATE_MODEL_EVENT],
 
   setup(props, ctx) {
     // data
@@ -288,6 +288,8 @@ export default defineComponent({
     const input = ref(null)
     const popper = ref(null)
     const tags = ref(null)
+    const trigger = ref(null)
+    const scrollbar = ref(null)
 
     const selectEmitter = mitt()
 
@@ -298,11 +300,12 @@ export default defineComponent({
       optionsCount,
       filteredOptionsCount,
       hoverIndex,
-      multiple: props.multiple,
-      modelValue: props.modelValue,
       handleOptionSelect,
       selectEmitter,
       onOptionDestroy,
+      props,
+      inputWidth,
+      trigger,
     })
     // computed
     const _elFormItemSize = computed(() => (elFormItem || {}).elFormItemSize)
@@ -336,12 +339,11 @@ export default defineComponent({
     })
     const showNewOption = computed(() => {
       let hasExistingOption = options.value.filter(option => {
-        return !option.props.created
+        return !option.created
       }).some(option => {
-        // console.log('option.value: ', option.value)
+        console.log('option.currentLabel-------', option.currentLabel)
         return option.currentLabel === query.value
       })
-      console.log('query.value: ', query.value)
       return props.filterable && props.allowCreate && query.value !== '' && !hasExistingOption
     })
     // TODO: ctx.$ELEMENT
@@ -374,13 +376,13 @@ export default defineComponent({
         inputLength.value = 20
       }
       if (!isEqual(val, oldVal)) {
-        // TODO:需要补充
+        // TODO:
         // this.dispatch('ElFormItem', 'el.form.change', val)
       }
     })
     watch(() => visible.value, val => {
       if (!val) {
-        // TODO:需要补充
+        // TODO:
         // this.broadcast('ElSelectDropdown', 'destroyPopper')
         if (input.value) {
           input.value.blur()
@@ -413,7 +415,7 @@ export default defineComponent({
           }
         }
       } else {
-        // TODO: 需要补充
+        // TODO:
         // this.broadcast('ElSelectDropdown', 'updatePopper')
         if (props.filterable) {
           query.value = props.remote ? '' : selectedLabel.value
@@ -423,7 +425,7 @@ export default defineComponent({
           } else {
             if (!props.remote) {
               selectEmitter.emit('elOptionQueryChange', '')
-              // TODO: 需要补充
+              // TODO:
               // this.broadcast('ElOptionGroup', 'queryChange')
             }
 
@@ -439,7 +441,7 @@ export default defineComponent({
 
     watch(() => options.value, () => {
       if (isServer) return
-      // TODO: 需要补充
+      // TODO:
       nextTick(() => {
         this.broadcast('ElSelectDropdown', 'updatePopper')
       })
@@ -471,7 +473,7 @@ export default defineComponent({
             _tags ? (_tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)) : 0,
             sizeInMap) + 'px'
         if (visible.value && emptyText.value !== false) {
-          // TODO: 需要补充
+          // TODO: updatePopper
           // this.broadcast('ElSelectDropdown', 'updatePopper')
         }
       })
@@ -505,8 +507,8 @@ export default defineComponent({
         props.remoteMethod(val)
       } else if (typeof props.filterMethod === 'function') {
         props.filterMethod(val)
-        // TODO: 需要补充
-        this.broadcast('ElOptionGroup', 'queryChange')
+        // TODO:
+        // this.broadcast('ElOptionGroup', 'queryChange')
       } else {
         filteredOptionsCount.value = optionsCount.value
         selectEmitter.emit('elOptionQueryChange', val)
@@ -520,7 +522,7 @@ export default defineComponent({
 
     function managePlaceholder() {
       if (currentPlaceholder.value !== '') {
-        currentPlaceholder.value = instance.$refs.input.value ? '' : cachedPlaceHolder.value
+        currentPlaceholder.value = input.value ? '' : cachedPlaceHolder.value
       }
     }
 
@@ -540,7 +542,8 @@ export default defineComponent({
         const option = options.value[i]
         if (query.value) {
           // highlight first options that passes the filter
-          if (!option.disabled && !option.groupDisabled && option.visible) {
+          console.log('option.visible: ', option.visible)
+          if (!option.props.disabled && !option.props.groupDisabled && option.visible) {
             hoverIndex.value = i
             break
           }
@@ -558,7 +561,7 @@ export default defineComponent({
       if (!props.multiple) {
         let option = getOption(props.modelValue)
         if (option.props?.created) {
-          createdLabel.value = option.value
+          createdLabel.value = option.props.value
           createdSelected.value = true
         } else {
           createdSelected.value = false
@@ -571,11 +574,10 @@ export default defineComponent({
       let result = []
       if (Array.isArray(props.modelValue)) {
         props.modelValue.forEach(value => {
+          console.log('value: ', value)
           result.push(getOption(value))
         })
       }
-
-      console.log('result: ', result)
       selected.value = result
       nextTick(() => {
         resetInputHeight()
@@ -591,12 +593,13 @@ export default defineComponent({
       for (let i = cachedOptions.value.length - 1; i >= 0; i--) {
         const cachedOption = cachedOptions.value[i]
         const isEqual = isObject
-          ? getValueByPath(cachedOption.props.value, props.valueKey) === getValueByPath(props.modelValue, props.valueKey)
-          : cachedOption.props.value === value
+          ? getValueByPath(cachedOption.value, props.valueKey) === getValueByPath(props.modelValue, props.valueKey)
+          : cachedOption.value === value
         if (isEqual) {
+          console.log('cachedOption-----------isObject ', cachedOption.isObject)
           option = {
             value,
-            currentLabel: cachedOption.props.label,
+            currentLabel: cachedOption.currentLabel,
           }
           break
         }
@@ -633,7 +636,7 @@ export default defineComponent({
     }
 
     function resetInputWidth() {
-      inputWidth.value = reference.value.$el.getBoundingClientRect().width
+      inputWidth.value = reference.value?.$el.getBoundingClientRect().width
     }
 
     function onInputChange() {
@@ -742,7 +745,7 @@ export default defineComponent({
         scrollIntoView(menu, target)
       }
       // TODO:
-      // this.$refs.scrollbar && this.$refs.scrollbar.handleScroll()
+      // scrollbar.value?.handleScroll()
     }
 
     function onOptionDestroy(index) {
@@ -757,24 +760,21 @@ export default defineComponent({
       if (props.multiple && Array.isArray(props.value) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
       }
-      // TODO:
-      // addResizeListener(instance.$el, handleResize)
-      // console.log('ctx.$refs:', ctx.$refs)
-      // const reference = instance.$refs.reference
+      addResizeListener(trigger.value, handleResize)
       if (reference.value && reference.value.$el) {
         const sizeMap = {
           medium: 36,
           small: 32,
           mini: 28,
         }
-        const input = reference.value.$el.querySelector('input')
+        const input = reference.value.$el
         initialInputHeight.value = input.getBoundingClientRect().height || sizeMap[selectSize.value]
       }
       if (props.remote && props.multiple) {
         resetInputHeight()
       }
       nextTick(() => {
-        if (reference.value && reference.value.$el) {
+        if (reference.value.$el) {
           inputWidth.value = reference.value.$el.getBoundingClientRect().width
         }
       })
@@ -782,12 +782,10 @@ export default defineComponent({
     })
 
     onBeforeMount(() => {
-      if (instance.$el && handleResize) removeResizeListener(instance.$el, handleResize)
+      if (trigger.value && handleResize) removeResizeListener(trigger.value, handleResize)
+      cachedPlaceHolder.value = currentPlaceholder.value = props.placeholder
     })
 
-    // created
-    // TODO: placeholder需要补充
-    // cachedPlaceHolder.value = currentPlaceholder.value = props.placeholder
     if (props.multiple && !Array.isArray(props.modelValue)) {
       ctx.emit(UPDATE_MODEL_EVENT, [])
     }
@@ -802,10 +800,11 @@ export default defineComponent({
     const debouncedQueryChange = lodashDebounce(e => {
       handleQueryChange(e.target.value)
     }, debounce.value)
-    // TODO: 需要补充
+    // TODO:
     // this.$on('handleOptionClick', this.handleOptionSelect)
     // this.$on('setSelected', this.setSelected)
     return {
+      trigger,
       readonly,
       showClose,
       iconClass,
@@ -834,23 +833,22 @@ export default defineComponent({
       deleteSelected,
       inputHovering,
       query,
+      scrollToOption,
+      hoverIndex,
+      handleOptionSelect,
 
       reference,
       input,
       popper,
       tags,
+      scrollbar,
 
       selectDisabled,
+      currentPlaceholder,
     }
   },
 
   methods: {
-    inputMouseenter() {
-      this.inputHovering = true
-    },
-    inputMouseLeave() {
-      this.inputHovering = false
-    },
     handleComposition(event) {
       const text = event.target.value
       if (event.type === 'compositionend') {
@@ -860,16 +858,6 @@ export default defineComponent({
         const lastCharacter = text[text.length - 1] || ''
         this.isOnComposition = !isKorean(lastCharacter)
       }
-    },
-
-    scrollToOption(option) {
-      const target = Array.isArray(option) && option[0] ? option[0].$el : option.$el
-      if (this.$refs.popper && target) {
-        const menu = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap')
-        scrollIntoView(menu, target)
-      }
-      // TODO:
-      // this.$refs.scrollbar && this.$refs.scrollbar.handleScroll()
     },
 
     handleMenuEnter() {
@@ -892,7 +880,7 @@ export default defineComponent({
 
     blur() {
       this.visible = false
-      reference.value.blur()
+      this.reference.blur()
     },
 
     handleBlur(event) {
@@ -911,7 +899,7 @@ export default defineComponent({
     },
 
     doDestroy() {
-      this.$refs.popper && this.$refs.popper.doDestroy()
+      this.popper?.doDestroy()
     },
 
     handleClose() {
@@ -936,36 +924,6 @@ export default defineComponent({
       if (e.keyCode !== 8) this.toggleLastOptionHitState(false)
       this.inputLength = this.$refs.input.value.length * 15 + 20
       this.resetInputHeight()
-    },
-
-    handleOptionSelect(option, byClick) {
-      if (this.multiple) {
-        const value = (this.value || []).slice()
-        const optionIndex = this.getValueIndex(value, option.value)
-        if (optionIndex > -1) {
-          value.splice(optionIndex, 1)
-        } else if (this.multipleLimit <= 0 || value.length < this.multipleLimit) {
-          value.push(option.value)
-        }
-        this.$emit(UPDATE_MODEL_EVENT, value)
-        this.emitChange(value)
-        if (option.created) {
-          this.query = ''
-          this.handleQueryChange('')
-          this.inputLength = 20
-        }
-        if (this.filterable) this.$refs.input.focus()
-      } else {
-        this.$emit(UPDATE_MODEL_EVENT, option.value)
-        this.emitChange(option.value)
-        this.visible = false
-      }
-      this.isSilentBlur = byClick
-      this.setSoftFocus()
-      if (this.visible) return
-      nextTick(() => {
-        this.scrollToOption(option)
-      })
     },
 
     setSoftFocus() {
@@ -1027,3 +985,8 @@ export default defineComponent({
   },
 })
 </script>
+<style>
+.el-select .el-popper {
+  padding: 0;
+}
+</style>

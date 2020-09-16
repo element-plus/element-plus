@@ -1,7 +1,7 @@
 <template>
   <div
     class="el-select-dropdown el-popper"
-    :class="[{ 'is-multiple': $parent.multiple }, popperClass]"
+    :class="[{ 'is-multiple': isMultiple }, popperClass]"
     :style="{ minWidth: minWidth }"
   >
     <slot></slot>
@@ -12,11 +12,9 @@
 // import Popper from '@element-plus/vue-popper'
 import {
   computed,
-  getCurrentInstance,
-  watch,
   onMounted,
-  ref,
 } from 'vue'
+import useSelect from './useSelect'
 
 export default {
   name: 'ElSelectDropdown',
@@ -56,16 +54,15 @@ export default {
     },
   },
 
-  setup(props, ctx) {
-    const minWidth = ref('')
-    const instance = getCurrentInstance()
+  setup() {
+    const selectUse = useSelect()
+    const select = selectUse._select
+
     // computed
-    const popperClass = computed(() => instance.parent.popperClass)
-    // watch
-    // TODO: 需要补充
-    watch(() => instance.parent.inputWidth, () => {
-      minWidth.value = instance.parent.el?.getBoundingClientRect().width + 'px'
-    })
+    const popperClass = computed(() => select.props.popperClass)
+    // computed
+    const isMultiple = computed(() => select.props.multiple)
+    const minWidth = computed(() => select.trigger.value?.getBoundingClientRect().width + 'px')
 
     onMounted(() => {
       // TODO: 需要补充
@@ -80,7 +77,14 @@ export default {
     return {
       minWidth,
       popperClass,
+      isMultiple,
     }
+  },
+  methods: {
+    // TODO: doDestroy
+    doDestroy() {
+      //
+    },
   },
 }
 </script>
