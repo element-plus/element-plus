@@ -11,7 +11,9 @@ Popconfirm 的属性与 Popover 很类似，因此对于重复属性，请参考
 <el-popconfirm
   title="这是一段内容确定删除吗？"
 >
-  <el-button slot="reference">删除</el-button>
+<template #reference>
+  <el-button>删除</el-button>
+  </template>
 </el-popconfirm>
 </template>
 ````
@@ -30,7 +32,9 @@ Popconfirm 的属性与 Popover 很类似，因此对于重复属性，请参考
   iconColor="red"
   title="这是一段内容确定删除吗？"
 >
-  <el-button slot="reference">删除</el-button>
+<template #reference>
+  <el-button>删除</el-button>
+  </template>
 </el-popconfirm>
 </template>
 ```

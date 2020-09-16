@@ -1,43 +1,39 @@
 <template>
   <el-popper
-    trigger="click"
-    manual-mode
-    :value="visible"
+    v-model:visible="visible"
+    :trigger="['click']"
     effect="light"
+    pure
   >
-    <template #default>
-      <div class="el-popconfirm">
-        <p class="el-popconfirm__main">
-          <i
-            v-if="!hideIcon"
-            :class="icon"
-            class="el-popconfirm__icon"
-            :style="{color: iconColor}"
-          ></i>
-          <span lass="el-popconfirm__title">{{ title }}</span>
-        </p>
-        <div class="el-popconfirm__action">
-          <el-button
-            size="mini"
-            :type="cancelButtonType"
-            @click="cancel"
-          >
-            {{ cancelButtonText }}
-          </el-button>
-          <el-button
-            size="mini"
-            :type="confirmButtonType"
-            @click="confirm"
-          >
-            {{ confirmButtonText }}
-          </el-button>
-        </div>
+    <div class="el-popconfirm">
+      <p class="el-popconfirm__main">
+        <i
+          v-if="!hideIcon"
+          :class="icon"
+          class="el-popconfirm__icon"
+          :style="{color: iconColor}"
+        ></i>
+        {{ title }}
+      </p>
+      <div class="el-popconfirm__action">
+        <el-button
+          size="mini"
+          :type="cancelButtonType"
+          @click="cancel"
+        >
+          {{ cancelButtonText }}
+        </el-button>
+        <el-button
+          size="mini"
+          :type="confirmButtonType"
+          @click="confirm"
+        >
+          {{ confirmButtonText }}
+        </el-button>
       </div>
-    </template>
+    </div>
     <template #trigger>
-      <div class="click-trigger" style="display: inline-block" @click="open">
-        <slot name="reference"></slot>
-      </div>
+      <slot name="reference"></slot>
     </template>
   </el-popper>
 </template>
@@ -48,6 +44,9 @@ import { defineComponent,ref } from 'vue'
 import { t } from '../../locale'
 export default defineComponent({
   name: 'ElPopconfirm',
+  components: {
+    ElPopper,
+  },
   props: {
     title: {
       type: String,
@@ -81,28 +80,22 @@ export default defineComponent({
       default: false,
     },
   },
-  components: {
-    ElPopper,
-  },
-  setup(props,ctx){
+  emits:['confirm','cancel'],
+  setup(props,{ emit }){
     const visible = ref(false)
-
     const confirm = () => {
       visible.value = false
-      ctx.emit('confirm')
+      emit('confirm')
     }
     const cancel = () => {
       visible.value = false
-      ctx.emit('cancel')
+      emit('cancel')
     }
-    const open = (): void => {
-      visible.value = !visible.value
-    }
+
     return {
       visible,
       confirm,
       cancel,
-      open,
     }
   },
 })
