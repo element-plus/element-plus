@@ -13,9 +13,22 @@
       <div v-click-outside="handleOutsideClick">
         <div v-if="multiple">
           <div class="el-table-filter__content">
-            <el-scrollbar :native="false" :noresize="true" wrap-class="el-table-filter__wrap">
-              <el-checkbox-group v-model="filteredValue" class="el-table-filter__checkbox-group">
-                <el-checkbox v-for="filter in filters" :key="filter.value" :label="filter.value">{{ filter.text }}</el-checkbox>
+            <el-scrollbar
+              :native="false"
+              :noresize="true"
+              wrap-class="el-table-filter__wrap"
+            >
+              <el-checkbox-group
+                v-model="filteredValue"
+                class="el-table-filter__checkbox-group"
+              >
+                <el-checkbox
+                  v-for="filter in filters"
+                  :key="filter.value"
+                  :label="filter.value"
+                >
+                  {{ filter.text }}
+                </el-checkbox>
               </el-checkbox-group>
             </el-scrollbar>
           </div>
@@ -28,11 +41,21 @@
             >
               {{ t('el.table.confirmFilter') }}
             </button>
-            <button type @click="handleReset">{{ t('el.table.resetFilter') }}</button>
+            <button type @click="handleReset">
+              {{ t('el.table.resetFilter') }}
+            </button>
           </div>
         </div>
         <ul v-else class="el-table-filter__list">
-          <li :class="{ 'is-active': filterValue === undefined || filterValue === null }" class="el-table-filter__list-item" @click="handleSelect(null)">{{ t('el.table.clearFilter') }}</li>
+          <li
+            :class="{
+              'is-active': filterValue === undefined || filterValue === null,
+            }"
+            class="el-table-filter__list-item"
+            @click="handleSelect(null)"
+          >
+            {{ t('el.table.clearFilter') }}
+          </li>
           <li
             v-for="filter in filters"
             :key="filter.value"
@@ -47,8 +70,16 @@
       </div>
     </template>
     <template #trigger>
-      <span class="el-table__column-filter-trigger el-none-outline" @click="tooltipVisible = true">
-        <i :class="['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : '']"></i>
+      <span
+        class="el-table__column-filter-trigger el-none-outline"
+        @click="tooltipVisible = true"
+      >
+        <i
+          :class="[
+            'el-icon-arrow-down',
+            column.filterOpened ? 'el-icon-arrow-up' : '',
+          ]"
+        ></i>
       </span>
     </template>
   </el-popper>
