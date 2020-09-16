@@ -12,6 +12,7 @@
     "build:lib": "rimraf lib && webpack --config ./build/webpack.config.js",
     "build:theme": "rimraf packages/theme-chalk/lib && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk",
     "lint": "eslint ./packages --ext .vue,.js,.ts",
+    "lint-fix": "eslint --fix ./packages --ext .vue,.js,.ts",
     "website-build": "webpack --config ./website/webpack.config.js",
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
     "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev"
@@ -95,7 +96,9 @@
     "cp-cli": "^2.0.0",
     "dayjs": "1.x",
     "lodash": "^4.17.20",
-    "mitt": "^2.1.0"
+    "mitt": "^2.1.0",
+    "normalize-wheel": "^1.0.1",
+    "sinon": "^9.0.3"
   },
   "files": [
     "lib",

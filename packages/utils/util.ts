@@ -85,19 +85,19 @@ export const coerceTruthyValueToArray = arr => {
   return castArray(arr)
 }
 
-export const isIE = function(): boolean {
+export const isIE = function (): boolean {
   return !isServer && !isNaN(Number(document.DOCUMENT_NODE))
 }
 
-export const isEdge = function(): boolean {
+export const isEdge = function (): boolean {
   return !isServer && navigator.userAgent.indexOf('Edge') > -1
 }
 
-export const isFirefox = function(): boolean {
+export const isFirefox = function (): boolean {
   return !isServer && !!window.navigator.userAgent.match(/firefox/i)
 }
 
-export const autoprefixer = function(
+export const autoprefixer = function (
   style: PartialCSSStyleDeclaration,
 ): PartialCSSStyleDeclaration {
   const rules = ['transform', 'transition', 'animation']
@@ -135,7 +135,7 @@ export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
 
 export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void> {
   let locked = false
-  return function(...args: any[]) {
+  return function (...args: any[]) {
     if (locked) return
     locked = true
     window.requestAnimationFrame(() => {
@@ -171,3 +171,17 @@ export function isUndefined(val: any) {
 }
 
 export { isVNode } from 'vue'
+
+export const arrayFindIndex = function (
+  arr: Array<unknown>,
+  pred: (any) => boolean,
+): number {
+  return arr.findIndex(pred)
+}
+
+export const arrayFind = function (
+  arr: Array<unknown>,
+  pred: (any) => boolean,
+): any {
+  return arr.find(pred)
+}

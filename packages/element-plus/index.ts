@@ -37,6 +37,10 @@ import ElDialog from '@element-plus/dialog'
 import ElCalendar from '@element-plus/calendar'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
 import ElDrawer from '@element-plus/drawer'
+import ElTableInstall, {
+  Table as ElTable,
+  TableColumn as ElTableColumn,
+} from '@element-plus/table'
 
 export {
   ElAlert,
@@ -76,9 +80,11 @@ export {
   ElCalendar,
   ElInfiniteScroll,
   ElDrawer,
+  ElTable,
+  ElTableColumn,
 }
 
-const install = (app: App): void =>  {
+const install = (app: App): void => {
   ElAlert(app)
   ElAvatar(app)
   ElBacktop(app)
@@ -117,6 +123,7 @@ const install = (app: App): void =>  {
   ElCalendar(app)
   ElInfiniteScroll(app)
   ElDrawer(app)
+  ElTableInstall(app)
 }
 
 const elementUI = {

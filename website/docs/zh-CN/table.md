@@ -358,7 +358,7 @@
       fixed="right"
       label="操作"
       width="100">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
         <el-button type="text" size="small">编辑</el-button>
       </template>
@@ -564,7 +564,7 @@
       fixed="right"
       label="操作"
       width="120">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -846,7 +846,7 @@
     <el-table-column
       label="日期"
       width="120">
-      <template slot-scope="scope">{{ scope.row.date }}</template>
+      <template v-slot="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       prop="name"
@@ -1026,7 +1026,7 @@
       :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-tag
           :type="scope.row.tag === '家' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1097,7 +1097,7 @@
     <el-table-column
       label="日期"
       width="180">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1105,18 +1105,22 @@
     <el-table-column
       label="姓名"
       width="180">
-      <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-          </div>
+      <template v-slot="scope">
+        <el-popover effect="light" trigger="hover" placement="top">
+          <template #default>
+            <p>姓名: {{ scope.row.name }}</p>
+            <p>住址: {{ scope.row.address }}</p>
+          </template>
+          <template #trigger>
+            <div class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.name }}</el-tag>
+            </div>
+          </template>
         </el-popover>
       </template>
     </el-table-column>
     <el-table-column label="操作">
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -1175,7 +1179,7 @@
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template slot-scope="props">
+      <template v-slot="props">
         <el-form label-position="left" inline class="demo-table-expand">
           <el-form-item label="商品名称">
             <span>{{ props.row.name }}</span>
@@ -1436,13 +1440,13 @@
     </el-table-column>
     <el-table-column
       align="right">
-      <template slot="header" slot-scope="scope">
+      <template #header v-slot="scope">
         <el-input
           v-model="search"
           size="mini"
           placeholder="输入关键字搜索"/>
       </template>
-      <template slot-scope="scope">
+      <template v-slot="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
