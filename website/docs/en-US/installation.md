@@ -20,12 +20,12 @@ Get the latest version from [unpkg.com/element-plus](https://unpkg.com/element-p
 ```
 
 :::tip
-We recommend our users to lock Element's version when using CDN. Please refer to [unpkg.com](https://unpkg.com) for more information.
+We recommend our users to lock Element Plus's version when using CDN. Please refer to [unpkg.com](https://unpkg.com) for more information.
 :::
 
 ### Hello world
 
-If you are using CDN, a hello-world page is easy with Element. [Online Demo](https://codepen.io/ziyoung/pen/rRKYpd)
+If you are using CDN, a hello-world page is easy with Element Plus. [Online Demo](https://codepen.io/ziyoung/pen/rRKYpd)
 
 <iframe height="265" style="width: 100%;" scrolling="no" title="Element demo" src="//codepen.io/ziyoung/embed/rRKYpd/?height=265&theme-id=light&default-tab=html" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/ziyoung/pen/rRKYpd/'>Element demo</a> by hetech
