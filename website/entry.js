@@ -12,6 +12,9 @@ import './demo-styles/index.scss'
 import './assets/styles/common.css'
 import './assets/styles/fonts/style.css'
 import icon from './icon.json'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn') // todo: locale based on Doc site lang
 
 import App from './app.vue'
 import ElementPlus from 'element-plus'

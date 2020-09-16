@@ -34,7 +34,9 @@ import ElSlider from '@element-plus/slider'
 import ElInput from '@element-plus/input'
 import ElTransfer from '@element-plus/transfer'
 import ElDialog from '@element-plus/dialog'
+import ElCalendar from '@element-plus/calendar'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
+
 
 export {
   ElAlert,
@@ -71,6 +73,7 @@ export {
   ElInput,
   ElTransfer,
   ElDialog,
+  ElCalendar,
   ElInfiniteScroll,
 }
 
@@ -110,6 +113,7 @@ const install = (app: App): void =>  {
   ElInput(app)
   ElTransfer(app)
   ElDialog(app)
+  ElCalendar(app)
   ElInfiniteScroll(app)
 }
 

@@ -26,12 +26,11 @@ Display date.
 :::demo Customize what is displayed in the calendar cell by setting `scoped-slot` named `dateCell`. In `scoped-slot` you can get the date (the date of the current cell), data (including the type, isSelected, day attribute). For details, please refer to the API documentation below.
 ```html
 <el-calendar>
-  <!-- Use 2.5 slot syntax. If you use Vue 2.6, please use new slot syntax-->
   <template
-    slot="dateCell"
-    slot-scope="{date, data}">
+    #dateCell="{data}"
+  >
     <p :class="data.isSelected ? 'is-selected' : ''">
-      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
+      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}
     </p>
   </template>
 </el-calendar>
@@ -47,7 +46,7 @@ Display date.
 
 :::demo Set the `range` attribute to specify the display range of the calendar. Start time must be Monday, end time must be Sunday, and the time span cannot exceed two months.
 ```html
-<el-calendar :range="['2019-03-04', '2019-03-24']">
+<el-calendar :range="[new Date(2019, 2, 4), new Date(2019, 2, 24)]">
 </el-calendar>
 ```
 :::
