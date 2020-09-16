@@ -5,18 +5,18 @@
 Installer Element via npm est recommandé, il fonctionne parfaitement avec [webpack](https://webpack.js.org/).
 
 ```shell
-npm i element-ui -S
+npm install element-plus --save
 ```
 
 ### CDN
 
-Obtenez la dernière version via [unpkg.com/element-ui](https://unpkg.com/element-ui/), et importez le JavaScript et le CSS dans votre page.
+Obtenez la dernière version via [unpkg.com/element-plus](https://unpkg.com/element-plus/), et importez le JavaScript et le CSS dans votre page.
 
 ```html
 <!-- import du CSS -->
-<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 <!-- import du JavaScript -->
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/element-plus/lib/index.js"></script>
 ```
 
 :::tip
