@@ -1,44 +1,652 @@
-import { inject, nextTick } from 'vue'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { t } from '@element-plus/locale'
+import isServer from '@element-plus/utils/isServer'
+import scrollIntoView from '@element-plus/utils/scroll-into-view'
+import { debounce as lodashDebounce } from 'lodash'
+import { isKorean } from '@element-plus/utils/isDef'
+import {
+  inject,
+  nextTick,
+  computed,
+  watch,
+  ref,
+} from 'vue'
+import {
+  getValueByPath,
+  isEqual,
+  isIE,
+  isEdge,
+} from '@element-plus/utils/util'
 
-export default () => {
-  const navigateOptions = (direction: string) => {
-    if (!this.visible) {
-      this.visible = true
+const ELEMENT = { size: 'medium' }
+
+export const useSelect = (props, states, ctx) => {
+  // template refs
+  const reference = ref(null)
+  const input = ref(null)
+  const popper = ref(null)
+  const tags = ref(null)
+  const trigger = ref(null)
+  const scrollbar = ref(null)
+
+  const elForm = inject('elForm', {})
+  const elFormItem = inject('elFormItem', {})
+  // computed
+  const _elFormItemSize = computed(() => (elFormItem || {}).elFormItemSize)
+
+  const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !states.visible))
+
+  const selectDisabled = computed(() => props.disabled || (elForm || {}).disabled)
+
+  const showClose = computed(() => {
+    const hasValue = props.multiple
+      ? Array.isArray(props.modelValue) && props.modelValue.length > 0
+      : props.modelValue !== undefined && props.modelValue !== null && props.modelValue !== ''
+
+    const criteria =
+      props.clearable &&
+      !selectDisabled.value &&
+      states.inputHovering &&
+      hasValue
+    return criteria
+  })
+  const iconClass = computed(() => props.remote && props.filterable ? '' : (states.visible ? 'arrow-up is-reverse' : 'arrow-up'))
+
+  const debounce = computed(() => props.remote ? 300 : 0)
+
+  const emptyText = computed(() => {
+    if (props.loading) {
+      return props.loadingText || t('el.select.loading')
+    } else {
+      if (props.remote && states.query === '' && states.options.length === 0) return false
+      if (props.filterable && states.query && states.options.length > 0 && states.filteredOptionsCount === 0) {
+        return props.noMatchText || t('el.select.noMatch')
+      }
+      if (states.options.length === 0) {
+        return props.noDataText || t('el.select.noData')
+      }
+    }
+    return null
+  })
+
+  const showNewOption = computed(() => {
+    const hasExistingOption = states.options.filter(option => {
+      return !option.created
+    }).some(option => {
+      return option.currentLabel === states.query
+    })
+    return props.filterable && props.allowCreate && states.query !== '' && !hasExistingOption
+  })
+
+  // TODO: ctx.$ELEMENT
+  const selectSize = computed(() => props.size || _elFormItemSize.value || (ELEMENT || {}).size)
+
+  const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
+
+  // watch
+  watch(() => selectDisabled.value, () => {
+    nextTick(() => {
+      resetInputHeight()
+    })
+  })
+
+  watch(() => props.placeholder, val => {
+    states.cachedPlaceHolder = states.currentPlaceholder = val
+  })
+
+  watch(() => props.modelValue, (val, oldVal) => {
+    if (props.multiple) {
+      resetInputHeight()
+      if ((val && val.length > 0) || (input.value && states.query !== '')) {
+        states.currentPlaceholder = ''
+      } else {
+        states.currentPlaceholder = states.cachedPlaceHolder
+      }
+      if (props.filterable && !props.reserveKeyword) {
+        states.query = ''
+        handleQueryChange(states.query)
+      }
+    }
+    setSelected()
+    if (props.filterable && !props.multiple) {
+      states.inputLength = 20
+    }
+    if (!isEqual(val, oldVal)) {
+      // TODO:
+      // this.dispatch('ElFormItem', 'el.form.change', val)
+    }
+  })
+
+  watch(() => states.visible, val => {
+    if (!val) {
+      // TODO:
+      // this.broadcast('ElSelectDropdown', 'destroyPopper')
+      input.value && input.value.blur()
+      states.query = ''
+      states.previousQuery = null
+      states.selectedLabel = ''
+      states.inputLength = 20
+      states.menuVisibleOnFocus = false
+      resetHoverIndex()
+      nextTick(() => {
+        if (input.value && input.value.value === '' && states.selected.length === 0) {
+          states.currentPlaceholder = states.cachedPlaceHolder
+        }
+      })
+
+      if (!props.multiple) {
+        if (states.selected) {
+          if (props.filterable && props.allowCreate && states.createdSelected && states.createdLabel) {
+            states.selectedLabel = states.createdLabel
+          } else {
+            states.selectedLabel = states.selected.currentLabel
+          }
+          if (props.filterable) states.query = states.selectedLabel
+        }
+
+        if (props.filterable) {
+          states.currentPlaceholder = states.cachedPlaceHolder
+        }
+      }
+    } else {
+      // TODO:
+      // this.broadcast('ElSelectDropdown', 'updatePopper')
+      if (props.filterable) {
+        states.query = props.remote ? '' : states.selectedLabel
+        handleQueryChange(states.query)
+        if (props.multiple) {
+          input.value.focus()
+        } else {
+          if (!props.remote) {
+            states.selectEmitter.emit('elOptionQueryChange', '')
+            // TODO:
+            // this.broadcast('ElOptionGroup', 'queryChange')
+          }
+
+          if (states.selectedLabel) {
+            states.currentPlaceholder = states.selectedLabel
+            states.selectedLabel = ''
+          }
+        }
+      }
+    }
+    ctx.emit('visible-change', val)
+  })
+
+  watch(() => states.options, () => {
+    if (isServer) return
+    // TODO:
+    nextTick(() => {
+      this.broadcast('ElSelectDropdown', 'updatePopper')
+    })
+    if (props.multiple) {
+      resetInputHeight()
+    }
+    const inputs = trigger.value.querySelectorAll('input')
+    if ([].indexOf.call(inputs, document.activeElement) === -1) {
+      setSelected()
+    }
+    if (props.defaultFirstOption && (props.filterable || props.remote) && states.filteredOptionsCount) {
+      checkDefaultFirstOption()
+    }
+  })
+
+
+  // methods
+  const resetInputHeight = () => {
+    if (props.collapseTags && !props.filterable) return
+    nextTick(() => {
+      if (!reference.value) return
+      const inputChildNodes = reference.value.$el.childNodes
+      const input = [].filter.call(inputChildNodes, item => item.tagName === 'INPUT')[0]
+      const _tags = tags.value
+      const sizeInMap = states.initialInputHeight || 40
+      input.style.height = states.selected.length === 0
+        ? sizeInMap + 'px'
+        : Math.max(
+          _tags ? (_tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)) : 0,
+          sizeInMap) + 'px'
+      if (states.visible && emptyText.value !== false) {
+        // TODO: updatePopper
+        // this.broadcast('ElSelectDropdown', 'updatePopper')
+      }
+    })
+  }
+
+  const handleQueryChange = val => {
+    if (states.previousQuery === val || states.isOnComposition) return
+    if (
+      states.previousQuery === null &&
+      (typeof props.filterMethod === 'function' || typeof props.remoteMethod === 'function')
+    ) {
+      states.previousQuery = val
       return
     }
-    if (this.options.length === 0 || this.filteredOptionsCount === 0) return
-    if (!this.optionsAllDisabled) {
-      if (direction === 'next') {
-        this.hoverIndex++
-        if (this.hoverIndex === this.options.length) {
-          this.hoverIndex = 0
-        }
-      } else if (direction === 'prev') {
-        this.hoverIndex--
-        if (this.hoverIndex < 0) {
-          this.hoverIndex = this.options.length - 1
-        }
-      }
-      const option = this.options[this.hoverIndex]
-      if (option.disabled === true ||
-        option.groupDisabled === true ||
-        !option.visible) {
-        this.navigateOptions(direction)
-      }
-      nextTick(() => this.scrollToOption(this.hoverOption))
+    states.previousQuery = val
+    nextTick(() => {
+      // TODO: updatePopper
+      // if (visible.value) this.broadcast('ElSelectDropdown', 'updatePopper')
+    })
+    states.hoverIndex = -1
+    if (props.multiple && props.filterable) {
+      nextTick(() => {
+        const length = input.value.length * 15 + 20
+        states.inputLength = props.collapseTags ? Math.min(50, length) : length
+        managePlaceholder()
+        resetInputHeight()
+      })
+    }
+    if (props.remote && typeof props.remoteMethod === 'function') {
+      states.hoverIndex = -1
+      props.remoteMethod(val)
+    } else if (typeof props.filterMethod === 'function') {
+      props.filterMethod(val)
+      // TODO:
+      // this.broadcast('ElOptionGroup', 'queryChange')
+    } else {
+      states.filteredOptionsCount = states.optionsCount
+      states.selectEmitter.emit('elOptionQueryChange', val)
+      // TODO:
+      // this.broadcast('ElOptionGroup', 'queryChange')
+    }
+    if (props.defaultFirstOption && (props.filterable || props.remote) && states.filteredOptionsCount) {
+      checkDefaultFirstOption()
     }
   }
 
-  // const queryChange = query => {
-  //   this.visible = new RegExp(escapeRegexpString(query), 'i').test(this.currentLabel) || this.created
-  //   if (!this.visible) {
-  //     this.select.filteredOptionsCount--
-  //   }
-  // }
+  const managePlaceholder = () => {
+    if (states.currentPlaceholder !== '') {
+      states.currentPlaceholder = input.value ? '' : states.cachedPlaceHolder
+    }
+  }
 
-  const _selectGroup = inject('SelectGroup', {}) as any
+  const checkDefaultFirstOption = () => {
+    states.hoverIndex = -1
+    // highlight the created option
+    let hasCreated = false
+    for (let i = states.options.length - 1; i >= 0; i--) {
+      if (states.options[i].created) {
+        hasCreated = true
+        states.hoverIndex = i
+        break
+      }
+    }
+    if (hasCreated) return
+    for (let i = 0; i !== states.options.length; ++i) {
+      const option = states.options[i]
+      if (states.query) {
+        // highlight first options that passes the filter
+        if (!option.props.disabled && !option.props.groupDisabled && option.visible) {
+          states.hoverIndex = i
+          break
+        }
+      } else {
+        // highlight currently selected option
+        if (option.itemSelected) {
+          states.hoverIndex = i
+          break
+        }
+      }
+    }
+  }
 
-  const _select = inject('Select', {}) as any
+  const setSelected = () => {
+    if (!props.multiple) {
+      const option = getOption(props.modelValue)
+      if (option.props?.created) {
+        states.createdLabel = option.props.value
+        states.createdSelected = true
+      } else {
+        states.createdSelected = false
+      }
+      states.selectedLabel = option.currentLabel
+      states.selected = option
+      if (props.filterable) states.query = states.selectedLabel
+      return
+    }
+    const result = []
+    if (Array.isArray(props.modelValue)) {
+      props.modelValue.forEach(value => {
+        result.push(getOption(value))
+      })
+    }
+    states.selected = result
+    nextTick(() => {
+      resetInputHeight()
+    })
+  }
 
-  return { navigateOptions, _selectGroup, _select }
+  const getOption = value => {
+    let option
+    const isObject = Object.prototype.toString.call(props.modelValue).toLowerCase() === '[object object]'
+    const isNull = Object.prototype.toString.call(props.modelValue).toLowerCase() === '[object null]'
+    const isUndefined = Object.prototype.toString.call(props.modelValue).toLowerCase() === '[object undefined]'
+
+    for (let i = states.cachedOptions.length - 1; i >= 0; i--) {
+      const cachedOption = states.cachedOptions[i]
+      const isEqual = isObject
+        ? getValueByPath(cachedOption.value, props.valueKey) === getValueByPath(props.modelValue, props.valueKey)
+        : cachedOption.value === value
+      if (isEqual) {
+        option = {
+          value,
+          currentLabel: cachedOption.currentLabel,
+        }
+        break
+      }
+    }
+    if (option) return option
+    const label = (!isObject && !isNull && !isUndefined) ? value : ''
+    const newOption = {
+      value: value,
+      currentLabel: label,
+    }
+    if (props.multiple) {
+      (newOption as any).hitState = false
+    }
+    return newOption
+  }
+
+  const resetHoverIndex = () => {
+    setTimeout(() => {
+      if (!props.multiple) {
+        states.hoverIndex = states.options.indexOf(states.selected)
+      } else {
+        if (states.selected.length > 0) {
+          states.hoverIndex = Math.min.apply(null, states.selected.map(item => states.options.indexOf(item)))
+        } else {
+          states.hoverIndex = -1
+        }
+      }
+    }, 300)
+  }
+
+  const handleResize = () => {
+    resetInputWidth()
+    if (props.multiple) resetInputHeight()
+  }
+
+  const resetInputWidth = () => {
+    states.inputWidth = reference.value?.$el.getBoundingClientRect().width
+  }
+
+  const onInputChange = () => {
+    if (props.filterable && states.query !== states.selectedLabel) {
+      states.query = states.selectedLabel
+      handleQueryChange(states.query)
+    }
+  }
+
+  const debouncedOnInputChange = lodashDebounce(() => {
+    onInputChange()
+  }, debounce.value)
+
+  const debouncedQueryChange = lodashDebounce(e => {
+    handleQueryChange(e.target.value)
+  }, debounce.value)
+
+  const deletePrevTag = e => {
+    if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
+      const value = props.modelValue.slice()
+      value.pop()
+      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emitChange(value)
+    }
+  }
+
+  const emitChange = val => {
+    if (!isEqual(props.modelValue, val)) {
+      ctx.emit('change', val)
+    }
+  }
+
+  const deleteTag = (event, tag) => {
+    const index = states.selected.indexOf(tag)
+    if (index > -1 && !selectDisabled.value) {
+      const value = props.modelValue.slice()
+      value.splice(index, 1)
+      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emitChange(value)
+      ctx.emit('remove-tag', tag.value)
+    }
+    event.stopPropagation()
+  }
+
+  const deleteSelected = event => {
+    event.stopPropagation()
+    const value = props.multiple ? [] : ''
+    ctx.emit(UPDATE_MODEL_EVENT, value)
+    emitChange(value)
+    states.visible = false
+    ctx.emit('clear')
+  }
+
+  const handleOptionSelect = (option, byClick) => {
+    if (props.multiple) {
+      const value = (props.modelValue || []).slice()
+      const optionIndex = getValueIndex(value, option.value)
+      if (optionIndex > -1) {
+        value.splice(optionIndex, 1)
+      } else if (props.multipleLimit <= 0 || value.length < props.multipleLimit) {
+        value.push(option.value)
+      }
+      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emitChange(value)
+      if (option.created) {
+        states.query = ''
+        handleQueryChange('')
+        states.inputLength = 20
+      }
+      if (props.filterable) input.value.focus()
+    } else {
+      ctx.emit(UPDATE_MODEL_EVENT, option.value)
+      emitChange(option.value)
+      states.visible = false
+    }
+    states.isSilentBlur = byClick
+    setSoftFocus()
+    if (states.visible) return
+    nextTick(() => {
+      scrollToOption(option)
+    })
+  }
+
+  const getValueIndex = (arr = [], value) => {
+    const isObject = Object.prototype.toString.call(value).toLowerCase() === '[object object]'
+    if (!isObject) {
+      return arr.indexOf(value)
+    } else {
+      const valueKey = props.valueKey
+      let index = -1
+      arr.some((item, i) => {
+        if (getValueByPath(item, valueKey) === getValueByPath(value, valueKey)) {
+          index = i
+          return true
+        }
+        return false
+      })
+      return index
+    }
+  }
+
+  const setSoftFocus = () => {
+    states.softFocus = true
+    const _input = input.value || reference.value
+    if (_input) {
+      _input.focus()
+    }
+  }
+
+  const scrollToOption = option => {
+    const target = Array.isArray(option) && option[0] ? option[0].$el : option.$el
+    if (popper.value && target) {
+      const menu = popper.value.$el.querySelector('.el-select-dropdown__wrap')
+      scrollIntoView(menu, target)
+    }
+    // TODO:
+    // scrollbar.value?.handleScroll()
+  }
+
+  const onOptionDestroy = index => {
+    if (index > -1) {
+      states.optionsCount--
+      states.filteredOptionsCount--
+      states.options.splice(index, 1)
+    }
+  }
+
+  const resetInputState = e => {
+    if (e.keyCode !== 8) toggleLastOptionHitState(false)
+    states.inputLength = input.value.length * 15 + 20
+    resetInputHeight()
+  }
+
+  const toggleLastOptionHitState = hit => {
+    if (!Array.isArray(states.selected)) return
+    const option = states.selected[states.selected.length - 1]
+    if (!option) return
+
+    if (hit === true || hit === false) {
+      option.hitState = hit
+      return hit
+    }
+
+    option.hitState = !option.hitState
+    return option.hitState
+  }
+
+  const handleComposition = event => {
+    const text = event.target.value
+    if (event.type === 'compositionend') {
+      states.isOnComposition = false
+      nextTick(() => this.handleQueryChange(text))
+    } else {
+      const lastCharacter = text[text.length - 1] || ''
+      states.isOnComposition = !isKorean(lastCharacter)
+    }
+  }
+
+  const handleMenuEnter = () => {
+    nextTick(() => scrollToOption(states.selected))
+  }
+
+  const handleFocus = event => {
+    if (!states.softFocus) {
+      if (props.automaticDropdown || props.filterable) {
+        states.visible = true
+        if (props.filterable) {
+          states.menuVisibleOnFocus = true
+        }
+      }
+      ctx.emit('focus', event)
+    } else {
+      states.softFocus = false
+    }
+  }
+
+  const blur = () => {
+    states.visible = false
+    reference.value.blur()
+  }
+
+  const handleBlur = event => {
+    setTimeout(() => {
+      if (states.isSilentBlur) {
+        states.isSilentBlur = false
+      } else {
+        ctx.emit('blur', event)
+      }
+    }, 50)
+    states.softFocus = false
+  }
+
+  const handleClearClick = event => {
+    deleteSelected(event)
+  }
+
+  const doDestroy = () => {
+    popper.value?.doDestroy()
+  }
+
+  const handleClose = () => {
+    states.visible = false
+  }
+
+  const toggleMenu = () => {
+    if (!selectDisabled.value) {
+      if (states.menuVisibleOnFocus) {
+        states.menuVisibleOnFocus = false
+      } else {
+        states.visible = !states.visible
+      }
+      if (states.visible) {
+        (input.value || reference.value).focus()
+      }
+    }
+  }
+
+  const selectOption = () => {
+    if (!states.visible) {
+      toggleMenu()
+    } else {
+      if (states.options[states.hoverIndex]) {
+        handleOptionSelect(states.options[states.hoverIndex], undefined)
+      }
+    }
+  }
+
+  const getValueKey = item => {
+    if (Object.prototype.toString.call(item.value).toLowerCase() !== '[object object]') {
+      return item.value
+    } else {
+      return getValueByPath(item.value, this.valueKey)
+    }
+  }
+
+  return {
+    selectSize,
+    handleResize,
+    debouncedOnInputChange,
+    debouncedQueryChange,
+    deletePrevTag,
+    deleteTag,
+    deleteSelected,
+    handleOptionSelect,
+    scrollToOption,
+    readonly,
+    resetInputHeight,
+    showClose,
+    iconClass,
+    showNewOption,
+    collapseTagSize,
+    setSelected,
+    managePlaceholder,
+    selectDisabled,
+    emptyText,
+    handleQueryChange,
+    toggleLastOptionHitState,
+    resetInputState,
+    handleComposition,
+    onOptionDestroy,
+    handleMenuEnter,
+    handleFocus,
+    blur,
+    handleBlur,
+    handleClearClick,
+    doDestroy,
+    handleClose,
+    toggleMenu,
+    selectOption,
+    getValueKey,
+
+    // DOM ref
+    reference,
+    input,
+    popper,
+    tags,
+    trigger,
+    scrollbar,
+  }
 }
+
+

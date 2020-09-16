@@ -13,8 +13,8 @@
 import {
   computed,
   onMounted,
+  inject,
 } from 'vue'
-import useSelect from './useSelect'
 
 export default {
   name: 'ElSelectDropdown',
@@ -55,8 +55,9 @@ export default {
   },
 
   setup() {
-    const selectUse = useSelect()
-    const select = selectUse._select
+    // const selectUse = useSelect()
+    // const select = selectUse._select
+    const select = inject('Select', {})
 
     // computed
     const popperClass = computed(() => select.props.popperClass)

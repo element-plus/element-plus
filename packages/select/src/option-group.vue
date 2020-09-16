@@ -32,7 +32,7 @@ export default defineComponent({
     const visible = ref(true)
 
     provide('SelectGroup', {
-      disabled: props.disabled,
+      ...props,
     })
 
     // TODO: queryChange还没实现
