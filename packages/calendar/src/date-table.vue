@@ -51,7 +51,7 @@ import localeData from 'dayjs/plugin/localeData'
 dayjs.extend(localeData)
 
 const rangeArr = n => {
-  return Array.apply(null, { length: n }).map((_, n) => n)
+  return Array.from(Array(n).keys())
 }
 
 export const getPrevMonthLastDays = (date: Dayjs, amount) => {

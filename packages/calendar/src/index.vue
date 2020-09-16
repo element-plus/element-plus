@@ -30,8 +30,8 @@
         :selected-day="realSelectedDay"
         @pick="pickDay"
       >
-        <template v-for="(index_, name) in $slots" #[name]="data">
-          <slot :name="name" v-bind="data"></slot>
+        <template v-if="$slots.dateCell" #dateCell="data">
+          <slot name="dateCell" v-bind="data"></slot>
         </template>
       </date-table>
     </div>
@@ -45,8 +45,8 @@
         :hide-header="index !== 0"
         @pick="pickDay"
       >
-        <template v-for="(index_, name) in $slots" #[name]="data">
-          <slot :name="name" v-bind="data"></slot>
+        <template v-if="$slots.dateCell" #dateCell="data">
+          <slot name="dateCell" v-bind="data"></slot>
         </template>
       </date-table>
     </div>
