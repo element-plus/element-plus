@@ -79,7 +79,10 @@ export const escapeRegexpString = (value = ''): string =>
 // Use native Array.find, Array.findIndex instead
 
 // coerce truthy value to array
-export const coerceTruthyValueToArray = castArray
+export const coerceTruthyValueToArray = arr => {
+  if (!arr) { return [] }
+  return castArray(arr)
+}
 
 export const isIE = function(): boolean {
   return !isServer && !isNaN(Number(document.DOCUMENT_NODE))

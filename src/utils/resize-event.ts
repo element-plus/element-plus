@@ -1,5 +1,5 @@
 import ResizeObserver from 'resize-observer-polyfill'
-
+import { NOOP } from '@vue/shared'
 const isServer = typeof window === 'undefined'
 
 // TODO: add hack prototype __resizeListeners__
@@ -21,7 +21,7 @@ export const addResizeListener = function(element, fn) {
   if (isServer) return
   if (!element.__resizeListeners__) {
     element.__resizeListeners__ = []
-    element.__ro__ = new ResizeObserver(() => {})
+    element.__ro__ = new ResizeObserver(NOOP)
     element.__ro__.observe(element)
   }
   element.__resizeListeners__.push(fn)
