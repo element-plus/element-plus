@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep, defineGetter } from '@element-plus/test-utils'
 import Input from '../src/index.vue'
+import input from '..'
 
 const _mount = options => mount({
   components: {
@@ -36,15 +37,16 @@ describe('Input.vue', () => {
 
     const inputElm = wrapper.find('input')
     const vm = wrapper.vm as any
+    const nativeInput = inputElm.element
 
     await inputElm.trigger('focus')
 
     expect(inputElm.exists()).toBe(true)
     expect(handleFocus).toHaveBeenCalled()
-    expect(wrapper.attributes('placeholder')).toBe('请输入内容')
-    expect(inputElm.element.value).toBe('input')
-    expect(wrapper.attributes('minlength')).toBe('3')
-    expect(wrapper.attributes('maxlength')).toBe('5')
+    expect(nativeInput.placeholder).toBe('请输入内容')
+    expect(nativeInput.value).toBe('input')
+    expect(nativeInput.minLength).toBe(3)
+    expect(nativeInput.maxLength).toBe(5)
 
     vm.input = 'text'
     await sleep()
@@ -406,7 +408,7 @@ describe('Input.vue', () => {
       await inputWrapper.trigger('compositionupdate')
       await inputWrapper.trigger('input')
       await inputWrapper.trigger('compositionend')
-      expect(handleInput).toBeCalled()
+      expect(handleInput).toBeCalledTimes(1)
       // native input value is controlled
       expect(vm.input).toEqual('a')
       expect(nativeInput.value).toEqual('a')

@@ -25,7 +25,7 @@
         v-if="type !== 'textarea'"
         ref="input"
         class="el-input__inner"
-        v-bind="$attrs"
+        v-bind="attrs"
         :type="showPassword ? (passwordVisible ? 'text': 'password') : type"
         :disabled="inputDisabled"
         :readonly="readonly"
@@ -79,7 +79,7 @@
       v-else
       ref="textarea"
       class="el-textarea__inner"
-      v-bind="$attrs"
+      v-bind="attrs"
       :tabindex="tabindex"
       :disabled="inputDisabled"
       :readonly="readonly"
@@ -112,6 +112,7 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
+import { useAttrs } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, VALIDATE_STATE_MAP } from '@element-plus/utils/constants'
 import { isObject } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
@@ -144,6 +145,8 @@ const PENDANT_MAP = {
 
 export default defineComponent({
   name: 'ElInput',
+
+  inheritAttrs: false,
 
   props: {
     modelValue: {
@@ -217,10 +220,11 @@ export default defineComponent({
     },
   },
 
-  emits: [UPDATE_MODEL_EVENT, 'change', 'focus', 'blur', 'clear'],
+  emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'focus', 'blur', 'clear'],
 
   setup(props, ctx) {
     const instance = getCurrentInstance()
+    const attrs = useAttrs(true)
 
     const elForm = inject<ElForm>('elForm', {} as any)
     const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
@@ -319,15 +323,18 @@ export default defineComponent({
     }
 
     const handleInput = event => {
+      const { value } = event.target
+
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
       if (isComposing.value) return
 
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
-      if (event.target.value === nativeInputValue.value) return
+      if (value === nativeInputValue.value) return
 
-      ctx.emit(UPDATE_MODEL_EVENT, event.target.value)
+      ctx.emit(UPDATE_MODEL_EVENT, value)
+      ctx.emit('input', value)
 
       // ensure native input value is controlled
       // see: https://github.com/ElemeFE/element/issues/12850
@@ -442,6 +449,7 @@ export default defineComponent({
     return {
       input,
       textarea,
+      attrs,
       inputSize,
       validateState,
       validateIcon,

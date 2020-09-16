@@ -164,4 +164,8 @@ export function entries<T>(obj: Hash<T>): [string, T][] {
     .map((key: string) => ([key, obj[key]]))
 }
 
+export function isUndefined(val: any) {
+  return val === void 0
+}
+
 export { isVNode } from 'vue'
