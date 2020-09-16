@@ -2,7 +2,7 @@
 
 ### NPM
 
-Installer Element via npm est recommandé, il fonctionne parfaitement avec [webpack](https://webpack.js.org/).
+Installer Element Plus via npm est recommandé, il fonctionne parfaitement avec [webpack](https://webpack.js.org/).
 
 ```shell
 npm install element-plus --save
@@ -20,12 +20,12 @@ Obtenez la dernière version via [unpkg.com/element-plus](https://unpkg.com/elem
 ```
 
 :::tip
-Il est recommandé de fixer la version d'Element lors de l'utilisation du CDN. Référez-vous à  [unpkg.com](https://unpkg.com) pour plus d'informations.
+Il est recommandé de fixer la version d'Element Plus lors de l'utilisation du CDN. Référez-vous à  [unpkg.com](https://unpkg.com) pour plus d'informations.
 :::
 
 ### Hello world
 
-Si vous utilisez un CDN, une page hello-world peut être obtenue facilement avec Element ([démo en ligne](https://codepen.io/ziyoung/pen/rRKYpd)).
+Si vous utilisez un CDN, une page hello-world peut être obtenue facilement avec Element Plus ([démo en ligne](https://codepen.io/ziyoung/pen/rRKYpd)).
 
 <iframe height="265" style="width: 100%;" scrolling="no" title="Element demo" src="//codepen.io/ziyoung/embed/rRKYpd/?height=265&theme-id=light&default-tab=html" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/ziyoung/pen/rRKYpd/'>Element demo</a> by hetech
