@@ -3,6 +3,10 @@ module.exports = {
   parserOptions: {
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+      tsx: true,
+    },
   },
   env: {
     browser: true,

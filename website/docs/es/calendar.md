@@ -27,12 +27,11 @@ Muestra fechas.
 
 ```html
 <el-calendar>
-  <!-- Use 2.5 slot syntax. If you use Vue 2.6, please use new slot syntax-->
   <template
-    slot="dateCell"
-    slot-scope="{date, data}">
+    #dateCell="{data}"
+  >
     <p :class="data.isSelected ? 'is-selected' : ''">
-      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
+      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}
     </p>
   </template>
 </el-calendar>
@@ -48,7 +47,7 @@ Muestra fechas.
 
 :::demo Defina el atributo `range` para especificar el rango de visualización del calendario. El tiempo de inicio debe ser el lunes, el tiempo de finalización debe ser el domingo y el período no puede exceder los dos meses.
 ```html
-<el-calendar :range="['2019-03-04', '2019-03-24']">
+<el-calendar :range="[new Date(2019, 2, 4), new Date(2019, 2, 24)]">
 </el-calendar>
 ```
 :::

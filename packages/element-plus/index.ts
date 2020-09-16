@@ -10,6 +10,7 @@ import ElDropdown from '@element-plus/dropdown'
 import ElTag from '@element-plus/tag'
 import ElLayout from '@element-plus/layout'
 import ElDivider from '@element-plus/divider'
+import ElCarousel from '@element-plus/carousel'
 import ElTimeline from '@element-plus/timeline'
 import ElProgress from '@element-plus/progress'
 import ElBreadcrumb from '@element-plus/breadcrumb'
@@ -26,12 +27,17 @@ import ElScrollBar from '@element-plus/scrollbar'
 import ElSteps from '@element-plus/steps'
 import ElCollapse from '@element-plus/collapse'
 import ElPopper from '@element-plus/popper'
+import ElTimePicker from '@element-plus/time-picker'
 import ElTabs from '@element-plus/tabs'
 import ElTooltip from '@element-plus/tooltip'
 import ElSlider from '@element-plus/slider'
 import ElPopconfirm from '@element-plus/popconfirm'
 import ElInput from '@element-plus/input'
 import ElTransfer from '@element-plus/transfer'
+import ElDialog from '@element-plus/dialog'
+import ElCalendar from '@element-plus/calendar'
+import ElInfiniteScroll from '@element-plus/infinite-scroll'
+
 
 export {
   ElAlert,
@@ -45,6 +51,7 @@ export {
   ElDivider,
   ElDropdown,
   ElTag,
+  ElCarousel,
   ElTimeline,
   ElProgress,
   ElBreadcrumb,
@@ -60,15 +67,19 @@ export {
   ElSteps,
   ElRadio,
   ElCollapse,
+  ElTimePicker,
   ElTabs,
   ElTooltip,
   ElSlider,
   ElPopconfirm,
   ElInput,
   ElTransfer,
+  ElDialog,
+  ElCalendar,
+  ElInfiniteScroll,
 }
 
-export default function install(app: App): void {
+const install = (app: App): void =>  {
   ElAlert(app)
   ElAvatar(app)
   ElBacktop(app)
@@ -80,6 +91,7 @@ export default function install(app: App): void {
   ElTag(app)
   ElLayout(app)
   ElDivider(app)
+  ElCarousel(app)
   ElTimeline(app)
   ElProgress(app)
   ElBreadcrumb(app)
@@ -96,10 +108,20 @@ export default function install(app: App): void {
   ElRadio(app)
   ElCollapse(app)
   ElPopper(app)
+  ElTimePicker(app)
   ElTabs(app)
   ElTooltip(app)
   ElSlider(app)
   ElPopconfirm(app)
   ElInput(app)
   ElTransfer(app)
+  ElDialog(app)
+  ElCalendar(app)
+  ElInfiniteScroll(app)
 }
+
+const elementUI = {
+  install,
+}
+
+export default elementUI

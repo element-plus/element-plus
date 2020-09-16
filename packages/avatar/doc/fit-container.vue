@@ -29,7 +29,7 @@ export default {
   justify-content:space-between
 }
 .demo-fit .block {
-  flex:1;
+  flex:auto;
   display:flex;
   flex-direction:column;
   flex-grow:0
