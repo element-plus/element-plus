@@ -4,10 +4,10 @@ node_modules
 .DS_Store
 dist
 *.local
+yarn.lock
 yarn-error.log
 lerna-debug.json
 lerna-debug.log
-yarn-error.log
 storybook-static
 coverage/
 website-dist
