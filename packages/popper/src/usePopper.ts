@@ -22,6 +22,7 @@ export const UPDATE_VISIBLE_EVENT = 'update:visible'
 export default (props: IPopperOptions, { emit }: SetupContext) => {
   const arrowRef = ref<RefElement>(null)
   const triggerRef = ref<ComponentPublicInstance | HTMLElement>(null)
+  const triggerElement = ref<HTMLElement>(null)
   const triggerId = ref<number>(-1)
   const exceptionState = ref(false)
   const popperInstance = ref<Nullable<PopperInstance>>(null)
@@ -136,10 +137,15 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
     exceptionState.value = state
   }
 
+  function setTriggerElement(ele: HTMLElement) {
+    triggerElement.value = ele
+    visibility.value && initializePopper()
+  }
+
   function initializePopper() {
-    const _trigger = isHTMLElement(triggerRef.value)
+    const _trigger = triggerElement.value || (isHTMLElement(triggerRef.value)
       ? triggerRef.value
-      : (triggerRef.value as ComponentPublicInstance).$el
+      : (triggerRef.value as ComponentPublicInstance).$el)
     popperInstance.value = createPopper(_trigger, popperRef.value,
       props.popperOptions !== null
         ? props.popperOptions
@@ -289,5 +295,7 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
     triggerRef,
     triggerId,
     visibility,
+    setTriggerElement,
+    triggerElement,
   }
 }

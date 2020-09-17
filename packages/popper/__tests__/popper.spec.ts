@@ -335,5 +335,31 @@ describe('Popper.vue', () => {
       await trigger.trigger(CLICK_EVENT)
       expect(popper.vm.visibility).toBe(false)
     })
+
+    test('change trigger', async () => {
+      const wrapper = _mount({
+        trigger: ['hover'],
+        appendToBody: false,
+        closeDelay: 0,
+      })
+      const nextTrigger = document.createElement('span')
+      document.body.append(nextTrigger)
+      await nextTick()
+
+      const trigger = wrapper.find(`.${TEST_TRIGGER}`)
+      const popper = wrapper.findComponent(ElPopper)
+      expect(popper.vm.visibility).toBe(false)
+
+      await trigger.trigger(MOUSE_ENTER_EVENT)
+      expect(popper.vm.visibility).toBe(true)
+
+      popper.vm.setTriggerElement(nextTrigger)
+      await nextTick()
+      expect(popper.vm.triggerElement).toEqual(nextTrigger)
+      expect(popper.vm.visibility).toBe(true)
+
+      await trigger.trigger(MOUSE_LEAVE_EVENT)
+      expect(popper.vm.visibility).toBe(false)
+    })
   })
 })
