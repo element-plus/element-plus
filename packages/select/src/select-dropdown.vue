@@ -63,7 +63,7 @@ export default {
     const popperClass = computed(() => select.props.popperClass)
     // computed
     const isMultiple = computed(() => select.props.multiple)
-    const minWidth = computed(() => select.trigger.value?.getBoundingClientRect().width + 'px')
+    const minWidth = computed(() => select.trigger.value && select.trigger.value.getBoundingClientRect().width + 'px')
 
     onMounted(() => {
       // TODO: 需要补充
