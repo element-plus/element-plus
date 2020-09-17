@@ -6,3 +6,5 @@ export default (app: App): void => {
   app.component(Button.name, Button)
   app.component(ButtonGroup.name, ButtonGroup)
 }
+
+export { Button }

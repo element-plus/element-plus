@@ -1,4 +1,3 @@
-<script lang='ts'>
 import { defineComponent, h } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
@@ -105,12 +104,12 @@ export default defineComponent({
       throwError('[ElTooltip]', 'You need to pass a v-model to el-tooltip when `manual` is true')
     }
 
-    const onUpdateValue = val => {
+    const onUpdateVisible = val => {
       ctx.emit(UPDATE_MODEL_EVENT, val)
     }
 
     return {
-      onUpdateValue,
+      onUpdateVisible,
     }
   },
   render() {
@@ -124,7 +123,7 @@ export default defineComponent({
       manual,
       offset,
       openDelay,
-      onUpdateValue,
+      onUpdateVisible,
       placement,
       popperOptions,
       showAfter,
@@ -150,8 +149,8 @@ export default defineComponent({
         transition,
         trigger,
         popperOptions, // Breakings!: Once popperOptions is provided, the whole popper is under user's control, ElPopper nolonger generates the default options for popper, this is by design if the user wants the full contorl on @PopperJS, read the doc @https://popper.js.org/docs/v2/
-        value: this.modelValue,
-        onUpdateValue,
+        visible: this.modelValue,
+        'onUpdate:visible': onUpdateVisible,
       },
       {
         default: () => ($slots.content ? $slots.content() : content),
@@ -161,4 +160,3 @@ export default defineComponent({
     return popper
   },
 })
-</script>
