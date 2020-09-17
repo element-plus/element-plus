@@ -69,19 +69,6 @@ describe('useAttrs', () => {
     expect(handleClick).toBeCalledTimes(2)
   })
 
-  test('class and style should still bind to root node when inheritAttrs is false', async () => {
-    const wrapper = _mount(genComp(false))
-    const container = wrapper.element as HTMLDivElement
-    const width = '0px'
-
-    expect(wrapper.classes(CLASS)).toBe(true)
-    expect(container.style.width).toBe(WIDTH)
-
-    await wrapper.setProps({ style: { width } })
-
-    expect(container.style.width).toBe(width)
-  })
-
   test('excluded listeners should not bind to child node', async () => {
     const wrapper = _mount(genComp(true, true))
     const span = wrapper.find('span')

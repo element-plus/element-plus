@@ -1,5 +1,9 @@
 <template>
-  <div ref="container" class="el-image">
+  <div
+    ref="container"
+    :class="['el-image', $attrs.class]"
+    :style="$attrs.style"
+  >
     <slot v-if="loading" name="placeholder">
       <div class="el-image__placeholder"></div>
     </slot>

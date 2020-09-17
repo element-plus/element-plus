@@ -11,8 +11,10 @@
         'el-input-group--prepend': $slots.prepend,
         'el-input--prefix': $slots.prefix || prefixIcon,
         'el-input--suffix': $slots.suffix || suffixIcon || clearable || showPassword
-      }
+      },
+      $attrs.class
     ]"
+    :style="$attrs.style"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
