@@ -36,7 +36,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.7.0",
+    "eslint": "^7.9.0",
     "eslint-plugin-vue": "^7.0.0-beta.0",
     "file-loader": "^6.0.0",
     "highlight.js": "^10.1.2",
