@@ -2,15 +2,15 @@
   <transition name="msgbox-fade">
     <div
       v-show="visible"
+      :aria-label="title || 'dialog'"
       class="el-message-box__wrapper"
       tabindex="-1"
       role="dialog"
       aria-modal="true"
-      :aria-label="title || 'dialog'"
       @click.self="handleWrapperClick"
     >
       <div class="el-message-box" :class="[customClass, center && 'el-message-box--center']">
-        <div v-if="title !== null" class="el-message-box__header">
+        <div v-if="title !== null && title !== undefined" class="el-message-box__header">
           <div class="el-message-box__title">
             <div
               v-if="icon && center"
@@ -33,11 +33,11 @@
         <div class="el-message-box__content">
           <div class="el-message-box__container">
             <div
-              v-if="icon && !center && message !== ''"
+              v-if="icon && !center && hasMessage"
               :class="['el-message-box__status', icon]"
             >
             </div>
-            <div v-if="message !== ''" class="el-message-box__message">
+            <div v-if="hasMessage" class="el-message-box__message">
               <slot>
                 <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
                 <p v-else v-html="message"></p>
@@ -92,7 +92,7 @@ import {
   onBeforeUnmount,
   computed,
   watch,
-  watchEffect,
+  onBeforeMount,
   getCurrentInstance,
   reactive,
   toRefs,
@@ -120,9 +120,17 @@ export default defineComponent({
     ElInput,
   },
   props: {
-    openDelay: {},
-    closeDelay: {},
-    zIndex: {},
+    openDelay: {
+      type: Boolean,
+      default: false,
+    },
+    closeDelay: {
+      type: Boolean,
+      default: false,
+    },
+    zIndex: {
+      type: Number,
+    },
     modalFade: {
       type: Boolean,
       default: true,
@@ -202,8 +210,10 @@ export default defineComponent({
       isOnComposition: false,
       distinguishCancelAndClose: false,
       type$: '',
+      visible: false,
     })
     const icon = computed(() => state.iconClass || (state.type && TypeMap[state.type] ? `el-icon-${ TypeMap[state.type] }` : ''))
+    const hasMessage = computed(() => !!state.message)
 
     const confirmButtonClasses = computed(() => `el-button--primary ${ state.confirmButtonClass }`)
 
@@ -217,7 +227,8 @@ export default defineComponent({
       })
     }, { immediate: true })
 
-    watch(() => popup.state.visible, val => {
+    watch(() => state.visible, val => {
+      popup.state.visible = val
       if (val) {
         state.uid++
         if (state.type$ === 'alert' || state.type$ === 'confirm') {
@@ -238,8 +249,15 @@ export default defineComponent({
       }
     })
 
-    onMounted(async () => {
+    onBeforeMount(() => {
       vm = getCurrentInstance()
+      vm.setupInstall = {
+        state,
+        doClose,
+      }
+    })
+
+    onMounted(async () => {
       await nextTick()
       if (props.closeOnHashChange) {
         window.addEventListener('hashchange', popup.close)
@@ -265,19 +283,17 @@ export default defineComponent({
     }
 
     function doClose() {
-      if (!popup.state.visible) return
-      popup.state.visible = false
+      if (!state.visible) return
+      state.visible = false
       popup.updateClosingFlag(true)
-
-      vm.ctx.onClose && vm.ctx.onClose()
-      dialog.closeDialog() // 解绑
+      dialog.closeDialog()
       if (props.lockScroll) {
         setTimeout(popup.restoreBodyStyle, 200)
       }
       popup.state.opened = false
       popup.doAfterClose()
       setTimeout(() => {
-        if (state.action) state.callback(state.action, vm.ctx)
+        if (state.action) state.callback(state.action, state)
       })
     }
 
@@ -304,9 +320,9 @@ export default defineComponent({
         return
       }
       state.action = action
-      if (typeof vm.proxy.beforeClose === 'function') {
-        vm.proxy.close = getSafeClose()
-        vm.proxy.beforeClose(action, vm.proxy, vm.proxy.close)
+      if (typeof vm.setupInstall.state.beforeClose === 'function') {
+        vm.setupInstall.state.close = getSafeClose()
+        vm.setupInstall.state.beforeClose(action, state, popup.close)
       } else {
         doClose()
       }
@@ -351,7 +367,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
-      ...toRefs(popup.state),
+      hasMessage,
       icon,
       confirmButtonClasses,
       cancelButtonClasses,
@@ -365,5 +381,5 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
+<style>
 </style>

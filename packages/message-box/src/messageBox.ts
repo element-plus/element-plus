@@ -15,7 +15,6 @@ const PROP_KEYS = [
   'closeOnHashChange',
   'center',
   'roundButton',
-  'openDelay',
   'closeDelay',
   'zIndex',
   'modal',
@@ -89,15 +88,16 @@ const defaultCallback = (action, ctx) => {
 
 const initInstance = () => {
   const container = document.createElement('div')
-  instance = createVNode(MessageBoxConstructor)
-  render(instance, container)
+  const vnode = createVNode(MessageBoxConstructor)
+  render(vnode, container)
+  instance = vnode.component
 }
 
 const showNextMsg = async () => {
   if (!instance) {
     initInstance()
   }
-  if (instance.component && instance.component.data.visible) { return }
+  if (instance && instance.setupInstall.state.visible) { return }
   if (msgQueue.length > 0) {
     const props = {}
     const state = {}
@@ -111,32 +111,32 @@ const showNextMsg = async () => {
       }
     })
     // update props to instance/**/
-    const vmPropProxy = instance.component.props
+    const vmProps = instance.props
     for (const prop in props) {
       if (props.hasOwnProperty(prop)) {
-        vmPropProxy[prop] = props[prop]
+        vmProps[prop] = props[prop]
       }
     }
-    const vmProxy = instance.component.proxy
-    vmProxy.action = ''
+    const vmState = instance.setupInstall.state
+    vmState.action = ''
     if (options.callback === undefined) {
       options.callback = defaultCallback
     }
     for (const prop in state) {
       if (state.hasOwnProperty(prop)) {
-        vmProxy[prop] = state[prop]
+        vmState[prop] = state[prop]
       }
     }
     if (isVNode(options.message)) {
-      instance.component.slots.default = () => [options.message]
+      instance.slots.default = () => [options.message]
     }
     const oldCb = options.callback
-    vmProxy.callback = (action, inst) => {
+    vmState.callback = (action, inst) => {
       oldCb(action, inst)
       showNextMsg()
     }
-    document.body.appendChild(instance.component.ctx.$el)
-    vmProxy.visible = true
+    document.body.appendChild(instance.vnode.el)
+    vmState.visible = true
   }
 }
 
@@ -221,11 +221,10 @@ MessageBox.prompt = (message, title, options?: ElMessageBoxOptions) => {
 }
 
 MessageBox.close = () => {
-  instance.component.ctx.doClose()
-  instance.component.proxy.visible = false
+  instance.setupInstall.doClose()
+  instance.setupInstall.state.visible = false
   msgQueue = []
   currentMsg = null
 }
 
 export default MessageBox
-export { MessageBox }

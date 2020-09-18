@@ -1,4 +1,4 @@
-import Vue, { VNode } from 'vue'
+import { VNode } from 'vue'
 export type MessageType = 'success' | 'warning' | 'info' | 'error'
 export type MessageBoxCloseAction = 'confirm' | 'cancel' | 'close'
 export type MessageBoxData = MessageBoxInputData
@@ -158,20 +158,4 @@ export interface ElMessageBox {
 
   /** Close current message box */
   close (): void
-}
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    /** Show a message box */
-    $msgbox: ElMessageBox
-
-    /** Show an alert message box */
-    $alert: ElMessageBoxShortcutMethod
-
-    /** Show a confirm message box */
-    $confirm: ElMessageBoxShortcutMethod
-
-    /** Show a prompt message box */
-    $prompt: ElMessageBoxShortcutMethod
-  }
 }

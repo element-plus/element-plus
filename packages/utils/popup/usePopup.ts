@@ -1,7 +1,6 @@
 import {
   nextTick,
   reactive,
-  toRefs,
   onBeforeMount,
   onBeforeUnmount,
   onMounted,
@@ -72,7 +71,6 @@ const usePopup = (props, doClose) => {
 
   const doOpen = merProps => {
     if (isServer) return
-    if (vm.ctx.willOpen && !vm.ctx.willOpen()) return
     if (state.opened) return
 
     _opening = true
@@ -114,8 +112,6 @@ const usePopup = (props, doClose) => {
 
     dom.style.zIndex = PopupManager.nextZIndex()
     state.opened = true
-
-    vm.ctx.onOpen && vm.ctx.onOpen()
 
     doAfterOpen()
   }
