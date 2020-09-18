@@ -14,7 +14,7 @@
     "lint": "eslint ./packages --ext .vue,.js,.ts",
     "website-build": "webpack --config ./website/webpack.config.js",
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
-    "website-dev:play": "PLAY_ENV=true yarn website-dev"
+    "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev"
   },
   "peerDependencies": {
     "vue": "^3.0.0-rc.9"
