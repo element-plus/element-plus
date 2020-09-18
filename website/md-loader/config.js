@@ -2,13 +2,22 @@
 const Config = require('markdown-it-chain')
 const anchorPlugin = require('markdown-it-anchor')
 const slugify = require('transliteration').slugify
+const hljs = require('highlight.js')
 const containers = require('./containers')
 const overWriteFenceRule = require('./fence')
 
 const config = new Config()
 
+const highlight = (str, lang) => {
+  if (!lang || !hljs.getLanguage(lang)) {
+    return '<pre><code class="hljs">' + str + '</code></pre>'
+  }
+  const html = hljs.highlight(lang, str, true, undefined).value
+  return `<pre><code class="hljs language-${lang}">${html}</code></pre>`
+}
+
 config
-  .options.html(true).end()
+  .options.html(true).highlight(highlight).end()
 
   .plugin('anchor').use(anchorPlugin, [
     {
