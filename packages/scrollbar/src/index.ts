@@ -11,7 +11,10 @@ export default {
   components: { Bar },
 
   props: {
-    native: Boolean,
+    native: {
+      type: Boolean,
+      default: false,
+    },
     wrapStyle: {
       type: [String, Array],
       default: '',

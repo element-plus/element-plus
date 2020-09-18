@@ -7,6 +7,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
 const isPlay = !!process.env.PLAY_ENV
 
+const babelOptions = {
+  plugins: ['@vue/babel-plugin-jsx'],
+}
+
 module.exports = {
   mode: isProd ? 'production' : 'development',
   devtool: isProd ? 'source-map' : 'cheap-module-eval-source-map',
@@ -37,11 +41,39 @@ module.exports = {
       },
       {
         test: /\.ts$/,
+        exclude: /node_modules/,
         loader: 'ts-loader',
         options: {
           appendTsSuffixTo: [/\.vue$/],
           transpileOnly: true,
         },
+      },
+      {
+        test: /\.tsx$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions,
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              appendTsxSuffixTo: [/\.vue$/],
+              transpileOnly: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.js(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions,
+          },
+        ],
       },
       {
         test: /\.md$/,
@@ -71,7 +103,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js', '.vue', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
     alias: {
       'vue': '@vue/runtime-dom',
       examples: path.resolve(__dirname),

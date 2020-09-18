@@ -10,7 +10,7 @@ export const BasicLinks = () => `
 <el-link ${commonProps} type="success">success link</el-link>
 <el-link ${commonProps} type="info">info link</el-link>
 <el-link ${commonProps} type="warning">warning link</el-link>
-<el-link ${commonProps} type="error">error link</el-link>
+<el-link ${commonProps} type="danger">error link</el-link>
 `
 
 export const DisabledLinks = () => `

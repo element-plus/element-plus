@@ -1,20 +1,11 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import Avatar from '../src/index.vue'
-import { IMAGE_SUCCESS, IMAGE_FAIL } from '../../test-utils/mock'
-
-beforeAll(() => {
-  Object.defineProperty(global.Image.prototype, 'src', {
-    set(src) {
-      const event = new Event(
-        src === IMAGE_FAIL ? 'error' : 'load',
-      )
-      nextTick(() => this.dispatchEvent(event))
-    },
-  })
-})
+import { IMAGE_SUCCESS, IMAGE_FAIL, mockImageEvent } from '@element-plus/test-utils'
 
 describe('Avatar.vue', () => {
+  mockImageEvent()
+
   test('render test', () => {
     const wrapper = mount(Avatar)
     expect(wrapper.find('.el-avatar').exists()).toBe(true)

@@ -29,21 +29,6 @@
   opacity: 0;
 }
 
-.el-fade-in-top-enter-from,
-.el-fade-in-top-leave-to{
-  opacity: 0;
-  transform: translate3d(0, -10%, 0);
-}
-.el-fade-in-top-enter-active,
-.el-fade-in-top-leave-active {
-  transition: $--md-fade-transition;
-}
-.el-fade-in-top-enter-to,
-.el-fade-in-top-leave-from{
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
 .el-zoom-in-center-enter-active,
 .el-zoom-in-center-leave-active {
   transition: all .3s cubic-bezier(.55,0,.1,1);

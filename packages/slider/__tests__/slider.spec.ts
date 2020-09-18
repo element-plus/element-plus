@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils'
 import { nextTick, h } from 'vue'
 import Slider from '../src/index.vue'
 
-import { jestMock } from '../../utils/jestMock'
 
 describe('Slider', () => {
   it('create', () => {
@@ -120,11 +119,9 @@ describe('Slider', () => {
     }, {
       attachTo: document.body,
     })
-    const mockClientWidth = jestMock(
-      wrapper.find('.el-slider__runway').element,
-      'clientWidth',
-      () => 200,
-      'get')
+    const mockClientWidth = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth', 'get')
+      .mockImplementation(() => 200)
     const slider = wrapper.findComponent({ name:'ElSliderButton' })
     slider.trigger('mousedown',{ clientX: 0 })
     const mousemove = document.createEvent('MouseEvent')
@@ -141,11 +138,9 @@ describe('Slider', () => {
       nextTick(() => {
         expect(wrapper.vm.value === 0).toBeTruthy()
 
-        const mockClientHeight = jestMock(
-          wrapper.find('.el-slider__runway').element,
-          'clientHeight',
-          () => 200,
-          'get')
+        const mockClientHeight = jest
+          .spyOn(wrapper.find('.el-slider__runway').element, 'clientHeight','get')
+          .mockImplementation(() => 200)
         slider.trigger('mousedown',{ clientY: 0 })
         const mousemove = document.createEvent('MouseEvent')
         mousemove.initMouseEvent('mousemove', true, true, window, 1, 0, -100, 0, -100, false, false, true, false, 0, null)
@@ -205,11 +200,9 @@ describe('Slider', () => {
     }, {
       attachTo: document.body,
     })
-    const mockClientWidth = jestMock(
-      wrapper.find('.el-slider__runway').element,
-      'clientWidth',
-      () => 200,
-      'get')
+    const mockClientWidth = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth','get')
+      .mockImplementation(() => 200)
     const slider:any = wrapper.findComponent({ name:'ElSliderButton' })
     nextTick().then(() => {
       slider.trigger('mousedown',{ clientX: 0 })
@@ -274,19 +267,16 @@ describe('Slider', () => {
       },
     })
     const slider:any = wrapper.findComponent({ name:'ElSlider' })
-    const mockRectLeft = jestMock(
-      wrapper.find('.el-slider__runway').element,
-      'getBoundingClientRect',
-      () => {
+    const mockRectLeft = jest
+      .spyOn(wrapper.find('.el-slider__runway').element,'getBoundingClientRect')
+      .mockImplementation(() => {
         return {
           left: 0,
-        }
+        } as DOMRect
       })
-    const mockClientWidth = jestMock(
-      wrapper.find('.el-slider__runway').element,
-      'clientWidth',
-      () => 200,
-      'get')
+    const mockClientWidth = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth','get')
+      .mockImplementation(() => 200)
     setTimeout(() => {
       expect(wrapper.vm.data).toBe(0)
       slider.vm.onSliderClick({ clientX: 100 })
@@ -313,11 +303,9 @@ describe('Slider', () => {
         }
       },
     })
-    const mockClientWidth = jestMock(
-      wrapper.find('.el-slider__runway').element,
-      'clientWidth',
-      () => 200,
-      'get')
+    const mockClientWidth = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth', 'get')
+      .mockImplementation(() => 200)
     const slider:any = wrapper.findComponent({ name:'ElSliderButton' })
     slider.vm.onButtonDown({ clientX: 0 })
     const mousemove = document.createEvent('MouseEvent')
@@ -388,19 +376,16 @@ describe('Slider', () => {
     }, {
       attachTo: document.body,
     })
-    const mockRectBottom = jestMock(
-      wrapper.find('.el-slider__runway').element,
-      'getBoundingClientRect',
-      () => {
+    const mockRectBottom = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'getBoundingClientRect')
+      .mockImplementation(() => {
         return {
           bottom: 200,
-        }
+        } as DOMRect
       })
-    const mockClientHeight = jestMock(
-      wrapper.find('.el-slider__runway').element,
-      'clientHeight',
-      () => 200,
-      'get')
+    const mockClientHeight = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'clientHeight', 'get')
+      .mockImplementation(() => 200)
     const slider:any = wrapper.getComponent({ name: 'ElSlider' })
     setTimeout(() => {
       slider.vm.onSliderClick({ clientY: 100 })
@@ -477,19 +462,16 @@ describe('Slider', () => {
       }, {
         attachTo: document.body,
       })
-      const mockRectLeft = jestMock(
-        wrapper.find('.el-slider__runway').element,
-        'getBoundingClientRect',
-        () => {
+      const mockRectLeft = jest
+        .spyOn(wrapper.find('.el-slider__runway').element, 'getBoundingClientRect')
+        .mockImplementation(() => {
           return {
             left: 0,
-          }
+          } as DOMRect
         })
-      const mockClientWidth = jestMock(
-        wrapper.find('.el-slider__runway').element,
-        'clientWidth',
-        () => 200,
-        'get')
+      const mockClientWidth = jest
+        .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth','get')
+        .mockImplementation(() => 200)
       const slider:any = wrapper.getComponent({ name: 'ElSlider' })
       setTimeout(() => {
         slider.vm.onSliderClick({ clientX: 100 })
