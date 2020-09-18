@@ -1,6 +1,7 @@
 <template>
   <transition name="el-zoom-in-top">
     <div
+      v-if="visible"
       class="el-picker-panel el-date-picker"
       :class="[{
         'has-sidebar': $slots.sidebar || hasShortcuts,
@@ -102,7 +103,7 @@
           </div>
 
           <div class="el-picker-panel__content">
-            <!-- <date-table
+            <date-table
               v-if="currentView === 'date'"
               :selection-mode="selectionMode"
               :default-value="defaultValue ? new Date(defaultValue) : null"
@@ -110,7 +111,7 @@
               :parsed-value="parsedDatePickerValue"
               :disabled-date="disabledDate"
               @pick="handleDatePick"
-            /> -->
+            />
             <!-- <year-table
               v-if="currentView === 'year'"
               :default-value="defaultValue ? new Date(defaultValue) : null"
@@ -200,6 +201,10 @@ export default defineComponent({
 
   directives: { clickoutside: ClickOutside },
   props: {
+    visible: {
+      type: Boolean,
+      default: false,
+    },
     parsedValue: {
       type: Dayjs as PropType<Dayjs>,
       default: '',
@@ -253,18 +258,18 @@ export default defineComponent({
         const dates = value.map(date => showTime.value ? clearMilliseconds(date) : clearTime(date))
         ctx.emit('pick', dates, ...args)
       } else {
-        ctx.emit('pick', showTime.value ? clearMilliseconds(value) : clearTime(value), ...args)
+        ctx.emit('pick', showTime.value ? value.millisencond(0) : value.startOf('day'), ...args)
       }
       // this.userInputDate = null
       // this.userInputTime = null
     }
-    const handleDatePick = value => {
+    const handleDatePick = (value: Dayjs) => {
       if (selectionMode.value === 'day') {
-        let newDate = modifyDate(props.parsedValue, value.getFullYear(), value.getMonth(), value.getDate())
+        let newDate = props.parsedValue.year(value.year()).month(value.month()).date(value.date())
         // change default time while out of selectableRange
-        if (!checkDateWithinRange(newDate)) {
-          newDate = modifyDate(selectableRange.value[0][0], value.getFullYear(), value.getMonth(), value.getDate())
-        }
+        // if (!checkDateWithinRange(newDate)) {
+        //   newDate = modifyDate(selectableRange.value[0][0], value.getFullYear(), value.getMonth(), value.getDate())
+        // }
         innerDate.value = newDate
         emit(newDate, showTime.value)
       } else if (selectionMode.value === 'week') {

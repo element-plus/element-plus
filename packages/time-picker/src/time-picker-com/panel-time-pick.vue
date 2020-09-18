@@ -59,7 +59,7 @@ export default defineComponent({
 
   props: {
     visible: {
-      type: [Boolean],
+      type: Boolean,
       default: false,
     },
     parsedValue: {
@@ -67,7 +67,7 @@ export default defineComponent({
       default: '',
     },
     arrowControl: {
-      type: [Boolean],
+      type: Boolean,
       default: false,
     },
     pickerOptions: {
