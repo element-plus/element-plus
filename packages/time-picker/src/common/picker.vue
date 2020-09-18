@@ -3,10 +3,10 @@
   <!-- todo popper custom popper-class  -->
   <!-- todo bug handleKeydown event twice  -->
   <el-popper
-    effect="light"
-    manual-mode
-    :value="pickerVisible"
+    v-model:visible="pickerVisible"
     pure
+    effect="light"
+    trigger="click"
   >
     <template #trigger>
       <el-input

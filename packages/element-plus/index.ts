@@ -28,6 +28,7 @@ import ElSteps from '@element-plus/steps'
 import ElCollapse from '@element-plus/collapse'
 import ElPopper from '@element-plus/popper'
 import ElTimePicker from '@element-plus/time-picker'
+import ElDatePicker from '@element-plus/date-picker'
 import ElTabs from '@element-plus/tabs'
 import ElTooltip from '@element-plus/tooltip'
 import ElSlider from '@element-plus/slider'
@@ -67,6 +68,7 @@ export {
   ElRadio,
   ElCollapse,
   ElTimePicker,
+  ElDatePicker,
   ElTabs,
   ElTooltip,
   ElSlider,
@@ -107,6 +109,7 @@ const install = (app: App): void =>  {
   ElCollapse(app)
   ElPopper(app)
   ElTimePicker(app)
+  ElDatePicker(app)
   ElTabs(app)
   ElTooltip(app)
   ElSlider(app)
