@@ -10,7 +10,7 @@
         showClose ? 'is-closable' : '',
         customClass,
       ]"
-      :style="positionStyle"
+      :style="customStyle"
       role="alert"
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
@@ -76,9 +76,10 @@ export default defineComponent({
         : ''
     })
 
-    const positionStyle = computed(() => {
+    const customStyle = computed(() => {
       return {
         top: `${props.offset}px`,
+        zIndex: props.zIndex,
       }
     })
 
@@ -88,7 +89,7 @@ export default defineComponent({
 
     return {
       typeClass,
-      positionStyle,
+      customStyle,
       visible,
       closed,
       timer,
