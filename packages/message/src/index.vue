@@ -14,7 +14,6 @@
       role="alert"
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
-      @click="click"
     >
       <i v-if="type || iconClass" :class="[typeClass, iconClass]"></i>
       <slot>
@@ -69,7 +68,6 @@ export default defineComponent({
     offset: { type: Number, default: 20 },
     zIndex: { type: Number, default: 0 },
   },
-  emits: ['close'],
   setup(props) {
     const typeClass = computed(() => {
       const type = props.type
@@ -113,7 +111,7 @@ export default defineComponent({
     off(document, 'keydown', this.keydown)
   },
   methods: {
-    destroyElement(){
+    destroyElement() {
       this.visible = false
       off(this.$el, 'transitionend', this.destroyElement)
       this.onClose()
@@ -151,5 +149,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style></style>

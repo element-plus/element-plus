@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue'
+import { createVNode, nextTick, render } from 'vue'
 import type {
   IMessage,
   MessageQueue,
@@ -8,9 +8,9 @@ import type {
 } from './types'
 
 import MessageConstructor from './index.vue'
-import { isVNode } from '../../utils/util'
-import PopupManager from '../../utils/popup-manager'
-import isServer from '../../utils/isServer'
+import { isVNode } from '@element-plus/utils/util'
+import PopupManager from '@element-plus/utils/popup-manager'
+import isServer from '@element-plus/utils/isServer'
 
 let vm: MessageVM
 const instances: MessageQueue = []
@@ -49,11 +49,8 @@ const Message: IMessage = function (opts = {}): IMessageHandle {
   const container = document.createElement('div')
 
   container.className = `container_${id}`
-  container.style.zIndex = String()
 
   const message = options.message
-  // BUG: Messages with VNodes aren't updating props.offset
-  // BUG: Creating multiple messages with VNodes crashes on close
   vm = createVNode(
     MessageConstructor,
     options,
@@ -68,13 +65,6 @@ const Message: IMessage = function (opts = {}): IMessageHandle {
     close: options.onClose,
   }
 }
-
-function closeAll(): void {
-  for (let i = instances.length - 1; i >= 0; i--) {
-    (instances[i].vm.props as IMessageOptions).onClose()
-  }
-}
-Message.closeAll = closeAll
 
 export function close(id: string, userOnClose?: (vm: MessageVM) => void): void {
   const idx = instances.findIndex(({ vm }) => {
@@ -91,7 +81,10 @@ export function close(id: string, userOnClose?: (vm: MessageVM) => void): void {
 
   const removedHeight = vm.el.offsetHeight
   render(null, $el)
-  document.body.removeChild($el)
+  nextTick(() => {
+    document.body.removeChild($el)
+  })
+
 
   instances.splice(idx, 1)
 
@@ -104,7 +97,15 @@ export function close(id: string, userOnClose?: (vm: MessageVM) => void): void {
 
     instances[i].vm.component.props.offset = pos
     instances[i].vm.component.props.vertOffset = pos
-    render(instances[i].vm, instances[i].$el)
   }
 }
+
+export function closeAll(): void {
+  for (let i = instances.length - 1; i >= 0; i--) {
+    const instance = instances[i].vm.component as any
+    instance.ctx.close()
+  }
+}
+
+Message.closeAll = closeAll
 export default Message
