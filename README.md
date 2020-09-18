@@ -20,13 +20,18 @@ $ yarn bootstrap
 ```
 the project will install all dependencies and run `lerna bootstrap` to initialize the project
 
-## Storybook preview
+## Website preview
 With command
 ```bash
-$ yarn storybook
+$ yarn website-dev
 ```
-the project will launch `@storybook` client for you to preview all existing component
+the project will launch website for you to preview all existing component
 
+You can also use this command to start a blank page to debug
+```bash
+$ yarn website-dev:play
+//source file: ./website/play/index.vue
+```
 ## Component migration process
 1. Convert the item in https://github.com/element-plus/element-plus/projects/1 to an issue
 2. Assign yourself to the issue
