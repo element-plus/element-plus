@@ -1,35 +1,12 @@
 <template>
   <div>
-    <!-- <el-tooltip>
-      <div>
-        trigger
-      </div>
-      <template #content>
-        content
-      </template>
-    </el-tooltip> -->
-    <el-popper v-model:visible="visible" :trigger="['click']">
-      <template #trigger>
-        <template v-for="i in 3" :key="i">
-          <div>
-            <div v-for="j in 3" :key="j">{{ j }}</div>
-          </div>
-        </template>
-      </template>
-      <!-- <template #trigger>
-      </template> -->
-      <div>
-        I am popper content
-        <el-button @click="visible = false">
-          toggle visible
-        </el-button>
-      </div>
-    </el-popper>
-    <el-button @click="shouldShow = !shouldShow">I am not trigger</el-button>
+    <el-button @click="show">显示</el-button>
   </div>
 </template>
 
 <script>
+import { h } from 'vue'
+
 export default {
   data() {
     return {
@@ -40,6 +17,36 @@ export default {
   watch: {
     shouldShow(val) {
       console.log(val)
+    },
+  },
+  methods: {
+    show() {
+      this.$msgbox({
+        title: '消息',
+        message: h('p', null, [
+          h('span', null, '内容可以是 '),
+          h('i', { style: 'color: teal' }, 'VNode'),
+        ]),
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true
+            instance.confirmButtonText = '执行中...'
+            setTimeout(() => {
+              done()
+              setTimeout(() => {
+                instance.confirmButtonLoading = false
+              }, 300)
+            }, 3000)
+          } else {
+            done()
+          }
+        },
+      }).then(action => {
+        alert('action: ' + action)
+      })
     },
   },
 }

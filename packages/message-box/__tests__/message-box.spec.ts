@@ -150,7 +150,10 @@ describe('MessageBox', () => {
     }, action => {
       msgAction = action
     })
-    await sleep(10)
+    await sleep(250);
+    (document.querySelector('.el-message-box__wrapper .el-button--primary') as HTMLElement).click()
+    await sleep(250)
+    expect(msgAction).toEqual('confirm')
   })
 
   describe('promise', () => {
