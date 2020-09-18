@@ -10,7 +10,7 @@ function template(str: string, option) {
   })
 }
 
-export const t = (path:string, option): string => {
+export const t = (path:string, option?): string => {
   let value
   const array = path.split('.')
   let current = lang
