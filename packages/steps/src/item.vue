@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, inject, watch, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import { defineComponent, ref, computed, inject, watch, ComputedRef, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 import type { Ref, ComponentInternalInstance } from 'vue'
 
 interface IStepsProps {
@@ -56,14 +56,10 @@ interface IStepsProps {
   processStatus: string
 }
 
-interface IStepsSetupState {
-  currentStatus: string
+export interface IStepInstance extends ComponentInternalInstance {
+  currentStatus: ComputedRef<string>
   setIndex: (val: number) => void
   calcProgress: (status: string) => void
-}
-
-interface IStepInstance extends ComponentInternalInstance {
-  setupState: IStepsSetupState
 }
 
 interface IStepsInject {
@@ -111,12 +107,16 @@ export default defineComponent({
       parent.steps.value = parent.steps.value.filter(instance => instance.uid !== currentInstance.uid)
     })
 
-    const currentStatus = computed(() => {
+    const currentStatus = computed<string>(() => {
       return props.status || internalStatus.value
     })
+
+    // eslint-disable-next-line vue/no-ref-as-operand
+    currentInstance.currentStatus = currentStatus
+
     const prevStatus = computed(() => {
-      const prevStep = parent.steps[index.value - 1]
-      return prevStep ? prevStep.setupState.currentStatus : 'wait'
+      const prevStep = parent.steps.value[index.value - 1]
+      return prevStep ? prevStep.currentStatus.value : 'wait'
     })
     const isCenter = computed(() => {
       return parent.props.alignCenter
@@ -151,10 +151,13 @@ export default defineComponent({
       return style
     })
 
-    const setIndex = val => {
+    const setIndex = (val: number) => {
       index.value = val
     }
-    const calcProgress = status => {
+
+    currentInstance.setIndex = setIndex
+
+    const calcProgress = (status: string) => {
       let step = 100
       const style: Record<string, unknown> = {}
 
@@ -169,6 +172,9 @@ export default defineComponent({
       style[parent.props.direction === 'vertical' ? 'height' : 'width'] = `${step}%`
       lineStyle.value = style
     }
+
+    currentInstance.calcProgress = calcProgress
+
     const updateStatus = activeIndex => {
       if (activeIndex > index.value) {
         internalStatus.value = parent.props.finishStatus
@@ -178,7 +184,7 @@ export default defineComponent({
         internalStatus.value = 'wait'
       }
       const prevChild = parent.steps.value[stepsCount.value - 1]
-      if (prevChild) prevChild.setupState.calcProgress(internalStatus.value)
+      if (prevChild) prevChild.calcProgress(internalStatus.value)
     }
 
     return {

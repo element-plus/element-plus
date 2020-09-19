@@ -7,6 +7,7 @@
 <script lang="ts">
 import { defineComponent, watch, ref, provide } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/utils/constants'
+import { IStepInstance } from './item.vue'
 
 export default defineComponent({
   name: 'ElSteps',
@@ -45,11 +46,11 @@ export default defineComponent({
   },
   emits: [CHANGE_EVENT],
   setup(props, { emit }) {
-    const steps = ref([])
+    const steps = ref<IStepInstance>([])
 
     watch(steps, () => {
-      steps.value.forEach((instance, index) => {
-        instance.setupState.setIndex(index)
+      steps.value.forEach((instance: IStepInstance, index: number) => {
+        instance.setIndex(index)
       })
     })
 
