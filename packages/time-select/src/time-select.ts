@@ -8,7 +8,7 @@ dayjs.extend(customParseFormat)
 export default {
   name: 'ElTimeSelect',
   props: {
-    itype: {
+    type: {
       type: String,
       default: 'time-select',
     },
