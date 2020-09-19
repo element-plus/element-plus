@@ -1,5 +1,5 @@
 import isServer from './isServer'
-import { camelize } from './util'
+import { camelize, isObject } from './util'
 
 /* istanbul ignore next */
 const trim = function(s: string) {
@@ -127,20 +127,29 @@ export const getStyle = function(
 export function setStyle(
   element: HTMLElement,
   styleName: CSSStyleDeclaration | string,
-  value: string,
+  value?: string,
 ): void {
   if (!element || !styleName) return
 
-  if (typeof styleName === 'object') {
-    for (const prop in styleName) {
-      if (styleName.hasOwnProperty(prop)) {
-        setStyle(element, prop, styleName[prop])
-      }
-    }
+  if (isObject(styleName)) {
+    Object.keys(styleName).forEach(prop => {
+      setStyle(element, prop, styleName[prop])
+    })
   } else {
     styleName = camelize(styleName)
-
     element.style[styleName] = value
+  }
+}
+
+export function removeStyle(element: HTMLElement, style: CSSStyleDeclaration | string) {
+  if (!element || !style) return
+
+  if (isObject(style)) {
+    Object.keys(style).forEach(prop => {
+      setStyle(element, prop, '')
+    })
+  } else {
+    setStyle(element, style, '')
   }
 }
 
