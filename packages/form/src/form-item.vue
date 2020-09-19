@@ -57,7 +57,7 @@ import {
   reactive,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import LabelWrap from './label-wrap.vue'
+import LabelWrap from './label-wrap'
 import { getPropByPath } from '@element-plus/utils/util'
 import objectAssign from '@element-plus/utils/merge'
 import mitt from 'mitt'
