@@ -2,7 +2,6 @@ import { ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep, defineGetter } from '@element-plus/test-utils'
 import Input from '../src/index.vue'
-import input from '..'
 
 const _mount = options => mount({
   components: {
