@@ -7,6 +7,7 @@ import {
   inject,
   ref,
   provide,
+  onBeforeUnmount,
 } from 'vue'
 import { NOOP } from '@vue/shared'
 
@@ -19,7 +20,12 @@ import type { PropType } from 'vue'
 import type {
   ListType,
   UploadFile,
+  FileHandler,
+  FileResultHandler,
 } from './upload'
+
+type PFileHandler<T> = PropType<FileHandler<T>>
+type PFileResultHandler<T = any> = PropType<FileResultHandler<T>>
 
 export default defineComponent({
   name: 'ElUpload',
@@ -66,41 +72,41 @@ export default defineComponent({
       default: 'select',
     },
     beforeUpload: {
-      type: Function,
+      type: Function as PFileHandler<void>,
       default: NOOP,
     },
     beforeRemove: {
-      type: Function,
+      type: Function as PFileHandler<boolean>,
       default: NOOP,
     },
     onRemove: {
-      type: Function,
+      type: Function as PFileHandler<void>,
       default: NOOP,
     },
     onChange: {
-      type: Function,
+      type: Function as PFileHandler<void>,
       default: NOOP,
     },
     onPreview: {
-      type: Function,
+      type: Function as PropType<() => void>,
       default: NOOP,
     },
     onSuccess: {
-      type: Function,
+      type: Function as PFileResultHandler,
       default: NOOP,
     },
     onProgress: {
-      type: Function,
+      type: Function as PFileResultHandler<ProgressEvent>,
       default: NOOP,
     },
     onError: {
-      type: Function,
+      type: Function as PFileResultHandler<Error>,
       default: NOOP,
     },
     fileList: {
       type: Array as PropType<UploadFile[]>,
       default: () => {
-        return [] as PropType<UploadFile[]>
+        return [] as UploadFile[]
       },
     },
     autoUpload: {
@@ -148,6 +154,14 @@ export default defineComponent({
 
     provide('uploader', getCurrentInstance())
 
+    onBeforeUnmount(() => {
+      uploadFiles.value.forEach(file => {
+        if (file.url && file.url.indexOf('blob:') === 0) {
+          URL.revokeObjectURL(file.url)
+        }
+      })
+    })
+
     return {
       dragOver: ref(false),
       draging: ref(false),
@@ -162,14 +176,6 @@ export default defineComponent({
       submit,
       clearFiles,
     }
-  },
-
-  beforeUnmount() {
-    this.uploadFiles.forEach(file => {
-      if (file.url && file.url.indexOf('blob:') === 0) {
-        URL.revokeObjectURL(file.url)
-      }
-    })
   },
   render() {
     let uploadList
@@ -225,13 +231,15 @@ export default defineComponent({
       ref: 'uploadRef',
     }
     const trigger = this.$slots.trigger || this.$slots.default
-    const uploadComponent = h(Upload, uploadData, [trigger()])
+    const uploadComponent = h(Upload, uploadData, {
+      default: () => trigger?.(),
+    })
     return h('div', [
       this.listType === 'picture-card' ? uploadList : null,
       this.$slots.trigger
         ? [uploadComponent, this.$slots.default()]
         : uploadComponent,
-      this.$slots?.tip(),
+      this.$slots.tip?.(),
       this.listType !== 'picture-card' ? uploadList : null,
     ])
   },

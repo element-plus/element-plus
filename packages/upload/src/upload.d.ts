@@ -39,8 +39,8 @@ export interface ElUploadRequestOptions {
   withCredentials: boolean
 }
 
-type FileHandler<T = void> = (file: UploadFile, uploadFiles: UploadFile[]) => T
-type FileResultHandler<T = any> = (param: T, file: UploadFile, uploadFiles: UploadFile[]) => void
+export type FileHandler<T = void> = (file: UploadFile, uploadFiles: UploadFile[]) => T
+export type FileResultHandler<T = any> = (param: T, file: UploadFile, uploadFiles: UploadFile[]) => void
 
 export interface IUseHandlersProps {
   listType: ListType

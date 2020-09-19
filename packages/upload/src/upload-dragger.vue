@@ -5,7 +5,7 @@
       'is-dragover': dragOver
     }"
     @drop.prevent="onDrop"
-    @dragOver.prevent="onDragOver"
+    @dragOver.prevent="dragOver = true"
     @dragleave.prevent="dragOver = false"
   >
     <slot></slot>
@@ -28,9 +28,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const uploader = inject('uploader', {} as ElUpload)
     const dragOver = ref(false)
-    function onDragOver() {
-      if(!dragOver.value) dragOver.value = true
-    }
 
     function onDrop(e: DragEvent) {
       if (props.disabled || !uploader) return
@@ -40,32 +37,34 @@ export default defineComponent({
         emit('file', e.dataTransfer.files)
         return
       }
-      emit('file', Array.from(e.dataTransfer.files).filter(file => {
-        const { type, name } = file
-        const extension = name.indexOf('.') > -1
-          ? `.${ name.split('.').pop() }`
-          : ''
-        const baseType = type.replace(/\/.*$/, '')
-        return accept.split(',')
-          .map(type => type.trim())
-          .filter(type => type)
-          .some(acceptedType => {
-            if (acceptedType.startsWith('.')) {
-              return extension === acceptedType
-            }
-            if (/\/\*$/.test(acceptedType)) {
-              return baseType === acceptedType.replace(/\/\*$/, '')
-            }
-            if (/^[^\/]+\/[^\/]+$/.test(acceptedType)) {
-              return type === acceptedType
-            }
-            return false
-          })
-      }))
+      emit(
+        'file',
+        Array.from(e.dataTransfer.files).filter(file => {
+          const { type, name } = file
+          const extension =
+            name.indexOf('.') > -1 ? `.${name.split('.').pop()}` : ''
+          const baseType = type.replace(/\/.*$/, '')
+          return accept
+            .split(',')
+            .map(type => type.trim())
+            .filter(type => type)
+            .some(acceptedType => {
+              if (acceptedType.startsWith('.')) {
+                return extension === acceptedType
+              }
+              if (/\/\*$/.test(acceptedType)) {
+                return baseType === acceptedType.replace(/\/\*$/, '')
+              }
+              if (/^[^\/]+\/[^\/]+$/.test(acceptedType)) {
+                return type === acceptedType
+              }
+              return false
+            })
+        }),
+      )
     }
     return {
       dragOver,
-      onDragOver,
       onDrop,
     }
   },

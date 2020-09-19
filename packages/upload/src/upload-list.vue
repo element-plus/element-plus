@@ -9,8 +9,8 @@
     name="el-list"
   >
     <li
-      v-for="file in files"
-      :key="file.uid"
+      v-for="(file, idx) in files"
+      :key="idx"
       :class="['el-upload-list__item', 'is-' + file.status, focusing ? 'focusing' : '']"
       tabindex="0"
       @keydown.delete="!disabled && handleRemove($event, file)"
@@ -20,7 +20,7 @@
     >
       <slot :file="file">
         <img
-          v-if="file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(listType) > -1"
+          v-if="file.status !== 'uploading' && ['picture-card', 'picture'].includes(listType)"
           class="el-upload-list__item-thumbnail"
           :src="file.url"
           alt=""
@@ -33,7 +33,7 @@
             :class="{
               'el-icon-upload-success': true,
               'el-icon-circle-check': listType === 'text',
-              'el-icon-check': ['picture-card', 'picture'].indexOf(listType) > -1
+              'el-icon-check': ['picture-card', 'picture'].includes(listType)
             }"
           ></i>
         </label>
@@ -50,7 +50,6 @@
         />
         <span v-if="listType === 'picture-card'" class="el-upload-list__item-actions">
           <span
-            v-if="handlePreview && listType === 'picture-card'"
             class="el-upload-list__item-preview"
             @click="handlePreview(file)"
           >

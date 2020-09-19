@@ -3,7 +3,7 @@
     :class="['el-upload', `el-upload--${listType}`]"
     tabindex="0"
     @click="handleClick"
-    @keydown="handleKeydown"
+    @keydown.self.enter.space="handleKeydown"
   >
     <template v-if="drag">
       <upload-dragger :disabled="disabled" @file="uploadFiles">
@@ -28,7 +28,6 @@
 <script lang="tsx">
 import { defineComponent, ref } from 'vue'
 import { NOOP } from '@vue/shared'
-import { eventKeys } from '@element-plus/utils/aria'
 
 import ajax from './ajax'
 import UploadDragger from './upload-dragger.vue'
@@ -57,7 +56,7 @@ export default defineComponent({
       default: 'file',
     },
     data: {
-      type: Object as PropType<Record<string, unknown>>,
+      type: Object as PropType<Record<string, any>>,
       default: () => null,
     },
     headers: {
@@ -136,7 +135,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const reqs = ref({} as Indexable<XMLHttpRequest | Promise<unknown>>)
+    const reqs = ref({} as Indexable<XMLHttpRequest | Promise<any>>)
     const mouseover = ref(false)
     const inputRef = ref(null as Nullable<HTMLInputElement>)
 
@@ -244,11 +243,8 @@ export default defineComponent({
       }
     }
 
-    function handleKeydown(e: KeyboardEvent) {
-      if (e.target !== e.currentTarget) return
-      if (e.keyCode === eventKeys.enter || e.keyCode === eventKeys.space) {
-        handleClick()
-      }
+    function handleKeydown() {
+      handleClick()
     }
 
     return {
