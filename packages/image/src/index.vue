@@ -1,5 +1,9 @@
 <template>
-  <div ref="container" class="el-image">
+  <div
+    ref="container"
+    :class="['el-image', $attrs.class]"
+    :style="$attrs.style"
+  >
     <slot v-if="loading" name="placeholder">
       <div class="el-image__placeholder"></div>
     </slot>
@@ -9,7 +13,7 @@
     <img
       v-else
       class="el-image__inner"
-      v-bind="$attrs"
+      v-bind="attrs"
       :src="src"
       :style="imageStyle"
       :class="{ 'el-image__inner--center': alignCenter, 'el-image__preview': preview }"
@@ -32,10 +36,11 @@
 import { defineComponent, computed, ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { isString } from '@vue/shared'
 import throttle from 'lodash/throttle'
+import { useAttrs } from '@element-plus/hooks'
 import isServer from '@element-plus/utils/isServer'
 import { on, off, getScrollContainer, isInContainer } from '@element-plus/utils/dom'
 import { t } from '@element-plus/locale'
-import ImageViewer from './image-viewer'
+import ImageViewer from './image-viewer.vue'
 
 const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined
 const isHtmlEle = e => e && e.nodeType === 1
@@ -55,6 +60,7 @@ export default defineComponent({
   components: {
     ImageViewer,
   },
+  inheritAttrs: false,
   props: {
     src: {
       type: String,
@@ -82,12 +88,13 @@ export default defineComponent({
     },
   },
   emits: ['error'],
-  setup(props, { emit, attrs }) {
+  setup(props, { emit }) {
     // init here
+    const attrs = useAttrs()
     const hasLoadError = ref(false)
     const loading = ref(true)
-    const imgWidth = ref(false)
-    const imgHeight = ref(false)
+    const imgWidth = ref(0)
+    const imgHeight = ref(0)
     const showViewer = ref(false)
     const container = ref<HTMLElement | null>(null)
     const show = ref(props.lazy)
@@ -158,6 +165,8 @@ export default defineComponent({
     const loadImage = () => {
       if (isServer) return
 
+      const attributes = attrs.value
+
       // reset status
       loading.value = true
       hasLoadError.value = false
@@ -168,15 +177,15 @@ export default defineComponent({
 
       // bind html attrs
       // so it can behave consistently
-      Object.keys(attrs)
+      Object.keys(attributes)
         .forEach(key => {
-          const value = attrs[key]
+          const value = attributes[key]
           img.setAttribute(key, value)
         })
       img.src = props.src
     }
 
-    function handleLoad(e: Event, img: Any) {
+    function handleLoad(e: Event, img: HTMLImageElement) {
       imgWidth.value = img.width
       imgHeight.value = img.height
       loading.value = false
@@ -255,6 +264,7 @@ export default defineComponent({
     })
 
     return {
+      attrs,
       loading,
       hasLoadError,
       showViewer,
@@ -272,6 +282,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style>
-</style>
