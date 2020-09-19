@@ -1,4 +1,3 @@
-<script lang="ts">
 import {
   defineComponent,
   h,
@@ -11,19 +10,22 @@ import {
   nextTick,
 } from 'vue'
 
+import {
+  elFormKey, elFormItemKey,
+} from './token'
+
 export default defineComponent({
-  name: 'ElLabelWrap',
   props: {
     isAutoWidth: Boolean,
     updateAll: Boolean,
   },
   setup(props, { slots }) {
-    const el = ref(null)
-    const elForm = inject('elForm', {} as any)
-    const elFormItem = inject('elFormItem', {} as any)
+    const el = ref<Nullable<HTMLElement>>(null)
+    const elForm = inject(elFormKey)
+    const elFormItem = inject(elFormItemKey)
 
     const computedWidth = ref(0)
-    watch(computedWidth, (val: any, oldVal: any) => {
+    watch(computedWidth, (val, oldVal) => {
       if (props.updateAll) {
         elForm.registerLabelWidth(val, oldVal)
         elFormItem.updateComputedLabelWidth(val)
@@ -31,10 +33,10 @@ export default defineComponent({
     })
 
     const getLabelWidth = () => {
-      if (el.value && el.value.firstElementChild) {
-        const computedWidth = window.getComputedStyle(el.value.firstElementChild)
+      if (el.value?.firstElementChild) {
+        const width = window.getComputedStyle(el.value.firstElementChild)
           .width
-        return Math.ceil(parseFloat(computedWidth))
+        return Math.ceil(parseFloat(width))
       } else {
         return 0
       }
@@ -57,30 +59,30 @@ export default defineComponent({
 
     onBeforeUnmount(() => updateLabelWidth('remove'))
 
-    // const slotsDefault = slots.default
-    if (!slots) return null
-    if (props.isAutoWidth) {
-      const autoLabelWidth = elForm.autoLabelWidth
-      const style = {} as any
-      if (autoLabelWidth && autoLabelWidth !== 'auto') {
-        const marginLeft = parseInt(autoLabelWidth.value, 10) - computedWidth.value
-        if (marginLeft) {
-          style.marginLeft = marginLeft + 'px'
+    function render() {
+      if (!slots) return null
+      if (props.isAutoWidth) {
+        const autoLabelWidth = elForm.autoLabelWidth
+        const style = {} as CSSStyleDeclaration
+        if (autoLabelWidth && autoLabelWidth !== 'auto') {
+          const marginLeft = parseInt(autoLabelWidth, 10) - computedWidth.value
+          if (marginLeft) {
+            style.marginLeft = marginLeft + 'px'
+          }
         }
-      }
-      return () =>
-        h(
+        return h(
           'div',
           {
             ref: el,
             class: ['el-form-item__label-wrap'],
-            style: style,
+            style,
           },
-          slots.default?.(),
+            slots.default?.(),
         )
-    } else {
-      return () => h('div', { ref: el }, slots.default?.())
+      } else {
+        return h('div', { ref: el }, slots.default?.())
+      }
     }
+    return render
   },
 })
-</script>
