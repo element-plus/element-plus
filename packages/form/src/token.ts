@@ -1,8 +1,20 @@
-import { InjectionKey } from 'vue'
+import type { InjectionKey } from 'vue'
+import type { Emitter } from 'mitt'
 export interface ElFormContext {
   registerLabelWidth(width: number, oldWidth: number): void
   deregisterLabelWidth(width: number): void
   autoLabelWidth: string | undefined
+  formMitt: Emitter
+  emit: (evt: string, ...args: any[]) => void
+
+  model?: Record<string, unknown>
+  size?: string
+  showMessage?: boolean
+  labelPosition?: string
+  labelWidth?: string
+  rules?: Record<string, unknown>
+  statusIcon?: boolean
+  hideRequiredAsterisk?: boolean
 }
 
 export interface ElFormItemContext {
