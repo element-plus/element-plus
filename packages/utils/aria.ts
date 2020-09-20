@@ -21,7 +21,7 @@ export const EVENT_CODE = {
   right: 'ArrowRight',
   top: 'ArrowTop',
   down: 'ArrowDown',
-  esc: 'Esc',
+  esc: 'Escape',
   delete: 'Delete',
   backspace: 'Backspace',
 }

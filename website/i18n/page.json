@@ -4,7 +4,7 @@
     "pages": {
       "index": {
         "1": "网站快速成型工具",
-        "2": "Element，一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库",
+        "2": "Element Plus，一套为开发者、设计师和产品经理准备的基于 Vue 3.0 的桌面端组件库",
         "3": "指南",
         "4": "了解设计指南，帮助产品设计人员搭建逻辑清晰、结构合理且高效易用的产品。",
         "5": "查看详情",
@@ -110,7 +110,7 @@
     "pages": {
       "index": {
         "1": "A Desktop UI Library",
-        "2": "Element, a Vue 2.0 based component library for developers, designers and product managers",
+        "2": "Element Plus, a Vue 3.0 based component library for developers, designers and product managers",
         "3": "Guide",
         "4": "Understand the design guidelines, helping designers build product that's logically sound, reasonably structured and easy to use.",
         "5": "View Detail",
@@ -216,7 +216,7 @@
     "pages": {
       "index": {
         "1": "Un kit de interfaz de usuario para la web",
-        "2": "Element, una librería de componentes basada en Vue 2.0 para desarrolladores, diseñadores y jefes de producto",
+        "2": "Element Plus, una librería de componentes basada en Vue 3.0 para desarrolladores, diseñadores y jefes de producto",
         "3": "Guía",
         "4": "Entender los líneamientos de diseño, ayudando a diseñadores a crear productos que sean lógicos, razonablemente estructurados y fáciles de usar.",
         "5": "Ver detalle",
@@ -322,7 +322,7 @@
     "pages": {
       "index": {
         "1": "Un kit de composants d'interface pour le web",
-        "2": "Element, une bibliothèque de composants web basée sur Vue 2.0 pour les développeurs, designers et chef de produits.",
+        "2": "Element Plus, une bibliothèque de composants web basée sur Vue 3.0 pour les développeurs, designers et chef de produits.",
         "3": "Guide",
         "4": "Comprendre le design, aider les designers à concevoir un produit adapté, structuré et facile d'utilisation.",
         "5": "Détails",

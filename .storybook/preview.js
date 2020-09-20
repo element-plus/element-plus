@@ -2,7 +2,7 @@ import { addDecorator } from '@storybook/html'
 import { createApp } from 'vue'
 // import '../src/style/element-ui@2.13.2.css'
 import '../packages/theme-chalk/src/index.scss'
-import install from '../packages/element-plus'
+import ElementUI from '../packages/element-plus'
 import './demo.css'
 
 /**
@@ -31,7 +31,7 @@ function CustomDecorator(content, context) {
   const app = typeof templateOrComponent === 'string'
     ? createApp(Wrapper(templateOrComponent))
     : createApp(templateOrComponent)
-  install(app)
+  ElementUI.install(app)
   const entry = document.createElement('div')
   entry.className = 'element-plus-previewer'
   app.mount(entry)

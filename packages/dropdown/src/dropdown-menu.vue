@@ -1,6 +1,5 @@
 <template>
   <ul
-    v-clickOutside:[_trigger]="_hide"
     :class="[size && `el-dropdown-menu--${size}`]"
     class="el-dropdown-menu"
     @mouseenter.stop="show"
@@ -11,14 +10,10 @@
 </template>
 <script lang='ts'>
 import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue'
-import ClickOutside from '@element-plus/directives/click-outside'
 import { useDropdown, initDropdownDomEvent } from './useDropdown'
 
 export default defineComponent({
   name: 'ElDropdownMenu',
-  directives: {
-    ClickOutside,
-  },
   setup() {
     const { _elDropdownSize, elDropdown } = useDropdown()
     const size = _elDropdownSize.value

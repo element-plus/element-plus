@@ -11,7 +11,6 @@ import {
   VNode,
 } from 'vue'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
-import ClickOutside from '@element-plus/directives/click-outside'
 import ElButton from '@element-plus/button/src/button.vue'
 import ElButtonGroup from '@element-plus/button/src/button-group.vue'
 import ELPopper from '@element-plus/popper/src/index.vue'
@@ -19,9 +18,6 @@ import { useDropdown } from './useDropdown'
 
 export default defineComponent({
   name: 'ElDropdown',
-  directives: {
-    ClickOutside,
-  },
   components: {
     ElButton,
     ElButtonGroup,
@@ -225,14 +221,16 @@ export default defineComponent({
       class: 'el-dropdown',
     }, [triggerVnode.value])
 
+    const onVisibleUpdate = (val: boolean) => visible.value = val
+
     return () => h(ELPopper, {
       ref: 'popper',
       placement: props.placement,
       effect: props.effect,
-      value: visible.value,
-      manualMode: true,
+      visible: visible.value,
+      'onUpdate:visible': onVisibleUpdate,
       popperClass: 'el-dropdown-popper',
-      trigger: props.trigger,
+      trigger: [props.trigger],
     }, {
       default: () => slots.dropdown?.(),
       trigger: () => dropdownVnode,

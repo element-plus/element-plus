@@ -7,12 +7,12 @@
             <!-- logo -->
             <slot>
               <img
-                src="../assets/images/element-logo.svg"
+                src="../assets/images/element-plus-logo.svg"
                 alt="element-logo"
                 class="nav-logo"
               >
               <img
-                src="../assets/images/element-logo-small.svg"
+                src="../assets/images/element-plus-logo-small.svg"
                 alt="element-logo"
                 class="nav-logo-small"
               >
@@ -93,18 +93,20 @@
                 {{ displayedLang }}
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
-              <el-dropdown-menu
-                class="nav-dropdown-list"
-                @input="handleLangDropdownToggle"
-              >
-                <el-dropdown-item
-                  v-for="(value, key) in langs"
-                  :key="key"
-                  @click="switchLang(key)"
+              <template #dropdown>
+                <el-dropdown-menu
+                  class="nav-dropdown-list"
+                  @input="handleLangDropdownToggle"
                 >
-                  {{ value }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
+                  <el-dropdown-item
+                    v-for="(value, key) in langs"
+                    :key="key"
+                    @click="switchLang(key)"
+                  >
+                    {{ value }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
             </el-dropdown>
           </li>
         </ul>
@@ -271,6 +273,10 @@ export default {
         height: 16px;
         background: #ebebeb;
       }
+    }
+
+    .nav-logo {
+      width: 160px
     }
 
     .nav-logo,
