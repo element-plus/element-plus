@@ -1,9 +1,5 @@
 <template>
-  <transition
-    name="el-zoom-in-top"
-    @before-enter="handleMenuEnter"
-    @after-leave="$emit('dodestroy')"
-  >
+  <transition name="el-zoom-in-top" @before-enter="handleMenuEnter" @after-leave="$emit('destroy')">
     <div
       v-show="visible"
       ref="popper"
@@ -76,7 +72,7 @@ const nextTime = function (time, step) {
 }
 export default defineComponent({
   components: { ElScrollbar },
-  emits: ['pick', 'select-range'],
+  emits: ['pick', 'destroy'],
   setup(props, ctx) {
     // data
     const popperClass = ref('')
