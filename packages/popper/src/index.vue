@@ -2,17 +2,14 @@
 import {
   defineComponent,
   h,
-  openBlock,
-  createBlock,
   Fragment,
   Teleport,
-  nextTick,
 } from 'vue'
 
 import { isArray } from '@element-plus/utils/util'
 import { stop } from '@element-plus/utils/dom'
 import { ClickOutside } from '@element-plus/directives'
-import throwError, { warn } from '@element-plus/utils/error'
+import throwError from '@element-plus/utils/error'
 import { renderBlock } from '@element-plus/utils/vnode'
 
 import {
@@ -47,9 +44,11 @@ export default defineComponent({
     ClickOutside,
   },
   props: {
+    // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
+    // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
     arrowOffset: {
       type: Number,
-      default: 15,
+      default: 5,
     },
     appendToBody: {
       type: Boolean,
@@ -151,16 +150,12 @@ export default defineComponent({
       type: String,
       default: '0',
     },
-    value: {
-      type: Boolean,
-      default: false,
-    },
     visible: {
       type: Boolean,
       default: undefined,
     },
   },
-  emits: [UPDATE_VISIBLE_EVENT],
+  emits: [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave'],
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
@@ -177,7 +172,6 @@ export default defineComponent({
       appendToBody,
       class: kls,
       effect,
-      excludes,
       onHide,
       onPopperMouseEnter,
       onPopperMouseLeave,
@@ -187,6 +181,7 @@ export default defineComponent({
       showArrow,
       tabIndex,
       transition,
+      transitionEmitters,
       visibility,
     } = this
 
@@ -201,6 +196,7 @@ export default defineComponent({
         pure,
         onMouseEnter: onPopperMouseEnter,
         onMouseLeave: onPopperMouseLeave,
+        transitionEmitters,
         visibility,
       },
       [$slots.default?.() || this.content, arrow],

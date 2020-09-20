@@ -1,5 +1,5 @@
 import { h, withDirectives } from 'vue'
-import type { ComputedRef, VNode } from 'vue'
+import type { VNode } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 
 interface IRenderMaskProps {
