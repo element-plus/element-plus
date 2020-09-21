@@ -9,7 +9,10 @@
     :default-value="defaultValue"
     default-first-option
     filterable
-    @change="value => $emit('change', value)"
+    @change="value => {
+      $emit('change', value)
+      $emit('update:modelValue', value)
+    }"
     @blur="event => $emit('blur', event)"
     @focus="event => $emit('focus', event)"
   >
@@ -80,6 +83,7 @@ export default defineComponent({
     event: 'change',
   },
   props: {
+    modelValue: String,
     editable: {
       type: Boolean,
       default: true,
@@ -128,7 +132,7 @@ export default defineComponent({
     const start = ref('09:00')
     const end = ref('18:00')
     const step = ref('00:30')
-    const value = ref('')
+    const value = ref(props.modelValue)
     const minTime = ref('')
     const maxTime = ref('')
     // refs
