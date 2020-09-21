@@ -10,7 +10,22 @@ module.exports = {
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.vue$': 'vue-jest',
-    '^.+\\.(t|j)sx?$': ['@swc-node/jest'],
+    '^.+\\.(t|j)sx?$': [
+      'babel-jest', {
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: {
+                node: true,
+              },
+            },
+          ],
+          '@babel/preset-typescript',
+        ],
+        plugins: ['@vue/babel-plugin-jsx'],
+      },
+    ],
   },
   moduleFileExtensions: ['vue', 'json', 'ts', 'tsx', 'js', 'json'],
 }
