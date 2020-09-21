@@ -59,7 +59,7 @@
           <el-button
             v-if="showCancelButton"
             :loading="cancelButtonLoading"
-            :class="[ cancelButtonClasses ]"
+            :class="[ cancelButtonClass ]"
             :round="roundButton"
             size="small"
             @click="handleAction('cancel')"
@@ -217,8 +217,6 @@ export default defineComponent({
 
     const confirmButtonClasses = computed(() => `el-button--primary ${ state.confirmButtonClass }`)
 
-    const cancelButtonClasses = computed(() => `${ state.cancelButtonClass }`)
-
     watch(() => state.inputValue, val => {
       nextTick().then(() => {
         if (state.type$ === 'prompt' && val !== null) {
@@ -370,7 +368,6 @@ export default defineComponent({
       hasMessage,
       icon,
       confirmButtonClasses,
-      cancelButtonClasses,
       handleWrapperClick,
       handleInputEnter,
       handleAction,
