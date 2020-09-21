@@ -4,7 +4,7 @@ import type { VNode, VNodeTypes, VNodeChild } from 'vue'
 
 const TEMPLATE = 'template'
 
-export const enum PatchFlags {
+export enum PatchFlags {
   TEXT = 1,
   CLASS = 2,
   STYLE = 4,
