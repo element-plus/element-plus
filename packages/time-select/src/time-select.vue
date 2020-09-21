@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue'
+import ElSelect from '@element-plus/select'
 const parseTime = function (time) {
   const values = (time || '').split(':')
   if (values.length >= 2) {
@@ -73,6 +74,7 @@ const nextTime = function (time, step) {
 }
 
 export default defineComponent({
+  components: { ElSelect },
   model: {
     prop: 'value',
     event: 'change',
