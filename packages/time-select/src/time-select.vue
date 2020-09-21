@@ -136,7 +136,7 @@ export default defineComponent({
     const end = ref('18:00')
     const step = ref('00:30')
     const value = ref(props.modelValue)
-    const minTime = ref('')
+    const minTime = ref('00:00')
     const maxTime = ref('')
     // refs
     const select = ref(null)
