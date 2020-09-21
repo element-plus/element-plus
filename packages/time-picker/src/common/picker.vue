@@ -249,6 +249,14 @@ export default defineComponent({
       type: Function,
       default: null,
     },
+    disabledDate: {
+      type: Function,
+      default: null,
+    },
+    shortcuts: {
+      type: Array,
+      default: () => ([]),
+    },
   },
   emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup(props, ctx) {

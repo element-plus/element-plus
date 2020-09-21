@@ -32,7 +32,10 @@
                 @change="handleVisibleDateChange"
               />
             </span>
-            <span v-clickoutside="handleTimePickClose" class="el-date-picker__editor-wrap">
+            <span
+              v-clickoutside="handleTimePickClose"
+              class="el-date-picker__editor-wrap"
+            >
               <el-input
                 ref="input"
                 :placeholder="t('el.datepicker.selectTime')"
@@ -181,7 +184,7 @@ import { NOOP } from '@vue/shared'
 import ElInput from '@element-plus/input/src/index.vue'
 import { ClickOutside } from '@element-plus/directives'
 import { Button as ElButton } from '@element-plus/button'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 // import MonthTable from './basic-month-table.vue'
 // import YearTable from './basic-year-table.vue'
@@ -192,6 +195,7 @@ import {
   ref,
   PropType,
   watch,
+  inject,
 } from 'vue'
 
 export default defineComponent({
@@ -212,14 +216,6 @@ export default defineComponent({
     format: {
       type: String,
       default: '',
-    },
-    shortcuts: {
-      type: Array,
-      default: () => ([]),
-    },
-    disabledDate: {
-      type: Function,
-      default: NOOP,
     },
     type: {
       type: String,
@@ -318,6 +314,10 @@ export default defineComponent({
     })
 
     const handleShortcutClick = shortcut => {
+      if (shortcut.value) {
+        emit(dayjs(shortcut.value))
+        return
+      }
       if (shortcut.onClick) {
         shortcut.onClick(ctx)
       }
@@ -338,7 +338,7 @@ export default defineComponent({
       currentView.value = 'date'
     }, { immediate: true })
 
-    const hasShortcuts = computed(() => !!props.shortcuts.length)
+    const hasShortcuts = computed(() => !!shortcuts.length)
 
     const handleMonthPick = month => {
       if (selectionMode.value === 'month') {
@@ -386,8 +386,8 @@ export default defineComponent({
     const changeToNow = () => {
       // NOTE: not a permanent solution
       //       consider disable "now" button in the future
-      if ((!props.disabledDate || !props.disabledDate(new Date())) && checkDateWithinRange(new Date())) {
-        innerDate.value = new Date()
+      if ((!disabledDate || !disabledDate(new Date())) && checkDateWithinRange(new Date())) {
+        innerDate.value = dayjs()
         emit(innerDate.value)
       }
     }
@@ -416,6 +416,15 @@ export default defineComponent({
         timePickerVisible.value = visible
       }
     }
+    const isValidValue = () => true
+    const formatToString = value => {
+      if (!value) return null
+      return value.format(props.format)
+    }
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
+    pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
+    const { shortcuts, disabledDate } = pickerBase.props
     return {
       handleTimePick,
       handleTimePickClose,
@@ -432,6 +441,8 @@ export default defineComponent({
       showMonthPicker,
       handleMonthPick,
       hasShortcuts,
+      shortcuts,
+      disabledDate,
       selectionMode,
       handleShortcutClick,
       prevYear_,
