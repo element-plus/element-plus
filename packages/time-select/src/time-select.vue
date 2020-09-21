@@ -32,7 +32,11 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue'
 import ElSelect from '@element-plus/select'
-const parseTime = function (time) {
+interface Time {
+  hours: number
+  minutes: number
+}
+const parseTime = function (time: string): null | Time {
   const values = (time || '').split(':')
   if (values.length >= 2) {
     const hours = parseInt(values[0], 10)
@@ -42,10 +46,9 @@ const parseTime = function (time) {
       minutes,
     }
   }
-  /* istanbul ignore next */
   return null
 }
-const compareTime = function (time1, time2) {
+const compareTime = function (time1: string, time2: string): number {
   const value1 = parseTime(time1)
   const value2 = parseTime(time2)
   const minutes1 = value1.minutes + value1.hours * 60
@@ -55,14 +58,14 @@ const compareTime = function (time1, time2) {
   }
   return minutes1 > minutes2 ? 1 : -1
 }
-const formatTime = function (time) {
+const formatTime = function (time: Time): string {
   return (
     (time.hours < 10 ? '0' + time.hours : time.hours) +
     ':' +
     (time.minutes < 10 ? '0' + time.minutes : time.minutes)
   )
 }
-const nextTime = function (time, step) {
+const nextTime = function (time: string, step: string): string {
   const timeValue = parseTime(time)
   const stepValue = parseTime(step)
   const next = {
