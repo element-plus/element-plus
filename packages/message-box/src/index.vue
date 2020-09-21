@@ -50,6 +50,7 @@
               v-model="inputValue"
               :type="inputType"
               :placeholder="inputPlaceholder"
+              :class="{ invalid: validateError }"
               @keydown.enter="handleInputEnter"
             />
             <div class="el-message-box__errormsg" :style="{ visibility: !!editorErrorMessage ? 'visible' : 'hidden' }">{{ editorErrorMessage }}</div>
@@ -97,7 +98,6 @@ import {
   reactive,
   toRefs,
 } from 'vue'
-import { addClass, removeClass } from '@element-plus/utils/dom'
 import ElButton from '@element-plus/button/src/button.vue'
 import ElInput from '@element-plus/input/src/index.vue'
 import { t } from '@element-plus/locale'
@@ -211,6 +211,7 @@ export default defineComponent({
       distinguishCancelAndClose: false,
       type$: '',
       visible: false,
+      validateError: false,
     })
     const icon = computed(() => state.iconClass || (state.type && TypeMap[state.type] ? `el-icon-${ TypeMap[state.type] }` : ''))
     const hasMessage = computed(() => !!state.message)
@@ -243,7 +244,7 @@ export default defineComponent({
           }}, 500)
       } else {
         state.editorErrorMessage = ''
-        removeClass(getInputElement(), 'invalid')
+        state.validateError = false
       }
     })
 
@@ -331,7 +332,7 @@ export default defineComponent({
         const inputPattern = state.inputPattern
         if (inputPattern && !inputPattern.test(state.inputValue || '')) {
           state.editorErrorMessage = state.inputErrorMessage || t('el.messagebox.error')
-          addClass(getInputElement(), 'invalid')
+          state.validateError = true
           return false
         }
         const inputValidator = state.inputValidator
@@ -339,18 +340,18 @@ export default defineComponent({
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage = state.inputErrorMessage || t('el.messagebox.error')
-            addClass(getInputElement(), 'invalid')
+            state.validateError = true
             return false
           }
           if (typeof validateResult === 'string') {
             state.editorErrorMessage = validateResult
-            addClass(getInputElement(), 'invalid')
+            state.validateError = true
             return false
           }
         }
       }
       state.editorErrorMessage = ''
-      removeClass(getInputElement(), 'invalid')
+      state.validateError = false
       return true
     }
 
