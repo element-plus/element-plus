@@ -26,7 +26,8 @@
   </el-select>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref, computed, watch } from 'vue'
 const parseTime = function (time) {
   const values = (time || '').split(':')
   if (values.length >= 2) {
@@ -70,7 +71,8 @@ const nextTime = function (time, step) {
   next.minutes = next.minutes % 60
   return formatTime(next)
 }
-export default {
+
+export default defineComponent({
   model: {
     prop: 'value',
     event: 'change',
@@ -118,65 +120,66 @@ export default {
       default: 'el-icon-circle-closes',
     },
   },
-  data() {
-    return {
-      start: '09:00',
-      end: '18:00',
-      step: '00:30',
-      value: '',
-      minTime: '',
-      maxTime: '',
-    }
-  },
-  computed: {
-    items() {
-      const start = this.start
-      const end = this.end
-      const step = this.step
+  emits: ['change', 'blur', 'focus'],
+  setup(props) {
+    // data
+    const start = ref('09:00')
+    const end = ref('18:00')
+    const step = ref('00:30')
+    const value = ref('')
+    const minTime = ref('')
+    const maxTime = ref('')
+    // refs
+    const select = ref(null)
+    // computed
+    const items = computed(() => {
       const result = []
-      if (start && end && step) {
-        let current = start
-        while (compareTime(current, end) <= 0) {
+      if (start.value && end.value && step.value) {
+        let current = start.value
+        while (compareTime(current, end.value) <= 0) {
           result.push({
             value: current,
             disabled:
-              compareTime(current, this.minTime || '-1:-1') <= 0 ||
-              compareTime(current, this.maxTime || '100:100') >= 0,
+              compareTime(current, minTime.value || '-1:-1') <= 0 ||
+              compareTime(current, maxTime.value || '100:100') >= 0,
           })
-          current = nextTime(current, step)
+          current = nextTime(current, step.value)
         }
       }
       return result
-    },
-  },
-  watch: {
-    pickerOptions() {
-      this.updateOptions()
-    },
-  },
-  methods: {
-    handleClick(item) {
-      if (!item.disabled) {
-        this.$emit('pick', item.value)
-      }
-    },
-    handleClear() {
-      this.$emit('pick', null)
-    },
-    updateOptions() {
-      const options = this.pickerOptions
+    })
+    // methods
+    const updateOptions = () => {
+      const options = props.pickerOptions
       for (const option in options) {
         if (options.hasOwnProperty(option)) {
           this[option] = options[option]
         }
       }
-    },
-    focus() {
-      this.$refs.select.focus()
-    },
-    blur() {
-      this.$refs.select.blur()
-    },
+    }
+    const focus = () => {
+      select.value.focus()
+    }
+    const blur = () => {
+      select.value.blur()
+    }
+    // watch
+    watch(
+      () => props.pickerOptions,
+      () => {
+        updateOptions()
+      },
+    )
+    return {
+      start,
+      end,
+      step,
+      value,
+      minTime,
+      maxTime,
+      items,
+      updateOptions,
+    }
   },
-}
+})
 </script>
