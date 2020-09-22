@@ -12,6 +12,7 @@
             'is-dot': isDot
           }
         ]"
+        @click.stop="handleClick"
         v-text="content"
       >
       </sup>
@@ -54,7 +55,7 @@ export default {
       },
     },
   },
-  setup(props: IBadgeProps): IBadgeSetups {
+  setup(props: IBadgeProps, ctx): IBadgeSetups {
     const content = computed(() => {
       if (props.isDot) {
         return
@@ -65,8 +66,13 @@ export default {
       }
       return value
     })
+
+    const handleClick = () => {
+      ctx.emit('click')
+    }
     return {
       content,
+      handleClick,
     }
   },
 }
