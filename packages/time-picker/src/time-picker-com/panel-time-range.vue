@@ -78,7 +78,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import mitt from 'mitt'
 import union from 'lodash/union'
 import { t } from '@element-plus/locale'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvaliableArrs } from './useTimePicker'
 
@@ -183,17 +183,17 @@ export default defineComponent({
     }
 
     const handleKeydown = event => {
-      const keyCode = event.keyCode
+      const code = event.code
 
-      if (keyCode === eventKeys.left || keyCode === eventKeys.right) {
-        const step = (keyCode === eventKeys.left) ? -1 : 1
+      if (code === EVENT_CODE.left || code === EVENT_CODE.right) {
+        const step = (code === EVENT_CODE.left) ? -1 : 1
         changeSelectionRange(step)
         event.preventDefault()
         return
       }
 
-      if (keyCode === eventKeys.up || keyCode === eventKeys.down) {
-        const step = (keyCode === eventKeys.up) ? -1 : 1
+      if (code === EVENT_CODE.up || code === EVENT_CODE.down) {
+        const step = (code === EVENT_CODE.up) ? -1 : 1
         const role = selectionRange.value[0] < offset.value ? 'start' : 'end'
         timePickeOptions[`${role}_scrollDown`](step)
         event.preventDefault()

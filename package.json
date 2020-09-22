@@ -1,7 +1,7 @@
 {
   "name": "element-plus",
   "private": true,
-  "version": "1.0.1-alpha.1",
+  "version": "1.0.1-alpha.2",
   "scripts": {
     "cz": "npx git-cz",
     "test": "jest",
@@ -14,10 +14,10 @@
     "lint": "eslint ./packages --ext .vue,.js,.ts",
     "website-build": "webpack --config ./website/webpack.config.js",
     "website-dev": "webpack-dev-server --config ./website/webpack.config.js",
-    "website-dev:play": "PLAY_ENV=true yarn website-dev"
+    "website-dev:play": "cross-env PLAY_ENV=true yarn website-dev"
   },
   "peerDependencies": {
-    "vue": "^3.0.0-rc.9"
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
@@ -31,7 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
     "@vue/babel-plugin-jsx": "^1.0.0-rc.3",
-    "@vue/compiler-sfc": "^3.0.0-rc.9",
+    "@vue/compiler-sfc": "^3.0.0",
     "@vue/component-compiler-utils": "^3.2.0",
     "algoliasearch": "^4.4.0",
     "babel-loader": "^8.1.0",
@@ -61,7 +61,6 @@
     "ts-loader": "^8.0.3",
     "typescript": "^4.0.2",
     "url-loader": "^4.1.0",
-    "vite": "^1.0.0-rc.4",
     "vue-jest": "5.0.0-alpha.1",
     "vue-loader": "16.0.0-beta.7",
     "vue-router": "^4.0.0-beta.4",

@@ -13,7 +13,7 @@
 <script lang="ts">
 </script>
 <style>
-* {
+.el-carousel__container {
   text-align: center;
 }
 .demonstration {

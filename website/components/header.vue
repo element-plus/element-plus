@@ -7,12 +7,12 @@
             <!-- logo -->
             <slot>
               <img
-                src="../assets/images/element-logo.svg"
+                src="../assets/images/element-plus-logo.svg"
                 alt="element-logo"
                 class="nav-logo"
               >
               <img
-                src="../assets/images/element-logo-small.svg"
+                src="../assets/images/element-plus-logo-small.svg"
                 alt="element-logo"
                 class="nav-logo-small"
               >
@@ -273,6 +273,10 @@ export default {
         height: 16px;
         background: #ebebeb;
       }
+    }
+
+    .nav-logo {
+      width: 160px
     }
 
     .nav-logo,

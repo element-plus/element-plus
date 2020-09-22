@@ -1,6 +1,6 @@
 import { inject, computed, ref } from 'vue'
 import { generateId } from '@element-plus/utils/util'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, addClass } from '@element-plus/utils/dom'
 import { IElDropdownInstance } from './dropdown'
 
@@ -36,32 +36,28 @@ export const initDropdownDomEvent = (dropdownChildren, triggerElm, _instance) =>
   }
 
   function handleTriggerKeyDown(ev: KeyboardEvent) {
-    /**
-     * https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/keyCode
-     * keyCode is deprecated, we should replace the api with event.key
-     * */
-    const keyCode = ev.keyCode
-    if ([eventKeys.up, eventKeys.down].includes(keyCode)) {
+    const code = ev.code
+    if ([EVENT_CODE.up, EVENT_CODE.down].includes(code)) {
       removeTabindex()
       resetTabindex(menuItems.value[0])
       menuItems.value[0].focus()
       ev.preventDefault()
       ev.stopPropagation()
-    } else if (keyCode === eventKeys.enter) {
+    } else if (code === EVENT_CODE.enter) {
       _instance.handleClick()
-    } else if ([eventKeys.tab, eventKeys.esc].includes(keyCode)) {
+    } else if ([EVENT_CODE.tab, EVENT_CODE.esc].includes(code)) {
       _instance.hide()
     }
   }
 
   function handleItemKeyDown(ev) {
-    const keyCode = ev.keyCode
+    const code = ev.code
     const target = ev.target
     const currentIndex = menuItemsArray.value.indexOf(target)
     const max = menuItemsArray.value.length - 1
     let nextIndex
-    if ([eventKeys.up, eventKeys.down].includes(keyCode)) {
-      if (keyCode === eventKeys.up) {
+    if ([EVENT_CODE.up, EVENT_CODE.down].includes(code)) {
+      if (code === EVENT_CODE.up) {
         nextIndex = currentIndex !== 0 ? currentIndex - 1 : 0
       } else {
         nextIndex = currentIndex < max ? currentIndex + 1 : max
@@ -71,13 +67,13 @@ export const initDropdownDomEvent = (dropdownChildren, triggerElm, _instance) =>
       menuItems.value[nextIndex].focus()
       ev.preventDefault()
       ev.stopPropagation()
-    } else if (keyCode === eventKeys.enter) {
+    } else if (code === EVENT_CODE.enter) {
       triggerElmFocus()
       target.click()
       if (_instance.props.hideOnClick) {
         _instance.hide()
       }
-    } else if ([eventKeys.tab, eventKeys.esc].includes(keyCode)) {
+    } else if ([EVENT_CODE.tab, EVENT_CODE.esc].includes(code)) {
       _instance.hide()
       triggerElmFocus()
     }

@@ -3,6 +3,7 @@ import { isEmpty, castArray, isEqual } from 'lodash'
 import {
   isObject,
   isArray,
+  isString,
   capitalize,
   hyphenate,
   looseEqual,
@@ -121,6 +122,7 @@ export {
   isEqual,
   isObject,
   isArray,
+  isString,
   capitalize,
   camelize,
   looseEqual,
@@ -162,6 +164,10 @@ export function entries<T>(obj: Hash<T>): [string, T][] {
   return Object
     .keys(obj)
     .map((key: string) => ([key, obj[key]]))
+}
+
+export function isUndefined(val: any) {
+  return val === void 0
 }
 
 export { isVNode } from 'vue'
