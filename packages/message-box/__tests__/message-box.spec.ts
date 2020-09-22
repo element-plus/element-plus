@@ -109,9 +109,9 @@ describe('MessageBox', () => {
       inputErrorMessage: 'validation failed',
     })
     await sleep(1000)
-    const inputElm = document.querySelector(selector).querySelector('.el-message-box__input') as HTMLButtonElement
+    const inputElm = document.querySelector(selector).querySelector('.el-message-box__input')
     const haveFocus = inputElm.querySelector('input').isSameNode(document.activeElement)
-    expect(inputElm as HTMLButtonElement).toBeDefined()
+    expect(inputElm).toBeDefined()
     expect(haveFocus).toBe(true)
   })
 
