@@ -2,7 +2,7 @@ import { ComponentPublicInstance } from 'vue'
 import isServer from './isServer'
 import { getConfig } from './config'
 import { addClass, removeClass, on } from './dom'
-import { eventKeys } from './aria'
+import { EVENT_CODE } from './aria'
 
 interface ComponentMethods {
   closeOnClickModal: boolean
@@ -220,7 +220,7 @@ const getTopPopup = function() {
 if (!isServer) {
   // handle `esc` key when the popup is shown
   on(window, 'keydown', function(event: KeyboardEvent) {
-    if (event.keyCode === eventKeys.esc) {
+    if (event.code === EVENT_CODE.esc) {
       const topPopup = getTopPopup()
 
       if (topPopup && topPopup.closeOnPressEscape) {
