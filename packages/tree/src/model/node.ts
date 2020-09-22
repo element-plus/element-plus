@@ -221,20 +221,7 @@ export default class Node {
   }
 
   contains(target: Node, deep = true): boolean {
-    const walk = function(parent: Node): boolean {
-      const children = parent.childNodes || []
-      let result = false
-      for (let i = 0, j = children.length; i < j; i++) {
-        const child = children[i]
-        if (child === target || (deep && walk(child))) {
-          result = true
-          break
-        }
-      }
-      return result
-    }
-
-    return walk(this)
+    return (this.childNodes || []).some(child => child === target || (deep && child.contains(target)))
   }
 
   remove(): void {
@@ -341,7 +328,7 @@ export default class Node {
 
     if (this.shouldLoadData()) {
       this.loadData(data => {
-        if (data instanceof Array) {
+        if (Array.isArray(data)) {
           if (this.checked) {
             this.setChecked(true, true)
           } else if (!this.store.checkStrictly) {
