@@ -1,10 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import Tree from '../src/tree.vue'
+import { sleep } from '@element-plus/test-utils'
 
-const delay = (t = 10) => new Promise(resolve => {
-  setTimeout(resolve, t)
-})
 const ALL_NODE_COUNT = 9
 
 const getTreeVm = (props = '', options = {}) => {
@@ -149,14 +147,14 @@ describe('Tree.vue', () => {
     const firstNodeWrapper = wrapper.find('.el-tree-node')
 
     await firstNodeContentWrapper.trigger('click')
-    await delay() // because node click method to expaned is async
+    await sleep() // because node click method to expaned is async
 
     expect(vm.clickedNode.label).toEqual('一级 1')
     expect(firstNodeWrapper.classes('is-expanded')).toBe(true)
     expect(firstNodeWrapper.classes('is-current')).toBe(true)
 
     await firstNodeContentWrapper.trigger('click')
-    await delay()
+    await sleep()
 
     expect(firstNodeWrapper.classes('is-expanded')).toBe(false)
     expect(firstNodeWrapper.classes('is-current')).toBe(true)
@@ -176,7 +174,7 @@ describe('Tree.vue', () => {
     const firstNodeWrapper = wrapper.find('.el-tree-node')
 
     await firstNodeContentWrapper.trigger('click')
-    await delay() // because node click method to expaned is async
+    await sleep() // because node click method to expaned is async
 
     expect(firstNodeWrapper.classes('is-expanded')).toBe(false)
   })
@@ -228,7 +226,7 @@ describe('Tree.vue', () => {
     vm.defaultExpandedKeys = [2]
     await nextTick()
     vm.data = JSON.parse(JSON.stringify(vm.data))
-    await delay()
+    await sleep()
     expanedNodeWrappers = wrapper.findAll('.el-tree-node.is-expanded')
     expect(expanedNodeWrappers.length).toEqual(1)
   })
@@ -269,7 +267,7 @@ describe('Tree.vue', () => {
 
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
     await firstNodeContentWrapper.trigger('click')
-    await delay()
+    await sleep()
 
     expect(wrapper.findAll('.el-tree-node.is-expanded').length).toEqual(2)
   })
@@ -308,7 +306,7 @@ describe('Tree.vue', () => {
     expect(treeVm.getCheckedNodes(true).length).toEqual(2)
 
     await seconNodeExpandIconWrapper.trigger('click')
-    await delay()
+    await sleep()
 
     const secondTreeNodeWrapper = treeWrapper.findAll('.el-tree-node')[1]
     const secondNodefirstLeafCheckboxWrapper = secondTreeNodeWrapper.find('.el-tree-node__children .el-tree-node__content .el-checkbox')
@@ -330,7 +328,7 @@ describe('Tree.vue', () => {
     expect(secondNodeCheckboxWrapper.exists()).toBe(true)
 
     await secondNodeCheckboxWrapper.trigger('click')
-    await delay()
+    await sleep()
 
     expect(handleCheckMockFunction.mock.calls.length).toBe(1)
     const [data, args] = handleCheckMockFunction.mock.calls[0]
@@ -633,7 +631,7 @@ describe('Tree.vue', () => {
 
     expect(nodeWrappers.length).toEqual(2)
     await nodeWrappers[0].trigger('click')
-    await delay(100) // wait load finish
+    await sleep(100) // wait load finish
     nodeWrappers = wrapper.findAll('.el-tree-node__content')
     expect(nodeWrappers.length).toEqual(4)
   })
@@ -666,7 +664,7 @@ describe('Tree.vue', () => {
 
     tree.store.setCheckedKeys([3])
     await firstNodeWrapper.find('.el-tree-node__expand-icon').trigger('click')
-    await delay(100)
+    await sleep(100)
 
     expect(firstNodeWrapper.find('.is-indeterminate').exists()).toEqual(true)
     const childWrapper = treeWrapper.findAll('.el-tree-node__content')[1]
@@ -698,7 +696,7 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm
 
     tree.store.setCheckedKeys([1])
-    await delay(400)
+    await sleep(400)
     expect(tree.getCheckedKeys().length).toEqual(7)
   })
 
@@ -727,7 +725,7 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm
 
     tree.store.setCheckedKeys([1])
-    await delay(300)
+    await sleep(300)
 
     const nodeWrappers = treeWrapper.findAll('.el-tree-node__content')
     expect(nodeWrappers[0].find('input').element.checked).toEqual(true)
@@ -740,10 +738,10 @@ describe('Tree.vue', () => {
     const firstNodeContentWrapper = wrapper.find('.el-tree-node__content')
     const secondNodeContentWrapper = wrapper.find('.el-tree-node:nth-child(2) .el-tree-node__content')
     await firstNodeContentWrapper.trigger('click')
-    await delay()
+    await sleep()
     expect(wrapper.find('.el-tree-node').classes('is-expanded')).toBe(true)
     await secondNodeContentWrapper.trigger('click')
-    await delay()
+    await sleep()
     expect(wrapper.find('.el-tree-node').classes('is-expanded')).toBe(false)
   })
 
@@ -780,13 +778,13 @@ describe('Tree.vue', () => {
     expect(firstNodeWrapper.find('.el-tree-node__children').exists()).toBe(false)
 
     await firstNodeContentWrapper.trigger('click')
-    await delay(100)
+    await sleep(100)
 
     expect(vm.nodeExpended).toEqual(true)
     expect(vm.currentNode.label).toEqual('region1')
 
     await firstNodeContentWrapper.trigger('click')
-    await delay(100)
+    await sleep(100)
 
     expect(vm.nodeExpended).toEqual(false)
     expect(vm.currentNode.label).toEqual('region1')
