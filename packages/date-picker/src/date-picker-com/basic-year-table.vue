@@ -45,14 +45,15 @@
 
 <script lang="ts">
 import { hasClass } from '@element-plus/utils/dom'
-import { isDate, range, nextDate, getDayCountOfYear } from './time-picker-utils'
+import { rangeArr } from '@element-plus/time-picker/src/common/date-utils'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 import {
   defineComponent,
   computed,
-  ref,
   PropType,
 } from 'vue'
+import dayjs, { Dayjs } from 'dayjs'
+
 const arrayFindIndex = function(arr, pred) {
   for (let i = 0; i !== arr.length; ++i) {
     if (pred(arr[i])) {
@@ -63,23 +64,19 @@ const arrayFindIndex = function(arr, pred) {
 }
 
 const datesInYear = year => {
-  const numOfDays = getDayCountOfYear(year)
-  const firstDay = new Date(year, 0, 1)
-  return range(numOfDays).map(n => nextDate(firstDay, n))
+  const firstDay = dayjs().startOf('year')
+  const numOfDays = dayjs(year).isLeapYear() ? 366 : 365
+  return rangeArr(numOfDays).map(n => firstDay.add(n, 'day').toDate())
 }
 
 export default defineComponent({
   props: {
-    disabledDate: {},
-    value: {},
-    defaultValue: {
-      validator:(val:any):boolean  => (
-        // null or valid Date Object
-        val === null || (val instanceof Date && isDate(val))
-      ),
+    disabledDate: {
+      type: Function as PropType<(_: Date) => void>,
     },
+    defaultValue: {},
     date: {
-      type: Date as PropType<Date>,
+      type: Dayjs as PropType<Dayjs>,
     },
   },
 
@@ -87,17 +84,19 @@ export default defineComponent({
 
   setup(props, ctx) {
     const startYear = computed(() =>{
-      return Math.floor(props.date.getFullYear() / 10) * 10
+      return Math.floor(props.date.year() / 10) * 10
     })
     const getCellStyle = year => {
       const style = {} as any
-      const today = new Date()
+      const today = dayjs()
 
       style.disabled = typeof props.disabledDate === 'function'
         ? datesInYear(year).every(props.disabledDate)
         : false
-      style.current = arrayFindIndex(coerceTruthyValueToArray(props.date), date => date.getFullYear() === year) >= 0
-      style.today = today.getFullYear() === year
+
+      style.current = coerceTruthyValueToArray(props.date).findIndex(_ => _.year() === year) >= 0
+
+      style.today = today.year() === year
       style.default = props.defaultValue && props.defaultValue.getFullYear() === year
 
       return style

@@ -14,10 +14,13 @@
 
 <script lang="ts">
 
-import { isDate, range, getDayCountOfMonth, nextDate } from './time-picker-utils'
+import { isDate } from './time-picker-utils'
 import { hasClass } from '@element-plus/utils/dom'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
+import { rangeArr } from '@element-plus/time-picker/src/common/date-utils'
 import { t } from '@element-plus/locale'
+import dayjs, { Dayjs } from 'dayjs'
+
 import {
   defineComponent,
   computed,
@@ -27,9 +30,9 @@ import {
 } from 'vue'
 
 const datesInMonth = (year, month) => {
-  const numOfDays = getDayCountOfMonth(year, month)
-  const firstDay = new Date(year, month, 1)
-  return range(numOfDays).map(n => nextDate(firstDay, n))
+  const firstDay = dayjs().startOf('month').month(month).year(year)
+  const numOfDays = firstDay.daysInMonth()
+  return rangeArr(numOfDays).map(n => firstDay.add(n, 'day').toDate())
 }
 
 const clearDate = date => {
@@ -47,8 +50,10 @@ const getMonthTimestamp = function(time) {
 }
 export default defineComponent({
   props: {
-    disabledDate: {},
-    value: {},
+    disabledDate: {
+      type: Function as PropType<(_: Date) => void>,
+    },
+    defaultValue: {},
     selectionMode: {
       type: String,
       default: 'month',
@@ -59,14 +64,8 @@ export default defineComponent({
     maxDate: {
       type: Date as PropType<Date>,
     },
-    defaultValue: {
-      validator: (val: any):boolean => (
-        // null or valid Date Object
-        val === null || isDate(val) || (Array.isArray(val) && val.every(isDate))
-      ),
-    },
     date: {
-      type: Date as PropType<Date>,
+      type: Dayjs as PropType<Dayjs>,
     },
     rangeState: {
       type: Object,
@@ -87,7 +86,6 @@ export default defineComponent({
     const rows = computed(() =>{
       // TODO: refactory rows / getCellClasses
       const rows = tableRows.value
-      const disabledDate = props.disabledDate
       const selectedDate = []
       const now = getMonthTimestamp(new Date())
 
@@ -102,7 +100,7 @@ export default defineComponent({
           cell.type = 'normal'
 
           const index = i * 4 + j
-          const time = new Date(props.date.getFullYear(), index).getTime()
+          const time = new Date(props.date.year(), index).getTime()
           cell.inRange = time >= getMonthTimestamp(props.minDate) && time <= getMonthTimestamp(props.maxDate)
           cell.start = props.minDate && time === getMonthTimestamp(props.minDate)
           cell.end = props.maxDate && time === getMonthTimestamp(props.maxDate)
@@ -113,7 +111,7 @@ export default defineComponent({
           }
           cell.text = index
           let cellDate = new Date(time)
-          cell.disabled = typeof disabledDate === 'function' && disabledDate(cellDate)
+          cell.disabled = typeof props.disabledDate === 'function' && props.disabledDate(cellDate)
           cell.selected = selectedDate.find(date => date.getTime() === cellDate.getTime())
           row[j] = cell
         }
@@ -122,7 +120,7 @@ export default defineComponent({
     })
     const getCellStyle = cell => {
       const style = {} as any
-      const year = props.date.getFullYear()
+      const year = props.date.year()
       const today = new Date()
       const month = cell.text
       const defaultValue = props.defaultValue ? Array.isArray(props.defaultValue) ? props.defaultValue : [props.defaultValue] : []
@@ -148,7 +146,7 @@ export default defineComponent({
     }
     const cellMatchesDate = (cell, date) => {
       const value = new Date(date)
-      return props.date.getFullYear() === value.getFullYear() && Number(cell.text) === value.getMonth()
+      return props.date.year() === value.getFullYear() && Number(cell.text) === value.getMonth()
     }
 
     const handleMouseMove = event => {
@@ -214,7 +212,7 @@ export default defineComponent({
       }
     }
     const getMonthOfCell = month => {
-      const year = props.date.getFullYear()
+      const year = props.date.year()
       return new Date(year, month, 1)
     }
 
@@ -228,7 +226,7 @@ export default defineComponent({
 
           const cell = row[j]
           const index = i * 4 + j
-          const time = new Date(props.date.getFullYear(), index).getTime()
+          const time = new Date(props.date.year(), index).getTime()
 
           cell.inRange = minDate && time >= minDate && time <= maxDate
           cell.start = minDate && time === minDate

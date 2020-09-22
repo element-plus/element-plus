@@ -24,7 +24,9 @@ L'unité de base du DatePicker est le jour.
       v-model="value2"
       type="date"
       placeholder="Choississez un jour"
-      :picker-options="pickerOptions">
+      :disabled-date="disabledDate"
+      :shortcuts="shortcuts"
+    >
     </el-date-picker>
   </div>
 </template>
@@ -33,31 +35,27 @@ L'unité de base du DatePicker est le jour.
   export default {
     data() {
       return {
-        pickerOptions: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
-          },
-          shortcuts: [{
-            text: 'Aujourd\'hui',
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: 'Hier',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.emit('pick', date);
-            }
-          }, {
-            text: 'Il y a une semaine',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.emit('pick', date);
-            }
-          }]
+        disabledDate(time) {
+          return time.getTime() > Date.now()
         },
+        shortcuts: [{
+          text: 'Today',
+          value: new Date(),
+        }, {
+          text: 'Yesterday',
+          value: (() => {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            return date
+          })(),
+        }, {
+          text: 'A week ago',
+          value: (() => {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            return date
+          })(),
+        }],
         value1: '',
         value2: '',
       };

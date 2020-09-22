@@ -2,10 +2,8 @@
   <div>
     <el-date-picker
       v-model="value1"
-      type="date"
-      :disabled-date="disabledDate"
-      :shortcuts="shortcuts"
-      placeholder="Pick a day"
+      type="year"
+      placeholder="Pick a week"
     />
   </div>
 </template>

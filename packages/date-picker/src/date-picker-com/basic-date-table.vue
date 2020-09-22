@@ -36,9 +36,6 @@
 
 <script lang="ts">
 import {
-  getWeekNumber,
-  prevDate,
-  nextDate,
   isDate,
   clearTime as _clearTime,
 } from './time-picker-utils'
@@ -55,13 +52,6 @@ const arrayFindIndex = function(arr, pred) {
   }
   return -1
 }
-
-const arrayFind = function(arr, pred) {
-  const idx = arrayFindIndex(arr, pred)
-  return idx !== -1 ? arr[idx] : undefined
-}
-
-const WEEKS_C = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
 const getDateTimestamp = function(time) {
   if (typeof time === 'number' || typeof time === 'string') {
@@ -108,7 +98,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    disabledDate: {},
+    disabledDate: {
+      type: Function,
+    },
     cellClassName: {},
     minDate: {},
     maxDate: {},
@@ -130,14 +122,7 @@ export default defineComponent({
 
     // todo better way to get Day.js locale object
     const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
-
-    const year = computed(()=> {
-      return props.date.year()
-    })
-
-    const month = computed(()=> {
-      return props.date.month()
-    })
+    const WEEKS_CONSTANT = props.date.locale('en').localeData().weekdaysShort().map(_=>_.toLowerCase())
 
     const offsetDay = computed(() => {
       // 周日为界限，左右偏移的天数，3217654 例如周一就是 -1，目的是调整前两行日期的位置
@@ -149,7 +134,7 @@ export default defineComponent({
     })
 
     const WEEKS = computed(() => {
-      return WEEKS_C.concat(WEEKS_C).slice(firstDayOfWeek, firstDayOfWeek + 7)
+      return WEEKS_CONSTANT.concat(WEEKS_CONSTANT).slice(firstDayOfWeek, firstDayOfWeek + 7)
     })
 
     const rows = computed(()=>  {
@@ -163,7 +148,6 @@ export default defineComponent({
       const rows_ = tableRows.value
       let count = 1
 
-      const disabledDate = props.disabledDate
       const cellClassName = props.cellClassName
 
       const selectedDate = props.selectionMode === 'dates' ? coerceTruthyValueToArray(props.parsedValue) : []
@@ -177,9 +161,7 @@ export default defineComponent({
           if (!row[0]) {
             row[0] = {
               type: 'week',
-              text: getWeekNumber(
-                nextDate(startDate.value.toDate(), i * 7 + 1),
-              ),
+              text: startDate.value.add(i * 7 + 1, 'day').week(),
             }
           }
         }
@@ -228,8 +210,8 @@ export default defineComponent({
           }
 
           const cellDate = calTime.toDate()
-          cell.selected = arrayFind(selectedDate, date => date.getTime() === calTime.valueOf())
-          cell.disabled = typeof disabledDate === 'function' && disabledDate(cellDate)
+          cell.selected = selectedDate.find(date => date.getTime() === calTime.valueOf())
+          cell.disabled = typeof props.disabledDate === 'function' && props.disabledDate(cellDate)
           cell.customClass = typeof cellClassName === 'function' && cellClassName(cellDate)
           row[props.showWeekNumber ? j + 1 : j] = cell
         }
@@ -237,12 +219,11 @@ export default defineComponent({
         if (props.selectionMode === 'week') {
           const start = props.showWeekNumber ? 1 : 0
           const end = props.showWeekNumber ? 7 : 6
-          const isWeekActive_ = isWeekActive(row[start + 1])
-
-          row[start].inRange = isWeekActive_
-          row[start].start = isWeekActive_
-          row[end].inRange = isWeekActive_
-          row[end].end = isWeekActive_
+          const isActive = isWeekActive(row[start + 1])
+          row[start].inRange = isActive
+          row[start].start = isActive
+          row[end].inRange = isActive
+          row[end].end = isActive
         }
       }
       return rows_
@@ -377,7 +358,7 @@ export default defineComponent({
       } else if (props.selectionMode === 'day') {
         ctx.emit('pick', newDate)
       } else if (props.selectionMode === 'week') {
-        const weekNumber = getWeekNumber(newDate)
+        const weekNumber = newDate.week()
         const value = newDate.year() + 'w' + weekNumber
         ctx.emit('pick', {
           year: newDate.year(),
@@ -406,7 +387,7 @@ export default defineComponent({
 
           const cell = row[j]
           const index = i * 7 + j + (props.showWeekNumber ? -1 : 0)
-          const time = nextDate(startDate.value, index - offsetDay.value).getTime()
+          const time = startDate.value.add(index - offsetDay.value, 'day').valueOf()
           cell.inRange = minDate && time >= minDate && time <= maxDate
           cell.start = minDate && time === minDate
           cell.end = maxDate && time === maxDate
@@ -416,26 +397,22 @@ export default defineComponent({
 
     const isWeekActive = cell => {
       if (props.selectionMode !== 'week') return false
-      const newDate = new Date(year.value, month.value, 1)
-      const year_ = newDate.getFullYear()
-      const month_ = newDate.getMonth()
+      let newDate = props.date.startOf('day')
 
       if (cell.type === 'prev-month') {
-        newDate.setMonth(month_ === 0 ? 11 : month_ - 1)
-        newDate.setFullYear(month_ === 0 ? year_ - 1 : year_)
+        newDate = newDate.subtract(1, 'month')
       }
 
       if (cell.type === 'next-month') {
-        newDate.setMonth(month_ === 11 ? 0 : month_ + 1)
-        newDate.setFullYear(month_ === 11 ? year_ + 1 : year_)
+        newDate = newDate.add(1, 'month')
       }
 
-      newDate.setDate(parseInt(cell.text, 10))
+      newDate = newDate.date(parseInt(cell.text, 10))
 
-      if (isDate(props.date)) {
-        const dayOffset = (props.date.date() - firstDayOfWeek + 7) % 7 - 1
-        const weekDate = prevDate(props.date, dayOffset)
-        return weekDate.getTime() === newDate.getTime()
+      if (props.date) {
+        const dayOffset = (props.date.day() - firstDayOfWeek + 7) % 7 - 1
+        const weekDate = props.date.subtract(dayOffset, 'day')
+        return weekDate.isSame(newDate, 'day')
       }
       return false
     }

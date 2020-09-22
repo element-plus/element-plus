@@ -115,7 +115,7 @@
               :disabled-date="disabledDate"
               @pick="handleDatePick"
             />
-            <!-- <year-table
+            <year-table
               v-if="currentView === 'year'"
               :default-value="defaultValue ? new Date(defaultValue) : null"
               :date="innerDate"
@@ -128,7 +128,7 @@
               :date="innerDate"
               :disabled-date="disabledDate"
               @pick="handleMonthPick"
-            /> -->
+            />
           </div>
         </div>
       </div>
@@ -180,14 +180,13 @@ import {
   timeWithinRange,
 } from './time-picker-utils'
 import { t } from '@element-plus/locale'
-import { NOOP } from '@vue/shared'
 import ElInput from '@element-plus/input/src/index.vue'
 import { ClickOutside } from '@element-plus/directives'
 import { Button as ElButton } from '@element-plus/button'
 import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
-// import MonthTable from './basic-month-table.vue'
-// import YearTable from './basic-year-table.vue'
+import MonthTable from './basic-month-table.vue'
+import YearTable from './basic-year-table.vue'
 import TimePicker from '@element-plus/time-picker/src/time-picker-com/panel-time-pick.vue'
 import {
   defineComponent,
@@ -200,7 +199,7 @@ import {
 
 export default defineComponent({
   components: {
-    DateTable, ElInput, ElButton, TimePicker,
+    DateTable, ElInput, ElButton, TimePicker, MonthTable, YearTable,
   },
 
   directives: { clickoutside: ClickOutside },
@@ -342,7 +341,7 @@ export default defineComponent({
 
     const handleMonthPick = month => {
       if (selectionMode.value === 'month') {
-        innerDate.value = modifyDate(innerDate.value, year.value, month, 1)
+        innerDate.value = innerDate.value.startOf('month').month(month)
         emit(innerDate.value)
       }
       // else {
@@ -355,7 +354,7 @@ export default defineComponent({
 
     const handleYearPick = year => {
       if (selectionMode.value === 'year') {
-        innerDate.value = modifyDate(innerDate.value, year, 0, 1)
+        innerDate.value = innerDate.value.startOf('year').year(year)
         emit(innerDate.value)
       }
       // else {
