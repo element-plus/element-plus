@@ -29,7 +29,6 @@ export type IPopperOptions = {
   showArrow: boolean
   strategy: PositioningStrategy
   tabIndex: string
-  trigger: TriggerType[]
-  value: boolean
+  trigger: TriggerType[] | TriggerType
   visible: boolean
 }
