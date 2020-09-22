@@ -78,7 +78,7 @@ Vous pouvez sélectionner une semaine, un mois, une année ou plusieurs dates en
     <el-date-picker
       v-model="value1"
       type="week"
-      format="Week WW"
+      format="Week ww"
       placeholder="Sélectionnez une semaine">
     </el-date-picker>
   </div>

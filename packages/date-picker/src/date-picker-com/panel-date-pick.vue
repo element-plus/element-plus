@@ -209,8 +209,7 @@ export default defineComponent({
       default: false,
     },
     parsedValue: {
-      type: Dayjs as PropType<Dayjs>,
-      default: '',
+      type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
     },
     format: {
       type: String,
@@ -230,7 +229,7 @@ export default defineComponent({
       return props.parsedValue
     })
 
-    const innerDate = ref(props.parsedValue)
+    const innerDate = ref(dayjs())
 
     const month = computed(() =>  {
       return innerDate.value.month()
@@ -250,7 +249,7 @@ export default defineComponent({
       if (!value) {
         ctx.emit('pick', value, ...args)
       } else if (Array.isArray(value)) {
-        const dates = value.map(date => showTime.value ? clearMilliseconds(date) : clearTime(date))
+        const dates = value.map(_ => showTime.value ? _.millisencond(0) : _.startOf('day'))
         ctx.emit('pick', dates, ...args)
       } else {
         ctx.emit('pick', showTime.value ? value.millisencond(0) : value.startOf('day'), ...args)
@@ -337,6 +336,14 @@ export default defineComponent({
       currentView.value = 'date'
     }, { immediate: true })
 
+    watch(() => props.parsedValue, val => {
+      if (val && !Array.isArray(val)) {
+        // skip selectionMode=dates
+        innerDate.value = val
+      }
+    })
+
+
     const hasShortcuts = computed(() => !!shortcuts.length)
 
     const handleMonthPick = month => {
@@ -417,7 +424,9 @@ export default defineComponent({
     }
     const isValidValue = () => true
     const formatToString = value => {
-      if (!value) return null
+      if (selectionMode.value === 'dates') {
+        return value.map(_ => _.format(props.format))
+      }
       return value.format(props.format)
     }
     const pickerBase = inject('EP_PICKER_BASE') as any

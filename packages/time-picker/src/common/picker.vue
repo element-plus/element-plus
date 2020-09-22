@@ -333,6 +333,7 @@ export default defineComponent({
       let result
       if (isRangeInput.value) {
         if (!props.modelValue) {
+          // todo set default
           if (Array.isArray(props.defaultValue)) {
             result = (props.defaultValue as Array<Date>).map(_=> dayjs(_))
           } else {
@@ -347,8 +348,15 @@ export default defineComponent({
       } else {
         if (!props.modelValue) {
           result = dayjs(props.defaultValue as Date)
+          if (props.type === 'dates') {
+            result = []
+          }
         } else {
-          result = dayjs(props.modelValue as Date)
+          if (Array.isArray(props.modelValue)) {
+            result = props.modelValue.map(_=>dayjs(_))
+          } else {
+            result = dayjs(props.modelValue as Date)
+          }
         }
       }
       if (pickerOptions.value.getRangeAvaliableTime) {
@@ -450,6 +458,7 @@ export default defineComponent({
     }
 
     const formatDayjsToString = value => {
+      if (!value) return null
       return pickerOptions.value.formatToString(value)
     }
 

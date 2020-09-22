@@ -44,15 +44,6 @@ import {
   coerceTruthyValueToArray,
 } from '@element-plus/utils/util'
 
-const arrayFindIndex = function(arr, pred) {
-  for (let i = 0; i !== arr.length; ++i) {
-    if (pred(arr[i])) {
-      return i
-    }
-  }
-  return -1
-}
-
 const getDateTimestamp = function(time) {
   if (typeof time === 'number' || typeof time === 'string') {
     return _clearTime(new Date(time)).getTime()
@@ -63,13 +54,6 @@ const getDateTimestamp = function(time) {
   }
 }
 
-// remove the first element that satisfies `pred` from arr
-// return a new array if modification occurs
-// return the original array otherwise
-const removeFromArray = function(arr, pred) {
-  const idx = typeof pred === 'function' ? arrayFindIndex(arr, pred) : arr.indexOf(pred)
-  return idx >= 0 ? [...arr.slice(0, idx), ...arr.slice(idx + 1)] : arr
-}
 import {
   defineComponent,
   computed,
@@ -84,7 +68,7 @@ export default defineComponent({
       type: Dayjs as PropType<Dayjs>,
     },
     parsedValue: {
-      type: Dayjs as PropType<Dayjs>,
+      type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
     },
     defaultValue: {
       // either: null, valid Date object, Array of valid Date objects
@@ -101,10 +85,13 @@ export default defineComponent({
     disabledDate: {
       type: Function,
     },
-    cellClassName: {},
+    cellClassName: {
+      type: Function,
+    },
     minDate: {},
     maxDate: {},
     rangeState: {
+      type: Function,
       default: () => ({
         endDate: null,
         selecting: false,
@@ -148,9 +135,7 @@ export default defineComponent({
       const rows_ = tableRows.value
       let count = 1
 
-      const cellClassName = props.cellClassName
-
-      const selectedDate = props.selectionMode === 'dates' ? coerceTruthyValueToArray(props.parsedValue) : []
+      const selectedDate: Dayjs[] = props.selectionMode === 'dates' ? coerceTruthyValueToArray(props.parsedValue) : []
 
       const calNow = dayjs().startOf('day')
 
@@ -210,9 +195,9 @@ export default defineComponent({
           }
 
           const cellDate = calTime.toDate()
-          cell.selected = selectedDate.find(date => date.getTime() === calTime.valueOf())
+          cell.selected = selectedDate.find(_ => _.valueOf() === calTime.valueOf())
           cell.disabled = typeof props.disabledDate === 'function' && props.disabledDate(cellDate)
-          cell.customClass = typeof cellClassName === 'function' && cellClassName(cellDate)
+          cell.customClass = typeof props.cellClassName === 'function' && props.cellClassName(cellDate)
           row[props.showWeekNumber ? j + 1 : j] = cell
         }
 
@@ -367,10 +352,10 @@ export default defineComponent({
           date: newDate,
         })
       } else if (props.selectionMode === 'dates') {
-        const value = props.parsedValue
+        if (!Array.isArray(props.parsedValue)) return
         const newValue = cell.selected
-          ? removeFromArray(value, date => date.getTime() === newDate.getTime())
-          : value.concat([newDate])
+          ? props.parsedValue.filter(_ => _.valueOf() !== newDate.valueOf())
+          : props.parsedValue.concat([newDate])
         ctx.emit('pick', newValue)
       }
     }

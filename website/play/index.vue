@@ -1,8 +1,9 @@
 <template>
   <div>
+    {{ value1 }}
     <el-date-picker
       v-model="value1"
-      type="year"
+      type="dates"
       placeholder="Pick a week"
     />
   </div>

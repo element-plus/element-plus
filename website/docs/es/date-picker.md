@@ -81,7 +81,7 @@ Puede elegir la semana, el mes, el año o varias fechas ampliando el componente 
     <el-date-picker
       v-model="value1"
       type="week"
-      format="Week WW"
+      format="Week ww"
       placeholder="Pick a week">
     </el-date-picker>
   </div>

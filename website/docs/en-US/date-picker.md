@@ -79,7 +79,7 @@ You can choose week, month, year or multiple dates by extending the standard dat
     <el-date-picker
       v-model="value1"
       type="week"
-      format="Week WW"
+      format="Week ww"
       placeholder="Pick a week">
     </el-date-picker>
   </div>
