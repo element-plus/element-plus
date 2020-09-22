@@ -5,6 +5,7 @@
   <el-popper
     v-model:visible="pickerVisible"
     pure
+    manual-mode
     effect="light"
     trigger="click"
   >
