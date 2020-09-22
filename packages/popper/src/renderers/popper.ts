@@ -8,6 +8,7 @@ interface IRenderPopperProps {
   name: string
   effect: Effect
   popperClass: string
+  popperStyle: Partial<CSSStyleDeclaration>
   popperId: string
   pure: boolean
   visibility: boolean
@@ -25,6 +26,7 @@ export default function renderPopper(
     effect,
     name,
     popperClass,
+    popperStyle,
     pure,
     popperId,
     visibility,
@@ -61,6 +63,7 @@ export default function renderPopper(
             {
               'aria-hidden': String(!visibility),
               class: kls,
+              style: popperStyle,
               id: popperId,
               ref: 'popperRef',
               role: 'tooltip',
