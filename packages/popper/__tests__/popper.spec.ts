@@ -325,6 +325,13 @@ describe('Popper.vue', () => {
 
       await trigger.trigger(CLICK_EVENT)
       expect(popper.vm.visibility).toBe(false)
+
+      // testing
+      await trigger.trigger(FOCUS_EVENT)
+      expect(popper.vm.visibility).toBe(true)
+
+      await popper.trigger(MOUSE_LEAVE_EVENT)
+      expect(popper.vm.visibility).toBe(true)
     })
 
     test('combined trigger', async () => {

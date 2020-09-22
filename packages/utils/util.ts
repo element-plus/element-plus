@@ -3,6 +3,7 @@ import { isEmpty, castArray, isEqual } from 'lodash'
 import {
   isObject,
   isArray,
+  isString,
   capitalize,
   hyphenate,
   looseEqual,
@@ -121,6 +122,7 @@ export {
   isEqual,
   isObject,
   isArray,
+  isString,
   capitalize,
   camelize,
   looseEqual,
