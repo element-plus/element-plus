@@ -7,7 +7,6 @@ import type { VueWrapper } from '@vue/test-utils'
 
 type UnknownProps = Record<string, unknown>
 
-
 jest.useFakeTimers()
 
 const { h, nextTick } = Vue
@@ -31,24 +30,25 @@ const _mount = (props: UnknownProps = {}, slots = {}): VueWrapper<any> =>
   mount(Wrapped, {
     props,
     slots: {
-      trigger: () => h('div', {
-        class: TEST_TRIGGER,
-      }),
+      trigger: () =>
+        h('div', {
+          class: TEST_TRIGGER,
+        }),
       ...slots,
     },
   })
 
-
-const popperMock = jest.spyOn(popperExports, 'createPopper').mockImplementation(() => ({
-  update: jest.fn(),
-  forceUpdate: jest.fn(),
-  setOptions: jest.fn(),
-  destroy: jest.fn(),
-  state: null,
-}))
+const popperMock = jest
+  .spyOn(popperExports, 'createPopper')
+  .mockImplementation(() => ({
+    update: jest.fn(),
+    forceUpdate: jest.fn(),
+    setOptions: jest.fn(),
+    destroy: jest.fn(),
+    state: null,
+  }))
 
 describe('Popper.vue', () => {
-
   const oldTransition = Vue.Transition
   beforeAll(() => {
     (Vue as any).Transition = Transition
@@ -56,7 +56,6 @@ describe('Popper.vue', () => {
 
   afterAll(() => {
     popperMock.mockReset()
-
     ;(Vue as any).Transition = oldTransition
   })
 
@@ -65,11 +64,14 @@ describe('Popper.vue', () => {
   })
 
   test('render test', () => {
-    let wrapper = _mount({
-      appendToBody: false,
-    }, {
-      default: () => AXIOM,
-    })
+    let wrapper = _mount(
+      {
+        appendToBody: false,
+      },
+      {
+        default: () => AXIOM,
+      },
+    )
 
     expect(wrapper.text()).toEqual(AXIOM)
 
@@ -114,7 +116,6 @@ describe('Popper.vue', () => {
     expect(popper.attributes('style')).not.toContain(DISPLAY_NONE)
 
     await $trigger.trigger(MOUSE_LEAVE_EVENT)
-
   })
 
   test('should be able to manual open', async () => {
@@ -131,7 +132,9 @@ describe('Popper.vue', () => {
       visible: true,
     })
 
-    expect(wrapper.find(selector).attributes('style')).not.toContain(DISPLAY_NONE)
+    expect(wrapper.find(selector).attributes('style')).not.toContain(
+      DISPLAY_NONE,
+    )
   })
 
   test('should disable popper to popup', async () => {
@@ -152,7 +155,9 @@ describe('Popper.vue', () => {
 
     await $trigger.trigger(MOUSE_ENTER_EVENT)
 
-    expect(wrapper.find(selector).attributes('style')).not.toContain(DISPLAY_NONE)
+    expect(wrapper.find(selector).attributes('style')).not.toContain(
+      DISPLAY_NONE,
+    )
   })
 
   test('should add tab index to referrer', async () => {
@@ -169,18 +174,18 @@ describe('Popper.vue', () => {
     })
 
     // expect(popperExports.createPopper).toHaveBeenCalledTimes(1)
-
   })
 
   test('should hide after hide after is given', async () => {
-
     const wrapper = _mount({
       hideAfter: 200,
       appendToBody: false,
     })
     const $trigger = wrapper.find(`.${TEST_TRIGGER}`)
     await $trigger.trigger(MOUSE_ENTER_EVENT)
-    expect(wrapper.find(selector).attributes('style')).not.toContain(DISPLAY_NONE)
+    expect(wrapper.find(selector).attributes('style')).not.toContain(
+      DISPLAY_NONE,
+    )
     jest.runOnlyPendingTimers()
     await nextTick()
     expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
@@ -210,7 +215,6 @@ describe('Popper.vue', () => {
     expect(errorHandler).toHaveBeenCalledTimes(2)
   })
   describe('trigger', () => {
-
     test('should work with click trigger', async () => {
       const wrapper = _mount({
         trigger: [CLICK_EVENT],
@@ -231,8 +235,32 @@ describe('Popper.vue', () => {
 
       await trigger.trigger(MOUSE_LEAVE_EVENT)
       expect(popper.vm.visibility).toBe(true)
+
+      await wrapper.find('.el-popper').trigger(MOUSE_LEAVE_EVENT)
+      expect(popper.vm.visibility).toBe(true)
       await trigger.trigger(BLUR_EVENT)
       expect(popper.vm.visibility).toBe(true)
+      await trigger.trigger(CLICK_EVENT)
+      expect(popper.vm.visibility).toBe(false)
+    })
+
+    test('should work with string trigger', async () => {
+      const wrapper = _mount({
+        trigger: CLICK_EVENT,
+        appendToBody: false,
+        closeDelay: 0,
+      })
+      await nextTick()
+
+      const trigger = wrapper.find(`.${TEST_TRIGGER}`)
+      const popper = wrapper.findComponent(ElPopper)
+
+      await trigger.trigger(CLICK_EVENT)
+      expect(popper.vm.visibility).toBe(true)
+
+      await wrapper.find('.el-popper').trigger(MOUSE_LEAVE_EVENT)
+      expect(popper.vm.visibility).toBe(true)
+
       await trigger.trigger(CLICK_EVENT)
       expect(popper.vm.visibility).toBe(false)
     })
@@ -275,7 +303,6 @@ describe('Popper.vue', () => {
       })
       await nextTick()
 
-
       const trigger = wrapper.find(`.${TEST_TRIGGER}`)
       const popper = wrapper.findComponent(ElPopper)
       expect(popper.vm.visibility).toBe(false)
@@ -298,6 +325,13 @@ describe('Popper.vue', () => {
 
       await trigger.trigger(CLICK_EVENT)
       expect(popper.vm.visibility).toBe(false)
+
+      // testing
+      await trigger.trigger(FOCUS_EVENT)
+      expect(popper.vm.visibility).toBe(true)
+
+      await popper.trigger(MOUSE_LEAVE_EVENT)
+      expect(popper.vm.visibility).toBe(true)
     })
 
     test('combined trigger', async () => {

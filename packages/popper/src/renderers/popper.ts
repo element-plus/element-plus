@@ -4,6 +4,11 @@ import { stop } from '@element-plus/utils/dom'
 import type { VNode } from 'vue'
 import type { Effect } from '../popper'
 
+type TransitionEmitters = {
+  onAfterEnter: () => void
+  onAfterLeave: () => void
+}
+
 interface IRenderPopperProps {
   name: string
   effect: Effect
@@ -13,6 +18,7 @@ interface IRenderPopperProps {
   visibility: boolean
   onMouseEnter: () => void
   onMouseLeave: () => void
+  transitionEmitters: TransitionEmitters
 }
 
 export default function renderPopper(
@@ -25,6 +31,7 @@ export default function renderPopper(
     popperClass,
     pure,
     popperId,
+    transitionEmitters,
     visibility,
     onMouseEnter,
     onMouseLeave,
@@ -48,6 +55,7 @@ export default function renderPopper(
     Transition,
     {
       name,
+      ...transitionEmitters,
     },
     {
       default: () =>
