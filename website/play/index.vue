@@ -1,53 +1,30 @@
 <template>
   <div>
-    <el-button @click="show">显示</el-button>
+    <h1>提交内容</h1>
+    <el-button type="text" @click="open">点击打开 Message Box</el-button>
   </div>
 </template>
 
 <script>
-import { h } from 'vue'
-
 export default {
-  data() {
-    return {
-      shouldShow: false,
-      visible: true,
-    }
-  },
-  watch: {
-    shouldShow(val) {
-      console.log(val)
-    },
-  },
+  name: 'Prompt',
   methods: {
-    show() {
-      this.$msgbox({
-        title: '消息',
-        message: h('p', null, [
-          h('span', null, '内容可以是 '),
-          h('i', { style: 'color: teal' }, 'VNode'),
-        ]),
-        showCancelButton: true,
+    open() {
+      this.$prompt('请输入邮箱', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        beforeClose: (action, instance, done) => {
-          if (action === 'confirm') {
-            instance.confirmButtonLoading = true
-            instance.confirmButtonText = '执行中...'
-            setTimeout(() => {
-              done()
-              setTimeout(() => {
-                instance.confirmButtonLoading = false
-              }, 300)
-            }, 3000)
-          } else {
-            done()
-          }
-        },
-      }).then(action => {
-        alert('action: ' + action)
+        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+        inputErrorMessage: '邮箱格式不正确',
+      }).then(({ value }) => {
+        alert('你的邮箱是: ' + value)
+      }).catch(() => {
+        alert('取消输入')
       })
     },
   },
 }
 </script>
+
+<style scoped>
+
+</style>

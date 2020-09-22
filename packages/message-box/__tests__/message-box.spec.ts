@@ -69,7 +69,7 @@ describe('MessageBox', () => {
       },
     })
     await sleep(250)
-    const btn: HTMLElement = document.querySelector('.el-message-box__close')
+    const btn = document.querySelector('.el-message-box__close') as HTMLButtonElement
     btn.click()
     await sleep(250)
     expect(msgAction).toEqual('close')
@@ -95,7 +95,7 @@ describe('MessageBox', () => {
       type: 'warning',
     })
     await sleep(250)
-    const btn: HTMLElement = document.querySelector(selector).querySelector('.el-button--primary')
+    const btn = document.querySelector(selector).querySelector('.el-button--primary') as HTMLButtonElement
     btn.click()
     await sleep(250)
     const msgbox: HTMLElement = document.querySelector(selector)
@@ -109,9 +109,9 @@ describe('MessageBox', () => {
       inputErrorMessage: 'validation failed',
     })
     await sleep(1000)
-    const inputElm: HTMLElement = document.querySelector(selector).querySelector('.el-message-box__input')
+    const inputElm = document.querySelector(selector).querySelector('.el-message-box__input') as HTMLButtonElement
     const haveFocus = inputElm.querySelector('input').isSameNode(document.activeElement)
-    expect(inputElm as HTMLElement).toBeDefined()
+    expect(inputElm as HTMLButtonElement).toBeDefined()
     expect(haveFocus).toBe(true)
   })
 
@@ -133,7 +133,7 @@ describe('MessageBox', () => {
       },
     })
     await sleep(250)
-    const closeBtn: HTMLElement = document.querySelector('.el-message-box__close')
+    const closeBtn = document.querySelector('.el-message-box__close') as HTMLButtonElement
     closeBtn.click()
     await sleep(250)
     expect(msgAction).toEqual('cancel')
@@ -151,7 +151,7 @@ describe('MessageBox', () => {
       msgAction = action
     })
     await sleep(250);
-    (document.querySelector('.el-message-box__wrapper .el-button--primary') as HTMLElement).click()
+    (document.querySelector('.el-message-box__wrapper .el-button--primary') as HTMLButtonElement).click()
     await sleep(250)
     expect(msgAction).toEqual('confirm')
   })
@@ -164,7 +164,7 @@ describe('MessageBox', () => {
           msgAction = action
         })
       await sleep(250)
-      const btn: HTMLElement = document.querySelector('.el-message-box__btns .el-button--primary')
+      const btn = document.querySelector('.el-message-box__btns .el-button--primary') as HTMLButtonElement
       btn.click()
       await sleep(250)
       expect(msgAction).toEqual('confirm')
@@ -177,7 +177,7 @@ describe('MessageBox', () => {
           msgAction = action
         })
       await sleep(250)
-      const btn: NodeListOf<HTMLElement> = document.querySelectorAll('.el-message-box__btns .el-button')
+      const btn = document.querySelectorAll('.el-message-box__btns .el-button') as NodeListOf<HTMLButtonElement>
       btn[0].click()
       await sleep(250)
       expect(msgAction).toEqual('cancel')
