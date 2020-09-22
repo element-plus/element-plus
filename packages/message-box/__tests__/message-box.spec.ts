@@ -22,7 +22,7 @@ describe('MessageBox', () => {
     })
     const msgbox: HTMLElement = document.querySelector(selector)
     expect(msgbox).toBeDefined()
-    await sleep(250)
+    await sleep()
     expect(msgbox.querySelector('.el-message-box__title span').textContent).toEqual('消息')
     expect(msgbox.querySelector('.el-message-box__message').querySelector('p').textContent).toEqual('这是一段内容')
     MessageBox.close()
@@ -42,7 +42,7 @@ describe('MessageBox', () => {
       iconClass: 'el-icon-question',
       message: '这是一段内容',
     })
-    await sleep(250)
+    await sleep()
     const icon = document.querySelector('.el-message-box__status')
     expect(icon.classList.contains('el-icon-question')).toBe(true)
   })
@@ -53,7 +53,7 @@ describe('MessageBox', () => {
       dangerouslyUseHTMLString: true,
       message: '<strong>html string</strong>',
     })
-    await sleep(250)
+    await sleep()
     const message = document.querySelector('.el-message-box__message strong')
     expect(message.textContent).toEqual('html string')
   })
@@ -68,10 +68,10 @@ describe('MessageBox', () => {
         msgAction = action
       },
     })
-    await sleep(250)
+    await sleep()
     const btn = document.querySelector('.el-message-box__close') as HTMLButtonElement
     btn.click()
-    await sleep(250)
+    await sleep()
     expect(msgAction).toEqual('close')
   })
 
@@ -80,7 +80,7 @@ describe('MessageBox', () => {
       title: '标题名称',
       type: 'warning',
     })
-    await sleep(250)
+    await sleep()
     const vModal: HTMLElement = document.querySelector('.v-modal')
     vModal.click()
     await sleep(250)
@@ -94,7 +94,7 @@ describe('MessageBox', () => {
       title: '标题名称',
       type: 'warning',
     })
-    await sleep(250)
+    await sleep()
     const btn = document.querySelector(selector).querySelector('.el-button--primary') as HTMLButtonElement
     btn.click()
     await sleep(250)
@@ -108,19 +108,22 @@ describe('MessageBox', () => {
       inputPattern: /test/,
       inputErrorMessage: 'validation failed',
     })
-    await sleep(1000)
+    await sleep(0)
     const inputElm = document.querySelector(selector).querySelector('.el-message-box__input')
     const haveFocus = inputElm.querySelector('input').isSameNode(document.activeElement)
     expect(inputElm).toBeDefined()
     expect(haveFocus).toBe(true)
   })
 
-  test('prompt: focus on textarea', () => {
-    // TODO dependencies ElInput
+  test('prompt: focus on textarea', async () => {
     MessageBox.prompt('这是一段内容', {
       inputType: 'textarea',
       title: '标题名称',
     })
+    await sleep()
+    const textareaElm = document.querySelector(selector).querySelector('textarea')
+    const haveFocus = textareaElm.isSameNode(document.activeElement)
+    expect(haveFocus).toBe(true)
   })
 
   test('callback', async () => {
@@ -132,10 +135,10 @@ describe('MessageBox', () => {
         msgAction = action
       },
     })
-    await sleep(250)
+    await sleep()
     const closeBtn = document.querySelector('.el-message-box__close') as HTMLButtonElement
     closeBtn.click()
-    await sleep(250)
+    await sleep()
     expect(msgAction).toEqual('cancel')
   })
 
@@ -150,9 +153,9 @@ describe('MessageBox', () => {
     }, action => {
       msgAction = action
     })
-    await sleep(250);
+    await sleep();
     (document.querySelector('.el-message-box__wrapper .el-button--primary') as HTMLButtonElement).click()
-    await sleep(250)
+    await sleep()
     expect(msgAction).toEqual('confirm')
   })
 
@@ -163,10 +166,10 @@ describe('MessageBox', () => {
         .then(action => {
           msgAction = action
         })
-      await sleep(250)
+      await sleep()
       const btn = document.querySelector('.el-message-box__btns .el-button--primary') as HTMLButtonElement
       btn.click()
-      await sleep(250)
+      await sleep()
       expect(msgAction).toEqual('confirm')
     })
 
@@ -176,10 +179,10 @@ describe('MessageBox', () => {
         .catch(action => {
           msgAction = action
         })
-      await sleep(250)
+      await sleep()
       const btn = document.querySelectorAll('.el-message-box__btns .el-button') as NodeListOf<HTMLButtonElement>
       btn[0].click()
-      await sleep(250)
+      await sleep()
       expect(msgAction).toEqual('cancel')
     })
   })

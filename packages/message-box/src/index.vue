@@ -238,10 +238,11 @@ export default defineComponent({
       }
       if (state.type$ !== 'prompt') return
       if (val) {
-        setTimeout(() => {
+        nextTick().then(() => {
           if (vm.refs.input && vm.refs.input.$el) {
             getInputElement().focus()
-          }}, 500)
+          }
+        })
       } else {
         state.editorErrorMessage = ''
         state.validateError = false
