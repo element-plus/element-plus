@@ -35,24 +35,11 @@
 </template>
 
 <script lang="ts">
-import {
-  isDate,
-  clearTime as _clearTime,
-} from './time-picker-utils'
 import { t } from '@element-plus/locale'
 import {
   coerceTruthyValueToArray,
 } from '@element-plus/utils/util'
 
-const getDateTimestamp = function(time) {
-  if (typeof time === 'number' || typeof time === 'string') {
-    return _clearTime(new Date(time)).getTime()
-  } else if (time instanceof Date) {
-    return _clearTime(time).getTime()
-  } else {
-    return NaN
-  }
-}
 
 import {
   defineComponent,
@@ -67,12 +54,18 @@ export default defineComponent({
     date: {
       type: Dayjs as PropType<Dayjs>,
     },
+    minDate: {
+      type: Dayjs as PropType<Dayjs>,
+    },
+    maxDate: {
+      type: Dayjs as PropType<Dayjs>,
+    },
     parsedValue: {
       type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
     },
     defaultValue: {
       // either: null, valid Date object, Array of valid Date objects
-      validator: (val:any):boolean => val === null || isDate(val) || (Array.isArray(val) && val.every(isDate)),
+      // validator: (val:any):boolean => val === null || isDate(val) || (Array.isArray(val) && val.every(isDate)),
     },
     selectionMode: {
       type: String,
@@ -88,10 +81,8 @@ export default defineComponent({
     cellClassName: {
       type: Function,
     },
-    minDate: {},
-    maxDate: {},
     rangeState: {
-      type: Function,
+      type: Object,
       default: () => ({
         endDate: null,
         selecting: false,
@@ -167,9 +158,12 @@ export default defineComponent({
           // todo: use dayjs.isBefore
           const calTime = startDate.value.add(index - offset, 'day')
           cell.type = 'normal'
-          cell.inRange = calTime.valueOf() >= getDateTimestamp(props.minDate) && calTime.valueOf() <= getDateTimestamp(props.maxDate)
-          cell.start = props.minDate && calTime.valueOf() === getDateTimestamp(props.minDate)
-          cell.end = props.maxDate && calTime.valueOf() === getDateTimestamp(props.maxDate)
+
+          cell.inRange = (props.minDate && calTime.valueOf() >= props.minDate.valueOf()) && (props.maxDate && calTime.valueOf() <= props.maxDate.valueOf())
+
+          cell.start = props.minDate && calTime.valueOf() === props.minDate.valueOf()
+
+          cell.end = props.maxDate && calTime.valueOf() === props.maxDate.valueOf()
 
           const isToday = calTime.isSame(calNow, 'day')
           if (isToday) {
@@ -361,8 +355,8 @@ export default defineComponent({
     }
 
     const markRange = (minDate, maxDate) => {
-      minDate = getDateTimestamp(minDate)
-      maxDate = getDateTimestamp(maxDate) || minDate;
+      minDate = +minDate
+      maxDate = +maxDate || +minDate;
       [minDate, maxDate] = [Math.min(minDate, maxDate), Math.max(minDate, maxDate)]
 
       for (let i = 0, k = rows.value.length; i < k; i++) {
@@ -406,14 +400,14 @@ export default defineComponent({
       markRange(props.minDate, newVal)
     })
 
-    watch(() => props.minDate, (newVal, oldVal) => {
-      if (getDateTimestamp(newVal) !== getDateTimestamp(oldVal)) {
+    watch(() => props.minDate, (newVal: Dayjs, oldVal: Dayjs) => {
+      if (!newVal || !newVal.isSame(oldVal)) {
         markRange(props.minDate, props.maxDate)
       }
     })
 
-    watch(() => props.maxDate, (newVal, oldVal) => {
-      if (getDateTimestamp(newVal) !== getDateTimestamp(oldVal)) {
+    watch(() => props.maxDate, (newVal: Dayjs, oldVal: Dayjs) => {
+      if (!newVal || !newVal.isSame(oldVal)) {
         markRange(props.minDate, props.maxDate)
       }
     })

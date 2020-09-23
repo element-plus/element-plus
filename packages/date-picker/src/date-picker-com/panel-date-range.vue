@@ -128,7 +128,6 @@
               :range-state="rangeState"
               :disabled-date="disabledDate"
               :cell-class-name="cellClassName"
-              :first-day-of-week="firstDayOfWeek"
               @changerange="handleChangeRange"
               @pick="handleRangePick"
               @select="onSelect"
@@ -173,7 +172,6 @@
               :range-state="rangeState"
               :disabled-date="disabledDate"
               :cell-class-name="cellClassName"
-              :first-day-of-week="firstDayOfWeek"
               @changerange="handleChangeRange"
               @pick="handleRangePick"
               @select="onSelect"
@@ -206,30 +204,19 @@
 
 <script lang="ts">
 import {
-  formatDate,
-  parseDate,
-  isDate,
-  modifyDate,
-  modifyTime,
-  modifyWithTimeString,
-  prevYear,
-  nextYear,
-  prevMonth,
-  nextMonth,
   nextDate,
-  extractDateFormat,
-  extractTimeFormat,
-} from '../time-picker-com/time-picker-utils'
+} from './time-picker-utils'
 import {
   defineComponent,
   computed,
   ref,
   PropType,
-  watch,
+  inject,
 } from 'vue'
 import { t } from '@element-plus/locale'
 import { ClickOutside } from '@element-plus/directives'
-import TimePicker from '../time-picker-com/panel-time-pick.vue'
+import TimePicker from '@element-plus/time-picker/src/time-picker-com/panel-time-pick.vue'
+import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import ElInput from '@element-plus/input/src/index.vue'
 import { Button as ElButton } from '@element-plus/button'
@@ -244,7 +231,6 @@ const calcDefaultValue = defaultValue => {
   }
 }
 
-
 export default defineComponent({
 
   directives: { clickoutside: ClickOutside },
@@ -253,13 +239,8 @@ export default defineComponent({
 
   props:{
     unlinkPanels: Boolean,
-    shortcuts: {
-      type: Array,
-      default: () => ([]),
-    },
     parsedValue: {
-      type: Date as PropType<Date>,
-      default: '',
+      type: Array as PropType<Dayjs[]>,
     },
     type: {
       type: String,
@@ -270,90 +251,90 @@ export default defineComponent({
   emits: ['pick'],
 
   setup(props, ctx) {
-    const leftDate =  ref(new Date())
-    const rightDate = ref(nextMonth(new Date()))
+    const leftDate = ref(dayjs())
+    const rightDate = ref(dayjs().add(1, 'month'))
     const minDate = ref(null)
     const maxDate = ref(null)
     const leftLabel = computed(() => {
-      return leftDate.value.getFullYear() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${ leftDate.value.getMonth() + 1 }`)
+      return leftDate.value.year() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${ leftDate.value.month() + 1 }`)
     })
 
     const rightLabel = computed(() => {
-      return rightDate.value.getFullYear() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${ rightDate.value.getMonth() + 1 }`)
+      return rightDate.value.year() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${ rightDate.value.month() + 1 }`)
     })
 
     const leftYear = computed(() => {
-      return leftDate.value.getFullYear()
+      return leftDate.value.year()
     })
 
     const leftMonth = computed(() => {
-      return leftDate.value.getMonth()
+      return leftDate.value.month()
     })
 
     const leftMonthDate = computed(() => {
-      return leftDate.value.getDate()
-    })
-
-    const rightYear = computed(() => {
-      return rightDate.value.getFullYear()
-    })
-
-    const rightMonth = computed(() => {
-      return rightDate.value.getMonth()
+      return leftDate.value.date()
     })
 
     const rightMonthDate = computed(() => {
-      return rightDate.value.getDate()
+      return rightDate.value.date()
     })
 
-    const hasShortcuts = computed(() => !!props.shortcuts.length)
+    const rightYear = computed(() => {
+      return rightDate.value.year()
+    })
+
+    const rightMonth = computed(() => {
+      return rightDate.value.month()
+    })
+
+    const hasShortcuts = computed(() => !!shortcuts.length)
 
     const leftPrevYear = () => {
-      leftDate.value = prevYear(leftDate.value)
+      leftDate.value = leftDate.value.subtract(1, 'year')
       if (!props.unlinkPanels) {
-        rightDate.value = nextMonth(leftDate.value)
+        rightDate.value = leftDate.value.add(1, 'year')
       }
     }
 
     const leftPrevMonth = () => {
-      leftDate.value = prevMonth(leftDate.value)
+      leftDate.value = leftDate.value.subtract(1, 'month')
       if (!props.unlinkPanels) {
-        rightDate.value = nextMonth(leftDate.value)
+        rightDate.value = leftDate.value.add(1, 'month')
       }
     }
 
     const rightNextYear = () => {
       if (!props.unlinkPanels) {
-        leftDate.value = nextYear(leftDate.value)
-        rightDate.value = nextMonth(leftDate.value)
+        leftDate.value = leftDate.value.add(1, 'year')
+        rightDate.value = leftDate.value.add(1, 'month')
       } else {
-        rightDate.value = nextYear(rightDate.value)
+        rightDate.value = rightDate.value.add(1, 'year')
       }
     }
 
     const rightNextMonth = () => {
       if (!props.unlinkPanels) {
-        leftDate.value = nextMonth(leftDate.value)
-        rightDate.value = nextMonth(leftDate.value)
+        leftDate.value = leftDate.value.add(1, 'month')
+        rightDate.value = leftDate.value.add(1, 'month')
       } else {
-        rightDate.value = nextMonth(rightDate.value)
+        rightDate.value = rightDate.value.add(1, 'month')
       }
     }
 
     const leftNextYear = () => {
-      leftDate.value = nextYear(leftDate.value)
+      leftDate.value = leftDate.value.add(1, 'year')
     }
 
     const leftNextMonth = () => {
-      leftDate.value = nextMonth(leftDate.value)
+      leftDate.value = leftDate.value.add(1, 'month')
     }
 
     const rightPrevYear = () => {
-      rightDate.value = prevYear(rightDate.value)
+      rightDate.value = leftDate.value.subtract(1, 'year')
     }
 
     const rightPrevMonth = () => {
-      rightDate.value = prevMonth(rightDate.value)
+      rightDate.value = leftDate.value.subtract(1, 'month')
     }
 
     const enableMonthArrow = computed(() => {
@@ -369,8 +350,7 @@ export default defineComponent({
     const isValidValue = value => {
       return Array.isArray(value) &&
           value && value[0] && value[1] &&
-          isDate(value[0]) && isDate(value[1]) &&
-          value[0].getTime() <= value[1].getTime()
+          value[0].valueOf() <= value[1].valueOf()
     }
 
     const rangeState = ref({
@@ -404,10 +384,11 @@ export default defineComponent({
 
     const handleRangePick = (val, close = true) => {
       // const defaultTime = this.defaultTime || []
+      // const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
+      // const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
       //todo
-      const defaultTime = []
-      const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
-      const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
+      const minDate_ = val.minDate
+      const maxDate_ = val.maxDate
 
       if (maxDate.value === maxDate_ && minDate.value === minDate_) {
         return
@@ -420,6 +401,10 @@ export default defineComponent({
     }
 
     const handleShortcutClick = shortcut => {
+      if (shortcut.value) {
+        ctx.emit('pick', [dayjs(shortcut.value[0]), dayjs(shortcut.value[1])])
+        return
+      }
       if (shortcut.onClick) {
         shortcut.onClick(ctx)
       }
@@ -436,7 +421,15 @@ export default defineComponent({
       maxTimePickerVisible.value = false
     }
 
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
+    // pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
+    const { shortcuts, disabledDate, cellClassName } = pickerBase.props
+
     return {
+      shortcuts,
+      disabledDate,
+      cellClassName,
       minTimePickerVisible,
       maxTimePickerVisible,
       handleMinTimeClose,
@@ -466,6 +459,7 @@ export default defineComponent({
       rightDate,
       showTime,
       t,
+      defaultValue: new Date(),
     }
   },
 
@@ -477,7 +471,6 @@ export default defineComponent({
   //     visible: '',
   //     disabledDate: '',
   //     cellClassName: '',
-  //     firstDayOfWeek: 7,
   //     format: '',
   //     arrowControl: false,
   //     unlinkPanels: false,

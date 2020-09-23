@@ -259,7 +259,7 @@ export default defineComponent({
     }
     const handleDatePick = (value: Dayjs) => {
       if (selectionMode.value === 'day') {
-        let newDate = props.parsedValue.year(value.year()).month(value.month()).date(value.date())
+        let newDate = (props.parsedValue as Dayjs).year(value.year()).month(value.month()).date(value.date())
         // change default time while out of selectableRange
         // if (!checkDateWithinRange(newDate)) {
         //   newDate = modifyDate(selectableRange.value[0][0], value.getFullYear(), value.getMonth(), value.getDate())
@@ -268,7 +268,6 @@ export default defineComponent({
         emit(newDate, showTime.value)
       } else if (selectionMode.value === 'week') {
         emit(value.date)
-        innerDate.value = value.date
       } else if (selectionMode.value === 'dates') {
         emit(value, true) // set false to keep panel open
       }
@@ -432,7 +431,7 @@ export default defineComponent({
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    const { shortcuts, disabledDate } = pickerBase.props
+    const { shortcuts, disabledDate, cellClassName } = pickerBase.props
     return {
       handleTimePick,
       handleTimePickClose,
@@ -451,6 +450,7 @@ export default defineComponent({
       hasShortcuts,
       shortcuts,
       disabledDate,
+      cellClassName,
       selectionMode,
       handleShortcutClick,
       prevYear_,

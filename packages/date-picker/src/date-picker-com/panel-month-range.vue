@@ -93,15 +93,17 @@ import {
   prevYear,
   nextYear,
   nextMonth,
-} from '../time-picker-com/time-picker-utils'
+} from './time-picker-utils'
 import { t } from '@element-plus/locale'
 import MonthTable from './basic-month-table.vue'
+import dayjs, { Dayjs } from 'dayjs'
 import {
   defineComponent,
   computed,
   ref,
   PropType,
   watch,
+  inject,
 } from 'vue'
 
 const calcDefaultValue = defaultValue => {
@@ -119,62 +121,64 @@ export default defineComponent({
 
   props:{
     unlinkPanels: Boolean,
-    shortcuts: {
-      type: Array,
-      default: () => ([]),
-    },
     parsedValue: {
-      type: Date as PropType<Date>,
-      default: '',
+      type: Array as PropType<Dayjs[]>,
     },
   },
 
   emits: ['pick'],
 
   setup(props, ctx) {
-    const leftDate = ref(new Date())
-    const rightDate = ref(nextYear(new Date()))
-    const hasShortcuts = computed(() => !!props.shortcuts.length)
-    const handleShortcutClick = sc => {
-      if (sc.onClick) {
-        sc.onClick(ctx)
+    const leftDate = ref(dayjs())
+    const rightDate = ref(dayjs().add(1, 'year'))
+
+    const hasShortcuts = computed(() => !!shortcuts.length)
+
+    const handleShortcutClick = shortcut => {
+      if (shortcut.value) {
+        ctx.emit('pick', [dayjs(shortcut.value[0]), dayjs(shortcut.value[1])])
+        return
+      }
+      if (shortcut.onClick) {
+        shortcut.onClick(ctx)
       }
     }
+
     const leftPrevYear = () => {
-      leftDate.value = prevYear(leftDate.value)
+      leftDate.value = leftDate.value.subtract(1, 'year')
       if (!props.unlinkPanels) {
-        rightDate.value = prevYear(rightDate.value)
+        rightDate.value = rightDate.value.subtract(1, 'year')
       }
     }
 
     const rightNextYear = () => {
       if (!props.unlinkPanels) {
-        leftDate.value = nextYear(leftDate.value)
+        leftDate.value = leftDate.value.add(1, 'year')
       }
-      rightDate.value = nextYear(rightDate.value)
+      rightDate.value = rightDate.value.add(1, 'year')
     }
 
     const leftNextYear = () => {
-      leftDate.value = nextYear(leftDate.value)
+      leftDate.value = leftDate.value.add(1, 'year')
     }
 
     const rightPrevYear = () =>{
-      rightDate.value = prevYear(rightDate.value)
+      rightDate.value = rightDate.value.subtract(1, 'year')
     }
     const leftLabel = computed(() => {
-      return `${leftDate.value.getFullYear()} ${t('el.datepicker.year')}`
+      return `${leftDate.value.year()} ${t('el.datepicker.year')}`
     })
 
     const rightLabel = computed(() => {
-      return `${rightDate.value.getFullYear()} ${t('el.datepicker.year')}`
+      return `${rightDate.value.year()} ${t('el.datepicker.year')}`
     })
 
     const leftYear = computed(() =>{
-      return leftDate.value.getFullYear()
+      return leftDate.value.year()
     })
 
     const rightYear = computed(() => {
-      return rightDate.value.getFullYear() === leftDate.value.getFullYear() ? leftDate.value.getFullYear() + 1 : rightDate.value.getFullYear()
+      return rightDate.value.year() === leftDate.value.year() ? leftDate.value.year() + 1 : rightDate.value.year()
     })
 
     const enableYearArrow = computed(() => {
@@ -185,49 +189,38 @@ export default defineComponent({
     const maxDate = ref(null)
 
     watch(() => props.parsedValue, newVal => {
-      if (!newVal) {
-        minDate.value = null
-        maxDate.value = null
-      } else if (Array.isArray(newVal)) {
-        minDate.value = isDate(newVal[0]) ? new Date(newVal[0]) : null
-        maxDate.value = isDate(newVal[1]) ? new Date(newVal[1]) : null
-        if (minDate.value) {
-          leftDate.value = minDate.value
-          if (props.unlinkPanels && maxDate.value) {
-            const minDateYear = minDate.value.getFullYear()
-            const maxDateYear = maxDate.value.getFullYear()
-            rightDate.value = minDateYear === maxDateYear
-              ? nextYear(maxDate.value)
-              : maxDate.value
-          } else {
-            rightDate.value = nextYear(leftDate.value)
-          }
+      minDate.value = newVal[0]
+      maxDate.value = newVal[1]
+      if (minDate.value) {
+        leftDate.value = minDate.value
+        if (props.unlinkPanels && maxDate.value) {
+          const minDateYear = minDate.value.year()
+          const maxDateYear = maxDate.value.year()
+          rightDate.value = minDateYear === maxDateYear
+            ? maxDate.value.add(1, 'year')
+            : maxDate.value
         } else {
-          // todo calcDefaultValue(props.defaultValue)[0]
-          leftDate.value = calcDefaultValue('')[0]
-          rightDate.value = nextYear(leftDate.value)
+          rightDate.value = leftDate.value.add(1, 'year')
         }
       }
-    })
+    }, { immediate: true })
 
     const rangeState = ref({
       endDate: null,
-      row: null,
-      column: null,
       selecting: false,
     })
 
     const handleChangeRange = val => {
-      minDate.value = val.minDate
-      maxDate.value = val.maxDate
       rangeState.value = val.rangeState
     }
 
     const handleRangePick = (val, close = true) => {
       // const defaultTime = props.defaultTime || []
-      const defaultTime = []
-      const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
-      const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
+      // const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
+      // const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
+      // todo
+      const minDate_ = val.minDate
+      const maxDate_ = val.maxDate
       if (maxDate.value === maxDate_ && minDate.value === minDate_) {
         return
       }
@@ -241,8 +234,7 @@ export default defineComponent({
     const isValidValue = value => {
       return Array.isArray(value) &&
           value && value[0] && value[1] &&
-          isDate(value[0]) && isDate(value[1]) &&
-          value[0].getTime() <= value[1].getTime()
+          value[0].valueOf() <= value[1].valueOf()
     }
 
     const handleConfirm = (visible = false) => {
@@ -253,9 +245,19 @@ export default defineComponent({
 
     const onSelect = selecting => {
       rangeState.value.selecting = selecting
+      if (!selecting) {
+        rangeState.value.endDate = null
+      }
     }
 
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
+    // pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
+    const { shortcuts, disabledDate } = pickerBase.props
+
     return {
+      shortcuts,
+      disabledDate,
       onSelect,
       handleRangePick,
       rangeState,
@@ -274,6 +276,7 @@ export default defineComponent({
       rightDate,
       hasShortcuts,
       handleShortcutClick,
+      defaultValue: new Date(),
     }
   },
 })

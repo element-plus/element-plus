@@ -81,7 +81,7 @@ Puede elegir la semana, el mes, el año o varias fechas ampliando el componente 
     <el-date-picker
       v-model="value1"
       type="week"
-      format="Week ww"
+      format="[Week] ww"
       placeholder="Pick a week">
     </el-date-picker>
   </div>
@@ -157,7 +157,8 @@ Se soporta la selección de un rango de fechas.
       range-separator="To"
       start-placeholder="Start date"
       end-placeholder="End date"
-      :picker-options="pickerOptions">
+      :shortcuts="shortcuts"
+    >
     </el-date-picker>
   </div>
 </template>
@@ -166,33 +167,31 @@ Se soporta la selección de un rango de fechas.
   export default {
     data() {
       return {
-        pickerOptions: {
-          shortcuts: [{
-            text: 'Last week',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Last month',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Last 3 months',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
+        shortcuts: [{
+          text: 'Last week',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            return [start, end]
+          })(),
+        }, {
+          text: 'Last month',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            return [start, end]
+          })(),
+        }, {
+          text: 'Last 3 months',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            return [start, end]
+          })(),
+        }],
         value1: '',
         value2: ''
       };
@@ -230,7 +229,8 @@ Se admite la selección de un intervalo de un mes.
       range-separator="To"
       start-placeholder="Start month"
       end-placeholder="End month"
-      :picker-options="pickerOptions">
+      :shortcuts="shortcuts"
+    >
     </el-date-picker>
   </div>
 </template>
@@ -239,29 +239,25 @@ Se admite la selección de un intervalo de un mes.
   export default {
     data() {
       return {
-        pickerOptions: {
-          shortcuts: [{
-            text: 'This month',
-            onClick(picker) {
-              picker.$emit('pick', [new Date(), new Date()]);
-            }
-          }, {
-            text: 'This year',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date(new Date().getFullYear(), 0);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Last 6 months',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setMonth(start.getMonth() - 6);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
+        shortcuts: [{
+          text: 'This month',
+          value: [new Date(), new Date()],
+        }, {
+          text: 'This year',
+          value: (() => {
+            const end = new Date()
+            const start = new Date(new Date().getFullYear(), 0)
+            return [start, end]
+          })(),
+        }, {
+          text: 'Last 6 months',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setMonth(start.getMonth() - 6)
+            return [start, end]
+          })(),
+        }],
         value1: '',
         value2: ''
       };

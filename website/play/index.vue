@@ -3,8 +3,11 @@
     {{ value1 }}
     <el-date-picker
       v-model="value1"
-      type="dates"
-      placeholder="Pick a week"
+      type="monthrange"
+      range-separator="To"
+      start-placeholder="Start month"
+      end-placeholder="End month"
+      :shortcuts="shortcuts"
     />
   </div>
 </template>
@@ -18,21 +21,22 @@ export default {
         return time.getTime() > Date.now()
       },
       shortcuts: [{
-        text: 'Today',
-        value: new Date(),
+        text: 'This month',
+        value: [new Date(), new Date()],
       }, {
-        text: 'Yesterday',
+        text: 'This year',
         value: (() => {
-          const date = new Date()
-          date.setTime(date.getTime() - 3600 * 1000 * 24)
-          return date
+          const end = new Date()
+          const start = new Date(new Date().getFullYear(), 0)
+          return [start, end]
         })(),
       }, {
-        text: 'A week ago',
+        text: 'Last 6 months',
         value: (() => {
-          const date = new Date()
-          date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-          return date
+          const end = new Date()
+          const start = new Date()
+          start.setMonth(start.getMonth() - 6)
+          return [start, end]
         })(),
       }],
     }

@@ -240,19 +240,18 @@ export default defineComponent({
     },
     disabledHours: {
       type: Function,
-      default: null,
     },
     disabledMinutes: {
       type: Function,
-      default: null,
     },
     disabledSeconds: {
       type: Function,
-      default: null,
     },
     disabledDate: {
       type: Function,
-      default: null,
+    },
+    cellClassName: {
+      type: Function,
     },
     shortcuts: {
       type: Array,
