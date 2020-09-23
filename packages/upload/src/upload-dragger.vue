@@ -2,11 +2,11 @@
   <div
     :class="{
       'el-upload-dragger': true,
-      'is-dragover': dragOver
+      'is-dragover': dragover
     }"
     @drop.prevent="onDrop"
-    @dragOver.prevent="dragOver = true"
-    @dragleave.prevent="dragOver = false"
+    @dragover.prevent="onDragover"
+    @dragleave.prevent="dragover = false"
   >
     <slot></slot>
   </div>
@@ -27,12 +27,12 @@ export default defineComponent({
   emits: ['file'],
   setup(props, { emit }) {
     const uploader = inject('uploader', {} as ElUpload)
-    const dragOver = ref(false)
+    const dragover = ref(false)
 
     function onDrop(e: DragEvent) {
       if (props.disabled || !uploader) return
       const accept = uploader.accept
-      dragOver.value = false
+      dragover.value = false
       if (!accept) {
         emit('file', e.dataTransfer.files)
         return
@@ -63,9 +63,15 @@ export default defineComponent({
         }),
       )
     }
+
+    function onDragover() {
+      if (!props.disabled) dragover.value = true
+    }
+
     return {
-      dragOver,
+      dragover,
       onDrop,
+      onDragover,
     }
   },
 })

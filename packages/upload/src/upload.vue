@@ -25,7 +25,7 @@
   </div>
 </template>
 
-<script lang="tsx">
+<script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { NOOP } from '@vue/shared'
 
@@ -35,7 +35,11 @@ import UploadDragger from './upload-dragger.vue'
 import type { PropType } from 'vue'
 import type { ListType, UploadFile, ElFile } from './upload'
 
-type IFileHanlder = (file: Nullable<ElFile[]>, fileList?: UploadFile[]) => unknown
+type IFileHanlder = (
+  file: Nullable<ElFile[]>,
+  fileList?: UploadFile[],
+) => unknown
+
 type AjaxEventListener = (e: ProgressEvent, file: ElFile) => unknown
 
 export default defineComponent({
@@ -93,7 +97,9 @@ export default defineComponent({
       default: NOOP as AjaxEventListener,
     },
     beforeUpload: {
-      type: Function as PropType<(file: File) => Promise<File | Blob> | boolean | unknown>,
+      type: Function as PropType<
+        (file: File) => Promise<File | Blob> | boolean | unknown
+      >,
       default: NOOP as (file: File) => void,
     },
     drag: {
@@ -105,7 +111,9 @@ export default defineComponent({
       default: NOOP as IFileHanlder,
     },
     onRemove: {
-      type: Function as PropType<(file: Nullable<FileList>, rawFile: ElFile) => void>,
+      type: Function as PropType<
+        (file: Nullable<FileList>, rawFile: ElFile) => void
+      >,
       default: NOOP as (file: Nullable<FileList>, rawFile: ElFile) => void,
     },
     fileList: {
@@ -121,7 +129,9 @@ export default defineComponent({
       default: 'text',
     },
     httpRequest: {
-      type: Function as PropType<typeof ajax> | PropType<(...args: unknown[]) => Promise<unknown>>,
+      type: Function as
+        | PropType<typeof ajax>
+        | PropType<(...args: unknown[]) => Promise<unknown>>,
       default: () => ajax,
     },
     disabled: Boolean,
@@ -130,7 +140,9 @@ export default defineComponent({
       default: null,
     },
     onExceed: {
-      type: Function as PropType<(files: FileList, fileList: UploadFile[]) => void>,
+      type: Function as PropType<
+        (files: FileList, fileList: UploadFile[]) => void
+      >,
       default: NOOP,
     },
   },
@@ -145,8 +157,12 @@ export default defineComponent({
         return
       }
       let postFiles = Array.from(files)
-      if (!props.multiple) { postFiles = postFiles.slice(0, 1) }
-      if (postFiles.length === 0) { return }
+      if (!props.multiple) {
+        postFiles = postFiles.slice(0, 1)
+      }
+      if (postFiles.length === 0) {
+        return
+      }
       postFiles.forEach(rawFile => {
         props.onStart(rawFile)
         if (props.autoUpload) upload(rawFile as ElFile)
@@ -160,26 +176,28 @@ export default defineComponent({
       }
       const before = props.beforeUpload(rawFile)
       if (before instanceof Promise) {
-        before.then(processedFile => {
-          const fileType = Object.prototype.toString.call(processedFile)
-          if (fileType === '[object File]' || fileType === '[object Blob]') {
-            if (fileType === '[object Blob]') {
-              processedFile = new File([processedFile], rawFile.name, {
-                type: rawFile.type,
-              })
-            }
-            for (const p in rawFile) {
-              if (rawFile.hasOwnProperty(p)) {
-                processedFile[p] = rawFile[p]
+        before
+          .then(processedFile => {
+            const fileType = Object.prototype.toString.call(processedFile)
+            if (fileType === '[object File]' || fileType === '[object Blob]') {
+              if (fileType === '[object Blob]') {
+                processedFile = new File([processedFile], rawFile.name, {
+                  type: rawFile.type,
+                })
               }
+              for (const p in rawFile) {
+                if (rawFile.hasOwnProperty(p)) {
+                  processedFile[p] = rawFile[p]
+                }
+              }
+              post(processedFile)
+            } else {
+              post(rawFile)
             }
-            post(processedFile)
-          } else {
-            post(rawFile)
-          }
-        }).catch(() => {
-          props.onRemove(null, rawFile)
-        })
+          })
+          .catch(() => {
+            props.onRemove(null, rawFile)
+          })
       } else if (before !== false) {
         post(rawFile)
       } else {
@@ -230,7 +248,7 @@ export default defineComponent({
       }
     }
 
-    function handleChange(e: DragEvent){
+    function handleChange(e: DragEvent) {
       const files = (e.target as HTMLInputElement).files
       if (!files) return
       uploadFiles(files)
