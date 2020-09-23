@@ -177,50 +177,50 @@ export default defineComponent({
   left: -5px;
 }
 
-.el-popper.is-dark {
+.is-dark {
   background: #303133;
   color: #fff;
 }
-.el-popper.is-light {
+.is-light {
   background: #fff;
   border: 1px solid #303133;
 }
 
-.el-popper.is-dark .el-popper__arrow::before {
+.is-dark .el-popper__arrow::before {
   background: #303133;
 }
 
-.el-popper.is-light .el-popper__arrow::before {
+.is-light .el-popper__arrow::before {
   background: #fff;
   border: 1px solid #303133;
 }
 
-.el-popper.is-light[data-popper-placement^='top'] .el-popper__arrow::before {
+.is-light[data-popper-placement^='top'] .el-popper__arrow::before {
   border-top-color: transparent;
   border-left-color: transparent;
 }
 
-.el-popper.is-light[data-popper-placement^='bottom'] .el-popper__arrow::before {
+.is-light[data-popper-placement^='bottom'] .el-popper__arrow::before {
   border-bottom-color: transparent;
   border-right-color: transparent;
 }
 
-.el-popper.is-light[data-popper-placement^='left'] .el-popper__arrow::before {
+.is-light[data-popper-placement^='left'] .el-popper__arrow::before {
   border-left-color: transparent;
   border-bottom-color: transparent;
 }
 
-.el-popper.is-light[data-popper-placement^='right'] .el-popper__arrow::before {
+.is-light[data-popper-placement^='right'] .el-popper__arrow::before {
   border-top-color: transparent;
   border-right-color: transparent;
 }
 
-.el-popper.el-popper__pure {
+.el-popper__pure {
   padding: 0;
   border: none;
 }
 
-.el-popper.el-popper__pure .el-popper__arrow::before {
+.el-popper__pure .el-popper__arrow::before {
   border: none;
 }
 </style>

@@ -23,15 +23,20 @@
         <p class="footer-social-title">Element {{ version && version.slice(0, 3) }} Fullerene</p>
         <el-popover
           ref="weixin"
+          v-model:visible="footerVisible"
           placement="top"
           width="120"
           popper-class="footer-popover"
           trigger="hover"
         >
-          <div class="footer-popover-title">{{ langConfig.eleme }} UED</div>
-          <img src="../assets/images/qrcode.png" alt="">
+          <template #reference>
+            <i class="doc-icon-weixin elementdoc"></i>
+          </template>
+          <template #default>
+            <div class="footer-popover-title">{{ langConfig.eleme }} UED</div>
+            <img src="../assets/images/qrcode.png" alt="">
+          </template>
         </el-popover>
-        <!-- <i v-popover:weixin class="doc-icon-weixin elementdoc"></i> -->
         <a href="https://github.com/elemefe" target="_blank">
           <i class="doc-icon-github elementdoc"></i>
         </a>
@@ -53,6 +58,7 @@ export default {
   data() {
     return {
       version,
+      footerVisible: false,
     }
   },
 

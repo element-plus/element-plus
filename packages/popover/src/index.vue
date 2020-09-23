@@ -1,20 +1,21 @@
 <template>
   <div>
     <el-popper
-      v-model:visible="_visible"
+      v-model:visible="modelValue"
       effect="light"
       :close-delay="closeDelay"
       :disabled="disabled"
       :offset="offset"
-      :open-delay="openDelay"
+      :show-after="openDelay"
       :popper-options="popperOptions"
       :placement="placement"
-      :popper-class="popperClass"
+      :popper-class="`${content ? 'el-popover--plain' : ''} el-popover ${popperClass}`"
       :popper-style="popperStyle"
       :transition="transition"
       :trigger="trigger"
       :show-arrow="visibleArrow"
       :manual-mode="trigger === 'manual'"
+      pure
       @after-enter="$emit('after-enter')"
       @after-leave="$emit('after-leave')"
     >
@@ -24,12 +25,11 @@
       </template>
       <template #default>
         <div v-if="title" class="el-popover__title" v-text="title"></div>
-        <slot name="content">
+        <slot>
           {{ content }}
         </slot>
       </template>
     </el-popper>
-    <slot></slot>
   </div>
 </template>
 <script lang='ts'>
@@ -92,7 +92,7 @@ export default defineComponent({
     },
     visible: {
       type: Boolean,
-      default: false,
+      default: undefined,
     },
     visibleArrow: {
       type: Boolean,

@@ -49,6 +49,7 @@ import ElSelect from '@element-plus/select'
 import ElTimeSelect from '@element-plus/time-select'
 import ElPagination from '@element-plus/pagination'
 import ElInputNumber from '@element-plus/input-number'
+import ElPopover from '@element-plus/popover'
 
 export {
   ElAlert,
@@ -100,6 +101,7 @@ export {
   ElTimeSelect,
   ElPagination,
   ElInputNumber,
+  ElPopover,
 }
 
 const install = (app: App): void => {
@@ -153,6 +155,7 @@ const install = (app: App): void => {
   ElTimeSelect(app)
   ElPagination(app)
   ElInputNumber(app)
+  ElPopover(app)
 }
 
 const elementUI = {
