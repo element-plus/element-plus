@@ -212,6 +212,7 @@ import {
   ref,
   PropType,
   inject,
+  watch,
 } from 'vue'
 import { t } from '@element-plus/locale'
 import { ClickOutside } from '@element-plus/directives'
@@ -356,8 +357,6 @@ export default defineComponent({
     const rangeState = ref({
       endDate: null,
       selecting: false,
-      row: null,
-      column: null,
     })
 
     const btnDisabled = computed(() => {
@@ -365,13 +364,14 @@ export default defineComponent({
     })
 
     const handleChangeRange = val => {
-      minDate.value = val.minDate
-      maxDate.value = val.maxDate
-      rangeState.value = val.rangeState
+      rangeState.value = val
     }
 
     const onSelect = selecting => {
       rangeState.value.selecting = selecting
+      if (!selecting) {
+        rangeState.value.endDate = null
+      }
     }
 
     const showTime = computed(() => props.type === 'datetime' || props.type === 'datetimerange')
@@ -410,6 +410,30 @@ export default defineComponent({
       }
     }
 
+    watch(() => props.parsedValue, newVal => {
+      if (!newVal) {
+        minDate.value = null
+        maxDate.value = null
+        return
+      }
+      minDate.value = newVal[0]
+      maxDate.value = newVal[1]
+      if (minDate.value) {
+        leftDate.value = minDate.value
+        if (props.unlinkPanels && maxDate.value) {
+          const minDateYear = minDate.value.year()
+          const minDateMonth = minDate.value.month()
+          const maxDateYear = maxDate.value.year()
+          const maxDateMonth = maxDate.value.month()
+          rightDate.value = minDateYear === maxDateYear && minDateMonth === maxDateMonth
+            ? maxDate.value.add(1, 'month')
+            : maxDate.value
+        } else {
+          rightDate.value = leftDate.value.add(1, 'month')
+        }
+      }
+    }, { immediate: true })
+
     const minTimePickerVisible = ref(false)
     const maxTimePickerVisible = ref(false)
 
@@ -421,10 +445,14 @@ export default defineComponent({
       maxTimePickerVisible.value = false
     }
 
+    const formatToString = value => {
+      return value.map(_=> _.format(format))
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
-    // pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    const { shortcuts, disabledDate, cellClassName } = pickerBase.props
+    pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
+    const { shortcuts, disabledDate, cellClassName, format } = pickerBase.props
 
     return {
       shortcuts,

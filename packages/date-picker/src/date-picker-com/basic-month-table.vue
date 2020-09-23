@@ -93,10 +93,9 @@ export default defineComponent({
           const index = i * 4 + j
           const calTime =  props.date.startOf('year').month(index)
 
-          let calEndDate = props.rangeState.endDate || props.maxDate
-          if (props.rangeState.selecting) {
-            calEndDate = calEndDate || props.minDate
-          }
+          const calEndDate = props.rangeState.endDate || props.maxDate
+            || props.rangeState.selecting && props.minDate
+
           cell.inRange = (
             props.minDate &&
               calTime.isSameOrAfter(props.minDate, 'month')
@@ -176,10 +175,8 @@ export default defineComponent({
         lastRow.value = row
         lastColumn.value = column
         ctx.emit('changerange', {
-          rangeState: {
-            selecting: true,
-            endDate: props.date.startOf('year').month(row * 4 + column),
-          },
+          selecting: true,
+          endDate: props.date.startOf('year').month(row * 4 + column),
         })
       }
     }

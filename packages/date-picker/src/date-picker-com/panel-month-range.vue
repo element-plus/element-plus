@@ -189,6 +189,11 @@ export default defineComponent({
     const maxDate = ref(null)
 
     watch(() => props.parsedValue, newVal => {
+      if (!newVal) {
+        minDate.value = null
+        maxDate.value = null
+        return
+      }
       minDate.value = newVal[0]
       maxDate.value = newVal[1]
       if (minDate.value) {
@@ -211,7 +216,7 @@ export default defineComponent({
     })
 
     const handleChangeRange = val => {
-      rangeState.value = val.rangeState
+      rangeState.value = val
     }
 
     const handleRangePick = (val, close = true) => {
@@ -250,10 +255,14 @@ export default defineComponent({
       }
     }
 
+    const formatToString = value => {
+      return value.map(_=> _.format(format))
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
-    // pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    const { shortcuts, disabledDate } = pickerBase.props
+    pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
+    const { shortcuts, disabledDate, format } = pickerBase.props
 
     return {
       shortcuts,

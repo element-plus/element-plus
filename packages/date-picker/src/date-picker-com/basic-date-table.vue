@@ -46,7 +46,6 @@ import {
   computed,
   ref,
   PropType,
-  watch,
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 export default defineComponent({
@@ -155,17 +154,25 @@ export default defineComponent({
             }
           }
           const index = i * 7 + j
-          // todo: use dayjs.isBefore
           const calTime = startDate.value.add(index - offset, 'day')
           cell.type = 'normal'
 
-          cell.inRange = (props.minDate && calTime.valueOf() >= props.minDate.valueOf()) && (props.maxDate && calTime.valueOf() <= props.maxDate.valueOf())
+          const calEndDate = props.rangeState.endDate || props.maxDate
+            || props.rangeState.selecting && props.minDate
 
-          cell.start = props.minDate && calTime.valueOf() === props.minDate.valueOf()
+          cell.inRange = (
+            props.minDate &&
+              calTime.isSameOrAfter(props.minDate, 'day')
+          ) && (calEndDate &&
+              calTime.isSameOrBefore(calEndDate, 'day')
+          )
 
-          cell.end = props.maxDate && calTime.valueOf() === props.maxDate.valueOf()
+          cell.start = props.minDate
+            && calTime.isSame(props.minDate, 'day')
 
+          cell.end = calEndDate && calTime.isSame(calEndDate, 'day')
           const isToday = calTime.isSame(calNow, 'day')
+
           if (isToday) {
             cell.type = 'today'
           }
@@ -293,12 +300,8 @@ export default defineComponent({
         lastRow.value = row
         lastColumn.value = column
         ctx.emit('changerange', {
-          minDate: props.minDate,
-          maxDate: props.maxDate,
-          rangeState: {
-            selecting: true,
-            endDate: getDateOfCell(row, column),
-          },
+          selecting: true,
+          endDate: getDateOfCell(row, column),
         })
       }
     }
@@ -354,26 +357,6 @@ export default defineComponent({
       }
     }
 
-    const markRange = (minDate, maxDate) => {
-      minDate = +minDate
-      maxDate = +maxDate || +minDate;
-      [minDate, maxDate] = [Math.min(minDate, maxDate), Math.max(minDate, maxDate)]
-
-      for (let i = 0, k = rows.value.length; i < k; i++) {
-        const row = rows.value[i]
-        for (let j = 0, l = row.length; j < l; j++) {
-          if (props.showWeekNumber && j === 0) continue
-
-          const cell = row[j]
-          const index = i * 7 + j + (props.showWeekNumber ? -1 : 0)
-          const time = startDate.value.add(index - offsetDay.value, 'day').valueOf()
-          cell.inRange = minDate && time >= minDate && time <= maxDate
-          cell.start = minDate && time === minDate
-          cell.end = maxDate && time === maxDate
-        }
-      }
-    }
-
     const isWeekActive = cell => {
       if (props.selectionMode !== 'week') return false
       let newDate = props.date.startOf('day')
@@ -395,22 +378,6 @@ export default defineComponent({
       }
       return false
     }
-
-    watch(() => props.rangeState.endDate, newVal => {
-      markRange(props.minDate, newVal)
-    })
-
-    watch(() => props.minDate, (newVal: Dayjs, oldVal: Dayjs) => {
-      if (!newVal || !newVal.isSame(oldVal)) {
-        markRange(props.minDate, props.maxDate)
-      }
-    })
-
-    watch(() => props.maxDate, (newVal: Dayjs, oldVal: Dayjs) => {
-      if (!newVal || !newVal.isSame(oldVal)) {
-        markRange(props.minDate, props.maxDate)
-      }
-    })
 
     return {
       handleMouseMove,

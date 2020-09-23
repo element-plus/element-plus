@@ -5,8 +5,8 @@
       v-model="value1"
       type="monthrange"
       range-separator="To"
-      start-placeholder="Start month"
-      end-placeholder="End month"
+      start-placeholder="Start date"
+      end-placeholder="End date"
       :shortcuts="shortcuts"
     />
   </div>
@@ -16,26 +16,37 @@
 export default {
   data() {
     return {
-      value1: '',
+      value1: (() => {
+        const end = new Date()
+        const start = new Date()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+        return [start, end]
+      })(),
       disabledDate(time) {
         return time.getTime() > Date.now()
       },
       shortcuts: [{
-        text: 'This month',
-        value: [new Date(), new Date()],
-      }, {
-        text: 'This year',
-        value: (() => {
-          const end = new Date()
-          const start = new Date(new Date().getFullYear(), 0)
-          return [start, end]
-        })(),
-      }, {
-        text: 'Last 6 months',
+        text: '最近一周',
         value: (() => {
           const end = new Date()
           const start = new Date()
-          start.setMonth(start.getMonth() - 6)
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+          return [start, end]
+        })(),
+      }, {
+        text: '最近一个月',
+        value: (() => {
+          const end = new Date()
+          const start = new Date()
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+          return [start, end]
+        })(),
+      }, {
+        text: '最近三个月',
+        value: (() => {
+          const end = new Date()
+          const start = new Date()
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
           return [start, end]
         })(),
       }],
