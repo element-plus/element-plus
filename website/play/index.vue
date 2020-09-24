@@ -1,9 +1,8 @@
 <template>
   <div>
     {{ value1 }}
-    <el-date-picker
+    <el-time-picker
       v-model="value1"
-      type="monthrange"
       range-separator="To"
       start-placeholder="Start date"
       end-placeholder="End date"
@@ -16,12 +15,7 @@
 export default {
   data() {
     return {
-      value1: (() => {
-        const end = new Date()
-        const start = new Date()
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-        return [start, end]
-      })(),
+      value1: '',
       disabledDate(time) {
         return time.getTime() > Date.now()
       },

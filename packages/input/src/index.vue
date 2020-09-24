@@ -160,8 +160,8 @@ export default defineComponent({
       default: 'text',
     },
     size: {
-      type: String as PropType<'large' | 'medium' | 'small' | 'mini'>,
-      validator: (val: string) => ['large', 'medium', 'small', 'mini'].includes(val),
+      type: String as PropType<'large' | 'medium' | 'small' | 'mini' | null>,
+      validator: (val: string) => !val || ['large', 'medium', 'small', 'mini'].includes(val),
     },
     resize: {
       type: String as PropType<'none' | 'both' | 'horizontal' | 'vertical'>,

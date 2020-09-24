@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import { nextTick } from 'vue'
+import { sleep } from '@element-plus/test-utils'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) => mount({
@@ -24,7 +25,7 @@ afterEach(() => {
 })
 
 
-describe('TimePicker', () => {
+describe('DatePicker', () => {
   it('create', async () => {
     const wrapper = _mount(`<el-date-picker
         :readonly="true"
@@ -71,7 +72,7 @@ describe('TimePicker', () => {
   })
 
   it('clear value', async () => {
-    const wrapper = _mount(`<div class="out">out</div><el-date-picker
+    const wrapper = _mount(`<el-date-picker
         v-model="value"
     />`, () => ({ value: '' }))
     const input = wrapper.find('input')
@@ -81,13 +82,11 @@ describe('TimePicker', () => {
     (document.querySelector('td.available') as HTMLElement).click()
     await nextTick()
     const vm = wrapper.vm as any
-    expect(vm.value).toBeDefined();
-    (document.querySelector('body') as HTMLElement).click()
+    expect(vm.value).toBeDefined()
+    await wrapper.find('.el-input__inner').trigger('mouseenter')
     await nextTick()
-    //todo test pass click outside
-    // document.body.dispatchEvent(new Event('click'))
-    await nextTick()
-    // expect(vm.value).toBeNull()
+    await sleep(250)
+    expect(vm.value).toBeNull()
   })
 
   it('event change, focus, blur', async () => {
