@@ -1,12 +1,8 @@
 <template>
   <div>
     {{ value1 }}
-    <el-time-picker
+    <el-date-picker
       v-model="value1"
-      range-separator="To"
-      start-placeholder="Start date"
-      end-placeholder="End date"
-      :shortcuts="shortcuts"
     />
   </div>
 </template>

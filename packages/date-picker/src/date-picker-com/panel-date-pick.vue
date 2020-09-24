@@ -377,9 +377,9 @@ export default defineComponent({
 
     const showTime = computed(() => props.type === 'datetime' || props.type === 'datetimerange')
 
-    const footerVisible = () => {
+    const footerVisible = computed(() => {
       return showTime.value || selectionMode.value === 'dates'
-    }
+    })
 
     const onConfirm = () => {
       // if (selectionMode.value === 'dates') {
