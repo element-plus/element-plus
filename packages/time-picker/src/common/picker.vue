@@ -127,7 +127,7 @@ import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '@element-plus/input/src/index.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import mitt from 'mitt'
 // Date object and string
 const dateEquals = function(a, b) {
@@ -466,15 +466,15 @@ export default defineComponent({
     }
 
     const handleKeydown = event => {
-      const keyCode = event.keyCode
+      const code = event.code
 
-      if (keyCode === eventKeys.esc) {
+      if (code === EVENT_CODE.esc) {
         pickerVisible.value = false
         event.stopPropagation()
         return
       }
 
-      if (keyCode === eventKeys.tab) {
+      if (code === EVENT_CODE.tab) {
         if (!isRangeInput.value) {
           handleChange()
           pickerVisible.value = false
@@ -491,7 +491,7 @@ export default defineComponent({
         return
       }
 
-      if (keyCode === eventKeys.enter) {
+      if (code === EVENT_CODE.enter) {
         if (userInput.value === '' || isValidValue(parseUserInputToDayjs(displayValue.value))) {
           handleChange()
           pickerVisible.value = false

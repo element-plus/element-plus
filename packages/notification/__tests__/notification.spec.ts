@@ -1,7 +1,7 @@
 import { mount, VueWrapper } from '@vue/test-utils'
 import { h, ComponentPublicInstance } from 'vue'
 import * as domExports from '../../utils/dom'
-import { eventKeys } from '../../utils/aria'
+import { EVENT_CODE } from '../../utils/aria'
 import Notification from '../src/index.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -213,12 +213,9 @@ describe('Notification.vue', () => {
         },
       })
 
-      // disable eslint to allow us using any, due to the lack of KeyboardEventInit member `keyCode`
-      // see https://github.com/Microsoft/TypeScript/issues/15228
       const event = new KeyboardEvent('keydown', {
-        keyCode: eventKeys.backspace,
+        code: EVENT_CODE.backspace,
         babels: true,
-      // eslint-disable-next-line
       } as any)
       document.dispatchEvent(event)
 
@@ -236,7 +233,7 @@ describe('Notification.vue', () => {
 
       // Same as above
       const event = new KeyboardEvent('keydown', {
-        keyCode: eventKeys.esc,
+        code: EVENT_CODE.esc,
         // eslint-disable-next-line
       } as any)
       const oldClose = wrapper.vm.close

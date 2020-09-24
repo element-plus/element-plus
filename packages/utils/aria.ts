@@ -1,25 +1,10 @@
-// since event.keyCode will be deprecated at any time refer to: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
-export const eventKeys = {
-  tab: 9,
-  enter: 13,
-  space: 32,
-  left: 37,
-  up: 38,
-  right: 39,
-  down: 40,
-  esc: 27,
-  backspace: 8,
-  delete: 46,
-}
-
-// TODO: refactor all event.keyCode to event.code
 export const EVENT_CODE = {
   tab: 'Tab',
   enter: 'Enter',
   space: 'Space',
   left: 'ArrowLeft',
+  up: 'ArrowUp',
   right: 'ArrowRight',
-  top: 'ArrowTop',
   down: 'ArrowDown',
   esc: 'Escape',
   delete: 'Delete',
