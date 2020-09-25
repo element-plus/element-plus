@@ -9,6 +9,7 @@ import {
   watch,
   onMounted,
   VNode,
+  ComponentPublicInstance,
 } from 'vue'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import ElButton from '@element-plus/button/src/button.vue'
@@ -44,7 +45,7 @@ export default defineComponent({
     },
     showTimeout: {
       type: Number,
-      default: 250,
+      default: 150,
     },
     hideTimeout: {
       type: Number,
@@ -92,10 +93,11 @@ export default defineComponent({
     )
 
     const triggerVnode = ref<Nullable<VNode>>(null)
+    const caretButton = ref<Nullable<ComponentPublicInstance>>(null)
     const triggerElm = computed<Nullable<HTMLButtonElement>>(() =>
       !props.splitButton
         ? triggerVnode.value?.el
-        : triggerVnode.value?.el.querySelector('.el-dropdown__caret-button'),
+        : caretButton.value?.$el,
     )
 
     function handleClick() {
@@ -208,6 +210,7 @@ export default defineComponent({
             h(ElButton, {
               type: props.type,
               size: dropdownSize.value,
+              ref: caretButton,
               class: 'el-dropdown__caret-button',
             }, {
               default: () => h('i', { class: 'el-dropdown__icon el-icon-arrow-down' }),
@@ -228,6 +231,7 @@ export default defineComponent({
       placement: props.placement,
       effect: props.effect,
       visible: visible.value,
+      manualMode: true,
       'onUpdate:visible': onVisibleUpdate,
       popperClass: 'el-dropdown-popper',
       trigger: [props.trigger],

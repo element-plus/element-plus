@@ -107,7 +107,7 @@ export default defineComponent({
 
   emits: ['click'],
 
-  setup(props, ctx): IButtonSetups {
+  setup(props, ctx) {
     // inject
     const elForm = inject<ElForm>('elForm', {} as any)
     const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
