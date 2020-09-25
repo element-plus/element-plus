@@ -37,6 +37,7 @@ import ElDialog from '@element-plus/dialog'
 import ElCalendar from '@element-plus/calendar'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
 import ElDrawer from '@element-plus/drawer'
+import ElPopconfirm from '@element-plus/popconfirm'
 
 export {
   ElAlert,
@@ -76,6 +77,7 @@ export {
   ElCalendar,
   ElInfiniteScroll,
   ElDrawer,
+  ElPopconfirm,
 }
 
 const install = (app: App): void =>  {
@@ -117,6 +119,7 @@ const install = (app: App): void =>  {
   ElCalendar(app)
   ElInfiniteScroll(app)
   ElDrawer(app)
+  ElPopconfirm(app)
 }
 
 const elementUI = {
