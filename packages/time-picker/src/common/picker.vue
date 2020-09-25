@@ -401,18 +401,12 @@ export default defineComponent({
       return !props.modelValue
     })
     const onMouseEnter = () => {
-      console.log('onMouseEnter')
       if (props.readonly || pickerDisabled.value) return
       if (!valueIsEmpty.value && props.clearable) {
         showClose.value = true
       }
     }
     const onMouseLeave = e => {
-      console.log('onMouseLeave')
-      if (e.relatedTarget && e.relatedTarget.className.includes('icon')) {
-        // if not el-icon then close
-        return
-      }
       showClose.value = false
     }
     const isRangeInput = computed(() => {
