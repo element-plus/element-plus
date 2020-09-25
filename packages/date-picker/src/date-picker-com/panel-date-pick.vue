@@ -162,19 +162,6 @@
 <script lang="ts">
 import {
   formatDate,
-  parseDate,
-  getWeekNumber,
-  isDate,
-  modifyDate,
-  modifyTime,
-  modifyWithTimeString,
-  clearMilliseconds,
-  clearTime,
-  prevYear,
-  nextYear,
-  prevMonth,
-  nextMonth,
-  changeYearMonthAndClampDate,
   extractDateFormat,
   extractTimeFormat,
   timeWithinRange,
@@ -340,7 +327,7 @@ export default defineComponent({
         // skip selectionMode=dates
         innerDate.value = val
       }
-    })
+    }, { immediate: true })
 
 
     const hasShortcuts = computed(() => !!shortcuts.length)
@@ -421,17 +408,31 @@ export default defineComponent({
         timePickerVisible.value = visible
       }
     }
-    const isValidValue = () => true
+    const isValidValue = date_ => {
+      return date_.isValid() && (
+        disabledDate
+          ? !disabledDate(date_.toDate())
+          : true
+      )
+      return false
+    }
+
     const formatToString = value => {
       if (selectionMode.value === 'dates') {
         return value.map(_ => _.format(props.format))
       }
       return value.format(props.format)
     }
+
+    const parseUserInput = value => {
+      return dayjs(value, format)
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    const { shortcuts, disabledDate, cellClassName } = pickerBase.props
+    pickerBase.hub.emit('SetPickerOption', ['parseUserInput', parseUserInput])
+    const { shortcuts, disabledDate, cellClassName, format } = pickerBase.props
     return {
       handleTimePick,
       handleTimePickClose,

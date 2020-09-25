@@ -5,6 +5,7 @@ export const modifyDate = function(date, y, m, d) {
 }
 export const range = function(n) {
   // see https://stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n
+  // eslint-disable-next-line
   return Array.apply(null, { length: n }).map((_, n) => n)
 }
 export const getDayCountOfYear = function(year) {

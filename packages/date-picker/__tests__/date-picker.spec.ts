@@ -1,4 +1,3 @@
-import { sleep } from '@element-plus/test-utils'
 import Picker from '@element-plus/time-picker/src/common/picker.vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
@@ -95,6 +94,7 @@ describe('DatePicker', () => {
     const changeHandler = jest.fn()
     const focusHandler = jest.fn()
     const blurHandler = jest.fn()
+    let onChangeValue
     const wrapper = _mount(`<el-date-picker
         v-model="value"
         @change="onChange"
@@ -103,6 +103,7 @@ describe('DatePicker', () => {
       />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }), {
       methods: {
         onChange(e) {
+          onChangeValue = e
           return changeHandler(e)
         },
         onFocus(e) {
@@ -123,6 +124,7 @@ describe('DatePicker', () => {
     await nextTick()
     expect(changeHandler).toHaveBeenCalledTimes(1)
     expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(onChangeValue.getTime()).toBe(new Date(2016, 9, 1).getTime())
   })
 
 })

@@ -11,7 +11,7 @@
 export default {
   data() {
     return {
-      value1: '',
+      value1:  new Date(2016, 9, 10, 18, 40),
       disabledDate(time) {
         return time.getTime() > Date.now()
       },

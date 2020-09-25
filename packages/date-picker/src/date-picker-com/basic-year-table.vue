@@ -90,7 +90,7 @@ export default defineComponent({
       const style = {} as any
       const today = dayjs()
 
-      style.disabled = typeof props.disabledDate === 'function'
+      style.disabled = props.disabledDate
         ? datesInYear(year).every(props.disabledDate)
         : false
 

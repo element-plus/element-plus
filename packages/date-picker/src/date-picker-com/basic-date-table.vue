@@ -197,8 +197,8 @@ export default defineComponent({
 
           const cellDate = calTime.toDate()
           cell.selected = selectedDate.find(_ => _.valueOf() === calTime.valueOf())
-          cell.disabled = typeof props.disabledDate === 'function' && props.disabledDate(cellDate)
-          cell.customClass = typeof props.cellClassName === 'function' && props.cellClassName(cellDate)
+          cell.disabled = props.disabledDate && props.disabledDate(cellDate)
+          cell.customClass = props.cellClassName && props.cellClassName(cellDate)
           row[props.showWeekNumber ? j + 1 : j] = cell
         }
 

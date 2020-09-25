@@ -115,7 +115,7 @@ export default defineComponent({
           }
           cell.text = index
           let cellDate = calTime.toDate()
-          cell.disabled = typeof props.disabledDate === 'function' && props.disabledDate(cellDate)
+          cell.disabled = props.disabledDate && props.disabledDate(cellDate)
           row[j] = cell
         }
       }
@@ -127,7 +127,7 @@ export default defineComponent({
       const today = new Date()
       const month = cell.text
       const defaultValue = props.defaultValue ? Array.isArray(props.defaultValue) ? props.defaultValue : [props.defaultValue] : []
-      style.disabled = typeof props.disabledDate === 'function'
+      style.disabled = props.disabledDate
         ? datesInMonth(year, month).every(props.disabledDate)
         : false
       style.current = coerceTruthyValueToArray(props.value).findIndex(date => date.getFullYear() === year && date.getMonth() === month) >= 0

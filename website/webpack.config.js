@@ -19,7 +19,6 @@ const config = {
   output: {
     path: path.resolve(__dirname, '../website-dist'),
     publicPath: '/',
-    filename: '[name].[contenthash].js',
   },
   stats: 'verbose',
   module: {
