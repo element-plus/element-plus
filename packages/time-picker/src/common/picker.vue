@@ -391,11 +391,7 @@ export default defineComponent({
         showClose.value = true
       }
     }
-    const onMouseLeave = e => {
-      if (e.relatedTarget && e.relatedTarget.className.includes('icon')) {
-        // if not el-icon then close
-        return
-      }
+    const onMouseLeave = () => {
       showClose.value = false
     }
     const isRangeInput = computed(() => {
@@ -421,7 +417,7 @@ export default defineComponent({
         const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
-            emitInput(value)
+            emitInput(value.toDate())
             userInput.value = null
           }
         }
@@ -495,7 +491,7 @@ export default defineComponent({
       }
     }
     const onUserInput = e => {
-      userInput.value = e.target.value
+      userInput.value = e
     }
 
     const handleStartInput = event => {
