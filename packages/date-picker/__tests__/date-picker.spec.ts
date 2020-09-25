@@ -1,7 +1,8 @@
+import { sleep } from '@element-plus/test-utils'
+import Picker from '@element-plus/time-picker/src/common/picker.vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import { nextTick } from 'vue'
-// import { sleep } from '@element-plus/test-utils'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) => mount({
@@ -83,9 +84,11 @@ describe('DatePicker', () => {
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
-    // await wrapper.find('.el-input__inner').trigger('mouseenter')
-    // await sleep(250)
-    // expect(vm.value).toBeNull()
+    const picker = wrapper.findComponent(Picker)
+    picker.vm.showClose = true
+    await nextTick();
+    (picker.element.querySelector('.el-icon-circle-close') as HTMLElement).click()
+    expect(vm.value).toBeNull()
   })
 
   it('event change, focus, blur', async () => {
