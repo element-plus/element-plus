@@ -74,7 +74,7 @@ describe('DatePicker', () => {
   it('defaultTime and clear value', async () => {
     const wrapper = _mount(`<el-date-picker
         v-model="value"
-        :default-time="new Date(2011,1,1,12,0,0)"
+        :default-time="new Date(2011,1,1,12,0,1)"
     />`, () => ({ value: '' }))
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -86,7 +86,7 @@ describe('DatePicker', () => {
     expect(vm.value).toBeDefined()
     expect(vm.value.getHours()).toBe(12)
     expect(vm.value.getMinutes()).toBe(0)
-    expect(vm.value.getSeconds()).toBe(0)
+    expect(vm.value.getSeconds()).toBe(1)
     const picker = wrapper.findComponent(Picker);
     (picker.vm as any).showClose = true
     await nextTick();
