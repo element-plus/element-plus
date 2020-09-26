@@ -33,7 +33,7 @@
     "@vue/babel-plugin-jsx": "^1.0.0-rc.3",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/component-compiler-utils": "^3.2.0",
-    "algoliasearch": "^4.4.0",
+    "algoliasearch": "^4.5.1",
     "babel-loader": "^8.1.0",
     "babel-preset-vue": "^2.0.2",
     "cross-env": "^7.0.2",
