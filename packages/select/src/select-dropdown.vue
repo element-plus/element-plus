@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script type="text/babel">
+<script  lang="ts">
 // import Popper from '@element-plus/vue-popper'
 import {
   computed,
@@ -63,7 +63,7 @@ export default {
     const popperClass = computed(() => select.props.popperClass)
     // computed
     const isMultiple = computed(() => select.props.multiple)
-    const minWidth = computed(() => select.trigger.value && select.trigger.value.getBoundingClientRect().width + 'px')
+    const minWidth = computed(() => select._select.value && select._select.value.getBoundingClientRect().width + 'px')
 
     onMounted(() => {
       // TODO: 需要补充

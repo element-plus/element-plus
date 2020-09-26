@@ -26,11 +26,12 @@ export const useSelect = (props, states, ctx) => {
   const input = ref(null)
   const popper = ref(null)
   const tags = ref(null)
-  const trigger = ref(null)
+  const _select = ref(null)
   const scrollbar = ref(null)
+  const hoverOption = ref(-1)
 
-  const elForm = inject('elForm', {})
-  const elFormItem = inject('elFormItem', {})
+  const elForm = inject<any>('elForm', {})
+  const elFormItem = inject<any>('elFormItem', {})
   // computed
   const _elFormItemSize = computed(() => (elFormItem || {}).elFormItemSize)
 
@@ -78,7 +79,7 @@ export const useSelect = (props, states, ctx) => {
     return props.filterable && props.allowCreate && states.query !== '' && !hasExistingOption
   })
 
-  // TODO: ctx.$ELEMENT
+  // TODO: ELEMENT
   const selectSize = computed(() => props.size || _elFormItemSize.value || (ELEMENT || {}).size)
 
   const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
@@ -92,6 +93,7 @@ export const useSelect = (props, states, ctx) => {
 
   watch(() => props.placeholder, val => {
     states.cachedPlaceHolder = states.currentPlaceholder = val
+    console.log('states.cachedPlaceHolder: ', states.cachedPlaceHolder)
   })
 
   watch(() => props.modelValue, (val, oldVal) => {
@@ -112,8 +114,7 @@ export const useSelect = (props, states, ctx) => {
       states.inputLength = 20
     }
     if (!isEqual(val, oldVal)) {
-      // TODO:
-      // this.dispatch('ElFormItem', 'el.form.change', val)
+      elFormItem?.changeEvent?.(val)
     }
   })
 
@@ -182,13 +183,22 @@ export const useSelect = (props, states, ctx) => {
     if (props.multiple) {
       resetInputHeight()
     }
-    const inputs = trigger.value.querySelectorAll('input')
+    const inputs = _select.value.querySelectorAll('input')
     if ([].indexOf.call(inputs, document.activeElement) === -1) {
       setSelected()
     }
     if (props.defaultFirstOption && (props.filterable || props.remote) && states.filteredOptionsCount) {
       checkDefaultFirstOption()
     }
+  })
+
+  watch(() => states.hoverIndex, val => {
+    if (typeof val === 'number' && val > -1) {
+      hoverOption.value = states.options[val] || {}
+    }
+    states.options.forEach(option => {
+      option.hover = hoverOption.value === option
+    })
   })
 
 
@@ -386,7 +396,7 @@ export const useSelect = (props, states, ctx) => {
   }, debounce.value)
 
   const deletePrevTag = e => {
-    if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
+    if (e.target.value.length <= 0 && !toggleLastOptionHitState(false)) {
       const value = props.modelValue.slice()
       value.pop()
       ctx.emit(UPDATE_MODEL_EVENT, value)
@@ -519,7 +529,7 @@ export const useSelect = (props, states, ctx) => {
     const text = event.target.value
     if (event.type === 'compositionend') {
       states.isOnComposition = false
-      nextTick(() => this.handleQueryChange(text))
+      nextTick(() => handleQueryChange(text))
     } else {
       const lastCharacter = text[text.length - 1] || ''
       states.isOnComposition = !isKorean(lastCharacter)
@@ -573,6 +583,7 @@ export const useSelect = (props, states, ctx) => {
   }
 
   const toggleMenu = () => {
+    if (props.automaticDropdown) return
     if (!selectDisabled.value) {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false
@@ -603,6 +614,37 @@ export const useSelect = (props, states, ctx) => {
     }
   }
 
+  const optionsAllDisabled = computed(() => states.options.filter(option => option.visible).every(option => option.disabled))
+
+  const navigateOptions = direction => {
+    if (!states.visible) {
+      states.visible = true
+      return
+    }
+    if (states.options.length === 0 || states.filteredOptionsCount === 0) return
+
+    if (!optionsAllDisabled.value) {
+      if (direction === 'next') {
+        states.hoverIndex++
+        if (states.hoverIndex === states.options.length) {
+          states.hoverIndex = 0
+        }
+      } else if (direction === 'prev') {
+        states.hoverIndex--
+        if (states.hoverIndex < 0) {
+          states.hoverIndex = states.options.length - 1
+        }
+      }
+      const option = states.options[states.hoverIndex]
+      if (option.disabled === true ||
+        option.groupDisabled === true ||
+        !option.visible) {
+        navigateOptions(direction)
+      }
+      nextTick(() => scrollToOption(hoverOption.value))
+    }
+  }
+
   return {
     selectSize,
     handleResize,
@@ -623,7 +665,6 @@ export const useSelect = (props, states, ctx) => {
     managePlaceholder,
     selectDisabled,
     emptyText,
-    handleQueryChange,
     toggleLastOptionHitState,
     resetInputState,
     handleComposition,
@@ -638,13 +679,14 @@ export const useSelect = (props, states, ctx) => {
     toggleMenu,
     selectOption,
     getValueKey,
+    navigateOptions,
 
     // DOM ref
     reference,
     input,
     popper,
     tags,
-    trigger,
+    _select,
     scrollbar,
   }
 }

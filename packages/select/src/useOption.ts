@@ -18,9 +18,9 @@ export const useOption = (props, states, ctx) => {
 
   const itemSelected = computed(() => {
     if (!select.props.multiple) {
-      return isEqual(props.value, select.props.value)
+      return isEqual(props.value, select.props.modelValue)
     } else {
-      return contains(select.props.value, props.value)
+      return contains(select.props.modelValue, props.value)
     }
   })
 

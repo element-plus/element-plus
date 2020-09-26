@@ -20,7 +20,7 @@ import {
   toRefs,
   defineComponent,
   getCurrentInstance,
-  onUnmounted,
+  onBeforeUnmount,
   reactive } from 'vue'
 import { useOption } from './useOption'
 
@@ -65,7 +65,7 @@ export default defineComponent({
 
     const instance = getCurrentInstance()
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       const { selected, multiple } = select
       let selectedOptions = multiple ? selected : [selected]
       let index = select.cachedOptions.value.indexOf(instance)
@@ -77,6 +77,8 @@ export default defineComponent({
       }
       select.onOptionDestroy(select.options.value.indexOf(this))
     })
+
+
 
     return {
       currentLabel,

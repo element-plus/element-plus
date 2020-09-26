@@ -1,9 +1,7 @@
 <template>
-  <!-- TODO: clickoutside -->
-  <!-- v-clickoutside="handleClose" -->
   <div
-    ref="trigger"
-    v-clickOutside:[trigger]="handleClose"
+    ref="_select"
+    v-clickOutside:[_select]="handleClose"
     class="el-select"
     :class="[selectSize ? 'el-select--' + selectSize : '']"
     @click.stop="toggleMenu"
@@ -36,18 +34,20 @@
         </el-tag>
       </span>
       <transition-group v-if="!collapseTags" @after-leave="resetInputHeight">
-        <el-tag
-          v-for="item in selected"
-          :key="getValueKey(item)"
-          :closable="!selectDisabled"
-          :size="collapseTagSize"
-          :hit="item.hitState"
-          type="info"
-          disable-transitions
-          @close="deleteTag($event, item)"
-        >
-          <span class="el-select__tags-text">{{ item.currentLabel }}</span>
-        </el-tag>
+        <span key="1">
+          <el-tag
+            v-for="item in selected"
+            :key="getValueKey(item)"
+            :closable="!selectDisabled"
+            :size="collapseTagSize"
+            :hit="item.hitState"
+            type="info"
+            disable-transitions
+            @close="deleteTag($event, item)"
+          >
+            <span class="el-select__tags-text">{{ item.currentLabel }}</span>
+          </el-tag>
+        </span>
       </transition-group>
       <input
         v-if="filterable"
@@ -65,8 +65,8 @@
         @keydown="resetInputState"
         @keydown.down.prevent="navigateOptions('next')"
         @keydown.up.prevent="navigateOptions('prev')"
-        @keydown.enter.prevent="selectOption"
         @keydown.esc.stop.prevent="visible = false"
+        @keydown.enter.stop.prevent="selectOption"
         @keydown.delete="deletePrevTag"
         @keydown.tab="visible = false"
         @compositionstart="handleComposition"
@@ -94,7 +94,7 @@
       @keyup="debouncedOnInputChange"
       @keydown.down.stop.prevent="navigateOptions('next')"
       @keydown.up.stop.prevent="navigateOptions('prev')"
-      @keydown.enter.prevent="selectOption"
+      @keydown.enter.stop.prevent="selectOption"
       @keydown.esc.stop.prevent="visible = false"
       @keydown.tab="visible = false"
       @paste="debouncedOnInputChange"
@@ -145,7 +145,7 @@
   </div>
 </template>
 
-<script type="ts">
+<script lang="ts">
 // import Emitter from 'element-ui/src/mixins/emitter'
 // import Focus from 'element-ui/src/mixins/focus'
 // import Locale from 'element-ui/src/mixins/locale'
@@ -159,7 +159,6 @@ import ClickOutside from '@element-plus/directives/click-outside'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { t } from '@element-plus/locale'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import { getValueByPath } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import mitt from 'mitt'
 import { useSelect } from './useSelect'
@@ -167,7 +166,7 @@ import {
   toRefs,
   defineComponent,
   onMounted,
-  onBeforeMount,
+  onBeforeUnmount,
   nextTick,
   reactive,
   provide } from 'vue'
@@ -253,7 +252,6 @@ export default defineComponent({
       inputLength: 20,
       inputWidth: 0,
       initialInputHeight: 0,
-      cachedPlaceHolder: '',
       optionsCount: 0,
       filteredOptionsCount: 0,
       visible: false,
@@ -263,7 +261,8 @@ export default defineComponent({
       query: '',
       previousQuery: null,
       inputHovering: false,
-      currentPlaceholder: '',
+      cachedPlaceHolder: '',
+      currentPlaceholder: t('el.select.placeholder'),
       menuVisibleOnFocus: false,
       isOnComposition: false,
       isSilentBlur: false,
@@ -290,7 +289,6 @@ export default defineComponent({
       iconClass,
       showNewOption,
       emptyText,
-      handleQueryChange,
       toggleLastOptionHitState,
       resetInputState,
       handleComposition,
@@ -305,12 +303,13 @@ export default defineComponent({
       toggleMenu,
       selectOption,
       getValueKey,
+      navigateOptions,
 
       reference,
       input,
       popper,
       tags,
-      trigger,
+      _select,
       scrollbar,
     } = useSelect(props, states, ctx)
 
@@ -346,14 +345,14 @@ export default defineComponent({
       onOptionDestroy,
       props,
       inputWidth,
-      trigger,
+      _select,
     })
 
     onMounted(() => {
       if (props.multiple && Array.isArray(props.value) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
       }
-      addResizeListener(trigger.value, handleResize)
+      addResizeListener(_select.value, handleResize)
       if (reference.value && reference.value.$el) {
         const sizeMap = {
           medium: 36,
@@ -374,8 +373,8 @@ export default defineComponent({
       setSelected()
     })
 
-    onBeforeMount(() => {
-      if (trigger.value && handleResize) removeResizeListener(trigger.value, handleResize)
+    onBeforeUnmount(() => {
+      if (_select.value && handleResize) removeResizeListener(_select.value, handleResize)
       states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder
     })
 
@@ -385,9 +384,6 @@ export default defineComponent({
     if (!props.multiple && Array.isArray(props.modelValue)) {
       ctx.emit(UPDATE_MODEL_EVENT, '')
     }
-    // TODO:
-    // this.$on('handleOptionClick', this.handleOptionSelect)
-    // this.$on('setSelected', this.setSelected)
     return {
       selectSize,
       readonly,
@@ -422,7 +418,6 @@ export default defineComponent({
       iconClass,
       showNewOption,
       emptyText,
-      handleQueryChange,
       toggleLastOptionHitState,
       resetInputState,
       handleComposition,
@@ -436,12 +431,13 @@ export default defineComponent({
       toggleMenu,
       selectOption,
       getValueKey,
+      navigateOptions,
 
       reference,
       input,
       popper,
       tags,
-      trigger,
+      _select,
       scrollbar,
     }
   },
