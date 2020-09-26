@@ -3,6 +3,8 @@
     {{ value1 }}
     <el-date-picker
       v-model="value1"
+      type="daterange"
+      :default-time="[new Date(2016, 9, 10, 17, 40, 1), new Date(2016, 9, 10, 0, 40, 8)]"
     />
   </div>
 </template>
@@ -11,7 +13,7 @@
 export default {
   data() {
     return {
-      value1:  new Date(2016, 9, 10, 18, 40),
+      value1: '',
       disabledDate(time) {
         return time.getTime() > Date.now()
       },

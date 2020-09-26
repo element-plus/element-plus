@@ -232,14 +232,22 @@ export default defineComponent({
         ? timeWithinRange(date, selectableRange.value, props.format || 'HH:mm:ss')
         : true
     }
+    const formatEmit = (emitDayjs: Dayjs) => {
+      if (showTime.value) return emitDayjs.millisecond(0)
+      if (defaultTime) {
+        const defaultTimeD = dayjs(defaultTime)
+        return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date())
+      }
+      return emitDayjs.startOf('day')
+    }
     const emit = (value, ...args) => {
       if (!value) {
         ctx.emit('pick', value, ...args)
       } else if (Array.isArray(value)) {
-        const dates = value.map(_ => showTime.value ? _.millisencond(0) : _.startOf('day'))
+        const dates = value.map(formatEmit)
         ctx.emit('pick', dates, ...args)
       } else {
-        ctx.emit('pick', showTime.value ? value.millisencond(0) : value.startOf('day'), ...args)
+        ctx.emit('pick', formatEmit(value), ...args)
       }
       // this.userInputDate = null
       // this.userInputTime = null
@@ -432,7 +440,7 @@ export default defineComponent({
     pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
     pickerBase.hub.emit('SetPickerOption', ['parseUserInput', parseUserInput])
-    const { shortcuts, disabledDate, cellClassName, format } = pickerBase.props
+    const { shortcuts, disabledDate, cellClassName, format, defaultTime } = pickerBase.props
     return {
       handleTimePick,
       handleTimePickClose,

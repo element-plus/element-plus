@@ -71,9 +71,10 @@ describe('DatePicker', () => {
     expect(vm.value).toBeDefined()
   })
 
-  it('clear value', async () => {
+  it('defaultTime and clear value', async () => {
     const wrapper = _mount(`<el-date-picker
         v-model="value"
+        :default-time="new Date(2011,1,1,12,0,0)"
     />`, () => ({ value: '' }))
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -83,8 +84,11 @@ describe('DatePicker', () => {
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
-    const picker = wrapper.findComponent(Picker)
-    picker.vm.showClose = true
+    expect(vm.value.getHours()).toBe(12)
+    expect(vm.value.getMinutes()).toBe(0)
+    expect(vm.value.getSeconds()).toBe(0)
+    const picker = wrapper.findComponent(Picker);
+    (picker.vm as any).showClose = true
     await nextTick();
     (picker.element.querySelector('.el-icon-circle-close') as HTMLElement).click()
     expect(vm.value).toBeNull()
@@ -126,5 +130,33 @@ describe('DatePicker', () => {
     expect(blurHandler).toHaveBeenCalledTimes(1)
     expect(onChangeValue.getTime()).toBe(new Date(2016, 9, 1).getTime())
   })
+
+  // it('nuke invalid input on close', done => {
+  //   vm = createVue({
+  //     template: '<el-date-picker v-model="value" value-format="yyyy-MM-dd" ref="compo" />',
+  //     data() {
+  //       return {
+  //         value: '2010-10-01',
+  //       }
+  //     },
+  //   }, true)
+
+  //   const compo = vm.$refs.compo
+  //   const input = compo.$el.querySelector('input')
+  //   input.blur()
+  //   input.focus()
+
+  //   setTimeout(_ => {
+  //     compo.userInput = 'abc'
+  //     compo.handleChange() // simplified test
+  //     compo.handleClose()
+  //     setTimeout(_ => {
+  //       expect(input.value).to.equal('2010-10-01')
+  //       expect(vm.value).to.equal('2010-10-01')
+  //       done()
+  //     }, DELAY)
+  //   }, DELAY)
+  // })
+
 
 })

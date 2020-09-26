@@ -376,9 +376,17 @@ export default defineComponent({
 
     const showTime = computed(() => props.type === 'datetime' || props.type === 'datetimerange')
 
+    const formatEmit = (emitDayjs: Dayjs, index?) => {
+      if (defaultTime) {
+        const defaultTimeD = dayjs(defaultTime[index] || defaultTime)
+        return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date())
+      }
+      return emitDayjs.startOf('day')
+    }
+
     const handleConfirm = (visible = false) => {
       if (isValidValue([minDate.value, maxDate.value])) {
-        ctx.emit('pick', [minDate.value, maxDate.value], visible)
+        ctx.emit('pick', [minDate.value, maxDate.value].map(formatEmit), visible)
       }
     }
 
@@ -452,7 +460,7 @@ export default defineComponent({
     const pickerBase = inject('EP_PICKER_BASE') as any
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    const { shortcuts, disabledDate, cellClassName, format } = pickerBase.props
+    const { shortcuts, disabledDate, cellClassName, format, defaultTime } = pickerBase.props
 
     return {
       shortcuts,
