@@ -19,6 +19,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, '../website-dist'),
     publicPath: '/',
+    filename: isProd ? '[name].[hash].js' : '[name].js',
   },
   stats: 'verbose',
   module: {

@@ -41,6 +41,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
+        @keydown="handleKeydown"
       >
       <!-- 前置内容 -->
       <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
@@ -223,7 +224,7 @@ export default defineComponent({
   },
 
   emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'focus', 'blur', 'clear',
-    'mouseleave', 'mouseenter'],
+    'mouseleave', 'mouseenter', 'keydown'],
 
   setup(props, ctx) {
     const instance = getCurrentInstance()
@@ -459,6 +460,10 @@ export default defineComponent({
       ctx.emit('mouseenter', e)
     }
 
+    const handleKeydown = e => {
+      ctx.emit('keydown', e)
+    }
+
     return {
       input,
       textarea,
@@ -491,6 +496,7 @@ export default defineComponent({
       getSuffixVisible,
       onMouseLeave,
       onMouseEnter,
+      handleKeydown,
     }
   },
 })
