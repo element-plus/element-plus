@@ -5,6 +5,7 @@ Upload files by clicking or drag-and-drop
 ### Click to upload files
 
 :::demo Customize upload button type and text using `slot`. Set `limit` and `on-exceed` to limit the maximum number of uploads allowed and specify method when the limit is exceeded. Plus, you can abort removing a file in the `before-remove` hook.
+
 ```html
 <el-upload
   class="upload-demo"
@@ -15,34 +16,55 @@ Upload files by clicking or drag-and-drop
   multiple
   :limit="3"
   :on-exceed="handleExceed"
-  :file-list="fileList">
+  :file-list="fileList"
+>
   <el-button size="small" type="primary">Click to upload</el-button>
-  <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {
     data() {
       return {
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
-      };
+        fileList: [
+          {
+            name: 'food.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+          {
+            name: 'food2.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+        ],
+      }
     },
     methods: {
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        console.log(file, fileList)
       },
       handlePreview(file) {
-        console.log(file);
+        console.log(file)
       },
       handleExceed(files, fileList) {
-        this.$message.warning(`The limit is 3, you selected ${files.length} files this time, add up to ${files.length + fileList.length} totally`);
+        this.$message.warning(
+          `The limit is 3, you selected ${
+            files.length
+          } files this time, add up to ${
+            files.length + fileList.length
+          } totally`,
+        )
       },
       beforeRemove(file, fileList) {
-        return this.$confirm(`Cancel the transfert of ${ file.name } ?`);
-      }
-    }
+        return this.$confirm(`Cancel the transfert of ${file.name} ?`)
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### User avatar upload
@@ -50,14 +72,16 @@ Upload files by clicking or drag-and-drop
 Use `before-upload` hook to limit the upload file format and size.
 
 :::demo
+
 ```html
 <el-upload
   class="avatar-uploader"
   action="https://jsonplaceholder.typicode.com/posts/"
   :show-file-list="false"
   :on-success="handleAvatarSuccess"
-  :before-upload="beforeAvatarUpload">
-  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+  :before-upload="beforeAvatarUpload"
+>
+  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 </el-upload>
 
@@ -70,7 +94,7 @@ Use `before-upload` hook to limit the upload file format and size.
     overflow: hidden;
   }
   .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
+    border-color: #409eff;
   }
   .avatar-uploader-icon {
     font-size: 28px;
@@ -91,29 +115,30 @@ Use `before-upload` hook to limit the upload file format and size.
   export default {
     data() {
       return {
-        imageUrl: ''
-      };
+        imageUrl: '',
+      }
     },
     methods: {
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.imageUrl = URL.createObjectURL(file.raw)
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isJPG = file.type === 'image/jpeg'
+        const isLt2M = file.size / 1024 / 1024 < 2
 
         if (!isJPG) {
-          this.$message.error('Avatar picture must be JPG format!');
+          this.$message.error('Avatar picture must be JPG format!')
         }
         if (!isLt2M) {
-          this.$message.error('Avatar picture size can not exceed 2MB!');
+          this.$message.error('Avatar picture size can not exceed 2MB!')
         }
-        return isJPG && isLt2M;
-      }
-    }
+        return isJPG && isLt2M
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Photo Wall
@@ -121,37 +146,40 @@ Use `before-upload` hook to limit the upload file format and size.
 Use `list-type` to change the fileList style.
 
 :::demo
+
 ```html
 <el-upload
   action="https://jsonplaceholder.typicode.com/posts/"
   list-type="picture-card"
   :on-preview="handlePictureCardPreview"
-  :on-remove="handleRemove">
+  :on-remove="handleRemove"
+>
   <i class="el-icon-plus"></i>
 </el-upload>
 <el-dialog :visible.sync="dialogVisible">
-  <img width="100%" :src="dialogImageUrl" alt="">
+  <img width="100%" :src="dialogImageUrl" alt="" />
 </el-dialog>
 <script>
   export default {
     data() {
       return {
         dialogImageUrl: '',
-        dialogVisible: false
-      };
+        dialogVisible: false,
+      }
     },
     methods: {
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        console.log(file, fileList)
       },
       handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      }
-    }
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Custom file thumbnail
@@ -159,17 +187,15 @@ Use `list-type` to change the fileList style.
 Use `scoped-slot` to change default thumbnail template.
 
 :::demo
+
 ```html
-<el-upload
-  action="#"
-  list-type="picture-card"
-  :auto-upload="false">
-    <i slot="default" class="el-icon-plus"></i>
-    <div slot="file" slot-scope="{file}">
-      <img
-        class="el-upload-list__item-thumbnail"
-        :src="file.url" alt=""
-      >
+<el-upload action="#" list-type="picture-card" :auto-upload="false">
+  <template #default>
+    <i class="el-icon-plus"></i>
+  </template>
+  <template #file="{file}">
+    <div>
+      <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
       <span class="el-upload-list__item-actions">
         <span
           class="el-upload-list__item-preview"
@@ -193,9 +219,10 @@ Use `scoped-slot` to change default thumbnail template.
         </span>
       </span>
     </div>
+  </template>
 </el-upload>
 <el-dialog :visible.sync="dialogVisible">
-  <img width="100%" :src="dialogImageUrl" alt="">
+  <img width="100%" :src="dialogImageUrl" alt="" />
 </el-dialog>
 <script>
   export default {
@@ -203,29 +230,31 @@ Use `scoped-slot` to change default thumbnail template.
       return {
         dialogImageUrl: '',
         dialogVisible: false,
-        disabled: false
-      };
+        disabled: false,
+      }
     },
     methods: {
       handleRemove(file) {
-        console.log(file);
+        console.log(file)
       },
       handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
       },
       handleDownload(file) {
-        console.log(file);
-      }
-    }
+        console.log(file)
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### FileList with thumbnail
 
 :::demo
+
 ```html
 <el-upload
   class="upload-demo"
@@ -233,28 +262,45 @@ Use `scoped-slot` to change default thumbnail template.
   :on-preview="handlePreview"
   :on-remove="handleRemove"
   :file-list="fileList"
-  list-type="picture">
+  list-type="picture"
+>
   <el-button size="small" type="primary">Click to upload</el-button>
-  <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">
+      jpg/png files with a size less than 500kb
+    </div>
+  </template>
 </el-upload>
 <script>
   export default {
     data() {
       return {
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
-      };
+        fileList: [
+          {
+            name: 'food.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+          {
+            name: 'food2.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+        ],
+      }
     },
     methods: {
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        console.log(file, fileList)
       },
       handlePreview(file) {
-        console.log(file);
-      }
-    }
+        console.log(file)
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### File list control
@@ -262,36 +308,48 @@ Use `scoped-slot` to change default thumbnail template.
 Use `on-change` hook function to control upload file list
 
 :::demo
+
 ```html
 <el-upload
   class="upload-demo"
   action="https://jsonplaceholder.typicode.com/posts/"
   :on-change="handleChange"
-  :file-list="fileList">
+  :file-list="fileList"
+>
   <el-button size="small" type="primary">Click to upload</el-button>
-  <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">
+      jpg/png files with a size less than 500kb
+    </div>
+  </template>
 </el-upload>
 <script>
   export default {
     data() {
       return {
-        fileList: [{
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }, {
-          name: 'food2.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }]
-      };
+        fileList: [
+          {
+            name: 'food.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+          {
+            name: 'food2.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+        ],
+      }
     },
     methods: {
       handleChange(file, fileList) {
-        this.fileList = fileList.slice(-3);
-      }
-    }
+        this.fileList = fileList.slice(-3)
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Drag to upload
@@ -299,6 +357,7 @@ Use `on-change` hook function to control upload file list
 You can drag your file to a certain area to upload it.
 
 :::demo
+
 ```html
 <el-upload
   class="upload-demo"
@@ -307,37 +366,58 @@ You can drag your file to a certain area to upload it.
   :on-preview="handlePreview"
   :on-remove="handleRemove"
   :file-list="fileList"
-  multiple>
+  multiple
+>
   <i class="el-icon-upload"></i>
   <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
-  <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">
+      jpg/png files with a size less than 500kb
+    </div>
+  </template>
 </el-upload>
 ```
+
 :::
 
 ### Manual upload
 
 :::demo
+
 ```html
 <el-upload
   class="upload-demo"
   ref="upload"
   action="https://jsonplaceholder.typicode.com/posts/"
-  :auto-upload="false">
-  <el-button slot="trigger" size="small" type="primary">select file</el-button>
-  <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload to server</el-button>
-  <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
+  :auto-upload="false"
+>
+  <template #trigger>
+    <el-button size="small" type="primary">select file</el-button>
+  </template>
+  <el-button
+    style="margin-left: 10px;"
+    size="small"
+    type="success"
+    @click="submitUpload"
+    >upload to server</el-button
+  >
+  <template #tip>
+    <div class="el-upload__tip">
+      jpg/png files with a size less than 500kb
+    </div>
+  </template>
 </el-upload>
 <script>
   export default {
     methods: {
       submitUpload() {
-        this.$refs.upload.submit();
-      }
-    }
+        this.$refs.upload.submit()
+      },
+    },
   }
 </script>
 ```
+
 :::
 
 ### Attributes
