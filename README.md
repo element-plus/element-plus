@@ -9,7 +9,7 @@
 
 This project is still under heavy development. Feel free to join us and make your first pull request.
 
-Sandbox template to experiment -> https://codesandbox.io/s/element-plus-ncxnt
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-ncxnt?fontsize=14&hidenavigation=1&theme=dark)
 
 ---
 
