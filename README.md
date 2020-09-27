@@ -22,8 +22,6 @@ $ yarn bootstrap
 ```
 the project will install all dependencies and run `lerna bootstrap` to initialize the project
 
-## Sandbox to experiment
-
 
 ## Website preview
 With command
