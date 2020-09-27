@@ -26,12 +26,14 @@ export const useSelect = (props, states, ctx) => {
   const input = ref(null)
   const popper = ref(null)
   const tags = ref(null)
-  const _select = ref(null)
+  const selectWrapper = ref(null)
   const scrollbar = ref(null)
   const hoverOption = ref(-1)
 
+  // inject
   const elForm = inject<any>('elForm', {})
   const elFormItem = inject<any>('elFormItem', {})
+
   // computed
   const _elFormItemSize = computed(() => (elFormItem || {}).elFormItemSize)
 
@@ -84,6 +86,8 @@ export const useSelect = (props, states, ctx) => {
 
   const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
 
+  const dropMenuVisible = computed(() => states.visible && states.emptyText !== false)
+
   // watch
   watch(() => selectDisabled.value, () => {
     nextTick(() => {
@@ -121,7 +125,7 @@ export const useSelect = (props, states, ctx) => {
   watch(() => states.visible, val => {
     if (!val) {
       // TODO:
-      // this.broadcast('ElSelectDropdown', 'destroyPopper')
+      // doDestroy()
       input.value && input.value.blur()
       states.query = ''
       states.previousQuery = null
@@ -151,7 +155,8 @@ export const useSelect = (props, states, ctx) => {
       }
     } else {
       // TODO:
-      // this.broadcast('ElSelectDropdown', 'updatePopper')
+      // popper.value.update()
+
       if (props.filterable) {
         states.query = props.remote ? '' : states.selectedLabel
         handleQueryChange(states.query)
@@ -160,8 +165,7 @@ export const useSelect = (props, states, ctx) => {
         } else {
           if (!props.remote) {
             states.selectEmitter.emit('elOptionQueryChange', '')
-            // TODO:
-            // this.broadcast('ElOptionGroup', 'queryChange')
+            states.selectEmitter.emit('elOptionGroupQueryChange')
           }
 
           if (states.selectedLabel) {
@@ -176,14 +180,12 @@ export const useSelect = (props, states, ctx) => {
 
   watch(() => states.options, () => {
     if (isServer) return
-    // TODO:
-    nextTick(() => {
-      this.broadcast('ElSelectDropdown', 'updatePopper')
-    })
+    // TODO: updatePopper
+    // popper.value.update()
     if (props.multiple) {
       resetInputHeight()
     }
-    const inputs = _select.value.querySelectorAll('input')
+    const inputs = selectWrapper.value.querySelectorAll('input')
     if ([].indexOf.call(inputs, document.activeElement) === -1) {
       setSelected()
     }
@@ -218,7 +220,7 @@ export const useSelect = (props, states, ctx) => {
           sizeInMap) + 'px'
       if (states.visible && emptyText.value !== false) {
         // TODO: updatePopper
-        // this.broadcast('ElSelectDropdown', 'updatePopper')
+        // popper.value.update?.()
       }
     })
   }
@@ -235,7 +237,7 @@ export const useSelect = (props, states, ctx) => {
     states.previousQuery = val
     nextTick(() => {
       // TODO: updatePopper
-      // if (visible.value) this.broadcast('ElSelectDropdown', 'updatePopper')
+      // if (states.visible) popper.value.update()
     })
     states.hoverIndex = -1
     if (props.multiple && props.filterable) {
@@ -251,13 +253,11 @@ export const useSelect = (props, states, ctx) => {
       props.remoteMethod(val)
     } else if (typeof props.filterMethod === 'function') {
       props.filterMethod(val)
-      // TODO:
-      // this.broadcast('ElOptionGroup', 'queryChange')
+      states.selectEmitter.emit('elOptionGroupQueryChange')
     } else {
       states.filteredOptionsCount = states.optionsCount
       states.selectEmitter.emit('elOptionQueryChange', val)
-      // TODO:
-      // this.broadcast('ElOptionGroup', 'queryChange')
+      states.selectEmitter.emit('elOptionGroupQueryChange')
     }
     if (props.defaultFirstOption && (props.filterable || props.remote) && states.filteredOptionsCount) {
       checkDefaultFirstOption()
@@ -395,18 +395,18 @@ export const useSelect = (props, states, ctx) => {
     handleQueryChange(e.target.value)
   }, debounce.value)
 
+  const emitChange = val => {
+    if (!isEqual(props.modelValue, val)) {
+      ctx.emit('change', val)
+    }
+  }
+
   const deletePrevTag = e => {
     if (e.target.value.length <= 0 && !toggleLastOptionHitState(false)) {
       const value = props.modelValue.slice()
       value.pop()
       ctx.emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
-    }
-  }
-
-  const emitChange = val => {
-    if (!isEqual(props.modelValue, val)) {
-      ctx.emit('change', val)
     }
   }
 
@@ -493,7 +493,7 @@ export const useSelect = (props, states, ctx) => {
       const menu = popper.value.$el.querySelector('.el-select-dropdown__wrap')
       scrollIntoView(menu, target)
     }
-    // TODO:
+    // TODO: handleScroll
     // scrollbar.value?.handleScroll()
   }
 
@@ -575,7 +575,8 @@ export const useSelect = (props, states, ctx) => {
   }
 
   const doDestroy = () => {
-    popper.value?.doDestroy()
+    // TODO: destroy
+    // popper.value?.doDestroy()
   }
 
   const handleClose = () => {
@@ -680,13 +681,14 @@ export const useSelect = (props, states, ctx) => {
     selectOption,
     getValueKey,
     navigateOptions,
+    dropMenuVisible,
 
     // DOM ref
     reference,
     input,
     popper,
     tags,
-    _select,
+    selectWrapper,
     scrollbar,
   }
 }

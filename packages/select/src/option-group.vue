@@ -13,6 +13,7 @@
 import {
   defineComponent,
   provide,
+  inject,
   ref,
 } from 'vue'
 
@@ -35,23 +36,16 @@ export default defineComponent({
       ...props,
     })
 
-    // TODO: queryChange还没实现
+    const select = inject('Select', {}) as any
+
+    const queryChange = () => {
+      visible.value = select.options.value && select.options.value.some(option => option.visible === true )
+    }
+    select.selectEmitter.on('elOptionGroupQueryChange', queryChange)
 
     return {
       visible,
     }
   },
-
-  // methods: {
-  //   queryChange() {
-  //     this.visible = this.$children &&
-  //       Array.isArray(this.$children) &&
-  //       this.$children.some(option => option.visible === true);
-  //   }
-  // },
-
-  // created() {
-  //   this.$on('queryChange', this.queryChange);
-  // },
 })
 </script>

@@ -188,7 +188,9 @@ describe('Select', () => {
         },
       },
     })
-    const options = wrapper.findAll('.el-select-dropdown__item')
+
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = wrapper.findComponent({ name: 'ElSelect' }).findComponent({ ref: 'popper' }).findAll('.el-select-dropdown__item')
     const vm = wrapper.vm as any
     expect(vm.value).toBe('')
     options[2].trigger('click')
@@ -202,9 +204,10 @@ describe('Select', () => {
   test('disabled option', async() => {
     const wrapper = getSelectVm()
     const vm = wrapper.vm as any
+    wrapper.find('.select-trigger').trigger('click')
     vm.options[1].disabled = true
     await vm.$nextTick()
-    const options = wrapper.findAll('.el-select-dropdown__item')
+    const options = wrapper.findComponent({ name: 'ElSelect' }).findComponent({ ref: 'popper' }).findAll('.el-select-dropdown__item')
     expect(options[1].classes()).toContain('is-disabled')
     options[1].trigger('click')
     await vm.$nextTick()
@@ -286,7 +289,7 @@ describe('Select', () => {
     selectVm.selectedLabel = 'new'
     selectVm.debouncedOnInputChange()
     await selectVm.$nextTick()
-    const options = wrapper.findAll('.el-select-dropdown__item span')
+    const options = wrapper.findComponent({ name: 'ElSelect' }).findComponent({ ref: 'popper' }).findAll('.el-select-dropdown__item span')
     const target = options.filter(option => option.text() === 'new')
     await target[0].trigger('click')
     expect((wrapper.vm as any).value).toBe('new')
@@ -294,7 +297,8 @@ describe('Select', () => {
 
   test('multiple select', async () => {
     const wrapper = getSelectVm({ multiple: true })
-    const options = wrapper.findAll('.el-select-dropdown__item')
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = wrapper.findComponent({ name: 'ElSelect' }).findComponent({ ref: 'popper' }).findAll('.el-select-dropdown__item')
     const vm = wrapper.vm as any
     vm.value = ['选项1']
     vm.$nextTick()
@@ -358,46 +362,12 @@ describe('Select', () => {
   test('multiple limit', async () => {
     const wrapper = getSelectVm({ multiple: true, multipleLimit: 1 })
     const vm = wrapper.vm as any
-    const options = wrapper.findAll('.el-select-dropdown__item')
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = wrapper.findComponent({ name: 'ElSelect' }).findComponent({ ref: 'popper' }).findAll('.el-select-dropdown__item')
     await options[1].trigger('click')
     expect(vm.value.indexOf('选项2') > -1).toBe(true)
     await options[3].trigger('click')
     expect(vm.value.indexOf('选项4')).toBe(-1)
-  })
-
-  test('multiple remote search', async done => {
-    const wrapper = getSelectVm({
-      multiple: true,
-      remote: true,
-      filterable: true,
-    })
-    const vm = wrapper.vm as any
-    wrapper.setProps({ remoteMethod: async query => {
-      vm.loading = true
-      await vm.$nextTick()
-      vm.options = vm.options.filter(option => {
-        return option.label.indexOf(query) > -1
-      })
-      vm.loading = false
-    },
-    })
-
-    const select = wrapper.findComponent({ name: 'ElSelect' })
-    const selectVm = select.vm as any
-    selectVm.debouncedQueryChange({ target: { value: '' } })
-    selectVm.debouncedQueryChange({ target: { value: '面' } })
-
-    setTimeout(async () => {
-      expect(selectVm.filteredOptionsCount).toBe(1)
-      const options = selectVm.options.filter(option => option.visible)
-      options[0].$el.click()
-      expect(vm.value[0]).toBe('选项4')
-      selectVm.deletePrevTag({ target: selectVm.input })
-      selectVm.resetInputState({ keyCode: 1 })
-      await selectVm.$nextTick()
-      expect(vm.value.length).toBe(0)
-      done()
-    }, 200)
   })
 
   test('event:focus & blur', async done => {
@@ -421,25 +391,6 @@ describe('Select', () => {
       done()
     }, 70)
   })
-
-  // TODO:
-  // test('should return focus to input inside select after option select', async done => {
-  //   const selectFocus = jest.fn()
-  //   const wrapper = _mount(`<el-select
-  //     @focus="selectFocus"
-  //     v-model="value"
-  //     ref="select">
-  //       <el-option label="1" value="1" />
-  //     </el-select>`,
-  //   () => ({
-  //     value: '',
-  //     selectFocus,
-  //   }))
-  //   const option = wrapper.find('.el-select-dropdown__item')
-  //   expect(option.exists()).toBe(true)
-  //   await option.trigger('click')
-  //   expect(selectFocus).toHaveBeenCalled()
-  // })
 
   test('should not open popper when automatic-dropdown not set', async () => {
     const wrapper = getSelectVm()
@@ -471,12 +422,13 @@ describe('Select', () => {
     }))
 
     expect(callCount).toBe(0)
-    const options = wrapper.findAll('.el-select-dropdown__item')
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = wrapper.findComponent({ name: 'ElSelect' }).findComponent({ ref: 'popper' }).findAll('.el-select-dropdown__item')
     await options[2].trigger('click')
     expect(callCount).toBe(1)
   })
 
-  test('render slot `empty`', () => {
+  test('render slot `empty`', async () => {
     const wrapper = _mount(`
       <el-select v-model="value">
         <div class="empty-slot" slot="empty">EmptySlot</div>
@@ -484,7 +436,8 @@ describe('Select', () => {
     () => ({
       value: '1',
     }))
-    expect(wrapper.find('.empty-slot').text()).toBe('EmptySlot')
+    await wrapper.find('.select-trigger').trigger('click')
+    expect(wrapper.findComponent({ name: 'ElSelect' }).findComponent({ ref: 'popper' }).find('.empty-slot').text()).toBe('EmptySlot')
   })
 
   test('should set placeholder to label of selected option when filterable is true and multiple is false', async() => {
