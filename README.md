@@ -9,6 +9,8 @@
 
 This project is still under heavy development. Feel free to join us and make your first pull request.
 
+Sandbox template to experiment -> https://codesandbox.io/s/element-plus-ncxnt
+
 ---
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody <a href="https://discord.link/ElementPlus" target="_blank" rel="noreferrer noopener" align="center"> ![Discord](https://discord.com/api/guilds/746641026239954954/widget.png?style=shield)</a>
@@ -19,6 +21,9 @@ With command
 $ yarn bootstrap
 ```
 the project will install all dependencies and run `lerna bootstrap` to initialize the project
+
+## Sandbox to experiment
+
 
 ## Website preview
 With command
