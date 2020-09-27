@@ -22,7 +22,6 @@ $ yarn bootstrap
 ```
 the project will install all dependencies and run `lerna bootstrap` to initialize the project
 
-
 ## Website preview
 With command
 ```bash
