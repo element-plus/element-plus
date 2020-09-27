@@ -5,18 +5,18 @@ export default () => {
   const ELEMENT = null
   const elForm = inject('elForm', {})
   const elFormItem = inject('elFormItem', {})
-  const _radioGroup = inject('RadioGroup', {}) as any
+  const radioGroup_ = inject('RadioGroup', {}) as any
   const focus = ref(false)
-  const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
-  const _elFormItemSize = computed(() => {
+  const isGroup = computed(() => radioGroup_ && radioGroup_.name === 'ElRadioGroup')
+  const elFormItemSize_ = computed(() => {
     return (elFormItem || {} as any).elFormItemSize
   })
   return {
     isGroup,
     focus,
-    _radioGroup,
+    radioGroup_,
     elForm,
     ELEMENT,
-    _elFormItemSize,
+    elFormItemSize_,
   }
 }

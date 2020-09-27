@@ -3,10 +3,11 @@
   <!-- todo popper custom popper-class  -->
   <!-- todo bug handleKeydown event twice  -->
   <el-popper
-    effect="light"
-    manual-mode
-    :value="pickerVisible"
+    v-model:visible="pickerVisible"
     pure
+    manual-mode
+    effect="light"
+    trigger="click"
   >
     <template #trigger>
       <el-input
@@ -126,7 +127,7 @@ import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '@element-plus/input/src/index.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import mitt from 'mitt'
 // Date object and string
 const dateEquals = function(a, b) {
@@ -390,11 +391,7 @@ export default defineComponent({
         showClose.value = true
       }
     }
-    const onMouseLeave = e => {
-      if (e.relatedTarget && e.relatedTarget.className.includes('icon')) {
-        // if not el-icon then close
-        return
-      }
+    const onMouseLeave = () => {
       showClose.value = false
     }
     const isRangeInput = computed(() => {
@@ -420,7 +417,7 @@ export default defineComponent({
         const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
-            emitInput(value)
+            emitInput(value.toDate())
             userInput.value = null
           }
         }
@@ -449,15 +446,15 @@ export default defineComponent({
     }
 
     const handleKeydown = event => {
-      const keyCode = event.keyCode
+      const code = event.code
 
-      if (keyCode === eventKeys.esc) {
+      if (code === EVENT_CODE.esc) {
         pickerVisible.value = false
         event.stopPropagation()
         return
       }
 
-      if (keyCode === eventKeys.tab) {
+      if (code === EVENT_CODE.tab) {
         if (!isRangeInput.value) {
           handleChange()
           pickerVisible.value = false
@@ -474,7 +471,7 @@ export default defineComponent({
         return
       }
 
-      if (keyCode === eventKeys.enter) {
+      if (code === EVENT_CODE.enter) {
         if (userInput.value === '' || isValidValue(parseUserInputToDayjs(displayValue.value))) {
           handleChange()
           pickerVisible.value = false
@@ -494,7 +491,7 @@ export default defineComponent({
       }
     }
     const onUserInput = e => {
-      userInput.value = e.target.value
+      userInput.value = e
     }
 
     const handleStartInput = event => {

@@ -56,7 +56,7 @@ interface IButtonProps {
 type EmitFn = (evt: Event) => void
 
 interface IButtonSetups {
-  _elFormItemSize: number
+  elFormItemSize_: number
   buttonSize: string
   buttonDisabled: boolean
   handleClick: EmitFn
@@ -107,18 +107,18 @@ export default defineComponent({
 
   emits: ['click'],
 
-  setup(props, ctx): IButtonSetups {
+  setup(props, ctx) {
     // inject
     const elForm = inject<ElForm>('elForm', {} as any)
     const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
 
     // computed
-    const _elFormItemSize = computed(() => {
+    const elFormItemSize_ = computed(() => {
       return (elFormItem || {}).elFormItemSize
     })
     const buttonSize = computed(() => {
       // todo ELEMENT
-      return props.size || _elFormItemSize.value || (ELEMENT || {}).size
+      return props.size || elFormItemSize_.value || (ELEMENT || {}).size
     })
     const buttonDisabled = computed(() => {
       return props.disabled || (elForm || {}).disabled
@@ -130,7 +130,6 @@ export default defineComponent({
     }
 
     return {
-      _elFormItemSize,
       buttonSize,
       buttonDisabled,
       handleClick,

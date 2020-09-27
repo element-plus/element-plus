@@ -19,10 +19,10 @@
     <el-popper
       v-if="showTooltip"
       ref="tooltip"
+      v-model:visible="tooltipVisible"
       placement="top"
       :popper-class="tooltipClass"
       manual-mode
-      :value="tooltipVisible"
     >
       <template #default>{{ formatValue }}</template>
       <template #trigger>

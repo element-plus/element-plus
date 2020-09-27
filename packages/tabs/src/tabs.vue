@@ -1,6 +1,7 @@
 <script lang='ts'>
 import { h, defineComponent, ref, onMounted, onUpdated, provide, watch, nextTick, getCurrentInstance, ComputedRef, PropType, Ref, ComponentInternalInstance, VNode, Component } from 'vue'
 import { Fragment } from '@vue/runtime-core'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import TabNav from './tab-nav.vue'
 
 type RefElement = Nullable<HTMLElement>
@@ -227,7 +228,7 @@ export default defineComponent({
         class: 'el-tabs__new-tab',
         tabindex: '0',
         onClick: handleTabAdd,
-        onKeydown: ev => { if (ev.keyCode === 13) { handleTabAdd() }},
+        onKeydown: ev => { if (ev.code === EVENT_CODE.enter) { handleTabAdd() }},
       },
       [h('i', { class: 'el-icon-plus' })],
     ) : null

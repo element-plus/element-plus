@@ -4,16 +4,29 @@ import {
   onActivated,
   onBeforeUnmount,
   onDeactivated,
+  onMounted,
   onUpdated,
   watch,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 
-import { generateId, clearTimer, isBool, isHTMLElement } from '@element-plus/utils/util'
+import {
+  generateId,
+  clearTimer,
+  isBool,
+  isHTMLElement,
+  isArray,
+  isString,
+} from '@element-plus/utils/util'
 
 import useModifier from './useModifier'
 
-import type { IPopperOptions, RefElement, PopperInstance } from './popper'
+import type {
+  IPopperOptions,
+  RefElement,
+  PopperInstance,
+  TriggerType,
+} from './popper'
 import type { ComponentPublicInstance, SetupContext } from 'vue'
 
 export const DEFAULT_TRIGGER = ['hover']
@@ -29,9 +42,6 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
   const popperRef = ref<RefElement>(null)
   const timeout = ref<TimeoutHandle>(null)
   const timeoutPending = ref<TimeoutHandle>(null)
-  const excludes = computed(() => {
-    return triggerRef.value
-  })
 
   const triggerFocused = ref(false)
 
@@ -51,7 +61,6 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
     }
   })
 
-
   const _visible = ref(false)
   // visible has been taken by props.visible, avoiding name collision
   const visibility = computed(() => {
@@ -68,11 +77,15 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
         _hide()
       }, props.hideAfter)
     }
-    isBool(props.visible) ? emit(UPDATE_VISIBLE_EVENT, true) : _visible.value = true
+    isBool(props.visible)
+      ? emit(UPDATE_VISIBLE_EVENT, true)
+      : (_visible.value = true)
   }
 
   function _hide() {
-    isBool(props.visible) ? emit(UPDATE_VISIBLE_EVENT, false) : _visible.value = false
+    isBool(props.visible)
+      ? emit(UPDATE_VISIBLE_EVENT, false)
+      : (_visible.value = false)
   }
 
   function clearTimers() {
@@ -125,7 +138,18 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
   }
 
   function onPopperMouseLeave() {
-    if (props.trigger.length === 1 && props.trigger[0] === 'click') return
+    const { trigger } = props
+    const shouldPrevent =
+      (isString(trigger) && (trigger === 'click' || trigger === 'focus')) ||
+      // we'd like to test array type trigger here, but the only case we need to cover is trigger === 'click' or
+      // trigger === 'focus', because that when trigger is string
+      // trigger.length === 1 and trigger[0] === 5 chars string is mutually exclusive.
+      // so there will be no need to test if trigger is array type.
+      (trigger.length === 1 &&
+        (trigger[0] === 'click' || trigger[0] === 'focus'))
+
+    if (shouldPrevent) return
+
     onHide()
   }
 
@@ -140,7 +164,9 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
     const _trigger = isHTMLElement(triggerRef.value)
       ? triggerRef.value
       : (triggerRef.value as ComponentPublicInstance).$el
-    popperInstance.value = createPopper(_trigger, popperRef.value,
+    popperInstance.value = createPopper(
+      _trigger,
+      popperRef.value,
       props.popperOptions !== null
         ? props.popperOptions
         : {
@@ -150,7 +176,8 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
           },
           strategy: popperOptions.value.strategy,
           modifiers: useModifier(popperOptions.value.modifierOptions),
-        })
+        },
+    )
   }
 
   function doDestroy(forceDestroy: boolean) {
@@ -214,7 +241,7 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
       }
     }
 
-    Object.values(props.trigger).map(t => {
+    const mapEvents = (t: TriggerType) => {
       switch (t) {
         case 'click': {
           events.onClick = popperEventsHandler
@@ -234,9 +261,22 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
           break
         }
       }
-    })
+    }
+    if (isArray(props.trigger)) {
+      Object.values(props.trigger).map(mapEvents)
+    } else {
+      mapEvents(props.trigger)
+    }
   }
 
+  const transitionEmitters = {
+    onAfterEnter: () => {
+      emit('after-enter')
+    },
+    onAfterLeave: () => {
+      emit('after-leave')
+    },
+  }
   watch(popperOptions, val => {
     if (!popperInstance.value) return
     popperInstance.value.setOptions({
@@ -247,27 +287,23 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
     popperInstance.value.update()
   })
 
-  watch(visibility,
-    () => {
-      if (popperInstance.value) {
-        popperInstance.value.update()
-      } else {
-        initializePopper()
-      }
-    },
-  )
+  watch(visibility, () => {
+    if (popperInstance.value) {
+      popperInstance.value.update()
+    } else {
+      initializePopper()
+    }
+  })
+
+  onMounted(initializePopper)
+
+  onUpdated(initializePopper)
 
   onBeforeUnmount(() => {
     doDestroy(true)
   })
 
-  onActivated(() => {
-    initializePopper()
-  })
-
-  onUpdated(() => {
-    initializePopper()
-  })
+  onActivated(initializePopper)
 
   onDeactivated(() => {
     doDestroy(true)
@@ -281,7 +317,6 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
     onPopperMouseLeave,
     initializePopper,
     arrowRef,
-    excludes,
     events,
     popperId,
     popperInstance,
@@ -289,5 +324,6 @@ export default (props: IPopperOptions, { emit }: SetupContext) => {
     triggerRef,
     triggerId,
     visibility,
+    transitionEmitters,
   }
 }
