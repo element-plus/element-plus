@@ -19,7 +19,7 @@
 import {
   toRefs,
   defineComponent,
-  getCurrentInstance,
+  // getCurrentInstance,
   onBeforeUnmount,
   reactive } from 'vue'
 import { useOption } from './useOption'
@@ -63,19 +63,19 @@ export default defineComponent({
       hover,
     } = toRefs(states)
 
-    const instance = getCurrentInstance()
+    // const instance = getCurrentInstance()
 
     onBeforeUnmount(() => {
-      const { selected, multiple } = select
-      let selectedOptions = multiple ? selected : [selected]
-      let index = select.cachedOptions.value.indexOf(instance)
-      let selectedIndex = selectedOptions?.indexOf(instance)
+      // const { selected, multiple } = select
+      // let selectedOptions = multiple ? selected : [selected]
+      // let index = select.cachedOptions.value.indexOf(instance)
+      // let selectedIndex = selectedOptions?.indexOf(instance)
 
       // if option is not selected, remove it from cache
-      if (index > -1 && selectedIndex < 0) {
-        select.cachedOptions.value.splice(index, 1)
-      }
-      select.onOptionDestroy(select.options.value.indexOf(this))
+      // if (index > -1 && selectedIndex < 0) {
+      //   select.cachedOptions.value.splice(index, 1)
+      // }
+      select.onOptionDestroy(select.options.value.map(item => item.value).indexOf(props.value))
     })
 
 

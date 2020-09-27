@@ -97,7 +97,6 @@ export const useSelect = (props, states, ctx) => {
 
   watch(() => props.placeholder, val => {
     states.cachedPlaceHolder = states.currentPlaceholder = val
-    console.log('states.cachedPlaceHolder: ', states.cachedPlaceHolder)
   })
 
   watch(() => props.modelValue, (val, oldVal) => {
@@ -106,6 +105,7 @@ export const useSelect = (props, states, ctx) => {
       if ((val && val.length > 0) || (input.value && states.query !== '')) {
         states.currentPlaceholder = ''
       } else {
+        console.log('cachedPlaceHolder-----', states.cachedPlaceHolder)
         states.currentPlaceholder = states.cachedPlaceHolder
       }
       if (props.filterable && !props.reserveKeyword) {
@@ -402,7 +402,7 @@ export const useSelect = (props, states, ctx) => {
   }
 
   const deletePrevTag = e => {
-    if (e.target.value.length <= 0 && !toggleLastOptionHitState(false)) {
+    if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
       const value = props.modelValue.slice()
       value.pop()
       ctx.emit(UPDATE_MODEL_EVENT, value)
@@ -511,7 +511,7 @@ export const useSelect = (props, states, ctx) => {
     resetInputHeight()
   }
 
-  const toggleLastOptionHitState = hit => {
+  const toggleLastOptionHitState = (hit?: boolean) => {
     if (!Array.isArray(states.selected)) return
     const option = states.selected[states.selected.length - 1]
     if (!option) return

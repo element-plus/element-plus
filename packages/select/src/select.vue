@@ -1,7 +1,6 @@
 <template>
   <div
     ref="selectWrapper"
-    v-clickOutside:[selectWrapper]="handleClose"
     class="el-select"
     :class="[selectSize ? 'el-select--' + selectSize : '']"
     @click.stop="toggleMenu"
@@ -47,8 +46,9 @@
                 <span class="el-select__tags-text">+ {{ selected.length - 1 }}</span>
               </el-tag>
             </span>
+            <!-- <div> -->
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
-              <span key="1">
+              <span>
                 <el-tag
                   v-for="item in selected"
                   :key="getValueKey(item)"
@@ -63,7 +63,7 @@
                 </el-tag>
               </span>
             </transition>
-            <div style="border: 1px solid red;">{{ query }}</div>
+            <!-- </div> -->
             <input
               v-if="filterable"
               ref="input"
@@ -135,6 +135,7 @@
           <el-select-menu
             v-show="visible && emptyText !== false"
             ref="popper"
+            v-clickOutside="handleClose"
           >
             <el-scrollbar
               v-show="options.length > 0 && !loading"
@@ -366,6 +367,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
+      states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder
       if (props.multiple && Array.isArray(props.value) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
       }
@@ -392,7 +394,6 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       if (selectWrapper.value && handleResize) removeResizeListener(selectWrapper.value, handleResize)
-      states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder
     })
 
     if (props.multiple && !Array.isArray(props.modelValue)) {
