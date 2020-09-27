@@ -290,11 +290,22 @@ export default defineComponent({
       return value.format(props.format)
     }
 
+    const getDefaultValue = () => {
+      if (Array.isArray(defaultValue)) {
+        return defaultValue.map(_=> dayjs(_))
+      }
+      return [
+        dayjs(defaultValue),
+        dayjs(defaultValue).add(60,'m'),
+      ]
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.hub.emit('SetPickerOption',['formatToString', formatToString])
     pickerBase.hub.emit('SetPickerOption',['parseUserInput', parseUserInput])
     pickerBase.hub.emit('SetPickerOption',['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
+    pickerBase.hub.emit('SetPickerOption',['getDefaultValue', getDefaultValue])
     pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])
 
     const timePickeOptions = {} as any
@@ -303,7 +314,7 @@ export default defineComponent({
       timePickeOptions[e[0]] = e[1]
     })
 
-    const { disabledHours, disabledMinutes, disabledSeconds } = pickerBase.props
+    const { disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
 
     provide('EP_TIMEPICK_PANEL', {
       hub: pickerHub,

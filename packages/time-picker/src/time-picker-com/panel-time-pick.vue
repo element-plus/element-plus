@@ -181,19 +181,28 @@ export default defineComponent({
       return value.format(props.format)
     }
 
+    const getDefaultValue = () => {
+      // result = dayjs(props.defaultValue as Date)
+      //     if (props.type === 'dates') {
+      //       result = []
+      //     }
+      return dayjs(defaultValue)
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
     pickerBase.hub.emit('SetPickerOption', ['parseUserInput', parseUserInput])
     pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
     pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])
+    pickerBase.hub.emit('SetPickerOption',['getDefaultValue', getDefaultValue])
     const timePickeOptions = {} as any
     const pickerHub = mitt()
     pickerHub.on('SetOption', e => {
       timePickeOptions[e[0]] = e[1]
     })
 
-    const { disabledHours, disabledMinutes, disabledSeconds } = pickerBase.props
+    const { disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
     const {
       getAvaliableHours,
       getAvaliableMinutes,

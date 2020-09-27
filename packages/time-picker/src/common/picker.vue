@@ -166,6 +166,7 @@ interface PickerOptions {
   parseUserInput: any
   formatToString: any
   getRangeAvaliableTime: any
+  getDefaultValue: any
   panelReady: boolean
 }
 export default defineComponent({
@@ -332,35 +333,18 @@ export default defineComponent({
     })
 
     const parsedValue = computed(() => {
+      if (!pickerOptions.value.panelReady) return
       let result
-      if (isRangeInput.value) {
-        if (!props.modelValue) {
-          // todo set default
-          if (Array.isArray(props.defaultValue)) {
-            result = (props.defaultValue as Array<Date>).map(_=> dayjs(_))
-          } else {
-            result = [
-              dayjs(props.defaultValue as Date),
-              dayjs(props.defaultValue as Date).add(60,'m'),
-            ]
-          }
-        } else {
-          result = (props.modelValue as Array<Date>).map(_=> dayjs(_))
-        }
+      if (!props.modelValue) {
+        result = pickerOptions.value.getDefaultValue()
       } else {
-        if (!props.modelValue) {
-          result = dayjs(props.defaultValue as Date)
-          if (props.type === 'dates') {
-            result = []
-          }
+        if (Array.isArray(props.modelValue)) {
+          result = props.modelValue.map(_=>dayjs(_))
         } else {
-          if (Array.isArray(props.modelValue)) {
-            result = props.modelValue.map(_=>dayjs(_))
-          } else {
-            result = dayjs(props.modelValue as Date)
-          }
+          result = dayjs(props.modelValue as Date)
         }
       }
+
       if (pickerOptions.value.getRangeAvaliableTime) {
         result = pickerOptions.value.getRangeAvaliableTime(result)
       }

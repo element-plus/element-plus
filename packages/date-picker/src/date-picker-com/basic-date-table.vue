@@ -371,9 +371,9 @@ export default defineComponent({
 
       newDate = newDate.date(parseInt(cell.text, 10))
 
-      if (props.date) {
-        const dayOffset = (props.date.day() - firstDayOfWeek + 7) % 7 - 1
-        const weekDate = props.date.subtract(dayOffset, 'day')
+      if (props.parsedValue && !Array.isArray(props.parsedValue)) {
+        const dayOffset = (props.parsedValue.day() - firstDayOfWeek + 7) % 7 - 1
+        const weekDate = props.parsedValue.subtract(dayOffset, 'day')
         return weekDate.isSame(newDate, 'day')
       }
       return false

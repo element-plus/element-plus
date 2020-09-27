@@ -341,16 +341,12 @@ export default defineComponent({
     const hasShortcuts = computed(() => !!shortcuts.length)
 
     const handleMonthPick = month => {
+      innerDate.value = innerDate.value.startOf('month').month(month)
       if (selectionMode.value === 'month') {
-        innerDate.value = innerDate.value.startOf('month').month(month)
         emit(innerDate.value)
+      } else {
+        currentView.value = 'date'
       }
-      // else {
-      //   innerDate.value = changeYearMonthAndClampDate(innerDate.value, year.value, month)
-      // TODO: should emit intermediate value ??
-      // this.emit(this.date);
-      // currentView = 'date'
-      // }
     }
 
     const handleYearPick = year => {
@@ -358,16 +354,18 @@ export default defineComponent({
         innerDate.value = innerDate.value.startOf('year').year(year)
         emit(innerDate.value)
       }
-      // else {
-      //   this.date = changeYearMonthAndClampDate(this.date, year, this.month)
-      //   // TODO: should emit intermediate value ??
-      //   // this.emit(this.date, true);
-      //   this.currentView = 'month'
-      // }
+      else {
+        innerDate.value = innerDate.value.year(year)
+        currentView.value = 'month'
+      }
     }
 
     const showMonthPicker = () => {
       currentView.value = 'month'
+    }
+
+    const showYearPicker = () => {
+      currentView.value = 'year'
     }
 
     const showTime = computed(() => props.type === 'datetime' || props.type === 'datetimerange')
@@ -436,11 +434,19 @@ export default defineComponent({
       return dayjs(value, format)
     }
 
+    const getDefaultValue = () => {
+      if (props.type === 'dates') {
+        return []
+      }
+      return dayjs(defaultValue)
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
     pickerBase.hub.emit('SetPickerOption', ['parseUserInput', parseUserInput])
-    const { shortcuts, disabledDate, cellClassName, format, defaultTime } = pickerBase.props
+    pickerBase.hub.emit('SetPickerOption',['getDefaultValue', getDefaultValue])
+    const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue } = pickerBase.props
     return {
       handleTimePick,
       handleTimePickClose,
@@ -455,6 +461,7 @@ export default defineComponent({
       footerVisible,
       handleYearPick,
       showMonthPicker,
+      showYearPicker,
       handleMonthPick,
       hasShortcuts,
       shortcuts,
@@ -574,10 +581,6 @@ export default defineComponent({
   //   // resetDate() {
   //   //   this.date = new Date(this.date);
   //   // },
-
-  //   showYearPicker() {
-  //     this.currentView = 'year'
-  //   },
 
   //   resetView() {
   //     if (this.selectionMode === 'month') {
