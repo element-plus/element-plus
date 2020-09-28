@@ -46,6 +46,7 @@
 </template>
 <script>
 import { nextTick } from 'vue'
+import hljs from 'highlight.js'
 import compoLang from '../i18n/component.json'
 import { stripScript, stripStyle, stripTemplate } from '../util'
 const version = '1.0.0' // element version
@@ -141,6 +142,12 @@ export default {
       if (this.$el.getElementsByClassName('description').length === 0) {
         highlight.style.width = '100%'
         highlight.borderRight = 'none'
+      }
+
+      try {
+        hljs.highlightBlock(highlight.querySelector('code'))
+      } catch (error) {
+        console.log(error)
       }
     })
   },
