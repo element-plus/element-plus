@@ -122,7 +122,6 @@
             <date-table
               selection-mode="range"
               :date="leftDate"
-              :default-value="defaultValue"
               :min-date="minDate"
               :max-date="maxDate"
               :range-state="rangeState"
@@ -166,7 +165,6 @@
             <date-table
               selection-mode="range"
               :date="rightDate"
-              :default-value="defaultValue"
               :min-date="minDate"
               :max-date="maxDate"
               :range-state="rangeState"
@@ -445,7 +443,7 @@ export default defineComponent({
       } else {
         start = dayjs()
       }
-      return [start, start.add(1, 'day')]
+      return [start, start.add(1, 'month')]
     }
 
     const pickerBase = inject('EP_PICKER_BASE') as any
@@ -487,7 +485,6 @@ export default defineComponent({
       rightDate,
       showTime,
       t,
-      defaultValue: new Date(),
     }
   },
 

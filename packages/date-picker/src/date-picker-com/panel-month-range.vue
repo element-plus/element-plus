@@ -259,10 +259,23 @@ export default defineComponent({
       return value.map(_=> _.format(format))
     }
 
+    const getDefaultValue = () => {
+      let start
+      if (Array.isArray(defaultValue)) {
+        return [dayjs(defaultValue[0]), dayjs(defaultValue[1])]
+      } else if (defaultValue) {
+        start = dayjs(defaultValue)
+      } else {
+        start = dayjs()
+      }
+      return [start, start.add(1, 'month')]
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    const { shortcuts, disabledDate, format } = pickerBase.props
+    pickerBase.hub.emit('SetPickerOption', ['getDefaultValue', getDefaultValue])
+    const { shortcuts, disabledDate, format, defaultValue } = pickerBase.props
 
     return {
       shortcuts,

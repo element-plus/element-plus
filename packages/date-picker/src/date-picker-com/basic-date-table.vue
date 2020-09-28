@@ -63,10 +63,6 @@ export default defineComponent({
     parsedValue: {
       type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
     },
-    defaultValue: {
-      // either: null, valid Date object, Array of valid Date objects
-      // validator: (val:any):boolean => val === null || isDate(val) || (Array.isArray(val) && val.every(isDate)),
-    },
     selectionMode: {
       type: String,
       default: 'day',
@@ -226,8 +222,6 @@ export default defineComponent({
     }
 
     const getCellClasses = cell => {
-      const defaultValue = props.defaultValue ? Array.isArray(props.defaultValue) ? props.defaultValue : [props.defaultValue] : []
-
       let classes = []
       if ((cell.type === 'normal' || cell.type === 'today') && !cell.disabled) {
         classes.push('available')
@@ -236,10 +230,6 @@ export default defineComponent({
         }
       } else {
         classes.push(cell.type)
-      }
-
-      if (cell.type === 'normal' && defaultValue.some(date => cellMatchesDate(cell, date))) {
-        classes.push('default')
       }
 
       if (props.selectionMode === 'day' && (cell.type === 'normal' || cell.type === 'today') && cellMatchesDate(cell, props.date)) {
