@@ -3,7 +3,6 @@
     {{ value1 }}
     <el-date-picker
       v-model="value1"
-      type="dates"
     />
   </div>
 </template>
@@ -12,7 +11,7 @@
 export default {
   data() {
     return {
-      value1: '',
+      value1: new Date(2000, 9, 1),
       disabledDate(time) {
         return time.getTime() > Date.now()
       },

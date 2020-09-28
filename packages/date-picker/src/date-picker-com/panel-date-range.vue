@@ -204,9 +204,6 @@
 
 <script lang="ts">
 import {
-  nextDate,
-} from './time-picker-utils'
-import {
   defineComponent,
   computed,
   ref,
@@ -221,16 +218,6 @@ import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import ElInput from '@element-plus/input/src/index.vue'
 import { Button as ElButton } from '@element-plus/button'
-
-const calcDefaultValue = defaultValue => {
-  if (Array.isArray(defaultValue)) {
-    return [new Date(defaultValue[0]), new Date(defaultValue[1])]
-  } else if (defaultValue) {
-    return [new Date(defaultValue), nextDate(new Date(defaultValue), 1)]
-  } else {
-    return [new Date(), nextDate(new Date(), 1)]
-  }
-}
 
 export default defineComponent({
 
@@ -272,14 +259,6 @@ export default defineComponent({
       return leftDate.value.month()
     })
 
-    const leftMonthDate = computed(() => {
-      return leftDate.value.date()
-    })
-
-    const rightMonthDate = computed(() => {
-      return rightDate.value.date()
-    })
-
     const rightYear = computed(() => {
       return rightDate.value.year()
     })
@@ -293,7 +272,7 @@ export default defineComponent({
     const leftPrevYear = () => {
       leftDate.value = leftDate.value.subtract(1, 'year')
       if (!props.unlinkPanels) {
-        rightDate.value = leftDate.value.add(1, 'year')
+        rightDate.value = leftDate.value.add(1, 'month')
       }
     }
 
@@ -331,11 +310,11 @@ export default defineComponent({
     }
 
     const rightPrevYear = () => {
-      rightDate.value = leftDate.value.subtract(1, 'year')
+      rightDate.value = rightDate.value.subtract(1, 'year')
     }
 
     const rightPrevMonth = () => {
-      rightDate.value = leftDate.value.subtract(1, 'month')
+      rightDate.value = rightDate.value.subtract(1, 'month')
     }
 
     const enableMonthArrow = computed(() => {
@@ -457,10 +436,23 @@ export default defineComponent({
       return value.map(_=> _.format(format))
     }
 
+    const getDefaultValue = () => {
+      let start
+      if (Array.isArray(defaultValue)) {
+        return [dayjs(defaultValue[0]), dayjs(defaultValue[1])]
+      } else if (defaultValue) {
+        start = dayjs(defaultValue)
+      } else {
+        start = dayjs()
+      }
+      return [start, start.add(1, 'day')]
+    }
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    const { shortcuts, disabledDate, cellClassName, format, defaultTime } = pickerBase.props
+    pickerBase.hub.emit('SetPickerOption', ['getDefaultValue', getDefaultValue])
+    const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue } = pickerBase.props
 
     return {
       shortcuts,

@@ -48,6 +48,7 @@ import {
   PropType,
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
+
 export default defineComponent({
   props: {
     date: {
@@ -107,7 +108,8 @@ export default defineComponent({
     })
 
     const startDate = computed(() => {
-      return props.date.startOf('month').startOf('week')
+      const startDayOfMonth = props.date.startOf('month')
+      return startDayOfMonth.subtract(startDayOfMonth.day() || 7, 'day')
     })
 
     const WEEKS = computed(() => {
