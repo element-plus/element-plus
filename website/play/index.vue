@@ -3,7 +3,7 @@
     {{ value1 }}
     <el-date-picker
       v-model="value1"
-      :shortcuts="shortcuts"
+      :default-value="new Date(2000, 1,1)"
     />
   </div>
 </template>

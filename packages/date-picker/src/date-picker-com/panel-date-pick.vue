@@ -254,7 +254,7 @@ export default defineComponent({
     }
     const handleDatePick = (value: Dayjs) => {
       if (selectionMode.value === 'day') {
-        let newDate = (props.parsedValue as Dayjs).year(value.year()).month(value.month()).date(value.date())
+        let newDate = props.parsedValue ? (props.parsedValue as Dayjs).year(value.year()).month(value.month()).date(value.date()) : value
         // change default time while out of selectableRange
         // if (!checkDateWithinRange(newDate)) {
         //   newDate = modifyDate(selectableRange.value[0][0], value.getFullYear(), value.getMonth(), value.getDate())
@@ -329,14 +329,6 @@ export default defineComponent({
       }
       currentView.value = 'date'
     }, { immediate: true })
-
-    watch(() => props.parsedValue, val => {
-      if (val && !Array.isArray(val)) {
-        // skip selectionMode=dates
-        innerDate.value = val
-      }
-    }, { immediate: true })
-
 
     const hasShortcuts = computed(() => !!shortcuts.length)
 
@@ -435,9 +427,9 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      if (props.type === 'dates') {
-        return []
-      }
+      // if (props.type === 'dates') {
+      //   return []
+      // }
       return dayjs(defaultValue)
     }
 
@@ -445,8 +437,18 @@ export default defineComponent({
     pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
     pickerBase.hub.emit('SetPickerOption', ['parseUserInput', parseUserInput])
-    pickerBase.hub.emit('SetPickerOption',['getDefaultValue', getDefaultValue])
     const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue } = pickerBase.props
+
+    watch(() => props.parsedValue, val => {
+      if (val) {
+        if (selectionMode.value === 'dates') return
+        if (Array.isArray(val)) return
+        innerDate.value = val
+      } else {
+        innerDate.value = getDefaultValue()
+      }
+    }, { immediate: true })
+
     return {
       handleTimePick,
       handleTimePickClose,

@@ -336,7 +336,9 @@ export default defineComponent({
       if (!pickerOptions.value.panelReady) return
       let result
       if (!props.modelValue) {
-        result = pickerOptions.value.getDefaultValue()
+        if (pickerOptions.value.getDefaultValue) {
+          result = pickerOptions.value.getDefaultValue()
+        }
       } else {
         if (Array.isArray(props.modelValue)) {
           result = props.modelValue.map(_=>dayjs(_))
@@ -353,6 +355,7 @@ export default defineComponent({
 
     const displayValue = computed(() => {
       if (!pickerOptions.value.panelReady) return
+      if (!isTimePicker.value && !props.modelValue) return
       if (!pickerVisible.value && !props.modelValue) return
       const formattedValue = formatDayjsToString(parsedValue.value)
       if (Array.isArray(userInput.value)) {
@@ -370,8 +373,11 @@ export default defineComponent({
       }
       return ''
     })
+    const isTimePicker = computed(() => {
+      return props.type.indexOf('time') !== -1
+    })
     const triggerClass = computed(() => {
-      return props.prefixIcon || (props.type.indexOf('time') !== -1 ? 'el-icon-time' : 'el-icon-date')
+      return props.prefixIcon || (isTimePicker.value ? 'el-icon-time' : 'el-icon-date')
     })
     const showClose = ref(false)
     const onClearIconClick = event =>{

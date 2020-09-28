@@ -155,7 +155,7 @@ describe('DatePicker', () => {
     expect(vm.value.valueOf()).toBe(value.valueOf())
   })
 
-  it.only('picker-options:disabledDate', async () => {
+  it('picker-options:disabledDate', async () => {
     const wrapper = _mount(`<el-date-picker
         v-model="value"
         :disabledDate="disabledDate"

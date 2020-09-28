@@ -214,6 +214,7 @@ export default defineComponent({
     })
 
     const cellMatchesDate = (cell, date) => {
+      if (!date) return false
       return dayjs(date)
         .isSame(
           props.date.date(Number(cell.text))
@@ -232,7 +233,7 @@ export default defineComponent({
         classes.push(cell.type)
       }
 
-      if (props.selectionMode === 'day' && (cell.type === 'normal' || cell.type === 'today') && cellMatchesDate(cell, props.date)) {
+      if (props.selectionMode === 'day' && (cell.type === 'normal' || cell.type === 'today') && cellMatchesDate(cell, props.parsedValue)) {
         classes.push('current')
       }
 
