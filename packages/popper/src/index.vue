@@ -4,19 +4,20 @@ import {
   h,
   Fragment,
   Teleport,
+  onMounted,
+  onBeforeUnmount,
+  onDeactivated,
+  onActivated,
 } from 'vue'
 
-import { isArray } from '@element-plus/utils/util'
-import { stop } from '@element-plus/utils/dom'
 import { ClickOutside } from '@element-plus/directives'
 import throwError from '@element-plus/utils/error'
+import { stop } from '@element-plus/utils/dom'
 import { renderBlock } from '@element-plus/utils/vnode'
 
-import {
-  default as usePopper,
-  DEFAULT_TRIGGER,
-  UPDATE_VISIBLE_EVENT,
-} from './usePopper'
+import usePopper from './popper/index'
+import defaultProps from './popper/defaults'
+
 import {
   renderMask,
   renderPopper,
@@ -24,138 +25,18 @@ import {
   renderArrow,
 } from './renderers'
 
-import type { PropType, SetupContext } from 'vue'
-
-import type {
-  Effect,
-  Offset,
-  Options,
-  Placement,
-  PositioningStrategy,
-  TriggerType,
-  IPopperOptions,
-} from './popper'
-
 const compName = 'ElPopper'
+const UPDATE_VISIBLE_EVENT = 'update:visible'
+
+const emits = [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave']
 
 export default defineComponent({
   name: compName,
   directives: {
     ClickOutside,
   },
-  props: {
-    // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
-    // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
-    arrowOffset: {
-      type: Number,
-      default: 5,
-    },
-    appendToBody: {
-      type: Boolean,
-      default: true,
-    },
-    boundariesPadding: {
-      type: Number,
-      default: 0,
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-    class: {
-      type: String,
-      default: '',
-    },
-    closeDelay: {
-      type: Number,
-      default: 200,
-    },
-    cutoff: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    effect: {
-      type: String as PropType<Effect>,
-      default: 'dark' as Effect,
-    },
-    enterable: {
-      type: Boolean,
-      default: true,
-    },
-    flip: {
-      type: Boolean,
-      default: true,
-    },
-    hideAfter: {
-      type: Number,
-      default: 0,
-    },
-    manualMode: {
-      type: Boolean,
-      default: false,
-    },
-    showAfter: {
-      type: Number,
-      default: 0,
-    },
-    offset: {
-      type: [Number, Array] as PropType<Offset>,
-      default: [0, 12] as Offset,
-      validator: (val: Offset): boolean => {
-        return (isArray(val) && val.length === 2) || typeof val === 'number'
-      },
-    },
-    placement: {
-      type: String as PropType<Placement>,
-      default: 'bottom' as Placement,
-    },
-    popperClass: {
-      type: String,
-      default: '',
-    },
-    pure: {
-      type: Boolean,
-      default: false,
-    },
-    // Once this option were given, the entire popper is under the users' control, top priority
-    popperOptions: {
-      type: Object as PropType<Options>,
-      default: () => null,
-    },
-    referrer: {
-      type: HTMLElement as PropType<Nullable<HTMLElement>>,
-      default: null as Nullable<HTMLElement>,
-    },
-    showArrow: {
-      type: Boolean,
-      default: true,
-    },
-    strategy: {
-      type: String as PropType<PositioningStrategy>,
-      default: 'fixed' as PositioningStrategy,
-    },
-    transition: {
-      type: String,
-      default: 'el-fade-in-linear',
-    },
-    trigger: {
-      type: [String, Array] as PropType<TriggerType | Array<TriggerType>>,
-      default: DEFAULT_TRIGGER,
-    },
-    tabIndex: {
-      type: String,
-      default: '0',
-    },
-    visible: {
-      type: Boolean,
-      default: undefined,
-    },
-  },
-  emits: [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave'],
+  props: defaultProps,
+  emits,
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
@@ -163,7 +44,16 @@ export default defineComponent({
     // this is a reference that we need to pass down to child component
     // to obtain the child instance
 
-    return usePopper(props as IPopperOptions, ctx as SetupContext)
+    // return usePopper(props as IPopperOptions, ctx as SetupContext)
+    const popperStates = usePopper(props, ctx)
+
+    const forceDestroy = () => popperStates.doDestroy(true)
+    onMounted(popperStates.initializePopper)
+    onBeforeUnmount(forceDestroy)
+    onActivated(popperStates.initializePopper)
+    onDeactivated(forceDestroy)
+
+    return popperStates
   },
 
   render() {
@@ -172,16 +62,17 @@ export default defineComponent({
       appendToBody,
       class: kls,
       effect,
-      onHide,
+      hide,
       onPopperMouseEnter,
       onPopperMouseLeave,
+      onAfterEnter,
+      onAfterLeave,
       popperClass,
       popperId,
       pure,
       showArrow,
       tabIndex,
       transition,
-      transitionEmitters,
       visibility,
     } = this
 
@@ -196,7 +87,8 @@ export default defineComponent({
         pure,
         onMouseEnter: onPopperMouseEnter,
         onMouseLeave: onPopperMouseLeave,
-        transitionEmitters,
+        onAfterEnter,
+        onAfterLeave,
         visibility,
       },
       [$slots.default?.() || this.content, arrow],
@@ -222,7 +114,7 @@ export default defineComponent({
               to: 'body',
             },
             renderMask(popper, {
-              onHide,
+              hide,
             }),
           )
           : popper,

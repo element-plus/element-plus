@@ -80,7 +80,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
   },
   externals: {
-    vue: 'vue',
+    vue: 'Vue',
   },
   plugins: [
     new VueLoaderPlugin(),
