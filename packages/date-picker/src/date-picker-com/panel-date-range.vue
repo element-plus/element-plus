@@ -368,10 +368,6 @@ export default defineComponent({
     }
 
     const handleRangePick = (val, close = true) => {
-      // const defaultTime = this.defaultTime || []
-      // const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
-      // const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
-      //todo
       const minDate_ = val.minDate
       const maxDate_ = val.maxDate
 
@@ -395,30 +391,6 @@ export default defineComponent({
       }
     }
 
-    watch(() => props.parsedValue, newVal => {
-      if (!newVal) {
-        minDate.value = null
-        maxDate.value = null
-        return
-      }
-      minDate.value = newVal[0]
-      maxDate.value = newVal[1]
-      if (minDate.value) {
-        leftDate.value = minDate.value
-        if (props.unlinkPanels && maxDate.value) {
-          const minDateYear = minDate.value.year()
-          const minDateMonth = minDate.value.month()
-          const maxDateYear = maxDate.value.year()
-          const maxDateMonth = maxDate.value.month()
-          rightDate.value = minDateYear === maxDateYear && minDateMonth === maxDateMonth
-            ? maxDate.value.add(1, 'month')
-            : maxDate.value
-        } else {
-          rightDate.value = leftDate.value.add(1, 'month')
-        }
-      }
-    }, { immediate: true })
-
     const minTimePickerVisible = ref(false)
     const maxTimePickerVisible = ref(false)
 
@@ -437,7 +409,12 @@ export default defineComponent({
     const getDefaultValue = () => {
       let start
       if (Array.isArray(defaultValue)) {
-        return [dayjs(defaultValue[0]), dayjs(defaultValue[1])]
+        const left = dayjs(defaultValue[0])
+        let right = dayjs(defaultValue[1])
+        if (!props.unlinkPanels) {
+          right = left.add(1, 'month')
+        }
+        return [left, right]
       } else if (defaultValue) {
         start = dayjs(defaultValue)
       } else {
@@ -449,8 +426,31 @@ export default defineComponent({
     const pickerBase = inject('EP_PICKER_BASE') as any
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    pickerBase.hub.emit('SetPickerOption', ['getDefaultValue', getDefaultValue])
+
     const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue } = pickerBase.props
+
+    watch(() => props.parsedValue, newVal => {
+      if (newVal && newVal.length === 2) {
+        minDate.value = newVal[0]
+        maxDate.value = newVal[1]
+        leftDate.value = minDate.value
+        if (props.unlinkPanels && maxDate.value) {
+          const minDateYear = minDate.value.year()
+          const minDateMonth = minDate.value.month()
+          const maxDateYear = maxDate.value.year()
+          const maxDateMonth = maxDate.value.month()
+          rightDate.value = minDateYear === maxDateYear && minDateMonth === maxDateMonth
+            ? maxDate.value.add(1, 'month')
+            : maxDate.value
+        } else {
+          rightDate.value = leftDate.value.add(1, 'month')
+        }
+      } else {
+        const defaultArr = getDefaultValue()
+        leftDate.value = defaultArr[0]
+        rightDate.value = defaultArr[1]
+      }
+    }, { immediate: true })
 
     return {
       shortcuts,

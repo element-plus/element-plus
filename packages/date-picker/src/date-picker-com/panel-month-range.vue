@@ -40,7 +40,6 @@
             <month-table
               selection-mode="range"
               :date="leftDate"
-              :default-value="defaultValue"
               :min-date="minDate"
               :max-date="maxDate"
               :range-state="rangeState"
@@ -70,7 +69,6 @@
             <month-table
               selection-mode="range"
               :date="rightDate"
-              :default-value="defaultValue"
               :min-date="minDate"
               :max-date="maxDate"
               :range-state="rangeState"
@@ -87,13 +85,6 @@
 </template>
 
 <script lang="ts">
-import {
-  isDate,
-  modifyWithTimeString,
-  prevYear,
-  nextYear,
-  nextMonth,
-} from './time-picker-utils'
 import { t } from '@element-plus/locale'
 import MonthTable from './basic-month-table.vue'
 import dayjs, { Dayjs } from 'dayjs'
@@ -106,15 +97,6 @@ import {
   inject,
 } from 'vue'
 
-const calcDefaultValue = defaultValue => {
-  if (Array.isArray(defaultValue)) {
-    return [new Date(defaultValue[0]), new Date(defaultValue[1])]
-  } else if (defaultValue) {
-    return [new Date(defaultValue), nextMonth(new Date(defaultValue))]
-  } else {
-    return [new Date(), nextMonth(new Date())]
-  }
-}
 export default defineComponent({
 
   components: { MonthTable },
@@ -188,28 +170,6 @@ export default defineComponent({
     const minDate = ref(null)
     const maxDate = ref(null)
 
-    watch(() => props.parsedValue, newVal => {
-      if (!newVal) {
-        minDate.value = null
-        maxDate.value = null
-        return
-      }
-      minDate.value = newVal[0]
-      maxDate.value = newVal[1]
-      if (minDate.value) {
-        leftDate.value = minDate.value
-        if (props.unlinkPanels && maxDate.value) {
-          const minDateYear = minDate.value.year()
-          const maxDateYear = maxDate.value.year()
-          rightDate.value = minDateYear === maxDateYear
-            ? maxDate.value.add(1, 'year')
-            : maxDate.value
-        } else {
-          rightDate.value = leftDate.value.add(1, 'year')
-        }
-      }
-    }, { immediate: true })
-
     const rangeState = ref({
       endDate: null,
       selecting: false,
@@ -262,20 +222,45 @@ export default defineComponent({
     const getDefaultValue = () => {
       let start
       if (Array.isArray(defaultValue)) {
-        return [dayjs(defaultValue[0]), dayjs(defaultValue[1])]
+        const left = dayjs(defaultValue[0])
+        let right = dayjs(defaultValue[1])
+        if (!props.unlinkPanels) {
+          right = left.add(1, 'year')
+        }
+        return [left, right]
       } else if (defaultValue) {
         start = dayjs(defaultValue)
       } else {
         start = dayjs()
       }
-      return [start, start.add(1, 'month')]
+      return [start, start.add(1, 'year')]
     }
 
     const pickerBase = inject('EP_PICKER_BASE') as any
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    pickerBase.hub.emit('SetPickerOption', ['getDefaultValue', getDefaultValue])
     const { shortcuts, disabledDate, format, defaultValue } = pickerBase.props
+
+    watch(() => props.parsedValue, newVal => {
+      if (newVal && newVal.length === 2) {
+        minDate.value = newVal[0]
+        maxDate.value = newVal[1]
+        leftDate.value = minDate.value
+        if (props.unlinkPanels && maxDate.value) {
+          const minDateYear = minDate.value.year()
+          const maxDateYear = maxDate.value.year()
+          rightDate.value = minDateYear === maxDateYear
+            ? maxDate.value.add(1, 'year')
+            : maxDate.value
+        } else {
+          rightDate.value = leftDate.value.add(1, 'year')
+        }
+      } else {
+        const defaultArr = getDefaultValue()
+        leftDate.value = defaultArr[0]
+        rightDate.value = defaultArr[1]
+      }
+    }, { immediate: true })
 
     return {
       shortcuts,
@@ -298,7 +283,6 @@ export default defineComponent({
       rightDate,
       hasShortcuts,
       handleShortcutClick,
-      defaultValue: new Date(),
     }
   },
 })

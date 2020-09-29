@@ -99,7 +99,7 @@ export default defineComponent({
     const WEEKS_CONSTANT = props.date.locale('en').localeData().weekdaysShort().map(_=>_.toLowerCase())
 
     const offsetDay = computed(() => {
-      // 周日为界限，左右偏移的天数，3217654 例如周一就是 -1，目的是调整前两行日期的位置
+      // Sunday 7(0), cal the left and right offset days, 3217654, such as Monday is -1, the is to adjust the position of the first two rows of dates
       return firstDayOfWeek > 3 ? 7 - firstDayOfWeek : -firstDayOfWeek
     })
 
@@ -342,10 +342,9 @@ export default defineComponent({
           date: newDate,
         })
       } else if (props.selectionMode === 'dates') {
-        if (!Array.isArray(props.parsedValue)) return
         const newValue = cell.selected
-          ? props.parsedValue.filter(_ => _.valueOf() !== newDate.valueOf())
-          : props.parsedValue.concat([newDate])
+          ? coerceTruthyValueToArray(props.parsedValue).filter(_ => _.valueOf() !== newDate.valueOf())
+          : coerceTruthyValueToArray(props.parsedValue).concat([newDate])
         ctx.emit('pick', newValue)
       }
     }

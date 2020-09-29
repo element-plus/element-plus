@@ -262,6 +262,49 @@
 ```
 :::
 
+###  Default Value (需要翻译)
+
+If user hasn't picked a date, shows today's calendar by default. You can use `default-value` to set another date. Its value should be parsable by `new Date()`.
+
+If type is `daterange`, `default-value` sets the left side calendar.
+
+:::demo
+```html
+<template>
+  <div class="block">
+    <span class="demonstration">date</span>
+    <el-date-picker
+      v-model="value1"
+      type="date"
+      placeholder="Pick a date"
+      :default-value="new Date(2010, 9, 1)">
+    </el-date-picker>
+  </div>
+  <div class="block">
+    <span class="demonstration">daterange</span>
+    <el-date-picker
+      v-model="value2"
+      type="daterange"
+      align="right"
+      start-placeholder="Start Date"
+      end-placeholder="End Date"
+      :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
+    </el-date-picker>
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        value1: '',
+        value2: ''
+      };
+    }
+  };
+</script>
+```
+:::
 
 ###  日期格式
 
@@ -305,29 +348,7 @@
       v-model="value1"
       type="date"
       placeholder="选择日期"
-      format="yyyy 年 MM 月 dd 日">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">使用 value-format</span>
-    <div class="demonstration">值：{{ value2 }}</div>
-    <el-date-picker
-      v-model="value2"
-      type="date"
-      placeholder="选择日期"
-      format="yyyy 年 MM 月 dd 日"
-      value-format="yyyy-MM-dd">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">时间戳</span>
-    <div class="demonstration">值：{{ value3 }}</div>
-    <el-date-picker
-      v-model="value3"
-      type="date"
-      placeholder="选择日期"
-      format="yyyy 年 MM 月 dd 日"
-      value-format="timestamp">
+      format="YYYY 年 MM 月 DD 日">
     </el-date-picker>
   </div>
 </template>
@@ -360,7 +381,7 @@
       type="daterange"
       start-placeholder="开始日期"
       end-placeholder="结束日期"
-      :default-time="['00:00:00', '23:59:59']">
+      :default-time="[new Date(2000, 1, 1, 0 , 0,0), new Date(2000, 2, 1, 23 , 59,59)]">
     </el-date-picker>
   </div>
 </template>

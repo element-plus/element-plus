@@ -54,15 +54,6 @@ import {
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 
-const arrayFindIndex = function(arr, pred) {
-  for (let i = 0; i !== arr.length; ++i) {
-    if (pred(arr[i])) {
-      return i
-    }
-  }
-  return -1
-}
-
 const datesInYear = year => {
   const firstDay = dayjs().startOf('year')
   const numOfDays = dayjs(year).isLeapYear() ? 366 : 365
@@ -74,7 +65,9 @@ export default defineComponent({
     disabledDate: {
       type: Function as PropType<(_: Date) => void>,
     },
-    defaultValue: {},
+    parsedValue: {
+      type: Dayjs as PropType<Dayjs>,
+    },
     date: {
       type: Dayjs as PropType<Dayjs>,
     },
@@ -94,10 +87,9 @@ export default defineComponent({
         ? datesInYear(year).every(props.disabledDate)
         : false
 
-      style.current = coerceTruthyValueToArray(props.date).findIndex(_ => _.year() === year) >= 0
+      style.current = coerceTruthyValueToArray(props.parsedValue).findIndex(_ => _.year() === year) >= 0
 
       style.today = today.year() === year
-      style.default = props.defaultValue && props.defaultValue.getFullYear() === year
 
       return style
     }

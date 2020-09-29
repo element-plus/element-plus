@@ -282,7 +282,7 @@ Si el tipo es `daterange`, `default-value` establece el calendario del lado izqu
       v-model="value1"
       type="date"
       placeholder="Pick a date"
-      default-value="2010-10-01">
+      :default-value="new Date(2010, 9, 1)">
     </el-date-picker>
   </div>
   <div class="block">
@@ -293,7 +293,7 @@ Si el tipo es `daterange`, `default-value` establece el calendario del lado izqu
       align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      default-value="2010-10-01">
+      :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
     </el-date-picker>
   </div>
 </template>
@@ -352,29 +352,7 @@ Preste atención a la capitalización
       v-model="value1"
       type="date"
       placeholder="Pick a Date"
-      format="yyyy/MM/dd">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">Use value-format</span>
-    <div class="demonstration">Value: {{ value2 }}</div>
-    <el-date-picker
-      v-model="value2"
-      type="date"
-      placeholder="Pick a Date"
-      format="yyyy/MM/dd"
-      value-format="yyyy-MM-dd">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">Timestamp</span>
-    <div class="demonstration">Value：{{ value3 }}</div>
-    <el-date-picker
-      v-model="value3"
-      type="date"
-      placeholder="Pick a Date"
-      format="yyyy/MM/dd"
-      value-format="timestamp">
+      format="YYYY/MM/DD">
     </el-date-picker>
   </div>
 </template>
@@ -408,7 +386,7 @@ Al seleccionar un intervalo de fechas, puede asignar la hora para la fecha de in
       type="daterange"
       start-placeholder="Start date"
       end-placeholder="End date"
-      :default-time="['00:00:00', '23:59:59']">
+      :default-time="[new Date(2000, 1, 1, 0 , 0,0), new Date(2000, 2, 1, 23 , 59,59)]">
     </el-date-picker>
   </div>
 </template>

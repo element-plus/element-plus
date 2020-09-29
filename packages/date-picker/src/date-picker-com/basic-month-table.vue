@@ -38,7 +38,6 @@ export default defineComponent({
     disabledDate: {
       type: Function as PropType<(_: Date) => void>,
     },
-    defaultValue: {},
     selectionMode: {
       type: String,
       default: 'month',
@@ -50,6 +49,9 @@ export default defineComponent({
       type: Dayjs as PropType<Dayjs>,
     },
     date: {
+      type: Dayjs as PropType<Dayjs>,
+    },
+    parsedValue: {
       type: Dayjs as PropType<Dayjs>,
     },
     rangeState: {
@@ -126,13 +128,12 @@ export default defineComponent({
       const year = props.date.year()
       const today = new Date()
       const month = cell.text
-      const defaultValue = props.defaultValue ? Array.isArray(props.defaultValue) ? props.defaultValue : [props.defaultValue] : []
+
       style.disabled = props.disabledDate
         ? datesInMonth(year, month).every(props.disabledDate)
         : false
-      style.current = coerceTruthyValueToArray(props.value).findIndex(date => date.getFullYear() === year && date.getMonth() === month) >= 0
+      style.current = coerceTruthyValueToArray(props.parsedValue).findIndex(date => date.year() === year && date.month() === month) >= 0
       style.today = today.getFullYear() === year && today.getMonth() === month
-      style.default = defaultValue.some(date => cellMatchesDate(cell, date))
 
       if (cell.inRange) {
         style['in-range'] = true
@@ -146,10 +147,6 @@ export default defineComponent({
         }
       }
       return style
-    }
-    const cellMatchesDate = (cell, date) => {
-      const value = new Date(date)
-      return props.date.year() === value.getFullYear() && Number(cell.text) === value.getMonth()
     }
 
     const handleMouseMove = event => {

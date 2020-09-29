@@ -3,7 +3,12 @@
     {{ value1 }}
     <el-date-picker
       v-model="value1"
-      :default-value="new Date(2000, 1,1)"
+      type="monthrange"
+      unlink-panels
+      range-separator="To"
+      start-placeholder="Start date"
+      end-placeholder="End date"
+      :default-value="[new Date(2000, 1, 1), new Date(2002, 1, 1)]"
     />
   </div>
 </template>

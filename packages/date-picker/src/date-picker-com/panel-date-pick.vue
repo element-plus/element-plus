@@ -111,7 +111,7 @@
               :selection-mode="selectionMode"
               :default-value="defaultValue ? new Date(defaultValue) : null"
               :date="innerDate"
-              :parsed-value="parsedDatePickerValue"
+              :parsed-value="parsedValue"
               :disabled-date="disabledDate"
               @pick="handleDatePick"
             />
@@ -120,12 +120,14 @@
               :default-value="defaultValue ? new Date(defaultValue) : null"
               :date="innerDate"
               :disabled-date="disabledDate"
+              :parsed-value="parsedValue"
               @pick="handleYearPick"
             />
             <month-table
               v-if="currentView === 'month'"
               :default-value="defaultValue ? new Date(defaultValue) : null"
               :date="innerDate"
+              :parsed-value="parsedValue"
               :disabled-date="disabledDate"
               @pick="handleMonthPick"
             />
@@ -209,13 +211,6 @@ export default defineComponent({
   },
   emits: ['pick'],
   setup(props, ctx) {
-    const parsedDatePickerValue = computed(() => {
-      if (selectionMode.value === 'dates') {
-        if (!Array.isArray(props.parsedValue)) return []
-      }
-      return props.parsedValue
-    })
-
     const innerDate = ref(dayjs())
 
     const month = computed(() =>  {
@@ -370,7 +365,7 @@ export default defineComponent({
       // if (selectionMode.value === 'dates') {
       //   emit(parsedDatePickerValue.value)
       // }
-      emit(parsedDatePickerValue.value)
+      emit(props.parsedValue)
     }
 
     const changeToNow = () => {
@@ -383,11 +378,11 @@ export default defineComponent({
     }
 
     const visibleTime = computed(() => {
-      return formatDate(parsedDatePickerValue.value, extractTimeFormat(props.format))
+      return formatDate(props.parsedValue, extractTimeFormat(props.format))
     })
 
     const visibleDate = computed(() => {
-      return formatDate(parsedDatePickerValue.value, extractDateFormat(props.format))
+      return formatDate(props.parsedValue, extractDateFormat(props.format))
     })
 
     const timePickerVisible = ref(false)
@@ -399,7 +394,7 @@ export default defineComponent({
     }
 
     const handleTimePick = (value, visible, first) => {
-      const newDate = modifyTime(parsedDatePickerValue.value, value.getHours(), value.getMinutes(), value.getSeconds())
+      const newDate = modifyTime(props.parsedValue, value.getHours(), value.getMinutes(), value.getSeconds())
       innerDate.value = newDate
       emit(innerDate.value, true)
       if (!first) {
@@ -427,9 +422,6 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      // if (props.type === 'dates') {
-      //   return []
-      // }
       return dayjs(defaultValue)
     }
 
@@ -459,7 +451,6 @@ export default defineComponent({
       showTime,
       changeToNow,
       onConfirm,
-      parsedDatePickerValue,
       footerVisible,
       handleYearPick,
       showMonthPicker,

@@ -279,7 +279,7 @@ Si le type est `daterange`, `default-value` configure la panneau de gauche.
       v-model="value1"
       type="date"
       placeholder="Sélectionnez une date"
-      default-value="2010-10-01">
+      :default-value="new Date(2010, 9, 1)">
     </el-date-picker>
   </div>
   <div class="block">
@@ -290,7 +290,7 @@ Si le type est `daterange`, `default-value` configure la panneau de gauche.
       align="right"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
-      default-value="2010-10-01">
+      :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
     </el-date-picker>
   </div>
 </template>
@@ -352,29 +352,7 @@ Attention à la capitalisation !
       v-model="value1"
       type="date"
       placeholder="Sélectionnez une date"
-      format="yyyy/MM/dd">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">Utilise value-format</span>
-    <div class="demonstration">Value: {{ value2 }}</div>
-    <el-date-picker
-      v-model="value2"
-      type="date"
-      placeholder="Sélectionnez une date"
-      format="yyyy/MM/dd"
-      value-format="yyyy-MM-dd">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">Timestamp</span>
-    <div class="demonstration">Value：{{ value3 }}</div>
-    <el-date-picker
-      v-model="value3"
-      type="date"
-      placeholder="Sélectionnez une date"
-      format="yyyy/MM/dd"
-      value-format="timestamp">
+      format="YYYY/MM/DD">
     </el-date-picker>
   </div>
 </template>
@@ -407,7 +385,7 @@ Lorsque vous choisissez une plage de dates, vous pouvez assigner l'horaire de d�
       type="daterange"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
-      :default-time="['00:00:00', '23:59:59']">
+      :default-time="[new Date(2000, 1, 1, 0 , 0,0), new Date(2000, 2, 1, 23 , 59,59)]">
     </el-date-picker>
   </div>
 </template>
