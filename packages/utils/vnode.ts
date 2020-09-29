@@ -55,11 +55,7 @@ export const getFirstValidNode = (
   maxDepth = 3,
 ): ReturnType<typeof getChildren> => {
   if (Array.isArray(nodes)) {
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i] as VNode
-      const child = getChildren(node as VNode, maxDepth)
-      return child
-    }
+    return getChildren(nodes[0] as VNode, maxDepth)
   } else {
     return getChildren(nodes as VNode, maxDepth)
   }
