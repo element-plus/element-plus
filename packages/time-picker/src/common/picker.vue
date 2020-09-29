@@ -307,6 +307,7 @@ export default defineComponent({
       }
     }
     const onPick = (date: any = '', visible = false, useOldValue = false) => {
+      console.log('visible', visible)
       pickerVisible.value = visible
       let result
       if (useOldValue) {
