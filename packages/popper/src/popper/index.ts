@@ -236,27 +236,13 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
     popperInstance.update()
   })
 
-  // watch(visibility, () => {
-  //   if (popperInstance.value) {
-  //     popperInstance.value.update()
-  //   } else {
-  //     initializePopper()
-  //   }
-  // })
-
-  // onMounted(initializePopper)
-
-  // onUpdated(initializePopper)
-
-  // onBeforeUnmount(() => {
-  //   doDestroy(true)
-  // })
-
-  // onActivated(initializePopper)
-
-  // onDeactivated(() => {
-  //   doDestroy(true)
-  // })
+  watch(visibility, () => {
+    if (popperInstance) {
+      popperInstance.update()
+    } else {
+      initializePopper()
+    }
+  })
 
   return {
     doDestroy,
