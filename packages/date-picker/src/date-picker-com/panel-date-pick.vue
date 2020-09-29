@@ -50,7 +50,7 @@
                 :visible="timePickerVisible"
                 :format="timeFormat"
                 :time-arrow-control="arrowControl"
-                :parsed-value="parsedValue"
+                :parsed-value="innerDate"
                 @pick="handleTimePick"
               />
             </span>
@@ -166,6 +166,7 @@ import {
 import { t } from '@element-plus/locale'
 import ElInput from '@element-plus/input/src/index.vue'
 import { ClickOutside } from '@element-plus/directives'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import { Button as ElButton } from '@element-plus/button'
 import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
@@ -385,11 +386,13 @@ export default defineComponent({
 
     const visibleTime = computed(() => {
       if (userInputTime.value) return userInputTime.value
+      if (!props.parsedValue && !defaultValue) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(timeFormat.value)
     })
 
     const visibleDate = computed(() => {
       if (userInputDate.value) return userInputDate.value
+      if (!props.parsedValue && !defaultValue) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(dateFormat.value)
     })
 
@@ -412,7 +415,7 @@ export default defineComponent({
 
     const handleVisibleTimeChange = value => {
       const newDate = dayjs(value, timeFormat.value)
-      if (newDate && checkDateWithinRange(newDate)) {
+      if (newDate.isValid() && checkDateWithinRange(newDate)) {
         innerDate.value = newDate.year(innerDate.value.year()).month(innerDate.value.month()).date(innerDate.value.date())
         userInputTime.value = null
         timePickerVisible.value = false
@@ -422,7 +425,7 @@ export default defineComponent({
 
     const handleVisibleDateChange = value => {
       const newDate = dayjs(value, dateFormat.value)
-      if (newDate) {
+      if (newDate.isValid()) {
         if (disabledDate  && disabledDate(newDate.toDate())) {
           return
         }
@@ -456,9 +459,58 @@ export default defineComponent({
       return dayjs(defaultValue)
     }
 
+    const handleKeydown = event => {
+      const { code, keyCode } = event
+      const list = [EVENT_CODE.up, EVENT_CODE.down, EVENT_CODE.left, EVENT_CODE.right]
+      if (props.visible && !timePickerVisible.value) {
+        if (list.includes(code)) {
+          handleKeyControl(keyCode)
+          event.stopPropagation()
+          event.preventDefault()
+        }
+        if (code === EVENT_CODE.enter
+          && userInputDate.value === null
+            && userInputTime.value === null
+        ) { // Enter
+          emit(innerDate, false)
+        }
+      }
+    }
+
+    const handleKeyControl = keyCode => {
+      const mapping = {
+        'year': {
+          38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setFullYear(date.getFullYear() + step),
+        },
+        'month': {
+          38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setMonth(date.getMonth() + step),
+        },
+        'week': {
+          38: -1, 40: 1, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step * 7),
+        },
+        'day': {
+          38: -7, 40: 7, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step),
+        },
+      }
+
+      const newDate = innerDate.value.toDate()
+      while (Math.abs(innerDate.value.diff(newDate, 'year', true)) < 1) {
+        const map = mapping[selectionMode.value]
+        map.offset(newDate, map[keyCode])
+        if (disabledDate && disabledDate(newDate)) {
+          continue
+        }
+        const result = dayjs(newDate)
+        innerDate.value = result
+        ctx.emit('pick', result, true)
+        break
+      }
+    }
+
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
+    ctx.emit('set-picker-option',['handleKeydown', handleKeydown])
 
     const pickerBase = inject('EP_PICKER_BASE') as any
     const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue, arrowControl } = pickerBase.props
@@ -512,67 +564,6 @@ export default defineComponent({
       userInputDate,
     }
   },
-
-  // methods: {
-
-  //   handleClear() {
-  //     this.date = this.getDefaultValue()
-  //     this.$emit('pick', null)
-  //   },
-
-  //   // resetDate() {
-  //   //   this.date = new Date(this.date);
-  //   // },
-
-
-
-  //   handleKeydown(event) {
-  //     const keyCode = event.keyCode
-  //     const list = [38, 40, 37, 39]
-  //     if (this.visible && !this.timePickerVisible) {
-  //       if (list.indexOf(keyCode) !== -1) {
-  //         this.handleKeyControl(keyCode)
-  //         event.stopPropagation()
-  //         event.preventDefault()
-  //       }
-  //       if (keyCode === 13 && this.userInputDate === null && this.userInputTime === null) { // Enter
-  //         this.emit(this.date, false)
-  //       }
-  //     }
-  //   },
-
-  //   handleKeyControl(keyCode) {
-  //     const mapping = {
-  //       'year': {
-  //         38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setFullYear(date.getFullYear() + step),
-  //       },
-  //       'month': {
-  //         38: -4, 40: 4, 37: -1, 39: 1, offset: (date, step) => date.setMonth(date.getMonth() + step),
-  //       },
-  //       'week': {
-  //         38: -1, 40: 1, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step * 7),
-  //       },
-  //       'day': {
-  //         38: -7, 40: 7, 37: -1, 39: 1, offset: (date, step) => date.setDate(date.getDate() + step),
-  //       },
-  //     }
-  //     const mode = this.selectionMode
-  //     const year = 3.1536e10
-  //     const now = this.date.getTime()
-  //     const newDate = new Date(this.date.getTime())
-  //     while (Math.abs(now - newDate.getTime()) <= year) {
-  //       const map = mapping[mode]
-  //       map.offset(newDate, map[keyCode])
-  //       if (typeof this.disabledDate === 'function' && this.disabledDate(newDate)) {
-  //         continue
-  //       }
-  //       this.date = newDate
-  //       this.$emit('pick', newDate, true)
-  //       break
-  //     }
-  //   },
-
-  // },
 })
 </script>
 <style scoped>
