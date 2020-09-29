@@ -47,7 +47,7 @@ import {
   defineComponent, ref, computed, inject, watch, onBeforeUnmount, onMounted,
   getCurrentInstance, reactive,
 } from 'vue'
-import type { Ref, ComponentInternalInstance } from 'vue'
+import type { Ref } from 'vue'
 
 interface IStepsProps {
   space: number | string

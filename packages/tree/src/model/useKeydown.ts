@@ -1,5 +1,5 @@
-import { onMounted, onUpdated, onBeforeUnmount,ref, watch, Ref } from 'vue'
-import { eventKeys } from '@element-plus/utils/aria'
+import { onMounted, onUpdated, onBeforeUnmount, ref, watch, Ref } from 'vue'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 
 interface UseKeydownOption {
@@ -32,25 +32,25 @@ export function useKeydown({ el$ }: UseKeydownOption) {
   const handleKeydown = (ev: KeyboardEvent): void => {
     const currentItem = ev.target as HTMLElement
     if (currentItem.className.indexOf('el-tree-node') === -1) return
-    const keyCode = ev.keyCode
+    const code = ev.code
     treeItems.value = Array.from(el$.value.querySelectorAll('.is-focusable[role=treeitem]'))
     const currentIndex = treeItems.value.indexOf(currentItem)
     let nextIndex
-    if ([eventKeys.up, eventKeys.down].indexOf(keyCode) > -1) {
+    if ([EVENT_CODE.up, EVENT_CODE.down].indexOf(code) > -1) {
       ev.preventDefault()
-      if (keyCode === eventKeys.up) {
+      if (code === EVENT_CODE.up) {
         nextIndex = currentIndex !== 0 ? currentIndex - 1 : 0
       } else {
         nextIndex = (currentIndex < treeItems.value.length - 1) ? currentIndex + 1 : 0
       }
       treeItems.value[nextIndex].focus()
     }
-    if ([eventKeys.left, eventKeys.right].indexOf(keyCode) > -1) {
+    if ([EVENT_CODE.left, EVENT_CODE.right].indexOf(code) > -1) {
       ev.preventDefault()
       currentItem.click()
     }
     const hasInput = currentItem.querySelector('[type="checkbox"]') as Nullable<HTMLInputElement>
-    if ([eventKeys.enter, eventKeys.space].indexOf(keyCode) > -1 && hasInput) {
+    if ([EVENT_CODE.enter, EVENT_CODE.space].indexOf(code) > -1 && hasInput) {
       ev.preventDefault()
       hasInput.click()
     }
