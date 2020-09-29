@@ -23,7 +23,7 @@ export default function usePopperOptions(props: IUsePopperProps, state: IUsePopp
         arrow: state.arrow.value,
         arrowOffset: props.arrowOffset,
         offset: props.offset,
-      }, props.popperOptions.modifiers),
+      }, props.popperOptions?.modifiers),
       ...props.popperOptions,
     }
   })

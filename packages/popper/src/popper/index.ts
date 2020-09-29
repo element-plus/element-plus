@@ -2,66 +2,58 @@ import {
   computed,
   ref,
   reactive,
-  onActivated,
-  onBeforeUnmount,
-  onDeactivated,
-  onMounted,
-  onUpdated,
   watch,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 
 import {
   generateId,
-  clearTimer,
   isBool,
   isHTMLElement,
   isArray,
   isString,
 } from '@element-plus/utils/util'
 
-import useModifier from '../useModifier'
-
 import usePopperOptions from './popper-options'
 
-import type {
-  IPopperOptions,
-  RefElement,
-  PopperInstance,
-  TriggerType,
-} from './popper'
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, SetupContext } from 'vue'
+import type { IPopperOptions, TriggerType, PopperInstance, RefElement } from './defaults'
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
-export default function (props, { emit }) {
+export default function (props: IPopperOptions, { emit }: SetupContext<string[]>) {
   const arrowRef = ref<RefElement>(null)
   const triggerRef = ref<ComponentPublicInstance | HTMLElement>(null)
   const popperRef = ref<RefElement>(null)
-  
+
   const popperId = `el-popper-${generateId()}`
   let popperInstance: Nullable<PopperInstance> = null
   let showTimer: Nullable<TimeoutHandle> = null
   let hideTimer: Nullable<TimeoutHandle> = null
   let triggerFocused = false
 
-
-  const state = reactive({
-    visible: props.visible, // init visibility,
-  })
+  const isManualMode = () => props.manualMode || props.trigger === 'manual'
 
   const popperOptions = usePopperOptions(props, {
-    arrow: arrowRef
+    arrow: arrowRef,
   })
 
-  const _visible = ref(false)
+  const state = reactive({
+    visible: !!props.visible,
+  })
   // visible has been taken by props.visible, avoiding name collision
-  const visibility = computed(() => {
-    if (props.disabled) {
-      return false
-    } else {
-      return isBool(props.visible) ? props.visible : _visible.value
-    }
+  const visibility = computed<boolean>({
+    get() {
+      if (props.disabled) {
+        return false
+      } else {
+        return isBool(props.visible) ? props.visible : state.visible
+      }
+    },
+    set(val) {
+      if (isManualMode()) return
+      isBool(props.visible) ? emit(UPDATE_VISIBLE_EVENT, val) : state.visible = val
+    },
   })
 
   function _show() {
@@ -70,15 +62,12 @@ export default function (props, { emit }) {
         _hide()
       }, props.hideAfter)
     }
-    isBool(props.visible)
-      ? emit(UPDATE_VISIBLE_EVENT, true)
-      : (_visible.value = true)
+    visibility.value = true
+    popperInstance.update()
   }
 
   function _hide() {
-    isBool(props.visible)
-      ? emit(UPDATE_VISIBLE_EVENT, false)
-      : (_visible.value = false)
+    visibility.value = false
   }
 
   function clearTimers() {
@@ -87,7 +76,7 @@ export default function (props, { emit }) {
   }
 
   const show = () => {
-    if (props.manualMode || props.disabled) return
+    if (isManualMode() || props.disabled) return
     clearTimers()
     if (props.showAfter === 0) {
       _show()
@@ -99,7 +88,7 @@ export default function (props, { emit }) {
   }
 
   const hide = () => {
-    if (props.enterable || props.manualMode) return
+    if (isManualMode()) return
     clearTimers()
     if (props.closeDelay > 0) {
       hideTimer = window.setTimeout(() => {
@@ -117,7 +106,9 @@ export default function (props, { emit }) {
   }
 
   function onPopperMouseEnter() {
-    clearTimeout(hideTimer)
+    if (props.enterable) {
+      clearTimeout(hideTimer)
+    }
   }
 
   function onPopperMouseLeave() {
@@ -140,21 +131,24 @@ export default function (props, { emit }) {
     const _trigger = isHTMLElement(triggerRef.value)
       ? triggerRef.value
       : (triggerRef.value as ComponentPublicInstance).$el
+    detachPopper()
     popperInstance = createPopper(
       _trigger,
       popperRef.value,
       popperOptions.value,
     )
+
+    popperInstance.update()
   }
 
-  function doDestroy(forceDestroy: boolean) {
+  function doDestroy(forceDestroy?: boolean) {
     /* istanbul ignore if */
     if (!popperInstance || (visibility.value && !forceDestroy)) return
     detachPopper()
   }
 
   function detachPopper() {
-    popperInstance.destroy()
+    popperInstance?.destroy?.()
     popperInstance = null
   }
 
@@ -166,12 +160,12 @@ export default function (props, { emit }) {
     onBlur?: (e: Event) => void
   }
 
-  if (!props.manualMode) {
+  if (!isManualMode()) {
     const toggleState = () => {
       if (visibility.value) {
-        show()
-      } else {
         hide()
+      } else {
+        show()
       }
     }
 
@@ -236,15 +230,11 @@ export default function (props, { emit }) {
     }
   }
 
-  // watch(popperOptions, (val) => {
-  //   if (!popperInstance.value) return
-  //   popperInstance.value.setOptions({
-  //     placement: val.placement,
-  //     strategy: val.strategy,
-  //     modifiers: popperOptions.value.modifiers,
-  //   })
-  //   popperInstance.value.update()
-  // })
+  watch(popperOptions, val => {
+    if (!popperInstance) return
+    popperInstance.setOptions(val)
+    popperInstance.update()
+  })
 
   // watch(visibility, () => {
   //   if (popperInstance.value) {

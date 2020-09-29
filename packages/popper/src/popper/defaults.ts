@@ -1,8 +1,3 @@
-import { isArray } from '@element-plus/utils/util'
-import {
-  DEFAULT_TRIGGER,
-} from '../usePopper'
-
 import type { PropType } from 'vue'
 import type { Placement, PositioningStrategy, Instance as PopperInstance, Options } from '@popperjs/core'
 
@@ -13,9 +8,13 @@ export enum Effect {
 
 export type RefElement = Nullable<HTMLElement>
 export type Offset = [number, number] | number
-export { Placement, PositioningStrategy, PopperInstance, Options }
+
+export type { Placement, PositioningStrategy, PopperInstance, Options }
 
 export type TriggerType = 'click' | 'hover' | 'focus' | 'manual'
+
+export type Trigger = TriggerType | TriggerType[]
+
 export type IPopperOptions = {
   arrowOffset: number
   boundariesPadding: number
@@ -24,7 +23,6 @@ export type IPopperOptions = {
   cutoff: boolean
   disabled: boolean
   enterable: boolean
-  flip: boolean
   hideAfter: number
   manualMode: boolean
   offset: number
@@ -34,9 +32,11 @@ export type IPopperOptions = {
   showArrow: boolean
   strategy: PositioningStrategy
   tabIndex: string
-  trigger: TriggerType[] | TriggerType
+  trigger: Trigger
   visible: boolean
 }
+
+export const DEFAULT_TRIGGER = 'hover'
 
 export default {
   // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
@@ -81,10 +81,6 @@ export default {
     type: Boolean,
     default: true,
   },
-  flip: {
-    type: Boolean,
-    default: true,
-  },
   hideAfter: {
     type: Number,
     default: 0,
@@ -98,11 +94,8 @@ export default {
     default: 0,
   },
   offset: {
-    type: [Number, Array] as PropType<Offset>,
-    default: [0, 12] as Offset,
-    validator: (val: Offset): boolean => {
-      return (isArray(val) && val.length === 2) || typeof val === 'number'
-    },
+    type: Number,
+    default: 12,
   },
   placement: {
     type: String as PropType<Placement>,
@@ -121,10 +114,6 @@ export default {
     type: Object as PropType<Options>,
     default: () => null,
   },
-  referrer: {
-    type: HTMLElement as PropType<Nullable<HTMLElement>>,
-    default: null,
-  },
   showArrow: {
     type: Boolean,
     default: true,
@@ -138,7 +127,7 @@ export default {
     default: 'el-fade-in-linear',
   },
   trigger: {
-    type: [String, Array] as PropType<TriggerType | Array<TriggerType>>,
+    type: [String, Array] as PropType<Trigger>,
     default: DEFAULT_TRIGGER,
   },
   tabIndex: {
