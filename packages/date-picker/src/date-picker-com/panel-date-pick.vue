@@ -51,7 +51,7 @@
                 :format="format"
                 :visible="timePickerVisible"
                 :time-arrow-control="arrowControl"
-                :parsed-value="parsedDatePickerValue"
+                :parsed-value="parsedValue"
                 @pick="handleTimePick"
               />
             </span>

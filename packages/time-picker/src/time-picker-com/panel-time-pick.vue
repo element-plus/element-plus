@@ -70,10 +70,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    pickerOptions: {
-      type: Object,
-      default: () => ({}),
-    },
     format: {
       type: String,
       default: '',
@@ -182,10 +178,6 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      // result = dayjs(props.defaultValue as Date)
-      //     if (props.type === 'dates') {
-      //       result = []
-      //     }
       return dayjs(defaultValue)
     }
 

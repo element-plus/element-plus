@@ -227,7 +227,6 @@ Picking a month range is supported.
       range-separator="To"
       start-placeholder="Start month"
       end-placeholder="End month"
-      :picker-options="pickerOptions"
       :shortcuts="shortcuts"
     >
     </el-date-picker>
