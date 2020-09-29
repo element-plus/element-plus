@@ -99,7 +99,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['change', 'select-range'],
+  emits: ['change', 'select-range', 'set-option'],
 
   setup(props, ctx) {
     // data
@@ -313,8 +313,8 @@ export default defineComponent({
     }
 
     const pickerPanel = inject('EP_TIMEPICK_PANEL') as any
-    pickerPanel.hub.emit('SetOption',[`${props.role}_scrollDown`, scrollDown])
-    pickerPanel.hub.emit('SetOption',[`${props.role}_emitSelectRange`, emitSelectRange])
+    ctx.emit('set-option',[`${props.role}_scrollDown`, scrollDown])
+    ctx.emit('set-option',[`${props.role}_emitSelectRange`, emitSelectRange])
 
     const {
       getHoursList,

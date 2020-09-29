@@ -21,6 +21,7 @@
               :arrow-control="arrowControl"
               :spinner-date="minDate"
               @change="handleMinChange"
+              @set-option="onSetOption"
               @select-range="setMinSelectionRange"
             />
           </div>
@@ -39,6 +40,7 @@
               :arrow-control="arrowControl"
               :spinner-date="maxDate"
               @change="handleMaxChange"
+              @set-option="onSetOption"
               @select-range="setMaxSelectionRange"
             />
           </div>
@@ -75,7 +77,6 @@ import {
   provide,
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
-import mitt from 'mitt'
 import union from 'lodash/union'
 import { t } from '@element-plus/locale'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -103,8 +104,7 @@ export default defineComponent({
       default: false,
     },
     parsedValue: {
-      type: Array as PropType<Array<Dayjs>>,
-      default: '',
+      type: [Array, String] as PropType<string | Array<Dayjs>>,
     },
     format: {
       type: String,
@@ -112,7 +112,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['pick', 'select-range'],
+  emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
     const minDate = computed(() => props.parsedValue[0])
@@ -300,24 +300,22 @@ export default defineComponent({
       ]
     }
 
-    const pickerBase = inject('EP_PICKER_BASE') as any
-    pickerBase.hub.emit('SetPickerOption',['formatToString', formatToString])
-    pickerBase.hub.emit('SetPickerOption',['parseUserInput', parseUserInput])
-    pickerBase.hub.emit('SetPickerOption',['isValidValue', isValidValue])
-    pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
-    pickerBase.hub.emit('SetPickerOption',['getDefaultValue', getDefaultValue])
-    pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])
+    ctx.emit('set-picker-option',['formatToString', formatToString])
+    ctx.emit('set-picker-option',['parseUserInput', parseUserInput])
+    ctx.emit('set-picker-option',['isValidValue', isValidValue])
+    ctx.emit('set-picker-option',['handleKeydown', handleKeydown])
+    ctx.emit('set-picker-option',['getDefaultValue', getDefaultValue])
+    ctx.emit('set-picker-option',['getRangeAvaliableTime', getRangeAvaliableTime])
 
     const timePickeOptions = {} as any
-    const pickerHub = mitt()
-    pickerHub.on('SetOption', e => {
+    const onSetOption = e => {
       timePickeOptions[e[0]] = e[1]
-    })
+    }
 
+    const pickerBase = inject('EP_PICKER_BASE') as any
     const { disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
 
     provide('EP_TIMEPICK_PANEL', {
-      hub: pickerHub,
       methods: {
         disabledHours: disabledHours_,
         disabledMinutes: disabledMinutes_,
@@ -326,6 +324,7 @@ export default defineComponent({
     })
 
     return {
+      onSetOption,
       setMaxSelectionRange,
       setMinSelectionRange,
       btnConfirmDisabled,

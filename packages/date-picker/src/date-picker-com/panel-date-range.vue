@@ -234,7 +234,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['pick'],
+  emits: ['pick', 'set-picker-option'],
 
   setup(props, ctx) {
     const leftDate = ref(dayjs())
@@ -423,10 +423,10 @@ export default defineComponent({
       return [start, start.add(1, 'month')]
     }
 
-    const pickerBase = inject('EP_PICKER_BASE') as any
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
-    pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
+    ctx.emit('set-picker-option', ['formatToString', formatToString])
 
+    const pickerBase = inject('EP_PICKER_BASE') as any
     const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue } = pickerBase.props
 
     watch(() => props.parsedValue, newVal => {

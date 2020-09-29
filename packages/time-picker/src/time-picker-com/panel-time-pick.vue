@@ -13,6 +13,7 @@
           :am-pm-mode="amPmMode"
           :spinner-date="parsedValue"
           @change="handleChange"
+          @set-option="onSetOption"
           @select-range="setSelectionRange"
         />
       </div>
@@ -47,7 +48,6 @@ import {
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { t } from '@element-plus/locale'
-import mitt from 'mitt'
 import TimeSpinner from './basic-time-spinner.vue'
 import dayjs, { Dayjs } from 'dayjs'
 import { getAvaliableArrs } from './useTimePicker'
@@ -63,8 +63,7 @@ export default defineComponent({
       default: false,
     },
     parsedValue: {
-      type: Dayjs as PropType<Dayjs>,
-      default: '',
+      type: [Object, String] as PropType<string | Dayjs>,
     },
     arrowControl: {
       type: Boolean,
@@ -76,7 +75,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['pick', 'select-range'],
+  emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
     // data
@@ -181,19 +180,17 @@ export default defineComponent({
       return dayjs(defaultValue)
     }
 
-    const pickerBase = inject('EP_PICKER_BASE') as any
-    pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
-    pickerBase.hub.emit('SetPickerOption', ['formatToString', formatToString])
-    pickerBase.hub.emit('SetPickerOption', ['parseUserInput', parseUserInput])
-    pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
-    pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])
-    pickerBase.hub.emit('SetPickerOption',['getDefaultValue', getDefaultValue])
+    ctx.emit('set-picker-option', ['isValidValue', isValidValue])
+    ctx.emit('set-picker-option', ['formatToString', formatToString])
+    ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
+    ctx.emit('set-picker-option',['handleKeydown', handleKeydown])
+    ctx.emit('set-picker-option',['getRangeAvaliableTime', getRangeAvaliableTime])
+    ctx.emit('set-picker-option',['getDefaultValue', getDefaultValue])
     const timePickeOptions = {} as any
-    const pickerHub = mitt()
-    pickerHub.on('SetOption', e => {
+    const onSetOption = e => {
       timePickeOptions[e[0]] = e[1]
-    })
-
+    }
+    const pickerBase = inject('EP_PICKER_BASE') as any
     const { disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
     const {
       getAvaliableHours,
@@ -201,12 +198,12 @@ export default defineComponent({
       getAvaliableSeconds,
     } = getAvaliableArrs(disabledHours, disabledMinutes, disabledSeconds)
     provide('EP_TIMEPICK_PANEL', {
-      hub: pickerHub,
       methods: {
         disabledHours, disabledMinutes, disabledSeconds,
       },
     })
     return {
+      onSetOption,
       t,
       handleConfirm,
       handleChange,

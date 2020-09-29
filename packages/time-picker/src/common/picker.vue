@@ -21,7 +21,7 @@
         :placeholder="placeholder"
         class="el-date-editor"
         :class="'el-date-editor--' + type"
-        :readonly="!editable || readonly || type === 'dates' || type === 'week'"
+        :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         @input="onUserInput"
         @focus="handleFocus"
         @keydown="handleKeydown"
@@ -108,6 +108,7 @@
         v-bind="$attrs"
         @pick="onPick"
         @select-range="setSelectionRange"
+        @set-picker-option="onSetPickerOption"
         @mousedown.stop
       ></slot>
     </template>
@@ -128,7 +129,6 @@ import { ClickOutside } from '@element-plus/directives'
 import ElInput from '@element-plus/input/src/index.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import mitt from 'mitt'
 // Date object and string
 const dateEquals = function(a, b) {
   const aIsDate = a instanceof Date
@@ -261,6 +261,10 @@ export default defineComponent({
       type: Array,
       default: () => ([]),
     },
+    arrowControl: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup(props, ctx) {
@@ -307,7 +311,6 @@ export default defineComponent({
       }
     }
     const onPick = (date: any = '', visible = false, useOldValue = false) => {
-      console.log('visible', visible)
       pickerVisible.value = visible
       let result
       if (useOldValue) {
@@ -334,7 +337,6 @@ export default defineComponent({
     })
 
     const parsedValue = computed(() => {
-      if (!pickerOptions.value.panelReady) return
       let result
       if (!props.modelValue) {
         if (pickerOptions.value.getDefaultValue) {
@@ -368,17 +370,27 @@ export default defineComponent({
         return userInput.value
       }
       if (formattedValue) {
-        return props.type === 'dates'
+        return isDatesPicker.value
           ? (formattedValue as Array<string>).join(', ')
           : formattedValue
       }
       return ''
     })
-    const isTimePicker = computed(() => {
+
+    const isTimeLikePicker = computed(() => {
       return props.type.indexOf('time') !== -1
     })
+
+    const isTimePicker = computed(() => {
+      return props.type.indexOf('time') === 0
+    })
+
+    const isDatesPicker = computed(() => {
+      return props.type === 'dates'
+    })
+
     const triggerClass = computed(() => {
-      return props.prefixIcon || (isTimePicker.value ? 'el-icon-time' : 'el-icon-date')
+      return props.prefixIcon || (isTimeLikePicker.value ? 'el-icon-time' : 'el-icon-date')
     })
     const showClose = ref(false)
     const onClearIconClick = event =>{
@@ -419,7 +431,7 @@ export default defineComponent({
       pickerVisible.value = false
     }
 
-    const userInput =ref(null)
+    const userInput = ref(null)
 
     const handleChange = () => {
       if (userInput.value) {
@@ -546,16 +558,16 @@ export default defineComponent({
     }
 
     const pickerOptions = ref({} as PickerOptions)
-    const pickerHub = mitt()
-    pickerHub.on('SetPickerOption', e => {
+    const onSetPickerOption = e => {
       pickerOptions.value[e[0]] = e[1]
       pickerOptions.value.panelReady = true
-    })
+    }
+
     provide('EP_PICKER_BASE', {
-      hub: pickerHub,
       props,
     })
     return {
+      isDatesPicker,
       handleEndChange,
       handleStartChange,
       handleStartInput,
@@ -579,6 +591,7 @@ export default defineComponent({
       setSelectionRange,
       refContainer,
       pickerDisabled,
+      onSetPickerOption,
     }
   },
 })
