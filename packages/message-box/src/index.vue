@@ -103,6 +103,7 @@ import ElInput from '@element-plus/input/src/index.vue'
 import { t } from '@element-plus/locale'
 import Dialog  from '@element-plus/utils/aria-dialog'
 import usePopup from '@element-plus/utils/popup/usePopup'
+import { on, off } from '@element-plus/utils/dom'
 
 let dialog
 
@@ -260,13 +261,13 @@ export default defineComponent({
     onMounted(async () => {
       await nextTick()
       if (props.closeOnHashChange) {
-        window.addEventListener('hashchange', popup.close)
+        on(window, 'hashchange', popup.close)
       }
     })
 
     onBeforeUnmount(() => {
       if (props.closeOnHashChange) {
-        window.removeEventListener('hashchange', popup.close)
+        off(window, 'hashchange', popup.close)
       }
       setTimeout(() => {
         dialog.closeDialog()
