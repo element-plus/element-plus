@@ -1,6 +1,6 @@
 name: CI
 
-on: [push, pull_request]
+on: pull_request
 
 jobs:
   build:
@@ -25,5 +25,4 @@ jobs:
       - name: auto-merge
         uses: ridedott/dependabot-auto-merge-action@master
         with:
-          GITHUB_LOGIN: dependabot[bot]
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

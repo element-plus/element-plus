@@ -1,14 +1,32 @@
-export const eventKeys = {
-  tab: 9,
-  enter: 13,
-  space: 32,
-  left: 37,
-  up: 38,
-  right: 39,
-  down: 40,
-  esc: 27,
-  backspace: 8,
-  delete: 46,
+export const EVENT_CODE = {
+  tab: 'Tab',
+  enter: 'Enter',
+  space: 'Space',
+  left: 'ArrowLeft',
+  up: 'ArrowUp',
+  right: 'ArrowRight',
+  down: 'ArrowDown',
+  esc: 'Escape',
+  delete: 'Delete',
+  backspace: 'Backspace',
+}
+
+const FOCUSABLE_ELEMENT_SELECTORS =`a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`
+
+/**
+ * Determine if the testing element is visible on screen no matter if its on the viewport or not
+ */
+export const isVisible = (element: HTMLElement) => {
+  if (process.env.NODE_ENV === 'test') return true
+  const computed = getComputedStyle(element)
+  // element.offsetParent won't work on fix positioned
+  // WARNING: potential issue here, going to need some expert advices on this issue
+  return computed.position === 'fixed' ? false : element.offsetParent !== null
+}
+
+export const obtainAllFocusableElements = (element: HTMLElement): HTMLElement[] => {
+  return Array.from(element.querySelectorAll(FOCUSABLE_ELEMENT_SELECTORS)).filter(isFocusable)
+    .filter(isVisible) as HTMLElement[]
 }
 
 /**
@@ -60,7 +78,7 @@ export const attemptFocus = (element: HTMLElement): boolean => {
   }
   Utils.IgnoreUtilFocusChanges = true
   // Remove the old try catch block since there will be no error to be thrown
-  element.focus && element.focus()
+  element.focus?.()
   Utils.IgnoreUtilFocusChanges = false
   return document.activeElement === element
 }
@@ -102,9 +120,9 @@ const Utils = {
    */
   focusFirstDescendant: function(element: HTMLElement): boolean {
     for (let i = 0; i < element.childNodes.length; i++) {
-      const child = element.childNodes[i]
+      const child = element.childNodes[i] as HTMLElement
       if (
-        attemptFocus(child as HTMLElement) ||
+        attemptFocus(child) ||
         this.focusFirstDescendant(child)
       ) {
         return true
@@ -121,9 +139,9 @@ const Utils = {
    */
   focusLastDescendant: function(element: HTMLElement): boolean {
     for (let i = element.childNodes.length - 1; i >= 0; i--) {
-      const child = element.childNodes[i]
+      const child = element.childNodes[i] as HTMLElement
       if (
-        attemptFocus(child as HTMLElement) ||
+        attemptFocus(child) ||
         this.focusLastDescendant(child)
       ) {
         return true

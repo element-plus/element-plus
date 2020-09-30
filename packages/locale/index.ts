@@ -2,14 +2,22 @@ import defaultLang from './lang/en'
 
 let lang = defaultLang
 
-export const t = (path:string): string => {
+function template(str: string, option) {
+  if(!str || !option) return str
+
+  return str.replace(/\{(\w+)\}/g, (match, key) => {
+    return option[key]
+  })
+}
+
+export const t = (path:string, option?): string => {
   let value
   const array = path.split('.')
   let current = lang
   for (let i = 0, j = array.length; i < j; i++) {
     const property = array[i]
-    value = current[property] || property
-    if (i === j - 1) return value
+    value = current[property]
+    if (i === j - 1) return template(value, option)
     if (!value) return ''
     current = value
   }

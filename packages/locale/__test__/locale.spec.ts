@@ -10,7 +10,7 @@ describe('Locale', () => {
   })
 
   test('return key name if not defined', () => {
-    expect(t('el.popconfirm.someThing')).toBe('someThing')
+    expect(t('el.popconfirm.someThing')).toBeUndefined()
   })
 
   test('use', () => {

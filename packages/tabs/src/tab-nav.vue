@@ -1,7 +1,7 @@
 <script lang='ts'>
 import { h, defineComponent, ref, inject, computed, onUpdated, onMounted, onBeforeUnmount, PropType } from 'vue'
 import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import TabBar from './tab-bar.vue'
 import { NOOP, capitalize } from '@vue/shared'
@@ -152,18 +152,18 @@ export default defineComponent({
     }
 
     const changeTab = e => {
-      const keyCode = e.keyCode
+      const code = e.code
       let nextIndex
       let currentIndex, tabList
 
-      const { up, down, left, right } = eventKeys
-      if ([up, down, left, right].indexOf(keyCode) !== -1) { // 左右上下键更换tab
+      const { up, down, left, right } = EVENT_CODE
+      if ([up, down, left, right].indexOf(code) !== -1) { // 左右上下键更换tab
         tabList = e.currentTarget.querySelectorAll('[role=tab]')
         currentIndex = Array.prototype.indexOf.call(tabList, e.target)
       } else {
         return
       }
-      if (keyCode === left || keyCode === up) { // left
+      if (code === left || code === up) { // left
         if (currentIndex === 0) { // first
           nextIndex = tabList.length - 1
         } else {
@@ -339,7 +339,7 @@ export default defineComponent({
           onFocus: () => { setFocus() },
           onBlur: () => { removeFocus() },
           onClick: ev => { removeFocus(); onTabClick(pane, tabName, ev) },
-          onKeydown: ev => { if (closable && (ev.keyCode === 46 || ev.keyCode === 8)) { onTabRemove(pane, ev)} },
+          onKeydown: ev => { if (closable && (ev.code === EVENT_CODE.delete || ev.code === EVENT_CODE.backspace)) { onTabRemove(pane, ev)} },
         },
         [tabLabelContent, btnClose],
       )

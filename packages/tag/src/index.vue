@@ -69,7 +69,7 @@ export default defineComponent({
       },
     },
   },
-  emits: ['close'],
+  emits: ['close','click'],
   setup(props, ctx) {
     // computed
     const tagSize = computed(() => {
@@ -94,7 +94,7 @@ export default defineComponent({
     }
 
     const handleClick = event => {
-      ctx.emit('close', event)
+      ctx.emit('click', event)
     }
 
     return {

@@ -43,8 +43,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, inject, watch, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
-import type { Ref, ComponentInternalInstance } from 'vue'
+import {
+  defineComponent, ref, computed, inject, watch, onBeforeUnmount, onMounted,
+  getCurrentInstance, reactive,
+} from 'vue'
+import type { Ref } from 'vue'
 
 interface IStepsProps {
   space: number | string
@@ -56,14 +59,16 @@ interface IStepsProps {
   processStatus: string
 }
 
-interface IStepInstance extends ComponentInternalInstance {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ctx: any
+interface StepItemState {
+  uid: number
+  currentStatus: string
+  setIndex: (val: number) => void
+  calcProgress: (status: string) => void
 }
 
 interface IStepsInject {
   props: IStepsProps
-  steps: Ref<Array<IStepInstance>>
+  steps: Ref<StepItemState[]>
 }
 
 export default defineComponent({
@@ -84,7 +89,7 @@ export default defineComponent({
     status: {
       type: String,
       default: '',
-      validator: (val: string): boolean => ['', 'wait', 'process', 'finish', 'error', 'success'].indexOf(val) > -1,
+      validator: (val: string): boolean => ['', 'wait', 'process', 'finish', 'error', 'success'].includes(val),
     },
   },
   setup(props) {
@@ -92,9 +97,7 @@ export default defineComponent({
     const lineStyle = ref({})
     const internalStatus = ref('')
     const parent: IStepsInject = inject('ElSteps')
-    const currentInstance = getCurrentInstance() as IStepInstance
-
-    parent.steps.value = [...parent.steps.value, currentInstance]
+    const currentInstance = getCurrentInstance()
 
     onMounted(() => {
       watch([() => parent.props.active, () => parent.props.processStatus, () => parent.props.finishStatus], ([active]) => {
@@ -110,8 +113,8 @@ export default defineComponent({
       return props.status || internalStatus.value
     })
     const prevStatus = computed(() => {
-      const prevStep = parent.steps[index.value - 1]
-      return prevStep ? prevStep.ctx.currentStatus : 'wait'
+      const prevStep = parent.steps.value[index.value - 1]
+      return prevStep ? prevStep.currentStatus : 'wait'
     })
     const isCenter = computed(() => {
       return parent.props.alignCenter
@@ -126,7 +129,7 @@ export default defineComponent({
       return parent.steps.value.length
     })
     const isLast = computed(() => {
-      return parent.steps.value[stepsCount.value - 1].uid === currentInstance.uid
+      return parent.steps.value[stepsCount.value - 1]?.uid === currentInstance.uid
     })
     const space = computed(() => {
       return isSimple.value ? '' : parent.props.space
@@ -173,20 +176,25 @@ export default defineComponent({
         internalStatus.value = 'wait'
       }
       const prevChild = parent.steps.value[stepsCount.value - 1]
-      if (prevChild) prevChild.ctx.calcProgress(internalStatus.value)
+      if (prevChild) prevChild.calcProgress(internalStatus.value)
     }
+
+    const stepItemState = reactive({
+      uid: computed(() => currentInstance.uid),
+      currentStatus,
+      setIndex,
+      calcProgress,
+    })
+    parent.steps.value = [...parent.steps.value, stepItemState]
 
     return {
       index,
       lineStyle,
-      internalStatus,
       currentStatus,
-      prevStatus,
       isCenter,
       isVertical,
       isSimple,
       isLast,
-      stepsCount,
       space,
       style,
       parent,

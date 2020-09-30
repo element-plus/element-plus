@@ -1,15 +1,14 @@
 <template>
   <div>
-    <el-button>{{ value1 }}</el-button>
+    change me
   </div>
 </template>
+
 
 <script>
 export default {
   data() {
-    return {
-      value1: 'TEST',
-    }
-  },
+    return {}
+  }
 }
 </script>

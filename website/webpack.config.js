@@ -2,18 +2,24 @@
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const isProd = process.env.NODE_ENV === 'production'
 const isPlay = !!process.env.PLAY_ENV
 
-module.exports = {
+const babelOptions = {
+  plugins: ['@vue/babel-plugin-jsx'],
+}
+
+const config = {
   mode: isProd ? 'production' : 'development',
-  devtool: isProd ? 'source-map' : 'cheap-module-eval-source-map',
+  devtool: !isProd && 'cheap-module-eval-source-map',
   entry: isPlay ? path.resolve(__dirname, './play.js') : path.resolve(__dirname, './entry.js'),
   output: {
     path: path.resolve(__dirname, '../website-dist'),
     publicPath: '/',
+    filename: isProd ? '[name].[hash].js' : '[name].js',
   },
   stats: 'verbose',
   module: {
@@ -23,25 +29,40 @@ module.exports = {
         use: 'vue-loader',
       },
       {
-        test: /\.(sass|scss|css)$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: require('sass'),
-            },
-          },
-        ],
-      },
-      {
         test: /\.ts$/,
+        exclude: /node_modules/,
         loader: 'ts-loader',
         options: {
           appendTsSuffixTo: [/\.vue$/],
           transpileOnly: true,
         },
+      },
+      {
+        test: /\.tsx$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions,
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              appendTsxSuffixTo: [/\.vue$/],
+              transpileOnly: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.js(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions,
+          },
+        ],
       },
       {
         test: /\.md$/,
@@ -71,7 +92,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js', '.vue', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
     alias: {
       'vue': '@vue/runtime-dom',
       examples: path.resolve(__dirname),
@@ -95,3 +116,28 @@ module.exports = {
     overlay: true,
   },
 }
+
+const cssRule = {
+  test: /\.(sass|scss|css)$/,
+  use: [
+    'css-loader',
+    {
+      loader: 'sass-loader',
+      options: {
+        implementation: require('sass'),
+      },
+    },
+  ],
+}
+
+if (isProd) {
+  config.plugins.push(new MiniCssExtractPlugin({
+    filename: '[name].[contenthash].css',
+    chunkFilename: '[id].[contenthash].css',
+  }))
+  cssRule.use.unshift(MiniCssExtractPlugin.loader)
+} else {
+  cssRule.use.unshift('style-loader')
+}
+config.module.rules.push(cssRule)
+module.exports = config

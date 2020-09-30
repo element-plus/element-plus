@@ -9,6 +9,8 @@
 
 This project is still under heavy development. Feel free to join us and make your first pull request.
 
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-ncxnt?fontsize=14&hidenavigation=1&theme=dark)
+
 ---
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody <a href="https://discord.link/ElementPlus" target="_blank" rel="noreferrer noopener" align="center"> ![Discord](https://discord.com/api/guilds/746641026239954954/widget.png?style=shield)</a>
@@ -20,13 +22,18 @@ $ yarn bootstrap
 ```
 the project will install all dependencies and run `lerna bootstrap` to initialize the project
 
-## Storybook preview
+## Website preview
 With command
 ```bash
-$ yarn storybook
+$ yarn website-dev
 ```
-the project will launch `@storybook` client for you to preview all existing component
+the project will launch website for you to preview all existing component
 
+You can also use this command to start a blank page to debug
+```bash
+$ yarn website-dev:play
+//source file: ./website/play/index.vue
+```
 ## Component migration process
 1. Convert the item in https://github.com/element-plus/element-plus/projects/1 to an issue
 2. Assign yourself to the issue
