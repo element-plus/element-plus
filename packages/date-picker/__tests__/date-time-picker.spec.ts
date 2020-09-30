@@ -1,7 +1,10 @@
+import { triggerEvent } from '@element-plus/test-utils'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import { nextTick } from 'vue'
 import DatePicker from '../src/date-picker'
+
+const formatStr = 'YYYY-MM-DD HH:mm:ss'
 
 const _mount = (template: string, data = () => ({}), otherObj?) => mount({
   components: {
@@ -194,6 +197,164 @@ describe('Datetime Picker', () => {
     // click confirm button
     (document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement).click()
     const vm = wrapper.vm as any
-    expect(dayjs(vm.value).format('YYYY-MM-DD HH:mm:ss')).toBe('2000-10-01 12:00:00')
+    expect(dayjs(vm.value).format(formatStr)).toBe('2000-10-01 12:00:00')
+  })
+})
+
+describe('Datetimerange', () => {
+
+  it('select daterange and default Time and input format', async () => {
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        type="datetimerange"
+        :defaultTime="new Date(2020, 1, 1, 1, 1, 1)"
+        format="YYYY/MM/DD HH:mm A"
+    />`, () => ({
+      value: [new Date(2000, 10, 8, 10, 10), new Date(2000, 10, 11, 10, 10)],
+    }))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const pickers = document.querySelectorAll('.el-date-range-picker__content')
+    const leftCell = pickers[0].querySelector('td.available')
+    const rightCell = pickers[1].querySelector('td.available')
+    triggerEvent(leftCell, 'mousemove', true)
+    triggerEvent(leftCell, 'click', true)
+    await nextTick()
+    triggerEvent(rightCell, 'mousemove', true)
+    triggerEvent(rightCell, 'click', true)
+    await nextTick();
+    (document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement).click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.map(_ => dayjs(_).format(formatStr)))
+      .toStrictEqual(['2000-11-01 01:01:01', '2000-12-01 01:01:01'])
+    const pickerss = document.querySelectorAll('.el-date-range-picker__time-header .el-date-range-picker__editors-wrap')
+    const left = {
+      dateInput: pickerss[0].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(1) input'),
+      timeInput: pickerss[0].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(2) input'),
+    }
+    const right = {
+      dateInput: pickerss[1].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(1) input'),
+      timeInput: pickerss[1].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(2) input'),
+    }
+    await nextTick()
+    // both input shows correct value
+    expect((left.dateInput as HTMLInputElement).value).toBe('2000/11/01')
+    expect((left.timeInput as HTMLInputElement).value).toBe('01:01 AM')
+    expect((right.dateInput as HTMLInputElement).value).toBe('2000/12/01')
+    expect((right.timeInput as HTMLInputElement).value).toBe('01:01 AM')
+  })
+
+  it('input date', async () => {
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        type="datetimerange"
+    />`, () => ({
+      value: '',
+    }))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const pickerss = document.querySelectorAll('.el-date-range-picker__time-header .el-date-range-picker__editors-wrap')
+    const leftDateInput = pickerss[0].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(1) input') as HTMLInputElement
+    const rightDateInput = pickerss[0].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(1) input') as HTMLInputElement
+    leftDateInput.value = '1999-03-04'
+    triggerEvent(leftDateInput, 'input', true)
+    triggerEvent(leftDateInput, 'change', true)
+    await nextTick()
+    const pickers = document.querySelectorAll('.el-date-range-picker__content')
+    const leftCell = pickers[0].querySelector('td.available')
+    const rightCell = pickers[1].querySelector('td.available')
+    triggerEvent(leftCell, 'mousemove', true)
+    triggerEvent(leftCell, 'click', true)
+    await nextTick()
+    triggerEvent(rightCell, 'mousemove', true)
+    triggerEvent(rightCell, 'click', true)
+    await nextTick()
+    const btn = document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement
+    btn.click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.map(_ => dayjs(_).format(formatStr)))
+      .toStrictEqual(['1999-03-01 00:00:00','1999-04-01 00:00:00'])
+    // input date when minDate > maxDate
+    rightDateInput.value = '1998-01-01'
+    triggerEvent(rightDateInput, 'input', true)
+    triggerEvent(rightDateInput, 'change', true)
+    await nextTick()
+    btn.click()
+    await nextTick()
+    expect(dayjs(vm.value[0]).isBefore(vm.value[1])).toBeTruthy()
+  })
+
+
+  it('select time', async () => {
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        type="datetimerange"
+    />`, () => ({
+      value: '',
+    }))
+    const vm = wrapper.vm as any
+    expect(vm.value).toBe('')
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const timeInput = document.querySelectorAll('.el-date-range-picker__editors-wrap input')[1] as HTMLInputElement
+    timeInput.blur()
+    timeInput.focus()
+    timeInput.blur()
+    await nextTick()
+    const button = document.querySelector('.el-date-range-picker__time-picker-wrap .el-time-panel .confirm') as HTMLElement
+    button.click()
+    await nextTick()
+    const btn = document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement
+    btn.click()
+    expect(vm.value).not.toBe('')
+  })
+
+  it('confirm honors disabledDate', async () => {
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        type="datetimerange"
+        :disabledDate="disabledDate"
+    />`, () => ({
+      value: '',
+      disabledDate: date => {
+        return date.getTime() < new Date(2000, 9, 1) // 2000-10-01
+      },
+    }))
+    const vm = wrapper.vm as any
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    // simulate user input of invalid date
+    const pickerss = document.querySelectorAll('.el-date-range-picker__time-header .el-date-range-picker__editors-wrap')
+    const leftDateInput = pickerss[0].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(1) input') as HTMLInputElement
+    leftDateInput.value = '2000-09-01'
+    triggerEvent(leftDateInput, 'input', true)
+    triggerEvent(leftDateInput, 'change', true)
+    await nextTick()
+    const btn = document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement
+    expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
+    btn.click()
+    await nextTick()
+    const rangePanel = document.querySelector('.el-date-range-picker')
+    expect(rangePanel.getAttribute('visible')).toBe('true') // popper still open
+    expect(vm.value).toBe('')
+    leftDateInput.value = '2001-09-01'
+    triggerEvent(leftDateInput, 'input', true)
+    triggerEvent(leftDateInput, 'change', true)
+    await nextTick()
+    expect(btn.getAttribute('disabled')).not.toBeUndefined()
+    btn.click()
+    await nextTick()
+    expect(rangePanel.getAttribute('visible')).toBe('false') // popper dismiss
+    expect(vm.value).not.toBe('')
   })
 })

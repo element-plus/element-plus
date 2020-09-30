@@ -3,6 +3,7 @@
   <!-- todo popper custom popper-class  -->
   <!-- todo bug handleKeydown event twice  -->
   <el-popper
+    ref="popper"
     v-model:visible="pickerVisible"
     pure
     manual-mode

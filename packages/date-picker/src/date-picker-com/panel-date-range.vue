@@ -410,6 +410,7 @@ export default defineComponent({
     }
 
     const formatEmit = (emitDayjs: Dayjs, index?) => {
+      if (!emitDayjs) return
       if (defaultTime) {
         const defaultTimeD = dayjs(defaultTime[index] || defaultTime)
         return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date())
