@@ -25,7 +25,6 @@
             <span class="el-date-range-picker__editors-wrap">
               <span class="el-date-range-picker__time-picker-wrap">
                 <el-input
-                  ref="minInput"
                   size="small"
                   :disabled="rangeState.selecting"
                   :placeholder="t('el.datepicker.startDate')"
@@ -47,9 +46,9 @@
                   @change="val => handleTimeChange(val, 'min')"
                 />
                 <time-pick-panel
-                  ref="minTimePicker"
                   :visible="minTimePickerVisible"
                   :format="timeFormat"
+                  datetime-role="start"
                   :time-arrow-control="arrowControl"
                   :parsed-value="leftDate"
                   @pick="handleMinTimePick"
@@ -83,7 +82,7 @@
                   @change="val => handleTimeChange(val, 'max')"
                 />
                 <time-pick-panel
-                  ref="minTimePicker"
+                  datetime-role="end"
                   :visible="maxTimePickerVisible"
                   :format="timeFormat"
                   :time-arrow-control="arrowControl"

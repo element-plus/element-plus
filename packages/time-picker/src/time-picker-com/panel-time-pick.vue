@@ -62,6 +62,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    datetimeRole: {
+      type: String,
+    },
     parsedValue: {
       type: [Object, String] as PropType<string | Dayjs>,
     },
@@ -153,11 +156,11 @@ export default defineComponent({
           let avaliableArr
           const method = avaliableMap[_]
           if (_ === 'minute') {
-            avaliableArr = method(result.hour())
+            avaliableArr = method(result.hour(), props.datetimeRole)
           } else if (_ === 'second') {
-            avaliableArr = method(result.hour(), result.minute())
+            avaliableArr = method(result.hour(), result.minute(), props.datetimeRole)
           } else {
-            avaliableArr = method()
+            avaliableArr = method(props.datetimeRole)
           }
           if (avaliableArr && avaliableArr.length && !avaliableArr.includes(result[_]())) {
             result = result[_](avaliableArr[0])

@@ -37,7 +37,6 @@
               class="el-date-picker__editor-wrap"
             >
               <el-input
-                ref="input"
                 :placeholder="t('el.datepicker.selectTime')"
                 :model-value="visibleTime"
                 size="small"
@@ -46,7 +45,6 @@
                 @change="handleVisibleTimeChange"
               />
               <time-pick-panel
-                ref="timepicker"
                 :visible="timePickerVisible"
                 :format="timeFormat"
                 :time-arrow-control="arrowControl"

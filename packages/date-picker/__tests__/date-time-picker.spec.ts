@@ -5,7 +5,13 @@ import { nextTick } from 'vue'
 import DatePicker from '../src/date-picker'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'
-
+const makeRange = (start, end) => {
+  const result = []
+  for (let i = start; i <= end; i++) {
+    result.push(i)
+  }
+  return result
+}
 const _mount = (template: string, data = () => ({}), otherObj?) => mount({
   components: {
     'el-date-picker': DatePicker,
@@ -198,6 +204,74 @@ describe('Datetime Picker', () => {
     (document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement).click()
     const vm = wrapper.vm as any
     expect(dayjs(vm.value).format(formatStr)).toBe('2000-10-01 12:00:00')
+  })
+
+  it.only('selectableRange', async () => {
+    const disabledHoursArr = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,23]
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        type="datetime"
+        :disabledHours="disabledHours"
+        :disabledMinutes="disabledMinutes"
+        :disabledSeconds="disabledSeconds"
+    />`, () => ({
+      value: new Date(2019, 0, 1, 18, 50) }),
+    {
+      methods: {
+        disabledHours() {
+          return disabledHoursArr
+        },
+        disabledMinutes (hour) {
+          // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
+          if (hour === 17) {
+            return makeRange(0, 29)
+          }
+          if (hour === 18) {
+            return makeRange(31, 49)
+          }
+          if (hour === 20) {
+            return makeRange(31, 59)
+          }
+          if (hour === 22) {
+            return makeRange(1, 59)
+          }
+        },
+        disabledSeconds(hour, minute) {
+          if (hour === 18 && minute === 30) {
+            return makeRange(1, 59)
+          }
+          if (hour === 20 && minute === 30) {
+            return makeRange(1, 59)
+          }
+          if (hour === 22 && minute === 0) {
+            return makeRange(1, 59)
+          }
+        },
+      },
+    })
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const input1 = document.querySelectorAll('.el-date-picker__editor-wrap input')[1] as HTMLInputElement
+    input1.blur()
+    input1.focus()
+    await nextTick()
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const disabledHours = [].slice
+      .call(hoursEl.querySelectorAll('.disabled'))
+      .map(node => Number(node.textContent))
+    expect(disabledHours).toStrictEqual([
+      0,  1,  2,  3,  4,  5,  6,
+      7,  8,  9, 10, 11, 12, 13,
+      14, 15, 16, 23,
+    ])
+    const minutesEl = list[1]
+    const disabledMinutes = [].slice
+      .call(minutesEl.querySelectorAll('.disabled'))
+      .map(node => Number(node.textContent))
+    expect(disabledMinutes.length).toBe(19)
   })
 })
 
