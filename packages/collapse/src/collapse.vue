@@ -5,11 +5,11 @@
 </template>
 <script lang='ts'>
 import { defineComponent, ref, watch, provide, PropType, Ref, onUnmounted } from 'vue'
-import mitt from 'mitt'
+import mitt, { Emitter } from 'mitt'
 
 export interface CollapseProvider {
   activeNames: Ref
-  collapseMitt: mitt.Emitter
+  collapseMitt: Emitter
 }
 
 export default defineComponent({
@@ -24,7 +24,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, { emit }) {
     const activeNames = ref([].concat(props.modelValue))
-    const collapseMitt: mitt.Emitter = mitt()
+    const collapseMitt: Emitter = mitt()
 
     const setActiveNames = _activeNames => {
       activeNames.value = [].concat(_activeNames)
