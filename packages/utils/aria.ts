@@ -120,9 +120,9 @@ const Utils = {
    */
   focusFirstDescendant: function(element: HTMLElement): boolean {
     for (let i = 0; i < element.childNodes.length; i++) {
-      const child = element.childNodes[i]
+      const child = element.childNodes[i] as HTMLElement
       if (
-        attemptFocus(child as HTMLElement) ||
+        attemptFocus(child) ||
         this.focusFirstDescendant(child)
       ) {
         return true
@@ -139,9 +139,9 @@ const Utils = {
    */
   focusLastDescendant: function(element: HTMLElement): boolean {
     for (let i = element.childNodes.length - 1; i >= 0; i--) {
-      const child = element.childNodes[i]
+      const child = element.childNodes[i] as HTMLElement
       if (
-        attemptFocus(child as HTMLElement) ||
+        attemptFocus(child) ||
         this.focusLastDescendant(child)
       ) {
         return true
