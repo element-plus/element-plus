@@ -217,7 +217,7 @@ import { t } from '@element-plus/locale'
 import {
   extractDateFormat,
   extractTimeFormat,
-} from './time-picker-utils'
+} from '@element-plus/time-picker/src/common/date-utils'
 import { ClickOutside } from '@element-plus/directives'
 import TimePickPanel from '@element-plus/time-picker/src/time-picker-com/panel-time-pick.vue'
 import dayjs, { Dayjs } from 'dayjs'

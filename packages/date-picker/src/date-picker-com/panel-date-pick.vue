@@ -161,8 +161,7 @@
 import {
   extractDateFormat,
   extractTimeFormat,
-  timeWithinRange,
-} from './time-picker-utils'
+} from '@element-plus/time-picker/src/common/date-utils'
 import { t } from '@element-plus/locale'
 import ElInput from '@element-plus/input/src/index.vue'
 import { ClickOutside } from '@element-plus/directives'
@@ -181,6 +180,9 @@ import {
   watch,
   inject,
 } from 'vue'
+
+// todo
+const timeWithinRange = () => true
 
 export default defineComponent({
   components: {
