@@ -51,7 +51,7 @@
                   :visible="minTimePickerVisible"
                   :format="timeFormat"
                   :time-arrow-control="arrowControl"
-                  :parsed-value="minDate"
+                  :parsed-value="leftDate"
                   @pick="handleMinTimePick"
                 />
               </span>
@@ -87,7 +87,7 @@
                   :visible="maxTimePickerVisible"
                   :format="timeFormat"
                   :time-arrow-control="arrowControl"
-                  :parsed-value="maxDate"
+                  :parsed-value="rightDate"
                   @pick="handleMaxTimePick"
                 />
               </span>
@@ -539,9 +539,8 @@ export default defineComponent({
 
 
     const handleMinTimePick = (value, visible, first) => {
-      // this.minDate = this.minDate || new Date()
       if (value) {
-        minDate.value = minDate.value.hour(value.hour()).minute(value.minute()).second(value.second())
+        minDate.value = (minDate.value || leftDate.value).hour(value.hour()).minute(value.minute()).second(value.second())
       }
 
       if (!first) {
