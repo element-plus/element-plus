@@ -49,12 +49,12 @@ export default {
     type: {
       type: String,
       default: 'primary',
-      validator(val: string): boolean {
-        return ['primary', 'success', 'warning', 'info', 'danger'].indexOf(val) > -1
+      validator: (val: string) => {
+        return ['primary', 'success', 'warning', 'info', 'danger'].includes(val)
       },
     },
   },
-  setup(props: IBadgeProps): IBadgeSetups {
+  setup(props) {
     const content = computed(() => {
       if (props.isDot) {
         return
