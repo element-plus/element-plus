@@ -1,17 +1,17 @@
 <template>
   <el-popconfirm
-    confirm-button-text="好的"
-    cancel-button-text="不用了"
+    confirm-button-text="OK"
+    cancel-button-text="NO"
     icon="el-icon-info"
     icon-color="red"
-    title="这是一段内容确定删除吗？"
+    title="Are you sure to delete this?？"
     confirm-button-type="success"
     cancel-button-type="info"
     @confirm="onConfirm"
-    @cancel="onConfirm"
+    @cancel="onCancel"
   >
     <template #reference>
-      <el-button>删除</el-button>
+      <el-button>delete</el-button>
     </template>
   </el-popconfirm>
 </template>
@@ -21,10 +21,14 @@ export default {
   name: 'Basic',
   setup(){
     const onConfirm = () => {
-      console.log(1)
+      console.log('Confirm button clicked')
+    }
+    const onCancel = () => {
+      console.log('Cancel button clicked')
     }
     return {
       onConfirm,
+      onCancel,
     }
   },
 }
