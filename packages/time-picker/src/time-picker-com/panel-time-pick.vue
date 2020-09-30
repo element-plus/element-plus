@@ -80,6 +80,7 @@ export default defineComponent({
   setup(props, ctx) {
     // data
     const selectionRange = ref([0, 2])
+    const oldValue = ref(props.parsedValue)
     // computed
     const showSeconds = computed(() => {
       return props.format.includes('ss')
@@ -96,7 +97,7 @@ export default defineComponent({
       return parsedDate.isSame(result)
     }
     const handleCancel = () => {
-      ctx.emit('pick', '', false, true)
+      ctx.emit('pick', oldValue.value, false)
     }
     const handleConfirm = (visible = false, first) => {
       if (first) return

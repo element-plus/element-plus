@@ -267,7 +267,6 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup(props, ctx) {
-    const oldValue = ref(props.modelValue)
     const refContainer = ref(null)
     const pickerVisible = ref(false)
     const valueOnOpen = ref(null)
@@ -309,18 +308,14 @@ export default defineComponent({
         _inputs[1].focus()
       }
     }
-    const onPick = (date: any = '', visible = false, useOldValue = false) => {
+    const onPick = (date: any = '', visible = false) => {
       pickerVisible.value = visible
       let result
-      if (useOldValue) {
-        result = oldValue.value
+      if (Array.isArray(date)) {
+        result = date.map(_ => _.toDate())
       } else {
-        if (Array.isArray(date)) {
-          result = date.map(_ => _.toDate())
-        } else {
-          // clear btn emit null
-          result = date ? date.toDate() : date
-        }
+        // clear btn emit null
+        result = date ? date.toDate() : date
       }
       userInput.value = null
       emitInput(result)

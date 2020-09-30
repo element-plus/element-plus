@@ -380,7 +380,9 @@ export default defineComponent({
     const changeToNow = () => {
       // NOTE: not a permanent solution
       //       consider disable "now" button in the future
-      if ((!disabledDate || !disabledDate(new Date())) && checkDateWithinRange(new Date())) {
+      const now = dayjs()
+      const nowDate = now.toDate()
+      if ((!disabledDate || !disabledDate(nowDate)) && checkDateWithinRange(nowDate)) {
         innerDate.value = dayjs()
         emit(innerDate.value)
       }
@@ -462,7 +464,7 @@ export default defineComponent({
     }
 
     const parseUserInput = value => {
-      return dayjs(value, format)
+      return dayjs(value, props.format)
     }
 
     const getDefaultValue = () => {
@@ -523,7 +525,7 @@ export default defineComponent({
     ctx.emit('set-picker-option',['handleKeydown', handleKeydown])
 
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue, arrowControl } = pickerBase.props
+    const { shortcuts, disabledDate, cellClassName, defaultTime, defaultValue, arrowControl } = pickerBase.props
 
     watch(() => props.parsedValue, val => {
       if (val) {
