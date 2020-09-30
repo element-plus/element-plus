@@ -318,7 +318,8 @@ export default defineComponent({
         if (Array.isArray(date)) {
           result = date.map(_ => _.toDate())
         } else {
-          result = date.toDate()
+          // clear btn emit null
+          result = date ? date.toDate() : date
         }
       }
       userInput.value = null
@@ -337,7 +338,7 @@ export default defineComponent({
 
     const parsedValue = computed(() => {
       let result
-      if (!props.modelValue) {
+      if (valueIsEmpty.value) {
         if (pickerOptions.value.getDefaultValue) {
           result = pickerOptions.value.getDefaultValue()
         }
@@ -357,8 +358,8 @@ export default defineComponent({
 
     const displayValue = computed(() => {
       if (!pickerOptions.value.panelReady) return
-      if (!isTimePicker.value && !props.modelValue) return
-      if (!pickerVisible.value && !props.modelValue) return
+      if (!isTimePicker.value && valueIsEmpty.value) return
+      if (!pickerVisible.value && valueIsEmpty.value) return
       const formattedValue = formatDayjsToString(parsedValue.value)
       if (Array.isArray(userInput.value)) {
         return [
@@ -403,7 +404,7 @@ export default defineComponent({
       }
     }
     const valueIsEmpty = computed(() => {
-      return !props.modelValue
+      return !props.modelValue || (Array.isArray(props.modelValue) && !props.modelValue.length)
     })
     const onMouseEnter = () => {
       if (props.readonly || pickerDisabled.value) return

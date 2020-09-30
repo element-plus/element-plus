@@ -243,16 +243,16 @@ export default defineComponent({
       } else {
         ctx.emit('pick', formatEmit(value), ...args)
       }
-      // this.userInputDate = null
-      // this.userInputTime = null
+      userInputDate.value = null
+      userInputTime.value = null
     }
     const handleDatePick = (value: Dayjs) => {
       if (selectionMode.value === 'day') {
         let newDate = props.parsedValue ? (props.parsedValue as Dayjs).year(value.year()).month(value.month()).date(value.date()) : value
         // change default time while out of selectableRange
-        // if (!checkDateWithinRange(newDate)) {
-        //   newDate = modifyDate(selectableRange.value[0][0], value.getFullYear(), value.getMonth(), value.getDate())
-        // }
+        if (!checkDateWithinRange(newDate)) {
+          newDate = (selectableRange.value[0][0] as Dayjs).year(value.year()).month(value.month()).date(value.date())
+        }
         innerDate.value = newDate
         emit(newDate, showTime.value)
       } else if (selectionMode.value === 'week') {
@@ -361,10 +361,20 @@ export default defineComponent({
     })
 
     const onConfirm = () => {
-      // if (selectionMode.value === 'dates') {
-      //   emit(parsedDatePickerValue.value)
-      // }
-      emit(props.parsedValue)
+      if (selectionMode.value === 'dates') {
+        emit(props.parsedValue)
+      } else {
+        // deal with the scenario where: user opens the date time picker, then confirm without doing anything
+        let result = props.parsedValue as Dayjs
+        if (!result) {
+          const defaultTimeD = dayjs(defaultTime)
+          const defaultValueD = getDefaultValue()
+          result = defaultTimeD.year(defaultValueD.year()).month(defaultValueD.month()).date(defaultValueD.date())
+        }
+        innerDate.value = result
+        emit(result)
+      }
+
     }
 
     const changeToNow = () => {
