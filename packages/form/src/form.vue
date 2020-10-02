@@ -22,6 +22,44 @@ import {
 } from './token'
 import { Form } from '../../../types'
 
+
+function useFormLabelWidth() {
+  const potentialLabelWidthArr = []
+  const autoLabelWidth = computed(() => {
+    if (!potentialLabelWidthArr.length) return '0'
+    const max = Math.max(...potentialLabelWidthArr)
+    return max ? `${max}px` : ''
+  })
+
+  function getLabelWidthIndex(width: number) {
+    const index = potentialLabelWidthArr.indexOf(width)
+    // it's impossible
+    if (index === -1) {
+      throw new Error('[ElementForm]unpected width ' + width)
+    }
+    return index
+  }
+
+  function registerLabelWidth(val: number, oldVal: number) {
+    if (val && oldVal) {
+      const index = getLabelWidthIndex(oldVal)
+      potentialLabelWidthArr.splice(index, 1, val)
+    } else if (val) {
+      potentialLabelWidthArr.push(val)
+    }
+  }
+
+  function deregisterLabelWidth(val: number) {
+    const index = getLabelWidthIndex(val)
+    potentialLabelWidthArr.splice(index, 1)
+  }
+  return {
+    autoLabelWidth,
+    registerLabelWidth,
+    deregisterLabelWidth,
+  }
+}
+
 export default defineComponent({
   name: 'ElForm',
   props: {
@@ -55,7 +93,6 @@ export default defineComponent({
     const formMitt = mitt()
 
     const fields: FormItemCtx[] = []
-    const potentialLabelWidthArr = []
 
     watch(
       () => props.rules,
@@ -70,12 +107,6 @@ export default defineComponent({
         }
       },
     )
-
-    const autoLabelWidth = computed(() => {
-      if (!potentialLabelWidthArr.length) return '0'
-      const max = Math.max(...potentialLabelWidthArr)
-      return max ? `${max}px` : ''
-    })
 
     formMitt.on<FormItemCtx>(elFormEvents.addField, field => {
       if (field) {
@@ -167,39 +198,16 @@ export default defineComponent({
         field.validate('', cb)
       })
     }
-    const getLabelWidthIndex = width => {
-      const index = potentialLabelWidthArr.indexOf(width)
-      // it's impossible
-      if (index === -1) {
-        throw new Error('[ElementForm]unpected width ' + width)
-      }
-      return index
-    }
-
-    const registerLabelWidth = (val, oldVal) => {
-      if (val && oldVal) {
-        const index = getLabelWidthIndex(oldVal)
-        potentialLabelWidthArr.splice(index, 1, val)
-      } else if (val) {
-        potentialLabelWidthArr.push(val)
-      }
-    }
-    const deregisterLabelWidth = val => {
-      const index = getLabelWidthIndex(val)
-      potentialLabelWidthArr.splice(index, 1)
-    }
 
     const elForm = reactive({
       name: 'elForm',
       formMitt,
-      autoLabelWidth,
       ...toRefs(props),
-      deregisterLabelWidth,
       resetFields,
       clearValidate,
       validateField,
-      registerLabelWidth,
       emit,
+      ...useFormLabelWidth(),
     })
 
     provide(elFormKey, elForm)
@@ -209,7 +217,6 @@ export default defineComponent({
       resetFields,
       clearValidate,
       validateField,
-      registerLabelWidth,
     }
   },
 })
