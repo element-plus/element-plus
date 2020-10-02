@@ -30,7 +30,7 @@
               'el-form-item__error--inline':
                 typeof inlineMessage === 'boolean'
                   ? inlineMessage
-                  : (elForm && elForm.inlineMessage) || false
+                  : elForm.inlineMessage || false
             }"
           >
             {{ validateMessage }}
@@ -316,7 +316,6 @@ export default defineComponent({
       formItemMitt.off('el.form.change', onFieldChange)
     }
     const elFormItem = reactive({
-      name: 'elFormItem',
       ...toRefs(props),
       removeValidateEvents,
       addValidateEvents,

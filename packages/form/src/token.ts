@@ -11,6 +11,7 @@ export interface ElFormContext {
   formMitt: Emitter
   emit: (evt: string, ...args: any[]) => void
 
+  labelSuffix: string
   inline?: boolean
   model?: Record<string, unknown>
   size?: string
@@ -22,13 +23,13 @@ export interface ElFormContext {
   hideRequiredAsterisk?: boolean
 }
 
-interface ElValidateCallback {
-  (message: string, invalidFields: FieldErrorList): void
+export interface ValidateFieldCallback {
+  (message?: string, invalidFields?: FieldErrorList): void
 }
 
 export interface ElFormItemContext {
   prop?: string
-  validate(trigger?: string, callback?: ElValidateCallback): void
+  validate(trigger?: string, callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
   addValidateEvents(): void
   removeValidateEvents(): void

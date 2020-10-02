@@ -12,27 +12,26 @@
 
 <script lang="ts">
 import {
-  defineComponent, provide, watch,
+  defineComponent, provide, watch, ref,
   computed, reactive, toRefs,
 } from 'vue'
 import mitt from 'mitt'
 import {
   elFormKey, ElFormItemContext as FormItemCtx,
-  elFormEvents,
+  elFormEvents, ValidateFieldCallback,
 } from './token'
-import { Form } from '../../../types'
-
+import { FieldErrorList } from 'async-validator'
 
 function useFormLabelWidth() {
-  const potentialLabelWidthArr = []
+  const potentialLabelWidthArr = ref([])
   const autoLabelWidth = computed(() => {
-    if (!potentialLabelWidthArr.length) return '0'
-    const max = Math.max(...potentialLabelWidthArr)
+    if (!potentialLabelWidthArr.value.length) return '0'
+    const max = Math.max(...potentialLabelWidthArr.value)
     return max ? `${max}px` : ''
   })
 
   function getLabelWidthIndex(width: number) {
-    const index = potentialLabelWidthArr.indexOf(width)
+    const index = potentialLabelWidthArr.value.indexOf(width)
     // it's impossible
     if (index === -1) {
       throw new Error('[ElementForm]unpected width ' + width)
@@ -43,21 +42,25 @@ function useFormLabelWidth() {
   function registerLabelWidth(val: number, oldVal: number) {
     if (val && oldVal) {
       const index = getLabelWidthIndex(oldVal)
-      potentialLabelWidthArr.splice(index, 1, val)
+      potentialLabelWidthArr.value.splice(index, 1, val)
     } else if (val) {
-      potentialLabelWidthArr.push(val)
+      potentialLabelWidthArr.value.push(val)
     }
   }
 
   function deregisterLabelWidth(val: number) {
     const index = getLabelWidthIndex(val)
-    potentialLabelWidthArr.splice(index, 1)
+    potentialLabelWidthArr.value.splice(index, 1)
   }
   return {
     autoLabelWidth,
     registerLabelWidth,
     deregisterLabelWidth,
   }
+}
+
+interface Callback {
+  (isValid?: boolean, invalidFields?: FieldErrorList): void
 }
 
 export default defineComponent({
@@ -132,7 +135,7 @@ export default defineComponent({
       })
     }
 
-    const clearValidate = (props = []) => {
+    const clearValidate = (props: string | string[] = []) => {
       const fds = props.length
         ? typeof props === 'string'
           ? fields.filter(field => props === field.prop)
@@ -143,7 +146,7 @@ export default defineComponent({
       })
     }
 
-    const validate = callback => {
+    const validate = (callback?: Callback) => {
       if (!props.model) {
         console.warn(
           '[Element Warn][Form]model is required for validate to work!',
@@ -151,42 +154,41 @@ export default defineComponent({
         return
       }
 
-      let promise
+      let promise: Promise<boolean> | undefined
       // if no callback, return promise
-      if (typeof callback !== 'function' && window.Promise) {
-        promise = new window.Promise((resolve, reject) => {
-          callback = function(valid) {
-            valid ? resolve(valid) : reject(valid)
+      if (typeof callback !== 'function') {
+        promise = new Promise((resolve, reject) => {
+          callback = function(valid, invalidFields) {
+            if (valid) {
+              resolve(true)
+            } else {
+              reject(invalidFields)
+            }
           }
         })
       }
 
-      let valid = true
-      let count = 0
-      if (fields.length === 0 && callback) {
+      if (fields.length === 0) {
         callback(true)
       }
+      let valid = true
+      let count = 0
       let invalidFields = {}
-      fields.forEach(field => {
+      for (const field of fields) {
         field.validate('', (message, field) => {
           if (message) {
             valid = false
           }
           invalidFields = { ...invalidFields, ...field }
-          if (
-            typeof callback === 'function' &&
-            ++count === fields.length
-          ) {
+          if (++count === fields.length) {
             callback(valid, invalidFields)
           }
         })
-      })
-
-      if (promise) {
-        return promise
       }
+      return promise
     }
-    const validateField = (props, cb) => {
+
+    const validateField = (props: string|string[], cb: ValidateFieldCallback) => {
       props = [].concat(props)
       const fds = fields.filter(field => props.indexOf(field.prop) !== -1)
       if (!fields.length) {
@@ -200,7 +202,6 @@ export default defineComponent({
     }
 
     const elForm = reactive({
-      name: 'elForm',
       formMitt,
       ...toRefs(props),
       resetFields,
