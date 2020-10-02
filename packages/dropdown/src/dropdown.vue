@@ -9,6 +9,8 @@ import {
   watch,
   onMounted,
   VNode,
+  ComponentPublicInstance,
+  watchEffect,
 } from 'vue'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import ElButton from '@element-plus/button/src/button.vue'
@@ -44,7 +46,7 @@ export default defineComponent({
     },
     showTimeout: {
       type: Number,
-      default: 250,
+      default: 150,
     },
     hideTimeout: {
       type: Number,
@@ -92,10 +94,11 @@ export default defineComponent({
     )
 
     const triggerVnode = ref<Nullable<VNode>>(null)
+    const caretButton = ref<Nullable<ComponentPublicInstance>>(null)
     const triggerElm = computed<Nullable<HTMLButtonElement>>(() =>
       !props.splitButton
         ? triggerVnode.value?.el
-        : triggerVnode.value?.el.querySelector('.el-dropdown__caret-button'),
+        : caretButton.value?.$el,
     )
 
     function handleClick() {
@@ -193,47 +196,48 @@ export default defineComponent({
       hide()
     }
 
-    triggerVnode.value = !props.splitButton
-      ? slots.default?.()[0] // trigger must be a single root element
-      : h(ElButtonGroup, {}, {
-        default: () => (
-          [
-            h(ElButton, {
-              type: props.type,
-              size: dropdownSize.value,
-              onClick: handlerMainButtonClick,
-            }, {
-              default: () => slots.default?.()[0],
-            }),
-            h(ElButton, {
-              type: props.type,
-              size: dropdownSize.value,
-              class: 'el-dropdown__caret-button',
-            }, {
-              default: () => h('i', { class: 'el-dropdown__icon el-icon-arrow-down' }),
-            }),
-          ]
-        ),
-      })
-    slots.default?.().length > 1 && console.warn('trigger must be a single root element')
-
-    const dropdownVnode = h('div', {
-      class: 'el-dropdown',
-    }, [triggerVnode.value])
-
     const onVisibleUpdate = (val: boolean) => visible.value = val
+
+    watchEffect(() => {
+      triggerVnode.value = !props.splitButton
+        ? slots.default?.()[0]
+        : h(ElButtonGroup, {}, {
+          default: () => (
+            [
+              h(ElButton, {
+                type: props.type,
+                size: dropdownSize.value,
+                onClick: handlerMainButtonClick,
+              }, {
+                default: () => slots.default?.()[0],
+              }),
+              h(ElButton, {
+                type: props.type,
+                size: dropdownSize.value,
+                ref: caretButton,
+                class: 'el-dropdown__caret-button',
+              }, {
+                default: () => h('i', { class: 'el-dropdown__icon el-icon-arrow-down' }),
+              }),
+            ]
+          ),
+        })
+    })
 
     return () => h(ELPopper, {
       ref: 'popper',
       placement: props.placement,
       effect: props.effect,
       visible: visible.value,
+      manualMode: true,
       'onUpdate:visible': onVisibleUpdate,
       popperClass: 'el-dropdown-popper',
       trigger: [props.trigger],
     }, {
       default: () => slots.dropdown?.(),
-      trigger: () => dropdownVnode,
+      trigger: () => h('div', {
+        class: 'el-dropdown',
+      }, [triggerVnode.value]),
     })
   },
 })

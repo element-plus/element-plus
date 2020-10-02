@@ -4,7 +4,7 @@ import type { VNode, VNodeTypes, VNodeChild } from 'vue'
 
 const TEMPLATE = 'template'
 
-export const enum PatchFlags {
+export enum PatchFlags {
   TEXT = 1,
   CLASS = 2,
   STYLE = 4,
@@ -55,11 +55,7 @@ export const getFirstValidNode = (
   maxDepth = 3,
 ): ReturnType<typeof getChildren> => {
   if (Array.isArray(nodes)) {
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i] as VNode
-      const child = getChildren(node as VNode, maxDepth)
-      return child
-    }
+    return getChildren(nodes[0] as VNode, maxDepth)
   } else {
     return getChildren(nodes as VNode, maxDepth)
   }

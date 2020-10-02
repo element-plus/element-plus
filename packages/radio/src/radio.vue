@@ -79,19 +79,19 @@ export default defineComponent({
   setup(props, ctx) {
     const radioUse = useRadio()
     const isGroup = radioUse.isGroup
-    const _radioGroup = radioUse._radioGroup
-    const _elFormItemSize = radioUse._elFormItemSize
+    const radioGroup_ = radioUse.radioGroup_
+    const elFormItemSize_ = radioUse.elFormItemSize_
     const ELEMENT = radioUse.ELEMENT
     const focus = radioUse.focus
     const elForm = radioUse.elForm
     const instance = getCurrentInstance()
     const model = computed({
       get() {
-        return isGroup.value ? _radioGroup.modelValue.value : props.modelValue
+        return isGroup.value ? radioGroup_.modelValue.value : props.modelValue
       },
       set(val) {
         if (isGroup.value) {
-          _radioGroup.changeEvent(val)
+          radioGroup_.changeEvent(val)
         } else {
           ctx.emit('update:modelValue', val)
         }
@@ -105,14 +105,14 @@ export default defineComponent({
 
     const isDisabled = computed(() => {
       return isGroup.value
-        ? _radioGroup.disabled || props.disabled || (elForm || {}).disabled
+        ? radioGroup_.disabled || props.disabled || (elForm || {}).disabled
         : props.disabled || (elForm || {}).disabled
     })
 
     const radioSize = computed(() => {
-      const temRadioSize = props.size || _elFormItemSize || (ELEMENT || {}).size
+      const temRadioSize = props.size || elFormItemSize_ || (ELEMENT || {}).size
       return isGroup.value
-        ? _radioGroup.radioGroupSize || temRadioSize
+        ? radioGroup_.radioGroupSize || temRadioSize
         : temRadioSize
     })
 

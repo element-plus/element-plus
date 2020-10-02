@@ -11,9 +11,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, watch, ref, computed } from 'vue'
-import objectAssign from '@element-plus/utils/merge'
+import {
+  defineComponent, provide, watch,
+  computed, reactive, toRefs,
+} from 'vue'
 import mitt from 'mitt'
+import {
+  elFormKey, ElFormItemContext as FormItemCtx,
+  elFormEvents,
+} from './token'
+import { Form } from '../../../types'
 
 export default defineComponent({
   name: 'ElForm',
@@ -44,16 +51,16 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props) {
-    const formMitt: mitt.Emitter = mitt()
+  setup(props, { emit }) {
+    const formMitt = mitt()
 
-    const fields = ref([])
-    const potentialLabelWidthArr = ref([])
+    const fields: FormItemCtx[] = []
+    const potentialLabelWidthArr = []
 
     watch(
       () => props.rules,
       () => {
-        fields.value.forEach(field => {
+        fields.forEach(field => {
           field.removeValidateEvents()
           field.addValidateEvents()
         })
@@ -65,20 +72,20 @@ export default defineComponent({
     )
 
     const autoLabelWidth = computed(() => {
-      if (!potentialLabelWidthArr.value.length) return 0
-      const max = Math.max(...potentialLabelWidthArr.value)
+      if (!potentialLabelWidthArr.length) return '0'
+      const max = Math.max(...potentialLabelWidthArr)
       return max ? `${max}px` : ''
     })
 
-    formMitt.on('el.form.addField', field => {
+    formMitt.on<FormItemCtx>(elFormEvents.addField, field => {
       if (field) {
-        fields.value.push(field)
+        fields.push(field)
       }
     })
 
-    formMitt.on('el.form.removeField', field => {
+    formMitt.on<FormItemCtx>(elFormEvents.removeField, field => {
       if (field.prop) {
-        fields.value.splice(fields.value.indexOf(field), 1)
+        fields.splice(fields.indexOf(field), 1)
       }
     })
 
@@ -89,20 +96,22 @@ export default defineComponent({
         )
         return
       }
-      fields.value.forEach(field => {
+      fields.forEach(field => {
         field.resetField()
       })
     }
+
     const clearValidate = (props = []) => {
       const fds = props.length
         ? typeof props === 'string'
-          ? fields.value.filter(field => props === field.prop)
-          : fields.value.filter(field => props.indexOf(field.prop) > -1)
-        : fields.value
+          ? fields.filter(field => props === field.prop)
+          : fields.filter(field => props.indexOf(field.prop) > -1)
+        : fields
       fds.forEach(field => {
         field.clearValidate()
       })
     }
+
     const validate = callback => {
       if (!props.model) {
         console.warn(
@@ -123,20 +132,19 @@ export default defineComponent({
 
       let valid = true
       let count = 0
-      // 如果需要验证的fields为空，调用验证时立刻返回callback
-      if (fields.value.length === 0 && callback) {
+      if (fields.length === 0 && callback) {
         callback(true)
       }
       let invalidFields = {}
-      fields.value.forEach(field => {
+      fields.forEach(field => {
         field.validate('', (message, field) => {
           if (message) {
             valid = false
           }
-          invalidFields = objectAssign({}, invalidFields, field)
+          invalidFields = { ...invalidFields, ...field }
           if (
             typeof callback === 'function' &&
-            ++count === fields.value.length
+            ++count === fields.length
           ) {
             callback(valid, invalidFields)
           }
@@ -149,8 +157,8 @@ export default defineComponent({
     }
     const validateField = (props, cb) => {
       props = [].concat(props)
-      const fds = fields.value.filter(field => props.indexOf(field.prop) !== -1)
-      if (!fields.value.length) {
+      const fds = fields.filter(field => props.indexOf(field.prop) !== -1)
+      if (!fields.length) {
         console.warn('[Element Warn]please pass correct props!')
         return
       }
@@ -160,39 +168,44 @@ export default defineComponent({
       })
     }
     const getLabelWidthIndex = width => {
-      const index = potentialLabelWidthArr.value.indexOf(width)
+      const index = potentialLabelWidthArr.indexOf(width)
       // it's impossible
       if (index === -1) {
         throw new Error('[ElementForm]unpected width ' + width)
       }
       return index
     }
+
     const registerLabelWidth = (val, oldVal) => {
       if (val && oldVal) {
         const index = getLabelWidthIndex(oldVal)
-        potentialLabelWidthArr.value.splice(index, 1, val)
+        potentialLabelWidthArr.splice(index, 1, val)
       } else if (val) {
-        potentialLabelWidthArr.value.push(val)
+        potentialLabelWidthArr.push(val)
       }
     }
     const deregisterLabelWidth = val => {
       const index = getLabelWidthIndex(val)
-      potentialLabelWidthArr.value.splice(index, 1)
+      potentialLabelWidthArr.splice(index, 1)
     }
 
-    provide('elForm', {
+    const elForm = reactive({
       name: 'elForm',
       formMitt,
       autoLabelWidth,
-      ...props,
+      ...toRefs(props),
       deregisterLabelWidth,
       resetFields,
       clearValidate,
       validateField,
       registerLabelWidth,
+      emit,
     })
 
+    provide(elFormKey, elForm)
+
     return {
+      validate, // export
       resetFields,
       clearValidate,
       validateField,

@@ -1,6 +1,6 @@
-export default function(target, ...rests) {
-  for (let i = 1, j = rests.length; i < j; i++) {
-    const source = rests[i] || {}
+export default function objectAssign(target, ...agrvs) {
+  for (let i = 0, j = agrvs.length; i < j; i++) {
+    const source = agrvs[i] || {}
     for (const prop in source) {
       if (source.hasOwnProperty(prop)) {
         const value = source[prop]
@@ -10,6 +10,5 @@ export default function(target, ...rests) {
       }
     }
   }
-
   return target
 }

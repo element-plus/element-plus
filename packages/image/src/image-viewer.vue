@@ -64,7 +64,7 @@
 import { defineComponent, computed, ref, onMounted, watch, nextTick, PropType } from 'vue'
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 import { on, off } from '@element-plus/utils/dom'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import { t } from '@element-plus/locale'
 
 const Mode = {
@@ -164,30 +164,29 @@ export default defineComponent({
 
     function deviceSupportInstall() {
       _keyDownHandler = rafThrottle(e => {
-        const keyCode = e.keyCode
-        switch (keyCode) {
+        switch (e.code) {
           // ESC
-          case eventKeys.esc:
+          case EVENT_CODE.esc:
             hide()
             break
           // SPACE
-          case eventKeys.space:
+          case EVENT_CODE.space:
             toggleMode()
             break
           // LEFT_ARROW
-          case eventKeys.left:
+          case EVENT_CODE.left:
             prev()
             break
           // UP_ARROW
-          case eventKeys.up:
+          case EVENT_CODE.up:
             handleActions('zoomIn')
             break
           // RIGHT_ARROW
-          case eventKeys.right:
+          case EVENT_CODE.right:
             next()
             break
           // DOWN_ARROW
-          case eventKeys.down:
+          case EVENT_CODE.down:
             handleActions('zoomOut')
             break
         }
