@@ -60,9 +60,9 @@ import {
 import AsyncValidator from 'async-validator'
 import { RuleItem } from 'async-validator'
 import LabelWrap from './label-wrap'
-import { getPropByPath } from '@element-plus/utils/util'
+import { getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
 import mitt from 'mitt'
-import { elFormKey, elFormItemKey } from './token'
+import { elFormKey, elFormItemKey, ValidateFieldCallback } from './token'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -94,6 +94,7 @@ export default defineComponent({
   },
   setup(props) {
     const formItemMitt = mitt()
+    const $ELEMENT = useGlobalConfig()
 
     const elForm = inject(elFormKey)
     const validateState = ref('')
@@ -194,10 +195,10 @@ export default defineComponent({
     })
     const elFormItemSize = computed(() => props.size || elForm.size)
     const sizeClass = computed(() => {
-      return elFormItemSize.value || (vm.proxy as any).$ELEMENT?.size
+      return elFormItemSize.value || $ELEMENT.size
     })
 
-    const validate = (trigger, callback?: any) => {
+    const validate = (trigger: string, callback?: ValidateFieldCallback) => {
       validateDisabled.value = false
       const rules = getFilteredRule(trigger)
       if ((!rules || rules.length === 0) && props.required === undefined) {
@@ -220,7 +221,7 @@ export default defineComponent({
         { firstFields: true },
         (errors, invalidFields) => {
           validateState.value = !errors ? 'success' : 'error'
-          validateMessage.value = errors ? errors[1].message : ''
+          validateMessage.value = errors ? errors[0].message : ''
           callback(validateMessage.value, invalidFields)
           elForm?.emit(
             'validate',
