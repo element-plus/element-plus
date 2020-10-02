@@ -20,6 +20,9 @@
               :am-pm-mode="amPmMode"
               :arrow-control="arrowControl"
               :spinner-date="minDate"
+              :disabled-hours="disabledHours_"
+              :disabled-minutes="disabledMinutes_"
+              :disabled-seconds="disabledSeconds_"
               @change="handleMinChange"
               @set-option="onSetOption"
               @select-range="setMinSelectionRange"
@@ -39,6 +42,9 @@
               :am-pm-mode="amPmMode"
               :arrow-control="arrowControl"
               :spinner-date="maxDate"
+              :disabled-hours="disabledHours_"
+              :disabled-minutes="disabledMinutes_"
+              :disabled-seconds="disabledSeconds_"
               @change="handleMaxChange"
               @set-option="onSetOption"
               @select-range="setMaxSelectionRange"
@@ -74,7 +80,6 @@ import {
   computed,
   PropType,
   inject,
-  provide,
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 import union from 'lodash/union'
@@ -316,14 +321,6 @@ export default defineComponent({
     const pickerBase = inject('EP_PICKER_BASE') as any
     const { disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
 
-    provide('EP_TIMEPICK_PANEL', {
-      methods: {
-        disabledHours: disabledHours_,
-        disabledMinutes: disabledMinutes_,
-        disabledSeconds: disabledSeconds_,
-      },
-    })
-
     return {
       onSetOption,
       setMaxSelectionRange,
@@ -340,6 +337,9 @@ export default defineComponent({
       handleMaxChange,
       minSelectableRange,
       maxSelectableRange,
+      disabledHours_,
+      disabledMinutes_,
+      disabledSeconds_,
     }
   },
 })

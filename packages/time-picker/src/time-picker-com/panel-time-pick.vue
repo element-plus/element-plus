@@ -12,6 +12,9 @@
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
           :spinner-date="parsedValue"
+          :disabled-hours="disabledHours"
+          :disabled-minutes="disabledMinutes"
+          :disabled-seconds="disabledSeconds"
           @change="handleChange"
           @set-option="onSetOption"
           @select-range="setSelectionRange"
@@ -43,7 +46,6 @@ import {
   ref,
   computed,
   inject,
-  provide,
   PropType,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -201,11 +203,7 @@ export default defineComponent({
       getAvaliableMinutes,
       getAvaliableSeconds,
     } = getAvaliableArrs(disabledHours, disabledMinutes, disabledSeconds)
-    provide('EP_TIMEPICK_PANEL', {
-      methods: {
-        disabledHours, disabledMinutes, disabledSeconds,
-      },
-    })
+
     return {
       onSetOption,
       t,
@@ -215,6 +213,9 @@ export default defineComponent({
       amPmMode,
       showSeconds,
       handleCancel,
+      disabledHours,
+      disabledMinutes,
+      disabledSeconds,
     }
   },
 })
