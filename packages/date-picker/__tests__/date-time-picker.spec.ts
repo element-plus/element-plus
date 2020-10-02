@@ -206,7 +206,7 @@ describe('Datetime Picker', () => {
     expect(dayjs(vm.value).format(formatStr)).toBe('2000-10-01 12:00:00')
   })
 
-  it.only('selectableRange', async () => {
+  it('selectableRange', async () => {
     const disabledHoursArr = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,23]
     const wrapper = _mount(`<el-date-picker
         v-model="value"
@@ -262,11 +262,7 @@ describe('Datetime Picker', () => {
     const disabledHours = [].slice
       .call(hoursEl.querySelectorAll('.disabled'))
       .map(node => Number(node.textContent))
-    expect(disabledHours).toStrictEqual([
-      0,  1,  2,  3,  4,  5,  6,
-      7,  8,  9, 10, 11, 12, 13,
-      14, 15, 16, 23,
-    ])
+    expect(disabledHours).toStrictEqual(disabledHoursArr)
     const minutesEl = list[1]
     const disabledMinutes = [].slice
       .call(minutesEl.querySelectorAll('.disabled'))
@@ -388,6 +384,7 @@ describe('Datetimerange', () => {
     await nextTick()
     const btn = document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement
     btn.click()
+    await nextTick()
     expect(vm.value).not.toBe('')
   })
 
@@ -430,5 +427,54 @@ describe('Datetimerange', () => {
     await nextTick()
     expect(rangePanel.getAttribute('visible')).toBe('false') // popper dismiss
     expect(vm.value).not.toBe('')
+  })
+
+  it('selectableRange', async () => {
+    const disabledHoursArr = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,23]
+    const disabledHoursRightArr = [0,1,2]
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        type="datetimerange"
+        :disabledHours="disabledHours"
+    />`, () => ({
+      value: '' }),
+    {
+      methods: {
+        disabledHours(role) {
+          if (role === 'end') {
+            return disabledHoursRightArr
+          }
+          return disabledHoursArr
+        },
+      },
+    })
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const pickerss = document.querySelectorAll('.el-date-range-picker__time-header .el-date-range-picker__editors-wrap')
+    const leftDateInput = pickerss[0].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(2) input') as HTMLInputElement
+    const rightDateInput = pickerss[1].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(2) input') as HTMLInputElement
+    leftDateInput.blur()
+    leftDateInput.focus()
+    await nextTick()
+    const listleft = document.querySelectorAll('.el-date-range-picker__editors-wrap .el-time-spinner__list')
+    const hoursEl = listleft[0]
+    const disabledHours = [].slice
+      .call(hoursEl.querySelectorAll('.disabled'))
+      .map(node => Number(node.textContent))
+    expect(disabledHours).toStrictEqual(disabledHoursArr)
+    const button = document.querySelector('.el-date-range-picker__time-picker-wrap .el-time-panel .confirm') as HTMLElement
+    button.click()
+    await nextTick()
+    rightDateInput.blur()
+    rightDateInput.focus()
+    await nextTick()
+    const listright = document.querySelectorAll('.el-date-range-picker__editors-wrap.is-right .el-time-spinner__list')
+    const hoursEl2 = listright[0]
+    const disabledHours2 = [].slice
+      .call(hoursEl2.querySelectorAll('.disabled'))
+      .map(node => Number(node.textContent))
+    expect(disabledHours2).toStrictEqual(disabledHoursRightArr)
   })
 })
