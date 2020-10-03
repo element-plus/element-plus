@@ -59,7 +59,7 @@ export const useSelect = (props, states: States, ctx) => {
   const input = ref(null)
   const popper = ref(null)
   const tags = ref(null)
-  const selectWrapper = ref(null)
+  const selectWrapper = ref<HTMLElement|null>(null)
   const scrollbar = ref(null)
   const hoverOption = ref(-1)
 
@@ -156,8 +156,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   watch(() => states.visible, val => {
     if (!val) {
-      // TODO:
-      // doDestroy()
+      doDestroy()
       input.value && input.value.blur()
       states.query = ''
       states.previousQuery = null
@@ -186,8 +185,7 @@ export const useSelect = (props, states: States, ctx) => {
         }
       }
     } else {
-      // TODO:
-      // popper.value.update()
+      popper.value?.update?.()
 
       if (props.filterable) {
         states.query = props.remote ? '' : states.selectedLabel
@@ -212,8 +210,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   watch(() => states.options, () => {
     if (isServer) return
-    // TODO: updatePopper
-    // popper.value.update()
+    popper.value?.update?.()
     if (props.multiple) {
       resetInputHeight()
     }
@@ -251,8 +248,7 @@ export const useSelect = (props, states: States, ctx) => {
           _tags ? (_tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)) : 0,
           sizeInMap) + 'px'
       if (states.visible && emptyText.value !== false) {
-        // TODO: updatePopper
-        // popper.value.update?.()
+        popper.value?.update?.()
       }
     })
   }
@@ -268,8 +264,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
     states.previousQuery = val
     nextTick(() => {
-      // TODO: updatePopper
-      // if (states.visible) popper.value.update()
+      if (states.visible) popper.value?.update?.()
     })
     states.hoverIndex = -1
     if (props.multiple && props.filterable) {
@@ -520,10 +515,12 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const scrollToOption = option => {
-    const target = Array.isArray(option) && option[0] ? option[0].$el : option.$el
+    const target = Array.isArray(option) ? option[0]?.$el : option.$el
     if (popper.value && target) {
-      const menu = popper.value.$el.querySelector('.el-select-dropdown__wrap')
-      scrollIntoView(menu, target)
+      const menu = popper.value?.$el?.querySelector?.('.el-select-dropdown__wrap')
+      if (menu) {
+        scrollIntoView(menu, target)
+      }
     }
     // TODO: handleScroll
     // scrollbar.value?.handleScroll()
@@ -592,13 +589,14 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleBlur = event => {
-    setTimeout(() => {
+    // https://github.com/ElemeFE/element/pull/10822
+    nextTick(() => {
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
         ctx.emit('blur', event)
       }
-    }, 50)
+    })
     states.softFocus = false
   }
 
@@ -607,8 +605,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const doDestroy = () => {
-    // TODO: destroy
-    // popper.value?.doDestroy()
+    popper.value?.doDestroy?.()
   }
 
   const handleClose = () => {

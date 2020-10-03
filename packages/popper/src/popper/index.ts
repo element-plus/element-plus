@@ -245,6 +245,9 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
   })
 
   return {
+    update() {
+      popperInstance.update()
+    },
     doDestroy,
     show,
     hide,
