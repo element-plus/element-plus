@@ -43,7 +43,7 @@ export default defineComponent({
     },
   },
 
-  setup(props, ctx) {
+  setup(props) {
     const states = reactive({
       index: -1,
       groupDisabled: false,
