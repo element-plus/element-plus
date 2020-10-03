@@ -37,6 +37,7 @@ import ElDialog from '@element-plus/dialog'
 import ElCalendar from '@element-plus/calendar'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
 import ElDrawer from '@element-plus/drawer'
+import ElForm from '@element-plus/form'
 import ElUpload from '@element-plus/upload'
 import ElTree from '@element-plus/tree'
 
@@ -78,6 +79,7 @@ export {
   ElCalendar,
   ElInfiniteScroll,
   ElDrawer,
+  ElForm,
   ElUpload,
   ElTree,
 }
