@@ -10,17 +10,8 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  provide,
-  inject,
-  ref,
-  reactive, toRefs,
-} from 'vue'
-import {
-  selectGroupKey, selectKey,
-  selectEvents,
-} from './token'
+import { defineComponent, provide, inject, ref, reactive, toRefs } from 'vue'
+import { selectGroupKey, selectKey, selectEvents } from './token'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -37,16 +28,19 @@ export default defineComponent({
   setup(props) {
     const visible = ref(true)
 
-    provide(selectGroupKey, reactive({
-      ...toRefs(props),
-    }))
+    provide(
+      selectGroupKey,
+      reactive({
+        ...toRefs(props),
+      }),
+    )
 
     const select = inject(selectKey)
 
     const queryChange = () => {
-      visible.value = select?.options?.some(option => option.visible === true )
+      visible.value = select?.options?.some(option => option.visible === true)
     }
-    select.selectEmitter.on(selectEvents.queryChange, queryChange)
+    select.selectEmitter.on(selectEvents.elOptionGroup.queryChange, queryChange)
 
     return {
       visible,
