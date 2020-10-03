@@ -133,7 +133,7 @@ export default defineComponent({
       default: 'el-icon-circle-closes',
     },
   },
-  emits: ['change', 'blur', 'focus'],
+  emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
     // data
     const start = ref('09:00')
