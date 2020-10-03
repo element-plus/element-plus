@@ -88,7 +88,7 @@ export {
   ElSelect,
 }
 
-const install = (app: App): void =>  {
+const install = (app: App): void => {
   ElAlert(app)
   ElAvatar(app)
   ElBacktop(app)
@@ -128,6 +128,7 @@ const install = (app: App): void =>  {
   ElCalendar(app)
   ElInfiniteScroll(app)
   ElDrawer(app)
+  ElForm(app)
   ElUpload(app)
   ElTree(app)
   ElSelect(app)

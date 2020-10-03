@@ -15,6 +15,7 @@ import {
 } from './token'
 
 export default defineComponent({
+  name: 'ElLabelWrap',
   props: {
     isAutoWidth: Boolean,
     updateAll: Boolean,
@@ -77,7 +78,7 @@ export default defineComponent({
             class: ['el-form-item__label-wrap'],
             style,
           },
-            slots.default?.(),
+          slots.default?.(),
         )
       } else {
         return h('div', { ref: el }, slots.default?.())
