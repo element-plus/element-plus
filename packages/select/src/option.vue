@@ -33,6 +33,7 @@ export default defineComponent({
   props: {
     value: {
       required: true,
+      type: null,
     },
     label: [String, Number],
     created: Boolean,
@@ -57,7 +58,7 @@ export default defineComponent({
       isDisabled,
       select,
       hoverItem,
-    } = useOption(props, states, ctx)
+    } = useOption(props, states)
 
     const {
       visible,
