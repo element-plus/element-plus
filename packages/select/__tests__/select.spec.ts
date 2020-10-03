@@ -149,7 +149,6 @@ describe('Select', () => {
     expect(wrapper.find('.el-input__inner').element.value).toBe('双皮奶')
   })
 
-  /*
   test('single select', async () => {
     const wrapper = _mount(`
       <el-select v-model="value" @change="handleChange">
@@ -202,6 +201,7 @@ describe('Select', () => {
     expect(vm.count).toBe(2)
   })
 
+  /*
   test('disabled option', async() => {
     const wrapper = getSelectVm()
     const vm = wrapper.vm as any

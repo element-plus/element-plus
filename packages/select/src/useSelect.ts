@@ -138,7 +138,6 @@ export const useSelect = (props, states: States, ctx) => {
       if ((val && val.length > 0) || (input.value && states.query !== '')) {
         states.currentPlaceholder = ''
       } else {
-        console.log('cachedPlaceHolder-----', states.cachedPlaceHolder)
         states.currentPlaceholder = states.cachedPlaceHolder
       }
       if (props.filterable && !props.reserveKeyword) {

@@ -64,13 +64,13 @@ export default defineComponent({
       hover,
     } = toRefs(states)
 
-    const instance = getCurrentInstance()
+    const vm = getCurrentInstance().proxy
 
     onBeforeUnmount(() => {
       const { selected, multiple } = select
       let selectedOptions = multiple ? selected : [selected]
-      let index = select.cachedOptions.indexOf(instance)
-      let selectedIndex = selectedOptions?.indexOf(instance)
+      let index = select.cachedOptions.indexOf(vm)
+      let selectedIndex = selectedOptions?.indexOf(vm)
 
       // if option is not selected, remove it from cache
       if (index > -1 && selectedIndex < 0) {
@@ -78,13 +78,13 @@ export default defineComponent({
       }
       select.onOptionDestroy(select.options.map(item => item.value).indexOf(props.value))
     })
-    select.options.push(instance)
-    select.cachedOptions.push(instance)
+    select.options.push(vm)
+    select.cachedOptions.push(vm)
 
 
     function selectOptionClick() {
-      if (this.disabled !== true && this.groupDisabled !== true) {
-        this.select.handleOptionSelect(this, true)
+      if (props.disabled !== true && states.groupDisabled !== true) {
+        select.handleOptionSelect(vm, true)
       }
     }
 

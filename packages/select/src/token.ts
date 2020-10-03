@@ -26,6 +26,8 @@ export interface SelectContext {
   filteredOptionsCount: number
   options: unknown[]
   selectEmitter: Emitter
+  onOptionDestroy(i: number)
+  handleOptionSelect(vm: unknown, byClick: boolean)
 }
 
 export const selectGroupKey: InjectionKey<SelectGroupContext> = Symbol('SelectGroup')
