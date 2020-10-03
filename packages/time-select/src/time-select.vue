@@ -9,12 +9,14 @@
     :default-value="defaultValue"
     default-first-option
     filterable
-    @change="value => {
-      $emit('change', value)
-      $emit('update:modelValue', value)
-    }"
-    @blur="event => $emit('blur', event)"
-    @focus="event => $emit('focus', event)"
+    @change="
+      (value) => {
+        $emit('change', value)
+        $emit('update:modelValue', value)
+      }
+    "
+    @blur="(event) => $emit('blur', event)"
+    @focus="(event) => $emit('focus', event)"
   >
     <el-option
       v-for="item in items"
@@ -31,7 +33,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue'
-import ElSelect from '@element-plus/select'
+import { ElSelect } from '@element-plus/select'
 interface Time {
   hours: number
   minutes: number
@@ -80,6 +82,8 @@ const nextTime = function (time: string, step: string): string {
 }
 
 export default defineComponent({
+  name: 'ElTimeSelect',
+
   components: { ElSelect },
   model: {
     prop: 'value',
