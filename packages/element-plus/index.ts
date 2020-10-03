@@ -41,6 +41,7 @@ import ElDrawer from '@element-plus/drawer'
 import ElForm from '@element-plus/form'
 import ElUpload from '@element-plus/upload'
 import ElTree from '@element-plus/tree'
+import ElColorPicker from '@element-plus/color-picker'
 import ElSelect from '@element-plus/select'
 
 export {
@@ -85,6 +86,7 @@ export {
   ElForm,
   ElUpload,
   ElTree,
+  ElColorPicker,
   ElSelect,
 }
 
@@ -131,6 +133,7 @@ const install = (app: App): void => {
   ElForm(app)
   ElUpload(app)
   ElTree(app)
+  ElColorPicker(app)
   ElSelect(app)
 }
 
