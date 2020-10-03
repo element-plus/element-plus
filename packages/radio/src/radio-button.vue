@@ -55,34 +55,34 @@ export default {
   setup(props) {
     const radioUse = useRadio()
     const isGroup = radioUse.isGroup
-    const _radioGroup = radioUse._radioGroup
-    const _elFormItemSize = radioUse._elFormItemSize
+    const radioGroup_ = radioUse.radioGroup_
+    const elFormItemSize_ = radioUse.elFormItemSize_
     const ELEMENT = radioUse.ELEMENT
     const focus = radioUse.focus
     const elForm = radioUse.elForm
     const size = computed(() => {
-      return _radioGroup.radioGroupSize || _elFormItemSize || (ELEMENT || {} as any).size
+      return radioGroup_.radioGroupSize || elFormItemSize_ || (ELEMENT || {} as any).size
     })
     const isDisabled = computed(() => {
-      return props.disabled || _radioGroup.disabled || (elForm || {} as any).disabled
+      return props.disabled || radioGroup_.disabled || (elForm || {} as any).disabled
     })
     const tabIndex = computed(() => {
-      return (isDisabled.value || (_radioGroup && value.value !== props.label)) ? -1 : 0
+      return (isDisabled.value || (radioGroup_ && value.value !== props.label)) ? -1 : 0
     })
     const value = computed({
       get() {
-        return _radioGroup.modelValue.value
+        return radioGroup_.modelValue.value
       },
       set(value) {
-        _radioGroup.changeEvent(value)
+        radioGroup_.changeEvent(value)
       },
     })
     const activeStyle = computed(() => {
       return {
-        backgroundColor: _radioGroup.fill || '',
-        borderColor: _radioGroup.fill || '',
-        boxShadow: _radioGroup.fill ? `-1px 0 0 0 ${_radioGroup.fill}` : '',
-        color: _radioGroup.textColor || '',
+        backgroundColor: radioGroup_.fill || '',
+        borderColor: radioGroup_.fill || '',
+        boxShadow: radioGroup_.fill ? `-1px 0 0 0 ${radioGroup_.fill}` : '',
+        color: radioGroup_.textColor || '',
       }
     })
 

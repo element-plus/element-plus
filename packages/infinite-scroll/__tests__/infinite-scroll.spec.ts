@@ -9,6 +9,8 @@ const CONTAINER_STYLE = `overflow-y: auto;`
 const LIST_ITEM_CLASS = 'list-item'
 const LIST_ITEM_STYLE = `height: ${ITEM_HEIGHT}px;`
 const INITIAL_VALUE = 3
+// INITIAL_TICK = INITIAL_VALUE + A_TICK_IN_MOUNT
+const INITIAL_TICK = INITIAL_VALUE + 1
 const CUSTOM_DELAY = 0
 const CUSTOM_DISTANCE = 10
 
@@ -70,7 +72,7 @@ describe('InfiniteScroll', () => {
     const el = wrapper.element
 
     // wait to ensure initial full check has finished
-    await tick(INITIAL_VALUE)
+    await tick(INITIAL_TICK)
     expect(el[SCOPE].container).toEqual(el)
     expect(el[SCOPE].containerEl).toEqual(el)
     expect(el[SCOPE].delay).toEqual(DEFAULT_DELAY)
@@ -111,7 +113,7 @@ describe('InfiniteScroll', () => {
     const el = wrapper.element
 
     // wait to ensure initial full check has finished
-    await tick(INITIAL_VALUE)
+    await tick(INITIAL_TICK)
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT - CUSTOM_DISTANCE)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
   })
@@ -122,7 +124,7 @@ describe('InfiniteScroll', () => {
       setup,
     })
 
-    await tick(INITIAL_VALUE)
+    await tick(INITIAL_TICK)
     expect(countListItem(wrapper)).toBe(0)
   })
 
@@ -144,7 +146,7 @@ describe('InfiniteScroll', () => {
     const el = wrapper.element
 
     // wait to ensure initial full check has finished
-    await tick(INITIAL_VALUE)
+    await tick(INITIAL_TICK)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT)
@@ -164,7 +166,7 @@ describe('InfiniteScroll', () => {
     const { documentElement } = document
 
     // wait to ensure initial full check has finished
-    await tick(INITIAL_VALUE)
+    await tick(INITIAL_TICK)
     expect(el[SCOPE].container).toEqual(window)
     expect(el[SCOPE].containerEl).toEqual(documentElement)
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)

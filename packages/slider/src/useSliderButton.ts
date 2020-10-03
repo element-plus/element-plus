@@ -198,7 +198,7 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
 
     await nextTick()
     initData.dragging && displayTooltip()
-    tooltip.value && tooltip.value.popperInstance.update()
+    tooltip.value?.popperInstance?.update?.()
   }
 
   watch(() => initData.dragging, val => {

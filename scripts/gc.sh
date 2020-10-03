@@ -27,7 +27,6 @@ NAME=$NORMALIZED_NAME
 
 mkdir -p "$DIRNAME"
 mkdir -p "$DIRNAME/src"
-mkdir -p "$DIRNAME/doc"
 mkdir -p "$DIRNAME/__tests__"
 
 cat > $DIRNAME/src/index.vue <<EOF
@@ -89,13 +88,4 @@ describe('$NAME.vue', () => {
     expect(wrapper.text()).toEqual(AXIOM)
   })
 })
-EOF
-
-cat <<EOF >"$DIRNAME/doc/index.stories.ts"
-import El${NAME} from '../index'
-
-export default {
-  title: '${NAME}',
-}
-
 EOF

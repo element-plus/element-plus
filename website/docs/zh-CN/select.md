@@ -107,7 +107,7 @@
     </el-option>
   </el-select>
 </template>
-  
+
 <script>
   export default {
     data() {

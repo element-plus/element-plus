@@ -52,11 +52,11 @@ export default {
     //todo: ELEMENT
     const ELEMENT = {}
     const elFormItem = inject('elFormItem', {})
-    const _elFormItemSize = computed(() => {
+    const elFormItemSize_ = computed(() => {
       return (elFormItem || {} as any).elFormItemSize
     })
     const radioGroupSize = computed(() => {
-      return props.size || _elFormItemSize || (ELEMENT || {} as any).size
+      return props.size || elFormItemSize_ || (ELEMENT || {} as any).size
     })
 
     const modelValue = computed({
