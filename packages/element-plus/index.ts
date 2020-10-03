@@ -37,6 +37,7 @@ import ElTransfer from '@element-plus/transfer'
 import ElDialog from '@element-plus/dialog'
 import ElCalendar from '@element-plus/calendar'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
+import ElMessage from '@element-plus/message'
 import ElDrawer from '@element-plus/drawer'
 import ElForm from '@element-plus/form'
 import ElUpload from '@element-plus/upload'
@@ -82,6 +83,7 @@ export {
   ElDialog,
   ElCalendar,
   ElInfiniteScroll,
+  ElMessage,
   ElDrawer,
   ElForm,
   ElUpload,
@@ -129,6 +131,7 @@ const install = (app: App): void => {
   ElDialog(app)
   ElCalendar(app)
   ElInfiniteScroll(app)
+  ElMessage(app)
   ElDrawer(app)
   ElForm(app)
   ElUpload(app)
