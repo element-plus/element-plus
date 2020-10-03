@@ -80,7 +80,6 @@ Si se escoge el tiempo de inicio al principio, el tiempo de finalización cambia
 | size              | tamaño del input                         | string                                   | medium / small / mini                    | —                    |
 | placeholder       | placeholder en un modo fuera de rango    | string                                   | —                                        | —                    |
 | picker-options    | opciones adicionales, revisar la tabla posterior | object                                   | —                                        | {}                   |
-| default-value     | opcional, fecha por defecto del calendario | Fecha para Selector de Tiempo, string para el Seleccionador de Tiempo | cualquier cosa aceptada por `new Date()` para el Selector de Tiempo,  Selector de Tiempo, valor seleccionable para el Seleccionador de Tiempo | —                    |
 | name              | como `name` en input nativo              | string                                   | —                                        | —                    |
 | prefix-icon       | Clase personalizada para el icono de prefijado | string                                   | —                                        | el-icon-time         |
 | clear-icon        | Clase personalizada para el icono `clear` | string                                   | —                                        | el-icon-circle-close |

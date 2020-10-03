@@ -80,7 +80,6 @@ If start time is picked at first, then the end time will change accordingly.
 | size | size of Input | string | medium / small / mini | — |
 | placeholder | placeholder in non-range mode | string | — | — |
 | picker-options | additional options, check the table below | object | — | {} |
-| default-value | optional, default date of the calendar | Date for TimePicker, string for TimeSelect | anything accepted by `new Date()` for TimePicker, selectable value for TimeSelect | — |
 | name | same as `name` in native input | string | — | — |
 | prefix-icon | Custom prefix icon class | string | — | el-icon-time |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |

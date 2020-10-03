@@ -6,7 +6,6 @@
     :clearable="clearable"
     :size="size"
     :placeholder="this.placeholder"
-    :default-value="defaultValue"
     default-first-option
     filterable
     @change="
@@ -115,10 +114,6 @@ export default defineComponent({
       default: () => {
         return {}
       },
-    },
-    defaultValue: {
-      type: String,
-      default: '',
     },
     name: {
       type: String,
