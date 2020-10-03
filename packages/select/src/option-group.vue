@@ -40,7 +40,7 @@ export default defineComponent({
     const queryChange = () => {
       visible.value = select?.options?.some(option => option.visible === true)
     }
-    select.selectEmitter.on(selectEvents.elOptionGroup.queryChange, queryChange)
+    select.selectEmitter.on(selectEvents.groupQueryChange, queryChange)
 
     return {
       visible,

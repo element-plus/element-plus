@@ -104,7 +104,7 @@ export function useOption(props, states, ctx) {
   })
 
   // Emitter
-  select.selectEmitter.on(selectEvents.elOption.queryChange, queryChange)
+  select.selectEmitter.on(selectEvents.queryChange, queryChange)
 
   return {
     select,
