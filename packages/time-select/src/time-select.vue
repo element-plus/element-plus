@@ -142,6 +142,14 @@ export default defineComponent({
     const value = ref(props.modelValue)
     const minTime = ref('00:00')
     const maxTime = ref('')
+    let data = {
+      start,
+      end,
+      step,
+      value,
+      minTime,
+      maxTime,
+    }
     // refs
     const select = ref(null)
     // computed
@@ -166,7 +174,7 @@ export default defineComponent({
       const options = props.pickerOptions
       for (const option in options) {
         if (options.hasOwnProperty(option)) {
-          this[option] = options[option]
+          data[option].value = options[option]
         }
       }
     }
@@ -184,12 +192,7 @@ export default defineComponent({
       },
     )
     return {
-      start,
-      end,
-      step,
-      value,
-      minTime,
-      maxTime,
+      ...data,
       items,
       updateOptions,
     }
