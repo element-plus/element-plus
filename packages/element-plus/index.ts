@@ -40,6 +40,7 @@ import ElDrawer from '@element-plus/drawer'
 import ElForm from '@element-plus/form'
 import ElUpload from '@element-plus/upload'
 import ElTree from '@element-plus/tree'
+import ElSelect from '@element-plus/select'
 
 export {
   ElAlert,
@@ -82,6 +83,7 @@ export {
   ElForm,
   ElUpload,
   ElTree,
+  ElSelect,
 }
 
 const install = (app: App): void =>  {
@@ -125,6 +127,7 @@ const install = (app: App): void =>  {
   ElDrawer(app)
   ElUpload(app)
   ElTree(app)
+  ElSelect(app)
 }
 
 const elementUI = {
