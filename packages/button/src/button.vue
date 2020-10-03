@@ -130,6 +130,7 @@ export default defineComponent({
     }
 
     return {
+      elFormItemSize_,
       buttonSize,
       buttonDisabled,
       handleClick,
