@@ -4,6 +4,7 @@
     v-model="value"
     :disabled="!editable"
     :clearable="clearable"
+    :clear-icon="clearIcon"
     :size="size"
     :placeholder="this.placeholder"
     default-first-option
@@ -125,7 +126,7 @@ export default defineComponent({
     },
     clearIcon: {
       type: String,
-      default: 'el-icon-circle-closes',
+      default: 'el-icon-circle-close',
     },
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
