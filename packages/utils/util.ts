@@ -3,6 +3,7 @@ import { isEmpty, castArray, isEqual } from 'lodash'
 import {
   isObject,
   isArray,
+  isString,
   capitalize,
   hyphenate,
   looseEqual,
@@ -15,6 +16,7 @@ import {
 import isServer from './isServer'
 import type { AnyFunction } from './types'
 import type { Ref } from 'vue'
+import { getCurrentInstance } from 'vue'
 
 export type PartialCSSStyleDeclaration = Partial<
   Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>
@@ -121,6 +123,7 @@ export {
   isEqual,
   isObject,
   isArray,
+  isString,
   capitalize,
   camelize,
   looseEqual,
@@ -164,4 +167,16 @@ export function entries<T>(obj: Hash<T>): [string, T][] {
     .map((key: string) => ([key, obj[key]]))
 }
 
+export function isUndefined(val: any) {
+  return val === void 0
+}
+
 export { isVNode } from 'vue'
+
+export function useGlobalConfig() {
+  const vm: any = getCurrentInstance()
+  if ('$ELEMENT' in vm.proxy) {
+    return vm.proxy.$ELEMENT
+  }
+  return {}
+}

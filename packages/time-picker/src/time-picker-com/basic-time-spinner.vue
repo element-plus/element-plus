@@ -59,7 +59,6 @@ import {
   nextTick,
   computed,
   onMounted,
-  inject,
   Ref,
   PropType,
   watch,
@@ -97,9 +96,18 @@ export default defineComponent({
       type: String,
       default: '', // 'a': am/pm; 'A': AM/PM
     },
+    disabledHours: {
+      type: Function,
+    },
+    disabledMinutes: {
+      type: Function,
+    },
+    disabledSeconds: {
+      type: Function,
+    },
   },
 
-  emits: ['change', 'select-range'],
+  emits: ['change', 'select-range', 'set-option'],
 
   setup(props, ctx) {
     // data
@@ -312,18 +320,17 @@ export default defineComponent({
       return `list${item.charAt(0).toUpperCase() + item.slice(1)}Ref`
     }
 
-    const pickerPanel = inject('EP_TIMEPICK_PANEL') as any
-    pickerPanel.hub.emit('SetOption',[`${props.role}_scrollDown`, scrollDown])
-    pickerPanel.hub.emit('SetOption',[`${props.role}_emitSelectRange`, emitSelectRange])
+    ctx.emit('set-option',[`${props.role}_scrollDown`, scrollDown])
+    ctx.emit('set-option',[`${props.role}_emitSelectRange`, emitSelectRange])
 
     const {
       getHoursList,
       getMinutesList,
       getSecondsList,
     } = getTimeLists(
-      pickerPanel.methods.disabledHours,
-      pickerPanel.methods.disabledMinutes,
-      pickerPanel.methods.disabledSeconds,
+      props.disabledHours,
+      props.disabledMinutes,
+      props.disabledSeconds,
     )
 
     watch(() => props.spinnerDate, () => {

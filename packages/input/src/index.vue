@@ -11,10 +11,12 @@
         'el-input-group--prepend': $slots.prepend,
         'el-input--prefix': $slots.prefix || prefixIcon,
         'el-input--suffix': $slots.suffix || suffixIcon || clearable || showPassword
-      }
+      },
+      $attrs.class
     ]"
-    @mouseenter="hovering = true"
-    @mouseleave="hovering = false"
+    :style="$attrs.style"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
   >
     <template v-if="type !== 'textarea'">
       <!-- 前置元素 -->
@@ -25,7 +27,7 @@
         v-if="type !== 'textarea'"
         ref="input"
         class="el-input__inner"
-        v-bind="$attrs"
+        v-bind="attrs"
         :type="showPassword ? (passwordVisible ? 'text': 'password') : type"
         :disabled="inputDisabled"
         :readonly="readonly"
@@ -39,6 +41,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
+        @keydown="handleKeydown"
       >
       <!-- 前置内容 -->
       <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
@@ -79,7 +82,7 @@
       v-else
       ref="textarea"
       class="el-textarea__inner"
-      v-bind="$attrs"
+      v-bind="attrs"
       :tabindex="tabindex"
       :disabled="inputDisabled"
       :readonly="readonly"
@@ -112,6 +115,7 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
+import { useAttrs } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, VALIDATE_STATE_MAP } from '@element-plus/utils/constants'
 import { isObject } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
@@ -145,6 +149,8 @@ const PENDANT_MAP = {
 export default defineComponent({
   name: 'ElInput',
 
+  inheritAttrs: false,
+
   props: {
     modelValue: {
       type: [String, Number],
@@ -155,8 +161,8 @@ export default defineComponent({
       default: 'text',
     },
     size: {
-      type: String as PropType<'large' | 'medium' | 'small' | 'mini'>,
-      validator: (val: string) => ['large', 'medium', 'small', 'mini'].includes(val),
+      type: String as PropType<'large' | 'medium' | 'small' | 'mini' | null>,
+      validator: (val: string) => !val || ['large', 'medium', 'small', 'mini'].includes(val),
     },
     resize: {
       type: String as PropType<'none' | 'both' | 'horizontal' | 'vertical'>,
@@ -217,10 +223,12 @@ export default defineComponent({
     },
   },
 
-  emits: [UPDATE_MODEL_EVENT, 'change', 'focus', 'blur', 'clear'],
+  emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'focus', 'blur', 'clear',
+    'mouseleave', 'mouseenter', 'keydown'],
 
   setup(props, ctx) {
     const instance = getCurrentInstance()
+    const attrs = useAttrs(true)
 
     const elForm = inject<ElForm>('elForm', {} as any)
     const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
@@ -319,15 +327,18 @@ export default defineComponent({
     }
 
     const handleInput = event => {
+      const { value } = event.target
+
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
       if (isComposing.value) return
 
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
-      if (event.target.value === nativeInputValue.value) return
+      if (value === nativeInputValue.value) return
 
-      ctx.emit(UPDATE_MODEL_EVENT, event.target.value)
+      ctx.emit(UPDATE_MODEL_EVENT, value)
+      ctx.emit('input', value)
 
       // ensure native input value is controlled
       // see: https://github.com/ElemeFE/element/issues/12850
@@ -439,9 +450,24 @@ export default defineComponent({
       nextTick(updateIconOffset)
     })
 
+    const onMouseLeave = e => {
+      hovering.value = false
+      ctx.emit('mouseleave', e)
+    }
+
+    const onMouseEnter = e => {
+      hovering.value = true
+      ctx.emit('mouseenter', e)
+    }
+
+    const handleKeydown = e => {
+      ctx.emit('keydown', e)
+    }
+
     return {
       input,
       textarea,
+      attrs,
       inputSize,
       validateState,
       validateIcon,
@@ -468,6 +494,9 @@ export default defineComponent({
       focus,
       blur,
       getSuffixVisible,
+      onMouseLeave,
+      onMouseEnter,
+      handleKeydown,
     }
   },
 })

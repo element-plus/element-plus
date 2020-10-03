@@ -7,7 +7,6 @@
       underline && !disabled && 'is-underline'
     ]"
     :href="disabled ? null : href"
-    v-bind="$attrs"
     @click="handleClick"
   >
     <i v-if="icon" :class="icon"></i>

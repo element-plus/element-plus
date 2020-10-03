@@ -1,10 +1,7 @@
 declare module '*.vue' {
-  import { Component, ComponentPublicInstance } from 'vue'
-  const _default: Component & {
-    // eslint-disable-next-line
-    new (): ComponentPublicInstance<any>
-  }
-  export default _default
+  import { defineComponent } from 'vue'
+  const component: ReturnType<typeof defineComponent>
+  export default component
 }
 
 declare type Nullable<T> = T | null;

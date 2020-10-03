@@ -1,4 +1,4 @@
-import { h, openBlock, createBlock, Comment } from 'vue'
+import { openBlock, createBlock, Comment } from 'vue'
 import { PatchFlags } from '@element-plus/utils/vnode'
 
 export default function renderArrow(showArrow: boolean) {

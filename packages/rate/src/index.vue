@@ -46,6 +46,7 @@ import {
 } from 'vue'
 import { isObject, isArray } from '@vue/shared'
 import { hasClass } from '@element-plus/utils/dom'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 
 interface ElForm {
   disabled: boolean
@@ -240,8 +241,8 @@ export default defineComponent({
         return
       }
       let _currentValue = currentValue.value
-      const keyCode = e.keyCode
-      if (keyCode === 38 || keyCode === 39) { // left / down
+      const code = e.code
+      if (code === EVENT_CODE.up || code === EVENT_CODE.right) {
         if (props.allowHalf) {
           _currentValue += 0.5
         } else {
@@ -249,7 +250,7 @@ export default defineComponent({
         }
         e.stopPropagation()
         e.preventDefault()
-      } else if (keyCode === 37 || keyCode === 40) {
+      } else if (code === EVENT_CODE.left || code === EVENT_CODE.down) {
         if (props.allowHalf) {
           _currentValue -= 0.5
         } else {
