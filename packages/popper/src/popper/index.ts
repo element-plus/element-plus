@@ -160,6 +160,14 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
     onBlur?: (e: Event) => void
   }
 
+  function update() {
+    if (popperInstance) {
+      popperInstance.update()
+    } else {
+      initializePopper()
+    }
+  }
+
   if (!isManualMode()) {
     const toggleState = () => {
       if (visibility.value) {
@@ -236,15 +244,10 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
     popperInstance.update()
   })
 
-  watch(visibility, () => {
-    if (popperInstance) {
-      popperInstance.update()
-    } else {
-      initializePopper()
-    }
-  })
+  watch(visibility, update)
 
   return {
+    update,
     doDestroy,
     show,
     hide,
