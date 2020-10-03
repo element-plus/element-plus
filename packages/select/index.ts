@@ -8,3 +8,5 @@ export default (app: App): void => {
   app.component(OptionGroup.name, OptionGroup)
   app.component(Option.name, Option)
 }
+
+export const ElSelect = Select
