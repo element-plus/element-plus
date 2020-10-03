@@ -1,3 +1,4 @@
+import mitt from 'mitt'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { t } from '@element-plus/locale'
 import isServer from '@element-plus/utils/isServer'
@@ -10,6 +11,7 @@ import {
   computed,
   watch,
   ref,
+  reactive,
 } from 'vue'
 import {
   getValueByPath,
@@ -20,7 +22,38 @@ import {
 
 const ELEMENT = { size: 'medium' }
 
-export const useSelect = (props, states, ctx) => {
+export function useSelectStates(props) {
+  const selectEmitter = mitt()
+  return reactive({
+    options: [],
+    cachedOptions: [],
+    createdLabel: null,
+    createdSelected: false,
+    selected: props.multiple ? [] : {} as any,
+    inputLength: 20,
+    inputWidth: 0,
+    initialInputHeight: 0,
+    optionsCount: 0,
+    filteredOptionsCount: 0,
+    visible: false,
+    softFocus: false,
+    selectedLabel: '',
+    hoverIndex: -1,
+    query: '',
+    previousQuery: null,
+    inputHovering: false,
+    cachedPlaceHolder: '',
+    currentPlaceholder: t('el.select.placeholder'),
+    menuVisibleOnFocus: false,
+    isOnComposition: false,
+    isSilentBlur: false,
+    selectEmitter,
+  })
+}
+
+type States = ReturnType<typeof useSelectStates>
+
+export const useSelect = (props, states: States, ctx) => {
   // template refs
   const reference = ref(null)
   const input = ref(null)
@@ -86,7 +119,7 @@ export const useSelect = (props, states, ctx) => {
 
   const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
 
-  const dropMenuVisible = computed(() => states.visible && states.emptyText !== false)
+  const dropMenuVisible = computed(() => states.visible && emptyText.value !== false)
 
   // watch
   watch(() => selectDisabled.value, () => {

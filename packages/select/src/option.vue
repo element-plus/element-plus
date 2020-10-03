@@ -19,9 +19,10 @@
 import {
   toRefs,
   defineComponent,
-  // getCurrentInstance,
+  getCurrentInstance,
   onBeforeUnmount,
-  reactive } from 'vue'
+  reactive,
+} from 'vue'
 import { useOption } from './useOption'
 
 
@@ -63,22 +64,29 @@ export default defineComponent({
       hover,
     } = toRefs(states)
 
-    // const instance = getCurrentInstance()
+    const instance = getCurrentInstance()
 
     onBeforeUnmount(() => {
-      // const { selected, multiple } = select
-      // let selectedOptions = multiple ? selected : [selected]
-      // let index = select.cachedOptions.value.indexOf(instance)
-      // let selectedIndex = selectedOptions?.indexOf(instance)
+      const { selected, multiple } = select
+      let selectedOptions = multiple ? selected : [selected]
+      let index = select.cachedOptions.indexOf(instance)
+      let selectedIndex = selectedOptions?.indexOf(instance)
 
       // if option is not selected, remove it from cache
-      // if (index > -1 && selectedIndex < 0) {
-      //   select.cachedOptions.value.splice(index, 1)
-      // }
-      select.onOptionDestroy(select.options.value.map(item => item.value).indexOf(props.value))
+      if (index > -1 && selectedIndex < 0) {
+        select.cachedOptions.splice(index, 1)
+      }
+      select.onOptionDestroy(select.options.map(item => item.value).indexOf(props.value))
     })
+    select.options.push(instance)
+    select.cachedOptions.push(instance)
 
 
+    function selectOptionClick() {
+      if (this.disabled !== true && this.groupDisabled !== true) {
+        this.select.handleOptionSelect(this, true)
+      }
+    }
 
     return {
       currentLabel,
@@ -88,20 +96,8 @@ export default defineComponent({
       hoverItem,
       visible,
       hover,
+      selectOptionClick,
     }
-  },
-
-  created() {
-    this.select.options.value.push(this)
-    this.select.cachedOptions.value.push(this)
-  },
-
-  methods: {
-    selectOptionClick() {
-      if (this.disabled !== true && this.groupDisabled !== true) {
-        this.select.handleOptionSelect(this, true)
-      }
-    },
   },
 })
 

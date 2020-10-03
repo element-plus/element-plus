@@ -15,7 +15,12 @@ import {
   provide,
   inject,
   ref,
+  reactive, toRefs,
 } from 'vue'
+import {
+  selectGroupKey, selectKey,
+  selectEvents,
+} from './token'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -32,16 +37,16 @@ export default defineComponent({
   setup(props) {
     const visible = ref(true)
 
-    provide('SelectGroup', {
-      ...props,
-    })
+    provide(selectGroupKey, reactive({
+      ...toRefs(props),
+    }))
 
-    const select = inject('Select', {}) as any
+    const select = inject(selectKey)
 
     const queryChange = () => {
-      visible.value = select.options.value && select.options.value.some(option => option.visible === true )
+      visible.value = select?.options?.some(option => option.visible === true )
     }
-    select.selectEmitter.on('elOptionGroupQueryChange', queryChange)
+    select.selectEmitter.on(selectEvents.queryChange, queryChange)
 
     return {
       visible,

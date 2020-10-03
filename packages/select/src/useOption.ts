@@ -5,11 +5,15 @@ import {
   watch,
 } from 'vue'
 import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
+import {
+  selectKey, selectGroupKey,
+  selectEvents,
+} from './token'
 
-export const useOption = (props, states, ctx) => {
+export function useOption(props, states, ctx) {
   // inject
-  const select = inject('Select', {}) as any
-  const selectGroup = inject('SelectGroup', {}) as any
+  const select = inject(selectKey)
+  const selectGroup = inject(selectGroupKey, {})
 
   // computed
   const isObject = computed(() => {
@@ -48,8 +52,8 @@ export const useOption = (props, states, ctx) => {
 
   const instance = getCurrentInstance()
 
-  select.optionsCount.value++
-  select.filteredOptionsCount.value++
+  select.optionsCount++
+  select.filteredOptionsCount++
 
   const contains = (arr = [], target) => {
     if (!isObject.value) {
@@ -62,7 +66,7 @@ export const useOption = (props, states, ctx) => {
     }
   }
 
-  const isEqual = (a, b) => {
+  const isEqual = (a: unknown, b: unknown) => {
     if (!isObject.value) {
       return a === b
     } else {
@@ -73,14 +77,15 @@ export const useOption = (props, states, ctx) => {
 
   const hoverItem = () => {
     if (!props.disabled && !selectGroup.disabled) {
-      select.hoverIndex.value = select.options.value.indexOf(instance)
+      select.hoverIndex = select.options.indexOf(instance)
     }
   }
 
-  const queryChange = query => {
-    states.visible = new RegExp(escapeRegexpString(query), 'i').test(currentLabel.value) || props.created
+  const queryChange = (query: string) => {
+    const regexp = new RegExp(escapeRegexpString(query), 'i')
+    states.visible = regexp.test(currentLabel.value) || props.created
     if (!states.visible) {
-      select.filteredOptionsCount.value--
+      select.filteredOptionsCount--
     }
   }
 
@@ -99,7 +104,7 @@ export const useOption = (props, states, ctx) => {
   })
 
   // Emitter
-  select.selectEmitter.on('elOptionQueryChange', queryChange)
+  select.selectEmitter.on(selectEvents.queryChange, queryChange)
 
   return {
     select,

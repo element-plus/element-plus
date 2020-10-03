@@ -15,7 +15,7 @@
       manual-mode
       effect="light"
       trigger="click"
-      :offset="[0,6]"
+      :offset="6"
     >
       <template #trigger>
         <div class="select-trigger">
@@ -72,7 +72,7 @@
               class="el-select__input"
               :class="[selectSize ? `is-${ selectSize }` : '']"
               :disabled="selectDisabled"
-              :autocomplete="autoComplete || autocomplete"
+              :autocomplete="autocomplete"
               :style="{ 'flex-grow': '1', width: inputLength / (inputWidth - 32) + '%', 'max-width': inputWidth - 42 + 'px' }"
               @focus="handleFocus"
               @blur="softFocus = false"
@@ -97,7 +97,7 @@
             type="text"
             :placeholder="currentPlaceholder"
             :name="name"
-            :autocomplete="autoComplete || autocomplete"
+            :autocomplete="autocomplete"
             :size="selectSize"
             :disabled="selectDisabled"
             :readonly="readonly"
@@ -176,8 +176,8 @@ import ClickOutside from '@element-plus/directives/click-outside'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { t } from '@element-plus/locale'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import mitt from 'mitt'
-import { useSelect } from './useSelect'
+import { useSelect, useSelectStates } from './useSelect'
+import { selectKey } from './token'
 import {
   toRefs,
   defineComponent,
@@ -185,7 +185,8 @@ import {
   onBeforeUnmount,
   nextTick,
   reactive,
-  provide } from 'vue'
+  provide,
+} from 'vue'
 
 
 export default defineComponent({
@@ -209,15 +210,6 @@ export default defineComponent({
     autocomplete: {
       type: String,
       default: 'off',
-    },
-    /** @Deprecated in next major version */
-    autoComplete: {
-      type: String,
-      validator() {
-        process.env.NODE_ENV !== 'production' &&
-          console.warn('[Element Warn][Select]\'auto-complete\' property will be deprecated in next major version. please use \'autocomplete\' instead.')
-        return true
-      },
     },
     automaticDropdown: Boolean,
     size: String,
@@ -257,34 +249,7 @@ export default defineComponent({
   emits: ['remove-tag', 'clear', 'change', 'visible-change', 'focus', 'blur', UPDATE_MODEL_EVENT],
 
   setup(props, ctx) {
-    const selectEmitter = mitt()
-
-    const states = reactive({
-      options: [],
-      cachedOptions: [],
-      createdLabel: null,
-      createdSelected: false,
-      selected: props.multiple ? [] : {},
-      inputLength: 20,
-      inputWidth: 0,
-      initialInputHeight: 0,
-      optionsCount: 0,
-      filteredOptionsCount: 0,
-      visible: false,
-      softFocus: false,
-      selectedLabel: '',
-      hoverIndex: -1,
-      query: '',
-      previousQuery: null,
-      inputHovering: false,
-      cachedPlaceHolder: '',
-      currentPlaceholder: t('el.select.placeholder'),
-      menuVisibleOnFocus: false,
-      isOnComposition: false,
-      isSilentBlur: false,
-      selectEmitter,
-    })
-
+    const states = useSelectStates(props)
     const {
       selectSize,
       readonly,
@@ -350,25 +315,24 @@ export default defineComponent({
       optionsCount,
     } = toRefs(states)
 
-    // provide
-    provide('Select', {
+    provide(selectKey, reactive({
       options,
       cachedOptions,
       optionsCount,
       filteredOptionsCount,
       hoverIndex,
       handleOptionSelect,
-      selectEmitter,
+      selectEmitter: states.selectEmitter,
       onOptionDestroy,
       props,
       inputWidth,
       selectWrapper,
       popper,
-    })
+    }))
 
     onMounted(() => {
       states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder
-      if (props.multiple && Array.isArray(props.value) && props.modelValue.length > 0) {
+      if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
       }
       addResizeListener(selectWrapper.value, handleResize)

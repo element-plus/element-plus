@@ -14,6 +14,9 @@ import {
   onMounted,
   inject,
 } from 'vue'
+import {
+  selectKey,
+} from './token'
 
 export default {
   name: 'ElSelectDropdown',
@@ -21,12 +24,12 @@ export default {
   componentName: 'ElSelectDropdown',
 
   setup() {
-    const select = inject('Select', {} as any)
+    const select = inject(selectKey)
 
     // computed
     const popperClass = computed(() => select.props.popperClass)
     const isMultiple = computed(() => select.props.multiple)
-    const minWidth = computed(() => select.selectWrapper.value && select.selectWrapper.value.getBoundingClientRect().width + 'px')
+    const minWidth = computed(() => select.selectWrapper?.getBoundingClientRect().width + 'px')
 
     onMounted(() => {
       // TODO: updatePopper
