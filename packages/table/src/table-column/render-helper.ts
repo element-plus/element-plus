@@ -1,4 +1,11 @@
-import { getCurrentInstance, h, ComputedRef, ref, computed } from 'vue'
+import {
+  getCurrentInstance,
+  h,
+  ComputedRef,
+  ref,
+  computed,
+  watchEffect,
+} from 'vue'
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
 import { TableColumn, TableColumnCtx } from '../table'
@@ -7,12 +14,19 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
   const instance = (getCurrentInstance() as unknown) as TableColumn
   const columnId = ref('')
   const isSubColumn = ref(false)
-
-  const realAlign = computed(() => {
-    return props.align ? 'is-' + props.align : null
+  const realAlign = ref<string>()
+  const realHeaderAlign = ref<string>()
+  watchEffect(() => {
+    realAlign.value = !!props.align ? 'is-' + props.align : null
+    // nextline help render
+    realAlign.value
   })
-  const realHeaderAlign = computed(() => {
-    return props.headerAlign ? 'is-' + props.headerAlign : realAlign.value
+  watchEffect(() => {
+    realHeaderAlign.value = !!props.headerAlign
+      ? 'is-' + props.headerAlign
+      : realAlign.value
+    // nextline help render
+    realHeaderAlign.value
   })
   const columnOrTableParent = computed(() => {
     let parent = (instance.vnode as any).vParent || (instance.parent as any)
@@ -22,12 +36,10 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
     return parent
   })
 
-  const realWidth = computed(() => parseWidth(props.width))
-  const realMinWidth = computed(() => parseMinWidth(props.minWidth))
+  const realWidth = ref(parseWidth(props.width))
+  const realMinWidth = ref(parseMinWidth(props.minWidth))
   const setColumnWidth = column => {
-    if (realWidth.value) {
-      column.width = realWidth.value
-    }
+    if (realWidth.value) column.width = realWidth.value
     if (realMinWidth.value) {
       column.minWidth = realMinWidth.value
     }
@@ -45,8 +57,7 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
     Object.keys(source).forEach(prop => {
       const value = source[prop]
       if (value !== undefined) {
-        column[prop] =
-          prop === 'className' ? `${column[prop]} ${value}` : value
+        column[prop] = prop === 'className' ? `${column[prop]} ${value}` : value
       }
     })
     return column

@@ -16,7 +16,7 @@ function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
 
     Object.keys(allAliases).forEach(key => {
       const columnKey = aliases[key]
-      if (props_[columnKey]) {
+      if (props_.hasOwnProperty(columnKey)) {
         watch(
           () => props_[columnKey],
           newVal => {
@@ -46,18 +46,16 @@ function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
       prop: 'property',
       realAlign: 'align',
       realHeaderAlign: 'headerAlign',
-      realWidth: 'width',
     }
     const allAliases = props.reduce((prev, cur) => {
       prev[cur] = cur
       return prev
     }, aliases)
-
     Object.keys(allAliases).forEach(key => {
       const columnKey = aliases[key]
-      if (props_[key]) {
+      if (props_.hasOwnProperty(columnKey)) {
         watch(
-          () => props_[key],
+          () => props_[columnKey],
           newVal => {
             instance.columnConfig.value[columnKey] = newVal
           },

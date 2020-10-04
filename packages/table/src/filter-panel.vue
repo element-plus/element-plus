@@ -1,7 +1,7 @@
 <template>
   <el-popper
     ref="tooltip"
-    :offset="[0, 0]"
+    :offset="0"
     :placement="placement"
     :show-arrow="false"
     :trigger="['click']"

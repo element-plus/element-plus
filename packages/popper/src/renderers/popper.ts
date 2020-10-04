@@ -2,12 +2,7 @@ import { withDirectives, h, Transition, vShow } from 'vue'
 import { stop } from '@element-plus/utils/dom'
 
 import type { VNode } from 'vue'
-import type { Effect } from '../popper'
-
-type TransitionEmitters = {
-  onAfterEnter: () => void
-  onAfterLeave: () => void
-}
+import type { Effect } from '../popper/defaults'
 
 interface IRenderPopperProps {
   name: string
@@ -18,7 +13,8 @@ interface IRenderPopperProps {
   visibility: boolean
   onMouseEnter: () => void
   onMouseLeave: () => void
-  transitionEmitters: TransitionEmitters
+  onAfterEnter: () => void
+  onAfterLeave: () => void
 }
 
 export default function renderPopper(
@@ -31,10 +27,10 @@ export default function renderPopper(
     popperClass,
     pure,
     popperId,
-    transitionEmitters,
     visibility,
     onMouseEnter,
     onMouseLeave,
+    ...transitionEvents
   } = props
 
   const kls = [
@@ -55,7 +51,7 @@ export default function renderPopper(
     Transition,
     {
       name,
-      ...transitionEmitters,
+      ...transitionEvents,
     },
     {
       default: () =>

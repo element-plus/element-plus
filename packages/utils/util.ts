@@ -16,6 +16,7 @@ import {
 import isServer from './isServer'
 import type { AnyFunction } from './types'
 import type { Ref } from 'vue'
+import { getCurrentInstance } from 'vue'
 
 export type PartialCSSStyleDeclaration = Partial<
   Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>
@@ -39,7 +40,11 @@ export const getValueByPath = (obj: any, paths = ''): unknown => {
   return ret
 }
 
-export function getPropByPath(obj: any, path: string, strict: boolean): {
+export function getPropByPath(
+  obj: any,
+  path: string,
+  strict: boolean,
+): {
   o: unknown
   k: string
   v: Nullable<unknown>
@@ -81,7 +86,9 @@ export const escapeRegexpString = (value = ''): string =>
 
 // coerce truthy value to array
 export const coerceTruthyValueToArray = arr => {
-  if (!arr) { return [] }
+  if (!arr) {
+    return []
+  }
   return castArray(arr)
 }
 
@@ -133,7 +140,9 @@ export const isBool = (val: unknown) => typeof val === 'boolean'
 export const isNumber = (val: unknown) => typeof val === 'number'
 export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
 
-export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void> {
+export function rafThrottle<T extends AnyFunction<any>>(
+  fn: T,
+): AnyFunction<void> {
   let locked = false
   return function (...args: any[]) {
     if (locked) return
@@ -161,9 +170,7 @@ export function getRandomInt(max: number) {
 }
 
 export function entries<T>(obj: Hash<T>): [string, T][] {
-  return Object
-    .keys(obj)
-    .map((key: string) => ([key, obj[key]]))
+  return Object.keys(obj).map((key: string) => [key, obj[key]])
 }
 
 export function isUndefined(val: any) {
@@ -184,4 +191,11 @@ export const arrayFind = function (
   pred: (any) => boolean,
 ): any {
   return arr.find(pred)
+}
+export function useGlobalConfig() {
+  const vm: any = getCurrentInstance()
+  if ('$ELEMENT' in vm.proxy) {
+    return vm.proxy.$ELEMENT
+  }
+  return {}
 }

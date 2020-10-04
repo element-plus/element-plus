@@ -88,7 +88,6 @@ export default defineComponent({
     const instance = getCurrentInstance() as TableColumn
     const columnConfig = ref({})
     const props = (prop as unknown) as TableColumnCtx
-
     const row = ref({})
     const r = ref({})
     const index_ = ref(0)
@@ -131,8 +130,8 @@ export default defineComponent({
         id: columnId.value,
         type: type,
         property: props.prop || props.property,
-        align: realAlign.value,
-        headerAlign: realHeaderAlign.value,
+        align: realAlign,
+        headerAlign: realHeaderAlign,
         showOverflowTooltip:
           props.showOverflowTooltip || props.showTooltipWhenOverflow,
         // filter 相关属性
