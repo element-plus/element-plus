@@ -28,7 +28,9 @@ const _mount = (template: string, data: any = () => ({}), otherObj?): any => mou
 })
 
 function getOptions(): HTMLElement[] {
-  return document.querySelectorAll('.el-popper__mask:last-child .el-select-dropdown__item') as any
+  return [...document.querySelectorAll<HTMLElement>(
+    '.el-popper__mask:last-child .el-select-dropdown__item',
+  )]
 }
 
 const getSelectVm = (configs: SelectProps = {}, options?) => {
@@ -296,9 +298,9 @@ describe('Select', () => {
     selectVm.selectedLabel = 'new'
     selectVm.debouncedOnInputChange()
     await selectVm.$nextTick()
-    const options = wrapper.findComponent({ name: 'ElSelect' }).findComponent({ ref: 'popper' }).findAll('.el-select-dropdown__item span')
-    const target = options.filter(option => option.text() === 'new')
-    await target[0].trigger('click')
+    const options = [...getOptions()]
+    const target = options.filter(option => option.textContent === 'new')
+    target[0].click()
     expect((wrapper.vm as any).value).toBe('new')
   })
 

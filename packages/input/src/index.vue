@@ -481,6 +481,7 @@ export default defineComponent({
       hovering,
       inputExceed,
       passwordVisible,
+      inputOrTextarea,
       handleInput,
       handleChange,
       handleFocus,
