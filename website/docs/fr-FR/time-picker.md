@@ -2,34 +2,6 @@
 
 Utiliser TimePicker pour sélectionner un horaire.
 
-### Sélection d'horaire fixe
-
-Vous pouvez fournir une liste d'horaires fixés pour que l'utilisateur en choisisse un.
-
-:::demo Utilisez `el-time-select` puis assignez un horaire de début, de fin et un pas grâce aux propriétés `start`, `end` et `step` de l'attribut `picker-options`.
-```html
-<el-time-select
-  v-model="value"
-  :picker-options="{
-    start: '08:30',
-    step: '00:15',
-    end: '18:30'
-  }"
-  placeholder="Choisissez un horaire">
-</el-time-select>
-
-<script>
-  export default {
-    data() {
-      return {
-        value: ''
-      };
-    }
-  }
-</script>
-```
-:::
-
 ### Sélection d'horaire libre
 
 Vous pouvez aussi laisser l'utilisateur choisir librement un horaire.
@@ -61,47 +33,6 @@ Vous pouvez aussi laisser l'utilisateur choisir librement un horaire.
       return {
         value1: new Date(2016, 9, 10, 18, 40),
         value2: new Date(2016, 9, 10, 18, 40)
-      };
-    }
-  }
-</script>
-```
-:::
-
-### Intervalle de temps fixe
-
-Vous pouvez définir un intervalle de temps. Si l'horaire de début est sélectionné en premier, certains horaires de fins seront désactivés s'ils ont lieu avant l'horaire de début.
-
-:::demo
-```html
-<template>
-  <el-time-select
-    placeholder="Horaire de début"
-    v-model="startTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30'
-    }">
-  </el-time-select>
-  <el-time-select
-    placeholder="Horaire de fin"
-    v-model="endTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30',
-      minTime: startTime
-    }">
-  </el-time-select>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        startTime: '',
-        endTime: ''
       };
     }
   }
@@ -170,16 +101,6 @@ Vous pouvez également définir un intervalle libre.
 | name | Attribut `name` natif de l'input. | string | — | — |
 | prefix-icon | Classe de l'icône de préfixe. | string | — | el-icon-time |
 | clear-icon | Classe de l'icône d'effacement. | string | — | el-icon-circle-close |
-
-### Options de TimeSelect
-
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| start | Horaire de début. | string | — | 09:00 |
-| end | Horaire de fin. | string | — | 18:00 |
-| step | Intervalle entre les horaires. | string | — | 00:30 |
-| minTime | Horaire minimum, n'importe quel horaire avant celui-ci sera désactivé. | string | — | 00:00 |
-| maxTime | Horaire maximum, n'importe quel horaire après celui-ci sera désactivé. | string | — | — |
 
 ### Options de TimePicker
 

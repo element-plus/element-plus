@@ -117,6 +117,10 @@
               "title": "TimePicker 时间选择器"
             },
             {
+              "path": "/time-select",
+              "title": "TimeSelect 时间选择器"
+            },
+            {
               "path": "/date-picker",
               "title": "DatePicker 日期选择器"
             },
@@ -413,6 +417,10 @@
             {
               "path": "/time-picker",
               "title": "TimePicker"
+            },
+            {
+              "path": "/time-select",
+              "title": "TimeSelect"
             },
             {
               "path": "/date-picker",
@@ -713,6 +721,10 @@
               "title": "TimePicker"
             },
             {
+              "path": "/time-select",
+              "title": "TimeSelect"
+            },
+            {
               "path": "/date-picker",
               "title": "DatePicker"
             },
@@ -1009,6 +1021,10 @@
             {
               "path": "/time-picker",
               "title": "TimePicker"
+            },
+            {
+              "path": "/time-select",
+              "title": "TimeSelect"
             },
             {
               "path": "/date-picker",

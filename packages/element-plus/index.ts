@@ -45,6 +45,7 @@ import ElUpload from '@element-plus/upload'
 import ElTree from '@element-plus/tree'
 import ElColorPicker from '@element-plus/color-picker'
 import ElSelect from '@element-plus/select'
+import ElTimeSelect from '@element-plus/time-select'
 
 export {
   ElAlert,
@@ -92,6 +93,7 @@ export {
   ElTree,
   ElColorPicker,
   ElSelect,
+  ElTimeSelect,
 }
 
 const install = (app: App): void => {
@@ -141,6 +143,7 @@ const install = (app: App): void => {
   ElTree(app)
   ElColorPicker(app)
   ElSelect(app)
+  ElTimeSelect(app)
 }
 
 const elementUI = {
