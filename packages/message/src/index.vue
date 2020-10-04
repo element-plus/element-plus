@@ -36,7 +36,7 @@
 import { defineComponent, computed, ref, PropType } from 'vue'
 // MessageVM is an alias of vue.VNode
 import type { MessageVM } from './types'
-import { eventKeys } from '../../utils/aria'
+import { EVENT_CODE } from '../../utils/aria'
 import { on, off } from '../../utils/dom'
 
 const TypeMap: Indexable<string> = {
@@ -137,8 +137,8 @@ export default defineComponent({
       this.closed = true
       this.timer = null
     },
-    keydown({ keyCode }: KeyboardEvent) {
-      if (keyCode === eventKeys.esc) {
+    keydown({ code }: KeyboardEvent) {
+      if (code === EVENT_CODE.esc) {
         // press esc to close the message
         if (!this.closed) {
           this.close()

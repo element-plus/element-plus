@@ -2,7 +2,7 @@ import { h, nextTick } from 'vue'
 import Message from '../src/index.vue'
 import * as domExports from '../../utils/dom'
 import { mount } from '@vue/test-utils'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -177,8 +177,8 @@ describe('Message.vue', () => {
       const wrapper = _mount({ slots: { default: AXIOM } })
 
       const event = new KeyboardEvent('keydown', {
-        keyCode: eventKeys.esc,
-      } as any)
+        code: EVENT_CODE.esc,
+      })
       const oldClose = wrapper.vm.close
       wrapper.vm.close = jest.fn(() => oldClose())
       document.dispatchEvent(event)
