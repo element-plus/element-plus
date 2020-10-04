@@ -313,7 +313,7 @@ export const useSelect = (props, states: States, ctx) => {
       const option = states.options[i]
       if (states.query) {
         // highlight first options that passes the filter
-        if (!option.$props.disabled && !option.$props.groupDisabled && option.visible) {
+        if (!option.disabled && !option.groupDisabled && option.visible) {
           states.hoverIndex = i
           break
         }
@@ -721,5 +721,4 @@ export const useSelect = (props, states: States, ctx) => {
     scrollbar,
   }
 }
-
 

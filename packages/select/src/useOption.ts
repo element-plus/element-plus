@@ -10,10 +10,10 @@ import {
   selectEvents,
 } from './token'
 
-export function useOption(props, states, ctx) {
+export function useOption(props, states) {
   // inject
   const select = inject(selectKey)
-  const selectGroup = inject(selectGroupKey, {})
+  const selectGroup = inject(selectGroupKey, { disabled: false })
 
   // computed
   const isObject = computed(() => {

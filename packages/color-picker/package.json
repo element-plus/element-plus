@@ -1,5 +1,5 @@
 {
-  "name": "@element-plus/date-picker",
+  "name": "@element-plus/color-picker",
   "version": "0.0.0",
   "main": "dist/index.js",
   "license": "MIT",
@@ -7,6 +7,6 @@
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3"
+    "@vue/test-utils": "^2.0.0-beta.0"
   }
 }
