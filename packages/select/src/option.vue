@@ -33,6 +33,7 @@ export default defineComponent({
   props: {
     value: {
       required: true,
+      type: [String, Number, Object],
     },
     label: [String, Number],
     created: Boolean,
@@ -42,7 +43,7 @@ export default defineComponent({
     },
   },
 
-  setup(props, ctx) {
+  setup(props) {
     const states = reactive({
       index: -1,
       groupDisabled: false,
@@ -57,7 +58,7 @@ export default defineComponent({
       isDisabled,
       select,
       hoverItem,
-    } = useOption(props, states, ctx)
+    } = useOption(props, states)
 
     const {
       visible,
