@@ -84,7 +84,7 @@ export default defineComponent({
       required: true,
     },
     spinnerDate: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
       required: true,
     },
     showSeconds: {

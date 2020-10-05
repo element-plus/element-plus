@@ -52,13 +52,13 @@ import dayjs, { Dayjs } from 'dayjs'
 export default defineComponent({
   props: {
     date: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     minDate: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     maxDate: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     parsedValue: {
       type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
