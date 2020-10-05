@@ -60,7 +60,6 @@ import {
   computed,
   onMounted,
   Ref,
-  PropType,
   watch,
 } from 'vue'
 import { Dayjs } from 'dayjs'
