@@ -6,7 +6,7 @@
     :clearable="clearable"
     :clear-icon="clearIcon"
     :size="size"
-    :placeholder="this.placeholder"
+    :placeholder="placeholder"
     default-first-option
     filterable
     @change="
@@ -173,12 +173,6 @@ export default defineComponent({
           data[option].value = options[option]
         }
       }
-    }
-    const focus = () => {
-      select.value.focus()
-    }
-    const blur = () => {
-      select.value.blur()
     }
     // watch
     watch(
