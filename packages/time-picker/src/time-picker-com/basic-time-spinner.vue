@@ -60,7 +60,6 @@ import {
   computed,
   onMounted,
   Ref,
-  PropType,
   watch,
 } from 'vue'
 import { Dayjs } from 'dayjs'
@@ -84,7 +83,7 @@ export default defineComponent({
       required: true,
     },
     spinnerDate: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
       required: true,
     },
     showSeconds: {

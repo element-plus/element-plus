@@ -70,7 +70,7 @@ export default defineComponent({
       type: Array as PropType<Array<Dayjs>>,
     },
     date: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     hideHeader: {
       type: Boolean,

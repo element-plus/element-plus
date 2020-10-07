@@ -66,10 +66,10 @@ export default defineComponent({
       type: Function as PropType<(_: Date) => void>,
     },
     parsedValue: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     date: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
   },
 
