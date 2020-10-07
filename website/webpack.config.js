@@ -94,7 +94,7 @@ const config = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
     alias: {
-      'vue': '@vue/runtime-dom',
+      'vue': 'vue/dist/vue.esm-browser.js',
       examples: path.resolve(__dirname),
     },
   },
