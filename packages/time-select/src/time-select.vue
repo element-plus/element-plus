@@ -1,6 +1,5 @@
 <template>
   <el-select
-    ref="select"
     v-model="value"
     :disabled="!editable"
     :clearable="clearable"
@@ -146,8 +145,6 @@ export default defineComponent({
       minTime,
       maxTime,
     }
-    // refs
-    const select = ref(null)
     // computed
     const items = computed(() => {
       const result = []
