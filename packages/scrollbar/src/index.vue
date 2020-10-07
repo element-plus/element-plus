@@ -1,4 +1,5 @@
 
+<script>
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import { toObject } from '@element-plus/utils/util'
@@ -128,3 +129,4 @@ export default {
     }
   },
 }
+</script>

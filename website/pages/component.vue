@@ -57,6 +57,7 @@ export default {
       // 触发伪滚动条更新
       this.componentScrollBox.scrollTop = 0
       this.$nextTick(() => {
+        console.log(this.componentScrollBar)
         this.componentScrollBar.update()
       })
     },
