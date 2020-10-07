@@ -28,7 +28,7 @@
     />
   </div>
 </template>
-<script>
+<script lang='ts'>
 import {
   addResizeListener,
   removeResizeListener,
@@ -36,6 +36,7 @@ import {
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import { toObject } from '@element-plus/utils/util'
 import {
+  defineComponent,
   ref,
   onMounted,
   onBeforeUnmount,
@@ -45,7 +46,7 @@ import {
 } from 'vue'
 import Bar from './bar'
 
-export default {
+export default defineComponent({
   name: 'ElScrollbar',
 
   components: { Bar },
@@ -150,5 +151,5 @@ export default {
       handleScroll,
     }
   },
-}
+})
 </script>
