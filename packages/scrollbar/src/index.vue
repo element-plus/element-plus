@@ -1,9 +1,48 @@
-
+<template>
+  <div class="el-scrollbar">
+    <div
+      ref="wrap"
+      :class="[
+        wrapClass,
+        'el-scrollbar__wrap',
+        native ? '' : gutter ? '' : 'el-scrollbar__wrap--hidden-default',
+      ]"
+      :style="style"
+      @scroll="handleScroll"
+    >
+      <component
+        :is="tag"
+        ref="resize"
+        :class="['el-scrollbar__view', viewClass]"
+        :style="viewStyle"
+      >
+        <slot></slot>
+      </component>
+    </div>
+    <bar v-if="!native" :move="moveX" :size="sizeWidth" />
+    <bar
+      v-if="!native"
+      vertical
+      :move="moveY"
+      :size="sizeHeight"
+    />
+  </div>
+</template>
 <script>
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
+import {
+  addResizeListener,
+  removeResizeListener,
+} from '@element-plus/utils/resize-event'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import { toObject } from '@element-plus/utils/util'
-import { h, ref, onMounted, onBeforeUnmount, nextTick, provide } from 'vue'
+import {
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+  provide,
+  computed,
+} from 'vue'
 import Bar from './bar'
 
 export default {
@@ -39,7 +78,7 @@ export default {
     },
   },
 
-  setup(props, ctx) {
+  setup(props) {
     const sizeWidth = ref('0')
     const sizeHeight = ref('0')
     const moveX = ref(0)
@@ -50,18 +89,22 @@ export default {
     provide('scroll-bar-wrap', wrap)
 
     const handleScroll = () => {
-      moveY.value = ((wrap.value.scrollTop * 100) / wrap.value.clientHeight)
-      moveX.value = ((wrap.value.scrollLeft * 100) / wrap.value.clientWidth)
+      if (!props.native) {
+        moveY.value = (wrap.value.scrollTop * 100) / wrap.value.clientHeight
+        moveX.value = (wrap.value.scrollLeft * 100) / wrap.value.clientWidth
+      }
     }
 
     const update = () => {
       if (!wrap.value) return
 
-      const heightPercentage = (wrap.value.clientHeight * 100 / wrap.value.scrollHeight)
-      const widthPercentage = (wrap.value.clientWidth * 100 / wrap.value.scrollWidth)
+      const heightPercentage =
+        (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
+      const widthPercentage =
+        (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
 
-      sizeHeight.value = (heightPercentage < 100) ? (heightPercentage + '%') : ''
-      sizeWidth.value = (widthPercentage < 100) ? (widthPercentage + '%') : ''
+      sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : ''
+      sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : ''
     }
 
     onMounted(() => {
@@ -74,14 +117,15 @@ export default {
       if (props.native) return
       !props.noresize && removeResizeListener(resize.value, update)
     })
-
-    return () => {
+    const gutter = computed(() => {
+      return scrollbarWidth()
+    })
+    const style = computed(() => {
       const gutter = scrollbarWidth()
       let style = props.wrapStyle
       if (gutter) {
         const gutterWith = `-${gutter}px`
         const gutterStyle = `margin-bottom: ${gutterWith}; margin-right: ${gutterWith};`
-
         if (Array.isArray(props.wrapStyle)) {
           style = toObject(props.wrapStyle)
           style.marginRight = style.marginBottom = gutterWith
@@ -91,41 +135,19 @@ export default {
           style = gutterStyle
         }
       }
-      const view = h(props.tag, {
-        class: ['el-scrollbar__view', props.viewClass],
-        style: props.viewStyle,
-        ref: resize,
-      }, ctx.slots.default())
-      const _wrap = h('div', {
-        ref: wrap,
-        style,
-        onScroll: handleScroll,
-        class: [props.wrapClass, 'el-scrollbar__wrap', gutter ? '' : 'el-scrollbar__wrap--hidden-default'],
-      }, [view])
-
-      let nodes
-
-      if (!props.native) {
-        nodes = [_wrap,h(Bar,{
-          move: moveX.value,
-          size: sizeWidth.value,
-        }),h(Bar,{
-          vertical: true,
-          move: moveY.value,
-          size: sizeHeight.value,
-        }),
-        ]
-      } else {
-        nodes = [
-          h('div',{
-            ref: wrap,
-            class: [props.wrapClass, 'el-scrollbar__wrap'],
-            style,
-          }, [view]),
-        ]
-      }
-
-      return h('div', { class: 'el-scrollbar' }, nodes)
+      return style
+    })
+    return {
+      moveX,
+      moveY,
+      sizeWidth,
+      sizeHeight,
+      style,
+      gutter,
+      wrap,
+      resize,
+      update,
+      handleScroll,
     }
   },
 }
