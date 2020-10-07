@@ -148,14 +148,14 @@
   }
 }
 
-.carousel-arrow-left-enter,
+.carousel-arrow-left-enter-active,
 .carousel-arrow-left-leave-active {
-  transform: translateY(-50%) translateX(-10px);
+  transform: translate3d(-10px, -50%, 0);
   opacity: 0;
 }
 
-.carousel-arrow-right-enter,
+.carousel-arrow-right-enter-active,
 .carousel-arrow-right-leave-active {
-  transform: translateY(-50%) translateX(10px);
+  transform: translate3d(10px, -50%, 0);
   opacity: 0;
 }
