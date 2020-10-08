@@ -71,16 +71,16 @@ export default defineComponent({
   emits: ['click'],
   setup(props, ctx) {
     // state
-    const visible = ref(true)
+    const visible = ref<boolean>(true)
 
     // computed
-    const typeClass = computed(() => `el-alert--${ props.type }`)
-    const iconClass = computed(() => TYPE_CLASSES_MAP[props.type] || 'el-icon-info')
-    const isBigIcon = computed(() => props.description || ctx.slots.default ? 'is-big' : '')
-    const isBoldTitle = computed(() => props.description || ctx.slots.default ? 'is-bold' : '')
+    const typeClass = computed<string>(() => `el-alert--${ props.type }`)
+    const iconClass = computed<string>(() => TYPE_CLASSES_MAP[props.type] || 'el-icon-info')
+    const isBigIcon = computed<string>(() => props.description || ctx.slots.default ? 'is-big' : '')
+    const isBoldTitle = computed<string>(() => props.description || ctx.slots.default ? 'is-bold' : '')
 
     // methods
-    const close = evt => {
+    const close:(evt: HTMLElement) => void = evt => {
       visible.value = false
       ctx.emit('click', evt)
     }
