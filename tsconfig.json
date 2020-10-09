@@ -17,6 +17,6 @@
  },
  "exclude": [
    "node_modules",
-   "packages/**/__tests/*"
+   "packages/**/__tests__/*"
  ]
 }

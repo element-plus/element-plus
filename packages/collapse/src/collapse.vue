@@ -4,13 +4,8 @@
   </div>
 </template>
 <script lang='ts'>
-import { defineComponent, ref, watch, provide, PropType, Ref, onUnmounted } from 'vue'
+import { defineComponent, ref, watch, provide, PropType, onUnmounted } from 'vue'
 import mitt, { Emitter } from 'mitt'
-
-export interface CollapseProvider {
-  activeNames: Ref
-  collapseMitt: Emitter
-}
 
 export default defineComponent({
   name: 'ElCollapse',

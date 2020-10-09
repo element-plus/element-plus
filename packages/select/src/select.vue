@@ -434,7 +434,8 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="scss" scoped>
+
+<style>
 .el-popper {
   padding: 0;
 }
