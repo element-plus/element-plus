@@ -18,7 +18,9 @@ export default [
       terser(),
       nodeResolve(),
       commonjs(),
-      typescript(),
+      typescript({
+        abortOnError: false,
+      }),
       css(),
       vue({ css: false }),
     ],

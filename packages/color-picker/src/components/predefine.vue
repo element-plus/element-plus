@@ -18,7 +18,7 @@
 <script lang="ts">
 import { ref, watch, watchEffect, defineComponent, PropType } from 'vue'
 import Color from '../color'
-import { useOptions } from '../index'
+import { useOptions } from '../index.vue'
 
 export default defineComponent({
   props: {
