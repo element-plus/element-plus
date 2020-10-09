@@ -12,7 +12,7 @@ import { IPagination } from './pagination'
 
 import Prev from './prev.vue'
 import Next from './next.vue'
-import Sizes from './sizes'
+import Sizes from './sizes.vue'
 import Jumper from './jumper.vue'
 import Total from './total.vue'
 import Pager from './pager.vue'
@@ -154,6 +154,11 @@ export default defineComponent({
       emitChange()
     }
 
+    function handleSizesChange(val: number) {
+      userChangePageSize.value = true
+      internalPageSize.value = val
+    }
+
     function prev() {
       if (props.disabled) return
       const newVal = internalCurrentPage.value - 1
@@ -201,6 +206,7 @@ export default defineComponent({
       disabled: computed(() => props.disabled),
       currentPage: computed(() => internalCurrentPage.value),
       changeEvent: handleCurrentChange,
+      handleSizesChange,
     })
 
     return {

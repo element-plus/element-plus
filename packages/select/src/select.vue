@@ -209,7 +209,7 @@ export default defineComponent({
     name: String,
     id: String,
     modelValue: {
-      type: [Array, String],
+      type: [Array, String, Number],
     },
     autocomplete: {
       type: String,
