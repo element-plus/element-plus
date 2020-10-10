@@ -49,7 +49,7 @@
 </template>
 <script lang='ts'>
 import { defineComponent, PropType, inject, computed, ref } from 'vue'
-import { CollapseProvider } from './collapse.vue'
+import { CollapseProvider } from './collapse'
 import { generateId } from '@element-plus/utils/util'
 import ElCollapseTransition from '@element-plus/transition/collapse-transition/index.vue'
 

@@ -20,7 +20,11 @@
               :am-pm-mode="amPmMode"
               :arrow-control="arrowControl"
               :spinner-date="minDate"
+              :disabled-hours="disabledHours_"
+              :disabled-minutes="disabledMinutes_"
+              :disabled-seconds="disabledSeconds_"
               @change="handleMinChange"
+              @set-option="onSetOption"
               @select-range="setMinSelectionRange"
             />
           </div>
@@ -38,7 +42,11 @@
               :am-pm-mode="amPmMode"
               :arrow-control="arrowControl"
               :spinner-date="maxDate"
+              :disabled-hours="disabledHours_"
+              :disabled-minutes="disabledMinutes_"
+              :disabled-seconds="disabledSeconds_"
               @change="handleMaxChange"
+              @set-option="onSetOption"
               @select-range="setMaxSelectionRange"
             />
           </div>
@@ -72,10 +80,8 @@ import {
   computed,
   PropType,
   inject,
-  provide,
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
-import mitt from 'mitt'
 import union from 'lodash/union'
 import { t } from '@element-plus/locale'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -103,8 +109,7 @@ export default defineComponent({
       default: false,
     },
     parsedValue: {
-      type: Array as PropType<Array<Dayjs>>,
-      default: '',
+      type: [Array, String] as PropType<string | Array<Dayjs>>,
     },
     format: {
       type: String,
@@ -112,13 +117,14 @@ export default defineComponent({
     },
   },
 
-  emits: ['pick', 'select-range'],
+  emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
     const minDate = computed(() => props.parsedValue[0])
     const maxDate = computed(() => props.parsedValue[1])
+    const oldValue = ref(props.parsedValue)
     const handleCancel = () =>{
-      ctx.emit('pick', null, null, true)
+      ctx.emit('pick', oldValue.value, null)
     }
     const showSeconds = computed(() => {
       return props.format.includes('ss')
@@ -290,31 +296,33 @@ export default defineComponent({
       return value.format(props.format)
     }
 
-    const pickerBase = inject('EP_PICKER_BASE') as any
-    pickerBase.hub.emit('SetPickerOption',['formatToString', formatToString])
-    pickerBase.hub.emit('SetPickerOption',['parseUserInput', parseUserInput])
-    pickerBase.hub.emit('SetPickerOption',['isValidValue', isValidValue])
-    pickerBase.hub.emit('SetPickerOption',['handleKeydown', handleKeydown])
-    pickerBase.hub.emit('SetPickerOption',['getRangeAvaliableTime', getRangeAvaliableTime])
+    const getDefaultValue = () => {
+      if (Array.isArray(defaultValue)) {
+        return defaultValue.map(_=> dayjs(_))
+      }
+      return [
+        dayjs(defaultValue),
+        dayjs(defaultValue).add(60,'m'),
+      ]
+    }
+
+    ctx.emit('set-picker-option',['formatToString', formatToString])
+    ctx.emit('set-picker-option',['parseUserInput', parseUserInput])
+    ctx.emit('set-picker-option',['isValidValue', isValidValue])
+    ctx.emit('set-picker-option',['handleKeydown', handleKeydown])
+    ctx.emit('set-picker-option',['getDefaultValue', getDefaultValue])
+    ctx.emit('set-picker-option',['getRangeAvaliableTime', getRangeAvaliableTime])
 
     const timePickeOptions = {} as any
-    const pickerHub = mitt()
-    pickerHub.on('SetOption', e => {
+    const onSetOption = e => {
       timePickeOptions[e[0]] = e[1]
-    })
+    }
 
-    const { disabledHours, disabledMinutes, disabledSeconds } = pickerBase.props
-
-    provide('EP_TIMEPICK_PANEL', {
-      hub: pickerHub,
-      methods: {
-        disabledHours: disabledHours_,
-        disabledMinutes: disabledMinutes_,
-        disabledSeconds: disabledSeconds_,
-      },
-    })
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    const { disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
 
     return {
+      onSetOption,
       setMaxSelectionRange,
       setMinSelectionRange,
       btnConfirmDisabled,
@@ -329,6 +337,9 @@ export default defineComponent({
       handleMaxChange,
       minSelectableRange,
       maxSelectableRange,
+      disabledHours_,
+      disabledMinutes_,
+      disabledSeconds_,
     }
   },
 })

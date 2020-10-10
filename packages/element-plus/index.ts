@@ -1,6 +1,7 @@
 import type { App } from 'vue'
 import ElAlert from '@element-plus/alert'
 import ElAvatar from '@element-plus/avatar'
+import ElAutocomplete from '@element-plus/autocomplete'
 import ElBacktop from '@element-plus/backtop'
 import ElButton from '@element-plus/button'
 import ElBadge from '@element-plus/badge'
@@ -28,6 +29,7 @@ import ElSteps from '@element-plus/steps'
 import ElCollapse from '@element-plus/collapse'
 import ElPopper from '@element-plus/popper'
 import ElTimePicker from '@element-plus/time-picker'
+import ElDatePicker from '@element-plus/date-picker'
 import ElTabs from '@element-plus/tabs'
 import ElTooltip from '@element-plus/tooltip'
 import ElSlider from '@element-plus/slider'
@@ -36,13 +38,20 @@ import ElTransfer from '@element-plus/transfer'
 import ElDialog from '@element-plus/dialog'
 import ElCalendar from '@element-plus/calendar'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
+import ElMessage from '@element-plus/message'
 import ElDrawer from '@element-plus/drawer'
+import ElForm from '@element-plus/form'
 import ElUpload from '@element-plus/upload'
 import ElTree from '@element-plus/tree'
+import ElColorPicker from '@element-plus/color-picker'
+import ElSelect from '@element-plus/select'
+import ElTimeSelect from '@element-plus/time-select'
+import ElPagination from '@element-plus/pagination'
 
 export {
   ElAlert,
   ElAvatar,
+  ElAutocomplete,
   ElBacktop,
   ElLayout,
   ElButton,
@@ -69,6 +78,7 @@ export {
   ElRadio,
   ElCollapse,
   ElTimePicker,
+  ElDatePicker,
   ElTabs,
   ElTooltip,
   ElSlider,
@@ -77,14 +87,21 @@ export {
   ElDialog,
   ElCalendar,
   ElInfiniteScroll,
+  ElMessage,
   ElDrawer,
+  ElForm,
   ElUpload,
   ElTree,
+  ElColorPicker,
+  ElSelect,
+  ElTimeSelect,
+  ElPagination,
 }
 
-const install = (app: App): void =>  {
+const install = (app: App): void => {
   ElAlert(app)
   ElAvatar(app)
+  ElAutocomplete(app)
   ElBacktop(app)
   ElButton(app)
   ElBadge(app)
@@ -112,6 +129,7 @@ const install = (app: App): void =>  {
   ElCollapse(app)
   ElPopper(app)
   ElTimePicker(app)
+  ElDatePicker(app)
   ElTabs(app)
   ElTooltip(app)
   ElSlider(app)
@@ -120,9 +138,15 @@ const install = (app: App): void =>  {
   ElDialog(app)
   ElCalendar(app)
   ElInfiniteScroll(app)
+  ElMessage(app)
   ElDrawer(app)
+  ElForm(app)
   ElUpload(app)
   ElTree(app)
+  ElColorPicker(app)
+  ElSelect(app)
+  ElTimeSelect(app)
+  ElPagination(app)
 }
 
 const elementUI = {
