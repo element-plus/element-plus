@@ -27,6 +27,9 @@
       <span v-if="!inactiveIconClass && inactiveText" :aria-hidden="checked">{{ inactiveText }}</span>
     </span>
     <span ref="core" class="el-switch__core" :style="{ 'width': coreWidth + 'px' }">
+      <div class="el-switch__action">
+        <i v-if="loading" class="el-icon-loading"></i>
+      </div>
     </span>
     <span
       v-if="activeIconClass || activeText"
@@ -63,6 +66,7 @@ interface ISwitchProps {
   name: string
   validateEvent: boolean
   id: string
+  loading:boolean
 }
 
 export default defineComponent({
@@ -128,6 +132,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    loading:{
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:modelValue', 'change', 'input'],
   setup(props: ISwitchProps, ctx) {
@@ -173,7 +181,7 @@ export default defineComponent({
     })
 
     const switchDisabled = computed((): boolean => {
-      return props.disabled || (elForm || {}).disabled
+      return props.disabled || props.loading ||(elForm || {}).disabled
     })
 
     const handleChange = (): void => {
@@ -195,6 +203,8 @@ export default defineComponent({
       const coreEl = core.value
       coreEl.style.borderColor = newColor
       coreEl.style.backgroundColor = newColor
+      console.log(coreEl.children[0])
+      coreEl.children[0].style.color = newColor
     }
 
     onMounted(() => {
