@@ -15,8 +15,8 @@ import throwError from '@element-plus/utils/error'
 import { stop } from '@element-plus/utils/dom'
 import { renderBlock } from '@element-plus/utils/vnode'
 
-import usePopper from './popper/index'
-import defaultProps from './popper/defaults'
+import usePopper from './use-popper/index'
+import defaultProps from './use-popper/defaults'
 
 import {
   renderMask,

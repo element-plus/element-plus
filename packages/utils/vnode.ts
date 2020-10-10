@@ -2,6 +2,8 @@ import { Fragment, Text, Comment, createBlock, openBlock } from 'vue'
 
 import type { VNode, VNodeTypes, VNodeChild } from 'vue'
 
+type Children = VNodeTypes[] | VNodeTypes
+
 const TEMPLATE = 'template'
 
 export enum PatchFlags {
@@ -65,7 +67,7 @@ export function renderIf(
   condition: boolean,
   node: VNodeTypes,
   props: any,
-  children?: VNode[],
+  children?: Children,
   patchFlag?: number,
   patchProps?: string[],
 ) {
@@ -80,7 +82,7 @@ export function renderIf(
 export function renderBlock(
   node: VNodeTypes,
   props: any,
-  children?: VNodeTypes[] | VNodeTypes,
+  children?: Children,
   patchFlag?: number,
   patchProps?: string[],
 ) {

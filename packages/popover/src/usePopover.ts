@@ -1,30 +1,19 @@
-import { computed } from 'vue'
-
+import { computed, watch } from 'vue'
 import { isString } from '@element-plus/utils/util'
+import usePopper from '@element-plus/popper/src/use-popper'
 
-import type { AnyFunction } from '@element-plus/utils/types'
 
-export interface IUsePopover {
-  visible: boolean
+import type { IPopperOptions } from '@element-plus/popper/src/use-popper/defaults'
+import type { SetupContext } from 'vue'
+
+export interface IUsePopover extends IPopperOptions{
   width: number | string
 }
 
 export const SHOW_EVENT = 'show'
 export const HIDE_EVENT = 'hide'
 
-export default function usePopover<T extends AnyFunction<void>>(props: IUsePopover, emitter: T) {
-  // due to vue forbids user to return attribute starts with `_` or `$` which indicates
-  // an internal member, we need to change the name as modelValue as it is a modelValue itself
-  const modelValue = computed({
-    get() {
-      return props.visible
-    },
-    set(val) {
-      emitter('update:visible', val)
-      emitter(val ? SHOW_EVENT : HIDE_EVENT)
-    },
-  })
-
+export default function usePopover(props: IUsePopover, ctx: SetupContext<string[]>) {
   const popperStyle = computed(() => {
 
     let _width: string
@@ -40,8 +29,14 @@ export default function usePopover<T extends AnyFunction<void>>(props: IUsePopov
     }
   })
 
+  const popperProps = usePopper(props, ctx)
+
+  watch(popperProps.visibility, val => {
+    ctx.emit(val ? SHOW_EVENT : HIDE_EVENT)
+  })
+
   return {
-    modelValue,
+    ...popperProps,
     popperStyle,
   }
 }

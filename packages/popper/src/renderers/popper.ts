@@ -1,8 +1,9 @@
-import { withDirectives, h, Transition, vShow } from 'vue'
+import { withDirectives, Transition, vShow, Ref } from 'vue'
+import { renderBlock, PatchFlags } from '@element-plus/utils/vnode'
 import { stop } from '@element-plus/utils/dom'
 
 import type { VNode } from 'vue'
-import type { Effect } from '../popper/defaults'
+import type { Effect } from '../use-popper/defaults'
 
 interface IRenderPopperProps {
   name: string
@@ -10,6 +11,7 @@ interface IRenderPopperProps {
   popperClass: string
   popperStyle: Partial<CSSStyleDeclaration>
   popperId: string
+  popperRef?: Ref<HTMLElement>
   pure: boolean
   visibility: boolean
   onMouseEnter: () => void
@@ -27,6 +29,7 @@ export default function renderPopper(
     name,
     popperClass,
     popperStyle,
+    popperRef,
     pure,
     popperId,
     visibility,
@@ -44,12 +47,12 @@ export default function renderPopper(
   /**
    * Equivalent to
    * <transition :name="name">
-   *  <div  v-show="visibility" :aria-hidden="!visibility" :class="kls" ref="popperRef" role="tooltip" @mouseenter="" @mouseleave="" @click="">
+   *  <div v-show="visibility" :aria-hidden="!visibility" :class="kls" ref="popperRef" role="tooltip" @mouseenter="" @mouseleave="" @click="">
    *    {children}
    *  </div>
    * </transition>
    */
-  return h(
+  return renderBlock(
     Transition,
     {
       name,
@@ -58,23 +61,25 @@ export default function renderPopper(
     {
       default: () =>
         withDirectives(
-          h(
+          renderBlock(
             'div',
             {
               'aria-hidden': String(!visibility),
               class: kls,
               style: popperStyle,
               id: popperId,
-              ref: 'popperRef',
+              ref: popperRef ?? 'popperRef',
               role: 'tooltip',
               onMouseEnter,
               onMouseLeave,
               onClick: stop,
             },
             children,
+            PatchFlags.FULL_PROPS | PatchFlags.NEED_PATCH,
           ),
           [[vShow, visibility]],
         ),
     },
+    PatchFlags.STABLE_FRAGMENT
   )
 }
