@@ -32,9 +32,20 @@ describe('Calendar.vue', () => {
     expect((wrapper.find('.is-selected span').element as HTMLElement).innerHTML).toBe('5')
   })
 
-  it('range', () => {
+  it('range type Date', () => {
     const wrapper = _mount(`
     <el-calendar :range="[new Date(2019, 2, 4), new Date(2019, 2, 24)]"></el-calendar>
+    `)
+    const titleEl = wrapper.find('.el-calendar__title')
+    expect(/2019.*March/.test((titleEl.element as HTMLElement).innerHTML)).toBeTruthy()
+    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    expect(rows.length).toBe(4)
+    expect(wrapper.element.querySelector('.el-calendar__button-group')).toBeNull()
+  })
+
+  it('range type String', () => {
+    const wrapper = _mount(`
+    <el-calendar :range="['2019-02-04', '2019-02-24']"></el-calendar>
     `)
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2019.*March/.test((titleEl.element as HTMLElement).innerHTML)).toBeTruthy()
@@ -60,30 +71,5 @@ describe('Calendar.vue', () => {
 
     expect(/2019.*May/.test((titleEl.element as HTMLElement).innerHTML)).toBeTruthy()
     expect(cell.classList.contains('is-selected')).toBeTruthy()
-  })
-
-  it('firstDayOfWeek', async () => {
-    // default en locale, weekStart 0 Sunday
-    const wrapper = _mount(`
-    <el-calendar v-model="value"></el-calendar>
-    `, () => ({ value: new Date('2019-04-01') }))
-    const head = wrapper.element.querySelector('.el-calendar-table thead')
-    expect((head.firstElementChild as HTMLElement).innerHTML).toBe('Sun')
-    expect((head.lastElementChild as HTMLElement).innerHTML).toBe('Sat')
-    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
-    expect((firstRow.firstElementChild as HTMLElement).innerHTML).toContain('31')
-    expect((firstRow.lastElementChild as HTMLElement).innerHTML).toContain('6')
-  })
-
-  it('firstDayOfWeek in range mode', async () => {
-    const wrapper = _mount(`
-    <el-calendar v-model="value" :first-day-of-week="7" :range="[new Date(2019, 1, 3), new Date(2019, 2, 23)]"></el-calendar>
-    `, () => ({ value: new Date('2019-03-04') }))
-    const head = wrapper.element.querySelector('.el-calendar-table thead')
-    expect((head.firstElementChild as HTMLElement).innerHTML).toBe('Sun')
-    expect((head.lastElementChild as HTMLElement).innerHTML).toBe('Sat')
-    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
-    expect((firstRow.firstElementChild as HTMLElement).innerHTML).toContain('3')
-    expect((firstRow.lastElementChild as HTMLElement).innerHTML).toContain('9')
   })
 })
