@@ -45,12 +45,12 @@ describe('Calendar.vue', () => {
 
   it('range type String', () => {
     const wrapper = _mount(`
-    <el-calendar :range="['2019-02-04', '2019-02-24']"></el-calendar>
+    <el-calendar :range="['2019-02-03', '2019-02-23']"></el-calendar>
     `)
     const titleEl = wrapper.find('.el-calendar__title')
-    expect(/2019.*March/.test((titleEl.element as HTMLElement).innerHTML)).toBeTruthy()
+    expect(/2019.*February/.test((titleEl.element as HTMLElement).innerHTML)).toBeTruthy()
     const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
-    expect(rows.length).toBe(4)
+    expect(rows.length).toBe(3)
     expect(wrapper.element.querySelector('.el-calendar__button-group')).toBeNull()
   })
 
