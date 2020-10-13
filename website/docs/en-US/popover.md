@@ -37,15 +37,9 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
     width="200"
     trigger="focus"
     content="this is content, this is content, this is content">
-    <template #reference>
-      <el-button>focus to activate</el-button>
-    </template>
   </el-popover>
-  <!-- not implemented -->
-  <!-- <el-button v-popover:popover>Focus to activate</el-button> -->
-  <!-- <template #reference>
-    <el-button>focus to activate</el-button>
-  </template> -->
+ 
+  <el-button v-popover:popover>Focus to activate</el-button>
 
   <el-popover
     placement="bottom"

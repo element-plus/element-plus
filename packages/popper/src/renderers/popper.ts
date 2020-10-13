@@ -1,8 +1,8 @@
-import { withDirectives, Transition, vShow, Ref } from 'vue'
+import { withDirectives, Transition, vShow } from 'vue'
 import { renderBlock, PatchFlags } from '@element-plus/utils/vnode'
 import { stop } from '@element-plus/utils/dom'
 
-import type { VNode } from 'vue'
+import type { VNode, Ref } from 'vue'
 import type { Effect } from '../use-popper/defaults'
 
 interface IRenderPopperProps {
@@ -80,6 +80,6 @@ export default function renderPopper(
           [[vShow, visibility]],
         ),
     },
-    PatchFlags.STABLE_FRAGMENT
+    PatchFlags.DYNAMIC_SLOTS,
   )
 }

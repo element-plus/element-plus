@@ -86,5 +86,5 @@ export function renderBlock(
   patchFlag?: number,
   patchProps?: string[],
 ) {
-  return openBlock(), createBlock(node, props, children, patchFlag, patchProps)
+  return (openBlock(), createBlock(node, props, children, patchFlag, patchProps))
 }
