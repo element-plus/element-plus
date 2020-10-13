@@ -81,7 +81,7 @@ export default defineComponent({
           slots.default?.(),
         )
       } else {
-        return h('div', { ref: el }, slots.default?.())
+        return slots.default?.()
       }
     }
     return render

@@ -20,7 +20,7 @@ import {
 } from '@element-plus/utils/util'
 import isEqual from 'lodash/isEqual'
 
-const ELEMENT = { size: 'medium' }
+const ELEMENT = { size: '' }
 
 export function useSelectStates(props) {
   const selectEmitter = mitt()
