@@ -1,32 +1,52 @@
-import { nextTick, ref, isRef } from 'vue'
+import { nextTick, ref, isRef, Ref } from 'vue'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
 import { AnyObject, Table, Store, TableHeader, TableColumnCtx } from './table'
 
 class TableLayout {
-  observers: TableHeader[] = [];
-  table: Table = null;
-  store: Store = null;
-  columns: TableColumnCtx[] = null;
-  fit = true;
-  showHeader = true;
+  observers: TableHeader[]
+  table: Table
+  store: Store
+  columns: TableColumnCtx[]
+  fit: boolean
+  showHeader: boolean
 
-  height = ref(null);
-  scrollX = ref(false);
-  scrollY = ref(false);
-  bodyWidth = ref(null);
-  fixedWidth = ref(null);
-  rightFixedWidth = ref(null);
-  tableHeight = ref(null);
-  headerHeight = ref(44); // Table Header Height
-  appendHeight = ref(0); // Append Slot Height
-  footerHeight = ref(44); // Table Footer Height
-  viewportHeight = ref(null); // Table Height - Scroll Bar Height
-  bodyHeight = ref(null); // Table Height - Table Header Height
-  fixedBodyHeight = ref(null); // Table Height - Table Header Height - Scroll Bar Height
-  gutterWidth = scrollbarWidth();
+  height: Ref<null | number>
+  scrollX: Ref<boolean>
+  scrollY: Ref<boolean>
+  bodyWidth: Ref<null | number>
+  fixedWidth: Ref<null | number>
+  rightFixedWidth: Ref<null | number>
+  tableHeight: Ref<null | number>
+  headerHeight: Ref<null | number> // Table Header Height
+  appendHeight: Ref<null | number> // Append Slot Height
+  footerHeight: Ref<null | number> // Table Footer Height
+  viewportHeight: Ref<null | number> // Table Height - Scroll Bar Height
+  bodyHeight: Ref<null | number> // Table Height - Table Header Height
+  fixedBodyHeight: Ref<null | number> // Table Height - Table Header Height - Scroll Bar Height
+  gutterWidth: number
   constructor(options: AnyObject) {
+    this.observers = []
+    this.table = null
+    this.store = null
+    this.columns = []
+    this.fit = true
+    this.showHeader = true
+    this.height = ref(null)
+    this.scrollX = ref(false)
+    this.scrollY = ref(false)
+    this.bodyWidth = ref(null)
+    this.fixedWidth = ref(null)
+    this.rightFixedWidth = ref(null)
+    this.tableHeight = ref(null)
+    this.headerHeight = ref(44)
+    this.appendHeight = ref(0)
+    this.footerHeight = ref(44)
+    this.viewportHeight = ref(null)
+    this.bodyHeight = ref(null)
+    this.fixedBodyHeight = ref(null)
+    this.gutterWidth = scrollbarWidth()
     for (const name in options) {
       if (options.hasOwnProperty(name)) {
         if (isRef(this[name])) {
@@ -62,7 +82,7 @@ class TableLayout {
     if (isServer) return
     const el = this.table.vnode.el
     value = parseHeight(value)
-    this.height.value = value
+    this.height.value = Number(value)
 
     if (!el && (value || value === 0))
       return nextTick(() => this.setHeight(value, prop))
@@ -216,7 +236,7 @@ class TableLayout {
       } else {
         // HAVE HORIZONTAL SCROLL BAR
         this.scrollX.value = true
-        flexColumns.forEach(function (column) {
+        flexColumns.forEach(function(column) {
           column.realWidth = column.minWidth
         })
       }
@@ -241,7 +261,7 @@ class TableLayout {
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0
-      fixedColumns.forEach(function (column) {
+      fixedColumns.forEach(function(column) {
         fixedWidth += column.realWidth || column.width
       })
 
@@ -251,7 +271,7 @@ class TableLayout {
     const rightFixedColumns = this.store.states.rightFixedColumns.value
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0
-      rightFixedColumns.forEach(function (column) {
+      rightFixedColumns.forEach(function(column) {
         rightFixedWidth += column.realWidth || column.width
       })
 
