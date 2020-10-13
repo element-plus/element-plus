@@ -18,7 +18,7 @@ dayjs.locale('zh-cn') // todo: locale based on Doc site lang
 
 import App from './app.vue'
 import ElementPlus from 'element-plus'
-if(process.env.NODE_ENV === 'development') require('../src/style/element-ui@2.13.2.css')
+import '../packages/theme-chalk/src/index.scss'
 
 const app = createApp(App)
 

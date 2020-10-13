@@ -24,7 +24,9 @@ L'unité de base du DatePicker est le jour.
       v-model="value2"
       type="date"
       placeholder="Choississez un jour"
-      :picker-options="pickerOptions">
+      :disabled-date="disabledDate"
+      :shortcuts="shortcuts"
+    >
     </el-date-picker>
   </div>
 </template>
@@ -33,31 +35,27 @@ L'unité de base du DatePicker est le jour.
   export default {
     data() {
       return {
-        pickerOptions: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
-          },
-          shortcuts: [{
-            text: 'Aujourd\'hui',
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: 'Hier',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.emit('pick', date);
-            }
-          }, {
-            text: 'Il y a une semaine',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.emit('pick', date);
-            }
-          }]
+        disabledDate(time) {
+          return time.getTime() > Date.now()
         },
+        shortcuts: [{
+          text: 'Today',
+          value: new Date(),
+        }, {
+          text: 'Yesterday',
+          value: (() => {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            return date
+          })(),
+        }, {
+          text: 'A week ago',
+          value: (() => {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            return date
+          })(),
+        }],
         value1: '',
         value2: '',
       };
@@ -80,7 +78,7 @@ Vous pouvez sélectionner une semaine, un mois, une année ou plusieurs dates en
     <el-date-picker
       v-model="value1"
       type="week"
-      format="Week WW"
+      format="[Week] ww"
       placeholder="Sélectionnez une semaine">
     </el-date-picker>
   </div>
@@ -156,7 +154,8 @@ Vous pouvez sélectionner une plage de dates.
       range-separator="à"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
-      :picker-options="pickerOptions">
+      :shortcuts="shortcuts"
+    >
     </el-date-picker>
   </div>
 </template>
@@ -165,33 +164,31 @@ Vous pouvez sélectionner une plage de dates.
   export default {
     data() {
       return {
-        pickerOptions: {
-          shortcuts: [{
-            text: 'Semaine dernière',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Mois dernier',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Trois derniers mois',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
+        shortcuts: [{
+          text: 'Last week',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            return [start, end]
+          })(),
+        }, {
+          text: 'Last month',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            return [start, end]
+          })(),
+        }, {
+          text: 'Last 3 months',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            return [start, end]
+          })(),
+        }],
         value1: '',
         value2: ''
       };
@@ -229,7 +226,8 @@ Vous pouvez sélectionner une plage de mois.
       range-separator="à"
       start-placeholder="Mois de début"
       end-placeholder="Mois de fin"
-      :picker-options="pickerOptions">
+      :shortcuts="shortcuts"
+    >
     </el-date-picker>
   </div>
 </template>
@@ -238,29 +236,25 @@ Vous pouvez sélectionner une plage de mois.
   export default {
     data() {
       return {
-        pickerOptions: {
-          shortcuts: [{
-            text: 'Ce mois',
-            onClick(picker) {
-              picker.$emit('pick', [new Date(), new Date()]);
-            }
-          }, {
-            text: 'Cette année',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date(new Date().getFullYear(), 0);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Les derniers 6 mois',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setMonth(start.getMonth() - 6);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
+        shortcuts: [{
+          text: 'This month',
+          value: [new Date(), new Date()],
+        }, {
+          text: 'This year',
+          value: (() => {
+            const end = new Date()
+            const start = new Date(new Date().getFullYear(), 0)
+            return [start, end]
+          })(),
+        }, {
+          text: 'Last 6 months',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setMonth(start.getMonth() - 6)
+            return [start, end]
+          })(),
+        }],
         value1: '',
         value2: ''
       };
@@ -285,7 +279,7 @@ Si le type est `daterange`, `default-value` configure la panneau de gauche.
       v-model="value1"
       type="date"
       placeholder="Sélectionnez une date"
-      default-value="2010-10-01">
+      :default-value="new Date(2010, 9, 1)">
     </el-date-picker>
   </div>
   <div class="block">
@@ -296,7 +290,7 @@ Si le type est `daterange`, `default-value` configure la panneau de gauche.
       align="right"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
-      default-value="2010-10-01">
+      :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
     </el-date-picker>
   </div>
 </template>
@@ -358,29 +352,7 @@ Attention à la capitalisation !
       v-model="value1"
       type="date"
       placeholder="Sélectionnez une date"
-      format="yyyy/MM/dd">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">Utilise value-format</span>
-    <div class="demonstration">Value: {{ value2 }}</div>
-    <el-date-picker
-      v-model="value2"
-      type="date"
-      placeholder="Sélectionnez une date"
-      format="yyyy/MM/dd"
-      value-format="yyyy-MM-dd">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">Timestamp</span>
-    <div class="demonstration">Value：{{ value3 }}</div>
-    <el-date-picker
-      v-model="value3"
-      type="date"
-      placeholder="Sélectionnez une date"
-      format="yyyy/MM/dd"
-      value-format="timestamp">
+      format="YYYY/MM/DD">
     </el-date-picker>
   </div>
 </template>
@@ -413,7 +385,7 @@ Lorsque vous choisissez une plage de dates, vous pouvez assigner l'horaire de d�
       type="daterange"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
-      :default-time="['00:00:00', '23:59:59']">
+      :default-time="[new Date(2000, 1, 1, 0 , 0,0), new Date(2000, 2, 1, 23 , 59,59)]">
     </el-date-picker>
   </div>
 </template>

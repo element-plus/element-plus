@@ -8,7 +8,7 @@ import type {
   Effect,
   Placement,
   Options,
-} from '@element-plus/popper/src/popper'
+} from '@element-plus/popper/src/popper/defaults'
 
 /**
  * ElTooltip
@@ -52,7 +52,9 @@ export default defineComponent({
     },
     modelValue: {
       type: Boolean,
-      validator: val => typeof val === 'boolean',
+      validator: (val: unknown) => {
+        return typeof val === 'boolean'
+      },
       default: undefined,
     },
     offset: {

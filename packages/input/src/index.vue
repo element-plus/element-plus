@@ -15,8 +15,8 @@
       $attrs.class
     ]"
     :style="$attrs.style"
-    @mouseenter="hovering = true"
-    @mouseleave="hovering = false"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
   >
     <template v-if="type !== 'textarea'">
       <!-- 前置元素 -->
@@ -41,6 +41,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
+        @keydown="handleKeydown"
       >
       <!-- 前置内容 -->
       <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
@@ -160,8 +161,8 @@ export default defineComponent({
       default: 'text',
     },
     size: {
-      type: String as PropType<'large' | 'medium' | 'small' | 'mini'>,
-      validator: (val: string) => ['large', 'medium', 'small', 'mini'].includes(val),
+      type: String as PropType<'large' | 'medium' | 'small' | 'mini' | null>,
+      validator: (val: string) => !val || ['large', 'medium', 'small', 'mini'].includes(val),
     },
     resize: {
       type: String as PropType<'none' | 'both' | 'horizontal' | 'vertical'>,
@@ -222,7 +223,8 @@ export default defineComponent({
     },
   },
 
-  emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'focus', 'blur', 'clear'],
+  emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'focus', 'blur', 'clear',
+    'mouseleave', 'mouseenter', 'keydown'],
 
   setup(props, ctx) {
     const instance = getCurrentInstance()
@@ -448,6 +450,20 @@ export default defineComponent({
       nextTick(updateIconOffset)
     })
 
+    const onMouseLeave = e => {
+      hovering.value = false
+      ctx.emit('mouseleave', e)
+    }
+
+    const onMouseEnter = e => {
+      hovering.value = true
+      ctx.emit('mouseenter', e)
+    }
+
+    const handleKeydown = e => {
+      ctx.emit('keydown', e)
+    }
+
     return {
       input,
       textarea,
@@ -465,6 +481,7 @@ export default defineComponent({
       hovering,
       inputExceed,
       passwordVisible,
+      inputOrTextarea,
       handleInput,
       handleChange,
       handleFocus,
@@ -478,6 +495,9 @@ export default defineComponent({
       focus,
       blur,
       getSuffixVisible,
+      onMouseLeave,
+      onMouseEnter,
+      handleKeydown,
     }
   },
 })

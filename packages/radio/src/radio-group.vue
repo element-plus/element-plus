@@ -18,7 +18,7 @@ import {
   inject,
   ref,
 } from 'vue'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 
 export default {
   name: 'ElRadioGroup',
@@ -52,11 +52,11 @@ export default {
     //todo: ELEMENT
     const ELEMENT = {}
     const elFormItem = inject('elFormItem', {})
-    const _elFormItemSize = computed(() => {
+    const elFormItemSize_ = computed(() => {
       return (elFormItem || {} as any).elFormItemSize
     })
     const radioGroupSize = computed(() => {
-      return props.size || _elFormItemSize || (ELEMENT || {} as any).size
+      return props.size || elFormItemSize_ || (ELEMENT || {} as any).size
     })
 
     const modelValue = computed({
@@ -94,15 +94,15 @@ export default {
       const index = [].indexOf.call(radios, target)
       const roleRadios = radioGroup.value.querySelectorAll('[role=radio]')
       let nextIndex = null
-      switch (e.keyCode) {
-        case eventKeys.left:
-        case eventKeys.up:
+      switch (e.code) {
+        case EVENT_CODE.left:
+        case EVENT_CODE.up:
           e.stopPropagation()
           e.preventDefault()
           nextIndex = index === 0 ? length - 1 : index - 1
           break
-        case eventKeys.right:
-        case eventKeys.down:
+        case EVENT_CODE.right:
+        case EVENT_CODE.down:
           e.stopPropagation()
           e.preventDefault()
           nextIndex = (index === (length - 1)) ? 0 : index + 1

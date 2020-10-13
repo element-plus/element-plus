@@ -2,34 +2,6 @@
 
  用于选择或输入日期
 
-### 固定时间点
-
-提供几个固定的时间点供用户选择
-
-:::demo 使用 el-time-select 标签，分别通过`start`、`end`和`step`指定可选的起始时间、结束时间和步长
-```html
-<el-time-select
-  v-model="value"
-  :picker-options="{
-    start: '08:30',
-    step: '00:15',
-    end: '18:30'
-  }"
-  placeholder="选择时间">
-</el-time-select>
-
-<script>
-  export default {
-    data() {
-      return {
-        value: ''
-      };
-    }
-  }
-</script>
-```
-:::
-
 ### 任意时间点
 
 可以选择任意时间
@@ -60,47 +32,6 @@
       return {
         value1: new Date(2016, 9, 10, 18, 40),
         value2: new Date(2016, 9, 10, 18, 40)
-      };
-    }
-  }
-</script>
-```
-:::
-
-### 固定时间范围
-
-若先选择开始时间，则结束时间内备选项的状态会随之改变
-
-:::demo
-```html
-<template>
-  <el-time-select
-    placeholder="起始时间"
-    v-model="startTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30'
-    }">
-  </el-time-select>
-  <el-time-select
-    placeholder="结束时间"
-    v-model="endTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30',
-      minTime: startTime
-    }">
-  </el-time-select>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        startTime: '',
-        endTime: ''
       };
     }
   }
@@ -170,15 +101,6 @@
 | name | 原生属性 | string | — | — |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-time |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
-
-### Time Select Options
-| 参数      | 说明          | 类型      | 可选值                           | 默认值  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| start | 开始时间 | string | — | 09:00 |
-| end | 结束时间 | string | — | 18:00 |
-| step | 间隔时间 | string | — | 00:30 |
-| minTime | 最小时间，小于该时间的时间段将被禁用 | string | — | 00:00 |
-| maxTime | 最大时间，大于该时间的时间段将被禁用 | string | — | — |
 
 ### Time Picker Options
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
