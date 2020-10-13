@@ -35,5 +35,6 @@ export const selectGroupKey: InjectionKey<SelectGroupContext> = Symbol('SelectGr
 export const selectKey: InjectionKey<SelectContext> = Symbol('Select')
 
 export const selectEvents = {
-  queryChange: 'elOptionGroupQueryChange',
+  queryChange: 'elOptionQueryChange',
+  groupQueryChange: 'elOptionGroupQueryChange',
 }

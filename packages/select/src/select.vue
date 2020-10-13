@@ -121,7 +121,11 @@
             </template>
             <template #suffix>
               <i v-show="!showClose" :class="['el-select__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
-              <i v-if="showClose" class="el-select__caret el-input__icon el-icon-circle-close" @click="handleClearClick"></i>
+              <i
+                v-if="showClose"
+                :class="`el-select__caret el-input__icon ${clearIcon}`"
+                @click="handleClearClick"
+              ></i>
             </template>
           </el-input>
         </div>
@@ -171,7 +175,7 @@ import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import ElTag from '@element-plus/tag/src/index.vue'
 import { Popper as ElPopper } from '@element-plus/popper'
-import ElScrollbar from '@element-plus/scrollbar/src/index'
+import { ElScrollbar } from '@element-plus/scrollbar'
 import ClickOutside from '@element-plus/directives/click-outside'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { t } from '@element-plus/locale'
@@ -205,7 +209,7 @@ export default defineComponent({
     name: String,
     id: String,
     modelValue: {
-      type: [Array, String],
+      type: [Array, String, Number],
     },
     autocomplete: {
       type: String,
@@ -244,6 +248,10 @@ export default defineComponent({
     popperAppendToBody: {
       type: Boolean,
       default: true,
+    },
+    clearIcon: {
+      type: String,
+      default: 'el-icon-circle-close',
     },
   },
   emits: ['remove-tag', 'clear', 'change', 'visible-change', 'focus', 'blur', UPDATE_MODEL_EVENT],
@@ -426,7 +434,8 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="scss" scoped>
+
+<style>
 .el-popper {
   padding: 0;
 }

@@ -79,7 +79,6 @@ describe('Color-picker', () => {
     const mockThumbDom = jest.spyOn(thumbDom, 'offsetHeight', 'get').mockImplementation(() => 4)
     wrapper.find('.el-color-picker__trigger').trigger('click').then(async () => {
       await nextTick()
-      console.log(hueSlideWrapper.vm.thumbTop)
       expect(hueSlideWrapper.vm.thumbTop > 10).toBeTruthy()
       mockHueSlideHeight.mockRestore()
       mockThumbDom.mockRestore()

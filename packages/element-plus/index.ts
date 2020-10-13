@@ -1,6 +1,7 @@
 import type { App } from 'vue'
 import ElAlert from '@element-plus/alert'
 import ElAvatar from '@element-plus/avatar'
+import ElAutocomplete from '@element-plus/autocomplete'
 import ElBacktop from '@element-plus/backtop'
 import ElButton from '@element-plus/button'
 import ElBadge from '@element-plus/badge'
@@ -48,10 +49,13 @@ import ElUpload from '@element-plus/upload'
 import ElTree from '@element-plus/tree'
 import ElColorPicker from '@element-plus/color-picker'
 import ElSelect from '@element-plus/select'
+import ElTimeSelect from '@element-plus/time-select'
+import ElPagination from '@element-plus/pagination'
 
 export {
   ElAlert,
   ElAvatar,
+  ElAutocomplete,
   ElBacktop,
   ElLayout,
   ElButton,
@@ -96,11 +100,14 @@ export {
   ElTree,
   ElColorPicker,
   ElSelect,
+  ElTimeSelect,
+  ElPagination,
 }
 
 const install = (app: App): void => {
   ElAlert(app)
   ElAvatar(app)
+  ElAutocomplete(app)
   ElBacktop(app)
   ElButton(app)
   ElBadge(app)
@@ -145,6 +152,8 @@ const install = (app: App): void => {
   ElTree(app)
   ElColorPicker(app)
   ElSelect(app)
+  ElTimeSelect(app)
+  ElPagination(app)
 }
 
 const elementUI = {
