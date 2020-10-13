@@ -67,8 +67,6 @@ import {
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 
-type IRange = Date | string
-
 export default defineComponent({
   name: 'ElCalendar',
 
@@ -80,17 +78,17 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: [Date, String],
+      type: Date,
     },
     range: {
-      type: Array as PropType<Array<IRange>>,
-      validator: (range: IRange[]): boolean => {
+      type: Array as PropType<Array<Date>>,
+      validator: (range: Date): boolean => {
         if (Array.isArray(range)) {
           return (
             range.length === 2 &&
-            range.every((item:IRange) => {
-              return item instanceof Date || typeof item === 'string'
-            })
+            range.every(
+              item => item instanceof Date,
+            )
           )
         }
         return false
