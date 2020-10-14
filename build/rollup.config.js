@@ -13,6 +13,7 @@ export default [
     output: {
       format: 'esm',
       file: 'lib/library.esm.js',
+      // sourcemap: 'inline',
     },
     plugins: [
       terser(),
@@ -22,7 +23,12 @@ export default [
         abortOnError: false,
       }),
       css(),
-      vue({ css: false }),
+      vue({
+        target: 'browser',
+        css: false,
+        exposeFilename: false,
+      }),
     ],
+    external: ['vue'],
   },
 ]
