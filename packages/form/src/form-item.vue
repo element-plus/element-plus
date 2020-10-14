@@ -265,8 +265,7 @@ export default defineComponent({
       const selfRules = props.rules
       const requiredRule =
         props.required !== undefined ? { required: !!props.required } : []
-
-      const prop = getPropByPath(formRules, props.prop || '', true)
+      const prop = getPropByPath(formRules, props.prop || '')
       const normalizedRule = formRules
         ? (prop.o[props.prop || ''] || prop.v)
         : []

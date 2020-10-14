@@ -40,7 +40,7 @@ export const getValueByPath = (obj: any, paths = ''): unknown => {
   return ret
 }
 
-export function getPropByPath(obj: any, path: string, strict: boolean): {
+export function getPropByPath(obj: any, path: string, strict?: boolean): {
   o: unknown
   k: string
   v: Nullable<unknown>
@@ -51,7 +51,7 @@ export function getPropByPath(obj: any, path: string, strict: boolean): {
 
   const keyArr = path.split('.')
   let i = 0
-  for (const len = keyArr.length; i < len - 1; ++i) {
+  for (const len = keyArr.length; i < len - 1; i++) {
     if (!tempObj && !strict) break
     const key = keyArr[i]
     tempObj = tempObj?.[key]
