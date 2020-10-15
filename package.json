@@ -109,7 +109,8 @@
   },
   "files": [
     "lib",
-    "types"
+    "types",
+    "packages"
   ],
   "main": "lib/index.js",
   "typings": "types/index.d.ts",
