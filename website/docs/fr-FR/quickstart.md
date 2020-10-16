@@ -257,7 +257,7 @@ Import total d'Element：
 
 ```js
 import Vue from 'vue';
-import Element Plus from 'element-plus';
+import ElementPlus from 'element-plus';
 Vue.use(Element, { size: 'small', zIndex: 3000 });
 ```
 

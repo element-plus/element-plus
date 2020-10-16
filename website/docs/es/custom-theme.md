@@ -29,7 +29,7 @@ $--font-path: '~element-plus/lib/theme-chalk/fonts';
 Entonces, en el archivo principal del proyecto, importe este archivo de estilos en lugar de los estilos de Element:
 ```JS
 import Vue from 'vue'
-import Element Plus from 'element-plus'
+import ElementPlus from 'element-plus'
 import './element-variables.scss'
 
 Vue.use(Element)
