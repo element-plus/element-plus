@@ -1,5 +1,6 @@
 <script lang="ts">
 import {
+  createTextVNode,
   defineComponent,
   h,
   Fragment,
@@ -13,7 +14,6 @@ import {
 import { ClickOutside } from '@element-plus/directives'
 import throwError from '@element-plus/utils/error'
 import { stop } from '@element-plus/utils/dom'
-import { renderBlock } from '@element-plus/utils/vnode'
 
 import usePopper from './use-popper/index'
 import defaultProps from './use-popper/defaults'
@@ -68,7 +68,6 @@ export default defineComponent({
       onAfterEnter,
       onAfterLeave,
       popperClass,
-      popperStyle,
       popperId,
       pure,
       showArrow,
@@ -78,13 +77,11 @@ export default defineComponent({
     } = this
 
     const arrow = renderArrow(showArrow)
-
     const popper = renderPopper(
       {
         effect,
         name: transition,
         popperClass,
-        popperStyle,
         popperId,
         pure,
         onMouseEnter: onPopperMouseEnter,
@@ -93,7 +90,14 @@ export default defineComponent({
         onAfterLeave,
         visibility,
       },
-      [$slots.default?.() || this.content, arrow],
+      [
+        $slots.default ? h(
+          Fragment,
+          null,
+          $slots.default(),
+        ) : this.content,
+        arrow,
+      ],
     )
 
     const trigger = renderTrigger($slots.trigger?.(), {
@@ -106,11 +110,10 @@ export default defineComponent({
       ...this.events,
     })
 
-    return (
-      renderBlock(Fragment, null, [
-        trigger,
-        appendToBody
-          ? h(
+    return h(Fragment, null, [
+      trigger,
+      appendToBody
+        ? h(
             Teleport,
             {
               to: 'body',
@@ -119,9 +122,8 @@ export default defineComponent({
               hide,
             }),
           )
-          : popper,
-      ])
-    )
+        : popper,
+    ])
   },
 })
 </script>

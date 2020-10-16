@@ -1,17 +1,13 @@
 <template>
-  <el-popover title="标题" ref="popover" width="300px" trigger='hover' >
-    <el-popover title="nested" content="我是内嵌的">
-      <template #reference>
-        <el-button>1</el-button>
-      </template>
-    </el-popover>
-    
-  </el-popover>
-
-  <el-button v-popover:popover>I am reference</el-button>
+  <el-popper content="test">
+    <template #trigger >
+      <el-button>
+        I am trigger
+      </el-button>
+    </template>
+  </el-popper>
 </template>
 
 <script>
-export default {
-}
+export default {}
 </script>

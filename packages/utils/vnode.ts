@@ -1,4 +1,4 @@
-import { Fragment, Text, Comment, createBlock, openBlock } from 'vue'
+import { Fragment, Text, Comment, createBlock, openBlock, createCommentVNode } from 'vue'
 
 import type { VNode, VNodeTypes, VNodeChild } from 'vue'
 
@@ -72,10 +72,9 @@ export function renderIf(
   patchProps?: string[],
 ) {
   return (
-    openBlock(),
     condition
-      ? createBlock(node, props, children, patchFlag, patchProps)
-      : createBlock(Comment, null, null, PatchFlags.TEXT)
+      ? renderBlock(node, props, children, patchFlag, patchProps)
+      : createCommentVNode('v-if', true)
   )
 }
 

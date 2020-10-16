@@ -1,5 +1,5 @@
-import { withDirectives, Transition, vShow } from 'vue'
-import { renderBlock, PatchFlags } from '@element-plus/utils/vnode'
+import { withDirectives, Transition, vShow, withCtx, createVNode } from 'vue'
+import { PatchFlags } from '@element-plus/utils/vnode'
 import { stop } from '@element-plus/utils/dom'
 
 import type { VNode, Ref } from 'vue'
@@ -9,7 +9,7 @@ interface IRenderPopperProps {
   name: string
   effect: Effect
   popperClass: string
-  popperStyle: Partial<CSSStyleDeclaration>
+  popperStyle?: Partial<CSSStyleDeclaration>
   popperId: string
   popperRef?: Ref<HTMLElement>
   pure: boolean
@@ -35,7 +35,8 @@ export default function renderPopper(
     visibility,
     onMouseEnter,
     onMouseLeave,
-    ...transitionEvents
+    onAfterEnter,
+    onAfterLeave,
   } = props
 
   const kls = [
@@ -48,38 +49,45 @@ export default function renderPopper(
    * Equivalent to
    * <transition :name="name">
    *  <div v-show="visibility" :aria-hidden="!visibility" :class="kls" ref="popperRef" role="tooltip" @mouseenter="" @mouseleave="" @click="">
-   *    {children}
+   *    <slot />
    *  </div>
    * </transition>
    */
-  return renderBlock(
+  return createVNode(
     Transition,
     {
       name,
-      ...transitionEvents,
+      onAfterEnter,
+      onAfterLeave,
     },
     {
-      default: () =>
-        withDirectives(
-          renderBlock(
-            'div',
-            {
-              'aria-hidden': String(!visibility),
-              class: kls,
-              style: popperStyle,
-              id: popperId,
-              ref: popperRef ?? 'popperRef',
-              role: 'tooltip',
-              onMouseEnter,
-              onMouseLeave,
-              onClick: stop,
-            },
-            children,
-            PatchFlags.FULL_PROPS | PatchFlags.NEED_PATCH,
-          ),
-          [[vShow, visibility]],
+      default: withCtx(() => [withDirectives(
+        createVNode(
+          'div',
+          {
+            'aria-hidden': String(!visibility),
+            class: kls,
+            style: popperStyle ?? {},
+            id: popperId,
+            ref: popperRef ?? 'popperRef',
+            role: 'tooltip',
+            onMouseEnter,
+            onMouseLeave,
+            onClick: stop,
+          },
+          children,
+          PatchFlags.CLASS | PatchFlags.STYLE | PatchFlags.PROPS | PatchFlags.HYDRATE_EVENTS,
+          [
+           'aria-hidden',
+           'onMouseenter',
+           'onMouseleave',
+           'onClick',
+           'id',
+          ],
         ),
+        [[vShow, visibility]]
+      )]),
     },
-    PatchFlags.DYNAMIC_SLOTS,
+    PatchFlags.PROPS, ['name', 'onAfter-enter', 'onAfter-leave']
   )
 }

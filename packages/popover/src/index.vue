@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, Fragment, createTextVNode } from 'vue'
+import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import defaultProps, { Effect } from '@element-plus/popper/src/use-popper/defaults'
 import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper/src/renderers'
@@ -14,6 +14,8 @@ import type { TriggerType } from '@element-plus/popper/src/use-popper/defaults'
 
 const emits = ['update:visible', 'after-enter', 'after-leave', SHOW_EVENT, HIDE_EVENT ]
 const NAME = 'ElPopover'
+
+const _hoist = { key: 0, class: 'el-popover__title', role: 'title' }
 
 export default defineComponent({
   name: NAME,
@@ -54,15 +56,12 @@ export default defineComponent({
   },
   render() {
     const { $slots } = this
-    let trigger = $slots.reference?.()
+    const trigger = $slots.reference ? $slots.reference() : null
 
-    const title = renderIf(!!this.title, 'div', {
-      class: 'el-popover__title',
-      role: 'title',
-    }, this.title, PatchFlags.TEXT)
+    const title = renderIf(this.title, 'div', _hoist, toDisplayString(this.title), PatchFlags.TEXT)
 
-    const content = renderBlock(Fragment, null, $slots.default?.() ??
-        createTextVNode(this.content, PatchFlags.TEXT), PatchFlags.STABLE_FRAGMENT)
+    const content = renderSlot($slots, 'default', {},
+      () => [createTextVNode(toDisplayString(this.content), PatchFlags.TEXT)])
 
     const {
       events,
@@ -98,11 +97,11 @@ export default defineComponent({
       onMouseLeave: onPopperMouseLeave,
       onAfterEnter,
       onAfterLeave,
-    }, [renderBlock(Fragment, null, [
-      title,
-      content,
-      renderArrow(showArrow),
-    ], PatchFlags.STABLE_FRAGMENT)],
+    }, [
+        title,
+        content,
+        renderArrow(showArrow),
+      ],
     )
 
     // when user uses popover directively, trigger will be null so that we only
@@ -114,12 +113,13 @@ export default defineComponent({
       onMouseDown: stop,
       onMouseUp: stop,
       ...events,
-    }) : createTextVNode('')
+    }) : createCommentVNode('v-if', true)
+
 
     return renderBlock(Fragment, null, [
       _trigger,
       popover,
-    ], PatchFlags.NEED_PATCH)
+    ])
   },
 })
 </script>

@@ -76,8 +76,8 @@ describe('Popper.vue', () => {
     expect(wrapper.text()).toEqual(AXIOM)
 
     wrapper = _mount({
-      appendToBody: false,
       content: AXIOM,
+      appendToBody: false,
     })
 
     expect(wrapper.text()).toEqual(AXIOM)

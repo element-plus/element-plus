@@ -33,6 +33,6 @@ describe('v-popover', () => {
   test('should render correctly', () => {
     const wrapper = mount()
 
-    expect(wrapper.text()).toBe(AXIOM)
+    expect(wrapper.text()).toContain(AXIOM)
   })
 })
