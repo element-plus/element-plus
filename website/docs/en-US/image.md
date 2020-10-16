@@ -113,9 +113,9 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 :::demo allow big image preview by setting `previewSrcList` prop.
 ```html
 <div class="demo-image__preview">
-  <el-image 
+  <el-image
     style="width: 100px; height: 100px"
-    :src="url" 
+    :src="url"
     :preview-src-list="srcList">
   </el-image>
 </div>
@@ -144,7 +144,7 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 | alt | Native alt | string | - | - |
 | referrer-policy | Native referrerPolicy | string | - | - |
 | lazy | Whether to use lazy load | boolean | — | false |
-| scroll-container | The container to add scroll listener when using lazy load | string / HTMLElement | — | The nearest parent container whose overflow property is auto or scroll |
+| scroll-container | The container to add scroll listener when using lazy load | string / HTMLElement Plus | — | The nearest parent container whose overflow property is auto or scroll |
 | preview-src-list | allow big image preview | Array | — | - |
 | z-index | set image preview z-index | Number | — | 2000 |
 

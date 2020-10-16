@@ -54,7 +54,7 @@ Dialog abre una caja de diálogo, y es bastante personalizable.
 ### Personalizaciones
 
 
-El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formulario. Este ejemplo muestra cómo usar Element Table y Form con Dialog
+El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formulario. Este ejemplo muestra cómo usar Element Plus Table y Form con Dialog
 
 :::demo
 
@@ -140,7 +140,7 @@ Si un diálogo está anidado en otro diálogo, se requiere append-to-body.
 ```html
 <template>
   <el-button type="text" @click="outerVisible = true">open the outer Dialog</el-button>
-  
+
   <el-dialog title="Outer Dialog" :visible.sync="outerVisible">
     <el-dialog
         width="30%"

@@ -312,26 +312,26 @@ Tomando el ejemplo de Bootstrap responsive design, existen 5 breakpoints: xs, sm
 
 ### Clases útiles para ocultar elementos
 
-Adicionalmente, Element provee una serie de clases para ocultar elementos dadas ciertas condiciones. Estas clases pueden se agregadas a cualquier elemento del DOM o un elemento propio. Necesita importar el siguiente archivo CSS para usar estas clases:
+Adicionalmente, Element Plus provee una serie de clases para ocultar elementos dadas ciertas condiciones. Estas clases pueden se agregadas a cualquier elemento del DOM o un elemento propio. Necesita importar el siguiente archivo CSS para usar estas clases:
 
 ```js
-import 'element-ui/lib/theme-chalk/display.css';
+import 'element-plus/lib/theme-chalk/display.css';
 ```
 
 Las clases son:
 - `hidden-xs-only` - oculto en viewports extra pequeños solamente
 - `hidden-sm-only` - oculto en viewports pequeños solamente
 - `hidden-sm-and-down` - oculto en viewports pequeños y menores
-- `hidden-sm-and-up` - oculto en viewports pequeños y superiores 
+- `hidden-sm-and-up` - oculto en viewports pequeños y superiores
 - `hidden-md-only` - oculto en viewports medios solamente
 - `hidden-md-and-down` - oculto en viewports medios y menores
 - `hidden-md-and-up` - oculto en viewports medios y mayores
-- `hidden-lg-only` - ocultos en viewports grandes solamente 
+- `hidden-lg-only` - ocultos en viewports grandes solamente
 - `hidden-lg-and-down` - ocultos en viewports grandes y menores
 - `hidden-lg-and-up` - ocultos en viewports grandes y superiores
 - `hidden-xl-only` - oculto en viewports extra grandes solamente
 
-### Atributos Row 
+### Atributos Row
 
 | Atributos | Descripción                              | Tipo   | Valores aceptados                        | Valor por defecto |
 | --------- | ---------------------------------------- | ------ | ---------------------------------------- | ----------------- |
@@ -341,7 +341,7 @@ Las clases son:
 | align     | alineación vertical del layout flex      | string | top/middle/bottom                        | top               |
 | tag       | tag de elemento propio                   | string | *                                        | div               |
 
-### Atributos Col 
+### Atributos Col
 
 | Atributos | Descripción                              | Tipo                                     | Valores aceptados | Valor por defecto |
 | --------- | ---------------------------------------- | ---------------------------------------- | ----------------- | ----------------- |

@@ -1,6 +1,6 @@
 ## Démarrer
 
-Cette page vous guidera tout le long de l'installation d'Element au sein d'un projet webpack.
+Cette page vous guidera tout le long de l'installation d'Element Plus au sein d'un projet webpack.
 
 ### Use vue-cli@3
 
@@ -12,29 +12,26 @@ Nous fournissons un [template de projet](https://github.com/ElementUI/element-st
 
 Si vous préférer vous passer de template, voyez la section suivante.
 
-### Importer Element
+### Importer Element Plus
 
-Element peut être importé entièrement ou à la demande. Commençons par l'import total.
+Element Plus peut être importé entièrement ou à la demande. Commençons par l'import total.
 
 #### Import total
 
 Dans main.js:
 
 ```javascript
-import Vue from 'vue';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import { createApp, Vue } from 'vue'
+import ElementPlus from 'element-plus';
+import 'element-plus/lib/theme-chalk/index.css';
 import App from './App.vue';
 
-Vue.use(ElementUI);
-
-new Vue({
-  el: '#app',
-  render: h => h(App)
-});
+const app = createApp(App)
+app.use(ElementPlus)
+app.mount('#app')
 ```
 
-L'exemple ci-dessus importe Element entièrement. Notez que les fichiers CSS doivent être importés séparément.
+L'exemple ci-dessus importe Element Plus entièrement. Notez que les fichiers CSS doivent être importés séparément.
 
 #### À la demande
 
@@ -55,7 +52,7 @@ Puis éditez .babelrc:
     [
       "component",
       {
-        "libraryName": "element-ui",
+        "libraryName": "element-plus",
         "styleLibraryName": "theme-chalk"
       }
     ]
@@ -67,7 +64,7 @@ Ensuite, si vous n'avez besoin que de Button et Select, éditez main.js comme su
 
 ```javascript
 import Vue from 'vue';
-import { Button, Select } from 'element-ui';
+import { Button, Select } from 'element-plus';
 import App from './App.vue';
 
 Vue.component(Button.name, Button);
@@ -165,7 +162,7 @@ import {
   MessageBox,
   Message,
   Notification
-} from 'element-ui';
+} from 'element-plus';
 
 Vue.use(Pagination);
 Vue.use(Dialog);
@@ -260,7 +257,7 @@ Import total d'Element：
 
 ```js
 import Vue from 'vue';
-import Element from 'element-ui';
+import Element Plus from 'element-plus';
 Vue.use(Element, { size: 'small', zIndex: 3000 });
 ```
 
@@ -268,7 +265,7 @@ Import partiel d'Element：
 
 ```js
 import Vue from 'vue';
-import { Button } from 'element-ui';
+import { Button } from 'element-plus';
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
 Vue.use(Button);
@@ -278,7 +275,7 @@ Avec la configuration ci-dessus, la taille par défaut des composants ayant l'at
 
 ### Commencer à développer
 
-Maintenant que vous avez ajouté Vue et Element à votre projet, vous pouvez commencer à coder. Référez-vous à la documentation de chaque composant pour savoir comment les utiliser.
+Maintenant que vous avez ajouté Vue et Element Plus à votre projet, vous pouvez commencer à coder. Référez-vous à la documentation de chaque composant pour savoir comment les utiliser.
 
 ### Utiliser Nuxt.js
 

@@ -1,6 +1,6 @@
 ## Icon
 
-Element proporciona un conjunto de iconos propios.
+Element Plus proporciona un conjunto de iconos propios.
 
 ### Uso básico
 
