@@ -30,8 +30,10 @@ $--font-path: '~element-plus/lib/theme-chalk/fonts';
 import Vue from 'vue'
 import ElementPlus from 'element-plus'
 import './element-variables.scss'
+import App from './App.vue';
 
-Vue.use(Element)
+const app = createApp(App)
+app.use(ElementPlus)
 ```
 
 :::tip
