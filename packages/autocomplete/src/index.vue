@@ -51,7 +51,7 @@
             v-show="suggestionVisible"
             ref="regionRef"
             :class="{ 'is-loading': suggestionLoading }"
-            style="outline: none"
+            :style="{ width: dropdownWidth, outline: 'none' }"
             role="region"
           >
             <el-scrollbar
@@ -84,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, nextTick, PropType } from 'vue'
+import { defineComponent, ref, computed, onMounted, nextTick, PropType, watch } from 'vue'
 import { NOOP } from '@vue/shared'
 import debounce from 'lodash/debounce'
 import { ClickOutside } from '@element-plus/directives'
@@ -159,6 +159,7 @@ export default defineComponent({
   setup(props, ctx) {
     const suggestions = ref([])
     const highlightedIndex = ref(-1)
+    const dropdownWidth = ref('')
     const activated = ref(false)
     const suggestionDisabled = ref(false)
     const loading = ref(false)
@@ -174,6 +175,10 @@ export default defineComponent({
     })
     const suggestionLoading = computed(() => {
       return !props.hideLoading && loading.value
+    })
+
+    watch(suggestionVisible, () => {
+      dropdownWidth.value = `${inputRef.value.$el.offsetWidth}px`
     })
 
     onMounted(() => {
@@ -292,6 +297,7 @@ export default defineComponent({
     return {
       suggestions,
       highlightedIndex,
+      dropdownWidth,
       activated,
       suggestionDisabled,
       loading,
