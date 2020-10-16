@@ -3,6 +3,7 @@
     <slot></slot>
   </div>
 </template>
+
 <script lang="ts">
 import {
   defineComponent,
@@ -19,7 +20,6 @@ export interface CollapseProvider {
   activeNames: Ref
   collapseMitt: Emitter
 }
-
 export default defineComponent({
   name: 'ElCollapse',
   props: {

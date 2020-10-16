@@ -34,23 +34,7 @@ import {
   autoprefixer,
   PartialCSSStyleDeclaration,
 } from '@element-plus/utils/util'
-import { InjectCarouselScope } from './main.vue'
-
-export interface ICarouselItemProps {
-  name: string
-  label: string | number
-  key: string
-}
-
-export interface ICarouselItemData {
-  hover: boolean
-  translate: number
-  scale: number
-  active: boolean
-  ready: boolean
-  inStage: boolean
-  animating: boolean
-}
+import { InjectCarouselScope, ICarouselItemProps } from './carousel'
 
 const CARD_SCALE = 0.83
 export default defineComponent({

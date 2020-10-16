@@ -15,10 +15,10 @@ import {
 } from 'vue'
 import {
   getValueByPath,
-  isEqual,
   isIE,
   isEdge,
 } from '@element-plus/utils/util'
+import isEqual from 'lodash/isEqual'
 
 const ELEMENT = { size: 'medium' }
 
@@ -640,7 +640,7 @@ export const useSelect = (props, states: States, ctx) => {
     if (Object.prototype.toString.call(item.value).toLowerCase() !== '[object object]') {
       return item.value
     } else {
-      return getValueByPath(item.value, this.valueKey)
+      return getValueByPath(item.value, props.valueKey)
     }
   }
 

@@ -4,7 +4,7 @@
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, computed, VNode } from 'vue'
+import { defineComponent, computed, VNode, Component } from 'vue'
 
 export default defineComponent({
   name: 'ElContainer',
@@ -24,7 +24,7 @@ export default defineComponent({
       if (slots && slots.default) {
         const vNodes: VNode[] = slots.default()
         return vNodes.some(vNode => {
-          const tag = vNode.type.name
+          const tag = (vNode.type as Component).name
           return tag === 'ElHeader' || tag === 'ElFooter'
         })
       } else {

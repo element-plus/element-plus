@@ -19,12 +19,13 @@ export default function usePopperOptions(props: IUsePopperProps, state: IUsePopp
   return computed(() => {
     return {
       placement: props.placement,
+      ...props.popperOptions,
+      // Avoiding overriding modifiers.
       modifiers: buildModifiers({
         arrow: state.arrow.value,
         arrowOffset: props.arrowOffset,
         offset: props.offset,
       }, props.popperOptions?.modifiers),
-      ...props.popperOptions,
     }
   })
 }
