@@ -50,7 +50,7 @@ Dialog pops up a dialog box, and it's quite customizable.
 
 ### Customizations
 
-The content of Dialog can be anything, even a table or a form. This example shows how to use Element Table and Form with Dialog。
+The content of Dialog can be anything, even a table or a form. This example shows how to use Element Plus Table and Form with Dialog。
 
 :::demo
 
@@ -134,7 +134,7 @@ If a Dialog is nested in another Dialog, `append-to-body` is required.
 ```html
 <template>
   <el-button type="text" @click="outerVisible = true">open the outer Dialog</el-button>
-  
+
   <el-dialog title="Outer Dialog" :visible.sync="outerVisible">
     <el-dialog
         width="30%"

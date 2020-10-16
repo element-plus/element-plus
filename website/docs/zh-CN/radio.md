@@ -80,7 +80,7 @@
 
 按钮样式的单选组合。
 
-:::demo 只需要把`el-radio`元素换成`el-radio-button`元素即可，此外，Element 还提供了`size`属性。
+:::demo 只需要把`el-radio`元素换成`el-radio-button`元素即可，此外，Element Plus 还提供了`size`属性。
 ```html
 <template>
   <div>

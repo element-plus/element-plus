@@ -115,9 +115,9 @@ Además de las características nativas de img, soporte de carga perezosa, marca
 :::demo permitir una vista previa grande de la imagen configurando la prop `previewSrcList`.
 ```html
 <div class="demo-image__preview">
-  <el-image 
+  <el-image
     style="width: 100px; height: 100px"
-    :src="url" 
+    :src="url"
     :preview-src-list="srcList">
   </el-image>
 </div>
@@ -146,7 +146,7 @@ Además de las características nativas de img, soporte de carga perezosa, marca
 | alt | alt nativo | string | - | - |
 | referrer-policy | referrerPolicy nativo | string | - | - |
 | lazy | si se usara lazy load | boolean | — | false |
-| scroll-container | El contenedor para añadir el scroll listener cuando se utiliza lazy load | string / HTMLElement | — | El contenedor padre más cercano cuya propiedad de desbordamiento es auto o scroll |
+| scroll-container | El contenedor para añadir el scroll listener cuando se utiliza lazy load | string / HTMLElement Plus | — | El contenedor padre más cercano cuya propiedad de desbordamiento es auto o scroll |
 | preview-src-list | permitir una vista previa grande de la imagen | Array | — | - |
 | z-index | establecer el z-index de la vista previa de la imagen | Number | — | 2000 |
 

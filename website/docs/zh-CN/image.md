@@ -113,9 +113,9 @@
 :::demo 可通过 `previewSrcList` 开启预览大图的功能。
 ```html
 <div class="demo-image__preview">
-  <el-image 
+  <el-image
     style="width: 100px; height: 100px"
-    :src="url" 
+    :src="url"
     :preview-src-list="srcList">
   </el-image>
 </div>
@@ -144,7 +144,7 @@
 | alt | 原生 alt | string | - | - |
 | referrer-policy | 原生 referrerPolicy | string | - | - |
 | lazy | 是否开启懒加载 | boolean | — | false |
-| scroll-container | 开启懒加载后，监听 scroll 事件的容器 | string / HTMLElement | — | 最近一个 overflow 值为 auto 或 scroll 的父元素 |
+| scroll-container | 开启懒加载后，监听 scroll 事件的容器 | string / HTMLElement Plus | — | 最近一个 overflow 值为 auto 或 scroll 的父元素 |
 | preview-src-list | 开启图片预览功能 | Array | — | - |
 | z-index | 设置图片预览的 z-index | Number | — | 2000 |
 
