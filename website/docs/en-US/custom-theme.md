@@ -31,8 +31,10 @@ Then in the entry file of your project, import this style file instead of Elemen
 import Vue from 'vue'
 import ElementPlus from 'element-plus'
 import './element-variables.scss'
+import App from './App.vue';
 
-Vue.use(Element)
+const app = createApp(App)
+app.use(ElementPlus)
 ```
 
 :::tip
