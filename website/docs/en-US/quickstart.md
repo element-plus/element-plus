@@ -14,7 +14,7 @@ If you prefer not to use them, please read the following.
 
 ### Import Element Plus
 
-You can import Element Plus entirely, or just import what you need. Let's start with fully import.
+You can import ElementPlus entirely, or just import what you need. Let's start with fully import.
 
 #### Fully import
 
@@ -257,7 +257,7 @@ Fully import Element：
 
 ```js
 import Vue from 'vue';
-import Element Plus from 'element-plus';
+import ElementPlus from 'element-plus';
 Vue.use(Element, { size: 'small', zIndex: 3000 });
 ```
 
