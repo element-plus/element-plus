@@ -188,8 +188,7 @@ The checkbox of a node can be set as disabled.
 <el-tree
   :data="data"
   :props="defaultProps"
-  show-checkbox
-  @check-change="handleCheckChange">
+  show-checkbox>
 </el-tree>
 
 <script>
@@ -421,23 +420,21 @@ The content of tree nodes can be customized, so you can add icons or buttons as 
       node-key="id"
       default-expand-all
       :expand-on-click-node="false">
-      <span class="custom-tree-node" slot-scope="{ node, data }">
-        <span>{{ node.label }}</span>
-        <span>
-          <el-button
-            type="text"
-            size="mini"
-            @click="() => append(data)">
-            Append
-          </el-button>
-          <el-button
-            type="text"
-            size="mini"
-            @click="() => remove(node, data)">
-            Delete
-          </el-button>
+      <template #default="{ node, data }">
+        <span class="custom-tree-node">
+          <span>{{ node.label }}</span>
+          <span>
+            <a
+              @click="append(data)">
+              Append
+            </a>
+            <a
+              @click="remove(node, data)">
+              Delete
+            </a>
+          </span>
         </span>
-      </span>
+      </template>
     </el-tree>
   </div>
 </div>
@@ -492,9 +489,10 @@ The content of tree nodes can be customized, so you can add icons or buttons as 
       append(data) {
         const newChild = { id: id++, label: 'testtest', children: [] };
         if (!data.children) {
-          this.$set(data, 'children', []);
+          data.children = [];
         }
         data.children.push(newChild);
+        this.data = [...this.data]
       },
 
       remove(node, data) {
@@ -502,20 +500,17 @@ The content of tree nodes can be customized, so you can add icons or buttons as 
         const children = parent.data.children || parent.data;
         const index = children.findIndex(d => d.id === data.id);
         children.splice(index, 1);
+        this.data = [...this.data]
       },
 
       renderContent(h, { node, data, store }) {
         return h("span", {
           class: "custom-tree-node"
-        }, h("span", null, node.label), h("span", null, h("el-button", {
-          size: "mini",
-          type: "text",
-          "on-click":this.append(data)
-        }, "Append"), h("el-button", {
-          size: "mini",
-          type: "text",
-          "on-click": this.remove(node, data)
-        }, "Delete")))
+        }, h("span", null, node.label), h("span", null, h("a", {
+          onClick: () => this.append(data)
+        }, "Append "), h("a", {
+          onClick: () => this.remove(node, data)
+        }, "Delete")));
       }
     }
   };

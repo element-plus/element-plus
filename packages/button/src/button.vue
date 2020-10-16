@@ -81,7 +81,7 @@ export default defineComponent({
       },
     },
     size: {
-      type: String as IButtonType,
+      type: String as IButtonSize,
       validator: (val: string) => {
         return ['medium', 'small', 'mini'].includes(val)
       },
@@ -130,6 +130,7 @@ export default defineComponent({
     }
 
     return {
+      elFormItemSize_,
       buttonSize,
       buttonDisabled,
       handleClick,

@@ -83,7 +83,7 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
     if (props.beforeClose) {
       props.beforeClose(hide)
     } else {
-      hide(false)
+      close()
     }
   }
 
