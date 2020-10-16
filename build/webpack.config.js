@@ -15,7 +15,7 @@ module.exports = {
     filename: 'index.js',
     libraryTarget: 'umd',
     libraryExport: 'default',
-    library: 'ELEMENT',
+    library: 'ELEMENT_PLUS',
     umdNamedDefine: true,
   },
   stats: 'verbose',
