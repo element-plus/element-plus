@@ -145,7 +145,7 @@ En plus des propriétés natives de img, ce composant supporte le lazy loading, 
 | alt | Attribut alt natif.| string | - | - |
 | referrer-policy | Attribut referrerPolicy natif.| string | - | - |
 | lazy | Si le lazy loading doit être utilisé. | boolean | — | false |
-| scroll-container | Le conteneur auquel ajouter le listener du scroll en mode lazy loading. | string / HTMLElement Plus | — | Le conteneur parent le plus proche avec la propriété overflow à auto ou scroll. |
+| scroll-container | Le conteneur auquel ajouter le listener du scroll en mode lazy loading. | string / HTMLElement | — | Le conteneur parent le plus proche avec la propriété overflow à auto ou scroll. |
 | preview-src-list | allow big image preview | Array | — | - |
 | z-index | set image preview z-index | Number | — | 2000 |
 
