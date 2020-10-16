@@ -3,16 +3,31 @@
     <slot></slot>
   </div>
 </template>
-<script lang='ts'>
-import { defineComponent, ref, watch, provide, PropType, onUnmounted } from 'vue'
+
+<script lang="ts">
+import {
+  defineComponent,
+  ref,
+  watch,
+  provide,
+  PropType,
+  Ref,
+  onUnmounted,
+} from 'vue'
 import mitt, { Emitter } from 'mitt'
 
+export interface CollapseProvider {
+  activeNames: Ref
+  collapseMitt: Emitter
+}
 export default defineComponent({
   name: 'ElCollapse',
   props: {
     accordion: Boolean,
     modelValue: {
-      type: [Array, String, Number] as PropType<string | number | Array<string|number>>,
+      type: [Array, String, Number] as PropType<
+        string | number | Array<string | number>
+      >,
       default: () => [],
     },
   },
@@ -28,16 +43,18 @@ export default defineComponent({
     }
 
     const handleItemClick = name => {
-      if(props.accordion) {
+      if (props.accordion) {
         setActiveNames(
           (activeNames.value[0] || activeNames.value[0] === 0) &&
-          activeNames.value[0] === name ? '' : name,
+            activeNames.value[0] === name
+            ? ''
+            : name,
         )
       } else {
         let _activeNames = activeNames.value.slice(0)
         const index = _activeNames.indexOf(name)
 
-        if(index > -1) {
+        if (index > -1) {
           _activeNames.splice(index, 1)
         } else {
           _activeNames.push(name)
@@ -46,9 +63,12 @@ export default defineComponent({
       }
     }
 
-    watch(() => props.modelValue, () => {
-      activeNames.value = [].concat(props.modelValue)
-    })
+    watch(
+      () => props.modelValue,
+      () => {
+        activeNames.value = [].concat(props.modelValue)
+      },
+    )
 
     collapseMitt.on('item-click', handleItemClick)
 
