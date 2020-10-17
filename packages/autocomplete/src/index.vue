@@ -1,86 +1,89 @@
 <template>
-  <div
-    v-clickoutside="close"
-    class="el-autocomplete"
-    role="combobox"
-    aria-haspopup="listbox"
-    :aria-expanded="suggestionVisible"
-    :aria-owns="id"
+  <el-popper
+    ref="popper"
+    v-model:visible="suggestionVisible"
+    :placement="placement"
+    :popper-class="popperClass"
+    :append-to-body="popperAppendToBody"
+    :offset="6"
+    pure
+    manual-mode
+    effect="light"
+    trigger="click"
   >
-    <el-input
-      ref="inputRef"
-      v-bind="$attrs"
-      :model-value="modelValue"
-      @input="handleInput"
-      @change="handleChange"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      @clear="handleClear"
-      @keydown.up.prevent="highlight(highlightedIndex - 1)"
-      @keydown.down.prevent="highlight(highlightedIndex + 1)"
-      @keydown.enter.prevent="handleKeyEnter"
-      @keydown.tab.prevent="close"
-    >
-      <template v-if="$slots.prepend" #prepend>
-        <slot name="prepend"></slot>
-      </template>
-      <template v-if="$slots.append" #append>
-        <slot name="append"></slot>
-      </template>
-      <template v-if="$slots.prefix" #prefix>
-        <slot name="prefix"></slot>
-      </template>
-      <template v-if="$slots.suffix" #suffix>
-        <slot name="suffix"></slot>
-      </template>
-    </el-input>
-    <el-popper
-      class="el-autocomplete-suggestion"
-      :placement="placement"
-      :popper-class="popperClass"
-      :append-to-body="popperAppendToBody"
-      :visible="suggestionVisible"
-      :show-arrow="false"
-      pure
-      effect="light"
-      trigger="click"
-    >
-      <template #trigger>
-        <transition name="el-zoom-in-top">
-          <div
-            v-show="suggestionVisible"
-            ref="regionRef"
-            :class="{ 'is-loading': suggestionLoading }"
-            :style="{ width: dropdownWidth, outline: 'none' }"
-            role="region"
+    <template #trigger>
+      <div
+        v-clickoutside="close"
+        class="el-autocomplete"
+        role="combobox"
+        aria-haspopup="listbox"
+        :aria-expanded="suggestionVisible"
+        :aria-owns="id"
+      >
+        <el-input
+          ref="inputRef"
+          v-bind="$attrs"
+          :model-value="modelValue"
+          @input="handleInput"
+          @change="handleChange"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @clear="handleClear"
+          @keydown.up.prevent="highlight(highlightedIndex - 1)"
+          @keydown.down.prevent="highlight(highlightedIndex + 1)"
+          @keydown.enter.prevent="handleKeyEnter"
+          @keydown.tab.prevent="close"
+        >
+          <template v-if="$slots.prepend" #prepend>
+            <slot name="prepend"></slot>
+          </template>
+          <template v-if="$slots.append" #append>
+            <slot name="append"></slot>
+          </template>
+          <template v-if="$slots.prefix" #prefix>
+            <slot name="prefix"></slot>
+          </template>
+          <template v-if="$slots.suffix" #suffix>
+            <slot name="suffix"></slot>
+          </template>
+        </el-input>
+      </div>
+    </template>
+    <template #default>
+      <transition name="el-zoom-in-top" @after-leave="doDestroy">
+        <div
+          v-show="suggestionVisible"
+          ref="regionRef"
+          :class="['el-autocomplete-suggestion', suggestionLoading && 'is-loading']"
+          :style="{ width: dropdownWidth, outline: 'none' }"
+          role="region"
+        >
+          <el-scrollbar
+            tag="ul"
+            wrap-class="el-autocomplete-suggestion__wrap"
+            view-class="el-autocomplete-suggestion__list"
           >
-            <el-scrollbar
-              tag="ul"
-              wrap-class="el-autocomplete-suggestion__wrap"
-              view-class="el-autocomplete-suggestion__list"
-            >
-              <li v-if="suggestionLoading">
-                <i class="el-icon-loading"></i>
+            <li v-if="suggestionLoading">
+              <i class="el-icon-loading"></i>
+            </li>
+            <template v-else>
+              <li
+                v-for="(item, index) in suggestions"
+                :id="`${id}-item-${index}`"
+                :key="index"
+                :class="{'highlighted': highlightedIndex === index}"
+                role="option"
+                :aria-selected="highlightedIndex === index"
+                @click="select(item)"
+              >
+                <slot :item="item">{{ item[valueKey] }}</slot>
               </li>
-              <template v-else>
-                <li
-                  v-for="(item, index) in suggestions"
-                  :id="`${id}-item-${index}`"
-                  :key="index"
-                  :class="{'highlighted': highlightedIndex === index}"
-                  role="option"
-                  :aria-selected="highlightedIndex === index"
-                  @click="select(item)"
-                >
-                  <slot :item="item">{{ item[valueKey] }}</slot>
-                </li>
-              </template>
-            </el-scrollbar>
-          </div>
-        </transition>
-      </template>
-    </el-popper>
-  </div>
+            </template>
+          </el-scrollbar>
+        </div>
+      </transition>
+    </template>
+  </el-popper>
 </template>
 
 <script lang="ts">
@@ -165,6 +168,7 @@ export default defineComponent({
     const loading = ref(false)
     const inputRef = ref(null)
     const regionRef = ref(null)
+    const popper = ref(null)
 
     const id = computed(() => {
       return `el-autocomplete-${generateId()}`
@@ -293,6 +297,9 @@ export default defineComponent({
       highlightedIndex.value = index
       inputRef.value.inputOrTextarea.setAttribute('aria-activedescendant', `${id.value}-item-${highlightedIndex.value}`)
     }
+    const doDestroy = () => {
+      popper.value.doDestroy()
+    }
 
     return {
       suggestions,
@@ -303,6 +310,7 @@ export default defineComponent({
       loading,
       inputRef,
       regionRef,
+      popper,
 
       id,
       suggestionVisible,
@@ -319,6 +327,7 @@ export default defineComponent({
       focus,
       select,
       highlight,
+      doDestroy,
     }
   },
 })
