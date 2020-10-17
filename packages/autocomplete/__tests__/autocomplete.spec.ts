@@ -50,19 +50,23 @@ describe('Autocomplete.vue', () => {
   })
 
   test('triggerOnFocus', async () => {
-    const wrapper = _mount()
+    const fetchSuggestions = jest.fn()
+    const wrapper = _mount({
+      debounce: 10,
+      fetchSuggestions,
+    })
 
     await wrapper.setProps({ triggerOnFocus: false })
     await wrapper.find('input').trigger('focus')
-    await sleep(500)
-    expect(wrapper.findAll('li').length).toBe(0)
+    await sleep(20)
+    expect(fetchSuggestions).toHaveBeenCalledTimes(0)
 
     await wrapper.find('input').trigger('blur')
 
     await wrapper.setProps({ triggerOnFocus: true })
     await wrapper.find('input').trigger('focus')
-    await sleep(500)
-    expect(wrapper.findAll('li').length).toBe(4)
+    await sleep(20)
+    expect(fetchSuggestions).toHaveBeenCalledTimes(1)
   })
 
   test('popperClass', async () => {
@@ -87,19 +91,14 @@ describe('Autocomplete.vue', () => {
   })
 
   test('popperAppendToBody', async () => {
-    const wrapper = _mount()
-
-    await wrapper.setProps({ popperAppendToBody: true })
-    expect(wrapper.find('.el-popper').exists()).toBe(false)
-
-    await wrapper.setProps({ popperAppendToBody: false })
-    expect(wrapper.find('.el-popper').exists()).toBe(true)
+    _mount({ popperAppendToBody: false })
+    expect(document.body.querySelector('.el-popper__mask')).toBeNull()
   })
 
   test('debounce / fetchSuggestions', async () => {
     const fetchSuggestions = jest.fn()
     const wrapper = _mount({
-      debounce: 500,
+      debounce: 30,
       fetchSuggestions,
     })
 
@@ -110,20 +109,23 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('focus')
     await wrapper.find('input').trigger('blur')
     expect(fetchSuggestions).toHaveBeenCalledTimes(0)
-    await sleep(600)
+    await sleep(50)
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
     await wrapper.find('input').trigger('focus')
-    await sleep(600)
+    await sleep(50)
     expect(fetchSuggestions).toHaveBeenCalledTimes(2)
   })
 
   test('valueKey / modelValue', async () => {
     const wrapper = _mount()
+    const target = wrapper.findComponent({ ref: 'autocomplete' }).vm as any
+
+    await target.select({ value: 'Go', tag: 'go' })
+    expect(wrapper.vm.state).toBe('Go')
 
     await wrapper.setProps({ valueKey: 'tag' })
-    await wrapper.find('input').trigger('focus')
-    await sleep(500)
-    await wrapper.findAll('li')[1].trigger('click')
+
+    await target.select({ value: 'Go', tag: 'go' })
     expect(wrapper.vm.state).toBe('go')
   })
 
@@ -131,36 +133,42 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount({
       hideLoading: false,
       fetchSuggestions: NOOP,
+      debounce: 10,
     })
     await wrapper.find('input').trigger('focus')
-    await sleep(500)
-    expect(wrapper.find('.el-icon-loading').exists()).toBe(true)
+    await sleep(20)
+    expect(document.body.querySelector('.el-icon-loading')).toBeDefined()
     await wrapper.setProps({ hideLoading: true })
-    expect(wrapper.find('.el-icon-loading').exists()).toBe(false)
+    expect(document.body.querySelector('.el-icon-loading')).toBeNull()
   })
 
   test('selectWhenUnmatched', async () => {
     const wrapper = mount(Autocomplete, {
       props: {
         selectWhenUnmatched: true,
+        debounce: 10,
       },
     })
     wrapper.vm.highlightedIndex = 0
     wrapper.vm.handleKeyEnter()
-    await sleep(500)
+    await sleep(30)
     expect(wrapper.vm.highlightedIndex).toBe(-1)
   })
 
   test('highlightFirstItem', async () => {
-    const wrapper = _mount({ highlightFirstItem: false })
+    const wrapper = _mount({
+      highlightFirstItem: false,
+      debounce: 10,
+    })
 
     await wrapper.find('input').trigger('focus')
-    await sleep(500)
-    expect(wrapper.find('.highlighted').exists()).toBe(false)
+    await sleep(30)
+    expect(document.body.querySelector('.highlighted')).toBeNull()
 
     await wrapper.setProps({ highlightFirstItem: true })
+
     await wrapper.find('input').trigger('focus')
-    await sleep(500)
-    expect(wrapper.find('.highlighted').text()).toBe('Java')
+    await sleep(30)
+    expect(document.body.querySelector('.highlighted')).toBeDefined()
   })
 })
