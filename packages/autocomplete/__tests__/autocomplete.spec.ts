@@ -58,14 +58,14 @@ describe('Autocomplete.vue', () => {
 
     await wrapper.setProps({ triggerOnFocus: false })
     await wrapper.find('input').trigger('focus')
-    await sleep(20)
+    await sleep(30)
     expect(fetchSuggestions).toHaveBeenCalledTimes(0)
 
     await wrapper.find('input').trigger('blur')
 
     await wrapper.setProps({ triggerOnFocus: true })
     await wrapper.find('input').trigger('focus')
-    await sleep(20)
+    await sleep(30)
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
   })
 
@@ -98,7 +98,7 @@ describe('Autocomplete.vue', () => {
   test('debounce / fetchSuggestions', async () => {
     const fetchSuggestions = jest.fn()
     const wrapper = _mount({
-      debounce: 30,
+      debounce: 10,
       fetchSuggestions,
     })
 
@@ -109,10 +109,10 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('focus')
     await wrapper.find('input').trigger('blur')
     expect(fetchSuggestions).toHaveBeenCalledTimes(0)
-    await sleep(50)
+    await sleep(30)
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
     await wrapper.find('input').trigger('focus')
-    await sleep(50)
+    await sleep(30)
     expect(fetchSuggestions).toHaveBeenCalledTimes(2)
   })
 
@@ -136,7 +136,7 @@ describe('Autocomplete.vue', () => {
       debounce: 10,
     })
     await wrapper.find('input').trigger('focus')
-    await sleep(20)
+    await sleep(30)
     expect(document.body.querySelector('.el-icon-loading')).toBeDefined()
     await wrapper.setProps({ hideLoading: true })
     expect(document.body.querySelector('.el-icon-loading')).toBeNull()
