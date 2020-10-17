@@ -252,6 +252,7 @@ export default defineComponent({
     const suggestions = ref([])
     const inputInitialHeight = ref(0)
     const pressDeleteCount = ref(0)
+    const filterHandler = ref(() => 1)
     // refs
     const panel = ref(null)
     const input = ref(null)
@@ -267,7 +268,7 @@ export default defineComponent({
       return props.size || _elFormItemSize || (this.$ELEMENT || {}).size
     })
     const tagSize = computed(() => {
-      return ['small', 'mini'].indexOf(realSize) > -1 ? 'mini' : 'small'
+      return ['small', 'mini'].indexOf(realSize.value) > -1 ? 'mini' : 'small'
     })
     const isDisabled = computed(() => {
       return props.disabled || (elForm || {}).disabled
@@ -327,30 +328,29 @@ export default defineComponent({
       }
     }
     const toggleDropDownVisible = visible => {
-      if (this.isDisabled) return
+      if (isDisabled.value) return
 
-      const { dropDownVisible } = this
-      visible = isDef(visible) ? visible : !dropDownVisible
-      if (visible !== dropDownVisible) {
-        this.dropDownVisible = visible
+      visible = isDef(visible) ? visible : !dropDownVisible.value
+      if (visible !== dropDownVisible.value) {
+        dropDownVisible.value = visible
         if (visible) {
-          this.$nextTick(() => {
-            this.updatePopper()
-            this.panel.scrollIntoView()
+          nextTick(() => {
+            updatePopper()
+            panel.value.scrollIntoView()
           })
         }
-        input.value.$refs.input.setAttribute('aria-expanded', visible)
-        this.$emit('visible-change', visible)
+        input.value.input.setAttribute('aria-expanded', visible)
+        emit('visible-change', visible)
       }
     }
     const handleDropdownLeave = () => {
-      this.filtering = false
-      this.inputValue = this.presentText
+      filtering.value = false
+      inputValue.value = presentText.value
     }
     const handleKeyDown = event => {
       switch (event.keyCode) {
         case EVENT_CODE.enter:
-          toggleDropDownVisible()
+          toggleDropDownVisible(false)
           break
         case EVENT_CODE.down:
           toggleDropDownVisible(true)
@@ -370,23 +370,22 @@ export default defineComponent({
       emit('blur', e)
     }
     const handleInput = (val, event) => {
-      !this.dropDownVisible && toggleDropDownVisible(true)
+      !dropDownVisible.value && toggleDropDownVisible(true)
 
       if (event && event.isComposing) return
       if (val) {
-        filterHandler()
+        filterHandler.value()
       } else {
-        this.filtering = false
+        filtering.value = false
       }
     }
     const handleClear = () => {
-      this.presentText = ''
-      this.panel.clearCheckedNodes()
+      presentText.value = ''
+      panel.value.clearCheckedNodes()
     }
     const handleExpandChange = value => {
-      nextTick(this.updatePopper.bind(this))
+      nextTick(updatePopper.bind(this))
       emit('expand-change', value)
-      emit('active-item-change', value) // Deprecated
     }
     const focusFirstNode = () => {
       nextTick(() => {
@@ -414,49 +413,41 @@ export default defineComponent({
       nextTick(() => {
         if (config.value.multiple) {
           computePresentTags()
-          this.presentText = this.presentTags.length ? ' ' : null
+          presentText.value = presentTags.value.length ? ' ' : null
         } else {
           computePresentText()
         }
       })
     }
     const computePresentText = () => {
-      const { checkedValue, config } = this
-      if (!isEmpty(checkedValue)) {
-        const node = this.panel.getNodeByValue(checkedValue)
-        if (node && (config.checkStrictly || node.isLeaf)) {
-          this.presentText = node.getText(this.showAllLevels, this.separator)
+      if (!isEmpty(checkedValue.value)) {
+        const node = panel.value.getNodeByValue(checkedValue.value)
+        if (node && (config.value.checkStrictly || node.isLeaf)) {
+          presentText.value = node.getText(props.showAllLevels, props.separator)
           return
         }
       }
-      this.presentText = null
+      presentText.value = null
     }
     const computePresentTags = () => {
-      const {
-        isDisabled,
-        leafOnly,
-        showAllLevels,
-        separator,
-        collapseTags,
-      } = this
-      const checkedNodes = this.getCheckedNodes(leafOnly)
+      const checkedNodesInternal = getCheckedNodes(leafOnly)
       const tags = []
 
       const genTag = node => ({
         node,
         key: node.uid,
-        text: node.getText(showAllLevels, separator),
+        text: node.getText(props.showAllLevels, props.separator),
         hitState: false,
-        closable: !isDisabled && !node.isDisabled,
+        closable: !isDisabled.value && !node.isDisabled,
       })
 
-      if (checkedNodes.length) {
-        const [first, ...rest] = checkedNodes
+      if (checkedNodesInternal.length) {
+        const [first, ...rest] = checkedNodesInternal
         const restCount = rest.length
         tags.push(genTag(first))
 
         if (restCount) {
-          if (collapseTags) {
+          if (props.collapseTags) {
             tags.push({
               key: -1,
               text: `+ ${restCount}`,
@@ -468,36 +459,35 @@ export default defineComponent({
         }
       }
 
-      this.checkedNodes = checkedNodes
-      this.presentTags = tags
+      checkedNodes.value = checkedNodesInternal
+      presentTags.value = tags
     }
+    let filterMethod = (node, keyword) => { return undefined}
     const getSuggestions = () => {
-      let { filterMethod } = this
-
-      if (!isFunction(filterMethod)) {
+      if (!isFunction(props.filterMethod)) {
         filterMethod = (node, keyword) => node.text.includes(keyword)
       }
 
-      const suggestions = this.panel
-        .getFlattedNodes(this.leafOnly)
+      const suggestionsInternal = panel.value
+        .getFlattedNodes(leafOnly.value)
         .filter(node => {
           if (node.isDisabled) return false
-          node.text = node.getText(this.showAllLevels, this.separator) || ''
-          return filterMethod(node, this.inputValue)
+          node.text = node.getText(props.showAllLevels, props.separator) || ''
+          return filterMethod(node, inputValue.value)
         })
 
-      if (this.multiple) {
-        this.presentTags.forEach(tag => {
+      if (multiple.value) {
+        presentTags.value.forEach(tag => {
           tag.hitState = false
         })
       } else {
-        suggestions.forEach(node => {
-          node.checked = isEqual(this.checkedValue, node.getValueByOption())
+        suggestionsInternal.forEach(node => {
+          node.checked = isEqual(checkedValue.value, node.getValueByOption())
         })
       }
 
-      this.filtering = true
-      this.suggestions = suggestions
+      filtering.value = true
+      suggestions.value = suggestionsInternal
       nextTick(updatePopper)
     }
     const handleSuggestionKeyDown = event => {
@@ -521,52 +511,48 @@ export default defineComponent({
       }
     }
     const handleDelete = () => {
-      const { inputValue, pressDeleteCount, presentTags } = this
-      const lastIndex = presentTags.length - 1
-      const lastTag = presentTags[lastIndex]
-      this.pressDeleteCount = inputValue ? 0 : pressDeleteCount + 1
+      const lastIndex = presentTags.value.length - 1
+      const lastTag = presentTags.value[lastIndex]
+      pressDeleteCount.value = inputValue.value ? 0 : pressDeleteCount.value + 1
 
       if (!lastTag) return
 
-      if (this.pressDeleteCount) {
+      if (pressDeleteCount.value) {
         if (lastTag.hitState) {
-          this.deleteTag(lastIndex)
+          deleteTag(lastIndex)
         } else {
           lastTag.hitState = true
         }
       }
     }
     const handleSuggestionClick = index => {
-      const { multiple } = this
-      const targetNode = this.suggestions[index]
+      const targetNode = suggestions.value[index]
 
-      if (multiple) {
+      if (multiple.value) {
         const { checked } = targetNode
         targetNode.doCheck(!checked)
-        this.panel.calculateMultiCheckedValue()
+        panel.value.calculateMultiCheckedValue()
       } else {
-        this.checkedValue = targetNode.getValueByOption()
-        this.toggleDropDownVisible(false)
+        checkedValue.value = targetNode.getValueByOption()
+        toggleDropDownVisible(false)
       }
     }
     const deleteTag = index => {
-      const { checkedValue } = this
       const val = checkedValue[index]
-      this.checkedValue = checkedValue.filter((n, i) => i !== index)
-      this.$emit('remove-tag', val)
+      checkedValue.value = checkedValue.value.filter((n, i) => i !== index)
+      emit('remove-tag', val)
     }
     const updateStyle = () => {
       if (isServer || reference.value) return
 
-      const { suggestionPanel } = this.$refs
-      const inputInner = $el.querySelector('.el-input__inner')
+      const inputInner = reference.value.querySelector('.el-input__inner')
 
       if (!inputInner) return
 
-      const tags = $el.querySelector('.el-cascader__tags')
+      const tags = reference.value.querySelector('.el-cascader__tags')
       let suggestionPanelEl = null
 
-      if (suggestionPanel && (suggestionPanelEl = suggestionPanel.$el)) {
+      if (suggestionPanel.value && (suggestionPanelEl = suggestionPanel.value.$el)) {
         const suggestionList = suggestionPanelEl.querySelector(
           '.el-cascader__suggestion-list',
         )
@@ -575,7 +561,7 @@ export default defineComponent({
 
       if (tags) {
         const { offsetHeight } = tags
-        const height = Math.max(offsetHeight + 6, inputInitialHeight) + 'px'
+        const height = Math.max(offsetHeight + 6, inputInitialHeight.value) + 'px'
         inputInner.style.height = height
         updatePopper()
       }
@@ -606,13 +592,13 @@ export default defineComponent({
     watch(
       () => checkedValue,
       val => {
-        const { value, dropDownVisible } = props
+        const { value } = props
         const { checkStrictly, multiple } = config.value
 
         if (!isEqual(val, value) || isUndefined(value)) {
           computePresentContent()
           // hide dropdown when single mode
-          if (!multiple && !checkStrictly && dropDownVisible) {
+          if (!multiple && !checkStrictly && dropDownVisible.value) {
             toggleDropDownVisible(false)
           }
 
@@ -659,13 +645,13 @@ export default defineComponent({
         computePresentContent()
       }
 
-      filterHandler = debounce(props.debounce, () => {
+      filterHandler.value = debounce(props.debounce, () => {
         if (!inputValue.value) {
           filtering.value = false
           return
         }
 
-        const before = beforeFilter(inputValue.value)
+        const before = props.beforeFilter(inputValue.value)
         if (before && before.then) {
           before.then(getSuggestions)
         } else if (before !== false) {
