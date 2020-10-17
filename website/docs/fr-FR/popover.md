@@ -161,7 +161,7 @@ Vous pouvez aussi imbriquer des opérations. Procéder ainsi est plus léger que
 | Nom | Description |
 | --- | --- |
 | — | Contenu du popover. |
-| reference | Element HTML qui déclenche le popover. |
+| reference | Element Plus HTML qui déclenche le popover. |
 
 ### Évènements
 

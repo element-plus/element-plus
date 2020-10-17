@@ -4,7 +4,7 @@
 
 ### 使用 vue-cli@3
 
-我们为新版的 vue-cli 准备了相应的 [Element 插件](https://github.com/ElementUI/vue-cli-plugin-element)，你可以用它们快速地搭建一个基于 Element 的项目。
+我们为新版的 vue-cli 准备了相应的 [Element Plus 插件](https://github.com/ElementUI/vue-cli-plugin-element)，你可以用它们快速地搭建一个基于 Element Plus 的项目。
 
 ### 使用 Starter Kit
 
@@ -12,29 +12,26 @@
 
 如果不希望使用我们提供的模板，请继续阅读。
 
-### 引入 Element
+### 引入 Element Plus
 
-你可以引入整个 Element，或是根据需要仅引入部分组件。我们先介绍如何引入完整的 Element。
+你可以引入整个 Element Plus，或是根据需要仅引入部分组件。我们先介绍如何引入完整的 Element。
 
 #### 完整引入
 
 在 main.js 中写入以下内容：
 
 ```javascript
-import Vue from 'vue';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import { createApp, Vue } from 'vue'
+import ElementPlus from 'element-plus';
+import 'element-plus/lib/theme-chalk/index.css';
 import App from './App.vue';
 
-Vue.use(ElementUI);
-
-new Vue({
-  el: '#app',
-  render: h => h(App)
-});
+const app = createApp(App)
+app.use(ElementPlus)
+app.mount('#app')
 ```
 
-以上代码便完成了 Element 的引入。需要注意的是，样式文件需要单独引入。
+以上代码便完成了 Element Plus 的引入。需要注意的是，样式文件需要单独引入。
 
 #### 按需引入
 
@@ -55,7 +52,7 @@ npm install babel-plugin-component -D
     [
       "component",
       {
-        "libraryName": "element-ui",
+        "libraryName": "element-plus",
         "styleLibraryName": "theme-chalk"
       }
     ]
@@ -67,7 +64,7 @@ npm install babel-plugin-component -D
 
 ```javascript
 import Vue from 'vue';
-import { Button, Select } from 'element-ui';
+import { Button, Select } from 'element-plus';
 import App from './App.vue';
 
 Vue.component(Button.name, Button);
@@ -165,7 +162,7 @@ import {
   MessageBox,
   Message,
   Notification
-} from 'element-ui';
+} from 'element-plus';
 
 Vue.use(Pagination);
 Vue.use(Dialog);
@@ -254,13 +251,13 @@ Vue.prototype.$message = Message;
 
 ### 全局配置
 
-在引入 Element 时，可以传入一个全局配置对象。该对象目前支持 `size` 与 `zIndex` 字段。`size` 用于改变组件的默认尺寸，`zIndex` 设置弹框的初始 z-index（默认值：2000）。按照引入 Element 的方式，具体操作如下：
+在引入 Element Plus 时，可以传入一个全局配置对象。该对象目前支持 `size` 与 `zIndex` 字段。`size` 用于改变组件的默认尺寸，`zIndex` 设置弹框的初始 z-index（默认值：2000）。按照引入 Element Plus 的方式，具体操作如下：
 
 完整引入 Element：
 
 ```js
 import Vue from 'vue';
-import Element from 'element-ui';
+import ElementPlus from 'element-plus';
 Vue.use(Element, { size: 'small', zIndex: 3000 });
 ```
 
@@ -268,7 +265,7 @@ Vue.use(Element, { size: 'small', zIndex: 3000 });
 
 ```js
 import Vue from 'vue';
-import { Button } from 'element-ui';
+import { Button } from 'element-plus';
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
 Vue.use(Button);
@@ -278,7 +275,7 @@ Vue.use(Button);
 
 ### 开始使用
 
-至此，一个基于 Vue 和 Element 的开发环境已经搭建完毕，现在就可以编写代码了。各个组件的使用方法请参阅它们各自的文档。
+至此，一个基于 Vue 和 Element Plus 的开发环境已经搭建完毕，现在就可以编写代码了。各个组件的使用方法请参阅它们各自的文档。
 
 ### 使用 Nuxt.js
 
