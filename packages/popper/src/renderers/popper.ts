@@ -78,16 +78,16 @@ export default function renderPopper(
           children,
           PatchFlags.CLASS | PatchFlags.STYLE | PatchFlags.PROPS | PatchFlags.HYDRATE_EVENTS,
           [
-           'aria-hidden',
-           'onMouseenter',
-           'onMouseleave',
-           'onClick',
-           'id',
+            'aria-hidden',
+            'onMouseenter',
+            'onMouseleave',
+            'onClick',
+            'id',
           ],
         ),
-        [[vShow, visibility]]
+        [[vShow, visibility]],
       )]),
     },
-    PatchFlags.PROPS, ['name', 'onAfter-enter', 'onAfter-leave']
+    PatchFlags.PROPS, ['name', 'onAfter-enter', 'onAfter-leave'],
   )
 }

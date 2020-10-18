@@ -98,10 +98,10 @@ export default defineComponent({
       onAfterEnter,
       onAfterLeave,
     }, [
-        title,
-        content,
-        renderArrow(showArrow),
-      ],
+      title,
+      content,
+      renderArrow(showArrow),
+    ],
     )
 
     // when user uses popover directively, trigger will be null so that we only

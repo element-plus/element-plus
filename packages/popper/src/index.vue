@@ -1,6 +1,5 @@
 <script lang="ts">
 import {
-  createTextVNode,
   defineComponent,
   h,
   Fragment,
@@ -114,14 +113,14 @@ export default defineComponent({
       trigger,
       appendToBody
         ? h(
-            Teleport,
-            {
-              to: 'body',
-            },
-            renderMask(popper, {
-              hide,
-            }),
-          )
+          Teleport,
+          {
+            to: 'body',
+          },
+          renderMask(popper, {
+            hide,
+          }),
+        )
         : popper,
     ])
   },

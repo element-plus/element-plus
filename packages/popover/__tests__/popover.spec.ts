@@ -19,7 +19,7 @@ describe('Popover.vue', () => {
     const wrapper = mount({
       props: {
         title,
-      }
+      },
     })
 
     expect(wrapper.text()).toContain(title)
@@ -29,7 +29,7 @@ describe('Popover.vue', () => {
     const wrapper = mount({
       props: {
         width: 200,
-      }
+      },
     })
 
     expect(wrapper.find('.el-popover').attributes('style')).toContain('width: 200px')
