@@ -4,7 +4,7 @@ Affiche une notification globale dans un coin de la page.
 
 ### Usage
 
-:::demo Element enregistre la méthode `$notify` qui reçoit un objet en paramètre. Dans le cas le plus simple, vous pouvez simplement configurer les champs `title` et` message`. Par défaut, la notification se ferme automatiquement après 4500ms, mais vous pouvez régler une autre durée avec `duration`. Si la durée est mise à `0`, la notification ne se fermera pas. `duration` prends donc un `Number` en millisecondes.
+:::demo Element Plus enregistre la méthode `$notify` qui reçoit un objet en paramètre. Dans le cas le plus simple, vous pouvez simplement configurer les champs `title` et` message`. Par défaut, la notification se ferme automatiquement après 4500ms, mais vous pouvez régler une autre durée avec `duration`. Si la durée est mise à `0`, la notification ne se fermera pas. `duration` prends donc un `Number` en millisecondes.
 
 ```html
 <template>
@@ -49,7 +49,7 @@ Affiche une notification globale dans un coin de la page.
 
 Nous fournissons quatre types: succès, avertissement, information et erreur.
 
-:::demo Element fournit quatre types de notifications: `success`, `warning`, `info` et `error`. Il sont choisis grâce au champs `type`, et n'importe quelle autre valeur sera ignorée. Il existe des méthodes  enregistrées pour chaque type, comme dans `open3` et `open4`, qui ne nécessitent donc pas le champs `type`.
+:::demo Element Plus fournit quatre types de notifications: `success`, `warning`, `info` et `error`. Il sont choisis grâce au champs `type`, et n'importe quelle autre valeur sera ignorée. Il existe des méthodes  enregistrées pour chaque type, comme dans `open3` et `open4`, qui ne nécessitent donc pas le champs `type`.
 ```html
 <template>
   <el-button
@@ -278,14 +278,14 @@ Il est possible de cacher le bouton de fermeture.
 
 ### Méthode globale
 
-Element ajoute la méthode `$notify` à Vue.prototype. Vous pouvez donc appeler `Notification` dans l'instance de Vue comme nous avons fait dans cette page.
+Element Plus ajoute la méthode `$notify` à Vue.prototype. Vous pouvez donc appeler `Notification` dans l'instance de Vue comme nous avons fait dans cette page.
 
 ### Import à la demande
 
 Importez `Notification`:
 
 ```javascript
-import { Notification } from 'element-ui';
+import { Notification } from 'element-plus';
 ```
 
 Dans ce cas vous devrez appeler `Notification(options)`. Il existe aussi des méthodes pour chaque type, e.g. `Notification.success(options)`. Vous pouvez appeler `Notification.closeAll()` pour fermer manuellement toutes les instances.

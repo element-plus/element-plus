@@ -114,9 +114,9 @@ En plus des propriétés natives de img, ce composant supporte le lazy loading, 
 :::demo allow big image preview by setting `previewSrcList` prop.
 ```html
 <div class="demo-image__preview">
-  <el-image 
+  <el-image
     style="width: 100px; height: 100px"
-    :src="url" 
+    :src="url"
     :preview-src-list="srcList">
   </el-image>
 </div>

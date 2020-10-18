@@ -56,7 +56,7 @@ Affiche un calendrier.
 | Attribut          | Description   | Type      | Valeurs acceptées     | Défaut   |
 |------------------ |-------------- |---------- |---------------------- |--------- |
 | value / v-model   | Valeur liée.  | Date | —            | —        |
-| range             | Intervalle de dates, début et fin inclus. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | <Date>Array     | —           | —      |
+| range             | Intervalle de dates, début et fin inclus. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | [Date]Array     | —           | —      |
 
 ### Slot dateCell
 
