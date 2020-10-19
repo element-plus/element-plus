@@ -203,7 +203,6 @@ export default defineComponent({
       const coreEl = core.value
       coreEl.style.borderColor = newColor
       coreEl.style.backgroundColor = newColor
-      console.log(coreEl.children[0])
       coreEl.children[0].style.color = newColor
     }
 
