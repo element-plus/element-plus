@@ -9,4 +9,4 @@ export default (app: App): void => {
   app.component(Option.name, Option)
 }
 
-export const ElSelect = Select
+export { Select, OptionGroup, Option }

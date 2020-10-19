@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import { hasClass } from '@element-plus/utils/dom'
-import { rangeArr } from '@element-plus/time-picker/src/common/date-utils'
+import { rangeArr } from '@element-plus/time-picker'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 import {
   defineComponent,

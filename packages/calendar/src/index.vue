@@ -55,8 +55,7 @@
 
 <script lang="ts">
 import { t } from '@element-plus/locale'
-import ElButton from '@element-plus/button/src/button.vue'
-import ElButtonGroup from '@element-plus/button/src/button-group.vue'
+import { Button as ElButton,  ButtonGroup as ElButtonGroup } from '@element-plus/button'
 import DateTable from './date-table.vue'
 import {
   ref,

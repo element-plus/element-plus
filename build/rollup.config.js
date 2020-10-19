@@ -5,28 +5,52 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import path from 'path'
+import { getPackagesSync } from '@lerna/project'
 
-export default [
-  {
-    input: path.resolve(__dirname, '../packages/element-plus/index.ts'),
-    output: {
-      format: 'es',
-      file: 'lib/index.esm.js',
+const inputs = getPackagesSync()
+  .map(pkg => pkg.name)
+  .filter(name =>
+    name.includes('@element-plus') &&
+    !name.includes('transition') &&
+    !name.includes('utils'),
+  )
+
+export default inputs.map(name => ({
+  input: path.resolve(__dirname, `../packages/${name.split('@element-plus/')[1]}/index.ts`),
+  output: {
+    format: 'es',
+    file: `lib/${name.split('@element-plus/')[1]}/index.js`,
+    paths(id) {
+      if (/^@element-plus/.test(id)) {
+        return id.replace('@element-plus', '..')
+      }
     },
-    plugins: [
-      terser(),
-      nodeResolve(),
-      commonjs(),
-      typescript({
-        abortOnError: false,
-      }),
-      css(),
-      vue({
-        target: 'browser',
-        css: false,
-        exposeFilename: false,
-      }),
-    ],
-    external: ['vue'],
   },
-]
+  plugins: [
+    terser({
+      module: true,
+      compress: {
+        ecma: 2015,
+        pure_getters: true,
+      },
+    }),
+    nodeResolve(),
+    commonjs(),
+    typescript({
+      tsconfigOverride: {
+        compilerOptions: {
+          declaration: false,
+        },
+      },
+      abortOnError: false,
+    }),
+    css(),
+    vue({
+      target: 'browser',
+      css: false,
+    }),
+  ],
+  external(id) {
+    return /^vue/.test(id) || /^@element-plus/.test(id)
+  },
+}))

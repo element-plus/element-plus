@@ -56,7 +56,7 @@
 <script lang="ts">
 import { computed, defineComponent, h, reactive, ref, toRefs, watch, VNode, PropType  } from 'vue'
 import { t } from '@element-plus/locale'
-import ElButton from '@element-plus/button/src/button.vue'
+import { Button as ElButton } from '@element-plus/button'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import { useCheckedChange } from './useCheckedChange'
