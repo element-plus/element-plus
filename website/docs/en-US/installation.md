@@ -27,8 +27,8 @@ We recommend our users to lock Element Plus's version when using CDN. Please ref
 
 If you are using CDN, a hello-world page is easy with Element Plus. [Online Demo](https://codepen.io/ziyoung/pen/rRKYpd)
 
-<iframe height="265" style="width: 100%;" scrolling="no" title="Element demo" src="//codepen.io/ziyoung/embed/rRKYpd/?height=265&theme-id=light&default-tab=html" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/ziyoung/pen/rRKYpd/'>Element demo</a> by hetech
+<iframe height="265" style="width: 100%;" scrolling="no" title="Element Plus demo" src="//codepen.io/ziyoung/embed/rRKYpd/?height=265&theme-id=light&default-tab=html" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/ziyoung/pen/rRKYpd/'>Element Plus demo</a> by hetech
   (<a href='https://codepen.io/ziyoung'>@ziyoung</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 

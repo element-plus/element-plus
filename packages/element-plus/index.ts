@@ -40,6 +40,7 @@ import ElCalendar from '@element-plus/calendar'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
 import ElMessage from '@element-plus/message'
 import ElDrawer from '@element-plus/drawer'
+import ElPopconfirm from '@element-plus/popconfirm'
 import ElForm from '@element-plus/form'
 import ElUpload from '@element-plus/upload'
 import ElTree from '@element-plus/tree'
@@ -47,6 +48,7 @@ import ElColorPicker from '@element-plus/color-picker'
 import ElSelect from '@element-plus/select'
 import ElTimeSelect from '@element-plus/time-select'
 import ElPagination from '@element-plus/pagination'
+import ElInputNumber from '@element-plus/input-number'
 
 export {
   ElAlert,
@@ -89,6 +91,7 @@ export {
   ElInfiniteScroll,
   ElMessage,
   ElDrawer,
+  ElPopconfirm,
   ElForm,
   ElUpload,
   ElTree,
@@ -96,6 +99,7 @@ export {
   ElSelect,
   ElTimeSelect,
   ElPagination,
+  ElInputNumber,
 }
 
 const install = (app: App): void => {
@@ -140,6 +144,7 @@ const install = (app: App): void => {
   ElInfiniteScroll(app)
   ElMessage(app)
   ElDrawer(app)
+  ElPopconfirm(app)
   ElForm(app)
   ElUpload(app)
   ElTree(app)
@@ -147,6 +152,7 @@ const install = (app: App): void => {
   ElSelect(app)
   ElTimeSelect(app)
   ElPagination(app)
+  ElInputNumber(app)
 }
 
 const elementUI = {

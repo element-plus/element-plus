@@ -7,12 +7,11 @@ import { terser } from 'rollup-plugin-terser'
 import path from 'path'
 
 export default [
-  // ESM
   {
     input: path.resolve(__dirname, '../packages/element-plus/index.ts'),
     output: {
-      format: 'esm',
-      file: 'lib/library.esm.js',
+      format: 'es',
+      file: 'lib/index.esm.js',
     },
     plugins: [
       terser(),
@@ -22,7 +21,12 @@ export default [
         abortOnError: false,
       }),
       css(),
-      vue({ css: false }),
+      vue({
+        target: 'browser',
+        css: false,
+        exposeFilename: false,
+      }),
     ],
+    external: ['vue'],
   },
 ]
