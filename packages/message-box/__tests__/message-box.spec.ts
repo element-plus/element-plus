@@ -1,5 +1,6 @@
 import MessageBox from '../src/messageBox'
 import { sleep } from '@element-plus/test-utils'
+import { nextTick } from 'vue'
 
 const selector = '.el-message-box__wrapper'
 
@@ -155,6 +156,7 @@ describe('MessageBox', () => {
     })
     await sleep();
     (document.querySelector('.el-message-box__wrapper .el-button--primary') as HTMLButtonElement).click()
+    await nextTick()
     await sleep()
     expect(msgAction).toEqual('confirm')
   })
