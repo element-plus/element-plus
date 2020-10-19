@@ -1,12 +1,12 @@
 import { App } from 'vue'
-import Select from './src/select.vue'
-import OptionGroup from './src/option-group.vue'
-import Option from './src/option.vue'
+import select from './src/select.vue'
+import optionGroup from './src/option-group.vue'
+import option from './src/option.vue'
 
 export default (app: App): void => {
-  app.component(Select.name, Select)
-  app.component(OptionGroup.name, OptionGroup)
-  app.component(Option.name, Option)
+  app.component(select.name, select)
+  app.component(optionGroup.name, optionGroup)
+  app.component(option.name, option)
 }
 
-export { Select, OptionGroup, Option }
+export { select, optionGroup, option }
