@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue'
-import { ElSelect } from '@element-plus/select'
+import { Select as ElSelect } from '@element-plus/select'
 interface Time {
   hours: number
   minutes: number

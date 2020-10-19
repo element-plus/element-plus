@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "ESNext",
-    "declaration": true,
+    "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,
     "moduleResolution": "node",
@@ -9,12 +9,18 @@
     "jsx": "preserve",
     "noLib": false,
     "target": "es6",
-    "sourceMap": true,
+    "sourceMap": false,
     "lib": [
       "ESNext", "DOM"
     ],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true,
+    "outDir": "../../lib/utils"
   },
+  "include": [
+    "./**/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "packages/**/__tests__/*"
