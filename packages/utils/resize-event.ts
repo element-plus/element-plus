@@ -24,7 +24,7 @@ export const addResizeListener = function(
   element: ResizableElement,
   fn: (...args: unknown[]) => unknown,
 ): void {
-  if (isServer) return
+  if (isServer || !element) return
   if (!element.__resizeListeners__) {
     element.__resizeListeners__ = []
     element.__ro__ = new ResizeObserver(resizeHandler)

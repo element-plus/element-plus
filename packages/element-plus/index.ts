@@ -56,6 +56,8 @@ import ElPagination from '@element-plus/pagination'
 import ElMessageBox from '@element-plus/message-box'
 import ElInputNumber from '@element-plus/input-number'
 import ElPopover from '@element-plus/popover'
+import ElCascader from '@element-plus/cascader'
+import ElCascaderPanel from '@element-plus/cascader-panel'
 
 export {
   ElAlert,
@@ -112,6 +114,8 @@ export {
   ElMessageBox,
   ElInputNumber,
   ElPopover,
+  ElCascader,
+  ElCascaderPanel,
 }
 
 const install = (app: App): void => {
@@ -169,6 +173,8 @@ const install = (app: App): void => {
   ElPagination(app)
   ElInputNumber(app)
   ElPopover(app)
+  ElCascader(app)
+  ElCascaderPanel(app)
 }
 
 const elementUI = {

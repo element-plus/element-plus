@@ -167,7 +167,7 @@ export function entries<T>(obj: Hash<T>): [string, T][] {
     .map((key: string) => ([key, obj[key]]))
 }
 
-export function isUndefined(val: any) {
+export function isUndefined(val: any): val is undefined {
   return val === void 0
 }
 
@@ -192,4 +192,25 @@ export const arrayFind = function (
   pred: (any) => boolean,
 ): any {
   return arr.find(pred)
+}
+
+export function isEmpty(val: unknown) {
+  if (
+    !val && val !== 0 ||
+    isArray(val) && !val.length ||
+    isObject(val) && !Object.keys(val).length
+  ) return true
+
+  return false
+}
+
+export function arrayFlat(arr: unknown[]) {
+  return arr.reduce((acm: unknown[], item) => {
+    const val = Array.isArray(item) ? arrayFlat(item) : item
+    return acm.concat(val)
+  }, [])
+}
+
+export function deduplicate<T>(arr: T[]) {
+  return [...new Set(arr)]
 }
