@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
     "@commitlint/cli": "^9.1.2",

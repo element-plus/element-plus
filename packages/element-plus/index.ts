@@ -48,6 +48,7 @@ import ElColorPicker from '@element-plus/color-picker'
 import ElSelect from '@element-plus/select'
 import ElTimeSelect from '@element-plus/time-select'
 import ElPagination from '@element-plus/pagination'
+import ElMessageBox from '@element-plus/message-box'
 import ElInputNumber from '@element-plus/input-number'
 import ElPopover from '@element-plus/popover'
 
@@ -100,6 +101,7 @@ export {
   ElSelect,
   ElTimeSelect,
   ElPagination,
+  ElMessageBox,
   ElInputNumber,
   ElPopover,
 }
@@ -145,6 +147,7 @@ const install = (app: App): void => {
   ElCalendar(app)
   ElInfiniteScroll(app)
   ElMessage(app)
+  ElMessageBox(app)
   ElDrawer(app)
   ElPopconfirm(app)
   ElForm(app)
