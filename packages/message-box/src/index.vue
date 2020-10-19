@@ -219,12 +219,11 @@ export default defineComponent({
 
     const confirmButtonClasses = computed(() => `el-button--primary ${ state.confirmButtonClass }`)
 
-    watch(() => state.inputValue, val => {
-      nextTick().then(() => {
-        if (state.type$ === 'prompt' && val !== null) {
-          validate()
-        }
-      })
+    watch(() => state.inputValue, async val => {
+      await nextTick()
+      if (state.type$ === 'prompt' && val !== null) {
+        validate()
+      }
     }, { immediate: true })
 
     watch(() => state.visible, val => {
@@ -276,10 +275,10 @@ export default defineComponent({
 
     function getSafeClose () {
       const currentId = state.uid
-      return () => {
-        nextTick().then(() => {
-          if (currentId === state.uid) doClose()
-        })
+      return async () => {
+
+        await nextTick()
+        if (currentId === state.uid) doClose()
       }
     }
 
