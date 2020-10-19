@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, inject, ref, reactive, toRefs } from 'vue'
+import { defineComponent, provide, inject, ref, reactive, toRefs, watch, toRef } from 'vue'
 import { selectGroupKey, selectKey, selectEvents } from './token'
 
 export default defineComponent({
@@ -37,10 +37,11 @@ export default defineComponent({
 
     const select = inject(selectKey)
 
-    const queryChange = () => {
+    const groupQueryChange = toRef(select, 'groupQueryChange')
+
+    watch(groupQueryChange, () => {
       visible.value = select?.options?.some(option => option.visible === true)
-    }
-    select.selectEmitter.on(selectEvents.groupQueryChange, queryChange)
+    })
 
     return {
       visible,

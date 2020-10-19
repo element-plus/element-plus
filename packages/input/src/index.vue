@@ -114,6 +114,8 @@ import {
   shallowRef,
   onMounted,
   onUpdated,
+  Ref,
+  unref,
 } from 'vue'
 import { useAttrs } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, VALIDATE_STATE_MAP } from '@element-plus/utils/constants'
@@ -122,16 +124,8 @@ import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
 import calcTextareaHeight from './calcTextareaHeight'
 import type { PropType } from 'vue'
+import { elFormItemKey, elFormKey } from '@element-plus/form/src/token'
 
-// TODOS: replace these interface definition with actual ElForm interface
-interface ElForm {
-  disabled: boolean
-  statusIcon: string
-}
-interface ElFormItem {
-  elFormItemSize: number
-  validateState: string
-}
 type AutosizeProp = {
   minRows?: number
   maxRows?: number
@@ -230,8 +224,8 @@ export default defineComponent({
     const instance = getCurrentInstance()
     const attrs = useAttrs(true)
 
-    const elForm = inject<ElForm>('elForm', {} as any)
-    const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
+    const elForm = inject(elFormKey, null)
+    const elFormItem = inject(elFormItemKey, null)
 
     const input = ref(null)
     const textarea = ref (null)
@@ -242,10 +236,12 @@ export default defineComponent({
     const _textareaCalcStyle = shallowRef({})
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
-    const inputSize = computed(() => props.size || elFormItem.elFormItemSize || ELEMENT?.size)
+    const inputSize = computed(() => props.size || elFormItem?.elFormItemSize || ELEMENT?.size)
     const needStatusIcon = computed(() => elForm ? elForm.statusIcon : false)
     // TODO: adjust when ElForm done
-    const validateState = computed(() => elFormItem.validateState || '')
+    const validateState = computed<string>(() => {
+      return elFormItem ? unref(elFormItem.validateState) : ''
+    })
     const validateIcon = computed(() => VALIDATE_STATE_MAP[validateState.value])
     const textareaStyle = computed(() => ({
       ..._textareaCalcStyle.value,
@@ -368,9 +364,9 @@ export default defineComponent({
     const handleBlur = event => {
       focused.value = false
       ctx.emit('blur', event)
-      // if (props.validateEvent) {
-      //   this.dispatch('ElFormItem', 'el.form.blur', [props.modelValue])
-      // }
+      if (props.validateEvent && elFormItem) {
+        elFormItem.validate('blur')
+      }
     }
 
     const select = () => {
@@ -416,10 +412,9 @@ export default defineComponent({
 
     watch(() => props.modelValue, () => {
       nextTick(resizeTextarea)
-      // TODO: should dispatch event to parent component <el-form-item>;
-      // if (props.validateEvent) {
-      //   dispatch('ElFormItem', 'el.form.change', [val])
-      // }
+      if (props.validateEvent && elFormItem) {
+        elFormItem.validate('change')
+      }
     })
 
     // native input value is set explicitly

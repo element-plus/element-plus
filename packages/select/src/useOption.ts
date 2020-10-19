@@ -3,11 +3,13 @@ import {
   computed,
   getCurrentInstance,
   watch,
+  Ref,
+  toRef,
+  unref,
 } from 'vue'
 import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
 import {
-  selectKey, selectGroupKey,
-  selectEvents,
+  selectKey, selectGroupKey,QueryChangeCtx,
 } from './token'
 
 export function useOption(props, states) {
@@ -103,8 +105,8 @@ export function useOption(props, states) {
     }
   })
 
-  // Emitter
-  select.selectEmitter.on(selectEvents.queryChange, queryChange)
+  const queryChangeRef = toRef(select, 'queryChange')
+  watch(queryChangeRef, (changes: Ref<QueryChangeCtx>) => queryChange(unref(changes).query))
 
   return {
     select,
