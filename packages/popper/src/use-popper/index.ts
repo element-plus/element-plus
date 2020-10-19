@@ -42,6 +42,7 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
     visible: !!props.visible,
   })
   // visible has been taken by props.visible, avoiding name collision
+  // Either marking type here or setter parameter
   const visibility = computed<boolean>({
     get() {
       if (props.disabled) {
@@ -63,7 +64,7 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
       }, props.hideAfter)
     }
     visibility.value = true
-    popperInstance.update()
+    update()
   }
 
   function _hide() {
@@ -106,7 +107,9 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
   }
 
   function onPopperMouseEnter() {
-    if (props.enterable) {
+    // if trigger is click, user won't be able to close popper when
+    // user tries to move the mouse over popper contents
+    if (props.enterable && props.trigger !== 'click') {
       clearTimeout(hideTimer)
     }
   }
@@ -269,3 +272,5 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
     visibility,
   }
 }
+
+export * from './defaults'

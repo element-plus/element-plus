@@ -436,7 +436,7 @@ export default defineComponent({
 </script>
 
 <style>
-.el-popper {
+.el-select .el-popper {
   padding: 0;
 }
 </style>

@@ -1,6 +1,8 @@
-import { Fragment, Text, Comment, createBlock, openBlock } from 'vue'
+import { Fragment, Text, Comment, createBlock, openBlock, createCommentVNode } from 'vue'
 
 import type { VNode, VNodeTypes, VNodeChild } from 'vue'
+
+type Children = VNodeTypes[] | VNodeTypes
 
 const TEMPLATE = 'template'
 
@@ -65,24 +67,23 @@ export function renderIf(
   condition: boolean,
   node: VNodeTypes,
   props: any,
-  children?: VNode[],
+  children?: Children,
   patchFlag?: number,
   patchProps?: string[],
 ) {
   return (
-    openBlock(),
     condition
-      ? createBlock(node, props, children, patchFlag, patchProps)
-      : createBlock(Comment, null, null, PatchFlags.TEXT)
+      ? renderBlock(node, props, children, patchFlag, patchProps)
+      : createCommentVNode('v-if', true)
   )
 }
 
 export function renderBlock(
   node: VNodeTypes,
   props: any,
-  children?: VNodeTypes[] | VNodeTypes,
+  children?: Children,
   patchFlag?: number,
   patchProps?: string[],
 ) {
-  return openBlock(), createBlock(node, props, children, patchFlag, patchProps)
+  return (openBlock(), createBlock(node, props, children, patchFlag, patchProps))
 }
