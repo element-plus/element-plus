@@ -40,6 +40,10 @@ import ElCalendar from '@element-plus/calendar'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
 import ElMessage from '@element-plus/message'
 import ElDrawer from '@element-plus/drawer'
+import ElTableInstall, {
+  Table as ElTable,
+  TableColumn as ElTableColumn,
+} from '@element-plus/table'
 import ElPopconfirm from '@element-plus/popconfirm'
 import ElForm from '@element-plus/form'
 import ElUpload from '@element-plus/upload'
@@ -93,6 +97,8 @@ export {
   ElInfiniteScroll,
   ElMessage,
   ElDrawer,
+  ElTable,
+  ElTableColumn,
   ElPopconfirm,
   ElForm,
   ElUpload,
@@ -149,6 +155,7 @@ const install = (app: App): void => {
   ElMessage(app)
   ElMessageBox(app)
   ElDrawer(app)
+  ElTableInstall(app)
   ElPopconfirm(app)
   ElForm(app)
   ElUpload(app)

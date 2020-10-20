@@ -180,3 +180,16 @@ export function useGlobalConfig() {
   }
   return {}
 }
+export const arrayFindIndex = function (
+  arr: Array<unknown>,
+  pred: (any) => boolean,
+): number {
+  return arr.findIndex(pred)
+}
+
+export const arrayFind = function (
+  arr: Array<unknown>,
+  pred: (any) => boolean,
+): any {
+  return arr.find(pred)
+}
