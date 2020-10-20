@@ -312,10 +312,10 @@ Taking example by Bootstrap's responsive design, five breakpoints are preset: xs
 
 ### Utility classes for hiding elements
 
-Additionally, Element provides a series of classes for hiding elements under certain conditions. These classes can be added to any DOM elements or custom components. You need to import the following CSS file to use these classes:
+Additionally, Element Plus provides a series of classes for hiding elements under certain conditions. These classes can be added to any DOM elements or custom components. You need to import the following CSS file to use these classes:
 
 ```js
-import 'element-ui/lib/theme-chalk/display.css';
+import 'element-plus/lib/theme-chalk/display.css';
 ```
 
 The classes are:

@@ -41,7 +41,7 @@ Alert interrumpe las operaciones realizadas hasta que el usuario confirme la ale
 Confirm es utilizado para preguntar al usuario y recibir una confirmación.
 
 
-:::demo Llamando al método `$confirm` para abrir el componente confirm, y simula el sistema `confirm`. También podemos personalizar a gran medida el componente Message Box al mandar un tercer atributo llamado `options` que es literalmente un objeto. El atributo `type` indica el tipo de mensaje, y su valor puede ser `success`, `error`, `info` y `warning`. Se debe tener en cuenta que el segundo atributo `title` debe ser de tipo `string`, y si es de tipo `object`, sera manejado como el atributo `options`. Aquí utilizamos `Promise` para manejar posteriormente el proceso. 
+:::demo Llamando al método `$confirm` para abrir el componente confirm, y simula el sistema `confirm`. También podemos personalizar a gran medida el componente Message Box al mandar un tercer atributo llamado `options` que es literalmente un objeto. El atributo `type` indica el tipo de mensaje, y su valor puede ser `success`, `error`, `info` y `warning`. Se debe tener en cuenta que el segundo atributo `title` debe ser de tipo `string`, y si es de tipo `object`, sera manejado como el atributo `options`. Aquí utilizamos `Promise` para manejar posteriormente el proceso.
 
 ```html
 <template>
@@ -65,7 +65,7 @@ Confirm es utilizado para preguntar al usuario y recibir una confirmación.
           this.$message({
             type: 'info',
             message: 'Delete canceled'
-          });          
+          });
         });
       }
     }
@@ -104,7 +104,7 @@ Prompt es utilizado cuando se requiere entrada de información del usuario.
           this.$message({
             type: 'info',
             message: 'Input canceled'
-          });       
+          });
         });
       }
     }
@@ -281,7 +281,7 @@ El contenido del componente MessageBox puede ser centrado.
 
 ### Métodos Globales
 
-Si Element fue importado completamente, agregara los siguientes métodos globales para Vue.prototype: `$msgbox`, `$alert`, `$confirm` y `$prompt`. Así que en una instancia de Vue puedes llamar el método `MessageBox` como lo que hicimos en esta pagina. Los parámetros son:
+Si Element Plus fue importado completamente, agregara los siguientes métodos globales para Vue.prototype: `$msgbox`, `$alert`, `$confirm` y `$prompt`. Así que en una instancia de Vue puedes llamar el método `MessageBox` como lo que hicimos en esta pagina. Los parámetros son:
 - `$msgbox(options)`
 - `$alert(message, title, options)` or `$alert(message, options)`
 - `$confirm(message, title, options)` or `$confirm(message, options)`
@@ -292,7 +292,7 @@ Si Element fue importado completamente, agregara los siguientes métodos globale
 Si prefieres importar `MessageBox` cuando lo necesites (on demand):
 
 ```javascript
-import { MessageBox } from 'element-ui';
+import { MessageBox } from 'element-plus';
 ```
 
 Los métodos correspondientes: `MessageBox`, `MessageBox.alert`, `MessageBox.confirm` y `MessageBox.prompt`. Los parámetros son los mismos que los anteriores.

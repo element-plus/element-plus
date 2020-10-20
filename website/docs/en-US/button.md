@@ -87,7 +87,7 @@ Buttons without border and background.
 
 Use icons to add more meaning to Button. You can use icon alone to save some space, or use it with text.
 
-:::demo Use the `icon` attribute to add icon. You can find the icon list in Element icon component. Adding icons to the right side of the text is achievable with an `<i>` tag. Custom icons can be used as well.
+:::demo Use the `icon` attribute to add icon. You can find the icon list in Element Plus icon component. Adding icons to the right side of the text is achievable with an `<i>` tag. Custom icons can be used as well.
 
 ```html
 <el-button type="primary" icon="el-icon-edit"></el-button>

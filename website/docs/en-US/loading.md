@@ -6,7 +6,7 @@ Show animation while loading data.
 
 Displays animation in a container (such as a table) while loading data.
 
-:::demo Element provides two ways to invoke Loading: directive and service. For the custom directive `v-loading`, you just need to bind a `boolean` value to it. By default, the loading mask will append to the element where the directive is used. Adding the `body` modifier makes the mask append to the body element.
+:::demo Element Plus provides two ways to invoke Loading: directive and service. For the custom directive `v-loading`, you just need to bind a `boolean` value to it. By default, the loading mask will append to the element where the directive is used. Adding the `body` modifier makes the mask append to the body element.
 
 ```html
 <template>
@@ -173,7 +173,7 @@ Show a full screen animation while loading data.
 ### Service
 You can also invoke Loading with a service. Import Loading service:
 ```javascript
-import { Loading } from 'element-ui';
+import { Loading } from 'element-plus';
 ```
 Invoke it:
 ```javascript
@@ -194,7 +194,7 @@ console.log(loadingInstance1 === loadingInstance2); // true
 ```
 Calling the `close` method on any one of them can close this full screen Loading.
 
-If Element is imported entirely, a globally method `$loading` will be registered to Vue.prototype. You can invoke it like this: `this.$loading(options)`, and it also returns a Loading instance.
+If Element Plus is imported entirely, a globally method `$loading` will be registered to Vue.prototype. You can invoke it like this: `this.$loading(options)`, and it also returns a Loading instance.
 
 ### Options
 | Attribute      | Description          | Type      | Accepted Values       | Default  |

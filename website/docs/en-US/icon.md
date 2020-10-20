@@ -1,6 +1,6 @@
 ## Icon
 
-Element provides a set of common icons.
+Element Plus provides a set of common icons.
 
 ### Basic usage
 

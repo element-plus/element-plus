@@ -44,6 +44,7 @@ import ElTableInstall, {
   Table as ElTable,
   TableColumn as ElTableColumn,
 } from '@element-plus/table'
+import ElPopconfirm from '@element-plus/popconfirm'
 import ElForm from '@element-plus/form'
 import ElUpload from '@element-plus/upload'
 import ElTree from '@element-plus/tree'
@@ -51,6 +52,9 @@ import ElColorPicker from '@element-plus/color-picker'
 import ElSelect from '@element-plus/select'
 import ElTimeSelect from '@element-plus/time-select'
 import ElPagination from '@element-plus/pagination'
+import ElMessageBox from '@element-plus/message-box'
+import ElInputNumber from '@element-plus/input-number'
+import ElPopover from '@element-plus/popover'
 
 export {
   ElAlert,
@@ -95,6 +99,7 @@ export {
   ElDrawer,
   ElTable,
   ElTableColumn,
+  ElPopconfirm,
   ElForm,
   ElUpload,
   ElTree,
@@ -102,6 +107,9 @@ export {
   ElSelect,
   ElTimeSelect,
   ElPagination,
+  ElMessageBox,
+  ElInputNumber,
+  ElPopover,
 }
 
 const install = (app: App): void => {
@@ -145,8 +153,10 @@ const install = (app: App): void => {
   ElCalendar(app)
   ElInfiniteScroll(app)
   ElMessage(app)
+  ElMessageBox(app)
   ElDrawer(app)
   ElTableInstall(app)
+  ElPopconfirm(app)
   ElForm(app)
   ElUpload(app)
   ElTree(app)
@@ -154,6 +164,8 @@ const install = (app: App): void => {
   ElSelect(app)
   ElTimeSelect(app)
   ElPagination(app)
+  ElInputNumber(app)
+  ElPopover(app)
 }
 
 const elementUI = {
