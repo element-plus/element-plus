@@ -7,4 +7,4 @@ export default (app: App): void => {
   app.component(ButtonGroup.name, ButtonGroup)
 }
 
-export { Button }
+export { Button, ButtonGroup }

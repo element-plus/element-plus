@@ -60,7 +60,7 @@ import {
   onUpdated,
 } from 'vue'
 import { RepeatClick } from '@element-plus/directives'
-import ElInput from '@element-plus/input/src/index.vue'
+import { Input as ElInput } from '@element-plus/input'
 import type { PropType } from 'vue'
 import { parseInt } from 'lodash'
 const ELEMENT: {

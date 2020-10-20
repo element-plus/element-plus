@@ -170,10 +170,10 @@
 </template>
 
 <script lang="ts">
-import ElInput from '@element-plus/input/src/index.vue'
+import { Input as ElInput } from '@element-plus/input'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
-import ElTag from '@element-plus/tag/src/index.vue'
+import { Tag as ElTag } from '@element-plus/tag'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { ElScrollbar } from '@element-plus/scrollbar'
 import ClickOutside from '@element-plus/directives/click-outside'

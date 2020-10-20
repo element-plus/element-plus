@@ -159,9 +159,9 @@
 import {
   extractDateFormat,
   extractTimeFormat,
-} from '@element-plus/time-picker/src/common/date-utils'
+} from '@element-plus/time-picker'
 import { t } from '@element-plus/locale'
-import ElInput from '@element-plus/input/src/index.vue'
+import { Input as ElInput } from '@element-plus/input'
 import { ClickOutside } from '@element-plus/directives'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { Button as ElButton } from '@element-plus/button'
@@ -169,7 +169,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
-import TimePickPanel from '@element-plus/time-picker/src/time-picker-com/panel-time-pick.vue'
+import { TimePickPanel } from '@element-plus/time-picker'
 import {
   defineComponent,
   computed,

@@ -13,9 +13,8 @@ import {
   watchEffect,
 } from 'vue'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
-import ElButton from '@element-plus/button/src/button.vue'
-import ElButtonGroup from '@element-plus/button/src/button-group.vue'
-import ELPopper from '@element-plus/popper/src/index.vue'
+import { Button as ElButton,  ButtonGroup as ElButtonGroup } from '@element-plus/button'
+import { Popper as ELPopper } from '@element-plus/popper'
 import { useDropdown } from './useDropdown'
 
 export default defineComponent({
