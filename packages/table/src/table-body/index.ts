@@ -1,12 +1,12 @@
-import { defineComponent, getCurrentInstance, h, watch, PropType } from 'vue'
-import useLayoutObserver from '../layout-observer'
-import { removeClass, addClass } from '@element-plus/utils/dom'
+import ElTooltip from '@element-plus/tooltip/src/index'
+import { addClass, removeClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
-// import ElTooltip from '@element-plus/tooltip/src/index'
-import { Table, Store } from '../table'
-import { TableBodyProps } from './table-body'
-import useRender from './render-helper'
+import { defineComponent, getCurrentInstance, h, PropType, watch } from 'vue'
 import { hColgroup } from '../h-helper'
+import useLayoutObserver from '../layout-observer'
+import { Store, Table } from '../table'
+import useRender from './render-helper'
+import { TableBodyProps } from './table-body'
 export default defineComponent({
   name: 'ElTableBody',
   props: {
@@ -86,19 +86,19 @@ export default defineComponent({
           data.reduce((acc, row) => {
             return acc.concat(this.wrappedRowRender(row, acc.length))
           }, []),
-          // h(
-          //   ElTooltip,
-          //   {
-          //     modelValue: this.tooltipVisible,
-          //     content: this.tooltipContent,
-          //     manual: true,
-          //     effect: this.$parent.tooltipEffect,
-          //     placement: 'top',
-          //   },
-          //   {
-          //     default: () => this.tooltipTrigger,
-          //   },
-          // ),
+          h(
+            ElTooltip,
+            {
+              modelValue: this.tooltipVisible,
+              content: this.tooltipContent,
+              manual: true,
+              effect: this.$parent.tooltipEffect,
+              placement: 'top',
+            },
+            {
+              default: () => this.tooltipTrigger,
+            },
+          ),
         ]),
       ],
     )
