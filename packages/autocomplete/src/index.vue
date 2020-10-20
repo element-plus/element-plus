@@ -91,8 +91,8 @@ import { ClickOutside } from '@element-plus/directives'
 import { generateId, isArray } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import throwError from '@element-plus/utils/error'
-import ElInput from '@element-plus/input/src/index.vue'
-import ElScrollbar from '@element-plus/scrollbar/src'
+import { Input as ElInput } from '@element-plus/input'
+import { ElScrollbar } from '@element-plus/scrollbar'
 import { Popper as ElPopper } from '@element-plus/popper'
 
 export default defineComponent({

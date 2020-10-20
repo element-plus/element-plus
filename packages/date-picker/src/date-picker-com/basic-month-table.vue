@@ -15,7 +15,7 @@
 <script lang="ts">
 import { hasClass } from '@element-plus/utils/dom'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
-import { rangeArr } from '@element-plus/time-picker/src/common/date-utils'
+import { rangeArr } from '@element-plus/time-picker'
 import { t } from '@element-plus/locale'
 import dayjs, { Dayjs } from 'dayjs'
 
@@ -43,16 +43,16 @@ export default defineComponent({
       default: 'month',
     },
     minDate: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     maxDate: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     date: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     parsedValue: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     rangeState: {
       type: Object,

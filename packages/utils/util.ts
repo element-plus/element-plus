@@ -1,4 +1,4 @@
-import { isEmpty, castArray, isEqual } from 'lodash'
+import { castArray } from 'lodash'
 
 import {
   isObject,
@@ -119,8 +119,8 @@ export const kebabCase = hyphenate
 // reexport from lodash & vue shared
 export {
   hasOwn,
-  isEmpty,
-  isEqual,
+  // isEmpty,
+  // isEqual,
   isObject,
   isArray,
   isString,
@@ -179,4 +179,17 @@ export function useGlobalConfig() {
     return vm.proxy.$ELEMENT
   }
   return {}
+}
+export const arrayFindIndex = function (
+  arr: Array<unknown>,
+  pred: (any) => boolean,
+): number {
+  return arr.findIndex(pred)
+}
+
+export const arrayFind = function (
+  arr: Array<unknown>,
+  pred: (any) => boolean,
+): any {
+  return arr.find(pred)
 }

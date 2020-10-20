@@ -23,7 +23,10 @@ module.exports = {
           ],
           '@babel/preset-typescript',
         ],
-        plugins: ['@vue/babel-plugin-jsx'],
+        plugins: [
+          '@vue/babel-plugin-jsx',
+          '@babel/plugin-proposal-class-properties',
+        ],
       },
     ],
   },

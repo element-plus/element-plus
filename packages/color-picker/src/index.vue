@@ -93,9 +93,9 @@ import SvPanel from './components/sv-panel.vue'
 import HueSlider from './components/hue-slider.vue'
 import AlphaSlider from './components/alpha-slider.vue'
 import Predefine from './components/predefine.vue'
-import ElPopper from '@element-plus/popper/src/index.vue'
-import ElButton from '@element-plus/button/src/button.vue'
-import ElInput from '@element-plus/input/src/index.vue'
+import { Popper as ElPopper } from '@element-plus/popper'
+import { Button as ElButton } from '@element-plus/button'
+import { Input as ElInput } from '@element-plus/input'
 
 import { t } from '@element-plus/locale'
 import { UPDATE_MODEL_EVENT }  from '@element-plus/utils/constants'
@@ -306,15 +306,13 @@ export default defineComponent( {
 })
 </script>
 
-<style lang="scss" scoped>
+<style>
 .el-color-picker:focus {
   outline: none;
 }
 .hue-slider {
   float: right;
 }
-</style>
-<style>
 .el-popper.el-color-picker__panel {
   border-color: #ebeef5;
 }

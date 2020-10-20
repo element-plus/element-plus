@@ -25,7 +25,7 @@
         <button
           v-show="
             (arrow === 'always' || data.hover) &&
-              (props.loop || data.activeIndex < items.value.length - 1)
+              (props.loop || data.activeIndex < items.length - 1)
           "
           type="button"
           class="el-carousel__arrow el-carousel__arrow--right"
@@ -63,11 +63,8 @@ import {
   reactive,
   computed,
   ref,
-  Ref,
   provide,
   onMounted,
-  ToRefs,
-  UnwrapRef,
   onBeforeUnmount,
   watch,
   nextTick,
@@ -77,38 +74,7 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import { ICarouselItemProps, ICarouselItemData } from './item.vue'
-
-interface ICarouselProps {
-  initialIndex: number
-  height: string
-  trigger: string
-  autoplay: boolean
-  interval: number
-  indicatorPosition: string
-  indicator: boolean
-  arrow: string
-  type: string
-  loop: boolean
-  direction: string
-}
-
-type UnionCarouselItemData = ICarouselItemProps & ToRefs<ICarouselItemData>
-interface CarouselItem extends UnionCarouselItemData {
-  uid: number
-  translateItem: (index: number, activeIndex: number, oldIndex: number) => void
-}
-
-export interface InjectCarouselScope {
-  direction: string
-  offsetWidth: Ref<number>
-  offsetHeight: Ref<number>
-  type: string
-  items: Ref<UnwrapRef<CarouselItem[]>>
-  loop: boolean
-  updateItems: (item: CarouselItem) => void
-  setActiveItem: (index: number) => void
-}
+import { ICarouselProps, CarouselItem, InjectCarouselScope } from './carousel'
 
 export default {
   name: 'ElCarousel',

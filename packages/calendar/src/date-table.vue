@@ -48,7 +48,7 @@ import {
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
-import { rangeArr } from '@element-plus/time-picker/src/common/date-utils'
+import { rangeArr } from '@element-plus/time-picker'
 dayjs.extend(localeData)
 
 export const getPrevMonthLastDays = (date: Dayjs, amount) => {
@@ -70,7 +70,7 @@ export default defineComponent({
       type: Array as PropType<Array<Dayjs>>,
     },
     date: {
-      type: Dayjs as PropType<Dayjs>,
+      type: Dayjs,
     },
     hideHeader: {
       type: Boolean,

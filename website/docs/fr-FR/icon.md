@@ -1,6 +1,6 @@
 ## Icônes
 
-Element fournit un ensemble d'icônes basiques.
+Element Plus fournit un ensemble d'icônes basiques.
 
 ### Usage
 

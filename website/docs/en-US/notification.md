@@ -4,7 +4,7 @@ Displays a global notification message at a corner of the page.
 
 ### Basic usage
 
-:::demo Element has registered the `$notify` method and it receives an object as its parameter. In the simplest case, you can set the `title` field and the` message` field for the title and body of the notification. By default, the notification automatically closes after 4500ms, but by setting `duration` you can control its duration. Specifically, if set to `0`, it will not close automatically. Note that `duration` receives a `Number` in milliseconds.
+:::demo Element Plus has registered the `$notify` method and it receives an object as its parameter. In the simplest case, you can set the `title` field and the` message` field for the title and body of the notification. By default, the notification automatically closes after 4500ms, but by setting `duration` you can control its duration. Specifically, if set to `0`, it will not close automatically. Note that `duration` receives a `Number` in milliseconds.
 
 ```html
 <template>
@@ -49,7 +49,7 @@ Displays a global notification message at a corner of the page.
 
 We provide four types: success, warning, info and error.
 
-:::demo Element provides four notification types: `success`, `warning`, `info` and `error`. They are set by the `type` field, and other values will be ignored. We also registered methods for these types that can be invoked directly like `open3` and `open4` without passing a `type` field.
+:::demo Element Plus provides four notification types: `success`, `warning`, `info` and `error`. They are set by the `type` field, and other values will be ignored. We also registered methods for these types that can be invoked directly like `open3` and `open4` without passing a `type` field.
 ```html
 <template>
   <el-button
@@ -275,14 +275,14 @@ It is possible to hide the close button
 
 ### Global method
 
-Element has added a global method `$notify` for Vue.prototype. So in a vue instance you can call `Notification` like what we did in this page.
+Element Plus has added a global method `$notify` for Vue.prototype. So in a vue instance you can call `Notification` like what we did in this page.
 
 ### Local import
 
 Import `Notification`:
 
 ```javascript
-import { Notification } from 'element-ui';
+import { Notification } from 'element-plus';
 ```
 
 In this case you should call `Notification(options)`. We have also registered methods for different types, e.g. `Notification.success(options)`. You can call `Notification.closeAll()` to manually close all the instances.
