@@ -199,7 +199,7 @@ Vous pouvez sélectionner des intervalles de valeurs au lieu d'une valeur unique
             style: {
               color: '#1989FA'
             },
-            label: this.$createElement('strong', '50%')
+            label: '50%'
           }
         }
       }
@@ -238,3 +238,4 @@ Vous pouvez sélectionner des intervalles de valeurs au lieu d'une valeur unique
 |---------- |-------- |---------- |
 | change | Se déclenche quand la valeur change (si le changement est fait à la souris, se déclenche quand la souris redevient immobile). | La nouvelle valeur. |
 | input | triggers when the data changes (It'll be emitted in real time during sliding) | value after changing |
+
