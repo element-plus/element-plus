@@ -74,6 +74,7 @@
             :loading="confirmButtonLoading"
             :class="[ confirmButtonClasses ]"
             :round="roundButton"
+            :disabled="confirmButtonDisabled"
             size="small"
             @click="handleAction('confirm')"
             @keydown.enter="handleAction('confirm')"
