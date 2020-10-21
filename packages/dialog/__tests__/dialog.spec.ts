@@ -97,7 +97,7 @@ describe('Dialog.vue', () => {
     test('should not have overlay mask when mask is false', () => {
       const wrapper = _mount({
         props: {
-          mask: false,
+          modal: false,
         },
       })
 
