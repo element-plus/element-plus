@@ -184,7 +184,7 @@ describe('Loading', () => {
   test('close service', async () => {
     loadingInstance = Loading()
     loadingInstance.close()
-    expect(loadingInstance.visible).toBeFalsy()
+    expect(loadingInstance.visible.value).toBeFalsy()
   })
 
   test('target service', async () => {

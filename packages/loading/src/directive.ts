@@ -25,10 +25,10 @@ const vLoading = {
     if(!instance) return
     instance.setText(el.getAttribute('element-loading-text'))
     if (binding.oldValue !== binding.value) {
-      if(binding.value && !instance.visible) {
-        instance.visible = true
+      if(binding.value && !instance.visible.value) {
+        instance.visible.value = true
       } else {
-        instance.visible = false
+        instance.visible.value = false
       }
     }
   },

@@ -1,33 +1,10 @@
-import { createApp, ComponentPublicInstance } from 'vue'
-import { createLoadingComponent } from './loading'
+import { createLoadingComponent } from './createLoadingComponent'
+import type { ILoadingOptions, ILoadingInstance, ILoadingGlobalConfig } from './loading'
 import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
 import PopupManager from '@element-plus/utils/popup-manager'
 import isServer from '@element-plus/utils/isServer'
 
-interface loadingInstance extends ComponentPublicInstance{
-  originalPosition: string
-  originalOverflow: string
-  close(): void
-}
-
-interface loadingDefaultOptions {
-  parent?: Nullable<HTMLElement>
-  background?: string
-  spinner?: boolean | string
-  text?: string
-  fullscreen?: boolean
-  body?: boolean
-  lock?: boolean
-  customClass?: string
-  visible?: boolean
-  target?: string | HTMLElement
-}
-
-interface globalLoadingOptionType {
-  fullscreenLoading: loadingInstance
-}
-
-const defaults: loadingDefaultOptions = {
+const defaults: ILoadingOptions = {
   parent: null,
   background: '',
   spinner: false,
@@ -38,18 +15,18 @@ const defaults: loadingDefaultOptions = {
   customClass: '',
 }
 
-const globalLoadingOption: globalLoadingOptionType = {
+const globalLoadingOption: ILoadingGlobalConfig = {
   fullscreenLoading: null,
 }
 
-const addStyle = (options: loadingDefaultOptions, parent: Nullable<HTMLElement>, instance: loadingInstance) => {
+const addStyle = (options: ILoadingOptions, parent: HTMLElement, instance: ILoadingInstance) => {
   const maskStyle: Partial<CSSStyleDeclaration> = {}
   if (options.fullscreen) {
-    instance.originalPosition = getStyle(document.body, 'position')
-    instance.originalOverflow = getStyle(document.body, 'overflow')
+    instance.originalPosition.value = getStyle(document.body, 'position')
+    instance.originalOverflow.value = getStyle(document.body, 'overflow')
     maskStyle.zIndex = String(PopupManager.nextZIndex())
   } else if (options.body) {
-    instance.originalPosition = getStyle(document.body, 'position');
+    instance.originalPosition.value = getStyle(document.body, 'position');
     ['top', 'left'].forEach(property => {
       const scroll = property === 'top' ? 'scrollTop' : 'scrollLeft'
       maskStyle[property] = (options.target as HTMLElement).getBoundingClientRect()[property] +
@@ -62,15 +39,15 @@ const addStyle = (options: loadingDefaultOptions, parent: Nullable<HTMLElement>,
       maskStyle[property] = (options.target as HTMLElement).getBoundingClientRect()[property] + 'px'
     })
   } else {
-    instance.originalPosition = getStyle(parent, 'position')
+    instance.originalPosition.value = getStyle(parent, 'position')
   }
   Object.keys(maskStyle).forEach(property => {
     instance.$el.style[property] = maskStyle[property]
   })
 }
 
-const addClassList = (options: loadingDefaultOptions, parent: Nullable<HTMLElement>, instance: loadingInstance) => {
-  if (instance.originalPosition !== 'absolute' && instance.originalPosition !== 'fixed') {
+const addClassList = (options: ILoadingOptions, parent: HTMLElement, instance: ILoadingInstance) => {
+  if (instance.originalPosition.value !== 'absolute' && instance.originalPosition.value !== 'fixed') {
     addClass(parent, 'el-loading-parent--relative')
   } else {
     removeClass(parent, 'el-loading-parent--relative')
@@ -82,7 +59,7 @@ const addClassList = (options: loadingDefaultOptions, parent: Nullable<HTMLEleme
   }
 }
 
-const Loading = function(options: loadingDefaultOptions = {}): loadingInstance{
+const Loading = function(options: ILoadingOptions = {}): ILoadingInstance{
   if(isServer) return
   options = {
     ...defaults,
@@ -106,15 +83,15 @@ const Loading = function(options: loadingDefaultOptions = {}): loadingInstance{
   const parent = options.body ? document.body : options.target
   options.parent = parent
 
-  const instance = createApp(createLoadingComponent({
+  const instance = createLoadingComponent({
     options,
     globalLoadingOption,
-  })).mount(document.createElement('div')) as loadingInstance
+  })
 
   addStyle(options, parent, instance)
-  addClassList(options, parent, instance);
+  addClassList(options, parent, instance)
 
-  (parent as any).vLoadingAddClassList = () => {
+  options.parent.vLoadingAddClassList = () => {
     addClassList(options, parent, instance)
   }
 
