@@ -1,20 +1,57 @@
+<template>
+  <el-popper
+    ref="triggerVnode"
+    v-model:visible="visible"
+    :placement="placement"
+    :effect="effect"
+    :manual-mode="true"
+    popper-class="el-dropdown-popper"
+    :trigger="[trigger]"
+  >
+    <template #default>
+      <slot name="dropdown"></slot>
+    </template>
+    <template #trigger>
+      <div class="el-dropdown">
+        <slot v-if="!splitButton" name="default">
+        </slot>
+        <template v-else>
+          <el-button-group>
+            <el-button
+              :size="dropdownSize"
+              :type="type"
+              @click="handlerMainButtonClick"
+            >
+              <slot name="default"></slot>
+            </el-button>
+            <el-button
+              :size="dropdownSize"
+              :type="type"
+              class="el-dropdown__caret-button"
+            >
+              <i class="el-dropdown__icon el-icon-arrow-down"></i>
+            </el-button>
+          </el-button-group>
+        </template>
+      </div>
+    </template>
+  </el-popper>
+</template>
 <script lang='ts'>
 import {
   defineComponent,
-  h,
   provide,
   getCurrentInstance,
   ref,
   computed,
   watch,
   onMounted,
-  VNode,
+  nextTick,
   ComponentPublicInstance,
-  watchEffect,
 } from 'vue'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { Button as ElButton,  ButtonGroup as ElButtonGroup } from '@element-plus/button'
-import { Popper as ELPopper } from '@element-plus/popper'
+import { Popper as ElPopper } from '@element-plus/popper'
 import { useDropdown } from './useDropdown'
 
 export default defineComponent({
@@ -22,7 +59,7 @@ export default defineComponent({
   components: {
     ElButton,
     ElButtonGroup,
-    ELPopper,
+    ElPopper,
   },
   props: {
     trigger: {
@@ -92,13 +129,13 @@ export default defineComponent({
       },
     )
 
-    const triggerVnode = ref<Nullable<VNode>>(null)
-    const caretButton = ref<Nullable<ComponentPublicInstance>>(null)
-    const triggerElm = computed<Nullable<HTMLButtonElement>>(() =>
-      !props.splitButton
-        ? triggerVnode.value?.el
-        : caretButton.value?.$el,
-    )
+    const triggerVnode = ref<Nullable<ComponentPublicInstance>>(null)
+    const triggerElm = computed<Nullable<HTMLButtonElement>>(() =>{
+      const _: any = (triggerVnode.value?.$refs.triggerRef as HTMLElement)?.children[0] ?? {}
+      return !props.splitButton
+        ? _
+        : _.children[1]
+    })
 
     function handleClick() {
       if (triggerElm.value?.disabled) return
@@ -171,23 +208,31 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      if (!props.splitButton) {
-        on(triggerElm.value, 'focus', () => {
-          focusing.value = true
-        })
-        on(triggerElm.value, 'blur', () => {
-          focusing.value = false
-        })
-        on(triggerElm.value, 'click', () => {
-          focusing.value = false
-        })
-      }
-      if (props.trigger === 'hover') {
-        on(triggerElm.value, 'mouseenter', show)
-        on(triggerElm.value, 'mouseleave', hide)
-      } else if (props.trigger === 'click') {
-        on(triggerElm.value, 'click', handleClick)
-      }
+      nextTick(() => {
+        if (!props.splitButton) {
+          on(triggerElm.value, 'focus', () => {
+            focusing.value = true
+          })
+          on(triggerElm.value, 'blur', () => {
+            focusing.value = false
+          })
+          on(triggerElm.value, 'click', () => {
+            focusing.value = false
+          })
+        }
+        if (props.trigger === 'hover') {
+          on(triggerElm.value, 'mouseenter', show)
+          on(triggerElm.value, 'mouseleave', hide)
+        } else if (props.trigger === 'click') {
+          on(triggerElm.value, 'click', handleClick)
+        }
+      })
+
+      Object.assign(_instance, {
+        handleClick,
+        hide,
+        resetTabindex,
+      })
     })
 
     const handlerMainButtonClick = event => {
@@ -195,49 +240,12 @@ export default defineComponent({
       hide()
     }
 
-    const onVisibleUpdate = (val: boolean) => visible.value = val
-
-    watchEffect(() => {
-      triggerVnode.value = !props.splitButton
-        ? slots.default?.()[0]
-        : h(ElButtonGroup, {}, {
-          default: () => (
-            [
-              h(ElButton, {
-                type: props.type,
-                size: dropdownSize.value,
-                onClick: handlerMainButtonClick,
-              }, {
-                default: () => slots.default?.()[0],
-              }),
-              h(ElButton, {
-                type: props.type,
-                size: dropdownSize.value,
-                ref: caretButton,
-                class: 'el-dropdown__caret-button',
-              }, {
-                default: () => h('i', { class: 'el-dropdown__icon el-icon-arrow-down' }),
-              }),
-            ]
-          ),
-        })
-    })
-
-    return () => h(ELPopper, {
-      ref: 'popper',
-      placement: props.placement,
-      effect: props.effect,
-      visible: visible.value,
-      manualMode: true,
-      'onUpdate:visible': onVisibleUpdate,
-      popperClass: 'el-dropdown-popper',
-      trigger: [props.trigger],
-    }, {
-      default: () => slots.dropdown?.(),
-      trigger: () => h('div', {
-        class: 'el-dropdown',
-      }, [triggerVnode.value]),
-    })
+    return {
+      visible,
+      dropdownSize,
+      handlerMainButtonClick,
+      triggerVnode,
+    }
   },
 })
 </script>

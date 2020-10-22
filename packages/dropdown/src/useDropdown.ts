@@ -85,7 +85,7 @@ export const initDropdownDomEvent = (dropdownChildren, triggerElm, _instance) =>
     triggerElm.setAttribute('aria-controls', listId.value)
     if (!_instance.props.splitButton) {
       triggerElm.setAttribute('role', 'button')
-      triggerElm.setAttribute('tabindex', _instance.tabindex)
+      triggerElm.setAttribute('tabindex', _instance.props.tabindex)
       addClass(triggerElm, 'el-dropdown-selfdefine')
     }
   }
@@ -104,7 +104,7 @@ export const initDropdownDomEvent = (dropdownChildren, triggerElm, _instance) =>
   }
 
   function triggerElmFocus() {
-    triggerElm?.focus?.()
+    triggerElm.focus()
   }
 
   initDomOperation()
