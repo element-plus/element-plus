@@ -97,8 +97,8 @@ export default defineComponent({
       default: 'light',
     },
   },
-  emits: ['visible-change', 'click', 'command'],
-  setup(props, { emit, slots }) {
+  emits: ['change', 'click', 'command'],
+  setup(props, { emit }) {
     const _instance = getCurrentInstance()
     const { ELEMENT } = useDropdown()
 
@@ -110,7 +110,7 @@ export default defineComponent({
       val => {
         if(val) triggerElmFocus()
         if(!val) triggerElmBlur()
-        emit('visible-change', val)
+        emit('change', val)
       },
     )
 
