@@ -1,28 +1,26 @@
 <script lang="ts">
 import {
+  createVNode,
   defineComponent,
-  h,
   Fragment,
   Teleport,
   onMounted,
   onBeforeUnmount,
   onDeactivated,
   onActivated,
+  renderSlot,
+  toDisplayString,
+  withCtx,
 } from 'vue'
 
-import { ClickOutside } from '@element-plus/directives'
 import throwError from '@element-plus/utils/error'
 import { stop } from '@element-plus/utils/dom'
+import { renderBlock, PatchFlags } from '@element-plus/utils/vnode'
 
 import usePopper from './use-popper/index'
 import defaultProps from './use-popper/defaults'
 
-import {
-  renderMask,
-  renderPopper,
-  renderTrigger,
-  renderArrow,
-} from './renderers'
+import { Mask, renderPopper, renderTrigger, renderArrow } from './renderers'
 
 const compName = 'ElPopper'
 const UPDATE_VISIBLE_EVENT = 'update:visible'
@@ -31,9 +29,6 @@ const emits = [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave']
 
 export default defineComponent({
   name: compName,
-  directives: {
-    ClickOutside,
-  },
   props: defaultProps,
   emits,
   setup(props, ctx) {
@@ -90,11 +85,9 @@ export default defineComponent({
         visibility,
       },
       [
-        $slots.default ? h(
-          Fragment,
-          null,
-          $slots.default(),
-        ) : this.content,
+        renderSlot($slots, 'default', {}, () => {
+          return [toDisplayString(this.content)]
+        }),
         arrow,
       ],
     )
@@ -109,19 +102,31 @@ export default defineComponent({
       ...this.events,
     })
 
-    return h(Fragment, null, [
+    return renderBlock(Fragment, null, [
       trigger,
       appendToBody
-        ? h(
+        ? createVNode(
           Teleport,
           {
             to: 'body',
+            key: 0,
           },
-          renderMask(popper, {
-            hide,
-          }),
+          [
+            createVNode(
+              Mask,
+              {
+                hide,
+                isManualMode: this.isManualMode(),
+              },
+              {
+                default: withCtx(() => [popper]),
+              },
+              PatchFlags.PROPS,
+              ['hide', 'isManualMode'],
+            ),
+          ],
         )
-        : popper,
+        : renderBlock(Fragment, { key: 1 }, [popper]),
     ])
   },
 })
