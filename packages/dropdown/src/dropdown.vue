@@ -5,8 +5,8 @@
     :placement="placement"
     :effect="effect"
     :manual-mode="true"
-    popper-class="el-dropdown-popper"
     :trigger="[trigger]"
+    popper-class="el-dropdown-popper"
   >
     <template #default>
       <slot name="dropdown"></slot>
@@ -97,7 +97,7 @@ export default defineComponent({
       default: 'light',
     },
   },
-  emits: ['change', 'click', 'command'],
+  emits: ['visible-change', 'click', 'command'],
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
     const { ELEMENT } = useDropdown()
@@ -110,7 +110,7 @@ export default defineComponent({
       val => {
         if(val) triggerElmFocus()
         if(!val) triggerElmBlur()
-        emit('change', val)
+        emit('visible-change', val)
       },
     )
 
