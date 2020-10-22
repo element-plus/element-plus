@@ -175,22 +175,23 @@ Dialog's content can be centered.
 :::demo Setting `center` to `true` will center dialog's header and footer horizontally. `center` only affects Dialog's header and footer. The body of Dialog can be anything, so sometimes it may not look good when centered. You need to write some CSS if you wish to center the body as well.
 
 ```html
-<el-button type="text" @click="centerDialogVisible = true">Click to open the Dialog</el-button>
+<template>
+  <el-button type="text" @click="centerDialogVisible = true">Click to open the Dialog</el-button>
 
-<el-dialog
-  title="Warning"
-  v-model="centerDialogVisible"
-  width="30%"
-  center>
-  <span>It should be noted that the content will not be aligned in center by default</span>
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="centerDialogVisible = false">Cancel</el-button>
-      <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
-    </span>
-  </footer>
-</el-dialog>
-
+  <el-dialog
+    title="Warning"
+    v-model="centerDialogVisible"
+    width="30%"
+    center>
+    <span>It should be noted that the content will not be aligned in center by default</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
+      </span>
+    </template>
+  </el-dialog>
+</template>
 <script>
   export default {
     data() {
