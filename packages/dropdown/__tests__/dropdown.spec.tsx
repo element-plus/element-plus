@@ -50,7 +50,7 @@ describe('Dropdown', () => {
         )
       }
     })
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     expect(content.visible).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
@@ -91,7 +91,7 @@ describe('Dropdown', () => {
         },
       },
     )
-    // const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    // const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
@@ -123,7 +123,7 @@ describe('Dropdown', () => {
         name: '',
       }),
     )
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     expect(content.visible).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
@@ -162,7 +162,7 @@ describe('Dropdown', () => {
         },
       },
     )
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown__caret-button')
     const button = wrapper.find('.el-button')
     expect(content.visible).toBe(false)
@@ -194,7 +194,7 @@ describe('Dropdown', () => {
       () => ({}),
     )
 
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
@@ -224,7 +224,7 @@ describe('Dropdown', () => {
       () => ({}),
     )
 
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
