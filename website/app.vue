@@ -73,7 +73,7 @@ export default {
         if (this.lang !== 'zh-CN') return
         this.$confirm('建议大陆用户访问部署在国内的站点，是否跳转？', '提示')
           .then(() => {
-            location.replace('https://element.eleme.cn')
+            location.replace('https://element-plus.gitee.io')
           })
           .catch(() => {
             localStorage.setItem('PREFER_GITHUB', 'true')
