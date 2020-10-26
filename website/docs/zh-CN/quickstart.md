@@ -2,13 +2,13 @@
 
 本节将介绍如何在项目中使用 Element。
 
-### 使用 vue-cli@3
+### 使用 vue-cli@4.5
 
-我们为新版的 vue-cli 准备了相应的 [Element Plus 插件](https://github.com/ElementUI/vue-cli-plugin-element)，你可以用它们快速地搭建一个基于 Element Plus 的项目。
+我们为新版的 vue-cli 准备了相应的 [Element Plus 插件](https://github.com/element-plus/vue-cli-plugin-element-plus)，你可以用它们快速地搭建一个基于 Element Plus 的项目。
 
 ### 使用 Starter Kit
 
-我们提供了通用的[项目模板](https://github.com/ElementUI/element-starter)，你可以直接使用。对于 Laravel 用户，我们也准备了相应的[模板](https://github.com/ElementUI/element-in-laravel-starter)，同样可以直接下载使用。
+我们提供了通用的[项目模板](https://github.com/element-plus/element-plus-starter)，你可以直接使用。对于 Laravel 用户，我们也准备了相应的[模板](https://github.com/element-plus/element-plus-in-laravel-starter)，同样可以直接下载使用。
 
 如果不希望使用我们提供的模板，请继续阅读。
 
