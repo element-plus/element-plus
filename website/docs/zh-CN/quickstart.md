@@ -2,7 +2,7 @@
 
 本节将介绍如何在项目中使用 Element。
 
-### 使用 vue-cli@3
+### 使用 vue-cli@4.5
 
 我们为新版的 vue-cli 准备了相应的 [Element Plus 插件](https://github.com/element-plus/vue-cli-plugin-element-plus)，你可以用它们快速地搭建一个基于 Element Plus 的项目。
 

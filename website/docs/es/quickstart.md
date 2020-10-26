@@ -2,9 +2,9 @@
 
 Esta sección te guía en el proceso de usar Element Plus con webpack en un proyecto.
 
-### Use vue-cli@3
+### Use vue-cli@4.5
 
-Proporcionamos un [plugin de Element](https://github.com/element-plus/vue-cli-plugin-element-plus) para vue-cli@3, que puede utilizar para construir rápidamente un proyecto basado en Element.
+Proporcionamos un [plugin de Element](https://github.com/element-plus/vue-cli-plugin-element-plus) para vue-cli@4.5, que puede utilizar para construir rápidamente un proyecto basado en Element.
 
 ### Usa la plantilla de Kit de inicio
 
