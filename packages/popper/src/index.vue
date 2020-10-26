@@ -10,17 +10,17 @@ import {
   onActivated,
   renderSlot,
   toDisplayString,
-  withCtx,
+  withDirectives,
 } from 'vue'
 
 import throwError from '@element-plus/utils/error'
-import { stop } from '@element-plus/utils/dom'
-import { renderBlock, PatchFlags } from '@element-plus/utils/vnode'
+import { renderBlock } from '@element-plus/utils/vnode'
 
 import usePopper from './use-popper/index'
 import defaultProps from './use-popper/defaults'
 
-import { Mask, renderPopper, renderTrigger, renderArrow } from './renderers'
+import { renderPopper, renderTrigger, renderArrow } from './renderers'
+import { ClickOutside } from '@element-plus/directives'
 
 const compName = 'ElPopper'
 const UPDATE_VISIBLE_EVENT = 'update:visible'
@@ -92,38 +92,32 @@ export default defineComponent({
       ],
     )
 
-    const trigger = renderTrigger($slots.trigger?.(), {
+    const _t = $slots.trigger?.()
+    const isManual = this.isManualMode()
+
+    const triggerProps = {
       ariaDescribedby: popperId,
       class: kls,
       ref: 'triggerRef',
       tabindex: tabIndex,
-      onMouseDown: stop,
-      onMouseUp: stop,
       ...this.events,
-    })
+    }
+
+    const trigger = isManual
+      ? renderTrigger(_t, triggerProps)
+      : withDirectives(renderTrigger(_t, triggerProps), [[ClickOutside, hide]])
 
     return renderBlock(Fragment, null, [
       trigger,
       appendToBody
         ? createVNode(
-          Teleport,
+          Teleport as any, // Vue did not support createVNode for Teleport
           {
             to: 'body',
             key: 0,
           },
           [
-            createVNode(
-              Mask,
-              {
-                hide,
-                isManualMode: this.isManualMode(),
-              },
-              {
-                default: withCtx(() => [popper]),
-              },
-              PatchFlags.PROPS,
-              ['hide', 'isManualMode'],
-            ),
+            popper,
           ],
         )
         : renderBlock(Fragment, { key: 1 }, [popper]),
