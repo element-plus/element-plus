@@ -57,8 +57,8 @@ export default function renderPopper(
     Transition,
     {
       name,
-      onAfterEnter,
-      onAfterLeave,
+      'onAfter-enter': onAfterEnter,
+      'onAfter-leave': onAfterLeave,
     },
     {
       default: withCtx(() => [withDirectives(
@@ -74,6 +74,8 @@ export default function renderPopper(
             onMouseEnter,
             onMouseLeave,
             onClick: stop,
+            onMouseDown: stop,
+            onMouseUp: stop,
           },
           children,
           PatchFlags.CLASS | PatchFlags.STYLE | PatchFlags.PROPS | PatchFlags.HYDRATE_EVENTS,
@@ -81,6 +83,8 @@ export default function renderPopper(
             'aria-hidden',
             'onMouseenter',
             'onMouseleave',
+            'onMousedown',
+            'onMouseup',
             'onClick',
             'id',
           ],

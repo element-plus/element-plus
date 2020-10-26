@@ -29,7 +29,7 @@ const _mount = (template: string, data: any = () => ({}), otherObj?): any => mou
 
 function getOptions(): HTMLElement[] {
   return [...document.querySelectorAll<HTMLElement>(
-    '.el-popper__mask:last-child .el-select-dropdown__item',
+    'body > div:last-child .el-select-dropdown__item',
   )]
 }
 
