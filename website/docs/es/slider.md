@@ -203,7 +203,7 @@ Se soporta la selección de un rango de valores.
             style: {
               color: '#1989FA'
             },
-            label: this.$createElement('strong', '50%')
+            label: '50%'
           }
         }
       }
@@ -240,4 +240,5 @@ Se soporta la selección de un rango de valores.
 | ------ | ---------------------------------------- | ------------------------ |
 | change | se dispara cuando el valor cambia (si el ratón está comenzando el arrastre este evento sólo se disparara cuando se suelte el ratón) | valor despues del cambio |
 | input | triggers when the data changes (It'll be emitted in real time during sliding) | value after changing |
+
 

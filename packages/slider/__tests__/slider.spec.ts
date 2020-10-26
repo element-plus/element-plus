@@ -321,32 +321,27 @@ describe('Slider', () => {
     }, 10)
   })
 
-  // TODO: waiting for InputNumber refactored.
-
-  // it('show input', done => {
-  //   const wrapper = mount({
-  //     template: `
-  //       <div>
-  //         <slider v-model="value" show-input></slider>
-  //       </div>
-  //     `,
-  //     components: { Slider },
-  //     data() {
-  //       return {
-  //         value: 0,
-  //       }
-  //     },
-  //   })
-  //   setTimeout(() => {
-  //     wrapper.find('.el-input-number').trigger('keyup')
-  //     const inputNumber = wrapper.getComponent('ElInputNumber')
-  //     inputNumber.vm.setCurrentValue(40)
-  //     setTimeout(() => {
-  //       expect(wrapper.vm.value).toBe(40)
-  //       done()
-  //     }, 10)
-  //   }, 10)
-  // })
+  it('show input', done => {
+    const wrapper = mount({
+      template: `
+        <div>
+          <slider v-model="value" show-input></slider>
+        </div>
+      `,
+      components: { Slider },
+      data() {
+        return {
+          value: 0,
+        }
+      },
+    })
+    const increaseButton = wrapper.find('.el-input-number__increase')
+    increaseButton.trigger('mousedown')
+    setTimeout(() => {
+      expect(wrapper.vm.value > 0).toBeTruthy()
+      done()
+    }, 200)
+  })
 
   it('show stops', () => {
     const wrapper = mount(Slider, {

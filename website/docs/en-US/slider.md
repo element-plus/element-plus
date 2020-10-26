@@ -201,7 +201,7 @@ Selecting a range of values is supported.
             style: {
               color: '#1989FA'
             },
-            label: this.$createElement('strong', '50%')
+            label: '50%'
           }
         }
       }
@@ -238,4 +238,5 @@ Selecting a range of values is supported.
 |---------- |-------- |---------- |
 | change | triggers when the value changes (if the mouse is being dragged, this event only fires when the mouse is released) | value after changing |
 | input | triggers when the data changes (It'll be emitted in real time during sliding) | value after changing |
+
 
