@@ -4,11 +4,11 @@ Cette page vous guidera tout le long de l'installation d'Element Plus au sein d'
 
 ### Use vue-cli@3
 
-Nous fournissons un [plugin Element](https://github.com/ElementUI/vue-cli-plugin-element) pour vue-cli@3, que vous pouvez utiliser pour créer rapidement un projet basé sur Element.
+Nous fournissons un [plugin Element](https://github.com/element-plus/vue-cli-plugin-element-plus) pour vue-cli@3, que vous pouvez utiliser pour créer rapidement un projet basé sur Element.
 
 ### Utiliser le Starter Kit
 
-Nous fournissons un [template de projet](https://github.com/element-plus/element-plus-starter) pour débuter rapidement. Pour les utilisateurs Laravel, il est aussi possible d'utiliser ce [template](https://github.com/ElementUI/element-in-laravel-starter). VOus pouvez les télécharger directement.
+Nous fournissons un [template de projet](https://github.com/element-plus/element-plus-starter) pour débuter rapidement. Pour les utilisateurs Laravel, il est aussi possible d'utiliser ce [template](https://github.com/element-plus/element-plus-in-laravel-starter). VOus pouvez les télécharger directement.
 
 Si vous préférer vous passer de template, voyez la section suivante.
 

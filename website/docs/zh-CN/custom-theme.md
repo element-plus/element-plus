@@ -107,11 +107,11 @@ et
 和引入默认主题一样，在代码里直接引用「在线主题编辑器」或「命令行工具」生成的主题的 `theme/index.css` 文件即可。
 
 ```javascript
+import { createApp } from 'vue'
 import '../theme/index.css'
-import ElementUI from 'element-plus'
-import Vue from 'vue'
+import ElementPlus from 'element-plus'
 
-Vue.use(ElementUI)
+createApp(App).use(ElementPlus)
 ```
 
 #### <strong>搭配插件按需引入组件主题</strong>

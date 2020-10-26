@@ -109,11 +109,11 @@ et
 Importing your own theme is just like importing the default theme, only this time you import the file built from "Online Theme Roller" or "CLI tool":
 
 ```javascript
+import { createApp } from 'vue'
 import '../theme/index.css'
-import ElementUI from 'element-plus'
-import Vue from 'vue'
+import ElementPlus from 'element-plus'
 
-Vue.use(ElementUI)
+createApp(App).use(ElementPlus)
 ```
 
 #### <strong>Importar un tema de componente bajo demanda</strong>
