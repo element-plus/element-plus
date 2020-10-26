@@ -22,6 +22,7 @@
       v-model:visible="tooltipVisible"
       placement="top"
       :popper-class="tooltipClass"
+      :append-to-body="false"
       manual-mode
     >
       <template #default>{{ formatValue }}</template>

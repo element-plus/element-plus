@@ -263,6 +263,7 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
       emit('after-leave')
     },
     initializePopper,
+    isManualMode,
     arrowRef,
     events,
     popperId,

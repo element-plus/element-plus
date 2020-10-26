@@ -1,28 +1,26 @@
 <script lang="ts">
 import {
+  createVNode,
   defineComponent,
-  h,
   Fragment,
   Teleport,
   onMounted,
   onBeforeUnmount,
   onDeactivated,
   onActivated,
+  renderSlot,
+  toDisplayString,
+  withDirectives,
 } from 'vue'
 
-import { ClickOutside } from '@element-plus/directives'
 import throwError from '@element-plus/utils/error'
-import { stop } from '@element-plus/utils/dom'
+import { renderBlock } from '@element-plus/utils/vnode'
 
 import usePopper from './use-popper/index'
 import defaultProps from './use-popper/defaults'
 
-import {
-  renderMask,
-  renderPopper,
-  renderTrigger,
-  renderArrow,
-} from './renderers'
+import { renderPopper, renderTrigger, renderArrow } from './renderers'
+import { ClickOutside } from '@element-plus/directives'
 
 const compName = 'ElPopper'
 const UPDATE_VISIBLE_EVENT = 'update:visible'
@@ -31,9 +29,6 @@ const emits = [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave']
 
 export default defineComponent({
   name: compName,
-  directives: {
-    ClickOutside,
-  },
   props: defaultProps,
   emits,
   setup(props, ctx) {
@@ -90,38 +85,42 @@ export default defineComponent({
         visibility,
       },
       [
-        $slots.default ? h(
-          Fragment,
-          null,
-          $slots.default(),
-        ) : this.content,
+        renderSlot($slots, 'default', {}, () => {
+          return [toDisplayString(this.content)]
+        }),
         arrow,
       ],
     )
 
-    const trigger = renderTrigger($slots.trigger?.(), {
+    const _t = $slots.trigger?.()
+    const isManual = this.isManualMode()
+
+    const triggerProps = {
       ariaDescribedby: popperId,
       class: kls,
       ref: 'triggerRef',
       tabindex: tabIndex,
-      onMouseDown: stop,
-      onMouseUp: stop,
       ...this.events,
-    })
+    }
 
-    return h(Fragment, null, [
+    const trigger = isManual
+      ? renderTrigger(_t, triggerProps)
+      : withDirectives(renderTrigger(_t, triggerProps), [[ClickOutside, hide]])
+
+    return renderBlock(Fragment, null, [
       trigger,
       appendToBody
-        ? h(
-          Teleport,
+        ? createVNode(
+          Teleport as any, // Vue did not support createVNode for Teleport
           {
             to: 'body',
+            key: 0,
           },
-          renderMask(popper, {
-            hide,
-          }),
+          [
+            popper,
+          ],
         )
-        : popper,
+        : renderBlock(Fragment, { key: 1 }, [popper]),
     ])
   },
 })

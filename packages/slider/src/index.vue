@@ -9,20 +9,20 @@
     :aria-orientation="vertical ? 'vertical': 'horizontal'"
     :aria-disabled="sliderDisabled"
   >
-    <!--    <el-input-number-->
-    <!--      v-if="showInput && !range"-->
-    <!--      ref="input"-->
-    <!--      v-model="firstValue"-->
-    <!--      class="el-slider__input"-->
-    <!--      :step="step"-->
-    <!--      :disabled="sliderDisabled"-->
-    <!--      :controls="showInputControls"-->
-    <!--      :min="min"-->
-    <!--      :max="max"-->
-    <!--      :debounce="debounce"-->
-    <!--      :size="inputSize"-->
-    <!--      @change="emitChange"-->
-    <!--    />-->
+    <el-input-number
+      v-if="showInput && !range"
+      ref="input"
+      v-model="firstValue"
+      class="el-slider__input"
+      :step="step"
+      :disabled="sliderDisabled"
+      :controls="showInputControls"
+      :min="min"
+      :max="max"
+      :debounce="debounce"
+      :size="inputSize"
+      @change="emitChange"
+    />
     <div
       ref="slider"
       class="el-slider__runway"
@@ -97,8 +97,7 @@ import {
   toRefs,
   watch,
 } from 'vue'
-// TODO: waiting for ElInputNumber component refactored
-// import ElInputNumber from '@element-plus/input-number'
+import ElInputNumber from '@element-plus/input-number/src/index.vue'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
@@ -109,7 +108,7 @@ export default defineComponent({
   name: 'ElSlider',
 
   components: {
-    // ElInputNumber,
+    ElInputNumber,
     SliderButton,
     SliderMarker,
   },

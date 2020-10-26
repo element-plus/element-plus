@@ -1,13 +1,13 @@
 {
   "name": "element-plus",
   "private": true,
-  "version": "1.0.1-alpha.6",
+  "version": "1.0.1-alpha.10",
   "scripts": {
     "cz": "npx git-cz",
     "test": "jest",
     "gen": "bash ./scripts/gc.sh",
     "bootstrap": "yarn && npx lerna bootstrap",
-    "build": "yarn bootstrap && yarn build:lib && yarn build:esm && yarn build:esm-bundle && yarn build:utils && yarn build:theme",
+    "build": "yarn bootstrap && yarn build:lib && yarn build:theme",
     "build:lib": "rimraf lib && webpack --config ./build/webpack.config.js",
     "build:esm-bundle": "rollup --config ./build/rollup.config.bundle.js",
     "build:esm": "node --max-old-space-size=8192 node_modules/rollup/dist/bin/rollup -c ./build/rollup.config.js",
@@ -119,7 +119,6 @@
     "packages"
   ],
   "main": "lib/index.js",
-  "module": "lib/index.esm.js",
   "typings": "types/index.d.ts",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",

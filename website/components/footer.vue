@@ -3,10 +3,10 @@
     <div class="container">
       <div class="footer-main">
         <h4>{{ langConfig.links }}</h4>
-        <a href="https://github.com/ElemeFE/element" class="footer-main-link" target="_blank">{{ langConfig.repo }}</a>
-        <a href="https://github.com/ElemeFE/element/releases" class="footer-main-link" target="_blank">{{ langConfig.changelog }}</a>
-        <a href="https://github.com/ElemeFE/element/blob/dev/FAQ.md" class="footer-main-link" target="_blank">{{ langConfig.faq }}</a>
-        <a href="https://github.com/ElementUI/element-starter" class="footer-main-link" target="_blank">{{ langConfig.starter }}</a>
+        <a href="https://github.com/element-plus/element-plus" class="footer-main-link" target="_blank">{{ langConfig.repo }}</a>
+        <a href="https://github.com/element-plus/element-plus/releases" class="footer-main-link" target="_blank">{{ langConfig.changelog }}</a>
+        <a href="https://github.com/element-plus/element-plus/blob/dev/FAQ.md" class="footer-main-link" target="_blank">{{ langConfig.faq }}</a>
+        <a href="https://github.com/element-plus/element-plus-starter" class="footer-main-link" target="_blank">{{ langConfig.starter }}</a>
         <a :href="'/#/' + lang + '/component/custom-theme'" class="footer-main-link" target="_blank">{{ langConfig.theme }}</a>
         <a href="https://github.com/elemefe/element-react" class="footer-main-link" target="_blank">Element-React</a>
         <a href="https://github.com/ElemeFE/element-angular" class="footer-main-link" target="_blank">Element-Angular</a>

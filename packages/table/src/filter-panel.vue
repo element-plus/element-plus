@@ -92,7 +92,7 @@ import { ClickOutside } from '@element-plus/directives'
 import useDropdown from './dropdown'
 import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
 import ElCheckboxGroup from '@element-plus/checkbox/src/checkbox-group.vue'
-import ElScrollbar from '@element-plus/scrollbar/src/index'
+import ElScrollbar from '@element-plus/scrollbar/src/index.vue'
 import {
   ref,
   computed,

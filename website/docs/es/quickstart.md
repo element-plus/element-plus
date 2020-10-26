@@ -2,13 +2,13 @@
 
 Esta sección te guía en el proceso de usar Element Plus con webpack en un proyecto.
 
-### Use vue-cli@3
+### Use vue-cli@4.5
 
-Proporcionamos un [plugin de Element](https://github.com/ElementUI/vue-cli-plugin-element) para vue-cli@3, que puede utilizar para construir rápidamente un proyecto basado en Element.
+Proporcionamos un [plugin de Element](https://github.com/element-plus/vue-cli-plugin-element-plus) para vue-cli@4.5, que puede utilizar para construir rápidamente un proyecto basado en Element.
 
 ### Usa la plantilla de Kit de inicio
 
-Proveemos una plantilla general [project template](https://github.com/ElementUI/element-starter). Para los usuarios de Laravel, también tenemos [template](https://github.com/ElementUI/element-in-laravel-starter). Puedes descargarlas y agregarlas directamente también.
+Proveemos una plantilla general [project template](https://github.com/element-plus/element-plus-starter). Para los usuarios de Laravel, también tenemos [template](https://github.com/element-plus/element-plus-in-laravel-starter). Puedes descargarlas y agregarlas directamente también.
 
 Si prefiere no utilizarlas, lee las siguientes secciones de este documento.
 
