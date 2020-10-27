@@ -1,18 +1,19 @@
 import { defineAsyncComponent } from 'vue'
 import navConfig from './nav.config'
 import langs from './i18n/route'
+import { Language } from './enums/language'
 
 const LOAD_MAP = {
-  'zh-CN': name => {
+  [Language.CN]: name => {
     return defineAsyncComponent(() => import(/* webpackChunkName: "zh-CN" */ `./pages/${name}.vue`))
   },
-  'en-US': name => {
+  [Language.EN]: name => {
     return defineAsyncComponent(() => import(/* webpackChunkName: "en-US" */ `./pages/${name}.vue`))
   },
-  'es': name => {
+  [Language.ES]: name => {
     return defineAsyncComponent(() => import(/* webpackChunkName: "es" */ `./pages/${name}.vue`))
   },
-  'fr-FR': name => {
+  [Language.FR]: name => {
     return defineAsyncComponent(() => import(/* webpackChunkName: "fr-FR" */ `./pages/${name}.vue`))
   },
 }
@@ -22,16 +23,16 @@ const load = function(lang, path) {
 }
 
 const LOAD_DOCS_MAP = {
-  'zh-CN': path => {
+  [Language.CN]: path => {
     return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS zh-CN" */ `./docs/zh-CN${path}.md`))
   },
-  'en-US': path => {
+  [Language.EN]: path => {
     return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS en-US" */ `./docs/en-US${path}.md`))
   },
-  'es': path => {
+  [Language.ES]: path => {
     return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS es" */ `./docs/es${path}.md`))
   },
-  'fr-FR': path => {
+  [Language.FR]: path => {
     return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/fr-FR${path}.md`))
   },
 }
@@ -84,7 +85,6 @@ const registerRoute = navConfig => {
 
     route[index].children.push(child)
   }
-
   return route
 }
 
@@ -129,22 +129,22 @@ langs.forEach(lang => {
   route = route.concat(generateMiscRoutes(lang.lang))
 })
 
-let userLanguage = localStorage.getItem('ELEMENT_LANGUAGE') || window.navigator.language || 'en-US'
-let defaultPath = '/en-US'
+let userLanguage = localStorage.getItem('ELEMENT_LANGUAGE') || window.navigator.language || Language.EN
+let defaultPath = Language.EN
 if (userLanguage.indexOf('zh-') !== -1) {
-  defaultPath = '/zh-CN'
+  defaultPath = Language.CN
 } else if (userLanguage.indexOf('es') !== -1) {
-  defaultPath = '/es'
+  defaultPath = Language.ES
 } else if (userLanguage.indexOf('fr') !== -1) {
-  defaultPath = '/fr-FR'
+  defaultPath = Language.FR
 }
 
 route = route.concat([{
   path: '/',
-  redirect: { path: defaultPath },
+  redirect: { path: `/${defaultPath}` },
 }, {
   path: '/*',
-  redirect: { path: defaultPath },
+  redirect: { path: `/${defaultPath}` },
 }])
 
 export default route
