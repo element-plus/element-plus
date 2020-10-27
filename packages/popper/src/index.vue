@@ -82,6 +82,7 @@ export default defineComponent({
         onMouseLeave: onPopperMouseLeave,
         onAfterEnter,
         onAfterLeave,
+        tabindex: tabIndex,
         visibility,
       },
       [
@@ -99,7 +100,6 @@ export default defineComponent({
       ariaDescribedby: popperId,
       class: kls,
       ref: 'triggerRef',
-      tabindex: tabIndex,
       ...this.events,
     }
 
