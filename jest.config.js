@@ -30,5 +30,8 @@ module.exports = {
       },
     ],
   },
-  moduleFileExtensions: ['vue', 'json', 'ts', 'tsx', 'js', 'json'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'vue'],
+  // u can change this option to a more specific folder for test single component or util when dev
+  // for example, ['<rootDir>/packages/input']
+  roots: ['<rootDir>'],
 }
