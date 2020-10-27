@@ -125,10 +125,11 @@ Puede ser personalizado para mostrar diversos contenidos.
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open() {
-        const h = this.$createElement;
         this.$msgbox({
           title: 'Message',
           message: h('p', null, [
