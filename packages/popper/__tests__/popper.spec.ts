@@ -164,7 +164,7 @@ describe('Popper.vue', () => {
     const wrapper = _mount({
       appendToBody: false,
     })
-    expect(wrapper.find(`.${TEST_TRIGGER}`).attributes('tabindex')).toBe('0')
+    expect(wrapper.find(`.el-popper`).attributes('tabindex')).toBe('0')
   })
 
   test('should initialize a new popper when component mounted', async () => {
