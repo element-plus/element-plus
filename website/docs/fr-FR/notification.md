@@ -21,11 +21,11 @@ Affiche une notification globale dans un coin de la page.
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open1() {
-        const h = this.$createElement;
-
         this.$notify({
           title: 'Titre',
           message: h('i', { style: 'color: teal' }, 'Ceci est un rappel')

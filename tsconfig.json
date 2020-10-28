@@ -16,7 +16,6 @@
    "allowSyntheticDefaultImports": true
  },
  "exclude": [
-   "node_modules",
-   "packages/**/__tests__/*"
+   "node_modules"
  ]
 }

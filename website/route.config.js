@@ -1,22 +1,39 @@
 import { defineAsyncComponent } from 'vue'
-import navConfig from './nav.config'
 import langs from './i18n/route'
+import navConfig from './nav.config'
 import { Language } from './enums/language'
+
+const LoadingComponent = {
+  template: `<div v-loading="true" style="min-height: 500px; width: 100%;"></div>`,
+}
+const ErrorComponent = {
+  template: `
+    <div style="text-align: center;padding: 100px 0;">Loading error. Please refresh the page and try again</div>`,
+}
+const getAsyncComponent = func => {
+  return defineAsyncComponent({
+    loader: func,
+    delay: 0,
+    timeout: 30000,
+    errorComponent: ErrorComponent,
+    loadingComponent: LoadingComponent,
+  })
+}
 
 const LOAD_MAP = {
   [Language.CN]: name => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "zh-CN" */ `./pages/${name}.vue`))
+    return getAsyncComponent(() => import(/* webpackChunkName: "zh-CN" */ `./pages/${name}.vue`))
   },
   [Language.EN]: name => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "en-US" */ `./pages/${name}.vue`))
+    return getAsyncComponent(() => import(/* webpackChunkName: "en-US" */ `./pages/${name}.vue`))
   },
   [Language.ES]: name => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "es" */ `./pages/${name}.vue`))
+    return getAsyncComponent(() => import(/* webpackChunkName: "es" */ `./pages/${name}.vue`))
   },
   [Language.FR]: name => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "fr-FR" */ `./pages/${name}.vue`))
+    return getAsyncComponent(() => import(/* webpackChunkName: "fr-FR" */ `./pages/${name}.vue`))
   },
-}
+},
 
 const load = function(lang, path) {
   return LOAD_MAP[lang](path)
@@ -24,16 +41,16 @@ const load = function(lang, path) {
 
 const LOAD_DOCS_MAP = {
   [Language.CN]: path => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS zh-CN" */ `./docs/zh-CN${path}.md`))
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS zh-CN" */ `./docs/zh-CN${path}.md`))
   },
   [Language.EN]: path => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS en-US" */ `./docs/en-US${path}.md`))
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS en-US" */ `./docs/en-US${path}.md`))
   },
   [Language.ES]: path => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS es" */ `./docs/es${path}.md`))
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS es" */ `./docs/es${path}.md`))
   },
   [Language.FR]: path => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/fr-FR${path}.md`))
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/fr-FR${path}.md`))
   },
 }
 

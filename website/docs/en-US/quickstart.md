@@ -8,7 +8,7 @@ We provide an [Element Plus plugin](https://github.com/element-plus/vue-cli-plug
 
 ### Use Starter Kit
 
-We provide a general [project template](https://github.com/element-plus/element-plus-starter) for you. For Laravel users, we also have a [template](https://github.com/element-plus/element-plus-in-laravel-starter). You can download and use them directly.
+We provide a general [project template](https://github.com/element-plus/element-plus-starter) for you, and also a Vite [template](https://github.com/element-plus/element-plus-vite-starter). For Laravel users, we have a [template](https://github.com/element-plus/element-plus-in-laravel-starter) here. You can download and use them directly.
 
 If you prefer not to use them, please read the following.
 

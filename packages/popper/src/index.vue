@@ -65,7 +65,6 @@ export default defineComponent({
       popperId,
       pure,
       showArrow,
-      tabIndex,
       transition,
       visibility,
     } = this
@@ -99,7 +98,6 @@ export default defineComponent({
       ariaDescribedby: popperId,
       class: kls,
       ref: 'triggerRef',
-      tabindex: tabIndex,
       ...this.events,
     }
 

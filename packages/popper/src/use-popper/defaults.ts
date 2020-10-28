@@ -31,7 +31,6 @@ export type IPopperOptions = {
   showAfter: number
   showArrow: boolean
   strategy: PositioningStrategy
-  tabIndex: string
   trigger: Trigger
   visible: boolean
 }
@@ -129,10 +128,6 @@ export default {
   trigger: {
     type: [String, Array] as PropType<Trigger>,
     default: DEFAULT_TRIGGER,
-  },
-  tabIndex: {
-    type: String,
-    default: '0',
   },
   visible: {
     type: Boolean,
