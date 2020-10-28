@@ -82,18 +82,21 @@ Alert 组件提供了两个不同的主题：`light`和`dark`。
   <el-alert
     title="设置了回调的 alert"
     type="warning"
-    @close="hello">
+    @click="hello">
   </el-alert>
 </template>
 
 <script>
-  export default {
-    methods: {
-      hello() {
+  export default defineComponent({
+    setup() {
+      const hello = () => {
         alert('Hello World!');
       }
+      return {
+        hello
+      }
     }
-  }
+  })
 </script>
 ```
 :::
@@ -235,4 +238,4 @@ Alert 组件提供了两个不同的主题：`light`和`dark`。
 ### Events
 | 事件名称 | 说明 | 回调参数 |
 |---------- |-------- |---------- |
-| close | 关闭alert时触发的事件 | — |
+| click | 关闭alert时触发的事件 | — |

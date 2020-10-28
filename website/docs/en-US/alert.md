@@ -82,18 +82,21 @@ Customize the close button as texts or other symbols.
   <el-alert
     title="alert with callback"
     type="warning"
-    @close="hello">
+    @click="hello">
   </el-alert>
 </template>
 
 <script>
-  export default {
-    methods: {
-      hello() {
+  export default defineComponent({
+    setup() {
+      const hello = () => {
         alert('Hello World!');
       }
+      return {
+        hello
+      }
     }
-  }
+  })
 </script>
 ```
 :::
@@ -239,4 +242,4 @@ Description includes a message with more detailed information.
 ### Events
 | Event Name | Description | Parameters |
 |---------- |-------- |---------- |
-| close | fires when alert is closed | — |
+| click | fires when alert is closed | — |

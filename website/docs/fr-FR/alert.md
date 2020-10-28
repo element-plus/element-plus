@@ -82,18 +82,21 @@ Personnalisez le bouton de fermeture avec du texte ou des symboles.
   <el-alert
     title="alerte avec callback"
     type="warning"
-    @close="hello">
+    @click="hello">
   </el-alert>
 </template>
 
 <script>
-  export default {
-    methods: {
-      hello() {
+  export default defineComponent({
+    setup() {
+      const hello = () => {
         alert('Hello World!');
       }
+      return {
+        hello
+      }
     }
-  }
+  })
 </script>
 ```
 :::
@@ -239,4 +242,4 @@ Contient un message avec plus d'informations.
 ### Évènements
 | Nom | Description | Paramètres |
 |---------- |-------- |---------- |
-| close | Se déclenche lorsque l'alerte est fermée. | — |
+| click | Se déclenche lorsque l'alerte est fermée. | — |

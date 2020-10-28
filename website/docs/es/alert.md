@@ -83,18 +83,21 @@ Personalizar el botón de cerrar como texto u otros símbolos.
   <el-alert
     title="alert with callback"
     type="warning"
-    @close="hello">
+    @click="hello">
   </el-alert>
 </template>
 
 <script>
-  export default {
-    methods: {
-      hello() {
+  export default defineComponent({
+    setup() {
+      const hello = () => {
         alert('Hello World!');
       }
+      return {
+        hello
+      }
     }
-  }
+  })
 </script>
 ```
 :::
@@ -241,4 +244,4 @@ Descripción incluye un mensaje con información más detallada.
 ### Eventos
 | Nombre del evento | Descripción                           | Parámetros |
 | ----------------- | ------------------------------------- | ---------- |
-| close             | Se dispara cuando la alerta se cierra | —          |
+| click             | Se dispara cuando la alerta se cierra | —          |
