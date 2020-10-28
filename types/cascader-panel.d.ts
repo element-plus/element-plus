@@ -1,4 +1,4 @@
-import { VNode, CreateElement } from 'vue'
+import { VNode } from 'vue'
 import { ElementUIComponent } from './component'
 
 /** Trigger mode of expanding current item */
@@ -66,7 +66,8 @@ export declare class ElCascaderPanel<V = any, D = CascaderOption> extends Elemen
   border: boolean
 
   /** Render function of custom label content */
-  renderLabel: (h: CreateElement, context: { node: CascaderNode<V, D>; data: D; }) => VNode
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  renderLabel: (h: Function, context: { node: CascaderNode<V, D>; data: D; }) => VNode
 
   $slots: CascaderPanelSlots
 }

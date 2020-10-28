@@ -1,4 +1,4 @@
-import { CreateElement, VNode } from 'vue'
+import { VNode } from 'vue'
 import { ElementUIComponent, ElementUIHorizontalAlignment } from './component'
 import { PopoverPlacement } from './popover'
 
@@ -62,7 +62,8 @@ export declare class ElTableColumn extends ElementUIComponent {
   fixed: boolean | TableColumnFixedType
 
   /** Render function for table header of this column */
-  renderHeader: (h: CreateElement, data: RenderHeaderData) => VNode | string
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  renderHeader: (h: Function, data: RenderHeaderData) => VNode | string
 
   /** Whether column can be sorted */
   sortable: boolean | 'custom'

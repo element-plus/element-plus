@@ -1,4 +1,4 @@
-import { CreateElement, VNode } from 'vue'
+import { VNode } from 'vue'
 import { ElementUIComponent } from './component'
 
 export interface TreeData {
@@ -69,7 +69,8 @@ export declare class ElTree<K, D extends TreeData> extends ElementUIComponent {
    *
    * @param h The render function
    */
-  renderContent: (h: CreateElement, context: { node: TreeNode<K, D>; data: D; store: TreeStore<K, D>; }) => VNode;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  renderContent: (h: Function, context: { node: TreeNode<K, D>; data: D; store: TreeStore<K, D>; }) => VNode;
 
   /** Whether current node is highlighted */
   highlightCurrent: boolean;

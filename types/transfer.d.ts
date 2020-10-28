@@ -1,4 +1,4 @@
-import { CreateElement, VNode } from 'vue'
+import { VNode } from 'vue'
 import { ElementUIComponent } from './component'
 
 export type TransferPanelPosition = 'left' | 'right'
@@ -27,7 +27,8 @@ export interface TransferRenderContent {
    * @param h The render function
    * @param option The option data object
    */
-  (h: CreateElement, option: TransferData): VNode
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  (h: Function, option: TransferData): VNode
 }
 
 /** Transfer Component */
