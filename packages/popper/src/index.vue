@@ -65,7 +65,6 @@ export default defineComponent({
       popperId,
       pure,
       showArrow,
-      tabIndex,
       transition,
       visibility,
     } = this
@@ -82,7 +81,6 @@ export default defineComponent({
         onMouseLeave: onPopperMouseLeave,
         onAfterEnter,
         onAfterLeave,
-        tabindex: tabIndex,
         visibility,
       },
       [
