@@ -160,13 +160,6 @@ describe('Popper.vue', () => {
     )
   })
 
-  test('should add tab index to referrer', async () => {
-    const wrapper = _mount({
-      appendToBody: false,
-    })
-    expect(wrapper.find(`.el-popper`).attributes('tabindex')).toBe('0')
-  })
-
   test('should initialize a new popper when component mounted', async () => {
     _mount({
       appendToBody: false,

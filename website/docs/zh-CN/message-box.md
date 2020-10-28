@@ -122,10 +122,11 @@
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open() {
-        const h = this.$createElement;
         this.$msgbox({
           title: '消息',
           message: h('p', null, [

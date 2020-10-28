@@ -110,7 +110,6 @@
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
-        @mousedown.stop
       ></slot>
     </template>
   </el-popper>
