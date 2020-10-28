@@ -5,7 +5,9 @@
         <side-nav :data="navsData[lang]" :base="`/${ lang }/component`" />
       </el-scrollbar>
       <div class="page-component__content">
-        <router-view class="content" />
+        <div class="content-wrap">
+          <router-view class="content" />
+        </div>
         <footer-nav />
       </div>
       <el-backtop
@@ -173,6 +175,9 @@ export default {
     padding-left: 270px;
     padding-bottom: 100px;
     box-sizing: border-box;
+  }
+  .content-wrap {
+    min-height: 500px;
   }
 
   .content {
