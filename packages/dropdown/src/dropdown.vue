@@ -134,7 +134,7 @@ export default defineComponent({
       const _: any = (triggerVnode.value?.$refs.triggerRef as HTMLElement)?.children[0] ?? {}
       return !props.splitButton
         ? _
-        : _.children[1]
+        : _.children?.[1]
     })
 
     function handleClick() {
