@@ -15,6 +15,8 @@ Displays at the top, and disappears after 3 seconds.
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open() {
@@ -22,7 +24,6 @@ Displays at the top, and disappears after 3 seconds.
       },
 
       openVn() {
-        const h = this.$createElement;
         this.$message({
           message: h('p', null, [
             h('span', null, 'Message can be '),

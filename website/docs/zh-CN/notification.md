@@ -22,11 +22,11 @@
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open1() {
-        const h = this.$createElement;
-
         this.$notify({
           title: '标题名称',
           message: h('i', { style: 'color: teal'}, '这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案')

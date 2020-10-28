@@ -15,6 +15,8 @@
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open() {
@@ -22,7 +24,6 @@
       },
 
       openVn() {
-        const h = this.$createElement;
         this.$message({
           message: h('p', null, [
             h('span', null, '内容可以是 '),
