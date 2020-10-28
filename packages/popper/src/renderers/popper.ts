@@ -13,7 +13,6 @@ interface IRenderPopperProps {
   popperId: string
   popperRef?: Ref<HTMLElement>
   pure: boolean
-  tabindex: number
   visibility: boolean
   onMouseEnter: () => void
   onMouseLeave: () => void
@@ -33,7 +32,6 @@ export default function renderPopper(
     popperRef,
     pure,
     popperId,
-    tabindex,
     visibility,
     onMouseEnter,
     onMouseLeave,
@@ -73,7 +71,6 @@ export default function renderPopper(
             id: popperId,
             ref: popperRef ?? 'popperRef',
             role: 'tooltip',
-            tabindex,
             onMouseEnter,
             onMouseLeave,
             onClick: stop,
@@ -90,7 +87,6 @@ export default function renderPopper(
             'onMouseup',
             'onClick',
             'id',
-            'tabindex',
           ],
         ),
         [[vShow, visibility]],
