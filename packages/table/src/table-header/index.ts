@@ -79,7 +79,7 @@ export default defineComponent({
     } = useStyle(props)
     const { isGroup, toggleAllSelection, columnRows } = useUtils(props)
 
-    instance.vnode.state = {
+    instance.state = {
       onColumnsChange,
       onScrollableChange,
     }
