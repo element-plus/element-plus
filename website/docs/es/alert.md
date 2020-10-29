@@ -88,6 +88,7 @@ Personalizar el botón de cerrar como texto u otros símbolos.
 </template>
 
 <script>
+  import { defineComponent } from 'vue'
   export default defineComponent({
     setup() {
       const hello = () => {

@@ -87,6 +87,7 @@ Alert 组件提供了两个不同的主题：`light`和`dark`。
 </template>
 
 <script>
+  import { defineComponent } from 'vue'
   export default defineComponent({
     setup() {
       const hello = () => {

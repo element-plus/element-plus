@@ -87,6 +87,7 @@ Personnalisez le bouton de fermeture avec du texte ou des symboles.
 </template>
 
 <script>
+  import { defineComponent } from 'vue'
   export default defineComponent({
     setup() {
       const hello = () => {
