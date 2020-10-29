@@ -87,13 +87,17 @@ Customize the close button as texts or other symbols.
 </template>
 
 <script>
-  export default {
-    methods: {
-      hello() {
+  import { defineComponent } from 'vue'
+  export default defineComponent({
+    setup() {
+      const hello = () => {
         alert('Hello World!');
       }
+      return {
+        hello
+      }
     }
-  }
+  })
 </script>
 ```
 :::
