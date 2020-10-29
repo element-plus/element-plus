@@ -9,39 +9,52 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
   <el-popover
     placement="top-start"
     title="标题"
-    width="200"
+    :width="200"
     trigger="hover"
-    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-    <el-button slot="reference">hover 激活</el-button>
+    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+  >
+    <template v-slot:reference>
+      <el-button>hover 激活</el-button>
+    </template>
   </el-popover>
 
   <el-popover
     placement="bottom"
     title="标题"
-    width="200"
+    :width="200"
     trigger="click"
-    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-    <el-button slot="reference">click 激活</el-button>
+    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+  >
+    <template v-slot:reference>
+      <el-button>click 激活</el-button>
+    </template>
   </el-popover>
 
   <el-popover
     ref="popover"
     placement="right"
     title="标题"
-    width="200"
+    :width="200"
     trigger="focus"
-    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+  >
+    <template v-slot:reference>
+      <el-button>focus 激活</el-button>
+    </template>
   </el-popover>
-  <el-button v-popover:popover>focus 激活</el-button>
+
 
   <el-popover
     placement="bottom"
     title="标题"
-    width="200"
+    :width="200"
     trigger="manual"
     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
-    v-model="visible">
-    <el-button slot="reference" @click="visible = !visible">手动激活</el-button>
+    :visible="visible"
+  >
+    <template v-slot:reference>
+      <el-button @click="visible = !visible">手动激活</el-button>
+    </template>
   </el-popover>
 </template>
 
@@ -65,14 +78,17 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
 ```html
 <el-popover
   placement="right"
-  width="400"
-  trigger="click">
+  :width="400"
+  trigger="click"
+>
+  <template v-slot:reference>
+    <el-button>click 激活</el-button>
+  </template>
   <el-table :data="gridData">
     <el-table-column width="150" property="date" label="日期"></el-table-column>
     <el-table-column width="100" property="name" label="姓名"></el-table-column>
     <el-table-column width="300" property="address" label="地址"></el-table-column>
   </el-table>
-  <el-button slot="reference">click 激活</el-button>
 </el-popover>
 
 <script>
@@ -111,14 +127,17 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
 ```html
 <el-popover
   placement="top"
-  width="160"
-  v-model="visible">
+  :width="160"
+  :visible="visible"
+>
   <p>这是一段内容这是一段内容确定删除吗？</p>
   <div style="text-align: right; margin: 0">
     <el-button size="mini" type="text" @click="visible = false">取消</el-button>
     <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
   </div>
-  <el-button slot="reference">删除</el-button>
+  <template v-slot:reference>
+    <el-button @click="visible = true">删除</el-button>
+  </template>
 </el-popover>
 
 <script>

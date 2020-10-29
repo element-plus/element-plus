@@ -11,39 +11,51 @@ Similaire à Tooltip, Popover est aussi construit avec `Vue-popper`. Certains at
   <el-popover
     placement="top-start"
     title="Title"
-    width="200"
+    :width="200"
     trigger="hover"
-    content="this is content, this is content, this is content">
-    <el-button slot="reference">S'active au passage du curseur</el-button>
+    content="this is content, this is content, this is content"
+  >
+    <template v-slot:reference>
+      <el-button>S'active au passage du curseur</el-button>
+    </template>  
   </el-popover>
 
   <el-popover
     placement="bottom"
     title="Title"
-    width="200"
+    :width="200"
     trigger="click"
-    content="this is content, this is content, this is content">
-    <el-button slot="reference">S'active en cliquant</el-button>
+    content="this is content, this is content, this is content"
+  >
+    <template v-slot:reference>
+      <el-button>S'active en cliquant</el-button>
+    </template>
   </el-popover>
 
   <el-popover
     ref="popover"
     placement="right"
     title="Title"
-    width="200"
+    :width="200"
     trigger="focus"
-    content="this is content, this is content, this is content">
+    content="this is content, this is content, this is content"
+  >
+    <template v-slot:reference>
+      <el-button>S'active au focus</el-button>
+    </template>
   </el-popover>
-  <el-button v-popover:popover>S'active au focus</el-button>
 
   <el-popover
     placement="bottom"
     title="Title"
-    width="200"
+    :width="200"
     trigger="manual"
     content="this is content, this is content, this is content"
-    v-model="visible">
-    <el-button slot="reference" @click="visible = !visible">S'active manuellement</el-button>
+    :visible="visible"
+  >
+    <template v-slot:reference>
+      <el-button @click="visible = !visible">S'active manuellement</el-button>
+    </template>
   </el-popover>
 </template>
 
@@ -68,14 +80,17 @@ D'autres composants peuvent s'imbriquer dans un popover.
 ```html
 <el-popover
   placement="right"
-  width="400"
-  trigger="click">
+  :width="400"
+  trigger="click"
+>
+  <template v-slot:reference>
+    <el-button>Cliquez pour activer</el-button>
+  </template>
   <el-table :data="gridData">
     <el-table-column width="150" property="date" label="date"></el-table-column>
     <el-table-column width="100" property="name" label="name"></el-table-column>
     <el-table-column width="300" property="address" label="address"></el-table-column>
   </el-table>
-  <el-button slot="reference">Cliquez pour activer</el-button>
 </el-popover>
 
 <script>
@@ -114,14 +129,17 @@ Vous pouvez aussi imbriquer des opérations. Procéder ainsi est plus léger que
 ```html
 <el-popover
   placement="top"
-  width="160"
-  v-model="visible">
+  :width="160"
+  :visible="visible"
+>
   <p>Voulez-vous vraiment supprimer ceci?</p>
   <div style="text-align: right; margin: 0">
     <el-button size="mini" type="text" @click="visible = false">Annuler</el-button>
     <el-button type="primary" size="mini" @click="visible = false">Confirmer</el-button>
   </div>
-  <el-button slot="reference">Supprimer</el-button>
+  <template v-slot:reference>
+    <el-button @click="visible = true">Supprimer</el-button>
+  </template>
 </el-popover>
 
 <script>
