@@ -82,7 +82,7 @@ Personnalisez le bouton de fermeture avec du texte ou des symboles.
   <el-alert
     title="alerte avec callback"
     type="warning"
-    @click="hello">
+    @close="hello">
   </el-alert>
 </template>
 
@@ -242,4 +242,4 @@ Contient un message avec plus d'informations.
 ### Évènements
 | Nom | Description | Paramètres |
 |---------- |-------- |---------- |
-| click | Se déclenche lorsque l'alerte est fermée. | — |
+| close | Se déclenche lorsque l'alerte est fermée. | — |

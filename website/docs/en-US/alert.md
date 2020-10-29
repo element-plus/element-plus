@@ -82,7 +82,7 @@ Customize the close button as texts or other symbols.
   <el-alert
     title="alert with callback"
     type="warning"
-    @click="hello">
+    @close="hello">
   </el-alert>
 </template>
 
@@ -242,4 +242,4 @@ Description includes a message with more detailed information.
 ### Events
 | Event Name | Description | Parameters |
 |---------- |-------- |---------- |
-| click | fires when alert is closed | — |
+| close | fires when alert is closed | — |

@@ -83,7 +83,7 @@ Personalizar el botón de cerrar como texto u otros símbolos.
   <el-alert
     title="alert with callback"
     type="warning"
-    @click="hello">
+    @close="hello">
   </el-alert>
 </template>
 
@@ -244,4 +244,4 @@ Descripción incluye un mensaje con información más detallada.
 ### Eventos
 | Nombre del evento | Descripción                           | Parámetros |
 | ----------------- | ------------------------------------- | ---------- |
-| click             | Se dispara cuando la alerta se cierra | —          |
+| close             | Se dispara cuando la alerta se cierra | —          |

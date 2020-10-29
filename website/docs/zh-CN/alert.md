@@ -82,7 +82,7 @@ Alert 组件提供了两个不同的主题：`light`和`dark`。
   <el-alert
     title="设置了回调的 alert"
     type="warning"
-    @click="hello">
+    @close="hello">
   </el-alert>
 </template>
 
@@ -238,4 +238,4 @@ Alert 组件提供了两个不同的主题：`light`和`dark`。
 ### Events
 | 事件名称 | 说明 | 回调参数 |
 |---------- |-------- |---------- |
-| click | 关闭alert时触发的事件 | — |
+| close | 关闭alert时触发的事件 | — |
