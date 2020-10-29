@@ -74,7 +74,6 @@ export default defineComponent({
       popperClass,
       pure,
       showArrow,
-      tabIndex,
       transition,
       visibility,
     } = this
@@ -109,7 +108,6 @@ export default defineComponent({
     const _trigger = trigger ? renderTrigger(trigger, {
       ariaDescribedby: popperId,
       ref: 'triggerRef',
-      tabindex: tabIndex,
       onMouseDown: stop,
       onMouseUp: stop,
       ...events,
