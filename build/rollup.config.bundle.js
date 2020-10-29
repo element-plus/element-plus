@@ -1,10 +1,14 @@
-import vue from 'rollup-plugin-vue'
+// import vue from 'rollup-plugin-vue'
 import typescript from 'rollup-plugin-typescript2'
 import css from 'rollup-plugin-css-only'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
+// import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import path from 'path'
+import pkg from '../package.json'
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const vue = require('./plugin.js')
 
 export default [
   {
@@ -16,17 +20,26 @@ export default [
     plugins: [
       terser(),
       nodeResolve(),
-      commonjs(),
-      typescript({
-        abortOnError: false,
-      }),
+      // commonjs(),
       css(),
       vue({
         target: 'browser',
         css: false,
         exposeFilename: false,
       }),
+      typescript({
+        tsconfigOverride: {
+          'exclude': [
+            'node_modules',
+            '__tests__',
+          ],
+        },
+        abortOnError: false,
+      }),
     ],
-    external: ['vue'],
+    external(id) {
+      return /^vue/.test(id)
+        || Object.keys(pkg.dependencies).some(k => new RegExp('^' + k).test(id))
+    },
   },
 ]
