@@ -8,3 +8,5 @@ export default (app: App): void => {
   app.component(FormItem.name, FormItem)
   app.component(LabelWrap.name, LabelWrap)
 }
+
+export { Form, FormItem, LabelWrap }
