@@ -144,7 +144,7 @@ export default {
 
   computed: {
     lang() {
-      return this.$route.path.split('/')[1] || [Language.CN]
+      return this.$route.path.split('/')[1] || Language.CN
     },
     displayedLang() {
       return this.langs[this.lang] || '中文'

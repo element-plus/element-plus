@@ -33,7 +33,7 @@ const LOAD_MAP = {
   [Language.FR]: name => {
     return getAsyncComponent(() => import(/* webpackChunkName: "fr-FR" */ `./pages/${name}.vue`))
   },
-},
+}
 
 const load = function(lang, path) {
   return LOAD_MAP[lang](path)
