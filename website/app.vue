@@ -14,17 +14,18 @@ import zhLocale from '@element-plus/locale/lang/zh-CN'
 import enLocale from '@element-plus/locale/lang/en'
 import esLocale from '@element-plus/locale/lang/es'
 import frLocale from '@element-plus/locale/lang/fr'
+import { Language } from './enums/language'
 
-const lang = location.hash.replace('#', '').split('/')[1] || 'zh-CN'
+const lang = location.hash.replace('#', '').split('/')[1] || Language.CN
 const localize = lang => {
   switch (lang) {
-    case 'zh-CN':
+    case Language.CN:
       use(zhLocale)
       break
-    case 'es':
+    case Language.ES:
       use(esLocale)
       break
-    case 'fr-FR':
+    case Language.FR:
       use(frLocale)
       break
     default:
@@ -38,7 +39,7 @@ export default {
 
   computed: {
     lang() {
-      return this.$route.path.split('/')[1] || 'zh-CN'
+      return this.$route.path.split('/')[1] || Language.CN
     },
     isComponent() {
       return /^component-/.test(this.$route.name || '')
@@ -47,7 +48,7 @@ export default {
 
   watch: {
     lang(val) {
-      if (val === 'zh-CN') {
+      if (val === Language.CN) {
         this.suggestJump()
       }
       localize(val)
@@ -56,7 +57,7 @@ export default {
 
   mounted() {
     localize(this.lang)
-    if (this.lang === 'zh-CN') {
+    if (this.lang === Language.CN) {
       this.suggestJump()
     }
   },
@@ -70,7 +71,7 @@ export default {
       const cnHref = href.indexOf('eleme.cn') > -1 || href.indexOf('element-cn') > -1 || href.indexOf('element.faas') > -1
       if (cnHref || preferGithub) return
       setTimeout(() => {
-        if (this.lang !== 'zh-CN') return
+        if (this.lang !== Language.CN) return
         this.$confirm('建议大陆用户访问部署在国内的站点，是否跳转？', '提示')
           .then(() => {
             location.replace('https://element-plus.gitee.io')

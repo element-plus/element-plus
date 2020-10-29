@@ -44,6 +44,7 @@
 
 <script>
 import algoliasearch from 'algoliasearch'
+import { Language } from '../enums/language'
 
 export default {
   data() {
@@ -52,22 +53,22 @@ export default {
       query: '',
       isEmpty: false,
       langs: {
-        'zh-CN': {
+        [Language.CN]: {
           search: '搜索文档',
           empty: '无匹配结果',
           index: 'zh',
         },
-        'en-US': {
+        [Language.EN]: {
           search: 'Search',
           empty: 'No results',
           index: 'en',
         },
-        'es': {
+        [Language.ES]: {
           search: 'Buscar',
           empty: 'No hay datos que coincidan',
           index: 'es',
         },
-        'fr-FR': {
+        [Language.FR]: {
           search: 'Rechercher',
           empty: 'Aucun résultat',
           index: 'fr',
