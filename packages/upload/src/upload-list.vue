@@ -72,13 +72,13 @@ import { defineComponent, ref } from 'vue'
 import { NOOP } from '@vue/shared'
 
 import { t } from '@element-plus/locale'
-import { ElProgress } from '@element-plus/progress'
+import { Progress } from '@element-plus/progress'
 
 import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElUploadList',
-  components: { ElProgress },
+  components: { ElProgress: Progress },
   props: {
     files: {
       type: Array as PropType<File[]>,
