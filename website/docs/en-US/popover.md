@@ -15,7 +15,7 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
     trigger="hover"
     content="this is content, this is content, this is content"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>Hover to activate</el-button>
     </template>
   </el-popover>
@@ -27,7 +27,7 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
     trigger="click"
     content="this is content, this is content, this is content"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>Click to activate</el-button>
     </template>
   </el-popover>
@@ -40,7 +40,7 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
     trigger="focus"
     content="this is content, this is content, this is content"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>Focus to activate</el-button>
     </template>
   </el-popover>
@@ -53,7 +53,7 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
     content="this is content, this is content, this is content"
     :visible="visible"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button @click="visible = !visible">Manual to activate</el-button>
     </template>
   </el-popover>
@@ -83,7 +83,7 @@ Other components can be nested in popover. Following is an example of nested tab
   :width="400"
   trigger="click"
 >
-  <template v-slot:reference>
+  <template #reference>
     <el-button>Click to activate</el-button>
   </template>
   <el-table :data="gridData">
@@ -137,7 +137,7 @@ Of course, you can nest other operations. It's more light-weight than using a di
     <el-button size="mini" type="text" @click="visible = false">cancel</el-button>
     <el-button type="primary" size="mini" @click="visible = false">confirm</el-button>
   </div>
-  <template v-slot:reference>
+  <template #reference>
     <el-button @click="visible = true">Delete</el-button>
   </template>
 </el-popover>

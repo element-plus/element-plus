@@ -119,7 +119,7 @@ Vous pouvez afficher plus de lignes et formater leur contenu.
 :::demo Utiliser un slot nommé `content` au lieu de l'attribut.
 ```html
 <el-tooltip placement="top">
-  <template v-slot:content>
+  <template #content>
     Multiples lignes<br/>Seconde ligne
   </template>
   <el-button>Top center</el-button>

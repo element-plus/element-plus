@@ -15,7 +15,7 @@ Similar a un Tooltip, Popover está construido con `Vue-popper`. Así que para a
     trigger="hover"
     content="this is content, this is content, this is content"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>Hover to activate</el-button>
     </template>
   </el-popover>
@@ -27,7 +27,7 @@ Similar a un Tooltip, Popover está construido con `Vue-popper`. Así que para a
     trigger="click"
     content="this is content, this is content, this is content"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>Click to activate</el-button>
     </template>
   </el-popover>
@@ -40,7 +40,7 @@ Similar a un Tooltip, Popover está construido con `Vue-popper`. Así que para a
     trigger="focus"
     content="this is content, this is content, this is content"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>Focus to activate</el-button>
     </template>
   </el-popover>
@@ -53,7 +53,7 @@ Similar a un Tooltip, Popover está construido con `Vue-popper`. Así que para a
     content="this is content, this is content, this is content"
     :visible="visible"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button @click="visible = !visible">Manual to activate</el-button>
     </template>
   </el-popover>
@@ -82,7 +82,7 @@ Otros componentes pueden anidarse dentro de popover. A continuación un ejemplo 
   :width="400"
   trigger="click"
 >
-  <template v-slot:reference>
+  <template #reference>
     <el-button>Click to activate</el-button>
   </template>
   <el-table :data="gridData">
@@ -136,7 +136,7 @@ Por supuesto, puedes anidar otras operaciones. Es más ligero que utilizar un `d
     <el-button size="mini" type="text" @click="visible = false">cancel</el-button>
     <el-button type="primary" size="mini" @click="visible = false">confirm</el-button>
   </div>
-  <template v-slot:reference>
+  <template #reference>
     <el-button @click="visible = true">Delete</el-button>
   </template>
 </el-popover>

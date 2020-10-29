@@ -119,7 +119,7 @@ Despliegue múltiples líneas de texto y establezca su formato.
 :::demo Sobrecriba el atributo `content` del `el-tooltip` añadiendo un slot llamado `content`.
 ```html
 <el-tooltip placement="top">
-  <template v-slot:content>
+  <template #content>
     multiple lines<br/>second line
   </template>
   <el-button>Top center</el-button>

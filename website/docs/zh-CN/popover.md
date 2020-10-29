@@ -13,7 +13,7 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
     trigger="hover"
     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>hover 激活</el-button>
     </template>
   </el-popover>
@@ -25,7 +25,7 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
     trigger="click"
     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>click 激活</el-button>
     </template>
   </el-popover>
@@ -38,7 +38,7 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
     trigger="focus"
     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>focus 激活</el-button>
     </template>
   </el-popover>
@@ -52,7 +52,7 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
     :visible="visible"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button @click="visible = !visible">手动激活</el-button>
     </template>
   </el-popover>
@@ -81,7 +81,7 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
   :width="400"
   trigger="click"
 >
-  <template v-slot:reference>
+  <template #reference>
     <el-button>click 激活</el-button>
   </template>
   <el-table :data="gridData">
@@ -135,7 +135,7 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
     <el-button size="mini" type="text" @click="visible = false">取消</el-button>
     <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
   </div>
-  <template v-slot:reference>
+  <template #reference>
     <el-button @click="visible = true">删除</el-button>
   </template>
 </el-popover>

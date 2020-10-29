@@ -15,7 +15,7 @@ Similaire à Tooltip, Popover est aussi construit avec `Vue-popper`. Certains at
     trigger="hover"
     content="this is content, this is content, this is content"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>S'active au passage du curseur</el-button>
     </template>  
   </el-popover>
@@ -27,7 +27,7 @@ Similaire à Tooltip, Popover est aussi construit avec `Vue-popper`. Certains at
     trigger="click"
     content="this is content, this is content, this is content"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>S'active en cliquant</el-button>
     </template>
   </el-popover>
@@ -40,7 +40,7 @@ Similaire à Tooltip, Popover est aussi construit avec `Vue-popper`. Certains at
     trigger="focus"
     content="this is content, this is content, this is content"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button>S'active au focus</el-button>
     </template>
   </el-popover>
@@ -53,7 +53,7 @@ Similaire à Tooltip, Popover est aussi construit avec `Vue-popper`. Certains at
     content="this is content, this is content, this is content"
     :visible="visible"
   >
-    <template v-slot:reference>
+    <template #reference>
       <el-button @click="visible = !visible">S'active manuellement</el-button>
     </template>
   </el-popover>
@@ -83,7 +83,7 @@ D'autres composants peuvent s'imbriquer dans un popover.
   :width="400"
   trigger="click"
 >
-  <template v-slot:reference>
+  <template #reference>
     <el-button>Cliquez pour activer</el-button>
   </template>
   <el-table :data="gridData">
@@ -137,7 +137,7 @@ Vous pouvez aussi imbriquer des opérations. Procéder ainsi est plus léger que
     <el-button size="mini" type="text" @click="visible = false">Annuler</el-button>
     <el-button type="primary" size="mini" @click="visible = false">Confirmer</el-button>
   </div>
-  <template v-slot:reference>
+  <template #reference>
     <el-button @click="visible = true">Supprimer</el-button>
   </template>
 </el-popover>
