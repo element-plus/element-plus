@@ -50,16 +50,14 @@
 </template>
 
 <script lang='ts'>
-import ElInput from '@element-plus/input'
+import { Input as ElInput } from '@element-plus/input'
 import RepeatClick from '@element-plus/directives/repeat-click'
 import {
   defineComponent,
   computed,
-  getCurrentInstance,
   inject,
   onMounted,
   onUpdated,
-  toRefs,
   watch,
   ref,
 } from 'vue'
@@ -104,7 +102,7 @@ export default defineComponent({
     size: {
       type: String,
       default: 'large',
-      validator: (val: string) => ['large', 'small'].includes(val),
+      validator: (val: string) => ['large', 'medium', 'small', 'mini'].includes(val),
     },
     controls: {
       type: Boolean,
@@ -131,30 +129,6 @@ export default defineComponent({
     const userInput = ref(null)
     let elForm = inject('elForm', {})
     let elFormItem = inject('elFormItem', {})
-
-    watch(() => props.modelValue, () => {
-      let newVal = (props.modelValue === undefined ? props.modelValue : Number(props.modelValue))
-      if (newVal !== undefined) {
-        if (isNaN(newVal)) {
-          return
-        }
-        if (props.stepStrictly) {
-          const stepPrecision = getPrecision(props.step)
-          const precisionFactor = Math.pow(10, stepPrecision)
-          newVal = Math.round(newVal / props.step) * precisionFactor * props.step / precisionFactor
-        }
-        if (props.precision !== undefined) {
-          newVal = toPrecision(newVal, props.precision)
-        }
-      }
-      if (newVal >= props.max) newVal = props.max
-      if (newVal <= props.min) newVal = props.min
-      currentValue.value = newVal
-      userInput.value = null
-      ctx.emit('update:modelValue', newVal)
-    },
-    { immediate: true },
-    )
 
     //computed
 
@@ -269,8 +243,32 @@ export default defineComponent({
       })
     }
 
+    watch(() => props.modelValue, () => {
+      let newVal = (props.modelValue === undefined ? props.modelValue : Number(props.modelValue))
+      if (newVal !== undefined) {
+        if (isNaN(newVal)) {
+          return
+        }
+        if (props.stepStrictly) {
+          const stepPrecision = getPrecision(props.step)
+          const precisionFactor = Math.pow(10, stepPrecision)
+          newVal = Math.round(newVal / props.step) * precisionFactor * props.step / precisionFactor
+        }
+        if (props.precision !== undefined) {
+          newVal = toPrecision(newVal, props.precision)
+        }
+      }
+      if (newVal >= props.max) newVal = props.max
+      if (newVal <= props.min) newVal = props.min
+      currentValue.value = newVal
+      userInput.value = null
+      ctx.emit('update:modelValue', newVal)
+    },
+    { immediate: true },
+    )
+
     onMounted(() => {
-      let innerInput = input.value.input.value
+      const innerInput = input.value.input
       innerInput.setAttribute('role', 'spinbutton')
       innerInput.setAttribute('aria-valuemax', props.max)
       innerInput.setAttribute('aria-valuemin', props.min)
@@ -279,9 +277,8 @@ export default defineComponent({
     })
 
     onUpdated(() => {
-      const { refs } = getCurrentInstance()
-      if (!refs || !refs.input.value) return
-      const innerInput = refs.input.input//TODO
+      if (!input.value) return
+      const innerInput = input.value.input
       innerInput.setAttribute('aria-valuenow', currentValue.value)
     })
 
@@ -294,6 +291,7 @@ export default defineComponent({
       controlsAtRight,
       decrease,
       minDisabled,
+      maxDisabled,
       increase,
       displayValue,
       handleBlur,
