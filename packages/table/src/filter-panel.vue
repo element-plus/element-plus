@@ -90,9 +90,8 @@ import { Popper as ElPopper } from '@element-plus/popper'
 import { t } from '@element-plus/locale'
 import { ClickOutside } from '@element-plus/directives'
 import useDropdown from './dropdown'
-import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
-import ElCheckboxGroup from '@element-plus/checkbox/src/checkbox-group.vue'
-import ElScrollbar from '@element-plus/scrollbar/src/index.vue'
+import { Checkbox as ElCheckbox, CheckboxGroup as ElCheckboxGroup } from '@element-plus/checkbox'
+import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
 import {
   ref,
   computed,

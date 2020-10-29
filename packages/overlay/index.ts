@@ -1,3 +1,3 @@
-import ElOverlay from './src/index.vue'
+import Overlay from './src/index.vue'
 
-export default ElOverlay
+export { Overlay }

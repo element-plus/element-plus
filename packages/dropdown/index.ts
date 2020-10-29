@@ -8,3 +8,5 @@ export default (app: App): void => {
   app.component(DropdownItem.name, DropdownItem)
   app.component(DropdownMenu.name, DropdownMenu)
 }
+
+export { Dropdown, DropdownItem, DropdownMenu }

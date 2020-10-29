@@ -12,3 +12,5 @@ export default (app: App): void => {
   app.component(Footer.name, Footer)
   app.component(Header.name, Header)
 }
+
+export { Container, Aside, Main, Footer, Header }

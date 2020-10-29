@@ -17,7 +17,7 @@ import { stop } from '@element-plus/utils/dom'
 import { isValidWidthUnit } from '@element-plus/utils/validators'
 import { PatchFlags, renderBlock, renderIf } from '@element-plus/utils/vnode'
 
-import ElOverlay from '@element-plus/overlay'
+import { Overlay } from '@element-plus/overlay'
 import {
   default as useDialog,
   CLOSE_EVENT,
@@ -185,7 +185,7 @@ export default defineComponent({
     const trappedDialog = withDirectives(dialog, [[TrapFocus]])
     const overlay = withDirectives(
       createVNode(
-        ElOverlay,
+        Overlay,
         {
           mask: this.modal,
           onClick: this.onModalClick,

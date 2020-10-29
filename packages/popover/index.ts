@@ -6,3 +6,5 @@ export default (app: App): void => {
   app.component(Popover.name, Popover)
   app.directive(VPopover, PopoverDirective)
 }
+
+export { Popover, PopoverDirective, VPopover }
