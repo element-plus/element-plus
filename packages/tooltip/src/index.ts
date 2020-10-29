@@ -80,10 +80,6 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
-    tabindex: {
-      type: [Number, String],
-      default: 0,
-    },
     transition: {
       type: String,
       default: 'el-fade-in-linear',
@@ -129,7 +125,6 @@ export default defineComponent({
       placement,
       popperOptions,
       showAfter,
-      tabindex,
       transition,
       trigger,
       visibleArrow,
@@ -147,7 +142,6 @@ export default defineComponent({
         placement,
         showAfter: openDelay || showAfter, // this is for mapping API due to we decided to rename the current openDelay API to showAfter for better readability,
         showArrow: visibleArrow,
-        tabIndex: String(tabindex),
         transition,
         trigger,
         popperOptions, // Breakings!: Once popperOptions is provided, the whole popper is under user's control, ElPopper nolonger generates the default options for popper, this is by design if the user wants the full contorl on @PopperJS, read the doc @https://popper.js.org/docs/v2/
