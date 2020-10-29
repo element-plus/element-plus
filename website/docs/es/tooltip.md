@@ -119,7 +119,9 @@ Despliegue múltiples líneas de texto y establezca su formato.
 :::demo Sobrecriba el atributo `content` del `el-tooltip` añadiendo un slot llamado `content`.
 ```html
 <el-tooltip placement="top">
-  <div slot="content">multiple lines<br/>second line</div>
+  <template v-slot:content>
+    multiple lines<br/>second line
+  </template>
   <el-button>Top center</el-button>
 </el-tooltip>
 ```
@@ -127,7 +129,7 @@ Despliegue múltiples líneas de texto y establezca su formato.
 
 ### Uso Avanzado
 
-Adicional a los usos básicos, existen algunos atributos que permiten la personalización: 
+Adicional a los usos básicos, existen algunos atributos que permiten la personalización:
 
 el atributo `transition` permite personalizar la animación con la que el Tooltip se muestra o se esconda, el valor por defecto es `el-fade-in-linear`.
 

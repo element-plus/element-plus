@@ -119,7 +119,9 @@ Display multiple lines of text and set their format.
 :::demo Override attribute `content` of `el-tooltip` by adding a slot named `content`.
 ```html
 <el-tooltip placement="top">
-  <div slot="content">multiple lines<br/>second line</div>
+  <template v-slot:content>
+    multiple lines<br/>second line
+  </template>
   <el-button>Top center</el-button>
 </el-tooltip>
 ```
