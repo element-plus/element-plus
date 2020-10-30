@@ -19,13 +19,15 @@ Do not support `v-model` modifiers.
 <el-input placeholder="Please input" v-model="input"></el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const input = ref('')
     return {
-      input: ''
+      input
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -42,13 +44,15 @@ export default {
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const input = ref('')
     return {
-      input: ''
+      input
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -65,13 +69,15 @@ export default {
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const input = ref('')
     return {
-      input: ''
+      input
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -84,13 +90,15 @@ export default {
 <el-input placeholder="Please input password" v-model="input" show-password></el-input>
 
 <script>
-  export default {
-    data() {
-      return {
-        input: ''
-      }
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const input = ref('')
+    return {
+      input
     }
   }
+})
 </script>
 ```
 :::
@@ -119,12 +127,16 @@ Add an icon to indicate input type.
   <el-input
     placeholder="Pick a date"
     v-model="input3">
-    <i slot="suffix" class="el-input__icon el-icon-date"></i>
+    <template v-slot:suffix>
+      <i class="el-input__icon el-icon-date"></i>
+    </template>
   </el-input>
   <el-input
     placeholder="Type something"
     v-model="input4">
-    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+    <template v-slot:prefix>
+      <i class="el-input__icon el-icon-search"></i>
+    </template>
   </el-input>
 </div>
 
@@ -136,16 +148,21 @@ Add an icon to indicate input type.
 </style>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const input1 = ref('')
+    const input2 = ref('')
+    const input3 = ref('')
+    const input4 = ref('')
     return {
-      input1: '',
-      input2: '',
-      input3: '',
-      input4: ''
+      input1,
+      input2,
+      input3,
+      input4
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -165,13 +182,15 @@ Resizable for entering multiple lines of text information. Add attribute `type="
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const textarea = ref('')
     return {
-      textarea: ''
+      textarea
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -198,14 +217,17 @@ Setting the `autosize` prop for a textarea type of Input makes the height to aut
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const textarea1 = ref('')
+    const textarea2 = ref('')
     return {
-      textarea1: '',
-      textarea2: ''
+      textarea1,
+      textarea2
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -219,22 +241,26 @@ Prepend or append an element, generally a label or a button.
 ```html
 <div>
   <el-input placeholder="Please input" v-model="input1">
-    <template slot="prepend">Http://</template>
+    <template v-slot:prepend>Http://</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Please input" v-model="input2">
-    <template slot="append">.com</template>
+    <template v-slot:append>.com</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Please input" v-model="input3" class="input-with-select">
-    <el-select v-model="select" slot="prepend" placeholder="Select">
-      <el-option label="Restaurant" value="1"></el-option>
-      <el-option label="Order No." value="2"></el-option>
-      <el-option label="Tel" value="3"></el-option>
-    </el-select>
-    <el-button slot="append" icon="el-icon-search"></el-button>
+    <template v-slot:prepend>
+      <el-select v-model="select" placeholder="Select">
+        <el-option label="Restaurant" value="1"></el-option>
+        <el-option label="Order No." value="2"></el-option>
+        <el-option label="Tel" value="3"></el-option>
+      </el-select>
+    </template>
+    <template v-slot:append>
+      <el-button icon="el-icon-search"></el-button>
+    </template>
   </el-input>
 </div>
 
@@ -247,16 +273,21 @@ Prepend or append an element, generally a label or a button.
   }
 </style>
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const input1 = ref('')
+    const input2 = ref('')
+    const input3 = ref('')
+    const select = ref('')
     return {
-      input1: '',
-      input2: '',
-      input3: '',
-      select: ''
+      input1,
+      input2,
+      input3,
+      select
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -288,16 +319,21 @@ export default {
 </div>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const input1 = ref('')
+    const input2 = ref('')
+    const input3 = ref('')
+    const input4 = ref('')
     return {
-      input1: '',
-      input2: '',
-      input3: '',
-      input4: ''
+      input1,
+      input2,
+      input3,
+      input4
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -332,45 +368,55 @@ You can get some recommended tips based on the current input.
   </el-col>
 </el-row>
 <script>
-  export default {
-    data() {
-      return {
-        links: [],
-        state1: '',
-        state2: ''
-      };
-    },
-    methods: {
-      querySearch(queryString, cb) {
-        var links = this.links;
-        var results = queryString ? links.filter(this.createFilter(queryString)) : links;
+import { defineComponent, ref, onMounted } from "vue";
+export default defineComponent({
+  setup() {
+    const restaurants = ref([]);
+    const state1 = ref("");
+    const state2 = ref("");
+    const querySearch = (queryString, cb) => {
+      var results = queryString
+        ? restaurants.value.filter(createFilter(queryString))
+        : restaurants.value;
         // call callback function to return suggestions
         cb(results);
-      },
-      createFilter(queryString) {
-        return (link) => {
-          return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-      loadAll() {
-        return [
-          { "value": "vue", "link": "https://github.com/vuejs/vue" },
-          { "value": "element", "link": "https://github.com/ElemeFE/element" },
-          { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
-          { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
-          { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
-          { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
-          { "value": "babel", "link": "https://github.com/babel/babel" }
-         ];
-      },
-      handleSelect(item) {
-        console.log(item);
-      }
+    };
+    const createFilter = (queryString) => {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
+      };
+    };
+    const loadAll = () => {
+      return [
+        { "value": "vue", "link": "https://github.com/vuejs/vue" },
+        { "value": "element", "link": "https://github.com/ElemeFE/element" },
+        { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
+        { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
+        { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
+        { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
+        { "value": "babel", "link": "https://github.com/babel/babel" }
+        ];
     },
-    mounted() {
-      this.links = this.loadAll();
-    }
-  }
+    const handleSelect = (item) => {
+      console.log(item);
+    };
+    onMounted(() => {
+      restaurants.value = loadAll();
+    });
+    return {
+      restaurants,
+      state1,
+      state2,
+      querySearch,
+      createFilter,
+      loadAll,
+      handleSelect,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -386,19 +432,18 @@ Customize how suggestions are displayed.
   v-model="state"
   :fetch-suggestions="querySearch"
   placeholder="Please input"
-  @select="handleSelect">
-  <i
-    class="el-icon-edit el-input__icon"
-    slot="suffix"
-    @click="handleIconClick">
-  </i>
-  <template slot-scope="{ item }">
+  @select="handleSelect"
+>
+  <template v-slot:suffix>
+    <i class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
+  </template>
+  <template v-slot="{ item }">
     <div class="value">{{ item.value }}</div>
     <span class="link">{{ item.link }}</span>
   </template>
 </el-autocomplete>
 
-<style>
+<style lang="scss">
   .my-autocomplete {
     li {
       line-height: normal;
@@ -417,47 +462,61 @@ Customize how suggestions are displayed.
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
-        links: [],
-        state: ''
+import { defineComponent, ref, onMounted } from "vue";
+export default defineComponent({
+  setup() {
+    const links = ref([]);
+    const state = ref("");
+
+    const querySearch = (queryString, cb) => {
+      var results = queryString
+        ? links.value.filter(createFilter(queryString))
+        : links.value;
+      // call callback function to return suggestion objects
+      cb(results);
+    };
+    const createFilter = (queryString) => {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
       };
-    },
-    methods: {
-      querySearch(queryString, cb) {
-        var links = this.links;
-        var results = queryString ? links.filter(this.createFilter(queryString)) : links;
-        // call callback function to return suggestion objects
-        cb(results);
-      },
-      createFilter(queryString) {
-        return (link) => {
-          return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-      loadAll() {
-        return [
-          { "value": "vue", "link": "https://github.com/vuejs/vue" },
-          { "value": "element", "link": "https://github.com/ElemeFE/element" },
-          { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
-          { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
-          { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
-          { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
-          { "value": "babel", "link": "https://github.com/babel/babel" }
-         ];
-      },
-      handleSelect(item) {
-        console.log(item);
-      },
-      handleIconClick(ev) {
-        console.log(ev);
-      }
-    },
-    mounted() {
-      this.links = this.loadAll();
-    }
-  }
+    };
+    const loadAll = () => {
+      return [
+        { "value": "vue", "link": "https://github.com/vuejs/vue" },
+        { "value": "element", "link": "https://github.com/ElemeFE/element" },
+        { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
+        { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
+        { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
+        { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
+        { "value": "babel", "link": "https://github.com/babel/babel" }
+        ];
+    };
+    const handleSelect = (item) => {
+      console.log(item);
+    };
+    
+    const handleIconClick = (ev) => {
+      console.log(ev);
+    };
+
+    onMounted(() => {
+      links.value = loadAll();
+    });
+
+    return {
+      links,
+      state,
+      querySearch,
+      createFilter,
+      loadAll,
+      handleSelect,
+      handleIconClick,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -475,48 +534,57 @@ Search data from server-side.
   @select="handleSelect"
 ></el-autocomplete>
 <script>
-  export default {
-    data() {
-      return {
-        links: [],
-        state: '',
-        timeout:  null
-      };
+import { defineComponent, ref, onMounted } from "vue";
+export default defineComponent({
+  setup() {
+    const links = ref([]);
+    const state = ref("");
+    const loadAll = () => {
+      return [
+        { "value": "vue", "link": "https://github.com/vuejs/vue" },
+        { "value": "element", "link": "https://github.com/ElemeFE/element" },
+        { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
+        { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
+        { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
+        { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
+        { "value": "babel", "link": "https://github.com/babel/babel" }
+        ];
     },
-    methods: {
-      loadAll() {
-        return [
-          { "value": "vue", "link": "https://github.com/vuejs/vue" },
-          { "value": "element", "link": "https://github.com/ElemeFE/element" },
-          { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
-          { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
-          { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
-          { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
-          { "value": "babel", "link": "https://github.com/babel/babel" }
-         ];
-      },
-      querySearchAsync(queryString, cb) {
-        var links = this.links;
-        var results = queryString ? links.filter(this.createFilter(queryString)) : links;
+    let timeout;
+    const querySearchAsync = (queryString, cb) => {
+      var results = queryString
+        ? links.value.filter(createFilter(queryString))
+        : links.value;
 
-        clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
-          cb(results);
-        }, 3000 * Math.random());
-      },
-      createFilter(queryString) {
-        return (link) => {
-          return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-      handleSelect(item) {
-        console.log(item);
-      }
-    },
-    mounted() {
-      this.links = this.loadAll();
-    }
-  };
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        cb(results);
+      }, 3000 * Math.random());
+    };
+    const createFilter = (queryString) => {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
+      };
+    };
+    const handleSelect = (item) => {
+      console.log(item);
+    };
+    onMounted(() => {
+      links.value = loadAll();
+    });
+    return {
+      links,
+      state,
+      querySearchAsync,
+      createFilter,
+      loadAll,
+      handleSelect,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -545,14 +613,17 @@ Search data from server-side.
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    const text = ref('')
+    const textarea = ref('')
     return {
-      text: '',
-      textarea: ''
+      text,
+      textarea
     }
   }
-}
+})
 </script>
 ```
 :::
