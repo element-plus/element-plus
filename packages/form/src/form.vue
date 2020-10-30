@@ -15,10 +15,9 @@ import {
   defineComponent, provide, watch, ref,
   computed, reactive, toRefs,
 } from 'vue'
-import mitt from 'mitt'
 import {
   elFormKey, ElFormItemContext as FormItemCtx,
-  elFormEvents, ValidateFieldCallback,
+  ValidateFieldCallback,
 } from './token'
 import { FieldErrorList } from 'async-validator'
 
@@ -93,35 +92,29 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const formMitt = mitt()
 
     const fields: FormItemCtx[] = []
 
     watch(
       () => props.rules,
       () => {
-        fields.forEach(field => {
-          field.removeValidateEvents()
-          field.addValidateEvents()
-        })
-
         if (props.validateOnRuleChange) {
           validate(() => ({}))
         }
       },
     )
 
-    formMitt.on<FormItemCtx>(elFormEvents.addField, field => {
+    const addField = (field: FormItemCtx) => {
       if (field) {
         fields.push(field)
       }
-    })
+    }
 
-    formMitt.on<FormItemCtx>(elFormEvents.removeField, field => {
+    const removeField = (field: FormItemCtx) => {
       if (field.prop) {
         fields.splice(fields.indexOf(field), 1)
       }
-    })
+    }
 
     const resetFields = () => {
       if (!props.model) {
@@ -202,12 +195,13 @@ export default defineComponent({
     }
 
     const elForm = reactive({
-      formMitt,
       ...toRefs(props),
       resetFields,
       clearValidate,
       validateField,
       emit,
+      addField,
+      removeField,
       ...useFormLabelWidth(),
     })
 

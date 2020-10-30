@@ -1,5 +1,4 @@
-import type { InjectionKey } from 'vue'
-import type { Emitter } from 'mitt'
+import type { ComputedRef, InjectionKey, Ref } from 'vue'
 import type {
   FieldErrorList,
 } from 'async-validator'
@@ -8,13 +7,15 @@ export interface ElFormContext {
   registerLabelWidth(width: number, oldWidth: number): void
   deregisterLabelWidth(width: number): void
   autoLabelWidth: string | undefined
-  formMitt: Emitter
   emit: (evt: string, ...args: any[]) => void
+  addField: (field: ElFormItemContext) => void
+  removeField: (field: ElFormItemContext) => void
 
   labelSuffix: string
   inline?: boolean
   model?: Record<string, unknown>
   size?: string
+  disabled?: boolean
   showMessage?: boolean
   labelPosition?: string
   labelWidth?: string
@@ -29,20 +30,13 @@ export interface ValidateFieldCallback {
 
 export interface ElFormItemContext {
   prop?: string
+  validateState: Ref<string> | string
+  elFormItemSize: ComputedRef<string> | string
   validate(trigger?: string, callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
-  addValidateEvents(): void
-  removeValidateEvents(): void
   resetField(): void
   clearValidate(): void
 }
 
-// TODO: change it to symbol
-export const elFormKey: InjectionKey<ElFormContext> = 'elForm' as any
-
-export const elFormItemKey: InjectionKey<ElFormItemContext> = 'elFormItem' as any
-
-export const elFormEvents = {
-  addField: 'el.form.addField',
-  removeField: 'el.form.removeField',
-} as const
+export const elFormKey: InjectionKey<ElFormContext> = Symbol('elForm')
+export const elFormItemKey: InjectionKey<ElFormItemContext> = Symbol('elFormItem')

@@ -71,7 +71,6 @@ export default defineComponent({
   },
   setup(props) {
     const collapse = inject<CollapseProvider>('collapse')
-    const collapseMitt = collapse?.collapseMitt
 
     const contentWrapStyle = ref({
       height: 'auto',
@@ -98,13 +97,13 @@ export default defineComponent({
 
     const handleHeaderClick = () => {
       if(props.disabled) return
-      collapseMitt?.emit('item-click', props.name)
+      collapse?.triggerClick(props.name)
       focusing.value = false
       isClick.value = true
     }
 
     const handleEnterClick = () => {
-      collapseMitt?.emit('item-click', props.name)
+      collapse?.triggerClick(props.name)
     }
 
     return {

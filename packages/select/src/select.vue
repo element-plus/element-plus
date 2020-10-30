@@ -294,6 +294,8 @@ export default defineComponent({
       getValueKey,
       navigateOptions,
       dropMenuVisible,
+      queryChange,
+      groupQueryChange,
 
       reference,
       input,
@@ -330,12 +332,13 @@ export default defineComponent({
       filteredOptionsCount,
       hoverIndex,
       handleOptionSelect,
-      selectEmitter: states.selectEmitter,
       onOptionDestroy,
       props,
       inputWidth,
       selectWrapper,
       popper,
+      queryChange,
+      groupQueryChange,
     }))
 
     onMounted(() => {

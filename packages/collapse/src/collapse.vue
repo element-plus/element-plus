@@ -14,11 +14,10 @@ import {
   Ref,
   onUnmounted,
 } from 'vue'
-import mitt, { Emitter } from 'mitt'
 
 export interface CollapseProvider {
   activeNames: Ref
-  collapseMitt: Emitter
+  triggerClick: (name: string | number) => void
 }
 export default defineComponent({
   name: 'ElCollapse',
@@ -34,7 +33,6 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, { emit }) {
     const activeNames = ref([].concat(props.modelValue))
-    const collapseMitt: Emitter = mitt()
 
     const setActiveNames = _activeNames => {
       activeNames.value = [].concat(_activeNames)
@@ -70,15 +68,9 @@ export default defineComponent({
       },
     )
 
-    collapseMitt.on('item-click', handleItemClick)
-
-    onUnmounted(() => {
-      collapseMitt.all.clear()
-    })
-
     provide('collapse', {
       activeNames,
-      collapseMitt,
+      triggerClick: handleItemClick,
     })
 
     return {

@@ -1,8 +1,11 @@
-import type { InjectionKey } from 'vue'
-import type { Emitter } from 'mitt'
+import type { InjectionKey, Ref } from 'vue'
 
 interface SelectGroupContext {
   disabled: boolean
+}
+
+export interface QueryChangeCtx {
+  query: string
 }
 
 export interface SelectContext {
@@ -14,6 +17,8 @@ export interface SelectContext {
     modelValue: unknown[]
     popperClass: string
   }
+  queryChange: Ref<QueryChangeCtx>
+  groupQueryChange: Ref<string>
   selectWrapper: HTMLElement
   cachedOptions: any[]
   selected: any | any[]
@@ -25,7 +30,6 @@ export interface SelectContext {
   optionsCount: number
   filteredOptionsCount: number
   options: unknown[]
-  selectEmitter: Emitter
   onOptionDestroy(i: number)
   handleOptionSelect(vm: unknown, byClick: boolean)
 }
@@ -33,8 +37,3 @@ export interface SelectContext {
 export const selectGroupKey: InjectionKey<SelectGroupContext> = Symbol('SelectGroup')
 
 export const selectKey: InjectionKey<SelectContext> = Symbol('Select')
-
-export const selectEvents = {
-  queryChange: 'elOptionQueryChange',
-  groupQueryChange: 'elOptionGroupQueryChange',
-}
