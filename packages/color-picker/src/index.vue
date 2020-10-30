@@ -87,7 +87,7 @@
 <script lang="ts">
 import { defineComponent,computed,ref,nextTick,reactive,watch,provide,inject, onMounted } from 'vue'
 import type { ComputedRef } from '@vue/reactivity'
-import ClickOutside from '@element-plus/directives/click-outside'
+import { ClickOutside } from '@element-plus/directives'
 import Color from './color'
 import SvPanel from './components/sv-panel.vue'
 import HueSlider from './components/hue-slider.vue'

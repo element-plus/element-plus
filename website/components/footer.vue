@@ -52,6 +52,7 @@
 </template>
 <script>
 import compoLang from '../i18n/component.json'
+import { Language } from '../enums/language'
 const version = '1.0.0' // element version
 
 export default {
@@ -64,7 +65,7 @@ export default {
 
   computed: {
     lang() {
-      return this.$route.path.split('/')[1] || 'zh-CN'
+      return this.$route.path.split('/')[1] || Language.CN
     },
 
     langConfig() {
@@ -72,7 +73,7 @@ export default {
     },
 
     gitterLink() {
-      return this.lang === 'zh-CN' ? 'https://gitter.im/ElemeFE/element' : 'https://gitter.im/element-en/Lobby'
+      return this.lang === Language.CN ? 'https://gitter.im/ElemeFE/element' : 'https://gitter.im/element-en/Lobby'
     },
   },
 }

@@ -6,3 +6,5 @@ export default (app: App): void => {
   app.directive('loading', vLoading)
   app.config.globalProperties.$loading = Loading
 }
+
+export { Loading, vLoading }

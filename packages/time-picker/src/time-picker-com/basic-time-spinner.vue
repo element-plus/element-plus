@@ -64,7 +64,7 @@ import {
 } from 'vue'
 import { Dayjs } from 'dayjs'
 import { RepeatClick } from '@element-plus/directives'
-import { ElScrollbar } from '@element-plus/scrollbar'
+import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
 import { getTimeLists } from './useTimePicker'
 
 export default defineComponent({

@@ -116,6 +116,7 @@
 </template>
 <script>
 import AlgoliaSearch from './search.vue'
+import { Language } from '../enums/language'
 import compoLang from '../i18n/component.json'
 
 const version = '1.0.0' // element version
@@ -133,17 +134,17 @@ export default {
       verDropdownVisible: true,
       langDropdownVisible: true,
       langs: {
-        'zh-CN': '中文',
-        'en-US': 'English',
-        'es': 'Español',
-        'fr-FR': 'Français',
+        [Language.CN]: '中文',
+        [Language.EN]: 'English',
+        [Language.ES]: 'Español',
+        [Language.FR]: 'Français',
       },
     }
   },
 
   computed: {
     lang() {
-      return this.$route.path.split('/')[1] || 'zh-CN'
+      return this.$route.path.split('/')[1] || Language.CN
     },
     displayedLang() {
       return this.langs[this.lang] || '中文'

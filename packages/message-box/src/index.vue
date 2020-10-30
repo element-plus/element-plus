@@ -99,8 +99,8 @@ import {
   reactive,
   toRefs,
 } from 'vue'
-import ElButton from '@element-plus/button/src/button.vue'
-import ElInput from '@element-plus/input/src/index.vue'
+import { Button as ElButton } from '@element-plus/button'
+import { Input as ElInput } from '@element-plus/input'
 import { t } from '@element-plus/locale'
 import Dialog  from '@element-plus/utils/aria-dialog'
 import usePopup from '@element-plus/utils/popup/usePopup'

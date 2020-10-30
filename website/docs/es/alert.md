@@ -88,13 +88,17 @@ Personalizar el botón de cerrar como texto u otros símbolos.
 </template>
 
 <script>
-  export default {
-    methods: {
-      hello() {
+  import { defineComponent } from 'vue'
+  export default defineComponent({
+    setup() {
+      const hello = () => {
         alert('Hello World!');
       }
+      return {
+        hello
+      }
     }
-  }
+  })
 </script>
 ```
 :::

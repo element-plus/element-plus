@@ -1,5 +1,5 @@
 import { getPropByPath } from '@element-plus/utils/util'
-import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
+import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
 import { h } from 'vue'
 import { Store, TreeNode, AnyObject, TableColumnCtx } from './table'
 
