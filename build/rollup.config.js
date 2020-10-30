@@ -1,3 +1,6 @@
+/**
+ * @deprecated use node api build
+ */
 // import vue from 'rollup-plugin-vue'
 import typescript from 'rollup-plugin-typescript2'
 import css from 'rollup-plugin-css-only'
@@ -50,6 +53,7 @@ export default inputs.map(name => ({
         ],
       },
       abortOnError: false,
+      clean: true,
     }),
     css(),
     vue({

@@ -29,9 +29,12 @@ export default [
       }),
       typescript({
         tsconfigOverride: {
+          'include': [
+            'packages/**/*',
+          ],
           'exclude': [
             'node_modules',
-            '__tests__',
+            'packages/**/__tests__/*',
           ],
         },
         abortOnError: false,
