@@ -1,6 +1,7 @@
 <template>
   <div
     ref="selectWrapper"
+    v-clickOutside="handleClose"
     class="el-select"
     :class="[selectSize ? 'el-select--' + selectSize : '']"
     @click.stop="toggleMenu"
@@ -139,7 +140,6 @@
           <el-select-menu
             v-show="visible && emptyText !== false"
             ref="popper"
-            v-clickOutside="handleClose"
           >
             <el-scrollbar
               v-show="options.length > 0 && !loading"
