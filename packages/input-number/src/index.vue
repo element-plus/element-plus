@@ -5,7 +5,7 @@
       inputNumberSize ? 'el-input-number--' + inputNumberSize : '',
       { 'is-disabled': inputNumberDisabled },
       { 'is-without-controls': !controls },
-      { 'is-controls-right': controlsAtRight }
+      { 'is-controls-right': controlsAtRight },
     ]"
     @dragstart.prevent
   >
@@ -14,7 +14,7 @@
       v-repeat-click="decrease"
       class="el-input-number__decrease"
       role="button"
-      :class="{'is-disabled': minDisabled}"
+      :class="{ 'is-disabled': minDisabled }"
       @keydown.enter="decrease"
     >
       <i :class="`el-icon-${controlsAtRight ? 'arrow-down' : 'minus'}`"></i>
@@ -22,9 +22,9 @@
     <span
       v-if="controls"
       v-repeat-click="increase"
-      role="button"
       class="el-input-number__increase"
-      :class="{'is-disabled': maxDisabled}"
+      role="button"
+      :class="{ 'is-disabled': maxDisabled }"
       @keydown.enter="increase"
     >
       <i :class="`el-icon-${controlsAtRight ? 'arrow-up' : 'plus'}`"></i>
@@ -41,38 +41,50 @@
       :label="label"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
-      @blur="handleBlur"
-      @focus="handleFocus"
-      @update:modelValue="handleInput"
+      @blur="event => $emit('blur', event)"
+      @focus="event => $emit('focus', event)"
+      @input="handleInput"
       @change="handleInputChange"
     />
   </div>
 </template>
-
-<script lang='ts'>
-import { Input as ElInput } from '@element-plus/input'
-import RepeatClick from '@element-plus/directives/repeat-click'
+<script lang="ts">
 import {
-  defineComponent,
   computed,
+  defineComponent,
+  reactive,
+  ref,
+  watch,
   inject,
   onMounted,
   onUpdated,
-  watch,
-  ref,
+  nextTick,
 } from 'vue'
-
+import { RepeatClick } from '@element-plus/directives'
+import { Input as ElInput } from '@element-plus/input'
+import type { PropType } from 'vue'
 const ELEMENT: {
-    size?: number
-  } = {}
-
+  size?: number
+} = {}
+interface ElForm {
+  disabled: boolean
+  statusIcon: string
+}
+interface ElFormItem {
+  elFormItemSize: number
+  validateState: string
+}
+interface IData {
+  currentValue: number | string
+  userInput: null | number | string
+}
 export default defineComponent({
   name: 'ElInputNumber',
   components: {
     ElInput,
   },
   directives: {
-    repeatClick: RepeatClick,
+    RepeatClick,
   },
   props: {
     step: {
@@ -91,18 +103,14 @@ export default defineComponent({
       type: Number,
       default: -Infinity,
     },
-    modelValue: {
-      type: Number,
-      default: 0,
-    },
+    modelValue: Number,
     disabled: {
       type: Boolean,
       default: false,
     },
     size: {
-      type: String,
-      default: 'large',
-      validator: (val: string) => ['large', 'medium', 'small', 'mini'].includes(val),
+      type: String as PropType<'medium' | 'small' | 'mini'>,
+      validator: (val: string) => ['medium', 'small', 'mini'].includes(val),
     },
     controls: {
       type: Boolean,
@@ -120,57 +128,60 @@ export default defineComponent({
       validator: (val: number) => val >= 0 && val === parseInt(val, 10),
     },
   },
-
-  emits: ['update:modelValue', 'blur', 'focus', 'change'],
-
-  setup(props, ctx) {
+  emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
+  setup(props, { emit }) {
     const input = ref(null)
-    const currentValue = ref(0)
-    const userInput = ref(null)
-    let elForm = inject('elForm', {})
-    let elFormItem = inject('elFormItem', {})
-
-    //computed
-
-    const minDisabled = computed(() => _decrease(props.modelValue, props.step) < props.min)
-    const maxDisabled = computed(() => _increase(props.modelValue, props.step) > props.max)
+    const data = reactive<IData>({
+      currentValue: 0,
+      userInput: null,
+    })
+    const elForm = inject<ElForm>('elForm', {} as any)
+    const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
+    const minDisabled = computed(() => {
+      return _decrease(props.modelValue) < props.min
+    })
+    const maxDisabled = computed(() => {
+      return _increase(props.modelValue) > props.max
+    })
     const numPrecision = computed(() => {
       const stepPrecision = getPrecision(props.step)
       if (props.precision !== undefined) {
         if (stepPrecision > props.precision) {
-          console.warn('[Element Warn][InputNumber]precision should not be less than the decimal places of step')
+          console.warn(
+            '[Element Warn][InputNumber]precision should not be less than the decimal places of step',
+          )
         }
         return props.precision
       } else {
         return Math.max(getPrecision(props.modelValue), stepPrecision)
       }
     })
-    const controlsAtRight = computed(() => props.controls && props.controlsPosition === 'right')
-    const _elFormItemSize = computed(() => (elFormItem || {}).elFormItemSize)
-    const inputNumberSize = computed(() => props.size || _elFormItemSize.value || (ELEMENT || {}).size)
-    const inputNumberDisabled = computed(() => props.disabled || !!(elForm || {}).disabled)
-    const displayValue = computed(() => {
-      if (userInput.value !== null) {
-        return userInput.value
-      }
-      let current = currentValue.value
-      if (typeof current === 'number') {
-        if (props.stepStrictly) {
-          const stepPrecision = getPrecision(props.step)
-          const precisionFactor = Math.pow(10, stepPrecision)
-          current = Math.round(current / props.step) * precisionFactor * props.step / precisionFactor
-        }
-        if (props.precision !== undefined) {
-          current = current.toFixed(props.precision)
-        }
-      }
-      return current
+    const controlsAtRight = computed(() => {
+      return props.controls && props.controlsPosition === 'right'
     })
-
-    //methods
-    const toPrecision = (num, precision) => {
-      if (precision === undefined) precision = numPrecision.value
-      return parseFloat(Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision))
+    const inputNumberSize = computed(() => {
+      return props.size || elFormItem.elFormItemSize || ELEMENT?.size
+    })
+    const inputNumberDisabled = computed(() => {
+      return props.disabled || !!(elForm || {}).disabled
+    })
+    const displayValue = computed(() => {
+      if (data.userInput !== null) {
+        return data.userInput
+      }
+      let currentValue = data.currentValue
+      if (typeof currentValue === 'number') {
+        if (props.precision !== undefined) {
+          currentValue = currentValue.toFixed(props.precision)
+        }
+      }
+      return currentValue
+    })
+    const toPrecision = (num, pre?) => {
+      if (pre === undefined) pre = numPrecision.value
+      return parseFloat(
+        Math.round(num * Math.pow(10, pre)) / Math.pow(10, pre) + '',
+      )
     }
     const getPrecision = value => {
       if (value === undefined) return 0
@@ -182,122 +193,119 @@ export default defineComponent({
       }
       return precision
     }
-    const _increase = (val, step) => {
-      if (typeof val !== 'number' && val !== undefined) return currentValue.value
+    const _increase = val => {
+      if (typeof val !== 'number' && val !== undefined) return data.currentValue
       const precisionFactor = Math.pow(10, numPrecision.value)
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
-      return toPrecision((precisionFactor * val + precisionFactor * step) / precisionFactor)
+      return toPrecision(
+        (precisionFactor * val + precisionFactor * props.step) / precisionFactor,
+      )
     }
-    const _decrease = (val, step) => {
-      if (typeof val !== 'number' && val !== undefined) return currentValue.value
+    const _decrease = val => {
+      if (typeof val !== 'number' && val !== undefined) return data.currentValue
       const precisionFactor = Math.pow(10, numPrecision.value)
-      return toPrecision((precisionFactor * val - precisionFactor * step) / precisionFactor)
+      // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
+      return toPrecision(
+        (precisionFactor * val - precisionFactor * props.step) / precisionFactor,
+      )
     }
     const increase = () => {
       if (inputNumberDisabled.value || maxDisabled.value) return
       const value = props.modelValue || 0
-      const newVal = _increase(value, props.step)
+      const newVal = _increase(value)
       setCurrentValue(newVal)
     }
     const decrease = () => {
       if (inputNumberDisabled.value || minDisabled.value) return
       const value = props.modelValue || 0
-      const newVal = _decrease(value, props.step)
+      const newVal = _decrease(value)
       setCurrentValue(newVal)
     }
-    const handleBlur = event => {
-      ctx.emit('blur', event)
-    }
-    const handleFocus = event => {
-      ctx.emit('focus', event)
-    }
     const setCurrentValue = newVal => {
-      const oldVal = currentValue.value
-      if (typeof newVal === 'number' && props.precision !== undefined) {
+      const oldVal = data.currentValue
+      if (
+        typeof newVal === 'number' &&
+        props.precision !== undefined
+      ) {
         newVal = toPrecision(newVal, props.precision)
       }
       if (newVal >= props.max) newVal = props.max
       if (newVal <= props.min) newVal = props.min
       if (oldVal === newVal) return
-      userInput.value = null
-      ctx.emit('update:modelValue', newVal)
-      ctx.emit('change', newVal, oldVal)
-      currentValue.value = newVal
+      data.userInput = null
+      emit('update:modelValue', newVal)
+      emit('input', newVal)
+      emit('change', newVal)
+      data.currentValue = newVal
     }
     const handleInput = value => {
-      userInput.value = value
+      return (data.userInput = value)
     }
     const handleInputChange = value => {
       const newVal = value === '' ? undefined : Number(value)
       if (!isNaN(newVal) || value === '') {
         setCurrentValue(newVal)
       }
-      userInput.value = null
-    }
-    const select = () => {
-      input.value.select()
+      data.userInput = null
     }
     const focus = () => {
       nextTick(() => {
         input.value.focus()
       })
     }
-
-    watch(() => props.modelValue, () => {
-      let newVal = (props.modelValue === undefined ? props.modelValue : Number(props.modelValue))
-      if (newVal !== undefined) {
-        if (isNaN(newVal)) {
-          return
+    const select = () => {
+      input.value.select()
+    }
+    watch(
+      () => props.modelValue,
+      value => {
+        let newVal = value === undefined ? value : Number(value)
+        if (newVal !== undefined) {
+          if (isNaN(newVal)) return
+          if (props.stepStrictly) {
+            const stepPrecision = getPrecision(props.step)
+            const precisionFactor = Math.pow(10, stepPrecision)
+            newVal =
+              (Math.round(newVal / props.step) * precisionFactor * props.step) /
+              precisionFactor
+          }
+          if (props.precision !== undefined) {
+            newVal = toPrecision(newVal, props.precision)
+          }
         }
-        if (props.stepStrictly) {
-          const stepPrecision = getPrecision(props.step)
-          const precisionFactor = Math.pow(10, stepPrecision)
-          newVal = Math.round(newVal / props.step) * precisionFactor * props.step / precisionFactor
-        }
-        if (props.precision !== undefined) {
-          newVal = toPrecision(newVal, props.precision)
-        }
-      }
-      if (newVal >= props.max) newVal = props.max
-      if (newVal <= props.min) newVal = props.min
-      currentValue.value = newVal
-      userInput.value = null
-      ctx.emit('update:modelValue', newVal)
-    },
-    { immediate: true },
+        if (newVal >= props.max) newVal = props.max
+        if (newVal <= props.min) newVal = props.min
+        data.currentValue = newVal
+        data.userInput = null
+        emit('update:modelValue', newVal)
+        emit('input', newVal)
+      },
+      { immediate: true },
     )
-
     onMounted(() => {
-      const innerInput = input.value.input
+      let innerInput = input.value.input
       innerInput.setAttribute('role', 'spinbutton')
       innerInput.setAttribute('aria-valuemax', props.max)
       innerInput.setAttribute('aria-valuemin', props.min)
-      innerInput.setAttribute('aria-valuenow', currentValue.value)
+      innerInput.setAttribute('aria-valuenow', data.currentValue)
       innerInput.setAttribute('aria-disabled', inputNumberDisabled.value)
     })
-
     onUpdated(() => {
-      if (!input.value) return
-      const innerInput = input.value.input
-      innerInput.setAttribute('aria-valuenow', currentValue.value)
+      let innerInput = input.value.input
+      innerInput.setAttribute('aria-valuenow', data.currentValue)
     })
-
     return {
       input,
-      currentValue,
-      userInput,
-      inputNumberSize,
-      inputNumberDisabled,
-      controlsAtRight,
-      decrease,
-      minDisabled,
-      maxDisabled,
-      increase,
       displayValue,
-      handleBlur,
-      handleFocus,
       handleInput,
       handleInputChange,
+      controlsAtRight,
+      decrease,
+      increase,
+      inputNumberSize,
+      inputNumberDisabled,
+      maxDisabled,
+      minDisabled,
     }
   },
 })
