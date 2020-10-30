@@ -1481,7 +1481,7 @@ Vous pouvez personnaliser le contenu du noeud cascader.
 :::demo Vous pouvez personnaliser le contenu du noeud cascader avec `scoped slot`. Vous aurez accès à `node` et` data` dans la portée, correspondant respectivement à l'objet Node et aux données de noeud du noeud actuel.
 ```html
 <el-cascader :options="options">
-  <template slot-scope="{ node, data }">
+  <template #default="{ node, data }">
     <span>{{ data.label }}</span>
     <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
   </template>
@@ -1910,7 +1910,7 @@ Vous pouvez personnaliser le contenu du noeud cascader.
 ### Cascader Attributs
 | Attribut | Description | Type  | Valeurs acceptées | Défaut |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | Valeur de liaison | - | — | — |
+| model-value / v-model | Valeur de liaison | - | — | — |
 | options | Les données des options，la clé de `value` et `label` peuvent être personnalisées par `Props`.| array | — | — |
 | props | Options de configuration, voir le tableau suivant. | object | — | — |
 | size | Taille de l'entrée | string | medium / small / mini | — |
@@ -1950,7 +1950,7 @@ Vous pouvez personnaliser le contenu du noeud cascader.
 ### CascaderPanel Attributes
 | Attribut | Description | Type  | Valeurs acceptées | Défaut |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | Baleur de liaison | - | — | — |
+| model-value / v-model | Baleur de liaison | - | — | — |
 | options | Les données des options, la clé de `value` et `label` peuvent être personnalisées par `Props`.| array | — | — |
 | props | Options de configuration, voir le tableau suivant. | object | — | — |
 

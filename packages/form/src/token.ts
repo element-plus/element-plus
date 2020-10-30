@@ -21,6 +21,7 @@ export interface ElFormContext {
   rules?: Record<string, unknown>
   statusIcon?: boolean
   hideRequiredAsterisk?: boolean
+  disabled?: boolean
 }
 
 export interface ValidateFieldCallback {
@@ -29,12 +30,15 @@ export interface ValidateFieldCallback {
 
 export interface ElFormItemContext {
   prop?: string
+  formItemMitt: Emitter
   validate(trigger?: string, callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
   addValidateEvents(): void
   removeValidateEvents(): void
   resetField(): void
   clearValidate(): void
+
+  size?: string
 }
 
 // TODO: change it to symbol
