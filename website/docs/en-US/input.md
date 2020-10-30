@@ -399,7 +399,7 @@ export default defineComponent({
         { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
         { "value": "babel", "link": "https://github.com/babel/babel" }
         ];
-    },
+    };
     const handleSelect = (item) => {
       console.log(item);
     };
@@ -549,7 +549,7 @@ export default defineComponent({
         { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
         { "value": "babel", "link": "https://github.com/babel/babel" }
         ];
-    },
+    };
     let timeout;
     const querySearchAsync = (queryString, cb) => {
       var results = queryString
