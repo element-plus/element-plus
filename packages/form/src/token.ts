@@ -4,12 +4,6 @@ import type {
   FieldErrorList,
 } from 'async-validator'
 
-export enum ElFormItemSize {
-  MINI = 'mini',
-  SMALL = 'small',
-  MEDIUM = 'medium',
-}
-
 export interface ElFormContext {
   registerLabelWidth(width: number, oldWidth: number): void
   deregisterLabelWidth(width: number): void
@@ -36,7 +30,6 @@ export interface ValidateFieldCallback {
 export interface ElFormItemContext {
   prop?: string
   formItemMitt: Emitter
-  elFormItemSize: ElFormItemSize
   validate(trigger?: string, callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
   addValidateEvents(): void
@@ -44,7 +37,7 @@ export interface ElFormItemContext {
   resetField(): void
   clearValidate(): void
 
-  size?: string
+  size?: ComponentSize
 }
 
 // TODO: change it to symbol

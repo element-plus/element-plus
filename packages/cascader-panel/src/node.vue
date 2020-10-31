@@ -33,6 +33,7 @@
       :label="node.uid"
       :disabled="isDisabled"
       @change="handleCheck"
+      @update:model-value="handleCheck"
       @click.stop
     >
       <!-- add an empty element to avoid render label -->

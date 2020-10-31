@@ -25,7 +25,6 @@ import { ElFormItemContext, elFormItemKey } from '@element-plus/form/src/token'
 import radioGroupKey from './token'
 
 import type { PropType } from 'vue'
-import type { ElFormItemSize } from '@element-plus/form/src/token'
 
 export default {
   name: 'ElRadioGroup',
@@ -38,7 +37,7 @@ export default {
       default: '',
     },
     size: {
-      type: String as PropType<ElFormItemSize>,
+      type: String as PropType<ComponentSize>,
       validator: (val: string) => {
         return ['mini', 'small', 'medium'].includes(val)
       },
@@ -61,8 +60,8 @@ export default {
 
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
-    const radioGroupSize = computed<ElFormItemSize>(() => {
-      return props.size || elFormItem.elFormItemSize || '' as ElFormItemSize
+    const radioGroupSize = computed<ComponentSize>(() => {
+      return props.size || elFormItem.size || '' as ComponentSize
     })
 
     const modelValue = computed<boolean | string | number>({

@@ -59,8 +59,6 @@ import ElPopover from '@element-plus/popover'
 import ElCascader from '@element-plus/cascader'
 import ElCascaderPanel from '@element-plus/cascader-panel'
 
-import { ElFormItemSize } from '@element-plus/form/src/token'
-
 export {
   ElAlert,
   ElAvatar,
@@ -121,12 +119,12 @@ export {
 }
 
 interface InstallOptions {
-  size: ElFormItemSize
+  size: ComponentSize
   zIndex: number
 }
 
 const defaultInstallOpt =  {
-  size: '' as ElFormItemSize,
+  size: '' as ComponentSize,
   zIndex: 2000,
 }
 
