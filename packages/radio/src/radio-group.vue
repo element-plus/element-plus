@@ -17,8 +17,15 @@ import {
   onMounted,
   inject,
   ref,
+  reactive,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { ElFormItemContext, elFormItemKey } from '@element-plus/form/src/token'
+import radioGroupKey from './token'
+
+import type { PropType } from 'vue'
+import type { ElFormItemSize } from '@element-plus/form/src/token'
 
 export default {
   name: 'ElRadioGroup',
@@ -31,8 +38,10 @@ export default {
       default: '',
     },
     size: {
-      type: String,
-      default: '',
+      type: String as PropType<ElFormItemSize>,
+      validator: (val: string) => {
+        return ['mini', 'small', 'medium'].includes(val)
+      },
     },
     fill: {
       type: String,
@@ -45,21 +54,18 @@ export default {
     disabled: Boolean,
   },
 
-  emits: ['update:modelValue', 'change'],
+  emits: [UPDATE_MODEL_EVENT, 'change'],
 
   setup(props, ctx) {
     const radioGroup = ref(null)
-    //todo: ELEMENT
-    const ELEMENT = {}
-    const elFormItem = inject('elFormItem', {})
-    const elFormItemSize_ = computed(() => {
-      return (elFormItem || {} as any).elFormItemSize
-    })
-    const radioGroupSize = computed(() => {
-      return props.size || elFormItemSize_ || (ELEMENT || {} as any).size
+
+    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+
+    const radioGroupSize = computed<ElFormItemSize>(() => {
+      return props.size || elFormItem.elFormItemSize || '' as ElFormItemSize
     })
 
-    const modelValue = computed({
+    const modelValue = computed<boolean | string | number>({
       get() {
         return props.modelValue
       },
@@ -70,13 +76,13 @@ export default {
 
     // methods
     const changeEvent = value => {
-      ctx.emit('update:modelValue', value)
+      ctx.emit(UPDATE_MODEL_EVENT, value)
       nextTick(() => {
         ctx.emit('change', value)
       })
     }
 
-    provide('RadioGroup', {
+    provide(radioGroupKey, reactive({
       name: 'ElRadioGroup',
       changeEvent: changeEvent,
       radioGroupSize: radioGroupSize,
@@ -84,14 +90,14 @@ export default {
       textColor: props.textColor,
       disabled: props.disabled,
       modelValue,
-    })
+    }))
 
     const handleKeydown = e => { // 左右上下按键 可以在radio组内切换不同选项
       const target = e.target
       const className = target.nodeName === 'INPUT' ? '[type=radio]' : '[role=radio]'
       const radios = radioGroup.value.querySelectorAll(className)
       const length = radios.length
-      const index = [].indexOf.call(radios, target)
+      const index = Array.from(radios).indexOf(target)
       const roleRadios = radioGroup.value.querySelectorAll('[role=radio]')
       let nextIndex = null
       switch (e.code) {
@@ -117,8 +123,8 @@ export default {
 
     onMounted(() => {
       const radios = radioGroup.value.querySelectorAll('[type=radio]')
-      const firstLabel = radioGroup.value.querySelectorAll('[role=radio]')[0]
-      if (![].some.call(radios, radio => radio.checked) && firstLabel) {
+      const firstLabel = radios[0]
+      if (!Array.from(radios).some((radio: HTMLInputElement) => radio.checked) && firstLabel) {
         firstLabel.tabIndex = 0
       }
     })

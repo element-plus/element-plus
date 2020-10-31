@@ -59,6 +59,8 @@ import ElPopover from '@element-plus/popover'
 import ElCascader from '@element-plus/cascader'
 import ElCascaderPanel from '@element-plus/cascader-panel'
 
+import { ElFormItemSize } from '@element-plus/form/src/token'
+
 export {
   ElAlert,
   ElAvatar,
@@ -118,7 +120,17 @@ export {
   ElCascaderPanel,
 }
 
-const install = (app: App): void => {
+interface InstallOptions {
+  size: ElFormItemSize
+  zIndex: number
+}
+
+const defaultInstallOpt =  {
+  size: '' as ElFormItemSize,
+  zIndex: 2000,
+}
+
+const install = (app: App, opt: InstallOptions = defaultInstallOpt): void => {
   ElAlert(app)
   ElAvatar(app)
   ElAutocomplete(app)
@@ -175,6 +187,8 @@ const install = (app: App): void => {
   ElPopover(app)
   ElCascader(app)
   ElCascaderPanel(app)
+
+  app.config.globalProperties.$ELEMENT = opt
 }
 
 const elementUI = {

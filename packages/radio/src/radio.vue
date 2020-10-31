@@ -23,7 +23,7 @@
     >
       <span class="el-radio__inner"></span>
       <input
-        ref="radio"
+        ref="radioRef"
         v-model="model"
         class="el-radio__original"
         :value="label"
@@ -46,8 +46,9 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, computed, getCurrentInstance, nextTick } from 'vue'
-import useRadio from './useRadio'
+import { defineComponent, computed, nextTick, ref } from 'vue'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { useRadio, useRadioAttrs } from './useRadio'
 
 export default defineComponent({
   name: 'ElRadio',
@@ -74,45 +75,47 @@ export default defineComponent({
     },
   },
 
-  emits: ['update:modelValue', 'change'],
+  emits: [UPDATE_MODEL_EVENT, 'change'],
 
   setup(props, ctx) {
-    const radioUse = useRadio()
-    const isGroup = radioUse.isGroup
-    const radioGroup_ = radioUse.radioGroup_
-    const elFormItemSize_ = radioUse.elFormItemSize_
-    const ELEMENT = radioUse.ELEMENT
-    const focus = radioUse.focus
-    const elForm = radioUse.elForm
-    const instance = getCurrentInstance()
-    const model = computed({
+    const {
+      isGroup,
+      radioGroup,
+      elFormItemSize,
+      ELEMENT,
+      focus,
+      elForm,
+    } = useRadio()
+
+    const radioRef = ref<HTMLInputElement>()
+    const model = computed<string | number | boolean>({
       get() {
-        return isGroup.value ? radioGroup_.modelValue.value : props.modelValue
+        return isGroup.value ? radioGroup.modelValue : props.modelValue
       },
       set(val) {
         if (isGroup.value) {
-          radioGroup_.changeEvent(val)
+          radioGroup.changeEvent(val)
         } else {
-          ctx.emit('update:modelValue', val)
+          ctx.emit(UPDATE_MODEL_EVENT, val)
         }
-        instance.refs.radio && (instance.refs.radio.checked = props.modelValue === props.label)
+        radioRef.value.checked = props.modelValue === props.label
       },
     })
 
-    const tabIndex = computed(() => {
-      return (isDisabled.value || (isGroup.value && model.value !== props.label)) ? -1 : 0
-    })
-
-    const isDisabled = computed(() => {
-      return isGroup.value
-        ? radioGroup_.disabled || props.disabled || (elForm || {}).disabled
-        : props.disabled || (elForm || {}).disabled
+    const {
+      tabIndex,
+      isDisabled,
+    } = useRadioAttrs(props, {
+      isGroup,
+      radioGroup: radioGroup,
+      elForm,
+      model,
     })
 
     const radioSize = computed(() => {
-      const temRadioSize = props.size || elFormItemSize_ || (ELEMENT || {}).size
+      const temRadioSize = props.size || elFormItemSize.value || (ELEMENT).size
       return isGroup.value
-        ? radioGroup_.radioGroupSize || temRadioSize
+        ? radioGroup.radioGroupSize || temRadioSize
         : temRadioSize
     })
 
@@ -130,6 +133,7 @@ export default defineComponent({
       tabIndex,
       radioSize,
       handleChange,
+      radioRef,
     }
   },
 })

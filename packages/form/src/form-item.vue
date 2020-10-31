@@ -62,7 +62,7 @@ import { RuleItem } from 'async-validator'
 import LabelWrap from './label-wrap'
 import { getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
 import mitt from 'mitt'
-import { elFormKey, elFormItemKey, ValidateFieldCallback } from './token'
+import { elFormKey, elFormItemKey, ValidateFieldCallback, ElFormItemSize } from './token'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -90,7 +90,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    size: String,
+    size: String as PropType<ElFormItemSize>,
   },
   setup(props) {
     const formItemMitt = mitt()
@@ -316,8 +316,11 @@ export default defineComponent({
       formItemMitt.off('el.form.blur', onFieldBlur)
       formItemMitt.off('el.form.change', onFieldChange)
     }
+
+    const refedProps = toRefs(props)
     const elFormItem = reactive({
-      ...toRefs(props),
+      ...refedProps,
+      elFormItemSize: refedProps.size,
       removeValidateEvents,
       addValidateEvents,
       resetField,
