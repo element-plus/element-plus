@@ -1,3 +1,4 @@
+import { getCurrentInstance } from 'vue'
 import { castArray } from 'lodash'
 
 import {
@@ -16,7 +17,6 @@ import {
 import isServer from './isServer'
 import type { AnyFunction } from './types'
 import type { Ref } from 'vue'
-import { getCurrentInstance } from 'vue'
 
 export type PartialCSSStyleDeclaration = Partial<
   Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>
@@ -180,16 +180,16 @@ export function useGlobalConfig() {
   }
   return {}
 }
-export const arrayFindIndex = function (
-  arr: Array<unknown>,
-  pred: (any) => boolean,
+export const arrayFindIndex = function<T = any> (
+  arr: Array<T>,
+  pred: (args: T) => boolean,
 ): number {
   return arr.findIndex(pred)
 }
 
-export const arrayFind = function (
-  arr: Array<unknown>,
-  pred: (any) => boolean,
+export const arrayFind = function<T = any> (
+  arr: Array<T>,
+  pred: (args: T) => boolean,
 ): any {
   return arr.find(pred)
 }
