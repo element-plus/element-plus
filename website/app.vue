@@ -14,6 +14,7 @@ import zhLocale from '@element-plus/locale/lang/zh-CN'
 import enLocale from '@element-plus/locale/lang/en'
 import esLocale from '@element-plus/locale/lang/es'
 import frLocale from '@element-plus/locale/lang/fr'
+import jaLocale from '@element-plus/locale/lang/ja'
 import { Language } from './enums/language'
 
 const lang = location.hash.replace('#', '').split('/')[1] || Language.CN
@@ -27,6 +28,9 @@ const localize = lang => {
       break
     case Language.FR:
       use(frLocale)
+      break
+    case Language.JP:
+      use(jaLocale)
       break
     default:
       use(enLocale)
