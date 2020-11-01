@@ -68,8 +68,6 @@ export default {
       return radioGroup.radioGroupSize || elFormItemSize.value || ELEMENT.size
     })
 
-    console.log(size.value)
-
     const value = computed<boolean | string | number>({
       get() {
         return radioGroup.modelValue
