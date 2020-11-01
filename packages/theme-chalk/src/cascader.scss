@@ -10,6 +10,7 @@
   position: relative;
   font-size: $--font-size-base;
   line-height: $--input-height;
+  outline: none;
 
   &:not(.is-disabled):hover {
     .el-input__inner {
@@ -72,12 +73,38 @@
   }
 
   @include e(dropdown) {
-    margin: 5px 0;
     font-size: $--cascader-menu-font-size;
-    background: $--cascader-menu-fill;
-    border: $--cascader-menu-border;
     border-radius: $--cascader-menu-radius;
     box-shadow: $--cascader-menu-shadow;
+
+    &.el-popper.is-light {
+      background: $--cascader-menu-fill;
+      border: $--cascader-menu-border;
+      box-shadow: $--cascader-menu-shadow;
+
+      .el-popper__arrow {
+        left: 35px;
+        &::before {
+          border: $--cascader-menu-border;
+        }
+      }
+
+      &[data-popper-placement^="top"] {
+        transform-origin: bottom center;
+
+        .el-popper__arrow::before {
+          border-top-color: transparent;
+          border-left-color: transparent;
+        }
+      }
+
+      &[data-popper-placement^="bottom"] {
+        .el-popper__arrow::before {
+          border-bottom-color: transparent;
+          border-right-color: transparent;
+        }
+      }
+    }
   }
 
   @include e(tags) {

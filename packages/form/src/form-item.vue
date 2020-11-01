@@ -90,7 +90,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    size: String,
+    size: String as PropType<ComponentSize>,
   },
   setup(props) {
     const formItemMitt = mitt()
@@ -316,6 +316,7 @@ export default defineComponent({
       formItemMitt.off('el.form.blur', onFieldBlur)
       formItemMitt.off('el.form.change', onFieldChange)
     }
+
     const elFormItem = reactive({
       ...toRefs(props),
       removeValidateEvents,

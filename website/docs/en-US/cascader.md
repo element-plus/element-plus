@@ -1481,7 +1481,7 @@ You can customize the content of cascader node.
 :::demo You can customize the content of cascader node by `scoped slot`. You'll have access to `node` and `data` in the scope,  standing for the Node object and node data of the current node respectively。
 ```html
 <el-cascader :options="options">
-  <template slot-scope="{ node, data }">
+  <template #default="{ node, data }">
     <span>{{ data.label }}</span>
     <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
   </template>
@@ -1910,7 +1910,7 @@ You can customize the content of cascader node.
 ### Cascader Attributes
 | Attribute | Description | Type  | Accepted Values | Default |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | binding value | - | — | — |
+| model-value / v-model | binding value | - | — | — |
 | options | data of the options，the key of `value` and `label` can be customize by `Props`.| array | — | — |
 | props | configuration options, see the following table. | object | — | — |
 | size | size of input | string | medium / small / mini | — |
@@ -1950,7 +1950,7 @@ You can customize the content of cascader node.
 ### CascaderPanel Attributes
 | Attribute | Description | Type  | Accepted Values | Default |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | binding value | - | — | — |
+| model-value / v-model | binding value | - | — | — |
 | options | data of the options，the key of `value` and `label` can be customize by `Props`.| array | — | — |
 | props | configuration options, see the following table. | object | — | — |
 

@@ -18,7 +18,6 @@ function useEvent(props: TableHeaderProps, emit) {
     } else if (column.filterable && !column.sortable) {
       handleFilterClick(event)
     }
-
     parent.emit('header-click', column, event)
   }
 

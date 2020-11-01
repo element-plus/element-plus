@@ -45,7 +45,7 @@ const usePopup = (props, doClose) => {
   let vm
   let _closeTimer = null
   let _openTimer = null
-  const state = reactive<State>({
+  const state = reactive({
     opened: false,
     bodyPaddingRight: null,
     computedBodyPaddingRight: 0,
