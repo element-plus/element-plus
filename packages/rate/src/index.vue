@@ -47,10 +47,9 @@ import {
 import { isObject, isArray } from '@vue/shared'
 import { hasClass } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { elFormKey } from '@element-plus/form/src/token'
 
-interface ElForm {
-  disabled: boolean
-}
+import type { ElFormContext } from '@element-plus/form/src/token'
 
 export default defineComponent({
   name: 'ElRate',
@@ -126,10 +125,11 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change'],
   setup(props, { emit }) {
+    const elForm = inject(elFormKey, {} as ElFormContext)
+
     const currentValue = ref(props.modelValue)
 
-    const elForm = inject<ElForm>('elForm')
-    const rateDisabled = computed(() => props.disabled || (elForm || {}).disabled)
+    const rateDisabled = computed(() => props.disabled || elForm.disabled)
 
     const text = computed(() => {
       let result = ''

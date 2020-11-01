@@ -120,7 +120,6 @@ import {
   ref,
   computed,
   inject,
-  PropType,
   watch,
   provide,
 } from 'vue'
@@ -129,6 +128,23 @@ import { ClickOutside } from '@element-plus/directives'
 import { Input as ElInput } from '@element-plus/input'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { useGlobalConfig } from '@element-plus/utils/util'
+import { isValidComponentSize } from '@element-plus/utils/validators'
+import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
+
+import type { PropType } from 'vue'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+
+interface PickerOptions {
+  isValidValue: any
+  handleKeydown: any
+  parseUserInput: any
+  formatToString: any
+  getRangeAvaliableTime: any
+  getDefaultValue: any
+  panelReady: boolean
+}
+
 // Date object and string
 const dateEquals = function(a, b) {
   const aIsDate = a instanceof Date
@@ -141,6 +157,7 @@ const dateEquals = function(a, b) {
   }
   return false
 }
+
 const valueEquals = function(a, b) {
   const aIsArray = a instanceof Array
   const bIsArray = b instanceof Array
@@ -156,19 +173,6 @@ const valueEquals = function(a, b) {
   return false
 }
 
-// todo element
-const ELEMENT = {
-  size: '',
-}
-interface PickerOptions {
-  isValidValue: any
-  handleKeydown: any
-  parseUserInput: any
-  formatToString: any
-  getRangeAvaliableTime: any
-  getDefaultValue: any
-  panelReady: boolean
-}
 export default defineComponent({
   name: 'Picker',
   components: {
@@ -205,9 +209,9 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    size:{
-      type: String,
-      default: '',
+    size: {
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
     },
     readonly: {
       type: Boolean,
@@ -264,17 +268,28 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    validateEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup(props, ctx) {
+    const ELEMENT = useGlobalConfig()
+
+    const elForm = inject(elFormKey, {} as ElFormContext)
+    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+
     const refContainer = ref(null)
     const pickerVisible = ref(false)
     const valueOnOpen = ref(null)
+
     watch(pickerVisible, val => {
       if (!val) {
         userInput.value = null
         ctx.emit('blur')
         blurInput()
+        props.validateEvent && elFormItem.formItemMitt?.emit('el.form.blur')
       } else {
         valueOnOpen.value = props.modelValue
       }
@@ -283,6 +298,7 @@ export default defineComponent({
       // determine user real change only
       if (!valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
+        props.validateEvent && elFormItem.formItemMitt?.emit('el.form.change', val)
       }
     }
     const emitInput = val => {
@@ -326,7 +342,7 @@ export default defineComponent({
       pickerVisible.value = true
       ctx.emit('focus', e)
     }
-    const elForm = inject('elForm', {} as any)
+
     const pickerDisabled = computed(() =>{
       return props.disabled || elForm.disabled
     })
@@ -413,13 +429,9 @@ export default defineComponent({
     const isRangeInput = computed(() => {
       return props.type.indexOf('range') > -1
     })
-    const elFormItem = inject('elFormItem', {} as any)
 
-    const elFormItemSize = computed(() => {
-      return elFormItem.elFormItemSize
-    })
     const pickerSize = computed(() => {
-      return props.size || elFormItemSize.value || (ELEMENT || {}).size
+      return props.size || elFormItem.size || ELEMENT.size
     })
     const onClickOutside = () => {
       if (!pickerVisible.value) return

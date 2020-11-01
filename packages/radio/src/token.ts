@@ -3,13 +3,14 @@ import type { InjectionKey } from 'vue'
 type IModelType = boolean | string | number
 
 export interface RadioGroupContext {
-  name: string
-  changeEvent: (val: IModelType) => void
-  radioGroupSize: ComponentSize
+  name: 'ElRadioGroup'
+  modelValue: IModelType
   fill: string
   textColor: string
   disabled: boolean
-  modelValue: IModelType
+  size: ComponentSize
+  radioGroupSize: ComponentSize
+  changeEvent: (val: IModelType) => void
 }
 
 const radioGroupKey: InjectionKey<RadioGroupContext> = 'RadioGroup' as any

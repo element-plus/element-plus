@@ -30,14 +30,14 @@ export interface ValidateFieldCallback {
 export interface ElFormItemContext {
   prop?: string
   formItemMitt: Emitter
+  size: ComponentSize
+  validateState: string
   validate(trigger?: string, callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
   addValidateEvents(): void
   removeValidateEvents(): void
   resetField(): void
   clearValidate(): void
-
-  size?: ComponentSize
 }
 
 // TODO: change it to symbol

@@ -25,14 +25,13 @@
       :indeterminate="node.indeterminate"
       :disabled="isDisabled"
       @click.stop
-      @change="handleCheck"
+      @update:model-value="handleCheck"
     />
     <el-radio
       v-else-if="checkStrictly"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
-      @change="handleCheck"
       @update:model-value="handleCheck"
       @click.stop
     >
@@ -53,16 +52,15 @@
 </template>
 
 <script lang="ts">
-import {
-  computed, defineComponent, inject,
-  h, PropType,
-} from 'vue'
+import { computed, defineComponent, inject, h } from 'vue'
 import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
 import ElRadio from '@element-plus/radio/src/radio.vue'
 import {
   CascaderNode,
   CASCADER_PANEL_INJECTION_KEY,
 } from './types'
+
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElCascaderNode',

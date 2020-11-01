@@ -18,13 +18,17 @@ import {
   inject,
   ref,
   reactive,
+  toRefs,
+  watch,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { ElFormItemContext, elFormItemKey } from '@element-plus/form/src/token'
+import { isValidComponentSize } from '@element-plus/utils/validators'
+import { elFormItemKey } from '@element-plus/form/src/token'
 import radioGroupKey from './token'
 
 import type { PropType } from 'vue'
+import type { ElFormItemContext } from '@element-plus/form/src/token'
 
 export default {
   name: 'ElRadioGroup',
@@ -38,9 +42,7 @@ export default {
     },
     size: {
       type: String as PropType<ComponentSize>,
-      validator: (val: string) => {
-        return ['mini', 'small', 'medium'].includes(val)
-      },
+      validator: isValidComponentSize,
     },
     fill: {
       type: String,
@@ -61,16 +63,7 @@ export default {
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
     const radioGroupSize = computed<ComponentSize>(() => {
-      return props.size || elFormItem.size || '' as ComponentSize
-    })
-
-    const modelValue = computed<boolean | string | number>({
-      get() {
-        return props.modelValue
-      },
-      set(val) {
-        changeEvent(val)
-      },
+      return props.size || elFormItem.size
     })
 
     // methods
@@ -83,13 +76,14 @@ export default {
 
     provide(radioGroupKey, reactive({
       name: 'ElRadioGroup',
-      changeEvent: changeEvent,
+      ...toRefs(props),
       radioGroupSize: radioGroupSize,
-      fill: props.fill,
-      textColor: props.textColor,
-      disabled: props.disabled,
-      modelValue,
+      changeEvent: changeEvent,
     }))
+
+    watch(() => props.modelValue, val => {
+      elFormItem.formItemMitt?.emit('el.form.change', [val])
+    })
 
     const handleKeydown = e => { // 左右上下按键 可以在radio组内切换不同选项
       const target = e.target

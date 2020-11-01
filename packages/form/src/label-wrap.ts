@@ -8,6 +8,7 @@ import {
   onUpdated,
   onBeforeUnmount,
   nextTick,
+  Fragment,
 } from 'vue'
 
 import {
@@ -81,7 +82,7 @@ export default defineComponent({
           slots.default?.(),
         )
       } else {
-        return h('div', { ref: el }, slots.default?.())
+        return h(Fragment, { ref: el }, slots.default?.())
       }
     }
     return render

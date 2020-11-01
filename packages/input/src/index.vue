@@ -117,29 +117,20 @@ import {
 } from 'vue'
 import { useAttrs } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, VALIDATE_STATE_MAP } from '@element-plus/utils/constants'
-import { isObject } from '@element-plus/utils/util'
+import { isObject, useGlobalConfig } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
+import { isValidComponentSize } from '@element-plus/utils/validators'
+import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
 import calcTextareaHeight from './calcTextareaHeight'
-import type { PropType } from 'vue'
 
-// TODOS: replace these interface definition with actual ElForm interface
-interface ElForm {
-  disabled: boolean
-  statusIcon: string
-}
-interface ElFormItem {
-  elFormItemSize: number
-  validateState: string
-}
+import type { PropType } from 'vue'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+
 type AutosizeProp = {
   minRows?: number
   maxRows?: number
 } | boolean
-
-const ELEMENT: {
-  size?: number
-} = {}
 
 const PENDANT_MAP = {
   suffix: 'append',
@@ -161,8 +152,8 @@ export default defineComponent({
       default: 'text',
     },
     size: {
-      type: String as PropType<'large' | 'medium' | 'small' | 'mini' | null>,
-      validator: (val: string) => !val || ['large', 'medium', 'small', 'mini'].includes(val),
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
     },
     resize: {
       type: String as PropType<'none' | 'both' | 'horizontal' | 'vertical'>,
@@ -229,9 +220,10 @@ export default defineComponent({
   setup(props, ctx) {
     const instance = getCurrentInstance()
     const attrs = useAttrs(true)
+    const $ElEMENT = useGlobalConfig()
 
-    const elForm = inject<ElForm>('elForm', {} as any)
-    const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
+    const elForm = inject(elFormKey, {} as ElFormContext)
+    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
     const input = ref(null)
     const textarea = ref (null)
@@ -242,16 +234,15 @@ export default defineComponent({
     const _textareaCalcStyle = shallowRef({})
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
-    const inputSize = computed(() => props.size || elFormItem.elFormItemSize || ELEMENT?.size)
-    const needStatusIcon = computed(() => elForm ? elForm.statusIcon : false)
-    // TODO: adjust when ElForm done
+    const inputSize = computed(() => props.size || elFormItem.size || $ElEMENT.size)
+    const needStatusIcon = computed(() => elForm.statusIcon)
     const validateState = computed(() => elFormItem.validateState || '')
     const validateIcon = computed(() => VALIDATE_STATE_MAP[validateState.value])
     const textareaStyle = computed(() => ({
       ..._textareaCalcStyle.value,
       resize: props.resize,
     }))
-    const inputDisabled = computed(() => props.disabled || elForm?.disabled)
+    const inputDisabled = computed(() => props.disabled || elForm.disabled)
     const nativeInputValue = computed(() => String(props.modelValue))
     const upperLimit = computed(() => ctx.attrs.maxlength)
     const showClear = computed(() => {
@@ -368,9 +359,9 @@ export default defineComponent({
     const handleBlur = event => {
       focused.value = false
       ctx.emit('blur', event)
-      // if (props.validateEvent) {
-      //   this.dispatch('ElFormItem', 'el.form.blur', [props.modelValue])
-      // }
+      if (props.validateEvent) {
+        elFormItem.formItemMitt?.emit('el.form.blur', [props.modelValue])
+      }
     }
 
     const select = () => {
@@ -414,12 +405,11 @@ export default defineComponent({
         (validateState.value && needStatusIcon.value)
     }
 
-    watch(() => props.modelValue, () => {
+    watch(() => props.modelValue, val => {
       nextTick(resizeTextarea)
-      // TODO: should dispatch event to parent component <el-form-item>;
-      // if (props.validateEvent) {
-      //   dispatch('ElFormItem', 'el.form.change', [val])
-      // }
+      if (props.validateEvent) {
+        elFormItem.formItemMitt?.emit('el.form.change', [val])
+      }
     })
 
     // native input value is set explicitly
