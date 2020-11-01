@@ -41,8 +41,8 @@
       :label="label"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
-      @blur="event => $emit('blur', event)"
-      @focus="event => $emit('focus', event)"
+      @blur="handleBlur"
+      @focus="handleFocus"
       @input="handleInput"
       @change="handleInputChange"
     />
@@ -103,7 +103,10 @@ export default defineComponent({
       type: Number,
       default: -Infinity,
     },
-    modelValue: Number,
+    modelValue: {
+      type: Number,
+      default: 0,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -235,7 +238,7 @@ export default defineComponent({
       data.userInput = null
       emit('update:modelValue', newVal)
       emit('input', newVal)
-      emit('change', newVal)
+      emit('change', newVal, oldVal)
       data.currentValue = newVal
     }
     const handleInput = value => {
@@ -247,6 +250,12 @@ export default defineComponent({
         setCurrentValue(newVal)
       }
       data.userInput = null
+    }
+    const handleBlur = event => {
+      emit('blur', event)
+    }
+    const handleFocus = event => {
+      emit('focus', event)
     }
     const focus = () => {
       nextTick(() => {
@@ -277,8 +286,6 @@ export default defineComponent({
         if (newVal <= props.min) newVal = props.min
         data.currentValue = newVal
         data.userInput = null
-        emit('update:modelValue', newVal)
-        emit('input', newVal)
       },
       { immediate: true },
     )
@@ -297,6 +304,8 @@ export default defineComponent({
     return {
       input,
       displayValue,
+      handleFocus,
+      handleBlur,
       handleInput,
       handleInputChange,
       controlsAtRight,

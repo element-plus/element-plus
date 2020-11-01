@@ -26,7 +26,7 @@ describe('Directives.vue', () => {
     const wrapper = _mount()
     const block = wrapper.find('#block')
     block.trigger('mousedown')
-    const testTime = 330
+    const testTime = 399
     await sleep(testTime)
     block.trigger('mouseup')
     const expectResult = Math.floor(testTime / 100)
