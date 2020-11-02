@@ -36,7 +36,7 @@
 <script lang="ts">
 import {
   computed, defineComponent, getCurrentInstance,
-  inject, PropType, ref,
+  inject, ref,
 } from 'vue'
 import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
 import ElCascaderNode from './node.vue'
@@ -46,6 +46,8 @@ import {
   CascaderNode,
   CASCADER_PANEL_INJECTION_KEY,
 } from './types'
+
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElCascaderMenu',

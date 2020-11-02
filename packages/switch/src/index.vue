@@ -39,11 +39,10 @@
 </template>
 <script lang='ts'>
 import { defineComponent, computed, onMounted, ref, inject, nextTick, watch } from 'vue'
+import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
 
-// TODOS: replace these interface definition with actual ElForm interface
-interface ElForm {
-  disabled: boolean
-}
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+
 
 type ValueType = boolean | string | number;
 
@@ -131,7 +130,9 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change', 'input'],
   setup(props: ISwitchProps, ctx) {
-    const elForm = inject<ElForm>('elForm', {} as any)
+    const elForm = inject(elFormKey, {} as ElFormContext)
+    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+
     const coreWidth = ref(props.width)
     const isModelValue = ref(props.modelValue !== false)
     const input = ref(null)
@@ -167,8 +168,7 @@ export default defineComponent({
       }
 
       if (props.validateEvent) {
-        // TODO: should dispatch event to parent component <el-form-item>;
-        // dispatch('ElFormItem', 'el.form.change', [this.value]);
+        elFormItem.formItemMitt?.emit('el.form.change', [actualValue.value])
       }
     })
 

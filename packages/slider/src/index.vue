@@ -80,16 +80,12 @@
 </template>
 
 <script lang="ts">
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { off, on } from '@element-plus/utils/dom'
-import throwError from '@element-plus/utils/error'
 import {
   computed,
   defineComponent,
   nextTick,
   onBeforeUnmount,
   onMounted,
-  PropType,
   provide,
   reactive,
   ref,
@@ -97,12 +93,17 @@ import {
   toRefs,
   watch,
 } from 'vue'
-import ElInputNumber from '@element-plus/input-number/src/index.vue'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { off, on } from '@element-plus/utils/dom'
+import throwError from '@element-plus/utils/error'
+import { InputNumber as ElInputNumber } from '@element-plus/input-number'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
+
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElSlider',
@@ -182,13 +183,10 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
-    marks: {
-      type: Object,
-      default: value => value,
-    },
+    marks: Object,
   },
 
-  emits: [UPDATE_MODEL_EVENT, 'change'],
+  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
 
   setup(props, { emit }) {
     const initData = reactive({
@@ -200,6 +198,7 @@ export default defineComponent({
     })
 
     const {
+      elFormItem,
       slider,
       firstButton,
       secondButton,
@@ -220,7 +219,7 @@ export default defineComponent({
 
     const markList = useMarks(props)
 
-    useWatch(props, initData, minValue, maxValue, emit)
+    useWatch(props, initData, minValue, maxValue, emit, elFormItem)
 
     const precision = computed(() => {
       let precisions = [props.min, props.max, props.step].map(item => {
@@ -231,7 +230,6 @@ export default defineComponent({
     })
 
     const { sliderWrapper } = useLifecycle(props, initData, resetSize)
-
 
     const {
       firstValue,
@@ -246,14 +244,10 @@ export default defineComponent({
     }
 
     provide('SliderProvider', {
+      ...toRefs(props),
+      sliderSize,
       disabled: sliderDisabled,
-      min: computed(() => props.min),
-      max: computed(() => props.max),
-      step: computed(() => props.step),
-      showTooltip: computed(() => props.showTooltip),
       precision: precision,
-      sliderSize: computed(() => sliderSize.value),
-      formatTooltip: computed(() => props.formatTooltip),
       emitChange: emitChange,
       resetSize: resetSize,
       updateDragging: updateDragging,
@@ -284,7 +278,7 @@ export default defineComponent({
   },
 })
 
-const useWatch = (props, initData, minValue, maxValue, emit) => {
+const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
 
   const _emit = (val: number | number[]) => {
     emit(UPDATE_MODEL_EVENT, val)
@@ -318,7 +312,7 @@ const useWatch = (props, initData, minValue, maxValue, emit) => {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          _emit([minValue.value, maxValue.value])
+          elFormItem.formItemMitt?.emit('el.form.change', [minValue.value, maxValue.value])
           initData.oldValue = val.slice()
         }
       }
@@ -330,7 +324,7 @@ const useWatch = (props, initData, minValue, maxValue, emit) => {
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          _emit(val)
+          elFormItem.formItemMitt?.emit('el.form.change', val)
           initData.oldValue = val
         }
       }

@@ -46,9 +46,15 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, computed, nextTick, ref } from 'vue'
+import {
+  defineComponent,
+  computed, nextTick, ref,
+} from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useRadio, useRadioAttrs } from './useRadio'
+
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElRadio',
@@ -70,8 +76,8 @@ export default defineComponent({
     },
     border: Boolean,
     size: {
-      type: String,
-      default: '',
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
     },
   },
 
@@ -113,7 +119,7 @@ export default defineComponent({
     })
 
     const radioSize = computed(() => {
-      const temRadioSize = props.size || elFormItemSize.value || (ELEMENT).size
+      const temRadioSize = props.size || elFormItemSize.value || ELEMENT.size
       return isGroup.value
         ? radioGroup.radioGroupSize || temRadioSize
         : temRadioSize

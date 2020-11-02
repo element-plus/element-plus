@@ -129,10 +129,10 @@
 
 <script lang='ts'>
 import {
-  computed, ComputedRef, defineComponent,
+  computed, defineComponent,
   inject, nextTick,
   onMounted, onBeforeUnmount,
-  PropType, Ref, ref, watch,
+  Ref, ref, watch,
 } from 'vue'
 import { CascaderPanel as ElCascaderPanel } from '@element-plus/cascader-panel'
 import { Input as ElInput } from '@element-plus/input'
@@ -149,16 +149,12 @@ import isServer from '@element-plus/utils/isServer'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import {
-  ElFormContext, ElFormItemContext,
-  elFormKey, elFormItemKey,
-} from '@element-plus/form/src/token'
+import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
 import { CommonProps } from '@element-plus/cascader-panel/src/config'
-import type {
-  CascaderValue,
-  CascaderNode,
-  Tag,
-} from '@element-plus/cascader-panel/src/types'
+
+import type { ComputedRef, PropType } from 'vue'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+import type { CascaderValue, CascaderNode, Tag } from '@element-plus/cascader-panel/src/types'
 
 const DEFAULT_INPUT_HEIGHT = 40
 

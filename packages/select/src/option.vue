@@ -68,8 +68,8 @@ export default defineComponent({
     const vm = getCurrentInstance().proxy
 
     onBeforeUnmount(() => {
-      const { selected, multiple } = select
-      let selectedOptions = multiple ? selected : [selected]
+      const { selected } = select
+      let selectedOptions = select.props.multiple ? selected : [selected]
       let index = select.cachedOptions.indexOf(vm)
       let selectedIndex = selectedOptions?.indexOf(vm)
 
@@ -81,7 +81,6 @@ export default defineComponent({
     })
     select.options.push(vm)
     select.cachedOptions.push(vm)
-
 
     function selectOptionClick() {
       if (props.disabled !== true && states.groupDisabled !== true) {

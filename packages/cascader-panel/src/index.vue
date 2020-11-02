@@ -20,7 +20,7 @@
 import {
   computed, defineComponent, nextTick,
   onBeforeUpdate, onMounted,
-  PropType, provide, reactive,
+  provide, reactive,
   Ref, ref, watch,
 } from 'vue'
 import ElCascaderMenu from './menu.vue'
@@ -45,15 +45,16 @@ import {
   getSibling,
   sortByOriginalOrder,
 } from './utils'
-import {
+import { CASCADER_PANEL_INJECTION_KEY, ExpandTrigger } from './types'
+
+import type { PropType } from 'vue'
+import type {
   CascaderValue,
   CascaderNode,
   CascaderNodeValue,
   CascaderOption,
-  ExpandTrigger,
   RenderLabel,
   ElCascaderPanelContext,
-  CASCADER_PANEL_INJECTION_KEY,
 } from './types'
 
 export default defineComponent({
