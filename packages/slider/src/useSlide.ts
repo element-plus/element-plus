@@ -1,8 +1,13 @@
 import { computed, inject, nextTick, ref } from 'vue'
+import { CHANGE_EVENT } from '@element-plus/utils/constants'
+import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
 import { ButtonRefs, ISliderInitData, ISliderProps } from './Slider'
 
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+
 export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) => {
-  const elForm: {disabled?: boolean;} = inject('elForm', {})
+  const elForm = inject(elFormKey, {} as ElFormContext)
+  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
   const slider = ref<Nullable<HTMLElement>>(null)
 
@@ -16,7 +21,7 @@ export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) =
   }
 
   const sliderDisabled = computed(() => {
-    return props.disabled || (elForm?.disabled || false)
+    return props.disabled || (elForm.disabled || false)
   })
 
   const minValue = computed(() => {
@@ -77,7 +82,7 @@ export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) =
 
   const emitChange = async () => {
     await nextTick()
-    emit('change', props.range ? [minValue.value, maxValue.value] : props.modelValue)
+    emit(CHANGE_EVENT, props.range ? [minValue.value, maxValue.value] : props.modelValue)
   }
 
   const onSliderClick = (event: MouseEvent) => {
@@ -94,6 +99,7 @@ export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) =
   }
 
   return {
+    elFormItem,
     slider,
     firstButton,
     secondButton,

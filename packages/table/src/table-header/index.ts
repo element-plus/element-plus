@@ -7,7 +7,7 @@ import {
   ref,
   h,
 } from 'vue'
-import ElCheckbox from '@element-plus/checkbox/src/checkbox.vue'
+import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
 import FilterPanel from '../filter-panel.vue'
 import useLayoutObserver from '../layout-observer'
 import useEvent from './event-helper'
@@ -79,7 +79,7 @@ export default defineComponent({
     } = useStyle(props)
     const { isGroup, toggleAllSelection, columnRows } = useUtils(props)
 
-    instance.vnode.state = {
+    instance.state = {
       onColumnsChange,
       onScrollableChange,
     }

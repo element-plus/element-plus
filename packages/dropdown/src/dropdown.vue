@@ -152,7 +152,7 @@ export default defineComponent({
       resetTabindex,
     })
 
-    const dropdownSize = computed(() => props.size || (ELEMENT || {}).size)
+    const dropdownSize = computed(() => props.size || ELEMENT.size)
     function commandHandler (...args) {
       emit('command', ...args)
     }

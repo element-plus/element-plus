@@ -267,7 +267,7 @@ interface TableRefs {
   [key: string]: unknown
 }
 
-interface TableVnodeState {
+interface TableState {
   isGroup: Ref<boolean>
   resizeState: Ref<{
     width: any
@@ -289,18 +289,14 @@ interface Table extends ComponentInternalInstance {
   layout: TableLayout
   refs: TableRefs
   tableId: string
-  vnode: VNode & {
-    state: TableVnodeState
-  }
+  state: TableState
 }
 
 interface TableHeader extends ComponentInternalInstance {
-  vnode: {
-    state: {
-      onColumnsChange
-      onScrollableChange
-    }
-  } & VNode
+  state: {
+    onColumnsChange
+    onScrollableChange
+  }
   filterPanels: Ref<AnyObject>
 }
 

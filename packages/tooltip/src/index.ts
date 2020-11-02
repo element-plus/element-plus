@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, ref } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import throwError from '@element-plus/utils/error'
@@ -8,7 +8,7 @@ import type {
   Effect,
   Placement,
   Options,
-} from '@element-plus/popper/src/popper/defaults'
+} from '@element-plus/popper/src/use-popper/defaults'
 
 /**
  * ElTooltip
@@ -80,10 +80,6 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
-    tabindex: {
-      type: [Number, String],
-      default: 0,
-    },
     transition: {
       type: String,
       default: 'el-fade-in-linear',
@@ -99,19 +95,25 @@ export default defineComponent({
   },
   emits: [UPDATE_MODEL_EVENT],
   setup(props, ctx) {
-    // init here
-
     // when manual mode is true, v-model must be passed down
     if (props.manual && typeof props.modelValue === 'undefined') {
       throwError('[ElTooltip]', 'You need to pass a v-model to el-tooltip when `manual` is true')
     }
 
+    const popper = ref(null)
+
     const onUpdateVisible = val => {
       ctx.emit(UPDATE_MODEL_EVENT, val)
     }
 
+    const updatePopper = () => {
+      return popper.value.update()
+    }
+
     return {
+      popper,
       onUpdateVisible,
+      updatePopper,
     }
   },
   render() {
@@ -129,7 +131,6 @@ export default defineComponent({
       placement,
       popperOptions,
       showAfter,
-      tabindex,
       transition,
       trigger,
       visibleArrow,
@@ -137,6 +138,7 @@ export default defineComponent({
     const popper = h(
       ElPopper,
       {
+        ref: 'popper',
         class: this.class,
         disabled,
         effect,
@@ -147,7 +149,6 @@ export default defineComponent({
         placement,
         showAfter: openDelay || showAfter, // this is for mapping API due to we decided to rename the current openDelay API to showAfter for better readability,
         showArrow: visibleArrow,
-        tabIndex: String(tabindex),
         transition,
         trigger,
         popperOptions, // Breakings!: Once popperOptions is provided, the whole popper is under user's control, ElPopper nolonger generates the default options for popper, this is by design if the user wants the full contorl on @PopperJS, read the doc @https://popper.js.org/docs/v2/

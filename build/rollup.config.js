@@ -1,12 +1,18 @@
-import vue from 'rollup-plugin-vue'
+/**
+ * @deprecated use node api build
+ */
+// import vue from 'rollup-plugin-vue'
 import typescript from 'rollup-plugin-typescript2'
 import css from 'rollup-plugin-css-only'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import { terser } from 'rollup-plugin-terser'
+// import commonjs from '@rollup/plugin-commonjs'
+// import { terser } from 'rollup-plugin-terser'
 import path from 'path'
 import { getPackagesSync } from '@lerna/project'
+import pkg from '../package.json'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const vue = require('./plugin.js')
 const inputs = getPackagesSync()
   .map(pkg => pkg.name)
   .filter(name =>
@@ -27,22 +33,27 @@ export default inputs.map(name => ({
     },
   },
   plugins: [
-    terser({
-      module: true,
-      compress: {
-        ecma: 2015,
-        pure_getters: true,
-      },
-    }),
+    // terser({
+    //   module: true,
+    //   compress: {
+    //     ecma: 2015,
+    //     pure_getters: true,
+    //   },
+    // }),
     nodeResolve(),
-    commonjs(),
+    // commonjs(),
     typescript({
       tsconfigOverride: {
         compilerOptions: {
           declaration: false,
         },
+        'exclude': [
+          'node_modules',
+          '__tests__',
+        ],
       },
       abortOnError: false,
+      clean: true,
     }),
     css(),
     vue({
@@ -51,6 +62,8 @@ export default inputs.map(name => ({
     }),
   ],
   external(id) {
-    return /^vue/.test(id) || /^@element-plus/.test(id)
+    return /^vue/.test(id)
+      || /^@element-plus/.test(id)
+      || Object.keys(pkg.dependencies).some(k => new RegExp('^' + k).test(id))
   },
 }))

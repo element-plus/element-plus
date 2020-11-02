@@ -19,20 +19,22 @@ export type Props = {
   disabled: string
 }
 
+export type TargetOrder = 'original' | 'push' | 'unshift'
+
 export interface TransferProps {
   data: DataItem[]
   titles: [string, string]
   buttonTexts: [string, string]
   filterPlaceholder: string
-  filterMethod: (query: string, item: DataItem) => boolean
+  filterMethod?: (query: string, item: DataItem) => boolean
   leftDefaultChecked: Key[]
   rightDefaultChecked: Key[]
-  renderContent: (h, option) => VNode
+  renderContent?: (h, option) => VNode
   modelValue: Key[]
   format: Format
   filterable: boolean
   props: Props
-  targetOrder: 'original' | 'push' | 'unshift'
+  targetOrder: TargetOrder
 }
 
 export interface TransferCheckedState {

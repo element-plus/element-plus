@@ -24,14 +24,15 @@ export function useOption(props, states) {
     if (!select.props.multiple) {
       return isEqual(props.value, select.props.modelValue)
     } else {
-      return contains(select.props.modelValue, props.value)
+      return contains(select.props.modelValue as unknown[], props.value)
     }
   })
 
   const limitReached = computed(() => {
     if (select.props.multiple) {
+      const modelValue = (select.props.modelValue || []) as unknown[]
       return !itemSelected.value &&
-        (select.props.value || []).length >= select.props.multipleLimit &&
+      modelValue.length >= select.props.multipleLimit &&
         select.props.multipleLimit > 0
     } else {
       return false
@@ -70,7 +71,7 @@ export function useOption(props, states) {
     if (!isObject.value) {
       return a === b
     } else {
-      const valueKey = select.valueKey
+      const { valueKey } = select.props
       return getValueByPath(a, valueKey) === getValueByPath(b, valueKey)
     }
   }
@@ -90,11 +91,11 @@ export function useOption(props, states) {
   }
 
   watch(() => currentLabel.value, () => {
-    if (!props.created && !select.remote) select.setSelected()
+    if (!props.created && !select.props.remote) select.setSelected()
   })
 
   watch(() => props.value, (val, oldVal) => {
-    const { remote, valueKey } = select
+    const { remote, valueKey } = select.props
     if (!props.created && !remote) {
       if (valueKey && typeof val === 'object' && typeof oldVal === 'object' && val[valueKey] === oldVal[valueKey]) {
         return

@@ -68,7 +68,7 @@ export default defineComponent({
       validator: (value: string): boolean => ['light', 'dark'].indexOf(value) > -1,
     },
   },
-  emits: ['click'],
+  emits: ['close'],
   setup(props, ctx) {
     // state
     const visible = ref(true)
@@ -82,7 +82,7 @@ export default defineComponent({
     // methods
     const close = evt => {
       visible.value = false
-      ctx.emit('click', evt)
+      ctx.emit('close', evt)
     }
 
     return {
