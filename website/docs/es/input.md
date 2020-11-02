@@ -377,7 +377,7 @@ Puede obtener algunas sugerencias basadas en la entrada actual.
   </el-col>
 </el-row>
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
@@ -473,7 +473,7 @@ Personalice cómo se muestran las sugerencias.
 </style>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const links = ref([]);
@@ -548,7 +548,7 @@ Búsqueda de datos desde el servidor.
 ></el-autocomplete>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const links = ref([]);

@@ -368,7 +368,7 @@ Vous pouvez obtenir de l'aide ou des suggestions basées sur ce que vous entrez.
   </el-col>
 </el-row>
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const links = ref([]);
@@ -461,7 +461,7 @@ Vous pouvez personnaliser la manière dont les suggestions sont affichées.
 </style>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const links = ref([]);
@@ -534,7 +534,7 @@ Vous pouvez aller chercher des infos de suggestions sur un serveur distant.
 ></el-autocomplete>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const links = ref([]);

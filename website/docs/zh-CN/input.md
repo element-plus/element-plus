@@ -18,6 +18,7 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const input = ref('')
@@ -43,6 +44,7 @@ export default defineComponent ({
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const input = ref('')
@@ -68,6 +70,7 @@ export default defineComponent ({
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const input = ref('')
@@ -89,6 +92,7 @@ export default defineComponent ({
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const input = ref('')
@@ -147,6 +151,7 @@ export default defineComponent ({
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const input1 = ref('')
@@ -180,6 +185,7 @@ export default defineComponent ({
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const textarea = ref('')
@@ -214,6 +220,7 @@ export default defineComponent ({
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const textarea1 = ref('')
@@ -275,6 +282,7 @@ export default defineComponent ({
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const input1 = ref('')
@@ -325,6 +333,7 @@ export default defineComponent ({
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const input1 = ref('')
@@ -373,7 +382,8 @@ export default defineComponent ({
   </el-col>
 </el-row>
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue'
+
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
@@ -579,7 +589,8 @@ export default defineComponent({
 </style>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue'
+
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
@@ -759,7 +770,8 @@ export default defineComponent({
   @select="handleSelect"
 ></el-autocomplete>
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue'
+
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
@@ -947,6 +959,7 @@ export default defineComponent({
 
 <script>
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent ({
   setup() {
     const text = ref('')

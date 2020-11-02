@@ -368,7 +368,7 @@ You can get some recommended tips based on the current input.
   </el-col>
 </el-row>
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
@@ -462,7 +462,7 @@ Customize how suggestions are displayed.
 </style>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const links = ref([]);
@@ -534,7 +534,7 @@ Search data from server-side.
   @select="handleSelect"
 ></el-autocomplete>
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const links = ref([]);
