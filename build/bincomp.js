@@ -12,9 +12,10 @@ const pkgs = getPackagesSync()
     !name.includes('transition') &&
     !name.includes('utils'),
   )
-
-const buildChild = (a, b) => {
-  const c1 = cp.spawn('node', ['./build/build.component.js', a, b])
+const STEP = 4
+const START = 0
+const buildChild = (start, end) => {
+  const c1 = cp.spawn('node', ['./build/build.component.js', start, end])
   c1.stdout.on('data', function (data) {
     spinner.info(`${chalk.blue(data)}`)
   })
@@ -24,17 +25,17 @@ const buildChild = (a, b) => {
   })
 
   c1.on('close', function (code) {
-    a += 5
-    b += 5
-    if (a > pkgs.length && b > pkgs.length) {
+    start += STEP
+    end += STEP
+    if (start > pkgs.length && end > pkgs.length) {
       spinner.succeed(`${chalk.green('Build done. Exit code ' + code)}`)
       return
     }
-    buildChild(a, b)
+    buildChild(start, end)
   })
 }
 
 /**
  * @link https://github.com/ezolenko/rollup-plugin-typescript2/issues/177
  */
-buildChild(0, 5)
+buildChild(START, STEP)

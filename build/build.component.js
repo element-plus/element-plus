@@ -24,6 +24,7 @@ const runBuild = async () => {
   build(inputs[index])
 
   async function build(name) {
+    if (!name) return
     const inputOptions = {
       input: path.resolve(__dirname, `../packages/${name.split('@element-plus/')[1]}/index.ts`),
       plugins: [
@@ -68,8 +69,6 @@ const runBuild = async () => {
     index++
     if (index < inputs.length) {
       await build(inputs[index])
-    } else {
-      console.log('batch done')
     }
   }
 }
