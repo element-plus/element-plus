@@ -109,10 +109,9 @@ describe('input-number.vue', () => {
         }
       },
     })
-    const increase = wrapper.find('.el-input-number__increase')
-    expect(increase.exists()).toBe(false)
-    const decrease = wrapper.find('.el-input-number__decrease')
-    expect(decrease.exists()).toBe(false)
+
+expect(wrapper.find('.el-input-number__increase').exists()).toBe(false)
+expect(wrapper.find('.el-input-number__decrease').exists()).toBe(false)
   })
   test('controls-position', async () => {
     const wrapper = _mount({
