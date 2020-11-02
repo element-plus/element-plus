@@ -21,9 +21,8 @@ No admite modificadores `v-model`.
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -47,9 +46,8 @@ export default defineComponent ({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -73,9 +71,8 @@ export default defineComponent ({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -94,9 +91,8 @@ export default defineComponent ({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -153,15 +149,11 @@ Añada un icono para indicar el tipo de Input.
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input1 = ref('')
-    const input2 = ref('')
-    const input3 = ref('')
-    const input4 = ref('')
     return {
-      input1,
-      input2,
-      input3,
-      input4
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      input4: ref('')
     }
   }
 })
@@ -188,9 +180,8 @@ Redimensiona para introducir varias líneas de información de texto. Agregue el
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const textarea = ref('')
     return {
-      textarea
+      textarea: ref('')
     }
   }
 })
@@ -224,11 +215,9 @@ El ajuste del prop `autosize` en el tipo de Input textarea hace que la altura se
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const textarea1 = ref('')
-    const textarea2 = ref('')
     return {
-      textarea1,
-      textarea2
+      textarea1: ref(''),
+      textarea2: ref('')
     }
   }
 })
@@ -281,15 +270,11 @@ Añade un elemento antes o después del input, generalmente una etiqueta o un bo
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input1 = ref('')
-    const input2 = ref('')
-    const input3 = ref('')
-    const select = ref('')
     return {
-      input1,
-      input2,
-      input3,
-      select
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      select: ref('')
     }
   }
 })
@@ -329,15 +314,11 @@ export default defineComponent ({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input1 = ref('')
-    const input2 = ref('')
-    const input3 = ref('')
-    const input4 = ref('')
     return {
-      input1,
-      input2,
-      input3,
-      input4
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      input4: ref('')
     }
   }
 })
@@ -381,8 +362,6 @@ import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
-    const state1 = ref("");
-    const state2 = ref("");
     const querySearch = (queryString, cb) => {
       var results = queryString
         ? restaurants.value.filter(createFilter(queryString))
@@ -417,8 +396,8 @@ export default defineComponent({
     });
     return {
       restaurants,
-      state1,
-      state2,
+      state1: ref(''),
+      state2: ref(''),
       querySearch,
       createFilter,
       loadAll,
@@ -477,8 +456,6 @@ import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const links = ref([]);
-    const state = ref("");
-
     const querySearch = (queryString, cb) => {
       var results = queryString
         ? links.value.filter(createFilter(queryString))
@@ -519,7 +496,7 @@ export default defineComponent({
 
     return {
       links,
-      state,
+      state: ref(''),
       querySearch,
       createFilter,
       loadAll,
@@ -552,7 +529,6 @@ import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
   setup() {
     const links = ref([]);
-    const state = ref("");
     const loadAll = () => {
       return [
         { "value": "vue", "link": "https://github.com/vuejs/vue" },
@@ -591,7 +567,7 @@ export default defineComponent({
     });
     return {
       links,
-      state,
+      state: ref(''),
       querySearchAsync,
       createFilter,
       loadAll,
@@ -631,11 +607,9 @@ export default defineComponent({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const text = ref('')
-    const textarea = ref('')
     return {
-      text,
-      textarea
+      text: ref(''),
+      textarea: ref('')
     }
   }
 })

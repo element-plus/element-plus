@@ -22,9 +22,8 @@ Do not support `v-model` modifiers.
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -47,9 +46,8 @@ export default defineComponent ({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -72,9 +70,8 @@ export default defineComponent ({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -93,9 +90,8 @@ export default defineComponent ({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -151,15 +147,11 @@ Add an icon to indicate input type.
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input1 = ref('')
-    const input2 = ref('')
-    const input3 = ref('')
-    const input4 = ref('')
     return {
-      input1,
-      input2,
-      input3,
-      input4
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      input4: ref('')
     }
   }
 })
@@ -185,9 +177,8 @@ Resizable for entering multiple lines of text information. Add attribute `type="
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const textarea = ref('')
     return {
-      textarea
+      textarea: ref('')
     }
   }
 })
@@ -220,11 +211,9 @@ Setting the `autosize` prop for a textarea type of Input makes the height to aut
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const textarea1 = ref('')
-    const textarea2 = ref('')
     return {
-      textarea1,
-      textarea2
+      textarea1: ref(''),
+      textarea2: ref('')
     }
   }
 })
@@ -276,15 +265,11 @@ Prepend or append an element, generally a label or a button.
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input1 = ref('')
-    const input2 = ref('')
-    const input3 = ref('')
-    const select = ref('')
     return {
-      input1,
-      input2,
-      input3,
-      select
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      select: ref('')
     }
   }
 })
@@ -322,15 +307,11 @@ export default defineComponent ({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const input1 = ref('')
-    const input2 = ref('')
-    const input3 = ref('')
-    const input4 = ref('')
     return {
-      input1,
-      input2,
-      input3,
-      input4
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      input4: ref('')
     }
   }
 })
@@ -368,12 +349,10 @@ You can get some recommended tips based on the current input.
   </el-col>
 </el-row>
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue'
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
-    const state1 = ref("");
-    const state2 = ref("");
     const querySearch = (queryString, cb) => {
       var results = queryString
         ? restaurants.value.filter(createFilter(queryString))
@@ -408,8 +387,8 @@ export default defineComponent({
     });
     return {
       restaurants,
-      state1,
-      state2,
+      state1: ref(''),
+      state2: ref(''),
       querySearch,
       createFilter,
       loadAll,
@@ -462,11 +441,10 @@ Customize how suggestions are displayed.
 </style>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue'
 export default defineComponent({
   setup() {
     const links = ref([]);
-    const state = ref("");
 
     const querySearch = (queryString, cb) => {
       var results = queryString
@@ -508,7 +486,7 @@ export default defineComponent({
 
     return {
       links,
-      state,
+      state: ref(''),
       querySearch,
       createFilter,
       loadAll,
@@ -534,11 +512,10 @@ Search data from server-side.
   @select="handleSelect"
 ></el-autocomplete>
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue'
 export default defineComponent({
   setup() {
     const links = ref([]);
-    const state = ref("");
     const loadAll = () => {
       return [
         { "value": "vue", "link": "https://github.com/vuejs/vue" },
@@ -577,11 +554,11 @@ export default defineComponent({
     });
     return {
       links,
-      state,
+      state: ref(''),
       querySearchAsync,
       createFilter,
       loadAll,
-      handleSelect,
+      handleSelect
     };
   },
 });
@@ -616,11 +593,9 @@ export default defineComponent({
 import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
-    const text = ref('')
-    const textarea = ref('')
     return {
-      text,
-      textarea
+      text: ref(''),
+      textarea: ref('')
     }
   }
 })

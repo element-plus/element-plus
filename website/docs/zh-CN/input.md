@@ -21,9 +21,8 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -47,9 +46,8 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -73,9 +71,8 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -95,9 +92,8 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const input = ref('')
     return {
-      input
+      input: ref('')
     }
   }
 })
@@ -154,15 +150,11 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const input1 = ref('')
-    const input2 = ref('')
-    const input3 = ref('')
-    const input4 = ref('')
     return {
-      input1,
-      input2,
-      input3,
-      input4
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      input4: ref('')
     }
   }
 })
@@ -188,9 +180,8 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const textarea = ref('')
     return {
-      textarea
+      textarea: ref('')
     }
   }
 })
@@ -223,11 +214,9 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const textarea1 = ref('')
-    const textarea2 = ref('')
     return {
-      textarea1,
-      textarea2
+      textarea1: ref(''),
+      textarea2: ref('')
     }
   }
 })
@@ -285,15 +274,11 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const input1 = ref('')
-    const input2 = ref('')
-    const input3 = ref('')
-    const select = ref('')
     return {
-      input1,
-      input2,
-      input3,
-      select
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      select: ref('')
     }
   }
 })
@@ -336,15 +321,11 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const input1 = ref('')
-    const input2 = ref('')
-    const input3 = ref('')
-    const input4 = ref('')
     return {
-      input1,
-      input2,
-      input3,
-      input4
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      input4: ref('')
     }
   }
 })
@@ -387,8 +368,6 @@ import { defineComponent, ref, onMounted } from 'vue'
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
-    const state1 = ref("");
-    const state2 = ref("");
     const querySearch = (queryString, cb) => {
       var results = queryString
         ? restaurants.value.filter(createFilter(queryString))
@@ -531,8 +510,8 @@ export default defineComponent({
     });
     return {
       restaurants,
-      state1,
-      state2,
+      state1: ref(''),
+      state2: ref(''),
       querySearch,
       createFilter,
       loadAll,
@@ -594,7 +573,6 @@ import { defineComponent, ref, onMounted } from 'vue'
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
-    const state = ref("");
 
     const querySearch = (queryString, cb) => {
       var results = queryString
@@ -744,7 +722,7 @@ export default defineComponent({
 
     return {
       restaurants,
-      state,
+      state: ref(''),
       querySearch,
       createFilter,
       loadAll,
@@ -775,7 +753,6 @@ import { defineComponent, ref, onMounted } from 'vue'
 export default defineComponent({
   setup() {
     const restaurants = ref([]);
-    const state = ref("");
     const loadAll = () => {
       return [
         { value: "三全鲜食（北新泾店）", address: "长宁区新渔路144号" },
@@ -923,7 +900,7 @@ export default defineComponent({
     });
     return {
       restaurants,
-      state,
+      state: ref(''),
       querySearchAsync,
       createFilter,
       loadAll,
@@ -962,11 +939,9 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
   setup() {
-    const text = ref('')
-    const textarea = ref('')
     return {
-      text,
-      textarea
+      text: ref(''),
+      textarea: ref('')
     }
   }
 })
