@@ -15,7 +15,9 @@ const pkgs = getPackagesSync()
 const STEP = 4
 const START = 0
 const buildChild = (start, end) => {
-  const c1 = cp.spawn('node', ['./build/build.component.js', start, end])
+  let s = start
+  let e = end
+  const c1 = cp.spawn('node', ['./build/build.component.js', s, e])
   c1.stdout.on('data', function (data) {
     spinner.info(`${chalk.blue(data)}`)
   })
@@ -25,13 +27,13 @@ const buildChild = (start, end) => {
   })
 
   c1.on('close', function (code) {
-    start += STEP
-    end += STEP
-    if (start > pkgs.length && end > pkgs.length) {
+    s += STEP
+    e += STEP
+    if (s > pkgs.length) {
       spinner.succeed(`${chalk.green('Build done. Exit code ' + code)}`)
       return
     }
-    buildChild(start, end)
+    buildChild(s, e)
   })
 }
 
