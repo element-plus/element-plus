@@ -41,8 +41,8 @@
       :label="label"
       @keydown.up.prevent="increase"
       @keydown.down.prevent="decrease"
-      @blur="event => $emit('blur', event)"
-      @focus="event => $emit('focus', event)"
+      @blur="handleBlur"
+      @focus="handleFocus"
       @input="handleInput"
       @change="handleInputChange"
     />
@@ -58,6 +58,7 @@ import {
   inject,
   onMounted,
   onUpdated,
+  nextTick,
 } from 'vue'
 import { RepeatClick } from '@element-plus/directives'
 import { Input as ElInput } from '@element-plus/input'
@@ -124,7 +125,7 @@ export default defineComponent({
     placeholder: String,
     precision: {
       type: Number,
-      validator: (val: number) => val >= 0 && val === parseInt(val + '', 10),
+      validator: (val: number) => val >= 0 && val === parseInt(val, 10),
     },
   },
   emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
@@ -250,6 +251,20 @@ export default defineComponent({
       }
       data.userInput = null
     }
+    const handleBlur = event => {
+      emit('blur', event)
+    }
+    const handleFocus = event => {
+      emit('focus', event)
+    }
+    const focus = () => {
+      nextTick(() => {
+        input.value.focus()
+      })
+    }
+    const select = () => {
+      input.value.select()
+    }
     watch(
       () => props.modelValue,
       value => {
@@ -289,6 +304,8 @@ export default defineComponent({
     return {
       input,
       displayValue,
+      handleFocus,
+      handleBlur,
       handleInput,
       handleInputChange,
       controlsAtRight,
