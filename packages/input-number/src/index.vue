@@ -99,7 +99,10 @@ export default defineComponent({
       type: Number,
       default: -Infinity,
     },
-    modelValue: Number,
+    modelValue: {
+      type: Number,
+      default: 0,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -234,7 +237,7 @@ export default defineComponent({
       data.userInput = null
       emit('update:modelValue', newVal)
       emit('input', newVal)
-      emit('change', newVal)
+      emit('change', newVal, oldVal)
       data.currentValue = newVal
     }
     const handleInput = value => {
@@ -268,8 +271,6 @@ export default defineComponent({
         if (newVal <= props.min) newVal = props.min
         data.currentValue = newVal
         data.userInput = null
-        emit('update:modelValue', newVal)
-        emit('input', newVal)
       },
       { immediate: true },
     )
