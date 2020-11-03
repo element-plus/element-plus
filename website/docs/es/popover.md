@@ -51,7 +51,7 @@ Similar a un Tooltip, Popover está construido con `Vue-popper`. Así que para a
     :width="200"
     trigger="manual"
     content="this is content, this is content, this is content"
-    :visible="visible"
+    v-model:visible="visible"
   >
     <template #reference>
       <el-button @click="visible = !visible">Manual to activate</el-button>
@@ -129,7 +129,7 @@ Por supuesto, puedes anidar otras operaciones. Es más ligero que utilizar un `d
 <el-popover
   placement="top"
   :width="160"
-  :visible="visible"
+  v-model:visible="visible"
 >
   <p>Are you sure to delete this?</p>
   <div style="text-align: right; margin: 0">

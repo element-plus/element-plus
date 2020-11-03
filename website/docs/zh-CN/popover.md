@@ -50,7 +50,7 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
     :width="200"
     trigger="manual"
     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
-    :visible="visible"
+    v-model:visible="visible"
   >
     <template #reference>
       <el-button @click="visible = !visible">手动激活</el-button>
@@ -128,7 +128,7 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
 <el-popover
   placement="top"
   :width="160"
-  :visible="visible"
+  v-model:visible="visible"
 >
   <p>这是一段内容这是一段内容确定删除吗？</p>
   <div style="text-align: right; margin: 0">

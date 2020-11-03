@@ -51,7 +51,7 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
     :width="200"
     trigger="manual"
     content="this is content, this is content, this is content"
-    :visible="visible"
+    v-model:visible="visible"
   >
     <template #reference>
       <el-button @click="visible = !visible">Manual to activate</el-button>
@@ -130,7 +130,7 @@ Of course, you can nest other operations. It's more light-weight than using a di
 <el-popover
   placement="top"
   :width="160"
-  :visible="visible"
+  v-model:visible="visible"
 >
   <p>Are you sure to delete this?</p>
   <div style="text-align: right; margin: 0">
