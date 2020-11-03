@@ -31,15 +31,17 @@ use `shape` and `size` prop to set avatar's shape and size
   </el-row>
 </template>
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue'
+  export default defineComponent ({
+    setup() {
+      const sizeList = ref(['large', 'medium', 'small'])
       return {
-        circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-        squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-        sizeList: ["large", "medium", "small"]
+        circleUrl: ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'),
+        squareUrl: ref('https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png'),
+        sizeList
       }
     }
-  }
+  })
 </script>
 
 ```
@@ -77,17 +79,19 @@ fallback when image load error
   <div class="demo-type">
     <el-avatar :size="60" src="https://empty" @error="errorHandler">
       <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
-      </el-avatar>
+    </el-avatar>
   </div>
 </template>
 <script>
-  export default {
-    methods: {
-      errorHandler() {
-        return true
+  import { defineComponent, ref } from 'vue'
+  export default defineComponent ({
+    setup() {
+      const errorHandler = () => true
+      return {
+        errorHandler
       }
     }
-  }
+  })
 </script>
 
 ```
@@ -102,20 +106,22 @@ Set how the image fit its container for an image avatar, same as [object-fit](ht
 <template>
   <div class="demo-fit">
     <div class="block" v-for="fit in fits" :key="fit">
-        <span class="title">{{ fit }}</span>
-        <el-avatar shape="square" :size="100" :fit="fit" :src="url"></el-avatar>
+      <span class="title">{{ fit }}</span>
+      <el-avatar shape="square" :size="100" :fit="fit" :src="url"></el-avatar>
     </div>
   </div>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue'
+  export default defineComponent ({
+    setup() {
+      const fits = ref(['fill', 'contain', 'cover', 'none', 'scale-down'])
       return {
-        fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
-        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+        fits,
+        url: ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
       }
     }
-  }
+  })
 </script>
 
 ```
@@ -142,4 +148,5 @@ Set how the image fit its container for an image avatar, same as [object-fit](ht
 ### Slot
 
 | Slot Name | Description | 
+| ------ | ------------------ | 
 | default  | customize avatar content |
