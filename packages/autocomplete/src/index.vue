@@ -14,7 +14,8 @@
     <template #trigger>
       <div
         v-clickoutside="close"
-        class="el-autocomplete"
+        :class="['el-autocomplete', $attrs.class]"
+        :style="$attrs.style"
         role="combobox"
         aria-haspopup="listbox"
         :aria-expanded="suggestionVisible"
@@ -22,7 +23,7 @@
       >
         <el-input
           ref="inputRef"
-          v-bind="$attrs"
+          v-bind="attrs"
           :model-value="modelValue"
           @input="handleInput"
           @change="handleChange"
@@ -88,6 +89,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, nextTick, PropType, watch } from 'vue'
+import { useAttrs } from '@element-plus/hooks'
 import { NOOP } from '@vue/shared'
 import debounce from 'lodash/debounce'
 import { ClickOutside } from '@element-plus/directives'
@@ -160,6 +162,7 @@ export default defineComponent({
   },
   emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'focus', 'blur', 'clear', 'select'],
   setup(props, ctx) {
+    const attrs = useAttrs()
     const suggestions = ref([])
     const highlightedIndex = ref(-1)
     const dropdownWidth = ref('')
@@ -302,6 +305,7 @@ export default defineComponent({
     }
 
     return {
+      attrs,
       suggestions,
       highlightedIndex,
       dropdownWidth,
