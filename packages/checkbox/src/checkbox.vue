@@ -62,8 +62,10 @@ import {
   defineComponent,
   getCurrentInstance,
   onMounted,
+  PropType,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useCheckbox } from './useCheckbox'
 
 export default defineComponent({
@@ -101,8 +103,8 @@ export default defineComponent({
     },
     border: Boolean,
     size: {
-      type: String,
-      default: undefined,
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
     },
   },
   emits: [UPDATE_MODEL_EVENT, 'change'],

@@ -61,23 +61,19 @@ import {
 } from 'vue'
 import { RepeatClick } from '@element-plus/directives'
 import { Input as ElInput } from '@element-plus/input'
-import type { PropType } from 'vue'
+import { useGlobalConfig } from '@element-plus/utils/util'
+import { isValidComponentSize } from '@element-plus/utils/validators'
+import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
 import { parseInt } from 'lodash'
-const ELEMENT: {
-  size?: number
-} = {}
-interface ElForm {
-  disabled: boolean
-  statusIcon: string
-}
-interface ElFormItem {
-  elFormItemSize: number
-  validateState: string
-}
+
+import type { PropType } from 'vue'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+
 interface IData {
   currentValue: number | string
   userInput: null | number | string
 }
+
 export default defineComponent({
   name: 'ElInputNumber',
   components: {
@@ -109,8 +105,8 @@ export default defineComponent({
       default: false,
     },
     size: {
-      type: String as PropType<'large' | 'small'>,
-      validator: (val: string) => ['large', 'small'].includes(val),
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
     },
     controls: {
       type: Boolean,
@@ -130,13 +126,16 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change', 'input', 'blur', 'focus'],
   setup(props, { emit }) {
+    const ELEMENT = useGlobalConfig()
+    const elForm = inject(elFormKey, {} as ElFormContext)
+    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+
     const input = ref(null)
     const data = reactive<IData>({
       currentValue: 0,
       userInput: null,
     })
-    const elForm = inject<ElForm>('elForm', {} as any)
-    const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
+
     const minDisabled = computed(() => {
       return _decrease(props.modelValue) < props.min
     })
@@ -160,10 +159,10 @@ export default defineComponent({
       return props.controls && props.controlsPosition === 'right'
     })
     const inputNumberSize = computed(() => {
-      return props.size || elFormItem.elFormItemSize || ELEMENT?.size
+      return props.size || elFormItem.size || ELEMENT.size
     })
     const inputNumberDisabled = computed(() => {
-      return props.disabled || !!(elForm || {}).disabled
+      return props.disabled || elForm.disabled
     })
     const displayValue = computed(() => {
       if (data.userInput !== null) {

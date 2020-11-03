@@ -996,6 +996,7 @@ Vous pouvez filtrer la table pour obtenir rapidement les lignes désirées.
   <el-button @click="resetDateFilter">Effacer le filtre date</el-button>
   <el-button @click="clearFilter">Effacer tout les filtres</el-button>
   <el-table
+    row-key="date"
     ref="filterTable"
     :data="tableData"
     style="width: 100%">

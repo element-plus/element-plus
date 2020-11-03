@@ -24,21 +24,16 @@
 </template>
 
 <script lang='ts'>
-import { computed, inject, defineComponent, PropType } from 'vue'
+import { computed, inject, defineComponent } from 'vue'
+import { useGlobalConfig } from '@element-plus/utils/util'
+import { isValidComponentSize } from '@element-plus/utils/validators'
+import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
+
+import type { PropType } from 'vue'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
 
 type IButtonType = PropType<'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'>
-type IButtonSize = PropType<'medium' | 'small' | 'mini'>
 type IButtonNativeType = PropType<'button' | 'submit' | 'reset'>
-const ELEMENT: {
-  size?: number
-} = {}
-// TODOS: replace these interface definition with actual ElForm interface
-interface ElForm {
-  disabled: boolean
-}
-interface ElFormItem {
-  elFormItemSize: number
-}
 
 interface IButtonProps {
   type: string
@@ -55,12 +50,6 @@ interface IButtonProps {
 
 type EmitFn = (evt: Event) => void
 
-interface IButtonSetups {
-  elFormItemSize_: number
-  buttonSize: string
-  buttonDisabled: boolean
-  handleClick: EmitFn
-}
 export default defineComponent({
   name: 'ElButton',
 
@@ -81,10 +70,8 @@ export default defineComponent({
       },
     },
     size: {
-      type: String as IButtonSize,
-      validator: (val: string) => {
-        return ['medium', 'small', 'mini'].includes(val)
-      },
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
     },
     icon: {
       type: String,
@@ -108,20 +95,16 @@ export default defineComponent({
   emits: ['click'],
 
   setup(props, ctx) {
-    // inject
-    const elForm = inject<ElForm>('elForm', {} as any)
-    const elFormItem = inject<ElFormItem>('elFormItem', {} as any)
+    const $ElEMENT = useGlobalConfig()
 
-    // computed
-    const elFormItemSize_ = computed(() => {
-      return (elFormItem || {}).elFormItemSize
-    })
+    const elForm = inject(elFormKey, {} as ElFormContext)
+    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+
     const buttonSize = computed(() => {
-      // todo ELEMENT
-      return props.size || elFormItemSize_.value || (ELEMENT || {}).size
+      return props.size || elFormItem.size || $ElEMENT.size
     })
     const buttonDisabled = computed(() => {
-      return props.disabled || (elForm || {}).disabled
+      return props.disabled || elForm.disabled
     })
 
     //methods
@@ -130,7 +113,6 @@ export default defineComponent({
     }
 
     return {
-      elFormItemSize_,
       buttonSize,
       buttonDisabled,
       handleClick,

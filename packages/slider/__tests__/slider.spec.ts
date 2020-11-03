@@ -62,7 +62,7 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div>
-          <slider v-model="value" :show-tooltip="false">
+          <slider ref="slider" v-model="value" :show-tooltip="false">
           </slider>
         </div>
       `,
@@ -73,7 +73,9 @@ describe('Slider', () => {
         }
       },
     })
-    expect(wrapper.findComponent({ name:'ElPopper' }).exists()).toBeFalsy()
+    const slider = wrapper.vm.$refs.slider as any
+    const tooltip = slider.$refs.firstButton.$refs.tooltip
+    expect(tooltip.disabled).toBe(true)
   })
 
   it('format tooltip', async() => {

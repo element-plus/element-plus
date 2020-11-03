@@ -1,10 +1,3 @@
-import mitt from 'mitt'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { t } from '@element-plus/locale'
-import isServer from '@element-plus/utils/isServer'
-import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import { debounce as lodashDebounce } from 'lodash'
-import { isKorean } from '@element-plus/utils/isDef'
 import {
   inject,
   nextTick,
@@ -13,14 +6,23 @@ import {
   ref,
   reactive,
 } from 'vue'
+import mitt from 'mitt'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { t } from '@element-plus/locale'
+import isServer from '@element-plus/utils/isServer'
+import scrollIntoView from '@element-plus/utils/scroll-into-view'
+import { debounce as lodashDebounce } from 'lodash'
+import { isKorean } from '@element-plus/utils/isDef'
 import {
   getValueByPath,
   isIE,
   isEdge,
+  useGlobalConfig,
 } from '@element-plus/utils/util'
+import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
 import isEqual from 'lodash/isEqual'
 
-const ELEMENT = { size: 'medium' }
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
 
 export function useSelectStates(props) {
   const selectEmitter = mitt()
@@ -54,6 +56,7 @@ export function useSelectStates(props) {
 type States = ReturnType<typeof useSelectStates>
 
 export const useSelect = (props, states: States, ctx) => {
+  const ELEMENT = useGlobalConfig()
   // template refs
   const reference = ref(null)
   const input = ref(null)
@@ -64,15 +67,12 @@ export const useSelect = (props, states: States, ctx) => {
   const hoverOption = ref(-1)
 
   // inject
-  const elForm = inject<any>('elForm', {})
-  const elFormItem = inject<any>('elFormItem', {})
-
-  // computed
-  const _elFormItemSize = computed(() => (elFormItem || {}).elFormItemSize)
+  const elForm = inject(elFormKey, {} as ElFormContext)
+  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
   const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !states.visible))
 
-  const selectDisabled = computed(() => props.disabled || (elForm || {}).disabled)
+  const selectDisabled = computed(() => props.disabled || elForm.disabled)
 
   const showClose = computed(() => {
     const hasValue = props.multiple
@@ -114,8 +114,7 @@ export const useSelect = (props, states: States, ctx) => {
     return props.filterable && props.allowCreate && states.query !== '' && !hasExistingOption
   })
 
-  // TODO: ELEMENT
-  const selectSize = computed(() => props.size || _elFormItemSize.value || (ELEMENT || {}).size)
+  const selectSize = computed(() => props.size || elFormItem.size || ELEMENT.size)
 
   const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
 
@@ -150,7 +149,7 @@ export const useSelect = (props, states: States, ctx) => {
       states.inputLength = 20
     }
     if (!isEqual(val, oldVal)) {
-      elFormItem?.changeEvent?.(val)
+      elFormItem.formItemMitt?.emit('el.form.change', val)
     }
   })
 
@@ -210,7 +209,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   watch(() => states.options, () => {
     if (isServer) return
-    popper.value?.update?.()
+    popper.value?.update()
     if (props.multiple) {
       resetInputHeight()
     }
@@ -264,7 +263,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
     states.previousQuery = val
     nextTick(() => {
-      if (states.visible) popper.value?.update?.()
+      if (states.visible) popper.value?.update()
     })
     states.hoverIndex = -1
     if (props.multiple && props.filterable) {
@@ -424,7 +423,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const emitChange = val => {
     if (!isEqual(props.modelValue, val)) {
-      ctx.emit('change', val)
+      ctx.emit(CHANGE_EVENT, val)
     }
   }
 

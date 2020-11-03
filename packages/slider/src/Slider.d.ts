@@ -5,7 +5,6 @@ export interface ISliderProps {
   min: number
   max: number
   step: number
-  value: number | number[]
   showInput: boolean
   showInputControls: boolean
   inputSize: string
@@ -19,7 +18,7 @@ export interface ISliderProps {
   debounce: number
   label: string
   tooltipClass: string
-  marks: Record<number, any>
+  marks?: Record<number, any>
 }
 
 export interface ISliderInitData {
@@ -97,7 +96,6 @@ export interface ISliderButtonInitData {
 
 export interface ISliderButton {
   tooltip: Ref<Nullable<HTMLElement>>
-  tooltipVisible: Ref<boolean>
   showTooltip: Ref<boolean>
   wrapperStyle: ComputedRef<CSSStyleDeclaration>
   formatValue: ComputedRef<number | string>

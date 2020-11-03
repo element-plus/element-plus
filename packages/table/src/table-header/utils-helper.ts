@@ -69,7 +69,7 @@ function useUtils(props: TableHeaderProps) {
   })
   const isGroup = computed(() => {
     const result = columnRows.value.length > 1
-    if (result) parent.vnode.state.isGroup.value = true
+    if (result) parent.state.isGroup.value = true
     return result
   })
   const toggleAllSelection = (event: Event) => {

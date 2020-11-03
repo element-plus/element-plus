@@ -1,11 +1,11 @@
 import { inject, computed, ref } from 'vue'
-import { generateId } from '@element-plus/utils/util'
+import { generateId, useGlobalConfig } from '@element-plus/utils/util'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, addClass } from '@element-plus/utils/dom'
 import { IElDropdownInstance } from './dropdown'
 
 export const useDropdown = () => {
-  const ELEMENT = null
+  const ELEMENT = useGlobalConfig()
   const elDropdown = inject<IElDropdownInstance>('elDropdown', {})
   const _elDropdownSize = computed(() => elDropdown?.dropdownSize)
 

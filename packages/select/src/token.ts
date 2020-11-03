@@ -7,25 +7,22 @@ interface SelectGroupContext {
 
 export interface SelectContext {
   props: {
-    multiple: boolean
-    value: unknown[]
-    multipleLimit: number
-    valueKey: string
-    modelValue: unknown[]
-    popperClass: string
+    multiple?: boolean
+    multipleLimit?: number
+    valueKey?: string
+    modelValue?: string | number | unknown[]
+    popperClass?: string
+    remote?: boolean
   }
   selectWrapper: HTMLElement
   cachedOptions: any[]
-  selected: any | any[]
-  multiple: boolean
   hoverIndex: number
-  setSelected(): void
-  valueKey: string
-  remote: boolean
   optionsCount: number
   filteredOptionsCount: number
-  options: unknown[]
+  options: any[]
+  selected: any | any[]
   selectEmitter: Emitter
+  setSelected(): void
   onOptionDestroy(i: number)
   handleOptionSelect(vm: unknown, byClick: boolean)
 }

@@ -242,7 +242,7 @@ class TableLayout {
       }
 
       this.bodyWidth.value = Math.max(bodyMinWidth, bodyWidth)
-      this.table.vnode.state.resizeState.value.width = this.bodyWidth.value
+      this.table.state.resizeState.value.width = this.bodyWidth.value
     } else {
       flattenColumns.forEach(column => {
         if (!column.width && !column.minWidth) {
@@ -298,10 +298,10 @@ class TableLayout {
     observers.forEach(observer => {
       switch (event) {
         case 'columns':
-          observer.vnode.state?.onColumnsChange(this)
+          observer.state?.onColumnsChange(this)
           break
         case 'scrollable':
-          observer.vnode.state?.onScrollableChange(this)
+          observer.state?.onScrollableChange(this)
           break
         default:
           throw new Error(`Table Layout don't have event ${event}.`)

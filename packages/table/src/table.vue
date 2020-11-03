@@ -392,7 +392,7 @@ export default defineComponent({
 
     const tableId = 'el-table_' + tableIdSeed++
     table.tableId = tableId
-    table.vnode.state = {
+    table.state = {
       isGroup,
       resizeState,
       doLayout,

@@ -1,10 +1,10 @@
 // import vue from 'rollup-plugin-vue'
-import typescript from 'rollup-plugin-typescript2'
-import css from 'rollup-plugin-css-only'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import path from 'path'
+import css from 'rollup-plugin-css-only'
 // import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
-import path from 'path'
+import typescript from 'rollup-plugin-typescript2'
 import pkg from '../package.json'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -29,9 +29,13 @@ export default [
       }),
       typescript({
         tsconfigOverride: {
+          'include': [
+            'packages/**/*',
+            'typings/vue-shim.d.ts',
+          ],
           'exclude': [
             'node_modules',
-            '__tests__',
+            'packages/**/__tests__/*',
           ],
         },
         abortOnError: false,

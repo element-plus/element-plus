@@ -70,10 +70,10 @@ describe('Pagination.vue', () => {
     const wrapper = mount(Pagination, {
       props: {
         pageSize: 25,
-        pagerCount: 4,
+        pagerCount: 5,
       },
     })
-    expect(wrapper.findAll('li.number').length).toBe(4)
+    expect(wrapper.findAll('li.number').length).toBe(5)
   })
 
   test('pagerCount', () => {
