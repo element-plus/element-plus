@@ -105,7 +105,11 @@
     "packages/*"
   ],
   "description": "A Component Library for Vue3.0",
-  "repository": "git@github.com:element-plus/element-plus.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/element-plus/element-plus.git"
+  },
+  "homepage": "https://element-plus.org/",
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.4",
