@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
-import defaultProps, { Effect } from '@element-plus/popper'
+import { defaultProps, Effect } from '@element-plus/popper'
 import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
 
 import { warn } from '@element-plus/utils/error'
