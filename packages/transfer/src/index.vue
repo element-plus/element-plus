@@ -54,16 +54,26 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, h, reactive, ref, toRefs, watch, VNode, PropType  } from 'vue'
+import {
+  computed, defineComponent, inject, h,
+  reactive, ref, toRefs, watch,
+} from 'vue'
 import { t } from '@element-plus/locale'
 import { Button as ElButton } from '@element-plus/button'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import { useCheckedChange } from './useCheckedChange'
 import { useMove } from './useMove'
-import { Key } from './transfer'
 
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { elFormItemKey } from '@element-plus/form/src/token'
+
+import type { PropType, VNode } from 'vue'
+import type { ElFormItemContext } from '@element-plus/form/src/token'
+import type {
+  DataItem, Format, Key,
+  Props, TargetOrder,
+} from './transfer'
 
 export const CHANGE_EVENT = 'change'
 export const LEFT_CHECK_CHANGE_EVENT = 'left-check-change'
@@ -79,73 +89,53 @@ export default defineComponent({
 
   props: {
     data: {
-      type: Array,
-      default() {
-        return []
-      },
+      type: Array as PropType<DataItem[]>,
+      default: () => [],
     },
     titles: {
-      type: Array,
-      default() {
-        return []
-      },
+      type: Array as PropType<any> as PropType<[string, string]>,
+      default: () => [],
     },
     buttonTexts: {
-      type: Array,
-      default() {
-        return []
-      },
+      type: Array as PropType<any> as PropType<[string, string]>,
+      default: () => [],
     },
     filterPlaceholder: {
       type: String,
       default: '',
     },
-    filterMethod: {
-      type: Function as PropType<(query: string, item: Record<string, any>) => boolean>,
-    },
+    filterMethod: Function as PropType<(query: string, item: DataItem) => boolean>,
     leftDefaultChecked: {
-      type: Array,
-      default() {
-        return []
-      },
+      type: Array as PropType<Key[]>,
+      default: () => [],
     },
     rightDefaultChecked: {
-      type: Array,
-      default() {
-        return []
-      },
+      type: Array as PropType<Key[]>,
+      default: () => [],
     },
-    renderContent: {
-      type: Function as PropType<(h, option) => VNode>,
-    },
+    renderContent: Function as PropType<(h, option) => VNode>,
     modelValue: {
-      type: Array,
-      default() {
-        return []
-      },
+      type: Array as PropType<Key[]>,
+      default: () => [],
     },
     format: {
-      type: Object,
-      default() {
-        return {}
-      },
+      type: Object as PropType<Format>,
+      default: () => ({}),
     },
     filterable: {
       type: Boolean,
       default: false,
     },
     props: {
-      type: Object,
-      default() {
-        return {
-          label: 'label',
-          key: 'key',
-          disabled: 'disabled',
-        }
-      },
+      type: Object as PropType<Props>,
+      default: () => ({
+        label: 'label',
+        key: 'key',
+        disabled: 'disabled',
+      }),
     },
     targetOrder: {
-      type: String,
+      type: String as PropType<TargetOrder>,
       default: 'original',
       validator: (val: string) => {
         return ['original', 'push', 'unshift'].includes(val)
@@ -161,6 +151,8 @@ export default defineComponent({
   ],
 
   setup(props, { emit, slots }) {
+    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+
     const checkedState = reactive({
       leftChecked: [],
       rightChecked: [],
@@ -201,14 +193,16 @@ export default defineComponent({
 
     const panelFilterPlaceholder = computed(() => props.filterPlaceholder || t('el.transfer.filterPlaceholder'))
 
-    watch(() => props.modelValue, (val: Key[]) => emit(UPDATE_MODEL_EVENT, val))
+    watch(() => props.modelValue, val => {
+      elFormItem.formItemMitt?.emit('el.form.change', val)
+    })
 
     const optionRender = computed(() => option => {
       if (props.renderContent) return props.renderContent(h, option)
 
       if (slots.default) return slots.default({ option })
 
-      return h('span', option[props.props.label] || option[porps.props.key])
+      return h('span', option[props.props.label] || option[props.props.key])
     })
 
     return {

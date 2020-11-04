@@ -55,14 +55,18 @@ import {
   getCurrentInstance,
   toRefs,
   reactive,
-  PropType,
 } from 'vue'
+import { NOOP } from '@vue/shared'
 import AsyncValidator from 'async-validator'
 import { RuleItem } from 'async-validator'
 import LabelWrap from './label-wrap'
 import { getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
+import { isValidComponentSize } from '@element-plus/utils/validators'
 import mitt from 'mitt'
-import { elFormKey, elFormItemKey, ValidateFieldCallback } from './token'
+import { elFormKey, elFormItemKey } from './token'
+
+import type { PropType } from 'vue'
+import type { ElFormContext, ValidateFieldCallback } from './token'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -90,13 +94,16 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    size: String,
+    size: {
+      types: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
+    },
   },
   setup(props) {
     const formItemMitt = mitt()
     const $ELEMENT = useGlobalConfig()
 
-    const elForm = inject(elFormKey)
+    const elForm = inject(elFormKey, {} as ElFormContext)
     const validateState = ref('')
     const validateMessage = ref('')
     const validateDisabled = ref(false)
@@ -198,7 +205,7 @@ export default defineComponent({
       return elFormItemSize.value || $ELEMENT.size
     })
 
-    const validate = (trigger: string, callback?: ValidateFieldCallback) => {
+    const validate = (trigger: string, callback: ValidateFieldCallback = NOOP) => {
       validateDisabled.value = false
       const rules = getFilteredRule(trigger)
       if ((!rules || rules.length === 0) && props.required === undefined) {
@@ -223,7 +230,7 @@ export default defineComponent({
           validateState.value = !errors ? 'success' : 'error'
           validateMessage.value = errors ? errors[0].message : ''
           callback(validateMessage.value, invalidFields)
-          elForm?.emit(
+          elForm.emit?.(
             'validate',
             props.prop,
             !errors,
@@ -266,7 +273,7 @@ export default defineComponent({
       const requiredRule =
         props.required !== undefined ? { required: !!props.required } : []
 
-      const prop = getPropByPath(formRules, props.prop || '', true)
+      const prop = getPropByPath(formRules, props.prop || '', false)
       const normalizedRule = formRules
         ? (prop.o[props.prop || ''] || prop.v)
         : []
@@ -316,8 +323,11 @@ export default defineComponent({
       formItemMitt.off('el.form.blur', onFieldBlur)
       formItemMitt.off('el.form.change', onFieldChange)
     }
+
     const elFormItem = reactive({
       ...toRefs(props),
+      size: sizeClass,
+      validateState,
       removeValidateEvents,
       addValidateEvents,
       resetField,
@@ -329,7 +339,7 @@ export default defineComponent({
 
     onMounted(() => {
       if (props.prop) {
-        elForm.formMitt.emit('el.form.addField', elFormItem)
+        elForm.formMitt?.emit('el.form.addField', elFormItem)
 
         let value = fieldValue.value
         initialValue = Array.isArray(value)
@@ -339,19 +349,19 @@ export default defineComponent({
       }
     })
     onBeforeUnmount(() => {
-      elForm.formMitt.emit('el.form.removeField', elFormItem)
+      elForm.formMitt?.emit('el.form.removeField', elFormItem)
     })
 
     provide(elFormItemKey, elFormItem)
 
     const formItemClass = computed(() => [
       {
-        'el-form-item--feedback': elForm && elForm.statusIcon,
+        'el-form-item--feedback': elForm.statusIcon,
         'is-error': validateState.value === 'error',
         'is-validating': validateState.value === 'validating',
         'is-success': validateState.value === 'success',
         'is-required': isRequired.value || props.required,
-        'is-no-asterisk': elForm && elForm.hideRequiredAsterisk,
+        'is-no-asterisk': elForm.hideRequiredAsterisk,
       },
       sizeClass.value ? 'el-form-item--' + sizeClass.value : '',
     ])

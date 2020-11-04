@@ -1,11 +1,11 @@
 import { inject, computed, ref } from 'vue'
-import { generateId } from '@element-plus/utils/util'
+import { generateId, useGlobalConfig } from '@element-plus/utils/util'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, addClass } from '@element-plus/utils/dom'
 import { IElDropdownInstance } from './dropdown'
 
 export const useDropdown = () => {
-  const ELEMENT = null
+  const ELEMENT = useGlobalConfig()
   const elDropdown = inject<IElDropdownInstance>('elDropdown', {})
   const _elDropdownSize = computed(() => elDropdown?.dropdownSize)
 
@@ -85,7 +85,7 @@ export const initDropdownDomEvent = (dropdownChildren, triggerElm, _instance) =>
     triggerElm.setAttribute('aria-controls', listId.value)
     if (!_instance.props.splitButton) {
       triggerElm.setAttribute('role', 'button')
-      triggerElm.setAttribute('tabindex', _instance.tabindex)
+      triggerElm.setAttribute('tabindex', _instance.props.tabindex)
       addClass(triggerElm, 'el-dropdown-selfdefine')
     }
   }
@@ -104,7 +104,7 @@ export const initDropdownDomEvent = (dropdownChildren, triggerElm, _instance) =>
   }
 
   function triggerElmFocus() {
-    triggerElm?.focus?.()
+    triggerElm.focus()
   }
 
   initDomOperation()

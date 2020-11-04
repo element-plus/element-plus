@@ -138,6 +138,7 @@ export default {
         [Language.EN]: 'English',
         [Language.ES]: 'Español',
         [Language.FR]: 'Français',
+        [Language.JP]: '日本語',
       },
     }
   },

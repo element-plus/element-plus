@@ -12,10 +12,9 @@
   display: inline-block;
   position: relative;
 
-  .el-select__tags
-    >span {
-      display: inline-block;
-    }
+  .el-select__tags > span {
+    display: inline-block;
+  }
 
   &:hover {
     .el-input__inner {
@@ -123,13 +122,13 @@
     margin-top: -2px;
   }
 
-  .el-tag {
+  .el-select__tags .el-tag {
     box-sizing: border-box;
     border-color: transparent;
     margin: 2px 0 2px 6px;
     background-color: #f0f2f5;
 
-    &__close.el-icon-close {
+    .el-icon-close {
       background-color: $--color-text-placeholder;
       right: -7px;
       top: 0;

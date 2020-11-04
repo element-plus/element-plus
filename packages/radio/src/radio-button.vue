@@ -2,10 +2,11 @@
   <label
     class="el-radio-button"
     :class="[
-      size ? 'el-radio-button--' + size.value : '',
-      { 'is-active': value === label },
-      { 'is-disabled': isDisabled },
-      { 'is-focus': focus }
+      size ? 'el-radio-button--' + size : '',
+      { 'is-active': value === label,
+        'is-disabled': isDisabled,
+        'is-focus': focus,
+      }
     ]"
     role="radio"
     :aria-checked="value === label"
@@ -29,14 +30,15 @@
       :style="value === label ? activeStyle : null"
       @keydown.stop
     >
-      <slot></slot>
-      <template v-if="!$slots.default">{{ label }}</template>
+      <slot>
+        {{ label }}
+      </slot>
     </span>
   </label>
 </template>
 <script lang="ts">
 import { computed } from 'vue'
-import useRadio from './useRadio'
+import { useRadio, useRadioAttrs } from './useRadio'
 
 export default {
   name: 'ElRadioButton',
@@ -53,36 +55,44 @@ export default {
     },
   },
   setup(props) {
-    const radioUse = useRadio()
-    const isGroup = radioUse.isGroup
-    const radioGroup_ = radioUse.radioGroup_
-    const elFormItemSize_ = radioUse.elFormItemSize_
-    const ELEMENT = radioUse.ELEMENT
-    const focus = radioUse.focus
-    const elForm = radioUse.elForm
+    const {
+      isGroup,
+      radioGroup,
+      elFormItemSize,
+      ELEMENT,
+      focus,
+      elForm,
+    } = useRadio()
+
     const size = computed(() => {
-      return radioGroup_.radioGroupSize || elFormItemSize_ || (ELEMENT || {} as any).size
+      return radioGroup.radioGroupSize || elFormItemSize.value || ELEMENT.size
     })
-    const isDisabled = computed(() => {
-      return props.disabled || radioGroup_.disabled || (elForm || {} as any).disabled
-    })
-    const tabIndex = computed(() => {
-      return (isDisabled.value || (radioGroup_ && value.value !== props.label)) ? -1 : 0
-    })
-    const value = computed({
+
+    const value = computed<boolean | string | number>({
       get() {
-        return radioGroup_.modelValue.value
+        return radioGroup.modelValue
       },
       set(value) {
-        radioGroup_.changeEvent(value)
+        radioGroup.changeEvent(value)
       },
     })
+
+    const {
+      isDisabled,
+      tabIndex,
+    } = useRadioAttrs(props, {
+      model: value,
+      elForm,
+      radioGroup: radioGroup,
+      isGroup,
+    })
+
     const activeStyle = computed(() => {
       return {
-        backgroundColor: radioGroup_.fill || '',
-        borderColor: radioGroup_.fill || '',
-        boxShadow: radioGroup_.fill ? `-1px 0 0 0 ${radioGroup_.fill}` : '',
-        color: radioGroup_.textColor || '',
+        backgroundColor: radioGroup.fill || '',
+        borderColor: radioGroup.fill || '',
+        boxShadow: radioGroup.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
+        color: radioGroup.textColor || '',
       }
     })
 

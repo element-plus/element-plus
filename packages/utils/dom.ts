@@ -233,4 +233,5 @@ export const getOffsetTop = (el: HTMLElement) => {
 export const getOffsetTopDistance = (el: HTMLElement, containerEl: HTMLElement) => {
   return Math.abs(getOffsetTop(el) - getOffsetTop(containerEl))
 }
+
 export const stop = (e: Event) => e.stopPropagation()

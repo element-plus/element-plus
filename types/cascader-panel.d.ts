@@ -1,5 +1,8 @@
-import { VNode, CreateElement } from 'vue'
-import { ElementUIComponent } from './component'
+import { h } from 'vue'
+import type { VNode } from 'vue'
+import type { ElementUIComponent } from './component'
+
+type H = typeof h
 
 /** Trigger mode of expanding current item */
 export type ExpandTrigger = 'click' | 'hover'
@@ -66,7 +69,7 @@ export declare class ElCascaderPanel<V = any, D = CascaderOption> extends Elemen
   border: boolean
 
   /** Render function of custom label content */
-  renderLabel: (h: CreateElement, context: { node: CascaderNode<V, D>; data: D; }) => VNode
+  renderLabel: (h: H, context: { node: CascaderNode<V, D>; data: D; }) => VNode
 
   $slots: CascaderPanelSlots
 }

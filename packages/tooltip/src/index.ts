@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, ref } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import throwError from '@element-plus/utils/error'
@@ -8,7 +8,7 @@ import type {
   Effect,
   Placement,
   Options,
-} from '@element-plus/popper/src/popper/defaults'
+} from '@element-plus/popper/src/use-popper/defaults'
 
 /**
  * ElTooltip
@@ -95,19 +95,25 @@ export default defineComponent({
   },
   emits: [UPDATE_MODEL_EVENT],
   setup(props, ctx) {
-    // init here
-
     // when manual mode is true, v-model must be passed down
     if (props.manual && typeof props.modelValue === 'undefined') {
       throwError('[ElTooltip]', 'You need to pass a v-model to el-tooltip when `manual` is true')
     }
 
+    const popper = ref(null)
+
     const onUpdateVisible = val => {
       ctx.emit(UPDATE_MODEL_EVENT, val)
     }
 
+    const updatePopper = () => {
+      return popper.value.update()
+    }
+
     return {
+      popper,
       onUpdateVisible,
+      updatePopper,
     }
   },
   render() {
@@ -132,6 +138,7 @@ export default defineComponent({
     const popper = h(
       ElPopper,
       {
+        ref: 'popper',
         class: this.class,
         disabled,
         effect,
