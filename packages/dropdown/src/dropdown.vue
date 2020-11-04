@@ -240,22 +240,3 @@ export default defineComponent({
   },
 })
 </script>
-<style>
-.el-dropdown-popper {
-  padding: 0px;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-}
-.el-dropdown-popper.is-light {
-  border: 1px solid #EBEEF5;
-}
-.el-dropdown-popper.is-light .el-popper__arrow::before {
-  border: 1px solid #EBEEF5;
-  background: #FFF;
-}
-.el-dropdown-popper .el-dropdown-menu {
-  border: none;
-}
-.el-dropdown-selfdefine {
-  outline: none;
-}
-</style>

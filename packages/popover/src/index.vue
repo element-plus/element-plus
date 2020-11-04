@@ -122,8 +122,3 @@ export default defineComponent({
 })
 </script>
 
-<style>
-.el-popover .el-popper__arrow::before {
-  border: 1px solid #ebeef5;
-}
-</style>
