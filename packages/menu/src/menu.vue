@@ -31,43 +31,7 @@ import {
 } from 'vue'
 import mitt from 'mitt'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
-
-interface RootMenuData {
-  styles: string
-  class: string
-  activeIndex: string
-  openedMenus: unknown[]
-  items: any
-  submenus: any
-  hoverBackground: string
-  isMenuPopup: boolean
-}
-
-interface RootMenuProps {
-  mode: string
-  defaultActive: string
-  defaultOpeneds: any[]
-  uniqueOpened: boolean
-  router: boolean
-  menuTrigger: string
-  collapse: boolean
-  backgroundColor: string
-  textColor: string
-  activeTextColor: string
-  collapseTransition: boolean
-}
-
-export interface RootMenuProvider {
-  data: ToRefs<RootMenuData>
-  props: Readonly<Partial<RootMenuProps>>
-  methods: {
-    addMenuItem: (item: any) => void
-    removeMenuItem: (item: any) => void
-    addSubMenu: (item: any) => void
-    removeSubMenu: (item: any) => void
-    openMenu: (index: string, indexPath: string) => void
-  }
-}
+import { IMenuProps } from './menu'
 
 function useMenuColor(color: string) {
   const menuBarColor = ref('')
@@ -193,7 +157,7 @@ export default defineComponent({
       default: true,
     },
   },
-  setup(props) {
+  setup(props: IMenuProps) {
     // data
     const data = toRefs({
       styles: '',

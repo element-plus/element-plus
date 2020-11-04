@@ -40,6 +40,7 @@
 </template>
 <script lang="ts">
 import { computed, onMounted, onBeforeUnmount } from 'vue'
+import { IMenuGroupProps } from './menu'
 // import Menu from './menu-mixin'
 // import ElTooltip from "element-ui/packages/tooltip";
 import mitt from 'mitt'
@@ -59,7 +60,7 @@ export default {
     route: [String, Object],
     disabled: Boolean,
   },
-  setup() {
+  setup(props: IMenuGroupProps) {
     const active = computed(() => {
       return this.index === this.rootMenu.activeIndex
     })

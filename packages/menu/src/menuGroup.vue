@@ -26,6 +26,7 @@ import {
 } from 'vue'
 import mitt from 'mitt'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
+import { IMenuGroupProps } from './menu'
 
 export default defineComponent({
   name: 'ElMenuItemGroup',
@@ -36,7 +37,7 @@ export default defineComponent({
       type: String,
     },
   },
-  setup(props) {
+  setup(props: IMenuGroupProps) {
     // data
     const data = reactive({
       paddingLeft: 20,

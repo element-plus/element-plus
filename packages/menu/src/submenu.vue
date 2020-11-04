@@ -62,7 +62,7 @@ import {
   onBeforeUnmount,
 } from 'vue'
 import ElCollapseTransition from '@element-plus/transition/collapse-transition/index.vue'
-import { RootMenuProvider } from './menu.vue'
+import { IMenuGroupProps, RootMenuProvider } from './menu'
 
 export default {
   name: 'ElSubmenu',
@@ -88,7 +88,7 @@ export default {
       default: undefined,
     },
   },
-  setup(props) {
+  setup(props: IMenuGroupProps) {
     const data = reactive({
       popperJS: null,
       timeout: null,
