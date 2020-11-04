@@ -27,10 +27,10 @@
 import { computed, inject, defineComponent } from 'vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
 
 import type { PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
 type IButtonType = PropType<'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'>
 type IButtonNativeType = PropType<'button' | 'submit' | 'reset'>
