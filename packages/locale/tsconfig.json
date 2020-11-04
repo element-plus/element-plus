@@ -16,14 +16,10 @@
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": true,
     "allowUnusedLabels": true,
-    "outDir": "../../lib/utils"
+    "outDir": "../../lib/locale"
   },
-  "include": [
-    "./**/*.ts",
-    "../../typings/vue-shim.d.ts"
-  ],
   "exclude": [
     "node_modules",
-    "tests/*.ts"
+    "__test__/*.ts"
   ]
  }
