@@ -20,8 +20,54 @@
   </el-menu-collapse-transition>
 </template>
 <script lang="ts">
-import { defineComponent, toRefs, watch, computed, ref } from 'vue'
+import {
+  defineComponent,
+  toRefs,
+  watch,
+  computed,
+  ref,
+  provide,
+  ToRefs,
+} from 'vue'
+import mitt from 'mitt'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
+
+interface RootMenuData {
+  styles: string
+  class: string
+  activeIndex: string
+  openedMenus: unknown[]
+  items: any
+  submenus: any
+  hoverBackground: string
+  isMenuPopup: boolean
+}
+
+interface RootMenuProps {
+  mode: string
+  defaultActive: string
+  defaultOpeneds: any[]
+  uniqueOpened: boolean
+  router: boolean
+  menuTrigger: string
+  collapse: boolean
+  backgroundColor: string
+  textColor: string
+  activeTextColor: string
+  collapseTransition: boolean
+}
+
+export interface RootMenuProvider {
+  data: ToRefs<RootMenuData>
+  props: Readonly<Partial<RootMenuProps>>
+  methods: {
+    addMenuItem: (item: any) => void
+    removeMenuItem: (item: any) => void
+    addSubMenu: (item: any) => void
+    removeSubMenu: (item: any) => void
+    openMenu: (index: string, indexPath: string) => void
+  }
+}
 
 function useMenuColor(color: string) {
   const menuBarColor = ref('')
@@ -191,6 +237,7 @@ export default defineComponent({
     const addSubMenu = item => {
       data.submenus.value[item.index] = item
     }
+
     const removeSubMenu = item => {
       delete data.submenus.value[item.index]
     }
@@ -198,6 +245,7 @@ export default defineComponent({
     const addMenuItem = item => {
       data.items.value[item.index] = item
     }
+
     const removeMenuItem = item => {
       delete data.items.value[item.index]
     }
@@ -243,6 +291,7 @@ export default defineComponent({
         // this.$emit('open', index, indexPath);
       }
     }
+
     const handleItemClick = item => {
       const { index, indexPath } = item
       const oldActiveIndex = data.activeIndex.value
@@ -280,7 +329,7 @@ export default defineComponent({
       }
     }
 
-    const updateActiveIndex = (val: string) => {
+    const updateActiveIndex = (val?: string) => {
       const itemsInData = data.items
       const activeIndex = data.activeIndex.value
       const item =
@@ -313,11 +362,44 @@ export default defineComponent({
       },
     )
 
+    watch(
+      () => data.items,
+      () => {
+        updateActiveIndex()
+      },
+    )
+
+    // emitter
+    const rootMenuEmitter = mitt()
+    // TODO: types of e
+    rootMenuEmitter.on('rootmenu:item-click', (e: any) => {
+      handleItemClick(e)
+    })
+    rootMenuEmitter.on('rootmenu:submenu-click', (e: any) => {
+      handleSubmenuClick(e)
+    })
+
+    // provide
+    provide<RootMenuProvider>('rootMenu', {
+      data: { ...data, hoverBackground, isMenuPopup },
+      props,
+      methods: {
+        addMenuItem,
+        removeMenuItem,
+        addSubMenu,
+        removeSubMenu,
+        openMenu,
+      },
+    })
+
     return {
-      data,
+      data: {
+        ...data,
+        hoverBackground,
+        isMenuPopup,
+      },
       props,
     }
   },
 })
 </script>
-<style scoped></style>
