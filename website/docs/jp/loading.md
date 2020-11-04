@@ -173,7 +173,7 @@
 ### サービス
 サービスで Loading を呼び出すこともできます。Loadingサービスをインポートします:
 ```javascript
-import { Loading } from 'element-ui';
+import { Loading } from 'element-plus';
 ```
 呼び出す:
 ```javascript

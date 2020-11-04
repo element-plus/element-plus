@@ -63,7 +63,7 @@
           this.$message({
             type: 'info',
             message: 'Delete canceled'
-          });          
+          });
         });
       }
     }
@@ -102,7 +102,7 @@
           this.$message({
             type: 'info',
             message: 'Input canceled'
-          });       
+          });
         });
       }
     }
@@ -287,7 +287,7 @@ Elementが完全にインポートされている場合、Vue.prototypeに以下
 オンデマンドで `MessageBox` をインポートしたい場合:
 
 ```javascript
-import { MessageBox } from 'element-ui';
+import { MessageBox } from 'element-plus';
 ```
 
 対応するメソッドは以下の通り: 対応するメソッドは `MessageBox`, `MessageBox.alert`, `MessageBox.confirm`, `MessageBox.prompt` である。パラメータは上記と同じである。

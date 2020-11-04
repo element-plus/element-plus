@@ -282,7 +282,7 @@ success, warning, info, errorの4種類を提供しています。
 `Notification` をインポート:
 
 ```javascript
-import { Notification } from 'element-ui';
+import { Notification } from 'element-plus';
 ```
 
 この場合は `Notification(options)` を呼び出す必要があります。また、`Notification.success(options)`のように、異なるタイプのメソッドも登録しています。すべてのインスタンスを手動で閉じるには、`Notification.closeAll()` を呼び出すことができます。

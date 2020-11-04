@@ -1,15 +1,8 @@
 ## カスタムテーマ
 要素はBEMスタイルのCSSを使用しているので、スタイルを簡単に上書きすることができます。しかし、テーマの色を青からオレンジや緑に変更するなど、大規模にスタイルを置き換える必要がある場合は、1つずつオーバーライドするのはあまり良いアイデアではないかもしれません。スタイル変数を変更する方法を4つ用意しています。
 
-### テーマローラー
- [オンライン テーマ ローラー](./#/en-US/theme) を使うことで、グローバル変数とコンポーネントのすべてのデザイントークンをカスタマイズでき、新しいテーマをプレビューさせることが出来ます。そして
-
-また、[Theme Roller Chrome Extension](https://chrome.google.com/webstore/detail/element-theme-roller/lifkjlojflekabbmlddfccdkphlelmim)を使用することで、Elementで開発したWebサイトのテーマをカスタマイズしたり、リアルタイムでプレビューしたりすることができます。
-
-<img src="https://shadow.elemecdn.com/app/sns-client/element-theme-editor2.e16c6a01-806d-11e9-bc23-21435c54c509.png" style="width: 100%;margin: 30px auto 0;display: block;">
-
 ### テーマカラーの変更
-Elementのテーマカラーを変更したいなら、[テーマプレビューサイト](https://elementui.github.io/theme-chalk-preview/#/en-US)がおすすめです。Elementのテーマカラーは、明るくて親しみやすいブルーです。これを変更することで、Elementをより視覚的に特定のプロジェクトに結びつけることができます。
+Element Plusのテーマカラーを変更したいなら、[テーマプレビューサイト](https://elementui.github.io/theme-chalk-preview/#/en-US)がおすすめです。Element Plusのテーマカラーは、明るくて親しみやすいブルーです。これを変更することで、Element Plusをより視覚的に特定のプロジェクトに結びつけることができます。
 
 上記のウェブサイトでは、リアルタイムで新しいテーマカラーのテーマをプレビューすることができ、あなたが直接ダウンロードするために新しいテーマカラーに基づいた完全なスタイルパッケージを生成することができます（あなたのプロジェクトで新しいスタイルファイルをインポートするには、このセクションの `カスタムテーマをインポート` または `コンポーネントテーマをオンデマンドでインポート` の部分を参照してください）。
 
@@ -22,18 +15,20 @@ Elementのテーマカラーを変更したいなら、[テーマプレビュー
 $--color-primary: teal;
 
 /* icon font path, required */
-$--font-path: '~element-ui/lib/theme-chalk/fonts';
+$--font-path: '~element-plus/lib/theme-chalk/fonts';
 
-@import "~element-ui/packages/theme-chalk/src/index";
+@import "~element-plus/packages/theme-chalk/src/index";
 ```
 
 そして、プロジェクトのエントリーファイルで、Elementの内蔵CSSの代わりにこのスタイルファイルをインポートします。:
 ```JS
 import Vue from 'vue'
-import Element from 'element-ui'
+import ElementPlus from 'element-plus'
 import './element-variables.scss'
+import App from './App.vue';
 
-Vue.use(Element)
+const app = createApp(App)
+app.use(ElementPlus)
 ```
 
 :::tip
@@ -107,11 +102,11 @@ et
 独自のテーマをインポートすることは、デフォルトのテーマをインポートするのと同じですが、今回は `オンラインテーマローラー` または`CLIツール` からビルドされたファイルをインポートします。
 
 ```javascript
+import { createApp } from 'vue'
 import '../theme/index.css'
-import ElementUI from 'element-ui'
-import Vue from 'vue'
+import ElementPlus from 'element-plus'
 
-Vue.use(ElementUI)
+createApp(App).use(ElementPlus)
 ```
 
 #### <strong>コンポーネントテーマをオンデマンドでインポート</strong>
@@ -122,7 +117,7 @@ Vue.use(ElementUI)
     [
       "component",
       {
-        "libraryName": "element-ui",
+        "libraryName": "element-plus",
         "styleLibraryName": "~theme"
       }
     ]
