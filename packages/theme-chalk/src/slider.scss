@@ -103,11 +103,6 @@
     line-height: normal;
     @include utils-vertical-center;
 
-    .el-tooltip {
-      vertical-align: middle;
-      display: inline-block;
-    }
-
     &:hover,
     &.hover {
       cursor: grab;
@@ -119,8 +114,10 @@
   }
 
   @include e(button) {
+    display: inline-block;
     width: $--slider-button-size;
     height: $--slider-button-size;
+    vertical-align: middle;
     border: solid 2px $--slider-main-background-color;
     background-color: $--color-white;
     border-radius: 50%;

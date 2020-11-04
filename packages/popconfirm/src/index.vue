@@ -39,14 +39,19 @@
 </template>
 
 <script lang="ts">
-import { Popper as ElPopper } from '@element-plus/popper'
 import { defineComponent,ref } from 'vue'
+import { Button as ElButton } from '@element-plus/button'
+import { Popper as ElPopper } from '@element-plus/popper'
 import { t } from '../../locale'
+
 export default defineComponent({
   name: 'ElPopconfirm',
+
   components: {
+    ElButton,
     ElPopper,
   },
+
   props: {
     title: {
       type: String,

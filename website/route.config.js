@@ -33,6 +33,9 @@ const LOAD_MAP = {
   [Language.FR]: name => {
     return getAsyncComponent(() => import(/* webpackChunkName: "fr-FR" */ `./pages/${name}.vue`))
   },
+  [Language.JP]: name => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "jp" */ `./pages/${name}.vue`))
+  },
 }
 
 const load = function(lang, path) {
@@ -51,6 +54,9 @@ const LOAD_DOCS_MAP = {
   },
   [Language.FR]: path => {
     return getAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/fr-FR${path}.md`))
+  },
+  [Language.JP]: path => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/jp${path}.md`))
   },
 }
 
@@ -154,6 +160,8 @@ if (userLanguage.indexOf('zh-') !== -1) {
   defaultPath = Language.ES
 } else if (userLanguage.indexOf('fr') !== -1) {
   defaultPath = Language.FR
+} else if (userLanguage.indexOf('jp') !== -1) {
+  defaultPath = Language.JP
 }
 
 route = route.concat([{

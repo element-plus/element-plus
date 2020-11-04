@@ -1,6 +1,7 @@
 <template>
   <div
     ref="selectWrapper"
+    v-clickOutside="handleClose"
     class="el-select"
     :class="[selectSize ? 'el-select--' + selectSize : '']"
     @click.stop="toggleMenu"
@@ -139,7 +140,6 @@
           <el-select-menu
             v-show="visible && emptyText !== false"
             ref="popper"
-            v-clickOutside="handleClose"
           >
             <el-scrollbar
               v-show="options.length > 0 && !loading"
@@ -170,18 +170,6 @@
 </template>
 
 <script lang="ts">
-import { Input as ElInput } from '@element-plus/input'
-import ElOption from './option.vue'
-import ElSelectMenu from './select-dropdown.vue'
-import { Tag as ElTag } from '@element-plus/tag'
-import { Popper as ElPopper } from '@element-plus/popper'
-import { ElScrollbar } from '@element-plus/scrollbar'
-import ClickOutside from '@element-plus/directives/click-outside'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import { t } from '@element-plus/locale'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { useSelect, useSelectStates } from './useSelect'
-import { selectKey } from './token'
 import {
   toRefs,
   defineComponent,
@@ -191,7 +179,21 @@ import {
   reactive,
   provide,
 } from 'vue'
+import { Input as ElInput } from '@element-plus/input'
+import ElOption from './option.vue'
+import ElSelectMenu from './select-dropdown.vue'
+import { Tag as ElTag } from '@element-plus/tag'
+import { Popper as ElPopper } from '@element-plus/popper'
+import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
+import { ClickOutside } from '@element-plus/directives'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
+import { t } from '@element-plus/locale'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { isValidComponentSize } from '@element-plus/utils/validators'
+import { useSelect, useSelectStates } from './useSelect'
+import { selectKey } from './token'
 
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElSelect',
@@ -208,15 +210,16 @@ export default defineComponent({
   props: {
     name: String,
     id: String,
-    modelValue: {
-      type: [Array, String, Number],
-    },
+    modelValue: [Array, String, Number],
     autocomplete: {
       type: String,
       default: 'off',
     },
     automaticDropdown: Boolean,
-    size: String,
+    size: {
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
+    },
     disabled: Boolean,
     clearable: Boolean,
     filterable: Boolean,
@@ -254,7 +257,7 @@ export default defineComponent({
       default: 'el-icon-circle-close',
     },
   },
-  emits: ['remove-tag', 'clear', 'change', 'visible-change', 'focus', 'blur', UPDATE_MODEL_EVENT],
+  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
 
   setup(props, ctx) {
     const states = useSelectStates(props)
@@ -324,6 +327,7 @@ export default defineComponent({
     } = toRefs(states)
 
     provide(selectKey, reactive({
+      props,
       options,
       cachedOptions,
       optionsCount,
@@ -332,10 +336,9 @@ export default defineComponent({
       handleOptionSelect,
       selectEmitter: states.selectEmitter,
       onOptionDestroy,
-      props,
-      inputWidth,
       selectWrapper,
-      popper,
+      selected,
+      setSelected,
     }))
 
     onMounted(() => {
@@ -343,7 +346,7 @@ export default defineComponent({
       if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
       }
-      addResizeListener(selectWrapper.value, handleResize)
+      addResizeListener(selectWrapper.value as any, handleResize)
       if (reference.value && reference.value.$el) {
         const sizeMap = {
           medium: 36,
@@ -365,7 +368,7 @@ export default defineComponent({
     })
 
     onBeforeUnmount(() => {
-      if (selectWrapper.value && handleResize) removeResizeListener(selectWrapper.value, handleResize)
+      removeResizeListener(selectWrapper.value as any, handleResize)
     })
 
     if (props.multiple && !Array.isArray(props.modelValue)) {

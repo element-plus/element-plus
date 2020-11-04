@@ -996,6 +996,7 @@ Filter the table to find desired data.
   <el-button @click="resetDateFilter">reset date filter</el-button>
   <el-button @click="clearFilter">reset all filters</el-button>
   <el-table
+    row-key="date"
     ref="filterTable"
     :data="tableData"
     style="width: 100%">

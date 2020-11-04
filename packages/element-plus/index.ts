@@ -56,6 +56,8 @@ import ElPagination from '@element-plus/pagination'
 import ElMessageBox from '@element-plus/message-box'
 import ElInputNumber from '@element-plus/input-number'
 import ElPopover from '@element-plus/popover'
+import ElCascader from '@element-plus/cascader'
+import ElCascaderPanel from '@element-plus/cascader-panel'
 
 export {
   ElAlert,
@@ -112,9 +114,21 @@ export {
   ElMessageBox,
   ElInputNumber,
   ElPopover,
+  ElCascader,
+  ElCascaderPanel,
 }
 
-const install = (app: App): void => {
+interface InstallOptions {
+  size: ComponentSize
+  zIndex: number
+}
+
+const defaultInstallOpt =  {
+  size: '' as ComponentSize,
+  zIndex: 2000,
+}
+
+const install = (app: App, opt: InstallOptions = defaultInstallOpt): void => {
   ElAlert(app)
   ElAvatar(app)
   ElAutocomplete(app)
@@ -169,6 +183,10 @@ const install = (app: App): void => {
   ElPagination(app)
   ElInputNumber(app)
   ElPopover(app)
+  ElCascader(app)
+  ElCascaderPanel(app)
+
+  app.config.globalProperties.$ELEMENT = opt
 }
 
 const elementUI = {

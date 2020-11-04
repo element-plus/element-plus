@@ -120,9 +120,9 @@ function useWatcher() {
       updateColumns()
     }
     if (immediate) {
-      instance.vnode.state.doLayout()
+      instance.state.doLayout()
     } else {
-      instance.vnode.state.debouncedUpdateLayout()
+      instance.state.debouncedUpdateLayout()
     }
   }
 

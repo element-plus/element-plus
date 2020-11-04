@@ -18,13 +18,14 @@ Les modificateurs de `v-model` ne sont pas supportés.
 <el-input placeholder="Entrez quelque chose" v-model="input"></el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
     return {
-      input: ''
+      input: ref('')
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -41,13 +42,14 @@ export default {
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
     return {
-      input: ''
+      input: ref('')
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -64,13 +66,14 @@ export default {
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
     return {
-      input: ''
+      input: ref('')
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -83,13 +86,14 @@ export default {
 <el-input placeholder="Entrez votre mot de passe" v-model="input" show-password></el-input>
 
 <script>
-  export default {
-    data() {
-      return {
-        input: ''
-      }
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    return {
+      input: ref('')
     }
   }
+})
 </script>
 ```
 :::
@@ -118,12 +122,16 @@ Ajoutez une icône pour indiquer le type d'input.
   <el-input
     placeholder="Entrez une date"
     v-model="input3">
-    <i slot="suffix" class="el-input__icon el-icon-date"></i>
+    <template v-slot:suffix>
+      <i class="el-input__icon el-icon-date"></i>
+    </template>
   </el-input>
   <el-input
     placeholder="Entrez du texte"
     v-model="input4">
-    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+    <template v-slot:prefix>
+      <i class="el-input__icon el-icon-search"></i>
+    </template>
   </el-input>
 </div>
 
@@ -135,16 +143,17 @@ Ajoutez une icône pour indiquer le type d'input.
 </style>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
     return {
-      input1: '',
-      input2: '',
-      input3: '',
-      input4: ''
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      input4: ref('')
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -164,13 +173,14 @@ Une zone de texte de taille réglable à la souris pour écrire plusieurs lignes
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
     return {
-      textarea: ''
+      textarea: ref('')
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -197,14 +207,15 @@ Configurer la propriété `autosize` pour une zone de texte permet de rendre la 
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
     return {
-      textarea1: '',
-      textarea2: ''
+      textarea1: ref(''),
+      textarea2: ref('')
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -218,22 +229,26 @@ Ajouter un élément avant ou après l'input, généralement du texte ou un bout
 ```html
 <div>
   <el-input placeholder="Entrez quelque chose" v-model="input1">
-    <template slot="prepend">Http://</template>
+    <template v-slot:prepend>Http://</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Entrez quelque chose" v-model="input2">
-    <template slot="append">.com</template>
+    <template v-slot:append>.com</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Entrez quelque chose" v-model="input3" class="input-with-select">
-    <el-select v-model="select" slot="prepend" placeholder="Choisir">
-      <el-option label="Restaurant" value="1"></el-option>
-      <el-option label="Num. Commande" value="2"></el-option>
-      <el-option label="Tel" value="3"></el-option>
-    </el-select>
-    <el-button slot="append" icon="el-icon-search"></el-button>
+    <template v-slot:prepend>
+      <el-select v-model="select" placeholder="Choisir">
+        <el-option label="Restaurant" value="1"></el-option>
+        <el-option label="Num. Commande" value="2"></el-option>
+        <el-option label="Tel" value="3"></el-option>
+      </el-select>
+    </template>
+    <template v-slot:append>
+      <el-button icon="el-icon-search"></el-button>
+    </template>
   </el-input>
 </div>
 
@@ -245,17 +260,19 @@ Ajouter un élément avant ou après l'input, généralement du texte ou un bout
     background-color: #fff;
   }
 </style>
+
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
     return {
-      input1: '',
-      input2: '',
-      input3: '',
-      select: ''
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      select: ref('')
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -287,16 +304,17 @@ export default {
 </div>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
     return {
-      input1: '',
-      input2: '',
-      input3: '',
-      input4: ''
+      input1: ref(''),
+      input2: ref(''),
+      input3: ref(''),
+      input4: ref('')
     }
   }
-}
+})
 </script>
 ```
 :::
@@ -331,45 +349,53 @@ Vous pouvez obtenir de l'aide ou des suggestions basées sur ce que vous entrez.
   </el-col>
 </el-row>
 <script>
-  export default {
-    data() {
-      return {
-        links: [],
-        state1: '',
-        state2: ''
-      };
-    },
-    methods: {
-      querySearch(queryString, cb) {
-        var links = this.links;
-        var results = queryString ? links.filter(this.createFilter(queryString)) : links;
+import { defineComponent, ref, onMounted } from 'vue';
+export default defineComponent({
+  setup() {
+    const links = ref([]);
+    const querySearch = (queryString, cb) => {
+      var results = queryString
+        ? links.value.filter(createFilter(queryString))
+        : links.value;
         // call callback function to return suggestions
         cb(results);
-      },
-      createFilter(queryString) {
-        return (link) => {
-          return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-      loadAll() {
-        return [
-          { "value": "vue", "link": "https://github.com/vuejs/vue" },
-          { "value": "element", "link": "https://github.com/ElemeFE/element" },
-          { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
-          { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
-          { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
-          { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
-          { "value": "babel", "link": "https://github.com/babel/babel" }
-         ];
-      },
-      handleSelect(item) {
-        console.log(item);
-      }
-    },
-    mounted() {
-      this.links = this.loadAll();
-    }
-  }
+    };
+    const createFilter = (queryString) => {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
+      };
+    };
+    const loadAll = () => {
+      return [
+        { "value": "vue", "link": "https://github.com/vuejs/vue" },
+        { "value": "element", "link": "https://github.com/ElemeFE/element" },
+        { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
+        { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
+        { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
+        { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
+        { "value": "babel", "link": "https://github.com/babel/babel" }
+        ];
+    };
+    const handleSelect = (item) => {
+      console.log(item);
+    };
+    onMounted(() => {
+      links.value = loadAll();
+    });
+    return {
+      links,
+      state1: ref(''),
+      state2: ref(''),
+      querySearch,
+      createFilter,
+      loadAll,
+      handleSelect,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -386,18 +412,16 @@ Vous pouvez personnaliser la manière dont les suggestions sont affichées.
   :fetch-suggestions="querySearch"
   placeholder="Entrez quelque chose"
   @select="handleSelect">
-  <i
-    class="el-icon-edit el-input__icon"
-    slot="suffix"
-    @click="handleIconClick">
-  </i>
-  <template slot-scope="{ item }">
+  <template v-slot:suffix>
+    <i class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
+  </template>
+  <template v-slot="{ item }">
     <div class="value">{{ item.value }}</div>
     <span class="link">{{ item.link }}</span>
   </template>
 </el-autocomplete>
 
-<style>
+<style lang="scss">
   .my-autocomplete {
     li {
       line-height: normal;
@@ -416,47 +440,59 @@ Vous pouvez personnaliser la manière dont les suggestions sont affichées.
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
-        links: [],
-        state: ''
+import { defineComponent, ref, onMounted } from 'vue';
+export default defineComponent({
+  setup() {
+    const links = ref([]);
+    const querySearch = (queryString, cb) => {
+      var results = queryString
+        ? links.value.filter(createFilter(queryString))
+        : links.value;
+      // call callback function to return suggestion objects
+      cb(results);
+    };
+    const createFilter = (queryString) => {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
       };
-    },
-    methods: {
-      querySearch(queryString, cb) {
-        var links = this.links;
-        var results = queryString ? links.filter(this.createFilter(queryString)) : links;
-        // call callback function to return suggestion objects
-        cb(results);
-      },
-      createFilter(queryString) {
-        return (link) => {
-          return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-      loadAll() {
-        return [
-          { "value": "vue", "link": "https://github.com/vuejs/vue" },
-          { "value": "element", "link": "https://github.com/ElemeFE/element" },
-          { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
-          { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
-          { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
-          { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
-          { "value": "babel", "link": "https://github.com/babel/babel" }
-         ];
-      },
-      handleSelect(item) {
-        console.log(item);
-      },
-      handleIconClick(ev) {
-        console.log(ev);
-      }
-    },
-    mounted() {
-      this.links = this.loadAll();
-    }
-  }
+    };
+    const loadAll = () => {
+      return [
+        { "value": "vue", "link": "https://github.com/vuejs/vue" },
+        { "value": "element", "link": "https://github.com/ElemeFE/element" },
+        { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
+        { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
+        { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
+        { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
+        { "value": "babel", "link": "https://github.com/babel/babel" }
+        ];
+    };
+    const handleSelect = (item) => {
+      console.log(item);
+    };
+    
+    const handleIconClick = (ev) => {
+      console.log(ev);
+    };
+
+    onMounted(() => {
+      links.value = loadAll();
+    });
+
+    return {
+      links,
+      state: ref(''),
+      querySearch,
+      createFilter,
+      loadAll,
+      handleSelect,
+      handleIconClick,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -473,49 +509,58 @@ Vous pouvez aller chercher des infos de suggestions sur un serveur distant.
   placeholder="Entrez quelque chose"
   @select="handleSelect"
 ></el-autocomplete>
-<script>
-  export default {
-    data() {
-      return {
-        links: [],
-        state: '',
-        timeout:  null
-      };
-    },
-    methods: {
-      loadAll() {
-        return [
-          { "value": "vue", "link": "https://github.com/vuejs/vue" },
-          { "value": "element", "link": "https://github.com/ElemeFE/element" },
-          { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
-          { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
-          { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
-          { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
-          { "value": "babel", "link": "https://github.com/babel/babel" }
-         ];
-      },
-      querySearchAsync(queryString, cb) {
-        var links = this.links;
-        var results = queryString ? links.filter(this.createFilter(queryString)) : links;
 
-        clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
-          cb(results);
-        }, 3000 * Math.random());
-      },
-      createFilter(queryString) {
-        return (link) => {
-          return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-      handleSelect(item) {
-        console.log(item);
-      }
-    },
-    mounted() {
-      this.links = this.loadAll();
-    }
-  };
+<script>
+import { defineComponent, ref, onMounted } from 'vue';
+export default defineComponent({
+  setup() {
+    const links = ref([]);
+    const loadAll = () => {
+      return [
+        { "value": "vue", "link": "https://github.com/vuejs/vue" },
+        { "value": "element", "link": "https://github.com/ElemeFE/element" },
+        { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
+        { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
+        { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
+        { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
+        { "value": "babel", "link": "https://github.com/babel/babel" }
+        ];
+    };
+    let timeout;
+    const querySearchAsync = (queryString, cb) => {
+      var results = queryString
+        ? links.value.filter(createFilter(queryString))
+        : links.value;
+
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        cb(results);
+      }, 3000 * Math.random());
+    };
+    const createFilter = (queryString) => {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
+      };
+    };
+    const handleSelect = (item) => {
+      console.log(item);
+    };
+    onMounted(() => {
+      links.value = loadAll();
+    });
+    return {
+      links,
+      state: ref(''),
+      querySearchAsync,
+      createFilter,
+      loadAll,
+      handleSelect,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -544,14 +589,15 @@ Vous pouvez aller chercher des infos de suggestions sur un serveur distant.
 </el-input>
 
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
     return {
-      text: '',
-      textarea: ''
+      text: ref(''),
+      textarea: ref('')
     }
   }
-}
+})
 </script>
 ```
 :::

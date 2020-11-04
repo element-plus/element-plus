@@ -138,13 +138,14 @@ export default {
         [Language.EN]: 'English',
         [Language.ES]: 'Español',
         [Language.FR]: 'Français',
+        [Language.JP]: '日本語',
       },
     }
   },
 
   computed: {
     lang() {
-      return this.$route.path.split('/')[1] || [Language.CN]
+      return this.$route.path.split('/')[1] || Language.CN
     },
     displayedLang() {
       return this.langs[this.lang] || '中文'

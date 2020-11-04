@@ -13,14 +13,16 @@ Le Dialog ouvre un modal personnalisable.
 
 <el-dialog
   title="Tips"
-  :visible.sync="dialogVisible"
+  v-model="dialogVisible"
   width="30%"
   :before-close="handleClose">
   <span>Ceci est un message</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">Annuler</el-button>
-    <el-button type="primary" @click="dialogVisible = false">Confirmer</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogVisible = false">Annuler</el-button>
+      <el-button type="primary" @click="dialogVisible = false">Confirmer</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>

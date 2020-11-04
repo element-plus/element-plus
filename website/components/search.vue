@@ -73,6 +73,11 @@ export default {
           empty: 'Aucun résultat',
           index: 'fr',
         },
+        [Language.JP]: {
+          search: '検索',
+          empty: '検索結果なし',
+          index: 'jp',
+        },
       },
     }
   },

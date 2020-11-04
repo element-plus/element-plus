@@ -13,7 +13,7 @@
 <script lang="ts">
 import {
   defineComponent, provide, watch, ref,
-  computed, reactive, toRefs,
+  computed, reactive, toRefs, PropType,
 } from 'vue'
 import mitt from 'mitt'
 import {
@@ -81,7 +81,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    size: String,
+    size: String as PropType<ComponentSize>,
     disabled: Boolean,
     validateOnRuleChange: {
       type: Boolean,
