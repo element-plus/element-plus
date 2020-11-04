@@ -113,9 +113,9 @@
 :::demo 可通过 `previewSrcList` 开启预览大图的功能。
 ```html
 <div class="demo-image__preview">
-  <el-image 
+  <el-image
     style="width: 100px; height: 100px"
-    :src="url" 
+    :src="url"
     :preview-src-list="srcList">
   </el-image>
 </div>

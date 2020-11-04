@@ -5,7 +5,9 @@ import { DEFAULT_FORMATS_TIME } from './common/constant'
 import Picker from './common/picker.vue'
 import TimePickPanel from './time-picker-com/panel-time-pick.vue'
 import TimeRangePanel from './time-picker-com/panel-time-range.vue'
+
 dayjs.extend(customParseFormat)
+
 export default {
   name: 'ElTimePicker',
   props: {

@@ -1484,7 +1484,7 @@ Puede personalizar el contenido del nodo de cascada.
 :::demo Puede personalizar el contenido del nodo del cascader mediante `scoped slot`. Tendrá acceso a `node` y `data` en el ámbito de aplicación, representando el objeto Node y los datos del nodo actual respectivamente.
 ```html
 <el-cascader :options="options">
-  <template slot-scope="{ node, data }">
+  <template #default="{ node, data }">
     <span>{{ data.label }}</span>
     <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
   </template>
@@ -1913,7 +1913,7 @@ Puede personalizar el contenido del nodo de cascada.
 ### Atributos de Cascader
 | Atributo | Descripción | Tipo | Valores aceptados | Por defecto |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | valor ligado | - | — | — |
+| model-value / v-model | valor ligado | - | — | — |
 | options | datos de las opciones，las claves `value` y `label` pueden ser personalizadas por `Props`. | array | — | — |
 | props | opciones de configuración, consulte la siguiente tabla. | object | — | — |
 | size | tamaño del input | string | medium / small / mini | — |
@@ -1953,7 +1953,7 @@ Puede personalizar el contenido del nodo de cascada.
 ### Atributos del CascaderPanel
 | Atributos | Descripción | Tipo | Valores aceptados | Por defecto |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | valor ligado | - | — | — |
+| model-value / v-model | valor ligado | - | — | — |
 | options | datos de las opciones，las claves `value` y `label` pueden ser personalizadas por `Props`. | array | — | — |
 | props | opciones de configuración, consulte la siguiente tabla. | object | — | — |
 

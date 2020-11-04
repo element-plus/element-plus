@@ -17,8 +17,18 @@ import {
   onMounted,
   inject,
   ref,
+  reactive,
+  toRefs,
+  watch,
 } from 'vue'
-import { eventKeys } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { isValidComponentSize } from '@element-plus/utils/validators'
+import { elFormItemKey } from '@element-plus/form'
+import radioGroupKey from './token'
+
+import type { PropType } from 'vue'
+import type { ElFormItemContext } from '@element-plus/form'
 
 export default {
   name: 'ElRadioGroup',
@@ -31,8 +41,8 @@ export default {
       default: '',
     },
     size: {
-      type: String,
-      default: '',
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
     },
     fill: {
       type: String,
@@ -45,45 +55,34 @@ export default {
     disabled: Boolean,
   },
 
-  emits: ['update:modelValue', 'change'],
+  emits: [UPDATE_MODEL_EVENT, 'change'],
 
   setup(props, ctx) {
     const radioGroup = ref(null)
-    //todo: ELEMENT
-    const ELEMENT = {}
-    const elFormItem = inject('elFormItem', {})
-    const _elFormItemSize = computed(() => {
-      return (elFormItem || {} as any).elFormItemSize
-    })
-    const radioGroupSize = computed(() => {
-      return props.size || _elFormItemSize || (ELEMENT || {} as any).size
-    })
 
-    const modelValue = computed({
-      get() {
-        return props.modelValue
-      },
-      set(val) {
-        changeEvent(val)
-      },
+    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+
+    const radioGroupSize = computed<ComponentSize>(() => {
+      return props.size || elFormItem.size
     })
 
     // methods
     const changeEvent = value => {
-      ctx.emit('update:modelValue', value)
+      ctx.emit(UPDATE_MODEL_EVENT, value)
       nextTick(() => {
         ctx.emit('change', value)
       })
     }
 
-    provide('RadioGroup', {
+    provide(radioGroupKey, reactive({
       name: 'ElRadioGroup',
-      changeEvent: changeEvent,
+      ...toRefs(props),
       radioGroupSize: radioGroupSize,
-      fill: props.fill,
-      textColor: props.textColor,
-      disabled: props.disabled,
-      modelValue,
+      changeEvent: changeEvent,
+    }))
+
+    watch(() => props.modelValue, val => {
+      elFormItem.formItemMitt?.emit('el.form.change', [val])
     })
 
     const handleKeydown = e => { // 左右上下按键 可以在radio组内切换不同选项
@@ -91,18 +90,18 @@ export default {
       const className = target.nodeName === 'INPUT' ? '[type=radio]' : '[role=radio]'
       const radios = radioGroup.value.querySelectorAll(className)
       const length = radios.length
-      const index = [].indexOf.call(radios, target)
+      const index = Array.from(radios).indexOf(target)
       const roleRadios = radioGroup.value.querySelectorAll('[role=radio]')
       let nextIndex = null
-      switch (e.keyCode) {
-        case eventKeys.left:
-        case eventKeys.up:
+      switch (e.code) {
+        case EVENT_CODE.left:
+        case EVENT_CODE.up:
           e.stopPropagation()
           e.preventDefault()
           nextIndex = index === 0 ? length - 1 : index - 1
           break
-        case eventKeys.right:
-        case eventKeys.down:
+        case EVENT_CODE.right:
+        case EVENT_CODE.down:
           e.stopPropagation()
           e.preventDefault()
           nextIndex = (index === (length - 1)) ? 0 : index + 1
@@ -117,8 +116,8 @@ export default {
 
     onMounted(() => {
       const radios = radioGroup.value.querySelectorAll('[type=radio]')
-      const firstLabel = radioGroup.value.querySelectorAll('[role=radio]')[0]
-      if (![].some.call(radios, radio => radio.checked) && firstLabel) {
+      const firstLabel = radios[0]
+      if (!Array.from(radios).some((radio: HTMLInputElement) => radio.checked) && firstLabel) {
         firstLabel.tabIndex = 0
       }
     })

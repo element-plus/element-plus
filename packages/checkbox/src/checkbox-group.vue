@@ -7,7 +7,10 @@
 <script lang="ts">
 import { defineComponent, computed, watch, provide, nextTick, toRefs } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useCheckboxGroup } from './useCheckbox'
+
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElCheckboxGroup',
@@ -27,8 +30,8 @@ export default defineComponent({
       default: undefined,
     },
     size: {
-      type: String,
-      default: undefined,
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
     },
     fill: {
       type: String,
@@ -44,7 +47,7 @@ export default defineComponent({
 
   setup(props, ctx) {
     const { elFormItem, elFormItemSize, ELEMENT } = useCheckboxGroup()
-    const checkboxGroupSize = computed(() => props.size || elFormItemSize.value || ELEMENT?.size)
+    const checkboxGroupSize = computed(() => props.size || elFormItemSize.value || ELEMENT.size)
 
     const changeEvent = value => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
@@ -71,7 +74,7 @@ export default defineComponent({
     })
 
     watch(() => props.modelValue, val => {
-      elFormItem?.changeEvent?.(val)
+      elFormItem.formItemMitt?.emit('el.form.change', [val])
     })
   },
 })

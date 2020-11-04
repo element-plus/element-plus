@@ -1,40 +1,37 @@
 ## Inicio rápido
 
-Esta sección te guía en el proceso de usar Element con webpack en un proyecto.
+Esta sección te guía en el proceso de usar Element Plus con webpack en un proyecto.
 
-### Use vue-cli@3
+### Use vue-cli@4.5
 
-Proporcionamos un [plugin de Element](https://github.com/ElementUI/vue-cli-plugin-element) para vue-cli@3, que puede utilizar para construir rápidamente un proyecto basado en Element.
+Proporcionamos un [plugin de Element](https://github.com/element-plus/vue-cli-plugin-element-plus) para vue-cli@4.5, que puede utilizar para construir rápidamente un proyecto basado en Element.
 
 ### Usa la plantilla de Kit de inicio
 
-Proveemos una plantilla general [project template](https://github.com/ElementUI/element-starter). Para los usuarios de Laravel, también tenemos [template](https://github.com/ElementUI/element-in-laravel-starter). Puedes descargarlas y agregarlas directamente también.
+Proveemos una plantilla general [project template](https://github.com/element-plus/element-plus-starter), and also a Vite [template](https://github.com/element-plus/element-plus-vite-starter). Para los usuarios de Laravel, también tenemos [template](https://github.com/element-plus/element-plus-in-laravel-starter). Puedes descargarlas y agregarlas directamente también.
 
 Si prefiere no utilizarlas, lee las siguientes secciones de este documento.
 
-### Importando Element
+### Importando Element Plus
 
-Puede importar Element completamente o solamente importar lo que necesite. Comencemos importando todo.
+Puede importar Element Plus completamente o solamente importar lo que necesite. Comencemos importando todo.
 
 #### Importando todo
 
 En main.js:
 
 ```javascript
-import Vue from 'vue';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import { createApp, Vue } from 'vue'
+import ElementPlus from 'element-plus';
+import 'element-plus/lib/theme-chalk/index.css';
 import App from './App.vue';
 
-Vue.use(ElementUI);
-
-new Vue({
-  el: '#app',
-  render: h => h(App)
-});
+const app = createApp(App)
+app.use(ElementPlus)
+app.mount('#app')
 ```
 
-El código anterior importa Element completamente. Nótese que el archivo CSS necesita ser incluido por separado.
+El código anterior importa Element Plus completamente. Nótese que el archivo CSS necesita ser incluido por separado.
 
 #### En demanda
 
@@ -55,7 +52,7 @@ Luego edite .babelrc:
     [
       "component",
       {
-        "libraryName": "element-ui",
+        "libraryName": "element-plus",
         "styleLibraryName": "theme-chalk"
       }
     ]
@@ -67,7 +64,7 @@ Luego, si necesita Button y Select, edite main.js:
 
 ```javascript
 import Vue from 'vue';
-import { Button, Select } from 'element-ui';
+import { Button, Select } from 'element-plus';
 import App from './App.vue';
 
 Vue.component(Button.name, Button);
@@ -165,7 +162,7 @@ import {
   MessageBox,
   Message,
   Notification
-} from 'element-ui';
+} from 'element-plus';
 
 Vue.use(Pagination);
 Vue.use(Dialog);
@@ -258,19 +255,19 @@ Cuando importa Element, puede definir un objeto global de configuración. Por ah
 
 La propiedad `zIndex` indica el z-index inicial (por defecto: 2000) para los modal:
 
-Importando Element completamente：
+Importando Element Plus completamente：
 
 ```js
 import Vue from 'vue';
-import Element from 'element-ui';
+import ElementPlus from 'element-plus';
 Vue.use(Element, { size: 'small', zIndex: 3000 });
 ```
 
-Importando Element parcialmente：
+Importando Element Plus parcialmente：
 
 ```js
 import Vue from 'vue';
-import { Button } from 'element-ui';
+import { Button } from 'element-plus';
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
 Vue.use(Button);
@@ -280,7 +277,7 @@ Con la anterior configuración, el tamaño por defecto de todos los componentes 
 
 ### Empiece ya!
 
-Ahora ha incorporado Vue y Element a su proyecto y es el momento para comenzar a programar. Por favor, refiérase a la documentación de cada componente para aprender cómo usarlos.
+Ahora ha incorporado Vue y Element Plus a su proyecto y es el momento para comenzar a programar. Por favor, refiérase a la documentación de cada componente para aprender cómo usarlos.
 
 ### Use Nuxt.js
 

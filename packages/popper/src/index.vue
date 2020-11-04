@@ -1,166 +1,36 @@
 <script lang="ts">
 import {
+  createVNode,
   defineComponent,
-  h,
-  openBlock,
-  createBlock,
   Fragment,
   Teleport,
-  nextTick,
+  onMounted,
+  onBeforeUnmount,
+  onDeactivated,
+  onActivated,
+  renderSlot,
+  toDisplayString,
+  withDirectives,
 } from 'vue'
 
-import { isArray } from '@element-plus/utils/util'
-import { stop } from '@element-plus/utils/dom'
-import { ClickOutside } from '@element-plus/directives'
-import throwError, { warn } from '@element-plus/utils/error'
+import throwError from '@element-plus/utils/error'
 import { renderBlock } from '@element-plus/utils/vnode'
 
-import {
-  default as usePopper,
-  DEFAULT_TRIGGER,
-  UPDATE_VISIBLE_EVENT,
-} from './usePopper'
-import {
-  renderMask,
-  renderPopper,
-  renderTrigger,
-  renderArrow,
-} from './renderers'
+import usePopper from './use-popper/index'
+import defaultProps from './use-popper/defaults'
 
-import type { PropType, SetupContext } from 'vue'
-
-import type {
-  Effect,
-  Offset,
-  Options,
-  Placement,
-  PositioningStrategy,
-  TriggerType,
-  IPopperOptions,
-} from './popper'
+import { renderPopper, renderTrigger, renderArrow } from './renderers'
+import { ClickOutside } from '@element-plus/directives'
 
 const compName = 'ElPopper'
+const UPDATE_VISIBLE_EVENT = 'update:visible'
+
+const emits = [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave']
 
 export default defineComponent({
   name: compName,
-  directives: {
-    ClickOutside,
-  },
-  props: {
-    arrowOffset: {
-      type: Number,
-      default: 15,
-    },
-    appendToBody: {
-      type: Boolean,
-      default: true,
-    },
-    boundariesPadding: {
-      type: Number,
-      default: 0,
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-    class: {
-      type: String,
-      default: '',
-    },
-    closeDelay: {
-      type: Number,
-      default: 200,
-    },
-    cutoff: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    effect: {
-      type: String as PropType<Effect>,
-      default: 'dark' as Effect,
-    },
-    enterable: {
-      type: Boolean,
-      default: true,
-    },
-    flip: {
-      type: Boolean,
-      default: true,
-    },
-    hideAfter: {
-      type: Number,
-      default: 0,
-    },
-    manualMode: {
-      type: Boolean,
-      default: false,
-    },
-    showAfter: {
-      type: Number,
-      default: 0,
-    },
-    offset: {
-      type: [Number, Array] as PropType<Offset>,
-      default: [0, 12] as Offset,
-      validator: (val: Offset): boolean => {
-        return (isArray(val) && val.length === 2) || typeof val === 'number'
-      },
-    },
-    placement: {
-      type: String as PropType<Placement>,
-      default: 'bottom' as Placement,
-    },
-    popperClass: {
-      type: String,
-      default: '',
-    },
-    pure: {
-      type: Boolean,
-      default: false,
-    },
-    // Once this option were given, the entire popper is under the users' control, top priority
-    popperOptions: {
-      type: Object as PropType<Options>,
-      default: () => null,
-    },
-    referrer: {
-      type: HTMLElement as PropType<Nullable<HTMLElement>>,
-      default: null as Nullable<HTMLElement>,
-    },
-    showArrow: {
-      type: Boolean,
-      default: true,
-    },
-    strategy: {
-      type: String as PropType<PositioningStrategy>,
-      default: 'fixed' as PositioningStrategy,
-    },
-    transition: {
-      type: String,
-      default: 'el-fade-in-linear',
-    },
-    trigger: {
-      type: [String, Array] as PropType<TriggerType | Array<TriggerType>>,
-      default: DEFAULT_TRIGGER,
-    },
-    tabIndex: {
-      type: String,
-      default: '0',
-    },
-    value: {
-      type: Boolean,
-      default: false,
-    },
-    visible: {
-      type: Boolean,
-      default: undefined,
-    },
-  },
-  emits: [UPDATE_VISIBLE_EVENT],
+  props: defaultProps,
+  emits,
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
@@ -168,7 +38,16 @@ export default defineComponent({
     // this is a reference that we need to pass down to child component
     // to obtain the child instance
 
-    return usePopper(props as IPopperOptions, ctx as SetupContext)
+    // return usePopper(props as IPopperOptions, ctx as SetupContext)
+    const popperStates = usePopper(props, ctx)
+
+    const forceDestroy = () => popperStates.doDestroy(true)
+    onMounted(popperStates.initializePopper)
+    onBeforeUnmount(forceDestroy)
+    onActivated(popperStates.initializePopper)
+    onDeactivated(forceDestroy)
+
+    return popperStates
   },
 
   render() {
@@ -177,21 +56,20 @@ export default defineComponent({
       appendToBody,
       class: kls,
       effect,
-      excludes,
-      onHide,
+      hide,
       onPopperMouseEnter,
       onPopperMouseLeave,
+      onAfterEnter,
+      onAfterLeave,
       popperClass,
       popperId,
       pure,
       showArrow,
-      tabIndex,
       transition,
       visibility,
     } = this
 
     const arrow = renderArrow(showArrow)
-
     const popper = renderPopper(
       {
         effect,
@@ -201,37 +79,47 @@ export default defineComponent({
         pure,
         onMouseEnter: onPopperMouseEnter,
         onMouseLeave: onPopperMouseLeave,
+        onAfterEnter,
+        onAfterLeave,
         visibility,
       },
-      [$slots.default?.() || this.content, arrow],
+      [
+        renderSlot($slots, 'default', {}, () => {
+          return [toDisplayString(this.content)]
+        }),
+        arrow,
+      ],
     )
 
-    const trigger = renderTrigger($slots.trigger?.(), {
+    const _t = $slots.trigger?.()
+    const isManual = this.isManualMode()
+
+    const triggerProps = {
       ariaDescribedby: popperId,
       class: kls,
       ref: 'triggerRef',
-      tabindex: tabIndex,
-      onMouseDown: stop,
-      onMouseUp: stop,
       ...this.events,
-    })
+    }
 
-    return (
-      renderBlock(Fragment, null, [
-        trigger,
-        appendToBody
-          ? h(
-            Teleport,
-            {
-              to: 'body',
-            },
-            renderMask(popper, {
-              onHide,
-            }),
-          )
-          : popper,
-      ])
-    )
+    const trigger = isManual
+      ? renderTrigger(_t, triggerProps)
+      : withDirectives(renderTrigger(_t, triggerProps), [[ClickOutside, hide]])
+
+    return renderBlock(Fragment, null, [
+      trigger,
+      appendToBody
+        ? createVNode(
+          Teleport as any, // Vue did not support createVNode for Teleport
+          {
+            to: 'body',
+            key: 0,
+          },
+          [
+            popper,
+          ],
+        )
+        : renderBlock(Fragment, { key: 1 }, [popper]),
+    ])
   },
 })
 </script>
@@ -287,50 +175,50 @@ export default defineComponent({
   left: -5px;
 }
 
-.el-popper.is-dark {
+.is-dark {
   background: #303133;
   color: #fff;
 }
-.el-popper.is-light {
+.is-light {
   background: #fff;
   border: 1px solid #303133;
 }
 
-.el-popper.is-dark .el-popper__arrow::before {
+.is-dark .el-popper__arrow::before {
   background: #303133;
 }
 
-.el-popper.is-light .el-popper__arrow::before {
+.is-light .el-popper__arrow::before {
   background: #fff;
   border: 1px solid #303133;
 }
 
-.el-popper.is-light[data-popper-placement^='top'] .el-popper__arrow::before {
+.is-light[data-popper-placement^='top'] .el-popper__arrow::before {
   border-top-color: transparent;
   border-left-color: transparent;
 }
 
-.el-popper.is-light[data-popper-placement^='bottom'] .el-popper__arrow::before {
+.is-light[data-popper-placement^='bottom'] .el-popper__arrow::before {
   border-bottom-color: transparent;
   border-right-color: transparent;
 }
 
-.el-popper.is-light[data-popper-placement^='left'] .el-popper__arrow::before {
+.is-light[data-popper-placement^='left'] .el-popper__arrow::before {
   border-left-color: transparent;
   border-bottom-color: transparent;
 }
 
-.el-popper.is-light[data-popper-placement^='right'] .el-popper__arrow::before {
+.is-light[data-popper-placement^='right'] .el-popper__arrow::before {
   border-top-color: transparent;
   border-right-color: transparent;
 }
 
-.el-popper.el-popper__pure {
+.el-popper__pure {
   padding: 0;
   border: none;
 }
 
-.el-popper.el-popper__pure .el-popper__arrow::before {
+.el-popper__pure .el-popper__arrow::before {
   border: none;
 }
 </style>

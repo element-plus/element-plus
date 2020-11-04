@@ -1,19 +1,40 @@
 import { defineAsyncComponent } from 'vue'
-import navConfig from './nav.config'
 import langs from './i18n/route'
+import navConfig from './nav.config'
+import { Language } from './enums/language'
+
+const LoadingComponent = {
+  template: `<div v-loading="true" style="min-height: 500px; width: 100%;"></div>`,
+}
+const ErrorComponent = {
+  template: `
+    <div style="text-align: center;padding: 100px 0;">Loading error. Please refresh the page and try again</div>`,
+}
+const getAsyncComponent = func => {
+  return defineAsyncComponent({
+    loader: func,
+    delay: 0,
+    timeout: 30000,
+    errorComponent: ErrorComponent,
+    loadingComponent: LoadingComponent,
+  })
+}
 
 const LOAD_MAP = {
-  'zh-CN': name => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "zh-CN" */ `./pages/${name}.vue`))
+  [Language.CN]: name => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "zh-CN" */ `./pages/${name}.vue`))
   },
-  'en-US': name => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "en-US" */ `./pages/${name}.vue`))
+  [Language.EN]: name => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "en-US" */ `./pages/${name}.vue`))
   },
-  'es': name => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "es" */ `./pages/${name}.vue`))
+  [Language.ES]: name => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "es" */ `./pages/${name}.vue`))
   },
-  'fr-FR': name => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "fr-FR" */ `./pages/${name}.vue`))
+  [Language.FR]: name => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "fr-FR" */ `./pages/${name}.vue`))
+  },
+  [Language.JP]: name => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "jp" */ `./pages/${name}.vue`))
   },
 }
 
@@ -22,17 +43,20 @@ const load = function(lang, path) {
 }
 
 const LOAD_DOCS_MAP = {
-  'zh-CN': path => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS zh-CN" */ `./docs/zh-CN${path}.md`))
+  [Language.CN]: path => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS zh-CN" */ `./docs/zh-CN${path}.md`))
   },
-  'en-US': path => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS en-US" */ `./docs/en-US${path}.md`))
+  [Language.EN]: path => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS en-US" */ `./docs/en-US${path}.md`))
   },
-  'es': path => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS es" */ `./docs/es${path}.md`))
+  [Language.ES]: path => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS es" */ `./docs/es${path}.md`))
   },
-  'fr-FR': path => {
-    return defineAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/fr-FR${path}.md`))
+  [Language.FR]: path => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/fr-FR${path}.md`))
+  },
+  [Language.JP]: path => {
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/jp${path}.md`))
   },
 }
 
@@ -84,7 +108,6 @@ const registerRoute = navConfig => {
 
     route[index].children.push(child)
   }
-
   return route
 }
 
@@ -129,22 +152,24 @@ langs.forEach(lang => {
   route = route.concat(generateMiscRoutes(lang.lang))
 })
 
-let userLanguage = localStorage.getItem('ELEMENT_LANGUAGE') || window.navigator.language || 'en-US'
-let defaultPath = '/en-US'
+let userLanguage = localStorage.getItem('ELEMENT_LANGUAGE') || window.navigator.language || Language.EN
+let defaultPath = Language.EN
 if (userLanguage.indexOf('zh-') !== -1) {
-  defaultPath = '/zh-CN'
+  defaultPath = Language.CN
 } else if (userLanguage.indexOf('es') !== -1) {
-  defaultPath = '/es'
+  defaultPath = Language.ES
 } else if (userLanguage.indexOf('fr') !== -1) {
-  defaultPath = '/fr-FR'
+  defaultPath = Language.FR
+} else if (userLanguage.indexOf('jp') !== -1) {
+  defaultPath = Language.JP
 }
 
 route = route.concat([{
   path: '/',
-  redirect: { path: defaultPath },
+  redirect: { path: `/${defaultPath}` },
 }, {
   path: '/*',
-  redirect: { path: defaultPath },
+  redirect: { path: `/${defaultPath}` },
 }])
 
 export default route

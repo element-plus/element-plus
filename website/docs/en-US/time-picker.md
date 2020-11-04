@@ -2,34 +2,6 @@
 
 Use Time Picker for time input.
 
-### Fixed time picker
-
-Provide a list of fixed time for users to choose.
-
-:::demo Use `el-time-select` label, then assign start time, end time and time step with `start`, `end` and `step`.
-```html
-<el-time-select
-  v-model="value"
-  :picker-options="{
-    start: '08:30',
-    step: '00:15',
-    end: '18:30'
-  }"
-  placeholder="Select time">
-</el-time-select>
-
-<script>
-  export default {
-    data() {
-      return {
-        value: ''
-      };
-    }
-  }
-</script>
-```
-:::
-
 ### Arbitrary time picker
 
 Can pick an arbitrary time.
@@ -61,47 +33,6 @@ Can pick an arbitrary time.
       return {
         value1: new Date(2016, 9, 10, 18, 40),
         value2: new Date(2016, 9, 10, 18, 40)
-      };
-    }
-  }
-</script>
-```
-:::
-
-### Fixed time range
-
-If start time is picked at first, then the end time will change accordingly.
-
-:::demo
-```html
-<template>
-  <el-time-select
-    placeholder="Start time"
-    v-model="startTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30'
-    }">
-  </el-time-select>
-  <el-time-select
-    placeholder="End time"
-    v-model="endTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30',
-      minTime: startTime
-    }">
-  </el-time-select>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-        startTime: '',
-        endTime: ''
       };
     }
   }
@@ -170,21 +101,11 @@ Can pick an arbitrary time range.
 | prefix-icon | Custom prefix icon class | string | — | el-icon-time |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
 
-### Time Select Options
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| start | start time | string | — | 09:00 |
-| end | end time | string | — | 18:00 |
-| step | time step | string | — | 00:30 |
-| minTime | minimum time, any time before this time will be disabled | string | — | 00:00 |
-| maxTime | maximum time, any time after this time will be disabled | string | — | — |
-
 ### Time Picker Options
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | selectableRange | available time range, e.g.`'18:30:00 - 20:30:00'`or`['09:30:00 - 12:00:00', '14:30:00 - 18:30:00']` | string / array | — | — |
 | format | format of the picker | string | hour `HH`, minute `mm`, second `ss`, AM/PM `A` | HH:mm:ss |
-
 
 ### Events
 | Event Name | Description | Parameters |

@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { isFunction } from '@vue/shared'
-import { throttle } from 'lodash'
+import throttle from 'lodash/throttle'
 import { entries } from '@element-plus/utils/util'
 import { getScrollContainer, getOffsetTopDistance } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'

@@ -41,7 +41,7 @@
 import { defineComponent, computed, ref, PropType } from 'vue'
 // notificationVM is an alias of vue.VNode
 import type { NotificationVM } from './notification'
-import { eventKeys } from '../../utils/aria'
+import { EVENT_CODE } from '../../utils/aria'
 import { on, off } from '../../utils/dom'
 
 const TypeMap: Indexable<string> = {
@@ -168,10 +168,10 @@ export default defineComponent({
       this.closed = true
       this.timer = null
     },
-    keydown({ keyCode }: KeyboardEvent) {
-      if (keyCode === eventKeys.delete || keyCode === eventKeys.backspace) {
-        this.clearTimer() // press detele/backspace clear timer
-      } else if (keyCode === eventKeys.esc) {
+    keydown({ code }: KeyboardEvent) {
+      if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
+        this.clearTimer() // press delete/backspace clear timer
+      } else if (code === EVENT_CODE.esc) {
         // press esc to close the notification
         if (!this.closed) {
           this.close()

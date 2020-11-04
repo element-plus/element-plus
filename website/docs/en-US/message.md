@@ -6,7 +6,7 @@ Used to show feedback after an activity. The difference with Notification is tha
 
 Displays at the top, and disappears after 3 seconds.
 
-:::demo The setup of Message is very similar to notification, so parts of the options won't be explained in detail here. You can check the options table below combined with notification doc to understand it. Element has registered a `$message` method for invoking. Message can take a string or a VNode as parameter, and it will be shown as the main body.
+:::demo The setup of Message is very similar to notification, so parts of the options won't be explained in detail here. You can check the options table below combined with notification doc to understand it. Element Plus has registered a `$message` method for invoking. Message can take a string or a VNode as parameter, and it will be shown as the main body.
 
 ```html
 <template>
@@ -15,6 +15,8 @@ Displays at the top, and disappears after 3 seconds.
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open() {
@@ -22,7 +24,6 @@ Displays at the top, and disappears after 3 seconds.
       },
 
       openVn() {
-        const h = this.$createElement;
         this.$message({
           message: h('p', null, [
             h('span', null, 'Message can be '),
@@ -186,14 +187,14 @@ Although `message` property supports HTML strings, dynamically rendering arbitra
 
 ### Global method
 
-Element has added a global method `$message` for Vue.prototype. So in a vue instance you can call `Message` like what we did in this page.
+Element Plus has added a global method `$message` for Vue.prototype. So in a vue instance you can call `Message` like what we did in this page.
 
 ### Local import
 
 Import `Message`:
 
 ```javascript
-import { Message } from 'element-ui';
+import { Message } from 'element-plus';
 ```
 
 In this case you should call `Message(options)`. We have also registered methods for different types, e.g. `Message.success(options)`. You can call `Message.closeAll()` to manually close all the instances.

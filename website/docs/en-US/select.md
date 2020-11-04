@@ -531,7 +531,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | multiple | whether multiple-select is activated | boolean | — | false |
 | disabled | whether Select is disabled | boolean | — | false |
 | value-key | unique identity key name for value, required when value is an object | string | — | value |
-| size | size of Input | string | large/small/mini | — |
+| size | size of Input | string | large/medium/small/mini  | large |
 | clearable | whether select can be cleared | boolean | — | false |
 | collapse-tags | whether to collapse tags to a text when multiple selecting | boolean | — | false |
 | multiple-limit | maximum number of options user can select when `multiple` is `true`. No limit when set to 0 | number | — | 0 |
@@ -553,6 +553,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | default-first-option | select first matching option on enter key. Use with `filterable` or `remote` | boolean | - | false |
 | popper-append-to-body| whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | true |
 | automatic-dropdown | for non-filterable Select, this prop decides if the option menu pops up when the input is focused | boolean | - | false |
+| clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
 
 ### Select Events
 | Event Name | Description | Parameters |

@@ -1,15 +1,8 @@
 ## Tema personalizado
-Element utiliza la metodología BEM en CSS con la finalidad de que puedas sobrescribir los estilos fácilmente. Pero, si necesita remplazar estilos a gran escala, por ejemplo, cambiar el color del tema de azul a naranja o verde, quizás reemplazarlos uno a uno no sea lo más adecuado, para ello hay 4 maneras de modificar los estilos.
-
-### Theme Roller
-Use [Online Theme Roller](./#/es/theme) to customize all Design Tokens of global variables and components，and preview the new theme in real-time.and it can generate a complete style package based on the new theme for you to download directly (to import new style files in your project, please refer to the 'Import custom theme' or part of this section).
-
-Also, use [Theme Roller Chrome Extension](https://chrome.google.com/webstore/detail/element-theme-roller/lifkjlojflekabbmlddfccdkphlelmim)，to customize theme and preview in real-time on any website developed by Element.
-
-<img src="https://shadow.elemecdn.com/app/sns-client/element-theme-editor2.e16c6a01-806d-11e9-bc23-21435c54c509.png" style="width: 100%;margin: 30px auto 0;display: block;">
+Element Plus utiliza la metodología BEM en CSS con la finalidad de que puedas sobrescribir los estilos fácilmente. Pero, si necesita remplazar estilos a gran escala, por ejemplo, cambiar el color del tema de azul a naranja o verde, quizás reemplazarlos uno a uno no sea lo más adecuado, para ello hay 4 maneras de modificar los estilos.
 
 ### Cambiando el color del tema
-Si lo que se busca es cambiar el color del tema de Element, se recomienda utilizar el [sitio de visualización de temas](https://elementui.github.io/theme-chalk-preview/#/en-US). Element utiliza un color azul brillante y amigable como tema principal. Al cambiarlo, puede hacer que Element este más conectado visualmente a proyectos específicos.
+Si lo que se busca es cambiar el color del tema de Element, se recomienda utilizar el [sitio de visualización de temas](https://elementui.github.io/theme-chalk-preview/#/en-US). Element Plus utiliza un color azul brillante y amigable como tema principal. Al cambiarlo, puede hacer que Element Plus este más conectado visualmente a proyectos específicos.
 
 Este sitio, le permitirá obtener una vista previa del tema con un nuevo color en tiempo real, y, además, obtener un paquete de estilos completo basado en el nuevo color para su descarga (para importar estos nuevos estilos, consulte la sección ‘Importar un tema personalizado’ o ‘Importar un tema de componente bajo demanda' que se encuentran dentro de esta sección).
 
@@ -21,18 +14,20 @@ Este sitio, le permitirá obtener una vista previa del tema con un nuevo color e
 $--color-primary: teal;
 
 /* Ubicación de la fuente, obligatoria */
-$--font-path: '~element-ui/lib/theme-chalk/fonts';
+$--font-path: '~element-plus/lib/theme-chalk/fonts';
 
-@import "~element-ui/packages/theme-chalk/src/index";
+@import "~element-plus/packages/theme-chalk/src/index";
 ```
 
 Entonces, en el archivo principal del proyecto, importe este archivo de estilos en lugar de los estilos de Element:
 ```JS
 import Vue from 'vue'
-import Element from 'element-ui'
+import ElementPlus from 'element-plus'
 import './element-variables.scss'
+import App from './App.vue';
 
-Vue.use(Element)
+const app = createApp(App)
+app.use(ElementPlus)
 ```
 
 :::tip
@@ -66,7 +61,7 @@ et -i [custom output file]
 > ✔ Generator variables file
 ```
 
-En el archivo `element-variables.scss` podrá encontrar todas las variables que utiliza Element para definir los estilos y estos están definidos en SCSS. Aquí un ejemplo:
+En el archivo `element-variables.scss` podrá encontrar todas las variables que utiliza Element Plus para definir los estilos y estos están definidos en SCSS. Aquí un ejemplo:
 ```css
 $--color-primary: #409EFF !default;
 $--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
@@ -94,7 +89,7 @@ $--color-primary: red;
 ```
 
 #### <strong>Construyendo el tema</strong>
-Después de haber modificado el archivo de variables, utilizaremos el comando `et` para construir nuestro tema. Puedes activar el modo `watch` agregando el parámetro `-w`. Y, si desea personalizar el nombre del archivo, debes agregar el parámetro `-c` seguido del nombre. Por defecto, el archivo de tema construido es colocado dentro de `./theme`. Puede especificar un directorio distinto utilizando el parámetro `-o`. 
+Después de haber modificado el archivo de variables, utilizaremos el comando `et` para construir nuestro tema. Puedes activar el modo `watch` agregando el parámetro `-w`. Y, si desea personalizar el nombre del archivo, debes agregar el parámetro `-c` seguido del nombre. Por defecto, el archivo de tema construido es colocado dentro de `./theme`. Puede especificar un directorio distinto utilizando el parámetro `-o`.
 ```shell
 et
 
@@ -107,11 +102,11 @@ et
 Importing your own theme is just like importing the default theme, only this time you import the file built from "Online Theme Roller" or "CLI tool":
 
 ```javascript
+import { createApp } from 'vue'
 import '../theme/index.css'
-import ElementUI from 'element-ui'
-import Vue from 'vue'
+import ElementPlus from 'element-plus'
 
-Vue.use(ElementUI)
+createApp(App).use(ElementPlus)
 ```
 
 #### <strong>Importar un tema de componente bajo demanda</strong>
@@ -122,7 +117,7 @@ Si esta utilizando `babel-plugin-component` para importar bajo demanda, solo deb
     [
       "component",
       {
-        "libraryName": "element-ui",
+        "libraryName": "element-plus",
         "styleLibraryName": "~theme"
       }
     ]

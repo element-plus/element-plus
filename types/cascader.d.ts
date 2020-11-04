@@ -17,7 +17,7 @@ export interface CascaderSlots {
 /** Cascader Component */
 export declare class ElCascader<V = any, D = CascaderOption> extends ElementUIComponent {
   /** Data of the options */
-  options: CascaderOption[]
+  options: D[]
 
   /** Configuration options */
   props: CascaderProps<V, D>

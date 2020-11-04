@@ -1,16 +1,23 @@
 import {
+  createVNode,
   defineComponent,
+  Fragment,
   Transition,
   Teleport,
   h,
   withDirectives,
   vShow,
+  toDisplayString,
+  renderSlot,
+  withCtx,
 } from 'vue'
 
 import { TrapFocus } from '@element-plus/directives'
+import { stop } from '@element-plus/utils/dom'
 import { isValidWidthUnit } from '@element-plus/utils/validators'
+import { PatchFlags, renderBlock, renderIf } from '@element-plus/utils/vnode'
 
-import ElOverlay from '@element-plus/overlay'
+import { Overlay } from '@element-plus/overlay'
 import {
   default as useDialog,
   CLOSE_EVENT,
@@ -21,6 +28,13 @@ import {
 } from './useDialog'
 
 import type { PropType, SetupContext } from 'vue'
+
+const closeIcon = createVNode('i', { class: 'el-dialog__close el-icon el-icon-close' }, null, PatchFlags.HOISTED)
+const headerKls = { class: 'el-dialog__header' }
+const bodyKls = { class: 'el-dialog__body' }
+const titleKls = { class: 'el-dialog__title' }
+const footerKls = { class: 'el-dialog__footer', key: 0 }
+
 
 export default defineComponent({
   name: 'ElDialog',
@@ -114,44 +128,38 @@ export default defineComponent({
       return null
     }
     const { $slots } = this
-    const closeBtn = this.showClose
-      ? h(
-        'button',
-        {
-          type: 'button',
-          class: 'el-dialog__headerbtn',
-          ariaLabel: 'close',
-          onClick: this.handleClose,
-        },
-        h('i', { class: 'el-dialog__close el-icon el-icon-close' }),
-      )
-      : null
-    const header = h(
-      'div',
+    const closeBtn = renderIf(this.showClose, 'button',
       {
-        class: 'el-dialog__header',
+        type: 'button',
+        class: 'el-dialog__headerbtn',
+        ariaLabel: 'close',
+        onClick: this.handleClose,
       },
+      [closeIcon],
+      PatchFlags.PROPS,
+      ['onClick'],
+    )
+
+    const header = createVNode(
+      'div',
+      headerKls,
       [
-        $slots.header
-          ? $slots.header()
-          : h('span', { class: 'el-dialog__title' }, this.title),
+        renderSlot($slots, 'header', {}, () =>
+          [createVNode('span', titleKls, toDisplayString(this.title), PatchFlags.TEXT)],
+        ),
         closeBtn,
       ],
     )
 
-    const body = h(
+    const body = createVNode(
       'div',
-      {
-        class: 'el-dialog__body',
-      },
-      $slots.default?.(),
+      bodyKls,
+      [renderSlot($slots, 'default')],
     )
 
-    const footer = $slots.footer
-      ? h('div', { class: 'el-dialog__footer' }, $slots.footer())
-      : null
+    const footer = renderIf(!!$slots.footer, 'div', footerKls, [renderSlot($slots, 'footer')])
 
-    const dialog = h(
+    const dialog = createVNode(
       'div',
       {
         ariaModal: true,
@@ -167,48 +175,48 @@ export default defineComponent({
         ref: 'dialogRef',
         role: 'dialog',
         style: this.style,
-        onClick: (e: MouseEvent) => e.stopPropagation(),
+        onClick: stop,
       },
       [header, body, footer],
+      PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
+      ['ariaLabel', 'onClick'],
     )
 
     const trappedDialog = withDirectives(dialog, [[TrapFocus]])
     const overlay = withDirectives(
-      h(
-        ElOverlay,
+      createVNode(
+        Overlay,
         {
           mask: this.modal,
           onClick: this.onModalClick,
           zIndex: this.zIndex,
         },
         {
-          default: () => trappedDialog,
+          default: withCtx(() => [trappedDialog]),
         },
-      ),
-      [[vShow, this.visible]],
-    )
+        PatchFlags.PROPS,
+        ['mask', 'onClick', 'zIndex'],
+      ), [[vShow, this.visible]])
 
-    const renderer = h(
+
+    const renderer = createVNode(
       Transition,
       {
         name: 'dialog-fade',
-        onAfterEnter: this.afterEnter,
-        onAfterLeave: this.afterLeave,
+        'onAfter-enter': this.afterEnter,
+        'onAfter-leave': this.afterLeave,
       },
       {
-        default: () => overlay,
+        default: () => [overlay],
       },
+      PatchFlags.PROPS,
+      ['onAfter-enter', 'onAfter-leave'],
     )
 
-    if (this.appendToBody) {
-      return h(
-        Teleport,
-        {
-          to: 'body',
-        },
-        renderer,
-      )
-    }
-    return renderer
+    return renderBlock(Fragment, null, [
+      this.appendToBody
+        ? h(Teleport, { key: 0, to: 'body' }, [renderer])
+        : h(Fragment, { key: 1 }, [renderer]),
+    ])
   },
 })

@@ -8,3 +8,5 @@ export default (app: App): void => {
   app.component(CheckboxButton.name, CheckboxButton)
   app.component(CheckboxGroup.name, CheckboxGroup)
 }
+
+export { Checkbox, CheckboxButton, CheckboxGroup }

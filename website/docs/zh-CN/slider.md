@@ -198,7 +198,7 @@
             style: {
               color: '#1989FA'
             },
-            label: this.$createElement('strong', '50%')
+            label: '50%'
           }
         }
       }

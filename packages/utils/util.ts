@@ -1,8 +1,10 @@
-import { isEmpty, castArray, isEqual } from 'lodash'
+import { getCurrentInstance } from 'vue'
+import { castArray } from 'lodash'
 
 import {
   isObject,
   isArray,
+  isString,
   capitalize,
   hyphenate,
   looseEqual,
@@ -117,10 +119,11 @@ export const kebabCase = hyphenate
 // reexport from lodash & vue shared
 export {
   hasOwn,
-  isEmpty,
-  isEqual,
+  // isEmpty,
+  // isEqual,
   isObject,
   isArray,
+  isString,
   capitalize,
   camelize,
   looseEqual,
@@ -164,8 +167,50 @@ export function entries<T>(obj: Hash<T>): [string, T][] {
     .map((key: string) => ([key, obj[key]]))
 }
 
-export function isUndefined(val: any) {
+export function isUndefined(val: any): val is undefined {
   return val === void 0
 }
 
 export { isVNode } from 'vue'
+
+export function useGlobalConfig() {
+  const vm: any = getCurrentInstance()
+  if ('$ELEMENT' in vm.proxy) {
+    return vm.proxy.$ELEMENT
+  }
+  return {}
+}
+export const arrayFindIndex = function<T = any> (
+  arr: Array<T>,
+  pred: (args: T) => boolean,
+): number {
+  return arr.findIndex(pred)
+}
+
+export const arrayFind = function<T = any> (
+  arr: Array<T>,
+  pred: (args: T) => boolean,
+): any {
+  return arr.find(pred)
+}
+
+export function isEmpty(val: unknown) {
+  if (
+    !val && val !== 0 ||
+    isArray(val) && !val.length ||
+    isObject(val) && !Object.keys(val).length
+  ) return true
+
+  return false
+}
+
+export function arrayFlat(arr: unknown[]) {
+  return arr.reduce((acm: unknown[], item) => {
+    const val = Array.isArray(item) ? arrayFlat(item) : item
+    return acm.concat(val)
+  }, [])
+}
+
+export function deduplicate<T>(arr: T[]) {
+  return [...new Set(arr)]
+}

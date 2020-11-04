@@ -115,9 +115,9 @@ Además de las características nativas de img, soporte de carga perezosa, marca
 :::demo permitir una vista previa grande de la imagen configurando la prop `previewSrcList`.
 ```html
 <div class="demo-image__preview">
-  <el-image 
+  <el-image
     style="width: 100px; height: 100px"
-    :src="url" 
+    :src="url"
     :preview-src-list="srcList">
   </el-image>
 </div>

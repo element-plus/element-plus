@@ -14,14 +14,16 @@ Dialog abre una caja de diálogo, y es bastante personalizable.
 
 <el-dialog
   title="Tips"
-  :visible.sync="dialogVisible"
+  v-model="dialogVisible"
   width="30%"
   :before-close="handleClose">
   <span>This is a message</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -54,7 +56,7 @@ Dialog abre una caja de diálogo, y es bastante personalizable.
 ### Personalizaciones
 
 
-El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formulario. Este ejemplo muestra cómo usar Element Table y Form con Dialog
+El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formulario. Este ejemplo muestra cómo usar Element Plus Table y Form con Dialog
 
 :::demo
 
@@ -140,7 +142,7 @@ Si un diálogo está anidado en otro diálogo, se requiere append-to-body.
 ```html
 <template>
   <el-button type="text" @click="outerVisible = true">open the outer Dialog</el-button>
-  
+
   <el-dialog title="Outer Dialog" :visible.sync="outerVisible">
     <el-dialog
         width="30%"

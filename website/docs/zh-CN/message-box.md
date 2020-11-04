@@ -63,7 +63,7 @@
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       }
     }
@@ -101,7 +101,7 @@
           this.$message({
             type: 'info',
             message: '取消输入'
-          });       
+          });
         });
       }
     }
@@ -122,10 +122,11 @@
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open() {
-        const h = this.$createElement;
         this.$msgbox({
           title: '消息',
           message: h('p', null, [
@@ -286,7 +287,7 @@
 如果单独引入 `MessageBox`：
 
 ```javascript
-import { MessageBox } from 'element-ui';
+import { MessageBox } from 'element-plus';
 ```
 
 那么对应于上述四个全局方法的调用方法依次为：MessageBox, MessageBox.alert, MessageBox.confirm 和 MessageBox.prompt，调用参数与全局方法相同。

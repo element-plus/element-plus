@@ -1,10 +1,12 @@
-import { Fragment, Text, Comment, createBlock, openBlock } from 'vue'
+import { Fragment, Text, Comment, createBlock, openBlock, createCommentVNode } from 'vue'
 
 import type { VNode, VNodeTypes, VNodeChild } from 'vue'
 
+type Children = VNodeTypes[] | VNodeTypes
+
 const TEMPLATE = 'template'
 
-export const enum PatchFlags {
+export enum PatchFlags {
   TEXT = 1,
   CLASS = 2,
   STYLE = 4,
@@ -55,11 +57,7 @@ export const getFirstValidNode = (
   maxDepth = 3,
 ): ReturnType<typeof getChildren> => {
   if (Array.isArray(nodes)) {
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i] as VNode
-      const child = getChildren(node as VNode, maxDepth)
-      return child
-    }
+    return getChildren(nodes[0] as VNode, maxDepth)
   } else {
     return getChildren(nodes as VNode, maxDepth)
   }
@@ -69,24 +67,23 @@ export function renderIf(
   condition: boolean,
   node: VNodeTypes,
   props: any,
-  children?: VNode[],
+  children?: Children,
   patchFlag?: number,
   patchProps?: string[],
 ) {
   return (
-    openBlock(),
     condition
-      ? createBlock(node, props, children, patchFlag, patchProps)
-      : createBlock(Comment, null, null, PatchFlags.TEXT)
+      ? renderBlock(node, props, children, patchFlag, patchProps)
+      : createCommentVNode('v-if', true)
   )
 }
 
 export function renderBlock(
   node: VNodeTypes,
   props: any,
-  children?: VNodeTypes[] | VNodeTypes,
+  children?: Children,
   patchFlag?: number,
   patchProps?: string[],
 ) {
-  return openBlock(), createBlock(node, props, children, patchFlag, patchProps)
+  return (openBlock(), createBlock(node, props, children, patchFlag, patchProps))
 }

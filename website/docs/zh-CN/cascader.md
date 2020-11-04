@@ -20,7 +20,7 @@
   <el-cascader
     v-model="value"
     :options="options"
-    :props="{ expandTrigger: 'hover' }"
+    :props="props"
     @change="handleChange"></el-cascader>
 </div>
 
@@ -29,6 +29,7 @@
     data() {
       return {
         value: [],
+        props: { expandTrigger: 'hover' },
         options: [{
           value: 'zhinan',
           label: '指南',
@@ -37,7 +38,7 @@
             label: '设计原则',
             children: [{
               value: 'yizhi',
-              label: '一致'
+              label: '一致',
             }, {
               value: 'fankui',
               label: '反馈'
@@ -1460,7 +1461,7 @@
 :::demo 可以通过`scoped slot`对级联选择器的备选项的节点内容进行自定义，scoped slot会传入两个字段 `node` 和 `data`，分别表示当前节点的 Node 对象和数据。
 ```html
 <el-cascader :options="options">
-  <template slot-scope="{ node, data }">
+  <template #default="{ node, data }">
     <span>{{ data.label }}</span>
     <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
   </template>

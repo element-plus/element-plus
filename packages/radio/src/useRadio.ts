@@ -1,22 +1,63 @@
-import { ref, computed, inject } from 'vue'
+import { ref, computed, inject, WritableComputedRef } from 'vue'
+import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
+import { useGlobalConfig } from '@element-plus/utils/util'
+import radioGroupKey from './token'
 
-export default () => {
-  //todo: ELEMENT
-  const ELEMENT = null
-  const elForm = inject('elForm', {})
-  const elFormItem = inject('elFormItem', {})
-  const _radioGroup = inject('RadioGroup', {}) as any
+import type { ComputedRef } from 'vue'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+import type { RadioGroupContext } from './token'
+
+export const useRadio = () => {
+
+  const ELEMENT = useGlobalConfig()
+  const elForm = inject(elFormKey, {} as ElFormContext)
+  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+  const radioGroup = inject(radioGroupKey, {} as RadioGroupContext)
   const focus = ref(false)
-  const isGroup = computed(() => _radioGroup && _radioGroup.name === 'ElRadioGroup')
-  const _elFormItemSize = computed(() => {
-    return (elFormItem || {} as any).elFormItemSize
-  })
+  const isGroup = computed(() => radioGroup?.name === 'ElRadioGroup')
+  const elFormItemSize = computed(() => elFormItem.size || ELEMENT.size)
+
   return {
     isGroup,
     focus,
-    _radioGroup,
+    radioGroup,
     elForm,
     ELEMENT,
-    _elFormItemSize,
+    elFormItemSize,
   }
+}
+
+interface IUseRadioAttrsProps {
+  disabled?: boolean
+  label: string | number | boolean
+}
+
+interface IUseRadioAttrsState {
+  isGroup: ComputedRef<boolean>
+  radioGroup: RadioGroupContext
+  elForm: ElFormContext
+  model: WritableComputedRef<string | number | boolean>
+}
+
+export const useRadioAttrs = (props: IUseRadioAttrsProps, {
+  isGroup,
+  radioGroup,
+  elForm,
+  model,
+}: IUseRadioAttrsState) => {
+  const isDisabled = computed(() => {
+    return isGroup.value
+      ? radioGroup.disabled || props.disabled || elForm.disabled
+      : props.disabled || elForm.disabled
+  })
+
+  const tabIndex = computed(() => {
+    return (isDisabled.value || (isGroup.value && model.value !== props.label)) ? -1 : 0
+  })
+
+  return {
+    isDisabled,
+    tabIndex,
+  }
+
 }
