@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
-import defaultProps, { Effect } from '@element-plus/popper/src/use-popper/defaults'
-import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper/src/renderers'
+import { defaultProps, Effect } from '@element-plus/popper'
+import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
 
 import { warn } from '@element-plus/utils/error'
 import { renderBlock, renderIf, PatchFlags } from '@element-plus/utils/vnode'
@@ -10,7 +10,7 @@ import { stop } from '@element-plus/utils/dom'
 import usePopover, { SHOW_EVENT, HIDE_EVENT } from './usePopover'
 
 import type { PropType } from 'vue'
-import type { TriggerType } from '@element-plus/popper/src/use-popper/defaults'
+import type { TriggerType } from '@element-plus/popper'
 
 const emits = ['update:visible', 'after-enter', 'after-leave', SHOW_EVENT, HIDE_EVENT ]
 const NAME = 'ElPopover'
