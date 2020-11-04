@@ -194,7 +194,7 @@
 Import `Message`:
 
 ```javascript
-import { Message } from 'element-ui';
+import { Message } from 'element-plus';
 ```
 
 この場合は `Message(options)` を呼び出す必要があります。また、`Message.success(options)`のように、異なるタイプのメソッドも登録しています。すべてのインスタンスを手動で閉じるには、`Message.closeAll()`を呼び出すことができます。

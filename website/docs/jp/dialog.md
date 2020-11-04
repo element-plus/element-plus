@@ -11,14 +11,16 @@ dialog はdialogボックスをポップアップ表示します。
 
 <el-dialog
   title="Tips"
-  :visible.sync="dialogVisible"
+  v-model="dialogVisible"
   width="30%"
   :before-close="handleClose">
   <span>This is a message</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -132,7 +134,7 @@ dialog の内容は何でも構いません、テーブルやフォームであ�
 ```html
 <template>
   <el-button type="text" @click="outerVisible = true">open the outer Dialog</el-button>
-  
+
   <el-dialog title="Outer Dialog" :visible.sync="outerVisible">
     <el-dialog
         width="30%"
