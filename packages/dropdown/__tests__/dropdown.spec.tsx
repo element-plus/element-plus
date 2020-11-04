@@ -50,9 +50,11 @@ describe('Dropdown', () => {
         )
       }
     })
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     expect(content.visible).toBe(false)
+    await triggerElm.trigger('keydown')
+    await triggerElm.trigger('focus')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
     expect(content.visible).toBe(true)
@@ -91,7 +93,7 @@ describe('Dropdown', () => {
         },
       },
     )
-    // const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    // const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
@@ -123,7 +125,7 @@ describe('Dropdown', () => {
         name: '',
       }),
     )
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
     expect(content.visible).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
@@ -162,12 +164,14 @@ describe('Dropdown', () => {
         },
       },
     )
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown__caret-button')
     const button = wrapper.find('.el-button')
     expect(content.visible).toBe(false)
     await button.trigger('click')
     expect((wrapper.vm as any).name).toBe('click')
+    await triggerElm.trigger('keydown')
+    await triggerElm.trigger('focus')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
     expect(content.visible).toBe(true)
@@ -194,8 +198,10 @@ describe('Dropdown', () => {
       () => ({}),
     )
 
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
+    await triggerElm.trigger('keydown')
+    await triggerElm.trigger('focus')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
     await wrapper.findComponent({ ref: 'c' }).trigger('click')
@@ -224,8 +230,10 @@ describe('Dropdown', () => {
       () => ({}),
     )
 
-    const content = wrapper.findComponent({ ref: 'b' }).vm.$refs.popper as any
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
     const triggerElm = wrapper.find('.el-dropdown-link')
+    await triggerElm.trigger('keydown')
+    await triggerElm.trigger('focus')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await sleep(TIMEOUT)
     await triggerElm.trigger('keydown', {
