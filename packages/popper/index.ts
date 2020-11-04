@@ -6,6 +6,7 @@ export default (app: App) => {
 }
 
 export { Popper }
-export { default as defaultProps, Effect } from './src/use-popper'
-export type { TriggerType } from './src/use-popper'
+export { default as defaultProps, Effect } from './src/use-popper/defaults'
+export type { TriggerType, IPopperOptions } from './src/use-popper/defaults'
+export { default as usePopper } from './src/use-popper/index'
 export * from './src/renderers/index'
