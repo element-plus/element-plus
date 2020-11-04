@@ -182,13 +182,6 @@ export default defineComponent({
       triggerElm.value?.blur?.()
     }
 
-    // for dom
-    Object.assign(_instance, {
-      handleClick,
-      hide,
-      resetTabindex,
-    })
-
     const dropdownSize = computed(() => props.size || ELEMENT.size)
     function commandHandler (...args) {
       emit('command', ...args)
@@ -208,25 +201,23 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      nextTick(() => {
-        if (!props.splitButton) {
-          on(triggerElm.value, 'focus', () => {
-            focusing.value = true
-          })
-          on(triggerElm.value, 'blur', () => {
-            focusing.value = false
-          })
-          on(triggerElm.value, 'click', () => {
-            focusing.value = false
-          })
-        }
-        if (props.trigger === 'hover') {
-          on(triggerElm.value, 'mouseenter', show)
-          on(triggerElm.value, 'mouseleave', hide)
-        } else if (props.trigger === 'click') {
-          on(triggerElm.value, 'click', handleClick)
-        }
-      })
+      if (!props.splitButton) {
+        on(triggerElm.value, 'focus', () => {
+          focusing.value = true
+        })
+        on(triggerElm.value, 'blur', () => {
+          focusing.value = false
+        })
+        on(triggerElm.value, 'click', () => {
+          focusing.value = false
+        })
+      }
+      if (props.trigger === 'hover') {
+        on(triggerElm.value, 'mouseenter', show)
+        on(triggerElm.value, 'mouseleave', hide)
+      } else if (props.trigger === 'click') {
+        on(triggerElm.value, 'click', handleClick)
+      }
 
       Object.assign(_instance, {
         handleClick,
