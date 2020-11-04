@@ -6,3 +6,5 @@ export default (app: App): void => {
 }
 
 export { CascaderPanel }
+export * from './src/types'
+export * from './src/config'

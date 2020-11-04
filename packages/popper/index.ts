@@ -6,3 +6,5 @@ export default (app: App) => {
 }
 
 export { Popper }
+export * from './src/use-popper/defaults'
+export * from './src/renderers/index'
