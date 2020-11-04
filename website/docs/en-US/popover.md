@@ -11,10 +11,11 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
   <el-popover
     placement="top-start"
     title="Title"
-    width="200"
+    :width="200"
     trigger="hover"
-    content="this is content, this is content, this is content">
-    <template #reference> 
+    content="this is content, this is content, this is content"
+  >
+    <template #reference>
       <el-button>Hover to activate</el-button>
     </template>
   </el-popover>
@@ -22,9 +23,10 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
   <el-popover
     placement="bottom"
     title="Title"
-    width="200"
+    :width="200"
     trigger="click"
-    content="this is content, this is content, this is content">
+    content="this is content, this is content, this is content"
+  >
     <template #reference>
       <el-button>Click to activate</el-button>
     </template>
@@ -34,20 +36,23 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
     ref="popover"
     placement="right"
     title="Title"
-    width="200"
+    :width="200"
     trigger="focus"
-    content="this is content, this is content, this is content">
+    content="this is content, this is content, this is content"
+  >
+    <template #reference>
+      <el-button>Focus to activate</el-button>
+    </template>
   </el-popover>
- 
-  <el-button v-popover:popover>Focus to activate</el-button>
 
   <el-popover
     placement="bottom"
     title="Title"
-    width="200"
+    :width="200"
     trigger="manual"
     content="this is content, this is content, this is content"
-    v-model:visible="visible">
+    v-model:visible="visible"
+  >
     <template #reference>
       <el-button @click="visible = !visible">Manual to activate</el-button>
     </template>
@@ -75,19 +80,17 @@ Other components can be nested in popover. Following is an example of nested tab
 ```html
 <el-popover
   placement="right"
-  width="400"
-  trigger="click">
-  <el-button>
-    test
-  </el-button>
-  <!-- <el-table :data="gridData">
-    <el-table-column width="150" property="date" label="date"></el-table-column>
-    <el-table-column width="100" property="name" label="name"></el-table-column>
-    <el-table-column width="300" property="address" label="address"></el-table-column>
-  </el-table> -->
+  :width="400"
+  trigger="click"
+>
   <template #reference>
     <el-button>Click to activate</el-button>
   </template>
+  <el-table :data="gridData">
+    <el-table-column width="150" property="date" label="date"></el-table-column>
+    <el-table-column width="100" property="name" label="name"></el-table-column>
+    <el-table-column width="300" property="address" label="address"></el-table-column>
+  </el-table>
 </el-popover>
 
 <script>
@@ -126,16 +129,16 @@ Of course, you can nest other operations. It's more light-weight than using a di
 ```html
 <el-popover
   placement="top"
-  width="160"
+  :width="160"
   v-model:visible="visible"
-  >
+>
   <p>Are you sure to delete this?</p>
   <div style="text-align: right; margin: 0">
     <el-button size="mini" type="text" @click="visible = false">cancel</el-button>
     <el-button type="primary" size="mini" @click="visible = false">confirm</el-button>
   </div>
   <template #reference>
-    <el-button>Delete</el-button>
+    <el-button @click="visible = true">Delete</el-button>
   </template>
 </el-popover>
 
