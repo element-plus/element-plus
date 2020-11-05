@@ -32,6 +32,26 @@
 ```
 :::
 
+### 允许半选
+:::demo 为组件设置 `allow-half` 允许出现半星
+```html
+
+<div class="block">
+  <el-rate  v-model="value"  allow-half />
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        value: null
+      }
+    }
+  }
+</script>
+```
+:::
+
 ### 辅助文字
 
 用辅助文字直接地表达对应分数
