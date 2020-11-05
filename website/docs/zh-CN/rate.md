@@ -33,18 +33,20 @@
 :::
 
 ### 允许半选
-:::demo 为组件设置 `allow-half` 允许出现半星
+:::demo 属性 `allow-half` 允许出现半星
 ```html
 
 <div class="block">
   <el-rate  v-model="value"  allow-half />
 </div>
 
+
 <script>
+import { defineComponent, ref } from 'vue'
   export default {
-    data() {
+    setup() {
       return {
-        value: null
+        value: ref(null)
       }
     }
   }
