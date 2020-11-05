@@ -10,7 +10,7 @@ import {
   onBeforeUnmount,
 } from 'vue'
 import { NOOP } from '@vue/shared'
-import { elFormKey } from '@element-plus/form/src/token'
+import { elFormKey } from '@element-plus/form'
 
 import ajax from './ajax'
 import UploadList from './upload-list.vue'
@@ -18,7 +18,7 @@ import Upload from './upload.vue'
 import useHandlers from './useHandlers'
 
 import type { PropType } from 'vue'
-import type { ElFormContext } from '@element-plus/form/src/token'
+import type { ElFormContext } from '@element-plus/form'
 import type {
   ListType,
   UploadFile,

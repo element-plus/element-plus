@@ -66,10 +66,10 @@ import { useCheckedChange } from './useCheckedChange'
 import { useMove } from './useMove'
 
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { elFormItemKey } from '@element-plus/form/src/token'
+import { elFormItemKey } from '@element-plus/form'
 
 import type { PropType, VNode } from 'vue'
-import type { ElFormItemContext } from '@element-plus/form/src/token'
+import type { ElFormItemContext } from '@element-plus/form'
 import type {
   DataItem, Format, Key,
   Props, TargetOrder,

@@ -19,10 +19,11 @@
     "outDir": "../../lib/utils"
   },
   "include": [
-    "./**/*.ts"
+    "./**/*.ts",
+    "../../typings/vue-shim.d.ts"
   ],
   "exclude": [
     "node_modules",
-    "packages/**/__tests__/*"
+    "tests/*.ts"
   ]
  }

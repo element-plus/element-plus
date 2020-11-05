@@ -6,7 +6,7 @@ import css from 'rollup-plugin-css-only'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
 import pkg from '../package.json'
-
+const deps = Object.keys(pkg.dependencies)
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const vue = require('./plugin.js')
 
@@ -43,7 +43,7 @@ export default [
     ],
     external(id) {
       return /^vue/.test(id)
-        || Object.keys(pkg.dependencies).some(k => new RegExp('^' + k).test(id))
+        || deps.some(k => new RegExp('^' + k).test(id))
     },
   },
 ]

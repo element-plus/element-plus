@@ -47,9 +47,9 @@ import {
 import { isObject, isArray } from '@vue/shared'
 import { hasClass } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { elFormKey } from '@element-plus/form/src/token'
+import { elFormKey } from '@element-plus/form'
 
-import type { ElFormContext } from '@element-plus/form/src/token'
+import type { ElFormContext } from '@element-plus/form'
 
 export default defineComponent({
   name: 'ElRate',
