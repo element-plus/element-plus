@@ -192,9 +192,9 @@ export default defineComponent({
     const classes = computed(() => {
       let result = Array(props.max)
       let threshold = currentValue.value
-      if (props.allowHalf && currentValue.value !== Math.floor(currentValue.value)) {
-        threshold--
-      }
+      // if (props.allowHalf && currentValue.value !== Math.floor(currentValue.value)) {
+      //   threshold--
+      // }
       result.fill(activeClass.value, 0, threshold)
       result.fill(voidClass.value, threshold, props.max)
       return result
