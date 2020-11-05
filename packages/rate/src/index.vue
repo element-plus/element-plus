@@ -261,8 +261,8 @@ export default defineComponent({
       }
       _currentValue = _currentValue < 0 ? 0 : _currentValue
       _currentValue = _currentValue > props.max ? props.max : _currentValue
-      emit('update:modelValue', currentValue)
-      emit('change', currentValue)
+      emit('update:modelValue', _currentValue)
+      emit('change', _currentValue)
       return _currentValue
     }
 
