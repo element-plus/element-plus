@@ -79,4 +79,33 @@ describe('Rate.vue', () => {
     thirdStar.click()
     expect(vm.value1).toEqual(3)
   })
+
+  test('colors', () => {
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-rate v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
+        </div>
+      `,
+      props:{},
+      data() {
+        return {
+          value: 4,
+        }
+      },
+      components: {
+        'el-rate': Rate,
+      },
+    }, {
+      global: {
+        provide: {
+          elForm: {},
+        },
+      },
+    })
+    // const vm = wrapper.vm
+    const thirdStar = (wrapper.findAll('.el-rate__item')[2].element as HTMLElement).querySelector('.el-rate__icon') as any
+
+    expect(thirdStar.style.color).toEqual('rgb(255, 153, 0)')
+  })
 })
