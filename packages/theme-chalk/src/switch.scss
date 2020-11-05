@@ -66,8 +66,7 @@
     transition: border-color .3s, background-color .3s;
     vertical-align: middle;
 
-    &:after {
-      content: "";
+    .el-switch__action{
       position: absolute;
       top: 1px;
       left: 1px;
@@ -76,6 +75,10 @@
       width: $--switch-button-size;
       height: $--switch-button-size;
       background-color: $--color-white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $--switch-off-color;
     }
   }
 
@@ -83,9 +86,10 @@
     .el-switch__core {
       border-color: $--switch-on-color;
       background-color: $--switch-on-color;
-      &::after {
+      .el-switch__action{
         left: 100%;
         margin-left: -$--switch-button-size - 1px;
+        color:$--switch-on-color ;
       }
     }
   }

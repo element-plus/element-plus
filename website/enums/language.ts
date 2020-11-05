@@ -7,4 +7,6 @@ export enum Language {
   ES = 'es',
   /** French */
   FR = 'fr-FR',
+  /** Japanese */
+  JP = 'jp',
 }

@@ -14,14 +14,16 @@ Dialog abre una caja de diálogo, y es bastante personalizable.
 
 <el-dialog
   title="Tips"
-  :visible.sync="dialogVisible"
+  v-model="dialogVisible"
   width="30%"
   :before-close="handleClose">
   <span>This is a message</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>

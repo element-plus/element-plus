@@ -149,12 +149,12 @@ import isServer from '@element-plus/utils/isServer'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
-import { CommonProps } from '@element-plus/cascader-panel/src/config'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
+import { CommonProps } from '@element-plus/cascader-panel'
 
 import type { ComputedRef, PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
-import type { CascaderValue, CascaderNode, Tag } from '@element-plus/cascader-panel/src/types'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
+import type { CascaderValue, CascaderNode, Tag } from '@element-plus/cascader-panel'
 
 const DEFAULT_INPUT_HEIGHT = 40
 

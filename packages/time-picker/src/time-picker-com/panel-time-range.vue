@@ -344,8 +344,3 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
-.el-time-range-picker__content {
-  z-index: 1
-}
-</style>
