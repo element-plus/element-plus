@@ -1,9 +1,9 @@
 <script lang="ts">
-import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode } from 'vue'
+import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { defaultProps, Effect } from '@element-plus/popper'
 import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
-
+import { ClickOutside } from '@element-plus/directives'
 import { warn } from '@element-plus/utils/error'
 import { renderBlock, renderIf, PatchFlags } from '@element-plus/utils/vnode'
 import { stop } from '@element-plus/utils/dom'
@@ -115,7 +115,9 @@ export default defineComponent({
 
 
     return renderBlock(Fragment, null, [
-      _trigger,
+      this.trigger === 'click'
+        ? withDirectives(_trigger, [[ClickOutside, this.hide]])
+        : _trigger,
       popover,
     ])
   },
