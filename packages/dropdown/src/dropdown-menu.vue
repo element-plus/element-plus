@@ -49,10 +49,4 @@ export default defineComponent({
   },
 })
 </script>
-<style>
-.el-dropdown-menu {
-  position: relative;
-  margin: 0;
-  box-shadow: none;
-}
-</style>
+
