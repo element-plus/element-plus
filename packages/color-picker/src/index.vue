@@ -306,15 +306,3 @@ export default defineComponent( {
   },
 })
 </script>
-
-<style>
-.el-color-picker:focus {
-  outline: none;
-}
-.hue-slider {
-  float: right;
-}
-.el-popper.el-color-picker__panel {
-  border-color: #ebeef5;
-}
-</style>

@@ -17,6 +17,7 @@ module.exports = {
     libraryExport: 'default',
     library: 'ElementPlus',
     umdNamedDefine: true,
+    globalObject: 'typeof self !== \'undefined\' ? self : this',
   },
   stats: 'verbose',
   module: {
@@ -24,19 +25,6 @@ module.exports = {
       {
         test: /\.vue$/,
         use: 'vue-loader',
-      },
-      { // todo remote
-        test: /\.(sass|scss|css)$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: require('sass'),
-            },
-          },
-        ],
       },
       {
         test: /\.ts$/,
