@@ -58,6 +58,7 @@ import ElInputNumber from '@element-plus/input-number'
 import ElPopover from '@element-plus/popover'
 import ElCascader from '@element-plus/cascader'
 import ElCascaderPanel from '@element-plus/cascader-panel'
+import { use } from '@element-plus/locale'
 
 export {
   ElAlert,
@@ -121,6 +122,7 @@ export {
 interface InstallOptions {
   size: ComponentSize
   zIndex: number
+  locale?: any
 }
 
 const defaultInstallOpt =  {
@@ -187,6 +189,7 @@ const install = (app: App, opt: InstallOptions = defaultInstallOpt): void => {
   ElCascaderPanel(app)
 
   app.config.globalProperties.$ELEMENT = opt
+  use(opt.locale)
 }
 
 const elementUI = {
