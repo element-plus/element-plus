@@ -10,7 +10,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import path from 'path'
 import { getPackagesSync } from '@lerna/project'
 import pkg from '../package.json'
-
+const deps = Object.keys(pkg.dependencies)
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const vue = require('./plugin.js')
 const inputs = getPackagesSync()
@@ -64,6 +64,6 @@ export default inputs.map(name => ({
   external(id) {
     return /^vue/.test(id)
       || /^@element-plus/.test(id)
-      || Object.keys(pkg.dependencies).some(k => new RegExp('^' + k).test(id))
+      || deps.some(k => new RegExp('^' + k).test(id))
   },
 }))

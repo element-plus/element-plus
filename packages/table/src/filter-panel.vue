@@ -232,13 +232,3 @@ export default {
   },
 }
 </script>
-
-<style>
-  .el-table-filter-padding {
-    padding: 0;
-    border: 1px solid #ebeef5 !important;
-  }
-  .el-none-outline {
-    outline: none;
-  }
-</style>
