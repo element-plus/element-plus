@@ -3,17 +3,17 @@ import { ToRefs } from 'vue'
 // root menu
 
 export interface IMenuProps {
-  mode: 'vertical' | 'horizontal'
-  defaultActive: string
-  defaultOpeneds: string[]
-  uniqueOpened: boolean
-  router: boolean
-  menuTrigger: 'hover' | 'click'
-  collapse: boolean
-  backgroundColor: string
-  textColor: string
-  activeTextColor: string
-  collapseTransition: boolean
+  mode?: string | 'vertical' | 'horizontal'
+  defaultActive?: string
+  defaultOpeneds?: string[] | unknown[]
+  uniqueOpened?: boolean
+  router?: boolean
+  menuTrigger?: string | 'hover' | 'click'
+  collapse?: boolean
+  backgroundColor?: string
+  textColor?: string
+  activeTextColor?: string
+  collapseTransition?: boolean
 }
 
 export interface RootMenuData {
@@ -50,6 +50,7 @@ export interface RootMenuProvider {
     addSubMenu: (item: any) => void
     removeSubMenu: (item: any) => void
     openMenu: (index: string, indexPath: string) => void
+    closeMenu: (index: string) => void
   }
 }
 
@@ -57,8 +58,11 @@ export interface RootMenuProvider {
 
 export interface ISubmenuProps {
   index: string
-  showTimeout: number
-  hideTimeout
+  showTimeout?: number
+  hideTimeout?: number
+  popperClass?: string
+  disabled?: boolean
+  popperAppendToBody?: boolean
 }
 
 // menuItem

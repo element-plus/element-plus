@@ -16,8 +16,8 @@
   >
     <el-tooltip
       v-if="
-        parentMenu.$options.componentName === 'ElMenu' &&
-          rootMenu.collapse &&
+        parentMenu.type.name === 'ElMenu' &&
+          rootMenu.props.collapse &&
           $slots.title
       "
       effect="dark"
@@ -39,8 +39,15 @@
   </li>
 </template>
 <script lang="ts">
-import { computed, onMounted, onBeforeUnmount } from 'vue'
-import { IMenuGroupProps } from './menu'
+import {
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  inject,
+  getCurrentInstance,
+} from 'vue'
+import { IMenuItemProps, RootMenuProvider } from './menu'
+import useMenu from './useMenu'
 // import Menu from './menu-mixin'
 // import ElTooltip from "element-ui/packages/tooltip";
 import mitt from 'mitt'
@@ -60,53 +67,63 @@ export default {
     route: [String, Object],
     disabled: Boolean,
   },
-  setup(props: IMenuGroupProps) {
+  setup(props: IMenuItemProps, { emit }) {
+    const rootMenu = inject<RootMenuProvider>('rootMenu')
+    const instance = getCurrentInstance()
+    const { parentMenu, paddingStyle, indexPath } = useMenu(
+      instance,
+      props.index,
+    )
+
     const active = computed(() => {
-      return this.index === this.rootMenu.activeIndex
+      return props.index === rootMenu.data.activeIndex.value
     })
     const hoverBackground = computed(() => {
-      return this.rootMenu.hoverBackground
+      return rootMenu.data.hoverBackground.value
     })
     const backgroundColor = computed(() => {
-      return this.rootMenu.backgroundColor || ''
+      return rootMenu.props.backgroundColor || ''
     })
     const activeTextColor = computed(() => {
-      return this.rootMenu.activeTextColor || ''
+      return rootMenu.props.activeTextColor || ''
     })
     const textColor = computed(() => {
-      return this.rootMenu.textColor || ''
+      return rootMenu.props.textColor || ''
     })
     const mode = computed(() => {
-      return this.rootMenu.mode
-    })
-    const itemStyle = computed(() => {
-      const style = {
-        color: this.active ? this.activeTextColor : this.textColor,
-      }
-      if (this.mode === 'horizontal' && !this.isNested) {
-        style.borderBottomColor = this.active
-          ? this.rootMenu.activeTextColor
-            ? this.activeTextColor
-            : ''
-          : 'transparent'
-      }
-      return style
+      return rootMenu.props.mode
     })
     const isNested = computed(() => {
-      return this.parentMenu !== this.rootMenu
+      // return this.parentMenu !== this.rootMenu
     })
+
+    const itemStyle = computed(() => {
+      const style = {
+        color: active.value ? activeTextColor.value : textColor.value,
+        borderBottomColor: '',
+      }
+      // if (mode.value === 'horizontal' && !isNested.value) {
+      //   style.borderBottomColor = active.value
+      //     ? rootMenu.props.activeTextColor
+      //       ? activeTextColor.value
+      //       : ''
+      //     : 'transparent'
+      // }
+      return style
+    })
+
     const onMouseEnter = () => {
-      if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return
-      this.$el.style.backgroundColor = this.hoverBackground
+      if (mode.value === 'horizontal' && !rootMenu.props.backgroundColor) return
+      instance.vnode.el.style.backgroundColor = hoverBackground.value
     }
     const onMouseLeave = () => {
-      if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return
-      this.$el.style.backgroundColor = this.backgroundColor
+      if (mode.value === 'horizontal' && !rootMenu.props.backgroundColor) return
+      instance.vnode.el.style.backgroundColor = backgroundColor.value
     }
     const handleClick = () => {
-      if (!this.disabled) {
-        this.dispatch('ElMenu', 'item-click', this)
-        this.$emit('click', this)
+      if (!props.disabled) {
+        // this.dispatch('ElMenu', 'item-click', this)
+        emit('click', this)
       }
     }
 
@@ -119,6 +136,19 @@ export default {
       //   this.parentMenu.removeItem(this)
       //   this.rootMenu.removeItem(this)
     })
+
+    return {
+      parentMenu,
+      rootMenu,
+
+      paddingStyle,
+      itemStyle,
+      backgroundColor,
+      active,
+      handleClick,
+      onMouseEnter,
+      onMouseLeave,
+    }
   },
 }
 </script>

@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import MenuIteGroup from './src/index.vue'
+import MenuItemGroup from '../menu/src/menuGroup.vue'
 export default (app: App): void => {
-  app.component(MenuIteGroup.name, MenuIteGroup)
+  app.component(MenuItemGroup.name, MenuItemGroup)
 }

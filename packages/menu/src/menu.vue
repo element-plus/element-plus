@@ -3,8 +3,12 @@
     v-if="props.collapseTransition"
     :key="+props.collapse"
     role="menubar"
-    :style="data.styles"
-    :class="data.class"
+    :style="{ backgroundColor: props.backgroundColor || '' }"
+    :class="{
+      'el-menu': true,
+      'el-menu--horizontal': mode === 'horizontal',
+      'el-menu--collapse': props.collapse,
+    }"
   >
     <slot></slot>
   </ul>
@@ -12,8 +16,12 @@
     <ul
       :key="+props.collapse"
       role="menubar"
-      :style="data.styles"
-      :class="data.class"
+      :style="{ backgroundColor: props.backgroundColor || '' }"
+      :class="{
+        'el-menu': true,
+        'el-menu--horizontal': mode === 'horizontal',
+        'el-menu--collapse': props.collapse,
+      }"
     >
       <slot></slot>
     </ul>
@@ -31,51 +39,8 @@ import {
 } from 'vue'
 import mitt from 'mitt'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
-import { IMenuProps } from './menu'
-
-function useMenuColor(color: string) {
-  const menuBarColor = ref('')
-  function calcColorChannels(c: string) {
-    let rawColor = c.replace('#', '')
-    if (/^[0-9a-fA-F]{3}$/.test(rawColor)) {
-      const color = rawColor.split('')
-      for (let i = 2; i >= 0; i--) {
-        color.splice(i, 0, color[i])
-      }
-      rawColor = color.join('')
-    }
-    if (/^[0-9a-fA-F]{6}$/.test(rawColor)) {
-      return {
-        red: parseInt(rawColor.slice(0, 2), 16),
-        green: parseInt(rawColor.slice(2, 4), 16),
-        blue: parseInt(rawColor.slice(4, 6), 16),
-      }
-    } else {
-      return {
-        red: 255,
-        green: 255,
-        blue: 255,
-      }
-    }
-  }
-  function mixColor(color: string, percent = 0.2) {
-    let { red, green, blue } = calcColorChannels(color)
-    if (percent > 0) {
-      // shade given color
-      red *= 1 - percent
-      green *= 1 - percent
-      blue *= 1 - percent
-    } else {
-      // tint given color
-      red += (255 - red) * percent
-      green += (255 - green) * percent
-      blue += (255 - blue) * percent
-    }
-    return `rgb(${Math.round(red)}, ${Math.round(green)}, ${Math.round(blue)})`
-  }
-  menuBarColor.value = mixColor(color)
-  return menuBarColor
-}
+import { IMenuProps, RootMenuProvider } from './menu'
+import useMenuColor from './useMenuColor'
 
 export default defineComponent({
   name: 'ElMenu',
@@ -149,15 +114,27 @@ export default defineComponent({
       default: 'hover',
     },
     collapse: Boolean,
-    backgroundColor: String,
-    textColor: String,
-    activeTextColor: String,
+    backgroundColor: { type: String, default: '#fffff' },
+    textColor: { type: String, default: '#303133' },
+    activeTextColor: { type: String, default: '#409EFF' },
     collapseTransition: {
       type: Boolean,
       default: true,
     },
   },
-  setup(props: IMenuProps) {
+  setup(
+    props: IMenuProps = {
+      mode: 'vertical',
+      collapse: false,
+      backgroundColor: '#fffff',
+      textColor: '#303133',
+      activeTextColor: '#409EFF',
+      uniqueOpened: false,
+      menuTrigger: 'hover',
+      router: false,
+      collapseTransition: false,
+    },
+  ) {
     // data
     const data = toRefs({
       styles: '',
@@ -170,6 +147,8 @@ export default defineComponent({
       items: {},
       submenus: {},
     })
+
+    console.log(data)
 
     const hoverBackground = useMenuColor(props.backgroundColor)
 
@@ -311,7 +290,7 @@ export default defineComponent({
     // watch
 
     watch([props.mode, props.collapse], ([currentMode], [currentCollapse]) => {
-      data.styles.value = `${
+      data.class.value = `${
         currentMode === 'horizontal' ? 'el-menu--horizontal' : ''
       } el-menu ${currentCollapse ? 'el-menu--collapse' : ''}`
     })
@@ -353,6 +332,7 @@ export default defineComponent({
         addSubMenu,
         removeSubMenu,
         openMenu,
+        closeMenu,
       },
     })
 
