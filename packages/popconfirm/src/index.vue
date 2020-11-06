@@ -4,6 +4,7 @@
     :trigger="['click']"
     effect="light"
     pure
+    popper-class="el-popover"
   >
     <div class="el-popconfirm">
       <p class="el-popconfirm__main">
