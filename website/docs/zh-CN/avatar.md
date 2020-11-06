@@ -31,12 +31,12 @@
   </el-row>
 </template>
 <script>
-  import { defineComponent, ref, reactive } from 'vue'
+  import { defineComponent } from 'vue'
   export default defineComponent({
     setup () {
       return {
-        circleUrl: ref("https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"),
-        squareUrl: ref("https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"),
+        circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+        squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
         sizeList: ["large", "medium", "small"]
       }
     }
@@ -113,12 +113,12 @@
   </div>
 </template>
 <script>
-  import { defineComponent, ref } from 'vue'
+  import { defineComponent } from 'vue'
   export default defineComponent({
     setup() {
       return {
         fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
-        url: ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
+        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
       }
     }
   })
