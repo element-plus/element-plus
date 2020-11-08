@@ -14,7 +14,7 @@
     @focus="handleMouseenter"
   >
     <div
-      ref="submenu-title"
+      ref="titleVnode"
       class="el-submenu__title"
       :style="[paddingStyle, titleStyle, { backgroundColor }]"
       @click="handleClick"
@@ -24,17 +24,22 @@
       <slot name="title"></slot>
       <i :class="['el-submenu__icon-arrow', submenuTitleIcon]"></i>
     </div>
-    <transition v-if="isMenuPopup" :name="menuTransitionName">
-      <el-popper
-        ref="popperVnode"
-        :transform-origin="false"
-        :placemen="data.currentPlacement"
-      >
-        <template #trigger>
+    <el-popper
+      v-if="isMenuPopup"
+      ref="popperVnode"
+      manual-mode
+      pure
+      :popper-class="props.popperClass"
+      :transform-origin="false"
+      :placemen="data.currentPlacement"
+      :append-to-body="props.popperAppendToBody"
+    >
+      <template #trigger>
+        <transition v-if="isMenuPopup" :name="menuTransitionName">
           <div
             v-show="opened"
             ref="menu"
-            :class="[`el-menu--${mode}`, popperClass]"
+            :class="[`el-menu--${mode}`, props.popperClass]"
             @mouseenter="$event => handleMouseenter($event, 100)"
             @mouseleave="() => handleMouseleave(true)"
             @focus="$event => handleMouseenter($event, 100)"
@@ -50,9 +55,9 @@
               <slot></slot>
             </ul>
           </div>
-        </template>
-      </el-popper>
-    </transition>
+        </transition>
+      </template>
+    </el-popper>
     <el-collapse-transition v-else>
       <ul
         v-show="opened"
@@ -69,14 +74,11 @@
 <script lang="ts">
 import mitt from 'mitt'
 import {
-  defineComponent,
-  toRefs,
   watch,
   computed,
   ref,
   provide,
   inject,
-  ToRefs,
   getCurrentInstance,
   reactive,
   onMounted,
@@ -85,14 +87,14 @@ import {
   ComponentPublicInstance,
 } from 'vue'
 import ElCollapseTransition from '@element-plus/transition/collapse-transition/index.vue'
-import { ISubmenuProps, RootMenuProvider } from './menu'
+import { ISubmenuProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
 import { Popper as ElPopper } from '@element-plus/popper'
 
 export default {
   name: 'ElSubmenu',
   componentName: 'ElSubmenu',
-  components: { ElCollapseTransition },
+  components: { ElCollapseTransition, ElPopper },
   props: {
     index: {
       type: String,
@@ -123,7 +125,8 @@ export default {
       mouseInChild: false,
       opened: false,
     })
-    const popperVnode = ref<Nullable<ComponentPublicInstance>>(null)
+    const titleVnode = ref<Nullable<ComponentPublicInstance>>(null)
+    const popperVnode = ref(null)
 
     // instance
     const instance = getCurrentInstance()
@@ -134,16 +137,20 @@ export default {
 
     // inject
     const {
-      items,
-      submenus,
       openedMenus,
       isMenuPopup,
+      hoverBackground: rootHoverBackground,
       methods: rootMethods,
       props: rootProps,
       methods: { closeMenu },
       rootMenuOn,
       rootMenuEmit,
     } = inject<RootMenuProvider>('rootMenu')
+
+    const {
+      addSubMenu: parentAddSubmenu,
+      removeSubMenu: parentRemoveSubmenu,
+    } = inject<SubMenuProvider>(`subMenu:${parentMenu.value.uid}`)
 
     // computed
     const submenuTitleIcon = computed(() => {
@@ -178,7 +185,6 @@ export default {
     })
     const active = computed(() => {
       let isActive = false
-      console.log('active', active)
       const submenus = data.submenus
       const items = data.items
 
@@ -196,10 +202,7 @@ export default {
 
       return isActive
     })
-    const hoverBackground = computed(() => {
-      return ''
-      // return rootData.hoverBackground.value
-    })
+
     const backgroundColor = computed(() => {
       return rootProps.backgroundColor || ''
     })
@@ -231,14 +234,17 @@ export default {
     // emitter
     const subMenuEmitter = mitt()
 
+    const doDestroy = () => {
+      popperVnode.value.doDestroy()
+    }
+
     // methods
 
     const handleCollapseToggle = value => {
       if (value) {
-        // initPopper()
+        initPopper()
       } else {
-        // TODO: proper destroy
-        // this.doDestroy()
+        doDestroy()
       }
     }
     const addItem = item => {
@@ -289,7 +295,7 @@ export default {
       }, showTimeout)
 
       if (appendToBody.value) {
-        parent.dispatchEvent(new MouseEvent('mouseenter'))
+        // parent.dispatchEvent(new MouseEvent('mouseenter'))
       }
     }
     const handleMouseleave = (deepDispatch = false) => {
@@ -300,7 +306,7 @@ export default {
       ) {
         return
       }
-      // this.dispatch('ElSubmenu', 'mouse-leave-child')
+      subMenuEmitter.emit('submenu:mouse-leave-child')
       clearTimeout(data.timeout)
       data.timeout = setTimeout(() => {
         !data.mouseInChild && closeMenu(props.index)
@@ -314,13 +320,14 @@ export default {
     }
     const handleTitleMouseenter = () => {
       if (mode.value === 'horizontal' && !rootProps.backgroundColor) return
-      // const title = this.$refs['submenu-title']
-      // title && (title.style.backgroundColor = rootData.hoverBackground)
+      const title = titleVnode.value
+      title && (title.$el.style.backgroundColor = rootHoverBackground)
     }
     const handleTitleMouseleave = () => {
       if (mode.value === 'horizontal' && !rootProps.backgroundColor) return
-      // const title = this.$refs['submenu-title']
-      // title && (title.style.backgroundColor = rootProps.backgroundColor || '')
+      const title = titleVnode.value
+      title &&
+        (title.$el.style.backgroundColor = rootProps.backgroundColor || '')
     }
     const updatePlacement = () => {
       data.currentPlacement =
@@ -345,15 +352,21 @@ export default {
       },
     )
 
-    // function initPopper() {
-    //   this.referenceElm = this.$el
-    //   this.popperElm = this.$refs.menu
-    //   this.updatePlacement()
-    // }
+    function initPopper() {
+      // this.referenceElm = this.$el
+      // this.popperElm = this.$refs.menu
+      updatePlacement()
+    }
+
+    // provide
+
+    provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
+      addSubMenu: addSubmenu,
+      removeSubMenu: removeSubmenu,
+    })
 
     // lifecycle
     onBeforeMount(() => {
-      // come from ElMenu
       rootMenuOn('rootMenu:toggle-collapse', (val: boolean) => {
         handleCollapseToggle(val)
       })
@@ -368,21 +381,31 @@ export default {
     })
 
     onMounted(() => {
+      console.log(parentMenu.value)
       rootMethods.addSubMenu({
         index: props.index,
+        indexPath,
       })
-      // this.parentMenu.addSubmenu(this)
-      // this.initPopper()
+      parentAddSubmenu({
+        index: props.index,
+        indexPath,
+      })
+      initPopper()
     })
     onBeforeUnmount(() => {
-      // this.parentMenu.removeSubmenu(this);
+      parentRemoveSubmenu({
+        index: props.index,
+        indexPath,
+      })
       rootMethods.removeSubMenu({
         index: props.index,
+        indexPath,
       })
     })
 
     return {
       data,
+      props,
       mode,
       active,
       isMenuPopup,
@@ -393,7 +416,6 @@ export default {
       rootProps,
       menuTransitionName,
       submenuTitleIcon,
-      // popperClass
 
       handleClick,
       handleMouseenter,
@@ -407,6 +429,7 @@ export default {
       removeSubmenu,
 
       popperVnode,
+      titleVnode,
     }
   },
 }

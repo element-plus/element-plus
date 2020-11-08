@@ -46,7 +46,7 @@ import {
   inject,
   getCurrentInstance,
 } from 'vue'
-import { IMenuItemProps, RootMenuProvider } from './menu'
+import { IMenuItemProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
 import { Tooltip as ElTooltip } from '@element-plus/tooltip'
 import mitt from 'mitt'
@@ -68,11 +68,14 @@ export default {
   },
   emits: ['click'],
   setup(props: IMenuItemProps, { emit, slots }) {
-    const rootMenu = inject<RootMenuProvider>('rootMenu')
     const instance = getCurrentInstance()
+    const rootMenu = inject<RootMenuProvider>('rootMenu')
     const { parentMenu, paddingStyle, indexPath } = useMenu(
       instance,
       props.index,
+    )
+    const { addSubMenu, removeSubMenu } = inject<SubMenuProvider>(
+      `subMenu:${parentMenu.value.uid}`,
     )
 
     const active = computed(() => {
@@ -128,13 +131,13 @@ export default {
     }
 
     onMounted(() => {
-      //   this.parentMenu.addItem(this)
-      //   this.rootMenu.addItem(this)
+      addSubMenu({ index: props.index, indexPath })
+      rootMenu.methods.addMenuItem({ index: props.index, indexPath })
     })
 
     onBeforeUnmount(() => {
-      //   this.parentMenu.removeItem(this)
-      //   this.rootMenu.removeItem(this)
+      removeSubMenu({ index: props.index, indexPath })
+      rootMenu.methods.removeMenuItem({ index: props.index, indexPath })
     })
 
     return {

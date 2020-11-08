@@ -5,7 +5,6 @@ export default function useMenu(
   instance: ComponentInternalInstance,
   currentIndex: string,
 ) {
-  console.log(instance)
   const rootMenu = inject<RootMenuProvider>('rootMenu')
 
   const indexPath = computed(() => {

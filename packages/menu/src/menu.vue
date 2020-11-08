@@ -30,18 +30,21 @@
 <script lang="ts">
 import {
   defineComponent,
-  toRefs,
+  getCurrentInstance,
   watch,
   computed,
   ref,
   provide,
-  ToRefs,
   onMounted,
-  toRef,
 } from 'vue'
 import mitt from 'mitt'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
-import { IMenuProps, RootMenuProvider } from './menu'
+import {
+  IMenuProps,
+  RootMenuProvider,
+  RegisterMenuItem,
+  SubMenuProvider,
+} from './menu'
 import useMenuColor from './useMenuColor'
 
 export default defineComponent({
@@ -132,6 +135,7 @@ export default defineComponent({
         ? props.defaultOpeneds.slice(0)
         : [],
     )
+    const instance = getCurrentInstance()
     const activeIndex = ref(props.defaultActive)
     const items = ref({})
     const submenus = ref({})
@@ -165,26 +169,26 @@ export default defineComponent({
       })
     }
 
-    const addSubMenu = item => {
+    const addSubMenu = (item: RegisterMenuItem) => {
+      console.log('addSubMenu', item)
       submenus.value[item.index] = item
     }
 
-    const removeSubMenu = item => {
+    const removeSubMenu = (item: RegisterMenuItem) => {
       delete submenus.value[item.index]
     }
 
-    const addMenuItem = item => {
+    const addMenuItem = (item: RegisterMenuItem) => {
       items.value[item.index] = item
     }
 
-    const removeMenuItem = item => {
+    const removeMenuItem = (item: RegisterMenuItem) => {
       delete items.value[item.index]
     }
 
     const openMenu = (index: string, indexPath: string[]) => {
       console.log('open')
-      // let openedMenus = data.openedMenus.value
-      // if (openedMenus.includes(index)) return
+      if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
       if (props.uniqueOpened) {
@@ -241,7 +245,7 @@ export default defineComponent({
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
-
+      // TODO: support router
       // if (this.router && hasIndex) {
       //   routeToItem(item, error => {
       //     data.activeIndex.value = oldActiveIndex
@@ -329,11 +333,15 @@ export default defineComponent({
       rootMenuEmit: rootMenuEmitter.emit,
       rootMenuOn: rootMenuEmitter.on,
     })
+    provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
+      addSubMenu,
+      removeSubMenu,
+    })
 
     // lifecycle
 
     onMounted(() => {
-      // this.initOpenedMenu()
+      initializeMenu()
       rootMenuEmitter.on('menuItem:item-click', handleItemClick)
       rootMenuEmitter.on('submenu:submenu-click', handleSubmenuClick)
       // aria-menubar
@@ -347,6 +355,9 @@ export default defineComponent({
       isMenuPopup,
 
       props,
+      // export for users
+      open,
+      close,
     }
   },
 })

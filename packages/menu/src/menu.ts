@@ -1,7 +1,48 @@
-import { ToRefs, Ref } from 'vue'
+import { Ref, ComputedRef } from 'vue'
 import { Emitter } from 'mitt'
-// root menu
 
+export interface RegisterMenuItem {
+  index: string
+  indexPath: ComputedRef<string[]>
+}
+
+export interface RootMenuData {
+  activeIndex: string
+  openedMenus: unknown[]
+  items: any
+  submenus: any
+  isMenuPopup: boolean
+  // hoverBackground: string
+  // isMenuPopup: boolean
+}
+
+export interface RootMenuProvider {
+  openedMenus: Ref<RootMenuData['openedMenus']>
+  items: Ref<RootMenuData['items']>
+  submenus: Ref<RootMenuData['submenus']>
+  activeIndex: Ref<RootMenuData['activeIndex']>
+  hoverBackground: Ref<string>
+  isMenuPopup: Ref<RootMenuData['isMenuPopup']>
+
+  props: Readonly<Partial<RootMenuProps>>
+  methods: {
+    addMenuItem: (item: RegisterMenuItem) => void
+    removeMenuItem: (item: RegisterMenuItem) => void
+    addSubMenu: (item: RegisterMenuItem) => void
+    removeSubMenu: (item: RegisterMenuItem) => void
+    openMenu: (index: string, indexPath: string[]) => void
+    closeMenu: (index: string) => void
+  }
+  rootMenuEmit: Emitter['emit']
+  rootMenuOn: Emitter['on']
+}
+
+export interface SubMenuProvider {
+  addSubMenu: (item: RegisterMenuItem) => void
+  removeSubMenu: (item: RegisterMenuItem) => void
+}
+
+// root menu
 export interface IMenuProps {
   mode?: string | 'vertical' | 'horizontal'
   defaultActive?: string
@@ -16,16 +57,6 @@ export interface IMenuProps {
   collapseTransition?: boolean
 }
 
-export interface RootMenuData {
-  activeIndex: string
-  openedMenus: unknown[]
-  items: any
-  submenus: any
-  isMenuPopup: boolean
-  // hoverBackground: string
-  // isMenuPopup: boolean
-}
-
 export interface RootMenuProps {
   mode: string
   defaultActive: string
@@ -38,27 +69,6 @@ export interface RootMenuProps {
   textColor: string
   activeTextColor: string
   collapseTransition: boolean
-}
-
-export interface RootMenuProvider {
-  openedMenus: Ref<RootMenuData['openedMenus']>
-  items: Ref<RootMenuData['items']>
-  submenus: Ref<RootMenuData['submenus']>
-  activeIndex: Ref<RootMenuData['activeIndex']>
-  hoverBackground: Ref<string>
-  isMenuPopup: Ref<RootMenuData['isMenuPopup']>
-
-  props: Readonly<Partial<RootMenuProps>>
-  methods: {
-    addMenuItem: (item: any) => void
-    removeMenuItem: (item: any) => void
-    addSubMenu: (item: any) => void
-    removeSubMenu: (item: any) => void
-    openMenu: (index: string, indexPath: string[]) => void
-    closeMenu: (index: string) => void
-  }
-  rootMenuEmit: Emitter['emit']
-  rootMenuOn: Emitter['on']
 }
 
 // submenu
