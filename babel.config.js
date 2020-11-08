@@ -1,8 +1,4 @@
 module.exports = {
-  ignore: [
-    '**/*.test.ts',
-    '**/*.spec.ts',
-  ],
   // ATTENTION!!
   // Preset ordering is reversed, so `@babel/typescript` will called first
   // Do not put `@babel/typescript` before `@babel/env`, otherwise will cause a compile error
@@ -33,6 +29,10 @@ module.exports = {
   ],
   env: {
     utils: {
+      ignore: [
+        '**/*.test.ts',
+        '**/*.spec.ts',
+      ],
       presets: [
         [
           '@babel/env',
