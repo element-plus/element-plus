@@ -26,23 +26,33 @@
       <i :class="['el-submenu__icon-arrow']"></i>
     </div>
     <transition v-if="isMenuPopup" :name="menuTransitionName">
-      <div
-        v-show="opened"
-        ref="menu"
-        :class="[`el-menu--${mode}`, popperClass]"
-        @mouseenter="$event => handleMouseenter($event, 100)"
-        @mouseleave="() => handleMouseleave(true)"
-        @focus="$event => handleMouseenter($event, 100)"
+      <el-popper
+        ref="popperVnode"
+        :transform-origin="false"
+        :placemen="data.currentPlacement"
       >
-        <ul
-          role="menu"
-          :class="[
-            'el-menu el-menu--popup',
-            `el-menu--popup-${data.currentPlacement}`,
-          ]"
-          :style="{ backgroundColor: rootProps.backgroundColor || '' }"
-        ></ul>
-      </div>
+        <template #trigger>
+          <div
+            v-show="opened"
+            ref="menu"
+            :class="[`el-menu--${mode}`, popperClass]"
+            @mouseenter="$event => handleMouseenter($event, 100)"
+            @mouseleave="() => handleMouseleave(true)"
+            @focus="$event => handleMouseenter($event, 100)"
+          >
+            <ul
+              role="menu"
+              :class="[
+                'el-menu el-menu--popup',
+                `el-menu--popup-${data.currentPlacement}`,
+              ]"
+              :style="{ backgroundColor: rootProps.backgroundColor || '' }"
+            >
+              <slot></slot>
+            </ul>
+          </div>
+        </template>
+      </el-popper>
     </transition>
     <el-collapse-transition v-else>
       <ul
@@ -50,7 +60,9 @@
         role="menu"
         class="el-menu el-menu--inline"
         :style="{ backgroundColor: rootProps.backgroundColor || '' }"
-      ></ul>
+      >
+        <slot></slot>
+      </ul>
     </el-collapse-transition>
   </li>
 </template>
@@ -71,10 +83,12 @@ import {
   onMounted,
   onBeforeMount,
   onBeforeUnmount,
+  ComponentPublicInstance,
 } from 'vue'
 import ElCollapseTransition from '@element-plus/transition/collapse-transition/index.vue'
 import { ISubmenuProps, RootMenuProvider } from './menu'
 import useMenu from './useMenu'
+import { Popper as ElPopper } from '@element-plus/popper'
 
 export default {
   name: 'ElSubmenu',
@@ -110,6 +124,7 @@ export default {
       mouseInChild: false,
       opened: false,
     })
+    const popperVnode = ref<Nullable<ComponentPublicInstance>>(null)
 
     // instance
     const instance = getCurrentInstance()
@@ -123,6 +138,7 @@ export default {
       items,
       submenus,
       openedMenus,
+      isMenuPopup,
       methods: rootMethods,
       props: rootProps,
       methods: { closeMenu },
@@ -188,10 +204,6 @@ export default {
     })
     const mode = computed(() => {
       return rootProps.mode
-    })
-    const isMenuPopup = computed(() => {
-      return false
-      // return rootData.isMenuPopup
     })
     const titleStyle = computed(() => {
       if (mode.value !== 'horizontal') {
@@ -316,7 +328,14 @@ export default {
     watch(
       () => openedMenus.value,
       val => {
-        console.log('object')
+        console.log('openedMenus')
+        console.log(val)
+      },
+    )
+    watch(
+      () => isMenuPopup.value,
+      val => {
+        console.log('isMenuPopup')
         console.log(val)
       },
     )
@@ -381,6 +400,8 @@ export default {
       removeItem,
       addSubmenu,
       removeSubmenu,
+
+      popperVnode,
     }
   },
 }

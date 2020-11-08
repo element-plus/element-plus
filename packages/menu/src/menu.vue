@@ -316,6 +316,7 @@ export default defineComponent({
       submenus,
       hoverBackground,
       activeIndex,
+      isMenuPopup,
 
       methods: {
         addMenuItem,

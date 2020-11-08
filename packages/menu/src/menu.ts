@@ -21,6 +21,7 @@ export interface RootMenuData {
   openedMenus: unknown[]
   items: any
   submenus: any
+  isMenuPopup: boolean
   // hoverBackground: string
   // isMenuPopup: boolean
 }
@@ -45,6 +46,7 @@ export interface RootMenuProvider {
   submenus: Ref<RootMenuData['submenus']>
   activeIndex: Ref<RootMenuData['activeIndex']>
   hoverBackground: Ref<string>
+  isMenuPopup: Ref<RootMenuData['isMenuPopup']>
 
   props: Readonly<Partial<RootMenuProps>>
   methods: {
