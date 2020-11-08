@@ -12,11 +12,12 @@ export default function useMenu(
     let parent = instance.parent
     const path = [currentIndex]
     while (parent.type.name !== 'ElMenu') {
-      // if (parent.index) {
-      //   path.unshift(parent.index)
-      // }
+      if (parent.props.index) {
+        path.unshift(parent.props.index as string)
+      }
       parent = parent.parent
     }
+    console.log('path', path)
     return path
   })
 

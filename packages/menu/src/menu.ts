@@ -1,11 +1,11 @@
-import { ToRefs } from 'vue'
-
+import { ToRefs, Ref } from 'vue'
+import { Emitter } from 'mitt'
 // root menu
 
 export interface IMenuProps {
   mode?: string | 'vertical' | 'horizontal'
   defaultActive?: string
-  defaultOpeneds?: string[] | unknown[]
+  defaultOpeneds?: unknown[]
   uniqueOpened?: boolean
   router?: boolean
   menuTrigger?: string | 'hover' | 'click'
@@ -17,20 +17,18 @@ export interface IMenuProps {
 }
 
 export interface RootMenuData {
-  styles: string
-  class: string
   activeIndex: string
   openedMenus: unknown[]
   items: any
   submenus: any
-  hoverBackground: string
-  isMenuPopup: boolean
+  // hoverBackground: string
+  // isMenuPopup: boolean
 }
 
 export interface RootMenuProps {
   mode: string
   defaultActive: string
-  defaultOpeneds: any[]
+  defaultOpeneds: unknown[]
   uniqueOpened: boolean
   router: boolean
   menuTrigger: string
@@ -42,16 +40,23 @@ export interface RootMenuProps {
 }
 
 export interface RootMenuProvider {
-  data: ToRefs<RootMenuData>
+  openedMenus: Ref<RootMenuData['openedMenus']>
+  items: Ref<RootMenuData['items']>
+  submenus: Ref<RootMenuData['submenus']>
+  activeIndex: Ref<RootMenuData['activeIndex']>
+  hoverBackground: Ref<string>
+
   props: Readonly<Partial<RootMenuProps>>
   methods: {
     addMenuItem: (item: any) => void
     removeMenuItem: (item: any) => void
     addSubMenu: (item: any) => void
     removeSubMenu: (item: any) => void
-    openMenu: (index: string, indexPath: string) => void
+    openMenu: (index: string, indexPath: string[]) => void
     closeMenu: (index: string) => void
   }
+  rootMenuEmit: Emitter['emit']
+  rootMenuOn: Emitter['on']
 }
 
 // submenu

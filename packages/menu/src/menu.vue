@@ -36,6 +36,8 @@ import {
   ref,
   provide,
   ToRefs,
+  onMounted,
+  toRef,
 } from 'vue'
 import mitt from 'mitt'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
@@ -122,33 +124,19 @@ export default defineComponent({
       default: true,
     },
   },
-  setup(
-    props: IMenuProps = {
-      mode: 'vertical',
-      collapse: false,
-      backgroundColor: '#fffff',
-      textColor: '#303133',
-      activeTextColor: '#409EFF',
-      uniqueOpened: false,
-      menuTrigger: 'hover',
-      router: false,
-      collapseTransition: false,
-    },
-  ) {
+  emits: ['close', 'open', 'select'],
+  setup(props: IMenuProps, ctx) {
     // data
-    const data = toRefs({
-      styles: '',
-      class: '',
-      activeIndex: props.defaultActive,
-      openedMenus:
-        props.defaultOpeneds && !props.collapse
-          ? props.defaultOpeneds.slice(0)
-          : [],
-      items: {},
-      submenus: {},
-    })
+    const openedMenus = ref(
+      props.defaultOpeneds && !props.collapse
+        ? props.defaultOpeneds.slice(0)
+        : [],
+    )
+    const activeIndex = ref(props.defaultActive)
+    const items = ref({})
+    const submenus = ref({})
 
-    console.log(data)
+    const rootMenuEmitter = mitt()
 
     const hoverBackground = useMenuColor(props.backgroundColor)
 
@@ -163,8 +151,8 @@ export default defineComponent({
     // methods
 
     const initializeMenu = () => {
-      const index = data.activeIndex.value
-      const activeItem = data.items[index]
+      const index = activeIndex.value
+      const activeItem = items[index]
       if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
       let indexPath = activeItem.indexPath
@@ -172,49 +160,53 @@ export default defineComponent({
       // 展开该菜单项的路径上所有子菜单
       // expand all submenus of the menu item
       indexPath.forEach(index => {
-        let submenu = data.submenus[index]
+        let submenu = submenus[index]
         submenu && openMenu(index, submenu.indexPath)
       })
     }
 
     const addSubMenu = item => {
-      data.submenus.value[item.index] = item
+      submenus.value[item.index] = item
     }
 
     const removeSubMenu = item => {
-      delete data.submenus.value[item.index]
+      delete submenus.value[item.index]
     }
 
     const addMenuItem = item => {
-      data.items.value[item.index] = item
+      items.value[item.index] = item
     }
 
     const removeMenuItem = item => {
-      delete data.items.value[item.index]
+      delete items.value[item.index]
     }
 
-    const openMenu = (index: string, indexPath: string) => {
-      let openedMenus = data.openedMenus.value
-      if (openedMenus.indexOf(index) !== -1) return
+    const openMenu = (index: string, indexPath: string[]) => {
+      console.log('open')
+      // let openedMenus = data.openedMenus.value
+      // if (openedMenus.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
       if (props.uniqueOpened) {
-        data.openedMenus.value = openedMenus.filter((index: string) => {
+        openedMenus.value = openedMenus.value.filter((index: string) => {
           return indexPath.indexOf(index) !== -1
         })
       }
-      data.openedMenus.value.push(index)
+      openedMenus.value = [...openedMenus.value, index]
+      openedMenus.value.push(index)
+
+      console.log(openedMenus.value)
     }
 
     const closeMenu = index => {
-      const i = data.openedMenus.value.indexOf(index)
+      const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
-        data.openedMenus.value.splice(i, 1)
+        openedMenus.value = openedMenus.value.splice(i, 1)
       }
     }
 
     const open = index => {
-      const { indexPath } = data.submenus[index.toString()]
+      const { indexPath } = submenus[index.toString()]
       indexPath.forEach(i => openMenu(i, indexPath))
     }
 
@@ -224,30 +216,30 @@ export default defineComponent({
 
     const handleSubmenuClick = submenu => {
       const { index, indexPath } = submenu
-      let isOpened = data.openedMenus.value.indexOf(index) !== -1
+      let isOpened = openedMenus.value.indexOf(index) !== -1
 
       if (isOpened) {
         closeMenu(index)
-        // this.$emit('close', index, indexPath);
+        ctx.emit('close', index, indexPath)
       } else {
         openMenu(index, indexPath)
-        // this.$emit('open', index, indexPath);
+        ctx.emit('open', index, indexPath)
       }
     }
 
     const handleItemClick = item => {
       const { index, indexPath } = item
-      const oldActiveIndex = data.activeIndex.value
+      const oldActiveIndex = activeIndex.value
       const hasIndex = item.index !== null
 
       if (hasIndex) {
-        data.activeIndex.value = item.index
+        activeIndex.value = item.index
       }
 
-      // this.$emit('select', index, indexPath, item)
+      ctx.emit('select', index, indexPath, item)
 
       if (props.mode === 'horizontal' || props.collapse) {
-        data.openedMenus.value = []
+        openedMenus.value = []
       }
 
       // if (this.router && hasIndex) {
@@ -273,59 +265,58 @@ export default defineComponent({
     }
 
     const updateActiveIndex = (val?: string) => {
-      const itemsInData = data.items
-      const activeIndex = data.activeIndex.value
+      const itemsInData = items
       const item =
         itemsInData[val] ||
-        itemsInData[activeIndex] ||
+        itemsInData[activeIndex.value] ||
         itemsInData[props.defaultActive]
       if (item) {
-        data.activeIndex = item.index
+        activeIndex.value = item.index
         initializeMenu()
       } else {
-        data.activeIndex = null
+        activeIndex.value = null
       }
     }
 
     // watch
 
-    watch([props.mode, props.collapse], ([currentMode], [currentCollapse]) => {
-      data.class.value = `${
-        currentMode === 'horizontal' ? 'el-menu--horizontal' : ''
-      } el-menu ${currentCollapse ? 'el-menu--collapse' : ''}`
-    })
-
     watch(
       () => props.defaultActive,
       currentActive => {
-        if (!data.items[currentActive]) {
-          data.activeIndex.value = ''
+        if (!items[currentActive]) {
+          activeIndex.value = ''
         }
         updateActiveIndex(currentActive)
       },
     )
 
     watch(
-      () => data.items,
+      () => items,
       () => {
         updateActiveIndex()
       },
     )
 
-    // emitter
-    const rootMenuEmitter = mitt()
-    // TODO: types of e
-    rootMenuEmitter.on('rootmenu:item-click', (e: any) => {
-      handleItemClick(e)
-    })
-    rootMenuEmitter.on('rootmenu:submenu-click', (e: any) => {
-      handleSubmenuClick(e)
-    })
+    watch(
+      () => props.collapse,
+      value => {
+        if (value) openedMenus.value = []
+        rootMenuEmitter.emit(
+          'rootMenu:toggle-collapse',
+          Boolean(props.collapse),
+        )
+      },
+    )
 
     // provide
     provide<RootMenuProvider>('rootMenu', {
-      data: { ...data, hoverBackground, isMenuPopup },
       props,
+      openedMenus,
+      items,
+      submenus,
+      hoverBackground,
+      activeIndex,
+
       methods: {
         addMenuItem,
         removeMenuItem,
@@ -334,14 +325,26 @@ export default defineComponent({
         openMenu,
         closeMenu,
       },
+      rootMenuEmit: rootMenuEmitter.emit,
+      rootMenuOn: rootMenuEmitter.on,
+    })
+
+    // lifecycle
+
+    onMounted(() => {
+      // this.initOpenedMenu()
+      rootMenuEmitter.on('menuItem:item-click', handleItemClick)
+      rootMenuEmitter.on('submenu:submenu-click', handleSubmenuClick)
+      // aria-menubar
+      // if (props.mode === 'horizontal') {
+      //   new Menubar(this.$el) // eslint-disable-line
+      // }
     })
 
     return {
-      data: {
-        ...data,
-        hoverBackground,
-        isMenuPopup,
-      },
+      hoverBackground,
+      isMenuPopup,
+
       props,
     }
   },

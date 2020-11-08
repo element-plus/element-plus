@@ -76,10 +76,10 @@ export default {
     )
 
     const active = computed(() => {
-      return props.index === rootMenu.data.activeIndex.value
+      return props.index === rootMenu.activeIndex.value
     })
     const hoverBackground = computed(() => {
-      return rootMenu.data.hoverBackground.value
+      return rootMenu.hoverBackground.value
     })
     const backgroundColor = computed(() => {
       return rootMenu.props.backgroundColor || ''
