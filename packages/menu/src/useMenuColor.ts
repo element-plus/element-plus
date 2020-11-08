@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-export default function useMenuColor(color: string) {
+export default function useMenuColor(color = '') {
   const menuBarColor = ref('')
   function calcColorChannels(c: string) {
     let rawColor = c.replace('#', '')
@@ -39,6 +39,9 @@ export default function useMenuColor(color: string) {
       blue += (255 - blue) * percent
     }
     return `rgb(${Math.round(red)}, ${Math.round(green)}, ${Math.round(blue)})`
+  }
+  if (!color) {
+    return menuBarColor
   }
   menuBarColor.value = mixColor(color)
   return menuBarColor

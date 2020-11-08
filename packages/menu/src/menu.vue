@@ -116,9 +116,9 @@ export default defineComponent({
       default: 'hover',
     },
     collapse: Boolean,
-    backgroundColor: { type: String, default: '#fffff' },
-    textColor: { type: String, default: '#303133' },
-    activeTextColor: { type: String, default: '#409EFF' },
+    backgroundColor: { type: String },
+    textColor: { type: String },
+    activeTextColor: { type: String },
     collapseTransition: {
       type: Boolean,
       default: true,
@@ -192,7 +192,6 @@ export default defineComponent({
           return indexPath.indexOf(index) !== -1
         })
       }
-      openedMenus.value = [...openedMenus.value, index]
       openedMenus.value.push(index)
 
       console.log(openedMenus.value)
@@ -201,7 +200,7 @@ export default defineComponent({
     const closeMenu = index => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
-        openedMenus.value = openedMenus.value.splice(i, 1)
+        openedMenus.value.splice(i, 1)
       }
     }
 
@@ -215,8 +214,9 @@ export default defineComponent({
     }
 
     const handleSubmenuClick = submenu => {
+      console.log('rootmenu: handleSubmenuClick')
       const { index, indexPath } = submenu
-      let isOpened = openedMenus.value.indexOf(index) !== -1
+      let isOpened = openedMenus.value.includes(index)
 
       if (isOpened) {
         closeMenu(index)

@@ -18,14 +18,14 @@
       v-if="
         parentMenu.type.name === 'ElMenu' &&
           rootMenu.props.collapse &&
-          $slots.title
+          slots.title
       "
       effect="dark"
       placement="right"
     >
-      <!-- <div slot="content"> -->
-      <slot name="title"></slot>
-      <!-- </div> -->
+      <template #content>
+        <slot name="title"></slot>
+      </template>
       <div
         style="position: absolute;left: 0;top: 0;height: 100%;width: 100%;display: inline-block;box-sizing: border-box;padding: 0 20px;"
       >
@@ -48,8 +48,7 @@ import {
 } from 'vue'
 import { IMenuItemProps, RootMenuProvider } from './menu'
 import useMenu from './useMenu'
-// import Menu from './menu-mixin'
-// import ElTooltip from "element-ui/packages/tooltip";
+import { Tooltip as ElTooltip } from '@element-plus/tooltip'
 import mitt from 'mitt'
 
 export default {
@@ -57,7 +56,7 @@ export default {
 
   componentName: 'ElMenuItem',
 
-  // components: { ElTooltip },
+  components: { ElTooltip },
 
   props: {
     index: {
@@ -67,7 +66,8 @@ export default {
     route: [String, Object],
     disabled: Boolean,
   },
-  setup(props: IMenuItemProps, { emit }) {
+  emits: ['click'],
+  setup(props: IMenuItemProps, { emit, slots }) {
     const rootMenu = inject<RootMenuProvider>('rootMenu')
     const instance = getCurrentInstance()
     const { parentMenu, paddingStyle, indexPath } = useMenu(
@@ -94,7 +94,7 @@ export default {
       return rootMenu.props.mode
     })
     const isNested = computed(() => {
-      // return this.parentMenu !== this.rootMenu
+      return parentMenu.value.type.name !== 'ElMenu'
     })
 
     const itemStyle = computed(() => {
@@ -102,13 +102,13 @@ export default {
         color: active.value ? activeTextColor.value : textColor.value,
         borderBottomColor: '',
       }
-      // if (mode.value === 'horizontal' && !isNested.value) {
-      //   style.borderBottomColor = active.value
-      //     ? rootMenu.props.activeTextColor
-      //       ? activeTextColor.value
-      //       : ''
-      //     : 'transparent'
-      // }
+      if (mode.value === 'horizontal' && !isNested.value) {
+        style.borderBottomColor = active.value
+          ? rootMenu.props.activeTextColor
+            ? activeTextColor.value
+            : ''
+          : 'transparent'
+      }
       return style
     })
 
@@ -122,7 +122,7 @@ export default {
     }
     const handleClick = () => {
       if (!props.disabled) {
-        // this.dispatch('ElMenu', 'item-click', this)
+        rootMenu.rootMenuEmit('menuItem:item-click', { index: props.index })
         emit('click', this)
       }
     }
@@ -140,6 +140,7 @@ export default {
     return {
       parentMenu,
       rootMenu,
+      slots,
 
       paddingStyle,
       itemStyle,

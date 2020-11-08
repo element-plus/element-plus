@@ -22,8 +22,7 @@
       @mouseleave="handleTitleMouseleave"
     >
       <slot name="title"></slot>
-      <!-- <i :class="[ 'el-submenu__icon-arrow', submenuTitleIcon ]"></i> -->
-      <i :class="['el-submenu__icon-arrow']"></i>
+      <i :class="['el-submenu__icon-arrow', submenuTitleIcon]"></i>
     </div>
     <transition v-if="isMenuPopup" :name="menuTransitionName">
       <el-popper
@@ -143,9 +142,16 @@ export default {
       props: rootProps,
       methods: { closeMenu },
       rootMenuOn,
+      rootMenuEmit,
     } = inject<RootMenuProvider>('rootMenu')
 
     // computed
+    const submenuTitleIcon = computed(() => {
+      return (rootProps.mode === 'horizontal' && isFirstLevel) ||
+        (rootProps.mode === 'vertical' && !rootProps.collapse)
+        ? 'el-icon-arrow-down'
+        : 'el-icon-arrow-right'
+    })
     const isFirstLevel = computed(() => {
       let isFirstLevel = true
       let parent = instance.parent
@@ -172,6 +178,7 @@ export default {
     })
     const active = computed(() => {
       let isActive = false
+      console.log('active', active)
       const submenus = data.submenus
       const items = data.items
 
@@ -223,7 +230,6 @@ export default {
 
     // emitter
     const subMenuEmitter = mitt()
-    // TODO: emitters
 
     // methods
 
@@ -257,10 +263,9 @@ export default {
       ) {
         return
       }
-      // subMenuEmitter.emit('rootmenu:submenu-click', this)
+      rootMenuEmit('submenu:submenu-click', { index: props.index, indexPath })
     }
     const handleMouseenter = (event, showTimeout = props.showTimeout) => {
-      console.log(event)
       if (
         !('ActiveXObject' in window) &&
         event.type === 'focus' &&
@@ -387,7 +392,7 @@ export default {
       backgroundColor,
       rootProps,
       menuTransitionName,
-      // submenuTitleIcon,
+      submenuTitleIcon,
       // popperClass
 
       handleClick,
