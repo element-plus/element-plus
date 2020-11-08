@@ -113,16 +113,6 @@ interface IUseOptions {
   currentColor: ComputedRef<string>
 }
 
-interface IProps {
-  modelValue?: string
-  showAlpha?: boolean
-  colorFormat?: string
-  disabled?: boolean
-  size?: string
-  popperClass?: string
-  predefine?: Array<string>
-}
-
 const OPTIONS_KEY = Symbol()
 
 export const useOptions = () => {
@@ -160,7 +150,7 @@ export default defineComponent( {
     'active-change': null,
     [UPDATE_MODEL_EVENT]: null,
   },
-  setup(props: IProps, { emit }) {
+  setup(props, { emit }) {
     const ELEMENT = useGlobalConfig()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
