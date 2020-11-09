@@ -1,13 +1,36 @@
 @import "mixins/mixins";
 @import "common/var";
 @import "button";
-@import "./popper";
 
 @include b(dropdown) {
   display: inline-block;
   position: relative;
   color: $--color-text-regular;
   font-size: $--font-size-base;
+
+  @include m(popper) {
+    // using attributes selector to override
+    
+    &[role="tooltip"] {
+      padding: 0px;
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+      &.is-light[role="tooltip"] {
+        border: 1px solid #EBEEF5;
+        & .el-popper__arrow::before {
+          border: 1px solid #EBEEF5;
+          background: #FFF;
+        }
+      }
+    }
+
+    .el-dropdown-menu {
+      border: none;
+    }
+
+    #{& + '-selfdefine'} {
+      outline: none;
+    }
+  }
 
   .el-button-group {
     display: block;

@@ -72,14 +72,13 @@ export default defineComponent({
       popperStyle,
       popperId,
       popperClass,
-      pure,
       showArrow,
       transition,
       visibility,
     } = this
 
     const kls = [
-      this.content ? 'el-popover__plain' : '',
+      this.content ? 'el-popover--plain' : '',
       'el-popover',
       popperClass,
     ].join(' ')
@@ -90,7 +89,7 @@ export default defineComponent({
       popperClass: kls,
       popperStyle: popperStyle,
       popperId,
-      pure,
+      pure: true,
       visibility,
       onMouseEnter: onPopperMouseEnter,
       onMouseLeave: onPopperMouseLeave,

@@ -64,7 +64,6 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
       }, props.hideAfter)
     }
     visibility.value = true
-    update()
   }
 
   function _hide() {
@@ -134,7 +133,6 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
     const _trigger = isHTMLElement(triggerRef.value)
       ? triggerRef.value
       : (triggerRef.value as ComponentPublicInstance).$el
-    detachPopper()
     popperInstance = createPopper(
       _trigger,
       popperRef.value,
@@ -164,9 +162,18 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
   }
 
   function update() {
+    if (!visibility.value) {
+      return
+    }
     if (popperInstance) {
       popperInstance.update()
     } else {
+      initializePopper()
+    }
+  }
+
+  function onVisibilityChange(toState: boolean) {
+    if (toState) {
       initializePopper()
     }
   }
@@ -247,7 +254,7 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
     popperInstance.update()
   })
 
-  watch(visibility, update)
+  watch(visibility, onVisibilityChange)
 
   return {
     update,
@@ -260,6 +267,7 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
       emit('after-enter')
     },
     onAfterLeave: () => {
+      detachPopper()
       emit('after-leave')
     },
     initializePopper,

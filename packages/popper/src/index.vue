@@ -4,7 +4,6 @@ import {
   defineComponent,
   Fragment,
   Teleport,
-  onMounted,
   onBeforeUnmount,
   onDeactivated,
   onActivated,
@@ -42,7 +41,6 @@ export default defineComponent({
     const popperStates = usePopper(props, ctx)
 
     const forceDestroy = () => popperStates.doDestroy(true)
-    onMounted(popperStates.initializePopper)
     onBeforeUnmount(forceDestroy)
     onActivated(popperStates.initializePopper)
     onDeactivated(forceDestroy)
