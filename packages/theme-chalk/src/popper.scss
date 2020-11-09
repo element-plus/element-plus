@@ -2,8 +2,8 @@
 @import "common/var";
 
 @include b(popper) {
-  .popper__arrow,
-  .popper__arrow::after {
+  &__arrow,
+  &__arrow::after {
     position: absolute;
     display: block;
     width: 0;
@@ -12,21 +12,21 @@
     border-style: solid;
   }
 
-  .popper__arrow {
+  &__arrow {
     border-width: $--popover-arrow-size;
     filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.03))
   }
 
-  .popper__arrow::after {
+  &__arrow::after {
     content: " ";
     border-width: $--popover-arrow-size;
   }
 
-  &[x-placement^="top"] {
+  &[data-popper-placement^="top"] {
     margin-bottom: #{$--popover-arrow-size + 6};
   }
 
-  &[x-placement^="top"] .popper__arrow {
+  &[data-popper-placement^="top"] &__arrow {
     bottom: -$--popover-arrow-size;
     left: 50%;
     margin-right: #{$--tooltip-arrow-size / 2};
@@ -41,11 +41,11 @@
     }
   }
 
-  &[x-placement^="bottom"] {
+  &[data-popper-placement^="bottom"] {
     margin-top: #{$--popover-arrow-size + 6};
   }
 
-  &[x-placement^="bottom"] .popper__arrow {
+  &[data-popper-placement^="bottom"] &__arrow {
     top: -$--popover-arrow-size;
     left: 50%;
     margin-right: #{$--tooltip-arrow-size / 2};
@@ -60,11 +60,11 @@
     }
   }
 
-  &[x-placement^="right"] {
+  &[data-popper-placement^="right"] {
     margin-left: #{$--popover-arrow-size + 6};
   }
 
-  &[x-placement^="right"] .popper__arrow {
+  &[data-popper-placement^="right"] &__arrow {
     top: 50%;
     left: -$--popover-arrow-size;
     margin-bottom: #{$--tooltip-arrow-size / 2};
@@ -79,11 +79,11 @@
     }
   }
 
-  &[x-placement^="left"] {
+  &[data-popper-placement^="left"] {
     margin-right: #{$--popover-arrow-size + 6};
   }
 
-  &[x-placement^="left"] .popper__arrow {
+  &[data-popper-placement^="left"] &__arrow {
     top: 50%;
     right: -$--popover-arrow-size;
     margin-bottom: #{$--tooltip-arrow-size / 2};
