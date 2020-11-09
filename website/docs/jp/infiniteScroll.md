@@ -35,7 +35,7 @@
 ```html
 <template>
   <div class="infinite-list-wrapper" style="overflow:auto">
-    無効化
+    <ul>
       class="list"
       v-infinite-scroll="load"
       infinite-scroll-disabled="disabled">
