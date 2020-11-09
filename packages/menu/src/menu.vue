@@ -35,7 +35,9 @@ import {
   computed,
   ref,
   provide,
+  Ref,
   onMounted,
+  ComputedRef,
 } from 'vue'
 import mitt from 'mitt'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
@@ -45,6 +47,7 @@ import {
   RegisterMenuItem,
   SubMenuProvider,
 } from './menu'
+import Menubar from '@element-plus/utils/menu/menu-bar'
 import useMenuColor from './useMenuColor'
 
 export default defineComponent({
@@ -170,7 +173,6 @@ export default defineComponent({
     }
 
     const addSubMenu = (item: RegisterMenuItem) => {
-      console.log('addSubMenu', item)
       submenus.value[item.index] = item
     }
 
@@ -186,19 +188,16 @@ export default defineComponent({
       delete items.value[item.index]
     }
 
-    const openMenu = (index: string, indexPath: string[]) => {
-      console.log('open')
+    const openMenu = (index: string, indexPath: Ref<string[]>) => {
       if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
       if (props.uniqueOpened) {
         openedMenus.value = openedMenus.value.filter((index: string) => {
-          return indexPath.indexOf(index) !== -1
+          return indexPath.value.indexOf(index) !== -1
         })
       }
       openedMenus.value.push(index)
-
-      console.log(openedMenus.value)
     }
 
     const closeMenu = index => {
@@ -218,7 +217,6 @@ export default defineComponent({
     }
 
     const handleSubmenuClick = submenu => {
-      console.log('rootmenu: handleSubmenuClick')
       const { index, indexPath } = submenu
       let isOpened = openedMenus.value.includes(index)
 
@@ -231,10 +229,13 @@ export default defineComponent({
       }
     }
 
-    const handleItemClick = item => {
+    const handleItemClick = (item: {
+      index: string
+      indexPath: ComputedRef<string[]>
+    }) => {
       const { index, indexPath } = item
-      const oldActiveIndex = activeIndex.value
       const hasIndex = item.index !== null
+      // const oldActiveIndex = activeIndex.value
 
       if (hasIndex) {
         activeIndex.value = item.index
@@ -245,7 +246,7 @@ export default defineComponent({
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
-      // TODO: support router
+      // TODO: support vue-router
       // if (this.router && hasIndex) {
       //   routeToItem(item, error => {
       //     data.activeIndex.value = oldActiveIndex
@@ -259,14 +260,14 @@ export default defineComponent({
       // }
     }
 
-    const routeToItem = (item, onError) => {
-      let route = item.route || item.index
-      try {
-        // this.$router.push(route, () => null, onError)
-      } catch (e) {
-        console.error(e)
-      }
-    }
+    // const routeToItem = (item, onError) => {
+    //   let route = item.route || item.index
+    //   try {
+    //     // this.$router.push(route, () => null, onError)
+    //   } catch (e) {
+    //     console.error(e)
+    //   }
+    // }
 
     const updateActiveIndex = (val?: string) => {
       const itemsInData = items
@@ -344,10 +345,9 @@ export default defineComponent({
       initializeMenu()
       rootMenuEmitter.on('menuItem:item-click', handleItemClick)
       rootMenuEmitter.on('submenu:submenu-click', handleSubmenuClick)
-      // aria-menubar
-      // if (props.mode === 'horizontal') {
-      //   new Menubar(this.$el) // eslint-disable-line
-      // }
+      if (props.mode === 'horizontal') {
+        new Menubar(instance.vnode.el)
+      }
     })
 
     return {
@@ -355,7 +355,7 @@ export default defineComponent({
       isMenuPopup,
 
       props,
-      // export for users
+
       open,
       close,
     }

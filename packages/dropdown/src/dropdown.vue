@@ -13,8 +13,7 @@
     </template>
     <template #trigger>
       <div class="el-dropdown">
-        <slot v-if="!splitButton" name="default">
-        </slot>
+        <slot v-if="!splitButton" name="default"> </slot>
         <template v-else>
           <el-button-group>
             <el-button
@@ -37,7 +36,7 @@
     </template>
   </el-popper>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import {
   defineComponent,
   provide,
@@ -50,7 +49,10 @@ import {
   ComponentPublicInstance,
 } from 'vue'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
-import { Button as ElButton,  ButtonGroup as ElButtonGroup } from '@element-plus/button'
+import {
+  Button as ElButton,
+  ButtonGroup as ElButtonGroup,
+} from '@element-plus/button'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { useDropdown } from './useDropdown'
 
@@ -108,8 +110,8 @@ export default defineComponent({
     watch(
       () => visible.value,
       val => {
-        if(val) triggerElmFocus()
-        if(!val) triggerElmBlur()
+        if (val) triggerElmFocus()
+        if (!val) triggerElmBlur()
         emit('visible-change', val)
       },
     )
@@ -130,11 +132,10 @@ export default defineComponent({
     )
 
     const triggerVnode = ref<Nullable<ComponentPublicInstance>>(null)
-    const triggerElm = computed<Nullable<HTMLButtonElement>>(() =>{
-      const _: any = (triggerVnode.value?.$refs.triggerRef as HTMLElement)?.children[0] ?? {}
-      return !props.splitButton
-        ? _
-        : _.children?.[1]
+    const triggerElm = computed<Nullable<HTMLButtonElement>>(() => {
+      const _: any =
+        (triggerVnode.value?.$refs.triggerRef as HTMLElement)?.children[0] ?? {}
+      return !props.splitButton ? _ : _.children?.[1]
     })
 
     function handleClick() {
@@ -149,21 +150,27 @@ export default defineComponent({
     function show() {
       if (triggerElm.value?.disabled) return
       timeout.value && clearTimeout(timeout.value)
-      timeout.value = window.setTimeout(() => {
-        visible.value = true
-      }, props.trigger === 'click' ? 0 : props.showTimeout)
+      timeout.value = window.setTimeout(
+        () => {
+          visible.value = true
+        },
+        props.trigger === 'click' ? 0 : props.showTimeout,
+      )
     }
 
     function hide() {
       if (triggerElm.value?.disabled) return
       removeTabindex()
-      if (props.tabindex >=0) {
+      if (props.tabindex >= 0) {
         resetTabindex(triggerElm.value)
       }
       clearTimeout(timeout.value)
-      timeout.value = window.setTimeout(() => {
-        visible.value = false
-      }, props.trigger === 'click' ? 0 : props.hideTimeout)
+      timeout.value = window.setTimeout(
+        () => {
+          visible.value = false
+        },
+        props.trigger === 'click' ? 0 : props.hideTimeout,
+      )
     }
 
     function removeTabindex() {
@@ -183,7 +190,7 @@ export default defineComponent({
     }
 
     const dropdownSize = computed(() => props.size || ELEMENT.size)
-    function commandHandler (...args) {
+    function commandHandler(...args) {
       emit('command', ...args)
     }
 
@@ -243,14 +250,14 @@ export default defineComponent({
 <style>
 .el-dropdown-popper {
   padding: 0px;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .el-dropdown-popper.is-light {
-  border: 1px solid #EBEEF5;
+  border: 1px solid #ebeef5;
 }
 .el-dropdown-popper.is-light .el-popper__arrow::before {
-  border: 1px solid #EBEEF5;
-  background: #FFF;
+  border: 1px solid #ebeef5;
+  background: #fff;
 }
 .el-dropdown-popper .el-dropdown-menu {
   border: none;

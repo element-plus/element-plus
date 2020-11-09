@@ -49,7 +49,6 @@ import {
 import { IMenuItemProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
 import { Tooltip as ElTooltip } from '@element-plus/tooltip'
-import mitt from 'mitt'
 
 export default {
   name: 'ElMenuItem',
@@ -125,19 +124,25 @@ export default {
     }
     const handleClick = () => {
       if (!props.disabled) {
-        rootMenu.rootMenuEmit('menuItem:item-click', { index: props.index })
-        emit('click', this)
+        rootMenu.rootMenuEmit('menuItem:item-click', {
+          index: props.index,
+          indexPath,
+        })
+        emit('click', {
+          index: props.index,
+          indexPath,
+        })
       }
     }
 
     onMounted(() => {
-      addSubMenu({ index: props.index, indexPath })
-      rootMenu.methods.addMenuItem({ index: props.index, indexPath })
+      addSubMenu({ index: props.index, indexPath, active })
+      rootMenu.methods.addMenuItem({ index: props.index, indexPath, active })
     })
 
     onBeforeUnmount(() => {
-      removeSubMenu({ index: props.index, indexPath })
-      rootMenu.methods.removeMenuItem({ index: props.index, indexPath })
+      removeSubMenu({ index: props.index, indexPath, active })
+      rootMenu.methods.removeMenuItem({ index: props.index, indexPath, active })
     })
 
     return {

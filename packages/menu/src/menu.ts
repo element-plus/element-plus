@@ -4,6 +4,7 @@ import { Emitter } from 'mitt'
 export interface RegisterMenuItem {
   index: string
   indexPath: ComputedRef<string[]>
+  active: ComputedRef<boolean>
 }
 
 export interface RootMenuData {
@@ -30,7 +31,7 @@ export interface RootMenuProvider {
     removeMenuItem: (item: RegisterMenuItem) => void
     addSubMenu: (item: RegisterMenuItem) => void
     removeSubMenu: (item: RegisterMenuItem) => void
-    openMenu: (index: string, indexPath: string[]) => void
+    openMenu: (index: string, indexPath: Ref<string[]>) => void
     closeMenu: (index: string) => void
   }
   rootMenuEmit: Emitter['emit']
@@ -40,6 +41,7 @@ export interface RootMenuProvider {
 export interface SubMenuProvider {
   addSubMenu: (item: RegisterMenuItem) => void
   removeSubMenu: (item: RegisterMenuItem) => void
+  handleMouseleave?: (deepDispatch: boolean) => void
 }
 
 // root menu
