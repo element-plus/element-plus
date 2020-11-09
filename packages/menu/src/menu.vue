@@ -57,6 +57,7 @@ export default defineComponent({
     'el-menu-collapse-transition': {
       functional: true,
       render(createElement, context) {
+        // TODO: aminiation failed
         const data = {
           props: {
             mode: 'out-in',
@@ -232,10 +233,11 @@ export default defineComponent({
     const handleItemClick = (item: {
       index: string
       indexPath: ComputedRef<string[]>
+      route?: any
     }) => {
       const { index, indexPath } = item
       const hasIndex = item.index !== null
-      // const oldActiveIndex = activeIndex.value
+      const oldActiveIndex = activeIndex.value
 
       if (hasIndex) {
         activeIndex.value = item.index
@@ -247,9 +249,10 @@ export default defineComponent({
         openedMenus.value = []
       }
       // TODO: support vue-router
-      // if (this.router && hasIndex) {
+      // const currentRouter = instance.appContext.config.globalProperties.$router
+      // if (currentRouter && hasIndex) {
       //   routeToItem(item, error => {
-      //     data.activeIndex.value = oldActiveIndex
+      //     activeIndex.value = oldActiveIndex
       //     if (error) {
       //       // vue-router 3.1.0+ push/replace cause NavigationDuplicated error
       //       // https://github.com/ElemeFE/element/issues/17044
@@ -263,7 +266,9 @@ export default defineComponent({
     // const routeToItem = (item, onError) => {
     //   let route = item.route || item.index
     //   try {
-    //     // this.$router.push(route, () => null, onError)
+    //     const currentRouter =
+    //       instance.appContext.config.globalProperties.$router
+    //     currentRouter?.push(route, () => null, onError)
     //   } catch (e) {
     //     console.error(e)
     //   }

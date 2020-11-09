@@ -51,7 +51,7 @@
       </template>
       <template #trigger>
         <div
-          ref="titleVnode"
+          ref="horizontalTitleRef"
           class="el-submenu__title"
           :style="[paddingStyle, titleStyle, { backgroundColor }]"
           @click="handleClick"
@@ -63,7 +63,19 @@
         </div>
       </template>
     </el-popper>
-    <el-collapse-transition v-else>
+    <div
+      v-if="!isMenuPopup"
+      ref="verticalTitleRef"
+      class="el-submenu__title"
+      :style="[paddingStyle, titleStyle, { backgroundColor }]"
+      @click="handleClick"
+      @mouseenter="handleTitleMouseenter"
+      @mouseleave="handleTitleMouseleave"
+    >
+      <slot name="title"></slot>
+      <i :class="['el-submenu__icon-arrow', submenuTitleIcon]"></i>
+    </div>
+    <el-collapse-transition v-if="!isMenuPopup">
       <ul
         v-show="opened"
         role="menu"
@@ -88,7 +100,6 @@ import {
   onMounted,
   onBeforeMount,
   onBeforeUnmount,
-  ComponentPublicInstance,
 } from 'vue'
 import ElCollapseTransition from '@element-plus/transition/collapse-transition/index.vue'
 import { ISubmenuProps, RootMenuProvider, SubMenuProvider } from './menu'
@@ -129,7 +140,8 @@ export default {
       mouseInChild: false,
       opened: false,
     })
-    const titleVnode = ref<Nullable<ComponentPublicInstance>>(null)
+    const horizontalTitleRef = ref<HTMLElement>(null)
+    const verticalTitleRef = ref<HTMLElement>(null)
     const popperVnode = ref(null)
 
     // instance
@@ -240,7 +252,7 @@ export default {
     const subMenuEmitter = mitt()
 
     const doDestroy = () => {
-      popperVnode.value.doDestroy()
+      popperVnode.value?.doDestroy()
     }
 
     // methods
@@ -325,14 +337,13 @@ export default {
     }
     const handleTitleMouseenter = () => {
       if (mode.value === 'horizontal' && !rootProps.backgroundColor) return
-      const title = titleVnode.value
-      title && (title.$el.style.backgroundColor = rootHoverBackground)
+      const title = horizontalTitleRef.value || verticalTitleRef.value
+      title && (title.style.backgroundColor = rootHoverBackground)
     }
     const handleTitleMouseleave = () => {
       if (mode.value === 'horizontal' && !rootProps.backgroundColor) return
-      const title = titleVnode.value
-      title &&
-        (title.$el.style.backgroundColor = rootProps.backgroundColor || '')
+      const title = horizontalTitleRef.value || verticalTitleRef.value
+      title && (title.style.backgroundColor = rootProps.backgroundColor || '')
     }
     const updatePlacement = () => {
       data.currentPlacement =
@@ -416,7 +427,8 @@ export default {
       removeSubMenu,
 
       popperVnode,
-      titleVnode,
+      horizontalTitleRef,
+      verticalTitleRef,
     }
   },
 }
