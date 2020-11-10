@@ -46,7 +46,6 @@ import {
   computed,
   watch,
   onMounted,
-  nextTick,
   ComponentPublicInstance,
 } from 'vue'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
