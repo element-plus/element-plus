@@ -2,6 +2,21 @@
 @import "../common/var";
 @import "../common/transition";
 
+@include b(picker) {
+  @include e(popper) {
+    &[role="tooltip"] {
+      padding: 0px;
+      box-shadow: $--box-shadow-light;
+    }
+    &.is-light[role="tooltip"] {
+      border: solid 1px $--datepicker-border-color;
+      .el-popper__arrow::before {
+        border: solid 1px $--datepicker-border-color;
+      }
+    }
+  }
+}
+
 @include b(date-editor) {
   position: relative;
   display: inline-block;

@@ -1,10 +1,6 @@
 @import "../common/var";
 
 @include b(time-panel) {
-  margin: 5px 0;
-  border: solid 1px $--datepicker-border-color;
-  background-color: $--color-white;
-  box-shadow: $--box-shadow-light;
   border-radius: 2px;
   position: relative;
   width: 180px;
