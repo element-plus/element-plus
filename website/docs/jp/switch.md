@@ -119,6 +119,7 @@
 |-----| ----| ----| ----|---- |
 | value / v-model | バインディング値 | boolean / string / number | — | — |
 | disabled | スイッチが無効になっているかどうか | boolean | — | false |
+| loading  | スイッチがロード中になっているかどうか | boolean | — | false |
 | width | スイッチの幅 | number | — | 40 |
 | active-icon-class | `on` 状態のときに表示されるアイコンのクラス名で、`active-text` を上書きします。 | string | — | — |
 | inactive-icon-class |`off` 状態のときに表示されるアイコンのクラス名で、`inactive-text` を上書きします。| string | — | — |
