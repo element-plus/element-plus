@@ -1,18 +1,5 @@
 <template>
-  <ul
-    v-if="props.collapseTransition"
-    :key="+props.collapse"
-    role="menubar"
-    :style="{ backgroundColor: props.backgroundColor || '' }"
-    :class="{
-      'el-menu': true,
-      'el-menu--horizontal': mode === 'horizontal',
-      'el-menu--collapse': props.collapse,
-    }"
-  >
-    <slot></slot>
-  </ul>
-  <el-menu-collapse-transition v-else>
+  <el-menu-collapse-transition v-if="props.collapseTransition">
     <ul
       :key="+props.collapse"
       role="menubar"
@@ -26,6 +13,19 @@
       <slot></slot>
     </ul>
   </el-menu-collapse-transition>
+  <ul
+    v-else
+    :key="+props.collapse"
+    role="menubar"
+    :style="{ backgroundColor: props.backgroundColor || '' }"
+    :class="{
+      'el-menu': true,
+      'el-menu--horizontal': mode === 'horizontal',
+      'el-menu--collapse': props.collapse,
+    }"
+  >
+    <slot></slot>
+  </ul>
 </template>
 <script lang="ts">
 import {
@@ -40,7 +40,6 @@ import {
   ComputedRef,
 } from 'vue'
 import mitt from 'mitt'
-import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
 import {
   IMenuProps,
   RootMenuProvider,
@@ -48,63 +47,14 @@ import {
   SubMenuProvider,
 } from './menu'
 import Menubar from '@element-plus/utils/menu/menu-bar'
+import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import useMenuColor from './useMenuColor'
 
 export default defineComponent({
   name: 'ElMenu',
   componentName: 'ElMenu',
   components: {
-    'el-menu-collapse-transition': {
-      functional: true,
-      render(createElement, context) {
-        // TODO: aminiation failed
-        const data = {
-          props: {
-            mode: 'out-in',
-          },
-          on: {
-            beforeEnter(el) {
-              el.style.opacity = 0.2
-            },
-
-            enter(el) {
-              addClass(el, 'el-opacity-transition')
-              el.style.opacity = 1
-            },
-
-            afterEnter(el) {
-              removeClass(el, 'el-opacity-transition')
-              el.style.opacity = ''
-            },
-
-            beforeLeave(el) {
-              if (!el.dataset) el.dataset = {}
-
-              if (hasClass(el, 'el-menu--collapse')) {
-                removeClass(el, 'el-menu--collapse')
-                el.dataset.oldOverflow = el.style.overflow
-                el.dataset.scrollWidth = el.clientWidth
-                addClass(el, 'el-menu--collapse')
-              } else {
-                addClass(el, 'el-menu--collapse')
-                el.dataset.oldOverflow = el.style.overflow
-                el.dataset.scrollWidth = el.clientWidth
-                removeClass(el, 'el-menu--collapse')
-              }
-
-              el.style.width = el.scrollWidth + 'px'
-              el.style.overflow = 'hidden'
-            },
-
-            leave(el) {
-              addClass(el, 'horizontal-collapse-transition')
-              el.style.width = el.dataset.scrollWidth + 'px'
-            },
-          },
-        }
-        return createElement('transition', data, context.children)
-      },
-    },
+    ElMenuCollapseTransition,
   },
   props: {
     mode: {
@@ -310,6 +260,7 @@ export default defineComponent({
     watch(
       () => props.collapse,
       value => {
+        console.log(value)
         if (value) openedMenus.value = []
         rootMenuEmitter.emit(
           'rootMenu:toggle-collapse',
