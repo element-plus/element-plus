@@ -3,6 +3,8 @@ const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -11,7 +13,9 @@ const isPlay = !!process.env.PLAY_ENV
 const config = {
   mode: isProd ? 'production' : 'development',
   devtool: !isProd && 'cheap-module-eval-source-map',
-  entry: isPlay ? path.resolve(__dirname, './play.js') : path.resolve(__dirname, './entry.js'),
+  entry: isPlay
+    ? path.resolve(__dirname, './play.js')
+    : path.resolve(__dirname, './entry.js'),
   output: {
     path: path.resolve(__dirname, '../website-dist'),
     publicPath: '/',
@@ -59,7 +63,7 @@ const config = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.vue', '.json'],
     alias: {
-      'vue': 'vue/dist/vue.esm-browser.js',
+      vue: 'vue/dist/vue.esm-browser.js',
       examples: path.resolve(__dirname),
     },
   },
@@ -80,6 +84,12 @@ const config = {
     contentBase: __dirname,
     overlay: true,
   },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin(),
+    ],
+  },
 }
 
 const cssRule = {
@@ -95,14 +105,16 @@ const cssRule = {
   ],
 }
 
-if (isProd) {
-  config.plugins.push(new MiniCssExtractPlugin({
+// if (isProd) {
+config.plugins.push(
+  new MiniCssExtractPlugin({
     filename: '[name].[contenthash].css',
     chunkFilename: '[id].[contenthash].css',
-  }))
-  cssRule.use.unshift(MiniCssExtractPlugin.loader)
-} else {
-  cssRule.use.unshift('style-loader')
-}
+  }),
+)
+cssRule.use.unshift(MiniCssExtractPlugin.loader)
+// } else {
+cssRule.use.unshift('style-loader')
+// }
 config.module.rules.push(cssRule)
 module.exports = config

@@ -12,6 +12,7 @@ const _mount = (props: any = {}, content: string | VNode = '') => mount(Tooltip,
     content: () => content,
   },
   props,
+  attachTo: 'body',
 })
 
 const selector = '.el-popper'

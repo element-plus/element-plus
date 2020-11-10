@@ -46,7 +46,7 @@ export default {
   },
   appendToBody: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   boundariesPadding: {
     type: Number,

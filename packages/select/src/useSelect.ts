@@ -399,6 +399,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleResize = () => {
     resetInputWidth()
+    popper.value?.update()
     if (props.multiple) resetInputHeight()
   }
 
