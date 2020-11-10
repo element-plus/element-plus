@@ -113,6 +113,32 @@ Switch is used for switching between two opposing states.
 ```
 :::
 
+### Loading
+
+:::demo Setting the `loading` attribute to `true` indicates a loading state on the Switch.
+
+```html
+<el-switch
+  v-model="value1"
+  loading>
+</el-switch>
+<el-switch
+  v-model="value2"
+  loading>
+</el-switch>
+<script>
+  export default {
+    data() {
+      return {
+        value1: true,
+        value2: false
+      }
+    }
+  };
+</script>
+```
+:::
+
 ### Attributes
 
 | Attribute      | Description          | Type      | Accepted Values       | Default |

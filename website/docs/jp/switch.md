@@ -113,6 +113,32 @@
 ```
 :::
 
+### ローディング
+
+:::demo `loading`属性を`true`に設定すると、ロード状態を表示することができます。
+
+```html
+<el-switch
+  v-model="value1"
+  loading>
+</el-switch>
+<el-switch
+  v-model="value2"
+  loading>
+</el-switch>
+<script>
+  export default {
+    data() {
+      return {
+        value1: true,
+        value2: false
+      }
+    }
+  };
+</script>
+```
+:::
+
 ### 属性
 
 | Attribute      | Description          | Type      | Accepted Values       | Default |
