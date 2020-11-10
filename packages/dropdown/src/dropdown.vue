@@ -6,7 +6,7 @@
     :effect="effect"
     :manual-mode="true"
     :trigger="[trigger]"
-    popper-class="el-dropdown--popper"
+    popper-class="el-dropdown__popper"
   >
     <template #default>
       <slot name="dropdown"></slot>

@@ -7,13 +7,14 @@ import {
   onBeforeUnmount,
   onDeactivated,
   onActivated,
+  onMounted,
   renderSlot,
   toDisplayString,
   withDirectives,
 } from 'vue'
 
 import throwError from '@element-plus/utils/error'
-import { renderBlock } from '@element-plus/utils/vnode'
+import { PatchFlags, renderBlock } from '@element-plus/utils/vnode'
 
 import usePopper from './use-popper/index'
 import defaultProps from './use-popper/defaults'
@@ -41,6 +42,7 @@ export default defineComponent({
     const popperStates = usePopper(props, ctx)
 
     const forceDestroy = () => popperStates.doDestroy(true)
+    onMounted(popperStates.initializePopper)
     onBeforeUnmount(forceDestroy)
     onActivated(popperStates.initializePopper)
     onDeactivated(forceDestroy)
@@ -105,18 +107,16 @@ export default defineComponent({
 
     return renderBlock(Fragment, null, [
       trigger,
-      appendToBody
-        ? createVNode(
-          Teleport as any, // Vue did not support createVNode for Teleport
-          {
-            to: 'body',
-            key: 0,
-          },
-          [
-            popper,
-          ],
-        )
-        : renderBlock(Fragment, { key: 1 }, [popper]),
+      createVNode(
+        Teleport as any, // Vue did not support createVNode for Teleport
+        {
+          to: 'body',
+          disabled: !appendToBody,
+        },
+        [popper],
+        PatchFlags.PROPS,
+        ['disabled'],
+      ),
     ])
   },
 })

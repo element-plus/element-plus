@@ -8,7 +8,7 @@
   color: $--color-text-regular;
   font-size: $--font-size-base;
 
-  @include m(popper) {
+  @include e(popper) {
     // using attributes selector to override
     
     &[role="tooltip"] {
