@@ -93,7 +93,7 @@ export default defineComponent({
     const activeIndex = ref(props.defaultActive)
     const items = ref({})
     const submenus = ref({})
-
+    const alteredCollapse = ref(false)
     const rootMenuEmitter = mitt()
 
     const hoverBackground = useMenuColor(props.backgroundColor)
@@ -110,7 +110,7 @@ export default defineComponent({
 
     const initializeMenu = () => {
       const index = activeIndex.value
-      const activeItem = items[index]
+      const activeItem = items.value[index]
       if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
       let indexPath = activeItem.indexPath
@@ -118,8 +118,8 @@ export default defineComponent({
       // 展开该菜单项的路径上所有子菜单
       // expand all submenus of the menu item
       indexPath.forEach(index => {
-        let submenu = submenus[index]
-        submenu && openMenu(index, submenu.indexPath)
+        let submenu = submenus.value[index]
+        submenu && openMenu(index, submenu?.indexPath)
       })
     }
 
@@ -139,7 +139,7 @@ export default defineComponent({
       delete items.value[item.index]
     }
 
-    const openMenu = (index: string, indexPath: Ref<string[]>) => {
+    const openMenu = (index: string, indexPath?: Ref<string[]>) => {
       if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
@@ -225,16 +225,25 @@ export default defineComponent({
     // }
 
     const updateActiveIndex = (val?: string) => {
-      const itemsInData = items
+      const itemsInData = items.value
       const item =
         itemsInData[val] ||
         itemsInData[activeIndex.value] ||
         itemsInData[props.defaultActive]
+
+      alteredCollapse.value
       if (item) {
         activeIndex.value = item.index
         initializeMenu()
       } else {
-        activeIndex.value = null
+        // Can't find item when collapsing
+        // and activeIndex shouldn't be changed when 'collapse' was changed.
+        // Then reset 'alteredCollapse' immediately.
+        if (!alteredCollapse.value) {
+          activeIndex.value = null
+        } else {
+          alteredCollapse.value = false
+        }
       }
     }
 
@@ -250,17 +259,16 @@ export default defineComponent({
       },
     )
 
-    watch(
-      () => items,
-      () => {
-        updateActiveIndex()
-      },
-    )
+    watch(items.value, value => {
+      updateActiveIndex()
+    })
 
     watch(
       () => props.collapse,
-      value => {
-        console.log(value)
+      (value, prev) => {
+        if (value !== prev) {
+          alteredCollapse.value = true
+        }
         if (value) openedMenus.value = []
         rootMenuEmitter.emit(
           'rootMenu:toggle-collapse',
