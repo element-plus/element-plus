@@ -26,6 +26,7 @@ const _mount = (template: string, data = () => ({}), otherObj?) => mount({
       elFormItem: {},
     },
   },
+  attachTo: 'body',
 })
 
 afterEach(() => {

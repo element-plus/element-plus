@@ -9,6 +9,7 @@ const _mount = (props: any = {}) => mount(ElPopconfirm, {
       class: 'reference',
     }),
   },
+  attachTo: 'body',
 })
 
 describe('Popconfirm.vue', () => {
