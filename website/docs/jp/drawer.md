@@ -6,7 +6,7 @@
 
 一時的にDrawerを多方向から呼び出す
 
-:::demo `Drawer` には `Dialog` のように `visible` を設定して `Drawer` 自体の表示を制御する必要があります。`title` は名前付きスロットで、タイトルは `title` という属性を使って設定することもできます。デフォルトでは、`Drawer`はブラウザウィンドウの**30%**の大きさの**右隅から**左隅に向かって展開します。このデフォルトの動作を変更するには、`direction` と `size` 属性を設定します。このショーケースでは `before-close` API の使い方も紹介しました。さらに詳しく知りたい場合は Attributesセクションもご覧ください。
+:::demo `Drawer` には `Dialog` のように `model-value` を設定して `Drawer` 自体の表示を制御する必要があります。`title` は名前付きスロットで、タイトルは `title` という属性を使って設定することもできます。デフォルトでは、`Drawer`はブラウザウィンドウの**30%**の大きさの**右隅から**左隅に向かって展開します。このデフォルトの動作を変更するには、`direction` と `size` 属性を設定します。このショーケースでは `before-close` API の使い方も紹介しました。さらに詳しく知りたい場合は Attributesセクションもご覧ください。
 
 ```html
 <el-radio-group v-model="direction">
@@ -22,7 +22,7 @@
 
 <el-drawer
   title="I am the title"
-  :visible.sync="drawer"
+  v-model="drawer"
   :direction="direction"
   :before-close="handleClose">
   <span>Hi, there!</span>
@@ -63,7 +63,7 @@
 
 <el-drawer
   title="I am the title"
-  :visible.sync="drawer"
+  v-model="drawer"
   :with-header="false">
   <span>Hi there!</span>
 </el-drawer>
@@ -91,7 +91,7 @@
 <el-button type="text" @click="dialog = true">Open Drawer with nested form</el-button>
 <el-drawer
   title="I have a nested table inside!"
-  :visible.sync="table"
+  v-model="table"
   direction="rtl"
   size="50%">
    <el-table :data="gridData">
@@ -104,7 +104,7 @@
 <el-drawer
   title="I have a nested form inside!"
   :before-close="handleClose"
-  :visible.sync="dialog"
+  v-model="dialog"
   direction="ltr"
   custom-class="demo-drawer"
   ref="drawer"
@@ -208,7 +208,7 @@ export default {
 
 <el-drawer
   title="I'm outer Drawer"
-  :visible.sync="drawer"
+  v-model="drawer"
   size="50%">
   <div>
    <el-button @click="innerDrawer = true">Click me!</el-button>
@@ -216,7 +216,7 @@ export default {
      title="I'm inner Drawer"
      :append-to-body="true"
      :before-close="handleClose"
-     :visible.sync="innerDrawer">
+     v-model="innerDrawer">
      <p>_(:зゝ∠)_</p>
    </el-drawer>
   </div>
@@ -257,12 +257,6 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 
 :::
 
-:::tip
-
-Vuexストアで `visible` にバインドされた変数を管理している場合、`.sync` が正しく動作しません。この場合は、`.sync` 修飾子を削除し、Dialog の `open`, `close` イベントをリッスンし、Vuex ミューテーションをイベントハンドラでその変数の値を更新するよう、コミットします。
-
-:::
-
 ### Drawer属性
 
 | Parameter| Description | Type      | Acceptable Values                           | Defaults  |
@@ -278,7 +272,7 @@ Vuexストアで `visible` にバインドされた変数を管理している�
 | show-close | Drawerの右上に閉じるボタンを表示するようにした | boolean | — | true |
 | size | Drawerのサイズ, ドローワが水平モードの場合は幅プロパティ, そうでない場合は高さプロパティ, サイズが `number` 型の場合はピクセル単位でサイズを記述します; サイズが `string` 型の場合は `x%` 記法を用います, それ以外の場合はピクセル単位で解釈されます | number / string | - | '30%' |
 | title | Drawerのタイトルは、スロットの名前を指定して設定することもできます。 | string | — | — |
-| visible | Drawerを表示する場合は、`.sync` 記法もサポートします。 | boolean | — | false |
+| model-value | Drawerを表示する場合は、`.sync` 記法もサポートします。 | boolean | — | false |
 | wrapperClosable | シャドウイングレイヤーをクリックしてDrwerを閉じることができるかどうかを示します。 | boolean | - | true |
 | withHeader | デフォルトは true で、withHeader が false に設定されている場合は `title attribute` と `title slot` の両方が動作しません。 | boolean | - | true |
 

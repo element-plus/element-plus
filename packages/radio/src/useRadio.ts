@@ -1,10 +1,10 @@
 import { ref, computed, inject, WritableComputedRef } from 'vue'
-import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import radioGroupKey from './token'
 
 import type { ComputedRef } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import type { RadioGroupContext } from './token'
 
 export const useRadio = () => {

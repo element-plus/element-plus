@@ -180,6 +180,7 @@ MessageBox.alert = (message, title, options?: ElMessageBoxOptions) => {
   } else if (title === undefined) {
     title = ''
   }
+
   return MessageBox(Object.assign({
     title: title,
     message: message,
