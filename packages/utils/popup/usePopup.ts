@@ -3,48 +3,39 @@ import {
   reactive,
   onBeforeMount,
   onBeforeUnmount,
-  onMounted,
   getCurrentInstance,
   watch,
+  toRefs,
 } from 'vue'
 import PopupManager from '../popup-manager'
 import getScrollBarWidth from '../scrollbar-width'
 import { getStyle, addClass, removeClass, hasClass } from '../dom'
 import isServer from '../isServer'
 
+interface Props {
+  openDelay: number
+  closeDelay: number
+  closeOnClickModal: boolean
+  closeOnPressEscape: boolean
+  lockScroll: boolean
+  modal: boolean
+  modalAppendToBody: boolean
+  modalClass?: string
+  modalFade: boolean
+  zIndex?: number
+}
+
 let idSeed = 1
 
 let scrollBarWidth
 
-export const usePopup1 = {
-  watch: {
-    visible(val) {
-      if (val) {
-        if (this._opening) return
-        if (!this.rendered) {
-          this.rendered = true
-          nextTick(() => {
-            this.open()
-          }).then(() => {
-            //
-          })
-        } else {
-          this.open()
-        }
-      } else {
-        this.close()
-      }
-    },
-  },
-}
-
-const usePopup = (props, doClose) => {
+const usePopup = (props: Readonly<Props>, doClose: () => void, rootRef = 'root') => {
   let _popupId
   let _opening = false
   let _closing = false
-  let vm
   let _closeTimer = null
   let _openTimer = null
+  const vm = getCurrentInstance()
   const state = reactive({
     opened: false,
     bodyPaddingRight: null,
@@ -54,13 +45,15 @@ const usePopup = (props, doClose) => {
     visible: false,
   })
 
-  onMounted(() => {
-    vm = getCurrentInstance()
-  })
-
   onBeforeMount(() => {
+    const { handleClose, handleAction } = vm.proxy as any
     _popupId = 'popup-' + idSeed++
-    PopupManager.register(_popupId, vm)
+    PopupManager.register(_popupId, {
+      ...toRefs(props),
+      close,
+      handleClose,
+      handleAction,
+    })
   })
 
   onBeforeUnmount(() => {
@@ -75,7 +68,8 @@ const usePopup = (props, doClose) => {
 
     _opening = true
 
-    const dom = vm.vnode.el
+    // `vm.vnode.el` will be a comment node when using `Teleport`
+    const dom = vm.refs[rootRef] as HTMLElement
 
     const modal = merProps.modal
 
@@ -89,7 +83,14 @@ const usePopup = (props, doClose) => {
         PopupManager.closeModal(_popupId)
         _closing = false
       }
-      PopupManager.openModal(_popupId, PopupManager.nextZIndex(), props.modalAppendToBody ? undefined : dom, merProps.modalClass, merProps.modalFade)
+      PopupManager.openModal(
+        _popupId,
+        PopupManager.nextZIndex(),
+        props.modalAppendToBody ? undefined : dom,
+        merProps.modalClass,
+        merProps.modalFade,
+      )
+
       if (merProps.lockScroll) {
         state.withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
         if (state.withoutHiddenClass) {
@@ -110,7 +111,7 @@ const usePopup = (props, doClose) => {
       dom.style.position = 'absolute'
     }
 
-    dom.style.zIndex = PopupManager.nextZIndex()
+    dom.style.zIndex = String(PopupManager.nextZIndex())
     state.opened = true
 
     doAfterOpen()
@@ -196,6 +197,7 @@ const usePopup = (props, doClose) => {
 
   return {
     state,
+    open,
     close,
     doAfterClose,
     updateClosingFlag,

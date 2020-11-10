@@ -72,7 +72,7 @@ export default {
 
       const href = location.href
       const preferGithub = localStorage.getItem('PREFER_GITHUB')
-      const cnHref = href.indexOf('eleme.cn') > -1 || href.indexOf('element-cn') > -1 || href.indexOf('element.faas') > -1
+      const cnHref = href.indexOf('element-plus.gitee.io') > -1
       if (cnHref || preferGithub) return
       setTimeout(() => {
         if (this.lang !== Language.CN) return

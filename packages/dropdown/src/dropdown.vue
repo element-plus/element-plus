@@ -6,7 +6,7 @@
     :effect="effect"
     :manual-mode="true"
     :trigger="[trigger]"
-    popper-class="el-dropdown-popper"
+    popper-class="el-dropdown__popper"
   >
     <template #default>
       <slot name="dropdown"></slot>
@@ -45,7 +45,6 @@ import {
   computed,
   watch,
   onMounted,
-  nextTick,
   ComponentPublicInstance,
 } from 'vue'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
@@ -247,22 +246,3 @@ export default defineComponent({
   },
 })
 </script>
-<style>
-.el-dropdown-popper {
-  padding: 0px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-}
-.el-dropdown-popper.is-light {
-  border: 1px solid #ebeef5;
-}
-.el-dropdown-popper.is-light .el-popper__arrow::before {
-  border: 1px solid #ebeef5;
-  background: #fff;
-}
-.el-dropdown-popper .el-dropdown-menu {
-  border: none;
-}
-.el-dropdown-selfdefine {
-  outline: none;
-}
-</style>

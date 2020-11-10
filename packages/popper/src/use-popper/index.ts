@@ -12,18 +12,21 @@ import {
   isHTMLElement,
   isArray,
   isString,
+  $,
 } from '@element-plus/utils/util'
 
 import usePopperOptions from './popper-options'
 
-import type { ComponentPublicInstance, SetupContext } from 'vue'
+import type { ComponentPublicInstance, SetupContext, Ref } from 'vue'
 import type { IPopperOptions, TriggerType, PopperInstance, RefElement } from './defaults'
+
+type ElementType = ComponentPublicInstance | HTMLElement
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
 export default function (props: IPopperOptions, { emit }: SetupContext<string[]>) {
   const arrowRef = ref<RefElement>(null)
-  const triggerRef = ref<ComponentPublicInstance | HTMLElement>(null)
+  const triggerRef = ref(null) as Ref<ElementType>
   const popperRef = ref<RefElement>(null)
 
   const popperId = `el-popper-${generateId()}`
@@ -64,7 +67,6 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
       }, props.hideAfter)
     }
     visibility.value = true
-    update()
   }
 
   function _hide() {
@@ -131,14 +133,17 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
   }
 
   function initializePopper() {
-    const _trigger = isHTMLElement(triggerRef.value)
-      ? triggerRef.value
-      : (triggerRef.value as ComponentPublicInstance).$el
-    detachPopper()
+    if (!$(visibility)) {
+      return
+    }
+    const unwrappedTrigger = $(triggerRef)
+    const _trigger = isHTMLElement(unwrappedTrigger)
+      ? unwrappedTrigger
+      : (unwrappedTrigger as ComponentPublicInstance).$el
     popperInstance = createPopper(
       _trigger,
-      popperRef.value,
-      popperOptions.value,
+      $(popperRef),
+      $(popperOptions),
     )
 
     popperInstance.update()
@@ -146,7 +151,7 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
 
   function doDestroy(forceDestroy?: boolean) {
     /* istanbul ignore if */
-    if (!popperInstance || (visibility.value && !forceDestroy)) return
+    if (!popperInstance || ($(visibility) && !forceDestroy)) return
     detachPopper()
   }
 
@@ -164,6 +169,9 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
   }
 
   function update() {
+    if (!$(visibility)) {
+      return
+    }
     if (popperInstance) {
       popperInstance.update()
     } else {
@@ -171,9 +179,15 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
     }
   }
 
+  function onVisibilityChange(toState: boolean) {
+    if (toState) {
+      initializePopper()
+    }
+  }
+
   if (!isManualMode()) {
     const toggleState = () => {
-      if (visibility.value) {
+      if ($(visibility)) {
         hide()
       } else {
         show()
@@ -247,7 +261,7 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
     popperInstance.update()
   })
 
-  watch(visibility, update)
+  watch(visibility, onVisibilityChange)
 
   return {
     update,
@@ -260,6 +274,7 @@ export default function (props: IPopperOptions, { emit }: SetupContext<string[]>
       emit('after-enter')
     },
     onAfterLeave: () => {
+      detachPopper()
       emit('after-leave')
     },
     initializePopper,

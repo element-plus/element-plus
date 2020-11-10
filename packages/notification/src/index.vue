@@ -183,16 +183,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style>
-/* Due to the code  */
-/* TODO: remove these code  */
-.el-notification-fade-enter-active.right {
-  right: 0;
-  transform: translateX(100%);
-}
-.el-notification-fade-enter-active.left {
-  left: 0;
-  transform: translateX(-100%);
-}
-</style>

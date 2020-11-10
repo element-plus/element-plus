@@ -4,7 +4,7 @@ const path = require('path')
 const { getPackages } =  require('@lerna/project')
 const css = require('rollup-plugin-css-only')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
-const vue = require('./plugin.js')
+const vue = require('rollup-plugin-vue')
 const rollup = require('rollup')
 const typescript = require('rollup-plugin-typescript2')
 
@@ -17,7 +17,6 @@ const runBuild = async () => {
     .map(pkg => pkg.name)
     .filter(name =>
       name.includes('@element-plus') &&
-      !name.includes('transition') &&
       !name.includes('utils'),
     ).slice(process.argv[2], process.argv[3])
 

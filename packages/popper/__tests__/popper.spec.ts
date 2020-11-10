@@ -36,6 +36,7 @@ const _mount = (props: UnknownProps = {}, slots = {}): VueWrapper<any> =>
         }),
       ...slots,
     },
+    attachTo: 'body',
   })
 
 const popperMock = jest
@@ -85,7 +86,7 @@ describe('Popper.vue', () => {
 
   test('append to body', () => {
     let wrapper = _mount()
-    expect(wrapper.find(selector).exists()).toBe(false)
+    expect(wrapper.find(selector).exists()).toBe(true)
 
     /**
      * Current layout of `ElPopper`
@@ -96,10 +97,10 @@ describe('Popper.vue', () => {
      */
 
     wrapper = _mount({
-      appendToBody: false,
+      appendToBody: true,
     })
 
-    expect(wrapper.find(selector).exists()).toBe(true)
+    expect(wrapper.find(selector).exists()).toBe(false)
   })
 
   test('should show popper when mouse entered and hide when popper left', async () => {

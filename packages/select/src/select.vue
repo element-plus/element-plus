@@ -12,11 +12,11 @@
       placement="bottom-start"
       :show-arrow="true"
       :append-to-body="popperAppendToBody"
-      pure
+      popper-class="el-select--popper"
       manual-mode
       effect="light"
       trigger="click"
-      :offset="6"
+      :offset="11"
     >
       <template #trigger>
         <div class="select-trigger">
@@ -437,9 +437,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style>
-.el-select .el-popper {
-  padding: 0;
-}
-</style>
