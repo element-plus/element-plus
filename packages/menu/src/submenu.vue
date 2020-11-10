@@ -51,7 +51,6 @@
       </template>
       <template #trigger>
         <div
-          ref="horizontalTitleRef"
           class="el-submenu__title"
           :style="[paddingStyle, titleStyle, { backgroundColor }]"
           @click="handleClick"
@@ -140,7 +139,6 @@ export default {
       mouseInChild: false,
       opened: false,
     })
-    const horizontalTitleRef = ref<HTMLElement>(null)
     const verticalTitleRef = ref<HTMLElement>(null)
     const popperVnode = ref(null)
 
@@ -337,12 +335,12 @@ export default {
     }
     const handleTitleMouseenter = () => {
       if (mode.value === 'horizontal' && !rootProps.backgroundColor) return
-      const title = horizontalTitleRef.value || verticalTitleRef.value
-      title && (title.style.backgroundColor = rootHoverBackground)
+      const title = popperVnode.value?.triggerRef || verticalTitleRef.value
+      title && (title.style.backgroundColor = rootHoverBackground.value)
     }
     const handleTitleMouseleave = () => {
       if (mode.value === 'horizontal' && !rootProps.backgroundColor) return
-      const title = horizontalTitleRef.value || verticalTitleRef.value
+      const title = popperVnode.value?.triggerRef || verticalTitleRef.value
       title && (title.style.backgroundColor = rootProps.backgroundColor || '')
     }
     const updatePlacement = () => {
@@ -427,7 +425,6 @@ export default {
       removeSubMenu,
 
       popperVnode,
-      horizontalTitleRef,
       verticalTitleRef,
     }
   },
