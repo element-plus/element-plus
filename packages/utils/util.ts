@@ -211,3 +211,11 @@ export function arrayFlat(arr: unknown[]) {
 export function deduplicate<T>(arr: T[]) {
   return [...new Set(arr)]
 }
+
+/**
+ * Unwraps refed value
+ * @param ref Refed value
+ */
+export function $<T>(ref: Ref<T>)  {
+  return ref.value
+}

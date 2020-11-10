@@ -3,7 +3,6 @@ import {
   ref,
   reactive,
   watch,
-  unref as $,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 
@@ -13,18 +12,21 @@ import {
   isHTMLElement,
   isArray,
   isString,
+  $,
 } from '@element-plus/utils/util'
 
 import usePopperOptions from './popper-options'
 
-import type { ComponentPublicInstance, SetupContext } from 'vue'
+import type { ComponentPublicInstance, SetupContext, Ref } from 'vue'
 import type { IPopperOptions, TriggerType, PopperInstance, RefElement } from './defaults'
+
+type ElementType = ComponentPublicInstance | HTMLElement
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
 export default function (props: IPopperOptions, { emit }: SetupContext<string[]>) {
   const arrowRef = ref<RefElement>(null)
-  const triggerRef = ref<ComponentPublicInstance | HTMLElement>(null)
+  const triggerRef = ref(null) as Ref<ElementType>
   const popperRef = ref<RefElement>(null)
 
   const popperId = `el-popper-${generateId()}`
