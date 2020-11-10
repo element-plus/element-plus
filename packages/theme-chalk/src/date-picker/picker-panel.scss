@@ -7,6 +7,13 @@
   border-radius: $--border-radius-base;
   line-height: 30px;
 
+  .el-time-panel {
+    margin: 5px 0;
+    border: solid 1px $--datepicker-border-color;
+    background-color: $--color-white;
+    box-shadow: $--box-shadow-light;
+  }
+
   @include e((body, body-wrapper)) {
     &::after {
       content: "";
