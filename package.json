@@ -135,6 +135,7 @@
   ],
   "main": "lib/index.js",
   "typings": "types/index.d.ts",
+  "module": "lib/index.esm.js",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
   "browserslist": [
