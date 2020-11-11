@@ -35,6 +35,8 @@ const _mount: typeof mount = options => mount({
     Cascader,
   },
   ...options,
+}, {
+  attachTo: 'body',
 })
 
 afterEach(() => {
@@ -307,11 +309,11 @@ describe('Cascader.vue', () => {
     })
 
     const input = wrapper.find('input')
-    const dropdown = document.querySelector(DROPDOWN)
+    const dropdown = wrapper.find(DROPDOWN)
     input.element.value = 'ha'
     await input.trigger('input')
-    const hzSuggestion = dropdown.querySelector(SUGGESTION_ITEM) as HTMLElement
+    const hzSuggestion = dropdown.find(SUGGESTION_ITEM)
     expect(filterMethod).toBeCalled()
-    expect(hzSuggestion.textContent).toBe('Zhejiang / Hangzhou')
+    expect(hzSuggestion.text()).toBe('Zhejiang / Hangzhou')
   })
 })

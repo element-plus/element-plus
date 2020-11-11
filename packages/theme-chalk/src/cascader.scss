@@ -83,15 +83,12 @@
       box-shadow: $--cascader-menu-shadow;
 
       .el-popper__arrow {
-        left: 35px;
         &::before {
           border: $--cascader-menu-border;
         }
       }
 
       &[data-popper-placement^="top"] {
-        transform-origin: bottom center;
-
         .el-popper__arrow::before {
           border-top-color: transparent;
           border-left-color: transparent;

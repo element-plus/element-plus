@@ -1,9 +1,9 @@
 <script lang="ts">
-import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode } from 'vue'
+import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives } from 'vue'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { defaultProps, Effect } from '@element-plus/popper'
 import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
-
+import { ClickOutside } from '@element-plus/directives'
 import { warn } from '@element-plus/utils/error'
 import { renderBlock, renderIf, PatchFlags } from '@element-plus/utils/vnode'
 import { stop } from '@element-plus/utils/dom'
@@ -72,14 +72,13 @@ export default defineComponent({
       popperStyle,
       popperId,
       popperClass,
-      pure,
       showArrow,
       transition,
       visibility,
     } = this
 
     const kls = [
-      this.content ? 'el-popover__plain' : '',
+      this.content ? 'el-popover--plain' : '',
       'el-popover',
       popperClass,
     ].join(' ')
@@ -90,7 +89,7 @@ export default defineComponent({
       popperClass: kls,
       popperStyle: popperStyle,
       popperId,
-      pure,
+      pure: true,
       visibility,
       onMouseEnter: onPopperMouseEnter,
       onMouseLeave: onPopperMouseLeave,
@@ -115,15 +114,12 @@ export default defineComponent({
 
 
     return renderBlock(Fragment, null, [
-      _trigger,
+      this.trigger === 'click'
+        ? withDirectives(_trigger, [[ClickOutside, this.hide]])
+        : _trigger,
       popover,
     ])
   },
 })
 </script>
 
-<style>
-.el-popover .el-popper__arrow::before {
-  border: 1px solid #ebeef5;
-}
-</style>

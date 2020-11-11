@@ -1,18 +1,5 @@
 <template>
-  <ul
-    v-if="props.collapseTransition"
-    :key="+props.collapse"
-    role="menubar"
-    :style="{ backgroundColor: props.backgroundColor || '' }"
-    :class="{
-      'el-menu': true,
-      'el-menu--horizontal': mode === 'horizontal',
-      'el-menu--collapse': props.collapse,
-    }"
-  >
-    <slot></slot>
-  </ul>
-  <el-menu-collapse-transition v-else>
+  <el-menu-collapse-transition v-if="props.collapseTransition">
     <ul
       :key="+props.collapse"
       role="menubar"
@@ -26,6 +13,19 @@
       <slot></slot>
     </ul>
   </el-menu-collapse-transition>
+  <ul
+    v-else
+    :key="+props.collapse"
+    role="menubar"
+    :style="{ backgroundColor: props.backgroundColor || '' }"
+    :class="{
+      'el-menu': true,
+      'el-menu--horizontal': mode === 'horizontal',
+      'el-menu--collapse': props.collapse,
+    }"
+  >
+    <slot></slot>
+  </ul>
 </template>
 <script lang="ts">
 import {
@@ -35,72 +35,26 @@ import {
   computed,
   ref,
   provide,
+  Ref,
   onMounted,
+  ComputedRef,
 } from 'vue'
 import mitt from 'mitt'
-import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
 import {
   IMenuProps,
   RootMenuProvider,
   RegisterMenuItem,
   SubMenuProvider,
 } from './menu'
+import Menubar from '@element-plus/utils/menu/menu-bar'
+import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import useMenuColor from './useMenuColor'
 
 export default defineComponent({
   name: 'ElMenu',
   componentName: 'ElMenu',
   components: {
-    'el-menu-collapse-transition': {
-      functional: true,
-      render(createElement, context) {
-        const data = {
-          props: {
-            mode: 'out-in',
-          },
-          on: {
-            beforeEnter(el) {
-              el.style.opacity = 0.2
-            },
-
-            enter(el) {
-              addClass(el, 'el-opacity-transition')
-              el.style.opacity = 1
-            },
-
-            afterEnter(el) {
-              removeClass(el, 'el-opacity-transition')
-              el.style.opacity = ''
-            },
-
-            beforeLeave(el) {
-              if (!el.dataset) el.dataset = {}
-
-              if (hasClass(el, 'el-menu--collapse')) {
-                removeClass(el, 'el-menu--collapse')
-                el.dataset.oldOverflow = el.style.overflow
-                el.dataset.scrollWidth = el.clientWidth
-                addClass(el, 'el-menu--collapse')
-              } else {
-                addClass(el, 'el-menu--collapse')
-                el.dataset.oldOverflow = el.style.overflow
-                el.dataset.scrollWidth = el.clientWidth
-                removeClass(el, 'el-menu--collapse')
-              }
-
-              el.style.width = el.scrollWidth + 'px'
-              el.style.overflow = 'hidden'
-            },
-
-            leave(el) {
-              addClass(el, 'horizontal-collapse-transition')
-              el.style.width = el.dataset.scrollWidth + 'px'
-            },
-          },
-        }
-        return createElement('transition', data, context.children)
-      },
-    },
+    ElMenuCollapseTransition,
   },
   props: {
     mode: {
@@ -139,7 +93,7 @@ export default defineComponent({
     const activeIndex = ref(props.defaultActive)
     const items = ref({})
     const submenus = ref({})
-
+    const alteredCollapse = ref(false)
     const rootMenuEmitter = mitt()
 
     const hoverBackground = useMenuColor(props.backgroundColor)
@@ -156,7 +110,7 @@ export default defineComponent({
 
     const initializeMenu = () => {
       const index = activeIndex.value
-      const activeItem = items[index]
+      const activeItem = items.value[index]
       if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
       let indexPath = activeItem.indexPath
@@ -164,13 +118,12 @@ export default defineComponent({
       // 展开该菜单项的路径上所有子菜单
       // expand all submenus of the menu item
       indexPath.forEach(index => {
-        let submenu = submenus[index]
-        submenu && openMenu(index, submenu.indexPath)
+        let submenu = submenus.value[index]
+        submenu && openMenu(index, submenu?.indexPath)
       })
     }
 
     const addSubMenu = (item: RegisterMenuItem) => {
-      console.log('addSubMenu', item)
       submenus.value[item.index] = item
     }
 
@@ -186,19 +139,16 @@ export default defineComponent({
       delete items.value[item.index]
     }
 
-    const openMenu = (index: string, indexPath: string[]) => {
-      console.log('open')
+    const openMenu = (index: string, indexPath?: Ref<string[]>) => {
       if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
       if (props.uniqueOpened) {
         openedMenus.value = openedMenus.value.filter((index: string) => {
-          return indexPath.indexOf(index) !== -1
+          return indexPath.value.indexOf(index) !== -1
         })
       }
       openedMenus.value.push(index)
-
-      console.log(openedMenus.value)
     }
 
     const closeMenu = index => {
@@ -218,7 +168,6 @@ export default defineComponent({
     }
 
     const handleSubmenuClick = submenu => {
-      console.log('rootmenu: handleSubmenuClick')
       const { index, indexPath } = submenu
       let isOpened = openedMenus.value.includes(index)
 
@@ -231,10 +180,14 @@ export default defineComponent({
       }
     }
 
-    const handleItemClick = item => {
+    const handleItemClick = (item: {
+      index: string
+      indexPath: ComputedRef<string[]>
+      route?: any
+    }) => {
       const { index, indexPath } = item
-      const oldActiveIndex = activeIndex.value
       const hasIndex = item.index !== null
+      const oldActiveIndex = activeIndex.value
 
       if (hasIndex) {
         activeIndex.value = item.index
@@ -245,10 +198,11 @@ export default defineComponent({
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
-      // TODO: support router
-      // if (this.router && hasIndex) {
+      // TODO: support vue-router
+      // const currentRouter = instance.appContext.config.globalProperties.$router
+      // if (currentRouter && hasIndex) {
       //   routeToItem(item, error => {
-      //     data.activeIndex.value = oldActiveIndex
+      //     activeIndex.value = oldActiveIndex
       //     if (error) {
       //       // vue-router 3.1.0+ push/replace cause NavigationDuplicated error
       //       // https://github.com/ElemeFE/element/issues/17044
@@ -259,26 +213,37 @@ export default defineComponent({
       // }
     }
 
-    const routeToItem = (item, onError) => {
-      let route = item.route || item.index
-      try {
-        // this.$router.push(route, () => null, onError)
-      } catch (e) {
-        console.error(e)
-      }
-    }
+    // const routeToItem = (item, onError) => {
+    //   let route = item.route || item.index
+    //   try {
+    //     const currentRouter =
+    //       instance.appContext.config.globalProperties.$router
+    //     currentRouter?.push(route, () => null, onError)
+    //   } catch (e) {
+    //     console.error(e)
+    //   }
+    // }
 
     const updateActiveIndex = (val?: string) => {
-      const itemsInData = items
+      const itemsInData = items.value
       const item =
         itemsInData[val] ||
         itemsInData[activeIndex.value] ||
         itemsInData[props.defaultActive]
+
+      alteredCollapse.value
       if (item) {
         activeIndex.value = item.index
         initializeMenu()
       } else {
-        activeIndex.value = null
+        // Can't find item when collapsing
+        // and activeIndex shouldn't be changed when 'collapse' was changed.
+        // Then reset 'alteredCollapse' immediately.
+        if (!alteredCollapse.value) {
+          activeIndex.value = null
+        } else {
+          alteredCollapse.value = false
+        }
       }
     }
 
@@ -294,16 +259,16 @@ export default defineComponent({
       },
     )
 
-    watch(
-      () => items,
-      () => {
-        updateActiveIndex()
-      },
-    )
+    watch(items.value, value => {
+      updateActiveIndex()
+    })
 
     watch(
       () => props.collapse,
-      value => {
+      (value, prev) => {
+        if (value !== prev) {
+          alteredCollapse.value = true
+        }
         if (value) openedMenus.value = []
         rootMenuEmitter.emit(
           'rootMenu:toggle-collapse',
@@ -344,10 +309,9 @@ export default defineComponent({
       initializeMenu()
       rootMenuEmitter.on('menuItem:item-click', handleItemClick)
       rootMenuEmitter.on('submenu:submenu-click', handleSubmenuClick)
-      // aria-menubar
-      // if (props.mode === 'horizontal') {
-      //   new Menubar(this.$el) // eslint-disable-line
-      // }
+      if (props.mode === 'horizontal') {
+        new Menubar(instance.vnode.el)
+      }
     })
 
     return {
@@ -355,7 +319,7 @@ export default defineComponent({
       isMenuPopup,
 
       props,
-      // export for users
+
       open,
       close,
     }

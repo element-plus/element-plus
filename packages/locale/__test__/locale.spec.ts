@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { t, use } from '../index'
 import localeMixin from '../mixin'
-import zhCn from '../lang/zh-CN'
+import zhCn from '../lang/zh-cn'
 import en from '../lang/en'
 
 describe('Locale', () => {

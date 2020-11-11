@@ -16,7 +16,6 @@ export default function useMenu(
       }
       parent = parent.parent
     }
-    console.log('path', path)
     return path
   })
 
