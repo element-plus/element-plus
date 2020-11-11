@@ -174,7 +174,7 @@ export default defineComponent({
     const handleTabClick = (tab, tabName, event) => {
       if(tab.props.disabled) return
       setCurrentName(tabName)
-      ctx.emit('tab-click', tab, event)
+      ctx.emit('tab-click', tab.props, event)
     }
 
     const handleTabRemove = (pane, ev) => {
