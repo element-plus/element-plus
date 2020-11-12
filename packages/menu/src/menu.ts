@@ -13,8 +13,6 @@ export interface RootMenuData {
   items: any
   submenus: any
   isMenuPopup: boolean
-  // hoverBackground: string
-  // isMenuPopup: boolean
 }
 
 export interface RootMenuProvider {

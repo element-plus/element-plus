@@ -16,17 +16,11 @@
 <script lang="ts">
 import {
   defineComponent,
-  toRefs,
-  watch,
   computed,
-  ref,
   getCurrentInstance,
   inject,
-  ToRefs,
   reactive,
 } from 'vue'
-import mitt from 'mitt'
-import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
 import { IMenuGroupProps, RootMenuProvider } from './menu'
 
 export default defineComponent({

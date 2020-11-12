@@ -259,7 +259,7 @@ export default defineComponent({
       },
     )
 
-    watch(items.value, value => {
+    watch(items.value, () => {
       updateActiveIndex()
     })
 
