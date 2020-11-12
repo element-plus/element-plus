@@ -3,12 +3,16 @@
 @include b(picker-panel) {
   position: relative;
   color: $--color-text-regular;
-  border: 1px solid $--datepicker-border-color;
-  box-shadow: $--box-shadow-light;
   background: $--color-white;
   border-radius: $--border-radius-base;
   line-height: 30px;
-  margin: 5px 0;
+
+  .el-time-panel {
+    margin: 5px 0;
+    border: solid 1px $--datepicker-border-color;
+    background-color: $--color-white;
+    box-shadow: $--box-shadow-light;
+  }
 
   @include e((body, body-wrapper)) {
     &::after {

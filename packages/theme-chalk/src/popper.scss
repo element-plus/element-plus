@@ -32,7 +32,7 @@
     }
   }
 
-  @include m(pure) {
+  @include when(pure) {
     padding: 0;
     border: none;
 
