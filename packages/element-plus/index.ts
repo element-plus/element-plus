@@ -59,9 +59,6 @@ import ElPopover from '@element-plus/popover'
 import ElCascader from '@element-plus/cascader'
 import ElCascaderPanel from '@element-plus/cascader-panel'
 import ElMenu from '@element-plus/menu'
-import ElMenuItem from '@element-plus/menu-item'
-import ElMenuItemGroup from '@element-plus/menu-item-group'
-import ElSubmenu from '@element-plus/submenu'
 import ElCollapseTransition from '@element-plus/transition'
 import { use } from '@element-plus/locale'
 
@@ -123,9 +120,6 @@ export {
   ElCascader,
   ElCascaderPanel,
   ElMenu,
-  ElSubmenu,
-  ElMenuItem,
-  ElMenuItemGroup,
   ElCollapseTransition,
 }
 
@@ -198,9 +192,6 @@ const install = (app: App, opt: InstallOptions = defaultInstallOpt): void => {
   ElCascader(app)
   ElCascaderPanel(app)
   ElMenu(app)
-  ElSubmenu(app)
-  ElMenuItem(app)
-  ElMenuItemGroup(app)
   ElCollapseTransition(app)
 
   app.config.globalProperties.$ELEMENT = opt
