@@ -187,7 +187,7 @@ export default defineComponent({
     }) => {
       const { index, indexPath } = item
       const hasIndex = item.index !== null
-      const oldActiveIndex = activeIndex.value
+      // const oldActiveIndex = activeIndex.value
 
       if (hasIndex) {
         activeIndex.value = item.index
