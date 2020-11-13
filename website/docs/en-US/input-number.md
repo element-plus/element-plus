@@ -170,7 +170,7 @@ Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
 
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |----| ----| ---| ----| -----|
-|value / v-model | binding value| number | — | 0 |
+|modelValue / v-model | binding value| number | — | 0 |
 |min | the minimum allowed value | number | — | `-Infinity` |
 |max | the maximum allowed value | number | — | `Infinity` |
 |step | incremental step | number | — | 1 |
