@@ -101,6 +101,7 @@ export default defineComponent({
     'prev-click',
     'next-click',
     'update:currentPage',
+    'update:pageSize',
   ],
   setup(props, { emit }) {
     const internalCurrentPage = ref(1)
@@ -157,6 +158,7 @@ export default defineComponent({
     function handleSizesChange(val: number) {
       userChangePageSize.value = true
       internalPageSize.value = val
+      emit('size-change', val)
     }
 
     function prev() {
@@ -231,9 +233,9 @@ export default defineComponent({
     if (this.hideOnSinglePage && (!this.internalPageCount || this.internalPageCount === 1)) return null
 
     const rootNode = h('div', { class: ['el-pagination', { 'is-background': this.background, 'el-pagination--small': this.small }] })
-    const rootChilds = []
+    const rootChildren = []
     const rightWrapperRoot = h('div', { class: 'el-pagination__rightwrapper' })
-    const rightWrapperChilds = []
+    const rightWrapperChildren = []
     const TEMPLATE_MAP = {
       prev: h(Prev, {
         disabled: this.disabled,
@@ -269,23 +271,23 @@ export default defineComponent({
 
     let haveRightWrapper = false
 
-    components.forEach(compo => {
-      if (compo === '->') {
+    components.forEach((c: keyof typeof TEMPLATE_MAP | '->') => {
+      if (c === '->') {
         haveRightWrapper = true
         return
       }
       if (!haveRightWrapper) {
-        rootChilds.push(TEMPLATE_MAP[compo])
+        rootChildren.push(TEMPLATE_MAP[c])
       } else {
-        rightWrapperChilds.push(TEMPLATE_MAP[compo])
+        rightWrapperChildren.push(TEMPLATE_MAP[c])
       }
     })
 
     if (haveRightWrapper) {
-      rootChilds.unshift(rightWrapperRoot)
+      rootChildren.unshift(rightWrapperRoot)
     }
 
-    return h(rootNode, {}, rootChilds)
+    return h(rootNode, {}, rootChildren)
   },
 
 })

@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import Pagination from '../src/index'
+import { nextTick } from 'vue'
 
 const TIME_OUT = 100
 
@@ -189,6 +190,31 @@ describe('click pager', () => {
     await sleep(TIME_OUT)
     expect(wrapper.find('.btn-quickprev.more').exists()).toBe(true)
     expect(wrapper.find('.btn-quicknext.more').exists()).toBe(false)
+  })
+  test('should emit change size evt', async () => {
+    const onSizeChange = jest.fn()
+    const wrapper = mount({
+      components: {
+        'el-pagination': Pagination,
+      },
+      template: `
+        <el-pagination
+          @size-change="onSizeChange"
+         :total="1000"
+         :page-sizes="[100, 200, 300]"
+         layout="sizes, pager"
+         :page-size="100"/>
+      `,
+      methods: {
+        onSizeChange,
+      },
+    })
+
+    const items = document.querySelectorAll('.el-select-dropdown__item:not(.selected)');
+    (items[0] as HTMLOptionElement)?.click()
+    await nextTick()
+    expect(onSizeChange).toHaveBeenCalled()
+    expect(wrapper.findComponent(Pagination).emitted()).toHaveProperty('size-change')
   })
 })
 
