@@ -9,3 +9,5 @@ export default (app: App): void => {
   app.component(MenuItem.name, MenuItem)
   app.component(MenuItemGroup.name, MenuItemGroup)
 }
+
+export { Menu, Submenu, MenuItem, MenuItemGroup }
