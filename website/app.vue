@@ -10,7 +10,7 @@
 
 <script>
 import { use } from '@element-plus/locale'
-import zhLocale from '@element-plus/locale/lang/zh-CN'
+import zhLocale from '@element-plus/locale/lang/zh-cn'
 import enLocale from '@element-plus/locale/lang/en'
 import esLocale from '@element-plus/locale/lang/es'
 import frLocale from '@element-plus/locale/lang/fr'
