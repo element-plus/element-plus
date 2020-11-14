@@ -104,10 +104,6 @@ export default defineComponent({
       type: [Boolean],
       default: false,
     },
-    arrowControl: {
-      type: [Boolean],
-      default: false,
-    },
     parsedValue: {
       type: [Array, String] as PropType<string | Array<Dayjs>>,
     },
@@ -319,9 +315,10 @@ export default defineComponent({
     }
 
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
+    const { arrowControl, disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
 
     return {
+      arrowControl,
       onSetOption,
       setMaxSelectionRange,
       setMinSelectionRange,
@@ -344,8 +341,3 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
-.el-time-range-picker__content {
-  z-index: 1
-}
-</style>

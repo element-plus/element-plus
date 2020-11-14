@@ -5,10 +5,10 @@
   <el-popper
     ref="popper"
     v-model:visible="pickerVisible"
-    pure
     manual-mode
     effect="light"
     trigger="click"
+    popper-class="el-picker__popper"
   >
     <template #trigger>
       <el-input
@@ -130,10 +130,10 @@ import { Popper as ElPopper } from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
 
 import type { PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
 interface PickerOptions {
   isValidValue: any

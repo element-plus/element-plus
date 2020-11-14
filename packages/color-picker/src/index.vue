@@ -104,23 +104,13 @@ import { t } from '@element-plus/locale'
 import { UPDATE_MODEL_EVENT }  from '@element-plus/utils/constants'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
 
 import type { PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
 interface IUseOptions {
   currentColor: ComputedRef<string>
-}
-
-interface IProps {
-  modelValue?: string
-  showAlpha?: boolean
-  colorFormat?: string
-  disabled?: boolean
-  size?: string
-  popperClass?: string
-  predefine?: Array<string>
 }
 
 const OPTIONS_KEY = Symbol()
@@ -160,7 +150,7 @@ export default defineComponent( {
     'active-change': null,
     [UPDATE_MODEL_EVENT]: null,
   },
-  setup(props: IProps, { emit }) {
+  setup(props, { emit }) {
     const ELEMENT = useGlobalConfig()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -306,15 +296,3 @@ export default defineComponent( {
   },
 })
 </script>
-
-<style>
-.el-color-picker:focus {
-  outline: none;
-}
-.hue-slider {
-  float: right;
-}
-.el-popper.el-color-picker__panel {
-  border-color: #ebeef5;
-}
-</style>

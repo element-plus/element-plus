@@ -70,10 +70,6 @@ export default defineComponent({
     parsedValue: {
       type: [Object, String] as PropType<string | Dayjs>,
     },
-    arrowControl: {
-      type: Boolean,
-      default: false,
-    },
     format: {
       type: String,
       default: '',
@@ -197,7 +193,7 @@ export default defineComponent({
       timePickeOptions[e[0]] = e[1]
     }
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
+    const { arrowControl, disabledHours, disabledMinutes, disabledSeconds, defaultValue } = pickerBase.props
     const {
       getAvaliableHours,
       getAvaliableMinutes,
@@ -205,6 +201,7 @@ export default defineComponent({
     } = getAvaliableArrs(disabledHours, disabledMinutes, disabledSeconds)
 
     return {
+      arrowControl,
       onSetOption,
       t,
       handleConfirm,
@@ -220,8 +217,3 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
-.el-time-panel {
-  position: relative;
-}
-</style>

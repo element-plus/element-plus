@@ -6,7 +6,7 @@
 
 呼出一个临时的侧边栏, 可以从多个方向呼出
 
-:::demo 需要设置 `visible` 属性，它的**类型**是 `boolean`,当为 **true** 时显示 Drawer。Drawer 分为两个部分：`title` 和 `body`，`title` 需要具名为 **title** 的 `slot`, 也可以通过 `title` 属性来定义，默认值为空。需要注意的是, Drawer 默认是从右往左打开, 当然可以设置对应的 `direction`, 详细请参考 `direction` 用法 最后，本例还展示了 `before-close` 的用法
+:::demo 需要设置 `model-value` 属性，它的**类型**是 `boolean`,当为 **true** 时显示 Drawer。Drawer 分为两个部分：`title` 和 `body`，`title` 需要具名为 **title** 的 `slot`, 也可以通过 `title` 属性来定义，默认值为空。需要注意的是, Drawer 默认是从右往左打开, 当然可以设置对应的 `direction`, 详细请参考 `direction` 用法 最后，本例还展示了 `before-close` 的用法
 
 ```html
 <el-radio-group v-model="direction">
@@ -22,9 +22,9 @@
 
 <el-drawer
   title="我是标题"
-  :visible.sync="drawer"
+  v-model="drawer"
   :direction="direction"
-  :before-close="handleClose">
+  :before-close="handleClose" destroy-on-close>
   <span>我来啦!</span>
 </el-drawer>
 
@@ -63,7 +63,7 @@
 
 <el-drawer
   title="我是标题"
-  :visible.sync="drawer"
+  v-model="drawer"
   :with-header="false">
   <span>我来啦!</span>
 </el-drawer>
@@ -92,7 +92,7 @@
 <el-button type="text" @click="dialog = true">打开嵌套 Form 的 Drawer</el-button>
 <el-drawer
   title="我嵌套了表格!"
-  :visible.sync="table"
+  v-model="table"
   direction="rtl"
   size="50%">
    <el-table :data="gridData">
@@ -105,7 +105,7 @@
 <el-drawer
   title="我嵌套了 Form !"
   :before-close="handleClose"
-  :visible.sync="dialog"
+  v-model="dialog"
   direction="ltr"
   custom-class="demo-drawer"
   ref="drawer"
@@ -210,7 +210,7 @@ export default {
 
 <el-drawer
   title="我是外面的 Drawer"
-  :visible.sync="drawer"
+  v-model="drawer"
   size="50%">
   <div>
    <el-button @click="innerDrawer = true">打开里面的!</el-button>
@@ -218,7 +218,7 @@ export default {
      title="我是里面的"
      :append-to-body="true"
      :before-close="handleClose"
-     :visible.sync="innerDrawer">
+     v-model="innerDrawer">
      <p>_(:зゝ∠)_</p>
    </el-drawer>
   </div>
@@ -259,12 +259,6 @@ Drawer 提供一个 `destroyOnClose` API, 用来在关闭 Drawer 时销毁子组
 
 :::
 
-:::tip
-
-如果 `visible` 属性绑定的变量位于 Vuex 的 store 内，那么 `.sync` 不会正常工作。此时需要去除 `.sync` 修饰符，同时监听 Drawer 的 `open` 和 `close` 事件，在事件回调中执行 Vuex 中对应的 mutation 更新 `visible` 属性绑定的变量的值。
-
-:::
-
 ### Drawer Attributes
 
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
@@ -280,7 +274,7 @@ Drawer 提供一个 `destroyOnClose` API, 用来在关闭 Drawer 时销毁子组
 | show-close | 是否显示关闭按钮 | boolean    | — | true |
 | size | Drawer 窗体的大小, 当使用 `number` 类型时, 以像素为单位, 当使用 `string` 类型时, 请传入 'x%', 否则便会以 `number` 类型解释 | number / string | - | '30%' |
 | title     | Drawer 的标题，也可通过具名 slot （见下表）传入 | string    | — | — |
-| visible   | 是否显示 Drawer，支持 .sync 修饰符 | boolean | — | false |
+| model-value   | 是否显示 Drawer，支持 .sync 修饰符 | boolean | — | false |
 | wrapperClosable | 点击遮罩层是否可以关闭 Drawer | boolean | - | true |
 | withHeader | 控制是否显示 header 栏, 默认为 true, 当此项为 false 时, title attribute 和 title slot 均不生效 | boolean | - | true |
 

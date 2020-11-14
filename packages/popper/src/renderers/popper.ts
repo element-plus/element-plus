@@ -40,10 +40,10 @@ export default function renderPopper(
   } = props
 
   const kls = [
+    popperClass,
     'el-popper',
     'is-' + effect,
-    popperClass,
-    pure ? 'el-popper__pure' : '',
+    pure ? 'is-pure' : '',
   ]
   /**
    * Equivalent to

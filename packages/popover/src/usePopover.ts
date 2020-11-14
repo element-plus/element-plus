@@ -1,9 +1,9 @@
 import { computed, watch } from 'vue'
 import { isString } from '@element-plus/utils/util'
-import usePopper from '@element-plus/popper/src/use-popper'
+import { usePopper } from '@element-plus/popper'
 
 
-import type { IPopperOptions } from '@element-plus/popper/src/use-popper/defaults'
+import type { IPopperOptions } from '@element-plus/popper'
 import type { SetupContext } from 'vue'
 
 export interface IUsePopover extends IPopperOptions{

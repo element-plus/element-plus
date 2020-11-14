@@ -113,12 +113,39 @@
 ```
 :::
 
+### ローディング
+
+:::demo `loading`属性を`true`に設定すると、ロード状態を表示することができます。
+
+```html
+<el-switch
+  v-model="value1"
+  loading>
+</el-switch>
+<el-switch
+  v-model="value2"
+  loading>
+</el-switch>
+<script>
+  export default {
+    data() {
+      return {
+        value1: true,
+        value2: false
+      }
+    }
+  };
+</script>
+```
+:::
+
 ### 属性
 
 | Attribute      | Description          | Type      | Accepted Values       | Default |
 |-----| ----| ----| ----|---- |
 | value / v-model | バインディング値 | boolean / string / number | — | — |
 | disabled | スイッチが無効になっているかどうか | boolean | — | false |
+| loading  | スイッチがロード中になっているかどうか | boolean | — | false |
 | width | スイッチの幅 | number | — | 40 |
 | active-icon-class | `on` 状態のときに表示されるアイコンのクラス名で、`active-text` を上書きします。 | string | — | — |
 | inactive-icon-class |`off` 状態のときに表示されるアイコンのクラス名で、`inactive-text` を上書きします。| string | — | — |

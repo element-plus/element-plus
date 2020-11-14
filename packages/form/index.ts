@@ -10,3 +10,4 @@ export default (app: App): void => {
 }
 
 export { Form, FormItem, LabelWrap }
+export * from './src/token'

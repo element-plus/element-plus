@@ -578,8 +578,3 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
-.el-time-panel {
-  position: absolute;
-}
-</style>
