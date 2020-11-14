@@ -119,6 +119,7 @@ $directions: rtl, ltr, ttb, btt;
   0 16px 24px 2px rgba(0, 0, 0, 0.14),
   0 6px 30px 5px rgba(0, 0, 0, 0.12);
   overflow: hidden;
+  outline: none;
 
   @each $direction in $directions {
     @include animation-out($direction);
@@ -144,6 +145,7 @@ $directions: rtl, ltr, ttb, btt;
     padding-bottom: 0;
     & > :first-child {
       flex: 1;
+      outline: none;
     }
   }
 
@@ -160,6 +162,7 @@ $directions: rtl, ltr, ttb, btt;
     font-size: $--font-size-extra-large;
     color: inherit;
     background-color: transparent;
+    outline: none;
   }
 
   &__body {
