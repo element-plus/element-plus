@@ -172,13 +172,13 @@ Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `s
 
 | Atributo          | Descripción                              | Tipo    | Valores aceptados | Por defecto |
 | ----------------- | ---------------------------------------- | ------- | ----------------- | ----------- |
-| value / v-model    | valor vinculado                          | number  | —                 | 0           |
+| modelValue / v-model | valor vinculado                          | number  | —                 | 0           |
 | min               | el valor mínimo permitido                | number  | —                 | `-Infinity`  |
 | max               | el valor maximo permitido                | number  | —                 | `Infinity`  |
 | step              | incremento (salto)                       | number  | —                 | 1           |
 | step-strictly  | si el valor del input puede ser solo un multiplo de step | boolean  | —                 | false       |
 | precision         | precisión del valor del input | number  | —                 | —           |
-| size              | tamaño del componente                    | string  | large/small       | —           |
+| size              | tamaño del componente                    | string  | large/medium/small/mini | large      |
 | disabled          | si el componente esta deshabilitado      | boolean | —                 | false       |
 | controls          | si se activan los botones de control     | boolean | —                 | true        |
 | controls-position | posición de los botones de control       | string  | right             | -           |

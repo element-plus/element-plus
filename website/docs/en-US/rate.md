@@ -33,6 +33,28 @@ Used for rating
 ```
 :::
 
+### With allow-half
+:::demo Add attribute `allow-half` Half star allowed
+```html
+
+<div class="block">
+  <el-rate  v-model="value"  allow-half />
+</div>
+
+
+<script>
+import { defineComponent, ref } from 'vue'
+  export default {
+    setup() {
+      return {
+        value: ref(null)
+      }
+    }
+  }
+</script>
+```
+:::
+
 ### With text
 
 Using text to indicate rating score

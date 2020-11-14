@@ -5,10 +5,10 @@
   <el-popper
     ref="popper"
     v-model:visible="pickerVisible"
-    pure
     manual-mode
     effect="light"
     trigger="click"
+    popper-class="el-picker__popper"
   >
     <template #trigger>
       <el-input

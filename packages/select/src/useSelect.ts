@@ -19,10 +19,10 @@ import {
   isEdge,
   useGlobalConfig,
 } from '@element-plus/utils/util'
-import { elFormKey, elFormItemKey } from '@element-plus/form/src/token'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
 import isEqual from 'lodash/isEqual'
 
-import type { ElFormContext, ElFormItemContext } from '@element-plus/form/src/token'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
 export function useSelectStates(props) {
   const selectEmitter = mitt()
@@ -399,6 +399,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleResize = () => {
     resetInputWidth()
+    popper.value?.update()
     if (props.multiple) resetInputHeight()
   }
 

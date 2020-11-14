@@ -34,6 +34,28 @@ Usado para la calificación
 ```
 :::
 
+### Media elección permitida
+:::demo Añadir propiedades `allow-half` Media estrella permitida
+```html
+
+<div class="block">
+  <el-rate  v-model="value"  allow-half />
+</div>
+
+
+<script>
+import { defineComponent, ref } from 'vue'
+  export default {
+    setup() {
+      return {
+        value: ref(null)
+      }
+    }
+  }
+</script>
+```
+:::
+
 ### Con texto
 
 Usa texto para indicar la puntuación

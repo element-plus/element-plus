@@ -8,7 +8,7 @@ import typescript from 'rollup-plugin-typescript2'
 import pkg from '../package.json'
 const deps = Object.keys(pkg.dependencies)
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const vue = require('./plugin.js')
+const vue = require('rollup-plugin-vue')
 
 export default [
   {

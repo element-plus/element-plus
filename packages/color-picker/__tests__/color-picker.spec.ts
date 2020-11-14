@@ -10,7 +10,9 @@ const _mount = (template: string, data: () => ({[key:string]: any;})) => {
     data,
     template,
   })
-  return mount(Component)
+  return mount(Component, {
+    attachTo: 'body',
+  })
 }
 
 type ColorPickerVM = ComponentPublicInstance<{

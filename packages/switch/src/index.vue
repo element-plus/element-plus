@@ -228,5 +228,3 @@ export default defineComponent({
   },
 })
 </script>
-
-

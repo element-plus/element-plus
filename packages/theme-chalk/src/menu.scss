@@ -1,7 +1,7 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
-@import "common/transition";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
+@import 'common/transition';
 
 @mixin menu-item {
   height: 56px;
@@ -12,7 +12,7 @@
   list-style: none;
   cursor: pointer;
   position: relative;
-  transition: border-color .3s, background-color .3s, color .3s;
+  transition: border-color 0.3s, background-color 0.3s, color 0.3s;
   box-sizing: border-box;
   white-space: nowrap;
 
@@ -65,7 +65,7 @@
       }
 
       &:not(.is-disabled):hover,
-      &:not(.is-disabled):focus{
+      &:not(.is-disabled):focus {
         background-color: #fff;
       }
     }
@@ -134,7 +134,7 @@
 
     > .el-menu-item,
     > .el-submenu > .el-submenu__title {
-      [class^="el-icon-"] {
+      [class^='el-icon-'] {
         margin: 0;
         vertical-align: middle;
         width: 24px;
@@ -187,20 +187,12 @@
     padding: 5px 0;
     border-radius: $--border-radius-small;
     box-shadow: $--box-shadow-light;
-
-    &-bottom-start {
-      margin-top: 5px;
-    }
-    &-right-start {
-      margin-left: 5px;
-      margin-right: 5px;
-    }
   }
 }
 @include b(menu-item) {
   @include menu-item;
 
-  & [class^="el-icon-"] {
+  & [class^='el-icon-'] {
     margin-right: 5px;
     width: 24px;
     text-align: center;
@@ -214,7 +206,7 @@
     }
   }
 }
-  
+
 @include b(submenu) {
   list-style: none;
   margin: 0;
@@ -241,7 +233,7 @@
     top: 50%;
     right: 20px;
     margin-top: -7px;
-    transition: transform .3s;
+    transition: transform 0.3s;
     font-size: 12px;
   }
   @include when(active) {
@@ -262,7 +254,7 @@
       background: none !important;
     }
   }
-  [class^="el-icon-"] {
+  [class^='el-icon-'] {
     vertical-align: middle;
     margin-right: 5px;
     width: 24px;
@@ -284,6 +276,6 @@
 }
 
 .horizontal-collapse-transition .el-submenu__title .el-submenu__icon-arrow {
-  transition: .2s;
+  transition: 0.2s;
   opacity: 0;
 }
