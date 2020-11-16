@@ -32,6 +32,28 @@
 ```
 :::
 
+### 允许半选
+:::demo 属性 `allow-half` 允许出现半星
+```html
+
+<div class="block">
+  <el-rate  v-model="value"  allow-half />
+</div>
+
+
+<script>
+import { defineComponent, ref } from 'vue'
+  export default {
+    setup() {
+      return {
+        value: ref(null)
+      }
+    }
+  }
+</script>
+```
+:::
+
 ### 辅助文字
 
 用辅助文字直接地表达对应分数

@@ -36,6 +36,7 @@ const _mount = (props: UnknownProps = {}, slots = {}): VueWrapper<any> =>
         }),
       ...slots,
     },
+    attachTo: 'body',
   })
 
 const popperMock = jest
@@ -85,7 +86,7 @@ describe('Popper.vue', () => {
 
   test('append to body', () => {
     let wrapper = _mount()
-    expect(wrapper.find(selector).exists()).toBe(false)
+    expect(wrapper.find(selector).exists()).toBe(true)
 
     /**
      * Current layout of `ElPopper`
@@ -96,10 +97,10 @@ describe('Popper.vue', () => {
      */
 
     wrapper = _mount({
-      appendToBody: false,
+      appendToBody: true,
     })
 
-    expect(wrapper.find(selector).exists()).toBe(true)
+    expect(wrapper.find(selector).exists()).toBe(false)
   })
 
   test('should show popper when mouse entered and hide when popper left', async () => {
@@ -135,6 +136,37 @@ describe('Popper.vue', () => {
     expect(wrapper.find(selector).attributes('style')).not.toContain(
       DISPLAY_NONE,
     )
+  })
+
+  test('should not stop propagation when manual mode is enabled', async () => {
+    const onMouseUp = jest.fn()
+    const onMouseDown = jest.fn()
+    document.addEventListener('mouseup', onMouseUp)
+    document.addEventListener('mousedown', onMouseDown)
+
+    const wrapper = _mount({
+      manualMode: true,
+      visible: true,
+    })
+    await nextTick()
+
+    await wrapper.find('.el-popper').trigger('mousedown')
+    expect(onMouseDown).toHaveBeenCalled()
+    await wrapper.find('.el-popper').trigger('mouseup')
+    expect(onMouseUp).toHaveBeenCalled()
+
+    await wrapper.setProps({
+      manualMode: false,
+    })
+    await nextTick()
+
+    await wrapper.find('.el-popper').trigger('mousedown')
+    expect(onMouseDown).toHaveBeenCalledTimes(1)
+    await wrapper.find('.el-popper').trigger('mouseup')
+    expect(onMouseUp).toHaveBeenCalledTimes(1)
+    document.removeEventListener('mouseup', onMouseUp)
+    document.removeEventListener('mousedown', onMouseDown)
+
   })
 
   test('should disable popper to popup', async () => {

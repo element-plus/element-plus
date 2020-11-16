@@ -33,6 +33,29 @@ Utilisé pour donner une note sur cinq étoiles.
 ```
 :::
 
+### Demi-sélection autorisée
+:::demo Ajoutez l'attribut `allow-half` Demi-étoile autorisée
+```html
+
+<div class="block">
+  <el-rate  v-model="value"  allow-half />
+</div>
+
+
+<script>
+import { defineComponent, ref } from 'vue'
+  export default {
+    setup() {
+      return {
+        value: ref(null)
+      }
+    }
+  }
+</script>
+```
+:::
+
+
 ### Avec du texte
 
 Vous pouvez ajouter du texte à chaque score.

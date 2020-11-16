@@ -10,7 +10,7 @@
 
 <script>
 import { use } from '@element-plus/locale'
-import zhLocale from '@element-plus/locale/lang/zh-CN'
+import zhLocale from '@element-plus/locale/lang/zh-cn'
 import enLocale from '@element-plus/locale/lang/en'
 import esLocale from '@element-plus/locale/lang/es'
 import frLocale from '@element-plus/locale/lang/fr'
@@ -72,7 +72,7 @@ export default {
 
       const href = location.href
       const preferGithub = localStorage.getItem('PREFER_GITHUB')
-      const cnHref = href.indexOf('eleme.cn') > -1 || href.indexOf('element-cn') > -1 || href.indexOf('element.faas') > -1
+      const cnHref = href.indexOf('element-plus.gitee.io') > -1
       if (cnHref || preferGithub) return
       setTimeout(() => {
         if (this.lang !== Language.CN) return

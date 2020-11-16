@@ -11,12 +11,12 @@ La barre du haut peut être utilisée pour différents scénarios.
 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
   <el-menu-item index="1">Centre de traitement</el-menu-item>
   <el-submenu index="2">
-    <template slot="title">Lieu de travail</template>
+    <template #title>Lieu de travail</template>
     <el-menu-item index="2-1">item un</el-menu-item>
     <el-menu-item index="2-2">item deux</el-menu-item>
     <el-menu-item index="2-3">item trois</el-menu-item>
     <el-submenu index="2-4">
-      <template slot="title">item quatre</template>
+      <template #title>item quatre</template>
       <el-menu-item index="2-4-1">item un</el-menu-item>
       <el-menu-item index="2-4-2">item deux</el-menu-item>
       <el-menu-item index="2-4-3">item trois</el-menu-item>
@@ -36,12 +36,12 @@ La barre du haut peut être utilisée pour différents scénarios.
   active-text-color="#ffd04b">
   <el-menu-item index="1">Centre de traitement</el-menu-item>
   <el-submenu index="2">
-    <template slot="title">Lieu de travail</template>
+    <template #title>Lieu de travail</template>
     <el-menu-item index="2-1">item un</el-menu-item>
     <el-menu-item index="2-2">item deux</el-menu-item>
     <el-menu-item index="2-3">item trois</el-menu-item>
     <el-submenu index="2-4">
-      <template slot="title">item quatre</template>
+      <template #title>item quatre</template>
       <el-menu-item index="2-4-1">item un</el-menu-item>
       <el-menu-item index="2-4-2">item deux</el-menu-item>
       <el-menu-item index="2-4-3">item trois</el-menu-item>
@@ -84,7 +84,7 @@ Menu vertical avec sous-menus.
       @open="handleOpen"
       @close="handleClose">
       <el-submenu index="1">
-        <template slot="title">
+        <template #title>
           <i class="el-icon-location"></i>
           <span>Navigateur Un</span>
         </template>
@@ -96,7 +96,7 @@ Menu vertical avec sous-menus.
           <el-menu-item index="1-3">item trois</el-menu-item>
         </el-menu-item-group>
         <el-submenu index="1-4">
-          <template slot="title">item quatre</template>
+          <template #title>item quatre</template>
           <el-menu-item index="1-4-1">item un</el-menu-item>
         </el-submenu>
       </el-submenu>
@@ -125,7 +125,7 @@ Menu vertical avec sous-menus.
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-submenu index="1">
-        <template slot="title">
+        <template #title>
           <i class="el-icon-location"></i>
           <span>Navigateur Un</span>
         </template>
@@ -137,7 +137,7 @@ Menu vertical avec sous-menus.
           <el-menu-item index="1-3">item trois</el-menu-item>
         </el-menu-item-group>
         <el-submenu index="1-4">
-          <template slot="title">item quatre</template>
+          <template #title>item quatre</template>
           <el-menu-item index="1-4-1">item un</el-menu-item>
         </el-submenu>
       </el-submenu>
@@ -184,12 +184,12 @@ Le menu vertical peut être réduit.
 </el-radio-group>
 <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
   <el-submenu index="1">
-    <template slot="title">
+    <template #title>
       <i class="el-icon-location"></i>
-      <span slot="title">Navigateur Un</span>
+      <span>Navigateur Un</span>
     </template>
     <el-menu-item-group>
-      <span slot="title">Group Un</span>
+      <template #title><span>Group Un</span></template>
       <el-menu-item index="1-1">item un</el-menu-item>
       <el-menu-item index="1-2">item deux</el-menu-item>
     </el-menu-item-group>
@@ -197,21 +197,21 @@ Le menu vertical peut être réduit.
       <el-menu-item index="1-3">item trois</el-menu-item>
     </el-menu-item-group>
     <el-submenu index="1-4">
-      <span slot="title">item quatre</span>
+      <template #title><span>item quatre</span></template>
       <el-menu-item index="1-4-1">item un</el-menu-item>
     </el-submenu>
   </el-submenu>
   <el-menu-item index="2">
     <i class="el-icon-menu"></i>
-    <span slot="title">Navigateur Deux</span>
+    <template #title>Navigator Deux</template>
   </el-menu-item>
   <el-menu-item index="3" disabled>
     <i class="el-icon-document"></i>
-    <span slot="title">Navigateur Trois</span>
+    <template #title>Navigator Trois</template>
   </el-menu-item>
   <el-menu-item index="4">
     <i class="el-icon-setting"></i>
-    <span slot="title">Navigateur Quatre</span>
+    <template #title>Navigator Quatre</template>
   </el-menu-item>
 </el-menu>
 

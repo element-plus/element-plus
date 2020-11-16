@@ -58,6 +58,9 @@ import ElInputNumber from '@element-plus/input-number'
 import ElPopover from '@element-plus/popover'
 import ElCascader from '@element-plus/cascader'
 import ElCascaderPanel from '@element-plus/cascader-panel'
+import ElMenu from '@element-plus/menu'
+import ElCollapseTransition from '@element-plus/transition'
+import { use } from '@element-plus/locale'
 
 export {
   ElAlert,
@@ -116,11 +119,14 @@ export {
   ElPopover,
   ElCascader,
   ElCascaderPanel,
+  ElMenu,
+  ElCollapseTransition,
 }
 
 interface InstallOptions {
   size: ComponentSize
   zIndex: number
+  locale?: any
 }
 
 const defaultInstallOpt =  {
@@ -185,8 +191,11 @@ const install = (app: App, opt: InstallOptions = defaultInstallOpt): void => {
   ElPopover(app)
   ElCascader(app)
   ElCascaderPanel(app)
+  ElMenu(app)
+  ElCollapseTransition(app)
 
   app.config.globalProperties.$ELEMENT = opt
+  use(opt.locale)
 }
 
 const elementUI = {

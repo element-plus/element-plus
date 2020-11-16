@@ -4,17 +4,17 @@ import {
   defineComponent,
   Fragment,
   Teleport,
-  onMounted,
   onBeforeUnmount,
   onDeactivated,
   onActivated,
+  onMounted,
   renderSlot,
   toDisplayString,
   withDirectives,
 } from 'vue'
 
 import throwError from '@element-plus/utils/error'
-import { renderBlock } from '@element-plus/utils/vnode'
+import { PatchFlags, renderBlock } from '@element-plus/utils/vnode'
 
 import usePopper from './use-popper/index'
 import defaultProps from './use-popper/defaults'
@@ -69,6 +69,7 @@ export default defineComponent({
       visibility,
     } = this
 
+    const isManual = this.isManualMode()
     const arrow = renderArrow(showArrow)
     const popper = renderPopper(
       {
@@ -77,6 +78,7 @@ export default defineComponent({
         popperClass,
         popperId,
         pure,
+        isManual,
         onMouseEnter: onPopperMouseEnter,
         onMouseLeave: onPopperMouseLeave,
         onAfterEnter,
@@ -92,7 +94,6 @@ export default defineComponent({
     )
 
     const _t = $slots.trigger?.()
-    const isManual = this.isManualMode()
 
     const triggerProps = {
       ariaDescribedby: popperId,
@@ -107,118 +108,17 @@ export default defineComponent({
 
     return renderBlock(Fragment, null, [
       trigger,
-      appendToBody
-        ? createVNode(
-          Teleport as any, // Vue did not support createVNode for Teleport
-          {
-            to: 'body',
-            key: 0,
-          },
-          [
-            popper,
-          ],
-        )
-        : renderBlock(Fragment, { key: 1 }, [popper]),
+      createVNode(
+        Teleport as any, // Vue did not support createVNode for Teleport
+        {
+          to: 'body',
+          disabled: !appendToBody,
+        },
+        [popper],
+        PatchFlags.PROPS,
+        ['disabled'],
+      ),
     ])
   },
 })
 </script>
-
-<style>
-.el-popper__mask {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-}
-
-.el-popper {
-  position: absolute;
-  border-radius: 4px;
-  padding: 10px;
-  z-index: 2000;
-  font-size: 12px;
-  line-height: 1.2;
-  min-width: 10px;
-  word-wrap: break-word;
-  visibility: visible;
-}
-
-.el-popper__arrow,
-.el-popper__arrow::before {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  z-index: -1;
-}
-
-.el-popper__arrow::before {
-  content: ' ';
-  transform: rotate(45deg);
-  background: #303133;
-  box-sizing: border-box;
-}
-
-.el-popper[data-popper-placement^='top'] > .el-popper__arrow {
-  bottom: -5px;
-}
-
-.el-popper[data-popper-placement^='bottom'] > .el-popper__arrow {
-  top: -5px;
-}
-
-.el-popper[data-popper-placement^='left'] > .el-popper__arrow {
-  right: -5px;
-}
-
-.el-popper[data-popper-placement^='right'] > .el-popper__arrow {
-  left: -5px;
-}
-
-.is-dark {
-  background: #303133;
-  color: #fff;
-}
-.is-light {
-  background: #fff;
-  border: 1px solid #303133;
-}
-
-.is-dark .el-popper__arrow::before {
-  background: #303133;
-}
-
-.is-light .el-popper__arrow::before {
-  background: #fff;
-  border: 1px solid #303133;
-}
-
-.is-light[data-popper-placement^='top'] .el-popper__arrow::before {
-  border-top-color: transparent;
-  border-left-color: transparent;
-}
-
-.is-light[data-popper-placement^='bottom'] .el-popper__arrow::before {
-  border-bottom-color: transparent;
-  border-right-color: transparent;
-}
-
-.is-light[data-popper-placement^='left'] .el-popper__arrow::before {
-  border-left-color: transparent;
-  border-bottom-color: transparent;
-}
-
-.is-light[data-popper-placement^='right'] .el-popper__arrow::before {
-  border-top-color: transparent;
-  border-right-color: transparent;
-}
-
-.el-popper__pure {
-  padding: 0;
-  border: none;
-}
-
-.el-popper__pure .el-popper__arrow::before {
-  border: none;
-}
-</style>

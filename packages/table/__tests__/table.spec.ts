@@ -1,4 +1,4 @@
-import { mount, VueWrapper } from '@vue/test-utils'
+import { mount as _mount, VueWrapper } from '@vue/test-utils'
 import { ComponentPublicInstance, nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
@@ -8,6 +8,11 @@ const testDataArr = []
 const toArray = function(obj) {
   return [].slice.call(obj)
 }
+
+const mount = (opt: any) => _mount(opt, {
+  attachTo: 'body',
+})
+
 const triggerEvent = function(elm, name, ...opts) {
   let eventName
 
