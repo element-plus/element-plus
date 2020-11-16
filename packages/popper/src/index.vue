@@ -69,6 +69,7 @@ export default defineComponent({
       visibility,
     } = this
 
+    const isManual = this.isManualMode()
     const arrow = renderArrow(showArrow)
     const popper = renderPopper(
       {
@@ -77,6 +78,7 @@ export default defineComponent({
         popperClass,
         popperId,
         pure,
+        isManual,
         onMouseEnter: onPopperMouseEnter,
         onMouseLeave: onPopperMouseLeave,
         onAfterEnter,
@@ -92,7 +94,6 @@ export default defineComponent({
     )
 
     const _t = $slots.trigger?.()
-    const isManual = this.isManualMode()
 
     const triggerProps = {
       ariaDescribedby: popperId,

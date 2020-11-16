@@ -138,6 +138,37 @@ describe('Popper.vue', () => {
     )
   })
 
+  test('should not stop propagation when manual mode is enabled', async () => {
+    const onMouseUp = jest.fn()
+    const onMouseDown = jest.fn()
+    document.addEventListener('mouseup', onMouseUp)
+    document.addEventListener('mousedown', onMouseDown)
+
+    const wrapper = _mount({
+      manualMode: true,
+      visible: true,
+    })
+    await nextTick()
+
+    await wrapper.find('.el-popper').trigger('mousedown')
+    expect(onMouseDown).toHaveBeenCalled()
+    await wrapper.find('.el-popper').trigger('mouseup')
+    expect(onMouseUp).toHaveBeenCalled()
+
+    await wrapper.setProps({
+      manualMode: false,
+    })
+    await nextTick()
+
+    await wrapper.find('.el-popper').trigger('mousedown')
+    expect(onMouseDown).toHaveBeenCalledTimes(1)
+    await wrapper.find('.el-popper').trigger('mouseup')
+    expect(onMouseUp).toHaveBeenCalledTimes(1)
+    document.removeEventListener('mouseup', onMouseUp)
+    document.removeEventListener('mousedown', onMouseDown)
+
+  })
+
   test('should disable popper to popup', async () => {
     const wrapper = _mount({
       disabled: true,
