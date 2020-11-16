@@ -8,6 +8,7 @@
     trigger="click"
     effect="light"
     popper-class="el-table-filter el-table-filter-padding"
+    append-to-body
   >
     <template #default>
       <div v-if="multiple">
@@ -86,7 +87,10 @@
 <script lang='ts'>
 import { Popper as ElPopper } from '@element-plus/popper'
 import { t } from '@element-plus/locale'
-import { Checkbox as ElCheckbox, CheckboxGroup as ElCheckboxGroup } from '@element-plus/checkbox'
+import {
+  Checkbox as ElCheckbox,
+  CheckboxGroup as ElCheckboxGroup,
+} from '@element-plus/checkbox'
 import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
 import {
   ref,
