@@ -89,7 +89,6 @@ export default defineComponent({
       popperClass: kls,
       popperStyle: popperStyle,
       popperId,
-      pure: true,
       visibility,
       onMouseEnter: onPopperMouseEnter,
       onMouseLeave: onPopperMouseLeave,
