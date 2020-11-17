@@ -1,13 +1,13 @@
 {
   "name": "element-plus",
   "private": true,
-  "version": "1.0.1-alpha.14",
+  "version": "1.0.1-alpha.15",
   "scripts": {
     "cz": "npx git-cz",
     "test": "jest",
     "gen": "bash ./scripts/gc.sh",
     "bootstrap": "yarn && npx lerna bootstrap",
-    "build": "yarn bootstrap && yarn build:lib && yarn build:theme && yarn build:esm-bundle && yarn build:esm && yarn build:utils && yarn build:locale",
+    "build": "yarn bootstrap && yarn build:lib && yarn build:theme && yarn build:esm-bundle && yarn build:esm && yarn build:utils && yarn build:locale && yarn build:locale-umd",
     "build:lib": "rimraf lib && webpack --config ./build/webpack.config.js",
     "build:esm-bundle": "rollup --config ./build/rollup.config.bundle.js",
     "build:esm": "node ./build/bincomp.js",
