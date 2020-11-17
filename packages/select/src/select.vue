@@ -239,7 +239,6 @@ export default defineComponent({
     },
     placeholder: {
       type: String,
-      default: t('el.select.placeholder'),
     },
     defaultFirstOption: Boolean,
     reserveKeyword: Boolean,
@@ -342,7 +341,7 @@ export default defineComponent({
     }))
 
     onMounted(() => {
-      states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder
+      states.cachedPlaceHolder = currentPlaceholder.value = (props.placeholder || t('el.select.placeholder'))
       if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
       }
