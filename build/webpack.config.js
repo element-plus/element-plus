@@ -33,14 +33,17 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
-  externals: {
-    vue: {
-      root: 'Vue',
-      commonjs: 'vue',
-      commonjs2: 'vue',
-      amd: 'vue',
+  externals: [
+    {
+      vue: {
+        root: 'Vue',
+        commonjs: 'vue',
+        commonjs2: 'vue',
+        amd: 'vue',
+      },
     },
-  },
+    /^dayjs.*/,
+  ],
   plugins: [
     new VueLoaderPlugin(),
     // new BundleAnalyzerPlugin(),
