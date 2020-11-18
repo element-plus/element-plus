@@ -73,7 +73,7 @@ export default defineComponent({
       return [
         'el-tag',
         type ? `el-tag--${type}` : '',
-        'tagSize' ? `el-tag--${tagSize.value}` : '',
+        tagSize.value ? `el-tag--${tagSize.value}` : '',
         effect ? `el-tag--${effect}` : '',
         hit && 'is-hit',
       ]
