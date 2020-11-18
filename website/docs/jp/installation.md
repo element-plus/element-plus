@@ -25,11 +25,9 @@ npm install element-plus --save
 ### Hello world
 CDNを使う場合、Elementでハローワールドを表示するのは簡単です。 [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
 
-<p class="codepen" data-height="265" data-theme-id="light" data-default-tab="html,result" data-user="iamkun" data-slug-hash="YzWMaVr" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="YzWMaVr">
-  <span>See the Pen <a href="https://codepen.io/iamkun/pen/YzWMaVr">
-  YzWMaVr</a> by iamkun (<a href="https://codepen.io/iamkun">@iamkun</a>)
-  on <a href="https://codepen.io">CodePen</a>.</span>
-</p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/iamkun/pen/YzWMaVr'>YzWMaVr</a> by iamkun
+  (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
 
 npmを使っていてwebpackを適用したい場合は、次のページに進んでください。: [Quick Start](/#/jp/component/quickstart).
