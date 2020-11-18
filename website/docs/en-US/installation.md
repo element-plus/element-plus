@@ -25,11 +25,11 @@ We recommend our users to lock Element Plus's version when using CDN. Please ref
 
 ### Hello world
 
-If you are using CDN, a hello-world page is easy with Element Plus. [Online Demo](https://codepen.io/ziyoung/pen/rRKYpd)
+If you are using CDN, a hello-world page is easy with Element Plus. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
 
-<iframe height="265" style="width: 100%;" scrolling="no" title="Element Plus demo" src="//codepen.io/ziyoung/embed/rRKYpd/?height=265&theme-id=light&default-tab=html" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/ziyoung/pen/rRKYpd/'>Element Plus demo</a> by hetech
-  (<a href='https://codepen.io/ziyoung'>@ziyoung</a>) on <a href='https://codepen.io'>CodePen</a>.
+<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/iamkun/pen/YzWMaVr'>YzWMaVr</a> by iamkun
+  (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
 If you are using npm and wish to apply webpack, please continue to the next page: [Quick Start](/#/en-US/component/quickstart).
