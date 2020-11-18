@@ -25,11 +25,13 @@ Il est recommandé de fixer la version d'Element Plus lors de l'utilisation du C
 
 ### Hello world
 
-Si vous utilisez un CDN, une page hello-world peut être obtenue facilement avec Element Plus ([démo en ligne](https://codepen.io/ziyoung/pen/rRKYpd)).
+Si vous utilisez un CDN, une page hello-world peut être obtenue facilement avec Element Plus ([démo en ligne](https://codepen.io/iamkun/pen/YzWMaVr)).
 
-<iframe height="265" style="width: 100%;" scrolling="no" title="Element Plus demo" src="//codepen.io/ziyoung/embed/rRKYpd/?height=265&theme-id=light&default-tab=html" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/ziyoung/pen/rRKYpd/'>Element Plus demo</a> by hetech
-  (<a href='https://codepen.io/ziyoung'>@ziyoung</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<p class="codepen" data-height="265" data-theme-id="light" data-default-tab="html,result" data-user="iamkun" data-slug-hash="YzWMaVr" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="YzWMaVr">
+  <span>See the Pen <a href="https://codepen.io/iamkun/pen/YzWMaVr">
+  YzWMaVr</a> by iamkun (<a href="https://codepen.io/iamkun">@iamkun</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
 Si vous utilisez npm et souhaitez ajouter webpack, continuez sur la page suivante: [Démarrer](/#/fr-FR/component/quickstart).

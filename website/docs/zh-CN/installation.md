@@ -25,11 +25,13 @@ npm install element-plus --save
 
 ### Hello world
 
-通过 CDN 的方式我们可以很容易地使用 Element Plus 写出一个 Hello world 页面。[在线演示](https://codepen.io/ziyoung/pen/rRKYpd)
+通过 CDN 的方式我们可以很容易地使用 Element Plus 写出一个 Hello world 页面。[在线演示](https://codepen.io/iamkun/pen/YzWMaVr)
 
-<iframe height="265" style="width: 100%;" scrolling="no" title="Element Plus demo" src="//codepen.io/ziyoung/embed/rRKYpd/?height=265&theme-id=light&default-tab=html" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/ziyoung/pen/rRKYpd/'>Element Plus demo</a> by hetech
-  (<a href='https://codepen.io/ziyoung'>@ziyoung</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<p class="codepen" data-height="265" data-theme-id="light" data-default-tab="html,result" data-user="iamkun" data-slug-hash="YzWMaVr" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="YzWMaVr">
+  <span>See the Pen <a href="https://codepen.io/iamkun/pen/YzWMaVr">
+  YzWMaVr</a> by iamkun (<a href="https://codepen.io/iamkun">@iamkun</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
 如果是通过 npm 安装，并希望配合 webpack 使用，请阅读下一节：[快速上手](/#/zh-CN/component/quickstart)。
