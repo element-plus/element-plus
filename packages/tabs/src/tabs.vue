@@ -1,6 +1,5 @@
 <script lang='ts'>
-import { h, defineComponent, ref, onMounted, onUpdated, provide, watch, nextTick, getCurrentInstance, ComputedRef, PropType, Ref, ComponentInternalInstance, VNode, Component } from 'vue'
-import { Fragment } from '@vue/runtime-core'
+import { h, defineComponent, ref, onMounted, onUpdated, provide, watch, nextTick, getCurrentInstance, ComputedRef, PropType, Ref, ComponentInternalInstance, VNode, Component, Fragment } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TabNav from './tab-nav.vue'
 
