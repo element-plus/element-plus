@@ -1,18 +1,16 @@
 <template>
-  <el-popper
-    ref="popper"
-    v-model:visible="showPicker"
-    effect="light"
-    manual-mode
-    trigger="click"
-    :show-arrow="false"
-    popper-class="el-color-picker__panel el-color-dropdown"
-    @after-leave="doDestroy"
-  >
-    <template #default>
-      <div
-        v-click-outside="hide"
-      >
+  <div v-click-outside="hide" style="display: inline-block;">
+    <el-popper
+      ref="popper"
+      v-model:visible="showPicker"
+      effect="light"
+      manual-mode
+      trigger="click"
+      :show-arrow="false"
+      popper-class="el-color-picker__panel el-color-dropdown"
+      @after-leave="doDestroy"
+    >
+      <template #default>
         <div class="el-color-dropdown__main-wrapper">
           <hue-slider
             ref="hue"
@@ -56,32 +54,32 @@
             {{ t('el.colorpicker.confirm') }}
           </el-button>
         </div>
-      </div>
-    </template>
-    <template #trigger>
-      <div
-        :class="[
-          'el-color-picker',
-          colorDisabled ? 'is-disabled' : '',
-          colorSize ? `el-color-picker--${ colorSize }` : ''
-        ]"
-      >
-        <div v-if="colorDisabled" class="el-color-picker__mask"></div>
-        <div class="el-color-picker__trigger" @click="handleTrigger">
-          <span class="el-color-picker__color" :class="{ 'is-alpha': showAlpha }">
-            <span
-              class="el-color-picker__color-inner"
-              :style="{
-                backgroundColor: displayedColor
-              }"
-            ></span>
-            <span v-if="!modelValue && !showPanelColor" class="el-color-picker__empty el-icon-close"></span>
-          </span>
-          <span v-show="modelValue || showPanelColor" class="el-color-picker__icon el-icon-arrow-down"></span>
+      </template>
+      <template #trigger>
+        <div
+          :class="[
+            'el-color-picker',
+            colorDisabled ? 'is-disabled' : '',
+            colorSize ? `el-color-picker--${ colorSize }` : ''
+          ]"
+        >
+          <div v-if="colorDisabled" class="el-color-picker__mask"></div>
+          <div class="el-color-picker__trigger" @click="handleTrigger">
+            <span class="el-color-picker__color" :class="{ 'is-alpha': showAlpha }">
+              <span
+                class="el-color-picker__color-inner"
+                :style="{
+                  backgroundColor: displayedColor
+                }"
+              ></span>
+              <span v-if="!modelValue && !showPanelColor" class="el-color-picker__empty el-icon-close"></span>
+            </span>
+            <span v-show="modelValue || showPanelColor" class="el-color-picker__icon el-icon-arrow-down"></span>
+          </div>
         </div>
-      </div>
-    </template>
-  </el-popper>
+      </template>
+    </el-popper>
+  </div>
 </template>
 
 <script lang="ts">
