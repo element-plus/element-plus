@@ -125,7 +125,9 @@ Es posible usar slots con nombre para personalizar el contenido de la etiqueta d
 ```html
 <el-tabs type="border-card">
   <el-tab-pane>
-    <span slot="label"><i class="el-icon-date"></i> Route</span>
+    <template #label>
+      <span><i class="el-icon-date"></i> Route</span>
+    </template>
     Route
   </el-tab-pane>
   <el-tab-pane label="Config">Config</el-tab-pane>
