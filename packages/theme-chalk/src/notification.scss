@@ -13,7 +13,7 @@
   box-shadow: $--notification-shadow;
   transition: opacity .3s, transform .3s, left .3s, right .3s, top 0.4s, bottom .3s;
   overflow: hidden;
-
+  z-index: 9999;
   &.right {
     right: 16px;
   }
