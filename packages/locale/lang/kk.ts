@@ -1,4 +1,5 @@
 export default {
+  name: 'kk',
   el: {
     colorpicker: {
       confirm: 'Қабылдау',

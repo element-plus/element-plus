@@ -1,4 +1,5 @@
 export default {
+  name: 'bg',
   el: {
     colorpicker: {
       confirm: 'OK',

@@ -93,10 +93,8 @@ Can pick an arbitrary time range.
 | arrow-control | whether to pick time using arrow buttons, only works with `<el-time-picker>` | boolean | — | false |
 | align | alignment | left / center / right | left |
 | popper-class | custom class name for TimePicker's dropdown | string | — | — |
-| picker-options | additional options, check the table below | object | — | {} |
 | range-separator | range separator | string | - | '-' |
 | default-value | optional, default date of the calendar | Date for TimePicker, string for TimeSelect | anything accepted by `new Date()` for TimePicker, selectable value for TimeSelect | — |
-| value-format | optional, only for TimePicker, format of binding value. If not specified, the binding value will be a Date object | string | see [date formats](#/en-US/component/date-picker#date-formats) | — |
 | name | same as `name` in native input | string | — | — |
 | prefix-icon | Custom prefix icon class | string | — | el-icon-time |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |

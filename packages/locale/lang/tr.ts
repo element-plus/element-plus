@@ -1,4 +1,5 @@
 export default {
+  name: 'tr',
   el: {
     colorpicker: {
       confirm: 'Onayla',

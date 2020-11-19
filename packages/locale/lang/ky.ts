@@ -1,4 +1,5 @@
 export default {
+  name: 'ky',
   el: {
     colorpicker: {
       confirm: 'Мурунку',

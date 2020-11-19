@@ -1,4 +1,5 @@
 export default {
+  name: 'uz-uz',
   el: {
     colorpicker: {
       confirm: 'Qabul qilish',
