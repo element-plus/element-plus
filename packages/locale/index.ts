@@ -1,4 +1,5 @@
 import defaultLang from './lang/en'
+import dayjs from 'dayjs'
 
 let lang = defaultLang
 
@@ -26,6 +27,9 @@ export const t = (path:string, option?): string => {
 
 export const use = (l): void => {
   lang = l || lang
+  if (lang.name) {
+    dayjs.locale(lang.name)
+  }
 }
 
 export default { use, t }
