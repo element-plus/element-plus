@@ -1,4 +1,5 @@
 export default {
+  name: 'zh-tw',
   el: {
     colorpicker: {
       confirm: '確認',

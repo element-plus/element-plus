@@ -1,4 +1,5 @@
 export default {
+  name: 'sl',
   el: {
     colorpicker: {
       confirm: 'V redu',

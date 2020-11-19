@@ -1,4 +1,5 @@
 export default {
+  name: 'ta',
   el: {
     colorpicker: {
       confirm: 'உறுதி செய்',

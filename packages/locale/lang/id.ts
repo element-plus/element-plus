@@ -1,4 +1,5 @@
 export default {
+  name: 'id',
   el: {
     colorpicker: {
       confirm: 'Pilih',

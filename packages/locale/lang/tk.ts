@@ -1,4 +1,5 @@
 export default {
+  name: 'tk',
   el: {
     colorpicker: {
       confirm: 'OK',

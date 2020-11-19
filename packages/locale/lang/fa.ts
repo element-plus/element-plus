@@ -1,4 +1,5 @@
 export default {
+  name: 'fa',
   el: {
     colorpicker: {
       confirm: 'باشد',

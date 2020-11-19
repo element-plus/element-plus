@@ -1,4 +1,5 @@
 export default {
+  name: 'eu',
   el: {
     colorpicker: {
       confirm: 'Ados',
