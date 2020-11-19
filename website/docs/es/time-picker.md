@@ -93,10 +93,8 @@ Es posible escoger un rango de tiempo arbitrario.
 | arrow-control     | si es posible escoger el tiempo usando los botones de flecha, solo funciona con `<el-time-picker>` | boolean                                  | —                                        | false                |
 | align             | alineación                               | left / center / right                    | left                                     |                      |
 | popper-class      | nombre de clase personalizada para el dropdown del Time Picker | string                                   | —                                        | —                    |
-| picker-options    | opciones adicionales, revisar la tabla posterior | object                                   | —                                        | {}                   |
 | range-separator   | separador de rango                       | string                                   | -                                        | '-'                  |
 | default-value     | opcional, fecha por defecto del calendario | Fecha para Selector de Tiempo, string para el Seleccionador de Tiempo | cualquier cosa aceptada por `new Date()` para el Selector de Tiempo,  Selector de Tiempo, valor seleccionable para el Seleccionador de Tiempo | —                    |
-| value-format      | opcional, solo para Time Picker, formato del valor vinculado. Si no se especifica, el valor vinculado será un objeto Date | string                                   | ver [date formats](#/es/component/date-picker#date-formats) | —                    |
 | name              | como `name` en input nativo              | string                                   | —                                        | —                    |
 | prefix-icon       | Clase personalizada para el icono de prefijado | string                                   | —                                        | el-icon-time         |
 | clear-icon        | Clase personalizada para el icono `clear` | string                                   | —                                        | el-icon-circle-close |
