@@ -59,6 +59,10 @@ export default defineComponent({
       }
     })
 
+    watch(() => props.pageSize, newVal => {
+      innerPageSize.value = newVal
+    })
+
     const innerPagesizes = computed(() => props.pageSizes)
 
     function handleChange(val: number) {
