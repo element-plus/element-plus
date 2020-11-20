@@ -1,6 +1,6 @@
 ## ビルトイントランジション
 
-Elementにビルトインされているトランジションをダイレクトに使うことができます。利用の前に、[transition docs](https://vuejs.org/v2/api/#transition)を読むことを勧めます。
+Element Plusにビルトインされているトランジションをダイレクトに使うことができます。利用の前に、[transition docs](https://vuejs.org/v2/api/#transition)を読むことを勧めます。
 
 ### フェード
 

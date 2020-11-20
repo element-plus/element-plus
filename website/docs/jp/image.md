@@ -113,9 +113,9 @@ imgのネイティブ機能の他に、遅延ロード、カスタムプレー�
 :::demo `previewSrcList` prop を設定することで大きなイメージのプレビューを許可します。
 ```html
 <div class="demo-image__preview">
-  <el-image 
+  <el-image
     style="width: 100px; height: 100px"
-    :src="url" 
+    :src="url"
     :preview-src-list="srcList">
   </el-image>
 </div>
