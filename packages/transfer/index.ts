@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import Transfer from './src/index.vue'
 
-export default (app: App): void => {
+Transfer.install = (app: App): void => {
   app.component(Transfer.name, Transfer)
 }
 
-export { Transfer }
+export default Transfer

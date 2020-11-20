@@ -103,7 +103,7 @@ import {
 import ElCollapseTransition from '@element-plus/transition/collapse-transition/index.vue'
 import { ISubmenuProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
-import { Popper as ElPopper } from '@element-plus/popper'
+import ElPopper from '@element-plus/popper'
 
 export default {
   name: 'ElSubmenu',

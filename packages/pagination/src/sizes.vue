@@ -19,7 +19,8 @@
 
 <script lang="ts">
 import { defineComponent, watch, computed, ref } from 'vue'
-import { select as ElSelect, option as ElOption } from '@element-plus/select'
+import ElSelect from '@element-plus/select'
+import ElOption from '@element-plus/option'
 import { t } from '@element-plus/locale'
 import isEqual from 'lodash/isEqual'
 import { usePagination } from './usePagination'

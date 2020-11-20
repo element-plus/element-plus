@@ -78,7 +78,7 @@
 <script lang='ts'>
 import { defineComponent, getCurrentInstance, ref, watch, nextTick, inject, provide, PropType, ComponentInternalInstance } from 'vue'
 import ElCollapseTransition from '@element-plus/transition/collapse-transition/index.vue'
-import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
+import ElCheckbox from '@element-plus/checkbox'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
