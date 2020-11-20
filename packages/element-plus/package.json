@@ -36,6 +36,7 @@
     "@element-plus/col": "^0.0.0",
     "@element-plus/collapse": "^0.0.0",
     "@element-plus/collapse-item": "^0.0.0",
+    "@element-plus/collapse-transition": "^0.0.0",
     "@element-plus/color-picker": "^0.0.0",
     "@element-plus/container": "^0.0.0",
     "@element-plus/date-picker": "^0.0.0",

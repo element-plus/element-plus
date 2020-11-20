@@ -21,6 +21,7 @@ import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElCol from '@element-plus/col'
 import ElCollapse from '@element-plus/collapse'
 import ElCollapseItem from '@element-plus/collapse-item'
+import ElCollapseTransition from '@element-plus/collapse-transition'
 import ElColorPicker from '@element-plus/color-picker'
 import ElContainer from '@element-plus/container'
 import ElDatePicker from '@element-plus/date-picker'
@@ -54,6 +55,7 @@ import ElPageHeader from '@element-plus/page-header'
 import ElPagination from '@element-plus/pagination'
 import ElPopconfirm from '@element-plus/popconfirm'
 import ElPopover from '@element-plus/popover'
+import ElPopper from '@element-plus/popper'
 import ElProgress from '@element-plus/progress'
 import ElRadio from '@element-plus/radio'
 import ElRadioButton from '@element-plus/radio-button'
@@ -79,10 +81,7 @@ import ElTimelineItem from '@element-plus/timeline-item'
 import ElTooltip from '@element-plus/tooltip'
 import ElTransfer from '@element-plus/transfer'
 import ElTree from '@element-plus/tree'
-// import ElPopper from '@element-plus/popper'
-// import ElUpload from '@element-plus/upload'
-// import ElCollapseTransition from '@element-plus/transition'
-// spinner
+import ElUpload from '@element-plus/upload'
 import { use } from '@element-plus/locale'
 import { version } from '../../package.json'
 
@@ -120,6 +119,7 @@ const components = [
   ElCol,
   ElCollapse,
   ElCollapseItem,
+  ElCollapseTransition,
   ElColorPicker,
   ElContainer,
   ElDatePicker,
@@ -148,6 +148,7 @@ const components = [
   ElPagination,
   ElPopconfirm,
   ElPopover,
+  ElPopper,
   ElProgress,
   ElRadio,
   ElRadioButton,
@@ -169,6 +170,7 @@ const components = [
   ElTooltip,
   ElTransfer,
   ElTree,
+  ElUpload,
 ]
 
 const plugins = [
@@ -221,6 +223,7 @@ export {
   ElCol,
   ElCollapse,
   ElCollapseItem,
+  ElCollapseTransition,
   ElColorPicker,
   ElContainer,
   ElDatePicker,
@@ -254,6 +257,7 @@ export {
   ElPagination,
   ElPopconfirm,
   ElPopover,
+  ElPopper,
   ElProgress,
   ElRadio,
   ElRadioButton,
@@ -279,6 +283,7 @@ export {
   ElTooltip,
   ElTransfer,
   ElTree,
+  ElUpload,
 }
 
 export default {
