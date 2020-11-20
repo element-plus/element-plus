@@ -1,5 +1,6 @@
 import makeMount from '../../test-utils/make-mount'
 import Popover from '../src/index.vue'
+import PopupManager from '@element-plus/utils/popup-manager'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -62,5 +63,15 @@ describe('Popover.vue', () => {
     })()
 
     expect(wrapper.text()).toBe(content)
+  })
+
+  test('popper z-index should be dynamical', () => {
+    const wrapper = mount()
+
+    expect(
+      Number.parseInt(
+        window.getComputedStyle(wrapper.find('.el-popper').element).zIndex,
+      ),
+    ).toBeLessThanOrEqual(PopupManager.zIndex)
   })
 })
