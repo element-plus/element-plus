@@ -73,6 +73,7 @@ import ElLoading from '@element-plus/loading'
 // import ElMenu from '@element-plus/menu'
 // import ElCollapseTransition from '@element-plus/transition'
 import { use } from '@element-plus/locale'
+import { version } from '../../package.json'
 
 interface InstallOptions {
   size: ComponentSize
@@ -123,11 +124,9 @@ const components = [
   ElHeader,
   ElIcon,
   ElImage,
-  ElInfiniteScroll,
   ElInput,
   ElInputNumber,
   ElLink,
-  ElLoading,
 ]
 
 const install = (app: App, opt: InstallOptions): void => {
@@ -150,10 +149,7 @@ const install = (app: App, opt: InstallOptions): void => {
   // Vue.prototype.$message = Message
 }
 
-const ElementPlus = {
-  version: '0.0.1',
-  locale: use,
-  install,
+export {
   ElAlert,
   ElAside,
   ElAutocomplete,
@@ -198,4 +194,7 @@ const ElementPlus = {
   ElLoading,
 }
 
-export default ElementPlus
+export default {
+  version,
+  install,
+}
