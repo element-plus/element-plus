@@ -4,20 +4,12 @@
 
 ### 基础用法
 
-Timeline 可拆分成多个按照时间戳正序或倒序排列的 activity，时间戳是其区分于其他控件的重要特征，使⽤时注意与 Steps 步骤条等区分。
+Timeline 可拆分成多个按照时间戳排列的 activity，时间戳是其区分于其他控件的重要特征，使⽤时注意与 Steps 步骤条等区分。
 
 :::demo
 ```html
 <div class="block">
-  <div class="radio">
-    排序：
-    <el-radio-group v-model="reverse">
-      <el-radio :label="true">倒序</el-radio>
-      <el-radio :label="false">正序</el-radio>
-    </el-radio-group>
-  </div>
-
-  <el-timeline :reverse="reverse">
+  <el-timeline>
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
@@ -31,7 +23,6 @@ Timeline 可拆分成多个按照时间戳正序或倒序排列的 activity，�
   export default {
     data() {
       return {
-        reverse: true,
         activities: [{
           content: '活动按期开始',
           timestamp: '2018-04-15'
@@ -129,11 +120,6 @@ Timeline 可拆分成多个按照时间戳正序或倒序排列的 activity，�
 </div>
 ```
 :::
-
-### Timeline Attributes
-| 参数      | 说明    | 类型      | 可选值       | 默认值   |
-|---------- |-------- |---------- |-------------  |-------- |
-| reverse | 指定节点排序方向，默认为正序 | boolean | — | false |
 
 ### Timeline-item Attributes
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |

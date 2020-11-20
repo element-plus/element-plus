@@ -1,4 +1,5 @@
 export default {
+  name: 'af',
   el: {
     colorpicker: {
       confirm: 'Bevestig',

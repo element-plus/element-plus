@@ -107,5 +107,17 @@ export function closeAll(): void {
   }
 }
 
+['success', 'warning', 'info', 'error'].forEach(type => {
+  Message[type] = (options = {}) => {
+    if (typeof options === 'string') {
+      options = {
+        message: options,
+        type,
+      }
+    }
+    return Message(options)
+  }
+})
+
 Message.closeAll = closeAll
 export default Message

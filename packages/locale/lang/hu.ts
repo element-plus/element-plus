@@ -1,4 +1,5 @@
 export default {
+  name: 'hu',
   el: {
     colorpicker: {
       confirm: 'OK',

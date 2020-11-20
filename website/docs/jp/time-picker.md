@@ -162,10 +162,8 @@
 | arrow-control | 矢印ボタンを使って時間を選択するかどうか、`<el-time-picker>` でのみ動作します。 | boolean | — | false |
 | align | 整列 | left / center / right | left |
 | popper-class | タイムピッカーのドロップダウンのカスタムクラス名 | string | — | — |
-| picker-options | 追加のオプション、下のテーブルを参照してください。 | object | — | {} |
 | range-separator | 範囲セパレータ | string | - | '-' |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date for TimePicker, string for TimeSelect | anything accepted by `new Date()` for TimePicker, selectable value for TimeSelect | — |
-| value-format | オプションで、タイムピッカーの場合のみ、バインディング値のフォーマットを指定します。指定しない場合、バインディング値は Date オブジェクトになります。 | string | see [date formats](#/en-US/component/date-picker#date-formats) | — |
 | name | ネイティブ入力の `name` と同じ | string | — | — |
 | prefix-icon | カスタムプレフィックスアイコンクラス | string | — | el-icon-time |
 | clear-icon | カスタムクリアアイコンクラス | string | — | el-icon-circle-close |

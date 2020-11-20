@@ -4,7 +4,7 @@
 :::demo Transfer 的数据通过 `data` 属性传入。数据需要是一个对象数组，每个对象有以下属性：`key` 为数据的唯一性标识，`label` 为显示文本，`disabled` 表示该项数据是否禁止转移。目标列表中的数据项会同步到绑定至 `v-model` 的变量，值为数据项的 `key` 所组成的数组。当然，如果希望在初始状态时目标列表不为空，可以像本例一样为 `v-model` 绑定的变量赋予一个初始值。
 ```html
 <template>
-  <el-transfer v-model="value" :data="data"></el-transfer>
+  <el-transfer v-model="value" :data="data" />
 </template>
 
 <script>
@@ -39,12 +39,12 @@
 ```html
 <template>
   <el-transfer
+    v-model="value"
     filterable
     :filter-method="filterMethod"
     filter-placeholder="请输入城市拼音"
-    v-model="value"
-    :data="data">
-  </el-transfer>
+    :data="data"
+  />
 </template>
 
 <script>
@@ -86,8 +86,8 @@
   <p style="text-align: center; margin: 0 0 20px">使用 render-content 自定义数据项</p>
   <div style="text-align: center">
     <el-transfer
+      v-model="leftValue"
       style="text-align: left; display: inline-block"
-      v-model="value"
       filterable
       :left-default-checked="[2, 3]"
       :right-default-checked="[1]"
@@ -98,17 +98,22 @@
         noChecked: '${total}',
         hasChecked: '${checked}/${total}'
       }"
+      :data="data"
       @change="handleChange"
-      :data="data">
-      <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
-      <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
+    >
+      <template #left-footer>
+        <el-button class="transfer-footer" size="small">操作</el-button>
+      </template>
+      <template #right-footer>
+        <el-button class="transfer-footer" size="small">操作</el-button>
+      </template>
     </el-transfer>
   </div>
   <p style="text-align: center; margin: 50px 0 20px">使用 scoped-slot 自定义数据项</p>
   <div style="text-align: center">
     <el-transfer
+      v-model="rightValue"
       style="text-align: left; display: inline-block"
-      v-model="value4"
       filterable
       :left-default-checked="[2, 3]"
       :right-default-checked="[1]"
@@ -118,20 +123,27 @@
         noChecked: '${total}',
         hasChecked: '${checked}/${total}'
       }"
+      :data="data"
       @change="handleChange"
-      :data="data">
-      <span slot-scope="{ option }">{{ option.key }} - {{ option.label }}</span>
-      <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
-      <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
+    >
+      <template #default="{option}">
+        <span>{{ option.key }} - {{ option.label }}</span>
+      </template>
+      <template #left-footer>
+        <el-button class="transfer-footer" size="small">操作</el-button>
+      </template>
+      <template #right-footer>
+        <el-button class="transfer-footer" size="small">操作</el-button>
+      </template>
     </el-transfer>
   </div>
 </template>
 
 <style>
-  .transfer-footer {
-    margin-left: 20px;
-    padding: 6px 5px;
-  }
+.transfer-footer {
+  margin-left: 20px;
+  padding: 6px 5px;
+}
 </style>
 
 <script>
@@ -150,8 +162,8 @@
       };
       return {
         data: generateData(),
-        value: [1],
-        value4: [1],
+        leftValue: [1],
+        rightValue: [1],
         renderFunc(h, option) {
           return h("span", null, option.key, " - ", option.label);
         }
@@ -180,8 +192,8 @@
       key: 'value',
       label: 'desc'
     }"
-    :data="data">
-  </el-transfer>
+    :data="data"
+  />
 </template>
 
 <script>

@@ -90,6 +90,7 @@ export default defineComponent({
       popperStyle: popperStyle,
       popperId,
       visibility,
+      isManual: this.isManualMode(),
       onMouseEnter: onPopperMouseEnter,
       onMouseLeave: onPopperMouseLeave,
       onAfterEnter,
