@@ -41,12 +41,18 @@ import ElInput from '@element-plus/input'
 import ElInputNumber from '@element-plus/input-number'
 import ElLink from '@element-plus/link'
 import ElLoading from '@element-plus/loading'
+import ElMain from '@element-plus/main'
+import ElMenu from '@element-plus/menu'
+import ElMenuItem from '@element-plus/menu-item'
+import ElMenuItemGroup from '@element-plus/menu-item-group'
+import ElMessage from '@element-plus/message'
+import ElMessageBox from '@element-plus/message-box'
+import ElNotification from '@element-plus/notification'
 // import ElTag from '@element-plus/tag'
 // import ElTimeline from '@element-plus/timeline'
 // import ElProgress from '@element-plus/progress'
 // import ElRate from '@element-plus/rate'
 // import ElSwitch from '@element-plus/switch'
-// import ElNotification from '@element-plus/notification'
 // import ElPageHeader from '@element-plus/page-header'
 // import ElRadio from '@element-plus/radio'
 // import ElScrollBar from '@element-plus/scrollbar'
@@ -57,7 +63,6 @@ import ElLoading from '@element-plus/loading'
 // import ElTooltip from '@element-plus/tooltip'
 // import ElSlider from '@element-plus/slider'
 // import ElTransfer from '@element-plus/transfer'
-// import ElMessage from '@element-plus/message'
 // import ElTableInstall, {
 //   Table as ElTable,
 //   TableColumn as ElTableColumn,
@@ -68,9 +73,7 @@ import ElLoading from '@element-plus/loading'
 // import ElSelect from '@element-plus/select'
 // import ElTimeSelect from '@element-plus/time-select'
 // import ElPagination from '@element-plus/pagination'
-// import ElMessageBox from '@element-plus/message-box'
 // import ElPopover from '@element-plus/popover'
-// import ElMenu from '@element-plus/menu'
 // import ElCollapseTransition from '@element-plus/transition'
 import { use } from '@element-plus/locale'
 import { version } from '../../package.json'
@@ -127,6 +130,18 @@ const components = [
   ElInput,
   ElInputNumber,
   ElLink,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+]
+
+const plugins = [
+  ElInfiniteScroll,
+  ElLoading,
+  ElMessage,
+  ElMessageBox,
+  ElNotification,
 ]
 
 const install = (app: App, opt: InstallOptions): void => {
@@ -137,16 +152,11 @@ const install = (app: App, opt: InstallOptions): void => {
     app.component(component.name, component)
   })
 
-  app.use(ElInfiniteScroll as any)
-  app.use(ElLoading)
+  plugins.forEach(plugin => {
+    app.use(plugin as any)
+  })
 
   app.config.globalProperties.$ELEMENT = option
-  // Vue.prototype.$msgbox = MessageBox
-  // Vue.prototype.$alert = MessageBox.alert
-  // Vue.prototype.$confirm = MessageBox.confirm
-  // Vue.prototype.$prompt = MessageBox.prompt
-  // Vue.prototype.$notify = Notification
-  // Vue.prototype.$message = Message
 }
 
 export {
@@ -192,6 +202,13 @@ export {
   ElInputNumber,
   ElLink,
   ElLoading,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElMessage,
+  ElMessageBox,
+  ElNotification,
 }
 
 export default {
