@@ -48,33 +48,41 @@ import ElMenuItemGroup from '@element-plus/menu-item-group'
 import ElMessage from '@element-plus/message'
 import ElMessageBox from '@element-plus/message-box'
 import ElNotification from '@element-plus/notification'
-// import ElTag from '@element-plus/tag'
-// import ElTimeline from '@element-plus/timeline'
-// import ElProgress from '@element-plus/progress'
-// import ElRate from '@element-plus/rate'
-// import ElSwitch from '@element-plus/switch'
-// import ElPageHeader from '@element-plus/page-header'
-// import ElRadio from '@element-plus/radio'
-// import ElScrollBar from '@element-plus/scrollbar'
-// import ElSteps from '@element-plus/steps'
+import ElOption from '@element-plus/option'
+import ElOptionGroup from '@element-plus/option-group'
+import ElPageHeader from '@element-plus/page-header'
+import ElPagination from '@element-plus/pagination'
+import ElPopconfirm from '@element-plus/popconfirm'
+import ElPopover from '@element-plus/popover'
+import ElProgress from '@element-plus/progress'
+import ElRadio from '@element-plus/radio'
+import ElRadioButton from '@element-plus/radio-button'
+import ElRadioGroup from '@element-plus/radio-group'
+import ElRate from '@element-plus/rate'
+import ElRow from '@element-plus/row'
+import ElScrollBar from '@element-plus/scrollbar'
+import ElSelect from '@element-plus/select'
+import ElSlider from '@element-plus/slider'
+import ElStep from '@element-plus/step'
+import ElSteps from '@element-plus/steps'
+import ElSubmenu from '@element-plus/submenu'
+import ElSwitch from '@element-plus/switch'
+import ElTabPane from '@element-plus/switch'
+import ElTable from '@element-plus/table'
+import ElTableColumn from '@element-plus/table-column'
+import ElTabs from '@element-plus/tabs'
+import ElTag from '@element-plus/tag'
+import ElTimePicker from '@element-plus/time-picker'
+import ElTimeSelect from '@element-plus/time-select'
+import ElTimeline from '@element-plus/timeline'
+import ElTimelineItem from '@element-plus/timeline-item'
+import ElTooltip from '@element-plus/tooltip'
+import ElTransfer from '@element-plus/transfer'
+import ElTree from '@element-plus/tree'
 // import ElPopper from '@element-plus/popper'
-// import ElTimePicker from '@element-plus/time-picker'
-// import ElTabs from '@element-plus/tabs'
-// import ElTooltip from '@element-plus/tooltip'
-// import ElSlider from '@element-plus/slider'
-// import ElTransfer from '@element-plus/transfer'
-// import ElTableInstall, {
-//   Table as ElTable,
-//   TableColumn as ElTableColumn,
-// } from '@element-plus/table'
-// import ElPopconfirm from '@element-plus/popconfirm'
 // import ElUpload from '@element-plus/upload'
-// import ElTree from '@element-plus/tree'
-// import ElSelect from '@element-plus/select'
-// import ElTimeSelect from '@element-plus/time-select'
-// import ElPagination from '@element-plus/pagination'
-// import ElPopover from '@element-plus/popover'
 // import ElCollapseTransition from '@element-plus/transition'
+// spinner
 import { use } from '@element-plus/locale'
 import { version } from '../../package.json'
 
@@ -134,6 +142,33 @@ const components = [
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
+  ElOption,
+  ElOptionGroup,
+  ElPageHeader,
+  ElPagination,
+  ElPopconfirm,
+  ElPopover,
+  ElProgress,
+  ElRadio,
+  ElRadioButton,
+  ElRadioGroup,
+  ElRate,
+  ElRow,
+  ElScrollBar,
+  ElSelect,
+  ElSlider,
+  ElStep,
+  ElSteps,
+  ElSubmenu,
+  ElSwitch,
+  ElTabPane,
+  ElTable,
+  ElTableColumn,
+  ElTimeline,
+  ElTimelineItem,
+  ElTooltip,
+  ElTransfer,
+  ElTree,
 ]
 
 const plugins = [
@@ -142,11 +177,17 @@ const plugins = [
   ElMessage,
   ElMessageBox,
   ElNotification,
+  ElTabs,
+  ElTag,
+  ElTimePicker,
+  ElTimeSelect,
 ]
 
 const install = (app: App, opt: InstallOptions): void => {
   const option = Object.assign(defaultInstallOpt, opt)
+
   use(option.locale)
+  app.config.globalProperties.$ELEMENT = option
 
   components.forEach(component => {
     app.component(component.name, component)
@@ -155,8 +196,6 @@ const install = (app: App, opt: InstallOptions): void => {
   plugins.forEach(plugin => {
     app.use(plugin as any)
   })
-
-  app.config.globalProperties.$ELEMENT = option
 }
 
 export {
@@ -209,6 +248,37 @@ export {
   ElMessage,
   ElMessageBox,
   ElNotification,
+  ElOption,
+  ElOptionGroup,
+  ElPageHeader,
+  ElPagination,
+  ElPopconfirm,
+  ElPopover,
+  ElProgress,
+  ElRadio,
+  ElRadioButton,
+  ElRadioGroup,
+  ElRate,
+  ElRow,
+  ElScrollBar,
+  ElSelect,
+  ElSlider,
+  ElStep,
+  ElSteps,
+  ElSubmenu,
+  ElSwitch,
+  ElTabPane,
+  ElTable,
+  ElTableColumn,
+  ElTabs,
+  ElTag,
+  ElTimePicker,
+  ElTimeSelect,
+  ElTimeline,
+  ElTimelineItem,
+  ElTooltip,
+  ElTransfer,
+  ElTree,
 }
 
 export default {

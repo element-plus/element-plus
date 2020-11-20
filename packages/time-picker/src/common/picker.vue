@@ -127,7 +127,7 @@ import {
 import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '@element-plus/input'
-import { Popper as ElPopper } from '@element-plus/popper'
+import ElPopper from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'

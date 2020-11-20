@@ -61,7 +61,8 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { t } from '@element-plus/locale'
-import { CheckboxGroup as ElCheckboxGroup, Checkbox as ElCheckbox } from '@element-plus/checkbox'
+import ElCheckbox from '@element-plus/checkbox'
+import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElInput from '@element-plus/input'
 import { useCheck } from './useCheck'
 

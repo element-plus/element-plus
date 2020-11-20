@@ -50,7 +50,7 @@ import {
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import ElButton from '@element-plus/button'
 import ElButtonGroup from '@element-plus/button-group'
-import { Popper as ElPopper } from '@element-plus/popper'
+import ElPopper from '@element-plus/popper'
 import { useDropdown } from './useDropdown'
 
 export default defineComponent({

@@ -1,4 +1,4 @@
-import { Tooltip as ElTooltip } from '@element-plus/tooltip'
+import ElTooltip from '@element-plus/tooltip'
 import { addClass, removeClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
 import { defineComponent, getCurrentInstance, h, PropType, watch } from 'vue'

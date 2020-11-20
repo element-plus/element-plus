@@ -97,8 +97,8 @@ import { generateId, isArray } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import throwError from '@element-plus/utils/error'
 import ElInput from '@element-plus/input'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
-import { Popper as ElPopper } from '@element-plus/popper'
+import ElScrollbar from '@element-plus/scrollbar'
+import ElPopper from '@element-plus/popper'
 
 export default defineComponent({
   name: 'ElAutocomplete',

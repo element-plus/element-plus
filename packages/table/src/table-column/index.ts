@@ -9,7 +9,7 @@ import {
 } from 'vue'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
-import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
+import ElCheckbox from '@element-plus/checkbox'
 import { TableColumnCtx, TableColumn } from '../table'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
