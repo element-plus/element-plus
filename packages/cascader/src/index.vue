@@ -134,7 +134,7 @@ import {
   onMounted, onBeforeUnmount,
   Ref, ref, watch,
 } from 'vue'
-import { CascaderPanel as ElCascaderPanel } from '@element-plus/cascader-panel'
+import ElCascaderPanel from '@element-plus/cascader-panel'
 import { Input as ElInput } from '@element-plus/input'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
