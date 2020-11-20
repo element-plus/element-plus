@@ -62,7 +62,7 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { t } from '@element-plus/locale'
 import { CheckboxGroup as ElCheckboxGroup, Checkbox as ElCheckbox } from '@element-plus/checkbox'
-import { Input as ElInput } from '@element-plus/input'
+import ElInput from '@element-plus/input'
 import { useCheck } from './useCheck'
 
 export const CHECKED_CHANGE_EVENT = 'checked-change'

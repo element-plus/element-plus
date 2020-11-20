@@ -161,10 +161,10 @@ import {
   extractTimeFormat,
 } from '@element-plus/time-picker'
 import { t } from '@element-plus/locale'
-import { Input as ElInput } from '@element-plus/input'
+import ElInput from '@element-plus/input'
 import { ClickOutside } from '@element-plus/directives'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { Button as ElButton } from '@element-plus/button'
+import ElButton from '@element-plus/button'
 import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'

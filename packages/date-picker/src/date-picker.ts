@@ -33,6 +33,7 @@ const getPanel = function(type) {
 
 export default {
   name: 'ElDatePicker',
+  install: null,
   props: {
     type: {
       type: String,

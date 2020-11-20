@@ -221,8 +221,8 @@ import {
 import { ClickOutside } from '@element-plus/directives'
 import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
-import { Input as ElInput } from '@element-plus/input'
-import { Button as ElButton } from '@element-plus/button'
+import ElInput from '@element-plus/input'
+import ElButton from '@element-plus/button'
 
 export default defineComponent({
 

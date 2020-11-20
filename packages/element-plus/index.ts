@@ -18,51 +18,57 @@ import ElCascaderPanel from '@element-plus/cascader-panel'
 import ElCheckbox from '@element-plus/checkbox'
 import ElCheckboxButton from '@element-plus/checkbox-button'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
-// import ElDropdown from '@element-plus/dropdown'
+import ElCol from '@element-plus/col'
+import ElCollapse from '@element-plus/collapse'
+import ElCollapseItem from '@element-plus/collapse-item'
+import ElColorPicker from '@element-plus/color-picker'
+import ElContainer from '@element-plus/container'
+import ElDatePicker from '@element-plus/date-picker'
+import ElDialog from '@element-plus/dialog'
+import ElDivider from '@element-plus/divider'
+import ElDrawer from '@element-plus/drawer'
+import ElDropdown from '@element-plus/dropdown'
+import ElDropdownItem from '@element-plus/dropdown-item'
+import ElDropdownMenu from '@element-plus/dropdown-menu'
+import ElFooter from '@element-plus/footer'
+import ElForm from '@element-plus/form'
+import ElFormItem from '@element-plus/form-item'
+import ElHeader from '@element-plus/header'
+import ElIcon from '@element-plus/icon'
+import ElImage from '@element-plus/image'
+import ElInfiniteScroll from '@element-plus/infinite-scroll'
+import ElInput from '@element-plus/input'
+import ElInputNumber from '@element-plus/input-number'
+import ElLink from '@element-plus/link'
+import ElLoading from '@element-plus/loading'
 // import ElTag from '@element-plus/tag'
-// import ElLayout from '@element-plus/layout'
-// import ElDivider from '@element-plus/divider'
 // import ElTimeline from '@element-plus/timeline'
 // import ElProgress from '@element-plus/progress'
-// import ElIcon from '@element-plus/icon'
-// import ElImage from '@element-plus/image'
-// import ElLink from '@element-plus/link'
 // import ElRate from '@element-plus/rate'
 // import ElSwitch from '@element-plus/switch'
-// import ElContainer from '@element-plus/container'
 // import ElNotification from '@element-plus/notification'
 // import ElPageHeader from '@element-plus/page-header'
 // import ElRadio from '@element-plus/radio'
 // import ElScrollBar from '@element-plus/scrollbar'
 // import ElSteps from '@element-plus/steps'
-// import ElCollapse from '@element-plus/collapse'
 // import ElPopper from '@element-plus/popper'
 // import ElTimePicker from '@element-plus/time-picker'
-// import ElDatePicker from '@element-plus/date-picker'
 // import ElTabs from '@element-plus/tabs'
 // import ElTooltip from '@element-plus/tooltip'
 // import ElSlider from '@element-plus/slider'
-// import ElInput from '@element-plus/input'
-// import ElLoading from '@element-plus/loading'
 // import ElTransfer from '@element-plus/transfer'
-// import ElDialog from '@element-plus/dialog'
-// import ElInfiniteScroll from '@element-plus/infinite-scroll'
 // import ElMessage from '@element-plus/message'
-// import ElDrawer from '@element-plus/drawer'
 // import ElTableInstall, {
 //   Table as ElTable,
 //   TableColumn as ElTableColumn,
 // } from '@element-plus/table'
 // import ElPopconfirm from '@element-plus/popconfirm'
-// import ElForm from '@element-plus/form'
 // import ElUpload from '@element-plus/upload'
 // import ElTree from '@element-plus/tree'
-// import ElColorPicker from '@element-plus/color-picker'
 // import ElSelect from '@element-plus/select'
 // import ElTimeSelect from '@element-plus/time-select'
 // import ElPagination from '@element-plus/pagination'
 // import ElMessageBox from '@element-plus/message-box'
-// import ElInputNumber from '@element-plus/input-number'
 // import ElPopover from '@element-plus/popover'
 // import ElMenu from '@element-plus/menu'
 // import ElCollapseTransition from '@element-plus/transition'
@@ -99,6 +105,29 @@ const components = [
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
+  ElCol,
+  ElCollapse,
+  ElCollapseItem,
+  ElColorPicker,
+  ElContainer,
+  ElDatePicker,
+  ElDialog,
+  ElDivider,
+  ElDrawer,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
+  ElFooter,
+  ElForm,
+  ElFormItem,
+  ElHeader,
+  ElIcon,
+  ElImage,
+  ElInfiniteScroll,
+  ElInput,
+  ElInputNumber,
+  ElLink,
+  ElLoading,
 ]
 
 const install = (app: App, opt: InstallOptions): void => {
@@ -109,12 +138,10 @@ const install = (app: App, opt: InstallOptions): void => {
     app.component(component.name, component)
   })
 
-  // Vue.use(InfiniteScroll)
-  // Vue.use(Loading.directive)
+  app.use(ElInfiniteScroll as any)
+  app.use(ElLoading)
 
   app.config.globalProperties.$ELEMENT = option
-
-  // Vue.prototype.$loading = Loading.service
   // Vue.prototype.$msgbox = MessageBox
   // Vue.prototype.$alert = MessageBox.alert
   // Vue.prototype.$confirm = MessageBox.confirm
@@ -123,7 +150,7 @@ const install = (app: App, opt: InstallOptions): void => {
   // Vue.prototype.$message = Message
 }
 
-const elementUI = {
+const ElementPlus = {
   version: '0.0.1',
   locale: use,
   install,
@@ -146,6 +173,29 @@ const elementUI = {
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
+  ElCol,
+  ElCollapse,
+  ElCollapseItem,
+  ElColorPicker,
+  ElContainer,
+  ElDatePicker,
+  ElDialog,
+  ElDivider,
+  ElDrawer,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
+  ElFooter,
+  ElForm,
+  ElFormItem,
+  ElHeader,
+  ElIcon,
+  ElImage,
+  ElInfiniteScroll,
+  ElInput,
+  ElInputNumber,
+  ElLink,
+  ElLoading,
 }
 
-export default elementUI
+export default ElementPlus

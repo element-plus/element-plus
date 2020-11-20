@@ -135,7 +135,7 @@ import {
   Ref, ref, watch,
 } from 'vue'
 import ElCascaderPanel from '@element-plus/cascader-panel'
-import { Input as ElInput } from '@element-plus/input'
+import ElInput from '@element-plus/input'
 import { Popper as ElPopper } from '@element-plus/popper'
 import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
 import { Tag as ElTag } from '@element-plus/tag'

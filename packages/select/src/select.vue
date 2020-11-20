@@ -179,7 +179,7 @@ import {
   reactive,
   provide,
 } from 'vue'
-import { Input as ElInput } from '@element-plus/input'
+import ElInput from '@element-plus/input'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { Tag as ElTag } from '@element-plus/tag'
