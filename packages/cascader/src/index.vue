@@ -445,7 +445,6 @@ export default defineComponent({
     }
 
     const handleExpandChange = (value: CascaderValue) => {
-      if (popperVisible.value) return
       if (!popperVisible.value) {
         togglePopperVisible(true)
       }
