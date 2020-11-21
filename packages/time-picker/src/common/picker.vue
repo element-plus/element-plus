@@ -9,6 +9,7 @@
     effect="light"
     trigger="click"
     popper-class="el-picker__popper"
+    :stop-popper-mouse-event="false"
   >
     <template #trigger>
       <el-input

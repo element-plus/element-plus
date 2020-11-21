@@ -68,6 +68,7 @@ export default defineComponent({
       showArrow,
       transition,
       visibility,
+      stopPopperMouseEvent,
     } = this
 
     const isManual = this.isManualMode()
@@ -80,7 +81,7 @@ export default defineComponent({
         popperId,
         popperStyle,
         pure,
-        isManual,
+        stopPopperMouseEvent,
         onMouseEnter: onPopperMouseEnter,
         onMouseLeave: onPopperMouseLeave,
         onAfterEnter,
