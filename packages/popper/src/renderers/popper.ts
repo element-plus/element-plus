@@ -7,8 +7,9 @@ import type { VNode, Ref } from 'vue'
 import type { Effect } from '../use-popper/defaults'
 
 interface IRenderPopperProps {
-  name: string
   effect: Effect
+  name: string
+  stopPopperMouseEvent: boolean
   popperClass: string
   popperStyle?: Partial<CSSStyleDeclaration>
   popperId: string
@@ -19,7 +20,6 @@ interface IRenderPopperProps {
   onMouseLeave: () => void
   onAfterEnter: () => void
   onAfterLeave: () => void
-  isManual: boolean
 }
 
 export default function renderPopper(
@@ -29,13 +29,13 @@ export default function renderPopper(
   const {
     effect,
     name,
+    stopPopperMouseEvent,
     popperClass,
     popperStyle,
     popperRef,
     pure,
     popperId,
     visibility,
-    isManual,
     onMouseEnter,
     onMouseLeave,
     onAfterEnter,
@@ -56,6 +56,8 @@ export default function renderPopper(
    *  </div>
    * </transition>
    */
+
+  const mouseUpAndDown = stopPopperMouseEvent ? stop : NOOP
   return createVNode(
     Transition,
     {
@@ -77,8 +79,8 @@ export default function renderPopper(
             onMouseEnter,
             onMouseLeave,
             onClick: stop,
-            onMouseDown: isManual ? NOOP : stop,
-            onMouseUp: isManual ? NOOP : stop,
+            onMouseDown: mouseUpAndDown,
+            onMouseUp: mouseUpAndDown,
           },
           children,
           PatchFlags.CLASS | PatchFlags.STYLE | PatchFlags.PROPS | PatchFlags.HYDRATE_EVENTS,

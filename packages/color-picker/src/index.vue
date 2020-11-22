@@ -8,6 +8,7 @@
       trigger="click"
       :show-arrow="false"
       popper-class="el-color-picker__panel el-color-dropdown"
+      :stop-popper-mouse-event="false"
       @after-leave="doDestroy"
     >
       <template #default>
