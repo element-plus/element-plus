@@ -11,7 +11,6 @@ module.exports = {
     publicPath: '/',
     filename: 'index.js',
     libraryTarget: 'umd',
-    libraryExport: 'default',
     library: 'ElementPlus',
     umdNamedDefine: true,
     globalObject: 'typeof self !== \'undefined\' ? self : this',
