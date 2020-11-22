@@ -61,10 +61,9 @@ El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formu
 :::demo
 
 ```html
-<!-- Table -->
 <el-button type="text" @click="dialogTableVisible = true">open a Table nested Dialog</el-button>
 
-<el-dialog title="Shipping address" :visible.sync="dialogTableVisible">
+<el-dialog title="Shipping address" v-model="dialogTableVisible">
   <el-table :data="gridData">
     <el-table-column property="date" label="Date" width="150"></el-table-column>
     <el-table-column property="name" label="Name" width="200"></el-table-column>
@@ -75,7 +74,7 @@ El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formu
 <!-- Form -->
 <el-button type="text" @click="dialogFormVisible = true">open a Form nested Dialog</el-button>
 
-<el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
+<el-dialog title="Shipping address" v-model="dialogFormVisible">
   <el-form :model="form">
     <el-form-item label="Promotion name" :label-width="formLabelWidth">
       <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -87,10 +86,12 @@ El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formu
       </el-select>
     </el-form-item>
   </el-form>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -143,17 +144,19 @@ Si un diálogo está anidado en otro diálogo, se requiere append-to-body.
 <template>
   <el-button type="text" @click="outerVisible = true">open the outer Dialog</el-button>
 
-  <el-dialog title="Outer Dialog" :visible.sync="outerVisible">
+  <el-dialog title="Outer Dialog" v-model="outerVisible">
     <el-dialog
         width="30%"
         title="Inner Dialog"
-        :visible.sync="innerVisible"
+        v-model="innerVisible"
         append-to-body>
     </el-dialog>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="outerVisible = false">Cancel</el-button>
-      <el-button type="primary" @click="innerVisible = true">open the inner Dialog</el-button>
-    </div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="outerVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="innerVisible = true">open the inner Dialog</el-button>
+      </div>
+    </template>
   </el-dialog>
 </template>
 
@@ -180,14 +183,16 @@ El contenido de Diálogo se puede centrar.
 
 <el-dialog
   title="Warning"
-  :visible.sync="centerDialogVisible"
+  v-model="centerDialogVisible"
   width="30%"
   center>
   <span>It should be noted that the content will not be aligned in center by default</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -216,16 +221,17 @@ Si la variable ligada a `visible` se gestiona en el Vuex store, el `.sync` no pu
 
 | Atributo              | Descripción                              | Tipo                                     | Valores aceptados | Por defecto |
 | --------------------- | ---------------------------------------- | ---------------------------------------- | ----------------- | ----------- |
-| visible               | visibilidad del Diálogo, apoya el modificador .sync | boolean                                  | —                 | false       |
+| model-value / v-model               | visibilidad del Diálogo | boolean                                  | —                 | —       |
 | title                 | título de Diálogo. También se puede pasar con un slot con nombre (ver la tabla siguiente) | string                                   | —                 | —           |
 | width                 | anchura de Diálogo                       | string                                   | —                 | 50%         |
 | fullscreen            | si el diálogo ocupa pantalla completa    | boolean                                  | —                 | false       |
 | top                   | valor de `margin-top` del Diálogo CSS    | string                                   | —                 | 15vh        |
 | modal                 | si se muestra una máscara                | boolean                                  | —                 | true        |
-| modal-append-to-body  | si adjuntar modal al elemento de cuerpo. Si es falso,el modal se agregará al elemento principal de Diálogo | boolean                                  | —                 | true        |
 | append-to-body        | Si adjuntar el cuadro de diálogo al cuerpo | boolean                                  | —                 | false       |
 | lock-scroll           | Si el scroll del cuerpo está desactivado mientras se muestra el cuadro de diálogo | boolean                                  | —                 | true        |
 | custom-class          | nombres de clase personalizada para el Diálogo | string                                   | —                 | —           |
+| open-delay            | Tiempo (milisegundos) antes de abierto | number    | — | 0 |
+| close-delay           | Tiempo (milisegundos) antes de cierre | number    | — | 0 |
 | close-on-click-modal  | si el Diálogo puede ser cerrado haciendo clic en la máscara | boolean                                  | —                 | true        |
 | close-on-press-escape | si el Diálogo puede ser cerrado presionando ESC | boolean                                  | —                 | true        |
 | show-close            | si mostrar un botón de cerrar            | boolean                                  | —                 | true        |
