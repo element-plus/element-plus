@@ -87,13 +87,17 @@ alertは、`ライト`と`ダーク`の2つの異なるテーマを提供して�
 </template>
 
 <script>
-  export default {
-    methods: {
-      hello() {
+  import { defineComponent } from 'vue'
+  export default defineComponent({
+    setup() {
+      const hello = () => {
         alert('Hello World!');
       }
+      return {
+        hello
+      }
     }
-  }
+  })
 </script>
 ```
 :::

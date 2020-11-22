@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import Scrollbar from './src/index.vue'
 
-export default (app: App): void => {
+Scrollbar.install = (app: App): void => {
   app.component(Scrollbar.name, Scrollbar)
 }
 
-export { Scrollbar }
+export default Scrollbar

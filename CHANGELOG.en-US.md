@@ -1,5 +1,13 @@
 ## Changelog
 
+### Progress of Element Plus
+Progress of Element Plus, please check https://github.com/element-plus/element-plus
+
+
+
+
+
+
 ### 2.13.2
 
 *2020-05-18*
@@ -97,13 +105,13 @@
 - Image
   - Perfect picture preview behavior (#16985 by @luckyCao)
   - Fix shield the page when preview big image (#16796 by @luckyCao)
-- Drawer 
+- Drawer
   - Bugfix drawer-append-to-body-not-working (#16953 by @JeremyWuuuuu)
 - Select
   - Fix tag show value or empty issue (17199 by @luckyCao)
 - Scrollbar
   - Fix FireFox scroll bar width (#18091 by @iamkun)
-  
+
 #### Optimization
 
 - I18n
@@ -235,7 +243,7 @@
   - Display correct header when range is specified (#16354 by @ziyoung)
 - Submenu
   - Fix prop append-to-body (#16289 by @a631807682)
-- Table 
+- Table
   - Fix tree table when updating data (#16481 by @island205)
 - Select
   - Fix memory leak issue (#16463 by @island205)

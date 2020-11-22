@@ -40,8 +40,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
-import { Button as ElButton } from '@element-plus/button'
-import { Popper as ElPopper } from '@element-plus/popper'
+import ElButton from '@element-plus/button'
+import ElPopper from '@element-plus/popper'
 import { t } from '../../locale'
 
 export default defineComponent({

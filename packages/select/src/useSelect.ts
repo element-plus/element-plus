@@ -21,6 +21,7 @@ import {
 } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
 import isEqual from 'lodash/isEqual'
+import { toRawType } from '@vue/shared'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
@@ -354,14 +355,14 @@ export const useSelect = (props, states: States, ctx) => {
 
   const getOption = value => {
     let option
-    const isObject = Object.prototype.toString.call(props.modelValue).toLowerCase() === '[object object]'
-    const isNull = Object.prototype.toString.call(props.modelValue).toLowerCase() === '[object null]'
-    const isUndefined = Object.prototype.toString.call(props.modelValue).toLowerCase() === '[object undefined]'
+    const isObject = toRawType(value).toLowerCase() === 'object'
+    const isNull = toRawType(value).toLowerCase() === 'null'
+    const isUndefined = toRawType(value).toLowerCase() === 'undefined'
 
     for (let i = states.cachedOptions.length - 1; i >= 0; i--) {
       const cachedOption = states.cachedOptions[i]
       const isEqual = isObject
-        ? getValueByPath(cachedOption.value, props.valueKey) === getValueByPath(props.modelValue, props.valueKey)
+        ? getValueByPath(cachedOption.value, props.valueKey) === getValueByPath(value, props.valueKey)
         : cachedOption.value === value
       if (isEqual) {
         option = {

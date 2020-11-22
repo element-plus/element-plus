@@ -149,14 +149,14 @@ describe('Popper.vue', () => {
     )
   })
 
-  test('should not stop propagation when manual mode is enabled', async () => {
+  test('should not stop propagation when stop mode is disabled', async () => {
     const onMouseUp = jest.fn()
     const onMouseDown = jest.fn()
     document.addEventListener('mouseup', onMouseUp)
     document.addEventListener('mousedown', onMouseDown)
 
     const wrapper = _mount({
-      manualMode: true,
+      stopPopperMouseEvent: false,
       visible: true,
     })
     await nextTick()
@@ -167,7 +167,7 @@ describe('Popper.vue', () => {
     expect(onMouseUp).toHaveBeenCalled()
 
     await wrapper.setProps({
-      manualMode: false,
+      stopPopperMouseEvent: true,
     })
     await nextTick()
 

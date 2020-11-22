@@ -53,8 +53,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, h } from 'vue'
-import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
-import { Radio as ElRadio } from '@element-plus/radio'
+import ElCheckbox from '@element-plus/checkbox'
+import ElRadio from '@element-plus/radio'
 import {
   CascaderNode,
   CASCADER_PANEL_INJECTION_KEY,

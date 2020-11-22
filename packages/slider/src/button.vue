@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { Tooltip as ElTooltip } from '@element-plus/tooltip'
+import ElTooltip from '@element-plus/tooltip'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { defineComponent, reactive, toRefs } from 'vue'
 import { useSliderButton } from './useSliderButton'

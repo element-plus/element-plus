@@ -1,10 +1,10 @@
 ## クイックスタート
 
-このパートでは、webpackプロジェクトでElementを用いた開発プロセスを説明します。
+このパートでは、webpackプロジェクトでElement Plusを用いた開発プロセスを説明します。
 
 ### vue-cli@4.5を使う
 
-私達はvue-cli@4.5のために [Element Plus plugin](https://github.com/element-plus/vue-cli-plugin-element-plus) 提供しており, 簡単に Elementベースのプロジェクトを構築出来ます。
+私達はvue-cli@4.5のために [Element Plus plugin](https://github.com/element-plus/vue-cli-plugin-element-plus) 提供しており, 簡単に Element Plusベースのプロジェクトを構築出来ます。
 
 ### スターターキットを使う
 
@@ -14,7 +14,7 @@
 
 ### Element Plusをインポートする
 
-Elementを完全にインポートすることも、必要なものだけをインポートすることもできます。完全なインポートから始めましょう。
+Element Plusを完全にインポートすることも、必要なものだけをインポートすることもできます。完全なインポートから始めましょう。
 
 #### 完全にインポートした場合
 
@@ -31,7 +31,7 @@ app.use(ElementPlus)
 app.mount('#app')
 ```
 
-上記のコードは完全にElementをインポートします。CSSファイルは個別にインポートする必要があることを注意してください。
+上記のコードは完全にElement Plusをインポートします。CSSファイルは個別にインポートする必要があることを注意してください。
 
 #### オンデマンド
 
@@ -253,15 +253,15 @@ Vue.prototype.$message = Message;
 
 Elenentをインポートする際、グローバルコンフィグオブジェクトを定義出来ます。現時点では2つのプロパティ: `size` と `zIndex` があります。 プロパティ `size` はすべてのコンポーネントのデフォルトサイズ、プロパティ `zIndex` はモーダルボックスの初期の z-index (デフォルト: 2000) を設定します。
 
-Elementを完全にインポート：
+Element Plusを完全にインポート：
 
 ```js
 import Vue from 'vue';
 import ElementPlus from 'element-plus';
-Vue.use(Element, { size: 'small', zIndex: 3000 });
+Vue.use(ElementPlus, { size: 'small', zIndex: 3000 });
 ```
 
-Elementを部分的にインポート：
+Element Plusを部分的にインポート：
 
 ```js
 import Vue from 'vue';
@@ -275,7 +275,7 @@ Vue.use(Button);
 
 ### コーディングを始めましょう
 
-プロジェクトに Vue と Element を実装したので、いよいよコードを書く時が来ました。使用方法については、各コンポーネントのドキュメントを参照してください。
+プロジェクトに Vue と Element Plus を実装したので、いよいよコードを書く時が来ました。使用方法については、各コンポーネントのドキュメントを参照してください。
 
 ### Nuxt.jsを使う
 

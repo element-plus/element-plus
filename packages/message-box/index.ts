@@ -1,7 +1,7 @@
 import { App } from 'vue'
 import MessageBox from './src/messageBox'
 
-export default (app: App): void => {
+(MessageBox as any).install = (app: App): void => {
   app.config.globalProperties.$msgbox = MessageBox
   app.config.globalProperties.$messageBox = MessageBox
   app.config.globalProperties.$alert = MessageBox.alert
@@ -9,4 +9,4 @@ export default (app: App): void => {
   app.config.globalProperties.$prompt = MessageBox.prompt
 }
 
-export { MessageBox }
+export default MessageBox
