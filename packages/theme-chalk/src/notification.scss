@@ -82,7 +82,7 @@
   }
 }
 
-.el-notification-fade-enter {
+.el-notification-fade-enter-from{
   &.right {
     right: 0;
     transform: translateX(100%);
@@ -93,7 +93,6 @@
     transform: translateX(-100%);
   }
 }
-
-.el-notification-fade-leave-active {
+.el-notification-fade-leave-to {
   opacity: 0;
 }

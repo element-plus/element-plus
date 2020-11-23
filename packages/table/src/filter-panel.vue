@@ -84,10 +84,11 @@
 </template>
 
 <script lang='ts'>
-import { Popper as ElPopper } from '@element-plus/popper'
+import ElPopper from '@element-plus/popper'
 import { t } from '@element-plus/locale'
-import { Checkbox as ElCheckbox, CheckboxGroup as ElCheckboxGroup } from '@element-plus/checkbox'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
+import ElCheckbox from '@element-plus/checkbox'
+import ElCheckboxGroup from '@element-plus/checkbox-group'
+import ElScrollbar from '@element-plus/scrollbar'
 import {
   ref,
   computed,

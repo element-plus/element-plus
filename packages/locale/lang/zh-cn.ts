@@ -1,4 +1,5 @@
 export default {
+  name: 'zh-cn',
   el: {
     colorpicker: {
       confirm: '确定',

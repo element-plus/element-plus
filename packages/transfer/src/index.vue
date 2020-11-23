@@ -59,7 +59,7 @@ import {
   reactive, ref, toRefs, watch,
 } from 'vue'
 import { t } from '@element-plus/locale'
-import { Button as ElButton } from '@element-plus/button'
+import ElButton from '@element-plus/button'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import { useCheckedChange } from './useCheckedChange'

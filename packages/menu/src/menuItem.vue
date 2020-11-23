@@ -48,7 +48,7 @@ import {
 } from 'vue'
 import { IMenuItemProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
-import { Tooltip as ElTooltip } from '@element-plus/tooltip'
+import ElTooltip from '@element-plus/tooltip'
 
 export default {
   name: 'ElMenuItem',

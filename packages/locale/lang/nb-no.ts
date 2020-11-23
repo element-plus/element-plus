@@ -1,4 +1,5 @@
 export default {
+  name: 'nb-no',
   el: {
     colorpicker: {
       confirm: 'OK',

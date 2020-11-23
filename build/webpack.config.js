@@ -11,7 +11,6 @@ module.exports = {
     publicPath: '/',
     filename: 'index.js',
     libraryTarget: 'umd',
-    libraryExport: 'default',
     library: 'ElementPlus',
     umdNamedDefine: true,
     globalObject: 'typeof self !== \'undefined\' ? self : this',
@@ -33,14 +32,17 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
-  externals: {
-    vue: {
-      root: 'Vue',
-      commonjs: 'vue',
-      commonjs2: 'vue',
-      amd: 'vue',
+  externals: [
+    {
+      vue: {
+        root: 'Vue',
+        commonjs: 'vue',
+        commonjs2: 'vue',
+        amd: 'vue',
+      },
     },
-  },
+    /^dayjs.*/,
+  ],
   plugins: [
     new VueLoaderPlugin(),
     // new BundleAnalyzerPlugin(),
