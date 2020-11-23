@@ -1,7 +1,7 @@
 {
   "name": "element-plus",
   "private": true,
-  "version": "1.0.1-alpha.18",
+  "version": "1.0.1-alpha.20",
   "scripts": {
     "cz": "npx git-cz",
     "test": "jest",
@@ -81,6 +81,7 @@
     "rollup-plugin-vue": "^6.0.0-beta.11",
     "sass": "^1.26.10",
     "sass-loader": "^10.0.1",
+    "sinon": "^9.0.3",
     "style-loader": "^1.2.1",
     "throttle-debounce": "2.3.0",
     "transliteration": "^2.1.11",
@@ -123,11 +124,12 @@
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.4",
+    "async-validator": "^3.4.0",
     "dayjs": "1.x",
     "lodash": "^4.17.20",
     "mitt": "^2.1.0",
     "normalize-wheel": "^1.0.1",
-    "sinon": "^9.0.3"
+    "resize-observer-polyfill": "^1.5.1"
   },
   "files": [
     "lib",

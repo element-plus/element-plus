@@ -21,7 +21,6 @@ export default [
       terser(),
       nodeResolve(),
       // commonjs(),
-      css(),
       vue({
         target: 'browser',
         css: false,
@@ -29,6 +28,9 @@ export default [
       }),
       typescript({
         tsconfigOverride: {
+          compilerOptions: {
+            declaration: false,
+          },
           'include': [
             'packages/**/*',
             'typings/vue-shim.d.ts',

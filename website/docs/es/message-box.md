@@ -282,7 +282,7 @@ El contenido del componente MessageBox puede ser centrado.
 
 ### Métodos Globales
 
-Si Element Plus fue importado completamente, agregara los siguientes métodos globales para Vue.prototype: `$msgbox`, `$alert`, `$confirm` y `$prompt`. Así que en una instancia de Vue puedes llamar el método `MessageBox` como lo que hicimos en esta pagina. Los parámetros son:
+Si Element Plus fue importado completamente, agregara los siguientes métodos globales para `app.config.globalProperties`: `$msgbox`, `$alert`, `$confirm` y `$prompt`. Así que en una instancia de Vue puedes llamar el método `MessageBox` como lo que hicimos en esta pagina. Los parámetros son:
 - `$msgbox(options)`
 - `$alert(message, title, options)` or `$alert(message, options)`
 - `$confirm(message, title, options)` or `$confirm(message, options)`
@@ -293,10 +293,10 @@ Si Element Plus fue importado completamente, agregara los siguientes métodos gl
 Si prefieres importar `MessageBox` cuando lo necesites (on demand):
 
 ```javascript
-import { MessageBox } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 ```
 
-Los métodos correspondientes: `MessageBox`, `MessageBox.alert`, `MessageBox.confirm` y `MessageBox.prompt`. Los parámetros son los mismos que los anteriores.
+Los métodos correspondientes: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageBox.confirm` y `ElMessageBox.prompt`. Los parámetros son los mismos que los anteriores.
 
 ### Opciones
 

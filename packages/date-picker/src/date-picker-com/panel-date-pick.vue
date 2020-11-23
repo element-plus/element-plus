@@ -159,6 +159,7 @@
 import {
   extractDateFormat,
   extractTimeFormat,
+  TimePickPanel,
 } from '@element-plus/time-picker'
 import { t } from '@element-plus/locale'
 import ElInput from '@element-plus/input'
@@ -169,7 +170,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
-import TimePickPanel from '@element-plus/time-picker/src/time-picker-com/panel-time-pick.vue'
+
 import {
   defineComponent,
   computed,

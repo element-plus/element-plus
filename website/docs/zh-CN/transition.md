@@ -148,8 +148,8 @@ Element Plus 内应用在部分组件的过渡动画，你也可以直接使用�
 // fade/zoom 等
 import 'element-plus/lib/theme-chalk/base.css';
 // collapse 展开折叠
-import CollapseTransition from 'element-plus/lib/transitions/collapse-transition';
+import { ElCollapseTransition } from 'element-plus';
 import Vue from 'vue'
 
-Vue.component(CollapseTransition.name, CollapseTransition)
+Vue.component(ElCollapseTransition.name, ElCollapseTransition)
 ```
