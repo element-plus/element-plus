@@ -11,7 +11,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn bootstrap
       - name: Lint
         run: yarn lint
       - name: Test
