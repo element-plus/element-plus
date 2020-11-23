@@ -275,17 +275,15 @@ It is possible to hide the close button
 
 ### Global method
 
-Element Plus has added a global method `$notify` for Vue.prototype. So in a vue instance you can call `Notification` like what we did in this page.
+Element Plus has added a global method `$notify` for `app.config.globalProperties`. So in a vue instance you can call `Notification` like what we did in this page.
 
 ### Local import
 
-Import `Notification`:
-
 ```javascript
-import { Notification } from 'element-plus';
+import { ElNotification } from 'element-plus';
 ```
 
-In this case you should call `Notification(options)`. We have also registered methods for different types, e.g. `Notification.success(options)`. You can call `Notification.closeAll()` to manually close all the instances.
+In this case you should call `ElNotification(options)`. We have also registered methods for different types, e.g. `ElNotification.success(options)`. You can call `ElNotification.closeAll()` to manually close all the instances.
 
 ### Options
 | Attribute      | Description          | Type      | Accepted Values       | Default  |

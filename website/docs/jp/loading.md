@@ -173,23 +173,23 @@
 ### サービス
 サービスで Loading を呼び出すこともできます。Loadingサービスをインポートします:
 ```javascript
-import { Loading } from 'element-plus';
+import { ElLoading } from 'element-plus';
 ```
 呼び出す:
 ```javascript
-Loading.service(options);
+ElLoading.service(options);
 ```
 パラメータ `options` はLoadingの設定であり、その詳細は以下の表にある。LoadingService` はLoadingのインスタンスを返し、その `close` メソッドを呼び出すことでインスタンスを閉じることができる。:
 ```javascript
-let loadingInstance = Loading.service(options);
+let loadingInstance = ElLoading.service(options);
 this.$nextTick(() => { // Loading should be closed asynchronously
   loadingInstance.close();
 });
 ```
 フルスクリーン Loading はシングルトンであることに注意してください。既存のフルスクリーン Loading がクローズされる前に新しいフルスクリーン Loading が呼び出された場合、実際に別の Loading インスタンスを作成するのではなく、既存のフルスクリーン Loading インスタンスが返されます。:
 ```javascript
-let loadingInstance1 = Loading.service({ fullscreen: true });
-let loadingInstance2 = Loading.service({ fullscreen: true });
+let loadingInstance1 = ElLoading.service({ fullscreen: true });
+let loadingInstance2 = ElLoading.service({ fullscreen: true });
 console.log(loadingInstance1 === loadingInstance2); // true
 ```
 これらのいずれかで`close` メソッドを呼び出すことで、このフルスクリーンの読み込みを閉じることができる。
