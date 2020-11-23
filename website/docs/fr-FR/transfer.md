@@ -44,12 +44,12 @@ Vous pouvez filtrer les options.
 ```html
 <template>
   <el-transfer
+    v-model="value"
     filterable
     :filter-method="filterMethod"
     filter-placeholder="State Abbreviations"
-    v-model="value"
-    :data="data">
-  </el-transfer>
+    :data="data"
+  />
 </template>
 
 <script>
@@ -91,8 +91,8 @@ Vous pouvez personnaliser les titres, les textes des boutons, les fonctions de r
   <p style="text-align: center; margin: 0 0 20px">Utilise render-content</p>
   <div style="text-align: center">
     <el-transfer
+      v-model="leftValue"
       style="text-align: left; display: inline-block"
-      v-model="value"
       filterable
       :left-default-checked="[2, 3]"
       :right-default-checked="[1]"
@@ -103,16 +103,21 @@ Vous pouvez personnaliser les titres, les textes des boutons, les fonctions de r
         noChecked: '${total}',
         hasChecked: '${checked}/${total}'
       }"
+      :data="data"
       @change="handleChange"
-      :data="data">
-      <el-button class="transfer-footer" slot="left-footer" size="small">Opération</el-button>
-      <el-button class="transfer-footer" slot="right-footer" size="small">Opération</el-button>
+    >
+      <template #left-footer>
+        <el-button class="transfer-footer" size="small">Opération</el-button>
+      </template>
+      <template #right-footer>
+        <el-button class="transfer-footer" size="small">Opération</el-button>
+      </template>
     </el-transfer>
     <p style="text-align: center; margin: 50px 0 20px">Utilise des slots</p>
     <div style="text-align: center">
       <el-transfer
+        v-model="rightValue"
         style="text-align: left; display: inline-block"
-        v-model="value4"
         filterable
         :left-default-checked="[2, 3]"
         :right-default-checked="[1]"
@@ -122,21 +127,28 @@ Vous pouvez personnaliser les titres, les textes des boutons, les fonctions de r
           noChecked: '${total}',
           hasChecked: '${checked}/${total}'
         }"
+        :data="data"
         @change="handleChange"
-        :data="data">
-        <span slot-scope="{ option }">{{ option.key }} - {{ option.label }}</span>
-        <el-button class="transfer-footer" slot="left-footer" size="small">Opération</el-button>
-        <el-button class="transfer-footer" slot="right-footer" size="small">Opération</el-button>
+      >
+        <template #default="{ option }">
+          <span>{{ option.key }} - {{ option.label }}</span>
+        </template>
+        <template #left-footer>
+          <el-button class="transfer-footer" size="small">Opération</el-button>
+        </template>
+        <template #right-footer>
+          <el-button class="transfer-footer" size="small">Opération</el-button>
+        </template>
       </el-transfer>
     </div>
   </div>
 </template>
 
 <style>
-  .transfer-footer {
-    margin-left: 20px;
-    padding: 6px 5px;
-  }
+.transfer-footer {
+  margin-left: 20px;
+  padding: 6px 5px;
+}
 </style>
 
 <script>
@@ -155,8 +167,8 @@ Vous pouvez personnaliser les titres, les textes des boutons, les fonctions de r
       };
       return {
         data: generateData(),
-        value: [1],
-        value4: [1],
+        leftValue: [1],
+        rightValue: [1],
         renderFunc(h, option) {
           return h("span", null, option.key, " - ", option.label);
         }
@@ -186,8 +198,8 @@ Par défaut, Transfer utilise `key`, `label` et `disabled` de vos objets. Si vos
       key: 'value',
       label: 'desc'
     }"
-    :data="data">
-  </el-transfer>
+    :data="data"
+  />
 </template>
 
 <script>

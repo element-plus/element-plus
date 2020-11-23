@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import Icon from './src/index.vue'
 
-export default (app: App): void => {
+Icon.install = (app: App): void => {
   app.component(Icon.name, Icon)
 }
 
-export { Icon }
+export default Icon

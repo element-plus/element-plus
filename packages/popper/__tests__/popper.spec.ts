@@ -4,6 +4,7 @@ import * as popperExports from '@popperjs/core'
 import ElPopper from '../src/index.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
+import PopupManager from '@element-plus/utils/popup-manager'
 
 type UnknownProps = Record<string, unknown>
 
@@ -103,6 +104,16 @@ describe('Popper.vue', () => {
     expect(wrapper.find(selector).exists()).toBe(false)
   })
 
+  test('popper z-index should be dynamical', () => {
+    const wrapper = _mount()
+
+    expect(
+      Number.parseInt(
+        window.getComputedStyle(wrapper.find('.el-popper').element).zIndex,
+      ),
+    ).toBeLessThanOrEqual(PopupManager.zIndex)
+  })
+
   test('should show popper when mouse entered and hide when popper left', async () => {
     const wrapper = _mount({
       appendToBody: false,
@@ -138,14 +149,14 @@ describe('Popper.vue', () => {
     )
   })
 
-  test('should not stop propagation when manual mode is enabled', async () => {
+  test('should not stop propagation when stop mode is disabled', async () => {
     const onMouseUp = jest.fn()
     const onMouseDown = jest.fn()
     document.addEventListener('mouseup', onMouseUp)
     document.addEventListener('mousedown', onMouseDown)
 
     const wrapper = _mount({
-      manualMode: true,
+      stopPopperMouseEvent: false,
       visible: true,
     })
     await nextTick()
@@ -156,7 +167,7 @@ describe('Popper.vue', () => {
     expect(onMouseUp).toHaveBeenCalled()
 
     await wrapper.setProps({
-      manualMode: false,
+      stopPopperMouseEvent: true,
     })
     await nextTick()
 
@@ -166,7 +177,6 @@ describe('Popper.vue', () => {
     expect(onMouseUp).toHaveBeenCalledTimes(1)
     document.removeEventListener('mouseup', onMouseUp)
     document.removeEventListener('mousedown', onMouseDown)
-
   })
 
   test('should disable popper to popup', async () => {

@@ -52,9 +52,12 @@ EOF
 cat <<EOF >"$DIRNAME/index.ts"
 import { App } from 'vue'
 import ${NAME} from './src/index.vue'
-export default (app: App): void => {
+
+${NAME}.install = (app: App): void => {
   app.component(${NAME}.name, ${NAME})
 }
+
+export default ${NAME}
 EOF
 
 cat > $DIRNAME/package.json <<EOF

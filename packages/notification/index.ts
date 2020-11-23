@@ -1,7 +1,8 @@
 import { App } from 'vue'
 import Notify from './src/notify'
-export default (app: App): void => {
+
+(Notify as any).install = (app: App): void => {
   app.config.globalProperties.$notify = Notify
 }
 
-export { Notify }
+export default Notify

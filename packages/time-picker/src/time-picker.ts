@@ -10,6 +10,7 @@ dayjs.extend(customParseFormat)
 
 export default {
   name: 'ElTimePicker',
+  install: null,
   props: {
     isRange: {
       type: Boolean,

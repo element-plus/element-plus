@@ -22,7 +22,7 @@ import {
   ref,
 } from 'vue'
 import { t } from '@element-plus/locale'
-import { Input as ElInput } from '@element-plus/input'
+import ElInput from '@element-plus/input'
 import { usePagination } from './usePagination'
 
 export default defineComponent({

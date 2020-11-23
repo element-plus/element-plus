@@ -1,4 +1,5 @@
 export default {
+  name: 'ar',
   el: {
     colorpicker: {
       confirm: 'موافق',
