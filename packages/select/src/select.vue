@@ -346,15 +346,13 @@ export default defineComponent({
         currentPlaceholder.value = ''
       }
       addResizeListener(selectWrapper.value as any, handleResize)
-      if (reference.value && reference.value.$el) {
-        const sizeMap = {
-          medium: 36,
-          small: 32,
-          mini: 28,
-        }
-        const input = reference.value.$el
-        states.initialInputHeight = input.getBoundingClientRect().height || sizeMap[selectSize.value]
+      const sizeMap = {
+        medium: 36,
+        small: 32,
+        mini: 28,
       }
+      const input = reference.value.$el
+      states.initialInputHeight = input.getBoundingClientRect().height || sizeMap[selectSize.value]
       if (props.remote && props.multiple) {
         resetInputHeight()
       }
