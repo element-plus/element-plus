@@ -8,6 +8,7 @@
     trigger="click"
     effect="light"
     popper-class="el-table-filter el-table-filter-padding"
+    append-to-body
   >
     <template #default>
       <div v-if="multiple">
