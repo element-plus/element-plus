@@ -58,7 +58,6 @@ The content of Dialog can be anything, even a table or a form. This example show
 :::demo
 
 ```html
-<!-- Table -->
 <el-button type="text" @click="dialogTableVisible = true">open a Table nested Dialog</el-button>
 
 <el-dialog title="Shipping address" v-model="dialogTableVisible">
@@ -84,10 +83,12 @@ The content of Dialog can be anything, even a table or a form. This example show
       </el-select>
     </el-form-item>
   </el-form>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -148,10 +149,10 @@ If a Dialog is nested in another Dialog, `append-to-body` is required.
       </el-dialog>
     </template>
     <template #footer>
-    <div class="dialog-footer">
-      <el-button @click="outerVisible = false">Cancel</el-button>
-      <el-button type="primary" @click="innerVisible = true">open the inner Dialog</el-button>
-    </div>
+      <div class="dialog-footer">
+        <el-button @click="outerVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="innerVisible = true">open the inner Dialog</el-button>
+      </div>
     </template>
   </el-dialog>
 </template>
@@ -216,16 +217,17 @@ If the variable bound to `visible` is managed in Vuex store, the `.sync` can not
 
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| visible   | visibility of Dialog, supports the .sync modifier | boolean | — | false |
+| model-value / v-model   | visibility of Dialog | boolean | — | — |
 | title     | title of Dialog. Can also be passed with a named slot (see the following table) | string    | — | — |
 | width     | width of Dialog | string    | — | 50% |
 | fullscreen     | whether the Dialog takes up full screen | boolean    | — | false |
 | top      | value for `margin-top` of Dialog CSS | string    | — | 15vh |
 | modal     | whether a mask is displayed | boolean   | — | true |
-| modal-append-to-body     | whether to append modal to body element. If false, the modal will be appended to Dialog's parent element | boolean   | — | true |
 | append-to-body     | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` | boolean   | — | false |
 | lock-scroll     | whether scroll of body is disabled while Dialog is displayed | boolean   | — | true |
 | custom-class      | custom class names for Dialog | string    | — | — |
+| open-delay        | Time(milliseconds) before open | number    | — | 0 |
+| close-delay       | Time(milliseconds) before close | number    | — | 0 |
 | close-on-click-modal | whether the Dialog can be closed by clicking the mask | boolean    | — | true |
 | close-on-press-escape | whether the Dialog can be closed by pressing ESC | boolean    | — | true |
 | show-close | whether to show a close button | boolean    | — | true |
