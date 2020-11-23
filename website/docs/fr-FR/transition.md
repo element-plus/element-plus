@@ -148,8 +148,8 @@ Pour l'effet collapse, utilisez le composant `el-collapse-transition`.
 // fade/zoom
 import 'element-plus/lib/theme-chalk/base.css';
 // collapse
-import CollapseTransition from 'element-plus/lib/transitions/collapse-transition';
+import { ElCollapseTransition } from 'element-plus';
 import Vue from 'vue'
 
-Vue.component(CollapseTransition.name, CollapseTransition)
+Vue.component(ElCollapseTransition.name, ElCollapseTransition)
 ```

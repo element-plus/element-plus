@@ -187,17 +187,15 @@
 
 ### 全局方法
 
-Element Plus 为 Vue.prototype 添加了全局方法 $message。因此在 vue instance 中可以采用本页面中的方式调用 `Message`。
+Element Plus 为 `app.config.globalProperties` 添加了全局方法 $message。因此在 vue instance 中可以采用本页面中的方式调用 `Message`。
 
 ### 单独引用
 
-单独引入 `Message`：
-
 ```javascript
-import { Message } from 'element-plus';
+import { ElMessage } from 'element-plus';
 ```
 
-此时调用方法为 `Message(options)`。我们也为每个 type 定义了各自的方法，如 `Message.success(options)`。并且可以调用 `Message.closeAll()` 手动关闭所有实例。
+此时调用方法为 `ElMessage(options)`。我们也为每个 type 定义了各自的方法，如 `ElMessage.success(options)`。并且可以调用 `ElMessage.closeAll()` 手动关闭所有实例。
 
 ### Options
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |

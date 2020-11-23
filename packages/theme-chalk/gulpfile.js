@@ -6,7 +6,7 @@ const autoprefixer = require('gulp-autoprefixer')
 const cssmin = require('gulp-cssmin')
 const rename = require('gulp-rename')
 
-const noElPrefixFile = /(index|base)/
+const noElPrefixFile = /(index|base|display)/
 
 function compile() {
   return src('./src/*.scss')
