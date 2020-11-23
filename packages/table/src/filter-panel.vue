@@ -85,13 +85,11 @@
 </template>
 
 <script lang='ts'>
-import { Popper as ElPopper } from '@element-plus/popper'
+import ElPopper from '@element-plus/popper'
 import { t } from '@element-plus/locale'
-import {
-  Checkbox as ElCheckbox,
-  CheckboxGroup as ElCheckboxGroup,
-} from '@element-plus/checkbox'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
+import ElCheckbox from '@element-plus/checkbox'
+import ElCheckboxGroup from '@element-plus/checkbox-group'
+import ElScrollbar from '@element-plus/scrollbar'
 import {
   ref,
   computed,
@@ -100,8 +98,7 @@ import {
   WritableComputedRef,
   PropType,
 } from 'vue'
-import { Store, TableColumnCtx, TableHeader } from './table'
-
+import { Store, TableColumnCtx, TableHeader } from './table.type'
 export default {
   name: 'ElTableFilterPanel',
   components: {
@@ -132,7 +129,6 @@ export default {
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
-
     const filters = computed(() => {
       return props.column && props.column.filters
     })
@@ -167,11 +163,9 @@ export default {
       }
       return true
     })
-
     const isActive = filter => {
       return filter.value === filterValue.value
     }
-
     const hidden = () => {
       tooltipVisible.value = false
     }
@@ -179,18 +173,15 @@ export default {
       e.stopPropagation()
       tooltipVisible.value = true
     }
-
     const handleConfirm = () => {
       confirmFilter(filteredValue.value)
       hidden()
     }
-
     const handleReset = () => {
       filteredValue.value = []
       confirmFilter(filteredValue.value)
       hidden()
     }
-
     const handleSelect = (_filterValue?: string | string[]) => {
       filterValue.value = _filterValue
       if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
@@ -200,7 +191,6 @@ export default {
       }
       hidden()
     }
-
     const confirmFilter = (filteredValue: unknown[]) => {
       props.store.commit('filterChange', {
         column: props.column,
