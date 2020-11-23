@@ -57,7 +57,7 @@ const runBuild = async () => {
     const getOutFile = () => {
       const compName = name.split('@element-plus/')[1]
       if(noElPrefixFile.test(name)) {
-        return `lib/${compName}}/index.js`
+        return `lib/${compName}/index.js`
       }
       return `lib/el-${compName}/index.js`
     }
