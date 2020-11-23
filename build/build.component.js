@@ -57,7 +57,8 @@ const runBuild = async () => {
       file: `lib/el-${name.split('@element-plus/')[1]}/index.js`,
       paths(id) {
         if (/^@element-plus/.test(id)) {
-          return id.replace('@element-plus', '..')
+          if (/(utils|directives|hooks)/.test(id)) return id.replace('@element-plus', '..')
+          return id.replace('@element-plus/', '../el-')
         }
       },
     }
