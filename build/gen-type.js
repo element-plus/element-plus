@@ -33,3 +33,6 @@ fs.readdirSync(libDirPath).forEach(comp => {
     }
   }
 })
+
+// todo remove test-utils
+// todo cp pkg.d.ts
