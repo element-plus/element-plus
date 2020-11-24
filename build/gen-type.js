@@ -10,7 +10,7 @@ const newIndexPath = path.resolve(__dirname, '../lib/index.d.ts')
 fs.copyFileSync(path.resolve(__dirname, '../lib/element-plus/index.d.ts'), newIndexPath)
 fs.rmdirSync(path.resolve(__dirname, '../lib/element-plus'), { recursive: true })
 const index = fs.readFileSync(newIndexPath)
-const newIndex = index.toString().replace(/@element-plus\//g, '../el-')
+const newIndex = index.toString().replace(/@element-plus\//g, './el-')
 fs.writeFileSync(newIndexPath, newIndex)
 
 // component
