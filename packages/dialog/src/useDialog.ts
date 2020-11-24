@@ -127,7 +127,9 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
       ctx.emit(OPEN_EVENT)
       // this.$el.addEventListener('scroll', this.updatePopper)
       nextTick(() => {
-        dialogRef.value.scrollTop = 0
+        if (dialogRef.value) {
+          dialogRef.value.scrollTop = 0
+        }
       })
     } else {
       // this.$el.removeEventListener('scroll', this.updatePopper
