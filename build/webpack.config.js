@@ -28,7 +28,7 @@ if (!isFullMode) {
   /^dayjs.*/,
   /^lodash.*/)
 }
-console.log(externals)
+
 const config = {
   mode: 'development',
   entry: path.resolve(__dirname, '../packages/element-plus/index.ts'),
