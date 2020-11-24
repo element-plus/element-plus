@@ -48,7 +48,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US7","61":"DOCS en-US8","62":"DOCS en-US9","63":"DOCS es0","64":"DOCS es1","65":"DOCS es10","66":"DOCS es11","67":"DOCS es12","68":"DOCS es13","69":"DOCS es14","70":"DOCS es15","71":"DOCS es16","72":"DOCS es17","73":"DOCS es18","74":"DOCS es19","75":"DOCS es2","76":"DOCS es20","77":"DOCS es21","78":"DOCS es22","79":"DOCS es23","80":"DOCS es24","81":"DOCS es25","82":"DOCS es26","83":"DOCS es27","84":"DOCS es28","85":"DOCS es29","86":"DOCS es3","87":"DOCS es30","88":"DOCS es31","89":"DOCS es32","90":"DOCS es33","91":"DOCS es34","92":"DOCS es35","93":"DOCS es36","94":"DOCS es37","95":"DOCS es38","96":"DOCS es39","97":"DOCS es4","98":"DOCS es40","99":"DOCS es41","100":"DOCS es42","101":"DOCS es43","102":"DOCS es44","103":"DOCS es45","104":"DOCS es46","105":"DOCS es47","106":"DOCS es48","107":"DOCS es49","108":"DOCS es5","109":"DOCS es50","110":"DOCS es51","111":"DOCS es52","112":"DOCS es53","113":"DOCS es54","114":"DOCS es55","115":"DOCS es56","116":"DOCS es57","117":"DOCS es58","118":"DOCS es59","119":"DOCS es6","120":"DOCS es60","121":"DOCS es61","122":"DOCS es7","123":"DOCS es8","124":"DOCS es9","125":"DOCS fr-FR0","126":"DOCS fr-FR1","127":"DOCS fr-FR10","128":"DOCS fr-FR11","129":"DOCS fr-FR12","130":"DOCS fr-FR13","131":"DOCS fr-FR14","132":"DOCS fr-FR15","133":"DOCS fr-FR16","134":"DOCS fr-FR17","135":"DOCS fr-FR18","136":"DOCS fr-FR19","137":"DOCS fr-FR2","138":"DOCS fr-FR20","139":"DOCS fr-FR21","140":"DOCS fr-FR22","141":"DOCS fr-FR23","142":"DOCS fr-FR24","143":"DOCS fr-FR25","144":"DOCS fr-FR26","145":"DOCS fr-FR27","146":"DOCS fr-FR28","147":"DOCS fr-FR29","148":"DOCS fr-FR3","149":"DOCS fr-FR30","150":"DOCS fr-FR31","151":"DOCS fr-FR32","152":"DOCS fr-FR33","153":"DOCS fr-FR34","154":"DOCS fr-FR35","155":"DOCS fr-FR36","156":"DOCS fr-FR37","157":"DOCS fr-FR38","158":"DOCS fr-FR39","159":"DOCS fr-FR4","160":"DOCS fr-FR40","161":"DOCS fr-FR41","162":"DOCS fr-FR42","163":"DOCS fr-FR43","164":"DOCS fr-FR44","165":"DOCS fr-FR45","166":"DOCS fr-FR46","167":"DOCS fr-FR47","168":"DOCS fr-FR48","169":"DOCS fr-FR49","170":"DOCS fr-FR5","171":"DOCS fr-FR50","172":"DOCS fr-FR51","173":"DOCS fr-FR52","174":"DOCS fr-FR53","175":"DOCS fr-FR54","176":"DOCS fr-FR55","177":"DOCS fr-FR56","178":"DOCS fr-FR57","179":"DOCS fr-FR58","180":"DOCS fr-FR59","181":"DOCS fr-FR6","182":"DOCS fr-FR60","183":"DOCS fr-FR61","184":"DOCS fr-FR7","185":"DOCS fr-FR8","186":"DOCS fr-FR9","187":"DOCS zh-CN0","188":"DOCS zh-CN1","189":"DOCS zh-CN10","190":"DOCS zh-CN11","191":"DOCS zh-CN12","192":"DOCS zh-CN13","193":"DOCS zh-CN14","194":"DOCS zh-CN15","195":"DOCS zh-CN16","196":"DOCS zh-CN17","197":"DOCS zh-CN18","198":"DOCS zh-CN19","199":"DOCS zh-CN2","200":"DOCS zh-CN20","201":"DOCS zh-CN21","202":"DOCS zh-CN22","203":"DOCS zh-CN23","204":"DOCS zh-CN24","205":"DOCS zh-CN25","206":"DOCS zh-CN26","207":"DOCS zh-CN27","208":"DOCS zh-CN28","209":"DOCS zh-CN29","210":"DOCS zh-CN3","211":"DOCS zh-CN30","212":"DOCS zh-CN31","213":"DOCS zh-CN32","214":"DOCS zh-CN33","215":"DOCS zh-CN34","216":"DOCS zh-CN35","217":"DOCS zh-CN36","218":"DOCS zh-CN37","219":"DOCS zh-CN38","220":"DOCS zh-CN39","221":"DOCS zh-CN4","222":"DOCS zh-CN40","223":"DOCS zh-CN41","224":"DOCS zh-CN42","225":"DOCS zh-CN43","226":"DOCS zh-CN44","227":"DOCS zh-CN45","228":"DOCS zh-CN46","229":"DOCS zh-CN47","230":"DOCS zh-CN48","231":"DOCS zh-CN49","232":"DOCS zh-CN5","233":"DOCS zh-CN50","234":"DOCS zh-CN51","235":"DOCS zh-CN52","236":"DOCS zh-CN53","237":"DOCS zh-CN54","238":"DOCS zh-CN55","239":"DOCS zh-CN56","240":"DOCS zh-CN57","241":"DOCS zh-CN58","242":"DOCS zh-CN59","243":"DOCS zh-CN6","244":"DOCS zh-CN60","245":"DOCS zh-CN61","246":"DOCS zh-CN7","247":"DOCS zh-CN8","248":"DOCS zh-CN9","250":"zh-CN0","251":"zh-CN1","252":"zh-CN2","253":"zh-CN3","254":"zh-CN4","255":"zh-CN5","256":"zh-CN6"}[chunkId]||chunkId) + "." + "349ea6d825376bdaf54d" + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US7","61":"DOCS en-US8","62":"DOCS en-US9","63":"DOCS es0","64":"DOCS es1","65":"DOCS es10","66":"DOCS es11","67":"DOCS es12","68":"DOCS es13","69":"DOCS es14","70":"DOCS es15","71":"DOCS es16","72":"DOCS es17","73":"DOCS es18","74":"DOCS es19","75":"DOCS es2","76":"DOCS es20","77":"DOCS es21","78":"DOCS es22","79":"DOCS es23","80":"DOCS es24","81":"DOCS es25","82":"DOCS es26","83":"DOCS es27","84":"DOCS es28","85":"DOCS es29","86":"DOCS es3","87":"DOCS es30","88":"DOCS es31","89":"DOCS es32","90":"DOCS es33","91":"DOCS es34","92":"DOCS es35","93":"DOCS es36","94":"DOCS es37","95":"DOCS es38","96":"DOCS es39","97":"DOCS es4","98":"DOCS es40","99":"DOCS es41","100":"DOCS es42","101":"DOCS es43","102":"DOCS es44","103":"DOCS es45","104":"DOCS es46","105":"DOCS es47","106":"DOCS es48","107":"DOCS es49","108":"DOCS es5","109":"DOCS es50","110":"DOCS es51","111":"DOCS es52","112":"DOCS es53","113":"DOCS es54","114":"DOCS es55","115":"DOCS es56","116":"DOCS es57","117":"DOCS es58","118":"DOCS es59","119":"DOCS es6","120":"DOCS es60","121":"DOCS es61","122":"DOCS es7","123":"DOCS es8","124":"DOCS es9","125":"DOCS fr-FR0","126":"DOCS fr-FR1","127":"DOCS fr-FR10","128":"DOCS fr-FR11","129":"DOCS fr-FR12","130":"DOCS fr-FR13","131":"DOCS fr-FR14","132":"DOCS fr-FR15","133":"DOCS fr-FR16","134":"DOCS fr-FR17","135":"DOCS fr-FR18","136":"DOCS fr-FR19","137":"DOCS fr-FR2","138":"DOCS fr-FR20","139":"DOCS fr-FR21","140":"DOCS fr-FR22","141":"DOCS fr-FR23","142":"DOCS fr-FR24","143":"DOCS fr-FR25","144":"DOCS fr-FR26","145":"DOCS fr-FR27","146":"DOCS fr-FR28","147":"DOCS fr-FR29","148":"DOCS fr-FR3","149":"DOCS fr-FR30","150":"DOCS fr-FR31","151":"DOCS fr-FR32","152":"DOCS fr-FR33","153":"DOCS fr-FR34","154":"DOCS fr-FR35","155":"DOCS fr-FR36","156":"DOCS fr-FR37","157":"DOCS fr-FR38","158":"DOCS fr-FR39","159":"DOCS fr-FR4","160":"DOCS fr-FR40","161":"DOCS fr-FR41","162":"DOCS fr-FR42","163":"DOCS fr-FR43","164":"DOCS fr-FR44","165":"DOCS fr-FR45","166":"DOCS fr-FR46","167":"DOCS fr-FR47","168":"DOCS fr-FR48","169":"DOCS fr-FR49","170":"DOCS fr-FR5","171":"DOCS fr-FR50","172":"DOCS fr-FR51","173":"DOCS fr-FR52","174":"DOCS fr-FR53","175":"DOCS fr-FR54","176":"DOCS fr-FR55","177":"DOCS fr-FR56","178":"DOCS fr-FR57","179":"DOCS fr-FR58","180":"DOCS fr-FR59","181":"DOCS fr-FR6","182":"DOCS fr-FR60","183":"DOCS fr-FR61","184":"DOCS fr-FR7","185":"DOCS fr-FR8","186":"DOCS fr-FR9","187":"DOCS zh-CN0","188":"DOCS zh-CN1","189":"DOCS zh-CN10","190":"DOCS zh-CN11","191":"DOCS zh-CN12","192":"DOCS zh-CN13","193":"DOCS zh-CN14","194":"DOCS zh-CN15","195":"DOCS zh-CN16","196":"DOCS zh-CN17","197":"DOCS zh-CN18","198":"DOCS zh-CN19","199":"DOCS zh-CN2","200":"DOCS zh-CN20","201":"DOCS zh-CN21","202":"DOCS zh-CN22","203":"DOCS zh-CN23","204":"DOCS zh-CN24","205":"DOCS zh-CN25","206":"DOCS zh-CN26","207":"DOCS zh-CN27","208":"DOCS zh-CN28","209":"DOCS zh-CN29","210":"DOCS zh-CN3","211":"DOCS zh-CN30","212":"DOCS zh-CN31","213":"DOCS zh-CN32","214":"DOCS zh-CN33","215":"DOCS zh-CN34","216":"DOCS zh-CN35","217":"DOCS zh-CN36","218":"DOCS zh-CN37","219":"DOCS zh-CN38","220":"DOCS zh-CN39","221":"DOCS zh-CN4","222":"DOCS zh-CN40","223":"DOCS zh-CN41","224":"DOCS zh-CN42","225":"DOCS zh-CN43","226":"DOCS zh-CN44","227":"DOCS zh-CN45","228":"DOCS zh-CN46","229":"DOCS zh-CN47","230":"DOCS zh-CN48","231":"DOCS zh-CN49","232":"DOCS zh-CN5","233":"DOCS zh-CN50","234":"DOCS zh-CN51","235":"DOCS zh-CN52","236":"DOCS zh-CN53","237":"DOCS zh-CN54","238":"DOCS zh-CN55","239":"DOCS zh-CN56","240":"DOCS zh-CN57","241":"DOCS zh-CN58","242":"DOCS zh-CN59","243":"DOCS zh-CN6","244":"DOCS zh-CN60","245":"DOCS zh-CN61","246":"DOCS zh-CN7","247":"DOCS zh-CN8","248":"DOCS zh-CN9","250":"zh-CN0","251":"zh-CN1","252":"zh-CN2","253":"zh-CN3","254":"zh-CN4","255":"zh-CN5","256":"zh-CN6"}[chunkId]||chunkId) + "." + "db2a368e81c0380a78a4" + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -13984,7 +13984,7 @@ function arrayFlat(arr) {
   }, []);
 }
 function deduplicate(arr) {
-  return Array.from(new Set(arr));
+  return [].concat(new Set(arr));
 }
 /**
  * Unwraps refed value
@@ -24695,7 +24695,7 @@ var map = {
 		178
 	],
 	"./fr-FR/transition.md": [
-		440,
+		441,
 		179
 	],
 	"./fr-FR/tree.md": [
@@ -24773,11 +24773,11 @@ var map = {
 		185
 	],
 	"./jp/carousel.md": [
-		457,
+		449,
 		186
 	],
 	"./jp/cascader.md": [
-		449,
+		457,
 		127
 	],
 	"./jp/checkbox.md": [
@@ -24797,7 +24797,7 @@ var map = {
 		131
 	],
 	"./jp/container.md": [
-		441,
+		442,
 		132
 	],
 	"./jp/custom-theme.md": [
@@ -24877,23 +24877,23 @@ var map = {
 		153
 	],
 	"./jp/message-box.md": [
-		409,
+		410,
 		154
 	],
 	"./jp/message.md": [
-		407,
+		408,
 		155
 	],
 	"./jp/notification.md": [
-		406,
+		407,
 		156
 	],
 	"./jp/page-header.md": [
-		405,
+		406,
 		157
 	],
 	"./jp/pagination.md": [
-		404,
+		405,
 		158
 	],
 	"./jp/popconfirm.md": [
@@ -24921,11 +24921,11 @@ var map = {
 		165
 	],
 	"./jp/select.md": [
-		443,
+		444,
 		166
 	],
 	"./jp/slider.md": [
-		442,
+		443,
 		167
 	],
 	"./jp/steps.md": [
@@ -24965,11 +24965,11 @@ var map = {
 		177
 	],
 	"./jp/transfer.md": [
-		410,
+		409,
 		178
 	],
 	"./jp/transition.md": [
-		408,
+		404,
 		179
 	],
 	"./jp/tree.md": [
@@ -24977,7 +24977,7 @@ var map = {
 		180
 	],
 	"./jp/typography.md": [
-		444,
+		440,
 		182
 	],
 	"./jp/upload.md": [
@@ -65168,29 +65168,30 @@ breadcrumb_src.install = function (app) {
 };
 
 /* harmony default export */ var packages_breadcrumb = (breadcrumb_src);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/breadcrumb/src/item.vue?vue&type=template&id=681f63e7&bindings={}
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/breadcrumb/src/item.vue?vue&type=template&id=810c0862&bindings={}
 
-var itemvue_type_template_id_681f63e7_bindings_hoisted_1 = {
+var itemvue_type_template_id_810c0862_bindings_hoisted_1 = {
   class: "el-breadcrumb__item"
 };
-var itemvue_type_template_id_681f63e7_bindings_hoisted_2 = {
+var itemvue_type_template_id_810c0862_bindings_hoisted_2 = {
   key: 1,
   class: "el-breadcrumb__separator",
   role: "presentation"
 };
-function itemvue_type_template_id_681f63e7_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", itemvue_type_template_id_681f63e7_bindings_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])("span", {
+function itemvue_type_template_id_810c0862_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", itemvue_type_template_id_810c0862_bindings_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])("span", {
     ref: "link",
     class: ['el-breadcrumb__inner', _ctx.to ? 'is-link' : ''],
     role: "link"
   }, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")], 2), _ctx.separatorClass ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("i", {
     key: 0,
     class: ["el-breadcrumb__separator", _ctx.separatorClass]
-  }, null, 2)) : (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", itemvue_type_template_id_681f63e7_bindings_hoisted_2, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.separator), 1))]);
+  }, null, 2)) : (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", itemvue_type_template_id_810c0862_bindings_hoisted_2, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.separator), 1))]);
 }
-// CONCATENATED MODULE: ./packages/breadcrumb/src/item.vue?vue&type=template&id=681f63e7&bindings={}
+// CONCATENATED MODULE: ./packages/breadcrumb/src/item.vue?vue&type=template&id=810c0862&bindings={}
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/breadcrumb/src/item.vue?vue&type=script&lang=ts
+
 
 /* harmony default export */ var itemvue_type_script_lang_ts = (Object(vue_esm_browser["q" /* defineComponent */])({
   name: 'ElBreadcrumbItem',
@@ -65204,14 +65205,15 @@ function itemvue_type_template_id_681f63e7_bindings_render(_ctx, _cache, $props,
       default: false
     }
   },
-  setup: function setup(props, ctx) {
+  setup: function setup(props) {
     var link = Object(vue_esm_browser["L" /* ref */])(null);
     var parent = Object(vue_esm_browser["t" /* inject */])('breadcrumb');
     Object(vue_esm_browser["D" /* onMounted */])(function () {
       link.value.setAttribute('role', 'link');
       link.value.addEventListener('click', function () {
-        var router = ctx.$router;
-        if (!props.to || !router) return;
+        if (!props.to) return;
+        var router = useRouter();
+        if (!router) return;
         props.replace ? router.replace(props.to) : router.push(props.to);
       });
     });
@@ -65228,7 +65230,7 @@ function itemvue_type_template_id_681f63e7_bindings_render(_ctx, _cache, $props,
 
 
 
-itemvue_type_script_lang_ts.render = itemvue_type_template_id_681f63e7_bindings_render
+itemvue_type_script_lang_ts.render = itemvue_type_template_id_810c0862_bindings_render
 
 /* harmony default export */ var src_item = (itemvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/breadcrumb-item/index.ts
@@ -97993,7 +97995,7 @@ upload_src.install = function (app) {
 
 /* harmony default export */ var packages_upload = (upload_src);
 // CONCATENATED MODULE: ./ep-version.js
-var ep_version_version = '1.0.1-alpha.21';
+var ep_version_version = '1.0.1-alpha.20';
 // CONCATENATED MODULE: ./packages/element-plus/index.ts
 
 
