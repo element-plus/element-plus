@@ -30,7 +30,9 @@
 
   & > .source  > div > .el-container {
     margin-bottom: 40px;
-
+    &:nth-child(7) {
+      margin-bottom: 0;
+    }
     &:nth-child(5) .el-aside,
     &:nth-child(6) .el-aside {
       line-height: 260px;
