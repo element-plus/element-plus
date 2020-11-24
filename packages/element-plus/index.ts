@@ -83,7 +83,7 @@ import ElTransfer from '@element-plus/transfer'
 import ElTree from '@element-plus/tree'
 import ElUpload from '@element-plus/upload'
 import { use } from '@element-plus/locale'
-import { version } from '../../ep-version'
+import { version } from './version'
 
 interface InstallOptions {
   size: ComponentSize

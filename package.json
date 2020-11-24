@@ -12,7 +12,8 @@
     "clean:lib": "rimraf lib",
     "build:lib": "cross-env LIBMODE=core webpack --config ./build/webpack.config.js",
     "build:lib-full": "cross-env LIBMODE=full webpack --config ./build/webpack.config.js",
-    "build:esm-bundle": "rollup --config ./build/rollup.config.bundle.js",
+    "build:esm-bundle": "rollup --config ./build/rollup.config.bundle.js && yarn build:type",
+    "build:type": "node build/gen-type.js",
     "build:esm": "node ./build/bincomp.js",
     "build:utils": "cross-env BABEL_ENV=utils babel packages/utils --extensions .ts --out-dir lib/utils",
     "build:locale": "cross-env BABEL_ENV=utils babel packages/locale --extensions .ts --out-dir lib/locale",
@@ -140,7 +141,7 @@
     "packages"
   ],
   "main": "lib/index.js",
-  "typings": "types/index.d.ts",
+  "typings": "lib/index.d.ts",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
   "browserslist": [
