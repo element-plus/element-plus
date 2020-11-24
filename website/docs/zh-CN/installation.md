@@ -16,7 +16,7 @@ npm install element-plus --save
 <!-- 引入样式 -->
 <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 <!-- 引入组件库 -->
-<script src="https://unpkg.com/element-plus/lib/index.js"></script>
+<script src="https://unpkg.com/element-plus/lib/index.full.js"></script>
 ```
 
 :::tip
