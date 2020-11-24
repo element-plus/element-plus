@@ -12,11 +12,6 @@ let externals = [
       commonjs: 'vue',
       commonjs2: 'vue',
     },
-    'vue-router': {
-      root: 'VueRouter',
-      commonjs: 'vue-router',
-      commonjs2: 'vue-router',
-    },
   },
 ]
 if (!isFullMode) {
