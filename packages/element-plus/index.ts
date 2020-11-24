@@ -284,6 +284,8 @@ export {
   ElTransfer,
   ElTree,
   ElUpload,
+  version,
+  install,
 }
 
 export default {
