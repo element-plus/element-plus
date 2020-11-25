@@ -171,9 +171,9 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
         <i class="el-icon-setting" style="margin-right: 15px"></i>
         <template #dropdown>
           <el-dropdown-menu>
-              <el-dropdown-item>查看</el-dropdown-item>
-              <el-dropdown-item>新增</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
+              <el-dropdown-item>View</el-dropdown-item>
+              <el-dropdown-item>Add</el-dropdown-item>
+              <el-dropdown-item>Delete</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
