@@ -30,7 +30,7 @@
 
   & > .source  > div > .el-container {
     margin-bottom: 40px;
-    &:nth-child(7) {
+    &:last-child {
       margin-bottom: 0;
     }
     &:nth-child(5) .el-aside,
