@@ -187,17 +187,15 @@ Aunque la propiedad `message` soporta cadenas HTML, realizar arbitrariamente ren
 
 ### Métodos Globales
 
-Element Plus ha agregado un método global llamado `$message` para Vue.prototype. Entonces en una instancia de vue puede llamar a `Message` como lo hicimos en esta pagina.
+Element Plus ha agregado un método global llamado `$message` para `app.config.globalProperties`. Entonces en una instancia de vue puede llamar a `Message` como lo hicimos en esta pagina.
 
 ### Importación local
 
-Import `Message`:
-
 ```javascript
-import { Message } from 'element-plus';
+import { ElMessage } from 'element-plus';
 ```
 
-En este caso debería llamar al método `Message(options)`. También se han registrado métodos para los diferentes tipos, e.g. `Message.success(options)`. Puede llamar al método `Message.closeAll()` para cerrar manualmente todas las instancias.
+En este caso debería llamar al método `ElMessage(options)`. También se han registrado métodos para los diferentes tipos, e.g. `ElMessage.success(options)`. Puede llamar al método `ElMessage.closeAll()` para cerrar manualmente todas las instancias.
 
 ### Options
 | Atributo                 | Descripcion                              | Tipo           | Valores permitidos         | Por defecto |

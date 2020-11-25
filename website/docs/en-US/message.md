@@ -187,17 +187,15 @@ Although `message` property supports HTML strings, dynamically rendering arbitra
 
 ### Global method
 
-Element Plus has added a global method `$message` for Vue.prototype. So in a vue instance you can call `Message` like what we did in this page.
+Element Plus has added a global method `$message` for `app.config.globalProperties`. So in a vue instance you can call `Message` like what we did in this page.
 
 ### Local import
 
-Import `Message`:
-
 ```javascript
-import { Message } from 'element-plus';
+import { ElMessage } from 'element-plus';
 ```
 
-In this case you should call `Message(options)`. We have also registered methods for different types, e.g. `Message.success(options)`. You can call `Message.closeAll()` to manually close all the instances.
+In this case you should call `ElMessage(options)`. We have also registered methods for different types, e.g. `ElMessage.success(options)`. You can call `ElMessage.closeAll()` to manually close all the instances.
 
 ### Options
 | Attribute      | Description          | Type      | Accepted Values       | Default  |

@@ -165,6 +165,10 @@ const components = [
   ElTabPane,
   ElTable,
   ElTableColumn,
+  ElTabs,
+  ElTag,
+  ElTimePicker,
+  ElTimeSelect,
   ElTimeline,
   ElTimelineItem,
   ElTooltip,
@@ -179,10 +183,6 @@ const plugins = [
   ElMessage,
   ElMessageBox,
   ElNotification,
-  ElTabs,
-  ElTag,
-  ElTimePicker,
-  ElTimeSelect,
 ]
 
 const install = (app: App, opt: InstallOptions): void => {
@@ -284,6 +284,8 @@ export {
   ElTransfer,
   ElTree,
   ElUpload,
+  version,
+  install,
 }
 
 export default {

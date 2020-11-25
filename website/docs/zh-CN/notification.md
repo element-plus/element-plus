@@ -276,17 +276,15 @@
 
 ### 全局方法
 
-Element Plus 为 `Vue.prototype` 添加了全局方法 `$notify`。因此在 vue instance 中可以采用本页面中的方式调用 Notification。
+Element Plus 为 ``app.config.globalProperties`` 添加了全局方法 `$notify`。因此在 vue instance 中可以采用本页面中的方式调用 Notification。
 
 ### 单独引用
 
-单独引入 Notification：
-
 ```javascript
-import { Notification } from 'element-plus';
+import { ElNotification } from 'element-plus';
 ```
 
-此时调用方法为 `Notification(options)`。我们也为每个 type 定义了各自的方法，如 `Notification.success(options)`。并且可以调用 `Notification.closeAll()` 手动关闭所有实例。
+此时调用方法为 `ElNotification(options)`。我们也为每个 type 定义了各自的方法，如 `ElNotification.success(options)`。并且可以调用 `ElNotification.closeAll()` 手动关闭所有实例。
 
 ### Options
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
