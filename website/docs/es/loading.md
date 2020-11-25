@@ -175,26 +175,26 @@ Muestra una animación de pantalla completa mientras se cargan los datos
 Puede invocar el componente con un servicio. Importe el servicio:
 
 ```javascript
-import { Loading } from 'element-plus';
+import { ElLoading } from 'element-plus';
 ```
 Invocar:
 ```javascript
-Loading.service(options);
+ElLoading.service(options);
 ```
 El parámetro `options` es la configuración del componente, y estos detalles pueden ser encontrados en la siguiente table. `LoadingService` devuelve una instancia del componente, y puede cerrarlo invocando el método `close`:
 ```javascript
-let loadingInstance = Loading.service(options);
+let loadingInstance = ElLoading.service(options);
 loadingInstance.close();
 ```
 Tenga en cuenta que, en este caso, el componente a pantalla completa es una instancia única. Si un nuevo componente de pantalla completa es invocado antes de que se cierre la existente, se devolverá la instancia existente en lugar de crear la otra instancia:
 ```javascript
-let loadingInstance1 = Loading.service({ fullscreen: true });
-let loadingInstance2 = Loading.service({ fullscreen: true });
+let loadingInstance1 = ElLoading.service({ fullscreen: true });
+let loadingInstance2 = ElLoading.service({ fullscreen: true });
 console.log(loadingInstance1 === loadingInstance2); // true
 ```
 Llamar al método `close` en cualquiera de estas puede cerrarlo.
 
-Si Element Plus es importado completamente, un método global `$loading` puede ser registrado a Vue.prototype. Puede invocarlo como esto: `this.$loading(options)`, y también devuelve una instancia del componente.
+Si Element Plus es importado completamente, un método global `$loading` puede ser registrado a `app.config.globalProperties`. Puede invocarlo como esto: `this.$loading(options)`, y también devuelve una instancia del componente.
 
 ### Options
 | Atributo    | Descripción                              | Tipo          | Valores aceptados | Por defecto   |

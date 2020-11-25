@@ -16,7 +16,7 @@ Obtenga la última versión desde [unpkg.com/element-plus](https://unpkg.com/ele
 <!-- import CSS -->
 <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 <!-- import JavaScript -->
-<script src="https://unpkg.com/element-plus/lib/index.js"></script>
+<script src="https://unpkg.com/element-plus/lib/index.full.js"></script>
 ```
 
 ##Tip

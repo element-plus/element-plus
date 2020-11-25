@@ -33,7 +33,7 @@
 
 <script lang='ts'>
 
-import { defineComponent, computed, ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { defineComponent, computed, ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { isString } from '@vue/shared'
 import throttle from 'lodash/throttle'
 import { useAttrs } from '@element-plus/hooks'
@@ -97,7 +97,6 @@ export default defineComponent({
     const imgHeight = ref(0)
     const showViewer = ref(false)
     const container = ref<HTMLElement | null>(null)
-    const show = ref(props.lazy)
 
     let _scrollContainer = null
     let _lazyLoadHandler = null
@@ -248,12 +247,12 @@ export default defineComponent({
     }
 
     watch(() => props.src, () => {
-      show.value && loadImage()
+      loadImage()
     })
 
     onMounted(() => {
       if (props.lazy) {
-        setTimeout(() => addLazyLoadListener(), 0)
+        nextTick(addLazyLoadListener)
       } else {
         loadImage()
       }
@@ -277,6 +276,7 @@ export default defineComponent({
       clickHandler,
       closeViewer,
       container,
+      handleError,
       t,
     }
   },
