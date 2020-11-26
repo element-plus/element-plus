@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue'
-import { TableFooter } from '../table'
+import { TableFooter } from '../table.type'
 import { hGutter, hColgroup } from '../h-helper'
 import useStyle from './style-helper'
 

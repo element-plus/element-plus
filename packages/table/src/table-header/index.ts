@@ -14,7 +14,7 @@ import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
 import { hColgroup } from '../h-helper'
-import { Table, TableHeader } from '../table'
+import { Table, TableHeader } from '../table.type'
 import { TableHeaderProps } from './table-header'
 
 export default defineComponent({

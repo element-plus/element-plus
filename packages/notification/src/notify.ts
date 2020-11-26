@@ -1,6 +1,6 @@
 import { createVNode, render } from 'vue'
 import NotificationConstructor from './index.vue'
-import type { INotificationOptions, INotification, NotificationQueue, NotificationVM } from './notification'
+import type { INotificationOptions, INotification, NotificationQueue, NotificationVM } from './notification.type'
 import isServer from '../../utils/isServer'
 import PopupManager from '../../utils/popup-manager'
 import { isVNode } from '../../utils/util'
