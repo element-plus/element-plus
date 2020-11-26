@@ -8,10 +8,15 @@ const outsideImport = /import .* from '..\/(.*?)\/src\/.*/
 // index.d.ts
 const newIndexPath = path.resolve(__dirname, '../lib/index.d.ts')
 fs.copyFileSync(path.resolve(__dirname, '../lib/element-plus/index.d.ts'), newIndexPath)
-fs.rmdirSync(path.resolve(__dirname, '../lib/element-plus'), { recursive: true })
 const index = fs.readFileSync(newIndexPath)
 const newIndex = index.toString().replace(/@element-plus\//g, './el-').replace('el-utils', 'utils')
 fs.writeFileSync(newIndexPath, newIndex)
+
+// remove ep
+fs.rmdirSync(path.resolve(__dirname, '../lib/element-plus'), { recursive: true })
+
+// remove test-utils
+fs.rmdirSync(path.resolve(__dirname, '../lib/test-utils'), { recursive: true })
 
 // component
 const libDirPath = path.resolve(__dirname, '../lib')
@@ -34,4 +39,3 @@ fs.readdirSync(libDirPath).forEach(comp => {
   }
 })
 
-// todo remove test-utils
