@@ -121,6 +121,7 @@
     border: solid 2px $--slider-main-background-color;
     background-color: $--color-white;
     border-radius: 50%;
+    box-sizing: border-box;
     transition: .2s;
     user-select: none;
 
