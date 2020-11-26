@@ -7,10 +7,9 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const vue = require('rollup-plugin-vue')
 const rollup = require('rollup')
 const typescript = require('rollup-plugin-typescript2')
+const { noElPrefixFile } = require('./common')
 
 const deps = Object.keys(pkg.dependencies)
-
-const noElPrefixFile = /(utils|directives|hooks|locale)/
 
 const runBuild = async () => {
   let index = 0

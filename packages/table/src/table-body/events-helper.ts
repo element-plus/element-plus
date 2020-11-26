@@ -3,7 +3,7 @@ import { getStyle, hasClass } from '@element-plus/utils/dom'
 import { getCell, getColumnByCell } from '../util'
 import { debounce } from 'lodash'
 import { TableBodyProps } from './table-body'
-import { Table, AnyObject, TableColumnCtx } from '../table'
+import { Table, AnyObject, TableColumnCtx } from '../table.type'
 
 function useEvents(props: TableBodyProps) {
   const instance = getCurrentInstance()

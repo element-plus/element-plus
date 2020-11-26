@@ -13,4 +13,4 @@ coverage/
 website-dist
 lib
 website/play/index.vue
-ep-version.js
+packages/element-plus/version.ts

@@ -2,7 +2,7 @@ import { nextTick, ref, isRef, Ref } from 'vue'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
-import { AnyObject, Table, Store, TableHeader, TableColumnCtx } from './table'
+import { AnyObject, Table, Store, TableHeader, TableColumnCtx } from './table.type'
 
 class TableLayout {
   observers: TableHeader[]
