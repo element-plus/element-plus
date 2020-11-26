@@ -83,10 +83,11 @@ import ElTransfer from '@element-plus/transfer'
 import ElTree from '@element-plus/tree'
 import ElUpload from '@element-plus/upload'
 import { use } from '@element-plus/locale'
-import { version } from './version'
+import { version as version_ } from './version'
 import { setConfig } from '@element-plus/utils/config'
-
 import type { InstallOptions } from '@element-plus/utils/config'
+
+const version = version_ // version_ to fix tsc issue
 
 const defaultInstallOpt: InstallOptions =  {
   size: '' as ComponentSize,
