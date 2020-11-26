@@ -6,21 +6,21 @@
     @mouseenter="isFade = false"
   >
     <ul>
-      <!-- <li class="nav-item sponsors">
+      <li class="nav-item sponsors">
         <a>{{ lang === 'zh-CN' ? '赞助商' : 'Sponsors' }}</a>
         <ul class="pure-menu-list sub-nav">
-          <li v-show="lang !== 'zh-CN'" class="nav-item">
-            <a href="https://tipe.io/?ref=element" target="_blank">
-              <img src="~examples/assets/images/tipe.svg" alt="tipe.io">
-            </a>
-          </li>
           <li class="nav-item">
             <a class="sponsor" href="https://www.duohui.cn/?utm_source=element&utm_medium=web&utm_campaign=element-index" target="_blank">
               <img src="~examples/assets/images/duohui.svg" alt="duohui">
             </a>
           </li>
+          <li class="nav-item">
+            <a class="sponsor" href="https://bit.dev/?from=element-ui" target="_blank">
+              <img src="~examples/assets/images/bit.svg" alt="bit">
+            </a>
+          </li>
         </ul>
-      </li> -->
+      </li>
       <li
         v-for="(item, keyy) in data"
         :key="keyy"
@@ -262,15 +262,11 @@ export default {
             height: auto;
             display: inline-block;
             vertical-align: middle;
-            margin: 8px 12px 12px 0;
+            margin: 8px 20px 4px 0;
 
             img {
-              width: 42px;
+              width: 36px;
             }
-          }
-
-          &:first-child a img {
-            width: 36px;
           }
         }
       }
