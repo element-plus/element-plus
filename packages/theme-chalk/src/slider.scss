@@ -101,6 +101,7 @@
     text-align: center;
     user-select: none;
     line-height: normal;
+    outline: none;
     @include utils-vertical-center;
 
     &:hover,
