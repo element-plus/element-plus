@@ -98,7 +98,7 @@ import {
   WritableComputedRef,
   PropType,
 } from 'vue'
-import { Store, TableColumnCtx, TableHeader } from './table'
+import { Store, TableColumnCtx, TableHeader } from './table.type'
 
 export default {
   name: 'ElTableFilterPanel',
