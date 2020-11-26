@@ -88,7 +88,7 @@ const PopupManager: IPopupManager = {
   },
 
   nextZIndex: function() {
-    return PopupManager.zIndex++
+    return ++PopupManager.zIndex
   },
 
   modalStack: [],

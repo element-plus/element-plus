@@ -84,12 +84,9 @@ import ElTree from '@element-plus/tree'
 import ElUpload from '@element-plus/upload'
 import { use } from '@element-plus/locale'
 import { version } from './version'
+import { setConfig } from '@element-plus/utils/config'
 
-interface InstallOptions {
-  size: ComponentSize
-  zIndex: number
-  locale?: any
-}
+import type { InstallOptions } from '@element-plus/utils/config'
 
 const defaultInstallOpt: InstallOptions =  {
   size: '' as ComponentSize,
@@ -187,9 +184,9 @@ const plugins = [
 
 const install = (app: App, opt: InstallOptions): void => {
   const option = Object.assign(defaultInstallOpt, opt)
-
   use(option.locale)
   app.config.globalProperties.$ELEMENT = option
+  setConfig(option)
 
   components.forEach(component => {
     app.component(component.name, component)
