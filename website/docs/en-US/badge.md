@@ -26,7 +26,7 @@ Displays the amount of new messages.
   <span class="el-dropdown-link">
     Click Me<i class="el-icon-caret-bottom el-icon--right"></i>
   </span>
-  <el-dropdown-menu slot="dropdown">
+  <el-dropdown-menu #dropdown>
     <el-dropdown-item class="clearfix">
       comments
       <el-badge class="mark" :value="12" />

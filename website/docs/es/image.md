@@ -41,7 +41,7 @@ Además de las características nativas de img, soporte de carga perezosa, marca
   <div class="block">
     <span class="demonstration">Custom</span>
     <el-image :src="src">
-      <div slot="placeholder" class="image-slot">
+      <div #placeholder class="image-slot">
         Loading<span class="dot">...</span>
       </div>
     </el-image>
@@ -72,7 +72,7 @@ Además de las características nativas de img, soporte de carga perezosa, marca
   <div class="block">
     <span class="demonstration">Custom</span>
     <el-image>
-      <div slot="error" class="image-slot">
+      <div #error class="image-slot">
         <i class="el-icon-picture-outline"></i>
       </div>
     </el-image>

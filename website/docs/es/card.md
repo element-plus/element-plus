@@ -9,7 +9,7 @@ Muestra información dentro de un contenedor `card`
 
 ```html
 <el-card class="box-card">
-  <div slot="header" class="clearfix">
+  <div #header class="clearfix">
     <span>Card name</span>
     <el-button style="float: right; padding: 3px 0" type="text">Operation button</el-button>
   </div>

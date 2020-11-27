@@ -358,7 +358,7 @@ Lorsque qu'il y a beaucoup de colonnes, il peut être utile d'en fixer certaines
       fixed="right"
       label="Opérations"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button @click="handleClick" type="text" size="small">Detail</el-button>
         <el-button type="text" size="small">Editer</el-button>
       </template>
@@ -567,7 +567,7 @@ Quand les données changent dynamiquement, vous pouvez avoir besoin d'une hauteu
       fixed="right"
       label="Opérations"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -848,7 +848,7 @@ Vous pouvez aussi sélectionner plusieurs lignes.
     <el-table-column
       label="Date"
       width="120">
-      <template v-slot="scope">{{ scope.row.date }}</template>
+      <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       property="name"
@@ -1027,7 +1027,7 @@ Vous pouvez filtrer la table pour obtenir rapidement les lignes désirées.
       :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-tag
           :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1099,7 +1099,7 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
     <el-table-column
       label="Date"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1107,7 +1107,7 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
     <el-table-column
       label="Nom"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
             <p>姓名: {{ scope.row.name }}</p>
@@ -1123,7 +1123,7 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
     </el-table-column>
     <el-table-column
       label="Opérations">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Editer</el-button>
@@ -1192,13 +1192,13 @@ Vous pouvez également personnaliser le header de la table.
     </el-table-column>
     <el-table-column
       align="right">
-      <template #header v-slot="scope">
+      <template #header #default="scope">
         <el-input
           v-model="search"
           size="mini"
           placeholder="Type to search"/>
       </template>
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Editer</el-button>
@@ -1259,7 +1259,7 @@ Lorsque le contenu d'une ligne est trop long et que vous ne souhaitez pas affich
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template v-slot="props">
+      <template #default="props">
         <p>État: {{ props.row.state }}</p>
         <p>Ville: {{ props.row.city }}</p>
         <p>Adresse: {{ props.row.address }}</p>
@@ -1839,7 +1839,7 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 | header-cell-class-name | Fonction qui retourne un nom de classe pour chaque cellule de header. Peut aussi être une simple chaîne de caractères assignant une classe à chaque cellule de header. | Function({row, column, rowIndex, columnIndex})/String | — | — |
 | header-cell-style | Fonction qui retourne un style pour chaque cellule de header. Peut aussi être un objet assignant un style à chaque cellule de header. | Function({row, column, rowIndex, columnIndex})/Object | — | — |
 | row-key | Clé de chaque ligne, utilisée pour optimiser le rendu. Requise si `reserve-selection` est activé. Quand c'est un `String`, l'accès multi-niveaux est supporté, e.g. `user.info.id`, mais `user.info[0].id` n'est pas supporté. Dans ce dernier cas une `Function` devrait être utilisée. | Function(row)/String | — | — |
-| empty-text | Texte à afficher quand il n'y a pas de données. Vous pouvez changer cette zone grâce à `slot="empty"`. | String | — | No Data |
+| empty-text | Texte à afficher quand il n'y a pas de données. Vous pouvez changer cette zone grâce à `#empty`. | String | — | No Data |
 | default-expand-all | whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data | Boolean | — | false |
 | expand-row-keys | Détermine les lignes qui sont étendues, contient les clés des lignes correspondantes. Vous devriez configurer `row-key` avant celle-ci. | Array | — | |
 | default-sort | Détermine l'ordre de tri par défaut. La propriété `prop` détermine la colonne par défaut, `order` détermine l'ordre par défaut. | Object | `order`: ascending, descending | Si `order` est absent, son défaut sera `ascending`. |

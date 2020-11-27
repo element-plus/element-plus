@@ -26,7 +26,7 @@ Affiche le nombre de nouveaux messages.
   <span class="el-dropdown-link">
     Cliquez<i class="el-icon-caret-bottom el-icon--right"></i>
   </span>
-  <el-dropdown-menu slot="dropdown">
+  <el-dropdown-menu #dropdown>
     <el-dropdown-item class="clearfix">
       Commentaires
       <el-badge class="mark" :value="12" />

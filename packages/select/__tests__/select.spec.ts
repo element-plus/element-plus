@@ -441,7 +441,7 @@ describe('Select', () => {
   test('render slot `empty`', async () => {
     const wrapper = _mount(`
       <el-select v-model="value">
-        <div class="empty-slot" slot="empty">EmptySlot</div>
+        <div class="empty-slot" #empty>EmptySlot</div>
       </el-select>`,
     () => ({
       value: '1',
