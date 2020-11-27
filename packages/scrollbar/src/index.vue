@@ -108,12 +108,18 @@ export default defineComponent({
     onMounted(() => {
       if (props.native) return
       nextTick(update)
-      !props.noresize && addResizeListener(resize.value, update)
+      if (!props.noresize) {
+        addResizeListener(resize.value, update)
+        addResizeListener(wrap.value, update)
+      }
     })
 
     onBeforeUnmount(() => {
       if (props.native) return
-      !props.noresize && removeResizeListener(resize.value, update)
+      if (!props.noresize) {
+        removeResizeListener(resize.value, update)
+        removeResizeListener(wrap.value, update)
+      }
     })
     const gutter = computed(() => {
       return scrollbarWidth()
