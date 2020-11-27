@@ -7,7 +7,7 @@ type UnknownProps = Record<string, unknown>
 jest.useFakeTimers()
 
 const selector = '.el-message'
-
+// TODO: testing the original transition with `nextTick`
 const Transition = (_: UnknownProps, { attrs, slots }) =>
   Vue.h('div', attrs, slots)
 Transition.displayName = 'Transition'
@@ -79,5 +79,12 @@ describe('Message on command', () => {
     }
 
     messages.forEach(m => m.close())
+  })
+
+  test('it should have 4 other types of message', () => {
+    expect(Message.success).toBeInstanceOf(Function)
+    expect(Message.warning).toBeInstanceOf(Function)
+    expect(Message.info).toBeInstanceOf(Function)
+    expect(Message.error).toBeInstanceOf(Function)
   })
 })

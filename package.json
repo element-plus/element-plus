@@ -1,18 +1,19 @@
 {
   "name": "element-plus",
   "private": true,
-  "version": "1.0.1-alpha.21",
+  "version": "1.0.1-alpha.23",
   "scripts": {
     "cz": "npx git-cz",
     "test": "jest",
     "gen": "bash ./scripts/gc.sh",
     "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version",
     "gen:version": "node build/gen-version.js",
-    "build": "yarn bootstrap && yarn clean:lib && yarn build:lib && yarn build:lib-full && yarn build:theme && yarn build:esm-bundle && yarn build:esm && yarn build:utils && yarn build:locale && yarn build:locale-umd",
+    "build": "yarn bootstrap && yarn clean:lib && yarn build:esm-bundle && yarn build:lib && yarn build:lib-full && yarn build:esm && yarn build:utils && yarn build:locale && yarn build:locale-umd && yarn build:theme",
     "clean:lib": "rimraf lib",
     "build:lib": "cross-env LIBMODE=core webpack --config ./build/webpack.config.js",
     "build:lib-full": "cross-env LIBMODE=full webpack --config ./build/webpack.config.js",
-    "build:esm-bundle": "rollup --config ./build/rollup.config.bundle.js",
+    "build:esm-bundle": "rollup --config ./build/rollup.config.bundle.js && yarn build:type",
+    "build:type": "node build/gen-type.js",
     "build:esm": "node ./build/bincomp.js",
     "build:utils": "cross-env BABEL_ENV=utils babel packages/utils --extensions .ts --out-dir lib/utils",
     "build:locale": "cross-env BABEL_ENV=utils babel packages/locale --extensions .ts --out-dir lib/locale",
@@ -140,7 +141,7 @@
     "packages"
   ],
   "main": "lib/index.js",
-  "typings": "types/index.d.ts",
+  "typings": "lib/index.d.ts",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
   "browserslist": [

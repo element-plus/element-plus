@@ -1,7 +1,7 @@
 import { arrayFind } from '@element-plus/utils/util'
 import { getRowIdentity } from '../util'
 import { ref, getCurrentInstance, unref } from 'vue'
-import { WatcherPropsData, Table, AnyObject } from '../table'
+import { WatcherPropsData, Table, AnyObject } from '../table.type'
 
 function useCurrent(watcherData: WatcherPropsData) {
   const instance = getCurrentInstance() as Table

@@ -1,5 +1,5 @@
 import { getValueByPath } from '@element-plus/utils/util'
-import { AnyObject, TableColumnCtx } from './table'
+import { AnyObject, TableColumnCtx } from './table.type'
 
 export const getCell = function (event: Event): HTMLElement {
   let cell = event.target as HTMLElement
