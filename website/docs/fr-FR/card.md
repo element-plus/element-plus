@@ -9,10 +9,12 @@ Le composant Card comprend un titre, un contenu et des opérations.
 :::demo Card est composé d'un `header` et d'un `body`. `header` est optionnel et son contenu nécessite l'utilisation d'un slot.
 ```html
 <el-card class="box-card">
-  <div #header class="clearfix">
-    <span>Card name</span>
-    <el-button style="float: right; padding: 3px 0" type="text">Bouton</el-button>
-  </div>
+  <template #header>
+    <div class="clearfix">
+      <span>Card name</span>
+      <el-button style="float: right; padding: 3px 0" type="text">Bouton</el-button>
+    </div>
+  </template>
   <div v-for="o in 4" :key="o" class="text item">
     {{'List item ' + o }}
   </div>

@@ -41,9 +41,11 @@ En plus des propriétés natives de img, ce composant supporte le lazy loading, 
   <div class="block">
     <span class="demonstration">Personnalisé</span>
     <el-image :src="src">
-      <div #placeholder class="image-slot">
-        Chargement<span class="dot">...</span>
-      </div>
+      <template #placeholder>
+        <div class="image-slot">
+          Chargement<span class="dot">...</span>
+        </div>
+      </template>
     </el-image>
   </div>
 </div>
@@ -72,9 +74,11 @@ En plus des propriétés natives de img, ce composant supporte le lazy loading, 
   <div class="block">
     <span class="demonstration">Personnalisé</span>
     <el-image>
-      <div #error class="image-slot">
-        <i class="el-icon-picture-outline"></i>
-      </div>
+      <template #error>
+        <div class="image-slot">
+          <i class="el-icon-picture-outline"></i>
+        </div>
+      </template>
     </el-image>
   </div>
 </div>

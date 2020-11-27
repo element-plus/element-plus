@@ -40,9 +40,11 @@ imgのネイティブ機能の他に、遅延ロード、カスタムプレー�
   <div class="block">
     <span class="demonstration">Custom</span>
     <el-image :src="src">
-      <div #placeholder class="image-slot">
-        Loading<span class="dot">...</span>
-      </div>
+      <template #placeholder>
+        <div class="image-slot">
+          Loading<span class="dot">...</span>
+        </div>
+      </template>
     </el-image>
   </div>
 </div>
@@ -71,9 +73,11 @@ imgのネイティブ機能の他に、遅延ロード、カスタムプレー�
   <div class="block">
     <span class="demonstration">Custom</span>
     <el-image>
-      <div #error class="image-slot">
-        <i class="el-icon-picture-outline"></i>
-      </div>
+      <template #error>
+        <div class="image-slot">
+          <i class="el-icon-picture-outline"></i>
+        </div>
+      </template>
     </el-image>
   </div>
 </div>

@@ -8,10 +8,12 @@ cardはタイトル、内容、操作を含む。
 :::demo cardは `header` と `body` からなる。ヘッダはオプションであり、その内容の分布はスロットの名前に依存します。
 ```html
 <el-card class="box-card">
-  <div #header class="clearfix">
-    <span>Card name</span>
-    <el-button style="float: right; padding: 3px 0" type="text">Operation button</el-button>
-  </div>
+  <template #header>
+    <div class="clearfix">
+      <span>Card name</span>
+      <el-button style="float: right; padding: 3px 0" type="text">Operation button</el-button>
+    </div>
+  </template>
   <div v-for="o in 4" :key="o" class="text item">
     {{'List item ' + o }}
   </div>
