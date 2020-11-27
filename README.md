@@ -11,9 +11,11 @@ This project is still under heavy development. Feel free to join us and make you
 
 [![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-ncxnt?fontsize=14&hidenavigation=1&theme=dark)
 
+<br/>
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
 </p>
+<br/>
 <table align="center" cellspacing="0" cellpadding="0">
   <tbody>
     <tr>
