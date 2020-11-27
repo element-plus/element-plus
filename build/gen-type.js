@@ -32,7 +32,7 @@ fs.readdirSync(libDirPath).forEach(comp => {
       if(outsideImport.test(imp)) {
         const newImp = imp.replace(outsideImport, (i, c) => {
           return i.replace(`../${c}`, `../el-${c}`)
-        })
+        }).replace('@element-plus/', '../el-')
         fs.writeFileSync(path.resolve(__dirname, '../lib', newCompName, 'index.d.ts'), newImp)
       }
     }
