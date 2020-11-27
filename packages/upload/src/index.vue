@@ -24,7 +24,7 @@ import type {
   UploadFile,
   FileHandler,
   FileResultHandler,
-} from './upload'
+} from './upload.type'
 
 type PFileHandler<T> = PropType<FileHandler<T>>
 type PFileResultHandler<T = any> = PropType<FileResultHandler<T>>

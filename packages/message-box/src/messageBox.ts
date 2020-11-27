@@ -2,7 +2,7 @@ import { createVNode, render } from 'vue'
 import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
 import { isVNode } from '../../utils/util'
-import { ElMessageBoxOptions } from './message-box'
+import { ElMessageBoxOptions } from './message-box.type'
 
 let currentMsg, instance
 

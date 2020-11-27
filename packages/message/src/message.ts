@@ -1,22 +1,25 @@
 import { createVNode, nextTick, render } from 'vue'
+import { isVNode } from '@element-plus/utils/util'
+import PopupManager from '@element-plus/utils/popup-manager'
+import isServer from '@element-plus/utils/isServer'
+import MessageConstructor from './index.vue'
+
 import type {
   IMessage,
   MessageQueue,
   IMessageOptions,
   MessageVM,
   IMessageHandle,
+  MessageParams,
 } from './types'
-
-import MessageConstructor from './index.vue'
-import { isVNode } from '@element-plus/utils/util'
-import PopupManager from '@element-plus/utils/popup-manager'
-import isServer from '@element-plus/utils/isServer'
 
 let vm: MessageVM
 const instances: MessageQueue = []
 let seed = 1
 
-const Message: IMessage = function (opts = {}): IMessageHandle {
+const Message: IMessage = function(
+  opts: MessageParams = {} as MessageParams,
+): IMessageHandle {
   if (isServer) return
 
   if (typeof opts === 'string') {
@@ -64,7 +67,7 @@ const Message: IMessage = function (opts = {}): IMessageHandle {
   return {
     close: options.onClose,
   }
-}
+} as any
 
 export function close(id: string, userOnClose?: (vm: MessageVM) => void): void {
   const idx = instances.findIndex(({ vm }) => {
@@ -84,7 +87,6 @@ export function close(id: string, userOnClose?: (vm: MessageVM) => void): void {
   nextTick(() => {
     document.body.removeChild($el)
   })
-
 
   instances.splice(idx, 1)
 
@@ -107,13 +109,15 @@ export function closeAll(): void {
   }
 }
 
-['success', 'warning', 'info', 'error'].forEach(type => {
-  Message[type] = (options = {}) => {
+(['success', 'warning', 'info', 'error'] as const).forEach(type => {
+  Message[type] = options => {
     if (typeof options === 'string') {
       options = {
         message: options,
         type,
       }
+    } else {
+      options.type = type
     }
     return Message(options)
   }

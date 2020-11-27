@@ -1,5 +1,5 @@
 import { getCurrentInstance, computed } from 'vue'
-import { Table, TableColumnCtx } from '../table'
+import { Table, TableColumnCtx } from '../table.type'
 import { TableHeaderProps } from './table-header'
 
 const getAllColumns = (columns: TableColumnCtx[]): TableColumnCtx[] => {

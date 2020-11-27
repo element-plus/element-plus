@@ -17,27 +17,26 @@
         <img src="~examples/assets/images/theme-index-red.png" alt="">
       </div>
     </div>
-    <!-- <div class="sponsors">
+    <div class="sponsors">
+      <a class="sponsor" href="https://www.duohui.cn/?utm_source=element&utm_medium=web&utm_campaign=element-index" target="_blank">
+        <img width="45" src="~examples/assets/images/duohui.svg" alt="duohui">
+        <div>
+          <p>{{ sponsorLabel }} <span class="name">多会</span></p>
+          <p>活动服务销售平台</p>
+        </div>
+      </a>
       <a
-        v-show="lang !== 'zh-CN'"
         class="sponsor"
-        href="#"
+        href="https://bit.dev/?from=element-ui"
         target="_blank"
       >
-        <img width="35px" src="~examples/assets/images/xx.svg" alt="xx">
+        <img width="45" src="~examples/assets/images/bit.svg" alt="bit">
         <div>
-          <p>Sponsored by xx</p>
-          <p>xx</p>
+          <p>{{ sponsorLabel }} <span class="name">bit</span></p>
+          <p>Share Code</p>
         </div>
       </a>
-      <a class="sponsor" href="#" target="_blank">
-        <img width="45px" src="~examples/assets/images/xx.svg" alt="xx">
-        <div>
-          <p>Sponsored by xx</p>
-          <p>xx</p>
-        </div>
-      </a>
-    </div> -->
+    </div>
     <div class="cards">
       <ul class="container">
         <li>
@@ -98,6 +97,9 @@ export default {
     }
   },
   computed: {
+    sponsorLabel() {
+      return this.lang === 'zh-CN' ? '赞助商' : 'Sponsored by'
+    },
     langConfig() {
       return pageLang.filter(config => config.lang === this.lang)[0].pages.index
     },
@@ -131,7 +133,7 @@ export default {
   text-align: center;
 }
 .banner-desc {
-  padding-top: 20px;
+  padding-top: 30px;
 
   h1 {
     font-size: 34px;
@@ -144,7 +146,7 @@ export default {
     font-size: 18px;
     line-height: 28px;
     color: #888;
-    margin: 10px 0 5px;
+    margin: 20px 0 5px;
   }
 }
 .sponsors {
@@ -157,6 +159,11 @@ export default {
   width: 300px;
   height: 100px;
   justify-content: center;
+
+  .name {
+    font-weight: bold;
+    color: #666;
+  }
 
   img {
     margin-right: 20px;

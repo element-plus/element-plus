@@ -272,7 +272,7 @@ import TableFooter from './table-footer/index'
 import { debounce } from 'lodash'
 import useUtils from './table/utils-helper'
 import useStyle from './table/style-helper'
-import { TableProps, Table } from './table'
+import { TableProps, Table } from './table.type'
 
 let tableIdSeed = 1
 export default defineComponent({

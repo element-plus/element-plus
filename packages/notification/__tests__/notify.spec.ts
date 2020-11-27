@@ -1,5 +1,5 @@
 import Notification, { close, closeAll } from '../src/notify'
-import type { INotificationHandle } from '../src/notification'
+import type { INotificationHandle } from '../src/notification.type'
 
 jest.useFakeTimers()
 

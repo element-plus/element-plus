@@ -1,5 +1,5 @@
 import { ComputedRef } from 'vue'
-import { Store, AnyObject, TableLayout } from '../table'
+import { Store, AnyObject, TableLayout } from '../table.type'
 
 function useUtils(store: Store, layout: TableLayout, shouldUpdateHeight: ComputedRef<unknown>) {
   const setCurrentRow = (row: AnyObject) => {

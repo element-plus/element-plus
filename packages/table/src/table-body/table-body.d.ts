@@ -1,4 +1,4 @@
-import { Store, AnyObject, fn } from '../table'
+import { Store, AnyObject, fn } from '../table.type'
 
 interface TableBodyProps {
   store: Store
