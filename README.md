@@ -11,6 +11,26 @@ This project is still under heavy development. Feel free to join us and make you
 
 [![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-ncxnt?fontsize=14&hidenavigation=1&theme=dark)
 
+<p align="center">
+  <b>Special thanks to the generous sponsorship by:</b>
+</p>
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.duohui.cn/?utm_source=element&utm_medium=web&utm_campaign=element-index" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/10095631/35603534-bb24470c-0678-11e8-8bcc-17ceaef8cbef.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://bit.dev/?from=element-ui" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 ---
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
