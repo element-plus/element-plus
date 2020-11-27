@@ -28,9 +28,11 @@
     line-height: 160px;
   }
 
-  & > .source > .el-container {
+  & > .source  > div > .el-container {
     margin-bottom: 40px;
-
+    &:last-child {
+      margin-bottom: 0;
+    }
     &:nth-child(5) .el-aside,
     &:nth-child(6) .el-aside {
       line-height: 260px;

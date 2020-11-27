@@ -1,7 +1,7 @@
 import { nextTick, getCurrentInstance, unref } from 'vue'
 import { arrayFind } from '@element-plus/utils/util'
 import useWatcher from './watcher'
-import { Table, Store, TableColumnCtx } from '../table'
+import { Table, Store, TableColumnCtx } from '../table.type'
 
 function replaceColumn(array: TableColumnCtx[], column: TableColumnCtx) {
   return array.map(item => {

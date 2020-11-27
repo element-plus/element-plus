@@ -1,6 +1,6 @@
 import { getCurrentInstance } from 'vue'
 import { TableBodyProps } from './table-body'
-import { Table, AnyObject, TableColumnCtx } from '../table'
+import { Table, AnyObject, TableColumnCtx } from '../table.type'
 
 function useStyles(props: TableBodyProps) {
   const instance = getCurrentInstance()

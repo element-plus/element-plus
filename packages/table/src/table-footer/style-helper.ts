@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance } from 'vue'
-import { Table, TableFooter, TableColumnCtx } from '../table'
+import { Table, TableFooter, TableColumnCtx } from '../table.type'
 import useMapState from './mapState-helper'
 
 function useStyle(props: TableFooter) {

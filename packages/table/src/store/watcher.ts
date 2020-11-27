@@ -11,7 +11,7 @@ import {
 import useExpand from './expand'
 import useCurrent from './current'
 import useTree from './tree'
-import { AnyObject, Table } from '../table'
+import { AnyObject, Table } from '../table.type'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
