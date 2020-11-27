@@ -26,16 +26,18 @@ Affiche le nombre de nouveaux messages.
   <span class="el-dropdown-link">
     Cliquez<i class="el-icon-caret-bottom el-icon--right"></i>
   </span>
-  <el-dropdown-menu #dropdown>
-    <el-dropdown-item class="clearfix">
-      Commentaires
-      <el-badge class="mark" :value="12" />
-    </el-dropdown-item>
-    <el-dropdown-item class="clearfix">
-      Réponses
-      <el-badge class="mark" :value="3" />
-    </el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu >
+      <el-dropdown-item class="clearfix">
+        Commentaires
+        <el-badge class="mark" :value="12" />
+      </el-dropdown-item>
+      <el-dropdown-item class="clearfix">
+        Réponses
+        <el-badge class="mark" :value="3" />
+      </el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 
 <style>
