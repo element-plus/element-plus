@@ -10,29 +10,29 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/popover.md?vue&type=template&id=30ff5d08&bindings={}
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/popover.md?vue&type=template&id=0b803460&bindings={}
 
-var popovervue_type_template_id_30ff5d08_bindings_hoisted_1 = {
+var popovervue_type_template_id_0b803460_bindings_hoisted_1 = {
   class: "content element-doc"
 };
 
-var popovervue_type_template_id_30ff5d08_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var popovervue_type_template_id_0b803460_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "popover-dan-chu-kuang"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#popover-dan-chu-kuang"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Popover 弹出框")], -1);
 
-var popovervue_type_template_id_30ff5d08_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var popovervue_type_template_id_0b803460_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "ji-chu-yong-fa"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#ji-chu-yong-fa"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 基础用法")], -1);
 
-var popovervue_type_template_id_30ff5d08_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Popover 的属性与 Tooltip 很类似，它们都是基于"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Vue-popper"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("开发的，因此对于重复属性，请参考 Tooltip 的文档，在此文档中不做详尽解释。")], -1);
+var popovervue_type_template_id_0b803460_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Popover 的属性与 Tooltip 很类似，它们都是基于"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Vue-popper"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("开发的，因此对于重复属性，请参考 Tooltip 的文档，在此文档中不做详尽解释。")], -1);
 
-var popovervue_type_template_id_30ff5d08_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "trigger"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("属性用于设置何时触发 Popover，支持四种触发方式："), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "hover"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("，"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "click"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("，"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "focus"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 和 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "manual"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("。对于触发 Popover 的元素，有两种写法：使用 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot=\"reference\""), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 的具名插槽，或使用自定义指令"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "v-popover"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("指向 Popover 的索引"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "ref"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("。")])], -1);
+var popovervue_type_template_id_0b803460_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "trigger"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("属性用于设置何时触发 Popover，支持四种触发方式："), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "hover"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("，"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "click"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("，"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "focus"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 和 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "manual"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("。对于触发 Popover 的元素，有两种写法：使用 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "#reference"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 的具名插槽，或使用自定义指令"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "v-popover"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("指向 Popover 的索引"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "ref"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("。")])], -1);
 
 var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
@@ -68,7 +68,7 @@ var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>trigger</td><td>触发方式</td><td>String</td><td>click/focus/hover/manual</td><td>click</td></tr><tr><td>title</td><td>标题</td><td>String</td><td>—</td><td>—</td></tr><tr><td>content</td><td>显示的内容，也可以通过 <code>slot</code> 传入 DOM</td><td>String</td><td>—</td><td>—</td></tr><tr><td>width</td><td>宽度</td><td>String, Number</td><td>—</td><td>最小宽度 150px</td></tr><tr><td>placement</td><td>出现位置</td><td>String</td><td>top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end</td><td>bottom</td></tr><tr><td>disabled</td><td>Popover 是否可用</td><td>Boolean</td><td>—</td><td>false</td></tr><tr><td>value / v-model</td><td>状态是否可见</td><td>Boolean</td><td>—</td><td>false</td></tr><tr><td>offset</td><td>出现位置的偏移量</td><td>Number</td><td>—</td><td>0</td></tr><tr><td>transition</td><td>定义渐变动画</td><td>String</td><td>—</td><td>fade-in-linear</td></tr><tr><td>visible-arrow</td><td>是否显示 Tooltip 箭头，更多参数可见<a href=\"https://github.com/element-component/vue-popper\">Vue-popper</a></td><td>Boolean</td><td>—</td><td>true</td></tr><tr><td>popper-options</td><td><a href=\"https://popper.js.org/documentation.html\">popper.js</a> 的参数</td><td>Object</td><td>参考 <a href=\"https://popper.js.org/documentation.html\">popper.js</a> 文档</td><td><code>{ boundariesElement: &#39;body&#39;, gpuAcceleration: false }</code></td></tr><tr><td>popper-class</td><td>为 popper 添加类名</td><td>String</td><td>—</td><td>—</td></tr><tr><td>open-delay</td><td>触发方式为 hover 时的显示延迟，单位为毫秒</td><td>Number</td><td>—</td><td>—</td></tr><tr><td>close-delay</td><td>触发方式为 hover 时的隐藏延迟，单位为毫秒</td><td>number</td><td>—</td><td>200</td></tr><tr><td>tabindex</td><td>Popover 组件的 <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex\">tabindex</a></td><td>number</td><td>—</td><td>0</td></tr></tbody></table><h3 id=\"slot\"><a class=\"header-anchor\" href=\"#slot\">¶</a> Slot</h3><table><thead><tr><th>参数</th><th>说明</th></tr></thead><tbody><tr><td>—</td><td>Popover 内嵌 HTML 文本</td></tr><tr><td>reference</td><td>触发 Popover 显示的 HTML 元素</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>show</td><td>显示时触发</td><td>—</td></tr><tr><td>after-enter</td><td>显示动画播放完毕后触发</td><td>—</td></tr><tr><td>hide</td><td>隐藏时触发</td><td>—</td></tr><tr><td>after-leave</td><td>隐藏动画播放完毕后触发</td><td>—</td></tr></tbody></table>", 6);
 
-function popovervue_type_template_id_30ff5d08_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
+function popovervue_type_template_id_0b803460_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -77,7 +77,7 @@ function popovervue_type_template_id_30ff5d08_bindings_render(_ctx, _cache, $pro
 
   var _component_element_demo2 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo2");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", popovervue_type_template_id_30ff5d08_bindings_hoisted_1, [popovervue_type_template_id_30ff5d08_bindings_hoisted_2, popovervue_type_template_id_30ff5d08_bindings_hoisted_3, popovervue_type_template_id_30ff5d08_bindings_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", popovervue_type_template_id_0b803460_bindings_hoisted_1, [popovervue_type_template_id_0b803460_bindings_hoisted_2, popovervue_type_template_id_0b803460_bindings_hoisted_3, popovervue_type_template_id_0b803460_bindings_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
@@ -85,7 +85,7 @@ function popovervue_type_template_id_30ff5d08_bindings_render(_ctx, _cache, $pro
       return [_hoisted_6];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [popovervue_type_template_id_30ff5d08_bindings_hoisted_5];
+      return [popovervue_type_template_id_0b803460_bindings_hoisted_5];
     }),
     _: 1
   }), _hoisted_7, _hoisted_8, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -109,7 +109,7 @@ function popovervue_type_template_id_30ff5d08_bindings_render(_ctx, _cache, $pro
     _: 1
   }), _hoisted_14]);
 }
-// CONCATENATED MODULE: ./website/docs/zh-CN/popover.md?vue&type=template&id=30ff5d08&bindings={}
+// CONCATENATED MODULE: ./website/docs/zh-CN/popover.md?vue&type=template&id=0b803460&bindings={}
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -410,7 +410,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-popovervue_type_script_lang_ts.render = popovervue_type_template_id_30ff5d08_bindings_render
+popovervue_type_script_lang_ts.render = popovervue_type_template_id_0b803460_bindings_render
 
 /* harmony default export */ var popover = __webpack_exports__["default"] = (popovervue_type_script_lang_ts);
 

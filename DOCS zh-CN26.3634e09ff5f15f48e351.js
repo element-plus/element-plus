@@ -10,33 +10,33 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/image.md?vue&type=template&id=dd1c74bc&bindings={}
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/image.md?vue&type=template&id=b05a0a60&bindings={}
 
-var imagevue_type_template_id_dd1c74bc_bindings_hoisted_1 = {
+var imagevue_type_template_id_b05a0a60_bindings_hoisted_1 = {
   class: "content element-doc"
 };
 
-var imagevue_type_template_id_dd1c74bc_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var imagevue_type_template_id_b05a0a60_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "image-tu-pian"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#image-tu-pian"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Image 图片")], -1);
 
-var imagevue_type_template_id_dd1c74bc_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "图片容器，在保留原生img的特性下，支持懒加载，自定义占位、加载失败等", -1);
+var imagevue_type_template_id_b05a0a60_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "图片容器，在保留原生img的特性下，支持懒加载，自定义占位、加载失败等", -1);
 
-var imagevue_type_template_id_dd1c74bc_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var imagevue_type_template_id_b05a0a60_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "ji-chu-yong-fa"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#ji-chu-yong-fa"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 基础用法")], -1);
 
-var imagevue_type_template_id_dd1c74bc_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("可通过"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "fit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("确定图片如何适应到容器框，同原生 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
+var imagevue_type_template_id_b05a0a60_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("可通过"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "fit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("确定图片如何适应到容器框，同原生 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   href: "https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit"
 }, "object-fit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("。")])], -1);
 
-var imagevue_type_template_id_dd1c74bc_bindings_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var imagevue_type_template_id_b05a0a60_bindings_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<div class=\"demo-image\">\n  <div class=\"block\" v-for=\"fit in fits\" :key=\"fit\">\n    <span class=\"demonstration\">{{ fit }}</span>\n    <el-image\n      style=\"width: 100px; height: 100px\"\n      :src=\"url\"\n      :fit=\"fit\"></el-image>\n  </div>\n</div>\n\n<script>\n  export default {\n    data() {\n      return {\n        fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],\n        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'\n      }\n    }\n  }\n</script>\n")], -1);
 
@@ -51,7 +51,7 @@ var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("di
 
 var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<div class=\"demo-image__placeholder\">\n  <div class=\"block\">\n    <span class=\"demonstration\">默认</span>\n    <el-image :src=\"src\"></el-image>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">自定义</span>\n    <el-image :src=\"src\">\n      <div slot=\"placeholder\" class=\"image-slot\">\n        加载中<span class=\"dot\">...</span>\n      </div>\n    </el-image>\n  </div>\n</div>\n\n<script>\n  export default {\n    data() {\n      return {\n        src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'\n      }\n    }\n  }\n</script>\n")], -1);
+}, "<div class=\"demo-image__placeholder\">\n  <div class=\"block\">\n    <span class=\"demonstration\">默认</span>\n    <el-image :src=\"src\"></el-image>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">自定义</span>\n    <el-image :src=\"src\">\n      <template #placeholder>\n        <div class=\"image-slot\">\n          加载中<span class=\"dot\">...</span>\n        </div>\n      </template>\n    </el-image>\n  </div>\n</div>\n\n<script>\n  export default {\n    data() {\n      return {\n        src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'\n      }\n    }\n  }\n</script>\n")], -1);
 
 var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "jia-zai-shi-bai"
@@ -64,7 +64,7 @@ var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("d
 
 var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<div class=\"demo-image__error\">\n  <div class=\"block\">\n    <span class=\"demonstration\">默认</span>\n    <el-image></el-image>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">自定义</span>\n    <el-image>\n      <div slot=\"error\" class=\"image-slot\">\n        <i class=\"el-icon-picture-outline\"></i>\n      </div>\n    </el-image>\n  </div>\n</div>\n")], -1);
+}, "<div class=\"demo-image__error\">\n  <div class=\"block\">\n    <span class=\"demonstration\">默认</span>\n    <el-image></el-image>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">自定义</span>\n    <el-image>\n      <template #error>\n        <div class=\"image-slot\">\n          <i class=\"el-icon-picture-outline\"></i>\n        </div>\n      </template>\n    </el-image>\n  </div>\n</div>\n")], -1);
 
 var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "lan-jia-zai"
@@ -94,7 +94,7 @@ var _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>src</td><td>图片源，同原生</td><td>string</td><td>—</td><td>-</td></tr><tr><td>fit</td><td>确定图片如何适应容器框，同原生 <a href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit\">object-fit</a></td><td>string</td><td>fill / contain / cover / none / scale-down</td><td>-</td></tr><tr><td>alt</td><td>原生 alt</td><td>string</td><td>-</td><td>-</td></tr><tr><td>referrer-policy</td><td>原生 referrerPolicy</td><td>string</td><td>-</td><td>-</td></tr><tr><td>lazy</td><td>是否开启懒加载</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>scroll-container</td><td>开启懒加载后，监听 scroll 事件的容器</td><td>string / HTMLElement</td><td>—</td><td>最近一个 overflow 值为 auto 或 scroll 的父元素</td></tr><tr><td>preview-src-list</td><td>开启图片预览功能</td><td>Array</td><td>—</td><td>-</td></tr><tr><td>z-index</td><td>设置图片预览的 z-index</td><td>Number</td><td>—</td><td>2000</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>load</td><td>图片加载成功触发</td><td>(e: Event)</td></tr><tr><td>error</td><td>图片加载失败触发</td><td>(e: Error)</td></tr></tbody></table><h3 id=\"slots\"><a class=\"header-anchor\" href=\"#slots\">¶</a> Slots</h3><table><thead><tr><th>名称</th><th>说明</th></tr></thead><tbody><tr><td>placeholder</td><td>图片未加载的占位内容</td></tr><tr><td>error</td><td>加载失败的内容</td></tr></tbody></table>", 6);
 
-function imagevue_type_template_id_dd1c74bc_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
+function imagevue_type_template_id_b05a0a60_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -107,15 +107,15 @@ function imagevue_type_template_id_dd1c74bc_bindings_render(_ctx, _cache, $props
 
   var _component_element_demo4 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo4");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", imagevue_type_template_id_dd1c74bc_bindings_hoisted_1, [imagevue_type_template_id_dd1c74bc_bindings_hoisted_2, imagevue_type_template_id_dd1c74bc_bindings_hoisted_3, imagevue_type_template_id_dd1c74bc_bindings_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", imagevue_type_template_id_b05a0a60_bindings_hoisted_1, [imagevue_type_template_id_b05a0a60_bindings_hoisted_2, imagevue_type_template_id_b05a0a60_bindings_hoisted_3, imagevue_type_template_id_b05a0a60_bindings_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
     highlight: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [imagevue_type_template_id_dd1c74bc_bindings_hoisted_6];
+      return [imagevue_type_template_id_b05a0a60_bindings_hoisted_6];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [imagevue_type_template_id_dd1c74bc_bindings_hoisted_5];
+      return [imagevue_type_template_id_b05a0a60_bindings_hoisted_5];
     }),
     _: 1
   }), _hoisted_7, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -164,7 +164,7 @@ function imagevue_type_template_id_dd1c74bc_bindings_render(_ctx, _cache, $props
     _: 1
   }), _hoisted_19]);
 }
-// CONCATENATED MODULE: ./website/docs/zh-CN/image.md?vue&type=template&id=dd1c74bc&bindings={}
+// CONCATENATED MODULE: ./website/docs/zh-CN/image.md?vue&type=template&id=b05a0a60&bindings={}
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -250,7 +250,6 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
       }, "自定义", -1);
 
       var _hoisted_6 = /*#__PURE__*/_createVNode("div", {
-        slot: "placeholder",
         class: "image-slot"
       }, [/*#__PURE__*/_createTextVNode(" 加载中"), /*#__PURE__*/_createVNode("span", {
         class: "dot"
@@ -264,7 +263,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
         }, null, 8, ["src"])]), _createVNode("div", _hoisted_4, [_hoisted_5, _createVNode(_component_el_image, {
           src: _ctx.src
         }, {
-          default: _withCtx(function () {
+          placeholder: _withCtx(function () {
             return [_hoisted_6];
           }),
           _: 1
@@ -308,7 +307,6 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
       }, "自定义", -1);
 
       var _hoisted_6 = /*#__PURE__*/_createVNode("div", {
-        slot: "error",
         class: "image-slot"
       }, [/*#__PURE__*/_createVNode("i", {
         class: "el-icon-picture-outline"
@@ -318,7 +316,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
         var _component_el_image = _resolveComponent("el-image");
 
         return _openBlock(), _createBlock("div", null, [_createVNode("div", _hoisted_1, [_createVNode("div", _hoisted_2, [_hoisted_3, _createVNode(_component_el_image)]), _createVNode("div", _hoisted_4, [_hoisted_5, _createVNode(_component_el_image, null, {
-          default: _withCtx(function () {
+          error: _withCtx(function () {
             return [_hoisted_6];
           }),
           _: 1
@@ -408,7 +406,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-imagevue_type_script_lang_ts.render = imagevue_type_template_id_dd1c74bc_bindings_render
+imagevue_type_script_lang_ts.render = imagevue_type_template_id_b05a0a60_bindings_render
 
 /* harmony default export */ var zh_CN_image = __webpack_exports__["default"] = (imagevue_type_script_lang_ts);
 

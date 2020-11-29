@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[86],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[24],{
 
-/***/ 598:
+/***/ 536:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,84 +10,84 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/badge.md?vue&type=template&id=56fa29a4&bindings={}
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/badge.md?vue&type=template&id=80c902a4&bindings={}
 
-var badgevue_type_template_id_56fa29a4_bindings_hoisted_1 = {
+var badgevue_type_template_id_80c902a4_bindings_hoisted_1 = {
   class: "content element-doc"
 };
 
-var badgevue_type_template_id_56fa29a4_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var badgevue_type_template_id_80c902a4_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "badge"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#badge"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Badge")], -1);
 
-var badgevue_type_template_id_56fa29a4_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Marcas en forma de número o estado para botones e iconos.", -1);
+var badgevue_type_template_id_80c902a4_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "A number or status mark on buttons and icons.", -1);
 
-var badgevue_type_template_id_56fa29a4_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "uso-basico"
+var badgevue_type_template_id_80c902a4_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+  id: "basic-usage"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#uso-basico"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Uso básico")], -1);
+  href: "#basic-usage"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Basic usage")], -1);
 
-var badgevue_type_template_id_56fa29a4_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Muestra la cantidad de mensajes nuevos.", -1);
+var badgevue_type_template_id_80c902a4_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Displays the amount of new messages.", -1);
 
-var badgevue_type_template_id_56fa29a4_bindings_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("La cantidad está definida por "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" que acepta "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" o "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
+var badgevue_type_template_id_80c902a4_bindings_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("The amount is defined with "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" which accepts "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" or "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
 
-var badgevue_type_template_id_56fa29a4_bindings_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var badgevue_type_template_id_80c902a4_bindings_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-badge :value=\"12\" class=\"item\">\n  <el-button size=\"small\">comments</el-button>\n</el-badge>\n<el-badge :value=\"3\" class=\"item\">\n  <el-button size=\"small\">replies</el-button>\n</el-badge>\n<el-badge :value=\"1\" class=\"item\" type=\"primary\">\n  <el-button size=\"small\">comments</el-button>\n</el-badge>\n<el-badge :value=\"2\" class=\"item\" type=\"warning\">\n  <el-button size=\"small\">replies</el-button>\n</el-badge>\n\n<el-dropdown trigger=\"click\">\n  <span class=\"el-dropdown-link\">\n    Click Me<i class=\"el-icon-caret-bottom el-icon--right\"></i>\n  </span>\n  <el-dropdown-menu slot=\"dropdown\">\n    <el-dropdown-item class=\"clearfix\">\n      comments\n      <el-badge class=\"mark\" :value=\"12\" />\n    </el-dropdown-item>\n    <el-dropdown-item class=\"clearfix\">\n      replies\n      <el-badge class=\"mark\" :value=\"3\" />\n    </el-dropdown-item>\n  </el-dropdown-menu>\n</el-dropdown>\n\n<style>\n.item {\n  margin-top: 10px;\n  margin-right: 40px;\n}\n</style>\n")], -1);
+}, "<el-badge :value=\"12\" class=\"item\">\n  <el-button size=\"small\">comments</el-button>\n</el-badge>\n<el-badge :value=\"3\" class=\"item\">\n  <el-button size=\"small\">replies</el-button>\n</el-badge>\n<el-badge :value=\"1\" class=\"item\" type=\"primary\">\n  <el-button size=\"small\">comments</el-button>\n</el-badge>\n<el-badge :value=\"2\" class=\"item\" type=\"warning\">\n  <el-button size=\"small\">replies</el-button>\n</el-badge>\n\n<el-dropdown trigger=\"click\">\n  <span class=\"el-dropdown-link\">\n    Click Me<i class=\"el-icon-caret-bottom el-icon--right\"></i>\n  </span>\n  <template #dropdown>\n    <el-dropdown-menu>\n      <el-dropdown-item class=\"clearfix\">\n        comments\n        <el-badge class=\"mark\" :value=\"12\" />\n      </el-dropdown-item>\n      <el-dropdown-item class=\"clearfix\">\n        replies\n        <el-badge class=\"mark\" :value=\"3\" />\n      </el-dropdown-item>\n    </el-dropdown-menu>\n  </template>\n</el-dropdown>\n\n<style>\n.item {\n  margin-top: 10px;\n  margin-right: 40px;\n}\n</style>\n")], -1);
 
 var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "valor-maximo"
+  id: "max-value"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#valor-maximo"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Valor máximo")], -1);
+  href: "#max-value"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Max value")], -1);
 
-var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Se puede personalizar el valor máximo.", -1);
+var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "You can customize the max value.", -1);
 
-var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("El valor máximo se define como "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "max"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" el cual es un "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". Nota: solo funciona si "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" es también un "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
+var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("The max value is defined by property "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "max"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" which is a "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". Note that it only works when "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" is also a "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
 
 var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<el-badge :value=\"200\" :max=\"99\" class=\"item\">\n  <el-button size=\"small\">comments</el-button>\n</el-badge>\n<el-badge :value=\"100\" :max=\"10\" class=\"item\">\n  <el-button size=\"small\">replies</el-button>\n</el-badge>\n\n<style>\n.item {\n  margin-top: 10px;\n  margin-right: 40px;\n}\n</style>\n")], -1);
 
 var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "personalizaciones"
+  id: "customizations"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#personalizaciones"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Personalizaciones")], -1);
+  href: "#customizations"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Customizations")], -1);
 
-var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Mostrar texto en vez de números.", -1);
+var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Displays text content other than numbers.", -1);
 
-var _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Cuando "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" es un "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(", puede mostrar texto personalizado.")])], -1);
+var _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("When "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" is a "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(", it can display customized text.")])], -1);
 
 var _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<el-badge value=\"new\" class=\"item\">\n  <el-button size=\"small\">comments</el-button>\n</el-badge>\n<el-badge value=\"hot\" class=\"item\">\n  <el-button size=\"small\">replies</el-button>\n</el-badge>\n\n<style>\n.item {\n  margin-top: 10px;\n  margin-right: 40px;\n}\n</style>\n")], -1);
 
 var _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "pequeno-punto-rojo"
+  id: "little-red-dot"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#pequeno-punto-rojo"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Pequeño punto rojo")], -1);
+  href: "#little-red-dot"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Little red dot")], -1);
 
-var _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Puede utilizar un punto rojo para marcar contenido que debe ser notado.", -1);
+var _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Use a red dot to mark content that needs to be noticed.", -1);
 
-var _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Use el atributo "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "is-dot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". Es un "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
+var _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Use the attribute "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "is-dot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". It is a "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
 
 var _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<el-badge is-dot class=\"item\">query</el-badge>\n<el-badge is-dot class=\"item\">\n  <el-button class=\"share-button\" icon=\"el-icon-share\" type=\"primary\"></el-button>\n</el-badge>\n\n<style>\n.item {\n  margin-top: 10px;\n  margin-right: 40px;\n}\n</style>\n")], -1);
 
-var _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"atributos\"><a class=\"header-anchor\" href=\"#atributos\">¶</a> Atributos</h3><table><thead><tr><th>Atributo</th><th>Descripción</th><th>Tipo</th><th>Valores aceptados</th><th>Por defecto</th></tr></thead><tbody><tr><td>value</td><td>valor a mostrar</td><td>string, number</td><td>—</td><td>—</td></tr><tr><td>max</td><td>valor máximo, Muestra &#39;{max}+&#39; cuando se excede. Solo funciona si <code>value</code> es un <code>Number</code></td><td>number</td><td>—</td><td>—</td></tr><tr><td>is-dot</td><td>si se debe mostrar un pequeño punto</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>hidden</td><td>oculta el badge</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>type</td><td>tipo de botón</td><td>string</td><td>primary / success / warning / danger / info</td><td>—</td></tr></tbody></table>", 2);
+var _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>value</td><td>display value</td><td>string, number</td><td>—</td><td>—</td></tr><tr><td>max</td><td>maximum value, shows &#39;{max}+&#39; when exceeded. Only works if <code>value</code> is a <code>Number</code></td><td>number</td><td>—</td><td>—</td></tr><tr><td>is-dot</td><td>if a little dot is displayed</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>hidden</td><td>hidden badge</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>type</td><td>button type</td><td>string</td><td>primary / success / warning / danger / info</td><td>—</td></tr></tbody></table>", 2);
 
-function badgevue_type_template_id_56fa29a4_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
+function badgevue_type_template_id_80c902a4_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -98,15 +98,15 @@ function badgevue_type_template_id_56fa29a4_bindings_render(_ctx, _cache, $props
 
   var _component_element_demo3 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo3");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", badgevue_type_template_id_56fa29a4_bindings_hoisted_1, [badgevue_type_template_id_56fa29a4_bindings_hoisted_2, badgevue_type_template_id_56fa29a4_bindings_hoisted_3, badgevue_type_template_id_56fa29a4_bindings_hoisted_4, badgevue_type_template_id_56fa29a4_bindings_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", badgevue_type_template_id_80c902a4_bindings_hoisted_1, [badgevue_type_template_id_80c902a4_bindings_hoisted_2, badgevue_type_template_id_80c902a4_bindings_hoisted_3, badgevue_type_template_id_80c902a4_bindings_hoisted_4, badgevue_type_template_id_80c902a4_bindings_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
     highlight: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [badgevue_type_template_id_56fa29a4_bindings_hoisted_7];
+      return [badgevue_type_template_id_80c902a4_bindings_hoisted_7];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [badgevue_type_template_id_56fa29a4_bindings_hoisted_6];
+      return [badgevue_type_template_id_80c902a4_bindings_hoisted_6];
     }),
     _: 1
   }), _hoisted_8, _hoisted_9, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -144,13 +144,13 @@ function badgevue_type_template_id_56fa29a4_bindings_render(_ctx, _cache, $props
     _: 1
   }), _hoisted_20]);
 }
-// CONCATENATED MODULE: ./website/docs/es/badge.md?vue&type=template&id=56fa29a4&bindings={}
+// CONCATENATED MODULE: ./website/docs/en-US/badge.md?vue&type=template&id=80c902a4&bindings={}
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
 var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/badge.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/badge.md?vue&type=script&lang=ts
 
 
 /* harmony default export */ var badgevue_type_script_lang_ts = ({
@@ -258,10 +258,8 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
         }), _createVNode(_component_el_dropdown, {
           trigger: "click"
         }, {
-          default: _withCtx(function () {
-            return [_hoisted_5, _createVNode(_component_el_dropdown_menu, {
-              slot: "dropdown"
-            }, {
+          dropdown: _withCtx(function () {
+            return [_createVNode(_component_el_dropdown_menu, null, {
               default: _withCtx(function () {
                 return [_createVNode(_component_el_dropdown_item, {
                   class: "clearfix"
@@ -287,6 +285,9 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
               }),
               _: 1
             })];
+          }),
+          default: _withCtx(function () {
+            return [_hoisted_5];
           }),
           _: 1
         })]);
@@ -454,13 +455,13 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/es/badge.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/en-US/badge.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/es/badge.md
+// CONCATENATED MODULE: ./website/docs/en-US/badge.md
 
 
 
-badgevue_type_script_lang_ts.render = badgevue_type_template_id_56fa29a4_bindings_render
+badgevue_type_script_lang_ts.render = badgevue_type_template_id_80c902a4_bindings_render
 
 /* harmony default export */ var badge = __webpack_exports__["default"] = (badgevue_type_script_lang_ts);
 

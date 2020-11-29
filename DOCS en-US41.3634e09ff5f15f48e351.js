@@ -10,29 +10,29 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/popover.md?vue&type=template&id=8f348c78&bindings={}
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/popover.md?vue&type=template&id=3860dca8&bindings={}
 
-var popovervue_type_template_id_8f348c78_bindings_hoisted_1 = {
+var popovervue_type_template_id_3860dca8_bindings_hoisted_1 = {
   class: "content element-doc"
 };
 
-var popovervue_type_template_id_8f348c78_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var popovervue_type_template_id_3860dca8_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "popover"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#popover"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Popover")], -1);
 
-var popovervue_type_template_id_8f348c78_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var popovervue_type_template_id_3860dca8_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "basic-usage"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#basic-usage"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Basic usage")], -1);
 
-var popovervue_type_template_id_8f348c78_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Similar to Tooltip, Popover is also built with "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Vue-popper"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". So for some duplicated attributes, please refer to the documentation of Tooltip.")], -1);
+var popovervue_type_template_id_3860dca8_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Similar to Tooltip, Popover is also built with "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Vue-popper"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". So for some duplicated attributes, please refer to the documentation of Tooltip.")], -1);
 
-var popovervue_type_template_id_8f348c78_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("The "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "trigger"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" attribute is used to define how popover is triggered: "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "hover"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(", "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "click"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(", "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "focus"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" or "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "manual"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". As for the triggering element, you can write it in two different ways: use the "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot=\"reference\""), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" named slot, or use the "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "v-popover"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" directive and set it to Popover's "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "ref"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
+var popovervue_type_template_id_3860dca8_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("The "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "trigger"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" attribute is used to define how popover is triggered: "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "hover"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(", "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "click"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(", "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "focus"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" or "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "manual"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". As for the triggering element, you can write it in two different ways: use the "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "#reference"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" named slot, or use the "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "v-popover"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" directive and set it to Popover's "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "ref"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
 
 var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
@@ -68,7 +68,7 @@ var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>trigger</td><td>how the popover is triggered</td><td>string</td><td>click/focus/hover/manual</td><td>click</td></tr><tr><td>title</td><td>popover title</td><td>string</td><td>—</td><td>—</td></tr><tr><td>content</td><td>popover content, can be replaced with a default <code>slot</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>width</td><td>popover width</td><td>string, number</td><td>—</td><td>Min width 150px</td></tr><tr><td>placement</td><td>popover placement</td><td>string</td><td>top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end</td><td>bottom</td></tr><tr><td>disabled</td><td>whether Popover is disabled</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>value / v-model</td><td>whether popover is visible</td><td>Boolean</td><td>—</td><td>false</td></tr><tr><td>offset</td><td>popover offset</td><td>number</td><td>—</td><td>0</td></tr><tr><td>transition</td><td>popover transition animation</td><td>string</td><td>—</td><td>el-fade-in-linear</td></tr><tr><td>visible-arrow</td><td>whether a tooltip arrow is displayed or not. For more info, please refer to <a href=\"https://github.com/element-component/vue-popper\">Vue-popper</a></td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>popper-options</td><td>parameters for <a href=\"https://popper.js.org/documentation.html\">popper.js</a></td><td>object</td><td>please refer to <a href=\"https://popper.js.org/documentation.html\">popper.js</a></td><td><code>{ boundariesElement: &#39;body&#39;, gpuAcceleration: false }</code></td></tr><tr><td>popper-class</td><td>custom class name for popover</td><td>string</td><td>—</td><td>—</td></tr><tr><td>open-delay</td><td>delay before appearing when <code>trigger</code> is hover, in milliseconds</td><td>number</td><td>—</td><td>—</td></tr><tr><td>close-delay</td><td>delay before disappearing when <code>trigger</code> is hover, in milliseconds</td><td>number</td><td>—</td><td>200</td></tr><tr><td>tabindex</td><td><a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex\">tabindex</a> of Popover</td><td>number</td><td>—</td><td>0</td></tr></tbody></table><h3 id=\"slot\"><a class=\"header-anchor\" href=\"#slot\">¶</a> Slot</h3><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody><tr><td>—</td><td>text content of popover</td></tr><tr><td>reference</td><td>HTML element that triggers popover</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>Event Name</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>show</td><td>triggers when popover shows</td><td>—</td></tr><tr><td>after-enter</td><td>triggers when the entering transition ends</td><td>—</td></tr><tr><td>hide</td><td>triggers when popover hides</td><td>—</td></tr><tr><td>after-leave</td><td>triggers when the leaving transition ends</td><td>—</td></tr></tbody></table>", 6);
 
-function popovervue_type_template_id_8f348c78_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
+function popovervue_type_template_id_3860dca8_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -77,7 +77,7 @@ function popovervue_type_template_id_8f348c78_bindings_render(_ctx, _cache, $pro
 
   var _component_element_demo2 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo2");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", popovervue_type_template_id_8f348c78_bindings_hoisted_1, [popovervue_type_template_id_8f348c78_bindings_hoisted_2, popovervue_type_template_id_8f348c78_bindings_hoisted_3, popovervue_type_template_id_8f348c78_bindings_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", popovervue_type_template_id_3860dca8_bindings_hoisted_1, [popovervue_type_template_id_3860dca8_bindings_hoisted_2, popovervue_type_template_id_3860dca8_bindings_hoisted_3, popovervue_type_template_id_3860dca8_bindings_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
@@ -85,7 +85,7 @@ function popovervue_type_template_id_8f348c78_bindings_render(_ctx, _cache, $pro
       return [_hoisted_6];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [popovervue_type_template_id_8f348c78_bindings_hoisted_5];
+      return [popovervue_type_template_id_3860dca8_bindings_hoisted_5];
     }),
     _: 1
   }), _hoisted_7, _hoisted_8, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -109,7 +109,7 @@ function popovervue_type_template_id_8f348c78_bindings_render(_ctx, _cache, $pro
     _: 1
   }), _hoisted_14]);
 }
-// CONCATENATED MODULE: ./website/docs/en-US/popover.md?vue&type=template&id=8f348c78&bindings={}
+// CONCATENATED MODULE: ./website/docs/en-US/popover.md?vue&type=template&id=3860dca8&bindings={}
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -410,7 +410,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-popovervue_type_script_lang_ts.render = popovervue_type_template_id_8f348c78_bindings_render
+popovervue_type_script_lang_ts.render = popovervue_type_template_id_3860dca8_bindings_render
 
 /* harmony default export */ var popover = __webpack_exports__["default"] = (popovervue_type_script_lang_ts);
 

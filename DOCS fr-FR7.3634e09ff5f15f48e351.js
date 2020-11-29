@@ -10,9 +10,9 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/calendar.md?vue&type=template&id=564a6b26&bindings={}
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/calendar.md?vue&type=template&id=202d7296&bindings={}
 
-var calendarvue_type_template_id_564a6b26_bindings_hoisted_1 = {
+var _hoisted_1 = {
   class: "content element-doc"
 };
 
@@ -49,7 +49,7 @@ var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("di
 
 var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-calendar>\n  <!-- Use 2.5 slot syntax. If you use Vue 2.6, please use new slot syntax-->\n  <template\n    slot=\"dateCell\"\n    slot-scope=\"{date, data}\">\n    <p :class=\"data.isSelected ? 'is-selected' : ''\">\n      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}\n    </p>\n  </template>\n</el-calendar>\n<style>\n  .is-selected {\n    color: #1989FA;\n  }\n</style>\n")], -1);
+}, "<el-calendar>\n  <template\n    #dateCell=\"{data}\"\n  >\n    <p :class=\"data.isSelected ? 'is-selected' : ''\">\n      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}\n    </p>\n  </template>\n</el-calendar>\n<style>\n  .is-selected {\n    color: #1989FA;\n  }\n</style>\n")], -1);
 
 var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "renzi"
@@ -66,7 +66,7 @@ var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"shu-xing\"><a class=\"header-anchor\" href=\"#shu-xing\">¶</a> 属性</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>value / v-model</td><td>バインディング値</td><td>Date/string/number</td><td>—</td><td>—</td></tr><tr><td>range</td><td>開始時刻と終了時刻を含む時間範囲。開始時間は週の開始日、終了時間は週の終了日でなければならず、時間幅は2ヶ月を超えることはできません。</td><td>Array</td><td>—</td><td>—</td></tr><tr><td>first-day-of-week</td><td>週の最初の日</td><td>Number</td><td>1 to 7</td><td>1</td></tr></tbody></table><h3 id=\"detoserusukopusurotuto\"><a class=\"header-anchor\" href=\"#detoserusukopusurotuto\">¶</a> デートセルスコープスロット</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>date</td><td>セルが表す日付</td><td>Date</td><td>—</td><td>—</td></tr><tr><td>data</td><td>{type, isSelected, day}. <code>type</code> は日付が属する月を示し、オプションの値は前月、現在の月、次の月です。<code>isSelected</code> は日付が選択されているかどうかを示す。<code>day</code>はyyyy-MM-dd形式でフォーマットされた日付です。</td><td>Object</td><td>—</td><td>—</td></tr></tbody></table>", 4);
 
-function calendarvue_type_template_id_564a6b26_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
+function calendarvue_type_template_id_202d7296_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -75,7 +75,7 @@ function calendarvue_type_template_id_564a6b26_bindings_render(_ctx, _cache, $pr
 
   var _component_element_demo2 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo2");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", calendarvue_type_template_id_564a6b26_bindings_hoisted_1, [_hoisted_2, _hoisted_3, _hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", _hoisted_1, [_hoisted_2, _hoisted_3, _hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
@@ -110,7 +110,7 @@ function calendarvue_type_template_id_564a6b26_bindings_render(_ctx, _cache, $pr
     _: 1
   }), _hoisted_13]);
 }
-// CONCATENATED MODULE: ./website/docs/jp/calendar.md?vue&type=template&id=564a6b26&bindings={}
+// CONCATENATED MODULE: ./website/docs/jp/calendar.md?vue&type=template&id=202d7296&bindings={}
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -157,19 +157,16 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           _withCtx = vue_esm_browser["eb" /* withCtx */],
           _openBlock = vue_esm_browser["G" /* openBlock */],
           _createBlock = vue_esm_browser["j" /* createBlock */];
-      var _hoisted_1 = {
-        slot: "dateCell",
-        "slot-scope": "{date, data}"
-      };
 
       function render(_ctx, _cache) {
         var _component_el_calendar = _resolveComponent("el-calendar");
 
         return _openBlock(), _createBlock("div", null, [_createVNode(_component_el_calendar, null, {
-          default: _withCtx(function () {
-            return [_createVNode("template", _hoisted_1, [_createVNode("p", {
-              class: _ctx.data.isSelected ? 'is-selected' : ''
-            }, _toDisplayString(_ctx.data.day.split('-').slice(1).join('-')) + " " + _toDisplayString(_ctx.data.isSelected ? '✔️' : ''), 3)])];
+          dateCell: _withCtx(function (_ref) {
+            var data = _ref.data;
+            return [_createVNode("p", {
+              class: data.isSelected ? 'is-selected' : ''
+            }, _toDisplayString(data.day.split('-').slice(1).join('-')) + " " + _toDisplayString(data.isSelected ? '✔️' : ''), 3)];
           }),
           _: 1
         })]);
@@ -207,7 +204,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-calendarvue_type_script_lang_ts.render = calendarvue_type_template_id_564a6b26_bindings_render
+calendarvue_type_script_lang_ts.render = calendarvue_type_template_id_202d7296_bindings_render
 
 /* harmony default export */ var calendar = __webpack_exports__["default"] = (calendarvue_type_script_lang_ts);
 

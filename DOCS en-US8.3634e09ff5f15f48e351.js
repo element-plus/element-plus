@@ -10,35 +10,35 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/card.md?vue&type=template&id=5b97d6e8&bindings={}
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/card.md?vue&type=template&id=6f0b9d2e&bindings={}
 
-var cardvue_type_template_id_5b97d6e8_bindings_hoisted_1 = {
+var cardvue_type_template_id_6f0b9d2e_bindings_hoisted_1 = {
   class: "content element-doc"
 };
 
-var cardvue_type_template_id_5b97d6e8_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var cardvue_type_template_id_6f0b9d2e_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "card"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#card"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Card")], -1);
 
-var cardvue_type_template_id_5b97d6e8_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Integrate information in a card container.", -1);
+var cardvue_type_template_id_6f0b9d2e_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Integrate information in a card container.", -1);
 
-var cardvue_type_template_id_5b97d6e8_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var cardvue_type_template_id_6f0b9d2e_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "basic-usage"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#basic-usage"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Basic usage")], -1);
 
-var cardvue_type_template_id_5b97d6e8_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Card includes title, content and operations.", -1);
+var cardvue_type_template_id_6f0b9d2e_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Card includes title, content and operations.", -1);
 
-var cardvue_type_template_id_5b97d6e8_bindings_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Card is made up of "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "header"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" and "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "body"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "header"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" is optional, and its content distribution depends on a named slot.")])], -1);
+var cardvue_type_template_id_6f0b9d2e_bindings_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Card is made up of "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "header"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" and "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "body"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "header"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" is optional, and its content distribution depends on a named slot.")])], -1);
 
 var _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-card class=\"box-card\">\n  <div slot=\"header\" class=\"clearfix\">\n    <span>Card name</span>\n    <el-button style=\"float: right; padding: 3px 0\" type=\"text\">Operation button</el-button>\n  </div>\n  <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n    {{'List item ' + o }}\n  </div>\n</el-card>\n\n<style>\n  .text {\n    font-size: 14px;\n  }\n\n  .item {\n    margin-bottom: 18px;\n  }\n\n  .clearfix:before,\n  .clearfix:after {\n    display: table;\n    content: \"\";\n  }\n  .clearfix:after {\n    clear: both\n  }\n\n  .box-card {\n    width: 480px;\n  }\n</style>\n")], -1);
+}, "<el-card class=\"box-card\">\n  <template #header>\n    <div class=\"clearfix\">\n      <span>Card name</span>\n      <el-button style=\"float: right; padding: 3px 0\" type=\"text\">Operation button</el-button>\n    </div>\n  </template>\n  <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n    {{'List item ' + o }}\n  </div>\n</el-card>\n\n<style>\n  .text {\n    font-size: 14px;\n  }\n\n  .item {\n    margin-bottom: 18px;\n  }\n\n  .clearfix:before,\n  .clearfix:after {\n    display: table;\n    content: \"\";\n  }\n  .clearfix:after {\n    clear: both\n  }\n\n  .box-card {\n    width: 480px;\n  }\n</style>\n")], -1);
 
 var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "simple-card"
@@ -85,7 +85,7 @@ var _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>header</td><td>title of the card. Also accepts a DOM passed by <code>slot#header</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>body-style</td><td>CSS style of body</td><td>object</td><td>—</td><td>{ padding: &#39;20px&#39; }</td></tr><tr><td>shadow</td><td>when to show card shadows</td><td>string</td><td>always / hover / never</td><td>always</td></tr></tbody></table>", 2);
 
-function cardvue_type_template_id_5b97d6e8_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
+function cardvue_type_template_id_6f0b9d2e_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -96,7 +96,7 @@ function cardvue_type_template_id_5b97d6e8_bindings_render(_ctx, _cache, $props,
 
   var _component_element_demo3 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo3");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", cardvue_type_template_id_5b97d6e8_bindings_hoisted_1, [cardvue_type_template_id_5b97d6e8_bindings_hoisted_2, cardvue_type_template_id_5b97d6e8_bindings_hoisted_3, cardvue_type_template_id_5b97d6e8_bindings_hoisted_4, cardvue_type_template_id_5b97d6e8_bindings_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", cardvue_type_template_id_6f0b9d2e_bindings_hoisted_1, [cardvue_type_template_id_6f0b9d2e_bindings_hoisted_2, cardvue_type_template_id_6f0b9d2e_bindings_hoisted_3, cardvue_type_template_id_6f0b9d2e_bindings_hoisted_4, cardvue_type_template_id_6f0b9d2e_bindings_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
@@ -104,7 +104,7 @@ function cardvue_type_template_id_5b97d6e8_bindings_render(_ctx, _cache, $props,
       return [_hoisted_7];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [cardvue_type_template_id_5b97d6e8_bindings_hoisted_6];
+      return [cardvue_type_template_id_6f0b9d2e_bindings_hoisted_6];
     }),
     _: 1
   }), _hoisted_8, _hoisted_9, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -139,7 +139,7 @@ function cardvue_type_template_id_5b97d6e8_bindings_render(_ctx, _cache, $props,
     _: 1
   }), _hoisted_19]);
 }
-// CONCATENATED MODULE: ./website/docs/en-US/card.md?vue&type=template&id=5b97d6e8&bindings={}
+// CONCATENATED MODULE: ./website/docs/en-US/card.md?vue&type=template&id=6f0b9d2e&bindings={}
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -162,7 +162,6 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           _createBlock = vue_esm_browser["j" /* createBlock */],
           _toDisplayString = vue_esm_browser["T" /* toDisplayString */];
       var _hoisted_1 = {
-        slot: "header",
         class: "clearfix"
       };
 
@@ -178,7 +177,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
         return _openBlock(), _createBlock("div", null, [_createVNode(_component_el_card, {
           class: "box-card"
         }, {
-          default: _withCtx(function () {
+          header: _withCtx(function () {
             return [_createVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
               style: {
                 "float": "right",
@@ -190,7 +189,10 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
                 return [_hoisted_3];
               }),
               _: 1
-            })]), (_openBlock(), _createBlock(_Fragment, null, _renderList(4, function (o) {
+            })])];
+          }),
+          default: _withCtx(function () {
+            return [(_openBlock(), _createBlock(_Fragment, null, _renderList(4, function (o) {
               return _createVNode("div", {
                 key: o,
                 class: "text item"
@@ -420,7 +422,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-cardvue_type_script_lang_ts.render = cardvue_type_template_id_5b97d6e8_bindings_render
+cardvue_type_script_lang_ts.render = cardvue_type_template_id_6f0b9d2e_bindings_render
 
 /* harmony default export */ var card = __webpack_exports__["default"] = (cardvue_type_script_lang_ts);
 

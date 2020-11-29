@@ -10,33 +10,33 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/image.md?vue&type=template&id=1d2e477c&bindings={}
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/image.md?vue&type=template&id=95c51d54&bindings={}
 
-var imagevue_type_template_id_1d2e477c_bindings_hoisted_1 = {
+var imagevue_type_template_id_95c51d54_bindings_hoisted_1 = {
   class: "content element-doc"
 };
 
-var imagevue_type_template_id_1d2e477c_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var imagevue_type_template_id_95c51d54_bindings_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "image"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#image"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Image")], -1);
 
-var imagevue_type_template_id_1d2e477c_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Además de las características nativas de img, soporte de carga perezosa, marcador de posición personalizado y fallo de carga, etc.", -1);
+var imagevue_type_template_id_95c51d54_bindings_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Además de las características nativas de img, soporte de carga perezosa, marcador de posición personalizado y fallo de carga, etc.", -1);
 
-var imagevue_type_template_id_1d2e477c_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var imagevue_type_template_id_95c51d54_bindings_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "uso-basico"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#uso-basico"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Uso básico")], -1);
 
-var imagevue_type_template_id_1d2e477c_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Indica cómo se debe cambiar el tamaño de la imagen para que se ajuste a su contenedor por ajuste, igual que el ajuste de objeto nativo. "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
+var imagevue_type_template_id_95c51d54_bindings_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Indica cómo se debe cambiar el tamaño de la imagen para que se ajuste a su contenedor por ajuste, igual que el ajuste de objeto nativo. "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   href: "https://developer.mozilla.org/es/docs/Web/CSS/object-fit"
 }, "object-fit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("。")])], -1);
 
-var imagevue_type_template_id_1d2e477c_bindings_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var imagevue_type_template_id_95c51d54_bindings_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<div class=\"demo-image\">\n  <div class=\"block\" v-for=\"fit in fits\" :key=\"fit\">\n    <span class=\"demonstration\">{{ fit }}</span>\n    <el-image\n      style=\"width: 100px; height: 100px\"\n      :src=\"url\"\n      :fit=\"fit\"></el-image>\n  </div>\n</div>\n\n<script>\n  export default {\n    data() {\n      return {\n        fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],\n        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'\n      }\n    }\n  }\n</script>\n")], -1);
 
@@ -51,7 +51,7 @@ var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("di
 
 var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<div class=\"demo-image__placeholder\">\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-image :src=\"src\"></el-image>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Custom</span>\n    <el-image :src=\"src\">\n      <div slot=\"placeholder\" class=\"image-slot\">\n        Loading<span class=\"dot\">...</span>\n      </div>\n    </el-image>\n  </div>\n</div>\n\n<script>\n  export default {\n    data() {\n      return {\n        src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'\n      }\n    }\n  }\n</script>\n")], -1);
+}, "<div class=\"demo-image__placeholder\">\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-image :src=\"src\"></el-image>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Custom</span>\n    <el-image :src=\"src\">\n      <template #placeholder>\n        <div class=\"image-slot\">\n          Loading<span class=\"dot\">...</span>\n        </div>\n      </template>\n    </el-image>\n  </div>\n</div>\n\n<script>\n  export default {\n    data() {\n      return {\n        src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'\n      }\n    }\n  }\n</script>\n")], -1);
 
 var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "fallo-de-carga"
@@ -64,7 +64,7 @@ var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("d
 
 var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<div class=\"demo-image__error\">\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-image></el-image>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Custom</span>\n    <el-image>\n      <div slot=\"error\" class=\"image-slot\">\n        <i class=\"el-icon-picture-outline\"></i>\n      </div>\n    </el-image>\n  </div>\n</div>\n")], -1);
+}, "<div class=\"demo-image__error\">\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-image></el-image>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Custom</span>\n    <el-image>\n      <template #error>\n        <div class=\"image-slot\">\n          <i class=\"el-icon-picture-outline\"></i>\n        </div>\n      </template>\n    </el-image>\n  </div>\n</div>\n")], -1);
 
 var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "lazy-load"
@@ -94,7 +94,7 @@ var _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"atributos\"><a class=\"header-anchor\" href=\"#atributos\">¶</a> Atributos</h3><table><thead><tr><th>Atributo</th><th>Descripción</th><th>Tipo</th><th>Valores aceptados</th><th>Por defecto</th></tr></thead><tbody><tr><td>src</td><td>origen de la imagen, igual que en nativo</td><td>string</td><td>—</td><td>-</td></tr><tr><td>fit</td><td>Indica como la imagen debe adaptarse al contenedor, lo mismo que <a href=\"https://developer.mozilla.org/es/docs/Web/CSS/object-fit\">object-fit</a></td><td>string</td><td>fill / contain / cover / none / scale-down</td><td>-</td></tr><tr><td>alt</td><td>alt nativo</td><td>string</td><td>-</td><td>-</td></tr><tr><td>referrer-policy</td><td>referrerPolicy nativo</td><td>string</td><td>-</td><td>-</td></tr><tr><td>lazy</td><td>si se usara lazy load</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>scroll-container</td><td>El contenedor para añadir el scroll listener cuando se utiliza lazy load</td><td>string / HTMLElement</td><td>—</td><td>El contenedor padre más cercano cuya propiedad de desbordamiento es auto o scroll</td></tr><tr><td>preview-src-list</td><td>permitir una vista previa grande de la imagen</td><td>Array</td><td>—</td><td>-</td></tr><tr><td>z-index</td><td>establecer el z-index de la vista previa de la imagen</td><td>Number</td><td>—</td><td>2000</td></tr></tbody></table><h3 id=\"eventos\"><a class=\"header-anchor\" href=\"#eventos\">¶</a> Eventos</h3><table><thead><tr><th>Nombre del evento</th><th>Descripción</th><th>Parámetros</th></tr></thead><tbody><tr><td>load</td><td>Igual que el load nativo</td><td>(e: Event)</td></tr><tr><td>error</td><td>Igual que el error nativo</td><td>(e: Error)</td></tr></tbody></table><h3 id=\"slots\"><a class=\"header-anchor\" href=\"#slots\">¶</a> Slots</h3><table><thead><tr><th>Nombre del slot</th><th>Descripción</th></tr></thead><tbody><tr><td>placeholder</td><td>Se activa cuando la imagen se carga</td></tr><tr><td>error</td><td>Se activa cuando la carga de la imagen falla</td></tr></tbody></table>", 6);
 
-function imagevue_type_template_id_1d2e477c_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
+function imagevue_type_template_id_95c51d54_bindings_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -107,15 +107,15 @@ function imagevue_type_template_id_1d2e477c_bindings_render(_ctx, _cache, $props
 
   var _component_element_demo4 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo4");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", imagevue_type_template_id_1d2e477c_bindings_hoisted_1, [imagevue_type_template_id_1d2e477c_bindings_hoisted_2, imagevue_type_template_id_1d2e477c_bindings_hoisted_3, imagevue_type_template_id_1d2e477c_bindings_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", imagevue_type_template_id_95c51d54_bindings_hoisted_1, [imagevue_type_template_id_95c51d54_bindings_hoisted_2, imagevue_type_template_id_95c51d54_bindings_hoisted_3, imagevue_type_template_id_95c51d54_bindings_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
     highlight: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [imagevue_type_template_id_1d2e477c_bindings_hoisted_6];
+      return [imagevue_type_template_id_95c51d54_bindings_hoisted_6];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [imagevue_type_template_id_1d2e477c_bindings_hoisted_5];
+      return [imagevue_type_template_id_95c51d54_bindings_hoisted_5];
     }),
     _: 1
   }), _hoisted_7, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -164,7 +164,7 @@ function imagevue_type_template_id_1d2e477c_bindings_render(_ctx, _cache, $props
     _: 1
   }), _hoisted_19]);
 }
-// CONCATENATED MODULE: ./website/docs/es/image.md?vue&type=template&id=1d2e477c&bindings={}
+// CONCATENATED MODULE: ./website/docs/es/image.md?vue&type=template&id=95c51d54&bindings={}
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -250,7 +250,6 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
       }, "Custom", -1);
 
       var _hoisted_6 = /*#__PURE__*/_createVNode("div", {
-        slot: "placeholder",
         class: "image-slot"
       }, [/*#__PURE__*/_createTextVNode(" Loading"), /*#__PURE__*/_createVNode("span", {
         class: "dot"
@@ -264,7 +263,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
         }, null, 8, ["src"])]), _createVNode("div", _hoisted_4, [_hoisted_5, _createVNode(_component_el_image, {
           src: _ctx.src
         }, {
-          default: _withCtx(function () {
+          placeholder: _withCtx(function () {
             return [_hoisted_6];
           }),
           _: 1
@@ -308,7 +307,6 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
       }, "Custom", -1);
 
       var _hoisted_6 = /*#__PURE__*/_createVNode("div", {
-        slot: "error",
         class: "image-slot"
       }, [/*#__PURE__*/_createVNode("i", {
         class: "el-icon-picture-outline"
@@ -318,7 +316,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
         var _component_el_image = _resolveComponent("el-image");
 
         return _openBlock(), _createBlock("div", null, [_createVNode("div", _hoisted_1, [_createVNode("div", _hoisted_2, [_hoisted_3, _createVNode(_component_el_image)]), _createVNode("div", _hoisted_4, [_hoisted_5, _createVNode(_component_el_image, null, {
-          default: _withCtx(function () {
+          error: _withCtx(function () {
             return [_hoisted_6];
           }),
           _: 1
@@ -408,7 +406,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-imagevue_type_script_lang_ts.render = imagevue_type_template_id_1d2e477c_bindings_render
+imagevue_type_script_lang_ts.render = imagevue_type_template_id_95c51d54_bindings_render
 
 /* harmony default export */ var es_image = __webpack_exports__["default"] = (imagevue_type_script_lang_ts);
 
