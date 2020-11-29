@@ -122,14 +122,14 @@ Ajoutez une icône pour indiquer le type d'input.
   <el-input
     placeholder="Entrez une date"
     v-model="input3">
-    <template v-slot:suffix>
+    <template #suffix>
       <i class="el-input__icon el-icon-date"></i>
     </template>
   </el-input>
   <el-input
     placeholder="Entrez du texte"
     v-model="input4">
-    <template v-slot:prefix>
+    <template #prefix>
       <i class="el-input__icon el-icon-search"></i>
     </template>
   </el-input>
@@ -229,24 +229,24 @@ Ajouter un élément avant ou après l'input, généralement du texte ou un bout
 ```html
 <div>
   <el-input placeholder="Entrez quelque chose" v-model="input1">
-    <template v-slot:prepend>Http://</template>
+    <template #prepend>Http://</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Entrez quelque chose" v-model="input2">
-    <template v-slot:append>.com</template>
+    <template #append>.com</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Entrez quelque chose" v-model="input3" class="input-with-select">
-    <template v-slot:prepend>
+    <template #prepend>
       <el-select v-model="select" placeholder="Choisir">
         <el-option label="Restaurant" value="1"></el-option>
         <el-option label="Num. Commande" value="2"></el-option>
         <el-option label="Tel" value="3"></el-option>
       </el-select>
     </template>
-    <template v-slot:append>
+    <template #append>
       <el-button icon="el-icon-search"></el-button>
     </template>
   </el-input>
@@ -412,10 +412,10 @@ Vous pouvez personnaliser la manière dont les suggestions sont affichées.
   :fetch-suggestions="querySearch"
   placeholder="Entrez quelque chose"
   @select="handleSelect">
-  <template v-slot:suffix>
+  <template #suffix>
     <i class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
   </template>
-  <template v-slot="{ item }">
+  <template #default="{ item }">
     <div class="value">{{ item.value }}</div>
     <span class="link">{{ item.link }}</span>
   </template>
