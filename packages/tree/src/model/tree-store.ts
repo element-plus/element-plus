@@ -50,7 +50,6 @@ export default class TreeStore {
     if (this.lazy && this.load) {
       const loadFn = this.load
       loadFn(this.root, data => {
-        console.log(1)
         this.root.doCreateChildren(data)
         this._initDefaultCheckedNodes()
       })

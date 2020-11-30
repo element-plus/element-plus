@@ -749,7 +749,6 @@ describe('Tree.vue', () => {
     const { wrapper, vm } = getTreeVm(`:props="defaultProps" lazy :load="loadNode" @node-expand="handleNodeOpen" @node-collapse="handleNodeClose"`, {
       methods: {
         loadNode(node, resolve) {
-          console.log(this)
           if (node.level === 0) {
             return resolve([{ label: 'region1' }, { label: 'region2' }])
           }
@@ -763,7 +762,6 @@ describe('Tree.vue', () => {
           })
         },
         handleNodeOpen(data) {
-          console.log(11)
           this.currentNode = data
           this.nodeExpended = true
         },
@@ -780,14 +778,17 @@ describe('Tree.vue', () => {
     expect(firstNodeWrapper.find('.el-tree-node__children').exists()).toBe(false)
 
     await firstNodeContentWrapper.trigger('click')
-    await nextTick()
-    await nextTick()
+    await nextTick() // first next tick for UI update
+    await nextTick() // second next tick for triggering loadNode
+    await nextTick() // third next tick for updating props.node.expanded
 
     expect(vm.nodeExpended).toEqual(true)
     expect(vm.currentNode.label).toEqual('region1')
 
     await firstNodeContentWrapper.trigger('click')
-    await sleep(100)
+    await nextTick()
+    await nextTick()
+    await nextTick()
 
     expect(vm.nodeExpended).toEqual(false)
     expect(vm.currentNode.label).toEqual('region1')
