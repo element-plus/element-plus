@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import * as Vue from 'vue'
 import * as popperExports from '@popperjs/core'
+import { rAF } from '@element-plus/test-utils/tick'
 import ElPopper from '../src/index.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
@@ -24,8 +25,7 @@ const DISPLAY_NONE = 'display: none'
 const Wrapped = (props: UnknownProps, { slots }) => {
   return h('div', h(ElPopper, props, slots))
 }
-const Transition = (_: UnknownProps, { attrs, slots }) => h('div', attrs, slots)
-Transition.displayName = 'Transition'
+
 // eslint-disable-next-line
 const _mount = (props: UnknownProps = {}, slots = {}): VueWrapper<any> =>
   mount(Wrapped, {
@@ -51,14 +51,9 @@ const popperMock = jest
   }))
 
 describe('Popper.vue', () => {
-  const oldTransition = Vue.Transition
-  beforeAll(() => {
-    (Vue as any).Transition = Transition
-  })
 
   afterAll(() => {
     popperMock.mockReset()
-    ;(Vue as any).Transition = oldTransition
   })
 
   beforeEach(() => {
@@ -218,10 +213,15 @@ describe('Popper.vue', () => {
     })
     const $trigger = wrapper.find(`.${TEST_TRIGGER}`)
     await $trigger.trigger(MOUSE_ENTER_EVENT)
+    await rAF()
+    await nextTick()
     expect(wrapper.find(selector).attributes('style')).not.toContain(
       DISPLAY_NONE,
     )
+
+    await $trigger.trigger(MOUSE_LEAVE_EVENT)
     jest.runOnlyPendingTimers()
+    await rAF()
     await nextTick()
     expect(wrapper.find(selector).attributes('style')).toContain(DISPLAY_NONE)
   })

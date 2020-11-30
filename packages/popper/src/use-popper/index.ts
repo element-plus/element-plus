@@ -259,7 +259,7 @@ export default function(
     if (isArray(props.trigger)) {
       Object.values(props.trigger).map(mapEvents)
     } else {
-      mapEvents(props.trigger)
+      mapEvents(props.trigger as TriggerType)
     }
   }
 
@@ -284,6 +284,12 @@ export default function(
     onAfterLeave: () => {
       detachPopper()
       emit('after-leave')
+    },
+    onBeforeEnter: () => {
+      emit('before-enter')
+    },
+    onBeforeLeave: () => {
+      emit('before-leave')
     },
     initializePopper,
     isManualMode,

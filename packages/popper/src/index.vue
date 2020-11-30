@@ -28,7 +28,7 @@ const UPDATE_VISIBLE_EVENT = 'update:visible'
 export default defineComponent({
   name: compName,
   props: defaultProps,
-  emits: [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave'],
+  emits: [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave', 'before-enter', 'before-leave'],
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
@@ -59,6 +59,8 @@ export default defineComponent({
       onPopperMouseLeave,
       onAfterEnter,
       onAfterLeave,
+      onBeforeEnter,
+      onBeforeLeave,
       popperClass,
       popperId,
       popperStyle,
@@ -84,6 +86,8 @@ export default defineComponent({
         onMouseLeave: onPopperMouseLeave,
         onAfterEnter,
         onAfterLeave,
+        onBeforeEnter,
+        onBeforeLeave,
         visibility,
       },
       [
