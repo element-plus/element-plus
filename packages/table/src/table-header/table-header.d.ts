@@ -1,4 +1,4 @@
-import { Store } from '../table'
+import { Store } from '../table.type'
 
 interface TableHeaderProps {
   fixed: string

@@ -4,7 +4,7 @@ import useStyles from './styles-helper'
 import { arrayFindIndex } from '@element-plus/utils/util'
 import { getRowIdentity } from '../util'
 import { TableBodyProps } from './table-body'
-import { RenderRowData, AnyObject, Table } from '../table'
+import { RenderRowData, AnyObject, Table } from '../table.type'
 
 function useRender(props: TableBodyProps) {
   const instance = getCurrentInstance()

@@ -32,7 +32,6 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
         style.width = props.width
       }
     }
-    style.zIndex = String(zIndex.value + 1)
     return style
   })
 

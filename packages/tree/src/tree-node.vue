@@ -84,7 +84,7 @@ import { getNodeKey as getNodeKeyUtil } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeEmitter } from './model/useDragNode'
 import Node from './model/node'
-import { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.d'
+import { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
 
 export default defineComponent({
   name: 'ElTreeNode',

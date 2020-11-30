@@ -1,5 +1,5 @@
 import { getCurrentInstance } from 'vue'
-import { TableColumnCtx, AnyObject, Table } from '../table'
+import { TableColumnCtx, AnyObject, Table } from '../table.type'
 import { TableHeaderProps } from './table-header'
 
 function useStyle(props: TableHeaderProps) {

@@ -10,7 +10,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { PartialReturnType } from '@element-plus/utils/types'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
-import { ICheckboxGroupInstance, ICheckboxProps } from './checkbox'
+import { ICheckboxGroupInstance, ICheckboxProps } from './checkbox.type'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
