@@ -175,18 +175,18 @@ Affichez une animation en plein écran quand vous charger des données.
 Vous pouvez invoquer Loading comme un service. Importez le service Loading:
 
 ```javascript
-import { Loading } from 'element-plus';
+import { ElLoading } from 'element-plus';
 ```
 Et invoquer-le:
 
 ```javascript
-Loading.service(options);
+ElLoading.service(options);
 ```
 
 Le paramètre `options` correspond à la configuration de Loading (voir table suivante). `LoadingService` retourne une instance de Loading, que vous pouvez fermer en appelant la méthode `close`:
 
 ```javascript
-let loadingInstance = Loading.service(options);
+let loadingInstance = ElLoading.service(options);
 this.$nextTick(() => { // Loading should be closed asynchronously
   loadingInstance.close();
 });
@@ -195,14 +195,14 @@ this.$nextTick(() => { // Loading should be closed asynchronously
 Notez que dans ce cas le Loading plein écran est un singleton. Si un nouveau Loading plein écran est invoqué avant la fermeture du précédent, celui-ci sera retourné au lieu d'en créer un nouveau:
 
 ```javascript
-let loadingInstance1 = Loading.service({ fullscreen: true });
-let loadingInstance2 = Loading.service({ fullscreen: true });
+let loadingInstance1 = ElLoading.service({ fullscreen: true });
+let loadingInstance2 = ElLoading.service({ fullscreen: true });
 console.log(loadingInstance1 === loadingInstance2); // true
 ```
 
 Appeler la méthode `close` sur n'importe lequel des deux fermera le Loading.
 
-Si Element Plus est importé en entier, une méthode globale `$loading` sera ajoutée à Vue.prototype. Vous pourrez l'invoquer comme ceci: `this.$loading(options)` et elle retournera une instance Loading.
+Si Element Plus est importé en entier, une méthode globale `$loading` sera ajoutée à `app.config.globalProperties`. Vous pourrez l'invoquer comme ceci: `this.$loading(options)` et elle retournera une instance Loading.
 
 ### Options
 

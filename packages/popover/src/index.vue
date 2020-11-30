@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives } from 'vue'
-import { Popper as ElPopper } from '@element-plus/popper'
+import ElPopper from '@element-plus/popper'
 import { defaultProps, Effect } from '@element-plus/popper'
 import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
 import { ClickOutside } from '@element-plus/directives'
@@ -89,12 +89,12 @@ export default defineComponent({
       popperClass: kls,
       popperStyle: popperStyle,
       popperId,
-      pure: true,
       visibility,
       onMouseEnter: onPopperMouseEnter,
       onMouseLeave: onPopperMouseLeave,
       onAfterEnter,
       onAfterLeave,
+      stopPopperMouseEvent: true,
     }, [
       title,
       content,

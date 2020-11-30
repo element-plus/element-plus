@@ -10,5 +10,3 @@ export default defineComponent({
   props: { },
 })
 </script>
-<style scoped>
-</style>

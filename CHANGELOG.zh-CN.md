@@ -1,5 +1,13 @@
 ## 更新日志
 
+### Element Plus 更新进度
+Element Plus 更新进度 请查看 https://github.com/element-plus/element-plus
+
+
+
+
+
+
 ### 2.13.2
 
 *2020-05-18*
@@ -98,13 +106,13 @@
 - Image
   - 优化用户体验 (#16985 by @luckyCao)
   - 优化大图片展示问题 (#16796 by @luckyCao)
-- Drawer 
+- Drawer
   - 修复 drawer-append-to-body 失效的 bug (#16953 by @JeremyWuuuuu)
 - Select
   - 修复空 tag 的 bug (17199 by @luckyCao)
 - Scrollbar
   - 修复 FireFox 双滚动条的 bug (#18091 by @iamkun)
-  
+
 #### Optimization
 
 - I18n
@@ -235,7 +243,7 @@
   - 更新显示正确的 header 的逻辑 (#16354 by @ziyoung)
 - Submenu
   - 修复 append-to-body 问题 (#16289 by @a631807682)
-- Table 
+- Table
   - 修复 tree table 数据更新问题 (#16481 by @island205)
 - Select
   - 修复内存泄漏问题 (#16463 by @island205)

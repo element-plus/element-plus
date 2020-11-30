@@ -33,7 +33,7 @@ import ajax from './ajax'
 import UploadDragger from './upload-dragger.vue'
 
 import type { PropType } from 'vue'
-import type { ListType, UploadFile, ElFile } from './upload'
+import type { ListType, UploadFile, ElFile } from './upload.type'
 
 type IFileHanlder = (
   file: Nullable<ElFile[]>,

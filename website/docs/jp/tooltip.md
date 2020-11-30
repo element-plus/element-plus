@@ -119,7 +119,9 @@
 :::demo `el-tooltip` の `content` という名前のスロットを追加して `el-tooltip` の `content` 属性をオーバーライドします。
 ```html
 <el-tooltip placement="top">
-  <div slot="content">multiple lines<br/>second line</div>
+  <template #content>
+    multiple lines<br/>second line
+  </template>
   <el-button>Top center</el-button>
 </el-tooltip>
 ```

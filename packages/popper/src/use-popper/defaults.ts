@@ -133,4 +133,8 @@ export default {
     type: Boolean,
     default: undefined,
   },
+  stopPopperMouseEvent: {
+    type: Boolean,
+    default: true,
+  },
 }

@@ -315,37 +315,15 @@
 :::
 
 ###  日付のフォーマット
-入力ボックスに表示されるテキストの書式を制御するには `format` を用いる。値の書式を制御するには `value-format` を用いる。
+入力ボックスに表示されるテキストの書式を制御するには `format` を用いる。
 
-デフォルトでは、コンポーネントは `Date` オブジェクトを受け入れて出力します。以下に UTC 2017-01-02 03:04:05 を例に、サポートされているフォーマット文字列を示します。
+デフォルトでは、コンポーネントは `Date` オブジェクトを受け入れて出力します。
+
+Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-available-formats) of all available formats of Day.js.
 
 :::warning
 大文字化に注意
 :::
-
-| format | meaning | note | example |
-|------|------|------|------|------|
-| `yyyy` | 年 | | 2017 |
-| `M`  | 月 | no leading 0 | 1 |
-| `MM` | 月 | | 01 |
-| `MMM` | 月 | | Jan |
-| `MMMM` | 月 | | January |
-| `W`  | 月 | only for week picker's `format`; no leading 0 | 1 |
-| `WW` | 週 | only for week picker's `format`| 01 |
-| `d`  | 日 | no leading 0 | 2 |
-| `dd` | 日 | | 02 |
-| `H`  | 時 | 24-hour clock; no leading 0 | 3 |
-| `HH` | 時 | 24-hour clock | 03 |
-| `h`  | 時 | 12-hour clock; must be used with `A` or `a`; no leading 0 | 3 |
-| `hh` | 時 | 12-hour clock; must be used with `A` or `a` | 03 |
-| `m`  | 分 | no leading 0 | 4 |
-| `mm` | 分 | | 04 |
-| `s`  | 秒 | no leading 0 | 5 |
-| `ss` | 秒 | | 05 |
-| `A`  | 午前/午後 | only for `format`, uppercased | AM |
-| `a`  | 午前/午後 | only for `format`, lowercased | am |
-| `timestamp` | JS タイムスタンプ | only for `value-format`; binding value will be a `number` | 1483326245000 |
-| `[MM]` | エスケープしない文字 | To escape characters, wrap them in square brackets (e.g. [A] [MM]) | MM |
 
 :::demo
 ```html
@@ -358,28 +336,6 @@
       type="date"
       placeholder="Pick a Date"
       format="yyyy/MM/dd">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">Use value-format</span>
-    <div class="demonstration">Value: {{ value2 }}</div>
-    <el-date-picker
-      v-model="value2"
-      type="date"
-      placeholder="Pick a Date"
-      format="yyyy/MM/dd"
-      value-format="yyyy-MM-dd">
-    </el-date-picker>
-  </div>
-  <div class="block">
-    <span class="demonstration">Timestamp</span>
-    <div class="demonstration">Value：{{ value3 }}</div>
-    <el-date-picker
-      v-model="value3"
-      type="date"
-      placeholder="Pick a Date"
-      format="yyyy/MM/dd"
-      value-format="timestamp">
     </el-date-picker>
   </div>
 </template>
@@ -445,11 +401,9 @@
 | format | 入力ボックスの表示値のフォーマット | string | see [date formats](#/en-US/component/date-picker#date-formats) | yyyy-MM-dd |
 | align | アライメント | left/center/right | left |
 | popper-class | date-pickerのドロップダウン用カスタムクラス名 | string | — | — |
-| picker-options | その他のオプションについては、以下の表を参照してください。 | object | — | {} |
 | range-separator | 範囲セパレータ | string | — | '-' |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date | anything accepted by `new Date()` | — |
 | default-time | オプション、日付範囲を選択する際に使用する時間値 | string[] | Array with length 2, each item is a string like `12:00:00`. The first item for the start date and then second item for the end date | — |
-| value-format | オプションで、バインディング値のフォーマットを指定します。指定しない場合、バインディング値は Date オブジェクトになります。 | string | see [date formats](#/en-US/component/date-picker#date-formats) | — |
 | name | ネイティブ入力の `name` と同じ  | string | — | — |
 | unlink-panels | 範囲ピッカーで2つのデータパネルのリンクを解除する | boolean | — | false |
 | prefix-icon | カスタムプレフィックスアイコン | string | — | el-icon-date |

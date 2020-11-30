@@ -1,5 +1,5 @@
 import { DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER } from '@element-plus/time-picker/src/common/constant'
-import Picker from '@element-plus/time-picker/src/common/picker.vue'
+import { CommonPicker } from '@element-plus/time-picker'
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
 import DateRangePickPanel from './date-picker-com/panel-date-range.vue'
 import MonthRangePickPanel from './date-picker-com/panel-month-range.vue'
@@ -33,6 +33,7 @@ const getPanel = function(type) {
 
 export default {
   name: 'ElDatePicker',
+  install: null,
   props: {
     type: {
       type: String,
@@ -41,7 +42,7 @@ export default {
   },
   setup(props) {
     const format = DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE
-    return () => h(Picker, {
+    return () => h(CommonPicker, {
       format,
       type: props.type,
       ...props,

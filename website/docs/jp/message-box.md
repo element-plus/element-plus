@@ -123,10 +123,11 @@
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open() {
-        const h = this.$createElement;
         this.$msgbox({
           title: 'Message',
           message: h('p', null, [
@@ -276,7 +277,7 @@ MessageBoxの内容は `VNode` にすることができ、カスタムコンポ�
 
 ### グローバルメソッド
 
-Elementが完全にインポートされている場合、Vue.prototypeに以下のグローバルメソッドが追加されます。Vue.prototypeには、`$msgbox`, `$alert`, `$confirm`, `$prompt` というグローバルメソッドが追加されます。そのため、Vueのインスタンスでは、このページで行ったように `MessageBox` を呼び出すことができます。パラメータは以下の通りです。
+Element Plusが完全にインポートされている場合、Vue.prototypeに以下のグローバルメソッドが追加されます。Vue.prototypeには、`$msgbox`, `$alert`, `$confirm`, `$prompt` というグローバルメソッドが追加されます。そのため、Vueのインスタンスでは、このページで行ったように `MessageBox` を呼び出すことができます。パラメータは以下の通りです。
 - `$msgbox(options)`
 - `$alert(message, title, options)` もしくは `$alert(message, options)`
 - `$confirm(message, title, options)` もしくは `$confirm(message, options)`
@@ -287,10 +288,10 @@ Elementが完全にインポートされている場合、Vue.prototypeに以下
 オンデマンドで `MessageBox` をインポートしたい場合:
 
 ```javascript
-import { MessageBox } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 ```
 
-対応するメソッドは以下の通り: 対応するメソッドは `MessageBox`, `MessageBox.alert`, `MessageBox.confirm`, `MessageBox.prompt` である。パラメータは上記と同じである。
+対応するメソッドは以下の通り: 対応するメソッドは `ElMessageBox`, `ElMessageBox.alert`, `ElMessageBox.confirm`, `ElMessageBox.prompt` である。パラメータは上記と同じである。
 
 ### オプション
 

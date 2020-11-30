@@ -99,7 +99,7 @@ export declare class ElTable extends ElementUIComponent {
   /** Key of row data, used for optimizing rendering. Required if reserve-selection is on */
   rowKey: (row: Record<string, unknown>) => any
 
-  /** Displayed text when data is empty. You can customize this area with `slot="empty"` */
+  /** Displayed text when data is empty. You can customize this area with `#empty` */
   emptyText: string
 
   /** Whether expand all rows by default. Only works when the table has a column `type="expand"` */

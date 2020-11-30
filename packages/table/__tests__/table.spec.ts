@@ -830,7 +830,7 @@ describe('Table.vue', () => {
             template: `
             <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
               <el-table-column type="expand">
-                <template v-slot="props">
+                <template #default="props">
                   <div>{{props.row.name}}</div>
                 </template>
               </el-table-column>

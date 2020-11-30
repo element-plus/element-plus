@@ -1,5 +1,5 @@
 import { h } from 'vue'
-import { TableColumnCtx } from './table'
+import { TableColumnCtx } from './table.type'
 
 export function hGutter() {
   return h('col', {

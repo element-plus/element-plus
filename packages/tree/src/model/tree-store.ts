@@ -10,7 +10,7 @@ import {
   TreeStoreOptions,
   FilterValue,
   TreeNodeData,
-} from '../tree.d'
+} from '../tree.type'
 
 export default class TreeStore {
   currentNode: Node

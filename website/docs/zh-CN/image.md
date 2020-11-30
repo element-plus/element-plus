@@ -40,9 +40,11 @@
   <div class="block">
     <span class="demonstration">自定义</span>
     <el-image :src="src">
-      <div slot="placeholder" class="image-slot">
-        加载中<span class="dot">...</span>
-      </div>
+      <template #placeholder>
+        <div class="image-slot">
+          加载中<span class="dot">...</span>
+        </div>
+      </template>
     </el-image>
   </div>
 </div>
@@ -71,9 +73,11 @@
   <div class="block">
     <span class="demonstration">自定义</span>
     <el-image>
-      <div slot="error" class="image-slot">
-        <i class="el-icon-picture-outline"></i>
-      </div>
+      <template #error>
+        <div class="image-slot">
+          <i class="el-icon-picture-outline"></i>
+        </div>
+      </template>
     </el-image>
   </div>
 </div>

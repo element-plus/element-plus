@@ -16,7 +16,9 @@ Carga archivos haciendo clic o arrastrándolos.
   :on-exceed="handleExceed"
   :file-list="fileList">
   <el-button size="small" type="primary">Clic para subir archivo</el-button>
-  <div slot="tip" class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {
@@ -160,35 +162,36 @@ Use `scoped-slot` to change default thumbnail template.
   action="#"
   list-type="picture-card"
   :auto-upload="false">
-    <i slot="default" class="el-icon-plus"></i>
-    <div slot="file" slot-scope="{file}">
-      <img
-        class="el-upload-list__item-thumbnail"
-        :src="file.url" alt=""
-      >
-      <span class="el-upload-list__item-actions">
-        <span
-          class="el-upload-list__item-preview"
-          @click="handlePictureCardPreview(file)"
-        >
-          <i class="el-icon-zoom-in"></i>
+    <template #default>
+      <i class="el-icon-plus"></i>
+    </template>
+    <template #file="{file}">
+      <div>
+        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+        <span class="el-upload-list__item-actions">
+          <span
+            class="el-upload-list__item-preview"
+            @click="handlePictureCardPreview(file)"
+          >
+            <i class="el-icon-zoom-in"></i>
+          </span>
+          <span
+            v-if="!disabled"
+            class="el-upload-list__item-delete"
+            @click="handleDownload(file)"
+          >
+            <i class="el-icon-download"></i>
+          </span>
+          <span
+            v-if="!disabled"
+            class="el-upload-list__item-delete"
+            @click="handleRemove(file)"
+          >
+            <i class="el-icon-delete"></i>
+          </span>
         </span>
-        <span
-          v-if="!disabled"
-          class="el-upload-list__item-delete"
-          @click="handleDownload(file)"
-        >
-          <i class="el-icon-download"></i>
-        </span>
-        <span
-          v-if="!disabled"
-          class="el-upload-list__item-delete"
-          @click="handleRemove(file)"
-        >
-          <i class="el-icon-delete"></i>
-        </span>
-      </span>
-    </div>
+      </div>
+    </template>
 </el-upload>
 <el-dialog :visible.sync="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="">
@@ -231,7 +234,9 @@ Use `scoped-slot` to change default thumbnail template.
   :file-list="fileList"
   list-type="picture">
   <el-button size="small" type="primary">Clic para subir archivo</el-button>
-  <div slot="tip" class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {
@@ -265,7 +270,9 @@ Utilice el _hook_ `on-change` para controlar la funcionalidad de la lista de arc
   :on-change="handleChange"
   :file-list="fileList">
   <el-button size="small" type="primary">Clic para subir archivo</el-button>
-  <div slot="tip" class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {
@@ -306,7 +313,9 @@ Puede arrastrar el archivo dentro de un área en especifico para cargar el archi
   multiple>
   <i class="el-icon-upload"></i>
   <div class="el-upload__text">Suelta tu archivo aquí o <em>haz clic para cargar</em></div>
-  <div slot="tip" class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  </template>
 </el-upload>
 ```
 :::
@@ -320,9 +329,13 @@ Puede arrastrar el archivo dentro de un área en especifico para cargar el archi
   ref="upload"
   action="https://jsonplaceholder.typicode.com/posts/"
   :auto-upload="false">
-  <el-button slot="trigger" size="small" type="primary">Selecciona un archivo</el-button>
+  <template #trigger>
+    <el-button size="small" type="primary">Selecciona un archivo</el-button>
+  </template>
   <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">Cargar al servidor</el-button>
-  <div slot="tip" class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Solo archivos jpg/png con un tamaño menor de 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {

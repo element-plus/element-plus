@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, ref, inject } from 'vue'
 
-import type { ElUpload } from './upload'
+import type { ElUpload } from './upload.type'
 
 export default defineComponent({
   name: 'ElUploadDrag',

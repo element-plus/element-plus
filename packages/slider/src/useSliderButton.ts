@@ -1,7 +1,7 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
 import { computed, ComputedRef, inject, nextTick, ref, watch } from 'vue'
-import { ISliderButtonInitData, ISliderButtonProps, ISliderProvider } from './Slider'
+import { ISliderButtonInitData, ISliderButtonProps, ISliderProvider } from './slider.type'
 
 
 const useTooltip = (props: ISliderButtonProps, formatTooltip: ComputedRef<(value: number) => number | string>, showTooltip: ComputedRef<boolean>) => {

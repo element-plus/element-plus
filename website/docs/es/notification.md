@@ -282,17 +282,15 @@ Es posible ocultar el botón de cerrar
 
 ### Método global
 
-Element Plus ha añadido un método global `$notify` para Vue.prototype. Así que en una instancia de vue se puede llamar `Notification` como lo hacemos en esta página.
+Element Plus ha añadido un método global `$notify` para `app.config.globalProperties`. Así que en una instancia de vue se puede llamar `Notification` como lo hacemos en esta página.
 
 ### Importar localmente
 
-Importar `Notification`:
-
 ```javascript
-import { Notification } from 'element-plus';
+import { ElNotification } from 'element-plus';
 ```
 
-En este caso, debe llamar a `Notification(options)`. También se han registrado métodos para diferentes tipos, e.j. `Notification.success(options)`. Puede llamar al método `Notification.closeAll()` para cerrar manualmente todas las instancias.
+En este caso, debe llamar a `ElNotification(options)`. También se han registrado métodos para diferentes tipos, e.j. `ElNotification.success(options)`. Puede llamar al método `ElNotification.closeAll()` para cerrar manualmente todas las instancias.
 
 ### Opciones
 | Atributo                 | Descripción                                                  | Tipo             | Valores aceptados                           | Por defecto |

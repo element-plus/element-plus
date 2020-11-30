@@ -94,13 +94,14 @@
     height: $--slider-button-wrapper-size;
     width: $--slider-button-wrapper-size;
     position: absolute;
-    z-index: 1001;
+    z-index: 1;
     top: $--slider-button-wrapper-offset;
     transform: translateX(-50%);
     background-color: transparent;
     text-align: center;
     user-select: none;
     line-height: normal;
+    outline: none;
     @include utils-vertical-center;
 
     &:hover,
@@ -121,6 +122,7 @@
     border: solid 2px $--slider-main-background-color;
     background-color: $--color-white;
     border-radius: 50%;
+    box-sizing: border-box;
     transition: .2s;
     user-select: none;
 

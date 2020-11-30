@@ -15,6 +15,8 @@
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open() {
@@ -22,7 +24,6 @@
       },
 
       openVn() {
-        const h = this.$createElement;
         this.$message({
           message: h('p', null, [
             h('span', null, 'Message can be '),
@@ -191,13 +192,11 @@
 
 ### ローカルインポート
 
-Import `Message`:
-
 ```javascript
-import { Message } from 'element-plus';
+import { ElMessage } from 'element-plus';
 ```
 
-この場合は `Message(options)` を呼び出す必要があります。また、`Message.success(options)`のように、異なるタイプのメソッドも登録しています。すべてのインスタンスを手動で閉じるには、`Message.closeAll()`を呼び出すことができます。
+この場合は `ElMessage(options)` を呼び出す必要があります。また、`ElMessage.success(options)`のように、異なるタイプのメソッドも登録しています。すべてのインスタンスを手動で閉じるには、`ElMessage.closeAll()`を呼び出すことができます。
 
 ### オプション
 | Attribute      | Description          | Type      | Accepted Values       | Default  |

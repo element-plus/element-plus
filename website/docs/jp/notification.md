@@ -21,11 +21,11 @@
 </template>
 
 <script>
+  import { h } from 'vue';
+
   export default {
     methods: {
       open1() {
-        const h = this.$createElement;
-
         this.$notify({
           title: 'Title',
           message: h('i', { style: 'color: teal' }, 'This is a reminder')
@@ -279,13 +279,11 @@ success, warning, info, errorの4種類を提供しています。
 
 ### ローカルインポート
 
-`Notification` をインポート:
-
 ```javascript
-import { Notification } from 'element-plus';
+import { ElNotification } from 'element-plus';
 ```
 
-この場合は `Notification(options)` を呼び出す必要があります。また、`Notification.success(options)`のように、異なるタイプのメソッドも登録しています。すべてのインスタンスを手動で閉じるには、`Notification.closeAll()` を呼び出すことができます。
+この場合は `ElNotification(options)` を呼び出す必要があります。また、`ElNotification.success(options)`のように、異なるタイプのメソッドも登録しています。すべてのインスタンスを手動で閉じるには、`ElNotification.closeAll()` を呼び出すことができます。
 
 ### オプション
 | Attribute      | Description          | Type      | Accepted Values       | Default  |

@@ -1,4 +1,5 @@
 export default {
+  name: 'mn',
   el: {
     colorpicker: {
       confirm: 'Тийм',
