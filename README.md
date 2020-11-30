@@ -35,6 +35,11 @@ This project is still under heavy development. Feel free to join us and make you
 
 ---
 
+## Documentation
+You can find for more details, API, and other docs on [https://element-plus.org](https://element-plus.org/)
+
+国内[加速镜像站点](https://element-plus.gitee.io/)
+
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
 
 ## Bootstrap project
