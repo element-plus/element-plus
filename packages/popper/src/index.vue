@@ -25,12 +25,10 @@ import { ClickOutside } from '@element-plus/directives'
 const compName = 'ElPopper'
 const UPDATE_VISIBLE_EVENT = 'update:visible'
 
-const emits = [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave']
-
 export default defineComponent({
   name: compName,
   props: defaultProps,
-  emits,
+  emits: [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave'],
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')

@@ -749,19 +749,21 @@ describe('Tree.vue', () => {
     const { wrapper, vm } = getTreeVm(`:props="defaultProps" lazy :load="loadNode" @node-expand="handleNodeOpen" @node-collapse="handleNodeClose"`, {
       methods: {
         loadNode(node, resolve) {
+          console.log(this)
           if (node.level === 0) {
             return resolve([{ label: 'region1' }, { label: 'region2' }])
           }
           if (node.level > 4) return resolve([])
-          setTimeout(() => {
+          nextTick(() => {
             resolve([{
               label: 'zone' + this.count++,
             }, {
               label: 'zone' + this.count++,
             }])
-          }, 50)
+          })
         },
         handleNodeOpen(data) {
+          console.log(11)
           this.currentNode = data
           this.nodeExpended = true
         },
@@ -778,7 +780,8 @@ describe('Tree.vue', () => {
     expect(firstNodeWrapper.find('.el-tree-node__children').exists()).toBe(false)
 
     await firstNodeContentWrapper.trigger('click')
-    await sleep(100)
+    await nextTick()
+    await nextTick()
 
     expect(vm.nodeExpended).toEqual(true)
     expect(vm.currentNode.label).toEqual('region1')

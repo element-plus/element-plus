@@ -3,13 +3,13 @@
     <el-popper
       ref="popper"
       v-model:visible="showPicker"
+      @after-leave="doDestroy"
       effect="light"
       manual-mode
       trigger="click"
       :show-arrow="false"
       popper-class="el-color-picker__panel el-color-dropdown"
       :stop-popper-mouse-event="false"
-      @after-leave="doDestroy"
     >
       <template #default>
         <div class="el-color-dropdown__main-wrapper">
