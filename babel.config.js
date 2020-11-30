@@ -38,7 +38,7 @@ module.exports = {
           '@babel/env',
           {
             loose: true,
-            modules: 'commonjs',
+            modules: false,
           },
         ],
       ],
