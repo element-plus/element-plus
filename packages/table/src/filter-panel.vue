@@ -85,144 +85,144 @@
 </template>
 
 <script lang='ts'>
-import ElPopper from '@element-plus/popper'
-import { t } from '@element-plus/locale'
-import ElCheckbox from '@element-plus/checkbox'
-import ElCheckboxGroup from '@element-plus/checkbox-group'
-import ElScrollbar from '@element-plus/scrollbar'
-import {
-  ref,
-  computed,
-  getCurrentInstance,
-  watch,
-  WritableComputedRef,
-  PropType,
-} from 'vue'
-import { Store, TableColumnCtx, TableHeader } from './table.type'
-export default {
-  name: 'ElTableFilterPanel',
-  components: {
-    ElCheckbox,
-    ElCheckboxGroup,
-    ElScrollbar,
-    ElPopper,
-  },
-  props: {
-    placement: {
-      type: String,
-      default: 'bottom-start',
+  import ElPopper from '@element-plus/popper'
+  import { t } from '@element-plus/locale'
+  import ElCheckbox from '@element-plus/checkbox'
+  import ElCheckboxGroup from '@element-plus/checkbox-group'
+  import ElScrollbar from '@element-plus/scrollbar'
+  import {
+    ref,
+    computed,
+    getCurrentInstance,
+    watch,
+    WritableComputedRef,
+    PropType,
+  } from 'vue'
+  import { Store, TableColumnCtx, TableHeader } from './table.type'
+  export default {
+    name: 'ElTableFilterPanel',
+    components: {
+      ElCheckbox,
+      ElCheckboxGroup,
+      ElScrollbar,
+      ElPopper,
     },
-    store: {
-      type: Object as PropType<Store>,
-    },
-    column: {
-      type: Object as PropType<TableColumnCtx>,
-    },
-    upDataColumn: {
-      type: Function,
-    },
-  },
-  setup(props) {
-    const instance = getCurrentInstance()
-    const parent = instance.parent as TableHeader
-    if (!parent.filterPanels.value[props.column.id]) {
-      parent.filterPanels.value[props.column.id] = instance
-    }
-    const tooltipVisible = ref(false)
-    const filters = computed(() => {
-      return props.column && props.column.filters
-    })
-    const filterValue = computed({
-      get: () => (props.column.filteredValue || [])[0],
-      set: (value: string) => {
-        if (filteredValue.value) {
-          if (typeof value !== 'undefined' && value !== null) {
-            filteredValue.value.splice(0, 1, value)
-          } else {
-            filteredValue.value.splice(0, 1)
-          }
-        }
+    props: {
+      placement: {
+        type: String,
+        default: 'bottom-start',
       },
-    })
-    const filteredValue: WritableComputedRef<unknown[]> = computed({
-      get() {
-        if (props.column) {
-          return props.column.filteredValue || []
-        }
-        return []
+      store: {
+        type: Object as PropType<Store>,
       },
-      set(value: unknown[]) {
-        if (props.column) {
-          props.upDataColumn('filteredValue', value)
-        }
+      column: {
+        type: Object as PropType<TableColumnCtx>,
       },
-    })
-    const multiple = computed(() => {
-      if (props.column) {
-        return props.column.filterMultiple
+      upDataColumn: {
+        type: Function,
+      },
+    },
+    setup(props) {
+      const instance = getCurrentInstance()
+      const parent = instance.parent as TableHeader
+      if (!parent.filterPanels.value[props.column.id]) {
+        parent.filterPanels.value[props.column.id] = instance
       }
-      return true
-    })
-    const isActive = filter => {
-      return filter.value === filterValue.value
-    }
-    const hidden = () => {
-      tooltipVisible.value = false
-    }
-    const showFilterPanel = (e: MouseEvent) => {
-      e.stopPropagation()
-      tooltipVisible.value = true
-    }
-    const handleConfirm = () => {
-      confirmFilter(filteredValue.value)
-      hidden()
-    }
-    const handleReset = () => {
-      filteredValue.value = []
-      confirmFilter(filteredValue.value)
-      hidden()
-    }
-    const handleSelect = (_filterValue?: string | string[]) => {
-      filterValue.value = _filterValue
-      if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
-        confirmFilter(filteredValue.value)
-      } else {
-        confirmFilter([])
-      }
-      hidden()
-    }
-    const confirmFilter = (filteredValue: unknown[]) => {
-      props.store.commit('filterChange', {
-        column: props.column,
-        values: filteredValue,
+      const tooltipVisible = ref(false)
+      const filters = computed(() => {
+        return props.column && props.column.filters
       })
-      props.store.updateAllSelected()
-    }
-    watch(
-      tooltipVisible,
-      value => {
-        // todo
+      const filterValue = computed({
+        get: () => (props.column.filteredValue || [])[0],
+        set: (value: string) => {
+          if (filteredValue.value) {
+            if (typeof value !== 'undefined' && value !== null) {
+              filteredValue.value.splice(0, 1, value)
+            } else {
+              filteredValue.value.splice(0, 1)
+            }
+          }
+        },
+      })
+      const filteredValue: WritableComputedRef<unknown[]> = computed({
+        get() {
+          if (props.column) {
+            return props.column.filteredValue || []
+          }
+          return []
+        },
+        set(value: unknown[]) {
+          if (props.column) {
+            props.upDataColumn('filteredValue', value)
+          }
+        },
+      })
+      const multiple = computed(() => {
         if (props.column) {
-          props.upDataColumn('filterOpened', value)
+          return props.column.filterMultiple
         }
-      },
-      {
-        immediate: true,
-      },
-    )
-    return {
-      tooltipVisible,
-      multiple,
-      filteredValue,
-      filterValue,
-      filters,
-      handleConfirm,
-      handleReset,
-      handleSelect,
-      isActive,
-      t,
-      showFilterPanel,
-    }
-  },
-}
+        return true
+      })
+      const isActive = (filter) => {
+        return filter.value === filterValue.value
+      }
+      const hidden = () => {
+        tooltipVisible.value = false
+      }
+      const showFilterPanel = (e: MouseEvent) => {
+        e.stopPropagation()
+        tooltipVisible.value = true
+      }
+      const handleConfirm = () => {
+        confirmFilter(filteredValue.value)
+        hidden()
+      }
+      const handleReset = () => {
+        filteredValue.value = []
+        confirmFilter(filteredValue.value)
+        hidden()
+      }
+      const handleSelect = (_filterValue?: string | string[]) => {
+        filterValue.value = _filterValue
+        if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
+          confirmFilter(filteredValue.value)
+        } else {
+          confirmFilter([])
+        }
+        hidden()
+      }
+      const confirmFilter = (filteredValue: unknown[]) => {
+        props.store.commit('filterChange', {
+          column: props.column,
+          values: filteredValue,
+        })
+        props.store.updateAllSelected()
+      }
+      watch(
+        tooltipVisible,
+        (value) => {
+          // todo
+          if (props.column) {
+            props.upDataColumn('filterOpened', value)
+          }
+        },
+        {
+          immediate: true,
+        },
+      )
+      return {
+        tooltipVisible,
+        multiple,
+        filteredValue,
+        filterValue,
+        filters,
+        handleConfirm,
+        handleReset,
+        handleSelect,
+        isActive,
+        t,
+        showFilterPanel,
+      }
+    },
+  }
 </script>
