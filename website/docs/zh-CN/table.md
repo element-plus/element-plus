@@ -358,7 +358,7 @@
       fixed="right"
       label="操作"
       width="100">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
         <el-button type="text" size="small">编辑</el-button>
       </template>
@@ -564,7 +564,7 @@
       fixed="right"
       label="操作"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -846,7 +846,7 @@
     <el-table-column
       label="日期"
       width="120">
-      <template v-slot="scope">{{ scope.row.date }}</template>
+      <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       prop="name"
@@ -1027,7 +1027,7 @@
       :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-tag
           :type="scope.row.tag === '家' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1098,7 +1098,7 @@
     <el-table-column
       label="日期"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1106,7 +1106,7 @@
     <el-table-column
       label="姓名"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
             <p>姓名: {{ scope.row.name }}</p>
@@ -1121,7 +1121,7 @@
       </template>
     </el-table-column>
     <el-table-column label="操作">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -1180,7 +1180,7 @@
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template v-slot="props">
+      <template #default="props">
         <el-form label-position="left" inline class="demo-table-expand">
           <el-form-item label="商品名称">
             <span>{{ props.row.name }}</span>
@@ -1441,13 +1441,13 @@
     </el-table-column>
     <el-table-column
       align="right">
-      <template #header v-slot="scope">
+      <template #header #default="scope">
         <el-input
           v-model="search"
           size="mini"
           placeholder="输入关键字搜索"/>
       </template>
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -1875,7 +1875,7 @@
 | header-cell-class-name | 表头单元格的 className 的回调方法，也可以使用字符串为所有表头单元格设置一个固定的 className。 | Function({row, column, rowIndex, columnIndex})/String | — | — |
 | header-cell-style | 表头单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有表头单元格设置一样的 Style。 | Function({row, column, rowIndex, columnIndex})/Object | — | — |
 | row-key | 行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的。类型为 String 时，支持多层访问：`user.info.id`，但不支持 `user.info[0].id`，此种情况请使用 `Function`。 | Function(row)/String | — | — |
-| empty-text | 空数据时显示的文本内容，也可以通过 `slot="empty"` 设置 | String | — | 暂无数据 |
+| empty-text | 空数据时显示的文本内容，也可以通过 `#empty` 设置 | String | — | 暂无数据 |
 | default-expand-all | 是否默认展开所有行，当 Table 包含展开行存在或者为树形表格时有效 | Boolean | — | false |
 | expand-row-keys | 可以通过该属性设置 Table 目前的展开行，需要设置 row-key 属性才能使用，该属性为展开行的 keys 数组。| Array | — | |
 | default-sort | 默认的排序列的 prop 和顺序。它的`prop`属性指定默认的排序的列，`order`指定默认排序的顺序| Object | `order`: ascending, descending | 如果只指定了`prop`, 没有指定`order`, 则默认顺序是ascending |

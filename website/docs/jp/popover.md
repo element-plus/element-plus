@@ -4,7 +4,7 @@
 
 Tooltipと同様に、Popoverも `Vue-popper` で構築されています。そのため、重複する属性については、Tooltipのドキュメントを参照してください。
 
-:::demo `trigger` 属性は、popoverがどのようにトリガーされるかを定義するために使用されます: `hover`, `click`, `focus`, `manual`。それは、`slot="reference"` という名前のスロットを使うか、`v-popover` ディレクティブを使って popover の `ref` に設定するかです。
+:::demo `trigger` 属性は、popoverがどのようにトリガーされるかを定義するために使用されます: `hover`, `click`, `focus`, `manual`。それは、`#reference` という名前のスロットを使うか、`v-popover` ディレクティブを使って popover の `ref` に設定するかです。
 
 ```html
 <template>

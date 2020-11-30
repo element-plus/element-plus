@@ -358,7 +358,7 @@ Cuando se tienen demasiadas columnas, puede fijar alguna de estas.
       fixed="right"
       label="Operaciones"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button @click="handleClick" type="text" size="small">Detalle</el-button>
         <el-button type="text" size="small">Editar</el-button>
       </template>
@@ -567,7 +567,7 @@ Cuando los datos se modifican dinámicamente, es posible que necesite que la tab
       fixed="right"
       label="Operaciones"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -848,7 +848,7 @@ También puede seleccionar múltiples filas.
     <el-table-column
       label="Fecha"
       width="120">
-      <template v-slot="scope">{{ scope.row.date }}</template>
+      <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       property="name"
@@ -1027,7 +1027,7 @@ Filtra la tabla para encontrar la información que necesita.
       :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-tag
           :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1099,7 +1099,7 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
     <el-table-column
       label="Fecha"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1107,7 +1107,7 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
     <el-table-column
       label="Nombre"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
             <p>姓名: {{ scope.row.name }}</p>
@@ -1123,7 +1123,7 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
     </el-table-column>
     <el-table-column
       label="Operaciones">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Editar</el-button>
@@ -1191,13 +1191,13 @@ Se puede personalizar el encabezado de la tabla para que se pueda adaptar aún m
     </el-table-column>
     <el-table-column
       align="right">
-      <template #header v-slot="scope">
+      <template #header #default="scope">
         <el-input
           v-model="search"
           size="mini"
           placeholder="Type to search"/>
       </template>
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -1258,7 +1258,7 @@ Cuando el contenido de la fila es demasiado largo y busca no mostrar la barra de
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template v-slot="props">
+      <template #default="props">
         <p>Estado: {{ props.row.state }}</p>
         <p>Ciudad: {{ props.row.city }}</p>
         <p>Dirección: {{ props.row.address }}</p>
@@ -1837,7 +1837,7 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | header-cell-class-name | función que devuelve nombre de clases personalizadas para una celda en la cabecera de la tabla, o una cadena asignando nombres de clases para cada celda en la cabecera de la tabla | Function({row, column, rowIndex, columnIndex})/String         | —                              | —                                        |
 | header-cell-style      | función que devuelve estilos personalizados para una celda en la cabecera de la tabla, o un objeto asignando estilos personalizados para cada celda en la cabecera de la tabla | Function({row, column, rowIndex, columnIndex})/Object         | —                              | —                                        |
 | row-key | key de los datos de las filas, utilizada para optimizar el renderizado. Requerido si `reserve-selection` está activada o muestra los datos del árbol. Cuando su tipo es String, se admite el acceso multinivel, por ejemplo, `user.info.id`, pero `user.info[0].id` no se admite, en cuyo caso se debe utilizar la función. | Function(row)/String | — | — |
-| empty-text             | Texto mostrado cuando no existen datos. Puede personalizar esta área con `slot="empty"` | String                                   | —                              | No Data                                  |
+| empty-text             | Texto mostrado cuando no existen datos. Puede personalizar esta área con `#empty` | String                                   | —                              | No Data                                  |
 | default-expand-all     | especifica si todas las filas se expanden por defecto, solo funciona cuando la tabla tiene una columna `type="expand"` | Boolean                                  | —                              | false                                    |
 | expand-row-keys        | establece las filas expandidas a través de esta propiedad, este valor es la clave de filas expandidas, debería establecer `row-key` antes de usar esta propiedad | Array                                    | —                              |                                          |
 | default-sort           | establece la columna y orden por defecto. La propiedad `prop` es utilizada para establecer la columna de ordenamiento por defecto, la propiedad `order` es utilizada para definir el tipo de orden por defecto | Object                                   | `order`: ascending, descending | if `prop` is set, and `order` is not set, then `order` is default to ascending |

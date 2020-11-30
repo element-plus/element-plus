@@ -196,7 +196,7 @@ describe('TimeLine.vue', () => {
           <el-timeline-item
             timestamp="2018-04-11"
           >
-            <template v-slot:dot>
+            <template #dot>
               dot
             </template>
           </el-timeline-item>

@@ -1,5 +1,5 @@
 import { computed, ComputedRef } from 'vue'
-import { ISliderInitData, ISliderProps, Stops } from './Slider'
+import { ISliderInitData, ISliderProps, Stops } from './slider.type'
 
 export const useStops = (props: ISliderProps, initData: ISliderInitData, minValue: ComputedRef<number>, maxValue: ComputedRef<number>): Stops => {
   const stops = computed(() => {

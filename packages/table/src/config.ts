@@ -1,7 +1,7 @@
 import { getPropByPath } from '@element-plus/utils/util'
 import ElCheckbox from '@element-plus/checkbox'
 import { h } from 'vue'
-import { Store, TreeNode, AnyObject, TableColumnCtx } from './table'
+import { Store, TreeNode, AnyObject, TableColumnCtx } from './table.type'
 
 export const cellStarts = {
   default: {

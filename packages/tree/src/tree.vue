@@ -47,7 +47,7 @@ import {
   TreeKey,
   TreeData,
   RootTreeType,
-} from './tree.d'
+} from './tree.type'
 
 export default defineComponent({
   name: 'ElTree',

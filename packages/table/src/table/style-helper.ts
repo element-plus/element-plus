@@ -13,7 +13,7 @@ import {
   Store,
   TableColumnCtx,
   fn,
-} from '../table'
+} from '../table.type'
 
 function useStyle(
   props: TableProps,

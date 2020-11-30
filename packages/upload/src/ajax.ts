@@ -2,7 +2,7 @@ import type {
   ElUploadProgressEvent,
   ElUploadRequestOptions,
   ElUploadAjaxError,
-} from './upload'
+} from './upload.type'
 
 function getError(action: string, option: ElUploadRequestOptions, xhr: XMLHttpRequest) {
   let msg: string
