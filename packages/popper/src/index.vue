@@ -25,12 +25,10 @@ import { ClickOutside } from '@element-plus/directives'
 const compName = 'ElPopper'
 const UPDATE_VISIBLE_EVENT = 'update:visible'
 
-const emits = [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave']
-
 export default defineComponent({
   name: compName,
   props: defaultProps,
-  emits,
+  emits: [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave', 'before-enter', 'before-leave'],
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
@@ -61,6 +59,8 @@ export default defineComponent({
       onPopperMouseLeave,
       onAfterEnter,
       onAfterLeave,
+      onBeforeEnter,
+      onBeforeLeave,
       popperClass,
       popperId,
       popperStyle,
@@ -86,6 +86,8 @@ export default defineComponent({
         onMouseLeave: onPopperMouseLeave,
         onAfterEnter,
         onAfterLeave,
+        onBeforeEnter,
+        onBeforeLeave,
         visibility,
       },
       [
