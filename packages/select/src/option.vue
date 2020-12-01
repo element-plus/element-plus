@@ -79,8 +79,11 @@ export default defineComponent({
       }
       select.onOptionDestroy(select.options.map(item => item.value).indexOf(props.value))
     })
-    select.options.push(vm)
-    select.cachedOptions.push(vm)
+    // bugfix #739 
+    // select.options.push(vm)
+    // select.cachedOptions.push(vm)
+    select.options=[...select.options,vm]
+    select.cachedOptions=[...select.cachedOptions,vm]
 
     function selectOptionClick() {
       if (props.disabled !== true && states.groupDisabled !== true) {
