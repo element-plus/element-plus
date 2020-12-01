@@ -55,6 +55,32 @@ describe('Card.vue', () => {
     expect(wrapper.find('.el-card__body').attributes('style')).toBe(style)
   })
 
+  test('body style with object', () => {
+    const style = { 'font-size': '14px' }
+    const wrapper = mount(Card, {
+      props: {
+        slots: {
+          default: AXIOM,
+        },
+        bodyStyle: style,
+      },
+    })
+    expect(wrapper.find('.el-card__body').attributes('style')).toBe('font-size: 14px;')
+  })
+
+  test('body style with array', () => {
+    const style = [{ 'font-size': '14px' }, { color: 'blue' }]
+    const wrapper = mount(Card, {
+      props: {
+        slots: {
+          default: AXIOM,
+        },
+        bodyStyle: style,
+      },
+    })
+    expect(wrapper.find('.el-card__body').attributes('style').replace(/[ ]/g, '')).toBe('font-size:14px;color:blue;')
+  })
+
   test('shadow', () => {
     const shadow = 'test-shadow'
     const wrapper = mount(Card, {
