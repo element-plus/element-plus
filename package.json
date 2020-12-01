@@ -137,7 +137,6 @@
   },
   "files": [
     "lib",
-    "types",
     "packages"
   ],
   "main": "lib/index.js",
