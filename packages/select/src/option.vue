@@ -79,7 +79,7 @@ export default defineComponent({
       }
       select.onOptionDestroy(select.options.map(item => item.value).indexOf(props.value))
     })
-    // bugfix #739 
+    // bugfix #739
     // select.options.push(vm)
     // select.cachedOptions.push(vm)
     select.options=[...select.options,vm]
