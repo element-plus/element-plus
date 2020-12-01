@@ -19,6 +19,7 @@
     background: $--color-text-primary;
     #{$arrow-selector}::before {
       background: $--color-text-primary;
+      right: 0;
     }
   }
 
@@ -29,10 +30,11 @@
     #{$arrow-selector}::before {
       border: 1px solid $--color-text-primary;
       background: $--color-white;
+      right: 0;
     }
   }
 
-  @include m(pure) {
+  @include when(pure) {
     padding: 0;
     border: none;
 

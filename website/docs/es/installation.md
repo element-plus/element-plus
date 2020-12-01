@@ -16,7 +16,7 @@ Obtenga la última versión desde [unpkg.com/element-plus](https://unpkg.com/ele
 <!-- import CSS -->
 <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 <!-- import JavaScript -->
-<script src="https://unpkg.com/element-plus/lib/index.js"></script>
+<script src="https://unpkg.com/element-plus/lib/index.full.js"></script>
 ```
 
 ##Tip
@@ -24,11 +24,11 @@ Recomendamos a nuestros usuarios congelar la versión de Element Plus cuando usa
 
 ### Hello world
 
-Si esta usando un CDN, una página con Hello-World es fácil con Element Plus. [Online Demo](https://codepen.io/ziyoung/pen/rRKYpd)
+Si esta usando un CDN, una página con Hello-World es fácil con Element Plus. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
 
-<iframe height="265" style="width: 100%;" scrolling="no" title="Element Plus demo" src="//codepen.io/ziyoung/embed/rRKYpd/?height=265&theme-id=light&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/ziyoung/pen/rRKYpd/'>Element Plus demo</a> by hetech
-  (<a href='https://codepen.io/ziyoung'>@ziyoung</a>) on <a href='https://codepen.io'>CodePen</a>.
+<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/iamkun/pen/YzWMaVr'>YzWMaVr</a> by iamkun
+  (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
 Si esta usando npm y desea combinarlo con webpack, por favor continué a la siguiente página: [Quick Start](/#/es/component/quickstart)

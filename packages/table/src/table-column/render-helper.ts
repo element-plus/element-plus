@@ -8,7 +8,7 @@ import {
 } from 'vue'
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
-import { TableColumn, TableColumnCtx } from '../table'
+import { TableColumn, TableColumnCtx } from '../table.type'
 
 function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
   const instance = (getCurrentInstance() as unknown) as TableColumn

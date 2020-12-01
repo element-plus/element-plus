@@ -5,10 +5,11 @@
   <el-popper
     ref="popper"
     v-model:visible="pickerVisible"
-    pure
     manual-mode
     effect="light"
     trigger="click"
+    popper-class="el-picker__popper"
+    :stop-popper-mouse-event="false"
   >
     <template #trigger>
       <el-input
@@ -110,6 +111,7 @@
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
+        @mousedown.stop
       ></slot>
     </template>
   </el-popper>
@@ -125,8 +127,8 @@ import {
 } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside } from '@element-plus/directives'
-import { Input as ElInput } from '@element-plus/input'
-import { Popper as ElPopper } from '@element-plus/popper'
+import ElInput from '@element-plus/input'
+import ElPopper from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'

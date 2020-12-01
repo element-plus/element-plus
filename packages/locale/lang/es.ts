@@ -1,4 +1,5 @@
 export default {
+  name: 'es',
   el: {
     colorpicker: {
       confirm: 'Confirmar',

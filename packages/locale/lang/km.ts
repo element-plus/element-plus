@@ -1,4 +1,5 @@
 export default {
+  name: 'km',
   el: {
     colorpicker: {
       confirm: 'យល់ព្រម',

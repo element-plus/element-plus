@@ -4,20 +4,12 @@ Visually display timeline.
 
 ### Basic usage
 
-Timeline can be split into multiple activities in ascending or descending. Timestamps are important features that distinguish them from other components. Note the difference with Steps.
+Timeline can be split into multiple activities. Timestamps are important features that distinguish them from other components. Note the difference with Steps.
 
 :::demo
 ```html
 <div class="block">
-  <div class="radio">
-    Order: 
-    <el-radio-group v-model="reverse">
-      <el-radio :label="true">descending</el-radio>
-      <el-radio :label="false">ascending</el-radio>
-    </el-radio-group>
-  </div>
-
-  <el-timeline :reverse="reverse">
+  <el-timeline>
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
@@ -31,7 +23,6 @@ Timeline can be split into multiple activities in ascending or descending. Times
   export default {
     data() {
       return {
-        reverse: true,
         activities: [{
           content: 'Event start',
           timestamp: '2018-04-15'
@@ -129,11 +120,6 @@ Timestamp can be placed on top of content when content is too high.
 </div>
 ```
 :::
-
-### Timeline Attributes
-| Attribute      | Description    | Type      | Accepted Values | Default   |
-|---------- |-------- |---------- |-------------  |-------- |
-| reverse | whether the node is ascending or descending, default is ascending | boolean | — | false |
 
 ### Timeline-item Attributes
 | Attribute      | Description    | Type      | Accepted Values | Default   |

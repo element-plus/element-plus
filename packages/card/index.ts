@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import Card from './src/index.vue'
 
-export default (app: App): void => {
+Card.install = (app: App): void => {
   app.component(Card.name, Card)
 }
 
-export { Card }
+export default Card

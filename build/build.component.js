@@ -7,6 +7,7 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const vue = require('rollup-plugin-vue')
 const rollup = require('rollup')
 const typescript = require('rollup-plugin-typescript2')
+const { noElPrefixFile } = require('./common')
 
 const deps = Object.keys(pkg.dependencies)
 
@@ -52,12 +53,20 @@ const runBuild = async () => {
           || deps.some(k => new RegExp('^' + k).test(id))
       },
     }
+    const getOutFile = () => {
+      const compName = name.split('@element-plus/')[1]
+      if(noElPrefixFile.test(name)) {
+        return `lib/${compName}/index.js`
+      }
+      return `lib/el-${compName}/index.js`
+    }
     const outOptions = {
       format: 'es',
-      file: `lib/${name.split('@element-plus/')[1]}/index.js`,
+      file: getOutFile(),
       paths(id) {
         if (/^@element-plus/.test(id)) {
-          return id.replace('@element-plus', '..')
+          if (noElPrefixFile.test(id)) return id.replace('@element-plus', '..')
+          return id.replace('@element-plus/', '../el-')
         }
       },
     }

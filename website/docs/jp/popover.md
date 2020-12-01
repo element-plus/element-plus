@@ -4,46 +4,58 @@
 
 Tooltipと同様に、Popoverも `Vue-popper` で構築されています。そのため、重複する属性については、Tooltipのドキュメントを参照してください。
 
-:::demo `trigger` 属性は、popoverがどのようにトリガーされるかを定義するために使用されます: `hover`, `click`, `focus`, `manual`。それは、`slot="reference"` という名前のスロットを使うか、`v-popover` ディレクティブを使って popover の `ref` に設定するかです。
+:::demo `trigger` 属性は、popoverがどのようにトリガーされるかを定義するために使用されます: `hover`, `click`, `focus`, `manual`。それは、`#reference` という名前のスロットを使うか、`v-popover` ディレクティブを使って popover の `ref` に設定するかです。
 
 ```html
 <template>
   <el-popover
     placement="top-start"
     title="Title"
-    width="200"
+    :width="200"
     trigger="hover"
-    content="this is content, this is content, this is content">
-    <el-button slot="reference">Hover to activate</el-button>
+    content="this is content, this is content, this is content"
+  >
+    <template #reference>
+      <el-button>Hover to activate</el-button>
+    </template>
   </el-popover>
 
   <el-popover
     placement="bottom"
     title="Title"
-    width="200"
+    :width="200"
     trigger="click"
-    content="this is content, this is content, this is content">
-    <el-button slot="reference">Click to activate</el-button>
+    content="this is content, this is content, this is content"
+  >
+    <template #reference>
+      <el-button>Hover to activate</el-button>
+    </template>
   </el-popover>
 
   <el-popover
     ref="popover"
     placement="right"
     title="Title"
-    width="200"
+    :width="200"
     trigger="focus"
-    content="this is content, this is content, this is content">
+    content="this is content, this is content, this is content"
+  >
+    <template #reference>
+      <el-button>Focus to activate</el-button>
+    </template>
   </el-popover>
-  <el-button v-popover:popover>Focus to activate</el-button>
 
   <el-popover
     placement="bottom"
     title="Title"
-    width="200"
+    :width="200"
     trigger="manual"
     content="this is content, this is content, this is content"
-    v-model="visible">
-    <el-button slot="reference" @click="visible = !visible">Manual to activate</el-button>
+    v-model:visible="visible"
+  >
+    <template #reference>
+      <el-button @click="visible = !visible">Manual to activate</el-button>
+    </template>
   </el-popover>
 </template>
 
@@ -68,14 +80,17 @@ popoverの中には、他のコンポーネントを入れ子にすることが�
 ```html
 <el-popover
   placement="right"
-  width="400"
-  trigger="click">
+  :width="400"
+  trigger="click"
+>
+  <template #reference>
+    <el-button>Click to activate</el-button>
+  </template>
   <el-table :data="gridData">
     <el-table-column width="150" property="date" label="date"></el-table-column>
     <el-table-column width="100" property="name" label="name"></el-table-column>
     <el-table-column width="300" property="address" label="address"></el-table-column>
   </el-table>
-  <el-button slot="reference">Click to activate</el-button>
 </el-popover>
 
 <script>
@@ -114,14 +129,17 @@ popoverの中には、他のコンポーネントを入れ子にすることが�
 ```html
 <el-popover
   placement="top"
-  width="160"
-  v-model="visible">
+  :width="160"
+  v-model:visible="visible"
+>
   <p>Are you sure to delete this?</p>
   <div style="text-align: right; margin: 0">
     <el-button size="mini" type="text" @click="visible = false">cancel</el-button>
     <el-button type="primary" size="mini" @click="visible = false">confirm</el-button>
   </div>
-  <el-button slot="reference">Delete</el-button>
+  <template #reference>
+    <el-button @click="visible = true">Delete</el-button>
+  </template>
 </el-popover>
 
 <script>

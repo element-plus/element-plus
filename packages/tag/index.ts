@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import Tag from './src/index.vue'
 
-export default (app: App): void => {
+Tag.install = (app: App): void => {
   app.component(Tag.name, Tag)
 }
 
-export { Tag }
+export default Tag

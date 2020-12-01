@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import Drawer from './src/index.vue'
 
-export default (app: App): void => {
+Drawer.install = (app: App): void => {
   app.component(Drawer.name, Drawer)
 }
 
-export { Drawer }
+export default Drawer

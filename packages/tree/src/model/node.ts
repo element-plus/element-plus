@@ -9,7 +9,7 @@ import {
   FakeNode,
   TreeNodeLoadedDefaultProps,
   TreeNodeChildState,
-} from '../tree.d'
+} from '../tree.type'
 
 export const getChildState = (node: Node[]): TreeNodeChildState => {
   let all = true

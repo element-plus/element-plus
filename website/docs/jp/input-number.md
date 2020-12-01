@@ -170,13 +170,13 @@
 
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |----| ----| ---| ----| -----|
-|value / v-model | バインディング値| number | — | 0 |
+|modelValue / v-model | バインディング値| number | — | 0 |
 |min | 最小許容値 | number | — | `-Infinity` |
 |max | 最大許容値 | number | — | `Infinity` |
 |step | インクリメンタルステップ | number | — | 1 |
 |step-strictly | 入力値がステップの倍数でなければならないかどうか | boolean | — | false |
 |precision | 入力値精度 | number | — | — |
-|size | コンポーネントのサイズ | string | large/small| — |
+|size | コンポーネントのサイズ | string | large/medium/small/mini | large |
 |disabled| コンポーネントが無効化されているかどうか | boolean | — | false |
 |controls| コントロールボタンを有効にするかどうか | boolean | — | true |
 |controls-position | 操作ボタンの位置 | string | right | - |

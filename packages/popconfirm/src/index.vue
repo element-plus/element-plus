@@ -3,7 +3,6 @@
     v-model:visible="visible"
     :trigger="['click']"
     effect="light"
-    pure
     popper-class="el-popover"
   >
     <div class="el-popconfirm">
@@ -22,14 +21,14 @@
           :type="cancelButtonType"
           @click="cancel"
         >
-          {{ cancelButtonText }}
+          {{ cancelButtonText_ }}
         </el-button>
         <el-button
           size="mini"
           :type="confirmButtonType"
           @click="confirm"
         >
-          {{ confirmButtonText }}
+          {{ confirmButtonText_ }}
         </el-button>
       </div>
     </div>
@@ -40,9 +39,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref } from 'vue'
-import { Button as ElButton } from '@element-plus/button'
-import { Popper as ElPopper } from '@element-plus/popper'
+import { defineComponent, ref, computed } from 'vue'
+import ElButton from '@element-plus/button'
+import ElPopper from '@element-plus/popper'
 import { t } from '../../locale'
 
 export default defineComponent({
@@ -59,11 +58,9 @@ export default defineComponent({
     },
     confirmButtonText: {
       type: String,
-      default: t('el.popconfirm.confirmButtonText'),
     },
     cancelButtonText: {
       type: String,
-      default: t('el.popconfirm.cancelButtonText'),
     },
     confirmButtonType: {
       type: String,
@@ -97,11 +94,18 @@ export default defineComponent({
       visible.value = false
       emit('cancel')
     }
-
+    const confirmButtonText_ = computed(() => {
+      return props.confirmButtonText || t('el.popconfirm.confirmButtonText')
+    })
+    const cancelButtonText_ = computed(() => {
+      return props.cancelButtonText || t('el.popconfirm.cancelButtonText')
+    })
     return {
       visible,
       confirm,
       cancel,
+      confirmButtonText_,
+      cancelButtonText_,
     }
   },
 })

@@ -179,12 +179,12 @@ import {
   reactive,
   provide,
 } from 'vue'
-import { Input as ElInput } from '@element-plus/input'
+import ElInput from '@element-plus/input'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
-import { Tag as ElTag } from '@element-plus/tag'
-import { Popper as ElPopper } from '@element-plus/popper'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
+import ElTag from '@element-plus/tag'
+import ElPopper from '@element-plus/popper'
+import ElScrollbar from '@element-plus/scrollbar'
 import { ClickOutside } from '@element-plus/directives'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { t } from '@element-plus/locale'
@@ -239,7 +239,6 @@ export default defineComponent({
     },
     placeholder: {
       type: String,
-      default: t('el.select.placeholder'),
     },
     defaultFirstOption: Boolean,
     reserveKeyword: Boolean,
@@ -342,7 +341,7 @@ export default defineComponent({
     }))
 
     onMounted(() => {
-      states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder
+      states.cachedPlaceHolder = currentPlaceholder.value = (props.placeholder || t('el.select.placeholder'))
       if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
       }

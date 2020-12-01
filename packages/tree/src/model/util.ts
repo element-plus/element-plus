@@ -1,5 +1,5 @@
 import Node from './node'
-import { TreeKey, TreeNodeData } from '../tree.d'
+import { TreeKey, TreeNodeData } from '../tree.type'
 
 export const NODE_KEY = '$treeNodeId'
 

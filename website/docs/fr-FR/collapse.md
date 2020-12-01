@@ -89,7 +89,7 @@ En plus de l'utilisation de l'attribut `title`, vous pouvez configurer les titre
 ```html
 <el-collapse accordion>
   <el-collapse-item name="1">
-    <template slot="title">
+    <template #title>
       Cohérence<i class="header-icon el-icon-info"></i>
     </template>
     <div>Cohérence avec la vraie vie: en accord avec les processus habituels de la vie réelle, conforme aux langages et habitudes des utilisateurs;</div>

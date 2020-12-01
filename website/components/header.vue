@@ -158,18 +158,18 @@ export default {
     },
   },
   created() {
-    const xhr = new XMLHttpRequest()
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        const versions = JSON.parse(xhr.responseText)
-        this.versions = Object.keys(versions).reduce((prev, next) => {
-          prev[next] = versions[next]
-          return prev
-        }, {})
-      }
-    }
-    xhr.open('GET', '/versions.json')
-    xhr.send()
+    // const xhr = new XMLHttpRequest()
+    // xhr.onreadystatechange = () => {
+    //   if (xhr.readyState === 4 && xhr.status === 200) {
+    //     const versions = JSON.parse(xhr.responseText)
+    //     this.versions = Object.keys(versions).reduce((prev, next) => {
+    //       prev[next] = versions[next]
+    //       return prev
+    //     }, {})
+    //   }
+    // }
+    // xhr.open('GET', '/versions.json')
+    // xhr.send()
   },
   methods: {
     switchVersion(version) {

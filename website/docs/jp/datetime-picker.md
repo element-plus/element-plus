@@ -204,11 +204,9 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
 | format | インプットボックスの表示値のフォーマット | string | see [date formats](#/en-US/component/date-picker#date-formats) | yyyy-MM-dd HH:mm:ss |
 | align | アライメント | left/center/right | left |
 | popper-class | DateTimePickerのドロップダウンのカスタムクラス名 | string | — | — |
-| picker-options | 追加のオプションについては、以下の表を参照してください。 | object | — | {} |
 | range-separator | レンジセパレータ | string | - | '-' |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date | anything accepted by `new Date()` | — |
 | default-time | 日付を選択した後のデフォルトの時刻の値 | non-range: string / range: string[] | non-range: a string like `12:00:00`, range: array of two strings, and the first item is for the start date and second for the end date. `00:00:00` will be used if not specified | — |
-| value-format | オプションで、バインディング値のフォーマットを指定します。指定しない場合、バインディング値は Date オブジェクトになります。 | string | see [date formats](#/en-US/component/date-picker#date-formats) | — |
 | name | ネイティブインプットの `name` と同じ | string | — | — |
 | unlink-panels | レンジピッカーで2つのデータパネルのリンクを解除する | boolean | — | false |
 | prefix-icon | カスタムプレフィックスアイコンクラス | string | — | el-icon-date |

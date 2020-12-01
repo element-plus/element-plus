@@ -15,9 +15,12 @@
   multiple
   :limit="3"
   :on-exceed="handleExceed"
-  :file-list="fileList">
+  :file-list="fileList"
+>
   <el-button size="small" type="primary">点击上传</el-button>
-  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">只能上传 jpg/png 文件，且不超过 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {
@@ -56,7 +59,8 @@
   action="https://jsonplaceholder.typicode.com/posts/"
   :show-file-list="false"
   :on-success="handleAvatarSuccess"
-  :before-upload="beforeAvatarUpload">
+  :before-upload="beforeAvatarUpload"
+>
   <img v-if="imageUrl" :src="imageUrl" class="avatar">
   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 </el-upload>
@@ -164,35 +168,36 @@
   action="#"
   list-type="picture-card"
   :auto-upload="false">
-    <i slot="default" class="el-icon-plus"></i>
-    <div slot="file" slot-scope="{file}">
-      <img
-        class="el-upload-list__item-thumbnail"
-        :src="file.url" alt=""
-      >
-      <span class="el-upload-list__item-actions">
-        <span
-          class="el-upload-list__item-preview"
-          @click="handlePictureCardPreview(file)"
-        >
-          <i class="el-icon-zoom-in"></i>
+    <template #default>
+      <i class="el-icon-plus"></i>
+    </template>
+    <template #file="{file}">
+      <div>
+        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+        <span class="el-upload-list__item-actions">
+          <span
+            class="el-upload-list__item-preview"
+            @click="handlePictureCardPreview(file)"
+          >
+            <i class="el-icon-zoom-in"></i>
+          </span>
+          <span
+            v-if="!disabled"
+            class="el-upload-list__item-delete"
+            @click="handleDownload(file)"
+          >
+            <i class="el-icon-download"></i>
+          </span>
+          <span
+            v-if="!disabled"
+            class="el-upload-list__item-delete"
+            @click="handleRemove(file)"
+          >
+            <i class="el-icon-delete"></i>
+          </span>
         </span>
-        <span
-          v-if="!disabled"
-          class="el-upload-list__item-delete"
-          @click="handleDownload(file)"
-        >
-          <i class="el-icon-download"></i>
-        </span>
-        <span
-          v-if="!disabled"
-          class="el-upload-list__item-delete"
-          @click="handleRemove(file)"
-        >
-          <i class="el-icon-delete"></i>
-        </span>
-      </span>
-    </div>
+      </div>
+    </template>
 </el-upload>
 <el-dialog :visible.sync="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="">
@@ -235,7 +240,11 @@
   :file-list="fileList"
   list-type="picture">
   <el-button size="small" type="primary">点击上传</el-button>
-  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">
+      只能上传 jpg/png 文件，且不超过 500kb
+    </div>
+  </template>
 </el-upload>
 <script>
   export default {
@@ -269,7 +278,11 @@
   :on-change="handleChange"
   :file-list="fileList">
   <el-button size="small" type="primary">点击上传</el-button>
-  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">
+      只能上传 jpg/png 文件，且不超过 500kb
+    </div>
+  </template>
 </el-upload>
 <script>
   export default {
@@ -305,7 +318,11 @@
   multiple>
   <i class="el-icon-upload"></i>
   <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">
+      只能上传 jpg/png 文件，且不超过 500kb
+    </div>
+  </template>
 </el-upload>
 ```
 :::
@@ -322,9 +339,15 @@
   :on-remove="handleRemove"
   :file-list="fileList"
   :auto-upload="false">
-  <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+  <template #trigger>
+    <el-button size="small" type="primary">选取文件</el-button>
+  </template>
   <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">
+      只能上传 jpg/png 文件，且不超过 500kb
+    </div>
+  </template>
 </el-upload>
 <script>
   export default {

@@ -59,7 +59,7 @@ import {
   reactive, ref, toRefs, watch,
 } from 'vue'
 import { t } from '@element-plus/locale'
-import { Button as ElButton } from '@element-plus/button'
+import ElButton from '@element-plus/button'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import { useCheckedChange } from './useCheckedChange'
@@ -67,6 +67,8 @@ import { useMove } from './useMove'
 
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { elFormItemKey } from '@element-plus/form'
+
+import { LEFT_CHECK_CHANGE_EVENT, RIGHT_CHECK_CHANGE_EVENT } from './useCheckedChange'
 
 import type { PropType, VNode } from 'vue'
 import type { ElFormItemContext } from '@element-plus/form'
@@ -76,8 +78,6 @@ import type {
 } from './transfer'
 
 export const CHANGE_EVENT = 'change'
-export const LEFT_CHECK_CHANGE_EVENT = 'left-check-change'
-export const RIGHT_CHECK_CHANGE_EVENT = 'right-check-change'
 
 export default defineComponent({
   name: 'ElTransfer',

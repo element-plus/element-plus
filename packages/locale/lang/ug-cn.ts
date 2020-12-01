@@ -1,4 +1,5 @@
 export default {
+  name: 'ug-cn',
   el: {
     colorpicker: {
       confirm: 'جەزملەش',

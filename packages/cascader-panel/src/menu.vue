@@ -38,7 +38,7 @@ import {
   computed, defineComponent, getCurrentInstance,
   inject, ref,
 } from 'vue'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
+import ElScrollbar from '@element-plus/scrollbar'
 import ElCascaderNode from './node.vue'
 import { t } from '@element-plus/locale'
 import { generateId } from '@element-plus/utils/util'

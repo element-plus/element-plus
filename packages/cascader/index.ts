@@ -1,5 +1,8 @@
 import { App } from 'vue'
 import Cascader from './src/index.vue'
-export default (app: App): void => {
+
+Cascader.install = (app: App): void => {
   app.component(Cascader.name, Cascader)
 }
+
+export default Cascader
