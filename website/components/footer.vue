@@ -37,7 +37,7 @@
             <img src="../assets/images/qrcode.png" alt="">
           </template>
         </el-popover>
-        <a href="https://github.com/elemefe" target="_blank">
+        <a href="https://github.com/element-plus/element-plus" target="_blank">
           <i class="doc-icon-github elementdoc"></i>
         </a>
         <a :href="gitterLink" target="_blank">
