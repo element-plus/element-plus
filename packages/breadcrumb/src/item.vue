@@ -49,7 +49,7 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props: IBreadcrumbItemProps, ctx) {
+  setup(props: IBreadcrumbItemProps) {
     const link = ref(null)
     const parent: IBreadcrumbInject = inject('breadcrumb')
     const instance = getCurrentInstance()
