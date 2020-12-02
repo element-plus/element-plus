@@ -139,6 +139,7 @@ export default defineComponent({
       ElPopper,
       {
         ref: 'popper',
+        appendToBody: true,
         class: this.class,
         disabled,
         effect,
