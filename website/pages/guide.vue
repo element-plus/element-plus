@@ -37,19 +37,16 @@ export default {
   },
 }
 </script>
-<style lang="sass" scoped>
-.page-guide {
-  padding: 55px 30px 95px;
-  box-sizing: border-box;
-
-  .content {
-    padding-left: 25px;
-    margin-left: -1px;
-    ::v-deep(.content){
+<style lang="sass">
+ .page-guide {
+    padding: 55px 30px 95px;
+    box-sizing: border-box;
+    .content {
+      padding-left: 25px;
+      margin-left: -1px;
       h2 {
         margin-bottom: 10px;
       }
-
       h3 {
         font-size: 22px;
         font-weight: normal;
@@ -70,7 +67,6 @@ export default {
         margin-bottom: 10px;
         color: #99a9bf;
         list-style: none;
-
         &:before {
           content: '';
           display: inline-block;
@@ -81,7 +77,6 @@ export default {
           background-color: #5e6d82;
           margin-right: 5px;
         }
-
         strong {
           color: #5e6d82;
           font-weight: 400;
@@ -89,13 +84,11 @@ export default {
       }
     }
   }
-}
-
-@media (max-width: 768px) {
-  .page-guide {
-    .content {
-      padding-left: 0;
+  @media (max-width: 768px) {
+    .page-guide {
+      .content {
+        padding-left: 0;
+      }
     }
   }
-}
 </style>
