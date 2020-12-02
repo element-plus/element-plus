@@ -131,7 +131,7 @@ export default {
         })
         emit('click', {
           index: props.index,
-          indexPath,
+          indexPath: indexPath.value,
         })
       }
     }
