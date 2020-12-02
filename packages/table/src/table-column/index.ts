@@ -90,7 +90,7 @@ export default defineComponent({
     const props = (prop as unknown) as TableColumnCtx
     const row = ref({})
     const r = ref({})
-    const index_ = ref(0)
+    const $index = ref(0)
     const owner = computed(() => {
       let parent = instance.parent as any
       while (parent && !parent.tableId) {
@@ -205,7 +205,7 @@ export default defineComponent({
     return {
       row,
       r,
-      index_,
+      $index,
       columnId,
       columnConfig,
     }
@@ -218,7 +218,7 @@ export default defineComponent({
         _self: {},
         column: {},
         row: {},
-        index_: undefined,
+        $index: undefined,
       }),
     )
   },

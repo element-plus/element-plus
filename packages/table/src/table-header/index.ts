@@ -154,10 +154,8 @@ export default defineComponent({
                     onClick: $event => this.handleHeaderClick($event, column),
                     onContextmenu: $event =>
                       this.handleHeaderContextMenu($event, column),
-                    onMousedown: $event =>
-                      this.handleMouseDown($event, column),
-                    onMouseMove: $event =>
-                      this.handleMouseMove($event, column),
+                    onMousedown: $event => this.handleMouseDown($event, column),
+                    onMouseMove: $event => this.handleMouseMove($event, column),
                     onMouseout: this.handleMouseOut,
                   },
                   [
@@ -177,7 +175,7 @@ export default defineComponent({
                         column.renderHeader
                           ? column.renderHeader({
                             column,
-                            index_: cellIndex,
+                            $index: cellIndex,
                             store: this.store,
                             _self: this.$parent,
                           })
