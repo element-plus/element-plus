@@ -1,4 +1,4 @@
-import { DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER } from '@element-plus/time-picker/src/common/constant'
+import { DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER } from '@element-plus/time-picker'
 import { CommonPicker } from '@element-plus/time-picker'
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
 import DateRangePickPanel from './date-picker-com/panel-date-range.vue'

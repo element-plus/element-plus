@@ -95,6 +95,7 @@ export default defineComponent({
     const submenus = ref({})
     const alteredCollapse = ref(false)
     const rootMenuEmitter = mitt()
+    const router = instance.appContext.config.globalProperties.$router
 
     const hoverBackground = useMenuColor(props.backgroundColor)
 
@@ -187,7 +188,7 @@ export default defineComponent({
     }) => {
       const { index, indexPath } = item
       const hasIndex = item.index !== null
-      // const oldActiveIndex = activeIndex.value
+      const oldActiveIndex = activeIndex.value
 
       if (hasIndex) {
         activeIndex.value = item.index
@@ -198,31 +199,28 @@ export default defineComponent({
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
-      // TODO: support vue-router
-      // const currentRouter = instance.appContext.config.globalProperties.$router
-      // if (currentRouter && hasIndex) {
-      //   routeToItem(item, error => {
-      //     activeIndex.value = oldActiveIndex
-      //     if (error) {
-      //       // vue-router 3.1.0+ push/replace cause NavigationDuplicated error
-      //       // https://github.com/ElemeFE/element/issues/17044
-      //       if (error.name === 'NavigationDuplicated') return
-      //       console.error(error)
-      //     }
-      //   })
-      // }
+
+      if (props.router && router && hasIndex) {
+        routeToItem(item, error => {
+          activeIndex.value = oldActiveIndex
+          if (error) {
+            // vue-router 3.1.0+ push/replace cause NavigationDuplicated error
+            // https://github.com/ElemeFE/element/issues/17044
+            if (error.name === 'NavigationDuplicated') return
+            console.error(error)
+          }
+        })
+      }
     }
 
-    // const routeToItem = (item, onError) => {
-    //   let route = item.route || item.index
-    //   try {
-    //     const currentRouter =
-    //       instance.appContext.config.globalProperties.$router
-    //     currentRouter?.push(route, () => null, onError)
-    //   } catch (e) {
-    //     console.error(e)
-    //   }
-    // }
+    const routeToItem = (item, onError) => {
+      let route = item.route || item.index
+      try {
+        router?.push(route, () => null, onError)
+      } catch (e) {
+        console.error(e)
+      }
+    }
 
     const updateActiveIndex = (val?: string) => {
       const itemsInData = items.value

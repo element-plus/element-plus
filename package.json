@@ -1,7 +1,7 @@
 {
   "name": "element-plus",
   "private": true,
-  "version": "1.0.1-beta.0",
+  "version": "1.0.1-beta.1",
   "scripts": {
     "cz": "npx git-cz",
     "test": "jest",
@@ -137,10 +137,10 @@
   },
   "files": [
     "lib",
-    "types",
     "packages"
   ],
   "main": "lib/index.js",
+  "module": "lib/index.esm.js",
   "typings": "lib/index.d.ts",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",

@@ -7,13 +7,25 @@
     >
       <slot></slot>
     </span>
-    <i v-if="separatorClass" class="el-breadcrumb__separator" :class="separatorClass"></i>
-    <span v-else class="el-breadcrumb__separator" role="presentation">{{ separator }}</span>
+    <i
+      v-if="separatorClass"
+      class="el-breadcrumb__separator"
+      :class="separatorClass"
+    ></i>
+    <span v-else class="el-breadcrumb__separator" role="presentation">{{
+      separator
+    }}</span>
   </span>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, onMounted } from 'vue'
+import {
+  defineComponent,
+  inject,
+  ref,
+  onMounted,
+  getCurrentInstance,
+} from 'vue'
 
 interface IBreadcrumbInject {
   separator: string
@@ -37,14 +49,15 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props: IBreadcrumbItemProps, ctx) {
+  setup(props: IBreadcrumbItemProps) {
     const link = ref(null)
     const parent: IBreadcrumbInject = inject('breadcrumb')
+    const instance = getCurrentInstance()
+    const router = instance.appContext.config.globalProperties.$router
 
     onMounted(() => {
       link.value.setAttribute('role', 'link')
       link.value.addEventListener('click', () => {
-        const router = (ctx as any).$router
         if (!props.to || !router) return
         props.replace ? router.replace(props.to) : router.push(props.to)
       })
