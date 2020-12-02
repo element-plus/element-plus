@@ -3,10 +3,11 @@
     ref="popper"
     v-model:visible="popperVisible"
     trigger="manual"
-    transition="el-zoom-in-top"
     placement="bottom-start"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
+    transition="el-zoom-in-top"
+    :gpu-acceleration="false"
     effect="light"
     pure
     @after-leave="hideSuggestionPanel"
@@ -166,13 +167,6 @@ const INPUT_HEIGHT_MAP = {
 
 const popperOptions = {
   modifiers: [
-    {
-      name: 'computeStyles',
-      options: {
-        gpuAcceleration: false,
-        adaptive: false,
-      },
-    },
     {
       name: 'arrowPosition',
       enabled: true,

@@ -3,13 +3,14 @@
     ref="popper"
     v-model:visible="suggestionVisible"
     :placement="placement"
-    :popper-class="popperClass"
+    :popper-class="`el-autocomplete__popper ${popperClass}`"
     :append-to-body="popperAppendToBody"
-    :offset="6"
     pure
     manual-mode
     effect="light"
     trigger="click"
+    transition="el-zoom-in-top"
+    :gpu-acceleration="false"
   >
     <template #trigger>
       <div
@@ -51,44 +52,45 @@
       </div>
     </template>
     <template #default>
-      <transition name="el-zoom-in-top" @after-leave="doDestroy">
-        <div
-          v-show="suggestionVisible"
-          ref="regionRef"
-          :class="['el-autocomplete-suggestion', suggestionLoading && 'is-loading']"
-          :style="{ width: dropdownWidth, outline: 'none' }"
-          role="region"
+      <div
+        ref="regionRef"
+        :class="['el-autocomplete-suggestion', suggestionLoading && 'is-loading']"
+        :style="{ width: dropdownWidth, outline: 'none' }"
+        role="region"
+      >
+        <el-scrollbar
+          tag="ul"
+          wrap-class="el-autocomplete-suggestion__wrap"
+          view-class="el-autocomplete-suggestion__list"
         >
-          <el-scrollbar
-            tag="ul"
-            wrap-class="el-autocomplete-suggestion__wrap"
-            view-class="el-autocomplete-suggestion__list"
-          >
-            <li v-if="suggestionLoading">
-              <i class="el-icon-loading"></i>
+          <li v-if="suggestionLoading">
+            <i class="el-icon-loading"></i>
+          </li>
+          <template v-else>
+            <li
+              v-for="(item, index) in suggestions"
+              :id="`${id}-item-${index}`"
+              :key="index"
+              :class="{'highlighted': highlightedIndex === index}"
+              role="option"
+              :aria-selected="highlightedIndex === index"
+              @click="select(item)"
+            >
+              <slot :item="item">{{ item[valueKey] }}</slot>
             </li>
-            <template v-else>
-              <li
-                v-for="(item, index) in suggestions"
-                :id="`${id}-item-${index}`"
-                :key="index"
-                :class="{'highlighted': highlightedIndex === index}"
-                role="option"
-                :aria-selected="highlightedIndex === index"
-                @click="select(item)"
-              >
-                <slot :item="item">{{ item[valueKey] }}</slot>
-              </li>
-            </template>
-          </el-scrollbar>
-        </div>
-      </transition>
+          </template>
+        </el-scrollbar>
+      </div>
     </template>
   </el-popper>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, nextTick, PropType, watch } from 'vue'
+import {
+  defineComponent, ref, computed,
+  onMounted, onUpdated,
+  nextTick, watch,
+} from 'vue'
 import { useAttrs } from '@element-plus/hooks'
 import { NOOP } from '@vue/shared'
 import debounce from 'lodash/debounce'
@@ -99,6 +101,8 @@ import throwError from '@element-plus/utils/error'
 import ElInput from '@element-plus/input'
 import ElScrollbar from '@element-plus/scrollbar'
 import ElPopper from '@element-plus/popper'
+
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElAutocomplete',
@@ -151,10 +155,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    popperAppendToBody: {
-      type: Boolean,
-      default: true,
-    },
+    popperAppendToBody: Boolean,
     highlightFirstItem: {
       type: Boolean,
       default: false,
@@ -184,6 +185,10 @@ export default defineComponent({
       return !props.hideLoading && loading.value
     })
 
+    const updatePopperPosition = () => {
+      nextTick(popper.value.update)
+    }
+
     watch(suggestionVisible, () => {
       dropdownWidth.value = `${inputRef.value.$el.offsetWidth}px`
     })
@@ -198,11 +203,14 @@ export default defineComponent({
       $ul.setAttribute('id', id.value)
     })
 
+    onUpdated(updatePopperPosition)
+
     const getData = queryString => {
       if (suggestionDisabled.value) {
         return
       }
       loading.value = true
+      updatePopperPosition()
       props.fetchSuggestions(queryString, suggestionsArg => {
         loading.value = false
         if (suggestionDisabled.value) {
@@ -300,9 +308,6 @@ export default defineComponent({
       highlightedIndex.value = index
       inputRef.value.inputOrTextarea.setAttribute('aria-activedescendant', `${id.value}-item-${highlightedIndex.value}`)
     }
-    const doDestroy = () => {
-      popper.value.doDestroy()
-    }
 
     return {
       attrs,
@@ -331,7 +336,6 @@ export default defineComponent({
       focus,
       select,
       highlight,
-      doDestroy,
     }
   },
 })

@@ -156,7 +156,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   watch(() => states.visible, val => {
     if (!val) {
-      doDestroy()
       input.value && input.value.blur()
       states.query = ''
       states.previousQuery = null
@@ -605,10 +604,6 @@ export const useSelect = (props, states: States, ctx) => {
     deleteSelected(event)
   }
 
-  const doDestroy = () => {
-    popper.value?.doDestroy?.()
-  }
-
   const handleClose = () => {
     states.visible = false
   }
@@ -705,7 +700,6 @@ export const useSelect = (props, states: States, ctx) => {
     blur,
     handleBlur,
     handleClearClick,
-    doDestroy,
     handleClose,
     toggleMenu,
     selectOption,
