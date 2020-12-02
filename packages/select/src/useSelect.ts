@@ -11,7 +11,7 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { t } from '@element-plus/locale'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import { debounce as lodashDebounce } from 'lodash'
+import lodashDebounce from 'lodash/debounce'
 import { isKorean } from '@element-plus/utils/isDef'
 import {
   getValueByPath,
