@@ -3,7 +3,7 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import { throttle } from 'lodash'
+import throttle from 'lodash/throttle'
 import { parseHeight } from '../util'
 import {
   TableProps,
