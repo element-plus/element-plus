@@ -3,20 +3,11 @@ import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 
 const AXIOM = 'Rem is the best girl'
-const COMMON_CONFIG = {
-  global: {
-    provide: {
-      elForm: {},
-      elFormItem: {},
-    },
-  },
-}
 
 describe('Button.vue', () => {
   it('create', () => {
     const wrapper = mount(Button, {
       props: { type: 'primary' },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.classes()).toContain('el-button--primary')
   })
@@ -24,21 +15,18 @@ describe('Button.vue', () => {
   it('icon', () => {
     const wrapper = mount(Button, {
       props: { icon: 'el-icon-search' },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.find('.el-icon-search').exists()).toBeTruthy()
   })
   it('nativeType', () => {
     const wrapper = mount(Button, {
       props: { nativeType: 'submit' },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.attributes('type')).toBe('submit')
   })
   it('loading', () => {
     const wrapper = mount(Button, {
       props: { loading: true },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.classes()).toContain('is-loading')
     expect(wrapper.find('.el-icon-loading').exists()).toBeTruthy()
@@ -46,28 +34,24 @@ describe('Button.vue', () => {
   it('size', () => {
     const wrapper = mount(Button, {
       props: { size: 'medium' },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.classes()).toContain('el-button--medium')
   })
   it('plain', () => {
     const wrapper = mount(Button, {
       props: { plain: true },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.classes()).toContain('is-plain')
   })
   it('round', () => {
     const wrapper = mount(Button, {
       props: { round: true },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.classes()).toContain('is-round')
   })
   it('circle', () => {
     const wrapper = mount(Button, {
       props: { circle: true },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.classes()).toContain('is-circle')
   })
@@ -77,7 +61,6 @@ describe('Button.vue', () => {
       slots: {
         default: AXIOM,
       },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.text()).toEqual(AXIOM)
   })
@@ -87,7 +70,6 @@ describe('Button.vue', () => {
       slots: {
         default: AXIOM,
       },
-      ...COMMON_CONFIG,
     })
     await wrapper.trigger('click')
     expect(wrapper.emitted()).toBeDefined()
@@ -99,7 +81,6 @@ describe('Button.vue', () => {
       slots: {
         default: '<span class="inner-slot"></span>',
       },
-      ...COMMON_CONFIG,
     })
     await (<HTMLElement>wrapper.element.querySelector('.inner-slot')).click()
     expect(wrapper.emitted()).toBeDefined()
@@ -111,7 +92,6 @@ describe('Button.vue', () => {
         default: AXIOM,
       },
       props: { loading: true },
-      ...COMMON_CONFIG,
     })
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
@@ -120,7 +100,6 @@ describe('Button.vue', () => {
   it('disabled', async () => {
     const wrapper = mount(Button, {
       props: { disabled: true },
-      ...COMMON_CONFIG,
     })
     expect(wrapper.classes()).toContain('is-disabled')
     await wrapper.trigger('click')

@@ -7,9 +7,11 @@
       manual-mode
       trigger="click"
       :show-arrow="false"
+      :offset="0"
+      transition="el-zoom-in-top"
+      :gpu-acceleration="false"
       popper-class="el-color-picker__panel el-color-dropdown"
       :stop-popper-mouse-event="false"
-      @after-leave="doDestroy"
     >
       <template #default>
         <div class="el-color-dropdown__main-wrapper">
@@ -250,9 +252,6 @@ export default defineComponent( {
       }
       resetColor()
     }
-    function doDestroy() {
-      popper.value.doDestroy()
-    }
 
     onMounted(() => {
       if (props.modelValue) {
@@ -285,7 +284,6 @@ export default defineComponent( {
       handleTrigger,
       clear,
       confirmValue,
-      doDestroy,
       t,
       hue,
       svPanel,

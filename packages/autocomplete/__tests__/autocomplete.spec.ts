@@ -76,11 +76,11 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount()
 
     await wrapper.setProps({ popperClass: 'error' })
-    expect(document.body.querySelector('.el-popper').classList.contains('error')).toBe(true)
+    expect(wrapper.find('.el-popper').classes('error')).toBe(true)
 
     await wrapper.setProps({ popperClass: 'success' })
-    expect(document.body.querySelector('.el-popper').classList.contains('error')).toBe(false)
-    expect(document.body.querySelector('.el-popper').classList.contains('success')).toBe(true)
+    expect(wrapper.find('.el-popper').classes('error')).toBe(false)
+    expect(wrapper.find('.el-popper').classes('success')).toBe(true)
   })
 
   test('popperAppendToBody', async () => {

@@ -1,9 +1,6 @@
 <template>
-  <transition name="el-zoom-in-top">
-    <div
-      v-if="visible"
-      class="el-time-panel"
-    >
+  <transition :name="transitionName">
+    <div v-if="actualVisible || visible" class="el-time-panel">
       <div class="el-time-panel__content" :class="{ 'has-seconds': showSeconds }">
         <time-spinner
           ref="spinner"
@@ -60,9 +57,10 @@ export default defineComponent({
   },
 
   props: {
-    visible: {
+    visible: Boolean,
+    actualVisible: {
       type: Boolean,
-      default: false,
+      default: undefined,
     },
     datetimeRole: {
       type: String,
@@ -83,6 +81,9 @@ export default defineComponent({
     const selectionRange = ref([0, 2])
     const oldValue = ref(props.parsedValue)
     // computed
+    const transitionName = computed(() => {
+      return props.actualVisible === undefined ? 'el-zoom-in-top' : ''
+    })
     const showSeconds = computed(() => {
       return props.format.includes('ss')
     })
@@ -201,6 +202,7 @@ export default defineComponent({
     } = getAvaliableArrs(disabledHours, disabledMinutes, disabledSeconds)
 
     return {
+      transitionName,
       arrowControl,
       onSetOption,
       t,

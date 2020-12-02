@@ -11,17 +11,11 @@
   @include e(popper) {
     // using attributes selector to override
     
-    &[role="tooltip"] {
-      padding: 0px;
-      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-      &.is-light[role="tooltip"] {
-        border: 1px solid #EBEEF5;
-        & .el-popper__arrow::before {
-          border: 1px solid #EBEEF5;
-          background: #FFF;
-        }
-      }
-    }
+    @include picker-popper(
+      $--color-white,
+      1px solid $--border-color-light,
+      $--dropdown-menu-box-shadow,
+    );
 
     .el-dropdown-menu {
       border: none;

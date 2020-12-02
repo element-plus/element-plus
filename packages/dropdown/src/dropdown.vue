@@ -4,10 +4,13 @@
     v-model:visible="visible"
     :placement="placement"
     :effect="effect"
+    pure
     :manual-mode="true"
     :trigger="[trigger]"
     popper-class="el-dropdown__popper"
     append-to-body
+    transition="el-zoom-in-top"
+    :gpu-acceleration="false"
   >
     <template #default>
       <slot name="dropdown"></slot>

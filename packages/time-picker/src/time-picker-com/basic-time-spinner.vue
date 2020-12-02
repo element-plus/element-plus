@@ -332,9 +332,7 @@ export default defineComponent({
       props.disabledSeconds,
     )
 
-    watch(() => props.spinnerDate, () => {
-      adjustSpinners()
-    })
+    watch(() => props.spinnerDate, adjustSpinners)
 
     return {
       getRefId,
