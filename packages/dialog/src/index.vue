@@ -37,6 +37,7 @@
                 </span>
               </slot>
               <button
+                v-if="showClose"
                 aria-label="close"
                 class="el-dialog__headerbtn"
                 type="button"
