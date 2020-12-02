@@ -10,6 +10,7 @@
     trigger="click"
     popper-class="el-picker__popper"
     :stop-popper-mouse-event="false"
+    append-to-body
   >
     <template #trigger>
       <el-input
