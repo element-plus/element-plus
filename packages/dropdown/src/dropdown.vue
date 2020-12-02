@@ -7,6 +7,7 @@
     :manual-mode="true"
     :trigger="[trigger]"
     popper-class="el-dropdown__popper"
+    append-to-body
   >
     <template #default>
       <slot name="dropdown"></slot>

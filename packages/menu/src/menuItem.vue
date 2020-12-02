@@ -127,10 +127,11 @@ export default {
         rootMenu.rootMenuEmit('menuItem:item-click', {
           index: props.index,
           indexPath,
+          route: props.route,
         })
         emit('click', {
           index: props.index,
-          indexPath,
+          indexPath: indexPath.value,
         })
       }
     }

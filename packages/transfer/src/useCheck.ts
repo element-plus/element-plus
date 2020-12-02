@@ -1,7 +1,8 @@
 import { computed, watch } from 'vue'
 import { TransferPanelProps, TransferPanelState, Key } from './transfer'
 
-import { CHECKED_CHANGE_EVENT } from './transfer-panel.vue'
+export const CHECKED_CHANGE_EVENT = 'checked-change'
+
 
 export const useCheck = (props: TransferPanelProps, panelState: TransferPanelState, emit) => {
 

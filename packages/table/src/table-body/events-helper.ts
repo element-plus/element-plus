@@ -1,7 +1,7 @@
 import { getCurrentInstance, ref, h } from 'vue'
 import { getStyle, hasClass } from '@element-plus/utils/dom'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import { TableBodyProps } from './table-body'
 import { Table, AnyObject, TableColumnCtx } from '../table.type'
 

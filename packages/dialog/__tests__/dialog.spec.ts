@@ -104,6 +104,17 @@ describe('Dialog.vue', () => {
     expect(wrapper.find('.el-dialog__close').exists()).toBe(true)
   })
 
+  test('should hide close button when showClose = false', async () => {
+    const wrapper = _mount({
+      props: {
+        modelValue: true,
+        showClose: false,
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.el-dialog__headerbtn').exists()).toBe(false)
+  })
+
   test('should close dialog when click on close button', async () => {
     const wrapper = _mount({
       props: {

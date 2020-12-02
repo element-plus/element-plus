@@ -20,6 +20,8 @@ interface IRenderPopperProps {
   onMouseLeave: () => void
   onAfterEnter: () => void
   onAfterLeave: () => void
+  onBeforeEnter: () => void
+  onBeforeLeave: () => void
 }
 
 export default function renderPopper(
@@ -40,6 +42,8 @@ export default function renderPopper(
     onMouseLeave,
     onAfterEnter,
     onAfterLeave,
+    onBeforeEnter,
+    onBeforeLeave,
   } = props
 
   const kls = [
@@ -62,8 +66,10 @@ export default function renderPopper(
     Transition,
     {
       name,
-      'onAfter-enter': onAfterEnter,
-      'onAfter-leave': onAfterLeave,
+      'onAfterEnter': onAfterEnter,
+      'onAfterLeave': onAfterLeave,
+      'onBeforeEnter': onBeforeEnter,
+      'onBeforeLeave': onBeforeLeave,
     },
     {
       default: withCtx(() => [withDirectives(
@@ -97,6 +103,6 @@ export default function renderPopper(
         [[vShow, visibility]],
       )]),
     },
-    PatchFlags.PROPS, ['name', 'onAfter-enter', 'onAfter-leave'],
+    PatchFlags.PROPS, ['name', 'onAfterEnter', 'onAfterLeave', 'onBeforeEnter', 'onBeforeLeave'],
   )
 }
