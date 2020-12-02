@@ -1,5 +1,13 @@
 ## Changelog
 
+### 1.0.1-beta.2
+
+*2020-12-02*
+
+#### Bug fixes
+
+- Fix navigation menu potential bug (#768)
+
 ### 1.0.1-beta.1
 
 *2020-12-01*
