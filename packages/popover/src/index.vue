@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives } from 'vue'
+import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives, Teleport, createVNode } from 'vue'
 import ElPopper from '@element-plus/popper'
 import { defaultProps, Effect } from '@element-plus/popper'
 import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
@@ -41,6 +41,10 @@ export default defineComponent({
     width: {
       type: [String, Number],
       default: 150,
+    },
+    appendToBody: {
+      type: Boolean,
+      default: true,
     },
   },
   emits,
@@ -112,14 +116,16 @@ export default defineComponent({
       ...events,
     }) : createCommentVNode('v-if', true)
 
-
-    return renderBlock(Fragment, null, [
+    return renderBlock(Fragment, { key: 0 }, [
       this.trigger === 'click'
         ? withDirectives(_trigger, [[ClickOutside, this.hide]])
         : _trigger,
-      popover,
+      createVNode(Teleport as any, {
+        disabled: !this.appendToBody,
+        to: 'body',
+        key: 1,
+      }, [popover], PatchFlags.PROPS, ['disabled']),
     ])
   },
 })
 </script>
-

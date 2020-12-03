@@ -118,6 +118,7 @@ export default defineComponent({
         {
           to: 'body',
           disabled: !appendToBody,
+          key: 0,
         },
         [popper],
         PatchFlags.PROPS,
