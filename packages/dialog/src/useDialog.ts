@@ -21,6 +21,7 @@ export default function useDialog(props: UseDialogProps, ctx: SetupContext) {
   const dialogRef = ref(null)
   const openTimer = ref<TimeoutHandle>(null)
   const closeTimer = ref<TimeoutHandle>(null)
+  const rendered = ref(!props.destroyOnClose) // when desctroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex || PopupManager.nextZIndex())
   const modalRef = ref<HTMLElement>(null)
 
@@ -37,11 +38,17 @@ export default function useDialog(props: UseDialogProps, ctx: SetupContext) {
 
   function afterEnter() {
     ctx.emit(OPENED_EVENT)
+    if (props.destroyOnClose) {
+      rendered.value = true
+    }
   }
 
   function afterLeave() {
     ctx.emit(CLOSED_EVENT)
     ctx.emit(UPDATE_MODEL_EVENT, false)
+    if (props.destroyOnClose) {
+      rendered.value = false
+    }
   }
 
   function open() {
@@ -124,6 +131,7 @@ export default function useDialog(props: UseDialogProps, ctx: SetupContext) {
       closed.value = false
       open()
       ctx.emit(OPEN_EVENT)
+      zIndex.value = props.zIndex ? zIndex.value++ : PopupManager.nextZIndex()
       // this.$el.addEventListener('scroll', this.updatePopper)
       nextTick(() => {
         if (dialogRef.value) {
@@ -154,6 +162,7 @@ export default function useDialog(props: UseDialogProps, ctx: SetupContext) {
     closed,
     dialogRef,
     style,
+    rendered,
     modalRef,
     visible,
     zIndex,

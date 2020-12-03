@@ -4,11 +4,11 @@ export interface UseDialogProps {
   closeOnPressEscape: boolean
   closeDelay: number
   destroyOnClose: boolean
-  fullscreen: boolean
+  fullscreen?: boolean
   lockScroll: boolean
   modelValue: boolean
   openDelay: number
-  top: string
-  width: string
+  top?: string
+  width?: string
   zIndex?: number
 }
