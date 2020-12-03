@@ -124,7 +124,7 @@ export default defineComponent({
       nextTick(() => {
         if (
           internalCurrentPage.value !== lastEmittedPage.value ||
-          userChangePageSize
+          userChangePageSize.value
         ) {
           emit('current-change', internalCurrentPage.value)
           lastEmittedPage.value = internalCurrentPage.value
@@ -197,7 +197,7 @@ export default defineComponent({
 
     watch(internalCurrentPage, val => {
       emit('update:currentPage', val)
-      emit('current-change', val)
+      emitChange()
     })
 
     watch(
