@@ -7,10 +7,15 @@
     v-model:visible="pickerVisible"
     manual-mode
     effect="light"
+    pure
     trigger="click"
     popper-class="el-picker__popper"
+    transition="el-zoom-in-top"
+    :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
     append-to-body
+    @before-enter="pickerActualVisible = true"
+    @after-leave="pickerActualVisible = false"
   >
     <template #trigger>
       <el-input
@@ -104,6 +109,7 @@
     <template #default>
       <slot
         :visible="pickerVisible"
+        :actual-visible="pickerActualVisible"
         :parsed-value="parsedValue"
         :format="format"
         :type="type"
@@ -285,6 +291,7 @@ export default defineComponent({
 
     const refContainer = ref(null)
     const pickerVisible = ref(false)
+    const pickerActualVisible = ref(false)
     const valueOnOpen = ref(null)
 
     watch(pickerVisible, val => {
@@ -596,6 +603,7 @@ export default defineComponent({
       onPick,
       handleFocus,
       pickerVisible,
+      pickerActualVisible,
       displayValue,
       parsedValue,
       setSelectionRange,

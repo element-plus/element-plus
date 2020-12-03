@@ -25,6 +25,8 @@ const _mount = (template: string, data: any = () => ({}), otherObj?): any => mou
   template,
   data,
   ...otherObj,
+}, {
+  attachTo: 'body',
 })
 
 function getOptions(): HTMLElement[] {

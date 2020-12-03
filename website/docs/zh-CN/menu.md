@@ -119,6 +119,7 @@
   <el-col :span="12">
     <h5>自定义颜色</h5>
     <el-menu
+      :uniqueOpened="true"
       default-active="2"
       class="el-menu-vertical-demo"
       @open="handleOpen"
@@ -156,6 +157,20 @@
         <i class="el-icon-setting"></i>
         <template #title>导航四</template>
       </el-menu-item>
+      <el-submenu index="5">
+        <template #title>
+          <i class="el-icon-location"></i>
+          <span>导航一</span>
+        </template>
+        <el-menu-item-group>
+          <template #title>分组一</template>
+          <el-menu-item index="5-1">选项1</el-menu-item>
+          <el-menu-item index="5-2">选项2</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group title="分组2">
+          <el-menu-item index="5-3">选项3</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
   </el-col>
 </el-row>

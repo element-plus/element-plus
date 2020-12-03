@@ -75,33 +75,12 @@
   @include e(dropdown) {
     font-size: $--cascader-menu-font-size;
     border-radius: $--cascader-menu-radius;
-    box-shadow: $--cascader-menu-shadow;
 
-    &.el-popper.is-light {
-      background: $--cascader-menu-fill;
-      border: $--cascader-menu-border;
-      box-shadow: $--cascader-menu-shadow;
-
-      .el-popper__arrow {
-        &::before {
-          border: $--cascader-menu-border;
-        }
-      }
-
-      &[data-popper-placement^="top"] {
-        .el-popper__arrow::before {
-          border-top-color: transparent;
-          border-left-color: transparent;
-        }
-      }
-
-      &[data-popper-placement^="bottom"] {
-        .el-popper__arrow::before {
-          border-bottom-color: transparent;
-          border-right-color: transparent;
-        }
-      }
-    }
+    @include picker-popper(
+      $--cascader-menu-fill,
+      $--cascader-menu-border,
+      $--cascader-menu-shadow,
+    );
   }
 
   @include e(tags) {
