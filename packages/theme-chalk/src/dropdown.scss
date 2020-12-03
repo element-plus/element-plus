@@ -10,7 +10,7 @@
 
   @include e(popper) {
     // using attributes selector to override
-    
+
     &[role="tooltip"] {
       padding: 0px;
       box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
@@ -79,9 +79,7 @@
   }
 
   .el-dropdown-selfdefine { // 自定义
-    &:focus:active, &:focus:not(.focusing) {
-      outline-width: 0;
-    }
+    outline-width: 0;
   }
 }
 
