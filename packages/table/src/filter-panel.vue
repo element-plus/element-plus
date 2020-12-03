@@ -99,7 +99,6 @@ import {
   PropType,
 } from 'vue'
 import { Store, TableColumnCtx, TableHeader } from './table.type'
-
 export default {
   name: 'ElTableFilterPanel',
   components: {
@@ -130,7 +129,6 @@ export default {
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
-
     const filters = computed(() => {
       return props.column && props.column.filters
     })
@@ -165,11 +163,9 @@ export default {
       }
       return true
     })
-
     const isActive = filter => {
       return filter.value === filterValue.value
     }
-
     const hidden = () => {
       tooltipVisible.value = false
     }
@@ -177,18 +173,15 @@ export default {
       e.stopPropagation()
       tooltipVisible.value = true
     }
-
     const handleConfirm = () => {
       confirmFilter(filteredValue.value)
       hidden()
     }
-
     const handleReset = () => {
       filteredValue.value = []
       confirmFilter(filteredValue.value)
       hidden()
     }
-
     const handleSelect = (_filterValue?: string | string[]) => {
       filterValue.value = _filterValue
       if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
@@ -198,7 +191,6 @@ export default {
       }
       hidden()
     }
-
     const confirmFilter = (filteredValue: unknown[]) => {
       props.store.commit('filterChange', {
         column: props.column,
