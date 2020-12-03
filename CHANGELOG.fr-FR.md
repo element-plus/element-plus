@@ -1,5 +1,17 @@
 ## Changelog
 
+### 1.0.1-beta.3
+
+*2020-12-03*
+
+#### Bug fixes
+
+- Fix nested menu ref unwrap value problem (#775)
+- Fix alert style errors when no description (#782)
+- Fix dialog show-close is invalid (#773)
+- Destructing import from lodash (#788)
+- Fix popper transition with 'el-zoom-in-top' (#785)
+
 ### 1.0.1-beta.2
 
 *2020-12-02*
