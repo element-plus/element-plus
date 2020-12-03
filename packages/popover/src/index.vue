@@ -116,14 +116,13 @@ export default defineComponent({
       ...events,
     }) : createCommentVNode('v-if', true)
 
-    return renderBlock(Fragment, { key: 0 }, [
+    return renderBlock(Fragment, null, [
       this.trigger === 'click'
         ? withDirectives(_trigger, [[ClickOutside, this.hide]])
         : _trigger,
       createVNode(Teleport as any, {
         disabled: !this.appendToBody,
         to: 'body',
-        key: 1,
       }, [popover], PatchFlags.PROPS, ['disabled']),
     ])
   },
