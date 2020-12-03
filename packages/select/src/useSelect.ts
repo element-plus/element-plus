@@ -8,6 +8,7 @@ import {
 } from 'vue'
 import mitt from 'mitt'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import { t } from '@element-plus/locale'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
@@ -209,7 +210,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   watch(() => states.options, () => {
     if (isServer) return
-    popper.value?.update()
+    popper.value?.update?.()
     if (props.multiple) {
       resetInputHeight()
     }
@@ -263,7 +264,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
     states.previousQuery = val
     nextTick(() => {
-      if (states.visible) popper.value?.update()
+      if (states.visible) popper.value?.update?.()
     })
     states.hoverIndex = -1
     if (props.multiple && props.filterable) {
@@ -399,7 +400,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleResize = () => {
     resetInputWidth()
-    popper.value?.update()
+    popper.value?.update?.()
     if (props.multiple) resetInputHeight()
   }
 
@@ -526,7 +527,7 @@ export const useSelect = (props, states: States, ctx) => {
     // scrollbar.value?.handleScroll()
   }
 
-  const onOptionDestroy = index => {
+  const onOptionDestroy = (index: number) => {
     if (index > -1) {
       states.optionsCount--
       states.filteredOptionsCount--
@@ -534,8 +535,8 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const resetInputState = e => {
-    if (e.keyCode !== 8) toggleLastOptionHitState(false)
+  const resetInputState = (e: KeyboardEvent) => {
+    if (e.code !== EVENT_CODE.backspace) toggleLastOptionHitState(false)
     states.inputLength = input.value.length * 15 + 20
     resetInputHeight()
   }
@@ -588,7 +589,7 @@ export const useSelect = (props, states: States, ctx) => {
     reference.value.blur()
   }
 
-  const handleBlur = event => {
+  const handleBlur = (event: Event) => {
     // https://github.com/ElemeFE/element/pull/10822
     nextTick(() => {
       if (states.isSilentBlur) {
@@ -600,7 +601,7 @@ export const useSelect = (props, states: States, ctx) => {
     states.softFocus = false
   }
 
-  const handleClearClick = event => {
+  const handleClearClick = (event: Event) => {
     deleteSelected(event)
   }
 

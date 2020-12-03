@@ -21,6 +21,7 @@ import {
   defineComponent,
   getCurrentInstance,
   onBeforeUnmount,
+  onMounted,
   reactive,
 } from 'vue'
 import { useOption } from './useOption'
@@ -79,6 +80,14 @@ export default defineComponent({
       }
       select.onOptionDestroy(select.options.map(item => item.value).indexOf(props.value))
     })
+
+    // temporary fix for dynamically updated
+    onMounted(() => {
+      if (!props.created) {
+        select.setSelected()
+      }
+    })
+
     select.options.push(vm)
     select.cachedOptions.push(vm)
 

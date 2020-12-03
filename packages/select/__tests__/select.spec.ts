@@ -30,9 +30,9 @@ const _mount = (template: string, data: any = () => ({}), otherObj?): any => mou
 })
 
 function getOptions(): HTMLElement[] {
-  return [...document.querySelectorAll<HTMLElement>(
+  return Array.from(document.querySelectorAll<HTMLElement>(
     'body > div:last-child .el-select-dropdown__item',
-  )]
+  ))
 }
 
 const getSelectVm = (configs: SelectProps = {}, options?) => {
@@ -107,6 +107,10 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
 }
 
 describe('Select', () => {
+
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
   test('create', async () => {
     const wrapper = _mount(`<el-select v-model="value"></el-select>`, () => ({ value: '' }))
     expect(wrapper.classes()).toContain('el-select')
@@ -299,7 +303,7 @@ describe('Select', () => {
     await input.trigger('focus')
     selectVm.selectedLabel = 'new'
     selectVm.debouncedOnInputChange()
-    await selectVm.$nextTick()
+    await nextTick()
     const options = [...getOptions()]
     const target = options.filter(option => option.textContent === 'new')
     target[0].click()
