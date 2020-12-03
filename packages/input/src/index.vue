@@ -168,6 +168,9 @@ export default defineComponent({
       default: 'off',
       validator: (val: string) => ['on', 'off'].includes(val),
     },
+    placeholder: {
+      type: String,
+    },
     form: {
       type: String,
       default: '',
