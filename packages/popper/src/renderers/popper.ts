@@ -18,10 +18,10 @@ interface IRenderPopperProps {
   visibility: boolean
   onMouseEnter: () => void
   onMouseLeave: () => void
-  onAfterEnter: () => void
-  onAfterLeave: () => void
-  onBeforeEnter: () => void
-  onBeforeLeave: () => void
+  onAfterEnter?: () => void
+  onAfterLeave?: () => void
+  onBeforeEnter?: () => void
+  onBeforeLeave?: () => void
 }
 
 export default function renderPopper(
