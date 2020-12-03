@@ -156,7 +156,7 @@ Use `list-type` to change the fileList style.
 >
   <i class="el-icon-plus"></i>
 </el-upload>
-<el-dialog :visible.sync="dialogVisible">
+<el-dialog v-model:visible="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="" />
 </el-dialog>
 <script>
@@ -221,7 +221,7 @@ Use `scoped-slot` to change default thumbnail template.
     </div>
   </template>
 </el-upload>
-<el-dialog :visible.sync="dialogVisible">
+<el-dialog v-model:visible="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="" />
 </el-dialog>
 <script>
