@@ -48,7 +48,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US7","61":"DOCS en-US8","62":"DOCS en-US9","63":"DOCS es0","64":"DOCS es1","65":"DOCS es10","66":"DOCS es11","67":"DOCS es12","68":"DOCS es13","69":"DOCS es14","70":"DOCS es15","71":"DOCS es16","72":"DOCS es17","73":"DOCS es18","74":"DOCS es19","75":"DOCS es2","76":"DOCS es20","77":"DOCS es21","78":"DOCS es22","79":"DOCS es23","80":"DOCS es24","81":"DOCS es25","82":"DOCS es26","83":"DOCS es27","84":"DOCS es28","85":"DOCS es29","86":"DOCS es3","87":"DOCS es30","88":"DOCS es31","89":"DOCS es32","90":"DOCS es33","91":"DOCS es34","92":"DOCS es35","93":"DOCS es36","94":"DOCS es37","95":"DOCS es38","96":"DOCS es39","97":"DOCS es4","98":"DOCS es40","99":"DOCS es41","100":"DOCS es42","101":"DOCS es43","102":"DOCS es44","103":"DOCS es45","104":"DOCS es46","105":"DOCS es47","106":"DOCS es48","107":"DOCS es49","108":"DOCS es5","109":"DOCS es50","110":"DOCS es51","111":"DOCS es52","112":"DOCS es53","113":"DOCS es54","114":"DOCS es55","115":"DOCS es56","116":"DOCS es57","117":"DOCS es58","118":"DOCS es59","119":"DOCS es6","120":"DOCS es60","121":"DOCS es61","122":"DOCS es7","123":"DOCS es8","124":"DOCS es9","125":"DOCS fr-FR0","126":"DOCS fr-FR1","127":"DOCS fr-FR10","128":"DOCS fr-FR11","129":"DOCS fr-FR12","130":"DOCS fr-FR13","131":"DOCS fr-FR14","132":"DOCS fr-FR15","133":"DOCS fr-FR16","134":"DOCS fr-FR17","135":"DOCS fr-FR18","136":"DOCS fr-FR19","137":"DOCS fr-FR2","138":"DOCS fr-FR20","139":"DOCS fr-FR21","140":"DOCS fr-FR22","141":"DOCS fr-FR23","142":"DOCS fr-FR24","143":"DOCS fr-FR25","144":"DOCS fr-FR26","145":"DOCS fr-FR27","146":"DOCS fr-FR28","147":"DOCS fr-FR29","148":"DOCS fr-FR3","149":"DOCS fr-FR30","150":"DOCS fr-FR31","151":"DOCS fr-FR32","152":"DOCS fr-FR33","153":"DOCS fr-FR34","154":"DOCS fr-FR35","155":"DOCS fr-FR36","156":"DOCS fr-FR37","157":"DOCS fr-FR38","158":"DOCS fr-FR39","159":"DOCS fr-FR4","160":"DOCS fr-FR40","161":"DOCS fr-FR41","162":"DOCS fr-FR42","163":"DOCS fr-FR43","164":"DOCS fr-FR44","165":"DOCS fr-FR45","166":"DOCS fr-FR46","167":"DOCS fr-FR47","168":"DOCS fr-FR48","169":"DOCS fr-FR49","170":"DOCS fr-FR5","171":"DOCS fr-FR50","172":"DOCS fr-FR51","173":"DOCS fr-FR52","174":"DOCS fr-FR53","175":"DOCS fr-FR54","176":"DOCS fr-FR55","177":"DOCS fr-FR56","178":"DOCS fr-FR57","179":"DOCS fr-FR58","180":"DOCS fr-FR59","181":"DOCS fr-FR6","182":"DOCS fr-FR60","183":"DOCS fr-FR61","184":"DOCS fr-FR7","185":"DOCS fr-FR8","186":"DOCS fr-FR9","187":"DOCS zh-CN0","188":"DOCS zh-CN1","189":"DOCS zh-CN10","190":"DOCS zh-CN11","191":"DOCS zh-CN12","192":"DOCS zh-CN13","193":"DOCS zh-CN14","194":"DOCS zh-CN15","195":"DOCS zh-CN16","196":"DOCS zh-CN17","197":"DOCS zh-CN18","198":"DOCS zh-CN19","199":"DOCS zh-CN2","200":"DOCS zh-CN20","201":"DOCS zh-CN21","202":"DOCS zh-CN22","203":"DOCS zh-CN23","204":"DOCS zh-CN24","205":"DOCS zh-CN25","206":"DOCS zh-CN26","207":"DOCS zh-CN27","208":"DOCS zh-CN28","209":"DOCS zh-CN29","210":"DOCS zh-CN3","211":"DOCS zh-CN30","212":"DOCS zh-CN31","213":"DOCS zh-CN32","214":"DOCS zh-CN33","215":"DOCS zh-CN34","216":"DOCS zh-CN35","217":"DOCS zh-CN36","218":"DOCS zh-CN37","219":"DOCS zh-CN38","220":"DOCS zh-CN39","221":"DOCS zh-CN4","222":"DOCS zh-CN40","223":"DOCS zh-CN41","224":"DOCS zh-CN42","225":"DOCS zh-CN43","226":"DOCS zh-CN44","227":"DOCS zh-CN45","228":"DOCS zh-CN46","229":"DOCS zh-CN47","230":"DOCS zh-CN48","231":"DOCS zh-CN49","232":"DOCS zh-CN5","233":"DOCS zh-CN50","234":"DOCS zh-CN51","235":"DOCS zh-CN52","236":"DOCS zh-CN53","237":"DOCS zh-CN54","238":"DOCS zh-CN55","239":"DOCS zh-CN56","240":"DOCS zh-CN57","241":"DOCS zh-CN58","242":"DOCS zh-CN59","243":"DOCS zh-CN6","244":"DOCS zh-CN60","245":"DOCS zh-CN61","246":"DOCS zh-CN7","247":"DOCS zh-CN8","248":"DOCS zh-CN9","250":"zh-CN0","251":"zh-CN1","252":"zh-CN2","253":"zh-CN3","254":"zh-CN4","255":"zh-CN5","256":"zh-CN6"}[chunkId]||chunkId) + "." + "e34992c77eae94004d99" + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US7","61":"DOCS en-US8","62":"DOCS en-US9","63":"DOCS es0","64":"DOCS es1","65":"DOCS es10","66":"DOCS es11","67":"DOCS es12","68":"DOCS es13","69":"DOCS es14","70":"DOCS es15","71":"DOCS es16","72":"DOCS es17","73":"DOCS es18","74":"DOCS es19","75":"DOCS es2","76":"DOCS es20","77":"DOCS es21","78":"DOCS es22","79":"DOCS es23","80":"DOCS es24","81":"DOCS es25","82":"DOCS es26","83":"DOCS es27","84":"DOCS es28","85":"DOCS es29","86":"DOCS es3","87":"DOCS es30","88":"DOCS es31","89":"DOCS es32","90":"DOCS es33","91":"DOCS es34","92":"DOCS es35","93":"DOCS es36","94":"DOCS es37","95":"DOCS es38","96":"DOCS es39","97":"DOCS es4","98":"DOCS es40","99":"DOCS es41","100":"DOCS es42","101":"DOCS es43","102":"DOCS es44","103":"DOCS es45","104":"DOCS es46","105":"DOCS es47","106":"DOCS es48","107":"DOCS es49","108":"DOCS es5","109":"DOCS es50","110":"DOCS es51","111":"DOCS es52","112":"DOCS es53","113":"DOCS es54","114":"DOCS es55","115":"DOCS es56","116":"DOCS es57","117":"DOCS es58","118":"DOCS es59","119":"DOCS es6","120":"DOCS es60","121":"DOCS es61","122":"DOCS es7","123":"DOCS es8","124":"DOCS es9","125":"DOCS fr-FR0","126":"DOCS fr-FR1","127":"DOCS fr-FR10","128":"DOCS fr-FR11","129":"DOCS fr-FR12","130":"DOCS fr-FR13","131":"DOCS fr-FR14","132":"DOCS fr-FR15","133":"DOCS fr-FR16","134":"DOCS fr-FR17","135":"DOCS fr-FR18","136":"DOCS fr-FR19","137":"DOCS fr-FR2","138":"DOCS fr-FR20","139":"DOCS fr-FR21","140":"DOCS fr-FR22","141":"DOCS fr-FR23","142":"DOCS fr-FR24","143":"DOCS fr-FR25","144":"DOCS fr-FR26","145":"DOCS fr-FR27","146":"DOCS fr-FR28","147":"DOCS fr-FR29","148":"DOCS fr-FR3","149":"DOCS fr-FR30","150":"DOCS fr-FR31","151":"DOCS fr-FR32","152":"DOCS fr-FR33","153":"DOCS fr-FR34","154":"DOCS fr-FR35","155":"DOCS fr-FR36","156":"DOCS fr-FR37","157":"DOCS fr-FR38","158":"DOCS fr-FR39","159":"DOCS fr-FR4","160":"DOCS fr-FR40","161":"DOCS fr-FR41","162":"DOCS fr-FR42","163":"DOCS fr-FR43","164":"DOCS fr-FR44","165":"DOCS fr-FR45","166":"DOCS fr-FR46","167":"DOCS fr-FR47","168":"DOCS fr-FR48","169":"DOCS fr-FR49","170":"DOCS fr-FR5","171":"DOCS fr-FR50","172":"DOCS fr-FR51","173":"DOCS fr-FR52","174":"DOCS fr-FR53","175":"DOCS fr-FR54","176":"DOCS fr-FR55","177":"DOCS fr-FR56","178":"DOCS fr-FR57","179":"DOCS fr-FR58","180":"DOCS fr-FR59","181":"DOCS fr-FR6","182":"DOCS fr-FR60","183":"DOCS fr-FR61","184":"DOCS fr-FR7","185":"DOCS fr-FR8","186":"DOCS fr-FR9","187":"DOCS zh-CN0","188":"DOCS zh-CN1","189":"DOCS zh-CN10","190":"DOCS zh-CN11","191":"DOCS zh-CN12","192":"DOCS zh-CN13","193":"DOCS zh-CN14","194":"DOCS zh-CN15","195":"DOCS zh-CN16","196":"DOCS zh-CN17","197":"DOCS zh-CN18","198":"DOCS zh-CN19","199":"DOCS zh-CN2","200":"DOCS zh-CN20","201":"DOCS zh-CN21","202":"DOCS zh-CN22","203":"DOCS zh-CN23","204":"DOCS zh-CN24","205":"DOCS zh-CN25","206":"DOCS zh-CN26","207":"DOCS zh-CN27","208":"DOCS zh-CN28","209":"DOCS zh-CN29","210":"DOCS zh-CN3","211":"DOCS zh-CN30","212":"DOCS zh-CN31","213":"DOCS zh-CN32","214":"DOCS zh-CN33","215":"DOCS zh-CN34","216":"DOCS zh-CN35","217":"DOCS zh-CN36","218":"DOCS zh-CN37","219":"DOCS zh-CN38","220":"DOCS zh-CN39","221":"DOCS zh-CN4","222":"DOCS zh-CN40","223":"DOCS zh-CN41","224":"DOCS zh-CN42","225":"DOCS zh-CN43","226":"DOCS zh-CN44","227":"DOCS zh-CN45","228":"DOCS zh-CN46","229":"DOCS zh-CN47","230":"DOCS zh-CN48","231":"DOCS zh-CN49","232":"DOCS zh-CN5","233":"DOCS zh-CN50","234":"DOCS zh-CN51","235":"DOCS zh-CN52","236":"DOCS zh-CN53","237":"DOCS zh-CN54","238":"DOCS zh-CN55","239":"DOCS zh-CN56","240":"DOCS zh-CN57","241":"DOCS zh-CN58","242":"DOCS zh-CN59","243":"DOCS zh-CN6","244":"DOCS zh-CN60","245":"DOCS zh-CN61","246":"DOCS zh-CN7","247":"DOCS zh-CN8","248":"DOCS zh-CN9","250":"zh-CN0","251":"zh-CN1","252":"zh-CN2","253":"zh-CN3","254":"zh-CN4","255":"zh-CN5","256":"zh-CN6"}[chunkId]||chunkId) + "." + "349bcc175f6a95e73b58" + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -17054,7 +17054,8 @@ function buildModifier(props, externalModifiers) {
 
   var arrow = props.arrow,
       arrowOffset = props.arrowOffset,
-      offset = props.offset;
+      offset = props.offset,
+      gpuAcceleration = props.gpuAcceleration;
   var modifiers = [{
     name: 'offset',
     options: {
@@ -17078,7 +17079,8 @@ function buildModifier(props, externalModifiers) {
   }, {
     name: 'computeStyles',
     options: {
-      adaptive: true
+      gpuAcceleration: gpuAcceleration,
+      adaptive: gpuAcceleration
     }
   } // tippyModifier,
   ];
@@ -17113,7 +17115,8 @@ function usePopperOptions(props, state) {
       modifiers: buildModifier({
         arrow: state.arrow.value,
         arrowOffset: props.arrowOffset,
-        offset: props.offset
+        offset: props.offset,
+        gpuAcceleration: props.gpuAcceleration
       }, (_props$popperOptions = props.popperOptions) == null ? void 0 : _props$popperOptions.modifiers)
     });
   });
@@ -17226,6 +17229,10 @@ var DEFAULT_TRIGGER = 'hover';
     default: undefined
   },
   stopPopperMouseEvent: {
+    type: Boolean,
+    default: true
+  },
+  gpuAcceleration: {
     type: Boolean,
     default: true
   }
@@ -63098,15 +63105,16 @@ appvue_type_script_lang_js_localize(appvue_type_script_lang_js_lang);
 appvue_type_script_lang_js.render = appvue_type_template_id_2e31c050_render
 
 /* harmony default export */ var website_app = (appvue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/alert/src/index.vue?vue&type=template&id=c7ef2be2
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/alert/src/index.vue?vue&type=template&id=eb4c0760
 
-var srcvue_type_template_id_c7ef2be2_hoisted_1 = {
+var srcvue_type_template_id_eb4c0760_hoisted_1 = {
   class: "el-alert__content"
 };
-var srcvue_type_template_id_c7ef2be2_hoisted_2 = {
+var srcvue_type_template_id_eb4c0760_hoisted_2 = {
+  key: 1,
   class: "el-alert__description"
 };
-function srcvue_type_template_id_c7ef2be2_render(_ctx, _cache, $props, $setup, $data, $options) {
+function srcvue_type_template_id_eb4c0760_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["e" /* Transition */], {
     name: "el-alert-fade"
   }, {
@@ -63117,19 +63125,19 @@ function srcvue_type_template_id_c7ef2be2_render(_ctx, _cache, $props, $setup, $
       }, [_ctx.showIcon ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("i", {
         key: 0,
         class: ["el-alert__icon", [_ctx.iconClass, _ctx.isBigIcon]]
-      }, null, 2)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_c7ef2be2_hoisted_1, [_ctx.title || _ctx.$slots.title ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", {
+      }, null, 2)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_eb4c0760_hoisted_1, [_ctx.title || _ctx.$slots.title ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", {
         key: 0,
         class: ["el-alert__title", [_ctx.isBoldTitle]]
       }, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "title", {}, function () {
         return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.title), 1
         /* TEXT */
         )];
-      })], 2)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("p", srcvue_type_template_id_c7ef2be2_hoisted_2, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
+      })], 2)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.$slots.default || !!_ctx.description ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("p", srcvue_type_template_id_eb4c0760_hoisted_2, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
         return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.description), 1
         /* TEXT */
         )];
-      })]), _ctx.closable ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("i", {
-        key: 1,
+      })])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.closable ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("i", {
+        key: 2,
         class: ["el-alert__closebtn", {
           'is-customed': _ctx.closeText !== '',
           'el-icon-close': _ctx.closeText === ''
@@ -63139,10 +63147,10 @@ function srcvue_type_template_id_c7ef2be2_render(_ctx, _cache, $props, $setup, $
         })
       }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.closeText), 3)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)])], 2), [[vue_esm_browser["ab" /* vShow */], _ctx.visible]])];
     }),
-    _: 3
+    _: 1
   });
 }
-// CONCATENATED MODULE: ./packages/alert/src/index.vue?vue&type=template&id=c7ef2be2
+// CONCATENATED MODULE: ./packages/alert/src/index.vue?vue&type=template&id=eb4c0760
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/alert/src/index.vue?vue&type=script&lang=ts
 
@@ -63223,7 +63231,7 @@ var TYPE_CLASSES_MAP = {
 
 
 
-srcvue_type_script_lang_ts.render = srcvue_type_template_id_c7ef2be2_render
+srcvue_type_script_lang_ts.render = srcvue_type_template_id_eb4c0760_render
 
 /* harmony default export */ var src = (srcvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/alert/index.ts
@@ -63274,17 +63282,17 @@ aside.install = function (app) {
 };
 
 /* harmony default export */ var packages_aside = (aside);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/autocomplete/src/index.vue?vue&type=template&id=672a4b70
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/autocomplete/src/index.vue?vue&type=template&id=607659fd
 
-var srcvue_type_template_id_672a4b70_hoisted_1 = {
+var srcvue_type_template_id_607659fd_hoisted_1 = {
   key: 0
 };
 
-var srcvue_type_template_id_672a4b70_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("i", {
+var srcvue_type_template_id_607659fd_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("i", {
   class: "el-icon-loading"
 }, null, -1);
 
-function srcvue_type_template_id_672a4b70_render(_ctx, _cache, $props, $setup, $data, $options) {
+function srcvue_type_template_id_607659fd_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = Object(vue_esm_browser["P" /* resolveComponent */])("el-input");
 
   var _component_el_scrollbar = Object(vue_esm_browser["P" /* resolveComponent */])("el-scrollbar");
@@ -63300,13 +63308,14 @@ function srcvue_type_template_id_672a4b70_render(_ctx, _cache, $props, $setup, $
       return _ctx.suggestionVisible = $event;
     }),
     placement: _ctx.placement,
-    "popper-class": _ctx.popperClass,
+    "popper-class": "el-autocomplete__popper " + _ctx.popperClass,
     "append-to-body": _ctx.popperAppendToBody,
-    offset: 6,
     pure: "",
     "manual-mode": "",
     effect: "light",
-    trigger: "click"
+    trigger: "click",
+    transition: "el-zoom-in-top",
+    "gpu-acceleration": false
   }, {
     trigger: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", {
@@ -63355,60 +63364,52 @@ function srcvue_type_template_id_672a4b70_render(_ctx, _cache, $props, $setup, $
       } : undefined]), 1040, ["model-value", "onInput", "onChange", "onFocus", "onBlur", "onClear", "onKeydown"])], 14, ["aria-expanded", "aria-owns"]), [[_directive_clickoutside, _ctx.close]])];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser["o" /* createVNode */])(vue_esm_browser["e" /* Transition */], {
-        name: "el-zoom-in-top",
-        onAfterLeave: _ctx.doDestroy
+      return [Object(vue_esm_browser["o" /* createVNode */])("div", {
+        ref: "regionRef",
+        class: ['el-autocomplete-suggestion', _ctx.suggestionLoading && 'is-loading'],
+        style: {
+          width: _ctx.dropdownWidth,
+          outline: 'none'
+        },
+        role: "region"
+      }, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_scrollbar, {
+        tag: "ul",
+        "wrap-class": "el-autocomplete-suggestion__wrap",
+        "view-class": "el-autocomplete-suggestion__list"
       }, {
         default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", {
-            ref: "regionRef",
-            class: ['el-autocomplete-suggestion', _ctx.suggestionLoading && 'is-loading'],
-            style: {
-              width: _ctx.dropdownWidth,
-              outline: 'none'
-            },
-            role: "region"
-          }, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_scrollbar, {
-            tag: "ul",
-            "wrap-class": "el-autocomplete-suggestion__wrap",
-            "view-class": "el-autocomplete-suggestion__list"
-          }, {
-            default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-              return [_ctx.suggestionLoading ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("li", srcvue_type_template_id_672a4b70_hoisted_1, [srcvue_type_template_id_672a4b70_hoisted_2])) : (Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], {
-                key: 1
-              }, Object(vue_esm_browser["N" /* renderList */])(_ctx.suggestions, function (item, index) {
-                return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("li", {
-                  id: _ctx.id + "-item-" + index,
-                  key: index,
-                  class: {
-                    'highlighted': _ctx.highlightedIndex === index
-                  },
-                  role: "option",
-                  "aria-selected": _ctx.highlightedIndex === index,
-                  onClick: function onClick($event) {
-                    return _ctx.select(item);
-                  }
-                }, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default", {
-                  item: item
-                }, function () {
-                  return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(item[_ctx.valueKey]), 1
-                  /* TEXT */
-                  )];
-                })], 10, ["id", "aria-selected", "onClick"]);
-              }), 128
-              /* KEYED_FRAGMENT */
-              ))];
-            }),
-            _: 1
-          })], 6), [[vue_esm_browser["ab" /* vShow */], _ctx.suggestionVisible]])];
+          return [_ctx.suggestionLoading ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("li", srcvue_type_template_id_607659fd_hoisted_1, [srcvue_type_template_id_607659fd_hoisted_2])) : (Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], {
+            key: 1
+          }, Object(vue_esm_browser["N" /* renderList */])(_ctx.suggestions, function (item, index) {
+            return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("li", {
+              id: _ctx.id + "-item-" + index,
+              key: index,
+              class: {
+                'highlighted': _ctx.highlightedIndex === index
+              },
+              role: "option",
+              "aria-selected": _ctx.highlightedIndex === index,
+              onClick: function onClick($event) {
+                return _ctx.select(item);
+              }
+            }, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default", {
+              item: item
+            }, function () {
+              return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(item[_ctx.valueKey]), 1
+              /* TEXT */
+              )];
+            })], 10, ["id", "aria-selected", "onClick"]);
+          }), 128
+          /* KEYED_FRAGMENT */
+          ))];
         }),
         _: 1
-      }, 8, ["onAfterLeave"])];
+      })], 6)];
     }),
     _: 1
   }, 8, ["visible", "placement", "popper-class", "append-to-body"]);
 }
-// CONCATENATED MODULE: ./packages/autocomplete/src/index.vue?vue&type=template&id=672a4b70
+// CONCATENATED MODULE: ./packages/autocomplete/src/index.vue?vue&type=template&id=607659fd
 
 // EXTERNAL MODULE: ./packages/utils/util.ts
 var util = __webpack_require__(2);
@@ -64972,10 +64973,7 @@ var packages_popper = __webpack_require__(9);
       type: Boolean,
       default: false
     },
-    popperAppendToBody: {
-      type: Boolean,
-      default: true
-    },
+    popperAppendToBody: Boolean,
     highlightFirstItem: {
       type: Boolean,
       default: false
@@ -65003,6 +65001,11 @@ var packages_popper = __webpack_require__(9);
     var suggestionLoading = Object(vue_esm_browser["h" /* computed */])(function () {
       return !props.hideLoading && loading.value;
     });
+
+    var updatePopperPosition = function updatePopperPosition() {
+      Object(vue_esm_browser["x" /* nextTick */])(popper.value.update);
+    };
+
     Object(vue_esm_browser["cb" /* watch */])(suggestionVisible, function () {
       dropdownWidth.value = inputRef.value.$el.offsetWidth + "px";
     });
@@ -65015,6 +65018,7 @@ var packages_popper = __webpack_require__(9);
       $ul.setAttribute('role', 'listbox');
       $ul.setAttribute('id', id.value);
     });
+    Object(vue_esm_browser["F" /* onUpdated */])(updatePopperPosition);
 
     var getData = function getData(queryString) {
       if (suggestionDisabled.value) {
@@ -65022,6 +65026,7 @@ var packages_popper = __webpack_require__(9);
       }
 
       loading.value = true;
+      updatePopperPosition();
       props.fetchSuggestions(queryString, function (suggestionsArg) {
         loading.value = false;
 
@@ -65140,10 +65145,6 @@ var packages_popper = __webpack_require__(9);
       inputRef.value.inputOrTextarea.setAttribute('aria-activedescendant', id.value + "-item-" + highlightedIndex.value);
     };
 
-    var doDestroy = function doDestroy() {
-      popper.value.doDestroy();
-    };
-
     return {
       attrs: attrs,
       suggestions: suggestions,
@@ -65168,8 +65169,7 @@ var packages_popper = __webpack_require__(9);
       close: close,
       focus: focus,
       select: select,
-      highlight: highlight,
-      doDestroy: doDestroy
+      highlight: highlight
     };
   }
 }));
@@ -65179,7 +65179,7 @@ var packages_popper = __webpack_require__(9);
 
 
 
-autocomplete_srcvue_type_script_lang_ts.render = srcvue_type_template_id_672a4b70_render
+autocomplete_srcvue_type_script_lang_ts.render = srcvue_type_template_id_607659fd_render
 
 /* harmony default export */ var autocomplete_src = (autocomplete_srcvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/autocomplete/index.ts
@@ -66002,12 +66002,12 @@ var DEFAULT_FORMATS_DATEPICKER = {
   daterange: DEFAULT_FORMATS_DATE,
   datetimerange: DEFAULT_FORMATS_DATE + " " + DEFAULT_FORMATS_TIME
 };
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/common/picker.vue?vue&type=template&id=b131aade
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/common/picker.vue?vue&type=template&id=2c9bcdd3
 
-var pickervue_type_template_id_b131aade_hoisted_1 = {
+var pickervue_type_template_id_2c9bcdd3_hoisted_1 = {
   class: "el-range-separator"
 };
-function pickervue_type_template_id_b131aade_render(_ctx, _cache, $props, $setup, $data, $options) {
+function pickervue_type_template_id_2c9bcdd3_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = Object(vue_esm_browser["P" /* resolveComponent */])("el-input");
 
   var _component_el_popper = Object(vue_esm_browser["P" /* resolveComponent */])("el-popper");
@@ -66022,10 +66022,19 @@ function pickervue_type_template_id_b131aade_render(_ctx, _cache, $props, $setup
     }),
     "manual-mode": "",
     effect: "light",
+    pure: "",
     trigger: "click",
     "popper-class": "el-picker__popper",
+    transition: "el-zoom-in-top",
+    "gpu-acceleration": false,
     "stop-popper-mouse-event": false,
-    "append-to-body": ""
+    "append-to-body": "",
+    onBeforeEnter: _cache[19] || (_cache[19] = function ($event) {
+      return _ctx.pickerActualVisible = true;
+    }),
+    onAfterLeave: _cache[20] || (_cache[20] = function ($event) {
+      return _ctx.pickerActualVisible = false;
+    })
   }, {
     trigger: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [!_ctx.isRangeInput ? Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_el_input, {
@@ -66098,7 +66107,7 @@ function pickervue_type_template_id_b131aade_render(_ctx, _cache, $props, $setup
           return _ctx.handleFocus.apply(_ctx, arguments);
         })
       }, null, 40, ["name", "placeholder", "value", "disabled", "readonly"]), Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "range-separator", {}, function () {
-        return [Object(vue_esm_browser["o" /* createVNode */])("span", pickervue_type_template_id_b131aade_hoisted_1, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.rangeSeparator), 1)];
+        return [Object(vue_esm_browser["o" /* createVNode */])("span", pickervue_type_template_id_2c9bcdd3_hoisted_1, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.rangeSeparator), 1)];
       }), Object(vue_esm_browser["o" /* createVNode */])("input", {
         autocomplete: "off",
         name: _ctx.name && _ctx.name[1],
@@ -66126,6 +66135,7 @@ function pickervue_type_template_id_b131aade_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default", Object(vue_esm_browser["w" /* mergeProps */])({
         visible: _ctx.pickerVisible,
+        "actual-visible": _ctx.pickerActualVisible,
         "parsed-value": _ctx.parsedValue,
         format: _ctx.format,
         type: _ctx.type,
@@ -66146,7 +66156,7 @@ function pickervue_type_template_id_b131aade_render(_ctx, _cache, $props, $setup
     _: 1
   }, 8, ["visible"]);
 }
-// CONCATENATED MODULE: ./packages/time-picker/src/common/picker.vue?vue&type=template&id=b131aade
+// CONCATENATED MODULE: ./packages/time-picker/src/common/picker.vue?vue&type=template&id=2c9bcdd3
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/common/picker.vue?vue&type=script&lang=ts
 
@@ -66307,6 +66317,7 @@ var valueEquals = function valueEquals(a, b) {
     var elFormItem = Object(vue_esm_browser["t" /* inject */])(elFormItemKey, {});
     var refContainer = Object(vue_esm_browser["L" /* ref */])(null);
     var pickerVisible = Object(vue_esm_browser["L" /* ref */])(false);
+    var pickerActualVisible = Object(vue_esm_browser["L" /* ref */])(false);
     var valueOnOpen = Object(vue_esm_browser["L" /* ref */])(null);
     Object(vue_esm_browser["cb" /* watch */])(pickerVisible, function (val) {
       if (!val) {
@@ -66659,6 +66670,7 @@ var valueEquals = function valueEquals(a, b) {
       onPick: onPick,
       handleFocus: handleFocus,
       pickerVisible: pickerVisible,
+      pickerActualVisible: pickerActualVisible,
       displayValue: displayValue,
       parsedValue: parsedValue,
       setSelectionRange: setSelectionRange,
@@ -66674,26 +66686,26 @@ var valueEquals = function valueEquals(a, b) {
 
 
 
-pickervue_type_script_lang_ts.render = pickervue_type_template_id_b131aade_render
+pickervue_type_script_lang_ts.render = pickervue_type_template_id_2c9bcdd3_render
 
 /* harmony default export */ var picker = (pickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=template&id=cc558e5c
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=template&id=b8e0b06e
 
-var panel_time_pickvue_type_template_id_cc558e5c_hoisted_1 = {
+var panel_time_pickvue_type_template_id_b8e0b06e_hoisted_1 = {
   key: 0,
   class: "el-time-panel"
 };
-var panel_time_pickvue_type_template_id_cc558e5c_hoisted_2 = {
+var panel_time_pickvue_type_template_id_b8e0b06e_hoisted_2 = {
   class: "el-time-panel__footer"
 };
-function panel_time_pickvue_type_template_id_cc558e5c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_time_pickvue_type_template_id_b8e0b06e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_time_spinner = Object(vue_esm_browser["P" /* resolveComponent */])("time-spinner");
 
   return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["e" /* Transition */], {
-    name: "el-zoom-in-top"
+    name: _ctx.transitionName
   }, {
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [_ctx.visible ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_time_pickvue_type_template_id_cc558e5c_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])("div", {
+      return [_ctx.actualVisible || _ctx.visible ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_time_pickvue_type_template_id_b8e0b06e_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])("div", {
         class: ["el-time-panel__content", {
           'has-seconds': _ctx.showSeconds
         }]
@@ -66710,7 +66722,7 @@ function panel_time_pickvue_type_template_id_cc558e5c_render(_ctx, _cache, $prop
         onChange: _ctx.handleChange,
         onSetOption: _ctx.onSetOption,
         onSelectRange: _ctx.setSelectionRange
-      }, null, 8, ["role", "arrow-control", "show-seconds", "am-pm-mode", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2), Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_pickvue_type_template_id_cc558e5c_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])("button", {
+      }, null, 8, ["role", "arrow-control", "show-seconds", "am-pm-mode", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2), Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_pickvue_type_template_id_b8e0b06e_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])("button", {
         type: "button",
         class: "el-time-panel__btn cancel",
         onClick: _cache[1] || (_cache[1] = function () {
@@ -66725,22 +66737,22 @@ function panel_time_pickvue_type_template_id_cc558e5c_render(_ctx, _cache, $prop
       }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.confirm')), 1)])])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)];
     }),
     _: 1
-  });
+  }, 8, ["name"]);
 }
-// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=template&id=cc558e5c
+// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=template&id=b8e0b06e
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/basic-time-spinner.vue?vue&type=template&id=3de09e7a
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/basic-time-spinner.vue?vue&type=template&id=d037f474
 
-var basic_time_spinnervue_type_template_id_3de09e7a_hoisted_1 = {
+var basic_time_spinnervue_type_template_id_d037f474_hoisted_1 = {
   class: "el-time-spinner__arrow el-icon-arrow-up"
 };
-var basic_time_spinnervue_type_template_id_3de09e7a_hoisted_2 = {
+var basic_time_spinnervue_type_template_id_d037f474_hoisted_2 = {
   class: "el-time-spinner__arrow el-icon-arrow-down"
 };
-var basic_time_spinnervue_type_template_id_3de09e7a_hoisted_3 = {
+var basic_time_spinnervue_type_template_id_d037f474_hoisted_3 = {
   class: "el-time-spinner__list"
 };
-function basic_time_spinnervue_type_template_id_3de09e7a_render(_ctx, _cache, $props, $setup, $data, $options) {
+function basic_time_spinnervue_type_template_id_d037f474_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_scrollbar = Object(vue_esm_browser["P" /* resolveComponent */])("el-scrollbar");
 
   var _directive_repeat_click = Object(vue_esm_browser["Q" /* resolveDirective */])("repeat-click");
@@ -66811,7 +66823,7 @@ function basic_time_spinnervue_type_template_id_3de09e7a_render(_ctx, _cache, $p
       onMouseenter: function onMouseenter($event) {
         return _ctx.emitSelectRange(item);
       }
-    }, [Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("i", basic_time_spinnervue_type_template_id_3de09e7a_hoisted_1, null, 512), [[_directive_repeat_click, _ctx.onDecreaseClick]]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("i", basic_time_spinnervue_type_template_id_3de09e7a_hoisted_2, null, 512), [[_directive_repeat_click, _ctx.onIncreaseClick]]), Object(vue_esm_browser["o" /* createVNode */])("ul", basic_time_spinnervue_type_template_id_3de09e7a_hoisted_3, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.arrowListMap[item].value, function (time, key) {
+    }, [Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("i", basic_time_spinnervue_type_template_id_d037f474_hoisted_1, null, 512), [[_directive_repeat_click, _ctx.onDecreaseClick]]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("i", basic_time_spinnervue_type_template_id_d037f474_hoisted_2, null, 512), [[_directive_repeat_click, _ctx.onIncreaseClick]]), Object(vue_esm_browser["o" /* createVNode */])("ul", basic_time_spinnervue_type_template_id_d037f474_hoisted_3, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.arrowListMap[item].value, function (time, key) {
       return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("li", {
         key: key,
         class: ["el-time-spinner__item", {
@@ -66826,7 +66838,7 @@ function basic_time_spinnervue_type_template_id_3de09e7a_render(_ctx, _cache, $p
   /* KEYED_FRAGMENT */
   )) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 2);
 }
-// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/basic-time-spinner.vue?vue&type=template&id=3de09e7a
+// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/basic-time-spinner.vue?vue&type=template&id=d037f474
 
 // CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/useTimePicker.ts
 var makeList = function makeList(total, method, methodFunc) {
@@ -67160,9 +67172,7 @@ var getAvaliableArrs = function getAvaliableArrs(disabledHours, disabledMinutes,
 
     Object(vue_esm_browser["cb" /* watch */])(function () {
       return props.spinnerDate;
-    }, function () {
-      adjustSpinners();
-    });
+    }, adjustSpinners);
     return {
       getRefId: getRefId,
       spinnerItems: spinnerItems,
@@ -67198,7 +67208,7 @@ var getAvaliableArrs = function getAvaliableArrs(disabledHours, disabledMinutes,
 
 
 
-basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_template_id_3de09e7a_render
+basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_template_id_d037f474_render
 
 /* harmony default export */ var basic_time_spinner = (basic_time_spinnervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=script&lang=ts
@@ -67213,9 +67223,10 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
     TimeSpinner: basic_time_spinner
   },
   props: {
-    visible: {
+    visible: Boolean,
+    actualVisible: {
       type: Boolean,
-      default: false
+      default: undefined
     },
     datetimeRole: {
       type: String
@@ -67234,6 +67245,9 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
     var selectionRange = Object(vue_esm_browser["L" /* ref */])([0, 2]);
     var oldValue = Object(vue_esm_browser["L" /* ref */])(props.parsedValue); // computed
 
+    var transitionName = Object(vue_esm_browser["h" /* computed */])(function () {
+      return props.actualVisible === undefined ? 'el-zoom-in-top' : '';
+    });
     var showSeconds = Object(vue_esm_browser["h" /* computed */])(function () {
       return props.format.includes('ss');
     });
@@ -67372,6 +67386,7 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
         getAvaliableSeconds = _getAvaliableArrs.getAvaliableSeconds;
 
     return {
+      transitionName: transitionName,
       arrowControl: arrowControl,
       onSetOption: onSetOption,
       t: t,
@@ -67393,95 +67408,88 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
 
 
 
-panel_time_pickvue_type_script_lang_ts.render = panel_time_pickvue_type_template_id_cc558e5c_render
+panel_time_pickvue_type_script_lang_ts.render = panel_time_pickvue_type_template_id_b8e0b06e_render
 
 /* harmony default export */ var panel_time_pick = (panel_time_pickvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/panel-time-range.vue?vue&type=template&id=9fd12c0c
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/panel-time-range.vue?vue&type=template&id=74309886
 
-var panel_time_rangevue_type_template_id_9fd12c0c_hoisted_1 = {
+var panel_time_rangevue_type_template_id_74309886_hoisted_1 = {
   key: 0,
   class: "el-time-range-picker el-picker-panel"
 };
-var panel_time_rangevue_type_template_id_9fd12c0c_hoisted_2 = {
+var panel_time_rangevue_type_template_id_74309886_hoisted_2 = {
   class: "el-time-range-picker__content"
 };
-var panel_time_rangevue_type_template_id_9fd12c0c_hoisted_3 = {
+var panel_time_rangevue_type_template_id_74309886_hoisted_3 = {
   class: "el-time-range-picker__cell"
 };
-var panel_time_rangevue_type_template_id_9fd12c0c_hoisted_4 = {
+var panel_time_rangevue_type_template_id_74309886_hoisted_4 = {
   class: "el-time-range-picker__header"
 };
-var panel_time_rangevue_type_template_id_9fd12c0c_hoisted_5 = {
+var panel_time_rangevue_type_template_id_74309886_hoisted_5 = {
   class: "el-time-range-picker__cell"
 };
-var panel_time_rangevue_type_template_id_9fd12c0c_hoisted_6 = {
+var panel_time_rangevue_type_template_id_74309886_hoisted_6 = {
   class: "el-time-range-picker__header"
 };
-var panel_time_rangevue_type_template_id_9fd12c0c_hoisted_7 = {
+var panel_time_rangevue_type_template_id_74309886_hoisted_7 = {
   class: "el-time-panel__footer"
 };
-function panel_time_rangevue_type_template_id_9fd12c0c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_time_rangevue_type_template_id_74309886_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_time_spinner = Object(vue_esm_browser["P" /* resolveComponent */])("time-spinner");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["e" /* Transition */], {
-    name: "el-zoom-in-top"
-  }, {
-    default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [_ctx.visible ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_time_rangevue_type_template_id_9fd12c0c_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_9fd12c0c_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_9fd12c0c_hoisted_3, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_9fd12c0c_hoisted_4, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.startTime')), 1), Object(vue_esm_browser["o" /* createVNode */])("div", {
-        class: [{
-          'has-seconds': _ctx.showSeconds,
-          'is-arrow': _ctx.arrowControl
-        }, "el-time-range-picker__body el-time-panel__content"]
-      }, [Object(vue_esm_browser["o" /* createVNode */])(_component_time_spinner, {
-        ref: "minSpinner",
-        role: "start",
-        "show-seconds": _ctx.showSeconds,
-        "am-pm-mode": _ctx.amPmMode,
-        "arrow-control": _ctx.arrowControl,
-        "spinner-date": _ctx.minDate,
-        "disabled-hours": _ctx.disabledHours_,
-        "disabled-minutes": _ctx.disabledMinutes_,
-        "disabled-seconds": _ctx.disabledSeconds_,
-        onChange: _ctx.handleMinChange,
-        onSetOption: _ctx.onSetOption,
-        onSelectRange: _ctx.setMinSelectionRange
-      }, null, 8, ["show-seconds", "am-pm-mode", "arrow-control", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2)]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_9fd12c0c_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_9fd12c0c_hoisted_6, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.endTime')), 1), Object(vue_esm_browser["o" /* createVNode */])("div", {
-        class: [{
-          'has-seconds': _ctx.showSeconds,
-          'is-arrow': _ctx.arrowControl
-        }, "el-time-range-picker__body el-time-panel__content"]
-      }, [Object(vue_esm_browser["o" /* createVNode */])(_component_time_spinner, {
-        ref: "maxSpinner",
-        role: "end",
-        "show-seconds": _ctx.showSeconds,
-        "am-pm-mode": _ctx.amPmMode,
-        "arrow-control": _ctx.arrowControl,
-        "spinner-date": _ctx.maxDate,
-        "disabled-hours": _ctx.disabledHours_,
-        "disabled-minutes": _ctx.disabledMinutes_,
-        "disabled-seconds": _ctx.disabledSeconds_,
-        onChange: _ctx.handleMaxChange,
-        onSetOption: _ctx.onSetOption,
-        onSelectRange: _ctx.setMaxSelectionRange
-      }, null, 8, ["show-seconds", "am-pm-mode", "arrow-control", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2)])]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_9fd12c0c_hoisted_7, [Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        class: "el-time-panel__btn cancel",
-        onClick: _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.handleCancel();
-        })
-      }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.cancel')), 1), Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        class: "el-time-panel__btn confirm",
-        disabled: _ctx.btnConfirmDisabled,
-        onClick: _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.handleConfirm();
-        })
-      }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.confirm')), 9, ["disabled"])])])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)];
-    }),
-    _: 1
-  });
+  return _ctx.actualVisible ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_time_rangevue_type_template_id_74309886_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_74309886_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_74309886_hoisted_3, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_74309886_hoisted_4, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.startTime')), 1), Object(vue_esm_browser["o" /* createVNode */])("div", {
+    class: [{
+      'has-seconds': _ctx.showSeconds,
+      'is-arrow': _ctx.arrowControl
+    }, "el-time-range-picker__body el-time-panel__content"]
+  }, [Object(vue_esm_browser["o" /* createVNode */])(_component_time_spinner, {
+    ref: "minSpinner",
+    role: "start",
+    "show-seconds": _ctx.showSeconds,
+    "am-pm-mode": _ctx.amPmMode,
+    "arrow-control": _ctx.arrowControl,
+    "spinner-date": _ctx.minDate,
+    "disabled-hours": _ctx.disabledHours_,
+    "disabled-minutes": _ctx.disabledMinutes_,
+    "disabled-seconds": _ctx.disabledSeconds_,
+    onChange: _ctx.handleMinChange,
+    onSetOption: _ctx.onSetOption,
+    onSelectRange: _ctx.setMinSelectionRange
+  }, null, 8, ["show-seconds", "am-pm-mode", "arrow-control", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2)]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_74309886_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_74309886_hoisted_6, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.endTime')), 1), Object(vue_esm_browser["o" /* createVNode */])("div", {
+    class: [{
+      'has-seconds': _ctx.showSeconds,
+      'is-arrow': _ctx.arrowControl
+    }, "el-time-range-picker__body el-time-panel__content"]
+  }, [Object(vue_esm_browser["o" /* createVNode */])(_component_time_spinner, {
+    ref: "maxSpinner",
+    role: "end",
+    "show-seconds": _ctx.showSeconds,
+    "am-pm-mode": _ctx.amPmMode,
+    "arrow-control": _ctx.arrowControl,
+    "spinner-date": _ctx.maxDate,
+    "disabled-hours": _ctx.disabledHours_,
+    "disabled-minutes": _ctx.disabledMinutes_,
+    "disabled-seconds": _ctx.disabledSeconds_,
+    onChange: _ctx.handleMaxChange,
+    onSetOption: _ctx.onSetOption,
+    onSelectRange: _ctx.setMaxSelectionRange
+  }, null, 8, ["show-seconds", "am-pm-mode", "arrow-control", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2)])]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_time_rangevue_type_template_id_74309886_hoisted_7, [Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    class: "el-time-panel__btn cancel",
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.handleCancel();
+    })
+  }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.cancel')), 1), Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    class: "el-time-panel__btn confirm",
+    disabled: _ctx.btnConfirmDisabled,
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.handleConfirm();
+    })
+  }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.confirm')), 9, ["disabled"])])])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true);
 }
-// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/panel-time-range.vue?vue&type=template&id=9fd12c0c
+// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/panel-time-range.vue?vue&type=template&id=74309886
 
 // EXTERNAL MODULE: ./node_modules/lodash/union.js
 var union = __webpack_require__(41);
@@ -67511,10 +67519,8 @@ var makeSelectRange = function makeSelectRange(start, end) {
     TimeSpinner: basic_time_spinner
   },
   props: {
-    visible: {
-      type: [Boolean],
-      default: false
-    },
+    visible: Boolean,
+    actualVisible: Boolean,
     parsedValue: {
       type: [Array, String]
     },
@@ -67795,7 +67801,7 @@ var makeSelectRange = function makeSelectRange(start, end) {
 
 
 
-panel_time_rangevue_type_script_lang_ts.render = panel_time_rangevue_type_template_id_9fd12c0c_render
+panel_time_rangevue_type_script_lang_ts.render = panel_time_rangevue_type_template_id_74309886_render
 
 /* harmony default export */ var panel_time_range = (panel_time_rangevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/time-picker/src/time-picker.ts
@@ -68842,21 +68848,21 @@ carousel_src_item.install = function (app) {
 };
 
 /* harmony default export */ var carousel_item = (carousel_src_item);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/cascader/src/index.vue?vue&type=template&id=daef0550
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/cascader/src/index.vue?vue&type=template&id=337dab8a
 
-var srcvue_type_template_id_daef0550_hoisted_1 = {
+var srcvue_type_template_id_337dab8a_hoisted_1 = {
   key: 0,
   ref: "tagWrapper",
   class: "el-cascader__tags"
 };
-var srcvue_type_template_id_daef0550_hoisted_2 = {
+var srcvue_type_template_id_337dab8a_hoisted_2 = {
   key: 0,
   class: "el-icon-check"
 };
-var srcvue_type_template_id_daef0550_hoisted_3 = {
+var srcvue_type_template_id_337dab8a_hoisted_3 = {
   class: "el-cascader__empty-text"
 };
-function srcvue_type_template_id_daef0550_render(_ctx, _cache, $props, $setup, $data, $options) {
+function srcvue_type_template_id_337dab8a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = Object(vue_esm_browser["P" /* resolveComponent */])("el-input");
 
   var _component_el_tag = Object(vue_esm_browser["P" /* resolveComponent */])("el-tag");
@@ -68876,10 +68882,11 @@ function srcvue_type_template_id_daef0550_render(_ctx, _cache, $props, $setup, $
       return _ctx.popperVisible = $event;
     }),
     trigger: "manual",
-    transition: "el-zoom-in-top",
     placement: "bottom-start",
     "popper-class": "el-cascader__dropdown " + _ctx.popperClass,
     "popper-options": _ctx.popperOptions,
+    transition: "el-zoom-in-top",
+    "gpu-acceleration": false,
     effect: "light",
     pure: "",
     onAfterLeave: _ctx.hideSuggestionPanel
@@ -68942,7 +68949,7 @@ function srcvue_type_template_id_daef0550_render(_ctx, _cache, $props, $setup, $
           }, null, 2))];
         }),
         _: 1
-      }, 8, ["modelValue", "placeholder", "readonly", "disabled", "size", "class", "onInput"]), _ctx.multiple ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", srcvue_type_template_id_daef0550_hoisted_1, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.presentTags, function (tag) {
+      }, 8, ["modelValue", "placeholder", "readonly", "disabled", "size", "class", "onInput"]), _ctx.multiple ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", srcvue_type_template_id_337dab8a_hoisted_1, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.presentTags, function (tag) {
         return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_el_tag, {
           key: tag.key,
           type: "info",
@@ -69017,13 +69024,13 @@ function srcvue_type_template_id_daef0550_render(_ctx, _cache, $props, $setup, $
               onClick: function onClick($event) {
                 return _ctx.handleSuggestionClick(item);
               }
-            }, [Object(vue_esm_browser["o" /* createVNode */])("span", null, Object(vue_esm_browser["T" /* toDisplayString */])(item.text), 1), item.checked ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("i", srcvue_type_template_id_daef0550_hoisted_2)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 10, ["onClick"]);
+            }, [Object(vue_esm_browser["o" /* createVNode */])("span", null, Object(vue_esm_browser["T" /* toDisplayString */])(item.text), 1), item.checked ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("i", srcvue_type_template_id_337dab8a_hoisted_2)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 10, ["onClick"]);
           }), 128
           /* KEYED_FRAGMENT */
           )) : Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "empty", {
             key: 1
           }, function () {
-            return [Object(vue_esm_browser["o" /* createVNode */])("li", srcvue_type_template_id_daef0550_hoisted_3, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.cascader.noMatch')), 1)];
+            return [Object(vue_esm_browser["o" /* createVNode */])("li", srcvue_type_template_id_337dab8a_hoisted_3, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.cascader.noMatch')), 1)];
           })];
         }),
         _: 1
@@ -69032,7 +69039,7 @@ function srcvue_type_template_id_daef0550_render(_ctx, _cache, $props, $setup, $
     _: 1
   }, 8, ["visible", "popper-class", "popper-options", "onAfterLeave"]);
 }
-// CONCATENATED MODULE: ./packages/cascader/src/index.vue?vue&type=template&id=daef0550
+// CONCATENATED MODULE: ./packages/cascader/src/index.vue?vue&type=template&id=337dab8a
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/cascader-panel/src/index.vue?vue&type=template&id=3a7d1ab8
 
@@ -70947,12 +70954,6 @@ var INPUT_HEIGHT_MAP = {
 };
 var srcvue_type_script_lang_ts_popperOptions = {
   modifiers: [{
-    name: 'computeStyles',
-    options: {
-      gpuAcceleration: false,
-      adaptive: false
-    }
-  }, {
     name: 'arrowPosition',
     enabled: true,
     phase: 'main',
@@ -71365,7 +71366,7 @@ var srcvue_type_script_lang_ts_popperOptions = {
 
 
 
-cascader_srcvue_type_script_lang_ts.render = srcvue_type_template_id_daef0550_render
+cascader_srcvue_type_script_lang_ts.render = srcvue_type_template_id_337dab8a_render
 
 /* harmony default export */ var cascader_src = (cascader_srcvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/cascader/index.ts
@@ -72075,34 +72076,34 @@ collapse_item.install = function (app) {
 };
 
 /* harmony default export */ var packages_collapse_item = (collapse_item);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/color-picker/src/index.vue?vue&type=template&id=5dd76432
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/color-picker/src/index.vue?vue&type=template&id=27e4ca96
 
-var srcvue_type_template_id_5dd76432_hoisted_1 = {
+var srcvue_type_template_id_27e4ca96_hoisted_1 = {
   style: {
     "display": "inline-block"
   }
 };
-var srcvue_type_template_id_5dd76432_hoisted_2 = {
+var srcvue_type_template_id_27e4ca96_hoisted_2 = {
   class: "el-color-dropdown__main-wrapper"
 };
-var srcvue_type_template_id_5dd76432_hoisted_3 = {
+var srcvue_type_template_id_27e4ca96_hoisted_3 = {
   class: "el-color-dropdown__btns"
 };
-var srcvue_type_template_id_5dd76432_hoisted_4 = {
+var srcvue_type_template_id_27e4ca96_hoisted_4 = {
   class: "el-color-dropdown__value"
 };
-var srcvue_type_template_id_5dd76432_hoisted_5 = {
+var srcvue_type_template_id_27e4ca96_hoisted_5 = {
   key: 0,
   class: "el-color-picker__mask"
 };
-var srcvue_type_template_id_5dd76432_hoisted_6 = {
+var srcvue_type_template_id_27e4ca96_hoisted_6 = {
   key: 0,
   class: "el-color-picker__empty el-icon-close"
 };
-var srcvue_type_template_id_5dd76432_hoisted_7 = {
+var srcvue_type_template_id_27e4ca96_hoisted_7 = {
   class: "el-color-picker__icon el-icon-arrow-down"
 };
-function srcvue_type_template_id_5dd76432_render(_ctx, _cache, $props, $setup, $data, $options) {
+function srcvue_type_template_id_27e4ca96_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_hue_slider = Object(vue_esm_browser["P" /* resolveComponent */])("hue-slider");
 
   var _component_sv_panel = Object(vue_esm_browser["P" /* resolveComponent */])("sv-panel");
@@ -72119,7 +72120,7 @@ function srcvue_type_template_id_5dd76432_render(_ctx, _cache, $props, $setup, $
 
   var _directive_click_outside = Object(vue_esm_browser["Q" /* resolveDirective */])("click-outside");
 
-  return Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", srcvue_type_template_id_5dd76432_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_popper, {
+  return Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", srcvue_type_template_id_27e4ca96_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_popper, {
     ref: "popper",
     visible: _ctx.showPicker,
     "onUpdate:visible": _cache[3] || (_cache[3] = function ($event) {
@@ -72129,12 +72130,14 @@ function srcvue_type_template_id_5dd76432_render(_ctx, _cache, $props, $setup, $
     "manual-mode": "",
     trigger: "click",
     "show-arrow": false,
+    offset: 0,
+    transition: "el-zoom-in-top",
+    "gpu-acceleration": false,
     "popper-class": "el-color-picker__panel el-color-dropdown",
-    "stop-popper-mouse-event": false,
-    onAfterLeave: _ctx.doDestroy
+    "stop-popper-mouse-event": false
   }, {
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_5dd76432_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])(_component_hue_slider, {
+      return [Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_27e4ca96_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])(_component_hue_slider, {
         ref: "hue",
         class: "hue-slider",
         color: _ctx.color,
@@ -72151,7 +72154,7 @@ function srcvue_type_template_id_5dd76432_render(_ctx, _cache, $props, $setup, $
         ref: "predefine",
         color: _ctx.color,
         colors: _ctx.predefine
-      }, null, 8, ["color", "colors"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_5dd76432_hoisted_3, [Object(vue_esm_browser["o" /* createVNode */])("span", srcvue_type_template_id_5dd76432_hoisted_4, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
+      }, null, 8, ["color", "colors"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_27e4ca96_hoisted_3, [Object(vue_esm_browser["o" /* createVNode */])("span", srcvue_type_template_id_27e4ca96_hoisted_4, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
         modelValue: _ctx.customInput,
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return _ctx.customInput = $event;
@@ -72189,7 +72192,7 @@ function srcvue_type_template_id_5dd76432_render(_ctx, _cache, $props, $setup, $
     trigger: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])("div", {
         class: ['el-color-picker', _ctx.colorDisabled ? 'is-disabled' : '', _ctx.colorSize ? "el-color-picker--" + _ctx.colorSize : '']
-      }, [_ctx.colorDisabled ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", srcvue_type_template_id_5dd76432_hoisted_5)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", {
+      }, [_ctx.colorDisabled ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", srcvue_type_template_id_27e4ca96_hoisted_5)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", {
         class: "el-color-picker__trigger",
         onClick: _cache[2] || (_cache[2] = function () {
           return _ctx.handleTrigger.apply(_ctx, arguments);
@@ -72203,12 +72206,12 @@ function srcvue_type_template_id_5dd76432_render(_ctx, _cache, $props, $setup, $
         style: {
           backgroundColor: _ctx.displayedColor
         }
-      }, null, 4), !_ctx.modelValue && !_ctx.showPanelColor ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", srcvue_type_template_id_5dd76432_hoisted_6)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 2), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", srcvue_type_template_id_5dd76432_hoisted_7, null, 512), [[vue_esm_browser["ab" /* vShow */], _ctx.modelValue || _ctx.showPanelColor]])])], 2)];
+      }, null, 4), !_ctx.modelValue && !_ctx.showPanelColor ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", srcvue_type_template_id_27e4ca96_hoisted_6)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 2), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", srcvue_type_template_id_27e4ca96_hoisted_7, null, 512), [[vue_esm_browser["ab" /* vShow */], _ctx.modelValue || _ctx.showPanelColor]])])], 2)];
     }),
     _: 1
-  }, 8, ["visible", "onAfterLeave"])], 512)), [[_directive_click_outside, _ctx.hide]]);
+  }, 8, ["visible"])], 512)), [[_directive_click_outside, _ctx.hide]]);
 }
-// CONCATENATED MODULE: ./packages/color-picker/src/index.vue?vue&type=template&id=5dd76432
+// CONCATENATED MODULE: ./packages/color-picker/src/index.vue?vue&type=template&id=27e4ca96
 
 // CONCATENATED MODULE: ./packages/color-picker/src/color.ts
 
@@ -73311,10 +73314,6 @@ var srcvue_type_script_lang_ts_useOptions = function useOptions() {
       resetColor();
     }
 
-    function doDestroy() {
-      popper.value.doDestroy();
-    }
-
     Object(vue_esm_browser["D" /* onMounted */])(function () {
       if (props.modelValue) {
         color.fromString(props.modelValue);
@@ -73346,7 +73345,6 @@ var srcvue_type_script_lang_ts_useOptions = function useOptions() {
       handleTrigger: handleTrigger,
       clear: clear,
       confirmValue: confirmValue,
-      doDestroy: doDestroy,
       t: t,
       hue: hue,
       svPanel: svPanel,
@@ -73361,7 +73359,7 @@ var srcvue_type_script_lang_ts_useOptions = function useOptions() {
 
 
 
-color_picker_srcvue_type_script_lang_ts.render = srcvue_type_template_id_5dd76432_render
+color_picker_srcvue_type_script_lang_ts.render = srcvue_type_template_id_27e4ca96_render
 
 /* harmony default export */ var color_picker_src = (color_picker_srcvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/color-picker/index.ts
@@ -73434,35 +73432,35 @@ src_container.install = function (app) {
 };
 
 /* harmony default export */ var packages_container = (src_container);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-pick.vue?vue&type=template&id=051bacfa
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-pick.vue?vue&type=template&id=52cae7e0
 
-var panel_date_pickvue_type_template_id_051bacfa_hoisted_1 = {
+var panel_date_pickvue_type_template_id_52cae7e0_hoisted_1 = {
   class: "el-picker-panel__body-wrapper"
 };
-var panel_date_pickvue_type_template_id_051bacfa_hoisted_2 = {
+var panel_date_pickvue_type_template_id_52cae7e0_hoisted_2 = {
   key: 0,
   class: "el-picker-panel__sidebar"
 };
-var panel_date_pickvue_type_template_id_051bacfa_hoisted_3 = {
+var panel_date_pickvue_type_template_id_52cae7e0_hoisted_3 = {
   class: "el-picker-panel__body"
 };
-var panel_date_pickvue_type_template_id_051bacfa_hoisted_4 = {
+var panel_date_pickvue_type_template_id_52cae7e0_hoisted_4 = {
   key: 0,
   class: "el-date-picker__time-header"
 };
-var panel_date_pickvue_type_template_id_051bacfa_hoisted_5 = {
+var panel_date_pickvue_type_template_id_52cae7e0_hoisted_5 = {
   class: "el-date-picker__editor-wrap"
 };
-var panel_date_pickvue_type_template_id_051bacfa_hoisted_6 = {
+var panel_date_pickvue_type_template_id_52cae7e0_hoisted_6 = {
   class: "el-date-picker__editor-wrap"
 };
-var panel_date_pickvue_type_template_id_051bacfa_hoisted_7 = {
+var panel_date_pickvue_type_template_id_52cae7e0_hoisted_7 = {
   class: "el-picker-panel__content"
 };
-var panel_date_pickvue_type_template_id_051bacfa_hoisted_8 = {
+var panel_date_pickvue_type_template_id_52cae7e0_hoisted_8 = {
   class: "el-picker-panel__footer"
 };
-function panel_date_pickvue_type_template_id_051bacfa_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_date_pickvue_type_template_id_52cae7e0_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = Object(vue_esm_browser["P" /* resolveComponent */])("el-input");
 
   var _component_time_pick_panel = Object(vue_esm_browser["P" /* resolveComponent */])("time-pick-panel");
@@ -73477,147 +73475,139 @@ function panel_date_pickvue_type_template_id_051bacfa_render(_ctx, _cache, $prop
 
   var _directive_clickoutside = Object(vue_esm_browser["Q" /* resolveDirective */])("clickoutside");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["e" /* Transition */], {
-    name: "el-zoom-in-top"
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", {
+    class: ["el-picker-panel el-date-picker", [{
+      'has-sidebar': _ctx.$slots.sidebar || _ctx.hasShortcuts,
+      'has-time': _ctx.showTime
+    }]]
+  }, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_pickvue_type_template_id_52cae7e0_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "sidebar", {
+    class: "el-picker-panel__sidebar"
+  }), _ctx.hasShortcuts ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_pickvue_type_template_id_52cae7e0_hoisted_2, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
+    return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+      key: key,
+      type: "button",
+      class: "el-picker-panel__shortcut",
+      onClick: function onClick($event) {
+        return _ctx.handleShortcutClick(shortcut);
+      }
+    }, Object(vue_esm_browser["T" /* toDisplayString */])(shortcut.text), 9, ["onClick"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_pickvue_type_template_id_52cae7e0_hoisted_3, [_ctx.showTime ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_pickvue_type_template_id_52cae7e0_hoisted_4, [Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_pickvue_type_template_id_52cae7e0_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
+    placeholder: _ctx.t('el.datepicker.selectDate'),
+    "model-value": _ctx.visibleDate,
+    size: "small",
+    onInput: _cache[1] || (_cache[1] = function (val) {
+      return _ctx.userInputDate = val;
+    }),
+    onChange: _ctx.handleVisibleDateChange
+  }, null, 8, ["placeholder", "model-value", "onChange"])]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_pickvue_type_template_id_52cae7e0_hoisted_6, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
+    placeholder: _ctx.t('el.datepicker.selectTime'),
+    "model-value": _ctx.visibleTime,
+    size: "small",
+    onFocus: _ctx.onTimePickerInputFocus,
+    onInput: _cache[2] || (_cache[2] = function (val) {
+      return _ctx.userInputTime = val;
+    }),
+    onChange: _ctx.handleVisibleTimeChange
+  }, null, 8, ["placeholder", "model-value", "onFocus", "onChange"]), Object(vue_esm_browser["o" /* createVNode */])(_component_time_pick_panel, {
+    visible: _ctx.timePickerVisible,
+    format: _ctx.timeFormat,
+    "time-arrow-control": _ctx.arrowControl,
+    "parsed-value": _ctx.innerDate,
+    onPick: _ctx.handleTimePick
+  }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleTimePickClose]])])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", {
+    class: ["el-date-picker__header", {
+      'el-date-picker__header--bordered': _ctx.currentView === 'year' || _ctx.currentView === 'month'
+    }]
+  }, [Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    "aria-label": _ctx.t("el.datepicker.prevYear"),
+    class: "el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-d-arrow-left",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return _ctx.prevYear_.apply(_ctx, arguments);
+    })
+  }, null, 8, ["aria-label"]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    "aria-label": _ctx.t("el.datepicker.prevMonth"),
+    class: "el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-arrow-left",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return _ctx.prevMonth_.apply(_ctx, arguments);
+    })
+  }, null, 8, ["aria-label"]), [[vue_esm_browser["ab" /* vShow */], _ctx.currentView === 'date']]), Object(vue_esm_browser["o" /* createVNode */])("span", {
+    role: "button",
+    class: "el-date-picker__header-label",
+    onClick: _cache[5] || (_cache[5] = function () {
+      return _ctx.showYearPicker.apply(_ctx, arguments);
+    })
+  }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.yearLabel), 1), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", {
+    role: "button",
+    class: ["el-date-picker__header-label", {
+      active: _ctx.currentView === 'month'
+    }],
+    onClick: _cache[6] || (_cache[6] = function () {
+      return _ctx.showMonthPicker.apply(_ctx, arguments);
+    })
+  }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t("el.datepicker.month" + (_ctx.month + 1))), 3), [[vue_esm_browser["ab" /* vShow */], _ctx.currentView === 'date']]), Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    "aria-label": _ctx.t("el.datepicker.nextYear"),
+    class: "el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right",
+    onClick: _cache[7] || (_cache[7] = function () {
+      return _ctx.nextYear_.apply(_ctx, arguments);
+    })
+  }, null, 8, ["aria-label"]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    "aria-label": _ctx.t("el.datepicker.nextMonth"),
+    class: "el-picker-panel__icon-btn el-date-picker__next-btn el-icon-arrow-right",
+    onClick: _cache[8] || (_cache[8] = function () {
+      return _ctx.nextMonth_.apply(_ctx, arguments);
+    })
+  }, null, 8, ["aria-label"]), [[vue_esm_browser["ab" /* vShow */], _ctx.currentView === 'date']])], 2), [[vue_esm_browser["ab" /* vShow */], _ctx.currentView !== 'time']]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_pickvue_type_template_id_52cae7e0_hoisted_7, [_ctx.currentView === 'date' ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_date_table, {
+    key: 0,
+    "selection-mode": _ctx.selectionMode,
+    date: _ctx.innerDate,
+    "parsed-value": _ctx.parsedValue,
+    "disabled-date": _ctx.disabledDate,
+    onPick: _ctx.handleDatePick
+  }, null, 8, ["selection-mode", "date", "parsed-value", "disabled-date", "onPick"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.currentView === 'year' ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_year_table, {
+    key: 1,
+    date: _ctx.innerDate,
+    "disabled-date": _ctx.disabledDate,
+    "parsed-value": _ctx.parsedValue,
+    onPick: _ctx.handleYearPick
+  }, null, 8, ["date", "disabled-date", "parsed-value", "onPick"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.currentView === 'month' ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_month_table, {
+    key: 2,
+    date: _ctx.innerDate,
+    "parsed-value": _ctx.parsedValue,
+    "disabled-date": _ctx.disabledDate,
+    onPick: _ctx.handleMonthPick
+  }, null, 8, ["date", "parsed-value", "disabled-date", "onPick"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)])])]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_pickvue_type_template_id_52cae7e0_hoisted_8, [Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])(_component_el_button, {
+    size: "mini",
+    type: "text",
+    class: "el-picker-panel__link-btn",
+    onClick: _ctx.changeToNow
   }, {
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [_ctx.visible ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", {
-        key: 0,
-        class: ["el-picker-panel el-date-picker", [{
-          'has-sidebar': _ctx.$slots.sidebar || _ctx.hasShortcuts,
-          'has-time': _ctx.showTime
-        }]]
-      }, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_pickvue_type_template_id_051bacfa_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "sidebar", {
-        class: "el-picker-panel__sidebar"
-      }), _ctx.hasShortcuts ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_pickvue_type_template_id_051bacfa_hoisted_2, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
-        return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
-          key: key,
-          type: "button",
-          class: "el-picker-panel__shortcut",
-          onClick: function onClick($event) {
-            return _ctx.handleShortcutClick(shortcut);
-          }
-        }, Object(vue_esm_browser["T" /* toDisplayString */])(shortcut.text), 9, ["onClick"]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_pickvue_type_template_id_051bacfa_hoisted_3, [_ctx.showTime ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_pickvue_type_template_id_051bacfa_hoisted_4, [Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_pickvue_type_template_id_051bacfa_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
-        placeholder: _ctx.t('el.datepicker.selectDate'),
-        "model-value": _ctx.visibleDate,
-        size: "small",
-        onInput: _cache[1] || (_cache[1] = function (val) {
-          return _ctx.userInputDate = val;
-        }),
-        onChange: _ctx.handleVisibleDateChange
-      }, null, 8, ["placeholder", "model-value", "onChange"])]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_pickvue_type_template_id_051bacfa_hoisted_6, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
-        placeholder: _ctx.t('el.datepicker.selectTime'),
-        "model-value": _ctx.visibleTime,
-        size: "small",
-        onFocus: _ctx.onTimePickerInputFocus,
-        onInput: _cache[2] || (_cache[2] = function (val) {
-          return _ctx.userInputTime = val;
-        }),
-        onChange: _ctx.handleVisibleTimeChange
-      }, null, 8, ["placeholder", "model-value", "onFocus", "onChange"]), Object(vue_esm_browser["o" /* createVNode */])(_component_time_pick_panel, {
-        visible: _ctx.timePickerVisible,
-        format: _ctx.timeFormat,
-        "time-arrow-control": _ctx.arrowControl,
-        "parsed-value": _ctx.innerDate,
-        onPick: _ctx.handleTimePick
-      }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleTimePickClose]])])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", {
-        class: ["el-date-picker__header", {
-          'el-date-picker__header--bordered': _ctx.currentView === 'year' || _ctx.currentView === 'month'
-        }]
-      }, [Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        "aria-label": _ctx.t("el.datepicker.prevYear"),
-        class: "el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-d-arrow-left",
-        onClick: _cache[3] || (_cache[3] = function () {
-          return _ctx.prevYear_.apply(_ctx, arguments);
-        })
-      }, null, 8, ["aria-label"]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        "aria-label": _ctx.t("el.datepicker.prevMonth"),
-        class: "el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-arrow-left",
-        onClick: _cache[4] || (_cache[4] = function () {
-          return _ctx.prevMonth_.apply(_ctx, arguments);
-        })
-      }, null, 8, ["aria-label"]), [[vue_esm_browser["ab" /* vShow */], _ctx.currentView === 'date']]), Object(vue_esm_browser["o" /* createVNode */])("span", {
-        role: "button",
-        class: "el-date-picker__header-label",
-        onClick: _cache[5] || (_cache[5] = function () {
-          return _ctx.showYearPicker.apply(_ctx, arguments);
-        })
-      }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.yearLabel), 1), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", {
-        role: "button",
-        class: ["el-date-picker__header-label", {
-          active: _ctx.currentView === 'month'
-        }],
-        onClick: _cache[6] || (_cache[6] = function () {
-          return _ctx.showMonthPicker.apply(_ctx, arguments);
-        })
-      }, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t("el.datepicker.month" + (_ctx.month + 1))), 3), [[vue_esm_browser["ab" /* vShow */], _ctx.currentView === 'date']]), Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        "aria-label": _ctx.t("el.datepicker.nextYear"),
-        class: "el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right",
-        onClick: _cache[7] || (_cache[7] = function () {
-          return _ctx.nextYear_.apply(_ctx, arguments);
-        })
-      }, null, 8, ["aria-label"]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        "aria-label": _ctx.t("el.datepicker.nextMonth"),
-        class: "el-picker-panel__icon-btn el-date-picker__next-btn el-icon-arrow-right",
-        onClick: _cache[8] || (_cache[8] = function () {
-          return _ctx.nextMonth_.apply(_ctx, arguments);
-        })
-      }, null, 8, ["aria-label"]), [[vue_esm_browser["ab" /* vShow */], _ctx.currentView === 'date']])], 2), [[vue_esm_browser["ab" /* vShow */], _ctx.currentView !== 'time']]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_pickvue_type_template_id_051bacfa_hoisted_7, [_ctx.currentView === 'date' ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_date_table, {
-        key: 0,
-        "selection-mode": _ctx.selectionMode,
-        date: _ctx.innerDate,
-        "parsed-value": _ctx.parsedValue,
-        "disabled-date": _ctx.disabledDate,
-        onPick: _ctx.handleDatePick
-      }, null, 8, ["selection-mode", "date", "parsed-value", "disabled-date", "onPick"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.currentView === 'year' ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_year_table, {
-        key: 1,
-        date: _ctx.innerDate,
-        "disabled-date": _ctx.disabledDate,
-        "parsed-value": _ctx.parsedValue,
-        onPick: _ctx.handleYearPick
-      }, null, 8, ["date", "disabled-date", "parsed-value", "onPick"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.currentView === 'month' ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_month_table, {
-        key: 2,
-        date: _ctx.innerDate,
-        "parsed-value": _ctx.parsedValue,
-        "disabled-date": _ctx.disabledDate,
-        onPick: _ctx.handleMonthPick
-      }, null, 8, ["date", "parsed-value", "disabled-date", "onPick"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)])])]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_pickvue_type_template_id_051bacfa_hoisted_8, [Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])(_component_el_button, {
-        size: "mini",
-        type: "text",
-        class: "el-picker-panel__link-btn",
-        onClick: _ctx.changeToNow
-      }, {
-        default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.now')), 1
-          /* TEXT */
-          )];
-        }),
-        _: 1
-      }, 8, ["onClick"]), [[vue_esm_browser["ab" /* vShow */], _ctx.selectionMode !== 'dates']]), Object(vue_esm_browser["o" /* createVNode */])(_component_el_button, {
-        plain: "",
-        size: "mini",
-        class: "el-picker-panel__link-btn",
-        onClick: _ctx.onConfirm
-      }, {
-        default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.confirm')), 1
-          /* TEXT */
-          )];
-        }),
-        _: 1
-      }, 8, ["onClick"])], 512), [[vue_esm_browser["ab" /* vShow */], _ctx.footerVisible && _ctx.currentView === 'date']])], 2)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)];
+      return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.now')), 1
+      /* TEXT */
+      )];
     }),
     _: 1
-  });
+  }, 8, ["onClick"]), [[vue_esm_browser["ab" /* vShow */], _ctx.selectionMode !== 'dates']]), Object(vue_esm_browser["o" /* createVNode */])(_component_el_button, {
+    plain: "",
+    size: "mini",
+    class: "el-picker-panel__link-btn",
+    onClick: _ctx.onConfirm
+  }, {
+    default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
+      return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.confirm')), 1
+      /* TEXT */
+      )];
+    }),
+    _: 1
+  }, 8, ["onClick"])], 512), [[vue_esm_browser["ab" /* vShow */], _ctx.footerVisible && _ctx.currentView === 'date']])], 2);
 }
-// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-date-pick.vue?vue&type=template&id=051bacfa
+// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-date-pick.vue?vue&type=template&id=52cae7e0
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-date-table.vue?vue&type=template&id=36248654
 
@@ -74876,65 +74866,65 @@ var timeWithinRange = function timeWithinRange() {
 
 
 
-panel_date_pickvue_type_script_lang_ts.render = panel_date_pickvue_type_template_id_051bacfa_render
+panel_date_pickvue_type_script_lang_ts.render = panel_date_pickvue_type_template_id_52cae7e0_render
 
 /* harmony default export */ var panel_date_pick = (panel_date_pickvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=template&id=7e7d3324
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=template&id=4cb0cbc4
 
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_1 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_1 = {
   class: "el-picker-panel__body-wrapper"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_2 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_2 = {
   key: 0,
   class: "el-picker-panel__sidebar"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_3 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_3 = {
   class: "el-picker-panel__body"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_4 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_4 = {
   key: 0,
   class: "el-date-range-picker__time-header"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_5 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_5 = {
   class: "el-date-range-picker__editors-wrap"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_6 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_6 = {
   class: "el-date-range-picker__time-picker-wrap"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_7 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_7 = {
   class: "el-date-range-picker__time-picker-wrap"
 };
 
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("span", {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("span", {
   class: "el-icon-arrow-right"
 }, null, -1);
 
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_9 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_9 = {
   class: "el-date-range-picker__editors-wrap is-right"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_10 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_10 = {
   class: "el-date-range-picker__time-picker-wrap"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_11 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_11 = {
   class: "el-date-range-picker__time-picker-wrap"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_12 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_12 = {
   class: "el-picker-panel__content el-date-range-picker__content is-left"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_13 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_13 = {
   class: "el-date-range-picker__header"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_14 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_14 = {
   class: "el-picker-panel__content el-date-range-picker__content is-right"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_15 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_15 = {
   class: "el-date-range-picker__header"
 };
-var panel_date_rangevue_type_template_id_7e7d3324_hoisted_16 = {
+var panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_16 = {
   key: 0,
   class: "el-picker-panel__footer"
 };
-function panel_date_rangevue_type_template_id_7e7d3324_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_date_rangevue_type_template_id_4cb0cbc4_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = Object(vue_esm_browser["P" /* resolveComponent */])("el-input");
 
   var _component_time_pick_panel = Object(vue_esm_browser["P" /* resolveComponent */])("time-pick-panel");
@@ -74945,217 +74935,210 @@ function panel_date_rangevue_type_template_id_7e7d3324_render(_ctx, _cache, $pro
 
   var _directive_clickoutside = Object(vue_esm_browser["Q" /* resolveDirective */])("clickoutside");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["e" /* Transition */], {
-    name: "el-zoom-in-top"
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", {
+    class: ["el-picker-panel el-date-range-picker", [{
+      'has-sidebar': _ctx.$slots.sidebar || _ctx.hasShortcuts,
+      'has-time': _ctx.showTime
+    }]]
+  }, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "sidebar", {
+    class: "el-picker-panel__sidebar"
+  }), _ctx.hasShortcuts ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_2, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
+    return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+      key: key,
+      type: "button",
+      class: "el-picker-panel__shortcut",
+      onClick: function onClick($event) {
+        return _ctx.handleShortcutClick(shortcut);
+      }
+    }, Object(vue_esm_browser["T" /* toDisplayString */])(shortcut.text), 9, ["onClick"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_3, [_ctx.showTime ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_4, [Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_6, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
+    size: "small",
+    disabled: _ctx.rangeState.selecting,
+    placeholder: _ctx.t('el.datepicker.startDate'),
+    class: "el-date-range-picker__editor",
+    "model-value": _ctx.minVisibleDate,
+    onInput: _cache[1] || (_cache[1] = function (val) {
+      return _ctx.handleDateInput(val, 'min');
+    }),
+    onChange: _cache[2] || (_cache[2] = function (val) {
+      return _ctx.handleDateChange(val, 'min');
+    })
+  }, null, 8, ["disabled", "placeholder", "model-value"])]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_7, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
+    size: "small",
+    class: "el-date-range-picker__editor",
+    disabled: _ctx.rangeState.selecting,
+    placeholder: _ctx.t('el.datepicker.startTime'),
+    "model-value": _ctx.minVisibleTime,
+    onFocus: _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.minTimePickerVisible = true;
+    }),
+    onInput: _cache[4] || (_cache[4] = function (val) {
+      return _ctx.handleTimeInput(val, 'min');
+    }),
+    onChange: _cache[5] || (_cache[5] = function (val) {
+      return _ctx.handleTimeChange(val, 'min');
+    })
+  }, null, 8, ["disabled", "placeholder", "model-value"]), Object(vue_esm_browser["o" /* createVNode */])(_component_time_pick_panel, {
+    visible: _ctx.minTimePickerVisible,
+    format: _ctx.timeFormat,
+    "datetime-role": "start",
+    "time-arrow-control": _ctx.arrowControl,
+    "parsed-value": _ctx.leftDate,
+    onPick: _ctx.handleMinTimePick
+  }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleMinTimeClose]])]), panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_8, Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_9, [Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_10, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
+    size: "small",
+    class: "el-date-range-picker__editor",
+    disabled: _ctx.rangeState.selecting,
+    placeholder: _ctx.t('el.datepicker.endDate'),
+    "model-value": _ctx.maxVisibleDate,
+    readonly: !_ctx.minDate,
+    onInput: _cache[6] || (_cache[6] = function (val) {
+      return _ctx.handleDateInput(val, 'max');
+    }),
+    onChange: _cache[7] || (_cache[7] = function (val) {
+      return _ctx.handleDateChange(val, 'max');
+    })
+  }, null, 8, ["disabled", "placeholder", "model-value", "readonly"])]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_11, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
+    size: "small",
+    class: "el-date-range-picker__editor",
+    disabled: _ctx.rangeState.selecting,
+    placeholder: _ctx.t('el.datepicker.endTime'),
+    "model-value": _ctx.maxVisibleTime,
+    readonly: !_ctx.minDate,
+    onFocus: _cache[8] || (_cache[8] = function ($event) {
+      return _ctx.minDate && (_ctx.maxTimePickerVisible = true);
+    }),
+    onInput: _cache[9] || (_cache[9] = function (val) {
+      return _ctx.handleTimeInput(val, 'max');
+    }),
+    onChange: _cache[10] || (_cache[10] = function (val) {
+      return _ctx.handleTimeChange(val, 'max');
+    })
+  }, null, 8, ["disabled", "placeholder", "model-value", "readonly"]), Object(vue_esm_browser["o" /* createVNode */])(_component_time_pick_panel, {
+    "datetime-role": "end",
+    visible: _ctx.maxTimePickerVisible,
+    format: _ctx.timeFormat,
+    "time-arrow-control": _ctx.arrowControl,
+    "parsed-value": _ctx.rightDate,
+    onPick: _ctx.handleMaxTimePick
+  }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleMaxTimeClose]])])])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_12, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_13, [Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    class: "el-picker-panel__icon-btn el-icon-d-arrow-left",
+    onClick: _cache[11] || (_cache[11] = function () {
+      return _ctx.leftPrevYear.apply(_ctx, arguments);
+    })
+  }), Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    class: "el-picker-panel__icon-btn el-icon-arrow-left",
+    onClick: _cache[12] || (_cache[12] = function () {
+      return _ctx.leftPrevMonth.apply(_ctx, arguments);
+    })
+  }), _ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+    key: 0,
+    type: "button",
+    disabled: !_ctx.enableYearArrow,
+    class: [{
+      'is-disabled': !_ctx.enableYearArrow
+    }, "el-picker-panel__icon-btn el-icon-d-arrow-right"],
+    onClick: _cache[13] || (_cache[13] = function () {
+      return _ctx.leftNextYear.apply(_ctx, arguments);
+    })
+  }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+    key: 1,
+    type: "button",
+    disabled: !_ctx.enableMonthArrow,
+    class: [{
+      'is-disabled': !_ctx.enableMonthArrow
+    }, "el-picker-panel__icon-btn el-icon-arrow-right"],
+    onClick: _cache[14] || (_cache[14] = function () {
+      return _ctx.leftNextMonth.apply(_ctx, arguments);
+    })
+  }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", null, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.leftLabel), 1)]), Object(vue_esm_browser["o" /* createVNode */])(_component_date_table, {
+    "selection-mode": "range",
+    date: _ctx.leftDate,
+    "min-date": _ctx.minDate,
+    "max-date": _ctx.maxDate,
+    "range-state": _ctx.rangeState,
+    "disabled-date": _ctx.disabledDate,
+    "cell-class-name": _ctx.cellClassName,
+    onChangerange: _ctx.handleChangeRange,
+    onPick: _ctx.handleRangePick,
+    onSelect: _ctx.onSelect
+  }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "cell-class-name", "onChangerange", "onPick", "onSelect"])]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_14, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_15, [_ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+    key: 0,
+    type: "button",
+    disabled: !_ctx.enableYearArrow,
+    class: [{
+      'is-disabled': !_ctx.enableYearArrow
+    }, "el-picker-panel__icon-btn el-icon-d-arrow-left"],
+    onClick: _cache[15] || (_cache[15] = function () {
+      return _ctx.rightPrevYear.apply(_ctx, arguments);
+    })
+  }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+    key: 1,
+    type: "button",
+    disabled: !_ctx.enableMonthArrow,
+    class: [{
+      'is-disabled': !_ctx.enableMonthArrow
+    }, "el-picker-panel__icon-btn el-icon-arrow-left"],
+    onClick: _cache[16] || (_cache[16] = function () {
+      return _ctx.rightPrevMonth.apply(_ctx, arguments);
+    })
+  }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    class: "el-picker-panel__icon-btn el-icon-d-arrow-right",
+    onClick: _cache[17] || (_cache[17] = function () {
+      return _ctx.rightNextYear.apply(_ctx, arguments);
+    })
+  }), Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    class: "el-picker-panel__icon-btn el-icon-arrow-right",
+    onClick: _cache[18] || (_cache[18] = function () {
+      return _ctx.rightNextMonth.apply(_ctx, arguments);
+    })
+  }), Object(vue_esm_browser["o" /* createVNode */])("div", null, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.rightLabel), 1)]), Object(vue_esm_browser["o" /* createVNode */])(_component_date_table, {
+    "selection-mode": "range",
+    date: _ctx.rightDate,
+    "min-date": _ctx.minDate,
+    "max-date": _ctx.maxDate,
+    "range-state": _ctx.rangeState,
+    "disabled-date": _ctx.disabledDate,
+    "cell-class-name": _ctx.cellClassName,
+    onChangerange: _ctx.handleChangeRange,
+    onPick: _ctx.handleRangePick,
+    onSelect: _ctx.onSelect
+  }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "cell-class-name", "onChangerange", "onPick", "onSelect"])])])]), _ctx.showTime ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_rangevue_type_template_id_4cb0cbc4_hoisted_16, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_button, {
+    size: "mini",
+    type: "text",
+    class: "el-picker-panel__link-btn",
+    onClick: _ctx.handleClear
   }, {
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser["o" /* createVNode */])("div", {
-        class: ["el-picker-panel el-date-range-picker", [{
-          'has-sidebar': _ctx.$slots.sidebar || _ctx.hasShortcuts,
-          'has-time': _ctx.showTime
-        }]]
-      }, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_7e7d3324_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "sidebar", {
-        class: "el-picker-panel__sidebar"
-      }), _ctx.hasShortcuts ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_rangevue_type_template_id_7e7d3324_hoisted_2, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
-        return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
-          key: key,
-          type: "button",
-          class: "el-picker-panel__shortcut",
-          onClick: function onClick($event) {
-            return _ctx.handleShortcutClick(shortcut);
-          }
-        }, Object(vue_esm_browser["T" /* toDisplayString */])(shortcut.text), 9, ["onClick"]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_7e7d3324_hoisted_3, [_ctx.showTime ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_rangevue_type_template_id_7e7d3324_hoisted_4, [Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_7e7d3324_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_7e7d3324_hoisted_6, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
-        size: "small",
-        disabled: _ctx.rangeState.selecting,
-        placeholder: _ctx.t('el.datepicker.startDate'),
-        class: "el-date-range-picker__editor",
-        "model-value": _ctx.minVisibleDate,
-        onInput: _cache[1] || (_cache[1] = function (val) {
-          return _ctx.handleDateInput(val, 'min');
-        }),
-        onChange: _cache[2] || (_cache[2] = function (val) {
-          return _ctx.handleDateChange(val, 'min');
-        })
-      }, null, 8, ["disabled", "placeholder", "model-value"])]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_7e7d3324_hoisted_7, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
-        size: "small",
-        class: "el-date-range-picker__editor",
-        disabled: _ctx.rangeState.selecting,
-        placeholder: _ctx.t('el.datepicker.startTime'),
-        "model-value": _ctx.minVisibleTime,
-        onFocus: _cache[3] || (_cache[3] = function ($event) {
-          return _ctx.minTimePickerVisible = true;
-        }),
-        onInput: _cache[4] || (_cache[4] = function (val) {
-          return _ctx.handleTimeInput(val, 'min');
-        }),
-        onChange: _cache[5] || (_cache[5] = function (val) {
-          return _ctx.handleTimeChange(val, 'min');
-        })
-      }, null, 8, ["disabled", "placeholder", "model-value"]), Object(vue_esm_browser["o" /* createVNode */])(_component_time_pick_panel, {
-        visible: _ctx.minTimePickerVisible,
-        format: _ctx.timeFormat,
-        "datetime-role": "start",
-        "time-arrow-control": _ctx.arrowControl,
-        "parsed-value": _ctx.leftDate,
-        onPick: _ctx.handleMinTimePick
-      }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleMinTimeClose]])]), panel_date_rangevue_type_template_id_7e7d3324_hoisted_8, Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_7e7d3324_hoisted_9, [Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_7e7d3324_hoisted_10, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
-        size: "small",
-        class: "el-date-range-picker__editor",
-        disabled: _ctx.rangeState.selecting,
-        placeholder: _ctx.t('el.datepicker.endDate'),
-        "model-value": _ctx.maxVisibleDate,
-        readonly: !_ctx.minDate,
-        onInput: _cache[6] || (_cache[6] = function (val) {
-          return _ctx.handleDateInput(val, 'max');
-        }),
-        onChange: _cache[7] || (_cache[7] = function (val) {
-          return _ctx.handleDateChange(val, 'max');
-        })
-      }, null, 8, ["disabled", "placeholder", "model-value", "readonly"])]), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("span", panel_date_rangevue_type_template_id_7e7d3324_hoisted_11, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_input, {
-        size: "small",
-        class: "el-date-range-picker__editor",
-        disabled: _ctx.rangeState.selecting,
-        placeholder: _ctx.t('el.datepicker.endTime'),
-        "model-value": _ctx.maxVisibleTime,
-        readonly: !_ctx.minDate,
-        onFocus: _cache[8] || (_cache[8] = function ($event) {
-          return _ctx.minDate && (_ctx.maxTimePickerVisible = true);
-        }),
-        onInput: _cache[9] || (_cache[9] = function (val) {
-          return _ctx.handleTimeInput(val, 'max');
-        }),
-        onChange: _cache[10] || (_cache[10] = function (val) {
-          return _ctx.handleTimeChange(val, 'max');
-        })
-      }, null, 8, ["disabled", "placeholder", "model-value", "readonly"]), Object(vue_esm_browser["o" /* createVNode */])(_component_time_pick_panel, {
-        "datetime-role": "end",
-        visible: _ctx.maxTimePickerVisible,
-        format: _ctx.timeFormat,
-        "time-arrow-control": _ctx.arrowControl,
-        "parsed-value": _ctx.rightDate,
-        onPick: _ctx.handleMaxTimePick
-      }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleMaxTimeClose]])])])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_7e7d3324_hoisted_12, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_7e7d3324_hoisted_13, [Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        class: "el-picker-panel__icon-btn el-icon-d-arrow-left",
-        onClick: _cache[11] || (_cache[11] = function () {
-          return _ctx.leftPrevYear.apply(_ctx, arguments);
-        })
-      }), Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        class: "el-picker-panel__icon-btn el-icon-arrow-left",
-        onClick: _cache[12] || (_cache[12] = function () {
-          return _ctx.leftPrevMonth.apply(_ctx, arguments);
-        })
-      }), _ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
-        key: 0,
-        type: "button",
-        disabled: !_ctx.enableYearArrow,
-        class: [{
-          'is-disabled': !_ctx.enableYearArrow
-        }, "el-picker-panel__icon-btn el-icon-d-arrow-right"],
-        onClick: _cache[13] || (_cache[13] = function () {
-          return _ctx.leftNextYear.apply(_ctx, arguments);
-        })
-      }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
-        key: 1,
-        type: "button",
-        disabled: !_ctx.enableMonthArrow,
-        class: [{
-          'is-disabled': !_ctx.enableMonthArrow
-        }, "el-picker-panel__icon-btn el-icon-arrow-right"],
-        onClick: _cache[14] || (_cache[14] = function () {
-          return _ctx.leftNextMonth.apply(_ctx, arguments);
-        })
-      }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", null, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.leftLabel), 1)]), Object(vue_esm_browser["o" /* createVNode */])(_component_date_table, {
-        "selection-mode": "range",
-        date: _ctx.leftDate,
-        "min-date": _ctx.minDate,
-        "max-date": _ctx.maxDate,
-        "range-state": _ctx.rangeState,
-        "disabled-date": _ctx.disabledDate,
-        "cell-class-name": _ctx.cellClassName,
-        onChangerange: _ctx.handleChangeRange,
-        onPick: _ctx.handleRangePick,
-        onSelect: _ctx.onSelect
-      }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "cell-class-name", "onChangerange", "onPick", "onSelect"])]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_7e7d3324_hoisted_14, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_date_rangevue_type_template_id_7e7d3324_hoisted_15, [_ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
-        key: 0,
-        type: "button",
-        disabled: !_ctx.enableYearArrow,
-        class: [{
-          'is-disabled': !_ctx.enableYearArrow
-        }, "el-picker-panel__icon-btn el-icon-d-arrow-left"],
-        onClick: _cache[15] || (_cache[15] = function () {
-          return _ctx.rightPrevYear.apply(_ctx, arguments);
-        })
-      }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
-        key: 1,
-        type: "button",
-        disabled: !_ctx.enableMonthArrow,
-        class: [{
-          'is-disabled': !_ctx.enableMonthArrow
-        }, "el-picker-panel__icon-btn el-icon-arrow-left"],
-        onClick: _cache[16] || (_cache[16] = function () {
-          return _ctx.rightPrevMonth.apply(_ctx, arguments);
-        })
-      }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        class: "el-picker-panel__icon-btn el-icon-d-arrow-right",
-        onClick: _cache[17] || (_cache[17] = function () {
-          return _ctx.rightNextYear.apply(_ctx, arguments);
-        })
-      }), Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        class: "el-picker-panel__icon-btn el-icon-arrow-right",
-        onClick: _cache[18] || (_cache[18] = function () {
-          return _ctx.rightNextMonth.apply(_ctx, arguments);
-        })
-      }), Object(vue_esm_browser["o" /* createVNode */])("div", null, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.rightLabel), 1)]), Object(vue_esm_browser["o" /* createVNode */])(_component_date_table, {
-        "selection-mode": "range",
-        date: _ctx.rightDate,
-        "min-date": _ctx.minDate,
-        "max-date": _ctx.maxDate,
-        "range-state": _ctx.rangeState,
-        "disabled-date": _ctx.disabledDate,
-        "cell-class-name": _ctx.cellClassName,
-        onChangerange: _ctx.handleChangeRange,
-        onPick: _ctx.handleRangePick,
-        onSelect: _ctx.onSelect
-      }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "cell-class-name", "onChangerange", "onPick", "onSelect"])])])]), _ctx.showTime ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_date_rangevue_type_template_id_7e7d3324_hoisted_16, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_button, {
-        size: "mini",
-        type: "text",
-        class: "el-picker-panel__link-btn",
-        onClick: _ctx.handleClear
-      }, {
-        default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.clear')), 1
-          /* TEXT */
-          )];
-        }),
-        _: 1
-      }, 8, ["onClick"]), Object(vue_esm_browser["o" /* createVNode */])(_component_el_button, {
-        plain: "",
-        size: "mini",
-        class: "el-picker-panel__link-btn",
-        disabled: _ctx.btnDisabled,
-        onClick: _cache[19] || (_cache[19] = function ($event) {
-          return _ctx.handleConfirm(false);
-        })
-      }, {
-        default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.confirm')), 1
-          /* TEXT */
-          )];
-        }),
-        _: 1
-      }, 8, ["disabled"])])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 2)];
+      return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.clear')), 1
+      /* TEXT */
+      )];
     }),
-    _: 3
-  });
+    _: 1
+  }, 8, ["onClick"]), Object(vue_esm_browser["o" /* createVNode */])(_component_el_button, {
+    plain: "",
+    size: "mini",
+    class: "el-picker-panel__link-btn",
+    disabled: _ctx.btnDisabled,
+    onClick: _cache[19] || (_cache[19] = function ($event) {
+      return _ctx.handleConfirm(false);
+    })
+  }, {
+    default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
+      return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.t('el.datepicker.confirm')), 1
+      /* TEXT */
+      )];
+    }),
+    _: 1
+  }, 8, ["disabled"])])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 2);
 }
-// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=template&id=7e7d3324
+// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=template&id=4cb0cbc4
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=script&lang=ts
 
@@ -75627,115 +75610,108 @@ function panel_date_rangevue_type_template_id_7e7d3324_render(_ctx, _cache, $pro
 
 
 
-panel_date_rangevue_type_script_lang_ts.render = panel_date_rangevue_type_template_id_7e7d3324_render
+panel_date_rangevue_type_script_lang_ts.render = panel_date_rangevue_type_template_id_4cb0cbc4_render
 
 /* harmony default export */ var panel_date_range = (panel_date_rangevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=template&id=3ae049fe
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=template&id=3470b5a3
 
-var panel_month_rangevue_type_template_id_3ae049fe_hoisted_1 = {
+var panel_month_rangevue_type_template_id_3470b5a3_hoisted_1 = {
   class: "el-picker-panel__body-wrapper"
 };
-var panel_month_rangevue_type_template_id_3ae049fe_hoisted_2 = {
+var panel_month_rangevue_type_template_id_3470b5a3_hoisted_2 = {
   key: 0,
   class: "el-picker-panel__sidebar"
 };
-var panel_month_rangevue_type_template_id_3ae049fe_hoisted_3 = {
+var panel_month_rangevue_type_template_id_3470b5a3_hoisted_3 = {
   class: "el-picker-panel__body"
 };
-var panel_month_rangevue_type_template_id_3ae049fe_hoisted_4 = {
+var panel_month_rangevue_type_template_id_3470b5a3_hoisted_4 = {
   class: "el-picker-panel__content el-date-range-picker__content is-left"
 };
-var panel_month_rangevue_type_template_id_3ae049fe_hoisted_5 = {
+var panel_month_rangevue_type_template_id_3470b5a3_hoisted_5 = {
   class: "el-date-range-picker__header"
 };
-var panel_month_rangevue_type_template_id_3ae049fe_hoisted_6 = {
+var panel_month_rangevue_type_template_id_3470b5a3_hoisted_6 = {
   class: "el-picker-panel__content el-date-range-picker__content is-right"
 };
-var panel_month_rangevue_type_template_id_3ae049fe_hoisted_7 = {
+var panel_month_rangevue_type_template_id_3470b5a3_hoisted_7 = {
   class: "el-date-range-picker__header"
 };
-function panel_month_rangevue_type_template_id_3ae049fe_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_month_rangevue_type_template_id_3470b5a3_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_month_table = Object(vue_esm_browser["P" /* resolveComponent */])("month-table");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["e" /* Transition */], {
-    name: "el-zoom-in-top"
-  }, {
-    default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser["o" /* createVNode */])("div", {
-        class: ["el-picker-panel el-date-range-picker", [{
-          'has-sidebar': _ctx.$slots.sidebar || _ctx.hasShortcuts
-        }]]
-      }, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3ae049fe_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "sidebar", {
-        class: "el-picker-panel__sidebar"
-      }), _ctx.hasShortcuts ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_month_rangevue_type_template_id_3ae049fe_hoisted_2, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
-        return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
-          key: key,
-          type: "button",
-          class: "el-picker-panel__shortcut",
-          onClick: function onClick($event) {
-            return _ctx.handleShortcutClick(shortcut);
-          }
-        }, Object(vue_esm_browser["T" /* toDisplayString */])(shortcut.text), 9, ["onClick"]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3ae049fe_hoisted_3, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3ae049fe_hoisted_4, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3ae049fe_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        class: "el-picker-panel__icon-btn el-icon-d-arrow-left",
-        onClick: _cache[1] || (_cache[1] = function () {
-          return _ctx.leftPrevYear.apply(_ctx, arguments);
-        })
-      }), _ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
-        key: 0,
-        type: "button",
-        disabled: !_ctx.enableYearArrow,
-        class: [{
-          'is-disabled': !_ctx.enableYearArrow
-        }, "el-picker-panel__icon-btn el-icon-d-arrow-right"],
-        onClick: _cache[2] || (_cache[2] = function () {
-          return _ctx.leftNextYear.apply(_ctx, arguments);
-        })
-      }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", null, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.leftLabel), 1)]), Object(vue_esm_browser["o" /* createVNode */])(_component_month_table, {
-        "selection-mode": "range",
-        date: _ctx.leftDate,
-        "min-date": _ctx.minDate,
-        "max-date": _ctx.maxDate,
-        "range-state": _ctx.rangeState,
-        "disabled-date": _ctx.disabledDate,
-        onChangerange: _ctx.handleChangeRange,
-        onPick: _ctx.handleRangePick,
-        onSelect: _ctx.onSelect
-      }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "onChangerange", "onPick", "onSelect"])]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3ae049fe_hoisted_6, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3ae049fe_hoisted_7, [_ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
-        key: 0,
-        type: "button",
-        disabled: !_ctx.enableYearArrow,
-        class: [{
-          'is-disabled': !_ctx.enableYearArrow
-        }, "el-picker-panel__icon-btn el-icon-d-arrow-left"],
-        onClick: _cache[3] || (_cache[3] = function () {
-          return _ctx.rightPrevYear.apply(_ctx, arguments);
-        })
-      }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("button", {
-        type: "button",
-        class: "el-picker-panel__icon-btn el-icon-d-arrow-right",
-        onClick: _cache[4] || (_cache[4] = function () {
-          return _ctx.rightNextYear.apply(_ctx, arguments);
-        })
-      }), Object(vue_esm_browser["o" /* createVNode */])("div", null, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.rightLabel), 1)]), Object(vue_esm_browser["o" /* createVNode */])(_component_month_table, {
-        "selection-mode": "range",
-        date: _ctx.rightDate,
-        "min-date": _ctx.minDate,
-        "max-date": _ctx.maxDate,
-        "range-state": _ctx.rangeState,
-        "disabled-date": _ctx.disabledDate,
-        onChangerange: _ctx.handleChangeRange,
-        onPick: _ctx.handleRangePick,
-        onSelect: _ctx.onSelect
-      }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "onChangerange", "onPick", "onSelect"])])])])], 2)];
-    }),
-    _: 3
-  });
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", {
+    class: ["el-picker-panel el-date-range-picker", [{
+      'has-sidebar': _ctx.$slots.sidebar || _ctx.hasShortcuts
+    }]]
+  }, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3470b5a3_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "sidebar", {
+    class: "el-picker-panel__sidebar"
+  }), _ctx.hasShortcuts ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", panel_month_rangevue_type_template_id_3470b5a3_hoisted_2, [(Object(vue_esm_browser["G" /* openBlock */])(true), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], null, Object(vue_esm_browser["N" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
+    return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+      key: key,
+      type: "button",
+      class: "el-picker-panel__shortcut",
+      onClick: function onClick($event) {
+        return _ctx.handleShortcutClick(shortcut);
+      }
+    }, Object(vue_esm_browser["T" /* toDisplayString */])(shortcut.text), 9, ["onClick"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3470b5a3_hoisted_3, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3470b5a3_hoisted_4, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3470b5a3_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    class: "el-picker-panel__icon-btn el-icon-d-arrow-left",
+    onClick: _cache[1] || (_cache[1] = function () {
+      return _ctx.leftPrevYear.apply(_ctx, arguments);
+    })
+  }), _ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+    key: 0,
+    type: "button",
+    disabled: !_ctx.enableYearArrow,
+    class: [{
+      'is-disabled': !_ctx.enableYearArrow
+    }, "el-picker-panel__icon-btn el-icon-d-arrow-right"],
+    onClick: _cache[2] || (_cache[2] = function () {
+      return _ctx.leftNextYear.apply(_ctx, arguments);
+    })
+  }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("div", null, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.leftLabel), 1)]), Object(vue_esm_browser["o" /* createVNode */])(_component_month_table, {
+    "selection-mode": "range",
+    date: _ctx.leftDate,
+    "min-date": _ctx.minDate,
+    "max-date": _ctx.maxDate,
+    "range-state": _ctx.rangeState,
+    "disabled-date": _ctx.disabledDate,
+    onChangerange: _ctx.handleChangeRange,
+    onPick: _ctx.handleRangePick,
+    onSelect: _ctx.onSelect
+  }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "onChangerange", "onPick", "onSelect"])]), Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3470b5a3_hoisted_6, [Object(vue_esm_browser["o" /* createVNode */])("div", panel_month_rangevue_type_template_id_3470b5a3_hoisted_7, [_ctx.unlinkPanels ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+    key: 0,
+    type: "button",
+    disabled: !_ctx.enableYearArrow,
+    class: [{
+      'is-disabled': !_ctx.enableYearArrow
+    }, "el-picker-panel__icon-btn el-icon-d-arrow-left"],
+    onClick: _cache[3] || (_cache[3] = function () {
+      return _ctx.rightPrevYear.apply(_ctx, arguments);
+    })
+  }, null, 10, ["disabled"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["o" /* createVNode */])("button", {
+    type: "button",
+    class: "el-picker-panel__icon-btn el-icon-d-arrow-right",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return _ctx.rightNextYear.apply(_ctx, arguments);
+    })
+  }), Object(vue_esm_browser["o" /* createVNode */])("div", null, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.rightLabel), 1)]), Object(vue_esm_browser["o" /* createVNode */])(_component_month_table, {
+    "selection-mode": "range",
+    date: _ctx.rightDate,
+    "min-date": _ctx.minDate,
+    "max-date": _ctx.maxDate,
+    "range-state": _ctx.rangeState,
+    "disabled-date": _ctx.disabledDate,
+    onChangerange: _ctx.handleChangeRange,
+    onPick: _ctx.handleRangePick,
+    onSelect: _ctx.onSelect
+  }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "onChangerange", "onPick", "onSelect"])])])])], 2);
 }
-// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=template&id=3ae049fe
+// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=template&id=3470b5a3
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=script&lang=ts
 
@@ -75953,7 +75929,7 @@ function panel_month_rangevue_type_template_id_3ae049fe_render(_ctx, _cache, $pr
 
 
 
-panel_month_rangevue_type_script_lang_ts.render = panel_month_rangevue_type_template_id_3ae049fe_render
+panel_month_rangevue_type_script_lang_ts.render = panel_month_rangevue_type_template_id_3470b5a3_render
 
 /* harmony default export */ var panel_month_range = (panel_month_rangevue_type_script_lang_ts);
 // EXTERNAL MODULE: ./node_modules/dayjs/plugin/advancedFormat.js
@@ -76047,27 +76023,27 @@ date_picker.install = function (app) {
 };
 
 /* harmony default export */ var packages_date_picker = (date_picker);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/dialog/src/index.vue?vue&type=template&id=3337b777
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/dialog/src/index.vue?vue&type=template&id=4e07bf7d
 
-var srcvue_type_template_id_3337b777_hoisted_1 = {
+var srcvue_type_template_id_4e07bf7d_hoisted_1 = {
   class: "el-dialog__header"
 };
-var srcvue_type_template_id_3337b777_hoisted_2 = {
+var srcvue_type_template_id_4e07bf7d_hoisted_2 = {
   class: "el-dialog__title"
 };
 
-var srcvue_type_template_id_3337b777_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("i", {
+var srcvue_type_template_id_4e07bf7d_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("i", {
   class: "el-dialog__close el-icon el-icon-close"
 }, null, -1);
 
-var srcvue_type_template_id_3337b777_hoisted_4 = {
+var srcvue_type_template_id_4e07bf7d_hoisted_4 = {
   class: "el-dialog__body"
 };
-var srcvue_type_template_id_3337b777_hoisted_5 = {
+var srcvue_type_template_id_4e07bf7d_hoisted_5 = {
   key: 0,
   class: "el-dialog__footer"
 };
-function srcvue_type_template_id_3337b777_render(_ctx, _cache, $props, $setup, $data, $options) {
+function srcvue_type_template_id_4e07bf7d_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_overlay = Object(vue_esm_browser["P" /* resolveComponent */])("el-overlay");
 
   var _directive_trap_focus = Object(vue_esm_browser["Q" /* resolveDirective */])("trap-focus");
@@ -76106,16 +76082,17 @@ function srcvue_type_template_id_3337b777_render(_ctx, _cache, $props, $setup, $
             onClick: _cache[2] || (_cache[2] = function ($event) {
               return $event.stopPropagation();
             })
-          }, [Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_3337b777_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "header", {}, function () {
-            return [Object(vue_esm_browser["o" /* createVNode */])("span", srcvue_type_template_id_3337b777_hoisted_2, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.title), 1)];
-          }), Object(vue_esm_browser["o" /* createVNode */])("button", {
+          }, [Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_4e07bf7d_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "header", {}, function () {
+            return [Object(vue_esm_browser["o" /* createVNode */])("span", srcvue_type_template_id_4e07bf7d_hoisted_2, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.title), 1)];
+          }), _ctx.showClose ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("button", {
+            key: 0,
             "aria-label": "close",
             class: "el-dialog__headerbtn",
             type: "button",
             onClick: _cache[1] || (_cache[1] = function () {
               return _ctx.handleClose.apply(_ctx, arguments);
             })
-          }, [srcvue_type_template_id_3337b777_hoisted_3])]), Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_3337b777_hoisted_4, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")]), _ctx.$slots.footer ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", srcvue_type_template_id_3337b777_hoisted_5, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "footer")])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 14, ["aria-label"]), [[_directive_trap_focus]])];
+          }, [srcvue_type_template_id_4e07bf7d_hoisted_3])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)]), Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_4e07bf7d_hoisted_4, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")]), _ctx.$slots.footer ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", srcvue_type_template_id_4e07bf7d_hoisted_5, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "footer")])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 14, ["aria-label"]), [[_directive_trap_focus]])];
         }),
         _: 3
       }, 8, ["z-index", "mask", "onClick"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)];
@@ -76123,7 +76100,7 @@ function srcvue_type_template_id_3337b777_render(_ctx, _cache, $props, $setup, $
     _: 1
   }, 8, ["onAfterEnter", "onAfterLeave"])], 8, ["disabled"]));
 }
-// CONCATENATED MODULE: ./packages/dialog/src/index.vue?vue&type=template&id=3337b777
+// CONCATENATED MODULE: ./packages/dialog/src/index.vue?vue&type=template&id=4e07bf7d
 
 // EXTERNAL MODULE: ./packages/utils/vnode.ts
 var utils_vnode = __webpack_require__(13);
@@ -76436,7 +76413,7 @@ var OPENED_EVENT = 'opened';
 
 
 
-dialog_srcvue_type_script_lang_ts.render = srcvue_type_template_id_3337b777_render
+dialog_srcvue_type_script_lang_ts.render = srcvue_type_template_id_4e07bf7d_render
 
 /* harmony default export */ var dialog_src = (dialog_srcvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/dialog/index.ts
@@ -77008,17 +76985,17 @@ drawer_src.install = function (app) {
 };
 
 /* harmony default export */ var packages_drawer = (drawer_src);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/dropdown/src/dropdown.vue?vue&type=template&id=bcfd60a2
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/dropdown/src/dropdown.vue?vue&type=template&id=5929730d
 
-var dropdownvue_type_template_id_bcfd60a2_hoisted_1 = {
+var dropdownvue_type_template_id_5929730d_hoisted_1 = {
   class: "el-dropdown"
 };
 
-var dropdownvue_type_template_id_bcfd60a2_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("i", {
+var dropdownvue_type_template_id_5929730d_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("i", {
   class: "el-dropdown__icon el-icon-arrow-down"
 }, null, -1);
 
-function dropdownvue_type_template_id_bcfd60a2_render(_ctx, _cache, $props, $setup, $data, $options) {
+function dropdownvue_type_template_id_5929730d_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_button = Object(vue_esm_browser["P" /* resolveComponent */])("el-button");
 
   var _component_el_button_group = Object(vue_esm_browser["P" /* resolveComponent */])("el-button-group");
@@ -77033,16 +77010,19 @@ function dropdownvue_type_template_id_bcfd60a2_render(_ctx, _cache, $props, $set
     }),
     placement: _ctx.placement,
     effect: _ctx.effect,
+    pure: "",
     "manual-mode": true,
     trigger: [_ctx.trigger],
     "popper-class": "el-dropdown__popper",
-    "append-to-body": ""
+    "append-to-body": "",
+    transition: "el-zoom-in-top",
+    "gpu-acceleration": false
   }, {
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "dropdown")];
     }),
     trigger: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser["o" /* createVNode */])("div", dropdownvue_type_template_id_bcfd60a2_hoisted_1, [!_ctx.splitButton ? Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default", {
+      return [Object(vue_esm_browser["o" /* createVNode */])("div", dropdownvue_type_template_id_5929730d_hoisted_1, [!_ctx.splitButton ? Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default", {
         key: 0
       }) : (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_el_button_group, {
         key: 1
@@ -77063,7 +77043,7 @@ function dropdownvue_type_template_id_bcfd60a2_render(_ctx, _cache, $props, $set
             class: "el-dropdown__caret-button"
           }, {
             default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-              return [dropdownvue_type_template_id_bcfd60a2_hoisted_2];
+              return [dropdownvue_type_template_id_5929730d_hoisted_2];
             }),
             _: 1
           }, 8, ["size", "type"])];
@@ -77074,7 +77054,7 @@ function dropdownvue_type_template_id_bcfd60a2_render(_ctx, _cache, $props, $set
     _: 1
   }, 8, ["visible", "placement", "effect", "trigger"]);
 }
-// CONCATENATED MODULE: ./packages/dropdown/src/dropdown.vue?vue&type=template&id=bcfd60a2
+// CONCATENATED MODULE: ./packages/dropdown/src/dropdown.vue?vue&type=template&id=5929730d
 
 // CONCATENATED MODULE: ./packages/dropdown/src/useDropdown.ts
 
@@ -77421,7 +77401,7 @@ var useDropdown_initDropdownDomEvent = function initDropdownDomEvent(dropdownChi
 
 
 
-dropdownvue_type_script_lang_ts.render = dropdownvue_type_template_id_bcfd60a2_render
+dropdownvue_type_script_lang_ts.render = dropdownvue_type_template_id_5929730d_render
 
 /* harmony default export */ var dropdown = (dropdownvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/dropdown/index.ts
@@ -79877,9 +79857,9 @@ src_main.install = function (app) {
 };
 
 /* harmony default export */ var packages_main = (src_main);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/menu/src/menu.vue?vue&type=template&id=d9fc07a2
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/menu/src/menu.vue?vue&type=template&id=5bb9d544
 
-function menuvue_type_template_id_d9fc07a2_render(_ctx, _cache, $props, $setup, $data, $options) {
+function menuvue_type_template_id_5bb9d544_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_menu_collapse_transition = Object(vue_esm_browser["P" /* resolveComponent */])("el-menu-collapse-transition");
 
   return _ctx.props.collapseTransition ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_el_menu_collapse_transition, {
@@ -79913,7 +79893,7 @@ function menuvue_type_template_id_d9fc07a2_render(_ctx, _cache, $props, $setup, 
     }
   }, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")], 6));
 }
-// CONCATENATED MODULE: ./packages/menu/src/menu.vue?vue&type=template&id=d9fc07a2
+// CONCATENATED MODULE: ./packages/menu/src/menu.vue?vue&type=template&id=5bb9d544
 
 // CONCATENATED MODULE: ./packages/utils/menu/submenu.ts
 
@@ -80335,7 +80315,7 @@ function useMenuColor(color) {
 
       if (props.uniqueOpened) {
         openedMenus.value = openedMenus.value.filter(function (index) {
-          return indexPath.value.indexOf(index) !== -1;
+          return (Object(vue_esm_browser["u" /* isRef */])(indexPath) ? indexPath.value : indexPath).indexOf(index) !== -1;
         });
       }
 
@@ -80368,10 +80348,10 @@ function useMenuColor(color) {
 
       if (isOpened) {
         closeMenu(index);
-        ctx.emit('close', index, indexPath);
+        ctx.emit('close', index, indexPath.value);
       } else {
         openMenu(index, indexPath);
-        ctx.emit('open', index, indexPath);
+        ctx.emit('open', index, indexPath.value);
       }
     };
 
@@ -80385,7 +80365,7 @@ function useMenuColor(color) {
         activeIndex.value = item.index;
       }
 
-      ctx.emit('select', index, indexPath, item);
+      ctx.emit('select', index, indexPath.value, item);
 
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = [];
@@ -80420,7 +80400,6 @@ function useMenuColor(color) {
     var updateActiveIndex = function updateActiveIndex(val) {
       var itemsInData = items.value;
       var item = itemsInData[val] || itemsInData[activeIndex.value] || itemsInData[props.defaultActive];
-      alteredCollapse.value;
 
       if (item) {
         activeIndex.value = item.index;
@@ -80509,7 +80488,7 @@ function useMenuColor(color) {
 
 
 
-src_menuvue_type_script_lang_ts.render = menuvue_type_template_id_d9fc07a2_render
+src_menuvue_type_script_lang_ts.render = menuvue_type_template_id_5bb9d544_render
 
 /* harmony default export */ var menu_src_menu = (src_menuvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/menu/index.ts
@@ -80520,9 +80499,9 @@ menu_src_menu.install = function (app) {
 };
 
 /* harmony default export */ var packages_menu = (menu_src_menu);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/menu/src/menuItem.vue?vue&type=template&id=30d87ca4
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/menu/src/menuItem.vue?vue&type=template&id=322fc17c
 
-var menuItemvue_type_template_id_30d87ca4_hoisted_1 = {
+var menuItemvue_type_template_id_322fc17c_hoisted_1 = {
   style: {
     "position": "absolute",
     "left": "0",
@@ -80534,7 +80513,7 @@ var menuItemvue_type_template_id_30d87ca4_hoisted_1 = {
     "padding": "0 20px"
   }
 };
-function menuItemvue_type_template_id_30d87ca4_render(_ctx, _cache, $props, $setup, $data, $options) {
+function menuItemvue_type_template_id_322fc17c_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_tooltip = Object(vue_esm_browser["P" /* resolveComponent */])("el-tooltip");
 
   return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("li", {
@@ -80571,7 +80550,7 @@ function menuItemvue_type_template_id_30d87ca4_render(_ctx, _cache, $props, $set
       return [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "title")];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser["o" /* createVNode */])("div", menuItemvue_type_template_id_30d87ca4_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")])];
+      return [Object(vue_esm_browser["o" /* createVNode */])("div", menuItemvue_type_template_id_322fc17c_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")])];
     }),
     _: 3
   })) : (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], {
@@ -80580,7 +80559,7 @@ function menuItemvue_type_template_id_30d87ca4_render(_ctx, _cache, $props, $set
   /* STABLE_FRAGMENT */
   ))], 38);
 }
-// CONCATENATED MODULE: ./packages/menu/src/menuItem.vue?vue&type=template&id=30d87ca4
+// CONCATENATED MODULE: ./packages/menu/src/menuItem.vue?vue&type=template&id=322fc17c
 
 // CONCATENATED MODULE: ./packages/menu/src/useMenu.ts
 
@@ -80897,7 +80876,7 @@ tooltip_src.install = function (app) {
         });
         emit('click', {
           index: props.index,
-          indexPath: indexPath
+          indexPath: indexPath.value
         });
       }
     };
@@ -80946,7 +80925,7 @@ tooltip_src.install = function (app) {
 
 
 
-menuItemvue_type_script_lang_ts.render = menuItemvue_type_template_id_30d87ca4_render
+menuItemvue_type_script_lang_ts.render = menuItemvue_type_template_id_322fc17c_render
 
 /* harmony default export */ var menuItem = (menuItemvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/menu-item/index.ts
@@ -82551,28 +82530,28 @@ notify.install = function (app) {
 };
 
 /* harmony default export */ var notification = (notify);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/select/src/select.vue?vue&type=template&id=67ef355d
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/select/src/select.vue?vue&type=template&id=0ad2a42e
 
-var selectvue_type_template_id_67ef355d_hoisted_1 = {
+var selectvue_type_template_id_0ad2a42e_hoisted_1 = {
   class: "select-trigger"
 };
-var selectvue_type_template_id_67ef355d_hoisted_2 = {
+var selectvue_type_template_id_0ad2a42e_hoisted_2 = {
   key: 0
 };
-var selectvue_type_template_id_67ef355d_hoisted_3 = {
+var selectvue_type_template_id_0ad2a42e_hoisted_3 = {
   class: "el-select__tags-text"
 };
-var selectvue_type_template_id_67ef355d_hoisted_4 = {
+var selectvue_type_template_id_0ad2a42e_hoisted_4 = {
   class: "el-select__tags-text"
 };
-var selectvue_type_template_id_67ef355d_hoisted_5 = {
+var selectvue_type_template_id_0ad2a42e_hoisted_5 = {
   class: "el-select__tags-text"
 };
-var selectvue_type_template_id_67ef355d_hoisted_6 = {
+var selectvue_type_template_id_0ad2a42e_hoisted_6 = {
   key: 1,
   class: "el-select-dropdown__empty"
 };
-function selectvue_type_template_id_67ef355d_render(_ctx, _cache, $props, $setup, $data, $options) {
+function selectvue_type_template_id_0ad2a42e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_tag = Object(vue_esm_browser["P" /* resolveComponent */])("el-tag");
 
   var _component_el_input = Object(vue_esm_browser["P" /* resolveComponent */])("el-input");
@@ -82600,16 +82579,18 @@ function selectvue_type_template_id_67ef355d_render(_ctx, _cache, $props, $setup
       return _ctx.dropMenuVisible = $event;
     }),
     placement: "bottom-start",
-    "show-arrow": true,
     "append-to-body": _ctx.popperAppendToBody,
-    "popper-class": "el-select--popper",
+    "popper-class": "el-select__popper " + _ctx.popperClass,
     "manual-mode": "",
     effect: "light",
+    pure: "",
     trigger: "click",
-    offset: 11
+    transition: "el-zoom-in-top",
+    "gpu-acceleration": false,
+    onBeforeEnter: _ctx.handleMenuEnter
   }, {
     trigger: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser["o" /* createVNode */])("div", selectvue_type_template_id_67ef355d_hoisted_1, [_ctx.multiple ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", {
+      return [Object(vue_esm_browser["o" /* createVNode */])("div", selectvue_type_template_id_0ad2a42e_hoisted_1, [_ctx.multiple ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", {
         key: 0,
         ref: "tags",
         class: "el-select__tags",
@@ -82617,7 +82598,7 @@ function selectvue_type_template_id_67ef355d_render(_ctx, _cache, $props, $setup
           'max-width': _ctx.inputWidth - 32 + 'px',
           width: '100%'
         }
-      }, [_ctx.collapseTags && _ctx.selected.length ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", selectvue_type_template_id_67ef355d_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_tag, {
+      }, [_ctx.collapseTags && _ctx.selected.length ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", selectvue_type_template_id_0ad2a42e_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])(_component_el_tag, {
         closable: !_ctx.selectDisabled,
         size: _ctx.collapseTagSize,
         hit: _ctx.selected[0].hitState,
@@ -82628,7 +82609,7 @@ function selectvue_type_template_id_67ef355d_render(_ctx, _cache, $props, $setup
         })
       }, {
         default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser["o" /* createVNode */])("span", selectvue_type_template_id_67ef355d_hoisted_3, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.selected[0].currentLabel), 1)];
+          return [Object(vue_esm_browser["o" /* createVNode */])("span", selectvue_type_template_id_0ad2a42e_hoisted_3, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.selected[0].currentLabel), 1)];
         }),
         _: 1
       }, 8, ["closable", "size", "hit"]), _ctx.selected.length > 1 ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_el_tag, {
@@ -82639,7 +82620,7 @@ function selectvue_type_template_id_67ef355d_render(_ctx, _cache, $props, $setup
         "disable-transitions": ""
       }, {
         default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser["o" /* createVNode */])("span", selectvue_type_template_id_67ef355d_hoisted_4, "+ " + Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.selected.length - 1), 1)];
+          return [Object(vue_esm_browser["o" /* createVNode */])("span", selectvue_type_template_id_0ad2a42e_hoisted_4, "+ " + Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.selected.length - 1), 1)];
         }),
         _: 1
       }, 8, ["size"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), !_ctx.collapseTags ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["e" /* Transition */], {
@@ -82660,7 +82641,7 @@ function selectvue_type_template_id_67ef355d_render(_ctx, _cache, $props, $setup
               }
             }, {
               default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-                return [Object(vue_esm_browser["o" /* createVNode */])("span", selectvue_type_template_id_67ef355d_hoisted_5, Object(vue_esm_browser["T" /* toDisplayString */])(item.currentLabel), 1)];
+                return [Object(vue_esm_browser["o" /* createVNode */])("span", selectvue_type_template_id_0ad2a42e_hoisted_5, Object(vue_esm_browser["T" /* toDisplayString */])(item.currentLabel), 1)];
               }),
               _: 2
             }, 1032, ["closable", "size", "hit", "onClose"]);
@@ -82779,51 +82760,40 @@ function selectvue_type_template_id_67ef355d_render(_ctx, _cache, $props, $setup
       } : undefined]), 1032, ["id", "modelValue", "placeholder", "name", "autocomplete", "size", "disabled", "readonly", "class", "tabindex", "onFocus", "onBlur", "onInput", "onPaste", "onKeydown"])])];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser["o" /* createVNode */])(vue_esm_browser["e" /* Transition */], {
-        name: "el-zoom-in-top",
-        onBeforeEnter: _ctx.handleMenuEnter,
-        onAfterLeave: _ctx.doDestroy
-      }, {
+      return [Object(vue_esm_browser["o" /* createVNode */])(_component_el_select_menu, null, {
         default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])(_component_el_select_menu, {
-            ref: "popper"
+          return [Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])(_component_el_scrollbar, {
+            ref: "scrollbar",
+            tag: "ul",
+            "wrap-class": "el-select-dropdown__wrap",
+            "view-class": "el-select-dropdown__list",
+            class: {
+              'is-empty': !_ctx.allowCreate && _ctx.query && _ctx.filteredOptionsCount === 0
+            }
           }, {
             default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-              return [Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])(_component_el_scrollbar, {
-                ref: "scrollbar",
-                tag: "ul",
-                "wrap-class": "el-select-dropdown__wrap",
-                "view-class": "el-select-dropdown__list",
-                class: {
-                  'is-empty': !_ctx.allowCreate && _ctx.query && _ctx.filteredOptionsCount === 0
-                }
-              }, {
-                default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-                  return [_ctx.showNewOption ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_el_option, {
-                    key: 0,
-                    value: _ctx.query,
-                    created: true
-                  }, null, 8, ["value"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")];
-                }),
-                _: 3
-              }, 8, ["class"]), [[vue_esm_browser["ab" /* vShow */], _ctx.options.length > 0 && !_ctx.loading]]), _ctx.emptyText && (!_ctx.allowCreate || _ctx.loading || _ctx.allowCreate && _ctx.options.length === 0) ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], {
-                key: 0
-              }, [_ctx.$slots.empty ? Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "empty", {
-                key: 0
-              }) : (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("p", selectvue_type_template_id_67ef355d_hoisted_6, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.emptyText), 1))], 64
-              /* STABLE_FRAGMENT */
-              )) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)];
+              return [_ctx.showNewOption ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(_component_el_option, {
+                key: 0,
+                value: _ctx.query,
+                created: true
+              }, null, 8, ["value"])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")];
             }),
-            _: 1
-          }, 512), [[vue_esm_browser["ab" /* vShow */], _ctx.visible && _ctx.emptyText !== false]])];
+            _: 3
+          }, 8, ["class"]), [[vue_esm_browser["ab" /* vShow */], _ctx.options.length > 0 && !_ctx.loading]]), _ctx.emptyText && (!_ctx.allowCreate || _ctx.loading || _ctx.allowCreate && _ctx.options.length === 0) ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], {
+            key: 0
+          }, [_ctx.$slots.empty ? Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "empty", {
+            key: 0
+          }) : (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("p", selectvue_type_template_id_0ad2a42e_hoisted_6, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.emptyText), 1))], 64
+          /* STABLE_FRAGMENT */
+          )) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)];
         }),
         _: 1
-      }, 8, ["onBeforeEnter", "onAfterLeave"])];
+      })];
     }),
     _: 1
-  }, 8, ["visible", "append-to-body"])], 2)), [[_directive_clickOutside, _ctx.handleClose]]);
+  }, 8, ["visible", "append-to-body", "popper-class", "onBeforeEnter"])], 2)), [[_directive_clickOutside, _ctx.handleClose]]);
 }
-// CONCATENATED MODULE: ./packages/select/src/select.vue?vue&type=template&id=67ef355d
+// CONCATENATED MODULE: ./packages/select/src/select.vue?vue&type=template&id=0ad2a42e
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/select/src/option.vue?vue&type=template&id=0ee4774b
 
@@ -83253,7 +83223,6 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
     return states.visible;
   }, function (val) {
     if (!val) {
-      doDestroy();
       input.value && input.value.blur();
       states.query = '';
       states.previousQuery = null;
@@ -83552,7 +83521,6 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
   var debouncedOnInputChange = debounce_default()(function () {
     onInputChange();
   }, debounce.value);
-
   var debouncedQueryChange = debounce_default()(function (e) {
     handleQueryChange(e.target.value);
   }, debounce.value);
@@ -83767,12 +83735,6 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
     deleteSelected(event);
   };
 
-  var doDestroy = function doDestroy() {
-    var _popper$value7;
-
-    (_popper$value7 = popper.value) == null ? void 0 : _popper$value7.doDestroy == null ? void 0 : _popper$value7.doDestroy();
-  };
-
   var handleClose = function handleClose() {
     states.visible = false;
   };
@@ -83883,7 +83845,6 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
     blur: blur,
     handleBlur: handleBlur,
     handleClearClick: handleClearClick,
-    doDestroy: doDestroy,
     handleClose: handleClose,
     toggleMenu: toggleMenu,
     selectOption: selectOption,
@@ -83946,7 +83907,10 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
     filterable: Boolean,
     allowCreate: Boolean,
     loading: Boolean,
-    popperClass: String,
+    popperClass: {
+      type: String,
+      default: ''
+    },
     remote: Boolean,
     loadingText: String,
     noMatchText: String,
@@ -83968,10 +83932,7 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
       default: 'value'
     },
     collapseTags: Boolean,
-    popperAppendToBody: {
-      type: Boolean,
-      default: true
-    },
+    popperAppendToBody: Boolean,
     clearIcon: {
       type: String,
       default: 'el-icon-circle-close'
@@ -84010,7 +83971,6 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
         blur = _useSelect.blur,
         handleBlur = _useSelect.handleBlur,
         handleClearClick = _useSelect.handleClearClick,
-        doDestroy = _useSelect.doDestroy,
         handleClose = _useSelect.handleClose,
         toggleMenu = _useSelect.toggleMenu,
         selectOption = _useSelect.selectOption,
@@ -84141,7 +84101,6 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
       blur: blur,
       handleBlur: handleBlur,
       handleClearClick: handleClearClick,
-      doDestroy: doDestroy,
       handleClose: handleClose,
       toggleMenu: toggleMenu,
       selectOption: selectOption,
@@ -84163,7 +84122,7 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
 
 
 
-selectvue_type_script_lang_ts.render = selectvue_type_template_id_67ef355d_render
+selectvue_type_script_lang_ts.render = selectvue_type_template_id_0ad2a42e_render
 
 /* harmony default export */ var src_select = (selectvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/select/index.ts
@@ -88569,55 +88528,55 @@ tab_pane.install = function (app) {
 };
 
 /* harmony default export */ var packages_tab_pane = (tab_pane);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/table/src/table.vue?vue&type=template&id=cb1b3444
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/table/src/table.vue?vue&type=template&id=531e4336
 
-var tablevue_type_template_id_cb1b3444_hoisted_1 = {
+var tablevue_type_template_id_531e4336_hoisted_1 = {
   ref: "hiddenColumns",
   class: "hidden-columns"
 };
-var tablevue_type_template_id_cb1b3444_hoisted_2 = {
+var tablevue_type_template_id_531e4336_hoisted_2 = {
   key: 0,
   ref: "headerWrapper",
   class: "el-table__header-wrapper"
 };
-var tablevue_type_template_id_cb1b3444_hoisted_3 = {
+var tablevue_type_template_id_531e4336_hoisted_3 = {
   class: "el-table__empty-text"
 };
-var tablevue_type_template_id_cb1b3444_hoisted_4 = {
+var tablevue_type_template_id_531e4336_hoisted_4 = {
   key: 1,
   ref: "appendWrapper",
   class: "el-table__append-wrapper"
 };
-var tablevue_type_template_id_cb1b3444_hoisted_5 = {
+var tablevue_type_template_id_531e4336_hoisted_5 = {
   key: 1,
   ref: "footerWrapper",
   class: "el-table__footer-wrapper"
 };
-var tablevue_type_template_id_cb1b3444_hoisted_6 = {
+var tablevue_type_template_id_531e4336_hoisted_6 = {
   key: 0,
   ref: "fixedHeaderWrapper",
   class: "el-table__fixed-header-wrapper"
 };
-var tablevue_type_template_id_cb1b3444_hoisted_7 = {
+var tablevue_type_template_id_531e4336_hoisted_7 = {
   key: 1,
   ref: "fixedFooterWrapper",
   class: "el-table__fixed-footer-wrapper"
 };
-var tablevue_type_template_id_cb1b3444_hoisted_8 = {
+var tablevue_type_template_id_531e4336_hoisted_8 = {
   key: 0,
   ref: "rightFixedHeaderWrapper",
   class: "el-table__fixed-header-wrapper"
 };
-var tablevue_type_template_id_cb1b3444_hoisted_9 = {
+var tablevue_type_template_id_531e4336_hoisted_9 = {
   key: 1,
   ref: "rightFixedFooterWrapper",
   class: "el-table__fixed-footer-wrapper"
 };
-var tablevue_type_template_id_cb1b3444_hoisted_10 = {
+var tablevue_type_template_id_531e4336_hoisted_10 = {
   ref: "resizeProxy",
   class: "el-table__column-resize-proxy"
 };
-function tablevue_type_template_id_cb1b3444_render(_ctx, _cache, $props, $setup, $data, $options) {
+function tablevue_type_template_id_531e4336_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_table_header = Object(vue_esm_browser["P" /* resolveComponent */])("table-header");
 
   var _component_table_body = Object(vue_esm_browser["P" /* resolveComponent */])("table-body");
@@ -88642,7 +88601,7 @@ function tablevue_type_template_id_cb1b3444_render(_ctx, _cache, $props, $setup,
     onMouseleave: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.handleMouseLeave();
     })
-  }, [Object(vue_esm_browser["o" /* createVNode */])("div", tablevue_type_template_id_cb1b3444_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")], 512), _ctx.showHeader ? Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_cb1b3444_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_header, {
+  }, [Object(vue_esm_browser["o" /* createVNode */])("div", tablevue_type_template_id_531e4336_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default")], 512), _ctx.showHeader ? Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_531e4336_hoisted_2, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_header, {
     ref: "tableHeader",
     border: _ctx.border,
     "default-sort": _ctx.defaultSort,
@@ -88670,11 +88629,11 @@ function tablevue_type_template_id_cb1b3444_render(_ctx, _cache, $props, $setup,
     ref: "emptyBlock",
     style: _ctx.emptyBlockStyle,
     class: "el-table__empty-block"
-  }, [Object(vue_esm_browser["o" /* createVNode */])("span", tablevue_type_template_id_cb1b3444_hoisted_3, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "empty", {}, function () {
+  }, [Object(vue_esm_browser["o" /* createVNode */])("span", tablevue_type_template_id_531e4336_hoisted_3, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "empty", {}, function () {
     return [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.emptyText || _ctx.t('el.table.emptyText')), 1
     /* TEXT */
     )];
-  })])], 4)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.$slots.append ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_cb1b3444_hoisted_4, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "append")], 512)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 6), _ctx.showSummary ? Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_cb1b3444_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_footer, {
+  })])], 4)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), _ctx.$slots.append ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_531e4336_hoisted_4, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "append")], 512)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 6), _ctx.showSummary ? Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_531e4336_hoisted_5, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_footer, {
     border: _ctx.border,
     "default-sort": _ctx.defaultSort,
     store: _ctx.store,
@@ -88690,7 +88649,7 @@ function tablevue_type_template_id_cb1b3444_render(_ctx, _cache, $props, $setup,
       width: _ctx.layout.fixedWidth.value ? _ctx.layout.fixedWidth.value + 'px' : ''
     }, _ctx.fixedHeight],
     class: "el-table__fixed"
-  }, [_ctx.showHeader ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_cb1b3444_hoisted_6, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_header, {
+  }, [_ctx.showHeader ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_531e4336_hoisted_6, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_header, {
     ref: "fixedTableHeader",
     border: _ctx.border,
     store: _ctx.store,
@@ -88721,7 +88680,7 @@ function tablevue_type_template_id_cb1b3444_render(_ctx, _cache, $props, $setup,
       height: _ctx.layout.appendHeight.value + 'px'
     },
     class: "el-table__append-gutter"
-  }, null, 4)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 4), _ctx.showSummary ? Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_cb1b3444_hoisted_7, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_footer, {
+  }, null, 4)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 4), _ctx.showSummary ? Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_531e4336_hoisted_7, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_footer, {
     border: _ctx.border,
     store: _ctx.store,
     style: {
@@ -88738,7 +88697,7 @@ function tablevue_type_template_id_cb1b3444_render(_ctx, _cache, $props, $setup,
       right: _ctx.layout.scrollY.value ? (_ctx.border ? _ctx.layout.gutterWidth : _ctx.layout.gutterWidth || 0) + 'px' : ''
     }, _ctx.fixedHeight],
     class: "el-table__fixed-right"
-  }, [_ctx.showHeader ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_cb1b3444_hoisted_8, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_header, {
+  }, [_ctx.showHeader ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_531e4336_hoisted_8, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_header, {
     ref: "rightFixedTableHeader",
     border: _ctx.border,
     store: _ctx.store,
@@ -88769,7 +88728,7 @@ function tablevue_type_template_id_cb1b3444_render(_ctx, _cache, $props, $setup,
       height: _ctx.layout.appendHeight.value + 'px'
     },
     class: "el-table__append-gutter"
-  }, null, 4)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 4), _ctx.showSummary ? Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_cb1b3444_hoisted_9, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_footer, {
+  }, null, 4)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 4), _ctx.showSummary ? Object(vue_esm_browser["fb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", tablevue_type_template_id_531e4336_hoisted_9, [Object(vue_esm_browser["o" /* createVNode */])(_component_table_footer, {
     border: _ctx.border,
     store: _ctx.store,
     style: {
@@ -88786,9 +88745,9 @@ function tablevue_type_template_id_cb1b3444_render(_ctx, _cache, $props, $setup,
       height: _ctx.layout.headerHeight.value + 'px'
     },
     class: "el-table__fixed-right-patch"
-  }, null, 4)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", tablevue_type_template_id_cb1b3444_hoisted_10, null, 512), [[vue_esm_browser["ab" /* vShow */], _ctx.resizeProxyVisible]])], 34);
+  }, null, 4)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["fb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", tablevue_type_template_id_531e4336_hoisted_10, null, 512), [[vue_esm_browser["ab" /* vShow */], _ctx.resizeProxyVisible]])], 34);
 }
-// CONCATENATED MODULE: ./packages/table/src/table.vue?vue&type=template&id=cb1b3444
+// CONCATENATED MODULE: ./packages/table/src/table.vue?vue&type=template&id=531e4336
 
 // CONCATENATED MODULE: ./packages/utils/merge.ts
 function objectAssign(target) {
@@ -91596,7 +91555,6 @@ function useEvents(props) {
   var handleMouseEnter = debounce_default()(function (index) {
     props.store.commit('setHoverRow', index);
   }, 30);
-
   var handleMouseLeave = debounce_default()(function () {
     props.store.commit('setHoverRow', null);
   }, 30);
@@ -92531,7 +92489,6 @@ function table_style_helper_useStyle(props, layout, store, table, doLayout) {
     });
     table.$ready = true;
   });
-
   var syncPostion = throttle_default()(function () {
     var _table$refs$bodyWrapp = table.refs.bodyWrapper,
         scrollLeft = _table$refs$bodyWrapp.scrollLeft,
@@ -92894,7 +92851,6 @@ var tableIdSeed = 1;
     var debouncedUpdateLayout = debounce_default()(function () {
       return doLayout();
     }, 50);
-
     var tableId = 'el-table_' + tableIdSeed++;
     table.tableId = tableId;
     table.state = {
@@ -92944,7 +92900,7 @@ var tableIdSeed = 1;
 
 
 
-tablevue_type_script_lang_ts.render = tablevue_type_template_id_cb1b3444_render
+tablevue_type_script_lang_ts.render = tablevue_type_template_id_531e4336_render
 
 /* harmony default export */ var src_table = (tablevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/table/index.ts
@@ -98474,7 +98430,7 @@ upload_src.install = function (app) {
 
 /* harmony default export */ var packages_upload = (upload_src);
 // CONCATENATED MODULE: ./packages/element-plus/version.ts
-var version_version = '1.0.1-beta.2';
+var version_version = '1.0.1-beta.3';
 // EXTERNAL MODULE: ./packages/utils/config.ts
 var utils_config = __webpack_require__(37);
 
