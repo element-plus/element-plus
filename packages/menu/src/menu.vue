@@ -38,6 +38,7 @@ import {
   Ref,
   onMounted,
   ComputedRef,
+  isRef,
 } from 'vue'
 import mitt from 'mitt'
 import {
@@ -140,13 +141,16 @@ export default defineComponent({
       delete items.value[item.index]
     }
 
-    const openMenu = (index: string, indexPath?: Ref<string[]>) => {
+    const openMenu = (index: string, indexPath?: Ref<string[]> | string[]) => {
       if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
       if (props.uniqueOpened) {
         openedMenus.value = openedMenus.value.filter((index: string) => {
-          return indexPath.value.indexOf(index) !== -1
+          return (
+            (isRef(indexPath) ? indexPath.value : indexPath).indexOf(index) !==
+            -1
+          )
         })
       }
       openedMenus.value.push(index)
@@ -174,10 +178,10 @@ export default defineComponent({
 
       if (isOpened) {
         closeMenu(index)
-        ctx.emit('close', index, indexPath)
+        ctx.emit('close', index, indexPath.value)
       } else {
         openMenu(index, indexPath)
-        ctx.emit('open', index, indexPath)
+        ctx.emit('open', index, indexPath.value)
       }
     }
 
@@ -194,7 +198,7 @@ export default defineComponent({
         activeIndex.value = item.index
       }
 
-      ctx.emit('select', index, indexPath, item)
+      ctx.emit('select', index, indexPath.value, item)
 
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
@@ -229,7 +233,6 @@ export default defineComponent({
         itemsInData[activeIndex.value] ||
         itemsInData[props.defaultActive]
 
-      alteredCollapse.value
       if (item) {
         activeIndex.value = item.index
         initializeMenu()

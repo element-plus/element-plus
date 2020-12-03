@@ -14,14 +14,6 @@ const _mount = (template: string, data, otherObj?) => mount({
   template,
   data,
   ...otherObj,
-}, {
-  global: {
-    provide: {
-      elForm: {},
-      elFormItem: {},
-      RadioGroup: {},
-    },
-  },
 })
 
 describe('Radio', () => {

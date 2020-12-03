@@ -683,7 +683,7 @@ Attribute | Description | Type | Options | Default
 | prefix-icon | prefix icon class | string | — | — |
 | suffix-icon | suffix icon class | string | — | — |
 | hide-loading | whether to hide the loading icon in remote search | boolean | — | false |
-| popper-append-to-body | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | boolean | - | true |
+| popper-append-to-body | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | boolean | - | false |
 | highlight-first-item | whether to highlight first item in remote search suggestions by default | boolean | — | false |
 
 ### Autocomplete Slots

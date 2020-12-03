@@ -11,7 +11,7 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { t } from '@element-plus/locale'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import { debounce as lodashDebounce } from 'lodash'
+import lodashDebounce from 'lodash/debounce'
 import { isKorean } from '@element-plus/utils/isDef'
 import {
   getValueByPath,
@@ -156,7 +156,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   watch(() => states.visible, val => {
     if (!val) {
-      doDestroy()
       input.value && input.value.blur()
       states.query = ''
       states.previousQuery = null
@@ -605,10 +604,6 @@ export const useSelect = (props, states: States, ctx) => {
     deleteSelected(event)
   }
 
-  const doDestroy = () => {
-    popper.value?.doDestroy?.()
-  }
-
   const handleClose = () => {
     states.visible = false
   }
@@ -705,7 +700,6 @@ export const useSelect = (props, states: States, ctx) => {
     blur,
     handleBlur,
     handleClearClick,
-    doDestroy,
     handleClose,
     toggleMenu,
     selectOption,
