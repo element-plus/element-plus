@@ -62,7 +62,7 @@ import ElRadioButton from '@element-plus/radio-button'
 import ElRadioGroup from '@element-plus/radio-group'
 import ElRate from '@element-plus/rate'
 import ElRow from '@element-plus/row'
-import ElScrollBar from '@element-plus/scrollbar'
+import ElScrollbar from '@element-plus/scrollbar'
 import ElSelect from '@element-plus/select'
 import ElSlider from '@element-plus/slider'
 import ElStep from '@element-plus/step'
@@ -153,7 +153,7 @@ const components = [
   ElRadioGroup,
   ElRate,
   ElRow,
-  ElScrollBar,
+  ElScrollbar,
   ElSelect,
   ElSlider,
   ElStep,
@@ -262,7 +262,7 @@ export {
   ElRadioGroup,
   ElRate,
   ElRow,
-  ElScrollBar,
+  ElScrollbar,
   ElSelect,
   ElSlider,
   ElStep,
