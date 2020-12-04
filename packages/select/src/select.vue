@@ -346,7 +346,7 @@ export default defineComponent({
           small: 32,
           mini: 28,
         }
-        const input = reference.value.$el
+        const input = reference.value.input
         states.initialInputHeight = input.getBoundingClientRect().height || sizeMap[selectSize.value]
       }
       if (props.remote && props.multiple) {
