@@ -8,11 +8,12 @@
   </div>
 </template>
 
-<script  lang="ts">
+<script lang="ts">
 import {
   computed,
   onMounted,
   inject,
+  ref,
 } from 'vue'
 import {
   selectKey,
@@ -29,11 +30,15 @@ export default {
     // computed
     const popperClass = computed(() => select.props.popperClass)
     const isMultiple = computed(() => select.props.multiple)
-    const minWidth = computed(() => select.selectWrapper?.getBoundingClientRect().width + 'px')
+    const minWidth = ref('')
 
     onMounted(() => {
       // TODO: updatePopper
       // popper.value.update()
+
+      setTimeout(() => {
+        minWidth.value = select.selectWrapper?.getBoundingClientRect().width + 'px'
+      })
     })
 
     return {
