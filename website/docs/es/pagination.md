@@ -62,7 +62,7 @@ Agrega más módulos basados en su escenario.
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage1"
+      v-model:currentPage="currentPage1"
       :page-size="100"
       layout="total, prev, pager, next"
       :total="1000">
@@ -73,7 +73,7 @@ Agrega más módulos basados en su escenario.
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage2"
+      v-model:currentPage="currentPage2"
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="sizes, prev, pager, next"
@@ -85,7 +85,7 @@ Agrega más módulos basados en su escenario.
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage3"
+      v-model:currentPage="currentPage3"
       :page-size="100"
       layout="prev, pager, next, jumper"
       :total="1000">
@@ -96,7 +96,7 @@ Agrega más módulos basados en su escenario.
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage4"
+      v-model:currentPage="currentPage4"
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="total, sizes, prev, pager, next, jumper"
