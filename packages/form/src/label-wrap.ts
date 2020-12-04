@@ -14,6 +14,11 @@ import {
 import {
   elFormKey, elFormItemKey,
 } from './token'
+import {
+  addResizeListener,
+  removeResizeListener,
+  ResizableElement,
+} from '@element-plus/utils/resize-event'
 
 export default defineComponent({
   name: 'ElLabelWrap',
@@ -54,12 +59,19 @@ export default defineComponent({
         }
       })
     }
+    const updateLabelWidthFn = () => updateLabelWidth('update')
 
-    onMounted(() => updateLabelWidth('update'))
+    onMounted(() => {
+      addResizeListener(el.value.firstElementChild as ResizableElement, updateLabelWidthFn)
+      updateLabelWidthFn()
+    })
 
-    onUpdated(() => updateLabelWidth('update'))
+    onUpdated(updateLabelWidthFn)
 
-    onBeforeUnmount(() => updateLabelWidth('remove'))
+    onBeforeUnmount(() => {
+      updateLabelWidth('remove')
+      removeResizeListener(el.value.firstElementChild as ResizableElement, updateLabelWidthFn)
+    })
 
     function render() {
       if (!slots) return null
