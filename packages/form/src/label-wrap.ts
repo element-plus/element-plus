@@ -14,6 +14,7 @@ import {
 import {
   elFormKey, elFormItemKey,
 } from './token'
+import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
 
 export default defineComponent({
   name: 'ElLabelWrap',
@@ -49,17 +50,25 @@ export default defineComponent({
           if (action === 'update') {
             computedWidth.value = getLabelWidth()
           } else if (action === 'remove') {
-            elForm.deregisterLabelWidth(computedWidth.value)
+            if (computedWidth.value) {
+              elForm.deregisterLabelWidth(computedWidth.value)
+            }
           }
         }
       })
     }
 
-    onMounted(() => updateLabelWidth('update'))
+    onMounted(() => {
+      updateLabelWidth('update')
+      addResizeListener(el.value as ResizableElement, updateLabelWidth)
+    })
 
     onUpdated(() => updateLabelWidth('update'))
 
-    onBeforeUnmount(() => updateLabelWidth('remove'))
+    onBeforeUnmount(() => {
+      updateLabelWidth('remove')
+      removeResizeListener(el.value as ResizableElement, updateLabelWidth)
+    })
 
     function render() {
       if (!slots) return null
@@ -85,6 +94,7 @@ export default defineComponent({
         return h(Fragment, { ref: el }, slots.default?.())
       }
     }
+
     return render
   },
 })
