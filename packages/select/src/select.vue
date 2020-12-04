@@ -276,6 +276,7 @@ export default defineComponent({
       toggleLastOptionHitState,
       resetInputState,
       handleComposition,
+      onOptionCreate,
       onOptionDestroy,
       handleMenuEnter,
       handleFocus,
@@ -326,6 +327,7 @@ export default defineComponent({
       hoverIndex,
       handleOptionSelect,
       selectEmitter: states.selectEmitter,
+      onOptionCreate,
       onOptionDestroy,
       selectWrapper,
       selected,
@@ -368,6 +370,7 @@ export default defineComponent({
     if (!props.multiple && Array.isArray(props.modelValue)) {
       ctx.emit(UPDATE_MODEL_EVENT, '')
     }
+
     return {
       selectSize,
       readonly,
