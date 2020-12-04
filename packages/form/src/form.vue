@@ -32,9 +32,8 @@ function useFormLabelWidth() {
 
   function getLabelWidthIndex(width: number) {
     const index = potentialLabelWidthArr.value.indexOf(width)
-    // it's impossible
     if (index === -1) {
-      throw new Error('[ElementForm]unpected width ' + width)
+      console.warn('[Element Warn][ElementForm]unexpected width ' + width)
     }
     return index
   }
@@ -50,7 +49,7 @@ function useFormLabelWidth() {
 
   function deregisterLabelWidth(val: number) {
     const index = getLabelWidthIndex(val)
-    potentialLabelWidthArr.value.splice(index, 1)
+    index > -1 && potentialLabelWidthArr.value.splice(index, 1)
   }
   return {
     autoLabelWidth,
