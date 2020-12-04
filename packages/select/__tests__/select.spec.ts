@@ -300,7 +300,7 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
-    await input.trigger('focus')
+    input.element.focus()
     selectVm.selectedLabel = 'new'
     selectVm.debouncedOnInputChange()
     await nextTick()
