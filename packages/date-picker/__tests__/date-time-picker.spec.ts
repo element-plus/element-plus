@@ -267,51 +267,6 @@ describe('Datetime Picker', () => {
 })
 
 describe('Datetimerange', () => {
-
-  it('select daterange and default Time and input format', async () => {
-    const wrapper = _mount(`<el-date-picker
-        v-model="value"
-        type="datetimerange"
-        :defaultTime="new Date(2020, 1, 1, 1, 1, 1)"
-        format="YYYY/MM/DD HH:mm A"
-    />`, () => ({
-      value: [new Date(2000, 10, 8, 10, 10), new Date(2000, 10, 11, 10, 10)],
-    }))
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-    const pickers = document.querySelectorAll('.el-date-range-picker__content')
-    const leftCell = pickers[0].querySelector('td.available')
-    const rightCell = pickers[1].querySelector('td.available')
-    triggerEvent(leftCell, 'mousemove', true)
-    triggerEvent(leftCell, 'click', true)
-    await nextTick()
-    triggerEvent(rightCell, 'mousemove', true)
-    triggerEvent(rightCell, 'click', true)
-    await nextTick();
-    (document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement).click()
-    await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value.map(_ => dayjs(_).format(formatStr)))
-      .toStrictEqual(['2000-11-01 01:01:01', '2000-12-01 01:01:01'])
-    const pickerss = document.querySelectorAll('.el-date-range-picker__time-header .el-date-range-picker__editors-wrap')
-    const left = {
-      dateInput: pickerss[0].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(1) input'),
-      timeInput: pickerss[0].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(2) input'),
-    }
-    const right = {
-      dateInput: pickerss[1].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(1) input'),
-      timeInput: pickerss[1].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(2) input'),
-    }
-    await nextTick()
-    // both input shows correct value
-    expect((left.dateInput as HTMLInputElement).value).toBe('2000/11/01')
-    expect((left.timeInput as HTMLInputElement).value).toBe('01:01 AM')
-    expect((right.dateInput as HTMLInputElement).value).toBe('2000/12/01')
-    expect((right.timeInput as HTMLInputElement).value).toBe('01:01 AM')
-  })
-
   it('input date', async () => {
     const wrapper = _mount(`<el-date-picker
         v-model="value"
