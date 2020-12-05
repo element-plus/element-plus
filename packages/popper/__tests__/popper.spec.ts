@@ -82,7 +82,7 @@ describe('Popper.vue', () => {
 
   test('append to body', () => {
     let wrapper = _mount()
-    expect(wrapper.find(selector).exists()).toBe(true)
+    expect(wrapper.find(selector).exists()).toBe(false)
 
     /**
      * Current layout of `ElPopper`
@@ -93,14 +93,16 @@ describe('Popper.vue', () => {
      */
 
     wrapper = _mount({
-      appendToBody: true,
+      appendToBody: false,
     })
 
-    expect(wrapper.find(selector).exists()).toBe(false)
+    expect(wrapper.find(selector).exists()).toBe(true)
   })
 
   test('popper z-index should be dynamical', () => {
-    const wrapper = _mount()
+    const wrapper = _mount({
+      appendToBody: false,
+    })
 
     expect(
       Number.parseInt(
@@ -151,6 +153,7 @@ describe('Popper.vue', () => {
     document.addEventListener('mousedown', onMouseDown)
 
     const wrapper = _mount({
+      appendToBody: false,
       stopPopperMouseEvent: false,
       visible: true,
     })
