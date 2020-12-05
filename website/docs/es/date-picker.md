@@ -366,8 +366,8 @@ Al seleccionar un intervalo de fechas, puede asignar la hora para la fecha de in
       type="daterange"
       start-placeholder="Start date"
       end-placeholder="End date"
-      :default-time="[new Date(2000, 1, 1, 0 , 0,0), new Date(2000, 2, 1, 23 , 59,59)]">
-    </el-date-picker>
+      :default-time="defaultTime"
+    ></el-date-picker>
   </div>
 </template>
 
@@ -375,7 +375,11 @@ Al seleccionar un intervalo de fechas, puede asignar la hora para la fecha de in
   export default {
     data() {
       return {
-        value: ''
+        value: '',
+        defaultTime: [
+          new Date(2000, 1, 1, 0, 0, 0),
+          new Date(2000, 2, 1, 23, 59, 59)
+        ] // '00:00:00', '23:59:59'
       };
     }
   };

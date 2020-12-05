@@ -361,8 +361,8 @@ If type is `daterange`, `default-value` sets the left side calendar.
       type="daterange"
       start-placeholder="开始日期"
       end-placeholder="结束日期"
-      :default-time="[new Date(2000, 1, 1, 0 , 0,0), new Date(2000, 2, 1, 23 , 59,59)]">
-    </el-date-picker>
+      :default-time="defaultTime"
+    ></el-date-picker>
   </div>
 </template>
 
@@ -370,7 +370,11 @@ If type is `daterange`, `default-value` sets the left side calendar.
   export default {
     data() {
       return {
-        value: ''
+        value: '',
+        defaultTime: [
+          new Date(2000, 1, 1, 0, 0, 0),
+          new Date(2000, 2, 1, 23, 59, 59)
+        ] // '00:00:00', '23:59:59'
       };
     }
   };

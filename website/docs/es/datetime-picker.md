@@ -159,7 +159,7 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más d
       type="datetimerange"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      :default-time="['12:00:00']">
+      :default-time="defaultTime1">
     </el-date-picker>
   </div>
   <div class="block">
@@ -170,7 +170,7 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más d
       align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      :default-time="['12:00:00', '08:00:00']">
+      :default-time="defaultTime2">
     </el-date-picker>
   </div>
 </template>
@@ -180,7 +180,14 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más d
     data() {
       return {
         value1: '',
-        value2: ''
+        value2: '',
+        defaultTime1: [
+          new Date(2000, 1, 1, 12, 0, 0),
+        ], // '12:00:00'
+        defaultTime2: [
+          new Date(2000, 1, 1, 12, 0, 0),
+          new Date(2000, 2, 1, 8, 0, 0)
+        ] // '12:00:00', '08:00:00'
       };
     }
   };
