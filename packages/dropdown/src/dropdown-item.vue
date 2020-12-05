@@ -22,7 +22,7 @@ export default defineComponent({
   props: {
     command: {
       type: [Object, String, Number],
-      defautl: () => ({}),
+      default: () => ({}),
     },
     disabled: Boolean,
     divided: Boolean,

@@ -8,6 +8,9 @@ const mount = makeMount(Popover, {
   slots: {
     default: AXIOM,
   },
+  props: {
+    appendToBody: false,
+  },
 })
 describe('Popover.vue', () => {
   test('render test', () => {
@@ -59,10 +62,12 @@ describe('Popover.vue', () => {
     const wrapper = makeMount(Popover, {
       props: {
         content,
+        appendToBody: false,
       },
     })()
 
     expect(wrapper.text()).toBe(content)
+    wrapper.unmount()
   })
 
   test('popper z-index should be dynamical', () => {

@@ -155,7 +155,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    popperAppendToBody: Boolean,
+    popperAppendToBody: {
+      type: Boolean,
+      default: true,
+    },
     highlightFirstItem: {
       type: Boolean,
       default: false,

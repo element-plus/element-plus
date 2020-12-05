@@ -203,11 +203,11 @@ interface TreeNode {
 }
 
 interface RenderRowData {
-  store: any
-  _self: any
+  store: Store
+  _self: Table | AnyObject
   column: any
   row: any
-  index_: any
+  $index: number | string
   treeNode?: TreeNode
 }
 

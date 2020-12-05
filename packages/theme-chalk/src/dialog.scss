@@ -2,6 +2,7 @@
 @import 'mixins/utils';
 @import 'common/var';
 @import 'common/popup';
+@import './overlay.scss';
 
 @include b(dialog) {
   position: relative;

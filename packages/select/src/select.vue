@@ -243,7 +243,10 @@ export default defineComponent({
       default: 'value',
     },
     collapseTags: Boolean,
-    popperAppendToBody: Boolean,
+    popperAppendToBody: {
+      type: Boolean,
+      default: true,
+    },
     clearIcon: {
       type: String,
       default: 'el-icon-circle-close',
@@ -276,6 +279,7 @@ export default defineComponent({
       toggleLastOptionHitState,
       resetInputState,
       handleComposition,
+      onOptionCreate,
       onOptionDestroy,
       handleMenuEnter,
       handleFocus,
@@ -326,6 +330,7 @@ export default defineComponent({
       hoverIndex,
       handleOptionSelect,
       selectEmitter: states.selectEmitter,
+      onOptionCreate,
       onOptionDestroy,
       selectWrapper,
       selected,
@@ -344,7 +349,7 @@ export default defineComponent({
           small: 32,
           mini: 28,
         }
-        const input = reference.value.$el
+        const input = reference.value.input
         states.initialInputHeight = input.getBoundingClientRect().height || sizeMap[selectSize.value]
       }
       if (props.remote && props.multiple) {
@@ -368,6 +373,7 @@ export default defineComponent({
     if (!props.multiple && Array.isArray(props.modelValue)) {
       ctx.emit(UPDATE_MODEL_EVENT, '')
     }
+
     return {
       selectSize,
       readonly,

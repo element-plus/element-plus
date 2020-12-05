@@ -19,7 +19,7 @@ export default function usePopover(props: IUsePopover, ctx: SetupContext<string[
     let _width: string
 
     if (isString(props.width)) {
-      _width = props.width
+      _width = props.width as string
     } else {
       _width = props.width + 'px'
     }
