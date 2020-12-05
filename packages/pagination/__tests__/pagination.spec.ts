@@ -72,6 +72,7 @@ describe('Pagination.vue', () => {
       props: {
         pageSize: 25,
         pagerCount: 5,
+        pageCount: 50,
       },
     })
     expect(wrapper.findAll('li.number').length).toBe(5)

@@ -57,7 +57,6 @@ export default defineComponent({
     },
     pageCount: {
       type: Number,
-      default: 50,
     },
     pagerCount: {
       type: Number,
