@@ -243,7 +243,10 @@ export default defineComponent({
       default: 'value',
     },
     collapseTags: Boolean,
-    popperAppendToBody: Boolean,
+    popperAppendToBody: {
+      type: Boolean,
+      default: true,
+    },
     clearIcon: {
       type: String,
       default: 'el-icon-circle-close',

@@ -210,8 +210,8 @@ describe('click pager', () => {
       },
     })
 
-    const items = wrapper.findAll('.el-select-dropdown__item:not(.selected)')
-    await items[0].trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item:not(.selected)');
+    (items[0] as HTMLOptionElement)?.click()
     expect(onSizeChange).toHaveBeenCalled()
     expect(wrapper.findComponent(Pagination).emitted()).toHaveProperty('size-change')
   })

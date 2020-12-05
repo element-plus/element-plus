@@ -309,11 +309,11 @@ describe('Cascader.vue', () => {
     })
 
     const input = wrapper.find('input')
-    const dropdown = wrapper.find(DROPDOWN)
+    const dropdown = document.querySelector(DROPDOWN)
     input.element.value = 'ha'
     await input.trigger('input')
-    const hzSuggestion = dropdown.find(SUGGESTION_ITEM)
+    const hzSuggestion = dropdown.querySelector(SUGGESTION_ITEM) as HTMLElement
     expect(filterMethod).toBeCalled()
-    expect(hzSuggestion.text()).toBe('Zhejiang / Hangzhou')
+    expect(hzSuggestion.textContent).toBe('Zhejiang / Hangzhou')
   })
 })
