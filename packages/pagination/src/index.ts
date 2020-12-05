@@ -39,10 +39,12 @@ export default defineComponent({
 
     total: {
       type: Number,
+      default: 0,
     },
 
     pageCount: {
       type: Number,
+      default: 0,
     },
 
     pagerCount: {
