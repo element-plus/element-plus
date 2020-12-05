@@ -1,5 +1,22 @@
 ## Changelog
 
+### 1.0.1-beta.4
+
+*2020-12-05*
+
+#### Bug fixes
+
+- Complete show-overflow-tooltip (#736)
+- Remove dropdown outline (#798)
+- Fix popover positioning (#796)
+- Fix on demand importing dialog lacking overlay css (#809)
+- Fix select value did not match issue (#808)
+- Fix select height error bug (#834)
+- Fix ts name error (#813)
+- Fix popper border .is-light style bug (#829)
+- Fix form-item auto width bug (#830)
+- Set popper appendToBody to true by default (#845)
+
 ### 1.0.1-beta.3
 
 *2020-12-03*
