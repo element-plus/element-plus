@@ -1,8 +1,8 @@
+import { defineComponent, h, computed, ref, getCurrentInstance, onUnmounted, inject, Ref } from 'vue'
 import { on, off } from '@element-plus/utils/dom'
 import { renderThumbStyle, BAR_MAP } from './util'
-import { h, computed, ref, getCurrentInstance, onUnmounted, inject, Ref } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Bar',
 
   props: {
@@ -83,4 +83,4 @@ export default {
     }),
     )
   },
-}
+})

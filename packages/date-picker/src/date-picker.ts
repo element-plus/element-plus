@@ -1,3 +1,4 @@
+import { defineComponent } from 'vue'
 import { DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER } from '@element-plus/time-picker'
 import { CommonPicker } from '@element-plus/time-picker'
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
@@ -31,7 +32,7 @@ const getPanel = function(type) {
   return DatePickPanel
 }
 
-export default {
+export default defineComponent({
   name: 'ElDatePicker',
   install: null,
   props: {
@@ -51,4 +52,4 @@ export default {
       default: scopedProps => h(getPanel(props.type), scopedProps),
     })
   },
-}
+})

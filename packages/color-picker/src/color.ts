@@ -1,4 +1,4 @@
-const hsv2hsl = function(hue, sat, val) {
+const hsv2hsl = function(hue: number, sat: number, val: number) {
   return [
     hue,
     (sat * val / ((hue = (2 - sat) * val) < 1 ? hue : 2 - hue)) || 0,
@@ -8,39 +8,39 @@ const hsv2hsl = function(hue, sat, val) {
 
 // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
 // <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
-const isOnePointZero = function(n) {
+const isOnePointZero = function(n: unknown) {
   return typeof n === 'string' && n.indexOf('.') !== -1 && parseFloat(n) === 1
 }
 
-const isPercentage = function(n) {
+const isPercentage = function(n: unknown) {
   return typeof n === 'string' && n.indexOf('%') !== -1
 }
 
 // Take input from [0, n] and return it as [0, 1]
-const bound01 = function(value: number | string, max) {
+const bound01 = function(value: number | string, max: number | string) {
   if (isOnePointZero(value)) value = '100%'
 
   const processPercent = isPercentage(value)
-  value = Math.min(max, Math.max(0, parseFloat(value + '')))
+  value = Math.min((max as number), Math.max(0, parseFloat(value + '')))
 
   // Automatically convert percentage into number
   if (processPercent) {
-    value = parseInt((value * max) + '', 10) / 100
+    value = parseInt((value * (max as number)) + '', 10) / 100
   }
 
   // Handle floating point rounding errors
-  if ((Math.abs(value - max) < 0.000001)) {
+  if ((Math.abs(value - (max as number)) < 0.000001)) {
     return 1
   }
 
   // Convert into [0, 1] range if it isn't already
-  return (value % max) / parseFloat(max)
+  return (value % (max as number)) / parseFloat(max as string)
 }
 
 const INT_HEX_MAP = { 10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F' }
 
 const toHex = function({ r, g, b }) {
-  const hexOne = function(value) {
+  const hexOne = function(value: number) {
     value = Math.min(Math.round(value), 255)
     const high = Math.floor(value / 16)
     const low = value % 16
@@ -54,7 +54,7 @@ const toHex = function({ r, g, b }) {
 
 const HEX_INT_MAP = { A: 10, B: 11, C: 12, D: 13, E: 14, F: 15 }
 
-const parseHexChannel = function(hex) {
+const parseHexChannel = function(hex: string) {
   if (hex.length === 2) {
     return (HEX_INT_MAP[hex[0].toUpperCase()] || +hex[0]) * 16 + (HEX_INT_MAP[hex[1].toUpperCase()] || +hex[1])
   }
@@ -153,23 +153,15 @@ export interface Options {
 }
 
 export default class Color {
-  private _hue: number
-  private _saturation: number
-  private _value: number
-  private _alpha: number
-  public enableAlpha: boolean
-  public format: string
-  public value: string
+  private _hue = 0
+  private _saturation = 100
+  private _value = 100
+  private _alpha = 100
+  public enableAlpha = false
+  public format = 'hex'
+  public value = ''
   public selected?: boolean
   constructor(options?: Options) {
-    this._hue = 0
-    this._saturation = 100
-    this._value = 100
-    this._alpha = 100
-
-    this.enableAlpha = false
-    this.format = 'hex'
-    this.value = ''
 
     options = options || {} as Options
 

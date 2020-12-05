@@ -15,7 +15,7 @@ export const CLOSED_EVENT = 'closed'
 export const OPENED_EVENT = 'opened'
 export { UPDATE_MODEL_EVENT }
 
-export default function(props: UseDialogProps, ctx: SetupContext) {
+export default function useDialog(props: UseDialogProps, ctx: SetupContext) {
   const visible = ref(false)
   const closed = ref(false)
   const dialogRef = ref(null)

@@ -85,12 +85,8 @@
 </template>
 
 <script lang='ts'>
-import ElPopper from '@element-plus/popper'
-import { t } from '@element-plus/locale'
-import ElCheckbox from '@element-plus/checkbox'
-import ElCheckboxGroup from '@element-plus/checkbox-group'
-import ElScrollbar from '@element-plus/scrollbar'
 import {
+  defineComponent,
   ref,
   computed,
   getCurrentInstance,
@@ -98,8 +94,14 @@ import {
   WritableComputedRef,
   PropType,
 } from 'vue'
+import ElPopper from '@element-plus/popper'
+import { t } from '@element-plus/locale'
+import ElCheckbox from '@element-plus/checkbox'
+import ElCheckboxGroup from '@element-plus/checkbox-group'
+import ElScrollbar from '@element-plus/scrollbar'
+
 import { Store, TableColumnCtx, TableHeader } from './table.type'
-export default {
+export default defineComponent({
   name: 'ElTableFilterPanel',
   components: {
     ElCheckbox,
@@ -224,5 +226,5 @@ export default {
       showFilterPanel,
     }
   },
-}
+})
 </script>
