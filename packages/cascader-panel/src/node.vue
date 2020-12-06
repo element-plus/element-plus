@@ -35,8 +35,11 @@
       @update:model-value="handleCheck"
       @click.stop
     >
-      <!-- add an empty element to avoid render label -->
-      <template #default></template>
+      <!--
+        Add an empty element to avoid render label,
+        do not use empty fragment here for https://github.com/vuejs/vue-next/pull/2485
+      -->
+      <span></span>
     </el-radio>
     <i v-else-if="isLeaf && node.checked" class="el-icon-check el-cascader-node__prefix"></i>
 
