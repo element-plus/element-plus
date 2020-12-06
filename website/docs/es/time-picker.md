@@ -6,35 +6,61 @@ Use el Time Picker para input de tipo time.
 
 Un tiempo arbitrario puede ser escogido.
 
-:::demo Al usar el tag `el-time-picker`, es posible limitar el rango de tiempo al especificar `selectableRange`. Por defecto, es posible hacer scroll con la rueda del mouse para escoger el tiempo, alternativamente se pueden utilizar las flechas de control cuando el atributo `arrow-control` esté establecido.
+:::demo Al usar el tag `el-time-picker`, es posible limitar el rango de tiempo al especificar `disabledHours` `disabledMinutes` `disabledSeconds`. Por defecto, es posible hacer scroll con la rueda del mouse para escoger el tiempo, alternativamente se pueden utilizar las flechas de control cuando el atributo `arrow-control` esté establecido.
 
 ```html
 <template>
   <el-time-picker
     v-model="value1"
-    :picker-options="{
-      selectableRange: '18:30:00 - 20:30:00'
-    }"
+    :disabled-hours="disabledHours"
+    :disabled-minutes="disabledMinutes"
+    :disabled-seconds="disabledSeconds"
     placeholder="Arbitrary time">
   </el-time-picker>
   <el-time-picker
     arrow-control
     v-model="value2"
-    :picker-options="{
-      selectableRange: '18:30:00 - 20:30:00'
-    }"
+    :disabled-hours="disabledHours"
+    :disabled-minutes="disabledMinutes"
+    :disabled-seconds="disabledSeconds"
     placeholder="Arbitrary time">
   </el-time-picker>
 </template>
 
 <script>
+  const makeRange = (start, end) => {
+    const result = []
+    for (let i = start; i <= end; i++) {
+      result.push(i)
+    }
+    return result
+  }
   export default {
     data() {
       return {
         value1: new Date(2016, 9, 10, 18, 40),
         value2: new Date(2016, 9, 10, 18, 40)
       };
-    }
+    },
+    methods: {
+      // e.g. allow 17:30:00 - 18:30:00
+      disabledHours() {
+        return makeRange(0, 16).concat(makeRange(19, 23))
+      },
+      disabledMinutes (hour) {
+        if (hour === 17) {
+          return makeRange(0, 29)
+        }
+        if (hour === 18) {
+          return makeRange(31, 59)
+        }
+      },
+      disabledSeconds(hour, minute) {
+        if (hour === 18 && minute === 30) {
+          return makeRange(1, 59)
+        }
+      },
+    },
   }
 </script>
 ```
@@ -98,12 +124,9 @@ Es posible escoger un rango de tiempo arbitrario.
 | name              | como `name` en input nativo              | string                                   | —                                        | —                    |
 | prefix-icon       | Clase personalizada para el icono de prefijado | string                                   | —                                        | el-icon-time         |
 | clear-icon        | Clase personalizada para el icono `clear` | string                                   | —                                        | el-icon-circle-close |
-
-### Opciones para Time Picker
-| Atributo        | Descripción                              | Tipo           | Valores aceptados                   | Por defecto |
-| --------------- | ---------------------------------------- | -------------- | ----------------------------------- | ----------- |
-| selectableRange | rango de tiempo disponible p.ej. `'18:30:00 - 20:30:00'`ó`['09:30:00 - 12:00:00', '14:30:00 - 18:30:00']` | string / array | —                                   | —           |
-| format          | formato para el selector                 | string         | hour `HH`, minute `mm`, second `ss` | HH:mm:ss    |
+| disabledHours | To specify the array of hours that cannot be selected | function | — | - |
+| disabledMinutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | - |
+| disabledSeconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | - |
 
 
 ### Eventos
