@@ -26,6 +26,13 @@
     }
   }
 
+  .el-dropdown-link {
+    &:focus:not(.focusing),
+    &:focus:hover {
+      outline-width: 0;
+    }
+  }
+
   .el-button-group {
     display: block;
     .el-button {
