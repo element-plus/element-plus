@@ -1,66 +1,65 @@
 <template>
-  <template v-if="destroyOnClose && !visible"></template>
-  <template v-else>
-    <teleport to="body" :disabled="!appendToBody">
-      <transition
-        name="dialog-fade"
-        @after-enter="afterEnter"
-        @after-leave="afterLeave"
+  <teleport to="body" :disabled="!appendToBody">
+    <transition
+      name="dialog-fade"
+      @after-enter="afterEnter"
+      @after-leave="afterLeave"
+    >
+      <el-overlay
+        v-show="visible"
+        :z-index="zIndex"
+        :mask="modal"
+        @click="onModalClick"
       >
-        <el-overlay
-          v-if="visible"
-          :z-index="zIndex"
-          :mask="modal"
-          @click="onModalClick"
+        <div
+          ref="dialogRef"
+          v-trap-focus
+          :class="[
+            'el-dialog',
+            {
+              'is-fullscreen': fullscreen,
+              'el-dialog--center': center,
+            },
+            customClass,
+          ]"
+          aria-modal="true"
+          role="dialog"
+          :aria-label="title || 'dialog'"
+          :style="style"
+          @click="$event.stopPropagation()"
         >
-          <div
-            ref="dialogRef"
-            v-trap-focus
-            :class="[
-              'el-dialog',
-              {
-                'is-fullscreen': fullscreen,
-                'el-dialog--center': center,
-              },
-              customClass,
-            ]"
-            aria-modal="true"
-            role="dialog"
-            :aria-label="title || 'dialog'"
-            :style="style"
-            @click="$event.stopPropagation()"
-          >
-            <div class="el-dialog__header">
-              <slot name="header">
-                <span class="el-dialog__title">
-                  {{ title }}
-                </span>
-              </slot>
-              <button
-                v-if="showClose"
-                aria-label="close"
-                class="el-dialog__headerbtn"
-                type="button"
-                @click="handleClose"
-              >
-                <i class="el-dialog__close el-icon el-icon-close"></i>
-              </button>
-            </div>
+          <div class="el-dialog__header">
+            <slot name="header">
+              <span class="el-dialog__title">
+                {{ title }}
+              </span>
+            </slot>
+            <button
+              v-if="showClose"
+              aria-label="close"
+              class="el-dialog__headerbtn"
+              type="button"
+              @click="handleClose"
+            >
+              <i class="el-dialog__close el-icon el-icon-close"></i>
+            </button>
+          </div>
+          <template v-if="rendered">
             <div class="el-dialog__body">
               <slot></slot>
             </div>
-            <div v-if="$slots.footer" class="el-dialog__footer">
-              <slot name="footer"></slot>
-            </div>
+          </template>
+          <div v-if="$slots.footer" class="el-dialog__footer">
+            <slot name="footer"></slot>
           </div>
-        </el-overlay>
-      </transition>
-    </teleport>
-  </template>
+        </div>
+      </el-overlay>
+    </transition>
+  </teleport>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { TrapFocus } from '@element-plus/directives'
 import { isValidWidthUnit } from '@element-plus/utils/validators'
 
@@ -166,7 +165,11 @@ export default defineComponent({
     UPDATE_MODEL_EVENT,
   ],
   setup(props, ctx) {
-    return useDialog(props, ctx as SetupContext)
+    const dialogRef = ref<HTMLElement>(null)
+    return {
+      ...useDialog(props, ctx as SetupContext, dialogRef),
+      dialogRef,
+    }
   },
 })
 </script>

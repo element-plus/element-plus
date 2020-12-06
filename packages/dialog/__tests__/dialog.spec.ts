@@ -1,5 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { rAF } from '@element-plus/test-utils/tick'
 import Dialog from '../'
 
 const AXIOM = 'Rem is the best girl'
@@ -27,6 +28,8 @@ describe('Dialog.vue', () => {
       },
     })
 
+    await nextTick()
+    await rAF()
     await nextTick()
     expect(wrapper.find('.el-dialog__body').text()).toEqual(AXIOM)
   })
@@ -214,6 +217,8 @@ describe('Dialog.vue', () => {
       })
       expect(wrapper.vm.visible).toBe(true)
       await nextTick()
+      await rAF()
+      await nextTick()
       await wrapper.find('.el-dialog__headerbtn').trigger('click')
       await wrapper.setProps({
         // manually setting this prop because that Transition is not available in testing,
@@ -221,7 +226,9 @@ describe('Dialog.vue', () => {
         modelValue: false,
       })
       await nextTick()
-      expect(wrapper.html()).toBeFalsy()
+      await rAF()
+      await nextTick()
+      expect(wrapper.find('.el-dialog__body').exists()).toBe(false)
     })
   })
 })
