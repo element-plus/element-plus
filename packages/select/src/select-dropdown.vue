@@ -8,12 +8,22 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue'
-import { selectKey } from './token'
+<script  lang="ts">
+import {
+  defineComponent,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  inject,
+  ref,
+} from 'vue'
 import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
+import {
+  selectKey,
+} from './token'
 
-export default {
+
+export default defineComponent({
   name: 'ElSelectDropdown',
 
   componentName: 'ElSelectDropdown',
@@ -47,5 +57,5 @@ export default {
       isMultiple,
     }
   },
-}
+})
 </script>

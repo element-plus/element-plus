@@ -60,6 +60,7 @@
 
 <script lang="ts">
 import {
+  defineComponent,
   reactive,
   computed,
   ref,
@@ -76,7 +77,7 @@ import {
 } from '@element-plus/utils/resize-event'
 import { ICarouselProps, CarouselItem, InjectCarouselScope } from './carousel'
 
-export default {
+export default defineComponent({
   name: 'ElCarousel',
   props: {
     initialIndex: {
@@ -386,5 +387,5 @@ export default {
       root,
     }
   },
-}
+})
 </script>

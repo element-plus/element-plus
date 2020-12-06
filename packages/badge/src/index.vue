@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 interface IBadgeProps {
   value: string | number
@@ -33,7 +33,7 @@ interface IBadgeProps {
 interface IBadgeSetups {
   content: number | string
 }
-export default {
+export default defineComponent({
   name: 'ElBadge',
   props: {
     value: {
@@ -69,5 +69,5 @@ export default {
       content,
     }
   },
-}
+})
 </script>
