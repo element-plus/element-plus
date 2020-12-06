@@ -18,7 +18,7 @@
           role="document"
         >
           <div
-            ref="drawer"
+            ref="drawerRef"
             v-trap-focus
             aria-modal="true"
             aria-labelledby="el-drawer__title"
@@ -30,27 +30,27 @@
             tabindex="-1"
             @click.stop
           >
-            <template v-if="rendered">
-              <header
-                v-if="withHeader"
-                id="el-drawer__title"
-                class="el-drawer__header"
+            <header
+              v-if="withHeader"
+              id="el-drawer__title"
+              class="el-drawer__header"
+            >
+              <slot name="title">
+                <span role="heading" tabindex="-1" :title="title">
+                  {{ title }}
+                </span>
+              </slot>
+              <button
+                v-if="showClose"
+                :aria-label="'close ' + (title || 'drawer')"
+                class="el-drawer__close-btn"
+                type="button"
+                @click="handleClose"
               >
-                <slot name="title">
-                  <span role="heading" tabindex="-1" :title="title">
-                    {{ title }}
-                  </span>
-                </slot>
-                <button
-                  v-if="showClose"
-                  :aria-label="'close ' + (title || 'drawer')"
-                  class="el-drawer__close-btn"
-                  type="button"
-                  @click="handleClose"
-                >
-                  <i class="el-drawer__close el-icon el-icon-close"></i>
-                </button>
-              </header>
+                <i class="el-drawer__close el-icon el-icon-close"></i>
+              </button>
+            </header>
+            <template v-if="rendered">
               <section class="el-drawer__body">
                 <slot></slot>
               </section>
@@ -62,10 +62,11 @@
   </teleport>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import {
   defineComponent,
   computed,
+  ref,
 } from 'vue'
 import { Overlay } from '@element-plus/overlay'
 import { useDialog } from '@element-plus/dialog'
@@ -161,9 +162,10 @@ export default defineComponent({
   emits: ['open', 'opened', 'close', 'closed', 'update:modelValue'],
 
   setup(props, ctx) {
-
+    const drawerRef = ref<HTMLElement>(null)
     return {
-      ...useDialog(props, ctx as SetupContext),
+      ...useDialog(props, ctx as SetupContext, drawerRef),
+      drawerRef,
       isHorizontal: computed(() => props.direction === 'rtl' || props.direction === 'ltr'),
     }
 

@@ -88,7 +88,7 @@ Le contenu du modal peut être n'importe quoi, tableau ou formulaire compris.
       <el-button @click="dialogFormVisible = false">Annuler</el-button>
       <el-button type="primary" @click="dialogFormVisible = false">Confirmer</el-button>
     </span>
-  </template>    
+  </template>
 </el-dialog>
 
 <script>
@@ -209,9 +209,42 @@ Le contenu du modal peut être centré.
 Le contenu de Dialog bénéficie du lazy loading, ce qui signifie que le slot par défaut n'est pas généré par le DOM avant la première ouverture. Si vous avez besoin de manipuler le DOM ou d'accéder à un composant via `ref`, vous pouvez le faire avec la callback de l'évènement `open`.
 :::
 
-:::tip
-Si la variable liée à `visible` est gérée dans Vuex, le modificateur `.sync` ne peut pas fonctionner. Dans ce cas retirez-le, écoutez les évènements `open` et `close`, et commitez les mutations Vuex pour mettre à jour la valeur de cette variable.
-:::
+### Destroy on Close (Translation needed)
+When this is feature is enabled, the content under default slot will be destroyed with a `v-if` directive. Enable this when you have perf concerns.
+
+:::demo Note that by enabling this feature, the content will not be rendered before `transition.beforeEnter` dispatched, there will only be `overlay` `header(if any)` `footer(if any)`.
+
+```html
+<el-button type="text" @click="centerDialogVisible = true">点击打开 Dialog</el-button>
+
+<el-dialog
+  title="提示"
+  v-model="centerDialogVisible"
+  width="30%"
+  destroy-on-close
+  center>
+  <span>需要注意在 Dialog 打开前是这条内容和下面的内容都是不会被渲染的</span>
+  <strong>额外的内容</strong>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+    </span>
+  </template>
+
+</el-dialog>
+
+<script>
+  export default {
+    data() {
+      return {
+        centerDialogVisible: false
+      };
+    }
+  };
+</script>
+
+```
 
 ### Attributs
 

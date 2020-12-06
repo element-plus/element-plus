@@ -204,9 +204,42 @@ dialogの内容は遅延的にレンダリングされます。つまり、デ�
 :::
 
 
-:::tip
-Vuexストアで `visible` にバインドされた変数を管理している場合、`.sync` が正しく動作しません。この場合は、`.sync` モディファイアを削除し、Dialog の `open`, `close` イベントをリッスンし、Vuex のミューテーションをコミットして、イベントハンドラでその変数の値を更新してください。
-:::
+### dialog内の要素を破棄する (translation needed)
+When this is feature is enabled, the content under default slot will be destroyed with a `v-if` directive. Enable this when you have perf concerns.
+
+:::demo Note that by enabling this feature, the content will not be rendered before `transition.beforeEnter` dispatched, there will only be `overlay` `header(if any)` `footer(if any)`.
+
+```html
+<el-button type="text" @click="centerDialogVisible = true">点击打开 Dialog</el-button>
+
+<el-dialog
+  title="提示"
+  v-model="centerDialogVisible"
+  width="30%"
+  destroy-on-close
+  center>
+  <span>需要注意在 Dialog 打开前是这条内容和下面的内容都是不会被渲染的</span>
+  <strong>额外的内容</strong>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+    </span>
+  </template>
+
+</el-dialog>
+
+<script>
+  export default {
+    data() {
+      return {
+        centerDialogVisible: false
+      };
+    }
+  };
+</script>
+
+```
 
 ### 属性
 

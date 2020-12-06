@@ -2,6 +2,11 @@
 
 例えば、巨大なフォームを持っていたり、`terms & conditions` のようなものを表示するためのスペースが必要な場合、`Drawer` は `Dialog` とほぼ同じ API を持っていますが、ユーザーエクスペリエンスが異なります。
 
+:::tip
+#### Translation needed
+
+Since v-model is natively supported for all components, `visible.sync` has been deprecated, use `v-model="visibilityBinding"` to control the visibility of the current drawer.
+:::
 ### 基本的な使い方
 
 一時的にDrawerを多方向から呼び出す
@@ -272,7 +277,7 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 | show-close | Drawerの右上に閉じるボタンを表示するようにした | boolean | — | true |
 | size | Drawerのサイズ, ドローワが水平モードの場合は幅プロパティ, そうでない場合は高さプロパティ, サイズが `number` 型の場合はピクセル単位でサイズを記述します; サイズが `string` 型の場合は `x%` 記法を用います, それ以外の場合はピクセル単位で解釈されます | number / string | - | '30%' |
 | title | Drawerのタイトルは、スロットの名前を指定して設定することもできます。 | string | — | — |
-| model-value | Drawerを表示する場合は、`.sync` 記法もサポートします。 | boolean | — | false |
+| model-value | Drawerを表示する場合は、 | boolean | — | false |
 | wrapperClosable | シャドウイングレイヤーをクリックしてDrwerを閉じることができるかどうかを示します。 | boolean | - | true |
 | withHeader | デフォルトは true で、withHeader が false に設定されている場合は `title attribute` と `title slot` の両方が動作しません。 | boolean | - | true |
 
