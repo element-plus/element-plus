@@ -158,7 +158,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
       type="datetimerange"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      :default-time="['12:00:00']">
+      :default-time="defaultTime1">
     </el-date-picker>
   </div>
   <div class="block">
@@ -169,7 +169,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
       align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      :default-time="['12:00:00', '08:00:00']">
+      :default-time="defaultTime2">
     </el-date-picker>
   </div>
 </template>
@@ -179,7 +179,14 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
     data() {
       return {
         value1: '',
-        value2: ''
+        value2: '',
+        defaultTime1: [
+          new Date(2000, 1, 1, 12, 0, 0),
+        ], // '12:00:00'
+        defaultTime2: [
+          new Date(2000, 1, 1, 12, 0, 0),
+          new Date(2000, 2, 1, 8, 0, 0)
+        ] // '12:00:00', '08:00:00'
       };
     }
   };

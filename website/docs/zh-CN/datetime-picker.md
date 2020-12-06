@@ -157,7 +157,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，`Picker Options` 或者其
       type="datetimerange"
       start-placeholder="开始日期"
       end-placeholder="结束日期"
-      :default-time="['12:00:00']">
+      :default-time="defaultTime1">
     </el-date-picker>
   </div>
   <div class="block">
@@ -168,7 +168,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，`Picker Options` 或者其
       align="right"
       start-placeholder="开始日期"
       end-placeholder="结束日期"
-      :default-time="['12:00:00', '08:00:00']">
+      :default-time="defaultTime2">
     </el-date-picker>
   </div>
 </template>
@@ -178,7 +178,14 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，`Picker Options` 或者其
     data() {
       return {
         value1: '',
-        value2: ''
+        value2: '',
+        defaultTime1: [
+          new Date(2000, 1, 1, 12, 0, 0),
+        ], // '12:00:00'
+        defaultTime2: [
+          new Date(2000, 1, 1, 12, 0, 0),
+          new Date(2000, 2, 1, 8, 0, 0)
+        ] // '12:00:00', '08:00:00'
       };
     }
   };
