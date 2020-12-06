@@ -276,8 +276,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | show-close | Should show close button at the top right of Drawer | boolean | — | true |
 | size | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | number / string | - | '30%' |
 | title | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form | string | — | — |
-| modelValue(v-model) | Should Drawer be displayed | boolean | — | false |
-| wrapperClosable | Indicates whether user can close Drawer by clicking the shadowing layer. | boolean | - | true |
+| model-value / v-model | Should Drawer be displayed | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
 
 ### Drawer Slot
