@@ -483,7 +483,6 @@ Le contenu des noeuds peut être personnalisé, afin de pouvoir ajouter des icô
       }];
       return {
         data: JSON.parse(JSON.stringify(data)),
-        data: JSON.parse(JSON.stringify(data))
       }
     },
 
