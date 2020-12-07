@@ -81,6 +81,7 @@ import ElTimelineItem from '@element-plus/timeline-item'
 import ElTooltip from '@element-plus/tooltip'
 import ElTransfer from '@element-plus/transfer'
 import ElTree from '@element-plus/tree'
+import ElTreeSelect from '@element-plus/tree-select'
 import ElUpload from '@element-plus/upload'
 import ElVirtualList from '@element-plus/virtual-list'
 import ElSpace from '@element-plus/space'
@@ -180,6 +181,7 @@ const components = [
   ElTooltip,
   ElTransfer,
   ElTree,
+  ElTreeSelect,
   ElUpload,
   ElVirtualList,
   ElSpace,
@@ -293,6 +295,7 @@ export {
   ElTooltip,
   ElTransfer,
   ElTree,
+  ElTreeSelect,
   ElUpload,
   ElVirtualList,
   ElSpace,
