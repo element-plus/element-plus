@@ -20,8 +20,8 @@ const ElCol = defineComponent({
       type: Number,
       default: 0,
     },
-    push:{
-      type:  Number,
+    push: {
+      type: Number,
       default: 0,
     },
     xs: {
@@ -51,6 +51,8 @@ const ElCol = defineComponent({
     const style = computed(() => {
       if (gutter) {
         return {
+          display: 'block',
+          minHeight: '1px',
           paddingLeft: gutter / 2 + 'px',
           paddingRight: gutter / 2 + 'px',
         }
@@ -82,7 +84,7 @@ const ElCol = defineComponent({
       return ret
     })
 
-    return () =>h(
+    return () => h(
       'div',
       {
         class: ['el-col', classList.value],
