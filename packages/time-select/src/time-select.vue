@@ -165,7 +165,7 @@ export default defineComponent({
     // methods
     const updateOptions = () => {
       const options = props.pickerOptions
-      if (JSON.stringify(options) === "{}") return false
+      if (JSON.stringify(options) === '{}') return false
       for (const option in options) {
         if (options.hasOwnProperty(option)) {
           data[option].value = options[option]
