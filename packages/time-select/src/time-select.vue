@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue'
+import { defineComponent, ref, computed, watchEffect } from 'vue'
 import ElSelect from '@element-plus/select'
 interface Time {
   hours: number
@@ -165,19 +165,15 @@ export default defineComponent({
     // methods
     const updateOptions = () => {
       const options = props.pickerOptions
+      if (JSON.stringify(options) === "{}") return false
       for (const option in options) {
         if (options.hasOwnProperty(option)) {
           data[option].value = options[option]
         }
       }
     }
-    // watch
-    watch(
-      () => props.pickerOptions,
-      () => {
-        updateOptions()
-      },
-    )
+    // watchEffect
+    watchEffect(() => updateOptions())
     return {
       ...data,
       items,
