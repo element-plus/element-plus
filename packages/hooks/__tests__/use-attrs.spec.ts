@@ -12,7 +12,7 @@ const handleClick = jest.fn()
 const genComp = (
   inheritAttrs = true,
   excludeListeners = false,
-  excludesKeys: string[] = [],
+  excludeKeys: string[] = [],
 ) => {
   return {
     template: `
@@ -23,7 +23,7 @@ const genComp = (
     inheritAttrs,
     props: {},
     setup() {
-      const attrs = useAttrs(excludeListeners, excludesKeys)
+      const attrs = useAttrs({ excludeListeners, excludeKeys })
 
       return {
         attrs,

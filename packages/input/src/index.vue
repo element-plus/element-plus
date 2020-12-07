@@ -219,7 +219,7 @@ export default defineComponent({
 
   setup(props, ctx) {
     const instance = getCurrentInstance()
-    const attrs = useAttrs(true)
+    const attrs = useAttrs({ excludeListeners: true })
     const $ElEMENT = useGlobalConfig()
 
     const elForm = inject(elFormKey, {} as ElFormContext)
