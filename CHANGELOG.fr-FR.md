@@ -1,5 +1,23 @@
 ## Changelog
 
+### 1.0.1-beta.5
+
+*2020-12-07*
+
+#### Bug fixes
+
+- Fix input non-emit events such as keyup not work (#866)
+- Fix Select.focus is undefined bug (#862)
+- Optimize useAttrs signature (#864)
+- Fix table ts error (#863)
+- Fix table avoiding the error of el-table-column rendering (#828)
+- Fix popper gets covered by dialog/drawer (#861)
+- Fix drawer implementation with hook (#817)
+- Fix exporting fix for volar (#849)
+- Fix cascader render error of radio label (#859)
+- Fix pagination known issues (#811)
+- Fix select error style of select-dropdown (#838)
+
 ### 1.0.1-beta.4
 
 *2020-12-05*
