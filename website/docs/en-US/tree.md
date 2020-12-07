@@ -481,7 +481,6 @@ The content of tree nodes can be customized, so you can add icons or buttons as 
       }];
       return {
         data: JSON.parse(JSON.stringify(data)),
-        data: JSON.parse(JSON.stringify(data))
       }
     },
 
