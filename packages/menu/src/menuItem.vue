@@ -40,6 +40,7 @@
 </template>
 <script lang="ts">
 import {
+  defineComponent,
   computed,
   onMounted,
   onBeforeUnmount,
@@ -50,7 +51,7 @@ import { IMenuItemProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
 import ElTooltip from '@element-plus/tooltip'
 
-export default {
+export default defineComponent({
   name: 'ElMenuItem',
 
   componentName: 'ElMenuItem',
@@ -160,5 +161,5 @@ export default {
       onMouseLeave,
     }
   },
-}
+})
 </script>

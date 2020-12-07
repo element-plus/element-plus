@@ -368,8 +368,8 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
       type="daterange"
       start-placeholder="Start date"
       end-placeholder="End date"
-      :default-time="['00:00:00', '23:59:59']">
-    </el-date-picker>
+      :default-time="defaultTime"
+    ></el-date-picker>
   </div>
 </template>
 
@@ -377,7 +377,11 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
   export default {
     data() {
       return {
-        value: ''
+        value: '',
+        defaultTime: [
+          new Date(2000, 1, 1, 0, 0, 0),
+          new Date(2000, 2, 1, 23, 59, 59)
+        ] // '00:00:00', '23:59:59'
       };
     }
   };

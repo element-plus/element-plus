@@ -211,11 +211,44 @@ El contenido de Diálogo se puede centrar.
 El contenido de Dialog se renderiza en modo lazy, lo que significa que la ranura por defecto no se renderiza en el DOM hasta que se abre por primera vez. Por lo tanto, si necesita realizar una manipulación DOM o acceder a un componente mediante ref, hágalo en el callback del evento `open`.
 :::
 
-:::tip
+### Destroy on Close (Translation needed)
+When this is feature is enabled, the content under default slot will be destroyed with a `v-if` directive. Enable this when you have perf concerns.
 
-Si la variable ligada a `visible` se gestiona en el Vuex store, el `.sync` no puede funcionar correctamente. En este caso, elimine el modificador `.sync`, escuche los eventos de `open` y `close` Dialog, y confirme las mutaciones Vuex para actualizar el valor de esa variable en los manejadores de eventos.
+:::demo Note that by enabling this feature, the content will not be rendered before `transition.beforeEnter` dispatched, there will only be `overlay` `header(if any)` `footer(if any)`.
 
-:::
+```html
+<el-button type="text" @click="centerDialogVisible = true">Click to open Dialog</el-button>
+
+<el-dialog
+  title="Notice"
+  v-model="centerDialogVisible"
+  width="30%"
+  destroy-on-close
+  center>
+  <span>Notice: before dialog gets opened for the first time this node and the one bellow will not be rendered</span>
+  <div>
+    <strong>Extra content (Not rendered)</strong>
+  </div>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
+
+</el-dialog>
+
+<script>
+  export default {
+    data() {
+      return {
+        centerDialogVisible: false
+      };
+    }
+  };
+</script>
+
+```
 
 ### Atributo
 

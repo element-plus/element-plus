@@ -2,6 +2,10 @@
 
 有些时候, `Dialog` 组件并不满足我们的需求, 比如你的表单很长, 亦或是你需要临时展示一些文档, `Drawer` 拥有和 `Dialog` 几乎相同的 API, 在 UI 上带来不一样的体验.
 
+:::tip
+
+因为 Vue 提供了 `v-model` 的原生支持，所以以前的 `visible.sync` 已经不再适用，请使用 `v-model="visibleBinding"` 的表达式来绑定是否显示抽屉组件
+:::
 ### 基本用法
 
 呼出一个临时的侧边栏, 可以从多个方向呼出
@@ -274,8 +278,7 @@ Drawer 提供一个 `destroyOnClose` API, 用来在关闭 Drawer 时销毁子组
 | show-close | 是否显示关闭按钮 | boolean    | — | true |
 | size | Drawer 窗体的大小, 当使用 `number` 类型时, 以像素为单位, 当使用 `string` 类型时, 请传入 'x%', 否则便会以 `number` 类型解释 | number / string | - | '30%' |
 | title     | Drawer 的标题，也可通过具名 slot （见下表）传入 | string    | — | — |
-| model-value   | 是否显示 Drawer，支持 .sync 修饰符 | boolean | — | false |
-| wrapperClosable | 点击遮罩层是否可以关闭 Drawer | boolean | - | true |
+| model-value / v-model | 是否显示 Drawer | boolean | — | false |
 | withHeader | 控制是否显示 header 栏, 默认为 true, 当此项为 false 时, title attribute 和 title slot 均不生效 | boolean | - | true |
 
 ### Drawer Slot

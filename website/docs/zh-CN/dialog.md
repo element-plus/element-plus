@@ -185,8 +185,8 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
       <el-button @click="centerDialogVisible = false">取 消</el-button>
       <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
     </span>
-  </template> 
-  
+  </template>
+
 </el-dialog>
 
 <script>
@@ -205,8 +205,44 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默认 slot 不会被渲染到 DOM 上。因此，如果需要执行 DOM 操作，或通过 `ref` 获取相应组件，请在 `open` 事件回调中进行。
 :::
 
-:::tip
-如果 `visible` 属性绑定的变量位于 Vuex 的 store 内，那么 `.sync` 不会正常工作。此时需要去除 `.sync` 修饰符，同时监听 Dialog 的 `open` 和 `close` 事件，在事件回调中执行 Vuex 中对应的 mutation 更新 `visible` 属性绑定的变量的值。
+### 关闭时销毁 DOM 内容
+可在 Dialog 没有显示时，销毁 Dialog 里的内容以达到减少 DOM 节点的作用
+
+:::demo 需要注意的是，当这个属性被启用时，Dialog 内并不会有任何的 DOM 节点存在，除了 `overlay` `header（如果有）` `footer（如果有）`
+
+```html
+<el-button type="text" @click="centerDialogVisible = true">点击打开 Dialog</el-button>
+
+<el-dialog
+  title="提示"
+  v-model="centerDialogVisible"
+  width="30%"
+  destroy-on-close
+  center>
+  <span>需要注意在 Dialog 打开前是这条内容和下面的内容都是不会被渲染的</span>
+  <strong>额外的内容</strong>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+    </span>
+  </template>
+
+</el-dialog>
+
+<script>
+  export default {
+    data() {
+      return {
+        centerDialogVisible: false
+      };
+    }
+  };
+</script>
+
+```
+
+
 :::
 
 ### Attributes

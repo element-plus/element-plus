@@ -1,4 +1,4 @@
-import { computed, ref, watch, nextTick, onMounted } from 'vue'
+import { computed, ref, watch, nextTick, onMounted, CSSProperties } from 'vue'
 
 import isServer from '@element-plus/utils/isServer'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
@@ -6,8 +6,9 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import { clearTimer } from '@element-plus/utils/util'
 import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
 
-import type { UseDialogProps } from './dialog'
+import type { Ref } from 'vue'
 import type { SetupContext } from '@vue/runtime-core'
+import type { UseDialogProps } from './dialog'
 
 export const CLOSE_EVENT = 'close'
 export const OPEN_EVENT = 'open'
@@ -15,17 +16,18 @@ export const CLOSED_EVENT = 'closed'
 export const OPENED_EVENT = 'opened'
 export { UPDATE_MODEL_EVENT }
 
-export default function(props: UseDialogProps, ctx: SetupContext) {
+export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref<HTMLElement>) {
   const visible = ref(false)
   const closed = ref(false)
   const dialogRef = ref(null)
   const openTimer = ref<TimeoutHandle>(null)
   const closeTimer = ref<TimeoutHandle>(null)
+  const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex || PopupManager.nextZIndex())
   const modalRef = ref<HTMLElement>(null)
 
   const style = computed(() => {
-    const style = {} as CSSStyleDeclaration
+    const style = {} as CSSProperties
     if (!props.fullscreen) {
       style.marginTop = props.top
       if (props.width) {
@@ -37,11 +39,15 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
 
   function afterEnter() {
     ctx.emit(OPENED_EVENT)
+    rendered.value = true // enables lazy rendering
   }
 
   function afterLeave() {
     ctx.emit(CLOSED_EVENT)
     ctx.emit(UPDATE_MODEL_EVENT, false)
+    if (props.destroyOnClose) {
+      rendered.value = false
+    }
   }
 
   function open() {
@@ -124,10 +130,11 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
       closed.value = false
       open()
       ctx.emit(OPEN_EVENT)
+      zIndex.value = props.zIndex ? zIndex.value++ : PopupManager.nextZIndex()
       // this.$el.addEventListener('scroll', this.updatePopper)
       nextTick(() => {
-        if (dialogRef.value) {
-          dialogRef.value.scrollTop = 0
+        if (targetRef.value) {
+          targetRef.value.scrollTop = 0
         }
       })
     } else {
@@ -154,6 +161,7 @@ export default function(props: UseDialogProps, ctx: SetupContext) {
     closed,
     dialogRef,
     style,
+    rendered,
     modalRef,
     visible,
     zIndex,

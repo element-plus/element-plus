@@ -39,12 +39,10 @@ export default defineComponent({
 
     total: {
       type: Number,
-      default: 1000,
     },
 
     pageCount: {
       type: Number,
-      default: 50,
     },
 
     pagerCount: {
@@ -124,9 +122,8 @@ export default defineComponent({
       nextTick(() => {
         if (
           internalCurrentPage.value !== lastEmittedPage.value ||
-          userChangePageSize
+          userChangePageSize.value
         ) {
-          emit('current-change', internalCurrentPage.value)
           lastEmittedPage.value = internalCurrentPage.value
           userChangePageSize.value = false
         }
@@ -136,7 +133,6 @@ export default defineComponent({
     function handleCurrentChange(val: number) {
       internalCurrentPage.value = getValidCurrentPage(val)
       userChangePageSize.value = true
-      emitChange()
     }
 
     function handleSizesChange(val: number) {

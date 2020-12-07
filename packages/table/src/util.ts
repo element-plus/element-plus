@@ -303,7 +303,7 @@ export function walkTreeNode(
 export function createTablePopper(
   trigger: HTMLElement,
   popperContent: string,
-  popperOptions: IPopperOptions,
+  popperOptions: Partial<IPopperOptions>,
 ) {
   function renderContent(): HTMLDivElement {
     const content = document.createElement('div')

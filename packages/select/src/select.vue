@@ -185,6 +185,7 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
+import { useFocus } from '@element-plus/hooks'
 
 import type { PropType } from 'vue'
 
@@ -300,6 +301,8 @@ export default defineComponent({
       selectWrapper,
       scrollbar,
     } = useSelect(props, states, ctx)
+
+    const { focus } = useFocus(reference)
 
     const {
       inputWidth,
@@ -422,6 +425,7 @@ export default defineComponent({
       getValueKey,
       navigateOptions,
       dropMenuVisible,
+      focus,
 
       reference,
       input,

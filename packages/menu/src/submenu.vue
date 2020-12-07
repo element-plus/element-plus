@@ -90,6 +90,7 @@
 <script lang="ts">
 import mitt from 'mitt'
 import {
+  defineComponent,
   computed,
   ref,
   provide,
@@ -105,7 +106,7 @@ import { ISubmenuProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
 import ElPopper from '@element-plus/popper'
 
-export default {
+export default defineComponent({
   name: 'ElSubmenu',
   componentName: 'ElSubmenu',
   components: { ElCollapseTransition, ElPopper },
@@ -428,5 +429,5 @@ export default {
       verticalTitleRef,
     }
   },
-}
+})
 </script>

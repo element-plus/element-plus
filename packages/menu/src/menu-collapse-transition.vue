@@ -4,9 +4,10 @@
   </transition>
 </template>
 <script lang="ts">
+import { defineComponent } from 'vue'
 import { addClass, removeClass, hasClass } from '@element-plus/utils/dom'
 
-export default {
+export default defineComponent({
   name: 'ElMenuCollapseTransition',
   setup() {
     return {
@@ -51,5 +52,5 @@ export default {
       },
     }
   },
-}
+})
 </script>

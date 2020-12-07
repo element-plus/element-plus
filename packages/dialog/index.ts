@@ -6,3 +6,4 @@ Dialog.install = (app: App): void => {
 }
 
 export default Dialog
+export { default as useDialog } from './src/useDialog'
