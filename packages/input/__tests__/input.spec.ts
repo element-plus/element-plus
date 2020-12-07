@@ -414,6 +414,18 @@ describe('Input.vue', () => {
     })
   })
 
+  test('non-emit event such as keyup should work', async () => {
+    const handleKeyup = jest.fn()
+    const wrapper = mount(Input, {
+      attrs: {
+        onKeyup: handleKeyup,
+      },
+    })
+
+    await wrapper.find('input').trigger('keyup')
+    expect(handleKeyup).toBeCalledTimes(1)
+  })
+
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
   // ...
 
