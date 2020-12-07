@@ -102,7 +102,7 @@ function useStyle(
     })
     table.$ready = true
   })
-  const syncPostion = throttle(function () {
+  const syncPostion = throttle(function() {
     const {
       scrollLeft,
       scrollTop,
@@ -127,7 +127,7 @@ function useStyle(
     } else {
       scrollPosition.value = 'middle'
     }
-  }, 20)
+  }, 10)
   const bindEvents = () => {
     table.refs.bodyWrapper.addEventListener('scroll', syncPostion, {
       passive: true,

@@ -87,7 +87,7 @@ function useEvents(props: TableBodyProps) {
     ) {
       createTablePopper(cell, cell.innerText || cell.textContent, {
         placement: 'top',
-        positionFixed: true,
+        strategy: 'fixed',
       })
     }
   }
