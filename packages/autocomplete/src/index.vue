@@ -254,6 +254,7 @@ export default defineComponent({
     }
     const handleClear = () => {
       activated.value = false
+      ctx.emit(UPDATE_MODEL_EVENT, '')
       ctx.emit('clear')
     }
     const handleKeyEnter = () => {
