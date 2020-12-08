@@ -7,7 +7,7 @@ Use Date Picker for date input.
 
 Basic date picker measured by 'day'.
 
-:::demo The measurement is determined by the `type` attribute. You can enable quick options by creating a `picker-options` object with `shortcuts` property. The disabled date is set by `disabledDate`, which is a function.
+:::demo The measurement is determined by the `type` attribute. You can enable quick options via `shortcuts` property. The disabled date is set by `disabledDate`, which is a function.
 
 ```html
 <template>
@@ -406,22 +406,8 @@ When picking a date range, you can assign the time part for start date and end d
 | prefix-icon | Custom prefix icon class | string | — | el-icon-date |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
 | validate-event | whether to trigger form validation | boolean | - | true |
-
-### Picker Options
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| shortcuts | a { text, onClick } object array to set shortcut options, check the table below | object[] | — | — |
 | disabledDate | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function | — | — |
-| cellClassName | set custom className | Function(Date) | — | — |
-| firstDayOfWeek | first day of week | Number | 1 to 7 | 7 |
-| onPick | a callback that triggers when the selected date is changed. Only for `daterange` and `datetimerange`. | Function({ maxDate, minDate }) | - | - |
-
-### shortcuts
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| text | title of the shortcut | string | — | — |
-| onClick | callback function, triggers when the shortcut is clicked, with the `vm` as its parameter. You can change the picker value by emitting the `pick` event. Example: `vm.$emit('pick', new Date())`| function | — | — |
-
+| shortcuts | an object array to set shortcut options | object[{ text: string, value: Date }] | — | — |
 
 ### Events
 | Event Name | Description | Parameters |
