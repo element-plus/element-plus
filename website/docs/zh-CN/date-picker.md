@@ -7,7 +7,7 @@
 
 以「日」为基本单位，基础的日期选择控件
 
-:::demo 基本单位由`type`属性指定。快捷选项需配置`picker-options`对象中的`shortcuts`，禁用日期通过 `disabledDate` 设置，传入函数
+:::demo 基本单位由`type`属性指定。通过`shortcuts`配置快捷选项，禁用日期通过 `disabledDate` 设置，传入函数
 ```html
 <template>
   <div class="block">
@@ -406,15 +406,8 @@ If type is `daterange`, `default-value` sets the left side calendar.
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-date |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
 | validate-event | 输入时是否触发表单的校验 | boolean | - | true |
-
-### Picker Options
-| 参数      | 说明          | 类型      | 可选值                           | 默认值  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| shortcuts | 设置快捷选项，需要传入 { text, onClick } 对象用法参考 demo 或下表 | Object[] | — | — |
+| shortcuts | 设置快捷选项，需要传入数组对象 | object[{ text: string, value: Date }] | — | — |
 | disabledDate | 设置禁用状态，参数为当前日期，要求返回 Boolean | Function | — | — |
-| cellClassName | 设置日期的 className | Function(Date) | — | — |
-| firstDayOfWeek | 周起始日 | Number | 1 到 7 | 7 |
-| onPick | 选中日期后会执行的回调，只有当 `daterange` 或 `datetimerange` 才生效 | Function({ maxDate, minDate }) | — | — |
 
 ### Shortcuts
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |

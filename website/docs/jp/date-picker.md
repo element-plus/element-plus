@@ -6,7 +6,7 @@
 
 '日'で計測する基本的なdate-picker。
 
-:::demo 測定は `type` 属性で決定されます。クイックオプションを有効にするには、`shortcuts` プロパティを持つ `picker-options` オブジェクトを作成する。無効な日付は関数 `disabledDate` で設定する。
+:::demo 測定は `type` 属性で決定されます。You can enable quick options via `shortcuts` property。無効な日付は関数 `disabledDate` で設定する。
 
 ```html
 <template>
@@ -24,7 +24,8 @@
       v-model="value2"
       type="date"
       placeholder="Pick a day"
-      :picker-options="pickerOptions">
+      :disabled-date="disabledDate"
+      :shortcuts="shortcuts">
     </el-date-picker>
   </div>
 </template>
@@ -33,31 +34,27 @@
   export default {
     data() {
       return {
-        pickerOptions: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
-          },
-          shortcuts: [{
-            text: 'Today',
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: 'Yesterday',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: 'A week ago',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
+        disabledDate(time) {
+          return time.getTime() > Date.now()
         },
+        shortcuts: [{
+          text: 'Today',
+          value: new Date(),
+        }, {
+          text: 'Yesterday',
+          value: (() => {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            return date
+          })(),
+        }, {
+          text: 'A week ago',
+          value: (() => {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            return date
+          })(),
+        }],
         value1: '',
         value2: '',
       };
@@ -156,7 +153,7 @@
       range-separator="To"
       start-placeholder="Start date"
       end-placeholder="End date"
-      :picker-options="pickerOptions">
+      :shortcuts="shortcuts">
     </el-date-picker>
   </div>
 </template>
@@ -165,33 +162,31 @@
   export default {
     data() {
       return {
-        pickerOptions: {
-          shortcuts: [{
-            text: 'Last week',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Last month',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Last 3 months',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
+        shortcuts: [{
+          text: 'Last week',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            return [start, end]
+          })(),
+        }, {
+          text: 'Last month',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            return [start, end]
+          })(),
+        }, {
+          text: 'Last 3 months',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            return [start, end]
+          })(),
+        }],
         value1: '',
         value2: ''
       };
@@ -229,7 +224,7 @@
       range-separator="To"
       start-placeholder="Start month"
       end-placeholder="End month"
-      :picker-options="pickerOptions">
+      :shortcuts="shortcuts">
     </el-date-picker>
   </div>
 </template>
@@ -238,29 +233,25 @@
   export default {
     data() {
       return {
-        pickerOptions: {
-          shortcuts: [{
-            text: 'This month',
-            onClick(picker) {
-              picker.$emit('pick', [new Date(), new Date()]);
-            }
-          }, {
-            text: 'This year',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date(new Date().getFullYear(), 0);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Last 6 months',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setMonth(start.getMonth() - 6);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
+        shortcuts: [{
+          text: 'This month',
+          value: [new Date(), new Date()],
+        }, {
+          text: 'This year',
+          value: (() => {
+            const end = new Date()
+            const start = new Date(new Date().getFullYear(), 0)
+            return [start, end]
+          })(),
+        }, {
+          text: 'Last 6 months',
+          value: (() => {
+            const end = new Date()
+            const start = new Date()
+            start.setMonth(start.getMonth() - 6)
+            return [start, end]
+          })(),
+        }],
         value1: '',
         value2: ''
       };
@@ -413,15 +404,8 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
 | prefix-icon | カスタムプレフィックスアイコン | string | — | el-icon-date |
 | clear-icon | カスタムクリアアイコンクラス | string | — | el-icon-circle-close |
 | validate-event | フォームバリデーションをトリガするかどうか | boolean | - | true |
-
-### ピッカーオプション
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| shortcuts | ショートカットオプションを設定するための { text, onClick } オブジェクトの配列は、以下の表を確認してください。 | object[] | — | — |
+| shortcuts | ショートカットオプションを設定するためのオブジェクトの配列は | object[{ text: string, value: Date }] | — | — |
 | disabledDate | 日付をパラメータとして、その日付が無効化されているかどうかを判断する関数です。ブーリアンを返す必要があります。 | function | — | — |
-| cellClassName | セットカスタムクラス名 | Function(Date) | — | — |
-| firstDayOfWeek | 週の初日 | Number | 1 to 7 | 7 |
-| onPick | 選択された日付が変更されたときにトリガーするコールバックです。`daterange` と `datetimerange` のみ。 | Function({ maxDate, minDate }) | - | - |
 
 ### ショートカット
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
