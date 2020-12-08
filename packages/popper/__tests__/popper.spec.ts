@@ -407,5 +407,19 @@ describe('Popper.vue', () => {
       await trigger.trigger(CLICK_EVENT)
       expect(popper.vm.visibility).toBe(false)
     })
+
+    test('should pass style and class to trigger', async () => {
+      const CLASS = 'fake'
+      const STYLE = 'width: 100px'
+      const wrapper = _mount({
+        appendToBody: false,
+        class: CLASS,
+        style: STYLE,
+      })
+
+      const trigger = wrapper.find(`.${TEST_TRIGGER}`)
+      expect(trigger.classes(CLASS)).toBe(true)
+      expect((trigger.element as HTMLDivElement).style.width).toBe('100px')
+    })
   })
 })
