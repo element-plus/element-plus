@@ -10,7 +10,7 @@
       :offset="0"
       transition="el-zoom-in-top"
       :gpu-acceleration="false"
-      popper-class="el-color-picker__panel el-color-dropdown"
+      :popper-class="`el-color-picker__panel el-color-dropdown ${popperClass}`"
       :stop-popper-mouse-event="false"
     >
       <template #default>
