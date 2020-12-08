@@ -62,6 +62,7 @@ export default {
     type: String,
     default: '',
   },
+  style: Object,
   closeDelay: {
     type: Number,
     default: 200,
