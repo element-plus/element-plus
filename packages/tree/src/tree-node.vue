@@ -182,7 +182,7 @@ export default defineComponent({
     }
 
     const handleContextMenu = (event: Event) => {
-      if (tree.instance.vnode.props['onNode-contextmenu']) {
+      if (tree.instance.vnode.props['onNodeContextmenu']) {
         event.stopPropagation()
         event.preventDefault()
       }
