@@ -144,7 +144,7 @@ Switch es utilizado para realizar cambios entre dos estados opuestos.
 
 | Atributo            | Descripción                              | Tipo                      | Valores aceptados | Por defecto |
 | ------------------- | ---------------------------------------- | ------------------------- | ----------------- | ----------- |
-| value / v-model      | valor enlazado                           | boolean / string / number | —                 | —           |
+| value / v-model      | valor enlazado.Debe ser igual a active-value o inactive-value, por defecto, tipo boolean.     | boolean / string / number | —                 | —           |
 | disabled            | si Switch esta deshabilitado             | boolean                   | —                 | false       |
 | loading  | whether Switch is in loading state | boolean | — | false |
 | width               | ancho del componente Switch              | number                    | —                 | 40          |

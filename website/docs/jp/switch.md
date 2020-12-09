@@ -143,7 +143,7 @@
 
 | Attribute      | Description          | Type      | Accepted Values       | Default |
 |-----| ----| ----| ----|---- |
-| value / v-model | バインディング値 | boolean / string / number | — | — |
+| value / v-model | バインディング値.それはactive-valueまたはinactive-valueに等しくなければなりません.デフォルトのBooleanタイプ | boolean / string / number | — | — |
 | disabled | スイッチが無効になっているかどうか | boolean | — | false |
 | loading  | スイッチがロード中になっているかどうか | boolean | — | false |
 | width | スイッチの幅 | number | — | 40 |
