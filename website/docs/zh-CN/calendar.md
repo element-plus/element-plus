@@ -26,9 +26,7 @@
 :::demo 通过设置名为 `dateCell` 的 `scoped-slot` 来自定义日历单元格中显示的内容。在 `scoped-slot` 可以获取到 date（当前单元格的日期）, data（包括 type，isSelected，day 属性）。详情解释参考下方的 API 文档。
 ```html
 <el-calendar>
-  <template
-    #dateCell="{data}"
-  >
+  <template #dateCell="{data}">
     <p :class="data.isSelected ? 'is-selected' : ''">
       {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}
     </p>
@@ -60,5 +58,4 @@
 ### dateCell scoped slot 参数
 | 参数             | 说明          | 类型      | 可选值        | 默认值  |
 |-----------------|-------------- |---------- |------------ |-------- |
-| date            | 单元格代表的日期 | Date      | —           | —      |
-| data            | { type, isSelected, day}，`type` 表示该日期的所属月份，可选值有 prev-month，current-month，next-month；`isSelected` 标明该日期是否被选中；`day` 是格式化的日期，格式为 yyyy-MM-dd    | Object      | —           | —      |
+| data            | { type, isSelected, day, date }，`type` 表示该日期的所属月份，可选值有 prev-month，current-month，next-month；`isSelected` 标明该日期是否被选中；`day` 是格式化的日期，格式为 yyyy-MM-dd；`date` 是单元格的日期    | Object      | —           | —      |

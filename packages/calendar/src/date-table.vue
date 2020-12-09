@@ -92,7 +92,7 @@ export default defineComponent({
       })
     }
 
-    const getFormateDate = (day, type): Dayjs => {
+    const getFormattedDate = (day, type): Dayjs => {
       let result
       if (type === 'prev') {
         result = props.date.startOf('month').subtract(1, 'month').date(day)
@@ -107,7 +107,7 @@ export default defineComponent({
     const getCellClass = ({ text, type }) => {
       const classes = [type]
       if (type === 'current') {
-        const date_ = getFormateDate(text, type)
+        const date_ = getFormattedDate(text, type)
         if (date_.isSame(props.selectedDay, 'day')) {
           classes.push('is-selected')
         }
@@ -119,12 +119,12 @@ export default defineComponent({
     }
 
     const pickDay = ({ text, type }) => {
-      const date = getFormateDate(text, type)
+      const date = getFormattedDate(text, type)
       ctx.emit('pick', date)
     }
 
     const getSlotData = ({ text, type }) => {
-      const day = getFormateDate(text, type)
+      const day = getFormattedDate(text, type)
       return {
         isSelected: day.isSame(props.selectedDay),
         type: `${type}-month`,
