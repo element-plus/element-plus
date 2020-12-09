@@ -34,6 +34,7 @@
         :autocomplete="autocomplete"
         :tabindex="tabindex"
         :aria-label="label"
+        :placeholder="placeholder"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
