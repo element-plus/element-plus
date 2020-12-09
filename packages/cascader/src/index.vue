@@ -3,10 +3,11 @@
     ref="popper"
     v-model:visible="popperVisible"
     trigger="manual"
-    transition="el-zoom-in-top"
     placement="bottom-start"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
+    transition="el-zoom-in-top"
+    :gpu-acceleration="false"
     effect="light"
     pure
     @after-leave="hideSuggestionPanel"
@@ -134,11 +135,11 @@ import {
   onMounted, onBeforeUnmount,
   Ref, ref, watch,
 } from 'vue'
-import { CascaderPanel as ElCascaderPanel } from '@element-plus/cascader-panel'
-import { Input as ElInput } from '@element-plus/input'
-import { Popper as ElPopper } from '@element-plus/popper'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
-import { Tag as ElTag } from '@element-plus/tag'
+import ElCascaderPanel from '@element-plus/cascader-panel'
+import ElInput from '@element-plus/input'
+import ElPopper from '@element-plus/popper'
+import ElScrollbar from '@element-plus/scrollbar'
+import ElTag from '@element-plus/tag'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
 import { t } from '@element-plus/locale'
 import { isPromise } from '@vue/shared'
@@ -166,13 +167,6 @@ const INPUT_HEIGHT_MAP = {
 
 const popperOptions = {
   modifiers: [
-    {
-      name: 'computeStyles',
-      options: {
-        gpuAcceleration: false,
-        adaptive: false,
-      },
-    },
     {
       name: 'arrowPosition',
       enabled: true,

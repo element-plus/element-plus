@@ -33,6 +33,28 @@
 ```
 :::
 
+### 半選を許す
+:::demo 属性 `allow-half` 半星の出現を許す
+```html
+
+<div class="block">
+  <el-rate  v-model="value"  allow-half />
+</div>
+
+
+<script>
+import { defineComponent, ref } from 'vue'
+  export default {
+    setup() {
+      return {
+        value: ref(null)
+      }
+    }
+  }
+</script>
+```
+:::
+
 ### テキスト付き
 
 評価点を示すためのテキストの使用

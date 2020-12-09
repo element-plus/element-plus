@@ -119,7 +119,9 @@
 :::demo `el-tooltip` の `content` という名前のスロットを追加して `el-tooltip` の `content` 属性をオーバーライドします。
 ```html
 <el-tooltip placement="top">
-  <div slot="content">multiple lines<br/>second line</div>
+  <template #content>
+    multiple lines<br/>second line
+  </template>
   <el-button>Top center</el-button>
 </el-tooltip>
 ```
@@ -179,6 +181,7 @@
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |----------------|---------|-----------|-------------|--------|
+| append-to-body | dialog自身をボディに追加するかどうかを指定します。入れ子になったdialogは、この属性を `true` に設定しなければなりません。 | boolean   | — | false |
 |  effect   |  ツールチップのテーマ  | string   | dark/light  | dark  |
 |  content  | コンテンツを表示、`slot#content` で上書きすることができます。 | String   | — | — |
 |  placement | ツールチップの位置   | string    |  top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end |  bottom |

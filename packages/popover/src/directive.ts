@@ -22,6 +22,9 @@ export default {
   mounted(el, binding, vnode) {
     attachEvents(el, binding, vnode)
   },
+  updated(el, binding, vnode) {
+    attachEvents(el, binding, vnode)
+  },
 } as ObjectDirective
 
 export const VPopover = 'popover'

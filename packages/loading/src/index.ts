@@ -1,5 +1,5 @@
 import { createLoadingComponent } from './createLoadingComponent'
-import type { ILoadingOptions, ILoadingInstance, ILoadingGlobalConfig } from './loading'
+import type { ILoadingOptions, ILoadingInstance, ILoadingGlobalConfig } from './loading.type'
 import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
 import PopupManager from '@element-plus/utils/popup-manager'
 import isServer from '@element-plus/utils/isServer'

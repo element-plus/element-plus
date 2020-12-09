@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import DatePicker from './src/date-picker'
 
-export default (app: App): void => {
+DatePicker.install = (app: App): void => {
   app.component(DatePicker.name, DatePicker)
 }
 
-export { DatePicker }
+export default DatePicker

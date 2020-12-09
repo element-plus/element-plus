@@ -1,6 +1,6 @@
 import { createVNode, reactive, ref, toRefs, h, Transition, render, VNode } from 'vue'
 import { removeClass } from '@element-plus/utils/dom'
-import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading'
+import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
 
 export function createLoadingComponent({ options , globalLoadingOption }: ILoadingCreateComponentParams): ILoadingInstance {
   let vm: VNode = null

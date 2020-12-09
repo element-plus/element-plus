@@ -4,7 +4,7 @@
 
 Similaire à Tooltip, Popover est aussi construit avec `Vue-popper`. Certains attributs sont donc les mêmes, vous pourrez vous référer à la documentation de Tooltip pour certains d'entre eux.
 
-:::demo L'attribut `trigger` détermine comment le popover se déclenche: `hover`, `click`, `focus` ou `manual`. Concernant l'élément déclencheur, vous pouvez l'écrire de deux manières: en utilisant le slot `slot="reference"` ou bien la directive `v-popover` avec `ref` égal à popover.
+:::demo L'attribut `trigger` détermine comment le popover se déclenche: `hover`, `click`, `focus` ou `manual`. Concernant l'élément déclencheur, vous pouvez l'écrire de deux manières: en utilisant le slot `#reference` ou bien la directive `v-popover` avec `ref` égal à popover.
 
 ```html
 <template>

@@ -12,12 +12,12 @@ Top bar NavMenu puede ser usado en distinto escenarios.
 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
   <el-menu-item index="1">Processing Center</el-menu-item>
   <el-submenu index="2">
-    <template slot="title">Workspace</template>
+    <template #title>Workspace</template>
     <el-menu-item index="2-1">item one</el-menu-item>
     <el-menu-item index="2-2">item two</el-menu-item>
     <el-menu-item index="2-3">item three</el-menu-item>
     <el-submenu index="2-4">
-      <template slot="title">item four</template>
+      <template #title>item four</template>
       <el-menu-item index="2-4-1">item one</el-menu-item>
       <el-menu-item index="2-4-2">item two</el-menu-item>
       <el-menu-item index="2-4-3">item three</el-menu-item>
@@ -37,12 +37,12 @@ Top bar NavMenu puede ser usado en distinto escenarios.
   active-text-color="#ffd04b">
   <el-menu-item index="1">Processing Center</el-menu-item>
   <el-submenu index="2">
-    <template slot="title">Workspace</template>
+    <template #title>Workspace</template>
     <el-menu-item index="2-1">item one</el-menu-item>
     <el-menu-item index="2-2">item two</el-menu-item>
     <el-menu-item index="2-3">item three</el-menu-item>
     <el-submenu index="2-4">
-      <template slot="title">item four</template>
+      <template #title>item four</template>
       <el-menu-item index="2-4-1">item one</el-menu-item>
       <el-menu-item index="2-4-2">item two</el-menu-item>
       <el-menu-item index="2-4-3">item three</el-menu-item>
@@ -86,7 +86,7 @@ NavMenu vertical con sub-menús.
       @open="handleOpen"
       @close="handleClose">
       <el-submenu index="1">
-        <template slot="title">
+        <template #title>
           <i class="el-icon-location"></i>
           <span>Navigator One</span>
         </template>
@@ -98,7 +98,7 @@ NavMenu vertical con sub-menús.
           <el-menu-item index="1-3">item three</el-menu-item>
         </el-menu-item-group>
         <el-submenu index="1-4">
-          <template slot="title">item four</template>
+          <template #title>item four</template>
           <el-menu-item index="1-4-1">item one</el-menu-item>
         </el-submenu>
       </el-submenu>
@@ -127,7 +127,7 @@ NavMenu vertical con sub-menús.
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-submenu index="1">
-        <template slot="title">
+        <template #title>
           <i class="el-icon-location"></i>
           <span>Navigator One</span>
         </template>
@@ -139,7 +139,7 @@ NavMenu vertical con sub-menús.
           <el-menu-item index="1-3">item three</el-menu-item>
         </el-menu-item-group>
         <el-submenu index="1-4">
-          <template slot="title">item four</template>
+          <template #title>item four</template>
           <el-menu-item index="1-4-1">item one</el-menu-item>
         </el-submenu>
       </el-submenu>
@@ -186,12 +186,12 @@ NavMenu vertical puede ser colapsado.
 </el-radio-group>
 <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
   <el-submenu index="1">
-    <template slot="title">
+    <template #title>
       <i class="el-icon-location"></i>
-      <span slot="title">Navigator One</span>
+      <span>Navigator One</span>
     </template>
     <el-menu-item-group>
-      <span slot="title">Group One</span>
+      <template #title><span>Group One</span></template>
       <el-menu-item index="1-1">item one</el-menu-item>
       <el-menu-item index="1-2">item two</el-menu-item>
     </el-menu-item-group>
@@ -199,21 +199,21 @@ NavMenu vertical puede ser colapsado.
       <el-menu-item index="1-3">item three</el-menu-item>
     </el-menu-item-group>
     <el-submenu index="1-4">
-      <span slot="title">item four</span>
+      <template #title><span>item four</span></template>
       <el-menu-item index="1-4-1">item one</el-menu-item>
     </el-submenu>
   </el-submenu>
   <el-menu-item index="2">
     <i class="el-icon-menu"></i>
-    <span slot="title">Navigator Two</span>
+    <template #title>Navigator Two</template>
   </el-menu-item>
   <el-menu-item index="3" disabled>
     <i class="el-icon-document"></i>
-    <span slot="title">Navigator Three</span>
+    <template #title>Navigator Three</template>
   </el-menu-item>
   <el-menu-item index="4">
     <i class="el-icon-setting"></i>
-    <span slot="title">Navigator Four</span>
+    <template #title>Navigator Four</template>
   </el-menu-item>
 </el-menu>
 
@@ -259,25 +259,25 @@ NavMenu vertical puede ser colapsado.
 | router            | si el modo `vue-router` está activado. Si es verdadero, el índice será usado como 'path' para activar la ruta | boolean | —                     | false       |
 | collapse-transition  | si se debe permitir collapse transition | boolean   | — | true   |
 
-### Métodos Menu 
+### Métodos Menu
 | Métodos de evento | Descripción                   | Parámetros                             |
 | ---------------- | ----------------------------- | -------------------------------------- |
 | open             | abre un sub-menu específico   | index: índice del sub-menu para abrir  |
 | close            | cierra un sub-menu específico | index: índice del sub-menu para cerrar |
 
-### Eventos Menu 
+### Eventos Menu
 | Nombre de evento | Descripción                              | Parámetros                               |
 | ---------------- | ---------------------------------------- | ---------------------------------------- |
 | select           | callback ejecutado cuando el menú es activado | index: índice del menú activado, indexPath: index path del menú activado |
 | open             | callback ejecutado cuando sub-menu se expande | index: índice del sub-menu expandido, indexPath: index path del sub-menu expandido |
 | close            | callback ejecutado cuando sub-menu colapsa | index: índice del sub-menu colapsado, indexPath: index path del menú colapsado |
 
-### Eventos Menu-Item 
+### Eventos Menu-Item
 | Nombre de evento | Descripción                              | Parámetros                 |
 | ---------------- | ---------------------------------------- | -------------------------- |
 | click            | callback ejecutado cuando se hace click sobre menu-item | el: instancia de menu-item |
 
-### Atributos SubMenu 
+### Atributos SubMenu
 | Atributo     | Descripción                              | Tipo   | Valores aceptados | Por defecto |
 | ------------ | ---------------------------------------- | ------ | ----------------- | ----------- |
 | index        | identificador único                      | string/null | —            | null        |
@@ -287,14 +287,14 @@ NavMenu vertical puede ser colapsado.
 | disabled | si esta `disabled` el sub-menu | boolean | — | false |
 | popper-append-to-body | si se debe agregar el menú emergente al cuerpo. Si la posición del menú es incorrecta, puede intentar ajustar este prop | boolean | - | level one Submenu: true / other Submenus: false |
 
-### Atributos Menu-Item 
+### Atributos Menu-Item
 | Atributo | Descripción         | Tipo   | Valores aceptados | Por defecto |
 | -------- | ------------------- | ------ | ----------------- | ----------- |
 | index    | identificador único | string | —                 | —           |
 | route    | Objeto Vue Router   | object | —                 | —           |
 | disabled | si esta `disabled` | boolean | — | false |
 
-### Atributos Menu-Group 
+### Atributos Menu-Group
 | Atributo | Descripción      | Tipo   | Valores aceptados | Por defecto |
 | -------- | ---------------- | ------ | ----------------- | ----------- |
 | title    | título del grupo | string | —                 | —           |

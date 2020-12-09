@@ -1,11 +1,15 @@
 import makeMount from '../../test-utils/make-mount'
 import Popover from '../src/index.vue'
+import PopupManager from '@element-plus/utils/popup-manager'
 
 const AXIOM = 'Rem is the best girl'
 
 const mount = makeMount(Popover, {
   slots: {
     default: AXIOM,
+  },
+  props: {
+    appendToBody: false,
   },
 })
 describe('Popover.vue', () => {
@@ -58,9 +62,21 @@ describe('Popover.vue', () => {
     const wrapper = makeMount(Popover, {
       props: {
         content,
+        appendToBody: false,
       },
     })()
 
     expect(wrapper.text()).toBe(content)
+    wrapper.unmount()
+  })
+
+  test('popper z-index should be dynamical', () => {
+    const wrapper = mount()
+
+    expect(
+      Number.parseInt(
+        window.getComputedStyle(wrapper.find('.el-popper').element).zIndex,
+      ),
+    ).toBeLessThanOrEqual(PopupManager.zIndex)
   })
 })

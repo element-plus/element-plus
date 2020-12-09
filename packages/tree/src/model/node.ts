@@ -1,6 +1,5 @@
 import { markNodeData, NODE_KEY } from './util'
 import TreeStore from './tree-store'
-import objectAssign from '@element-plus/utils/merge'
 
 import {
   TreeNodeOptions,
@@ -9,7 +8,7 @@ import {
   FakeNode,
   TreeNodeLoadedDefaultProps,
   TreeNodeChildState,
-} from '../tree.d'
+} from '../tree.type'
 
 export const getChildState = (node: Node[]): TreeNodeChildState => {
   let all = true
@@ -245,7 +244,7 @@ export default class Node {
           }
         }
       }
-      objectAssign(child, {
+      Object.assign(child, {
         parent: this,
         store: this.store,
       })
@@ -344,7 +343,7 @@ export default class Node {
 
   doCreateChildren(array: TreeNodeData[], defaultProps: TreeNodeLoadedDefaultProps = {}): void {
     array.forEach(item => {
-      this.insertChild(objectAssign({ data: item }, defaultProps), undefined, true)
+      this.insertChild(Object.assign({ data: item }, defaultProps), undefined, true)
     })
   }
 

@@ -61,10 +61,11 @@ import {
   onMounted,
   Ref,
   watch,
+  PropType,
 } from 'vue'
 import { Dayjs } from 'dayjs'
 import { RepeatClick } from '@element-plus/directives'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
+import ElScrollbar from '@element-plus/scrollbar'
 import { getTimeLists } from './useTimePicker'
 
 export default defineComponent({
@@ -83,7 +84,7 @@ export default defineComponent({
       required: true,
     },
     spinnerDate: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
       required: true,
     },
     showSeconds: {
@@ -332,9 +333,7 @@ export default defineComponent({
       props.disabledSeconds,
     )
 
-    watch(() => props.spinnerDate, () => {
-      adjustSpinners()
-    })
+    watch(() => props.spinnerDate, adjustSpinners)
 
     return {
       getRefId,

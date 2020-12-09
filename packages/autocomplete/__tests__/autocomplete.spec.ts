@@ -83,16 +83,6 @@ describe('Autocomplete.vue', () => {
     expect(document.body.querySelector('.el-popper').classList.contains('success')).toBe(true)
   })
 
-  test('placement', async () => {
-    const wrapper = _mount()
-
-    await wrapper.setProps({ placement: 'top' })
-    expect(document.body.querySelector('.el-popper').getAttribute('data-popper-placement')).toBe('top')
-
-    await wrapper.setProps({ placement: 'bottom' })
-    expect(document.body.querySelector('.el-popper').getAttribute('data-popper-placement')).toBe('bottom')
-  })
-
   test('popperAppendToBody', async () => {
     _mount({ popperAppendToBody: false })
     expect(document.body.querySelector('.el-popper__mask')).toBeNull()

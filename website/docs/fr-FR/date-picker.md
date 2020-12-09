@@ -6,7 +6,7 @@ Utilisez DatePicker pour les champs de dates.
 
 L'unité de base du DatePicker est le jour.
 
-:::demo L'unité est déterminée par l'attribut `type`. Vous pouvez ajouter des options en créant un objet `picker-options` avec la propriété `shortcuts`. L'état désactivé est contrôlé par `disabledDate` qui est une fonction.
+:::demo L'unité est déterminée par l'attribut `type`. You can enable quick options via `shortcuts` property. L'état désactivé est contrôlé par `disabledDate` qui est une fonction.
 
 ```html
 <template>
@@ -310,37 +310,15 @@ Si le type est `daterange`, `default-value` configure la panneau de gauche.
 
 ### Formats de date
 
-Utilisez `format` pour contrôler l'affichage de la date dans le champ. Utilisez `value-format` pour contrôler le format de la variable stockée.
+Utilisez `format` pour contrôler l'affichage de la date dans le champ.
 
-Par défaut, le composant accepte et émet un objet `Date`. Les formats supportés se trouvent ci-dessous, avec la date UTC 2017-01-02 03:04:05 comme exemple:
+Par défaut, le composant accepte et émet un objet `Date`.
+
+Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-available-formats) of all available formats of Day.js.
 
 :::warning
 Attention à la capitalisation !
 :::
-
-| Format | Signification | Note | Exemple |
-|------|------|------|------|------|
-| `yyyy` | Année | | 2017 |
-| `M`  | Mois | pas de 0 au début | 1 |
-| `MM` | Mois | | 01 |
-| `MMM` | Mois | | Jan |
-| `MMMM` | Mois | | Janvier |
-| `W`  | Semaine | uniquement pour les `format` des types 'semaine' ; pas de 0 au début | 1 |
-| `WW` | Semaine | uniquement pour les `format` des types 'semaine' | 01 |
-| `d`  | Jour | pas de 0 au début | 2 |
-| `dd` | Jour | | 02 |
-| `H`  | Heure | Horloge 24 heures; pas de 0 au début | 3 |
-| `HH` | Heure | Horloge 24 heures | 03 |
-| `h`  | Heure | Horloge 12 heures ; doit être utilisé avec `A` ou `a`; pas de 0 au début | 3 |
-| `hh` | Heure | Horloge 12 heures ; doit être utilisé avec `A` ou `a` | 03 |
-| `m`  | Minute | pas de 0 au début | 4 |
-| `mm` | Minute | | 04 |
-| `s`  | Seconde | pas de 0 au début | 5 |
-| `ss` | Seconde | | 05 |
-| `A`  | AM/PM | uniquement pour `format`, majuscules | AM |
-| `a`  | am/pm | uniquement pour `format`, minuscules | am |
-| `timestamp` | timestamp JS | uniquement pour `value-format`; la variable stockée sera un `number` | 1483326245000 |
-| `[MM]` | Pas de caractère d'échappement | Pour échapper des caractères, placez-les entre crochets (ex: [A] [MM]) | MM |
 
 :::demo
 ```html
@@ -385,8 +363,8 @@ Lorsque vous choisissez une plage de dates, vous pouvez assigner l'horaire de d�
       type="daterange"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
-      :default-time="[new Date(2000, 1, 1, 0 , 0,0), new Date(2000, 2, 1, 23 , 59,59)]">
-    </el-date-picker>
+      :default-time="defaultTime"
+    ></el-date-picker>
   </div>
 </template>
 
@@ -394,7 +372,11 @@ Lorsque vous choisissez une plage de dates, vous pouvez assigner l'horaire de d�
   export default {
     data() {
       return {
-        value: ''
+        value: '',
+        defaultTime: [
+          new Date(2000, 1, 1, 0, 0, 0),
+          new Date(2000, 2, 1, 23, 59, 59)
+        ] // '00:00:00', '23:59:59'
       };
     }
   };
@@ -418,25 +400,16 @@ Lorsque vous choisissez une plage de dates, vous pouvez assigner l'horaire de d�
 | format | Format d'affichage dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date). | yyyy-MM-dd |
 | align | Alignement. | left/center/right | left |
 | popper-class | Nom de classe pour le menu déroulant du DatePicker. | string | — | — |
-| picker-options | Options additionnelles, voir la table ci-dessous. | object | — | {} |
 | range-separator | Séparateur de plage de dates. | string | — | '-' |
 | default-value | Date par défaut du calendrier, optionnelle. | Date | Tout ce qui est accepté par `new Date()` | — |
 | default-time | Horaire par défaut quand on sélectionne une plage dates, optionnel. | string[] | Tableau de taille 2, chaque valeur est au format `12:00:00`. La première pour la date de début, la deuxième pour la date de fin. | — |
-| value-format | Format de la variable stockée, optionnel. Si non spécifié, la valeur sera un objet Date. | string | Voir [formats de date](#/en-US/component/date-picker#formats-de-date) | — |
 | name | Identique au `name` de l'input natif | string | — | — |
 | unlink-panels | Rend indépendants les deux panneaux de plage de dates. | boolean | — | false |
 | prefix-icon | Icône de préfixe. | string | — | el-icon-date |
 | clear-icon | Icône de reset. | string | — | el-icon-circle-close |
 | validate-event | Si la validation doit être déclenchée. | boolean | - | true |
-
-### Options du Picker
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| shortcuts | Un tableau d'objets { text, onClick } pour configurer les raccourcis, voir table ci-dessous. | object[] | — | — |
 | disabledDate | Une fonction qui détermine si une date est désactivée ou pas, avec cette date en paramètre. Doit retourner un booléen. | function | — | — |
-| cellClassName | set custom className | Function(Date) | — | — |
-| firstDayOfWeek | Premier jour du mois. | Number | 1 to 7 | 7 |
-| onPick | Callback se déclenchant quand la date sélectionnée change. Uniquement pour `daterange` et `datetimerange`. | Function({ maxDate, minDate }) | - | - |
+| shortcuts | Un tableau d'objets pour configurer les raccourcis | object[{ text: string, value: Date }] | — | — |
 
 ### Raccourcis
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |

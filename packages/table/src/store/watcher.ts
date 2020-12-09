@@ -1,5 +1,4 @@
 import { ref, getCurrentInstance, unref } from 'vue'
-import merge from '@element-plus/utils/merge'
 import {
   getKeysMap,
   getRowIdentity,
@@ -11,7 +10,7 @@ import {
 import useExpand from './expand'
 import useCurrent from './current'
 import useTree from './tree'
-import { AnyObject, Table } from '../table'
+import { AnyObject, Table } from '../table.type'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
@@ -327,10 +326,10 @@ function useWatcher() {
       rightFixedTableHeader,
     } = instance.refs as AnyObject
     let panels = {}
-    if (tableHeader) panels = merge(panels, tableHeader.filterPanels)
-    if (fixedTableHeader) panels = merge(panels, fixedTableHeader.filterPanels)
+    if (tableHeader) panels = Object.assign(panels, tableHeader.filterPanels)
+    if (fixedTableHeader) panels = Object.assign(panels, fixedTableHeader.filterPanels)
     if (rightFixedTableHeader)
-      panels = merge(panels, rightFixedTableHeader.filterPanels)
+      panels = Object.assign(panels, rightFixedTableHeader.filterPanels)
 
     const keys = Object.keys(panels)
     if (!keys.length) return

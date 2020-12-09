@@ -1,9 +1,10 @@
 import { on, once } from '@element-plus/utils/dom'
 
+import type { ObjectDirective } from 'vue'
 export default {
   beforeMount(el, binding) {
     let interval = null
-    let startTime
+    let startTime: number
     const handler = () => binding.value && binding.value()
     const clear = () => {
       if (Date.now() - startTime < 100) {
@@ -21,4 +22,4 @@ export default {
       interval = setInterval(handler, 100)
     })
   },
-}
+} as ObjectDirective

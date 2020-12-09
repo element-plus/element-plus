@@ -125,14 +125,14 @@ Añada un icono para indicar el tipo de Input.
   <el-input
     placeholder="Pick a date"
     v-model="input3">
-    <template v-slot:suffix>
+    <template #suffix>
       <i class="el-input__icon el-icon-date"></i>
     </template>
   </el-input>
   <el-input
     placeholder="Type something"
     v-model="input4">
-    <template v-slot:prefix>
+    <template #prefix>
       <i class="el-input__icon el-icon-search"></i>
     </template>
   </el-input>
@@ -235,24 +235,24 @@ Añade un elemento antes o después del input, generalmente una etiqueta o un bo
 ```html
 <div>
   <el-input placeholder="Please input" v-model="input1">
-    <template v-slot:prepend>Http://</template>
+    <template #prepend>Http://</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Please input" v-model="input2">
-    <template v-slot:append>.com</template>
+    <template #append>.com</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Please input" v-model="input3" class="input-with-select">
-    <template v-slot:prepend>
+    <template #prepend>
       <el-select v-model="select" placeholder="Select">
         <el-option label="Restaurant" value="1"></el-option>
         <el-option label="Order No." value="2"></el-option>
         <el-option label="Tel" value="3"></el-option>
       </el-select>
     </template>
-    <template v-slot:append>
+    <template #append>
       <el-button icon="el-icon-search"></el-button>
     </template>
   </el-input>
@@ -424,10 +424,10 @@ Personalice cómo se muestran las sugerencias.
   placeholder="Please input"
   @select="handleSelect"
 >
-  <template v-slot:suffix>
+  <template #suffix>
     <i class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
   </template>
-  <template v-slot="{ item }">
+  <template #default="{ item }">
     <div class="value">{{ item.value }}</div>
     <span class="link">{{ item.link }}</span>
   </template>
@@ -696,7 +696,7 @@ export default defineComponent ({
 | prefix-icon           | prefix icon class                                                                                                                                  | string                          | —                                                              | —            |
 | suffix-icon           | suffix icon class                                                                                                                                  | string                          | —                                                              | —            |
 | hide-loading          | si se debe ocultar el icono de loading en la búsqueda remota                                                                                       | boolean                         | —                                                              | false        |
-| popper-append-to-body | si añadir el desplegable al cuerpo. Si la posición del menú desplegable es incorrecta, puede intentar establecer este prop a false                 | boolean                         | -                                                              | true         |
+| popper-append-to-body | si añadir el desplegable al cuerpo. Si la posición del menú desplegable es incorrecta, puede intentar establecer este prop a false                 | boolean                         | -                                                              | false         |
 | validate-event        | si se debe lanzar la validación de formulario                                                                                                                 | boolean                         | -                                                   | true         |
 | highlight-first-item | si se debe resaltar el primer elemento en las sugerencias de búsqueda remota de forma predeterminada                 | boolean                         | -                                                              | false         |
 

@@ -1,14 +1,13 @@
 // import vue from 'rollup-plugin-vue'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import path from 'path'
-import css from 'rollup-plugin-css-only'
 // import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
 import pkg from '../package.json'
 const deps = Object.keys(pkg.dependencies)
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const vue = require('./plugin.js')
+const vue = require('rollup-plugin-vue')
 
 export default [
   {
@@ -21,7 +20,6 @@ export default [
       terser(),
       nodeResolve(),
       // commonjs(),
-      css(),
       vue({
         target: 'browser',
         css: false,

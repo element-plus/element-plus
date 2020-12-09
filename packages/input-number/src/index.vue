@@ -60,11 +60,10 @@ import {
   onUpdated,
 } from 'vue'
 import { RepeatClick } from '@element-plus/directives'
-import { Input as ElInput } from '@element-plus/input'
+import ElInput from '@element-plus/input'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
-import { parseInt } from 'lodash'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
@@ -99,7 +98,10 @@ export default defineComponent({
       type: Number,
       default: -Infinity,
     },
-    modelValue: Number,
+    modelValue: {
+      type: Number,
+      default: 0,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -234,7 +236,7 @@ export default defineComponent({
       data.userInput = null
       emit('update:modelValue', newVal)
       emit('input', newVal)
-      emit('change', newVal)
+      emit('change', newVal, oldVal)
       data.currentValue = newVal
     }
     const handleInput = value => {
@@ -268,8 +270,6 @@ export default defineComponent({
         if (newVal <= props.min) newVal = props.min
         data.currentValue = newVal
         data.userInput = null
-        emit('update:modelValue', newVal)
-        emit('input', newVal)
       },
       { immediate: true },
     )

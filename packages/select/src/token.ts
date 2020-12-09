@@ -1,4 +1,4 @@
-import type { InjectionKey } from 'vue'
+import type { ComponentPublicInstance, InjectionKey } from 'vue'
 import type { Emitter } from 'mitt'
 
 interface SelectGroupContext {
@@ -23,8 +23,9 @@ export interface SelectContext {
   selected: any | any[]
   selectEmitter: Emitter
   setSelected(): void
-  onOptionDestroy(i: number)
-  handleOptionSelect(vm: unknown, byClick: boolean)
+  onOptionCreate(vm: ComponentPublicInstance): void
+  onOptionDestroy(i: number): void
+  handleOptionSelect(vm: unknown, byClick: boolean): void
 }
 
 export const selectGroupKey: InjectionKey<SelectGroupContext> = Symbol('SelectGroup')

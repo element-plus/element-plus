@@ -1,5 +1,4 @@
 import { getCurrentInstance } from 'vue'
-import { castArray } from 'lodash'
 
 import {
   isObject,
@@ -54,9 +53,14 @@ export function getPropByPath(obj: any, path: string, strict: boolean): {
   for (i; i < keyArr.length - 1; i++) {
     if (!tempObj && !strict) break
     const key = keyArr[i]
-    tempObj = tempObj?.[key]
-    if (!tempObj && strict) {
-      throw new Error('please transfer a valid prop path to form item!')
+
+    if (key in tempObj) {
+      tempObj = tempObj[key]
+    } else {
+      if (strict) {
+        throw new Error('please transfer a valid prop path to form item!')
+      }
+      break
     }
   }
   return {
@@ -82,8 +86,8 @@ export const escapeRegexpString = (value = ''): string =>
 
 // coerce truthy value to array
 export const coerceTruthyValueToArray = arr => {
-  if (!arr) { return [] }
-  return castArray(arr)
+  if (!arr && arr !== 0) { return [] }
+  return Array.isArray(arr) ? arr : [arr]
 }
 
 export const isIE = function(): boolean {
@@ -145,8 +149,6 @@ export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void
     })
   }
 }
-
-export const objToArray = castArray
 
 export const clearTimer = (timer: Ref<TimeoutHandle>) => {
   clearTimeout(timer.value)
@@ -212,5 +214,13 @@ export function arrayFlat(arr: unknown[]) {
 }
 
 export function deduplicate<T>(arr: T[]) {
-  return [...new Set(arr)]
+  return Array.from(new Set(arr))
+}
+
+/**
+ * Unwraps refed value
+ * @param ref Refed value
+ */
+export function $<T>(ref: Ref<T>)  {
+  return ref.value
 }

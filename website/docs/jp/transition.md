@@ -1,6 +1,6 @@
 ## ビルトイントランジション
 
-Elementにビルトインされているトランジションをダイレクトに使うことができます。利用の前に、[transition docs](https://vuejs.org/v2/api/#transition)を読むことを勧めます。
+Element Plusにビルトインされているトランジションをダイレクトに使うことができます。利用の前に、[transition docs](https://vuejs.org/v2/api/#transition)を読むことを勧めます。
 
 ### フェード
 
@@ -148,8 +148,8 @@ Elementにビルトインされているトランジションをダイレクト�
 // fade/zoom
 import 'element-plus/lib/theme-chalk/base.css';
 // collapse
-import CollapseTransition from 'element-plus/lib/transitions/collapse-transition';
+import { ElCollapseTransition } from 'element-plus';
 import Vue from 'vue'
 
-Vue.component(CollapseTransition.name, CollapseTransition)
+Vue.component(ElCollapseTransition.name, ElCollapseTransition)
 ```

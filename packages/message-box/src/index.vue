@@ -2,6 +2,7 @@
   <transition name="msgbox-fade">
     <div
       v-show="visible"
+      ref="root"
       :aria-label="title || 'dialog'"
       class="el-message-box__wrapper"
       tabindex="-1"
@@ -99,8 +100,8 @@ import {
   reactive,
   toRefs,
 } from 'vue'
-import { Button as ElButton } from '@element-plus/button'
-import { Input as ElInput } from '@element-plus/input'
+import ElButton from '@element-plus/button'
+import ElInput from '@element-plus/input'
 import { t } from '@element-plus/locale'
 import Dialog  from '@element-plus/utils/aria-dialog'
 import usePopup from '@element-plus/utils/popup/usePopup'
@@ -123,16 +124,14 @@ export default defineComponent({
   },
   props: {
     openDelay: {
-      type: Boolean,
-      default: false,
+      type: Number,
+      default: 0,
     },
     closeDelay: {
-      type: Boolean,
-      default: false,
-    },
-    zIndex: {
       type: Number,
+      default: 0,
     },
+    zIndex: Number,
     modalFade: {
       type: Boolean,
       default: true,
@@ -181,7 +180,7 @@ export default defineComponent({
   setup(props) {
     let vm
     const popup = usePopup(props, doClose)
-    const state = reactive<State>({
+    const state = reactive({
       uid: 1,
       title: undefined,
       message: '',

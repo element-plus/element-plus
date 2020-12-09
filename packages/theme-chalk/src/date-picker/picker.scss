@@ -2,6 +2,16 @@
 @import "../common/var";
 @import "../common/transition";
 
+@include b(picker) {
+  @include e(popper) {
+    @include picker-popper(
+      $--color-white,
+      1px solid $--datepicker-border-color,
+      $--box-shadow-light,
+    );
+  }
+}
+
 @include b(date-editor) {
   position: relative;
   display: inline-block;

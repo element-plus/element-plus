@@ -159,7 +159,7 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más d
       type="datetimerange"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      :default-time="['12:00:00']">
+      :default-time="defaultTime1">
     </el-date-picker>
   </div>
   <div class="block">
@@ -170,7 +170,7 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más d
       align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      :default-time="['12:00:00', '08:00:00']">
+      :default-time="defaultTime2">
     </el-date-picker>
   </div>
 </template>
@@ -180,7 +180,14 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más d
     data() {
       return {
         value1: '',
-        value2: ''
+        value2: '',
+        defaultTime1: [
+          new Date(2000, 1, 1, 12, 0, 0),
+        ], // '12:00:00'
+        defaultTime2: [
+          new Date(2000, 1, 1, 12, 0, 0),
+          new Date(2000, 2, 1, 8, 0, 0)
+        ] // '12:00:00', '08:00:00'
       };
     }
   };
@@ -205,11 +212,9 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más d
 | format             | formato de valor mostrado en el input    | string            | ver [date formats](#/es/component/date-picker#date-formats) | yyyy-MM-dd HH:mm:ss           |
 | align              | alineación                               | left/center/right | left                                     |                      |
 | popper-class       | nombre de clase personalizado para el Dropdown de DatePicker | string            | —                                        | —                    |
-| picker-options     | opciones adicionales, Comprueba la tabla de mas abajo | object            | —                                        | {}                   |
 | range-separator    | separador de rango                       | string            | -                                        | '-'                  |
 | default-value      | opcional, fecha predeterminada del calendario | Fecha             | cualquier cosa aceptada por `new Date()` — |                      |
 | default-time | el valor de tiempo por defecto después de elegir una fecha | non-range: string / range: string[] | non-range: Una cadena de texto como `12:00:00`, range: array de dos strings, el primero es para la fecha de inicio y el segundo para la fecha final. 00:00:00 se utilizará si no se especifica | — |
-| value-format       | opcional, formato de valor de enlazado. Si no se especifica, el valor de enlazado será un objeto Date | cadena            | ver [date formats](#/es/component/date-picker#date-formats) | —                    |
 | name               | igual que `name` en la entrada nativa    | string            | —                                        | —                    |
 | unlink-panels      | desconectar dos date-panels en range-picker | boolean           | —                                        | false                |
 | prefix-icon        | Clase personalizada para el icono prefijado | string            | —                                        | el-icon-date         |

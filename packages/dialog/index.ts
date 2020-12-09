@@ -1,8 +1,9 @@
 import { App } from 'vue'
-import Dialog from './src/index'
+import Dialog from './src/index.vue'
 
-export default (app: App): void => {
+Dialog.install = (app: App): void => {
   app.component(Dialog.name, Dialog)
 }
 
-export { Dialog }
+export default Dialog
+export { default as useDialog } from './src/useDialog'

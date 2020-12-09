@@ -17,7 +17,9 @@ Permet d'uploader des fichiers en cliquant ou en les déplaçant sur le composan
   :on-exceed="handleExceed"
   :file-list="fileList">
   <el-button size="small" type="primary">Cliquer pour envoyer</el-button>
-  <div slot="tip" class="el-upload__tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {
@@ -129,7 +131,7 @@ Utilisez `list-type` pour changer le style de la liste de fichiers.
   :on-remove="handleRemove">
   <i class="el-icon-plus"></i>
 </el-upload>
-<el-dialog :visible.sync="dialogVisible">
+<el-dialog v-model:visible="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 <script>
@@ -164,37 +166,38 @@ Use `scoped-slot` to change default thumbnail template.
   action="#"
   list-type="picture-card"
   :auto-upload="false">
-    <i slot="default" class="el-icon-plus"></i>
-    <div slot="file" slot-scope="{file}">
-      <img
-        class="el-upload-list__item-thumbnail"
-        :src="file.url" alt=""
-      >
-      <span class="el-upload-list__item-actions">
-        <span
-          class="el-upload-list__item-preview"
-          @click="handlePictureCardPreview(file)"
-        >
-          <i class="el-icon-zoom-in"></i>
+    <template #default>
+      <i class="el-icon-plus"></i>
+    </template>
+    <template #file="{file}">
+      <div>
+        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+        <span class="el-upload-list__item-actions">
+          <span
+            class="el-upload-list__item-preview"
+            @click="handlePictureCardPreview(file)"
+          >
+            <i class="el-icon-zoom-in"></i>
+          </span>
+          <span
+            v-if="!disabled"
+            class="el-upload-list__item-delete"
+            @click="handleDownload(file)"
+          >
+            <i class="el-icon-download"></i>
+          </span>
+          <span
+            v-if="!disabled"
+            class="el-upload-list__item-delete"
+            @click="handleRemove(file)"
+          >
+            <i class="el-icon-delete"></i>
+          </span>
         </span>
-        <span
-          v-if="!disabled"
-          class="el-upload-list__item-delete"
-          @click="handleDownload(file)"
-        >
-          <i class="el-icon-download"></i>
-        </span>
-        <span
-          v-if="!disabled"
-          class="el-upload-list__item-delete"
-          @click="handleRemove(file)"
-        >
-          <i class="el-icon-delete"></i>
-        </span>
-      </span>
-    </div>
+      </div>
+    </template>
 </el-upload>
-<el-dialog :visible.sync="dialogVisible">
+<el-dialog v-model:visible="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 <script>
@@ -235,7 +238,9 @@ Use `scoped-slot` to change default thumbnail template.
   :file-list="fileList"
   list-type="picture">
   <el-button size="small" type="primary">Cliquer pour envoyer</el-button>
-  <div slot="tip" class="el-upload__tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {
@@ -269,7 +274,9 @@ Utilisez `on-change` pour contrôler le comportement de la liste de fichiers.
   :on-change="handleChange"
   :file-list="fileList">
   <el-button size="small" type="primary">Cliquer pour envoyer</el-button>
-  <div slot="tip" class="el-upload__tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {
@@ -310,7 +317,9 @@ Vous pouvez déposer les fichiers par drag'n drop sur l'espace dédié.
   multiple>
   <i class="el-icon-upload"></i>
   <div class="el-upload__text">Déposer les fichiers ici ou<em>cliquez pour envoyer</em></div>
-  <div class="el-upload__tip" slot="tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  </template>
 </el-upload>
 ```
 :::
@@ -324,9 +333,13 @@ Vous pouvez déposer les fichiers par drag'n drop sur l'espace dédié.
   ref="upload"
   action="https://jsonplaceholder.typicode.com/posts/"
   :auto-upload="false">
-  <el-button slot="trigger" size="small" type="primary">Choisir un fichier</el-button>
+  <template #trigger>
+    <el-button size="small" type="primary">Choisir un fichier</el-button>
+  </template>
   <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">Envoyer au serveur</el-button>
-  <div class="el-upload__tip" slot="tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  <template #tip>
+    <div class="el-upload__tip">Fichiers jpg/png avec une taille inférieure à 500kb</div>
+  </template>
 </el-upload>
 <script>
   export default {

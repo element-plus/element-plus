@@ -20,7 +20,7 @@ export default defineComponent({
       default: '',
     },
     bodyStyle: {
-      type: String,
+      type: [String, Object, Array],
       default: '',
     },
     shadow: {

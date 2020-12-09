@@ -47,6 +47,7 @@
   height: 12px;
   background-color: #f00;
   padding: 0 2px;
+  float: right;
 
   @include e(bar) {
     position: relative;
@@ -377,8 +378,10 @@
     padding: 6px;
     box-sizing: content-box;
     background-color: $--color-white;
-    border: 1px solid $--border-color-lighter;
     border-radius: $--border-radius-base;
     box-shadow: $--dropdown-menu-box-shadow;
+    &.el-popper{
+      border: 1px solid $--border-color-lighter;
+    }
   }
 }

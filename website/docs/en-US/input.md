@@ -123,14 +123,14 @@ Add an icon to indicate input type.
   <el-input
     placeholder="Pick a date"
     v-model="input3">
-    <template v-slot:suffix>
+    <template #suffix>
       <i class="el-input__icon el-icon-date"></i>
     </template>
   </el-input>
   <el-input
     placeholder="Type something"
     v-model="input4">
-    <template v-slot:prefix>
+    <template #prefix>
       <i class="el-input__icon el-icon-search"></i>
     </template>
   </el-input>
@@ -230,24 +230,24 @@ Prepend or append an element, generally a label or a button.
 ```html
 <div>
   <el-input placeholder="Please input" v-model="input1">
-    <template v-slot:prepend>Http://</template>
+    <template #prepend>Http://</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Please input" v-model="input2">
-    <template v-slot:append>.com</template>
+    <template #append>.com</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Please input" v-model="input3" class="input-with-select">
-    <template v-slot:prepend>
+    <template #prepend>
       <el-select v-model="select" placeholder="Select">
         <el-option label="Restaurant" value="1"></el-option>
         <el-option label="Order No." value="2"></el-option>
         <el-option label="Tel" value="3"></el-option>
       </el-select>
     </template>
-    <template v-slot:append>
+    <template #append>
       <el-button icon="el-icon-search"></el-button>
     </template>
   </el-input>
@@ -413,10 +413,10 @@ Customize how suggestions are displayed.
   placeholder="Please input"
   @select="handleSelect"
 >
-  <template v-slot:suffix>
+  <template #suffix>
     <i class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
   </template>
-  <template v-slot="{ item }">
+  <template #default="{ item }">
     <div class="value">{{ item.value }}</div>
     <span class="link">{{ item.link }}</span>
   </template>
@@ -683,7 +683,7 @@ Attribute | Description | Type | Options | Default
 | prefix-icon | prefix icon class | string | — | — |
 | suffix-icon | suffix icon class | string | — | — |
 | hide-loading | whether to hide the loading icon in remote search | boolean | — | false |
-| popper-append-to-body | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | boolean | - | true |
+| popper-append-to-body | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | boolean | - | false |
 | highlight-first-item | whether to highlight first item in remote search suggestions by default | boolean | — | false |
 
 ### Autocomplete Slots

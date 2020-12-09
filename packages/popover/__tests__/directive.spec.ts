@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import Popover from '../src/index.vue'
 import PopoverDirective, { VPopover } from '../src/directive'
 import makeMount from '@element-plus/test-utils/make-mount'
+import { rAF } from '@element-plus/test-utils/tick'
 
 import type { ComponentPublicInstance } from 'vue'
 
@@ -42,8 +43,8 @@ describe('v-popover', () => {
   test('should render correctly', () => {
     const wrapper = mount()
 
-    expect(wrapper.text()).toContain(AXIOM)
-
+    expect(document.body.querySelector('.el-popover').innerHTML).toContain(AXIOM)
+    wrapper.unmount()
   })
 
   test('should show popover when reference is mounted', async () => {
@@ -55,8 +56,11 @@ describe('v-popover', () => {
     await nextTick()
 
     expect(wrapper.find(refNode).exists()).toBe(true)
-    expect(wrapper.find('.el-popover').attributes('style')).toContain('display: none')
+    expect(document.body.querySelector('.el-popover').getAttribute('style')).toContain('display: none')
     await wrapper.find(refNode).trigger('click')
-    expect(wrapper.find('.el-popover').attributes('style')).not.toContain('display: none')
+    await rAF()
+    await nextTick()
+    expect(document.body.querySelector('.el-popover').getAttribute('style')).not.toContain('display: none')
+    wrapper.unmount()
   })
 })

@@ -5,9 +5,10 @@
   </transition>
 </template>
 <script lang='ts'>
+import { defineComponent } from 'vue'
 import { addClass, removeClass } from '@element-plus/utils/dom'
 
-export default {
+export default defineComponent({
   name: 'ElCollapseTransition',
   setup() {
     return {
@@ -76,6 +77,6 @@ export default {
       },
     }
   },
-}
+})
 </script>
 

@@ -153,7 +153,7 @@ fileListのスタイルを変更するには `list-type` を用いる。
 >
   <i class="el-icon-plus"></i>
 </el-upload>
-<el-dialog :visible.sync="dialogVisible">
+<el-dialog v-model:visible="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="" />
 </el-dialog>
 <script>
@@ -174,6 +174,7 @@ fileListのスタイルを変更するには `list-type` を用いる。
       },
     },
   }
+</script>
 ```
 :::
 
@@ -216,7 +217,7 @@ fileListのスタイルを変更するには `list-type` を用いる。
     </div>
   </template>
 </el-upload>
-<el-dialog :visible.sync="dialogVisible">
+<el-dialog v-model:visible="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="" />
 </el-dialog>
 <script>

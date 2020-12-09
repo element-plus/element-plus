@@ -1,7 +1,7 @@
 import { computed, watch } from 'vue'
 import { isString } from '@element-plus/utils/util'
 import { usePopper } from '@element-plus/popper'
-
+import PopupManager from '@element-plus/utils/popup-manager'
 
 import type { IPopperOptions } from '@element-plus/popper'
 import type { SetupContext } from 'vue'
@@ -19,13 +19,14 @@ export default function usePopover(props: IUsePopover, ctx: SetupContext<string[
     let _width: string
 
     if (isString(props.width)) {
-      _width = props.width
+      _width = props.width as string
     } else {
       _width = props.width + 'px'
     }
 
     return {
       width: _width,
+      zIndex: PopupManager.nextZIndex(),
     }
   })
 

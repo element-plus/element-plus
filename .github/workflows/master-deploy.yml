@@ -1,0 +1,39 @@
+name: Deploy Doc Website
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  master-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+
+      - name: Install dependencies
+        run: yarn bootstrap
+
+      - name: Build Website
+        run: yarn website-build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: website-dist
+          GIT_CONFIG_NAME: ElementPlusBot
+          GIT_CONFIG_EMAIL: hello@element-plus.org
+          COMMIT_MESSAGE: website deploy
+
+      - name: Sync
+        env:
+          TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
+        run: curl "$TRIGGERSYNCURL"
+

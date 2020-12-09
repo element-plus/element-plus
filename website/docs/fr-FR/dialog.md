@@ -60,7 +60,7 @@ Le contenu du modal peut être n'importe quoi, tableau ou formulaire compris.
 <!-- Table -->
 <el-button type="text" @click="dialogTableVisible = true">Ouvrir un modal avec tableau</el-button>
 
-<el-dialog title="Adresse d'expédition" :visible.sync="dialogTableVisible">
+<el-dialog title="Adresse d'expédition" v-model="dialogTableVisible">
   <el-table :data="gridData">
     <el-table-column property="date" label="Date" width="150"></el-table-column>
     <el-table-column property="name" label="Nom" width="200"></el-table-column>
@@ -71,7 +71,7 @@ Le contenu du modal peut être n'importe quoi, tableau ou formulaire compris.
 <!-- Form -->
 <el-button type="text" @click="dialogFormVisible = true">Ouvrir un modal avec formulaire</el-button>
 
-<el-dialog title="Adresse d'expédition" :visible.sync="dialogFormVisible">
+<el-dialog title="Adresse d'expédition" v-model="dialogFormVisible">
   <el-form :model="form">
     <el-form-item label="Nom de promotion" :label-width="formLabelWidth">
       <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -83,10 +83,12 @@ Le contenu du modal peut être n'importe quoi, tableau ou formulaire compris.
       </el-select>
     </el-form-item>
   </el-form>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">Annuler</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">Confirmer</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">Annuler</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">Confirmer</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -139,17 +141,19 @@ Si un Dialog est imbriqué dans un autre Dialog, `append-to-body` est requis.
 <template>
   <el-button type="text" @click="outerVisible = true">Ouvrir le modal extérieur</el-button>
 
-  <el-dialog title="Modal extérieur" :visible.sync="outerVisible">
+  <el-dialog title="Modal extérieur" v-model="outerVisible">
     <el-dialog
         width="30%"
         title="Modal intérieur"
-        :visible.sync="innerVisible"
+        v-model="innerVisible"
         append-to-body>
     </el-dialog>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="outerVisible = false">Annuler</el-button>
-      <el-button type="primary" @click="innerVisible = true">Ouvrir le modal intérieur</el-button>
-    </div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="outerVisible = false">Annuler</el-button>
+        <el-button type="primary" @click="innerVisible = true">Ouvrir le modal intérieur</el-button>
+      </div>
+    </template>
   </el-dialog>
 </template>
 
@@ -177,14 +181,16 @@ Le contenu du modal peut être centré.
 
 <el-dialog
   title="Attention"
-  :visible.sync="centerDialogVisible"
+  v-model="centerDialogVisible"
   width="30%"
   center>
   <span>Le contenu du modal n'est pas centré par défaut.</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">Annuler</el-button>
-    <el-button type="primary" @click="centerDialogVisible = false">Confirmer</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">Annuler</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">Confirmer</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -203,24 +209,60 @@ Le contenu du modal peut être centré.
 Le contenu de Dialog bénéficie du lazy loading, ce qui signifie que le slot par défaut n'est pas généré par le DOM avant la première ouverture. Si vous avez besoin de manipuler le DOM ou d'accéder à un composant via `ref`, vous pouvez le faire avec la callback de l'évènement `open`.
 :::
 
-:::tip
-Si la variable liée à `visible` est gérée dans Vuex, le modificateur `.sync` ne peut pas fonctionner. Dans ce cas retirez-le, écoutez les évènements `open` et `close`, et commitez les mutations Vuex pour mettre à jour la valeur de cette variable.
-:::
+### Destroy on Close (Translation needed)
+When this is feature is enabled, the content under default slot will be destroyed with a `v-if` directive. Enable this when you have perf concerns.
+
+:::demo Note that by enabling this feature, the content will not be rendered before `transition.beforeEnter` dispatched, there will only be `overlay` `header(if any)` `footer(if any)`.
+
+```html
+<el-button type="text" @click="centerDialogVisible = true">Click to open Dialog</el-button>
+
+<el-dialog
+  title="Notice"
+  v-model="centerDialogVisible"
+  width="30%"
+  destroy-on-close
+  center>
+  <span>Notice: before dialog gets opened for the first time this node and the one bellow will not be rendered</span>
+  <div>
+    <strong>Extra content (Not rendered)</strong>
+  </div>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
+
+</el-dialog>
+
+<script>
+  export default {
+    data() {
+      return {
+        centerDialogVisible: false
+      };
+    }
+  };
+</script>
+
+```
 
 ### Attributs
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| visible   | Visibilité du Dialog, supporte le modificateur .sync. | boolean | — | false |
+| model-value / v-model   | Visibilité du Dialog | boolean | — | — |
 | title     | Titre du Dialog. Peut aussi être passé via un slot (voir la table suivante). | string    | — | — |
 | width     | Largeur du Dialog. | string    | — | 50% |
 | fullscreen     | Si le Dialog doit être en plein écran. | boolean    | — | false |
 | top      | Valeur du `margin-top` du CSS du Dialog. | string    | — | 15vh |
 | modal     | Si un masque est affiché. | boolean   | — | true |
-| modal-append-to-body     | S'il faut ajouter le modal au body. Si `false`, le modal sera ajouter à l'élément parent du Dialog. | boolean   | — | true |
 | append-to-body     | S'il faut ajouter le Dialog au body. Un Dialog imbriqué doit avoir cet attribut à `true`. | boolean   | — | false |
 | lock-scroll     | Si le défilement du body est désactivé. | boolean   | — | true |
 | custom-class      | Nom de classe pour le Dialog | string    | — | — |
+| open-delay        | Temps (millisecondes) avant la ouvert | number    | — | 0 |
+| close-delay       | Temps (millisecondes) avant la proche | number    | — | 0 |
 | close-on-click-modal | Si le Dialog peut être fermé en cliquant sur le masque. | boolean    | — | true |
 | close-on-press-escape | Si le Dialog peut être fermé en appuyant sur Echap. | boolean    | — | true |
 | show-close | Si le bouton de fermeture doit apparaître. | boolean    | — | true |

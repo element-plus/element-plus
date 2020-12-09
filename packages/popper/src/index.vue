@@ -4,17 +4,17 @@ import {
   defineComponent,
   Fragment,
   Teleport,
-  onMounted,
   onBeforeUnmount,
   onDeactivated,
   onActivated,
+  onMounted,
   renderSlot,
   toDisplayString,
   withDirectives,
 } from 'vue'
 
 import throwError from '@element-plus/utils/error'
-import { renderBlock } from '@element-plus/utils/vnode'
+import { PatchFlags, renderBlock } from '@element-plus/utils/vnode'
 
 import usePopper from './use-popper/index'
 import defaultProps from './use-popper/defaults'
@@ -25,12 +25,10 @@ import { ClickOutside } from '@element-plus/directives'
 const compName = 'ElPopper'
 const UPDATE_VISIBLE_EVENT = 'update:visible'
 
-const emits = [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave']
-
 export default defineComponent({
   name: compName,
   props: defaultProps,
-  emits,
+  emits: [UPDATE_VISIBLE_EVENT, 'after-enter', 'after-leave', 'before-enter', 'before-leave'],
   setup(props, ctx) {
     if (!ctx.slots.trigger) {
       throwError(compName, 'Trigger must be provided')
@@ -55,20 +53,26 @@ export default defineComponent({
       $slots,
       appendToBody,
       class: kls,
+      style,
       effect,
       hide,
       onPopperMouseEnter,
       onPopperMouseLeave,
       onAfterEnter,
       onAfterLeave,
+      onBeforeEnter,
+      onBeforeLeave,
       popperClass,
       popperId,
+      popperStyle,
       pure,
       showArrow,
       transition,
       visibility,
+      stopPopperMouseEvent,
     } = this
 
+    const isManual = this.isManualMode()
     const arrow = renderArrow(showArrow)
     const popper = renderPopper(
       {
@@ -76,11 +80,15 @@ export default defineComponent({
         name: transition,
         popperClass,
         popperId,
+        popperStyle,
         pure,
+        stopPopperMouseEvent,
         onMouseEnter: onPopperMouseEnter,
         onMouseLeave: onPopperMouseLeave,
         onAfterEnter,
         onAfterLeave,
+        onBeforeEnter,
+        onBeforeLeave,
         visibility,
       },
       [
@@ -92,11 +100,11 @@ export default defineComponent({
     )
 
     const _t = $slots.trigger?.()
-    const isManual = this.isManualMode()
 
     const triggerProps = {
       ariaDescribedby: popperId,
       class: kls,
+      style,
       ref: 'triggerRef',
       ...this.events,
     }
@@ -107,18 +115,16 @@ export default defineComponent({
 
     return renderBlock(Fragment, null, [
       trigger,
-      appendToBody
-        ? createVNode(
-          Teleport as any, // Vue did not support createVNode for Teleport
-          {
-            to: 'body',
-            key: 0,
-          },
-          [
-            popper,
-          ],
-        )
-        : renderBlock(Fragment, { key: 1 }, [popper]),
+      createVNode(
+        Teleport as any, // Vue did not support createVNode for Teleport
+        {
+          to: 'body',
+          disabled: !appendToBody,
+        },
+        [popper],
+        PatchFlags.PROPS,
+        ['disabled'],
+      ),
     ])
   },
 })

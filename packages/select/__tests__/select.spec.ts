@@ -25,12 +25,14 @@ const _mount = (template: string, data: any = () => ({}), otherObj?): any => mou
   template,
   data,
   ...otherObj,
+}, {
+  attachTo: 'body',
 })
 
 function getOptions(): HTMLElement[] {
-  return [...document.querySelectorAll<HTMLElement>(
+  return Array.from(document.querySelectorAll<HTMLElement>(
     'body > div:last-child .el-select-dropdown__item',
-  )]
+  ))
 }
 
 const getSelectVm = (configs: SelectProps = {}, options?) => {
@@ -105,6 +107,10 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
 }
 
 describe('Select', () => {
+
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
   test('create', async () => {
     const wrapper = _mount(`<el-select v-model="value"></el-select>`, () => ({ value: '' }))
     expect(wrapper.classes()).toContain('el-select')
@@ -294,10 +300,10 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const selectVm = select.vm as any
     const input = wrapper.find('input')
-    await input.trigger('focus')
+    input.element.focus()
     selectVm.selectedLabel = 'new'
     selectVm.debouncedOnInputChange()
-    await selectVm.$nextTick()
+    await nextTick()
     const options = [...getOptions()]
     const target = options.filter(option => option.textContent === 'new')
     target[0].click()
@@ -441,7 +447,9 @@ describe('Select', () => {
   test('render slot `empty`', async () => {
     const wrapper = _mount(`
       <el-select v-model="value">
-        <div class="empty-slot" slot="empty">EmptySlot</div>
+        <template #empty>
+          <div class="empty-slot">EmptySlot</div>
+        </template>
       </el-select>`,
     () => ({
       value: '1',

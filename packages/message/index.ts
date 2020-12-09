@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import Message from './src/message'
 
-export default (app: App): void => {
+(Message as any).install = (app: App): void => {
   app.config.globalProperties.$message = Message
 }
 
-export { Message }
+export default Message

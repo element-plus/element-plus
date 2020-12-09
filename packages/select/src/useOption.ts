@@ -53,9 +53,6 @@ export function useOption(props, states) {
 
   const instance = getCurrentInstance()
 
-  select.optionsCount++
-  select.filteredOptionsCount++
-
   const contains = (arr = [], target) => {
     if (!isObject.value) {
       return arr && arr.indexOf(target) > -1

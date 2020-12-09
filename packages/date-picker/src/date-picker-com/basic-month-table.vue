@@ -43,16 +43,16 @@ export default defineComponent({
       default: 'month',
     },
     minDate: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
     },
     maxDate: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
     },
     date: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
     },
     parsedValue: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
     },
     rangeState: {
       type: Object,

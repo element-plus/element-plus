@@ -125,7 +125,9 @@ Vous pouvez utiliser un slot pour customiser le label d'un onglet.
 ```html
 <el-tabs type="border-card">
   <el-tab-pane>
-    <span slot="label"><i class="el-icon-date"></i> Route</span>
+    <template #label>
+      <span><i class="el-icon-date"></i> Route</span>
+    </template>
     Route
   </el-tab-pane>
   <el-tab-pane label="Config">Config</el-tab-pane>

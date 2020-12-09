@@ -9,15 +9,7 @@
 :::demo
 ```html
 <div class="block">
-  <div class="radio">
-    Order: 
-    <el-radio-group v-model="reverse">
-      <el-radio :label="true">descending</el-radio>
-      <el-radio :label="false">ascending</el-radio>
-    </el-radio-group>
-  </div>
-
-  <el-timeline :reverse="reverse">
+  <el-timeline>
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
@@ -31,7 +23,6 @@
   export default {
     data() {
       return {
-        reverse: true,
         activities: [{
           content: 'Event start',
           timestamp: '2018-04-15'
@@ -129,11 +120,6 @@
 </div>
 ```
 :::
-
-### タイムライン属性
-| Attribute      | Description    | Type      | Accepted Values | Default   |
-|---------- |-------- |---------- |-------------  |-------- |
-| reverse | ノードが昇順か降順かを指定、デフォルトは昇順です。 | boolean | — | false |
 
 ### タイムライン-アイテム属性
 | Attribute      | Description    | Type      | Accepted Values | Default   |

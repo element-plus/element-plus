@@ -9,8 +9,8 @@ import {
 } from 'vue'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
-import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
-import { TableColumnCtx, TableColumn } from '../table'
+import ElCheckbox from '@element-plus/checkbox'
+import { TableColumnCtx, TableColumn } from '../table.type'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 
@@ -88,9 +88,6 @@ export default defineComponent({
     const instance = getCurrentInstance() as TableColumn
     const columnConfig = ref({})
     const props = (prop as unknown) as TableColumnCtx
-    const row = ref({})
-    const r = ref({})
-    const index_ = ref(0)
     const owner = computed(() => {
       let parent = instance.parent as any
       while (parent && !parent.tableId) {
@@ -202,24 +199,22 @@ export default defineComponent({
 
     // eslint-disable-next-line
     instance.columnConfig = columnConfig
-    return {
-      row,
-      r,
-      index_,
-      columnId,
-      columnConfig,
-    }
+    return
   },
   render() {
-    return h(
-      'div',
-      this.$slots.default?.({
-        store: {},
-        _self: {},
-        column: {},
-        row: {},
-        index_: undefined,
-      }),
-    )
+    try {
+      return h(
+        'div',
+        this.$slots.default?.({
+          store: {},
+          _self: {},
+          column: {},
+          row: {},
+          $index: -1,
+        }),
+      )
+    } catch {
+      return h('div')
+    }
   },
 })

@@ -1,4 +1,5 @@
 export default {
+  name: 'ku',
   el: {
     colorpicker: {
       confirm: 'Temam',

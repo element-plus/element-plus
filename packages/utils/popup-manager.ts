@@ -1,18 +1,16 @@
-import { ComponentPublicInstance } from 'vue'
+import { Ref } from 'vue'
 import isServer from './isServer'
 import { getConfig } from './config'
 import { addClass, removeClass, on } from './dom'
 import { EVENT_CODE } from './aria'
 
-interface ComponentMethods {
-  closeOnClickModal: boolean
+interface Instance {
+  closeOnClickModal: Ref<boolean>
+  closeOnPressEscape: Ref<boolean>
   close: () => void
-  closeOnPressEscape: boolean
-  handleClose: () => void
-  handleAction: (action: string) => void
+  handleClose?: () => void
+  handleAction?: (action: string) => void
 }
-
-type Instance = ComponentPublicInstance<unknown, ComponentMethods>;
 
 type StackFrame = { id: string; zIndex: number; modalClass: string; };
 
@@ -90,7 +88,7 @@ const PopupManager: IPopupManager = {
   },
 
   nextZIndex: function() {
-    return PopupManager.zIndex++
+    return ++PopupManager.zIndex
   },
 
   modalStack: [],
@@ -100,7 +98,7 @@ const PopupManager: IPopupManager = {
     if (!topItem) return
 
     const instance = PopupManager.getInstance(topItem.id)
-    if (instance && instance.closeOnClickModal) {
+    if (instance && instance.closeOnClickModal.value) {
       instance.close()
     }
   },
@@ -223,7 +221,7 @@ if (!isServer) {
     if (event.code === EVENT_CODE.esc) {
       const topPopup = getTopPopup()
 
-      if (topPopup && topPopup.closeOnPressEscape) {
+      if (topPopup && topPopup.closeOnPressEscape.value) {
         topPopup.handleClose
           ? topPopup.handleClose()
           : topPopup.handleAction

@@ -139,8 +139,8 @@ describe('Steps.vue', () => {
     const wrapper = _mount(`
       <el-steps :active="0">
         <el-step>
-          <template v-slot:title>A</template>
-          <template v-slot:description>B</template>
+          <template #title>A</template>
+          <template #description>B</template>
         </el-step>
       </el-steps>
     `)

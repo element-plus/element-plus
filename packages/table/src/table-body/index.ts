@@ -1,10 +1,9 @@
-import { Tooltip as ElTooltip } from '@element-plus/tooltip'
 import { addClass, removeClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
 import { defineComponent, getCurrentInstance, h, PropType, watch } from 'vue'
 import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
-import { Store, Table } from '../table'
+import { Store, Table } from '../table.type'
 import useRender from './render-helper'
 import { TableBodyProps } from './table-body'
 export default defineComponent({
@@ -86,19 +85,6 @@ export default defineComponent({
           data.reduce((acc, row) => {
             return acc.concat(this.wrappedRowRender(row, acc.length))
           }, []),
-          h(
-            ElTooltip,
-            {
-              modelValue: this.tooltipVisible,
-              content: this.tooltipContent,
-              manual: true,
-              effect: this.$parent.tooltipEffect,
-              placement: 'top',
-            },
-            {
-              default: () => this.tooltipTrigger,
-            },
-          ),
         ]),
       ],
     )

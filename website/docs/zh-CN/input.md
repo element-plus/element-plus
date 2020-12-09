@@ -125,14 +125,14 @@ export default defineComponent ({
   <el-input
     placeholder="请选择日期"
     v-model="input3">
-    <template v-slot:suffix>
+    <template #suffix>
       <i class="el-input__icon el-icon-date"></i>
     </template>
   </el-input>
   <el-input
     placeholder="请输入内容"
     v-model="input4">
-    <template v-slot:prefix>
+    <template #prefix>
       <i class="el-input__icon el-icon-search"></i>
     </template>
   </el-input>
@@ -233,12 +233,12 @@ export default defineComponent ({
 ```html
 <div>
   <el-input placeholder="请输入内容" v-model="input1">
-    <template v-slot:prepend>Http://</template>
+    <template #prepend>Http://</template>
   </el-input>
 </div>
 <div style="margin-top: 15px">
   <el-input placeholder="请输入内容" v-model="input2">
-    <template v-slot:append>.com</template>
+    <template #append>.com</template>
   </el-input>
 </div>
 <div style="margin-top: 15px">
@@ -247,14 +247,14 @@ export default defineComponent ({
     v-model="input3"
     class="input-with-select"
   >
-    <template v-slot:prepend>
+    <template #prepend>
       <el-select v-model="select" placeholder="请选择">
         <el-option label="餐厅名" value="1"></el-option>
         <el-option label="订单号" value="2"></el-option>
         <el-option label="用户电话" value="3"></el-option>
       </el-select>
     </template>
-    <template v-slot:append>
+    <template #append>
       <el-button icon="el-icon-search"></el-button>
     </template>
   </el-input>
@@ -527,7 +527,7 @@ export default defineComponent({
 
 可自定义输入建议的显示
 
-:::demo 使用`v-slot`自定义输入建议的模板。该 scope 的参数为`item`，表示当前输入建议对象。
+:::demo 使用`#default`自定义输入建议的模板。该 scope 的参数为`item`，表示当前输入建议对象。
 ```html
 <el-autocomplete
   popper-class="my-autocomplete"
@@ -536,10 +536,10 @@ export default defineComponent({
   placeholder="请输入内容"
   @select="handleSelect"
 >
-  <template v-slot:suffix>
+  <template #suffix>
     <i class="el-icon-edit el-input__icon" @click="handleIconClick"> </i>
   </template>
-  <template v-slot="{ item }">
+  <template #default="{ item }">
     <div class="name">{{ item.value }}</div>
     <span class="addr">{{ item.address }}</span>
   </template>
@@ -1024,7 +1024,7 @@ export default defineComponent ({
 | prefix-icon | 输入框头部图标 | string | — | — |
 | suffix-icon | 输入框尾部图标 | string | — | — |
 | hide-loading | 是否隐藏远程加载时的加载图标 | boolean | — | false |
-| popper-append-to-body | 是否将下拉列表插入至 body 元素。在下拉列表的定位出现问题时，可将该属性设置为 false | boolean | - | true |
+| popper-append-to-body | 是否将下拉列表插入至 body 元素。在下拉列表的定位出现问题时，可将该属性设置为 false | boolean | - | false |
 | highlight-first-item | 是否默认突出显示远程搜索建议中的第一项 | boolean | — | false |
 
 ### Autocomplete Slots

@@ -2,11 +2,15 @@
 
 Sometimes, `Dialog` does not always satisfy our requirements, let's say you have a massive form, or you need space to display something like `terms & conditions`, `Drawer` has almost identical API with `Dialog`, but it introduces different user experience.
 
-### Basic Usage
+:::tip
+#### Translation needed
+
+Since v-model is natively supported for all components, `visible.sync` has been deprecated, use `v-model="visibilityBinding"` to control the visibility of the current drawer.
+:::### Basic Usage
 
 Callout a temporary drawer, from multiple direction
 
-:::demo You must set `visible` for `Drawer` like `Dialog` does to control the visibility of `Drawer` itself, it's `boolean` type. `Drawer` has to parts: `title` & `body`, the `title` is a named slot, you can also set the title through attribute named `title`, default to an empty string, the `body` part is the main area of `Drawer`, which contains user defined content. When opening, `Drawer` expand itself from the **right corner to left** which size is **30%** of the browser window by default. You can change that default behavior by setting `direction` and `size` attribute. This show case also demonstrated how to use the `before-close` API, check the Attribute section for more detail
+:::demo You must set `model-value` for `Drawer` like `Dialog` does to control the visibility of `Drawer` itself, it's `boolean` type. `Drawer` has to parts: `title` & `body`, the `title` is a named slot, you can also set the title through attribute named `title`, default to an empty string, the `body` part is the main area of `Drawer`, which contains user defined content. When opening, `Drawer` expand itself from the **right corner to left** which size is **30%** of the browser window by default. You can change that default behavior by setting `direction` and `size` attribute. This show case also demonstrated how to use the `before-close` API, check the Attribute section for more detail
 
 ```html
 <el-radio-group v-model="direction">
@@ -22,7 +26,7 @@ Callout a temporary drawer, from multiple direction
 
 <el-drawer
   title="I am the title"
-  :visible.sync="drawer"
+  v-model="drawer"
   :direction="direction"
   :before-close="handleClose">
   <span>Hi, there!</span>
@@ -63,7 +67,7 @@ When you no longer need a title, you can remove title from drawer.
 
 <el-drawer
   title="I am the title"
-  :visible.sync="drawer"
+  v-model="drawer"
   :with-header="false">
   <span>Hi there!</span>
 </el-drawer>
@@ -91,7 +95,7 @@ Like `Dialog`, `Drawer` can do many diverse interaction as you wanted.
 <el-button type="text" @click="dialog = true">Open Drawer with nested form</el-button>
 <el-drawer
   title="I have a nested table inside!"
-  :visible.sync="table"
+  v-model="table"
   direction="rtl"
   size="50%">
    <el-table :data="gridData">
@@ -104,7 +108,7 @@ Like `Dialog`, `Drawer` can do many diverse interaction as you wanted.
 <el-drawer
   title="I have a nested form inside!"
   :before-close="handleClose"
-  :visible.sync="dialog"
+  v-model="dialog"
   direction="ltr"
   custom-class="demo-drawer"
   ref="drawer"
@@ -208,7 +212,7 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 
 <el-drawer
   title="I'm outer Drawer"
-  :visible.sync="drawer"
+  v-model="drawer"
   size="50%">
   <div>
    <el-button @click="innerDrawer = true">Click me!</el-button>
@@ -216,7 +220,7 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
      title="I'm inner Drawer"
      :append-to-body="true"
      :before-close="handleClose"
-     :visible.sync="innerDrawer">
+     v-model="innerDrawer">
      <p>_(:зゝ∠)_</p>
    </el-drawer>
   </div>
@@ -257,12 +261,6 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 :::
 
-:::tip
-
-If the variable bound to `visible` is managed in Vuex store, the `.sync` can not work properly. In this case, please remove the `.sync` modifier, listen to `open` and `close` events of Dialog, and commit Vuex mutations to update the value of that variable in the event handlers.
-
-:::
-
 ### Drawer Attributes
 
 | Parameter| Description | Type      | Acceptable Values                           | Defaults  |
@@ -278,8 +276,7 @@ If the variable bound to `visible` is managed in Vuex store, the `.sync` can not
 | show-close | Should show close button at the top right of Drawer | boolean | — | true |
 | size | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | number / string | - | '30%' |
 | title | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form | string | — | — |
-| visible | Should Drawer be displayed, also support the `.sync` notation | boolean | — | false |
-| wrapperClosable | Indicates whether user can close Drawer by clicking the shadowing layer. | boolean | - | true |
+| model-value / v-model | Should Drawer be displayed | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
 
 ### Drawer Slot

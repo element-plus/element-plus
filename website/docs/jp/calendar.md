@@ -26,10 +26,9 @@
 :::demo `scoped-slot` に `dateCell` という名前を設定することで、calendarセルに表示する内容をカスタマイズすることができる。`scoped-slot`では、日付(現在のセルの日付)とデータ(type, isSelected, day属性を含む)を取得することができます。詳細は以下のAPIドキュメントを参照のこと。
 ```html
 <el-calendar>
-  <!-- Use 2.5 slot syntax. If you use Vue 2.6, please use new slot syntax-->
   <template
-    slot="dateCell"
-    slot-scope="{date, data}">
+    #dateCell="{data}"
+  >
     <p :class="data.isSelected ? 'is-selected' : ''">
       {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
     </p>

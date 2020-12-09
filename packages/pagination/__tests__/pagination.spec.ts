@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import Pagination from '../src/index'
+import { nextTick } from 'vue'
 
 const TIME_OUT = 100
 
@@ -71,6 +72,7 @@ describe('Pagination.vue', () => {
       props: {
         pageSize: 25,
         pagerCount: 5,
+        pageCount: 50,
       },
     })
     expect(wrapper.findAll('li.number').length).toBe(5)
@@ -190,5 +192,67 @@ describe('click pager', () => {
     expect(wrapper.find('.btn-quickprev.more').exists()).toBe(true)
     expect(wrapper.find('.btn-quicknext.more').exists()).toBe(false)
   })
+  test('should emit change size evt', async () => {
+    const onSizeChange = jest.fn()
+    const wrapper = mount({
+      components: {
+        'el-pagination': Pagination,
+      },
+      template: `
+        <el-pagination
+          @size-change="onSizeChange"
+         :total="1000"
+         :page-sizes="[100, 200, 300]"
+         layout="sizes, pager"
+         :page-size="100"/>
+      `,
+      methods: {
+        onSizeChange,
+      },
+    })
+
+    const items = document.querySelectorAll('.el-select-dropdown__item:not(.selected)');
+    (items[0] as HTMLOptionElement)?.click()
+    expect(onSizeChange).toHaveBeenCalled()
+    expect(wrapper.findComponent(Pagination).emitted()).toHaveProperty('size-change')
+  })
+
+  test('should handle total size change', async () => {
+    const onCurrentChange = jest.fn()
+    const wrapper = mount({
+      components: {
+        [Pagination.name]: Pagination,
+      },
+      template: `
+        <el-pagination
+          :total="total"
+          :page-size="pageSize"
+          @current-change="onCurrentChange"
+          v-model:currentPage="currentPage"
+        />
+      },
+      `,
+      methods: {
+        onCurrentChange,
+      },
+      data() {
+        return {
+          currentPage: 3,
+          total: 1000,
+          pageSize: 100,
+        }
+      },
+    })
+
+    await nextTick()
+
+    expect(wrapper.vm.currentPage).toBe(3)
+
+    wrapper.vm.total = 100
+    await nextTick()
+    expect(wrapper.vm.currentPage).toBe(1)
+    expect(onCurrentChange).toHaveBeenCalledWith(1)
+  })
+
 })
 

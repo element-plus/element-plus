@@ -158,7 +158,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
       type="datetimerange"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
-      :default-time="['12:00:00']">
+      :default-time="defaultTime1">
     </el-date-picker>
   </div>
   <div class="block">
@@ -169,7 +169,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
       align="right"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
-      :default-time="['12:00:00', '08:00:00']">
+      :default-time="defaultTime2">
     </el-date-picker>
   </div>
 </template>
@@ -179,7 +179,14 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
     data() {
       return {
         value1: '',
-        value2: ''
+        value2: '',
+        defaultTime1: [
+          new Date(2000, 1, 1, 12, 0, 0),
+        ], // '12:00:00'
+        defaultTime2: [
+          new Date(2000, 1, 1, 12, 0, 0),
+          new Date(2000, 2, 1, 8, 0, 0)
+        ] // '12:00:00', '08:00:00'
       };
     }
   };
@@ -204,11 +211,9 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 | format | Format d'affichage de la date dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date) | yyyy-MM-dd HH:mm:ss |
 | align | Alignements. | left/center/right | left |
 | popper-class | Nom de classe pour le menu déroulant du DateTimePicker. | string | — | — |
-| picker-options | Options additionnelles, voir la table ci-dessous. | object | — | {} |
 | range-separator | Séparateur de plage. | string | - | '-' |
 | default-value | Date par défaut du calendrier, optionnelle. | Date | N'importe quelle valeur acceptée par `new Date()` | — |
 | default-time | L'horaire par défaut après avoir choisi une date. | normal: string / plage de dates: string[] | normal: un string tel que `12:00:00`, range: tableau de deux strings, le premier pour la date de début, le deuxième pour la date de fin. Si non spécifié, `00:00:00` est utilisé. | — |
-| value-format | Format de la variable stockée, optionnel. Si non spécifié, La valeur sera un objet Date. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date) | — |
 | name | Identique au `name` de l'input natif | string | — | — |
 | unlink-panels | Rend indépendants les deux panneaux de plage de dates | boolean | — | false |
 | prefix-icon | Icône de préfixe. | string | — | el-icon-date |

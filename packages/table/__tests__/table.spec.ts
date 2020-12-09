@@ -1,4 +1,4 @@
-import { mount, VueWrapper } from '@vue/test-utils'
+import { mount as _mount, VueWrapper } from '@vue/test-utils'
 import { ComponentPublicInstance, nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
@@ -8,6 +8,11 @@ const testDataArr = []
 const toArray = function(obj) {
   return [].slice.call(obj)
 }
+
+const mount = (opt: any) => _mount(opt, {
+  attachTo: 'body',
+})
+
 const triggerEvent = function(elm, name, ...opts) {
   let eventName
 
@@ -825,7 +830,7 @@ describe('Table.vue', () => {
             template: `
             <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
               <el-table-column type="expand">
-                <template v-slot="props">
+                <template #default="props">
                   <div>{{props.row.name}}</div>
                 </template>
               </el-table-column>

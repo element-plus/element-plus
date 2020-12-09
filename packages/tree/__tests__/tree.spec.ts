@@ -753,13 +753,13 @@ describe('Tree.vue', () => {
             return resolve([{ label: 'region1' }, { label: 'region2' }])
           }
           if (node.level > 4) return resolve([])
-          setTimeout(() => {
+          nextTick(() => {
             resolve([{
               label: 'zone' + this.count++,
             }, {
               label: 'zone' + this.count++,
             }])
-          }, 50)
+          })
         },
         handleNodeOpen(data) {
           this.currentNode = data
@@ -778,13 +778,17 @@ describe('Tree.vue', () => {
     expect(firstNodeWrapper.find('.el-tree-node__children').exists()).toBe(false)
 
     await firstNodeContentWrapper.trigger('click')
-    await sleep(100)
+    await nextTick() // first next tick for UI update
+    await nextTick() // second next tick for triggering loadNode
+    await nextTick() // third next tick for updating props.node.expanded
 
     expect(vm.nodeExpended).toEqual(true)
     expect(vm.currentNode.label).toEqual('region1')
 
     await firstNodeContentWrapper.trigger('click')
-    await sleep(100)
+    await nextTick()
+    await nextTick()
+    await nextTick()
 
     expect(vm.nodeExpended).toEqual(false)
     expect(vm.currentNode.label).toEqual('region1')

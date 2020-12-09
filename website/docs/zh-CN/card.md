@@ -9,10 +9,12 @@
 :::demo Card 组件包括`header`和`body`部分，`header`部分需要有显式具名 slot 分发，同时也是可选的。
 ```html
 <el-card class="box-card">
-  <div slot="header" class="clearfix">
-    <span>卡片名称</span>
-    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
-  </div>
+  <template #header>
+    <div class="clearfix">
+      <span>卡片名称</span>
+      <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+    </div>
+  </template>
   <div v-for="o in 4" :key="o" class="text item">
     {{'列表内容 ' + o }}
   </div>

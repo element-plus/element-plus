@@ -33,6 +33,8 @@ export type IPopperOptions = {
   strategy: PositioningStrategy
   trigger: Trigger
   visible: boolean
+  stopPopperMouseEvent: boolean
+  gpuAcceleration: boolean
 }
 
 export const DEFAULT_TRIGGER = 'hover'
@@ -60,6 +62,7 @@ export default {
     type: String,
     default: '',
   },
+  style: Object,
   closeDelay: {
     type: Number,
     default: 200,
@@ -132,5 +135,13 @@ export default {
   visible: {
     type: Boolean,
     default: undefined,
+  },
+  stopPopperMouseEvent: {
+    type: Boolean,
+    default: true,
+  },
+  gpuAcceleration: {
+    type: Boolean,
+    default: true,
   },
 }

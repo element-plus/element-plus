@@ -1,9 +1,9 @@
 <script lang="ts">
-import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode } from 'vue'
-import { Popper as ElPopper } from '@element-plus/popper'
+import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives, Teleport, createVNode } from 'vue'
+import ElPopper from '@element-plus/popper'
 import { defaultProps, Effect } from '@element-plus/popper'
 import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
-
+import { ClickOutside } from '@element-plus/directives'
 import { warn } from '@element-plus/utils/error'
 import { renderBlock, renderIf, PatchFlags } from '@element-plus/utils/vnode'
 import { stop } from '@element-plus/utils/dom'
@@ -42,6 +42,10 @@ export default defineComponent({
       type: [String, Number],
       default: 150,
     },
+    appendToBody: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits,
   setup(props, ctx) {
@@ -72,14 +76,13 @@ export default defineComponent({
       popperStyle,
       popperId,
       popperClass,
-      pure,
       showArrow,
       transition,
       visibility,
     } = this
 
     const kls = [
-      this.content ? 'el-popover__plain' : '',
+      this.content ? 'el-popover--plain' : '',
       'el-popover',
       popperClass,
     ].join(' ')
@@ -90,12 +93,12 @@ export default defineComponent({
       popperClass: kls,
       popperStyle: popperStyle,
       popperId,
-      pure,
       visibility,
       onMouseEnter: onPopperMouseEnter,
       onMouseLeave: onPopperMouseLeave,
       onAfterEnter,
       onAfterLeave,
+      stopPopperMouseEvent: true,
     }, [
       title,
       content,
@@ -113,12 +116,15 @@ export default defineComponent({
       ...events,
     }) : createCommentVNode('v-if', true)
 
-
     return renderBlock(Fragment, null, [
-      _trigger,
-      popover,
+      this.trigger === 'click'
+        ? withDirectives(_trigger, [[ClickOutside, this.hide]])
+        : _trigger,
+      createVNode(Teleport as any, {
+        disabled: !this.appendToBody,
+        to: 'body',
+      }, [popover], PatchFlags.PROPS, ['disabled']),
     ])
   },
 })
 </script>
-

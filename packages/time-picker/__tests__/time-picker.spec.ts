@@ -10,12 +10,7 @@ const _mount = (template: string, data, otherObj?) => mount({
   data,
   ...otherObj,
 }, {
-  global: {
-    provide: {
-      elForm: {},
-      elFormItem: {},
-    },
-  },
+  attachTo: 'body',
 })
 
 const makeRange = (start, end) => {

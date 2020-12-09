@@ -35,6 +35,8 @@ const _mount: typeof mount = options => mount({
     Cascader,
   },
   ...options,
+}, {
+  attachTo: 'body',
 })
 
 afterEach(() => {

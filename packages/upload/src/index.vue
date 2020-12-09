@@ -24,7 +24,7 @@ import type {
   UploadFile,
   FileHandler,
   FileResultHandler,
-} from './upload'
+} from './upload.type'
 
 type PFileHandler<T> = PropType<FileHandler<T>>
 type PFileResultHandler<T = any> = PropType<FileResultHandler<T>>
@@ -191,7 +191,7 @@ export default defineComponent({
           handlePreview: this.onPreview,
         },
         {
-          file: (props: { file: UploadFile; }) => {
+          default: (props: { file: UploadFile; }) => {
             if (this.$slots.file) {
               return this.$slots.file({
                 file: props.file,

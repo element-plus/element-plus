@@ -1,8 +1,8 @@
 import { App } from 'vue'
 import Backtop from './src/index.vue'
 
-export default (app: App): void => {
+Backtop.install = (app: App): void => {
   app.component(Backtop.name, Backtop)
 }
 
-export { Backtop }
+export default Backtop
