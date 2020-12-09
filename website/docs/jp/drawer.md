@@ -272,7 +272,6 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 | custom-class | Drawerの追加クラス名 | string | — | — |
 | destroy-on-close | Drawerが閉じた後にChildrenが破壊されるべきかどうかを示す | boolean | - | false |
 | modal | シャドウイングレイヤーを表示するか | boolean | — | true |
-| modal-append-to-body | シャドウイングレイヤーをDocumentBody要素に挿入するかどうかを示す。 | boolean   | — | true |
 | direction | Drawerの開き方向 | Direction | rtl / ltr / ttb / btt | rtl |
 | show-close | Drawerの右上に閉じるボタンを表示するようにした | boolean | — | true |
 | size | Drawerのサイズ, ドローワが水平モードの場合は幅プロパティ, そうでない場合は高さプロパティ, サイズが `number` 型の場合はピクセル単位でサイズを記述します; サイズが `string` 型の場合は `x%` 記法を用います, それ以外の場合はピクセル単位で解釈されます | number / string | - | '30%' |
@@ -291,7 +290,7 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 
 | Name | Description |
 | ---- | ---  |
-| closeDrawer | Drawerを閉じるには、このメソッドは `before-close` を呼び出す。 |
+| handleClose | Drawerを閉じるには、このメソッドは `before-close` を呼び出す。 |
 
 ### Drawerイベント
 

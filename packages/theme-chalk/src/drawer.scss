@@ -111,7 +111,7 @@
 $directions: rtl, ltr, ttb, btt;
 
 @include b(drawer) {
-  position: absolute;
+  position: fixed;
   box-sizing: border-box;
   background-color: $--dialog-background-color;
   display: flex;
