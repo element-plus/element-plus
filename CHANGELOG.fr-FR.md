@@ -1,5 +1,21 @@
 ## Changelog
 
+### 1.0.1-beta.6
+
+*2020-12-09*
+
+#### Bug fixes
+
+- Fix error PropType (#906)
+- Fix tree right click event bug (#886)
+- Fix form-item props undefined bug (#888)
+- Fix autocomplete clearable doesn't work (#892)
+- Fix color-picker can not select color (#896)
+- Fix popper attr style fallthrough failed (#897)
+- Fix color-picker popper-class invalid (#883)
+- Fix tree document bug (#873)
+- Fix upload file slot not work bug (#868)
+
 ### 1.0.1-beta.5
 
 *2020-12-07*
