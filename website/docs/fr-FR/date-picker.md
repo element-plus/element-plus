@@ -6,7 +6,7 @@ Utilisez DatePicker pour les champs de dates.
 
 L'unité de base du DatePicker est le jour.
 
-:::demo L'unité est déterminée par l'attribut `type`. Vous pouvez ajouter des options en créant un objet `picker-options` avec la propriété `shortcuts`. L'état désactivé est contrôlé par `disabledDate` qui est une fonction.
+:::demo L'unité est déterminée par l'attribut `type`. You can enable quick options via `shortcuts` property. L'état désactivé est contrôlé par `disabledDate` qui est une fonction.
 
 ```html
 <template>
@@ -408,15 +408,8 @@ Lorsque vous choisissez une plage de dates, vous pouvez assigner l'horaire de d�
 | prefix-icon | Icône de préfixe. | string | — | el-icon-date |
 | clear-icon | Icône de reset. | string | — | el-icon-circle-close |
 | validate-event | Si la validation doit être déclenchée. | boolean | - | true |
-
-### Options du Picker
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| shortcuts | Un tableau d'objets { text, onClick } pour configurer les raccourcis, voir table ci-dessous. | object[] | — | — |
 | disabledDate | Une fonction qui détermine si une date est désactivée ou pas, avec cette date en paramètre. Doit retourner un booléen. | function | — | — |
-| cellClassName | set custom className | Function(Date) | — | — |
-| firstDayOfWeek | Premier jour du mois. | Number | 1 to 7 | 7 |
-| onPick | Callback se déclenchant quand la date sélectionnée change. Uniquement pour `daterange` et `datetimerange`. | Function({ maxDate, minDate }) | - | - |
+| shortcuts | Un tableau d'objets pour configurer les raccourcis | object[{ text: string, value: Date }] | — | — |
 
 ### Raccourcis
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |

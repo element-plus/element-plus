@@ -53,6 +53,7 @@ export default defineComponent({
       $slots,
       appendToBody,
       class: kls,
+      style,
       effect,
       hide,
       onPopperMouseEnter,
@@ -103,6 +104,7 @@ export default defineComponent({
     const triggerProps = {
       ariaDescribedby: popperId,
       class: kls,
+      style,
       ref: 'triggerRef',
       ...this.events,
     }

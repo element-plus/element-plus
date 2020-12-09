@@ -481,7 +481,6 @@ El contenido de los nodos puede ser personalizado, así que puede añadir iconos
       }];
       return {
         data: JSON.parse(JSON.stringify(data)),
-        data: JSON.parse(JSON.stringify(data))
       }
     },
 

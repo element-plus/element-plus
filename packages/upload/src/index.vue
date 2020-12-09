@@ -191,7 +191,7 @@ export default defineComponent({
           handlePreview: this.onPreview,
         },
         {
-          file: (props: { file: UploadFile; }) => {
+          default: (props: { file: UploadFile; }) => {
             if (this.$slots.file) {
               return this.$slots.file({
                 file: props.file,

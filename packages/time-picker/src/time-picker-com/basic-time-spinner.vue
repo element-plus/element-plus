@@ -61,6 +61,7 @@ import {
   onMounted,
   Ref,
   watch,
+  PropType,
 } from 'vue'
 import { Dayjs } from 'dayjs'
 import { RepeatClick } from '@element-plus/directives'
@@ -83,7 +84,7 @@ export default defineComponent({
       required: true,
     },
     spinnerDate: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
       required: true,
     },
     showSeconds: {
