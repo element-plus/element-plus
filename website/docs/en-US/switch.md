@@ -143,7 +143,7 @@ Switch is used for switching between two opposing states.
 
 | Attribute      | Description          | Type      | Accepted Values       | Default |
 |-----| ----| ----| ----|---- |
-| value / v-model | binding value | boolean / string / number | — | — |
+| value / v-model | binding value,that must be equal to active-value or inactive-value and default to a Boolean type | boolean / string / number | — | — |
 | disabled | whether Switch is disabled | boolean | — | false |
 | loading  | whether Switch is in loading state | boolean | — | false |
 | width | width of Switch | number | — | 40 |

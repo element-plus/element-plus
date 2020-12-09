@@ -143,7 +143,7 @@
 
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | 绑定值 | boolean / string / number | — | — |
+| value / v-model | 绑定值,必须等于active-value或inactive-value,默认为boolean类型 | boolean / string / number | — | — |
 | disabled  | 是否禁用    | boolean   | — | false   |
 | loading  | 是否显示加载中    | boolean   | — | false   |
 | width  | switch 的宽度（像素）    | number   | — | 40 |
