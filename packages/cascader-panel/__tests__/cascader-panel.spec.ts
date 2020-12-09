@@ -543,7 +543,7 @@ describe('CascaderPanel.vue', () => {
     const wrapper = mount(CascaderPanel, {
       props: {
         options: NORMAL_OPTIONS,
-        props: {  multiple: true },
+        props: { multiple: true },
         modelValue: [['shanghai', 'shanghai']],
       },
     })
@@ -552,5 +552,19 @@ describe('CascaderPanel.vue', () => {
     expect(vm.getCheckedNodes(true).length).toBe(1)
     vm.clearCheckedNodes()
     expect(vm.getCheckedNodes().length).toBe(0)
+  })
+
+  test('options async load with default value', async () => {
+    const wrapper = mount(CascaderPanel, {
+      props: {
+        options: [],
+        modelValue: ['shanghai', 'shanghai'],
+      },
+    })
+
+    const vm = wrapper.vm as any
+    expect(vm.getCheckedNodes().length).toBe(0)
+    await wrapper.setProps({ options: NORMAL_OPTIONS })
+    expect(vm.getCheckedNodes(true).length).toBe(1)
   })
 })
