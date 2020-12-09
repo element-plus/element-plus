@@ -7,8 +7,9 @@
     >
       <el-overlay
         v-show="visible"
-        :z-index="zIndex"
         :mask="modal"
+        :overlay-class="modalClass"
+        :z-index="zIndex"
         @click="onModalClick"
       >
         <div
@@ -86,7 +87,10 @@ export default defineComponent({
     TrapFocus,
   },
   props: {
-    modelValue: Boolean,
+    modelValue: {
+      type: Boolean,
+      required: true,
+    },
     appendToBody: {
       type: Boolean,
       default: false,
@@ -141,10 +145,6 @@ export default defineComponent({
       default: true,
     },
     modalClass: String,
-    modalAppendToBody: {
-      type: Boolean,
-      default: true,
-    },
     lockScroll: {
       type: Boolean,
       default: true,

@@ -272,7 +272,6 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 | custom-class | Nombre extra de clase para  Drawer | string | — | — |
 | destroy-on-close | Indica si los children deben ser destruidos después de cerrar el Drawer. | boolean | - | false |
 | modal | Mostrará una capa de sombra | boolean | — | true |
-| modal-append-to-body | Indica si se debe insertar una capa de sombreado en el elemento DocumentBody | boolean   | — | true |
 | direction | Dirección de apertura del Drawer | Direction | rtl / ltr / ttb / btt | rtl |
 | show-close | Se mostrará el botón de cerrar en la parte superior derecha del Drawer | boolean | — | true |
 | size | Tamaño del Drawer. Si el Drawer está en modo horizontal, afecta a la propiedad width, de lo contrario afecta a la propiedad height, cuando el tamaño es tipo `number`, describe el tamaño por unidad de píxeles; cuando el tamaño es tipo `string`, se debe usar con notación `x%`, de lo contrario se interpretará como unidad de píxeles. | number / string | - | '30%' |
@@ -291,7 +290,7 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 
 | Nombre | Descripción |
 | ---- | ---  |
-| closeDrawer | Para cerrar el Drawer, este método llamará `before-close`. |
+| handleClose | Para cerrar el Drawer, este método llamará `before-close`. |
 
 ### Eventos Drawer
 

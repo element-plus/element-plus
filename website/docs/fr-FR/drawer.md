@@ -271,7 +271,6 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | custom-class | Extra class names for Drawer | string | — | — |
 | destroy-on-close | Indicates whether children should be destroyed after Drawer closed | boolean | - | false |
 | modal | Should show shadowing layer | boolean | — | true |
-| modal-append-to-body | Indicates should shadowing layer be insert into DocumentBody element | boolean   | — | true |
 | direction | Drawer's opening direction | Direction | rtl / ltr / ttb / btt | rtl |
 | show-close | Should show close button at the top right of Drawer | boolean | — | true |
 | size | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | number / string | - | '30%' |
@@ -290,7 +289,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 | Name | Description |
 | ---- | ---  |
-| closeDrawer | In order to close Drawer, this method will call `before-close`. |
+| handleClose | In order to close Drawer, this method will call `before-close`. |
 
 ### Drawer Events
 

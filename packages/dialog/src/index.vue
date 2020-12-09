@@ -7,8 +7,9 @@
     >
       <el-overlay
         v-show="visible"
-        :z-index="zIndex"
         :mask="modal"
+        :overlay-class="modalClass"
+        :z-index="zIndex"
         @click="onModalClick"
       >
         <div
@@ -148,6 +149,7 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    modalClass: String,
     width: {
       type: String,
       default: '50%',
