@@ -27,9 +27,7 @@ Muestra fechas.
 
 ```html
 <el-calendar>
-  <template
-    #dateCell="{data}"
-  >
+  <template #dateCell="{data}">
     <p :class="data.isSelected ? 'is-selected' : ''">
       {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}
     </p>
@@ -61,6 +59,5 @@ Muestra fechas.
 ### dateCell scoped slot
 | Atributo      | Descripción | Tipo   | Valores aceptados | Por defecto |
 |-----------------|-------------- |---------- |---------------------- |--------- |
-| date            | fecha que la celda representa | Date      | —                     | —        |
-| data            | { type, isSelected, day}. `type` indica el mes al que pertenece la fecha, los valores opcionales son mes anterior, mes actual, mes siguiente; `isSelected` indica si la fecha está seleccionada; `day` es la fecha formateada en el formato yyyy-MM-dd | Object      | —           | —      |
+| data            | { type, isSelected, day, date}. `type` indica el mes al que pertenece la fecha, los valores opcionales son mes anterior, mes actual, mes siguiente; `isSelected` indica si la fecha está seleccionada; `day` es la fecha formateada en el formato yyyy-MM-dd; `date` es la fecha que la celda representa | Object      | —           | —      |
 
