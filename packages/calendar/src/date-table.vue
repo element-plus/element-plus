@@ -64,13 +64,13 @@ export const getMonthDays = (date: Dayjs) => {
 export default defineComponent({
   props: {
     selectedDay: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
     },
     range: {
       type: Array as PropType<Array<Dayjs>>,
     },
     date: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
     },
     hideHeader: {
       type: Boolean,
