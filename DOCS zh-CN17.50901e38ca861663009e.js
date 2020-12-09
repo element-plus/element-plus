@@ -10,46 +10,46 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/date-picker.md?vue&type=template&id=5d3fd062
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/date-picker.md?vue&type=template&id=0974e82a
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_1 = {
+var date_pickervue_type_template_id_0974e82a_hoisted_1 = {
   class: "content element-doc"
 };
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var date_pickervue_type_template_id_0974e82a_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "datepicker-ri-qi-xuan-ze-qi"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#datepicker-ri-qi-xuan-ze-qi"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" DatePicker 日期选择器")], -1);
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "用于选择或输入日期", -1);
+var date_pickervue_type_template_id_0974e82a_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "用于选择或输入日期", -1);
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var date_pickervue_type_template_id_0974e82a_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "xuan-ze-ri"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#xuan-ze-ri"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 选择日")], -1);
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "以「日」为基本单位，基础的日期选择控件", -1);
+var date_pickervue_type_template_id_0974e82a_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "以「日」为基本单位，基础的日期选择控件", -1);
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("基本单位由"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "type"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("属性指定。快捷选项需配置"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "picker-options"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("对象中的"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "shortcuts"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("，禁用日期通过 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "disabledDate"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 设置，传入函数")])], -1);
+var date_pickervue_type_template_id_0974e82a_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("基本单位由"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "type"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("属性指定。通过"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "shortcuts"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("配置快捷选项，禁用日期通过 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "disabledDate"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 设置，传入函数")])], -1);
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var date_pickervue_type_template_id_0974e82a_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<template>\n  <div class=\"block\">\n    <span class=\"demonstration\">默认</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"date\"\n      placeholder=\"选择日期\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">带快捷选项</span>\n    <el-date-picker\n      v-model=\"value2\"\n      align=\"right\"\n      type=\"date\"\n      placeholder=\"选择日期\"\n      :disabled-date=\"disabledDate\"\n      :shortcuts=\"shortcuts\"\n    >\n    </el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        disabledDate(time) {\n          return time.getTime() > Date.now()\n        },\n        shortcuts: [{\n          text: 'Today',\n          value: new Date(),\n        }, {\n          text: 'Yesterday',\n          value: (() => {\n            const date = new Date()\n            date.setTime(date.getTime() - 3600 * 1000 * 24)\n            return date\n          })(),\n        }, {\n          text: 'A week ago',\n          value: (() => {\n            const date = new Date()\n            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)\n            return date\n          })(),\n        }],\n        value1: '',\n        value2: '',\n      };\n    }\n  };\n</script>\n")], -1);
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var date_pickervue_type_template_id_0974e82a_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "qi-ta-ri-qi-dan-wei"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#qi-ta-ri-qi-dan-wei"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 其他日期单位")], -1);
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "通过扩展基础的日期选择，可以选择周、月、年或多个日期", -1);
+var date_pickervue_type_template_id_0974e82a_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "通过扩展基础的日期选择，可以选择周、月、年或多个日期", -1);
 
-var date_pickervue_type_template_id_5d3fd062_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var date_pickervue_type_template_id_0974e82a_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<div class=\"container\">\n  <div class=\"block\">\n    <span class=\"demonstration\">周</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"week\"\n      format=\"gggg 第 ww 周\"\n      placeholder=\"选择周\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">月</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"month\"\n      placeholder=\"选择月\">\n    </el-date-picker>\n  </div>\n</div>\n<div class=\"container\">\n  <div class=\"block\">\n    <span class=\"demonstration\">年</span>\n    <el-date-picker\n      v-model=\"value3\"\n      type=\"year\"\n      placeholder=\"选择年\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">多个日期</span>\n    <el-date-picker\n      type=\"dates\"\n      v-model=\"value4\"\n      placeholder=\"选择一个或多个日期\">\n    </el-date-picker>\n  </div>\n</div>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: '',\n        value2: '',\n        value3: '',\n        value4: ''\n      };\n    }\n  };\n</script>\n")], -1);
 
@@ -110,9 +110,9 @@ var _hoisted_32 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
   class: "html"
 }, "<template>\n  <div class=\"block\">\n    <p>组件值：{{ value }}</p>\n    <el-date-picker\n      v-model=\"value\"\n      type=\"daterange\"\n      start-placeholder=\"开始日期\"\n      end-placeholder=\"结束日期\"\n      :default-time=\"defaultTime\"\n    ></el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '',\n        defaultTime: [\n          new Date(2000, 1, 1, 0, 0, 0),\n          new Date(2000, 2, 1, 23, 59, 59)\n        ] // '00:00:00', '23:59:59'\n      };\n    }\n  };\n</script>\n")], -1);
 
-var _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>value / v-model</td><td>绑定值</td><td>date(DatePicker) / array(DateRangePicker)</td><td>—</td><td>—</td></tr><tr><td>readonly</td><td>完全只读</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>disabled</td><td>禁用</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>editable</td><td>文本框可输入</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>clearable</td><td>是否显示清除按钮</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>size</td><td>输入框尺寸</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>placeholder</td><td>非范围选择时的占位内容</td><td>string</td><td>—</td><td>—</td></tr><tr><td>start-placeholder</td><td>范围选择时开始日期的占位内容</td><td>string</td><td>—</td><td>—</td></tr><tr><td>end-placeholder</td><td>范围选择时结束日期的占位内容</td><td>string</td><td>—</td><td>—</td></tr><tr><td>type</td><td>显示类型</td><td>string</td><td>year/month/date/dates/ week/datetime/datetimerange/ daterange/monthrange</td><td>date</td></tr><tr><td>format</td><td>显示在输入框中的格式</td><td>string</td><td>见<a href=\"#/zh-CN/component/date-picker#ri-qi-ge-shi\">日期格式</a></td><td>yyyy-MM-dd</td></tr><tr><td>align</td><td>对齐方式</td><td>string</td><td>left, center, right</td><td>left</td></tr><tr><td>popper-class</td><td>DatePicker 下拉框的类名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>range-separator</td><td>选择范围时的分隔符</td><td>string</td><td>—</td><td>&#39;-&#39;</td></tr><tr><td>default-value</td><td>可选，选择器打开时默认显示的时间</td><td>Date</td><td>可被<code>new Date()</code>解析</td><td>—</td></tr><tr><td>default-time</td><td>范围选择时选中日期所使用的当日内具体时刻</td><td>string[]</td><td>数组，长度为 2，每项值为字符串，形如<code>12:00:00</code>，第一项指定开始日期的时刻，第二项指定结束日期的时刻，不指定会使用时刻 <code>00:00:00</code></td><td>—</td></tr><tr><td>name</td><td>原生属性</td><td>string</td><td>—</td><td>—</td></tr><tr><td>unlink-panels</td><td>在范围选择器里取消两个日期面板之间的联动</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>prefix-icon</td><td>自定义头部图标的类名</td><td>string</td><td>—</td><td>el-icon-date</td></tr><tr><td>clear-icon</td><td>自定义清空图标的类名</td><td>string</td><td>—</td><td>el-icon-circle-close</td></tr><tr><td>validate-event</td><td>输入时是否触发表单的校验</td><td>boolean</td><td>-</td><td>true</td></tr></tbody></table><h3 id=\"picker-options\"><a class=\"header-anchor\" href=\"#picker-options\">¶</a> Picker Options</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>shortcuts</td><td>设置快捷选项，需要传入 { text, onClick } 对象用法参考 demo 或下表</td><td>Object[]</td><td>—</td><td>—</td></tr><tr><td>disabledDate</td><td>设置禁用状态，参数为当前日期，要求返回 Boolean</td><td>Function</td><td>—</td><td>—</td></tr><tr><td>cellClassName</td><td>设置日期的 className</td><td>Function(Date)</td><td>—</td><td>—</td></tr><tr><td>firstDayOfWeek</td><td>周起始日</td><td>Number</td><td>1 到 7</td><td>7</td></tr><tr><td>onPick</td><td>选中日期后会执行的回调，只有当 <code>daterange</code> 或 <code>datetimerange</code> 才生效</td><td>Function({ maxDate, minDate })</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"shortcuts\"><a class=\"header-anchor\" href=\"#shortcuts\">¶</a> Shortcuts</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>text</td><td>标题文本</td><td>string</td><td>—</td><td>—</td></tr><tr><td>onClick</td><td>选中后的回调函数，参数是 vm，可通过触发 &#39;pick&#39; 事件设置选择器的值。例如 vm.$emit(&#39;pick&#39;, new Date())</td><td>function</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>change</td><td>用户确认选定的值时触发</td><td>组件绑定值</td></tr><tr><td>blur</td><td>当 input 失去焦点时触发</td><td>组件实例</td></tr><tr><td>focus</td><td>当 input 获得焦点时触发</td><td>组件实例</td></tr></tbody></table><h3 id=\"methods\"><a class=\"header-anchor\" href=\"#methods\">¶</a> Methods</h3><table><thead><tr><th>方法名</th><th>说明</th><th>参数</th></tr></thead><tbody><tr><td>focus</td><td>使 input 获取焦点</td><td>—</td></tr></tbody></table>", 10);
+var _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>value / v-model</td><td>绑定值</td><td>date(DatePicker) / array(DateRangePicker)</td><td>—</td><td>—</td></tr><tr><td>readonly</td><td>完全只读</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>disabled</td><td>禁用</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>editable</td><td>文本框可输入</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>clearable</td><td>是否显示清除按钮</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>size</td><td>输入框尺寸</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>placeholder</td><td>非范围选择时的占位内容</td><td>string</td><td>—</td><td>—</td></tr><tr><td>start-placeholder</td><td>范围选择时开始日期的占位内容</td><td>string</td><td>—</td><td>—</td></tr><tr><td>end-placeholder</td><td>范围选择时结束日期的占位内容</td><td>string</td><td>—</td><td>—</td></tr><tr><td>type</td><td>显示类型</td><td>string</td><td>year/month/date/dates/ week/datetime/datetimerange/ daterange/monthrange</td><td>date</td></tr><tr><td>format</td><td>显示在输入框中的格式</td><td>string</td><td>见<a href=\"#/zh-CN/component/date-picker#ri-qi-ge-shi\">日期格式</a></td><td>yyyy-MM-dd</td></tr><tr><td>align</td><td>对齐方式</td><td>string</td><td>left, center, right</td><td>left</td></tr><tr><td>popper-class</td><td>DatePicker 下拉框的类名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>range-separator</td><td>选择范围时的分隔符</td><td>string</td><td>—</td><td>&#39;-&#39;</td></tr><tr><td>default-value</td><td>可选，选择器打开时默认显示的时间</td><td>Date</td><td>可被<code>new Date()</code>解析</td><td>—</td></tr><tr><td>default-time</td><td>范围选择时选中日期所使用的当日内具体时刻</td><td>string[]</td><td>数组，长度为 2，每项值为字符串，形如<code>12:00:00</code>，第一项指定开始日期的时刻，第二项指定结束日期的时刻，不指定会使用时刻 <code>00:00:00</code></td><td>—</td></tr><tr><td>name</td><td>原生属性</td><td>string</td><td>—</td><td>—</td></tr><tr><td>unlink-panels</td><td>在范围选择器里取消两个日期面板之间的联动</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>prefix-icon</td><td>自定义头部图标的类名</td><td>string</td><td>—</td><td>el-icon-date</td></tr><tr><td>clear-icon</td><td>自定义清空图标的类名</td><td>string</td><td>—</td><td>el-icon-circle-close</td></tr><tr><td>validate-event</td><td>输入时是否触发表单的校验</td><td>boolean</td><td>-</td><td>true</td></tr><tr><td>shortcuts</td><td>设置快捷选项，需要传入数组对象</td><td>object[{ text: string, value: Date }]</td><td>—</td><td>—</td></tr><tr><td>disabledDate</td><td>设置禁用状态，参数为当前日期，要求返回 Boolean</td><td>Function</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"shortcuts\"><a class=\"header-anchor\" href=\"#shortcuts\">¶</a> Shortcuts</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>text</td><td>标题文本</td><td>string</td><td>—</td><td>—</td></tr><tr><td>onClick</td><td>选中后的回调函数，参数是 vm，可通过触发 &#39;pick&#39; 事件设置选择器的值。例如 vm.$emit(&#39;pick&#39;, new Date())</td><td>function</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>change</td><td>用户确认选定的值时触发</td><td>组件绑定值</td></tr><tr><td>blur</td><td>当 input 失去焦点时触发</td><td>组件实例</td></tr><tr><td>focus</td><td>当 input 获得焦点时触发</td><td>组件实例</td></tr></tbody></table><h3 id=\"methods\"><a class=\"header-anchor\" href=\"#methods\">¶</a> Methods</h3><table><thead><tr><th>方法名</th><th>说明</th><th>参数</th></tr></thead><tbody><tr><td>focus</td><td>使 input 获取焦点</td><td>—</td></tr></tbody></table>", 8);
 
-function date_pickervue_type_template_id_5d3fd062_render(_ctx, _cache, $props, $setup, $data, $options) {
+function date_pickervue_type_template_id_0974e82a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -129,23 +129,23 @@ function date_pickervue_type_template_id_5d3fd062_render(_ctx, _cache, $props, $
 
   var _component_element_demo6 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo6");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", date_pickervue_type_template_id_5d3fd062_hoisted_1, [date_pickervue_type_template_id_5d3fd062_hoisted_2, date_pickervue_type_template_id_5d3fd062_hoisted_3, date_pickervue_type_template_id_5d3fd062_hoisted_4, date_pickervue_type_template_id_5d3fd062_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", date_pickervue_type_template_id_0974e82a_hoisted_1, [date_pickervue_type_template_id_0974e82a_hoisted_2, date_pickervue_type_template_id_0974e82a_hoisted_3, date_pickervue_type_template_id_0974e82a_hoisted_4, date_pickervue_type_template_id_0974e82a_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
     highlight: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [date_pickervue_type_template_id_5d3fd062_hoisted_7];
+      return [date_pickervue_type_template_id_0974e82a_hoisted_7];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [date_pickervue_type_template_id_5d3fd062_hoisted_6];
+      return [date_pickervue_type_template_id_0974e82a_hoisted_6];
     }),
     _: 1
-  }), date_pickervue_type_template_id_5d3fd062_hoisted_8, date_pickervue_type_template_id_5d3fd062_hoisted_9, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  }), date_pickervue_type_template_id_0974e82a_hoisted_8, date_pickervue_type_template_id_0974e82a_hoisted_9, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo1)];
     }),
     highlight: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [date_pickervue_type_template_id_5d3fd062_hoisted_10];
+      return [date_pickervue_type_template_id_0974e82a_hoisted_10];
     }),
     _: 1
   }), _hoisted_11, _hoisted_12, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -199,7 +199,7 @@ function date_pickervue_type_template_id_5d3fd062_render(_ctx, _cache, $props, $
     _: 1
   }), _hoisted_33]);
 }
-// CONCATENATED MODULE: ./website/docs/zh-CN/date-picker.md?vue&type=template&id=5d3fd062
+// CONCATENATED MODULE: ./website/docs/zh-CN/date-picker.md?vue&type=template&id=0974e82a
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -692,7 +692,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-date_pickervue_type_script_lang_ts.render = date_pickervue_type_template_id_5d3fd062_render
+date_pickervue_type_script_lang_ts.render = date_pickervue_type_template_id_0974e82a_render
 
 /* harmony default export */ var date_picker = __webpack_exports__["default"] = (date_pickervue_type_script_lang_ts);
 

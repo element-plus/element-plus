@@ -10,46 +10,46 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/date-picker.md?vue&type=template&id=61d3e77a
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/date-picker.md?vue&type=template&id=2fc04d11
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_1 = {
+var date_pickervue_type_template_id_2fc04d11_hoisted_1 = {
   class: "content element-doc"
 };
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var date_pickervue_type_template_id_2fc04d11_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "date-picker-date-picker"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#date-picker-date-picker"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Date-picker(date-picker)")], -1);
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "日付の入力にはdate-pickerを使用します。", -1);
+var date_pickervue_type_template_id_2fc04d11_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "日付の入力にはdate-pickerを使用します。", -1);
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var date_pickervue_type_template_id_2fc04d11_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "ri-funo-ru-li"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#ri-funo-ru-li"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 日付の入力")], -1);
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "'日'で計測する基本的なdate-picker。", -1);
+var date_pickervue_type_template_id_2fc04d11_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "'日'で計測する基本的なdate-picker。", -1);
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("測定は "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "type"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 属性で決定されます。クイックオプションを有効にするには、"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "shortcuts"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" プロパティを持つ "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "picker-options"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" オブジェクトを作成する。無効な日付は関数 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "disabledDate"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" で設定する。")])], -1);
+var date_pickervue_type_template_id_2fc04d11_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("測定は "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "type"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 属性で決定されます。You can enable quick options via "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "shortcuts"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" property。無効な日付は関数 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "disabledDate"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" で設定する。")])], -1);
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var date_pickervue_type_template_id_2fc04d11_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<template>\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"date\"\n      placeholder=\"Pick a day\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Picker with quick options</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"date\"\n      placeholder=\"Pick a day\"\n      :picker-options=\"pickerOptions\">\n    </el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        pickerOptions: {\n          disabledDate(time) {\n            return time.getTime() > Date.now();\n          },\n          shortcuts: [{\n            text: 'Today',\n            onClick(picker) {\n              picker.$emit('pick', new Date());\n            }\n          }, {\n            text: 'Yesterday',\n            onClick(picker) {\n              const date = new Date();\n              date.setTime(date.getTime() - 3600 * 1000 * 24);\n              picker.$emit('pick', date);\n            }\n          }, {\n            text: 'A week ago',\n            onClick(picker) {\n              const date = new Date();\n              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);\n              picker.$emit('pick', date);\n            }\n          }]\n        },\n        value1: '',\n        value2: '',\n      };\n    }\n  };\n</script>\n")], -1);
+}, "<template>\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"date\"\n      placeholder=\"Pick a day\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Picker with quick options</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"date\"\n      placeholder=\"Pick a day\"\n      :disabled-date=\"disabledDate\"\n      :shortcuts=\"shortcuts\">\n    </el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        disabledDate(time) {\n          return time.getTime() > Date.now()\n        },\n        shortcuts: [{\n          text: 'Today',\n          value: new Date(),\n        }, {\n          text: 'Yesterday',\n          value: (() => {\n            const date = new Date()\n            date.setTime(date.getTime() - 3600 * 1000 * 24)\n            return date\n          })(),\n        }, {\n          text: 'A week ago',\n          value: (() => {\n            const date = new Date()\n            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)\n            return date\n          })(),\n        }],\n        value1: '',\n        value2: '',\n      };\n    }\n  };\n</script>\n")], -1);
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var date_pickervue_type_template_id_2fc04d11_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "sono-tano-ce-ding"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#sono-tano-ce-ding"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" その他の測定")], -1);
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "標準のdate-pickerコンポーネントを拡張することで、週、月、年、または複数の日付を選択することができます。", -1);
+var date_pickervue_type_template_id_2fc04d11_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "標準のdate-pickerコンポーネントを拡張することで、週、月、年、または複数の日付を選択することができます。", -1);
 
-var date_pickervue_type_template_id_61d3e77a_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var date_pickervue_type_template_id_2fc04d11_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<div class=\"container\">\n  <div class=\"block\">\n    <span class=\"demonstration\">Week</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"week\"\n      format=\"Week WW\"\n      placeholder=\"Pick a week\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Month</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"month\"\n      placeholder=\"Pick a month\">\n    </el-date-picker>\n  </div>\n</div>\n<div class=\"container\">\n  <div class=\"block\">\n    <span class=\"demonstration\">Year</span>\n    <el-date-picker\n      v-model=\"value3\"\n      type=\"year\"\n      placeholder=\"Pick a year\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Dates</span>\n    <el-date-picker\n      type=\"dates\"\n      v-model=\"value4\"\n      placeholder=\"Pick one or more dates\">\n    </el-date-picker>\n  </div>\n</div>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: '',\n        value2: '',\n        value3: '',\n        value4: ''\n      };\n    }\n  };\n</script>\n")], -1);
 
@@ -66,7 +66,7 @@ var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("d
 
 var _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<template>\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"daterange\"\n      range-separator=\"To\"\n      start-placeholder=\"Start date\"\n      end-placeholder=\"End date\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">With quick options</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"daterange\"\n      align=\"right\"\n      unlink-panels\n      range-separator=\"To\"\n      start-placeholder=\"Start date\"\n      end-placeholder=\"End date\"\n      :picker-options=\"pickerOptions\">\n    </el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        pickerOptions: {\n          shortcuts: [{\n            text: 'Last week',\n            onClick(picker) {\n              const end = new Date();\n              const start = new Date();\n              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);\n              picker.$emit('pick', [start, end]);\n            }\n          }, {\n            text: 'Last month',\n            onClick(picker) {\n              const end = new Date();\n              const start = new Date();\n              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);\n              picker.$emit('pick', [start, end]);\n            }\n          }, {\n            text: 'Last 3 months',\n            onClick(picker) {\n              const end = new Date();\n              const start = new Date();\n              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);\n              picker.$emit('pick', [start, end]);\n            }\n          }]\n        },\n        value1: '',\n        value2: ''\n      };\n    }\n  };\n</script>\n")], -1);
+}, "<template>\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"daterange\"\n      range-separator=\"To\"\n      start-placeholder=\"Start date\"\n      end-placeholder=\"End date\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">With quick options</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"daterange\"\n      align=\"right\"\n      unlink-panels\n      range-separator=\"To\"\n      start-placeholder=\"Start date\"\n      end-placeholder=\"End date\"\n      :shortcuts=\"shortcuts\">\n    </el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        shortcuts: [{\n          text: 'Last week',\n          value: (() => {\n            const end = new Date()\n            const start = new Date()\n            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)\n            return [start, end]\n          })(),\n        }, {\n          text: 'Last month',\n          value: (() => {\n            const end = new Date()\n            const start = new Date()\n            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)\n            return [start, end]\n          })(),\n        }, {\n          text: 'Last 3 months',\n          value: (() => {\n            const end = new Date()\n            const start = new Date()\n            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)\n            return [start, end]\n          })(),\n        }],\n        value1: '',\n        value2: ''\n      };\n    }\n  };\n</script>\n")], -1);
 
 var _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "yueno-fan-wei"
@@ -81,7 +81,7 @@ var _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("d
 
 var _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<template>\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"monthrange\"\n      range-separator=\"To\"\n      start-placeholder=\"Start month\"\n      end-placeholder=\"End month\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">With quick options</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"monthrange\"\n      align=\"right\"\n      unlink-panels\n      range-separator=\"To\"\n      start-placeholder=\"Start month\"\n      end-placeholder=\"End month\"\n      :picker-options=\"pickerOptions\">\n    </el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        pickerOptions: {\n          shortcuts: [{\n            text: 'This month',\n            onClick(picker) {\n              picker.$emit('pick', [new Date(), new Date()]);\n            }\n          }, {\n            text: 'This year',\n            onClick(picker) {\n              const end = new Date();\n              const start = new Date(new Date().getFullYear(), 0);\n              picker.$emit('pick', [start, end]);\n            }\n          }, {\n            text: 'Last 6 months',\n            onClick(picker) {\n              const end = new Date();\n              const start = new Date();\n              start.setMonth(start.getMonth() - 6);\n              picker.$emit('pick', [start, end]);\n            }\n          }]\n        },\n        value1: '',\n        value2: ''\n      };\n    }\n  };\n</script>\n")], -1);
+}, "<template>\n  <div class=\"block\">\n    <span class=\"demonstration\">Default</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"monthrange\"\n      range-separator=\"To\"\n      start-placeholder=\"Start month\"\n      end-placeholder=\"End month\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">With quick options</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"monthrange\"\n      align=\"right\"\n      unlink-panels\n      range-separator=\"To\"\n      start-placeholder=\"Start month\"\n      end-placeholder=\"End month\"\n      :shortcuts=\"shortcuts\">\n    </el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        shortcuts: [{\n          text: 'This month',\n          value: [new Date(), new Date()],\n        }, {\n          text: 'This year',\n          value: (() => {\n            const end = new Date()\n            const start = new Date(new Date().getFullYear(), 0)\n            return [start, end]\n          })(),\n        }, {\n          text: 'Last 6 months',\n          value: (() => {\n            const end = new Date()\n            const start = new Date()\n            start.setMonth(start.getMonth() - 6)\n            return [start, end]\n          })(),\n        }],\n        value1: '',\n        value2: ''\n      };\n    }\n  };\n</script>\n")], -1);
 
 var _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"dehuoruto-zhi\"><a class=\"header-anchor\" href=\"#dehuoruto-zhi\">¶</a> デフォルト値</h3><p>ユーザが日付を指定していない場合は、デフォルトで今日のカレンダーを表示する。別の日付を設定するには <code>default-value</code> を用いることができる。その値は <code>new Date()</code> で解析可能でなければならない。</p><p>型が <code>daterange</code> の場合、<code>default-value</code> は左側のカレンダーを設定する。</p>", 3);
 
@@ -110,9 +110,9 @@ var _hoisted_32 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
   class: "html"
 }, "<template>\n  <div class=\"block\">\n    <p>Component value：{{ value }}</p>\n    <el-date-picker\n      v-model=\"value\"\n      type=\"daterange\"\n      start-placeholder=\"Start date\"\n      end-placeholder=\"End date\"\n      :default-time=\"defaultTime\"\n    ></el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '',\n        defaultTime: [\n          new Date(2000, 1, 1, 0, 0, 0),\n          new Date(2000, 2, 1, 23, 59, 59)\n        ] // '00:00:00', '23:59:59'\n      };\n    }\n  };\n</script>\n")], -1);
 
-var _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"shu-xing\"><a class=\"header-anchor\" href=\"#shu-xing\">¶</a> 属性</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>value / v-model</td><td>バインディング値</td><td>date(DatePicker) / array(DateRangePicker)</td><td>—</td><td>—</td></tr><tr><td>readonly</td><td>date-pickerが読み取り専用かどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>disabled</td><td>date-pickerが無効かどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>size</td><td>インプットサイズ</td><td>string</td><td>large/small/mini</td><td>—</td></tr><tr><td>editable</td><td>入力は編集可能かどうか</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>clearable</td><td>クリアボタンをみせるかどうか</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>placeholder</td><td>非範囲モード時のプレースホルダ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>start-placeholder</td><td>範囲モードでの開始日のプレースホルダ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>end-placeholder</td><td>範囲終了日のプレースホルダ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>type</td><td>ピッカーのタイプ</td><td>string</td><td>year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange</td><td>date</td></tr><tr><td>format</td><td>入力ボックスの表示値のフォーマット</td><td>string</td><td>see <a href=\"#/en-US/component/date-picker#date-formats\">date formats</a></td><td>yyyy-MM-dd</td></tr><tr><td>align</td><td>アライメント</td><td>left/center/right</td><td>left</td><td></td></tr><tr><td>popper-class</td><td>date-pickerのドロップダウン用カスタムクラス名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>range-separator</td><td>範囲セパレータ</td><td>string</td><td>—</td><td>&#39;-&#39;</td></tr><tr><td>default-value</td><td>オプション、カレンダーのデフォルトの日付</td><td>Date</td><td>anything accepted by <code>new Date()</code></td><td>—</td></tr><tr><td>default-time</td><td>オプション、日付範囲を選択する際に使用する時間値</td><td>string[]</td><td>Array with length 2, each item is a string like <code>12:00:00</code>. The first item for the start date and then second item for the end date</td><td>—</td></tr><tr><td>name</td><td>ネイティブ入力の <code>name</code> と同じ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>unlink-panels</td><td>範囲ピッカーで2つのデータパネルのリンクを解除する</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>prefix-icon</td><td>カスタムプレフィックスアイコン</td><td>string</td><td>—</td><td>el-icon-date</td></tr><tr><td>clear-icon</td><td>カスタムクリアアイコンクラス</td><td>string</td><td>—</td><td>el-icon-circle-close</td></tr><tr><td>validate-event</td><td>フォームバリデーションをトリガするかどうか</td><td>boolean</td><td>-</td><td>true</td></tr></tbody></table><h3 id=\"pitukaopusiyon\"><a class=\"header-anchor\" href=\"#pitukaopusiyon\">¶</a> ピッカーオプション</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>shortcuts</td><td>ショートカットオプションを設定するための { text, onClick } オブジェクトの配列は、以下の表を確認してください。</td><td>object[]</td><td>—</td><td>—</td></tr><tr><td>disabledDate</td><td>日付をパラメータとして、その日付が無効化されているかどうかを判断する関数です。ブーリアンを返す必要があります。</td><td>function</td><td>—</td><td>—</td></tr><tr><td>cellClassName</td><td>セットカスタムクラス名</td><td>Function(Date)</td><td>—</td><td>—</td></tr><tr><td>firstDayOfWeek</td><td>週の初日</td><td>Number</td><td>1 to 7</td><td>7</td></tr><tr><td>onPick</td><td>選択された日付が変更されたときにトリガーするコールバックです。<code>daterange</code> と <code>datetimerange</code> のみ。</td><td>Function({ maxDate, minDate })</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"siyotokatuto\"><a class=\"header-anchor\" href=\"#siyotokatuto\">¶</a> ショートカット</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>text</td><td>ショートカットのタイトル</td><td>string</td><td>—</td><td>—</td></tr><tr><td>onClick</td><td>コールバック関数は、ショートカットがクリックされたときに <code>vm</code> をパラメータとしてトリガーします。pick<code>イベントを発行することでピッカーの値を変更することができます。例:</code>vm.$emit(&#39;pick&#39;, new Date())`</td><td>function</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"ibento\"><a class=\"header-anchor\" href=\"#ibento\">¶</a> イベント</h3><table><thead><tr><th>Event Name</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>change</td><td>ユーザーが値を確認したときにトリガされます。</td><td>component&#39;s binding value</td></tr><tr><td>blur</td><td>インプットがぼやけたときされます</td><td>component instance</td></tr><tr><td>focus</td><td>入力がフォーカスされているときにトリガされます。</td><td>component instance</td></tr></tbody></table><h3 id=\"fang-fa\"><a class=\"header-anchor\" href=\"#fang-fa\">¶</a> 方法</h3><table><thead><tr><th>Method</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>focus</td><td>インプットコンポーネントにフォーカス</td><td>—</td></tr></tbody></table><h3 id=\"surotuto\"><a class=\"header-anchor\" href=\"#surotuto\">¶</a> スロット</h3><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody><tr><td>range-separator</td><td>カスタム範囲区切りコンテンツ</td></tr></tbody></table>", 12);
+var _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"shu-xing\"><a class=\"header-anchor\" href=\"#shu-xing\">¶</a> 属性</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>value / v-model</td><td>バインディング値</td><td>date(DatePicker) / array(DateRangePicker)</td><td>—</td><td>—</td></tr><tr><td>readonly</td><td>date-pickerが読み取り専用かどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>disabled</td><td>date-pickerが無効かどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>size</td><td>インプットサイズ</td><td>string</td><td>large/small/mini</td><td>—</td></tr><tr><td>editable</td><td>入力は編集可能かどうか</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>clearable</td><td>クリアボタンをみせるかどうか</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>placeholder</td><td>非範囲モード時のプレースホルダ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>start-placeholder</td><td>範囲モードでの開始日のプレースホルダ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>end-placeholder</td><td>範囲終了日のプレースホルダ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>type</td><td>ピッカーのタイプ</td><td>string</td><td>year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange</td><td>date</td></tr><tr><td>format</td><td>入力ボックスの表示値のフォーマット</td><td>string</td><td>see <a href=\"#/en-US/component/date-picker#date-formats\">date formats</a></td><td>yyyy-MM-dd</td></tr><tr><td>align</td><td>アライメント</td><td>left/center/right</td><td>left</td><td></td></tr><tr><td>popper-class</td><td>date-pickerのドロップダウン用カスタムクラス名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>range-separator</td><td>範囲セパレータ</td><td>string</td><td>—</td><td>&#39;-&#39;</td></tr><tr><td>default-value</td><td>オプション、カレンダーのデフォルトの日付</td><td>Date</td><td>anything accepted by <code>new Date()</code></td><td>—</td></tr><tr><td>default-time</td><td>オプション、日付範囲を選択する際に使用する時間値</td><td>string[]</td><td>Array with length 2, each item is a string like <code>12:00:00</code>. The first item for the start date and then second item for the end date</td><td>—</td></tr><tr><td>name</td><td>ネイティブ入力の <code>name</code> と同じ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>unlink-panels</td><td>範囲ピッカーで2つのデータパネルのリンクを解除する</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>prefix-icon</td><td>カスタムプレフィックスアイコン</td><td>string</td><td>—</td><td>el-icon-date</td></tr><tr><td>clear-icon</td><td>カスタムクリアアイコンクラス</td><td>string</td><td>—</td><td>el-icon-circle-close</td></tr><tr><td>validate-event</td><td>フォームバリデーションをトリガするかどうか</td><td>boolean</td><td>-</td><td>true</td></tr><tr><td>shortcuts</td><td>ショートカットオプションを設定するためのオブジェクトの配列は</td><td>object[{ text: string, value: Date }]</td><td>—</td><td>—</td></tr><tr><td>disabledDate</td><td>日付をパラメータとして、その日付が無効化されているかどうかを判断する関数です。ブーリアンを返す必要があります。</td><td>function</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"siyotokatuto\"><a class=\"header-anchor\" href=\"#siyotokatuto\">¶</a> ショートカット</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>text</td><td>ショートカットのタイトル</td><td>string</td><td>—</td><td>—</td></tr><tr><td>onClick</td><td>コールバック関数は、ショートカットがクリックされたときに <code>vm</code> をパラメータとしてトリガーします。pick<code>イベントを発行することでピッカーの値を変更することができます。例:</code>vm.$emit(&#39;pick&#39;, new Date())`</td><td>function</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"ibento\"><a class=\"header-anchor\" href=\"#ibento\">¶</a> イベント</h3><table><thead><tr><th>Event Name</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>change</td><td>ユーザーが値を確認したときにトリガされます。</td><td>component&#39;s binding value</td></tr><tr><td>blur</td><td>インプットがぼやけたときされます</td><td>component instance</td></tr><tr><td>focus</td><td>入力がフォーカスされているときにトリガされます。</td><td>component instance</td></tr></tbody></table><h3 id=\"fang-fa\"><a class=\"header-anchor\" href=\"#fang-fa\">¶</a> 方法</h3><table><thead><tr><th>Method</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>focus</td><td>インプットコンポーネントにフォーカス</td><td>—</td></tr></tbody></table><h3 id=\"surotuto\"><a class=\"header-anchor\" href=\"#surotuto\">¶</a> スロット</h3><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody><tr><td>range-separator</td><td>カスタム範囲区切りコンテンツ</td></tr></tbody></table>", 10);
 
-function date_pickervue_type_template_id_61d3e77a_render(_ctx, _cache, $props, $setup, $data, $options) {
+function date_pickervue_type_template_id_2fc04d11_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -129,23 +129,23 @@ function date_pickervue_type_template_id_61d3e77a_render(_ctx, _cache, $props, $
 
   var _component_element_demo6 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo6");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", date_pickervue_type_template_id_61d3e77a_hoisted_1, [date_pickervue_type_template_id_61d3e77a_hoisted_2, date_pickervue_type_template_id_61d3e77a_hoisted_3, date_pickervue_type_template_id_61d3e77a_hoisted_4, date_pickervue_type_template_id_61d3e77a_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", date_pickervue_type_template_id_2fc04d11_hoisted_1, [date_pickervue_type_template_id_2fc04d11_hoisted_2, date_pickervue_type_template_id_2fc04d11_hoisted_3, date_pickervue_type_template_id_2fc04d11_hoisted_4, date_pickervue_type_template_id_2fc04d11_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
     highlight: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [date_pickervue_type_template_id_61d3e77a_hoisted_7];
+      return [date_pickervue_type_template_id_2fc04d11_hoisted_7];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [date_pickervue_type_template_id_61d3e77a_hoisted_6];
+      return [date_pickervue_type_template_id_2fc04d11_hoisted_6];
     }),
     _: 1
-  }), date_pickervue_type_template_id_61d3e77a_hoisted_8, date_pickervue_type_template_id_61d3e77a_hoisted_9, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  }), date_pickervue_type_template_id_2fc04d11_hoisted_8, date_pickervue_type_template_id_2fc04d11_hoisted_9, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo1)];
     }),
     highlight: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [date_pickervue_type_template_id_61d3e77a_hoisted_10];
+      return [date_pickervue_type_template_id_2fc04d11_hoisted_10];
     }),
     _: 1
   }), _hoisted_11, _hoisted_12, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -199,7 +199,7 @@ function date_pickervue_type_template_id_61d3e77a_render(_ctx, _cache, $props, $
     _: 1
   }), _hoisted_33]);
 }
-// CONCATENATED MODULE: ./website/docs/jp/date-picker.md?vue&type=template&id=61d3e77a
+// CONCATENATED MODULE: ./website/docs/jp/date-picker.md?vue&type=template&id=2fc04d11
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -249,38 +249,35 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           }),
           type: "date",
           placeholder: "Pick a day",
-          "picker-options": _ctx.pickerOptions
-        }, null, 8, ["modelValue", "picker-options"])])]);
+          "disabled-date": _ctx.disabledDate,
+          shortcuts: _ctx.shortcuts
+        }, null, 8, ["modelValue", "disabled-date", "shortcuts"])])]);
       }
 
       var democomponentExport = {
         data: function data() {
           return {
-            pickerOptions: {
-              disabledDate: function disabledDate(time) {
-                return time.getTime() > Date.now();
-              },
-              shortcuts: [{
-                text: 'Today',
-                onClick: function onClick(picker) {
-                  picker.$emit('pick', new Date());
-                }
-              }, {
-                text: 'Yesterday',
-                onClick: function onClick(picker) {
-                  var date = new Date();
-                  date.setTime(date.getTime() - 3600 * 1000 * 24);
-                  picker.$emit('pick', date);
-                }
-              }, {
-                text: 'A week ago',
-                onClick: function onClick(picker) {
-                  var date = new Date();
-                  date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                  picker.$emit('pick', date);
-                }
-              }]
+            disabledDate: function disabledDate(time) {
+              return time.getTime() > Date.now();
             },
+            shortcuts: [{
+              text: 'Today',
+              value: new Date()
+            }, {
+              text: 'Yesterday',
+              value: function () {
+                var date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                return date;
+              }()
+            }, {
+              text: 'A week ago',
+              value: function () {
+                var date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                return date;
+              }()
+            }],
             value1: '',
             value2: ''
           };
@@ -426,40 +423,38 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           "range-separator": "To",
           "start-placeholder": "Start date",
           "end-placeholder": "End date",
-          "picker-options": _ctx.pickerOptions
-        }, null, 8, ["modelValue", "picker-options"])])]);
+          shortcuts: _ctx.shortcuts
+        }, null, 8, ["modelValue", "shortcuts"])])]);
       }
 
       var democomponentExport = {
         data: function data() {
           return {
-            pickerOptions: {
-              shortcuts: [{
-                text: 'Last week',
-                onClick: function onClick(picker) {
-                  var end = new Date();
-                  var start = new Date();
-                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                  picker.$emit('pick', [start, end]);
-                }
-              }, {
-                text: 'Last month',
-                onClick: function onClick(picker) {
-                  var end = new Date();
-                  var start = new Date();
-                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                  picker.$emit('pick', [start, end]);
-                }
-              }, {
-                text: 'Last 3 months',
-                onClick: function onClick(picker) {
-                  var end = new Date();
-                  var start = new Date();
-                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                  picker.$emit('pick', [start, end]);
-                }
-              }]
-            },
+            shortcuts: [{
+              text: 'Last week',
+              value: function () {
+                var end = new Date();
+                var start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                return [start, end];
+              }()
+            }, {
+              text: 'Last month',
+              value: function () {
+                var end = new Date();
+                var start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                return [start, end];
+              }()
+            }, {
+              text: 'Last 3 months',
+              value: function () {
+                var end = new Date();
+                var start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                return [start, end];
+              }()
+            }],
             value1: '',
             value2: ''
           };
@@ -513,36 +508,32 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           "range-separator": "To",
           "start-placeholder": "Start month",
           "end-placeholder": "End month",
-          "picker-options": _ctx.pickerOptions
-        }, null, 8, ["modelValue", "picker-options"])])]);
+          shortcuts: _ctx.shortcuts
+        }, null, 8, ["modelValue", "shortcuts"])])]);
       }
 
       var democomponentExport = {
         data: function data() {
           return {
-            pickerOptions: {
-              shortcuts: [{
-                text: 'This month',
-                onClick: function onClick(picker) {
-                  picker.$emit('pick', [new Date(), new Date()]);
-                }
-              }, {
-                text: 'This year',
-                onClick: function onClick(picker) {
-                  var end = new Date();
-                  var start = new Date(new Date().getFullYear(), 0);
-                  picker.$emit('pick', [start, end]);
-                }
-              }, {
-                text: 'Last 6 months',
-                onClick: function onClick(picker) {
-                  var end = new Date();
-                  var start = new Date();
-                  start.setMonth(start.getMonth() - 6);
-                  picker.$emit('pick', [start, end]);
-                }
-              }]
-            },
+            shortcuts: [{
+              text: 'This month',
+              value: [new Date(), new Date()]
+            }, {
+              text: 'This year',
+              value: function () {
+                var end = new Date();
+                var start = new Date(new Date().getFullYear(), 0);
+                return [start, end];
+              }()
+            }, {
+              text: 'Last 6 months',
+              value: function () {
+                var end = new Date();
+                var start = new Date();
+                start.setMonth(start.getMonth() - 6);
+                return [start, end];
+              }()
+            }],
             value1: '',
             value2: ''
           };
@@ -700,7 +691,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-date_pickervue_type_script_lang_ts.render = date_pickervue_type_template_id_61d3e77a_render
+date_pickervue_type_script_lang_ts.render = date_pickervue_type_template_id_2fc04d11_render
 
 /* harmony default export */ var date_picker = __webpack_exports__["default"] = (date_pickervue_type_script_lang_ts);
 
@@ -716,46 +707,46 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/date-picker.md?vue&type=template&id=21397290
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/date-picker.md?vue&type=template&id=9e17f330
 
-var date_pickervue_type_template_id_21397290_hoisted_1 = {
+var date_pickervue_type_template_id_9e17f330_hoisted_1 = {
   class: "content element-doc"
 };
 
-var date_pickervue_type_template_id_21397290_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var date_pickervue_type_template_id_9e17f330_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "datepicker"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#datepicker"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" DatePicker")], -1);
 
-var date_pickervue_type_template_id_21397290_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Utilisez DatePicker pour les champs de dates.", -1);
+var date_pickervue_type_template_id_9e17f330_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Utilisez DatePicker pour les champs de dates.", -1);
 
-var date_pickervue_type_template_id_21397290_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var date_pickervue_type_template_id_9e17f330_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "entrez-la-date"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#entrez-la-date"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Entrez la date")], -1);
 
-var date_pickervue_type_template_id_21397290_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "L'unité de base du DatePicker est le jour.", -1);
+var date_pickervue_type_template_id_9e17f330_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "L'unité de base du DatePicker est le jour.", -1);
 
-var date_pickervue_type_template_id_21397290_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("L'unité est déterminée par l'attribut "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "type"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". Vous pouvez ajouter des options en créant un objet "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "picker-options"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" avec la propriété "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "shortcuts"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". L'état désactivé est contrôlé par "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "disabledDate"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" qui est une fonction.")])], -1);
+var date_pickervue_type_template_id_9e17f330_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("L'unité est déterminée par l'attribut "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "type"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". You can enable quick options via "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "shortcuts"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" property. L'état désactivé est contrôlé par "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "disabledDate"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" qui est une fonction.")])], -1);
 
-var date_pickervue_type_template_id_21397290_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var date_pickervue_type_template_id_9e17f330_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<template>\n  <div class=\"block\">\n    <span class=\"demonstration\">Défaut</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"date\"\n      placeholder=\"Choississez un jour\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Picker avec raccourcis</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"date\"\n      placeholder=\"Choississez un jour\"\n      :disabled-date=\"disabledDate\"\n      :shortcuts=\"shortcuts\"\n    >\n    </el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        disabledDate(time) {\n          return time.getTime() > Date.now()\n        },\n        shortcuts: [{\n          text: 'Today',\n          value: new Date(),\n        }, {\n          text: 'Yesterday',\n          value: (() => {\n            const date = new Date()\n            date.setTime(date.getTime() - 3600 * 1000 * 24)\n            return date\n          })(),\n        }, {\n          text: 'A week ago',\n          value: (() => {\n            const date = new Date()\n            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)\n            return date\n          })(),\n        }],\n        value1: '',\n        value2: '',\n      };\n    }\n  };\n</script>\n")], -1);
 
-var date_pickervue_type_template_id_21397290_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var date_pickervue_type_template_id_9e17f330_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "autres-unites"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#autres-unites"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Autres unités")], -1);
 
-var date_pickervue_type_template_id_21397290_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Vous pouvez sélectionner une semaine, un mois, une année ou plusieurs dates en ajoutant des options grâce aux attributs.", -1);
+var date_pickervue_type_template_id_9e17f330_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Vous pouvez sélectionner une semaine, un mois, une année ou plusieurs dates en ajoutant des options grâce aux attributs.", -1);
 
-var date_pickervue_type_template_id_21397290_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var date_pickervue_type_template_id_9e17f330_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<div class=\"container\">\n  <div class=\"block\">\n    <span class=\"demonstration\">Semaine</span>\n    <el-date-picker\n      v-model=\"value1\"\n      type=\"week\"\n      format=\"[Week] ww\"\n      placeholder=\"Sélectionnez une semaine\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Mois</span>\n    <el-date-picker\n      v-model=\"value2\"\n      type=\"month\"\n      placeholder=\"Sélectionnez un mois\">\n    </el-date-picker>\n  </div>\n</div>\n<div class=\"container\">\n  <div class=\"block\">\n    <span class=\"demonstration\">Année</span>\n    <el-date-picker\n      v-model=\"value3\"\n      type=\"year\"\n      placeholder=\"Sélectionnez une année\">\n    </el-date-picker>\n  </div>\n  <div class=\"block\">\n    <span class=\"demonstration\">Dates</span>\n    <el-date-picker\n      type=\"dates\"\n      v-model=\"value4\"\n      placeholder=\"Sélectionnez une ou plusieurs dates\">\n    </el-date-picker>\n  </div>\n</div>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: '',\n        value2: '',\n        value3: '',\n        value4: ''\n      };\n    }\n  };\n</script>\n")], -1);
 
@@ -816,9 +807,9 @@ var _hoisted_32 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
   class: "html"
 }, "<template>\n  <div class=\"block\">\n    <p>Valeur: {{ value }}</p>\n    <el-date-picker\n      v-model=\"value\"\n      type=\"daterange\"\n      start-placeholder=\"Date de début\"\n      end-placeholder=\"Date de fin\"\n      :default-time=\"defaultTime\"\n    ></el-date-picker>\n  </div>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '',\n        defaultTime: [\n          new Date(2000, 1, 1, 0, 0, 0),\n          new Date(2000, 2, 1, 23, 59, 59)\n        ] // '00:00:00', '23:59:59'\n      };\n    }\n  };\n</script>\n")], -1);
 
-var _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributs\"><a class=\"header-anchor\" href=\"#attributs\">¶</a> Attributs</h3><table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>value / v-model</td><td>La valeur liée.</td><td>date(DatePicker) / array(DateRangePicker)</td><td>—</td><td>—</td></tr><tr><td>readonly</td><td>Si le DatePicker est en lecture seule.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>disabled</td><td>Si le DatePicker est désactivé.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>size</td><td>Taille du champs.</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>editable</td><td>Si le champ est éditable.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>clearable</td><td>Si la croix de reset doit apparaître.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>placeholder</td><td>Le placeholder en mode normal.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>start-placeholder</td><td>Le placeholder pour la date de début en mode plage de dates.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>end-placeholder</td><td>Le placeholder pour la date de fin en mode plage de dates.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>type</td><td>Type du picker.</td><td>string</td><td>year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange</td><td>date</td></tr><tr><td>format</td><td>Format d&#39;affichage dans le champ.</td><td>string</td><td>Voir <a href=\"#/fr-FR/component/date-picker#formats-de-date\">formats de date</a>.</td><td>yyyy-MM-dd</td></tr><tr><td>align</td><td>Alignement.</td><td>left/center/right</td><td>left</td><td></td></tr><tr><td>popper-class</td><td>Nom de classe pour le menu déroulant du DatePicker.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>range-separator</td><td>Séparateur de plage de dates.</td><td>string</td><td>—</td><td>&#39;-&#39;</td></tr><tr><td>default-value</td><td>Date par défaut du calendrier, optionnelle.</td><td>Date</td><td>Tout ce qui est accepté par <code>new Date()</code></td><td>—</td></tr><tr><td>default-time</td><td>Horaire par défaut quand on sélectionne une plage dates, optionnel.</td><td>string[]</td><td>Tableau de taille 2, chaque valeur est au format <code>12:00:00</code>. La première pour la date de début, la deuxième pour la date de fin.</td><td>—</td></tr><tr><td>name</td><td>Identique au <code>name</code> de l&#39;input natif</td><td>string</td><td>—</td><td>—</td></tr><tr><td>unlink-panels</td><td>Rend indépendants les deux panneaux de plage de dates.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>prefix-icon</td><td>Icône de préfixe.</td><td>string</td><td>—</td><td>el-icon-date</td></tr><tr><td>clear-icon</td><td>Icône de reset.</td><td>string</td><td>—</td><td>el-icon-circle-close</td></tr><tr><td>validate-event</td><td>Si la validation doit être déclenchée.</td><td>boolean</td><td>-</td><td>true</td></tr></tbody></table><h3 id=\"options-du-picker\"><a class=\"header-anchor\" href=\"#options-du-picker\">¶</a> Options du Picker</h3><table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>shortcuts</td><td>Un tableau d&#39;objets { text, onClick } pour configurer les raccourcis, voir table ci-dessous.</td><td>object[]</td><td>—</td><td>—</td></tr><tr><td>disabledDate</td><td>Une fonction qui détermine si une date est désactivée ou pas, avec cette date en paramètre. Doit retourner un booléen.</td><td>function</td><td>—</td><td>—</td></tr><tr><td>cellClassName</td><td>set custom className</td><td>Function(Date)</td><td>—</td><td>—</td></tr><tr><td>firstDayOfWeek</td><td>Premier jour du mois.</td><td>Number</td><td>1 to 7</td><td>7</td></tr><tr><td>onPick</td><td>Callback se déclenchant quand la date sélectionnée change. Uniquement pour <code>daterange</code> et <code>datetimerange</code>.</td><td>Function({ maxDate, minDate })</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"raccourcis\"><a class=\"header-anchor\" href=\"#raccourcis\">¶</a> Raccourcis</h3><table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>text</td><td>Titre du raccourci.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>onClick</td><td>Callback se déclenchant quand le raccourci est cliqué, avec <code>vm</code> en paramètre. Vous pouvez changer la valeur du picker en émettant l&#39;évènement <code>pick</code>. Exemple: <code>vm.$emit(&#39;pick&#39;, new Date())</code></td><td>function</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"evenements\"><a class=\"header-anchor\" href=\"#evenements\">¶</a> Évènements</h3><table><thead><tr><th>Nom</th><th>Description</th><th>Paramètres</th></tr></thead><tbody><tr><td>change</td><td>Se déclenche quand l&#39;utilisateur confirme la valeur</td><td>component&#39;s binding value</td></tr><tr><td>blur</td><td>Se déclenche quand le champ perds le focus.</td><td>component instance</td></tr><tr><td>focus</td><td>Se déclenche quand le champ a le focus.</td><td>component instance</td></tr></tbody></table><h3 id=\"methodes\"><a class=\"header-anchor\" href=\"#methodes\">¶</a> Méthodes</h3><table><thead><tr><th>Méthode</th><th>Description</th><th>Paramètres</th></tr></thead><tbody><tr><td>focus</td><td>Focus sur le champ.</td><td>—</td></tr></tbody></table><h3 id=\"slots\"><a class=\"header-anchor\" href=\"#slots\">¶</a> Slots</h3><table><thead><tr><th>Nom</th><th>Description</th></tr></thead><tbody><tr><td>range-separator</td><td>Séparateur d&#39;intervalle personnalisé.</td></tr></tbody></table>", 12);
+var _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributs\"><a class=\"header-anchor\" href=\"#attributs\">¶</a> Attributs</h3><table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>value / v-model</td><td>La valeur liée.</td><td>date(DatePicker) / array(DateRangePicker)</td><td>—</td><td>—</td></tr><tr><td>readonly</td><td>Si le DatePicker est en lecture seule.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>disabled</td><td>Si le DatePicker est désactivé.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>size</td><td>Taille du champs.</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>editable</td><td>Si le champ est éditable.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>clearable</td><td>Si la croix de reset doit apparaître.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>placeholder</td><td>Le placeholder en mode normal.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>start-placeholder</td><td>Le placeholder pour la date de début en mode plage de dates.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>end-placeholder</td><td>Le placeholder pour la date de fin en mode plage de dates.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>type</td><td>Type du picker.</td><td>string</td><td>year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange</td><td>date</td></tr><tr><td>format</td><td>Format d&#39;affichage dans le champ.</td><td>string</td><td>Voir <a href=\"#/fr-FR/component/date-picker#formats-de-date\">formats de date</a>.</td><td>yyyy-MM-dd</td></tr><tr><td>align</td><td>Alignement.</td><td>left/center/right</td><td>left</td><td></td></tr><tr><td>popper-class</td><td>Nom de classe pour le menu déroulant du DatePicker.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>range-separator</td><td>Séparateur de plage de dates.</td><td>string</td><td>—</td><td>&#39;-&#39;</td></tr><tr><td>default-value</td><td>Date par défaut du calendrier, optionnelle.</td><td>Date</td><td>Tout ce qui est accepté par <code>new Date()</code></td><td>—</td></tr><tr><td>default-time</td><td>Horaire par défaut quand on sélectionne une plage dates, optionnel.</td><td>string[]</td><td>Tableau de taille 2, chaque valeur est au format <code>12:00:00</code>. La première pour la date de début, la deuxième pour la date de fin.</td><td>—</td></tr><tr><td>name</td><td>Identique au <code>name</code> de l&#39;input natif</td><td>string</td><td>—</td><td>—</td></tr><tr><td>unlink-panels</td><td>Rend indépendants les deux panneaux de plage de dates.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>prefix-icon</td><td>Icône de préfixe.</td><td>string</td><td>—</td><td>el-icon-date</td></tr><tr><td>clear-icon</td><td>Icône de reset.</td><td>string</td><td>—</td><td>el-icon-circle-close</td></tr><tr><td>validate-event</td><td>Si la validation doit être déclenchée.</td><td>boolean</td><td>-</td><td>true</td></tr><tr><td>disabledDate</td><td>Une fonction qui détermine si une date est désactivée ou pas, avec cette date en paramètre. Doit retourner un booléen.</td><td>function</td><td>—</td><td>—</td></tr><tr><td>shortcuts</td><td>Un tableau d&#39;objets pour configurer les raccourcis</td><td>object[{ text: string, value: Date }]</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"raccourcis\"><a class=\"header-anchor\" href=\"#raccourcis\">¶</a> Raccourcis</h3><table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>text</td><td>Titre du raccourci.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>onClick</td><td>Callback se déclenchant quand le raccourci est cliqué, avec <code>vm</code> en paramètre. Vous pouvez changer la valeur du picker en émettant l&#39;évènement <code>pick</code>. Exemple: <code>vm.$emit(&#39;pick&#39;, new Date())</code></td><td>function</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"evenements\"><a class=\"header-anchor\" href=\"#evenements\">¶</a> Évènements</h3><table><thead><tr><th>Nom</th><th>Description</th><th>Paramètres</th></tr></thead><tbody><tr><td>change</td><td>Se déclenche quand l&#39;utilisateur confirme la valeur</td><td>component&#39;s binding value</td></tr><tr><td>blur</td><td>Se déclenche quand le champ perds le focus.</td><td>component instance</td></tr><tr><td>focus</td><td>Se déclenche quand le champ a le focus.</td><td>component instance</td></tr></tbody></table><h3 id=\"methodes\"><a class=\"header-anchor\" href=\"#methodes\">¶</a> Méthodes</h3><table><thead><tr><th>Méthode</th><th>Description</th><th>Paramètres</th></tr></thead><tbody><tr><td>focus</td><td>Focus sur le champ.</td><td>—</td></tr></tbody></table><h3 id=\"slots\"><a class=\"header-anchor\" href=\"#slots\">¶</a> Slots</h3><table><thead><tr><th>Nom</th><th>Description</th></tr></thead><tbody><tr><td>range-separator</td><td>Séparateur d&#39;intervalle personnalisé.</td></tr></tbody></table>", 10);
 
-function date_pickervue_type_template_id_21397290_render(_ctx, _cache, $props, $setup, $data, $options) {
+function date_pickervue_type_template_id_9e17f330_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -835,23 +826,23 @@ function date_pickervue_type_template_id_21397290_render(_ctx, _cache, $props, $
 
   var _component_element_demo6 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo6");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", date_pickervue_type_template_id_21397290_hoisted_1, [date_pickervue_type_template_id_21397290_hoisted_2, date_pickervue_type_template_id_21397290_hoisted_3, date_pickervue_type_template_id_21397290_hoisted_4, date_pickervue_type_template_id_21397290_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", date_pickervue_type_template_id_9e17f330_hoisted_1, [date_pickervue_type_template_id_9e17f330_hoisted_2, date_pickervue_type_template_id_9e17f330_hoisted_3, date_pickervue_type_template_id_9e17f330_hoisted_4, date_pickervue_type_template_id_9e17f330_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
     highlight: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [date_pickervue_type_template_id_21397290_hoisted_7];
+      return [date_pickervue_type_template_id_9e17f330_hoisted_7];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [date_pickervue_type_template_id_21397290_hoisted_6];
+      return [date_pickervue_type_template_id_9e17f330_hoisted_6];
     }),
     _: 1
-  }), date_pickervue_type_template_id_21397290_hoisted_8, date_pickervue_type_template_id_21397290_hoisted_9, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  }), date_pickervue_type_template_id_9e17f330_hoisted_8, date_pickervue_type_template_id_9e17f330_hoisted_9, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo1)];
     }),
     highlight: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [date_pickervue_type_template_id_21397290_hoisted_10];
+      return [date_pickervue_type_template_id_9e17f330_hoisted_10];
     }),
     _: 1
   }), _hoisted_11, _hoisted_12, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -905,7 +896,7 @@ function date_pickervue_type_template_id_21397290_render(_ctx, _cache, $props, $
     _: 1
   }), _hoisted_33]);
 }
-// CONCATENATED MODULE: ./website/docs/fr-FR/date-picker.md?vue&type=template&id=21397290
+// CONCATENATED MODULE: ./website/docs/fr-FR/date-picker.md?vue&type=template&id=9e17f330
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -1397,7 +1388,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-date_pickervue_type_script_lang_ts.render = date_pickervue_type_template_id_21397290_render
+date_pickervue_type_script_lang_ts.render = date_pickervue_type_template_id_9e17f330_render
 
 /* harmony default export */ var date_picker = __webpack_exports__["default"] = (date_pickervue_type_script_lang_ts);
 
