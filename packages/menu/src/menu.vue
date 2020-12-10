@@ -164,7 +164,7 @@ export default defineComponent({
     }
 
     const open = index => {
-      const { indexPath } = submenus[index.toString()]
+      const { indexPath } = submenus.value[index.toString()]
       indexPath.forEach(i => openMenu(i, indexPath))
     }
 
