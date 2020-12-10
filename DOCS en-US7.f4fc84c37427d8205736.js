@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[246],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[60],{
 
-/***/ 475:
+/***/ 539:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,63 +10,63 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/calendar.md?vue&type=template&id=da4e54b2
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/calendar.md?vue&type=template&id=495d645e
 
 var _hoisted_1 = {
   class: "content element-doc"
 };
 
 var _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
-  id: "calendar-calendar"
+  id: "calendar"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#calendar-calendar"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Calendar calendar")], -1);
+  href: "#calendar"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Calendar")], -1);
 
-var _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "显示日期", -1);
+var _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Display date.", -1);
 
 var _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "ji-ben"
+  id: "basic"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#ji-ben"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 基本")], -1);
+  href: "#basic"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Basic")], -1);
 
-var _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("设置 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 来指定当前显示的月份。如果 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 未指定，则显示当月。"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 支持 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "v-model"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 双向绑定。")])], -1);
+var _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Set "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" to specify the currently displayed month. If "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" is not specified, current month is displayed. "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" supports two-way binding.")])], -1);
 
 var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<el-calendar v-model=\"value\">\n</el-calendar>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: new Date()\n      }\n    }\n  }\n</script>\n")], -1);
 
 var _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "zi-ding-yi-nei-rong"
+  id: "custom-content"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#zi-ding-yi-nei-rong"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 自定义内容")], -1);
+  href: "#custom-content"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Custom Content")], -1);
 
-var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("通过设置名为 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "dateCell"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 的 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "scoped-slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 来自定义日历单元格中显示的内容。在 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "scoped-slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 可以获取到 date（当前单元格的日期）, data（包括 type，isSelected，day 属性）。详情解释参考下方的 API 文档。")])], -1);
+var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Customize what is displayed in the calendar cell by setting "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "scoped-slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" named "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "dateCell"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". In "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "scoped-slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" you can get the date (the date of the current cell), data (including the type, isSelected, day attribute). For details, please refer to the API documentation below.")])], -1);
 
 var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-calendar>\n  <template\n    #dateCell=\"{data}\"\n  >\n    <p :class=\"data.isSelected ? 'is-selected' : ''\">\n      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}\n    </p>\n  </template>\n</el-calendar>\n<style>\n  .is-selected {\n    color: #1989FA;\n  }\n</style>\n")], -1);
+}, "<el-calendar>\n  <template #dateCell=\"{data}\">\n    <p :class=\"data.isSelected ? 'is-selected' : ''\">\n      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}\n    </p>\n  </template>\n</el-calendar>\n<style>\n  .is-selected {\n    color: #1989FA;\n  }\n</style>\n")], -1);
 
 var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "zi-ding-yi-fan-wei"
+  id: "range"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#zi-ding-yi-fan-wei"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 自定义范围")], -1);
+  href: "#range"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Range")], -1);
 
-var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("设置 "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "range"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 属性指定日历的显示范围。开始时间必须是周起始日，结束时间必须是周结束日，且时间跨度不能超过两个月。")])], -1);
+var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Set the "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "range"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" attribute to specify the display range of the calendar. Start time must be Monday, end time must be Sunday, and the time span cannot exceed two months.")])], -1);
 
 var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<el-calendar :range=\"[new Date(2019, 2, 4), new Date(2019, 2, 24)]\">\n</el-calendar>\n")], -1);
 
-var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>value / v-model</td><td>绑定值</td><td>Date</td><td>—</td><td>—</td></tr><tr><td>range</td><td>时间范围，包括开始时间与结束时间。开始时间必须是周起始日，结束时间必须是周结束日，且时间跨度不能超过两个月。</td><td>[Date]Array</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"datecell-scoped-slot-can-shu\"><a class=\"header-anchor\" href=\"#datecell-scoped-slot-can-shu\">¶</a> dateCell scoped slot 参数</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>date</td><td>单元格代表的日期</td><td>Date</td><td>—</td><td>—</td></tr><tr><td>data</td><td>{ type, isSelected, day}，<code>type</code> 表示该日期的所属月份，可选值有 prev-month，current-month，next-month；<code>isSelected</code> 标明该日期是否被选中；<code>day</code> 是格式化的日期，格式为 yyyy-MM-dd</td><td>Object</td><td>—</td><td>—</td></tr></tbody></table>", 4);
+var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>value / v-model</td><td>binding value</td><td>Date</td><td>—</td><td>—</td></tr><tr><td>range</td><td>time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months.</td><td>[Date]Array</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"datecell-scoped-slot-can-shu\"><a class=\"header-anchor\" href=\"#datecell-scoped-slot-can-shu\">¶</a> dateCell scoped slot 参数</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>data</td><td>{ type, isSelected, day, date }. <code>type</code> indicates which month the date belongs, optional values are prev-month, current-month, next-month; <code>isSelected</code> indicates whether the date is selected; <code>day</code> is the formatted date in the format yyyy-MM-dd; <code>date</code> is date the cell represents</td><td>Object</td><td>—</td><td>—</td></tr></tbody></table>", 4);
 
-function calendarvue_type_template_id_da4e54b2_render(_ctx, _cache, $props, $setup, $data, $options) {
+function calendarvue_type_template_id_495d645e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -110,13 +110,13 @@ function calendarvue_type_template_id_da4e54b2_render(_ctx, _cache, $props, $set
     _: 1
   }), _hoisted_13]);
 }
-// CONCATENATED MODULE: ./website/docs/zh-CN/calendar.md?vue&type=template&id=da4e54b2
+// CONCATENATED MODULE: ./website/docs/en-US/calendar.md?vue&type=template&id=495d645e
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
 var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/calendar.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/calendar.md?vue&type=script&lang=ts
 
 
 /* harmony default export */ var calendarvue_type_script_lang_ts = ({
@@ -198,13 +198,13 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/zh-CN/calendar.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/en-US/calendar.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/zh-CN/calendar.md
+// CONCATENATED MODULE: ./website/docs/en-US/calendar.md
 
 
 
-calendarvue_type_script_lang_ts.render = calendarvue_type_template_id_da4e54b2_render
+calendarvue_type_script_lang_ts.render = calendarvue_type_template_id_495d645e_render
 
 /* harmony default export */ var calendar = __webpack_exports__["default"] = (calendarvue_type_script_lang_ts);
 

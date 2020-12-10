@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[60],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[122],{
 
-/***/ 539:
+/***/ 601:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/calendar.md?vue&type=template&id=685ed568
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/calendar.md?vue&type=template&id=43809c09
 
 var _hoisted_1 = {
   class: "content element-doc"
@@ -23,50 +23,50 @@ var _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2
   href: "#calendar"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Calendar")], -1);
 
-var _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Display date.", -1);
+var _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Muestra fechas.", -1);
 
 var _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "basic"
+  id: "basico"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#basic"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Basic")], -1);
+  href: "#basico"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Básico")], -1);
 
-var _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Set "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" to specify the currently displayed month. If "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" is not specified, current month is displayed. "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "value"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" supports two-way binding.")])], -1);
+var _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Configure el valor para especificar el mes que se muestra actualmente. Si no se especifica el valor, se muestra el mes actual. el valor soporta la vinculación bidireccional.")], -1);
 
 var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<el-calendar v-model=\"value\">\n</el-calendar>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: new Date()\n      }\n    }\n  }\n</script>\n")], -1);
 
 var _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "custom-content"
+  id: "contenido-personalizado"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#custom-content"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Custom Content")], -1);
+  href: "#contenido-personalizado"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Contenido personalizado")], -1);
 
-var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Customize what is displayed in the calendar cell by setting "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "scoped-slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" named "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "dateCell"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". In "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "scoped-slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" you can get the date (the date of the current cell), data (including the type, isSelected, day attribute). For details, please refer to the API documentation below.")])], -1);
+var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Personalice lo que se muestra en la celda del calendario configurando el "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "scoped-slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" llamada "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "dateCell"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". En la ranura de alcance se puede obtener la fecha (la fecha de la celda actual), los datos (incluyendo el tipo, isSelected, el atributo day). Para obtener más información, consulte la documentación de la API a continuación.")])], -1);
 
 var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-calendar>\n  <template\n    #dateCell=\"{data}\"\n  >\n    <p :class=\"data.isSelected ? 'is-selected' : ''\">\n      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}\n    </p>\n  </template>\n</el-calendar>\n<style>\n  .is-selected {\n    color: #1989FA;\n  }\n</style>\n")], -1);
+}, "<el-calendar>\n  <template #dateCell=\"{data}\">\n    <p :class=\"data.isSelected ? 'is-selected' : ''\">\n      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}\n    </p>\n  </template>\n</el-calendar>\n<style>\n  .is-selected {\n    color: #1989FA;\n  }\n</style>\n")], -1);
 
 var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
-  id: "range"
+  id: "rango"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#range"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Range")], -1);
+  href: "#rango"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Rango")], -1);
 
-var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Set the "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "range"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" attribute to specify the display range of the calendar. Start time must be Monday, end time must be Sunday, and the time span cannot exceed two months.")])], -1);
+var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Defina el atributo "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "range"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" para especificar el rango de visualización del calendario. El tiempo de inicio debe ser el lunes, el tiempo de finalización debe ser el domingo y el período no puede exceder los dos meses.")])], -1);
 
 var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<el-calendar :range=\"[new Date(2019, 2, 4), new Date(2019, 2, 24)]\">\n</el-calendar>\n")], -1);
 
-var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>value / v-model</td><td>binding value</td><td>Date</td><td>—</td><td>—</td></tr><tr><td>range</td><td>time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months.</td><td>[Date]Array</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"datecell-scoped-slot-can-shu\"><a class=\"header-anchor\" href=\"#datecell-scoped-slot-can-shu\">¶</a> dateCell scoped slot 参数</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>date</td><td>date the cell represents</td><td>Date</td><td>—</td><td>—</td></tr><tr><td>data</td><td>{ type, isSelected, day}. <code>type</code> indicates which month the date belongs, optional values are prev-month, current-month, next-month; <code>isSelected</code> indicates whether the date is selected; <code>day</code> is the formatted date in the format yyyy-MM-dd</td><td>Object</td><td>—</td><td>—</td></tr></tbody></table>", 4);
+var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"atributos\"><a class=\"header-anchor\" href=\"#atributos\">¶</a> Atributos</h3><table><thead><tr><th>Atributo</th><th>Descripción</th><th>Tipo</th><th>Valores aceptados</th><th>Por defecto</th></tr></thead><tbody><tr><td>value / v-model</td><td>valor vinculante</td><td>Date</td><td>—</td><td>—</td></tr><tr><td>range</td><td>rango de tiempo, incluyendo el tiempo de inicio y el tiempo final. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months</td><td>[Date]Array</td><td>—</td><td>—</td></tr></tbody></table><h3 id=\"datecell-scoped-slot\"><a class=\"header-anchor\" href=\"#datecell-scoped-slot\">¶</a> dateCell scoped slot</h3><table><thead><tr><th>Atributo</th><th>Descripción</th><th>Tipo</th><th>Valores aceptados</th><th>Por defecto</th></tr></thead><tbody><tr><td>data</td><td>{ type, isSelected, day, date}. <code>type</code> indica el mes al que pertenece la fecha, los valores opcionales son mes anterior, mes actual, mes siguiente; <code>isSelected</code> indica si la fecha está seleccionada; <code>day</code> es la fecha formateada en el formato yyyy-MM-dd; <code>date</code> es la fecha que la celda representa</td><td>Object</td><td>—</td><td>—</td></tr></tbody></table>", 4);
 
-function calendarvue_type_template_id_685ed568_render(_ctx, _cache, $props, $setup, $data, $options) {
+function calendarvue_type_template_id_43809c09_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -110,13 +110,13 @@ function calendarvue_type_template_id_685ed568_render(_ctx, _cache, $props, $set
     _: 1
   }), _hoisted_13]);
 }
-// CONCATENATED MODULE: ./website/docs/en-US/calendar.md?vue&type=template&id=685ed568
+// CONCATENATED MODULE: ./website/docs/es/calendar.md?vue&type=template&id=43809c09
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
 var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/calendar.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/calendar.md?vue&type=script&lang=ts
 
 
 /* harmony default export */ var calendarvue_type_script_lang_ts = ({
@@ -198,13 +198,13 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/en-US/calendar.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/es/calendar.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/en-US/calendar.md
+// CONCATENATED MODULE: ./website/docs/es/calendar.md
 
 
 
-calendarvue_type_script_lang_ts.render = calendarvue_type_template_id_685ed568_render
+calendarvue_type_script_lang_ts.render = calendarvue_type_template_id_43809c09_render
 
 /* harmony default export */ var calendar = __webpack_exports__["default"] = (calendarvue_type_script_lang_ts);
 

@@ -10,31 +10,31 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/dialog.md?vue&type=template&id=bbfad402
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/dialog.md?vue&type=template&id=47fc893a
 
-var dialogvue_type_template_id_bbfad402_hoisted_1 = {
+var dialogvue_type_template_id_47fc893a_hoisted_1 = {
   class: "content element-doc"
 };
 
-var dialogvue_type_template_id_bbfad402_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var dialogvue_type_template_id_47fc893a_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "dialog-dui-hua-kuang"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#dialog-dui-hua-kuang"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Dialog 对话框")], -1);
 
-var dialogvue_type_template_id_bbfad402_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "在保留当前页面状态的情况下，告知用户并承载相关操作。", -1);
+var dialogvue_type_template_id_47fc893a_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "在保留当前页面状态的情况下，告知用户并承载相关操作。", -1);
 
-var dialogvue_type_template_id_bbfad402_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var dialogvue_type_template_id_47fc893a_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "ji-ben-yong-fa"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#ji-ben-yong-fa"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" 基本用法")], -1);
 
-var dialogvue_type_template_id_bbfad402_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Dialog 弹出一个对话框，适合需要定制性更大的场景。", -1);
+var dialogvue_type_template_id_47fc893a_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Dialog 弹出一个对话框，适合需要定制性更大的场景。", -1);
 
-var dialogvue_type_template_id_bbfad402_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("需要设置"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "visible"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("属性，它接收"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("，当为"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("时显示 Dialog。Dialog 分为两个部分："), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "body"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("和"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "footer"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("，"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "footer"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("需要具名为"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "footer"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("的"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("。"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "title"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("属性用于定义标题，它是可选的，默认值为空。最后，本例还展示了"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "before-close"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("的用法。")])], -1);
+var dialogvue_type_template_id_47fc893a_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("需要设置"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "visible"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("属性，它接收"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("，当为"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("时显示 Dialog。Dialog 分为两个部分："), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "body"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("和"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "footer"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("，"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "footer"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("需要具名为"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "footer"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("的"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("。"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "title"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("属性用于定义标题，它是可选的，默认值为空。最后，本例还展示了"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "before-close"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("的用法。")])], -1);
 
 var _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
@@ -106,9 +106,9 @@ var _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
   class: "html"
 }, "<el-button type=\"text\" @click=\"centerDialogVisible = true\">点击打开 Dialog</el-button>\n\n<el-dialog\n  title=\"提示\"\n  v-model=\"centerDialogVisible\"\n  width=\"30%\"\n  destroy-on-close\n  center>\n  <span>需要注意在 Dialog 打开前是这条内容和下面的内容都是不会被渲染的</span>\n  <strong>额外的内容</strong>\n  <template #footer>\n    <span class=\"dialog-footer\">\n      <el-button @click=\"centerDialogVisible = false\">取 消</el-button>\n      <el-button type=\"primary\" @click=\"centerDialogVisible = false\">确 定</el-button>\n    </span>\n  </template>\n\n</el-dialog>\n\n<script>\n  export default {\n    data() {\n      return {\n        centerDialogVisible: false\n      };\n    }\n  };\n</script>\n\n")], -1);
 
-var _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>是否显示 Dialog</td><td>boolean</td><td>—</td><td>—</td></tr><tr><td>title</td><td>Dialog 的标题，也可通过具名 slot （见下表）传入</td><td>string</td><td>—</td><td>—</td></tr><tr><td>width</td><td>Dialog 的宽度</td><td>string</td><td>—</td><td>50%</td></tr><tr><td>fullscreen</td><td>是否为全屏 Dialog</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>top</td><td>Dialog CSS 中的 margin-top 值</td><td>string</td><td>—</td><td>15vh</td></tr><tr><td>modal</td><td>是否需要遮罩层</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>append-to-body</td><td>Dialog 自身是否插入至 body 元素上。嵌套的 Dialog 必须指定该属性并赋值为 true</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>lock-scroll</td><td>是否在 Dialog 出现时将 body 滚动锁定</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>custom-class</td><td>Dialog 的自定义类名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>open-delay</td><td>Dialog 打开的延时时间，单位毫秒</td><td>number</td><td>—</td><td>0</td></tr><tr><td>close-delay</td><td>Dialog 关闭的延时时间，单位毫秒</td><td>number</td><td>—</td><td>0</td></tr><tr><td>close-on-click-modal</td><td>是否可以通过点击 modal 关闭 Dialog</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>close-on-press-escape</td><td>是否可以通过按下 ESC 关闭 Dialog</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>show-close</td><td>是否显示关闭按钮</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-close</td><td>关闭前的回调，会暂停 Dialog 的关闭</td><td>function(done)，done 用于关闭 Dialog</td><td>—</td><td>—</td></tr><tr><td>center</td><td>是否对头部和底部采用居中布局</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>destroy-on-close</td><td>关闭时销毁 Dialog 中的元素</td><td>boolean</td><td>—</td><td>false</td></tr></tbody></table><h3 id=\"slot\"><a class=\"header-anchor\" href=\"#slot\">¶</a> Slot</h3><table><thead><tr><th>name</th><th>说明</th></tr></thead><tbody><tr><td>—</td><td>Dialog 的内容</td></tr><tr><td>title</td><td>Dialog 标题区的内容</td></tr><tr><td>footer</td><td>Dialog 按钮操作区的内容</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>open</td><td>Dialog 打开的回调</td><td>—</td></tr><tr><td>opened</td><td>Dialog 打开动画结束时的回调</td><td>—</td></tr><tr><td>close</td><td>Dialog 关闭的回调</td><td>—</td></tr><tr><td>closed</td><td>Dialog 关闭动画结束时的回调</td><td>—</td></tr></tbody></table>", 6);
+var _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<div class=\"tip\"><p>当使用 <code>modal</code> = false 时，请一定保证 <code>Dialog</code> 的 <code>append-to-body</code> 属性为 <strong>true</strong>, 因为 <code>Dialog</code> 的定位是通过 <code>position: relative</code> 来定位的，当 <code>modal</code> 不存在当时候，如果不将 <code>Dialog</code> 插入到 <code>Document.Body</code> 下，则会根据当前的位置进行定位，会导致样式错乱</p></div><h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>是否显示 Dialog</td><td>boolean</td><td>—</td><td>—</td></tr><tr><td>title</td><td>Dialog 的标题，也可通过具名 slot （见下表）传入</td><td>string</td><td>—</td><td>—</td></tr><tr><td>width</td><td>Dialog 的宽度</td><td>string</td><td>—</td><td>50%</td></tr><tr><td>fullscreen</td><td>是否为全屏 Dialog</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>top</td><td>Dialog CSS 中的 margin-top 值</td><td>string</td><td>—</td><td>15vh</td></tr><tr><td>modal</td><td>是否需要遮罩层</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>append-to-body</td><td>Dialog 自身是否插入至 body 元素上。嵌套的 Dialog 必须指定该属性并赋值为 true</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>lock-scroll</td><td>是否在 Dialog 出现时将 body 滚动锁定</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>custom-class</td><td>Dialog 的自定义类名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>open-delay</td><td>Dialog 打开的延时时间，单位毫秒</td><td>number</td><td>—</td><td>0</td></tr><tr><td>close-delay</td><td>Dialog 关闭的延时时间，单位毫秒</td><td>number</td><td>—</td><td>0</td></tr><tr><td>close-on-click-modal</td><td>是否可以通过点击 modal 关闭 Dialog</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>close-on-press-escape</td><td>是否可以通过按下 ESC 关闭 Dialog</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>show-close</td><td>是否显示关闭按钮</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-close</td><td>关闭前的回调，会暂停 Dialog 的关闭</td><td>function(done)，done 用于关闭 Dialog</td><td>—</td><td>—</td></tr><tr><td>center</td><td>是否对头部和底部采用居中布局</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>destroy-on-close</td><td>关闭时销毁 Dialog 中的元素</td><td>boolean</td><td>—</td><td>false</td></tr></tbody></table><h3 id=\"slot\"><a class=\"header-anchor\" href=\"#slot\">¶</a> Slot</h3><table><thead><tr><th>name</th><th>说明</th></tr></thead><tbody><tr><td>—</td><td>Dialog 的内容</td></tr><tr><td>title</td><td>Dialog 标题区的内容</td></tr><tr><td>footer</td><td>Dialog 按钮操作区的内容</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>open</td><td>Dialog 打开的回调</td><td>—</td></tr><tr><td>opened</td><td>Dialog 打开动画结束时的回调</td><td>—</td></tr><tr><td>close</td><td>Dialog 关闭的回调</td><td>—</td></tr><tr><td>closed</td><td>Dialog 关闭动画结束时的回调</td><td>—</td></tr></tbody></table>", 7);
 
-function dialogvue_type_template_id_bbfad402_render(_ctx, _cache, $props, $setup, $data, $options) {
+function dialogvue_type_template_id_47fc893a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -121,7 +121,7 @@ function dialogvue_type_template_id_bbfad402_render(_ctx, _cache, $props, $setup
 
   var _component_element_demo4 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo4");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", dialogvue_type_template_id_bbfad402_hoisted_1, [dialogvue_type_template_id_bbfad402_hoisted_2, dialogvue_type_template_id_bbfad402_hoisted_3, dialogvue_type_template_id_bbfad402_hoisted_4, dialogvue_type_template_id_bbfad402_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", dialogvue_type_template_id_47fc893a_hoisted_1, [dialogvue_type_template_id_47fc893a_hoisted_2, dialogvue_type_template_id_47fc893a_hoisted_3, dialogvue_type_template_id_47fc893a_hoisted_4, dialogvue_type_template_id_47fc893a_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
@@ -129,7 +129,7 @@ function dialogvue_type_template_id_bbfad402_render(_ctx, _cache, $props, $setup
       return [_hoisted_7];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [dialogvue_type_template_id_bbfad402_hoisted_6];
+      return [dialogvue_type_template_id_47fc893a_hoisted_6];
     }),
     _: 1
   }), _hoisted_8, _hoisted_9, _hoisted_10, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -175,7 +175,7 @@ function dialogvue_type_template_id_bbfad402_render(_ctx, _cache, $props, $setup
     _: 1
   }), _hoisted_25]);
 }
-// CONCATENATED MODULE: ./website/docs/zh-CN/dialog.md?vue&type=template&id=bbfad402
+// CONCATENATED MODULE: ./website/docs/zh-CN/dialog.md?vue&type=template&id=47fc893a
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -756,7 +756,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-dialogvue_type_script_lang_ts.render = dialogvue_type_template_id_bbfad402_render
+dialogvue_type_script_lang_ts.render = dialogvue_type_template_id_47fc893a_render
 
 /* harmony default export */ var dialog = __webpack_exports__["default"] = (dialogvue_type_script_lang_ts);
 
