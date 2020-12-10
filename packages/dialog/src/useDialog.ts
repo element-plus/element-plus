@@ -39,7 +39,6 @@ export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref
 
   function afterEnter() {
     ctx.emit(OPENED_EVENT)
-    rendered.value = true // enables lazy rendering
   }
 
   function afterLeave() {
@@ -128,6 +127,7 @@ export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref
   watch(() => props.modelValue, val => {
     if (val) {
       closed.value = false
+      rendered.value = true // enables lazy rendering
       open()
       ctx.emit(OPEN_EVENT)
       zIndex.value = props.zIndex ? zIndex.value++ : PopupManager.nextZIndex()
@@ -149,6 +149,7 @@ export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref
   onMounted(() => {
     if (props.modelValue) {
       visible.value = true
+      rendered.value = true // enables lazy rendering
       open()
     }
   })
