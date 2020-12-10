@@ -34,6 +34,7 @@
         :autocomplete="autocomplete"
         :tabindex="tabindex"
         :aria-label="label"
+        :placeholder="placeholder"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -167,6 +168,9 @@ export default defineComponent({
       type: String,
       default: 'off',
       validator: (val: string) => ['on', 'off'].includes(val),
+    },
+    placeholder: {
+      type: String,
     },
     form: {
       type: String,
