@@ -89,6 +89,8 @@ import type { InstallOptions } from '@element-plus/utils/config'
 
 const version = version_ // version_ to fix tsc issue
 
+const locale = use
+
 const defaultInstallOpt: InstallOptions =  {
   size: '' as ComponentSize,
   zIndex: 2000,
@@ -185,7 +187,7 @@ const plugins = [
 
 const install = (app: App, opt: InstallOptions): void => {
   const option = Object.assign(defaultInstallOpt, opt)
-  use(option.locale)
+  locale(option.locale)
   app.config.globalProperties.$ELEMENT = option
   setConfig(option)
 
@@ -284,6 +286,7 @@ export {
   ElUpload,
   version,
   install,
+  locale,
 }
 
 export default {
