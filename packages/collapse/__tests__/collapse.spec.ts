@@ -94,6 +94,7 @@ describe('Collapse.vue', () => {
   })
 
   test('event:change', async () => {
+    const onChange = jest.fn()
     const wrapper = mount({
       components: {
         'el-collapse': Collapse,
@@ -105,7 +106,7 @@ describe('Collapse.vue', () => {
         }
       },
       template: `
-        <el-collapse v-model="activeNames">
+        <el-collapse v-model="activeNames" @change="onChange">
           <el-collapse-item title="title1" name="1">
             <div class="content">111</div>
           </el-collapse-item>
@@ -120,6 +121,9 @@ describe('Collapse.vue', () => {
           </el-collapse-item>
         </el-collapse>
       `,
+      methods: {
+        onChange,
+      },
     })
 
     const vm = wrapper.vm
@@ -128,14 +132,16 @@ describe('Collapse.vue', () => {
     const collapseItemHeaderEls = vm.$el.querySelectorAll('.el-collapse-item__header')
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
     expect(vm.activeNames).toEqual(['1'])
-
+    expect(onChange).not.toHaveBeenCalled()
     collapseItemHeaderEls[2].click()
     await nextTick()
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
     expect(collapseItemWrappers[2].vm.isActive).toBe(true)
     expect(vm.activeNames).toEqual(['1', '3'])
     collapseItemHeaderEls[0].click()
     await nextTick()
+    expect(onChange).toHaveBeenCalledTimes(2)
     expect(collapseItemWrappers[0].vm.isActive).toBe(false)
     expect(vm.activeNames).toEqual(['3'])
   })
