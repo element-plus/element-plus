@@ -28,6 +28,13 @@ export const t = (path:string, option?): string => {
 export const use = (l): void => {
   lang = l || lang
   if (lang.name) {
+    try {
+      require('dayjs/locale/' + lang.name + '.js')
+    } catch(e) {
+      console.warn(
+        `[Element Warn][locale] ${lang.name} was not found`,
+      )
+    }
     dayjs.locale(lang.name)
   }
 }
