@@ -250,6 +250,9 @@ When this is feature is enabled, the content under default slot will be destroye
 
 ```
 
+:::tip
+When using `modal` = false, please make sure that `append-to-body` was set to **true**, because `Dialog` was positioned by `position: relative`, when `modal` gets removed, `Dialog` will position itself based on the current position in the DOM, instead of `Document.Body`, thus the style will be messed up.
+:::
 ### Atributo
 
 | Atributo              | Descripción                              | Tipo                                     | Valores aceptados | Por defecto |

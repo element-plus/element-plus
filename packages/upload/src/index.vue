@@ -190,16 +190,13 @@ export default defineComponent({
           onRemove: this.handleRemove,
           handlePreview: this.onPreview,
         },
-        {
+        this.$slots.file ? {
           default: (props: { file: UploadFile; }) => {
-            if (this.$slots.file) {
-              return this.$slots.file({
-                file: props.file,
-              })
-            }
-            return null
+            return this.$slots.file({
+              file: props.file,
+            })
           },
-        },
+        } : null,
       )
     } else {
       uploadList = null

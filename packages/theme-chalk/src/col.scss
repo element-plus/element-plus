@@ -12,7 +12,8 @@
 
 @for $i from 0 through 24 {
   .el-col-#{$i} {
-    width: (1 / 24 * $i * 100) * 1%;
+    max-width: (1 / 24 * $i * 100) * 1%;
+    flex: 0 0 (1 / 24 * $i * 100) * 1%;
   }
 
   .el-col-offset-#{$i} {
@@ -36,7 +37,8 @@
   }
   @for $i from 0 through 24 {
     .el-col-xs-#{$i} {
-      width: (1 / 24 * $i * 100) * 1%;
+      max-width: (1 / 24 * $i * 100) * 1%;
+      flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
     .el-col-xs-offset-#{$i} {
@@ -61,7 +63,8 @@
   }
   @for $i from 0 through 24 {
     .el-col-sm-#{$i} {
-      width: (1 / 24 * $i * 100) * 1%;
+      max-width: (1 / 24 * $i * 100) * 1%;
+      flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
     .el-col-sm-offset-#{$i} {
@@ -86,7 +89,8 @@
   }
   @for $i from 0 through 24 {
     .el-col-md-#{$i} {
-      width: (1 / 24 * $i * 100) * 1%;
+      max-width: (1 / 24 * $i * 100) * 1%;
+      flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
     .el-col-md-offset-#{$i} {
@@ -111,7 +115,8 @@
   }
   @for $i from 0 through 24 {
     .el-col-lg-#{$i} {
-      width: (1 / 24 * $i * 100) * 1%;
+      max-width: (1 / 24 * $i * 100) * 1%;
+      flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
     .el-col-lg-offset-#{$i} {
@@ -136,7 +141,8 @@
   }
   @for $i from 0 through 24 {
     .el-col-xl-#{$i} {
-      width: (1 / 24 * $i * 100) * 1%;
+      max-width: (1 / 24 * $i * 100) * 1%;
+      flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
     .el-col-xl-offset-#{$i} {

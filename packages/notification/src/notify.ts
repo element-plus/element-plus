@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue'
+import { createVNode, render, nextTick } from 'vue'
 import NotificationConstructor from './index.vue'
 import type { INotificationOptions, INotification, NotificationQueue, NotificationVM } from './notification.type'
 import isServer from '../../utils/isServer'
@@ -96,6 +96,9 @@ export function close(
 
   notifications.splice(idx, 1)
   const len = notifications.length
+  nextTick(() => {
+    document.body.removeChild($el)
+  })
   if (len < 1) return
   const position = vm.props.position
   for (let i = idx; i < len; i++) {
@@ -109,7 +112,9 @@ export function close(
       16
 
       notifications[i].vm.component.props.offset = pos
-      render(notifications[i].vm, notifications[i].$el)
+      requestAnimationFrame(() => {
+        render(notifications[i].vm, notifications[i].$el)
+      })
       // .vm.el.style[verticalPos] = pos
     }
   }

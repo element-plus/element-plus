@@ -1,5 +1,19 @@
 ## Changelog
 
+### 1.0.1-beta.7
+
+*2020-12-10*
+
+#### Bug fixes
+
+- Fix select multi mode rendering (#941)
+- Fix notification left empty divs (#913)
+- Fix upload bug (#927)
+- Add input placeholder type (#814)
+- Fix cascader-panel checked nodes not update when options change (#934)
+- Update col layout style (#875)
+- Fix drawer layout issue (#924)
+
 ### 1.0.1-beta.6
 
 *2020-12-09*

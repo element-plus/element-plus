@@ -1,4 +1,5 @@
 import { defineComponent, computed, h, provide } from 'vue'
+
 export default defineComponent({
   name: 'ElRow',
   props: {
@@ -27,7 +28,12 @@ export default defineComponent({
     provide('ElRow', props.gutter)
 
     const style = computed(() => {
-      const ret = { marginLeft: '', marginRight: '' }
+      const ret = {
+        display: 'flex',
+        flexWrap: 'wrap',
+        marginLeft: '',
+        marginRight: '',
+      }
       if (props.gutter) {
         ret.marginLeft = `-${props.gutter / 2}px`
         ret.marginRight = ret.marginLeft
