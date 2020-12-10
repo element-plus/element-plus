@@ -84,7 +84,7 @@ import ElTree from '@element-plus/tree'
 import ElUpload from '@element-plus/upload'
 import ElVirtualList from '@element-plus/virtual-list'
 import ElSpace from '@element-plus/space'
-import ELSkeleton from '@element-plus/skeleton'
+import ElSkeleton from '@element-plus/skeleton'
 import { use } from '@element-plus/locale'
 // if you encountered problems alike "Can't resolve './version'"
 // please run `yarn bootstrap` first
@@ -182,7 +182,7 @@ const components = [
   ElUpload,
   ElVirtualList,
   ElSpace,
-  ELSkeleton,
+  ElSkeleton,
 ]
 
 const plugins = [
@@ -294,7 +294,7 @@ export {
   ElUpload,
   ElVirtualList,
   ElSpace,
-  ELSkeleton,
+  ElSkeleton,
   version,
   install,
   locale,
