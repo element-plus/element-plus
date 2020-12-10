@@ -1,0 +1,76 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@mixin avatar-size($size){
+  width: $size;
+  height: $size;
+  line-height: $size;
+
+  &.el-skeleton-avatar-circle {
+    border-radius: 50%;
+  }
+}
+
+@mixin skeleton-color(){
+  background: linear-gradient(
+    90deg,
+    $--skeleton-color 25%,
+    $--skeleton-to-color 37%,
+    $--skeleton-color 63%
+  );
+  background-size: 400% 100%;
+  animation: el-skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes el-skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.el-skeleton {
+  width: 100%;
+
+  .el-skeleton-title,
+  .el-skeleton-paragraph {
+    width: 100%;
+    height: 16px;
+    margin-top: 16px;
+    background: $--skeleton-color;
+  }
+
+  .el-skeleton-title {
+    width: 33%;
+  }
+
+  .el-skeleton-paragraph-last {
+    width: 61%;
+  }
+
+  .el-skeleton-avatar {
+    display: inline-block;
+    vertical-align: top;
+    background: $--skeleton-color;
+
+    @include avatar-size('40px');
+
+    &-lg {
+      @include avatar-size('50px');
+    }
+
+    &-sm {
+      @include avatar-size('60px');
+    }
+  }
+
+  &.el-skeleton-loading {
+    .el-skeleton-title,
+    .el-skeleton-paragraph,
+    .el-skeleton-avatar {
+      @include skeleton-color();
+    }
+  }
+}
