@@ -16,13 +16,6 @@
     box-shadow: $--box-shadow-light;
     word-break: break-all;
 
-    &.el-popper[role="tooltip"] {
-      border: none;
-      .el-popper__arrow::before {
-        border: none;
-      }
-    }
-
     @include m(plain) {
       padding: $--popover-padding-large;
     }
