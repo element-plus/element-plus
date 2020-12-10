@@ -154,6 +154,8 @@ export const useSelect = (props, states: States, ctx) => {
     if (!isEqual(val, oldVal)) {
       elFormItem.formItemMitt?.emit('el.form.change', val)
     }
+  }, {
+    flush: 'post',
   })
 
   watch(() => states.visible, val => {
