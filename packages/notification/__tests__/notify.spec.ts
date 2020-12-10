@@ -1,5 +1,6 @@
 import Notification, { close, closeAll } from '../src/notify'
 import type { INotificationHandle } from '../src/notification.type'
+import { nextTick } from 'vue'
 
 jest.useFakeTimers()
 
@@ -15,7 +16,9 @@ describe('Notification on command', () => {
     expect(document.querySelector(selector)).toBeDefined()
     jest.runAllTicks()
     handle.close()
+    await nextTick()
     expect(document.querySelector(selector)).toBeNull()
+    expect(document.querySelector('[class^="container_notification"]')).toBeNull()
   })
 
 
