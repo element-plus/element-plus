@@ -135,6 +135,7 @@ export default (props: IUseHandlersProps) => {
     })
   }, {
     immediate: true,
+    deep: true,
   })
 
   return {
