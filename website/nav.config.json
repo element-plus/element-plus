@@ -184,6 +184,10 @@
             {
               "path": "/avatar",
               "title": "Avatar 头像"
+            },
+            {
+              "path": "/skeleton",
+              "title": "Skeleton 骨架屏"
             }
           ]
         },
@@ -299,10 +303,6 @@
             {
               "path": "/drawer",
               "title": "Drawer 抽屉"
-            },
-            {
-              "path": "/skeleton",
-              "title": "Skeleton 骨架屏"
             }
           ]
         }
@@ -490,6 +490,10 @@
             {
               "path": "/badge",
               "title": "Badge"
+            },
+            {
+              "path": "/skeleton",
+              "title": "Skeleton"
             }
           ]
         },
@@ -796,6 +800,10 @@
             {
               "path": "/badge",
               "title": "Badge"
+            },
+            {
+              "path": "/skeleton",
+              "title": "Skeleton"
             }
           ]
         },
@@ -1102,6 +1110,10 @@
             {
               "path": "/badge",
               "title": "Badge"
+            },
+            {
+              "path": "/skeleton",
+              "title": "Skeleton 骨架屏"
             }
           ]
         },
@@ -1408,6 +1420,10 @@
             {
               "path": "/badge",
               "title": "Badge"
+            },
+            {
+              "path": "/skeleton",
+              "title": "Skeleton 骨架屏"
             }
           ]
         },
