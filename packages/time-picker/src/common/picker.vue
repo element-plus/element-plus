@@ -455,7 +455,11 @@ export default defineComponent({
         const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
-            emitInput(value.toDate())
+            if (isRangeInput.value) {
+              emitInput(value.map(item => item.toDate()))
+            } else {
+              emitInput(value.toDate())
+            }
             userInput.value = null
           }
         }
