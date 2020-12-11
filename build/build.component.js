@@ -37,7 +37,7 @@ const runBuild = async () => {
         typescript({
           tsconfigOverride: {
             compilerOptions: {
-              declaration: false,
+              declaration: true,
             },
             'exclude': [
               'node_modules',
