@@ -30,6 +30,13 @@
     }
   }
 
+  .el-select__tags-text {
+    text-overflow: ellipsis;
+    display: inline-block;
+    overflow-x: hidden;
+    vertical-align: bottom;
+  }
+
   .el-input__inner {
     cursor: pointer;
     padding-right: 35px;
