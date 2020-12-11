@@ -37,7 +37,7 @@
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
               >
-                <span class="el-select__tags-text">{{ selected[0].currentLabel }}</span>
+                <span class="el-select__tags-text" :style="{ 'text-overflow':'ellipsis',verticalAlign: 'bottom','max-width': inputWidth - 120 + 'px', 'display':'inline-block','overflowX':'hidden' }">{{ selected[0].currentLabel }}</span>
               </el-tag>
               <el-tag
                 v-if="selected.length > 1"
@@ -62,7 +62,7 @@
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >
-                  <span class="el-select__tags-text">{{ item.currentLabel }}</span>
+                  <span class="el-select__tags-text" :style="{ 'text-overflow':'ellipsis',verticalAlign: 'bottom','max-width': inputWidth - 90 + 'px', 'display':'inline-block','overflowX':'hidden' }">{{ item.currentLabel }}</span>
                 </el-tag>
               </span>
             </transition>
