@@ -44,3 +44,23 @@ fs.readdirSync(libDirPath).forEach(comp => {
     }
   }
 })
+
+fs.readdirSync(libDirPath).forEach(comp => {
+  const srcPath = path.resolve(libDirPath, comp, './src')
+  if (fs.existsSync(srcPath)) {
+    if (fs.lstatSync(srcPath).isDirectory()) {
+      fs.readdir(srcPath, 'utf-8', (err, data) => {
+        if (err) return
+        data.forEach(f => {
+          if (!fs.lstatSync(path.resolve(srcPath, f)).isDirectory()) {
+            const imp = fs.readFileSync(path.resolve(srcPath, f)).toString()
+            if (imp.includes('@element-plus/')) {
+              const newImp = imp.replace(/@element-plus\//g, '../../el-')
+              fs.writeFileSync(path.resolve(srcPath, f), newImp)
+            }
+          }
+        })
+      })
+    }
+  }
+})
