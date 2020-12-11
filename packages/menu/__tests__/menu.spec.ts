@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
-import { nextTick } from 'vue'
 import { rAF } from '@element-plus/test-utils/tick'
+import { sleep } from '@element-plus/test-utils'
 
 import Menu from '../src/menu.vue'
 import MenuGroup from '../src/menuGroup.vue'
@@ -191,7 +191,7 @@ describe('default active', () => {
   test('vertical submenu item active', async () => {
     const wrapper = _mount(
       `<div>
-        <el-menu default-active="2-2">
+        <el-menu default-active="2-2" mode="vertical">
           <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
           <el-submenu index="2" ref="submenu">
             <template slot="title">我的工作台</template>
@@ -371,9 +371,11 @@ describe('other', () => {
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
 
     submenu.trigger('mouseenter')
-    await rAF()
+    await sleep(500)
     expect(
-      wrapper.find('body [role="tooltip"]').attributes('style'),
+      document.body
+        .querySelector('body [role="tooltip"]')
+        .getAttribute('style'),
     ).not.toContain('display: none')
   })
   test('menu group', async () => {
