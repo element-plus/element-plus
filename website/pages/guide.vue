@@ -37,7 +37,7 @@ export default {
   },
 }
 </script>
-<style lang="sass">
+<style lang="scss">
  .page-guide {
     padding: 55px 30px 95px;
     box-sizing: border-box;
