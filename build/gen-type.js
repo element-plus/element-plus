@@ -6,11 +6,10 @@ const { noElPrefixFile } = require('./common')
 const outsideImport = /import .* from '..\/(.*?)\/src\/.*/
 
 // global.d.ts
-const globalPath = path.resolve(__dirname, '../typings/vue-shim.d.ts')
-fs.readFile(globalPath, (err, data) => {
-  if (err) return
-  fs.writeFileSync(path.resolve(__dirname, '../lib/global.d.ts'), data.toString('utf-8'))
-})
+fs.copyFileSync(
+  path.resolve(__dirname, '../typings/vue-shim.d.ts'),
+  path.resolve(__dirname, '../lib/element-plus.d.ts'),
+)
 // index.d.ts
 const newIndexPath = path.resolve(__dirname, '../lib/index.d.ts')
 fs.copyFileSync(path.resolve(__dirname, '../lib/element-plus/index.d.ts'), newIndexPath)
