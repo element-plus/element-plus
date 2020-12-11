@@ -1,14 +1,15 @@
 <template>
-  <div class="el-vl__viewport" :style="viewportStyle" @scroll="onScroll">
+  <div class="el-vl__viewport" :style="viewportStyle" @scroll.passive="onScroll">
     <div class="el-vl__content" :style="contentStyle">
       <div class="el-vl__item-container" :style="itemContainerStyle">
-        <div
-          v-for="(item, idx) in window"
-          :key="idx + startNode"
+        <el-virtual-list-item
+          v-for="idx in renderingItems"
+          :key="idx"
+          class="el-vl__item"
           :style="itemStyle"
         >
-          <slot :item="item"></slot>
-        </div>
+          <slot :item="window[idx]"></slot>
+        </el-virtual-list-item>
       </div>
     </div>
   </div>
@@ -16,17 +17,17 @@
 <script lang='ts'>
 import { defineComponent } from 'vue'
 import useVirtualScroll from './useVirtualScroll'
+import VirtualItem from './virtual-item.vue'
 
 import type { PropType } from 'vue'
 import type { Direction } from './useVirtualScroll'
 
 export default defineComponent({
   name: 'ElVirtualList',
+  components: {
+    [VirtualItem.name]: VirtualItem,
+  },
   props: {
-    cache: {
-      type: Number,
-      default: 10,
-    },
     direction: {
       type: String as PropType<Direction>,
       default: 'v',
@@ -35,13 +36,17 @@ export default defineComponent({
       type: Array as PropType<Array<any>>,
       required: true,
     },
-    rowHeight: {
+    itemSize: {
       type: Number,
       required: true,
     },
     windowSize: {
       type: Number,
       required: true,
+    },
+    poolSize: {
+      type: Number,
+      default: 20,
     },
   },
   setup(props) {
