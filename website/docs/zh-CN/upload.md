@@ -133,7 +133,7 @@
   :on-remove="handleRemove">
   <i class="el-icon-plus"></i>
 </el-upload>
-<el-dialog v-model:visible="dialogVisible">
+<el-dialog v-model="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 <script>
@@ -199,7 +199,7 @@
       </div>
     </template>
 </el-upload>
-<el-dialog v-model:visible="dialogVisible">
+<el-dialog v-model="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 <script>
