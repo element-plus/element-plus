@@ -45,12 +45,15 @@ fs.readdirSync(libDirPath).forEach(comp => {
   }
 })
 
+// after components dir renamed
 fs.readdirSync(libDirPath).forEach(comp => {
+  // check src/*.d.ts exist
   const srcPath = path.resolve(libDirPath, comp, './src')
   if (fs.existsSync(srcPath)) {
     if (fs.lstatSync(srcPath).isDirectory()) {
       fs.readdir(srcPath, 'utf-8', (err, data) => {
         if (err) return
+        // replace all @element-plus in src/*.d.ts
         data.forEach(f => {
           if (!fs.lstatSync(path.resolve(srcPath, f)).isDirectory()) {
             const imp = fs.readFileSync(path.resolve(srcPath, f)).toString()
