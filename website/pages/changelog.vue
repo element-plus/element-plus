@@ -67,7 +67,7 @@ export default {
   },
 }
 </script>
-<style lang="sass">
+<style lang="scss">
   .page-changelog {
     padding-bottom: 100px;
     .fr {

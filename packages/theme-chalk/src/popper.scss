@@ -36,11 +36,6 @@
 
   @include when(pure) {
     padding: 0;
-    border: none;
-
-    #{$arrow-selector}::before {
-      border: none;
-    }
   }
 
   @include e(arrow) {

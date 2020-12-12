@@ -1,7 +1,7 @@
 import {
   PopperInstance,
   IPopperOptions,
-} from '@element-plus/popper/src/use-popper'
+} from '@element-plus/popper'
 import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
 import { createPopper } from '@popperjs/core'
