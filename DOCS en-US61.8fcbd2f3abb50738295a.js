@@ -10,29 +10,29 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/upload.md?vue&type=template&id=9a575684
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/upload.md?vue&type=template&id=165b11ca
 
-var uploadvue_type_template_id_9a575684_hoisted_1 = {
+var uploadvue_type_template_id_165b11ca_hoisted_1 = {
   class: "content element-doc"
 };
 
-var uploadvue_type_template_id_9a575684_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var uploadvue_type_template_id_165b11ca_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "upload"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#upload"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Upload")], -1);
 
-var uploadvue_type_template_id_9a575684_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Upload files by clicking or drag-and-drop", -1);
+var uploadvue_type_template_id_165b11ca_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Upload files by clicking or drag-and-drop", -1);
 
-var uploadvue_type_template_id_9a575684_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var uploadvue_type_template_id_165b11ca_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "click-to-upload-files"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#click-to-upload-files"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Click to upload files")], -1);
 
-var uploadvue_type_template_id_9a575684_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Customize upload button type and text using "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". Set "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "limit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" and "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "on-exceed"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" to limit the maximum number of uploads allowed and specify method when the limit is exceeded. Plus, you can abort removing a file in the "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "before-remove"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" hook.")])], -1);
+var uploadvue_type_template_id_165b11ca_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Customize upload button type and text using "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". Set "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "limit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" and "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "on-exceed"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" to limit the maximum number of uploads allowed and specify method when the limit is exceeded. Plus, you can abort removing a file in the "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "before-remove"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" hook.")])], -1);
 
 var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
@@ -62,7 +62,7 @@ var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-upload\n  action=\"https://jsonplaceholder.typicode.com/posts/\"\n  list-type=\"picture-card\"\n  :on-preview=\"handlePictureCardPreview\"\n  :on-remove=\"handleRemove\"\n>\n  <i class=\"el-icon-plus\"></i>\n</el-upload>\n<el-dialog v-model:visible=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\" />\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n      }\n    },\n    methods: {\n      handleRemove(file, fileList) {\n        console.log(file, fileList)\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url\n        this.dialogVisible = true\n      },\n    },\n  }\n</script>\n")], -1);
+}, "<el-upload\n  action=\"https://jsonplaceholder.typicode.com/posts/\"\n  list-type=\"picture-card\"\n  :on-preview=\"handlePictureCardPreview\"\n  :on-remove=\"handleRemove\"\n>\n  <i class=\"el-icon-plus\"></i>\n</el-upload>\n<el-dialog v-model=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\" />\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n      }\n    },\n    methods: {\n      handleRemove(file, fileList) {\n        console.log(file, fileList)\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url\n        this.dialogVisible = true\n      },\n    },\n  }\n</script>\n")], -1);
 
 var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "custom-file-thumbnail"
@@ -75,7 +75,7 @@ var _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-upload action=\"#\" list-type=\"picture-card\" :auto-upload=\"false\">\n  <template #default>\n    <i class=\"el-icon-plus\"></i>\n  </template>\n  <template #file=\"{file}\">\n    <div>\n      <img class=\"el-upload-list__item-thumbnail\" :src=\"file.url\" alt=\"\" />\n      <span class=\"el-upload-list__item-actions\">\n        <span\n          class=\"el-upload-list__item-preview\"\n          @click=\"handlePictureCardPreview(file)\"\n        >\n          <i class=\"el-icon-zoom-in\"></i>\n        </span>\n        <span\n          v-if=\"!disabled\"\n          class=\"el-upload-list__item-delete\"\n          @click=\"handleDownload(file)\"\n        >\n          <i class=\"el-icon-download\"></i>\n        </span>\n        <span\n          v-if=\"!disabled\"\n          class=\"el-upload-list__item-delete\"\n          @click=\"handleRemove(file)\"\n        >\n          <i class=\"el-icon-delete\"></i>\n        </span>\n      </span>\n    </div>\n  </template>\n</el-upload>\n<el-dialog v-model:visible=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\" />\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n        disabled: false,\n      }\n    },\n    methods: {\n      handleRemove(file) {\n        console.log(file)\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url\n        this.dialogVisible = true\n      },\n      handleDownload(file) {\n        console.log(file)\n      },\n    },\n  }\n</script>\n")], -1);
+}, "<el-upload action=\"#\" list-type=\"picture-card\" :auto-upload=\"false\">\n  <template #default>\n    <i class=\"el-icon-plus\"></i>\n  </template>\n  <template #file=\"{file}\">\n    <div>\n      <img class=\"el-upload-list__item-thumbnail\" :src=\"file.url\" alt=\"\" />\n      <span class=\"el-upload-list__item-actions\">\n        <span\n          class=\"el-upload-list__item-preview\"\n          @click=\"handlePictureCardPreview(file)\"\n        >\n          <i class=\"el-icon-zoom-in\"></i>\n        </span>\n        <span\n          v-if=\"!disabled\"\n          class=\"el-upload-list__item-delete\"\n          @click=\"handleDownload(file)\"\n        >\n          <i class=\"el-icon-download\"></i>\n        </span>\n        <span\n          v-if=\"!disabled\"\n          class=\"el-upload-list__item-delete\"\n          @click=\"handleRemove(file)\"\n        >\n          <i class=\"el-icon-delete\"></i>\n        </span>\n      </span>\n    </div>\n  </template>\n</el-upload>\n<el-dialog v-model=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\" />\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n        disabled: false,\n      }\n    },\n    methods: {\n      handleRemove(file) {\n        console.log(file)\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url\n        this.dialogVisible = true\n      },\n      handleDownload(file) {\n        console.log(file)\n      },\n    },\n  }\n</script>\n")], -1);
 
 var _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "filelist-with-thumbnail"
@@ -127,7 +127,7 @@ var _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>action</td><td>required, request URL</td><td>string</td><td>—</td><td>—</td></tr><tr><td>headers</td><td>request headers</td><td>object</td><td>—</td><td>—</td></tr><tr><td>multiple</td><td>whether uploading multiple files is permitted</td><td>boolean</td><td>—</td><td>—</td></tr><tr><td>data</td><td>additions options of request</td><td>object</td><td>—</td><td>—</td></tr><tr><td>name</td><td>key name for uploaded file</td><td>string</td><td>—</td><td>file</td></tr><tr><td>with-credentials</td><td>whether cookies are sent</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>show-file-list</td><td>whether to show the uploaded file list</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>drag</td><td>whether to activate drag and drop mode</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>accept</td><td>accepted <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept\">file types</a>, will not work when <code>thumbnail-mode</code> is <code>true</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>on-preview</td><td>hook function when clicking the uploaded files</td><td>function(file)</td><td>—</td><td>—</td></tr><tr><td>on-remove</td><td>hook function when files are removed</td><td>function(file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-success</td><td>hook function when uploaded successfully</td><td>function(response, file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-error</td><td>hook function when some errors occurs</td><td>function(err, file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-progress</td><td>hook function when some progress occurs</td><td>function(event, file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-change</td><td>hook function when select file or upload file success or upload file fail</td><td>function(file, fileList)</td><td>—</td><td>—</td></tr><tr><td>before-upload</td><td>hook function before uploading with the file to be uploaded as its parameter. If <code>false</code> is returned or a <code>Promise</code> is returned and then is rejected, uploading will be aborted</td><td>function(file)</td><td>—</td><td>—</td></tr><tr><td>before-remove</td><td>hook function before removing a file with the file and file list as its parameters. If <code>false</code> is returned or a <code>Promise</code> is returned and then is rejected, removing will be aborted.</td><td>function(file, fileList)</td><td>—</td><td>—</td></tr><tr><td>thumbnail-mode</td><td>whether thumbnail is displayed</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>file-list</td><td>default uploaded files, e.g. [{name: &#39;food.jpg&#39;, url: &#39;https://xxx.cdn.com/xxx.jpg&#39;}]</td><td>array</td><td>—</td><td>[]</td></tr><tr><td>list-type</td><td>type of fileList</td><td>string</td><td>text/picture/picture-card</td><td>text</td></tr><tr><td>auto-upload</td><td>whether to auto upload file</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>http-request</td><td>override default xhr behavior, allowing you to implement your own upload-file&#39;s request</td><td>function</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>whether to disable upload</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>limit</td><td>maximum number of uploads allowed</td><td>number</td><td>—</td><td>—</td></tr><tr><td>on-exceed</td><td>hook function when limit is exceeded</td><td>function(files, fileList)</td><td>—</td><td>-</td></tr></tbody></table><h3 id=\"slot\"><a class=\"header-anchor\" href=\"#slot\">¶</a> Slot</h3><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody><tr><td>trigger</td><td>content which triggers file dialog</td></tr><tr><td>tip</td><td>content of tips</td></tr></tbody></table><h3 id=\"methods\"><a class=\"header-anchor\" href=\"#methods\">¶</a> Methods</h3><table><thead><tr><th>Methods Name</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>clearFiles</td><td>clear the uploaded file list (this method is not supported in the <code>before-upload</code> hook)</td><td>—</td></tr><tr><td>abort</td><td>cancel upload request</td><td>（ file: fileList&#39;s item ）</td></tr><tr><td>submit</td><td>upload the file list manually</td><td>—</td></tr></tbody></table>", 6);
 
-function uploadvue_type_template_id_9a575684_render(_ctx, _cache, $props, $setup, $data, $options) {
+function uploadvue_type_template_id_165b11ca_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -146,7 +146,7 @@ function uploadvue_type_template_id_9a575684_render(_ctx, _cache, $props, $setup
 
   var _component_element_demo7 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo7");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", uploadvue_type_template_id_9a575684_hoisted_1, [uploadvue_type_template_id_9a575684_hoisted_2, uploadvue_type_template_id_9a575684_hoisted_3, uploadvue_type_template_id_9a575684_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", uploadvue_type_template_id_165b11ca_hoisted_1, [uploadvue_type_template_id_165b11ca_hoisted_2, uploadvue_type_template_id_165b11ca_hoisted_3, uploadvue_type_template_id_165b11ca_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
@@ -154,7 +154,7 @@ function uploadvue_type_template_id_9a575684_render(_ctx, _cache, $props, $setup
       return [_hoisted_6];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [uploadvue_type_template_id_9a575684_hoisted_5];
+      return [uploadvue_type_template_id_165b11ca_hoisted_5];
     }),
     _: 1
   }), _hoisted_7, _hoisted_8, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -215,7 +215,7 @@ function uploadvue_type_template_id_9a575684_render(_ctx, _cache, $props, $setup
     _: 1
   }), _hoisted_26]);
 }
-// CONCATENATED MODULE: ./website/docs/en-US/upload.md?vue&type=template&id=9a575684
+// CONCATENATED MODULE: ./website/docs/en-US/upload.md?vue&type=template&id=165b11ca
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -396,8 +396,8 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           }),
           _: 1
         }, 8, ["on-preview", "on-remove"]), _createVNode(_component_el_dialog, {
-          visible: _ctx.dialogVisible,
-          "onUpdate:visible": _cache[1] || (_cache[1] = function ($event) {
+          modelValue: _ctx.dialogVisible,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
             return _ctx.dialogVisible = $event;
           })
         }, {
@@ -409,7 +409,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
             }, null, 8, ["src"])];
           }),
           _: 1
-        }, 8, ["visible"])]);
+        }, 8, ["modelValue"])]);
       }
 
       var democomponentExport = {
@@ -501,8 +501,8 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           }),
           _: 1
         }), _createVNode(_component_el_dialog, {
-          visible: _ctx.dialogVisible,
-          "onUpdate:visible": _cache[1] || (_cache[1] = function ($event) {
+          modelValue: _ctx.dialogVisible,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
             return _ctx.dialogVisible = $event;
           })
         }, {
@@ -514,7 +514,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
             }, null, 8, ["src"])];
           }),
           _: 1
-        }, 8, ["visible"])]);
+        }, 8, ["modelValue"])]);
       }
 
       var democomponentExport = {
@@ -803,7 +803,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-uploadvue_type_script_lang_ts.render = uploadvue_type_template_id_9a575684_render
+uploadvue_type_script_lang_ts.render = uploadvue_type_template_id_165b11ca_render
 
 /* harmony default export */ var upload = __webpack_exports__["default"] = (uploadvue_type_script_lang_ts);
 

@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/pages/guide.vue?vue&type=template&id=0b8c9d7b
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/pages/guide.vue?vue&type=template&id=695a3d8e
 
 var _hoisted_1 = {
   class: "page-container page-guide"
@@ -52,7 +52,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })]);
 }
-// CONCATENATED MODULE: ./website/pages/guide.vue?vue&type=template&id=0b8c9d7b
+// CONCATENATED MODULE: ./website/pages/guide.vue?vue&type=template&id=695a3d8e
 
 // EXTERNAL MODULE: ./website/i18n/page.json
 var page = __webpack_require__(728);
@@ -86,8 +86,8 @@ var page = __webpack_require__(728);
 });
 // CONCATENATED MODULE: ./website/pages/guide.vue?vue&type=script&lang=js
  
-// EXTERNAL MODULE: ./website/pages/guide.vue?vue&type=style&index=0&id=0b8c9d7b&lang=sass
-var guidevue_type_style_index_0_id_0b8c9d7b_lang_sass = __webpack_require__(743);
+// EXTERNAL MODULE: ./website/pages/guide.vue?vue&type=style&index=0&id=695a3d8e&lang=scss
+var guidevue_type_style_index_0_id_695a3d8e_lang_scss = __webpack_require__(743);
 
 // CONCATENATED MODULE: ./website/pages/guide.vue
 
@@ -130,8 +130,8 @@ module.exports = content.locals || {};
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_guide_vue_vue_type_style_index_0_id_0b8c9d7b_lang_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(733);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_guide_vue_vue_type_style_index_0_id_0b8c9d7b_lang_sass__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_guide_vue_vue_type_style_index_0_id_0b8c9d7b_lang_sass__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_guide_vue_vue_type_style_index_0_id_695a3d8e_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(733);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_guide_vue_vue_type_style_index_0_id_695a3d8e_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_guide_vue_vue_type_style_index_0_id_695a3d8e_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
 
 

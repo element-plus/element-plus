@@ -10,29 +10,29 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/upload.md?vue&type=template&id=48ff3fdc
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/upload.md?vue&type=template&id=4367371e
 
-var uploadvue_type_template_id_48ff3fdc_hoisted_1 = {
+var uploadvue_type_template_id_4367371e_hoisted_1 = {
   class: "content element-doc"
 };
 
-var uploadvue_type_template_id_48ff3fdc_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var uploadvue_type_template_id_4367371e_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "atupurodo"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#atupurodo"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" アップロード")], -1);
 
-var uploadvue_type_template_id_48ff3fdc_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "クリックまたはドラッグ＆ドロップでファイルをアップロード", -1);
+var uploadvue_type_template_id_4367371e_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "クリックまたはドラッグ＆ドロップでファイルをアップロード", -1);
 
-var uploadvue_type_template_id_48ff3fdc_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var uploadvue_type_template_id_4367371e_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "kuritukusitehuairuwoatupurodo"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#kuritukusitehuairuwoatupurodo"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" クリックしてファイルをアップロード")], -1);
 
-var uploadvue_type_template_id_48ff3fdc_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" を用いてアップロードボタンの種類とテキストをカスタマイズする。最大アップロード数を制限するために "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "limit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" と "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "on-exceed"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" を設定し、制限を超えたときの方法を指定します。さらに、"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "before-remove"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" フックでファイルの削除を中止することもできる。")])], -1);
+var uploadvue_type_template_id_4367371e_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" を用いてアップロードボタンの種類とテキストをカスタマイズする。最大アップロード数を制限するために "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "limit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" と "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "on-exceed"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" を設定し、制限を超えたときの方法を指定します。さらに、"), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "before-remove"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" フックでファイルの削除を中止することもできる。")])], -1);
 
 var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
@@ -62,7 +62,7 @@ var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-upload\n  action=\"https://jsonplaceholder.typicode.com/posts/\"\n  list-type=\"picture-card\"\n  :on-preview=\"handlePictureCardPreview\"\n  :on-remove=\"handleRemove\"\n>\n  <i class=\"el-icon-plus\"></i>\n</el-upload>\n<el-dialog v-model:visible=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\" />\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n      }\n    },\n    methods: {\n      handleRemove(file, fileList) {\n        console.log(file, fileList)\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url\n        this.dialogVisible = true\n      },\n    },\n  }\n</script>\n")], -1);
+}, "<el-upload\n  action=\"https://jsonplaceholder.typicode.com/posts/\"\n  list-type=\"picture-card\"\n  :on-preview=\"handlePictureCardPreview\"\n  :on-remove=\"handleRemove\"\n>\n  <i class=\"el-icon-plus\"></i>\n</el-upload>\n<el-dialog v-model=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\" />\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n      }\n    },\n    methods: {\n      handleRemove(file, fileList) {\n        console.log(file, fileList)\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url\n        this.dialogVisible = true\n      },\n    },\n  }\n</script>\n")], -1);
 
 var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "kasutamuhuairunosamuneiru"
@@ -75,7 +75,7 @@ var _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-upload action=\"#\" list-type=\"picture-card\" :auto-upload=\"false\">\n  <template #default>\n    <i class=\"el-icon-plus\"></i>\n  </template>\n  <template #file=\"{file}\">\n    <div>\n      <img class=\"el-upload-list__item-thumbnail\" :src=\"file.url\" alt=\"\" />\n      <span class=\"el-upload-list__item-actions\">\n        <span\n          class=\"el-upload-list__item-preview\"\n          @click=\"handlePictureCardPreview(file)\"\n        >\n          <i class=\"el-icon-zoom-in\"></i>\n        </span>\n        <span\n          v-if=\"!disabled\"\n          class=\"el-upload-list__item-delete\"\n          @click=\"handleDownload(file)\"\n        >\n          <i class=\"el-icon-download\"></i>\n        </span>\n        <span\n          v-if=\"!disabled\"\n          class=\"el-upload-list__item-delete\"\n          @click=\"handleRemove(file)\"\n        >\n          <i class=\"el-icon-delete\"></i>\n        </span>\n      </span>\n    </div>\n  </template>\n</el-upload>\n<el-dialog v-model:visible=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\" />\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n        disabled: false,\n      }\n    },\n    methods: {\n      handleRemove(file) {\n        console.log(file)\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url\n        this.dialogVisible = true\n      },\n      handleDownload(file) {\n        console.log(file)\n      },\n    },\n  }\n</script>\n")], -1);
+}, "<el-upload action=\"#\" list-type=\"picture-card\" :auto-upload=\"false\">\n  <template #default>\n    <i class=\"el-icon-plus\"></i>\n  </template>\n  <template #file=\"{file}\">\n    <div>\n      <img class=\"el-upload-list__item-thumbnail\" :src=\"file.url\" alt=\"\" />\n      <span class=\"el-upload-list__item-actions\">\n        <span\n          class=\"el-upload-list__item-preview\"\n          @click=\"handlePictureCardPreview(file)\"\n        >\n          <i class=\"el-icon-zoom-in\"></i>\n        </span>\n        <span\n          v-if=\"!disabled\"\n          class=\"el-upload-list__item-delete\"\n          @click=\"handleDownload(file)\"\n        >\n          <i class=\"el-icon-download\"></i>\n        </span>\n        <span\n          v-if=\"!disabled\"\n          class=\"el-upload-list__item-delete\"\n          @click=\"handleRemove(file)\"\n        >\n          <i class=\"el-icon-delete\"></i>\n        </span>\n      </span>\n    </div>\n  </template>\n</el-upload>\n<el-dialog v-model=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\" />\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n        disabled: false,\n      }\n    },\n    methods: {\n      handleRemove(file) {\n        console.log(file)\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url\n        this.dialogVisible = true\n      },\n      handleDownload(file) {\n        console.log(file)\n      },\n    },\n  }\n</script>\n")], -1);
 
 var _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "samuneiru-fukifilelist"
@@ -127,7 +127,7 @@ var _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"shu-xing\"><a class=\"header-anchor\" href=\"#shu-xing\">¶</a> 属性</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>action</td><td>必須、リクエストURL</td><td>string</td><td>—</td><td>—</td></tr><tr><td>headers</td><td>リクエストヘッダ</td><td>object</td><td>—</td><td>—</td></tr><tr><td>multiple</td><td>複数ファイルのアップロードが許可されているかどうか</td><td>boolean</td><td>—</td><td>—</td></tr><tr><td>data</td><td>リクエストの追加オプション</td><td>object</td><td>—</td><td>—</td></tr><tr><td>name</td><td>アップロードファイルのキー名</td><td>string</td><td>—</td><td>file</td></tr><tr><td>with-credentials</td><td>クッキーを送信するかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>show-file-list</td><td>アップロードされたファイルリストを表示するかどうか</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>drag</td><td>ドラッグ＆ドロップモードを有効にするかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>accept</td><td>accepted <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept\">file types</a>, will not work when <code>thumbnail-mode</code> is <code>true</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>on-preview</td><td>アップロードされたファイルをクリックした時のフック関数</td><td>function(file)</td><td>—</td><td>—</td></tr><tr><td>on-remove</td><td>ファイル削除時のフック関数</td><td>function(file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-success</td><td>アップロード成功時のフック関数</td><td>function(response, file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-error</td><td>エラー時のフック関数</td><td>function(err, file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-progress</td><td>進捗時のフック関数</td><td>function(event, file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-change</td><td>ファイル選択時、アップロード成功時、アップロード失敗時のフック関数</td><td>function(file, fileList)</td><td>—</td><td>—</td></tr><tr><td>before-upload</td><td>フック関数を使用してアップロードする前に、アップロードするファイルをパラメータとしてアップロードすることができます。<code>false</code>を返すか、<code>Promise</code>を返した後に拒否された場合、アップロードは中止されます。</td><td>function(file)</td><td>—</td><td>—</td></tr><tr><td>before-remove</td><td>フック関数を使用して、ファイルとファイルリストをパラメータとしてファイルを削除することができます。<code>false</code>を返すか、<code>Promise</code>を返した後に拒否された場合、削除は中止される。</td><td>function(file, fileList)</td><td>—</td><td>—</td></tr><tr><td>thumbnail-mode</td><td>サムネイルが表示されているかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>file-list</td><td>default uploaded files, e.g. [{name: &#39;food.jpg&#39;, url: &#39;https://xxx.cdn.com/xxx.jpg&#39;}]</td><td>array</td><td>—</td><td>[]</td></tr><tr><td>list-type</td><td>ファイルリストの型</td><td>string</td><td>text/picture/picture-card</td><td>text</td></tr><tr><td>auto-upload</td><td>ファイルを自動アップロードするかどうか</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>http-request</td><td>デフォルトの xhr の動作をオーバーライドし、独自のアップロードファイルのリクエストを実装できるようにします。</td><td>function</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>アップロードを無効にするかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>limit</td><td>アップロード可能な最大数</td><td>number</td><td>—</td><td>—</td></tr><tr><td>on-exceed</td><td>リミットを突破した時のフック関数</td><td>function(files, fileList)</td><td>—</td><td>-</td></tr></tbody></table><h3 id=\"surotuto\"><a class=\"header-anchor\" href=\"#surotuto\">¶</a> スロット</h3><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody><tr><td>trigger</td><td>ファイルダイアログをトリガーする内容</td></tr><tr><td>tip</td><td>tipsの内容</td></tr></tbody></table><h3 id=\"mesotudo\"><a class=\"header-anchor\" href=\"#mesotudo\">¶</a> メソッド</h3><table><thead><tr><th>Methods Name</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>clearFiles</td><td>アップロードされたファイルリストをクリアします (このメソッドは <code>before-upload</code> フックではサポートされていません)。</td><td>—</td></tr><tr><td>abort</td><td>アップロード要求の取り消し</td><td>（ file: fileList&#39;s item ）</td></tr><tr><td>submit</td><td>ファイルリストを手動でアップロード</td><td>—</td></tr></tbody></table>", 6);
 
-function uploadvue_type_template_id_48ff3fdc_render(_ctx, _cache, $props, $setup, $data, $options) {
+function uploadvue_type_template_id_4367371e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -146,7 +146,7 @@ function uploadvue_type_template_id_48ff3fdc_render(_ctx, _cache, $props, $setup
 
   var _component_element_demo7 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo7");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", uploadvue_type_template_id_48ff3fdc_hoisted_1, [uploadvue_type_template_id_48ff3fdc_hoisted_2, uploadvue_type_template_id_48ff3fdc_hoisted_3, uploadvue_type_template_id_48ff3fdc_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", uploadvue_type_template_id_4367371e_hoisted_1, [uploadvue_type_template_id_4367371e_hoisted_2, uploadvue_type_template_id_4367371e_hoisted_3, uploadvue_type_template_id_4367371e_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
@@ -154,7 +154,7 @@ function uploadvue_type_template_id_48ff3fdc_render(_ctx, _cache, $props, $setup
       return [_hoisted_6];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [uploadvue_type_template_id_48ff3fdc_hoisted_5];
+      return [uploadvue_type_template_id_4367371e_hoisted_5];
     }),
     _: 1
   }), _hoisted_7, _hoisted_8, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -215,7 +215,7 @@ function uploadvue_type_template_id_48ff3fdc_render(_ctx, _cache, $props, $setup
     _: 1
   }), _hoisted_26]);
 }
-// CONCATENATED MODULE: ./website/docs/jp/upload.md?vue&type=template&id=48ff3fdc
+// CONCATENATED MODULE: ./website/docs/jp/upload.md?vue&type=template&id=4367371e
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -396,8 +396,8 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           }),
           _: 1
         }, 8, ["on-preview", "on-remove"]), _createVNode(_component_el_dialog, {
-          visible: _ctx.dialogVisible,
-          "onUpdate:visible": _cache[1] || (_cache[1] = function ($event) {
+          modelValue: _ctx.dialogVisible,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
             return _ctx.dialogVisible = $event;
           })
         }, {
@@ -409,7 +409,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
             }, null, 8, ["src"])];
           }),
           _: 1
-        }, 8, ["visible"])]);
+        }, 8, ["modelValue"])]);
       }
 
       var democomponentExport = {
@@ -501,8 +501,8 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           }),
           _: 1
         }), _createVNode(_component_el_dialog, {
-          visible: _ctx.dialogVisible,
-          "onUpdate:visible": _cache[1] || (_cache[1] = function ($event) {
+          modelValue: _ctx.dialogVisible,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
             return _ctx.dialogVisible = $event;
           })
         }, {
@@ -514,7 +514,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
             }, null, 8, ["src"])];
           }),
           _: 1
-        }, 8, ["visible"])]);
+        }, 8, ["modelValue"])]);
       }
 
       var democomponentExport = {
@@ -803,7 +803,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-uploadvue_type_script_lang_ts.render = uploadvue_type_template_id_48ff3fdc_render
+uploadvue_type_script_lang_ts.render = uploadvue_type_template_id_4367371e_render
 
 /* harmony default export */ var upload = __webpack_exports__["default"] = (uploadvue_type_script_lang_ts);
 
@@ -819,29 +819,29 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/upload.md?vue&type=template&id=d2b2b34e
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/upload.md?vue&type=template&id=8f27320e
 
-var uploadvue_type_template_id_d2b2b34e_hoisted_1 = {
+var uploadvue_type_template_id_8f27320e_hoisted_1 = {
   class: "content element-doc"
 };
 
-var uploadvue_type_template_id_d2b2b34e_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var uploadvue_type_template_id_8f27320e_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "upload"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#upload"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Upload")], -1);
 
-var uploadvue_type_template_id_d2b2b34e_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Permet d'uploader des fichiers en cliquant ou en les déplaçant sur le composant.", -1);
+var uploadvue_type_template_id_8f27320e_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "Permet d'uploader des fichiers en cliquant ou en les déplaçant sur le composant.", -1);
 
-var uploadvue_type_template_id_d2b2b34e_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var uploadvue_type_template_id_8f27320e_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "cliquer-pour-envoyer"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#cliquer-pour-envoyer"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Cliquer pour envoyer")], -1);
 
-var uploadvue_type_template_id_d2b2b34e_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Personnalisez le bouton d'envoi avec "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". Utilisez "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "limit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" et "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "on-exceed"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" pour limiter le nombre maximal de fichiers et déterminer le comportement quand ce nombre est dépassé. De plus, vous pouvez annuler la suppression d'un fichier avec "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "before-remove"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
+var uploadvue_type_template_id_8f27320e_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("div", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("Personnalisez le bouton d'envoi avec "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "slot"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(". Utilisez "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "limit"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" et "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "on-exceed"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" pour limiter le nombre maximal de fichiers et déterminer le comportement quand ce nombre est dépassé. De plus, vous pouvez annuler la suppression d'un fichier avec "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "before-remove"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")])], -1);
 
 var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
@@ -871,7 +871,7 @@ var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-upload\n  action=\"https://jsonplaceholder.typicode.com/posts/\"\n  list-type=\"picture-card\"\n  :on-preview=\"handlePictureCardPreview\"\n  :on-remove=\"handleRemove\">\n  <i class=\"el-icon-plus\"></i>\n</el-upload>\n<el-dialog v-model:visible=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\">\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false\n      };\n    },\n    methods: {\n      handleRemove(file, fileList) {\n        console.log(file, fileList);\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url;\n        this.dialogVisible = true;\n      }\n    }\n  }\n</script>\n")], -1);
+}, "<el-upload\n  action=\"https://jsonplaceholder.typicode.com/posts/\"\n  list-type=\"picture-card\"\n  :on-preview=\"handlePictureCardPreview\"\n  :on-remove=\"handleRemove\">\n  <i class=\"el-icon-plus\"></i>\n</el-upload>\n<el-dialog v-model=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\">\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false\n      };\n    },\n    methods: {\n      handleRemove(file, fileList) {\n        console.log(file, fileList);\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url;\n        this.dialogVisible = true;\n      }\n    }\n  }\n</script>\n")], -1);
 
 var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "custom-file-thumbnail"
@@ -884,7 +884,7 @@ var _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
-}, "<el-upload\n  action=\"#\"\n  list-type=\"picture-card\"\n  :auto-upload=\"false\">\n    <template #default>\n      <i class=\"el-icon-plus\"></i>\n    </template>\n    <template #file=\"{file}\">\n      <div>\n        <img class=\"el-upload-list__item-thumbnail\" :src=\"file.url\" alt=\"\" />\n        <span class=\"el-upload-list__item-actions\">\n          <span\n            class=\"el-upload-list__item-preview\"\n            @click=\"handlePictureCardPreview(file)\"\n          >\n            <i class=\"el-icon-zoom-in\"></i>\n          </span>\n          <span\n            v-if=\"!disabled\"\n            class=\"el-upload-list__item-delete\"\n            @click=\"handleDownload(file)\"\n          >\n            <i class=\"el-icon-download\"></i>\n          </span>\n          <span\n            v-if=\"!disabled\"\n            class=\"el-upload-list__item-delete\"\n            @click=\"handleRemove(file)\"\n          >\n            <i class=\"el-icon-delete\"></i>\n          </span>\n        </span>\n      </div>\n    </template>\n</el-upload>\n<el-dialog v-model:visible=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\">\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n        disabled: false\n      };\n    },\n    methods: {\n      handleRemove(file) {\n        console.log(file);\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url;\n        this.dialogVisible = true;\n      },\n      handleDownload(file) {\n        console.log(file);\n      }\n    }\n  }\n</script>\n")], -1);
+}, "<el-upload\n  action=\"#\"\n  list-type=\"picture-card\"\n  :auto-upload=\"false\">\n    <template #default>\n      <i class=\"el-icon-plus\"></i>\n    </template>\n    <template #file=\"{file}\">\n      <div>\n        <img class=\"el-upload-list__item-thumbnail\" :src=\"file.url\" alt=\"\" />\n        <span class=\"el-upload-list__item-actions\">\n          <span\n            class=\"el-upload-list__item-preview\"\n            @click=\"handlePictureCardPreview(file)\"\n          >\n            <i class=\"el-icon-zoom-in\"></i>\n          </span>\n          <span\n            v-if=\"!disabled\"\n            class=\"el-upload-list__item-delete\"\n            @click=\"handleDownload(file)\"\n          >\n            <i class=\"el-icon-download\"></i>\n          </span>\n          <span\n            v-if=\"!disabled\"\n            class=\"el-upload-list__item-delete\"\n            @click=\"handleRemove(file)\"\n          >\n            <i class=\"el-icon-delete\"></i>\n          </span>\n        </span>\n      </div>\n    </template>\n</el-upload>\n<el-dialog v-model=\"dialogVisible\">\n  <img width=\"100%\" :src=\"dialogImageUrl\" alt=\"\">\n</el-dialog>\n<script>\n  export default {\n    data() {\n      return {\n        dialogImageUrl: '',\n        dialogVisible: false,\n        disabled: false\n      };\n    },\n    methods: {\n      handleRemove(file) {\n        console.log(file);\n      },\n      handlePictureCardPreview(file) {\n        this.dialogImageUrl = file.url;\n        this.dialogVisible = true;\n      },\n      handleDownload(file) {\n        console.log(file);\n      }\n    }\n  }\n</script>\n")], -1);
 
 var _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "liste-de-fichiers-avec-miniatures"
@@ -936,7 +936,7 @@ var _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributs\"><a class=\"header-anchor\" href=\"#attributs\">¶</a> Attributs</h3><table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>action</td><td>Requis, l&#39;url de requête.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>headers</td><td>Les headers de la requête.</td><td>object</td><td>—</td><td>—</td></tr><tr><td>multiple</td><td>Si envoyer de multiples fichiers est autorisé.</td><td>boolean</td><td>—</td><td>—</td></tr><tr><td>data</td><td>Options additionnelles de la requête.</td><td>object</td><td>—</td><td>—</td></tr><tr><td>name</td><td>Identifiant du fichier.</td><td>string</td><td>—</td><td>file</td></tr><tr><td>with-credentials</td><td>Si les cookies sont aussi envoyés.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>show-file-list</td><td>Si la liste des fichiers est affichée.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>drag</td><td>Si le mode drag&#39;n drop est activé.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>accept</td><td><a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept\">Types de fichiers</a> acceptés, ne marche pas si <code>thumbnail-mode</code> est <code>true</code>.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>on-preview</td><td>Fonction pour quand le fichier est cliqué.</td><td>function(file)</td><td>—</td><td>—</td></tr><tr><td>on-remove</td><td>Fonction pour quand des fichiers sont supprimés.</td><td>function(file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-success</td><td>Fonction pour quand l&#39;upload a réussi.</td><td>function(response, file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-error</td><td>Fonction pour quand l&#39;upload renvoi une erreur.</td><td>function(err, file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-progress</td><td>Fonction pour quand l&#39;upload est en cours.</td><td>function(event, file, fileList)</td><td>—</td><td>—</td></tr><tr><td>on-change</td><td>Fonction pour quand le statut d&#39;un fichier change (sélection, upload, erreur...).</td><td>function(file, fileList)</td><td>—</td><td>—</td></tr><tr><td>before-upload</td><td>Fonction pour avant l&#39;upload. Si <code>false</code> est retourné ou une <code>Promise</code> qui est ensuite rejetée, l&#39;envoi sera annulé.</td><td>function(file)</td><td>—</td><td>—</td></tr><tr><td>before-remove</td><td>Fonction pour avant la suppression de fichiers. Si <code>false</code> est retourné ou une <code>Promise</code> qui est ensuite rejetée, la suppression sera ensuite annulée.</td><td>function(file, fileList)</td><td>—</td><td>—</td></tr><tr><td>thumbnail-mode</td><td>Si les miniatures sont affichées.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>file-list</td><td>Les fichiers envoyé par défaut, e.g. [{name: &#39;food.jpg&#39;, url: &#39;https://xxx.cdn.com/xxx.jpg&#39;}]</td><td>array</td><td>—</td><td>[]</td></tr><tr><td>list-type</td><td>Le type de liste de fichiers.</td><td>string</td><td>text/picture/picture-card</td><td>text</td></tr><tr><td>auto-upload</td><td>Si l&#39;envoi est automatique.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>http-request</td><td>Écrase le xhr par défaut, afin que vous puissiez implémenter votre propre fonction d&#39;envoi.</td><td>function</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>Si le composant est désactivé.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>limit</td><td>Nombre maximum d&#39;envoi autorisés.</td><td>number</td><td>—</td><td>—</td></tr><tr><td>on-exceed</td><td>Fonction pour quand la limite d&#39;envoi est dépassée.</td><td>function(files, fileList)</td><td>—</td><td>-</td></tr></tbody></table><h3 id=\"slot\"><a class=\"header-anchor\" href=\"#slot\">¶</a> Slot</h3><table><thead><tr><th>Nom</th><th>Description</th></tr></thead><tbody><tr><td>trigger</td><td>Le contenu qui déclenche le Dialog du fichier.</td></tr><tr><td>tip</td><td>Le contenu des tips.</td></tr></tbody></table><h3 id=\"methodes\"><a class=\"header-anchor\" href=\"#methodes\">¶</a> Méthodes</h3><table><thead><tr><th>Méthode</th><th>Description</th><th>Paramètres</th></tr></thead><tbody><tr><td>clearFiles</td><td>Efface la liste (non supporté dans <code>before-upload</code>).</td><td>—</td></tr><tr><td>abort</td><td>Annule l&#39;envoi en cours.</td><td>（ file: fileList&#39;s item ）</td></tr><tr><td>submit</td><td>Envoi la liste de fichiers manuellement.</td><td>—</td></tr></tbody></table>", 6);
 
-function uploadvue_type_template_id_d2b2b34e_render(_ctx, _cache, $props, $setup, $data, $options) {
+function uploadvue_type_template_id_8f27320e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -955,7 +955,7 @@ function uploadvue_type_template_id_d2b2b34e_render(_ctx, _cache, $props, $setup
 
   var _component_element_demo7 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo7");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", uploadvue_type_template_id_d2b2b34e_hoisted_1, [uploadvue_type_template_id_d2b2b34e_hoisted_2, uploadvue_type_template_id_d2b2b34e_hoisted_3, uploadvue_type_template_id_d2b2b34e_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", uploadvue_type_template_id_8f27320e_hoisted_1, [uploadvue_type_template_id_8f27320e_hoisted_2, uploadvue_type_template_id_8f27320e_hoisted_3, uploadvue_type_template_id_8f27320e_hoisted_4, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["eb" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
@@ -963,7 +963,7 @@ function uploadvue_type_template_id_d2b2b34e_render(_ctx, _cache, $props, $setup
       return [_hoisted_6];
     }),
     default: Object(vue_esm_browser["eb" /* withCtx */])(function () {
-      return [uploadvue_type_template_id_d2b2b34e_hoisted_5];
+      return [uploadvue_type_template_id_8f27320e_hoisted_5];
     }),
     _: 1
   }), _hoisted_7, _hoisted_8, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -1024,7 +1024,7 @@ function uploadvue_type_template_id_d2b2b34e_render(_ctx, _cache, $props, $setup
     _: 1
   }), _hoisted_26]);
 }
-// CONCATENATED MODULE: ./website/docs/fr-FR/upload.md?vue&type=template&id=d2b2b34e
+// CONCATENATED MODULE: ./website/docs/fr-FR/upload.md?vue&type=template&id=8f27320e
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(7);
@@ -1205,8 +1205,8 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           }),
           _: 1
         }, 8, ["on-preview", "on-remove"]), _createVNode(_component_el_dialog, {
-          visible: _ctx.dialogVisible,
-          "onUpdate:visible": _cache[1] || (_cache[1] = function ($event) {
+          modelValue: _ctx.dialogVisible,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
             return _ctx.dialogVisible = $event;
           })
         }, {
@@ -1218,7 +1218,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
             }, null, 8, ["src"])];
           }),
           _: 1
-        }, 8, ["visible"])]);
+        }, 8, ["modelValue"])]);
       }
 
       var democomponentExport = {
@@ -1310,8 +1310,8 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
           }),
           _: 1
         }), _createVNode(_component_el_dialog, {
-          visible: _ctx.dialogVisible,
-          "onUpdate:visible": _cache[1] || (_cache[1] = function ($event) {
+          modelValue: _ctx.dialogVisible,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
             return _ctx.dialogVisible = $event;
           })
         }, {
@@ -1323,7 +1323,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
             }, null, 8, ["src"])];
           }),
           _: 1
-        }, 8, ["visible"])]);
+        }, 8, ["modelValue"])]);
       }
 
       var democomponentExport = {
@@ -1612,7 +1612,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-uploadvue_type_script_lang_ts.render = uploadvue_type_template_id_d2b2b34e_render
+uploadvue_type_script_lang_ts.render = uploadvue_type_template_id_8f27320e_render
 
 /* harmony default export */ var upload = __webpack_exports__["default"] = (uploadvue_type_script_lang_ts);
 
