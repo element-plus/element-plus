@@ -353,7 +353,7 @@ export default defineComponent({
       ctx.emit('focus', e)
     }
 
-    const pickerDisabled = computed(() =>{
+    const pickerDisabled = computed(() => {
       return props.disabled || elForm.disabled
     })
 
@@ -414,7 +414,7 @@ export default defineComponent({
       return props.prefixIcon || (isTimeLikePicker.value ? 'el-icon-time' : 'el-icon-date')
     })
     const showClose = ref(false)
-    const onClearIconClick = event =>{
+    const onClearIconClick = event => {
       if (props.readonly || pickerDisabled.value) return
       if (showClose.value) {
         event.stopPropagation()

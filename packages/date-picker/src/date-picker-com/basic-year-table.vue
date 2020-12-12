@@ -76,7 +76,7 @@ export default defineComponent({
   emits: ['pick'],
 
   setup(props, ctx) {
-    const startYear = computed(() =>{
+    const startYear = computed(() => {
       return Math.floor(props.date.year() / 10) * 10
     })
     const getCellStyle = year => {

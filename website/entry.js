@@ -36,7 +36,7 @@ const router = createRouter({
 })
 app.use(ElementPlus)
 app.use(router)
-router.isReady().then(()=>{
+router.isReady().then(() => {
 
   router.afterEach(async route => {
     await nextTick()
