@@ -142,7 +142,7 @@ export default defineComponent({
       leftDate.value = leftDate.value.add(1, 'year')
     }
 
-    const rightPrevYear = () =>{
+    const rightPrevYear = () => {
       rightDate.value = rightDate.value.subtract(1, 'year')
     }
     const leftLabel = computed(() => {
@@ -153,7 +153,7 @@ export default defineComponent({
       return `${rightDate.value.year()} ${t('el.datepicker.year')}`
     })
 
-    const leftYear = computed(() =>{
+    const leftYear = computed(() => {
       return leftDate.value.year()
     })
 
