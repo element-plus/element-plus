@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import { sleep } from '@element-plus/test-utils'
 
@@ -30,10 +31,10 @@ describe('menu', () => {
     const item1 = await wrapper.findComponent({ ref: 'item1' })
     const item2 = await wrapper.findComponent({ ref: 'item2' })
     await item1.trigger('click')
-    await rAF()
+    await nextTick()
     expect(item1.classes()).toContain('is-active')
     await item2.trigger('click')
-    await rAF()
+    await nextTick()
     expect(item2.classes()).toContain('is-active')
   })
   test('background-color', async () => {
@@ -55,7 +56,7 @@ describe('menu', () => {
     expect(item1.vm.$el.style.color).toEqual('rgb(0, 0, 0)')
     expect(item2.vm.$el.style.color).toEqual('rgb(0, 255, 0)')
     await item1.trigger('mouseenter')
-    await rAF()
+    await nextTick()
     expect(item1.vm.$el.style.backgroundColor).toEqual('rgb(204, 0, 0)')
   })
   test('menu-item click', async () => {
@@ -83,7 +84,7 @@ describe('menu', () => {
     )
     const item1 = await wrapper.findComponent({ ref: 'item1' })
     await item1.trigger('click')
-    await rAF()
+    await nextTick()
     expect((wrapper.vm as any).clicksCount).toEqual(1)
   })
   test('menu-item disabled', async () => {
@@ -97,7 +98,7 @@ describe('menu', () => {
     const item2 = await wrapper.findComponent({ ref: 'item2' })
     expect(item2.classes()).toContain('is-active')
     await item1.trigger('click')
-    await rAF()
+    await nextTick()
     expect(item1.classes().includes('is-active')).toBeFalsy()
   })
   test('open method', async () => {
@@ -145,7 +146,7 @@ describe('menu', () => {
     const elSubmenu = wrapper.findComponent({ name: 'ElSubmenu' })
     const button = wrapper.find('button')
     button.trigger('click')
-    await rAF()
+    await nextTick()
     const instance = elSubmenu.vm as any
     expect(instance.opened).toBeTruthy()
   })
@@ -164,7 +165,7 @@ describe('default active', () => {
 
     expect(item2.classes()).toContain('is-active')
     await item1.trigger('click')
-    await rAF()
+    await nextTick()
     expect(item1.classes()).toContain('is-active')
   })
   test('dynamic active', async () => {
@@ -181,10 +182,9 @@ describe('default active', () => {
         },
       },
     )
-    await rAF()
     const instance = wrapper.vm as any
     instance.active = '1'
-    await rAF()
+    await nextTick()
     const item1 = await wrapper.findComponent({ ref: 'item1' })
     expect(item1.classes()).toContain('is-active')
   })
@@ -203,11 +203,10 @@ describe('default active', () => {
         </el-menu>
       </div>`,
     )
-    await rAF()
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
     const submenuItem2 = await wrapper.findComponent({ ref: 'submenuItem2' })
     expect(submenuItem2.classes()).toContain('is-active')
-    await rAF()
+    await nextTick()
     expect(submenu.classes()).toContain('is-opened')
     expect(submenu.classes()).toContain('is-active')
   })
@@ -226,11 +225,10 @@ describe('default active', () => {
         </el-menu>
       </div>`,
     )
-    await rAF()
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
     const submenuItem2 = await wrapper.findComponent({ ref: 'submenuItem2' })
     expect(submenuItem2.classes()).toContain('is-active')
-    await rAF()
+    await nextTick()
     expect(submenu.classes()).toContain('is-opened')
     expect(submenu.classes()).toContain('is-active')
   })
@@ -250,17 +248,16 @@ describe('submenu', () => {
         <el-menu-item index="3">订单管理</el-menu-item>
       </el-menu>`,
     )
-    await rAF()
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
     const submenuItem2 = await wrapper.findComponent({ ref: 'submenuItem2' })
     submenu.vm.$el.querySelector('.el-submenu__title').click()
-    await rAF()
+    await nextTick()
     expect(submenu.classes()).toContain('is-opened')
     submenuItem2.trigger('click')
-    await rAF()
+    await nextTick()
     expect(submenuItem2.classes()).toContain('is-active')
     submenu.trigger('click')
-    await rAF()
+    await nextTick()
     expect(submenu.classes()).toContain('is-opened')
   })
   test('default opened', async () => {
@@ -288,15 +285,14 @@ describe('submenu', () => {
         },
       },
     )
-    await rAF()
     const submenu1 = await wrapper.findComponent({ ref: 'submenu1' })
     const submenu2 = await wrapper.findComponent({ ref: 'submenu2' })
-    await rAF()
+    await nextTick()
     expect(submenu1.classes()).toContain('is-opened')
     expect(submenu2.classes()).toContain('is-opened')
     const instance = wrapper.vm as any
     instance.defaultOpeneds = ['2']
-    await rAF()
+    await nextTick()
     expect(submenu1.classes()).toContain('is-opened')
     expect(submenu2.classes()).toContain('is-opened')
   })
@@ -320,10 +316,9 @@ describe('submenu', () => {
         },
       },
     )
-    await rAF()
     const submenu = await wrapper.findComponent({ ref: 'submenu' })
     await submenu.trigger('click')
-    await rAF()
+    await nextTick()
     expect(submenu.classes().includes('is-opened')).toBeFalsy()
   })
 })
@@ -347,10 +342,9 @@ describe('other', () => {
         </el-submenu>
       </el-menu>`,
     )
-    await rAF()
     const submenu2 = await wrapper.findComponent({ ref: 'submenu2' })
     submenu2.vm.$el.querySelector('.el-submenu__title').click()
-    await rAF()
+    await nextTick()
     const submenu1 = await wrapper.findComponent({ ref: 'submenu1' })
     expect(submenu1.classes().includes('is-opened')).toBeFalsy()
   })
@@ -418,7 +412,6 @@ describe('other', () => {
         },
       },
     )
-    await rAF()
     const instance = wrapper.vm as any
     instance.active = '2'
     instance.menus = [
@@ -426,7 +419,7 @@ describe('other', () => {
       { name: '2', description: 'new' },
       { name: '3', description: 'year' },
     ]
-    await rAF()
+    await nextTick()
     expect(
       instance.$el.querySelector('.el-menu-item.is-active').innerHTML,
     ).toEqual('new')
