@@ -16,12 +16,8 @@
   }
 
   @include e(wrap) {
-    overflow: auto;
+    overflow: scroll;
     height: 100%;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
 
     @include m(hidden-default) {
       scrollbar-width: none;
