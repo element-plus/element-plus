@@ -70,7 +70,7 @@ export default defineComponent({
     const tableRows = ref([ [], [], [] ])
     const lastRow = ref(null)
     const lastColumn = ref(null)
-    const rows = computed(() =>{
+    const rows = computed(() => {
       // TODO: refactory rows / getCellClasses
       const rows = tableRows.value
       const now = dayjs().startOf('month')

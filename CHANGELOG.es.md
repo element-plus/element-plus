@@ -1,5 +1,19 @@
 ## Changelog
 
+### 1.0.1-beta.8
+
+*2020-12-12*
+
+#### Bug fixes
+
+- Fix table style bug (#969)
+- Fix some components import type (#959)
+- Fix popover with pure should has border (#954)
+- Fix export locale (#950)
+- Fix menu open method error (#952)
+- Fix collapse not emitting change (#949)
+- Fix dialog bouncing (#955)
+
 ### 1.0.1-beta.7
 
 *2020-12-10*

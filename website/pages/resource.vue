@@ -46,7 +46,7 @@ export default {
   },
 }
 </script>
-<style lang="sass" scoped>
+<style lang="scss" scoped>
   .page-resource {
     padding-top: 55px;
     box-sizing: border-box;
