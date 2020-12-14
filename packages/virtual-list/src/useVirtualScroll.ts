@@ -16,7 +16,6 @@ export interface ElVirtualScrollProps<T> {
 export default function useVirtualScroll<T>(props: ElVirtualScrollProps<T>) {
   const viewportRef = ref<HTMLElement>()
   const offset = ref(0)
-
   const cache = ref(0)
 
   // the reason of not using computed here is that, keys are accessed frequently
@@ -131,15 +130,8 @@ export default function useVirtualScroll<T>(props: ElVirtualScrollProps<T>) {
       }
     }
     requestAnimationFrame(() => {
-      viewportRef.value?.scrollTo?.(
-        $(isVertical)
-          ? {
-            top: _offset,
-          }
-          : {
-            left: _offset,
-          },
-      )
+      offset.value = _offset
+      viewportRef.value[$(scrollKey)] = _offset
     })
   }
 
