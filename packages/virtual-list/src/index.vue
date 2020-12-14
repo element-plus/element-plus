@@ -1,20 +1,29 @@
 <template>
-  <div class="el-vl__viewport" :style="viewportStyle" @scroll.passive="onScroll">
+  <div
+    ref="viewportRef"
+    class="el-vl__viewport"
+    :style="viewportStyle"
+    @scroll.passive="onScroll"
+  >
     <div class="el-vl__content" :style="contentStyle">
-      <div class="el-vl__item-container" :style="itemContainerStyle">
+      <div
+        class="el-vl__item-container"
+        :style="itemContainerStyle"
+        :data-direction="direction"
+      >
         <el-virtual-list-item
-          v-for="idx in renderingItems"
+          v-for="(item, idx) in window"
           :key="idx"
           class="el-vl__item"
           :style="itemStyle"
         >
-          <slot :item="window[idx]"></slot>
+          <slot :item="item"></slot>
         </el-virtual-list-item>
       </div>
     </div>
   </div>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import useVirtualScroll from './useVirtualScroll'
 import VirtualItem from './virtual-item.vue'
@@ -62,5 +71,4 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
-</style>
+<style scoped></style>

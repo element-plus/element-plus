@@ -15,12 +15,11 @@ export default defineComponent({
   props: {
 
   },
-  setup(props) {
+  setup() {
     // init here
     const itemRef = ref<HTMLElement>()
     onMounted(() => {
       // console.log('mounted')
-      console.log(props)
     })
 
     onUpdated(() => {

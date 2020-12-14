@@ -14,5 +14,14 @@
 
   @include e(item-container) {
     will-change: transform; 
+    display: flex;
+
+    &[data-direction="v"] {
+      flex-direction: column;
+    }
+
+    &[data-direction="h"] {
+      flex-direction: row;
+    }
   }
 }
