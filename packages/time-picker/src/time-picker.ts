@@ -5,13 +5,14 @@ import { DEFAULT_FORMATS_TIME } from './common/constant'
 import Picker from './common/picker.vue'
 import TimePickPanel from './time-picker-com/panel-time-pick.vue'
 import TimeRangePanel from './time-picker-com/panel-time-range.vue'
-
+import { defaultProps } from './common/props'
 dayjs.extend(customParseFormat)
 
 export default defineComponent({
   name: 'ElTimePicker',
   install: null,
   props: {
+    ...defaultProps,
     isRange: {
       type: Boolean,
       default: false,
