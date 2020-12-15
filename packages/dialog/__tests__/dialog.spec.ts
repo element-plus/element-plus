@@ -38,7 +38,7 @@ describe('Dialog.vue', () => {
     const HEADER = 'I am header'
     let wrapper = _mount({
       slots: {
-        header: HEADER,
+        title: HEADER,
       },
       props: {
         modelValue: true,
