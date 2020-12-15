@@ -16,6 +16,7 @@
     :aria-disabled="node.disabled"
     :aria-checked="node.checked"
     :draggable="tree.props.draggable"
+    :data-key="getNodeKey(node)"
     @click.stop="handleClick"
     @contextmenu="handleContextMenu"
     @dragstart.stop="handleDragStart"
