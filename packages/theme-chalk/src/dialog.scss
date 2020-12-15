@@ -12,8 +12,6 @@
   box-shadow: $--dialog-box-shadow;
   box-sizing: border-box;
   width: 50%;
-  max-height: 70%;
-  overflow-y: scroll;
 
   @include when(fullscreen) {
     width: 100%;
