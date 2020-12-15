@@ -13,7 +13,10 @@ export default tick
 export const rAF = async () => {
   return new Promise(res => {
     requestAnimationFrame(() => {
-      requestAnimationFrame(res)
+      requestAnimationFrame(async () => {
+        res()
+        await nextTick()
+      })
     })
   })
 }
