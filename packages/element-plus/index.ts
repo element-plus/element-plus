@@ -84,7 +84,7 @@ import ElTree from '@element-plus/tree'
 import ElUpload from '@element-plus/upload'
 import ElVirtualList from '@element-plus/virtual-list'
 import { use } from '@element-plus/locale'
-import { version as version_ } from './version'
+import { version as version_ } from '../../package.json'
 import { setConfig } from '@element-plus/utils/config'
 import type { InstallOptions } from '@element-plus/utils/config'
 
