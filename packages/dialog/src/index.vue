@@ -30,7 +30,7 @@
           @click="$event.stopPropagation()"
         >
           <div class="el-dialog__header">
-            <slot name="header">
+            <slot name="title">
               <span class="el-dialog__title">
                 {{ title }}
               </span>
