@@ -29,7 +29,7 @@ describe('Directives.vue', () => {
     const testTime = 330
     await sleep(testTime)
     block.trigger('mouseup')
-    const expectResult = Math.floor(testTime / 100)
+    const expectResult = Math.floor((testTime - 300) / 100) + 1
     expect(handler).toHaveBeenCalledTimes(expectResult)
   })
 })
