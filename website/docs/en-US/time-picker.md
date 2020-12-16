@@ -106,7 +106,7 @@ Can pick an arbitrary time range.
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | binding value | date(TimePicker) / string(TimeSelect) | - | - |
+| value / v-model | binding value | Date | - | - |
 | readonly | whether TimePicker is read only | boolean | — | false |
 | disabled | whether TimePicker is disabled | boolean | — | false |
 | editable | whether the input is editable | boolean | — | true |
