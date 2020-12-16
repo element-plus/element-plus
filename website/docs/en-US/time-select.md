@@ -10,11 +10,9 @@ Provide a list of fixed time for users to choose.
 ```html
 <el-time-select
   v-model="value"
-  :picker-options="{
-    start: '08:30',
-    step: '00:15',
-    end: '18:30'
-  }"
+  start='08:30'
+  step='00:15'
+  end='18:30'
   placeholder="Select time">
 </el-time-select>
 
@@ -40,21 +38,18 @@ If start time is picked at first, then the end time will change accordingly.
   <el-time-select
     placeholder="Start time"
     v-model="startTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30'
-    }">
+    start='08:30'
+    step='00:15'
+    end='18:30'
+  >
   </el-time-select>
   <el-time-select
     placeholder="End time"
     v-model="endTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30',
-      minTime: startTime
-    }">
+    start='08:30'
+    step='00:15'
+    end='18:30'
+    :minTime="startTime">
   </el-time-select>
 </template>
 
@@ -74,24 +69,20 @@ If start time is picked at first, then the end time will change accordingly.
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | binding value | date(TimePicker) / string(TimeSelect) | - | - |
+| value / v-model | binding value | string | - | - |
 | editable | whether the input is editable | boolean | — | true |
 | clearable | whether to show clear button | boolean | — | true |
 | size | size of Input | string | medium / small / mini | — |
 | placeholder | placeholder in non-range mode | string | — | — |
-| picker-options | additional options, check the table below | object | — | {} |
 | name | same as `name` in native input | string | — | — |
 | prefix-icon | Custom prefix icon class | string | — | el-icon-time |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
-
-### Time Select Options
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
 | start | start time | string | — | 09:00 |
 | end | end time | string | — | 18:00 |
 | step | time step | string | — | 00:30 |
 | minTime | minimum time, any time before this time will be disabled | string | — | 00:00 |
 | maxTime | maximum time, any time after this time will be disabled | string | — | — |
+
 
 ### Events
 | Event Name | Description | Parameters |
