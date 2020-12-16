@@ -92,10 +92,10 @@ export default defineComponent({
         // track the current rendering index, when encounters the last element
         // then no need to add a spacer after it.
         const len = extractedChildren.length - 1
-        extractedChildren = extractedChildren.flatMap((child, idx) => {
+        extractedChildren = extractedChildren.reduce((acc, child, idx) => {
           return idx === len
-            ? [child]
-            : [
+            ? [...acc, child]
+            : [...acc,
               child,
               createVNode(
                 'span',
@@ -115,7 +115,7 @@ export default defineComponent({
                 PatchFlags.STYLE,
               ),
             ]
-        })
+        }, [])
       }
 
       // spacer container.

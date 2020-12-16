@@ -41,28 +41,28 @@ describe('Space.vue', () => {
     })
 
     await nextTick()
-    expect(wrapper.find('.el-space-item').attributes('style')).toContain('margin-right: 16px')
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain('margin-right: 16px')
 
     await wrapper.setProps({
       size: 30,
     })
 
     await nextTick()
-    expect(wrapper.find('.el-space-item').attributes('style')).toContain('margin-right: 30px')
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain('margin-right: 30px')
 
     await wrapper.setProps({
       size: [10, 20],
     })
 
-    expect(wrapper.find('.el-space-item').attributes('style')).toContain('margin-right: 10px')
-    expect(wrapper.find('.el-space-item').attributes('style')).toContain('padding-bottom: 20px')
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain('margin-right: 10px')
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain('padding-bottom: 20px')
     await wrapper.setProps({
       size: 'unknown',
     })
 
     expect(warnHandler).toHaveBeenCalledTimes(1)
 
-    expect(wrapper.find('.el-space-item').attributes('style')).toContain('margin-right: 8px')
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain('margin-right: 8px')
   })
 
 
