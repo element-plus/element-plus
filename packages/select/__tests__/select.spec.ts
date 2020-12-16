@@ -327,6 +327,113 @@ describe('Select', () => {
     expect(vm.value.indexOf('选项1')).toBe(-1)
   })
 
+  test('multiple select when content overflow', async () => {
+    const wrapper = _mount(`
+      <el-select v-model="selectedList" multiple placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+    () => ({
+      options: [{
+        value: '选项1',
+        label: '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+      }, {
+        value: '选项2',
+        label: '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+      }, {
+        value: '选项3',
+        label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+      }, {
+        value: '选项4',
+        label: '龙须面',
+      }, {
+        value: '选项5',
+        label: '北京烤鸭',
+      }],
+      selectedList: [],
+    }))
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+    const selectWrapper = wrapper.findComponent(Select)
+    const inputWrapper = selectWrapper.findComponent({ ref: 'reference' })
+    const inputDom = inputWrapper.element
+    const inputRect = {
+      height: 40,
+      width: 221,
+      x:44,
+      y:8,
+      top:8,
+    }
+    const mockInputWidth = jest.spyOn(inputDom, 'getBoundingClientRect').mockReturnValue(inputRect as DOMRect)
+    selectWrapper.vm.handleResize()
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const tagWrappers = wrapper.findAll('.el-select__tags-text')
+    for(let i=0;i<tagWrappers.length;i++) {
+      const tagWrapperDom = tagWrappers[i].element
+      expect(parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75).toBe(true)
+    }
+    mockInputWidth.mockRestore()
+  })
+
+  test('multiple select with collapseTags when content overflow', async () => {
+    const wrapper = _mount(`
+      <el-select v-model="selectedList" multiple collapseTags placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+    () => ({
+      options: [{
+        value: '选项1',
+        label: '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+      }, {
+        value: '选项2',
+        label: '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+      }, {
+        value: '选项3',
+        label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
+      }, {
+        value: '选项4',
+        label: '龙须面',
+      }, {
+        value: '选项5',
+        label: '北京烤鸭',
+      }],
+      selectedList: [],
+    }))
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+    const selectWrapper = wrapper.findComponent(Select)
+    const inputWrapper = selectWrapper.findComponent({ ref: 'reference' })
+    const inputDom = inputWrapper.element
+    const inputRect = {
+      height: 40,
+      width: 221,
+      x:44,
+      y:8,
+      top:8,
+    }
+    const mockInputWidth = jest.spyOn(inputDom, 'getBoundingClientRect').mockReturnValue(inputRect as DOMRect)
+    selectWrapper.vm.handleResize()
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const tagWrappers = wrapper.findAll('.el-select__tags-text')
+    const tagWrapperDom = tagWrappers[0].element
+    console.log(tagWrapperDom.style.maxWidth)
+    expect(parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123).toBe(true)
+    mockInputWidth.mockRestore()
+  })
+
   test('multiple remove-tag', async () => {
     const wrapper = _mount(`
       <el-select v-model="value" multiple @remove-tag="handleRemoveTag">
