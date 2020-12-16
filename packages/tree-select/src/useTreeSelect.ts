@@ -1,17 +1,20 @@
-import { computed, inject, nextTick, reactive, ref } from 'vue'
+import { computed, inject, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch, getCurrentInstance } from 'vue'
 import { isEdge, isIE, useGlobalConfig } from '@element-plus/utils/util'
 import { ElFormContext, ElFormItemContext, elFormItemKey, elFormKey } from '@element-plus/form'
 import { t } from '@element-plus/locale'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
+import { off, on } from '@element-plus/utils/dom'
+import Node from '@element-plus/tree/src/model/node'
 
 
 
 export const useTreeSelectStates = props => {
-  return reactive({
+
+  const states = reactive({
     data: props.treeData,
-    selected: props.multiple ? [] : {} as any,
+    selected: props.modelValue,
     inputLength: 20,
     inputWidth: 0,
     initialInputHeight: 0,
@@ -29,12 +32,24 @@ export const useTreeSelectStates = props => {
     isOnComposition: false,
     isSilentBlur: false,
   })
+
+  watch(() => props.treeData, val => {
+    states.data = val
+  })
+
+  watch(() => props.modelValue, val => {
+    states.selected = val
+    states.selectedLabel = props.modelValue
+  })
+
+  return states
 }
 
 export const useTreeSelect = (props, states, ctx) => {
   const ELEMENT = useGlobalConfig()
 
   // template refs
+  const tree = ref(null)
   const reference = ref(null)
   const input = ref(null)
   const popper = ref(null)
@@ -195,15 +210,27 @@ export const useTreeSelect = (props, states, ctx) => {
     onInputChange()
   }, debounce.value)
 
-  const navigateNode = direction => {
-    // TODO:
+  const navigateNode = () => {
+    if(!document.activeElement.classList.contains('el-tree-node')){
+      tree.value.$el.querySelectorAll('.is-focusable[role=treeitem]')[0].focus()
+    }
   }
 
-  const selectNode = () => {
-    // TODO:
+  const handleEnterKeydown = e => {
+    const targetKey = e.target.dataset.key
+    selectNode(tree.value.store.nodesMap[targetKey].data, tree.value.store.getNode(targetKey))
+  }
+
+  const selectNode = (data, node) => {
+    states.selected = data
+    states.selectedLabel = data[props.props.label]
+    states.dropdownTreeVisible = false
+    ctx.emit(UPDATE_MODEL_EVENT, data[props.props.id])
+    ctx.emit('change', data[props.props.id], data, node)
   }
 
   return {
+    tree,
     reference,
     input,
     popper,
@@ -227,7 +254,8 @@ export const useTreeSelect = (props, states, ctx) => {
     handleBlur,
     debouncedOnInputChange,
     navigateNode,
-    selectNode,
     resetInputHeight,
+    selectNode,
+    handleEnterKeydown,
   }
 }

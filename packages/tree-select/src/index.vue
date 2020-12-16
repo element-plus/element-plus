@@ -20,7 +20,18 @@
     >
       <template #default>
         <el-tree
+          ref="tree"
           style="min-width: 221.4px;"
+          v-bind="$props"
+          :data="data"
+          :empty-text="noDataText"
+          :show-checkbox="multiple"
+          :current-node-key="multiple ? [] : selected[props.id]"
+          :expand-on-click-node="false"
+          :node-key="props.id"
+          :icon-class="treeIconClass"
+          @current-change="selectNode"
+          @keydown.enter="handleEnterKeydown"
         />
       </template>
       <template #trigger>
@@ -29,6 +40,7 @@
             :id="id"
             ref="reference"
             type="text"
+            :model-value="$props.multiple ? '' : selectedLabel"
             :placeholder="currentPlaceholder"
             :name="name"
             :size="treeSelectSize"
@@ -41,9 +53,9 @@
             @blur="handleBlur"
             @input="debouncedOnInputChange"
             @paste="debouncedOnInputChange"
-            @keydown.down.stop.prevent="navigateNode('next')"
-            @keydown.up.stop.prevent="navigateNode('prev')"
-            @keydown.enter.stop.prevent="selectNode"
+            @keydown.down.stop.prevent="navigateNode"
+            @keydown.up.stop.prevent="navigateNode"
+            @keydown.enter.stop.prevent="handleEnterKeydown"
             @keydown.esc.stop.prevent="dropdownTreeVisible = false"
             @keydown.tab="dropdownTreeVisible = false"
             @mouseenter="inputHovering = true"
@@ -72,6 +84,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import { t } from '@element-plus/locale'
 import { addResizeListener } from '@element-plus/utils/resize-event'
 import { useTreeSelect, useTreeSelectStates } from './useTreeSelect'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 
 export default defineComponent({
   name: 'ElTreeSelect',
@@ -88,26 +101,67 @@ export default defineComponent({
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
     },
-    treeData: {
-      type: Array,
-      default: () => ([]),
-    },
     disabled: Boolean,
     clearable: Boolean,
     filterable: Boolean,
-    loading: Boolean,
     popperClass: String,
+    lazy: {
+      type: Boolean,
+      default: false,
+    },
+    loading: Boolean,
     remote: Boolean,
     loadingText: String,
     noMatchText: String,
     noDataText: String,
-    remoteMethod: Function,
-    filterMethod: Function,
-    multiple: Boolean,
+    filterNodeMethod: Function,
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
     multipleLimit: {
       type: Number,
       default: 0,
     },
+    treeData: {
+      type: Array,
+      default: () => ([]),
+    },
+    props: {
+      type: Object,
+      default() {
+        return {
+          id: 'id',
+          children: 'children',
+          label: 'label',
+          disabled: 'disabled',
+          isLeaf: 'isLeaf',
+        }
+      },
+    },
+    renderAfterExpand: Boolean,
+    load: Function,
+    checkStrictly: Boolean,
+    defaultExpandAll: Boolean,
+    checkOnClickNode: Boolean,
+    autoExpandParent: {
+      type: Boolean,
+      default: true,
+    },
+    defaultCheckedKeys: Array,
+    defaultExpandedKeys: Array,
+    currentNodeKey: [String, Number] as PropType<string | number>,
+    renderContent: Function,
+    highlightCurrent: {
+      type: Boolean,
+      default: true,
+    },
+    accordion: Boolean,
+    indent: {
+      type: Number,
+      default: 18,
+    },
+    treeIconClass: String,
     placeholder: {
       type: String,
     },
@@ -121,6 +175,7 @@ export default defineComponent({
       default: 'el-icon-circle-close',
     },
   },
+  emit: [UPDATE_MODEL_EVENT],
   setup(props, ctx) {
     const states = useTreeSelectStates(props)
 
@@ -142,6 +197,7 @@ export default defineComponent({
     } = toRefs(states)
 
     const {
+      tree,
       reference,
       input,
       popper,
@@ -166,6 +222,7 @@ export default defineComponent({
       debouncedOnInputChange,
       navigateNode,
       selectNode,
+      handleEnterKeydown,
       resetInputHeight,
     } = useTreeSelect(props, states, ctx)
 
@@ -196,6 +253,7 @@ export default defineComponent({
     })
 
     return {
+      tree,
       reference,
       input,
       popper,
@@ -218,6 +276,7 @@ export default defineComponent({
       debouncedOnInputChange,
       navigateNode,
       selectNode,
+      handleEnterKeydown,
 
       data,
       inputWidth,
