@@ -143,34 +143,23 @@ export default defineComponent({
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
     // data
-    const start_ = ref(props.start)
-    const end_ = ref(props.end)
-    const step_ = ref(props.step)
     const value = ref(props.modelValue)
-    const minTime_ = ref(props.minTime)
-    const maxTime_ = ref(props.maxTime)
     // computed
     const items = computed(() => {
       const result = []
-      if (start_.value && end_.value && step_.value) {
-        let current = start_.value
-        while (compareTime(current, end_.value) <= 0) {
+      if (props.start && props.end && props.step) {
+        let current = props.start
+        while (compareTime(current, props.end) <= 0) {
           result.push({
             value: current,
             disabled:
-              compareTime(current, minTime_.value || '-1:-1') <= 0 ||
-              compareTime(current, maxTime_.value || '100:100') >= 0,
+              compareTime(current, props.minTime || '-1:-1') <= 0 ||
+              compareTime(current, props.maxTime || '100:100') >= 0,
           })
-          current = nextTime(current, step_.value)
+          current = nextTime(current, props.step)
         }
       }
       return result
-    })
-    watch(() => props.minTime, value => {
-      minTime_.value = value
-    })
-    watch(() => props.maxTime, value => {
-      maxTime_.value = value
     })
     return {
       value,
