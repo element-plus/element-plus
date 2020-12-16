@@ -1,5 +1,20 @@
 ## Changelog
 
+### 1.0.1-beta.9
+
+*2020-12-16*
+
+#### Bug fixes
+
+- Fix menu collapse animation failure (#1003)
+- Fix timepicker / datepicker fragment error (#1009)
+- Update time select (#1014)
+- Fix dialog can't scroll if the content too large (#993)
+- Fix tree keyboard navigation bug (#995)
+- Fix table filter-panel style (#943)
+- Fix dialog header slot (#997)
+- Fix native scrollbar not hide when `native` is not true (#971)
+
 ### 1.0.1-beta.8
 
 *2020-12-12*
