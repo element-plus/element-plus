@@ -1,13 +1,13 @@
-import { computed, inject, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch, getCurrentInstance } from 'vue'
+import { computed, inject, nextTick, reactive, ref, watch } from 'vue'
+import { toRawType } from '@vue/shared'
 import { isEdge, isIE, useGlobalConfig } from '@element-plus/utils/util'
 import { ElFormContext, ElFormItemContext, elFormItemKey, elFormKey } from '@element-plus/form'
 import { t } from '@element-plus/locale'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
-import { off, on } from '@element-plus/utils/dom'
-import Node from '@element-plus/tree/src/model/node'
-
+import { EVENT_CODE } from '@element-plus/utils/aria'
+import { TreeKey } from '@element-plus/tree/src/tree.type'
 
 
 export const useTreeSelectStates = props => {
@@ -84,6 +84,14 @@ export const useTreeSelect = (props, states, ctx) => {
 
   const debounce = computed(() => props.remote ? 300 : 0)
 
+  const treeProps = computed(() => Object.assign({
+    id: 'id',
+    children: 'children',
+    label: 'label',
+    disabled: 'disabled',
+    isLeaf: 'isLeaf',
+  }, props.props))
+
   const toggleDropdownTree = () => {
     if (props.automaticDropdown) return
     if (!treeSelectDisabled.value) {
@@ -146,8 +154,25 @@ export const useTreeSelect = (props, states, ctx) => {
     states.inputWidth = reference.value?.$el.getBoundingClientRect().width
   }
 
-  const setSelected = () => {
-    // TODO:
+  const setSelected = (key: TreeKey | TreeKey[]) => {
+    const rowType = toRawType(key)
+    if(['string', 'number', 'array'].includes(rowType)){
+      // TODO: warning
+      return
+    }
+    if (!props.multiple && rowType === 'array') {
+      // TODO: warning
+      return
+    }
+    if (!props.multiple) {
+      const node = tree.value.store.getNode(key)
+      const data = node.data
+      ctx.emit(UPDATE_MODEL_EVENT, data[treeProps.value.id])
+      ctx.emit('change', data[treeProps.value.id], data, node)
+    } else {
+      if(rowType !== 'array') key = [key] as TreeKey[]
+      // TODO: set
+    }
   }
 
   const handleFocus = event => {
@@ -210,9 +235,51 @@ export const useTreeSelect = (props, states, ctx) => {
     onInputChange()
   }, debounce.value)
 
-  const navigateNode = () => {
-    if(!document.activeElement.classList.contains('el-tree-node')){
-      tree.value.$el.querySelectorAll('.is-focusable[role=treeitem]')[0].focus()
+  const navigateNode = (e: KeyboardEvent) => {
+    const code = e.code
+    if (!document.activeElement.classList.contains('el-tree-node')) {
+      if (!props.multiple) {
+        if (states.selected) {
+          const treeItems = Array.from<HTMLElement>(tree.value.$el.querySelectorAll('.is-focusable[role=treeitem]'))
+          const currentIndex = treeItems.findIndex(item => item.classList.contains('is-current'))
+          e.preventDefault()
+          let nextIndex
+          if (code === EVENT_CODE.up) {
+            nextIndex = currentIndex === -1 ? 0 : currentIndex !== 0 ? currentIndex - 1 : treeItems.length - 1
+            const startIndex = nextIndex
+            while (true) {
+              if (tree.value.store.getNode(treeItems[nextIndex].dataset.key).canFocus) break
+              nextIndex--
+              if (nextIndex === startIndex) {
+                nextIndex = -1
+                break
+              }
+              if (nextIndex < 0) {
+                nextIndex = treeItems.length - 1
+              }
+            }
+          } else {
+            nextIndex = currentIndex === -1 ? 0 : (currentIndex < treeItems.length - 1) ? currentIndex + 1 : 0
+            const startIndex = nextIndex
+            while (true) {
+              if (tree.value.store.getNode(treeItems[nextIndex].dataset.key).canFocus) break
+              nextIndex++
+              if (nextIndex === startIndex) {
+                nextIndex = -1
+                break
+              }
+              if (nextIndex >= treeItems.length) {
+                nextIndex = 0
+              }
+            }
+          }
+          nextIndex !== -1 && treeItems[nextIndex].focus()
+          return
+        }
+        tree.value.$el.querySelectorAll('.is-focusable[role=treeitem]')[0].focus()
+      }
+    } else {
+      // TODO: multiple
     }
   }
 
@@ -223,10 +290,10 @@ export const useTreeSelect = (props, states, ctx) => {
 
   const selectNode = (data, node) => {
     states.selected = data
-    states.selectedLabel = data[props.props.label]
+    states.selectedLabel = data[treeProps.value.label]
     states.dropdownTreeVisible = false
-    ctx.emit(UPDATE_MODEL_EVENT, data[props.props.id])
-    ctx.emit('change', data[props.props.id], data, node)
+    ctx.emit(UPDATE_MODEL_EVENT, data[treeProps.value.id])
+    ctx.emit('change', data[treeProps.value.id], data, node)
   }
 
   return {
@@ -244,6 +311,7 @@ export const useTreeSelect = (props, states, ctx) => {
     treeSelectSize,
     showClose,
     iconClass,
+    treeProps,
     toggleDropdownTree,
     emptyText,
     handleClose,

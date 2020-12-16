@@ -29,6 +29,7 @@
           :current-node-key="multiple ? [] : selected[props.id]"
           :expand-on-click-node="false"
           :node-key="props.id"
+          :props="treeProps"
           :icon-class="treeIconClass"
           @current-change="selectNode"
           @keydown.enter="handleEnterKeydown"
@@ -55,7 +56,6 @@
             @paste="debouncedOnInputChange"
             @keydown.down.stop.prevent="navigateNode"
             @keydown.up.stop.prevent="navigateNode"
-            @keydown.enter.stop.prevent="handleEnterKeydown"
             @keydown.esc.stop.prevent="dropdownTreeVisible = false"
             @keydown.tab="dropdownTreeVisible = false"
             @mouseenter="inputHovering = true"
@@ -211,6 +211,7 @@ export default defineComponent({
       treeSelectSize,
       showClose,
       iconClass,
+      treeProps,
       toggleDropdownTree,
       emptyText,
       handleClose,
@@ -267,6 +268,7 @@ export default defineComponent({
       treeSelectSize,
       showClose,
       iconClass,
+      treeProps,
       toggleDropdownTree,
       emptyText,
       handleClose,
