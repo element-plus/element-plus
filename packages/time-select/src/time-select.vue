@@ -33,6 +33,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue'
 import ElSelect from '@element-plus/select'
+import ElOption from '@element-plus/option'
 interface Time {
   hours: number
   minutes: number
@@ -83,7 +84,7 @@ const nextTime = (time: string, step: string): string => {
 export default defineComponent({
   name: 'ElTimeSelect',
 
-  components: { ElSelect },
+  components: { ElSelect, ElOption },
   model: {
     prop: 'value',
     event: 'change',
