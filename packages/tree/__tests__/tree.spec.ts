@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import Tree from '../src/tree.vue'
-import { sleep } from '@element-plus/test-utils'
+import { sleep, defineGetter } from '@element-plus/test-utils'
 
 const ALL_NODE_COUNT = 9
 
@@ -836,4 +836,212 @@ describe('Tree.vue', () => {
     expect(treeWrappers[1].vm.getNode(4).data).toEqual(nodeData)
   })
 
+  test('navigate with defaultExpandAll',  () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree default-expand-all ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
+        </div>
+      `,
+    })
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    expect(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length).toBe(9)
+  })
+
+  test('navigate up',  async () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
+        </div>
+      `,
+    })
+    let flag = false
+    function handleFocus(){
+      return () => (flag = true)
+    }
+    await nextTick()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const targetElement = wrapper.find('div[data-key="3"]').element
+    const fromElement =  wrapper.find('div[data-key="1"]').element
+    defineGetter(targetElement, 'focus', handleFocus)
+    tree.vm.setCurrentKey(1)
+    expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
+    fromElement.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp', bubbles: true, cancelable: false }))
+    expect(flag).toBe(true)
+  })
+
+  test('navigate down', async () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
+        </div>
+      `,
+    })
+    let flag = false
+    function handleFocus(){
+      return () => (flag = true)
+    }
+    await nextTick()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const targetElement = wrapper.find('div[data-key="2"]').element
+    const fromElement =  wrapper.find('div[data-key="1"]').element
+    defineGetter(targetElement, 'focus', handleFocus)
+    tree.vm.setCurrentKey(1)
+    expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
+    fromElement.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    expect(flag).toBe(true)
+  })
+
+  test('navigate with disabled',  async () => {
+    const wrapper = mount( {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
+        </div>
+      `,
+      components: {
+        'el-tree': Tree,
+      },
+      data(){
+        return {
+          data: [{
+            id: 1,
+            label: '一级 1',
+            children: [{
+              id: 11,
+              label: '二级 1-1',
+              children: [{
+                id: 111,
+                label: '三级 1-1',
+                disabled: true,
+              }],
+            }],
+          }, {
+            id: 2,
+            label: '一级 2',
+            disabled: true,
+            children: [{
+              id: 21,
+              label: '二级 2-1',
+            }, {
+              id: 22,
+              label: '二级 2-2',
+            }],
+          }, {
+            id: 3,
+            label: '一级 3',
+            children: [{
+              id: 31,
+              label: '二级 3-1',
+            }, {
+              id: 32,
+              label: '二级 3-2',
+            }],
+          }],
+          defaultProps: {
+            children: 'children',
+            label: 'label',
+            disabled: 'disabled',
+          },
+        }
+      },
+    })
+    let flag = false
+    function handleFocus(){
+      return () => (flag = true)
+    }
+    await nextTick()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const targetElement = wrapper.find('div[data-key="3"]').element
+    const fromElement =  wrapper.find('div[data-key="1"]').element
+    defineGetter(targetElement, 'focus', handleFocus)
+    tree.vm.setCurrentKey(1)
+    expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
+    fromElement.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    expect(flag).toBe(true)
+  })
+
+  test('navigate with lazy and without node-key',  async () => {
+    const wrapper = mount( {
+      template: `
+        <div>
+        <el-tree
+          :props="defaultProps"
+          :load="loadNode"
+          lazy
+          show-checkbox>
+        </el-tree>
+        </div>
+      `,
+      components: {
+        'el-tree': Tree,
+      },
+      data(){
+        return {
+          defaultProps: {
+            children: 'children',
+            label: 'label',
+            disabled: 'disabled',
+          },
+        }
+      },
+      methods: {
+        loadNode(node, resolve) {
+          if (node.level === 0) {
+            return resolve([{ name: 'region1' }, { name: 'region2' }])
+          }
+          if (node.level > 3) return resolve([])
+
+          let hasChild
+          if (node.data.name === 'region1') {
+            hasChild = true
+          } else if (node.data.name === 'region2') {
+            hasChild = false
+          } else {
+            hasChild = false
+          }
+
+          let data
+          if (hasChild) {
+            data = [{
+              name: 'zone' + this.count++,
+            }, {
+              name: 'zone' + this.count++,
+            }]
+          } else {
+            data = []
+          }
+          resolve(data)
+        },
+      },
+    })
+    let flag = false
+    function handleFocus(){
+      return () => (flag = !flag)
+    }
+    await nextTick()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const originElements = wrapper.findAll('div[data-key]')
+    const region1 = originElements[0].element
+    const region2 = originElements[1].element
+    defineGetter(region2, 'focus', handleFocus)
+    // expand
+    region1.dispatchEvent(new MouseEvent('click'))
+    expect(region1.classList.contains('is-focusable')).toBeTruthy()
+    await sleep(100)
+    expect(Object.values(tree.vm.store.nodesMap.length === 4)).toBeTruthy()
+    expect(Object.values(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length === 4)).toBeTruthy()
+    // collapse
+    region1.dispatchEvent(new MouseEvent('click'))
+    expect(Object.values(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length === 2)).toBeTruthy()
+    // ArrowDown, region2 focus
+    region1.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    expect(flag).toBe(true)
+    defineGetter(region1, 'focus', handleFocus)
+    // ArrowDown, region1 focus
+    region2.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    expect(flag).toBe(false)
+  })
 })

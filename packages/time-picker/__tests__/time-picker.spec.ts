@@ -32,15 +32,20 @@ afterEach(() => {
 })
 
 describe('TimePicker', () => {
-  it('create', async () => {
+  it('create & custom class & style', async () => {
     const wrapper = _mount(`<el-time-picker
     :placeholder="placeholder"
     :readonly="readonly"
+    :style="{color:'red'}"
+    class="customClass"
   />`, () => ({ placeholder: 'test_',
       readonly: true }))
     const input = wrapper.find('input')
     expect(input.attributes('placeholder')).toBe('test_')
     expect(input.attributes('readonly')).not.toBeUndefined()
+    const outterInput = wrapper.find('.el-input')
+    expect(outterInput.classes()).toContain('customClass')
+    expect(outterInput.attributes().style).toBeDefined()
   })
 
   it('set format && default value && set AM/PM spinner', async () => {

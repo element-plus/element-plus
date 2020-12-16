@@ -33,11 +33,12 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue'
 import ElSelect from '@element-plus/select'
+import ElOption from '@element-plus/option'
 interface Time {
   hours: number
   minutes: number
 }
-const parseTime = function (time: string): null | Time {
+const parseTime = (time: string): null | Time => {
   const values = (time || '').split(':')
   if (values.length >= 2) {
     const hours = parseInt(values[0], 10)
@@ -49,7 +50,7 @@ const parseTime = function (time: string): null | Time {
   }
   return null
 }
-const compareTime = function (time1: string, time2: string): number {
+const compareTime = (time1: string, time2: string): number => {
   const value1 = parseTime(time1)
   const value2 = parseTime(time2)
   const minutes1 = value1.minutes + value1.hours * 60
@@ -59,14 +60,14 @@ const compareTime = function (time1: string, time2: string): number {
   }
   return minutes1 > minutes2 ? 1 : -1
 }
-const formatTime = function (time: Time): string {
+const formatTime = (time: Time): string => {
   return (
     (time.hours < 10 ? '0' + time.hours : time.hours) +
     ':' +
     (time.minutes < 10 ? '0' + time.minutes : time.minutes)
   )
 }
-const nextTime = function (time: string, step: string): string {
+const nextTime = (time: string, step: string): string => {
   const timeValue = parseTime(time)
   const stepValue = parseTime(step)
   const next = {
@@ -83,7 +84,7 @@ const nextTime = function (time: string, step: string): string {
 export default defineComponent({
   name: 'ElTimeSelect',
 
-  components: { ElSelect },
+  components: { ElSelect, ElOption },
   model: {
     prop: 'value',
     event: 'change',
@@ -101,19 +102,31 @@ export default defineComponent({
     size: {
       type: String,
       default: '',
-      validator: function (value) {
-        return !value || ['medium', 'small', 'mini'].indexOf(value) !== -1
-      },
+      validator: (value: string) => !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
     },
     placeholder: {
       type: String,
       default: '',
     },
-    pickerOptions: {
-      type: Object,
-      default: () => {
-        return {}
-      },
+    start: {
+      type: String,
+      default: '09:00',
+    },
+    end: {
+      type: String,
+      default: '18:00',
+    },
+    step: {
+      type: String,
+      default: '00:30',
+    },
+    minTime: {
+      type: String,
+      default: '',
+    },
+    maxTime: {
+      type: String,
+      default: '',
     },
     name: {
       type: String,
@@ -131,57 +144,27 @@ export default defineComponent({
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
     // data
-    const start = ref('09:00')
-    const end = ref('18:00')
-    const step = ref('00:30')
     const value = ref(props.modelValue)
-    const minTime = ref('00:00')
-    const maxTime = ref('')
-    let data = {
-      start,
-      end,
-      step,
-      value,
-      minTime,
-      maxTime,
-    }
     // computed
     const items = computed(() => {
       const result = []
-      if (start.value && end.value && step.value) {
-        let current = start.value
-        while (compareTime(current, end.value) <= 0) {
+      if (props.start && props.end && props.step) {
+        let current = props.start
+        while (compareTime(current, props.end) <= 0) {
           result.push({
             value: current,
             disabled:
-              compareTime(current, minTime.value || '-1:-1') <= 0 ||
-              compareTime(current, maxTime.value || '100:100') >= 0,
+              compareTime(current, props.minTime || '-1:-1') <= 0 ||
+              compareTime(current, props.maxTime || '100:100') >= 0,
           })
-          current = nextTime(current, step.value)
+          current = nextTime(current, props.step)
         }
       }
       return result
     })
-    // methods
-    const updateOptions = () => {
-      const options = props.pickerOptions
-      for (const option in options) {
-        if (options.hasOwnProperty(option)) {
-          data[option].value = options[option]
-        }
-      }
-    }
-    // watch
-    watch(
-      () => props.pickerOptions,
-      () => {
-        updateOptions()
-      },
-    )
     return {
-      ...data,
+      value,
       items,
-      updateOptions,
     }
   },
 })

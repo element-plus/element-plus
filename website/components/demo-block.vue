@@ -164,7 +164,7 @@ export default {
         '\n<scr' + `ipt src="//unpkg.com/element-plus/lib/index.full.js"></scr` + 'ipt>'
       let htmlTpl = `${resourcesTpl}\n<div id="app">\n${html.trim()}\n</div>`
       let cssTpl = `@import url("//unpkg.com/element-plus/lib/theme-chalk/index.css");\n${(style || '').trim()}\n`
-      let jsTpl = script ? script.replace(/export default/, 'var Main =').trim().replace(/import ({.*}) from 'vue'/g, (s, s1) => `const ${s1} = Vue`) : 'var Main = {}'
+      let jsTpl = script ? script.replace(/export default/, 'var Main =').trim().replace(/import ({.*}) from 'vue'/g, (s, s1) => `const ${s1} = Vue`).replace(/import ({.*}) from 'element-plus'/g, (s, s1) => `const ${s1} = ElementPlus`) : 'var Main = {}'
       jsTpl += '\n;const app = Vue.createApp(Main);\napp.use(ElementPlus);\napp.mount("#app")'
       const data = {
         js: jsTpl,

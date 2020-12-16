@@ -10,11 +10,9 @@
 ```html
 <el-time-select
   v-model="value"
-  :picker-options="{
-    start: '08:30',
-    step: '00:15',
-    end: '18:30'
-  }"
+  start='08:30'
+  step='00:15'
+  end='18:30'
   placeholder="选择时间">
 </el-time-select>
 
@@ -40,21 +38,17 @@
   <el-time-select
     placeholder="起始时间"
     v-model="startTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30'
-    }">
+    start='08:30'
+  step='00:15'
+  end='18:30'>
   </el-time-select>
   <el-time-select
     placeholder="结束时间"
     v-model="endTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30',
-      minTime: startTime
-    }">
+    start='08:30'
+    step='00:15'
+    end='18:30'
+    :minTime="startTime">
   </el-time-select>
 </template>
 
@@ -74,24 +68,20 @@
 ### Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | 绑定值 | date(TimePicker) / string(TimeSelect) | — | — |
+| value / v-model | 绑定值 | string | — | — |
 | editable | 文本框可输入 | boolean | — | true |
 | clearable | 是否显示清除按钮 | boolean | — | true |
 | size          | 输入框尺寸     | string          | medium / small / mini  | — |
 | placeholder | 非范围选择时的占位内容 | string | — | — |
-| picker-options | 当前时间日期选择器特有的选项参考下表 | object | — | {} |
 | name | 原生属性 | string | — | — |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-time |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
-
-### Time Select Options
-| 参数      | 说明          | 类型      | 可选值                           | 默认值  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
 | start | 开始时间 | string | — | 09:00 |
 | end | 结束时间 | string | — | 18:00 |
 | step | 间隔时间 | string | — | 00:30 |
 | minTime | 最小时间，小于该时间的时间段将被禁用 | string | — | 00:00 |
 | maxTime | 最大时间，大于该时间的时间段将被禁用 | string | — | — |
+
 
 ### Events
 | 事件名 | 说明 | 参数 |

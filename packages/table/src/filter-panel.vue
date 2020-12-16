@@ -7,17 +7,14 @@
     :show-arrow="false"
     trigger="click"
     effect="light"
-    popper-class="el-table-filter el-table-filter-padding"
+    pure
+    popper-class="el-table-filter"
     append-to-body
   >
     <template #default>
       <div v-if="multiple">
         <div class="el-table-filter__content">
-          <el-scrollbar
-            :native="false"
-            :noresize="true"
-            wrap-class="el-table-filter__wrap"
-          >
+          <el-scrollbar wrap-class="el-table-filter__wrap">
             <el-checkbox-group
               v-model="filteredValue"
               class="el-table-filter__checkbox-group"
@@ -84,7 +81,7 @@
   </el-popper>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import {
   defineComponent,
   ref,
@@ -101,6 +98,7 @@ import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElScrollbar from '@element-plus/scrollbar'
 
 import { Store, TableColumnCtx, TableHeader } from './table.type'
+
 export default defineComponent({
   name: 'ElTableFilterPanel',
   components: {

@@ -138,11 +138,9 @@ import ElInput from '@element-plus/input'
 import ElPopper from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig } from '@element-plus/utils/util'
-import { isValidComponentSize } from '@element-plus/utils/validators'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
-
-import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
+import { defaultProps } from './props'
 
 interface PickerOptions {
   isValidValue: any
@@ -189,99 +187,7 @@ export default defineComponent({
     ElPopper,
   },
   directives: { clickoutside: ClickOutside },
-  props: {
-    name: {
-      type: [Array, String],
-      default: '',
-    },
-    format: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
-      default: '',
-    },
-    clearable: {
-      type: Boolean,
-      default: true,
-    },
-    clearIcon: {
-      type: String,
-      default: 'el-icon-circle-close',
-    },
-    editable: {
-      type: Boolean,
-      default: true,
-    },
-    prefixIcon:{
-      type: String,
-      default: '',
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    modelValue: {
-      type: [Date, Array, String] as PropType<string | Date | Date[]>,
-      default: '',
-    },
-    rangeSeparator: {
-      type: String,
-      default: '-',
-    },
-    startPlaceholder: String,
-    endPlaceholder: String,
-    defaultValue: {
-      type: [Date, Array] as PropType<Date | Date[]>,
-    },
-    defaultTime: {
-      type: [Date, Array] as PropType<Date | Date[]>,
-    },
-    isRange: {
-      type: Boolean,
-      default: false,
-    },
-    disabledHours: {
-      type: Function,
-    },
-    disabledMinutes: {
-      type: Function,
-    },
-    disabledSeconds: {
-      type: Function,
-    },
-    disabledDate: {
-      type: Function,
-    },
-    cellClassName: {
-      type: Function,
-    },
-    shortcuts: {
-      type: Array,
-      default: () => ([]),
-    },
-    arrowControl: {
-      type: Boolean,
-      default: false,
-    },
-    validateEvent: {
-      type: Boolean,
-      default: true,
-    },
-  },
+  props: defaultProps,
   emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup(props, ctx) {
     const ELEMENT = useGlobalConfig()
@@ -353,7 +259,7 @@ export default defineComponent({
       ctx.emit('focus', e)
     }
 
-    const pickerDisabled = computed(() =>{
+    const pickerDisabled = computed(() => {
       return props.disabled || elForm.disabled
     })
 
@@ -414,7 +320,7 @@ export default defineComponent({
       return props.prefixIcon || (isTimeLikePicker.value ? 'el-icon-time' : 'el-icon-date')
     })
     const showClose = ref(false)
-    const onClearIconClick = event =>{
+    const onClearIconClick = event => {
       if (props.readonly || pickerDisabled.value) return
       if (showClose.value) {
         event.stopPropagation()
