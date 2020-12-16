@@ -82,6 +82,7 @@ import ElTooltip from '@element-plus/tooltip'
 import ElTransfer from '@element-plus/transfer'
 import ElTree from '@element-plus/tree'
 import ElUpload from '@element-plus/upload'
+import ElVirtualList from '@element-plus/virtual-list'
 import { use } from '@element-plus/locale'
 import { version as version_ } from './version'
 import { setConfig } from '@element-plus/utils/config'
@@ -175,6 +176,7 @@ const components = [
   ElTransfer,
   ElTree,
   ElUpload,
+  ElVirtualList,
 ]
 
 const plugins = [
@@ -284,6 +286,7 @@ export {
   ElTransfer,
   ElTree,
   ElUpload,
+  ElVirtualList,
   version,
   install,
   locale,

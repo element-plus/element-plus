@@ -163,7 +163,7 @@ export default defineComponent({
       props, ctx, el$, dropIndicator$, store,
     })
 
-    useKeydown({ el$ })
+    useKeydown({ el$ }, store)
 
     const isEmpty = computed(() => {
       const { childNodes } = root.value

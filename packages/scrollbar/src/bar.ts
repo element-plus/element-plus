@@ -36,7 +36,7 @@ export default defineComponent({
 
       wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
     }
-    const startDrag = e =>{
+    const startDrag = e => {
       e.stopImmediatePropagation()
       cursorDown.value = true
       on(document, 'mousemove', mouseMoveDocumentHandler)

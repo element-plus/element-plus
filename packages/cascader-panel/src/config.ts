@@ -6,7 +6,7 @@ import {
   CascaderConfig,
   CascaderProps,
   ExpandTrigger,
-} from '@element-plus/cascader-panel/src/types'
+} from './types'
 
 export const CommonProps = {
   modelValue: [Number, String, Array] as PropType<CascaderValue>,

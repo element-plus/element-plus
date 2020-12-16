@@ -5,7 +5,7 @@
       :class="[
         wrapClass,
         'el-scrollbar__wrap',
-        native ? '' : gutter ? '' : 'el-scrollbar__wrap--hidden-default',
+        native ? '' : 'el-scrollbar__wrap--hidden-default',
       ]"
       :style="style"
       @scroll="handleScroll"
