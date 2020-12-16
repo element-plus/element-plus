@@ -273,6 +273,18 @@ describe('Input.vue', () => {
       expect(input.selectionStart).toEqual(0)
       expect(input.selectionEnd).toEqual(testContent.length)
     })
+    test('method:resizeTextarea', async () => {
+      const testContent = 'TEXT:resizeTextarea'
+      const wrapper = _mount({
+        template: `<el-input  ref="textarea"  type="textarea" v-model="text" />`,
+        data() {
+          return {
+            text: testContent,
+          }
+        },
+      })
+      wrapper.vm.$refs.textarea.resizeTextarea()
+    })
   })
 
   describe('Input Events', () => {
