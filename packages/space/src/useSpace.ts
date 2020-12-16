@@ -30,7 +30,7 @@ export const defaultProps = {
 
   alignment: {
     type: String as PropType<''>,
-    default: 'center'
+    default: 'center',
   },
 
   prefixCls: {
@@ -38,11 +38,11 @@ export const defaultProps = {
   },
 
   spacer: {
-    type: [Object, String, Number]as PropType<VNodeChild>,
+    type: [Object, String, Number] as PropType<VNodeChild>,
     default: null,
     validator: (val: unknown) => {
       return isVNode(val) || isNumber(val) || isString(val)
-    }
+    },
   },
 
   wrap: {
@@ -81,7 +81,13 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
         horizontalSize.value = h
         verticalSize.value = v
       } else {
-        const val = SizeMap[size as string] || (isNumber(size) && size) || SizeMap.small
+        let val: number
+        if (isNumber(size)) {
+          val = size as number
+        } else {
+          val = SizeMap[size as string] || SizeMap.small
+        }
+
         if (wrap && dir === 'horizontal') {
           horizontalSize.value = verticalSize.value = val
         } else {

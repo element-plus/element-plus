@@ -3,9 +3,7 @@ import {
   renderSlot,
   createVNode,
   createTextVNode,
-  withCtx,
   isVNode,
-  h,
 } from 'vue'
 import {
   PatchFlags,
@@ -26,17 +24,23 @@ export default defineComponent({
   },
 
   render(
-    ctx: ReturnType<typeof useSpace> 
-      & ExtractPropTypes<typeof defaultProps>
-      & { $slots: Slots }
-    ) {
-    const { classes, $slots, containerStyle, itemStyle, spacer, prefixCls } = ctx
+    ctx: ReturnType<typeof useSpace> &
+      ExtractPropTypes<typeof defaultProps> & { $slots: Slots; },
+  ) {
+    const {
+      classes,
+      $slots,
+      containerStyle,
+      itemStyle,
+      spacer,
+      prefixCls,
+    } = ctx
 
     const children = renderSlot($slots, 'default', { key: 0 }, () => [])
     // retrieve the children out via a simple for loop
     // the edge case here is that when users uses directives like <v-for>, <v-if>
     // we need to go one layer deeper
-    
+
     if (children.children.length === 0) return null
 
     // loop the children, if current children is rendered via `renderList` or `<v-for>`
@@ -52,19 +56,19 @@ export default defineComponent({
                   {
                     style: itemStyle,
                     prefixCls,
-                    key: `nested-${key}`
+                    key: `nested-${key}`,
                   },
                   {
                     default: () => [nested as VNode],
                   },
                   PatchFlags.PROPS | PatchFlags.STYLE,
-                  ['style', 'prefixCls']
+                  ['style', 'prefixCls'],
                 ),
               )
             })
           }
-        // if the current child is valid vnode, then append this current vnode
-        // to item as child node.
+          // if the current child is valid vnode, then append this current vnode
+          // to item as child node.
         } else if (isValidElementNode(child)) {
           extractedChildren.push(
             createVNode(
@@ -72,13 +76,13 @@ export default defineComponent({
               {
                 style: itemStyle,
                 prefixCls,
-                key: `LoopKey${loopKey}`
+                key: `LoopKey${loopKey}`,
               },
               {
                 default: () => [child as VNode],
               },
               PatchFlags.PROPS | PatchFlags.STYLE,
-              ['style', 'prefixCls']
+              ['style', 'prefixCls'],
             ),
           )
         }
@@ -92,25 +96,25 @@ export default defineComponent({
           return idx === len
             ? [child]
             : [
-                child,
-                createVNode(
-                  'span',
-                  // adding width 100% for vertical alignment,
-                  // when the spacer inherit the width from the
-                  // parent, this span's width was not set, so space
-                  // might disappear
-                  { style: [itemStyle, 'width: 100%'], key: idx },
-                  [
-                    // if spacer is already a valid vnode, then append it to the current
-                    // span element.
-                    // otherwise, treat it as string.
-                    isVNode(spacer)
-                      ? spacer
-                      : createTextVNode(spacer as string, PatchFlags.TEXT),
-                  ],
-                  PatchFlags.STYLE,
-                ),
-              ]
+              child,
+              createVNode(
+                'span',
+                // adding width 100% for vertical alignment,
+                // when the spacer inherit the width from the
+                // parent, this span's width was not set, so space
+                // might disappear
+                { style: [itemStyle, 'width: 100%'], key: idx },
+                [
+                  // if spacer is already a valid vnode, then append it to the current
+                  // span element.
+                  // otherwise, treat it as string.
+                  isVNode(spacer)
+                    ? spacer
+                    : createTextVNode(spacer as string, PatchFlags.TEXT),
+                ],
+                PatchFlags.STYLE,
+              ),
+            ]
         })
       }
 

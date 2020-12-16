@@ -1,12 +1,12 @@
 <template>
   <div :class="classes">
-    <slot>
-    </slot>
+    <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+
 export default defineComponent({
   props: {
     prefixCls: {
@@ -16,7 +16,7 @@ export default defineComponent({
   },
   setup(props) {
     return {
-      classes: computed(() => `${props.prefixCls}-item`),
+      classes: computed(() => `${props.prefixCls}__item`),
     }
   },
 })

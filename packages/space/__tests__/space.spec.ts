@@ -28,16 +28,16 @@ describe('Space.vue', () => {
       slots: {
         default: () => Array.from({ length: 2 }).map((_, idx) => {
           return `test${idx}`
-        })
+        }),
       },
       props: {
-        size: 'large'
+        size: 'large',
       },
       global: {
         config: {
           warnHandler,
-        }
-      }
+        },
+      },
     })
 
     await nextTick()
@@ -57,11 +57,11 @@ describe('Space.vue', () => {
     expect(wrapper.find('.el-space-item').attributes('style')).toContain('margin-right: 10px')
     expect(wrapper.find('.el-space-item').attributes('style')).toContain('padding-bottom: 20px')
     await wrapper.setProps({
-      size: 'unknown'
+      size: 'unknown',
     })
 
     expect(warnHandler).toHaveBeenCalledTimes(1)
-    
+
     expect(wrapper.find('.el-space-item').attributes('style')).toContain('margin-right: 8px')
   })
 
@@ -72,7 +72,7 @@ describe('Space.vue', () => {
       slots: {
         default: () => Array.from({ length: 2 }).map((_, idx) => {
           return `test${idx}`
-        })
+        }),
       },
       props: {
         size: 'large',
@@ -97,5 +97,5 @@ describe('Space.vue', () => {
     expect(wrapper.findAll(`.${testSpacerCls}`)).toHaveLength(1)
     expect(wrapper.element.children).toHaveLength(3)
   })
-  
+
 })
