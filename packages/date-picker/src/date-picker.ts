@@ -42,12 +42,13 @@ export default defineComponent({
       default: 'date',
     },
   },
-  setup(props) {
+  setup(props, ctx) {
     const format = DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE
     return () => h(CommonPicker, {
       format,
+      ...props, // allow format to be overwrite
       type: props.type,
-      ...props,
+      'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
     },
     {
       default: scopedProps => h(getPanel(props.type), scopedProps),

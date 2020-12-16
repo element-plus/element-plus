@@ -18,13 +18,14 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props) {
+  setup(props, ctx) {
     const type = props.isRange ? 'timerange' : 'time'
     const panel = props.isRange ? TimeRangePanel : TimePickPanel
     return () => h(Picker, {
       format: DEFAULT_FORMATS_TIME,
-      ...props,
+      ...props, // allow format to be overwrite
       type,
+      'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
     },
     {
       default: scopedProps => h(panel, scopedProps),
