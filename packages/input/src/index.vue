@@ -463,6 +463,7 @@ export default defineComponent({
       textarea,
       attrs,
       inputSize,
+      resizeTextarea,
       validateState,
       validateIcon,
       textareaStyle,
