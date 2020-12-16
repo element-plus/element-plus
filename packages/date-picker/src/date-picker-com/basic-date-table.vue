@@ -157,18 +157,23 @@ export default defineComponent({
 
           const calEndDate = props.rangeState.endDate || props.maxDate
             || props.rangeState.selecting && props.minDate
-
-          cell.inRange = (
-            props.minDate &&
-              calTime.isSameOrAfter(props.minDate, 'day')
-          ) && (calEndDate &&
+          if (calEndDate >= props.minDate) {
+            cell.inRange =
+              props.minDate &&
+              calTime.isSameOrAfter(props.minDate, 'day') &&
+              calTime &&
               calTime.isSameOrBefore(calEndDate, 'day')
-          )
-
-          cell.start = props.minDate
-            && calTime.isSame(props.minDate, 'day')
-
-          cell.end = calEndDate && calTime.isSame(calEndDate, 'day')
+            cell.start = props.minDate && calTime.isSame(props.minDate, 'day')
+            cell.end = calEndDate && calTime.isSame(calEndDate, 'day')
+          } else {
+            cell.inRange =
+                props.minDate &&
+                calTime.isSameOrAfter(calEndDate, 'day') &&
+                calTime &&
+                calTime.isSameOrBefore(props.minDate, 'day')
+            cell.end = props.minDate && calTime.isSame(props.minDate, 'day')
+            cell.start = calEndDate && calTime.isSame(calEndDate, 'day')
+          }
           const isToday = calTime.isSame(calNow, 'day')
 
           if (isToday) {
