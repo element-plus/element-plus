@@ -276,14 +276,24 @@ describe('Input.vue', () => {
     test('method:resizeTextarea', async () => {
       const testContent = 'TEXT:resizeTextarea'
       const wrapper = _mount({
-        template: `<el-input  ref="textarea"  type="textarea" v-model="text" />`,
+        template: `<el-input  ref="textarea"  :autosize="autoSize" type="textarea" v-model="text" />`,
         data() {
           return {
             text: testContent,
+            autoSize:{ minRows: 1, maxRows: 1 }
           }
         },
       })
-      wrapper.vm.$refs.textarea.resizeTextarea()
+      const _ref = wrapper.vm.$refs.textarea
+      wrapper.vm.autoSize.minRows = 5
+      wrapper.vm.autoSize.maxRows = 5
+      await sleep()
+      let originHeight = _ref.inputOrTextarea.clientHeight
+      _ref.resizeTextarea()
+      await sleep()
+      let nowHeight = _ref.inputOrTextarea.clientHeight
+
+      expect(originHeight!==nowHeight).toBe(true)
     })
   })
 
