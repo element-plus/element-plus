@@ -40,16 +40,7 @@
         @set-drag-visible="setDragVisible"
       />
     </div>
-    <div
-      ref="bodyWrapper"
-      :class="[
-        layout.scrollX.value
-          ? `is-scrolling-${scrollPosition}`
-          : 'is-scrolling-none',
-      ]"
-      :style="[bodyHeight]"
-      class="el-table__body-wrapper"
-    >
+    <div ref="bodyWrapper" :style="[bodyHeight]" class="el-table__body-wrapper">
       <table-body
         :context="context"
         :highlight="highlightCurrentRow"
@@ -425,7 +416,6 @@ export default defineComponent({
       resizeProxyVisible,
       bodyWidth,
       resizeState,
-      scrollPosition,
     } = useStyle(props, layout, store, table, doLayout)
 
     const debouncedUpdateLayout = debounce(() => doLayout(), 50)
@@ -450,7 +440,6 @@ export default defineComponent({
       resizeProxyVisible,
       resizeState,
       isGroup,
-      scrollPosition,
       bodyWidth,
       bodyHeight,
       emptyBlockStyle,
