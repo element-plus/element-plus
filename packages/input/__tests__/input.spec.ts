@@ -289,7 +289,7 @@ describe('Input.vue', () => {
 
       _ref.autosize.minRows = 5
       _ref.autosize.maxRows = 5
-      
+
       _ref.resizeTextarea()
       // Textarea height will change
       setTimeout(()=>{
