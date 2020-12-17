@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref,nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep, defineGetter } from '@element-plus/test-utils'
 import Input from '../src/index.vue'
@@ -272,6 +272,31 @@ describe('Input.vue', () => {
       await sleep()
       expect(input.selectionStart).toEqual(0)
       expect(input.selectionEnd).toEqual(testContent.length)
+    })
+    test('method:resizeTextarea', async () => {
+      const testContent = 'TEXT:resizeTextarea'
+      const wrapper = _mount({
+        template: `<el-input  ref="textarea"  :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" v-model="text" />`,
+        data() {
+          return {
+            text: testContent,
+          }
+        },
+      })
+      const _ref = wrapper.vm.$refs.textarea
+      await nextTick()
+      const originHeight = _ref.$el.clientHeight
+
+      _ref.autosize.minRows = 5
+      _ref.autosize.maxRows = 5
+      
+      _ref.resizeTextarea()
+      // Textarea height will change
+      setTimeout(()=>{
+        const nowHeight = _ref.$el.clientHeight
+        expect(originHeight===nowHeight).toBe(false)
+      },1000)
+
     })
   })
 
