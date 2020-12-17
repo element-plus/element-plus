@@ -3,7 +3,7 @@
     ref="treeSelectWrapper"
     v-clickOutside="handleClose"
     class="el-tree-select"
-    :class="[treeSelectSize ? 'el-select--' + treeSelectSize : '']"
+    :class="[treeSelectSize ? 'el--tree-select--' + treeSelectSize : '']"
     @click.stop="toggleDropdownTree"
   >
     <el-popper
@@ -26,17 +26,88 @@
           :data="data"
           :empty-text="noDataText"
           :show-checkbox="multiple"
-          :current-node-key="multiple ? [] : selected[props.id]"
+          :current-node-key="multiple ? undefined : selected[props.id]"
           :expand-on-click-node="false"
           :node-key="props.id"
           :props="treeProps"
           :icon-class="treeIconClass"
           @current-change="selectNode"
+          @check="handleCheckChange"
           @keydown.enter="handleEnterKeydown"
         />
       </template>
       <template #trigger>
         <div>
+          <div
+            v-if="multiple"
+            ref="tags"
+            class="el-tree-select__tags"
+            :style="{ 'max-width': inputWidth - 32 + 'px', width: '100%' }"
+          >
+            <span v-if="collapseTags && selected.length">
+              <el-tag
+                :closable="!treeSelectDisabled"
+                :size="collapseTagSize"
+                :hit="selected[0].hitState"
+                type="info"
+                disable-transitions
+                @close="deleteTag($event, selected[0])"
+              >
+                <span class="el-tree-select__tags-text">{{ selected[0][props.label] }}</span>
+              </el-tag>
+              <el-tag
+                v-if="selected.length > 1"
+                :closable="false"
+                :size="collapseTagSize"
+                type="info"
+                disable-transitions
+              >
+                <span class="el-tree-select__tags-text">+ {{ selected.length - 1 }}</span>
+              </el-tag>
+            </span>
+            <!-- <div> -->
+            <transition v-if="!collapseTags" @after-leave="resetInputHeight">
+              <span>
+                <el-tag
+                  v-for="item in selected"
+                  :key="item[props.id]"
+                  :closable="!treeSelectDisabled"
+                  :size="collapseTagSize"
+                  :hit="item.hitState"
+                  type="info"
+                  disable-transitions
+                  @close="deleteTag($event, item)"
+                >
+                  <span class="el-tree-select__tags-text">{{ item[props.label] }}</span>
+                </el-tag>
+              </span>
+            </transition>
+            <!-- </div> -->
+            <input
+              v-if="filterable"
+              ref="input"
+              v-model="query"
+              type="text"
+              class="el-tree-select__input"
+              :class="[treeSelectSize ? `is-${ treeSelectSize }` : '']"
+              :disabled="treeSelectDisabled"
+              :autocomplete="autocomplete"
+              :style="{ 'flex-grow': '1', width: inputLength / (inputWidth - 32) + '%', 'max-width': inputWidth - 42 + 'px' }"
+              @focus="handleFocus"
+              @blur="softFocus = false"
+              @keyup="managePlaceholder"
+              @keydown="resetInputState"
+              @keydown.down.stop.prevent="navigateNode"
+              @keydown.up.stop.prevent="navigateNode"
+              @keydown.esc.stop.prevent="dropdownTreeVisible = false"
+              @keydown.delete="deletePrevTag"
+              @keydown.tab="visible = false"
+              @compositionstart="handleComposition"
+              @compositionupdate="handleComposition"
+              @compositionend="handleComposition"
+              @input="debouncedQueryChange"
+            >
+          </div>
           <el-input
             :id="id"
             ref="reference"
@@ -65,7 +136,7 @@
               <i v-show="!showClose" :class="['el-tree-select__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
               <i
                 v-if="showClose"
-                :class="`el-select__caret el-input__icon ${clearIcon}`"
+                :class="`el-tree-select__caret el-input__icon ${clearIcon}`"
                 @click="handleClearClick"
               ></i>
             </template>
@@ -79,6 +150,7 @@
 import { defineComponent, PropType, onMounted, nextTick, toRefs } from 'vue'
 import ElInput from '@element-plus/input'
 import ElTree from '@element-plus/tree'
+import ElTag from '@element-plus/tag'
 import ClickOutside from '@element-plus/directives/click-outside'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { t } from '@element-plus/locale'
@@ -88,7 +160,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 
 export default defineComponent({
   name: 'ElTreeSelect',
-  components: { ElInput, ElTree },
+  components: { ElInput, ElTree, ElTag },
   directives: { ClickOutside },
   props: {
     name: String,
@@ -96,6 +168,10 @@ export default defineComponent({
     modelValue: {
       type: [String, Array],
       default: '',
+    },
+    autocomplete: {
+      type: String,
+      default: 'off',
     },
     size: {
       type: String as PropType<ComponentSize>,
@@ -118,10 +194,6 @@ export default defineComponent({
     multiple: {
       type: Boolean,
       default: false,
-    },
-    multipleLimit: {
-      type: Number,
-      default: 0,
     },
     treeData: {
       type: Array,
@@ -209,6 +281,7 @@ export default defineComponent({
       dropdownTreeVisible,
       treeSelectDisabled,
       treeSelectSize,
+      collapseTagSize,
       showClose,
       iconClass,
       treeProps,
@@ -225,6 +298,13 @@ export default defineComponent({
       selectNode,
       handleEnterKeydown,
       resetInputHeight,
+      handleCheckChange,
+      deleteTag,
+      resetInputState,
+      managePlaceholder,
+      deletePrevTag,
+      handleComposition,
+      debouncedQueryChange,
     } = useTreeSelect(props, states, ctx)
 
     onMounted(() => {
@@ -266,6 +346,7 @@ export default defineComponent({
       dropdownTreeVisible,
       treeSelectDisabled,
       treeSelectSize,
+      collapseTagSize,
       showClose,
       iconClass,
       treeProps,
@@ -279,6 +360,14 @@ export default defineComponent({
       navigateNode,
       selectNode,
       handleEnterKeydown,
+      handleCheckChange,
+      deleteTag,
+      resetInputHeight,
+      resetInputState,
+      managePlaceholder,
+      deletePrevTag,
+      handleComposition,
+      debouncedQueryChange,
 
       data,
       inputWidth,

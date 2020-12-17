@@ -8,6 +8,7 @@ import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { TreeKey } from '@element-plus/tree/src/tree.type'
+import { isKorean } from '@element-plus/utils/isDef'
 
 
 export const useTreeSelectStates = props => {
@@ -33,15 +34,6 @@ export const useTreeSelectStates = props => {
     isSilentBlur: false,
   })
 
-  watch(() => props.treeData, val => {
-    states.data = val
-  })
-
-  watch(() => props.modelValue, val => {
-    states.selected = val
-    states.selectedLabel = props.modelValue
-  })
-
   return states
 }
 
@@ -60,9 +52,12 @@ export const useTreeSelect = (props, states, ctx) => {
 
   // inject
   const elForm = inject(elFormKey, {} as ElFormContext)
+
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
   const treeSelectSize = computed(() => props.size || elFormItem.size || ELEMENT.size)
+
+  const collapseTagSize = computed(() => ['small', 'mini'].indexOf(treeSelectSize.value) > -1 ? 'mini' : 'small')
 
   const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !states.dropdownTreeVisible))
 
@@ -91,6 +86,33 @@ export const useTreeSelect = (props, states, ctx) => {
     disabled: 'disabled',
     isLeaf: 'isLeaf',
   }, props.props))
+
+  watch(() => props.placeholder, val => {
+    states.cachedPlaceHolder = states.currentPlaceholder = val
+  })
+
+  watch(() => props.treeData, val => {
+    states.data = val
+  })
+
+  watch(() => props.modelValue, val => {
+    if(props.multiple){
+      resetInputHeight()
+      if ((val && val.length > 0) || (input.value && states.query !== '')) {
+        states.currentPlaceholder = ''
+      } else {
+        states.currentPlaceholder = states.cachedPlaceHolder
+      }
+      if (props.filterable && !props.reserveKeyword) {
+        states.query = ''
+        handleQueryChange(states.query)
+      }
+    } else {
+      states.selectedLabel = props.modelValue
+    }
+  }, {
+    flush: 'post',
+  })
 
   const toggleDropdownTree = () => {
     if (props.automaticDropdown) return
@@ -220,8 +242,31 @@ export const useTreeSelect = (props, states, ctx) => {
     }
   }
 
-  const handleQueryChange = query => {
-    // TODO:
+  const handleQueryChange = val => {
+    if (states.previousQuery === val || states.isOnComposition) return
+    if (
+      states.previousQuery === null &&
+      (typeof props.filterMethod === 'function' || typeof props.remoteMethod === 'function')
+    ) {
+      states.previousQuery = val
+      return
+    }
+    states.previousQuery = val
+    nextTick(() => {
+      if (states.visible) popper.value?.update?.()
+    })
+    states.hoverIndex = -1
+    if (props.multiple && props.filterable) {
+      nextTick(() => {
+        const length = input.value.length * 15 + 20
+        states.inputLength = props.collapseTags ? Math.min(50, length) : length
+        managePlaceholder()
+        resetInputHeight()
+      })
+    }
+    if (typeof props.filterMethod === 'function') {
+      props.filterMethod(val)
+    }
   }
 
   const onInputChange = () => {
@@ -231,9 +276,59 @@ export const useTreeSelect = (props, states, ctx) => {
     }
   }
 
+  const managePlaceholder = () => {
+    if (states.currentPlaceholder !== '') {
+      states.currentPlaceholder = input.value ? '' : states.cachedPlaceHolder
+    }
+  }
+
+  const resetInputState = (e: KeyboardEvent) => {
+    if (e.code !== EVENT_CODE.backspace) toggleLastOptionHitState(false)
+    states.inputLength = input.value.length * 15 + 20
+    resetInputHeight()
+  }
+
+  const toggleLastOptionHitState = (hit?: boolean) => {
+    if (!Array.isArray(states.selected)) return
+    const option = states.selected[states.selected.length - 1]
+    if (!option) return
+
+    if (hit === true || hit === false) {
+      option.hitState = hit
+      return hit
+    }
+
+    option.hitState = !option.hitState
+    return option.hitState
+  }
+
+  const deletePrevTag = e => {
+    if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
+      const value = props.modelValue.slice()
+      value.pop()
+      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emitChange(value)
+    }
+  }
+
+  const debouncedQueryChange = lodashDebounce(e => {
+    handleQueryChange(e.target.value)
+  }, debounce.value)
+
   const debouncedOnInputChange = lodashDebounce(() => {
     onInputChange()
   }, debounce.value)
+
+  const handleComposition = event => {
+    const text = event.target.value
+    if (event.type === 'compositionend') {
+      states.isOnComposition = false
+      nextTick(() => handleQueryChange(text))
+    } else {
+      const lastCharacter = text[text.length - 1] || ''
+      states.isOnComposition = !isKorean(lastCharacter)
+    }
+  }
 
   const navigateNode = (e: KeyboardEvent) => {
     const code = e.code
@@ -285,15 +380,38 @@ export const useTreeSelect = (props, states, ctx) => {
 
   const handleEnterKeydown = e => {
     const targetKey = e.target.dataset.key
-    selectNode(tree.value.store.nodesMap[targetKey].data, tree.value.store.getNode(targetKey))
+    selectNode(tree.value.store.nodesMap[targetKey].data)
   }
 
-  const selectNode = (data, node) => {
+  const selectNode = data => {
+    if(props.multiple) return
     states.selected = data
     states.selectedLabel = data[treeProps.value.label]
     states.dropdownTreeVisible = false
     ctx.emit(UPDATE_MODEL_EVENT, data[treeProps.value.id])
-    ctx.emit('change', data[treeProps.value.id], data, node)
+    ctx.emit('change', data[treeProps.value.id], data)
+  }
+
+  const handleCheckChange = (data, { checkedNodes, checkedKeys }) => {
+    states.selected = checkedNodes.map(item => {
+      return item
+    })
+    resetInputHeight()
+    ctx.emit(UPDATE_MODEL_EVENT, checkedKeys)
+    ctx.emit('change', checkedKeys, checkedNodes)
+  }
+
+  const deleteTag = (e, tag) => {
+    const index = states.selected.indexOf(tag)
+    if (index > -1 && !treeSelectDisabled.value) {
+      tree.value.setChecked(tag[props.props.id], false, !props.checkStrictly)
+      states.selected = tree.value.getCheckedNodes()
+      const value = tree.value.getCheckedKeys()
+      ctx.emit(UPDATE_MODEL_EVENT, value)
+      ctx.emit('change', value, states.selected)
+      ctx.emit('remove-tag', tag.value)
+    }
+    e.stopPropagation()
   }
 
   return {
@@ -309,6 +427,7 @@ export const useTreeSelect = (props, states, ctx) => {
     readonly,
     treeSelectDisabled,
     treeSelectSize,
+    collapseTagSize,
     showClose,
     iconClass,
     treeProps,
@@ -325,5 +444,12 @@ export const useTreeSelect = (props, states, ctx) => {
     resetInputHeight,
     selectNode,
     handleEnterKeydown,
+    handleCheckChange,
+    deleteTag,
+    resetInputState,
+    managePlaceholder,
+    deletePrevTag,
+    handleComposition,
+    debouncedQueryChange,
   }
 }
