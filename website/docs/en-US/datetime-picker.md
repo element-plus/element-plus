@@ -3,7 +3,7 @@
 Select date and time in one picker.
 
 :::tip
-DateTimePicker is derived from DatePicker and TimePicker. For a more detailed explanation on `pickerOptions` and other attributes, you can refer to DatePicker and TimePicker.
+DateTimePicker is derived from DatePicker and TimePicker. For a more detailed explanation on attributes, you can refer to DatePicker and TimePicker.
 :::
 
 ###  Date and time
@@ -212,14 +212,10 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 | unlink-panels | unllink two date-panels in range-picker | boolean | — | false |
 | prefix-icon | Custom prefix icon class | string | — | el-icon-date |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
-
-### Picker Options
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
 | shortcuts | a { text, onClick } object array to set shortcut options, check the table below | object[] | — | — |
 | disabledDate | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function | — | — |
 | cellClassName | set custom className | Function(Date) | — | — |
-| firstDayOfWeek | first day of week | Number | 1 to 7 | 7 |
+
 
 ### shortcuts
 | Attribute      | Description          | Type      | Accepted Values       | Default  |

@@ -3,7 +3,7 @@
 在同一个选择器里选择日期和时间
 
 :::tip
-DateTimePicker 由 DatePicker 和 TimePicker 派生，`Picker Options` 或者其他选项可以参照 DatePicker 和 TimePicker。
+DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 DatePicker 和 TimePicker。
 :::
 
 ###  日期和时间点
@@ -211,14 +211,9 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，`Picker Options` 或者其
 | unlink-panels | 在范围选择器里取消两个日期面板之间的联动 | boolean | — | false |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-date |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
-
-### Picker Options
-| 参数      | 说明          | 类型      | 可选值                           | 默认值  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
 | shortcuts | 设置快捷选项，需要传入 { text, onClick } 对象用法参考 demo 或下表 | Object[] | — | — |
 | disabledDate | 设置禁用状态，参数为当前日期，要求返回 Boolean | Function | — | — |
 | cellClassName | 设置日期的 className | Function(Date) | — | — |
-| firstDayOfWeek | 周起始日 | Number | 1 到 7 | 7 |
 
 ### Shortcuts
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |

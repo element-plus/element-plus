@@ -3,7 +3,7 @@
 1つのピッカーで日時を選択します。
 
 :::tip
-DateTimePickerはDatePickerとTimePickerから派生したものです。`pickerOptions`やその他の属性についての詳しい説明は、DatePickerとTimePickerを参照してください。
+DateTimePickerはDatePickerとTimePickerから派生したものです。属性についての詳しい説明は、DatePickerとTimePickerを参照してください。
 :::
 
 ###  日付と時間
@@ -212,14 +212,9 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
 | unlink-panels | レンジピッカーで2つのデータパネルのリンクを解除する | boolean | — | false |
 | prefix-icon | カスタムプレフィックスアイコンクラス | string | — | el-icon-date |
 | clear-icon | カスタムクリアアイコンクラス | string | — | el-icon-circle-close |
-
-### ピッカーオプション
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
 | shortcuts | a { text, onClick } object array to set shortcut options, check the table below | object[] | — | — |
 | disabledDate | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function | — | — |
 | cellClassName | set custom className | Function(Date) | — | — |
-| firstDayOfWeek | first day of week | Number | 1 to 7 | 7 |
 
 ### ショートカット
 | Attribute      | Description          | Type      | Accepted Values       | Default  |

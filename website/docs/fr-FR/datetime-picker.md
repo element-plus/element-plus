@@ -3,7 +3,7 @@
 Sélectionnez une date et une heure dans un seul picker.
 
 :::tip
-DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'informations sur `pickerOptions` et d'autres attributs, vous pouvez vous référer à DatePicker et TimePicker.
+DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'informations  attributs, vous pouvez vous référer à DatePicker et TimePicker.
 :::
 
 ### Date et horaire
@@ -212,14 +212,9 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 | unlink-panels | Rend indépendants les deux panneaux de plage de dates | boolean | — | false |
 | prefix-icon | Icône de préfixe. | string | — | el-icon-date |
 | clear-icon | Icône de reset | string | — | el-icon-circle-close |
-
-### Options du Picker
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
 | shortcuts | Un tableau d'objets { text, onClick } pour mettre en place des raccourcis, vérifier le tableau ci-dessous | object[] | — | — |
 | disabledDate | Une fonction déterminant si une date est désactivée avec cette date en paramètre. Retourne un Boolean | function | — | — |
 | cellClassName | set custom className | Function(Date) | — | — |
-| firstDayOfWeek | Le premier jour de la semaine | Number | 1 à 7 | 7 |
 
 ### Raccourcis
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
