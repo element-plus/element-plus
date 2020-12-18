@@ -1,0 +1,33 @@
+name: Publish to NPM registry
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v1
+      - name: Install dependencies
+        run: yarn bootstrap
+      - name: Lint
+        run: yarn lint
+      - name: Test
+        run: yarn test
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          registry-url: https://registry.npmjs.org/
+      - run: yarn bootstrap
+      - run: yarn build
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
