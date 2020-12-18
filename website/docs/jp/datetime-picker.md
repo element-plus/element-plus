@@ -35,7 +35,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
       v-model="value3"
       type="datetime"
       placeholder="Select date and time"
-      default-time="12:00:00">
+      :default-time="defaultTime">
     </el-date-picker>
   </div>
 </template>
@@ -64,7 +64,8 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
         }],
         value1: '',
         value2: '',
-        value3: ''
+        value3: '',
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
       };
     }
   };
@@ -142,7 +143,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
 
 ###  開始日と終了日のデフォルトの時間値
 
-:::demo 日付パネルで `datetimerange` 型の日付範囲を選択した場合、開始日と終了日のデフォルト値として `00:00:00` が用いられる。これは `default-time` 属性で制御することができる。`default-time`は最大2つの文字列の配列を受け付ける。1つ目の項目は開始日の時刻を制御し、2つ目の項目は終了日の時刻を制御する。
+:::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
 ```html
 <template>
   <div class="block">
@@ -207,7 +208,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
 | popper-class | DateTimePickerのドロップダウンのカスタムクラス名 | string | — | — |
 | range-separator | レンジセパレータ | string | - | '-' |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date | anything accepted by `new Date()` | — |
-| default-time | 日付を選択した後のデフォルトの時刻の値 | non-range: string / range: string[] | non-range: a string like `12:00:00`, range: array of two strings, and the first item is for the start date and second for the end date. `00:00:00` will be used if not specified | — |
+| default-time | the default time value after picking a date | non-range: Date / range: Date[] | non-range: a Date object, range: array of two Date objects, and the first item is for the start date and second for the end date. Time `00:00:00` will be used if not specified | — |
 | name | ネイティブインプットの `name` と同じ | string | — | — |
 | unlink-panels | レンジピッカーで2つのデータパネルのリンクを解除する | boolean | — | false |
 | prefix-icon | カスタムプレフィックスアイコンクラス | string | — | el-icon-date |

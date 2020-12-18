@@ -35,7 +35,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
       v-model="value3"
       type="datetime"
       placeholder="选择日期时间"
-      default-time="12:00:00">
+      :default-time="defaultTime">
     </el-date-picker>
   </div>
 </template>
@@ -64,7 +64,8 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
         }],
         value1: '',
         value2: '',
-        value3: ''
+        value3: '',
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
       };
     }
   };
@@ -141,7 +142,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
 
 ### 默认的起始与结束时刻
 
-:::demo 使用`datetimerange`进行范围选择时，在日期选择面板中选定起始与结束的日期，默认会使用该日期的`00:00:00`作为起始与结束的时刻；通过选项`default-time`可以控制选中起始与结束日期时所使用的具体时刻。`default-time`接受一个数组，数组每项值为字符串，形如`12:00:00`，其中第一项控制起始日期的具体时刻，第二项控制结束日期的具体时刻。
+:::demo 使用`datetimerange`进行范围选择时，在日期选择面板中选定起始与结束的日期，默认会使用该日期的`00:00:00`作为起始与结束的时刻；通过选项`default-time`可以控制选中起始与结束日期时所使用的具体时刻。`default-time`接受一个数组，其中第一项控制起始日期的具体时刻，第二项控制结束日期的具体时刻。
 ```html
 <template>
   <div class="block">
@@ -206,7 +207,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
 | popper-class | DateTimePicker 下拉框的类名 | string | — | — |
 | range-separator | 选择范围时的分隔符 | string | - | '-' |
 | default-value | 可选，选择器打开时默认显示的时间 | Date | 可被`new Date()`解析 | — |
-| default-time | 选中日期后的默认具体时刻 | 非范围选择时：string / 范围选择时：string[] | 非范围选择时：形如`12:00:00`的字符串；范围选择时：数组，长度为 2，每项值为字符串，形如`12:00:00`，第一项指定开始日期的时刻，第二项指定结束日期的时刻。不指定会使用时刻 `00:00:00` | — |
+| default-time | 选中日期后的默认具体时刻 | Date / 范围选择时：Date[] | 非范围选择时：Date 对象；范围选择时：数组，长度为 2，每项值为 Date 对象，第一项指定开始日期的时刻，第二项指定结束日期的时刻。不指定会使用时刻 `00:00:00` | — |
 | name | 原生属性 | string | — | — |
 | unlink-panels | 在范围选择器里取消两个日期面板之间的联动 | boolean | — | false |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-date |

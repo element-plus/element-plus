@@ -355,7 +355,7 @@ Preste atención a la capitalización
 
 Al seleccionar un intervalo de fechas, puede asignar la hora para la fecha de inicio y la fecha final.
 
-:::demo Por defecto, la hora de la fecha de inicio y final es `00:00:00`. Configurar `default-time`  puede cambiar la hora respectivamente. Acepta un array de hasta dos cadenas con el formato  `12:00:00`. La primera cadena fija la hora para la fecha de inicio y la segunda para la fecha final.
+:::demo Por defecto, la hora de la fecha de inicio y final es `00:00:00`. Configurar `default-time`  puede cambiar la hora respectivamente. Acepta un array de Date dos cadenas. La primera cadena fija la hora para la fecha de inicio y la segunda para la fecha final.
 
 ```html
 <template>
@@ -405,7 +405,7 @@ Al seleccionar un intervalo de fechas, puede asignar la hora para la fecha de in
 | popper-class      | nombre de clase personalizada para el dropdown de DatePicker | string            | —                                        | —                    |
 | range-separator   | separador de rangos                      | string            | —                                        | '-'                  |
 | default-value     | opcional, valor por defecto para el calendario | Date              | cualquiera aceptado por `new Date()`     | —                    |
-| default-time      | opcional, los valores para las horas que se deben usar en la seleccion de fechas cuando se usa el modo rango | string[]          | Array de dos valores, cada uno es un string del estilo `12:00:00`. El primer elemento es para la fecha de inicio y el segundo es para la fecha final. | —                    |
+| default-time | optional, the time value to use when selecting date range | Date[] | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | — |
 | name              | igual que `name` en el input nativo      | string            | —                                        | —                    |
 | unlink-panels     | desvincular los dos paneles de fecha en el range-picker | boolean           | —                                        | false                |
 | prefix-icon       | Clase personalizada para el icono prefijado | string            | —                                        | el-icon-date         |
