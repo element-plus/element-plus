@@ -1,4 +1,4 @@
-import { ref,nextTick } from 'vue'
+import { ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep, defineGetter } from '@element-plus/test-utils'
 import Input from '../src/index.vue'
@@ -284,7 +284,6 @@ describe('Input.vue', () => {
         },
       })
       const _ref = wrapper.vm.$refs.textarea
-      await nextTick()
       const originHeight = _ref.$el.clientHeight
 
       _ref.autosize.minRows = 5
@@ -292,11 +291,10 @@ describe('Input.vue', () => {
 
       _ref.resizeTextarea()
       // Textarea height will change
-      setTimeout(()=>{
+      sleep(200).then(() => {
         const nowHeight = _ref.$el.clientHeight
-        expect(originHeight===nowHeight).toBe(false)
-      },1000)
-
+        expect(originHeight).not.toEqual(nowHeight)
+      })
     })
   })
 
