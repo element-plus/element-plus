@@ -56,7 +56,7 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más d
             return date
           })(),
         }, {
-          text: 'Yesterday',
+          text: 'A week ago',
           value: (() => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
@@ -94,7 +94,7 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más d
     <el-date-picker
       v-model="value2"
       type="datetimerange"
-      :shortcuts="shortcuts""
+      :shortcuts="shortcuts"
       range-separator="To"
       start-placeholder="Start date"
       end-placeholder="End date"

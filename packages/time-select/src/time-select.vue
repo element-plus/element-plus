@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import ElSelect from '@element-plus/select'
 import ElOption from '@element-plus/option'
 interface Time {
