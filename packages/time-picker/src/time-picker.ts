@@ -18,6 +18,7 @@ export default defineComponent({
       default: false,
     },
   },
+  emits: ['update:modelValue'],
   setup(props, ctx) {
     const type = props.isRange ? 'timerange' : 'time'
     const panel = props.isRange ? TimeRangePanel : TimePickPanel
