@@ -57,7 +57,7 @@
 ### 控制间距的大小
 通过调整 `size` 的值来控制间距的大小
 
-可供选择的内建的值有 `mini` `small` `medium` `large`, 分别对应 `8px` `12px` `16px` `20px`. 默认的间距大小为 `small` 也就是 `12px`
+可供选择的内建的值有 `mini`, `small`, `medium`, `large`, 分别对应 `4px`, `8px`, `12px`, `16px`. 默认的间距大小为 `small` 也就是 `12px`
 
 您也可以通过自定义的 `size` 来控制大小，详见下一部分
 :::demo 使用 `size` 属性控制大小
@@ -105,7 +105,7 @@ export default {
 :::
 
 ### 自定义 Size
-很多时候, 内建的大小不满足设计师的要求, 我们可以通过传入自己定义的大小 (数字类型) 来设置
+很多时候, 内建的大小不满足设计师的要求, 我们可以通过传入自己定义的大小 (数字类型) 来设置
 
 :::demo
 ```html
@@ -166,7 +166,7 @@ export default {
 
 #### 字符串 或 数字类型的分隔符
 
-:::demo 
+:::demo
 
 ```html
 <template>
@@ -286,7 +286,7 @@ export default {
 | direction | 排列的方向 | string | vertical/horizontal | horizontal |
 | prefixCls | 给 space-items 的类名前缀 | string | el-space | - |
 | style     | 额外样式   | string / Array<Object \| String> / Object | - | - |
-| spacer    | 间隔符     | string / number / VNode | - | - | 
+| spacer    | 间隔符     | string / number / VNode | - | - |
 | size      | 间隔大小   | string / number / [number, number] | - | 'small' |
 | wrap      | 设置是否自动折行 | boolean | true / false  | false |
 ### Space Slot
