@@ -3,7 +3,7 @@
 1つのピッカーで日時を選択します。
 
 :::tip
-DateTimePickerはDatePickerとTimePickerから派生したものです。`pickerOptions`やその他の属性についての詳しい説明は、DatePickerとTimePickerを参照してください。
+DateTimePickerはDatePickerとTimePickerから派生したものです。属性についての詳しい説明は、DatePickerとTimePickerを参照してください。
 :::
 
 ###  日付と時間

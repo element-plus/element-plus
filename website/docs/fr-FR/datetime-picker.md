@@ -3,7 +3,7 @@
 Sélectionnez une date et une heure dans un seul picker.
 
 :::tip
-DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'informations sur `pickerOptions` et d'autres attributs, vous pouvez vous référer à DatePicker et TimePicker.
+DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'informations  attributs, vous pouvez vous référer à DatePicker et TimePicker.
 :::
 
 ### Date et horaire

@@ -3,7 +3,7 @@
 Seleccionar fecha y tiempo juntos en un picker.
 
 :::tip
-DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más detallada sobre `pickerOptions` y otros atributos, puede referirse a DatePicker y TimePicker.
+DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más atributos, puede referirse a DatePicker y TimePicker.
 :::
 
 ###  Fecha y hora

@@ -3,7 +3,7 @@
 Select date and time in one picker.
 
 :::tip
-DateTimePicker is derived from DatePicker and TimePicker. For a more detailed explanation on `pickerOptions` and other attributes, you can refer to DatePicker and TimePicker.
+DateTimePicker is derived from DatePicker and TimePicker. For a more detailed explanation on attributes, you can refer to DatePicker and TimePicker.
 :::
 
 ###  Date and time
