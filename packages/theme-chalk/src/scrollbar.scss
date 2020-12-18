@@ -20,6 +20,7 @@
     height: 100%;
 
     @include m(hidden-default) {
+      scrollbar-width: none;
       &::-webkit-scrollbar {
         display: none;
       }
