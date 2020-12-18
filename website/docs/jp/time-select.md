@@ -1,12 +1,12 @@
-## TimeSelect
+## タイムピッカー
 
-Use Time Select for time input.
+時間インプットにはタイムピッカーを使用します。
 
-### Fixed time picker
+### 固定タイムピッカー
 
-Provide a list of fixed time for users to choose.
+ユーザーが選択できる固定時間のリストを提供する。
 
-:::demo Use `el-time-select` label, then assign start time, end time and time step with `start`, `end` and `step`.
+:::demo `el-time-select` ラベルを使用し、開始時刻、終了時刻、タイムステップを `start`, `end`, `step` で指定します。`
 ```html
 <el-time-select
   v-model="value"
@@ -28,9 +28,9 @@ Provide a list of fixed time for users to choose.
 ```
 :::
 
-### Fixed time range
+### 固定時間範囲
 
-If start time is picked at first, then the end time will change accordingly.
+開始時間が最初に選ばれた場合は、それに応じて終了時間が変更されます。
 
 :::demo
 ```html
@@ -68,30 +68,29 @@ If start time is picked at first, then the end time will change accordingly.
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | binding value | string | - | - |
-| editable | whether the input is editable | boolean | — | true |
-| clearable | whether to show clear button | boolean | — | true |
-| size | size of Input | string | medium / small / mini | — |
-| placeholder | placeholder in non-range mode | string | — | — |
-| name | same as `name` in native input | string | — | — |
-| prefix-icon | Custom prefix icon class | string | — | el-icon-time |
-| clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
-| start | start time | string | — | 09:00 |
-| end | end time | string | — | 18:00 |
-| step | time step | string | — | 00:30 |
-| minTime | minimum time, any time before this time will be disabled | string | — | 00:00 |
-| maxTime | maximum time, any time after this time will be disabled | string | — | — |
+| value / v-model | バインディング値 | - | - |
+| editable | 入力が編集可能かどうか | boolean | — | true |
+| clearable | クリアボタンを表示するかどうか | boolean | — | true |
+| size | 入力のサイズ | string | medium / small / mini | — |
+| placeholder | 非範囲モード時のプレースホルダ | string | — | — |
+| name | ネイティブ入力の `name` と同じ | string | — | — |
+| prefix-icon | カスタムプレフィックスアイコンクラス | string | — | el-icon-time |
+| clear-icon | カスタムクリアアイコンクラス | string | — | el-icon-circle-close |
+| start | 開始時刻 | string | — | 09:00 |
+| end | 終了時刻 | string | — | 18:00 |
+| step | タイムステップ | string | — | 00:30 |
+| minTime | 最低時間、それ以前の時間は無効化されます。 | string | — | 00:00 |
+| maxTime | 最大時間、この時間以降は無効化されます。 | string | — | — |
 
-
-### Events
+### イベント
 | Event Name | Description | Parameters |
 |---------|--------|---------|
-| change | triggers when user confirms the value | component's binding value |
-| blur | triggers when Input blurs | component instance |
-| focus | triggers when Input focuses | component instance |
+| change | ユーザーが値を確認したときにトリガされます。 | component's binding value |
+| blur | インプットがぼやけたときされます | component instance |
+| focus | 入力がフォーカスされているときにトリガされます。 | component instance |
 
-### Methods
+### 方法
 | Method | Description | Parameters |
 | ---- | ---- | ---- |
-| focus | focus the Input component | - |
+| focus | インプットコンポーネントにフォーカス | - |
 | blur | blur the Input component | - |

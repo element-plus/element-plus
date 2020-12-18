@@ -6,7 +6,7 @@ Utiliser TimeSelect pour sélectionner un horaire.
 
 Vous pouvez fournir une liste d'horaires fixés pour que l'utilisateur en choisisse un.
 
-:::demo Utilisez `el-time-select` puis assignez un horaire de début, de fin et un pas grâce aux propriétés `start`, `end` et `step` de l'attribut `picker-options`.
+:::demo Utilisez `el-time-select` puis assignez un horaire de début, de fin et un pas grâce aux propriétés `start`, `end` et `step` de l'attribut.
 ```html
 <el-time-select
   v-model="value"
