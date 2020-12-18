@@ -1,7 +1,8 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
+@import "./skeleton-item.scss";
 
-@mixin avatar-size($size){
+@mixin avatar-size($size) {
   width: $size;
   height: $size;
   line-height: $size;
@@ -11,7 +12,7 @@
   }
 }
 
-@mixin skeleton-color(){
+@mixin skeleton-color() {
   background: linear-gradient(
     90deg,
     $--skeleton-color 25%,
@@ -31,45 +32,34 @@
   }
 }
 
-.el-skeleton {
+@include b(skeleton) {
   width: 100%;
 
-  .el-skeleton-title,
-  .el-skeleton-paragraph {
-    width: 100%;
-    height: 16px;
-    margin-top: 16px;
-    background: $--skeleton-color;
+  @each $unit in (first-line, paragraph) {
+    @include e($unit) {
+      height: 16px;
+      margin-top: 16px;
+      background: $--skeleton-color;
+    }
   }
 
-  .el-skeleton-title {
+  @include e(first-line) {
     width: 33%;
   }
 
-  .el-skeleton-paragraph-last {
-    width: 61%;
-  }
 
-  .el-skeleton-avatar {
+
+  @include e(avatar) {
     display: inline-block;
     vertical-align: top;
     background: $--skeleton-color;
 
-    @include avatar-size('40px');
-
-    &-lg {
-      @include avatar-size('50px');
-    }
-
-    &-sm {
-      @include avatar-size('60px');
-    }
+    @include avatar-size(40px);
   }
 
-  &.el-skeleton-loading {
-    .el-skeleton-title,
-    .el-skeleton-paragraph,
-    .el-skeleton-avatar {
+
+  @include when(animated) {
+    .el-skeleton__item {
       @include skeleton-color();
     }
   }

@@ -31,8 +31,32 @@
 
 :::demo
 ```html
-<el-skeleton :rows="5" loading="true" />
+<el-skeleton :rows="5" animated />
 ```
+:::
+
+
+### 自定义样式
+ElementPlus 提供的排版模式有时候并不满足要求, 当您想要用自己定义的模板时
+
+:::demo
+
+```html
+<template>
+  <el-skeleton>
+    <template #template>
+      <el-skeleton-item variant="h1" />
+      <el-skeleton-item variant="circle" style="width: 40px; height: 40px;"/>
+      <el-skeleton-item variant="circle" style="width: 40px; height: 40px;"/>
+      <el-skeleton-item variant="rect" style="width: 100px; height: 200px;">
+    </template>
+  </el-skeleton>
+</template>
+
+<script>
+</script>
+```
+
 :::
 
 ### Skeleton Attributes

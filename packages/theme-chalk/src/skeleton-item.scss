@@ -1,0 +1,33 @@
+@import 'mixins/mixins';
+@import 'common/var';
+
+@include b(skeleton) {
+  @include e(item) {
+    background: $--skeleton-color;
+    display: block;
+    height: 16px;
+  }
+  
+  @include e(circle) {
+    border-radius: 50%;
+  }
+
+  @include e(p) {
+    width: 100%;
+    @include when(last) {
+      width: 61%;
+    }
+  }
+
+  @include e(text) {
+    height: auto;
+  }
+
+  @include e(h1) {
+    font-size: $--font-size-extra-large;
+    padding: $--header-padding;
+  }
+
+  $type: (title, paragraph, avatar, button, image);
+
+}
