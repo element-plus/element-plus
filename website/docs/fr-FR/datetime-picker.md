@@ -35,7 +35,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
       v-model="value3"
       type="datetime"
       placeholder="Selectionnez date et horaire"
-      default-time="12:00:00">
+      :default-time="defaultTime">
     </el-date-picker>
   </div>
 </template>
@@ -64,7 +64,8 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
         }],
         value1: '',
         value2: '',
-        value3: ''
+        value3: '',
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
       };
     }
   };
@@ -142,7 +143,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 
 ### Horaire par défaut pour les plages de dates
 
-:::demo Lorsque vous sélectionnez une plage de dates dans le panneau de date avec le type `datetimerange`, `00:00:00` sera utilisé comme horaire par défaut pour les dates de début et de fin. Vous pouvez contrôler cette valeur avec l'attribut `default-time`. Il accepte un tableau de une ou deux chaînes de caractères. La première indique l'horaire de la date de début, la deuxième celui de la date de fin.
+:::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
 ```html
 <template>
   <div class="block">
@@ -207,7 +208,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 | popper-class | Nom de classe pour le menu déroulant du DateTimePicker. | string | — | — |
 | range-separator | Séparateur de plage. | string | - | '-' |
 | default-value | Date par défaut du calendrier, optionnelle. | Date | N'importe quelle valeur acceptée par `new Date()` | — |
-| default-time | L'horaire par défaut après avoir choisi une date. | normal: string / plage de dates: string[] | normal: un string tel que `12:00:00`, range: tableau de deux strings, le premier pour la date de début, le deuxième pour la date de fin. Si non spécifié, `00:00:00` est utilisé. | — |
+| default-time | the default time value after picking a date | non-range: Date / range: Date[] | non-range: a Date object, range: array of two Date objects, and the first item is for the start date and second for the end date. Time `00:00:00` will be used if not specified | — |
 | name | Identique au `name` de l'input natif | string | — | — |
 | unlink-panels | Rend indépendants les deux panneaux de plage de dates | boolean | — | false |
 | prefix-icon | Icône de préfixe. | string | — | el-icon-date |
