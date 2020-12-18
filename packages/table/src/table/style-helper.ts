@@ -14,6 +14,7 @@ import {
   TableColumnCtx,
   fn,
 } from '../table.type'
+import { useGlobalConfig } from '@element-plus/utils/util'
 
 function useStyle(
   props: TableProps,
@@ -22,6 +23,7 @@ function useStyle(
   table: Table,
   doLayout: fn,
 ) {
+  const $ElEMENT = useGlobalConfig()
   const isHidden = ref(false)
   const renderExpanded = ref(null)
   const resizeProxyVisible = ref(false)
@@ -33,7 +35,6 @@ function useStyle(
     height: null,
   })
   const isGroup = ref(false)
-  const scrollPosition = ref('left')
 
   watchEffect(() => {
     layout.setHeight(props.height as string)
@@ -81,6 +82,7 @@ function useStyle(
     )
   })
   onMounted(() => {
+    setScrollClass('is-scrolling-left')
     bindEvents()
     store.updateColumns()
     doLayout()
@@ -102,6 +104,18 @@ function useStyle(
     })
     table.$ready = true
   })
+  const setScrollClassByEl = (el: HTMLElement, className: string) => {
+    if (!el) return
+    const classList = Array.from(el.classList).filter(
+      item => !item.startsWith('is-scrolling-'),
+    )
+    classList.push(layout.scrollX.value ? className : 'is-scrolling-none')
+    el.className = classList.join(' ')
+  }
+  const setScrollClass = (className: string) => {
+    const { bodyWrapper } = table.refs
+    setScrollClassByEl(bodyWrapper, className)
+  }
   const syncPostion = throttle(function() {
     const {
       scrollLeft,
@@ -121,11 +135,11 @@ function useStyle(
     if (rightFixedBodyWrapper) rightFixedBodyWrapper.scrollTop = scrollTop
     const maxScrollLeftPosition = scrollWidth - offsetWidth - 1
     if (scrollLeft >= maxScrollLeftPosition) {
-      scrollPosition.value = 'right'
+      setScrollClass('is-scrolling-right')
     } else if (scrollLeft === 0) {
-      scrollPosition.value = 'left'
+      setScrollClass('is-scrolling-left')
     } else {
-      scrollPosition.value = 'middle'
+      setScrollClass('is-scrolling-middle')
     }
   }, 10)
   const bindEvents = () => {
@@ -174,7 +188,7 @@ function useStyle(
     }
   }
   const tableSize = computed(() => {
-    return props.size
+    return props.size || $ElEMENT.size
   })
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
@@ -305,7 +319,6 @@ function useStyle(
     resizeProxyVisible,
     bodyWidth,
     resizeState,
-    scrollPosition,
   }
 }
 

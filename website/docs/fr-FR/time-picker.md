@@ -6,7 +6,7 @@ Utiliser TimePicker pour sélectionner un horaire.
 
 Vous pouvez aussi laisser l'utilisateur choisir librement un horaire.
 
-:::demo Utilisez `el-time-picker` puis l'attribut `picker-options` et sa propriété `disabledHours` `disabledMinutes` and `disabledSeconds` pour déterminer la tranche horaire disponible. Par défaut, vous pouvez utiliser la molette de votre souris, ou les flèches directionnelles si l'attribut `arrow-control` est présent.
+:::demo Utilisez `el-time-picker` puis l'attribut et sa propriété `disabledHours` `disabledMinutes` and `disabledSeconds` pour déterminer la tranche horaire disponible. Par défaut, vous pouvez utiliser la molette de votre souris, ou les flèches directionnelles si l'attribut `arrow-control` est présent.
 
 ```html
 <template>

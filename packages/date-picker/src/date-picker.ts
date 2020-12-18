@@ -42,6 +42,7 @@ export default defineComponent({
       default: 'date',
     },
   },
+  emits: ['update:modelValue'],
   setup(props, ctx) {
     const format = DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE
     return () => h(CommonPicker, {

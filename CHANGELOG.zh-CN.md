@@ -1,5 +1,18 @@
 ## Changelog
 
+### 1.0.1-beta.10
+
+*2020-12-18*
+
+#### New features
+
+- Add Space Component (#1002)
+
+#### Bug fixes
+
+- Fix select content overflow in multiple select (#967)
+- Fix table global config (#999)
+
 ### 1.0.1-beta.9
 
 *2020-12-16*
