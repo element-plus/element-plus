@@ -1,0 +1,10 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(space) {
+  display: inline-flex;
+
+  @include m(vertical) {
+    flex-direction: column;
+  }
+}
