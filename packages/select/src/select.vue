@@ -7,7 +7,7 @@
     @click.stop="toggleMenu"
   >
     <el-popper
-      ref="popper"
+      ref="popperRef"
       v-model:visible="dropMenuVisible"
       placement="bottom-start"
       :append-to-body="popperAppendToBody"
@@ -18,6 +18,7 @@
       trigger="click"
       transition="el-zoom-in-top"
       :gpu-acceleration="false"
+      :stop-popper-mouse-event="false"
       @before-enter="handleMenuEnter"
     >
       <template #trigger>
@@ -296,7 +297,7 @@ export default defineComponent({
 
       reference,
       input,
-      popper,
+      popper:popperRef,
       tags,
       selectWrapper,
       scrollbar,
@@ -429,7 +430,7 @@ export default defineComponent({
 
       reference,
       input,
-      popper,
+      popperRef,
       tags,
       selectWrapper,
       scrollbar,

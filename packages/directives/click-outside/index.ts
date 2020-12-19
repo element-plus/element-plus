@@ -38,7 +38,7 @@ function createDocumentHandler(
     excludes.push(binding.arg as unknown as HTMLElement)
   }
   return function(mouseup, mousedown) {
-    const popperRef = (binding.instance as ComponentPublicInstance<{
+    let popperRef = (binding.instance as ComponentPublicInstance<{
       popperRef: Nullable<HTMLElement>
     }>).popperRef
     const mouseUpTarget = mouseup.target as Node
@@ -47,13 +47,14 @@ function createDocumentHandler(
     const isTargetExists = !mouseUpTarget || !mouseDownTarget
     const isContainedByEl = el.contains(mouseUpTarget) || el.contains(mouseDownTarget)
     const isSelf = el === mouseUpTarget
-
     const isTargetExcluded =
       ( excludes.length &&
         excludes.some(item => item?.contains(mouseUpTarget))
       ) || (
         excludes.length && excludes.includes(mouseDownTarget as HTMLElement)
       )
+
+    popperRef = (popperRef as any).popperRef as HTMLElement
     const isContainedByPopper = (
       popperRef &&
       (
