@@ -1,5 +1,6 @@
 <template>
-  <div :class="['el-skeleton__item', variant ? `el-skeleton__${variant}` : '']">
+  <div :class="['el-skeleton__item', `el-skeleton__${variant}`]">
+    <i v-if="variant === 'image'" class="el-icon-picture-outline"></i>
   </div>
 </template>
 
@@ -15,8 +16,8 @@ export default defineComponent({
     variant: {
       type: String as PropType<Variants>,
       default: 'text',
-    }
-  }
+    },
+  },
 })
 
 </script>

@@ -2,16 +2,6 @@
 @import 'common/var';
 @import "./skeleton-item.scss";
 
-@mixin avatar-size($size) {
-  width: $size;
-  height: $size;
-  line-height: $size;
-
-  &.el-skeleton-avatar-circle {
-    border-radius: 50%;
-  }
-}
-
 @mixin skeleton-color() {
   background: linear-gradient(
     90deg,
@@ -34,7 +24,6 @@
 
 @include b(skeleton) {
   width: 100%;
-
   @each $unit in (first-line, paragraph) {
     @include e($unit) {
       height: 16px;
@@ -42,21 +31,6 @@
       background: $--skeleton-color;
     }
   }
-
-  @include e(first-line) {
-    width: 33%;
-  }
-
-
-
-  @include e(avatar) {
-    display: inline-block;
-    vertical-align: top;
-    background: $--skeleton-color;
-
-    @include avatar-size(40px);
-  }
-
 
   @include when(animated) {
     .el-skeleton__item {
