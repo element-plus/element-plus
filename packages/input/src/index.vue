@@ -90,6 +90,7 @@
       :autocomplete="autocomplete"
       :style="textareaStyle"
       :aria-label="label"
+      :placeholder="placeholder"
       @compositionstart="handleCompositionStart"
       @compositionupdate="handleCompositionUpdate"
       @compositionend="handleCompositionEnd"
