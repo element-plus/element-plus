@@ -276,9 +276,10 @@
     border-right: none;
     border-bottom: none;
 
-    &.el-loading-parent--relative {
-      border-color: transparent;
-    }
+    // fix: #1013
+    // &.el-loading-parent--relative {
+    //   border-color: transparent;
+    // }
 
     th, td {
       border-right: $--table-border;

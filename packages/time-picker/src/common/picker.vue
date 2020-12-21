@@ -9,6 +9,7 @@
     effect="light"
     pure
     trigger="click"
+    v-bind="$attrs"
     popper-class="el-picker__popper"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"

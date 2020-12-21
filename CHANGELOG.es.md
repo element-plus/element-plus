@@ -1,5 +1,20 @@
 ## Changelog
 
+### 1.0.1-beta.11
+
+*2020-12-21*
+
+#### New features
+
+- Add Skeleton compontent (#953)
+
+#### Bug fixes
+
+- Fix input add placeholder (#1052)
+- Fix date-picker bind $attrs issue (#1069)
+- Fix popper use EmitType to replace string (#1053)
+- Fix table border style (#1056)
+
 ### 1.0.1-beta.10
 
 *2020-12-18*

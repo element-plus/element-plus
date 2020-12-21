@@ -35,7 +35,7 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
       v-model="value3"
       type="datetime"
       placeholder="Select date and time"
-      default-time="12:00:00">
+      :default-time="defaultTime">
     </el-date-picker>
   </div>
 </template>
@@ -64,7 +64,8 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
         }],
         value1: '',
         value2: '',
-        value3: ''
+        value3: '',
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
       };
     }
   };
@@ -142,7 +143,7 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 ###  Default time value for start date and end date
 
-:::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two strings. The first item controls time value of the start date and the second item controls time value of the end date.
+:::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
 ```html
 <template>
   <div class="block">
@@ -207,7 +208,7 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 | popper-class | custom class name for DateTimePicker's dropdown | string | — | — |
 | range-separator | range separator | string | - | '-' |
 | default-value | optional, default date of the calendar | Date | anything accepted by `new Date()` | — |
-| default-time | the default time value after picking a date | non-range: string / range: string[] | non-range: a string like `12:00:00`, range: array of two strings, and the first item is for the start date and second for the end date. `00:00:00` will be used if not specified | — |
+| default-time | the default time value after picking a date | non-range: Date / range: Date[] | non-range: a Date object, range: array of two Date objects, and the first item is for the start date and second for the end date. Time `00:00:00` will be used if not specified | — |
 | name | same as `name` in native input | string | — | — |
 | unlink-panels | unllink two date-panels in range-picker | boolean | — | false |
 | prefix-icon | Custom prefix icon class | string | — | el-icon-date |

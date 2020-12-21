@@ -22,12 +22,13 @@ import type {
 } from './defaults'
 
 type ElementType = ComponentPublicInstance | HTMLElement
+type EmitType = 'update:visible' | 'after-enter' | 'after-leave' | 'before-enter' | 'before-leave'
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
 export default function(
   props: IPopperOptions,
-  { emit }: SetupContext<string[]>,
+  { emit }: SetupContext<EmitType[]>,
 ) {
   const arrowRef = ref<RefElement>(null)
   const triggerRef = ref(null) as Ref<ElementType>

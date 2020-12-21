@@ -349,7 +349,7 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
 
 日付範囲を選択する際に、開始日と終了日に時間部分を割り当てることができます。
 
-:::demo デフォルトでは、開始日と終了日の時刻部分はともに `00:00:00` である。`default-time` を設定することで、それぞれの時刻を変更することができる。12:00:00` の形式で最大2つの文字列の配列を受け付ける。最初の文字列には開始日の時刻を、2番目の文字列には終了日の時刻を設定する。
+:::demo By default, the time part of start date and end date are both `00:00:00`. Setting `default-time` can change their time respectively. It accepts an array of up to two Date objects. The first string sets the time for the start date, and the second for the end date.
 ```html
 <template>
   <div class="block">
@@ -398,7 +398,7 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
 | popper-class | date-pickerのドロップダウン用カスタムクラス名 | string | — | — |
 | range-separator | 範囲セパレータ | string | — | '-' |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date | anything accepted by `new Date()` | — |
-| default-time | オプション、日付範囲を選択する際に使用する時間値 | string[] | Array with length 2, each item is a string like `12:00:00`. The first item for the start date and then second item for the end date | — |
+| default-time | optional, the time value to use when selecting date range | Date[] | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | — |
 | name | ネイティブ入力の `name` と同じ  | string | — | — |
 | unlink-panels | 範囲ピッカーで2つのデータパネルのリンクを解除する | boolean | — | false |
 | prefix-icon | カスタムプレフィックスアイコン | string | — | el-icon-date |

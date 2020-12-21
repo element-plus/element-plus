@@ -351,7 +351,7 @@ If type is `daterange`, `default-value` sets the left side calendar.
 
 在选择日期范围时，指定起始日期和结束日期的默认时刻。
 
-:::demo 选择日期范围时，默认情况下，起始日期和结束日期的时间部分均为当天的 0 点 0 分 0 秒。通过`default-time`可以分别指定二者的具体时刻。`default-time`接受一个数组，其中的值为形如`12:00:00`的字符串，第一个值控制起始日期的时刻，第二个值控制结束日期的时刻。
+:::demo 选择日期范围时，默认情况下，起始日期和结束日期的时间部分均为当天的 0 点 0 分 0 秒。通过`default-time`可以分别指定二者的具体时刻。`default-time`接受一个数组，第一个值控制起始日期的时刻，第二个值控制结束日期的时刻。
 ```html
 <template>
   <div class="block">
@@ -400,7 +400,7 @@ If type is `daterange`, `default-value` sets the left side calendar.
 | popper-class | DatePicker 下拉框的类名 | string | — | — |
 | range-separator | 选择范围时的分隔符 | string | — | '-' |
 | default-value | 可选，选择器打开时默认显示的时间 | Date | 可被`new Date()`解析 | — |
-| default-time | 范围选择时选中日期所使用的当日内具体时刻 | string[] | 数组，长度为 2，每项值为字符串，形如`12:00:00`，第一项指定开始日期的时刻，第二项指定结束日期的时刻，不指定会使用时刻 `00:00:00` | — |
+| default-time | 范围选择时选中日期所使用的当日内具体时刻 | Date[] | 数组，长度为 2，第一项指定开始日期的时刻，第二项指定结束日期的时刻，不指定会使用时刻 `00:00:00` | — |
 | name | 原生属性 | string | — | — |
 | unlink-panels | 在范围选择器里取消两个日期面板之间的联动 | boolean | — | false |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-date |
