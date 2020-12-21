@@ -1,11 +1,14 @@
 import type { App } from 'vue'
+import { SFCWithInstall } from '../utils/types'
 import Popper from './src/index.vue'
 
 Popper.install = (app: App): void => {
   app.component(Popper.name, Popper)
 }
 
-export default Popper
+const _Popper: SFCWithInstall<typeof Popper> = Popper
+
+export default _Popper
 
 export { default as defaultProps, Effect, Placement, Options } from './src/use-popper/defaults'
 export type { TriggerType, IPopperOptions, PopperInstance } from './src/use-popper/defaults'

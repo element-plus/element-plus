@@ -1,8 +1,11 @@
 import { App } from 'vue'
+import { SFCWithInstall } from '../utils/types'
 import Popconfirm from './src/index.vue'
 
 Popconfirm.install = (app: App): void => {
   app.component(Popconfirm.name, Popconfirm)
 }
 
-export default Popconfirm
+const _Popconfirm: SFCWithInstall<typeof Popconfirm> = Popconfirm
+
+export default _Popconfirm

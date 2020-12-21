@@ -1,9 +1,12 @@
 import { App } from 'vue'
+import { SFCWithInstall } from '../utils/types'
 import MenuItemGroup from '../menu/src/menuItemGroup.vue'
 
 MenuItemGroup.install = (app: App): void => {
   app.component(MenuItemGroup.name, MenuItemGroup)
 }
 
-export default MenuItemGroup
+const _MenuItemGroup: SFCWithInstall<typeof MenuItemGroup> = MenuItemGroup
+
+export default _MenuItemGroup
 
