@@ -152,7 +152,7 @@ export default defineComponent({
         showArrow: visibleArrow,
         transition,
         trigger,
-        popperOptions, // Breakings!: Once popperOptions is provided, the whole popper is under user's control, ElPopper nolonger generates the default options for popper, this is by design if the user wants the full contorl on @PopperJS, read the doc @https://popper.js.org/docs/v2/
+        popperOptions, // Breakings!: Once popperOptions is provided, the whole popper is under user's control, ElPopper nolonger generates the default options for popper, this is by design if the user wants the full control on @PopperJS, read the doc @https://popper.js.org/docs/v2/
         visible: this.modelValue,
         'onUpdate:visible': onUpdateVisible,
       },
