@@ -283,18 +283,14 @@ describe('Input.vue', () => {
           }
         },
       })
-      const _ref = wrapper.vm.$refs.textarea
-      const originHeight = _ref.$el.clientHeight
+      const ref = wrapper.vm.$refs.textarea
+      const originMinHeight  = ref.textareaStyle.minHeight
 
-      _ref.autosize.minRows = 5
-      _ref.autosize.maxRows = 5
-
-      _ref.resizeTextarea()
-      // Textarea height will change
-      sleep(200).then(() => {
-        const nowHeight = _ref.$el.clientHeight
-        expect(originHeight).not.toEqual(nowHeight)
-      })
+      ref.autosize.minRows = 5
+      ref.resizeTextarea()
+      // Atfer this textarea min-height (style)  will change
+      const nowMinHeight = ref.textareaStyle.minHeight
+      expect(originMinHeight).not.toEqual(nowMinHeight)
     })
   })
 
