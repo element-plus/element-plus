@@ -6,6 +6,7 @@ import {
   computed,
   getCurrentInstance,
   h,
+  onBeforeUnmount,
 } from 'vue'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
@@ -192,6 +193,13 @@ export default defineComponent({
         'insertColumn',
         columnConfig.value,
         columnIndex,
+        isSubColumn.value ? parent.columnConfig.value : null,
+      )
+    })
+    onBeforeUnmount(() => {
+      owner.value.store.commit(
+        'removeColumn',
+        columnConfig.value,
         isSubColumn.value ? parent.columnConfig.value : null,
       )
     })
