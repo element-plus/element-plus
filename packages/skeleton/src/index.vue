@@ -1,6 +1,6 @@
 <template>
   <template v-if="uiLoading">
-    <div :class="['el-skeleton', animated ? 'is-animated' : '']">
+    <div :class="['el-skeleton', animated ? 'is-animated' : '', ]" v-bind="$attrs">
       <template v-for="i in count" :key="i">
         <slot v-if="loading" name="template">
           <el-skeleton-item class="is-first" variant="p" />
@@ -18,7 +18,7 @@
     </div>
   </template>
   <template v-else>
-    <slot></slot>
+    <slot v-bind="$attrs"></slot>
   </template>
 </template>
 

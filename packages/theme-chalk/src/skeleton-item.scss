@@ -72,13 +72,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: none;
+    border-radius: 0;
 
-    & > i {
-      width: 10%;
-      height: 10%;
+    svg {
+      fill: $--svg-monochrome-grey;
+      width: 22%;
+      height: 22%;
     }
   }
 
-  $type: (title, paragraph, avatar, button, image);
 }
