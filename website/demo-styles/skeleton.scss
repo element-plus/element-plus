@@ -1,0 +1,40 @@
+.demo-block.demo-skeleton {
+
+  .el-card {
+    margin-bottom: 16px;
+  }
+
+  .time {
+    font-size: 13px;
+    color: #999;
+  }
+
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+
+  .button {
+    padding: 0;
+    float: right;
+  }
+
+  .image {
+    &.multi-content {
+      width: 400px;
+      height: 267px; 
+    }
+    width: 100%;
+    display: block;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: '';
+  }
+
+  .clearfix:after {
+    clear: both;
+  }
+}

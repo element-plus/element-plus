@@ -65,6 +65,10 @@ $--border-color-lighter: #EBEEF5 !default;
 /// color|1|Border Color|3
 $--border-color-extra-light: #F2F6FC !default;
 
+// Variants 
+
+$--heading-padding: 20px 0 !default;
+
 // Background
 /// color|1|Background Color|4
 $--background-color-base: #F5F7FA !default;
@@ -96,6 +100,9 @@ $--box-shadow-base: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) !de
 $--box-shadow-dark: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .12) !default;
 /// boxShadow|1|Shadow|1
 $--box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default;
+/* Svg
+--------------- */
+$--svg-monochrome-grey: #DCDDE0;
 
 /* Fill
 -------------------------- */
@@ -963,6 +970,9 @@ $--avatar-large-size: 40px !default;
 $--avatar-medium-size: 36px !default;
 /// size|1|Avatar Size|3
 $--avatar-small-size: 28px !default;
+
+$--skeleton-color: #f2f2f2;
+$--skeleton-to-color: #e6e6e6;
 
 /* Break-point
 --------------------------*/
