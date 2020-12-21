@@ -29,8 +29,6 @@ export default defineComponent({
 
     const style = computed(() => {
       const ret = {
-        display: 'flex',
-        flexWrap: 'wrap',
         marginLeft: '',
         marginRight: '',
       }
