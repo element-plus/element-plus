@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { SFCWithInstall } from '../utils/types'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import RadioGroup from '../radio/src/radio-group.vue'
 
 RadioGroup.install = (app: App): void => {

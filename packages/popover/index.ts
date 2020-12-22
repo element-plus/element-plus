@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { SFCWithInstall } from '../utils/types'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Popover from './src/index.vue'
 import PopoverDirective, { VPopover } from './src/directive'
 

@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { SFCWithInstall } from '../utils/types'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Form from './src/form.vue'
 
 Form.install = (app: App): void => {

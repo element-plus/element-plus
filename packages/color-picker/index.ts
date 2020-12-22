@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { SFCWithInstall } from '../utils/types'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import ColorPicker from './src/index.vue'
 
 ColorPicker.install = (app: App): void => {

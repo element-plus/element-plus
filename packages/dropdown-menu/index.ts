@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { SFCWithInstall } from '../utils/types'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import DropdownMenu from '../dropdown/src/dropdown-menu.vue'
 
 DropdownMenu.install = (app: App): void => {

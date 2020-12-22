@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { SFCWithInstall } from '../utils/types'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import CollapseTransition from '../transition/collapse-transition/index.vue'
 
 CollapseTransition.install = (app: App): void => {

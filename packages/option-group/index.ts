@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { SFCWithInstall } from '../utils/types'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import OptionGroup from '../select/src/option-group.vue'
 
 OptionGroup.install = (app: App): void => {

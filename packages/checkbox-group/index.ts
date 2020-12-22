@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { SFCWithInstall } from '../utils/types'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import CheckboxGroup from '../checkbox/src/checkbox-group.vue'
 
 CheckboxGroup.install = (app: App): void => {
