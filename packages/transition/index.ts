@@ -5,4 +5,5 @@ export default (app: App): void => {
   app.component(ElCollapseTransition.name, ElCollapseTransition)
 }
 
+
 export { ElCollapseTransition }
