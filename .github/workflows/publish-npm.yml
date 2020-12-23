@@ -40,7 +40,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
-          REGISTRY: https://npm.pkg.github.com/
+          REGISTRY: https://registry.npmjs.com/
 
   publish-gpr:
     needs: build
@@ -60,6 +60,6 @@ jobs:
       - name: Publish
         run: sh ./scripts/publish.sh
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
           REGISTRY: https://npm.pkg.github.com/
