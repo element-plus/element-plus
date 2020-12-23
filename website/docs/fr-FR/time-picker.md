@@ -116,8 +116,8 @@ Vous pouvez également définir un intervalle libre.
 | placeholder | Placeholder en mode non-intervalle. | string | — | — |
 | start-placeholder | Placeholder de l'horaire de début en mode intervalle. | string | — | — |
 | end-placeholder | Placeholder de l'horaire de fin en mode intervalle. | string | — | — |
-| is-range | Si le mode intervalle est activé, marche avec `<el-time-picker>`. | boolean | — | false |
-| arrow-control | Si les flèches directionnelles peuvent être utilisées, marche avec `<el-time-picker>`. | boolean | — | false |
+| is-range | Si le mode intervalle est activé | boolean | — | false |
+| arrow-control | Si les flèches directionnelles peuvent être utilisées | boolean | — | false |
 | align | Alignement. | left / center / right | left |
 | popper-class | Classe du menu du TimePicker. | string | — | — |
 | range-separator | Séparateur d'intervalle. | string | - | '-' |

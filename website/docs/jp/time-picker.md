@@ -115,8 +115,8 @@
 | placeholder | 非範囲モード時のプレースホルダ | string | — | — |
 | start-placeholder | 範囲モードの開始時刻のプレースホルダ | string | — | — |
 | end-placeholder | 範囲モード終了時のプレースホルダ | string | — | — |
-| is-range | 時間範囲を選択するかどうか、`<el-time-picker>` でのみ動作します。 | boolean | — | false |
-| arrow-control | 矢印ボタンを使って時間を選択するかどうか、`<el-time-picker>` でのみ動作します。 | boolean | — | false |
+| is-range | 時間範囲を選択するかどうか | boolean | — | false |
+| arrow-control | 矢印ボタンを使って時間を選択するかどうか| boolean | — | false |
 | align | 整列 | left / center / right | left |
 | popper-class | タイムピッカーのドロップダウンのカスタムクラス名 | string | — | — |
 | range-separator | 範囲セパレータ | string | - | '-' |
