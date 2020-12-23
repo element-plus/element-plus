@@ -40,6 +40,7 @@ jobs:
           REGISTRY: https://npm.pkg.github.com/
 
   publish-gpr:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
