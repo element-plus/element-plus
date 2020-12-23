@@ -1,5 +1,21 @@
 ## Changelog
 
+### 1.0.1-beta.12
+
+*2020-12-23*
+
+#### Bug fixes
+
+- Export textarea method resizeTextarea (#1032)
+- Fix table column not deleted bug (#1062)
+- Fix scrollbar mouseup scroll bug (#1066)
+- Fix slider mouseup scroll bug (#1066)
+- Fix pagination v-model of page-size not work (#1079)
+- Fix app.use(comp.vue) type (#1067)
+- Fix the style of scrollbar (#1042)
+- Fix color-picker drag (#1084)
+- Fix table z-index (#1078)
+
 ### 1.0.1-beta.11
 
 *2020-12-21*
