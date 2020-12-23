@@ -262,11 +262,11 @@
 ```
 :::
 
-###  Default Value (需要翻译)
+### 默认值
 
-If user hasn't picked a date, shows today's calendar by default. You can use `default-value` to set another date. Its value should be parsable by `new Date()`.
+如果用户没有选择日期，那默认展示当前日的月份。你可以使用 `default-value` 来设置成其他的日期。
 
-If type is `daterange`, `default-value` sets the left side calendar.
+如果类型是 `daterange`, `default-value` 则会设置左边窗口的默认值。
 
 :::demo
 ```html
@@ -381,6 +381,12 @@ If type is `daterange`, `default-value` sets the left side calendar.
 </script>
 ```
 :::
+
+### 国际化
+
+默认语言是英语 (English), 如需使用其他语言, 请参考 [国际化](#/zh-CN/component/i18n)
+
+注意：时间日期相关的语言配置如 (月份名, 每周第一天是周几等) 也是在国际化里配置。
 
 ### Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |

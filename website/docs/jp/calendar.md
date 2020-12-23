@@ -49,6 +49,12 @@
 ```
 :::
 
+### Localization
+
+The default locale of is English, if you need to use other languages, please check [Internationalization](#/jp/component/i18n)
+
+Note, date time locale (month name, first day of the week ...) are also configed in localization.
+
 ### 属性
 | Attribute       | Description        | Type      | Accepted Values       | Default  |
 |-----------------|------------------- |---------- |---------------------- |--------- |
