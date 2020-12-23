@@ -92,6 +92,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    stopPopperMouseEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: [UPDATE_MODEL_EVENT],
   setup(props, ctx) {
@@ -134,6 +138,7 @@ export default defineComponent({
       transition,
       trigger,
       visibleArrow,
+      stopPopperMouseEvent,
     } = this
     const popper = h(
       ElPopper,
@@ -150,6 +155,7 @@ export default defineComponent({
         placement,
         showAfter: openDelay || showAfter, // this is for mapping API due to we decided to rename the current openDelay API to showAfter for better readability,
         showArrow: visibleArrow,
+        stopPopperMouseEvent,
         transition,
         trigger,
         popperOptions, // Breakings!: Once popperOptions is provided, the whole popper is under user's control, ElPopper nolonger generates the default options for popper, this is by design if the user wants the full control on @PopperJS, read the doc @https://popper.js.org/docs/v2/
