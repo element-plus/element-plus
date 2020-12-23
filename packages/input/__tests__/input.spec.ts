@@ -273,6 +273,25 @@ describe('Input.vue', () => {
       expect(input.selectionStart).toEqual(0)
       expect(input.selectionEnd).toEqual(testContent.length)
     })
+    test('method:resizeTextarea', async () => {
+      const testContent = 'TEXT:resizeTextarea'
+      const wrapper = _mount({
+        template: `<el-input  ref="textarea"  :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" v-model="text" />`,
+        data() {
+          return {
+            text: testContent,
+          }
+        },
+      })
+      const ref = wrapper.vm.$refs.textarea
+      const originMinHeight  = ref.textareaStyle.minHeight
+
+      ref.autosize.minRows = 5
+      ref.resizeTextarea()
+      // Atfer this textarea min-height (style)  will change
+      const nowMinHeight = ref.textareaStyle.minHeight
+      expect(originMinHeight).not.toEqual(nowMinHeight)
+    })
   })
 
   describe('Input Events', () => {

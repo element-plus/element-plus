@@ -467,6 +467,7 @@ export default defineComponent({
       validateState,
       validateIcon,
       textareaStyle,
+      resizeTextarea,
       inputDisabled,
       showClear,
       showPwdVisible,
