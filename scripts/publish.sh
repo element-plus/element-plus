@@ -4,7 +4,7 @@
 # If you wish to run this locally, please change the env variable before running this.
 
 WORKING_PATH="../$(dirname $0)"
-cd $WORKING_PATH
+cd ..
 
 cat package.json | grep -v '"private":' | grep -v '"version":' | sed "s/\(\"name\": \"@element-plus\/icons\"\)/\1,\n  \"version\": \"${TAG_VERSION}\"/g" > package.json
 
