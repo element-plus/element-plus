@@ -28,10 +28,10 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name:  Bootstrap
-        run: yarn bootstrap
       - name: build
         run: yarn build
+        env:
+          TAG_VERSION: ${{env.TAG_VERSION}}
       - name: Publish
         run: sh ./scripts/publish.sh
         env:
@@ -49,10 +49,10 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Bootstrap
-        run: yarn bootstrap
       - name: build
         run: yarn build
+        env:
+          TAG_VERSION: ${{env.TAG_VERSION}}
       - name: Publish
         run: sh ./scripts/publish.sh
         env:
