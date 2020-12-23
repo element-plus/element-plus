@@ -6,7 +6,7 @@
     "cz": "npx git-cz",
     "test": "jest",
     "gen": "bash ./scripts/gc.sh",
-    "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version",
+    "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && export TAG_VERSION=0.0.0-development && yarn gen:version",
     "gen:version": "node build/gen-version.js",
     "build": "yarn bootstrap && yarn clean:lib && yarn build:esm-bundle && yarn build:lib && yarn build:lib-full && yarn build:esm && yarn build:utils && yarn build:locale && yarn build:locale-umd && yarn build:theme",
     "clean:lib": "rimraf lib",
