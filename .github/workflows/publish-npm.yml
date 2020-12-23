@@ -32,6 +32,8 @@ jobs:
         run: yarn bootstrap
       - name: build
         run: yarn build
+        env:
+          TAG_VERSION: ${{env.TAG_VERSION}}
       - name: Publish
         run: sh ./scripts/publish.sh
         env:
@@ -53,6 +55,8 @@ jobs:
         run: yarn bootstrap
       - name: build
         run: yarn build
+        env:
+          TAG_VERSION: ${{env.TAG_VERSION}}
       - name: Publish
         run: sh ./scripts/publish.sh
         env:
