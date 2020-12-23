@@ -10,7 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
       - name: Install dependencies
         run: yarn bootstrap
       - name: Lint
@@ -23,8 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
+          node-version: '12'
           registry-url: https://registry.npmjs.org/
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
@@ -35,7 +38,7 @@ jobs:
       - name: Publish
         run: sh ./scripts/publish.sh
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
           REGISTRY: https://npm.pkg.github.com/
 
@@ -44,9 +47,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: '12'
           registry-url: https://npm.pkg.github.com/
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
@@ -57,6 +60,6 @@ jobs:
       - name: Publish
         run: sh ./scripts/publish.sh
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
           REGISTRY: https://npm.pkg.github.com/
