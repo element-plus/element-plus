@@ -138,6 +138,7 @@ export default defineComponent({
     function handleSizesChange(val: number) {
       userChangePageSize.value = true
       internalPageSize.value = val
+      emit('update:pageSize', val)
       emit('size-change', val)
     }
 
