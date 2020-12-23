@@ -28,14 +28,14 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-          registry-url: https://registry.npmjs.org/
+          registry-url: https://registry.npmjs.com/
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: build
         run: yarn build
         env:
           TAG_VERSION: ${{env.TAG_VERSION}}
-      - run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" > ~/.npmrc
+      - run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" > ./.npmrc
       - name: Publish
         run: sh ./scripts/publish.sh
         env:
@@ -58,7 +58,7 @@ jobs:
         run: yarn build
         env:
           TAG_VERSION: ${{env.TAG_VERSION}}
-      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
+      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ./.npmrc
       - name: Publish
         run: sh ./scripts/publish.sh
         env:
