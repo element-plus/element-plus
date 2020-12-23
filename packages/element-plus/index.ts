@@ -31,6 +31,7 @@ import ElDrawer from '@element-plus/drawer'
 import ElDropdown from '@element-plus/dropdown'
 import ElDropdownItem from '@element-plus/dropdown-item'
 import ElDropdownMenu from '@element-plus/dropdown-menu'
+import ElEmpty from '@element-plus/empty'
 import ElFooter from '@element-plus/footer'
 import ElForm from '@element-plus/form'
 import ElFormItem from '@element-plus/form-item'
@@ -135,6 +136,7 @@ const components = [
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElEmpty,
   ElFooter,
   ElForm,
   ElFormItem,
@@ -243,6 +245,7 @@ export {
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElEmpty,
   ElFooter,
   ElForm,
   ElFormItem,
