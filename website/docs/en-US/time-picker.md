@@ -115,8 +115,8 @@ Can pick an arbitrary time range.
 | placeholder | placeholder in non-range mode | string | — | — |
 | start-placeholder | placeholder for the start time in range mode | string | — | — |
 | end-placeholder | placeholder for the end time in range mode | string | — | — |
-| is-range | whether to pick a time range, only works with `<el-time-picker>` | boolean | — | false |
-| arrow-control | whether to pick time using arrow buttons, only works with `<el-time-picker>` | boolean | — | false |
+| is-range | whether to pick a time range | boolean | — | false |
+| arrow-control | whether to pick time using arrow buttons | boolean | — | false |
 | align | alignment | left / center / right | left |
 | popper-class | custom class name for TimePicker's dropdown | string | — | — |
 | range-separator | range separator | string | - | '-' |

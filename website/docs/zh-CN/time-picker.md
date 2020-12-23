@@ -116,8 +116,8 @@
 | placeholder | 非范围选择时的占位内容 | string | — | — |
 | start-placeholder | 范围选择时开始日期的占位内容 | string | — | — |
 | end-placeholder | 范围选择时开始日期的占位内容 | string | — | — |
-| is-range | 是否为时间范围选择，仅对`<el-time-picker>`有效 | boolean | — | false |
-| arrow-control | 是否使用箭头进行时间选择，仅对`<el-time-picker>`有效 | boolean | — | false |
+| is-range | 是否为时间范围选择 | boolean | — | false |
+| arrow-control | 是否使用箭头进行时间选择 | boolean | — | false |
 | align | 对齐方式 | string | left / center / right | left |
 | popper-class | TimePicker 下拉框的类名 | string | — | — |
 | range-separator | 选择范围时的分隔符 | string | - | '-' |
