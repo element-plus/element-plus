@@ -192,7 +192,8 @@ describe('click pager', () => {
     expect(wrapper.find('.btn-quickprev.more').exists()).toBe(true)
     expect(wrapper.find('.btn-quicknext.more').exists()).toBe(false)
   })
-  test('should emit change size evt', async () => {
+
+  test('should emit change size evt and update pageSize', async () => {
     const onSizeChange = jest.fn()
     const wrapper = mount({
       components: {
@@ -201,21 +202,29 @@ describe('click pager', () => {
       template: `
         <el-pagination
           @size-change="onSizeChange"
+          v-model:page-size="pageSize"
          :total="1000"
          :page-sizes="[100, 200, 300]"
          layout="sizes, pager"
-         :page-size="100"/>
+        />
       `,
       methods: {
         onSizeChange,
+      },
+      data(){
+        return {
+          pageSize: 200,
+        }
       },
     })
 
     const items = document.querySelectorAll('.el-select-dropdown__item:not(.selected)');
     (items[0] as HTMLOptionElement)?.click()
     expect(onSizeChange).toHaveBeenCalled()
+    expect(wrapper.vm.pageSize).toBe(100)
     expect(wrapper.findComponent(Pagination).emitted()).toHaveProperty('size-change')
   })
+
 
   test('should handle total size change', async () => {
     const onCurrentChange = jest.fn()
