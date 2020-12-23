@@ -387,6 +387,12 @@ Al seleccionar un intervalo de fechas, puede asignar la hora para la fecha de in
 ```
 :::
 
+### Localization
+
+The default locale of is English, if you need to use other languages, please check [Internationalization](#/es/component/i18n)
+
+Note, date time locale (month name, first day of the week ...) are also configed in localization.
+
 ### Atributos
 | Atributo          | Descripción                              | Tipo              | Valores aceptados                        | Por defecto          |
 | ----------------- | ---------------------------------------- | ----------------- | ---------------------------------------- | -------------------- |

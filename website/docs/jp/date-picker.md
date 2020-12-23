@@ -380,6 +380,12 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
 ```
 :::
 
+### Localization
+
+The default locale of is English, if you need to use other languages, please check [Internationalization](#/jp/component/i18n)
+
+Note, date time locale (month name, first day of the week ...) are also configed in localization.
+
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
@@ -393,7 +399,7 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
 | start-placeholder | 範囲モードでの開始日のプレースホルダ | string | — | — |
 | end-placeholder | 範囲終了日のプレースホルダ | string | — | — |
 | type | ピッカーのタイプ | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
-| format | 入力ボックスの表示値のフォーマット | string | see [date formats](#/en-US/component/date-picker#date-formats) | yyyy-MM-dd |
+| format | 入力ボックスの表示値のフォーマット | string | see [date formats](#/jp/component/date-picker#date-formats) | yyyy-MM-dd |
 | align | アライメント | left/center/right | left |
 | popper-class | date-pickerのドロップダウン用カスタムクラス名 | string | — | — |
 | range-separator | 範囲セパレータ | string | — | '-' |
