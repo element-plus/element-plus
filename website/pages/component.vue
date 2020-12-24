@@ -25,20 +25,6 @@ import navsData from '../nav.config.json'
 import { throttle } from 'throttle-debounce'
 
 export default {
-  beforeRouteUpdate(to, from, next) {
-    next()
-    setTimeout(() => {
-      const toPath = to.path
-      const fromPath = from.path
-      if (toPath === fromPath && to.hash) {
-        this.goAnchor()
-      }
-      if (toPath !== fromPath) {
-        document.documentElement.scrollTop = document.body.scrollTop = 0
-        this.renderAnchorHref()
-      }
-    }, 100)
-  },
   data() {
     return {
       lang: this.$route.meta.lang,
@@ -73,17 +59,31 @@ export default {
     this.componentScrollBox = this.componentScrollBar.$el.querySelector('.el-scrollbar__wrap')
     this.throttledScrollHandler = throttle(300, this.handleScroll)
     this.componentScrollBox.addEventListener('scroll', this.throttledScrollHandler)
-    this.renderAnchorHref()
-    this.goAnchor()
     document.body.classList.add('is-component')
+    this.addContentObserver()
   },
   unmounted() {
     document.body.classList.remove('is-component')
   },
   beforeUnmount() {
     this.componentScrollBox.removeEventListener('scroll', this.throttledScrollHandler)
+    this.observer.disconnect()
   },
   methods: {
+    addContentObserver() {
+      this.observer = new MutationObserver((mutationsList, observer) => {
+        for(const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            this.renderAnchorHref()
+            this.goAnchor()
+          }
+        }
+      })
+      this.observer.observe(
+        document.querySelector('.content-wrap'),
+        { childList: true },
+      )
+    },
     renderAnchorHref() {
       if (/changelog/g.test(location.href)) return
       const anchors = document.querySelectorAll('h2 a,h3 a,h4 a,h5 a')
@@ -91,7 +91,9 @@ export default {
 
       [].slice.call(anchors).forEach(a => {
         const href = a.getAttribute('href')
-        a.href = basePath + href
+        if (href.indexOf('#') === 0) {
+          a.href = basePath + href
+        }
       })
     },
 
