@@ -1,34 +1,53 @@
 <template>
   <div class="el-empty">
-    <div>
-      <slot name="image"></slot>
+    <div class="el-empty__image" :style="imageStyle">
+      <img v-if="image" :src="image" ondragstart="return false">
+      <slot v-else-if="$slots.image" name="image"></slot>
+      <img-placeholder v-else />
     </div>
-    <div>
-      <slot name="description"></slot>
+    <div class="el-empty__description">
+      <slot v-if="$slots.description" name="description"></slot>
+      <p v-else>{{ emptyDescription }}</p>
     </div>
-    <div>
+    <div v-if="$slots.default" class="el-empty__bottom">
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import ImgPlaceholder from './img-placeholder.vue'
+import { t } from '@element-plus/locale'
 
 export default defineComponent({
   name: 'ElEmpty',
+  components: {
+    [ImgPlaceholder.name]: ImgPlaceholder,
+  },
   props: {
-    description: {
-      type: String,
-      default: '',
-    },
     image: {
       type: String,
       default: '',
     },
+    imageSize: Number,
+    description: {
+      type: String,
+      default: '',
+    },
   },
-  setup(props, { slots }) {
-    // init here
+  setup(props) {
+    const emptyDescription = computed(() => props.description || t('el.table.emptyText'))
+    const imageStyle = computed(() => {
+      return {
+        width: props.imageSize ? `${props.imageSize}px` : '',
+      }
+    })
+
+    return {
+      emptyDescription,
+      imageStyle,
+    }
   },
 })
 </script>
