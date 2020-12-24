@@ -22,7 +22,7 @@ Use `image` prop to set image URL.
 ```
 :::
 
-### 图片尺寸
+### Image size
 
 Use `image-size` prop to control image size.
 
@@ -33,7 +33,7 @@ Use `image-size` prop to control image size.
 ```
 :::
 
-### 底部内容
+### Bottom content
 
 Use the default slot to insert content at the bottom.
 
