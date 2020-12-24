@@ -1,4 +1,4 @@
-import Picker from '@element-plus/time-picker/src/common/picker.vue'
+import { CommonPicker } from '@element-plus/time-picker'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import { nextTick } from 'vue'
@@ -87,10 +87,10 @@ describe('DatePicker', () => {
     expect(vm.value.getHours()).toBe(12)
     expect(vm.value.getMinutes()).toBe(0)
     expect(vm.value.getSeconds()).toBe(1)
-    const picker = wrapper.findComponent(Picker);
+    const picker = wrapper.findComponent(CommonPicker);
     (picker.vm as any).showClose = true
     await nextTick();
-    (picker.element.querySelector('.el-icon-circle-close') as HTMLElement).click()
+    (document.querySelector('.el-icon-circle-close') as HTMLElement).click()
     expect(vm.value).toBeNull()
   })
 
