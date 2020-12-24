@@ -192,6 +192,10 @@
             {
               "path": "/skeleton",
               "title": "Skeleton 骨架屏"
+            },
+            {
+              "path": "/empty",
+              "title": "Empty 空状态"
             }
           ]
         },
@@ -502,6 +506,10 @@
             {
               "path": "/skeleton",
               "title": "Skeleton"
+            },
+            {
+              "path": "/empty",
+              "title": "Empty"
             }
           ]
         },
@@ -816,6 +824,10 @@
             {
               "path": "/skeleton",
               "title": "Skeleton"
+            },
+            {
+              "path": "/empty",
+              "title": "Empty"
             }
           ]
         },
@@ -1130,6 +1142,10 @@
             {
               "path": "/skeleton",
               "title": "Skeleton"
+            },
+            {
+              "path": "/empty",
+              "title": "Empty"
             }
           ]
         },
@@ -1444,6 +1460,10 @@
             {
               "path": "/skeleton",
               "title": "Skeleton"
+            },
+            {
+              "path": "/empty",
+              "title": "Empty"
             }
           ]
         },
