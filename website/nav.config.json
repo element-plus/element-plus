@@ -28,6 +28,10 @@
           "name": "国际化"
         },
         {
+          "path": "/migration-from-2.x",
+          "name": "从 Element 2.x 升级"
+        },
+        {
           "path": "/custom-theme",
           "name": "自定义主题"
         },
@@ -336,6 +340,10 @@
         {
           "path": "/i18n",
           "name": "Internationalization"
+        },
+        {
+          "path": "/migration-from-2.x",
+          "name": "Migration from Element 2.x"
         },
         {
           "path": "/custom-theme",
@@ -648,6 +656,10 @@
           "name": "Internationalization"
         },
         {
+          "path": "/migration-from-2.x",
+          "name": "Migration from Element 2.x"
+        },
+        {
           "path": "/custom-theme",
           "name": "Custom Theme"
         },
@@ -958,6 +970,10 @@
           "name": "Internationalisation"
         },
         {
+          "path": "/migration-from-2.x",
+          "name": "Migration from Element 2.x"
+        },
+        {
           "path": "/custom-theme",
           "name": "Thème"
         },
@@ -1266,6 +1282,10 @@
         {
           "path": "/i18n",
           "name": "Internationalization"
+        },
+        {
+          "path": "/migration-from-2.x",
+          "name": "Migration from Element 2.x"
         },
         {
           "path": "/custom-theme",

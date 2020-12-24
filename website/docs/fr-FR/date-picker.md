@@ -384,6 +384,12 @@ Lorsque vous choisissez une plage de dates, vous pouvez assigner l'horaire de d�
 ```
 :::
 
+### Localization
+
+The default locale of is English, if you need to use other languages, please check [Internationalization](#/fr-FR/component/i18n)
+
+Note, date time locale (month name, first day of the week ...) are also configed in localization.
+
 ### Attributs
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |

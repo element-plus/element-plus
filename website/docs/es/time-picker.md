@@ -115,8 +115,8 @@ Es posible escoger un rango de tiempo arbitrario.
 | placeholder       | placeholder en un modo fuera de rango    | string                                   | —                                        | —                    |
 | start-placeholder | placeholder para el tiempo de inicio en modo de rango | string                                   | —                                        | —                    |
 | end-placeholder   | placeholder para el tiempo de finalización en modo de rango | string                                   | —                                        | —                    |
-| is-range          | si es posible escoger un rango de tiempo, solo funciona con `<el-time-picker>` | boolean                                  | —                                        | false                |
-| arrow-control     | si es posible escoger el tiempo usando los botones de flecha, solo funciona con `<el-time-picker>` | boolean                                  | —                                        | false                |
+| is-range          | si es posible escoger un rango de tiempo, solo funciona con | boolean                                  | —                                        | false                |
+| arrow-control     | si es posible escoger el tiempo usando los botones de flecha | boolean                                  | —                                        | false                |
 | align             | alineación                               | left / center / right                    | left                                     |                      |
 | popper-class      | nombre de clase personalizada para el dropdown del Time Picker | string                                   | —                                        | —                    |
 | range-separator   | separador de rango                       | string                                   | -                                        | '-'                  |

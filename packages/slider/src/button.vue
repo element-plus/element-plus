@@ -2,7 +2,7 @@
   <div
     ref="button"
     class="el-slider__button-wrapper"
-    :class="{ 'hover': hovering, 'dragging': dragging }"
+    :class="{ hover: hovering, dragging: dragging }"
     :style="wrapperStyle"
     tabindex="0"
     @mouseenter="handleMouseEnter"
@@ -20,6 +20,7 @@
       ref="tooltip"
       v-model="tooltipVisible"
       placement="top"
+      :stop-popper-mouse-event="false"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
       manual
@@ -27,7 +28,10 @@
       <template #content>
         <span>{{ formatValue }}</span>
       </template>
-      <div class="el-slider__button" :class="{ 'hover': hovering, 'dragging': dragging }"></div>
+      <div
+        class="el-slider__button"
+        :class="{ hover: hovering, dragging: dragging }"
+      ></div>
     </el-tooltip>
   </div>
 </template>
@@ -63,7 +67,6 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT],
 
   setup(props, { emit }) {
-
     const initData = reactive({
       hovering: false,
       dragging: false,
@@ -91,10 +94,7 @@ export default defineComponent({
       setPosition,
     } = useSliderButton(props, initData, emit)
 
-    const {
-      hovering,
-      dragging,
-    } = toRefs(initData)
+    const { hovering, dragging } = toRefs(initData)
 
     return {
       tooltip,

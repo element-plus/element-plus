@@ -17,7 +17,7 @@ Similaire à Tooltip, Popover est aussi construit avec `Vue-popper`. Certains at
   >
     <template #reference>
       <el-button>S'active au passage du curseur</el-button>
-    </template>  
+    </template>
   </el-popover>
 
   <el-popover
@@ -167,7 +167,7 @@ Vous pouvez aussi imbriquer des opérations. Procéder ainsi est plus léger que
 | value / v-model | Si le popover est visible. | Boolean | — |  false |
 | offset | Décalage du popover. | number | — |  0 |
 | transition | Animation de transition du popover. | string | — | el-fade-in-linear |
-| visible-arrow | Si une flèche doit être affichée ou non. Pour plus d'informations, référez-vous à [Vue-popper](https://github.com/element-component/vue-popper). | boolean | — | true |
+| show-arrow | Si une flèche doit être affichée ou non. Pour plus d'informations, référez-vous à [Vue-popper](https://github.com/element-component/vue-popper). | boolean | — | true |
 | popper-options | Paramètres pour [popper.js](https://popper.js.org/documentation.html). | object | Référez-vous à [popper.js](https://popper.js.org/documentation.html). | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | popper-class | Classe du popover. | string | — | — |
 | open-delay | Délai d'affichage, lorsque `trigger` est 'hover', en millisecondes. | number | — | — |
