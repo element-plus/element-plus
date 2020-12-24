@@ -163,7 +163,7 @@ popoverの中には、他のコンポーネントを入れ子にすることが�
 |  width        |  popover幅  | string, number            | — | Min width 150px |
 |  placement        |  popover配置  | string | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end |  bottom |
 |  disabled       |  popoverが無効になっているかどうか  | boolean    | — |  false |
-|  visible        |  popoverが表示されているかどうか  | Boolean           | — |  false |
+|  visible / v-model:visible  |  popoverが表示されているかどうか  | Boolean           | — |  false |
 |  offset        |  popoverオフセット  | number           | — |  0 |
 |  transition     |  popoverトランジションアニメーション      | string             | — | el-fade-in-linear |
 |  show-arrow   |  ツールチップの矢印が表示されているかどうかを指定します。詳細については [Vue-popper](https://github.com/element-component/vue-popper) | boolean | — | true |
