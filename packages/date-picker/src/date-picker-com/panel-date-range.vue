@@ -579,6 +579,7 @@ export default defineComponent({
 
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
+    ctx.emit('set-picker-option', ['handleClear', handleClear])
 
     const pickerBase = inject('EP_PICKER_BASE') as any
     const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue, arrowControl } = pickerBase.props

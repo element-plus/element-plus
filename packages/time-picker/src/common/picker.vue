@@ -1,7 +1,4 @@
 <template>
-  <!-- todo popper props align left  -->
-  <!-- todo popper custom popper-class  -->
-  <!-- todo bug handleKeydown event twice  -->
   <el-popper
     ref="popper"
     v-model:visible="pickerVisible"
@@ -10,7 +7,7 @@
     pure
     trigger="click"
     v-bind="$attrs"
-    popper-class="el-picker__popper"
+    :popper-class="`el-picker__popper ${popperClass}`"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
@@ -151,6 +148,7 @@ interface PickerOptions {
   getRangeAvaliableTime: any
   getDefaultValue: any
   panelReady: boolean
+  handleClear: any
 }
 
 // Date object and string
@@ -329,6 +327,7 @@ export default defineComponent({
         emitChange(null)
         showClose.value = false
         pickerVisible.value = false
+        pickerOptions.value.handleClear && pickerOptions.value.handleClear()
       }
     }
     const valueIsEmpty = computed(() => {
