@@ -4,7 +4,6 @@
 // to add a `..` to do so. because the current file is under `build/`, `packages/` is at the
 // same level as `build/`,
 const run = require('./build');
-const { some } = require('./getPkgs');
 const compPath = process.argv[2]
 if (!compPath) {
   console.error('Usage: node build.js [component]')
