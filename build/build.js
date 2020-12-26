@@ -52,31 +52,25 @@ const replacePrefix = (prefix, target) => {
   return prefix + target.slice(14) // @element-plus/.length = 14
 }
 
-const getPaths = (id) => {
-  if (isPkg(id)) {
-    if (isExcluded(id)) return replacePrefix('../', id)
-    return replacePrefix('../el', id)
-  }
-}
-
-const getRootPaths = (id) => {
-  if (id.startsWith('@element-plus')) {
-    return replacePrefix('./', id)
-  }
-}
-
 const run = async (name, input, isRoot = false) => {
   const inputPath = `${path.resolve(root, input)}/index.ts`
   defaultOpts.input = inputPath
+
+  const getPaths = (id) => {
+    if (isPkg(id)) {
+      if (isExcluded(id)) return replacePrefix(isRoot ? './' : '../', id)
+      return replacePrefix(isRoot ? './el-' : '../el-', id)
+    }
+  }
   const esm = {
     format: 'es',
     file: `es/${name}`,
-    paths: isRoot ? getRootPaths : getPaths,
+    paths: getPaths,
   };
   const cjs = {
     format: 'cjs',
     file: `lib/${name}`,
-    paths: isRoot ? getRootPaths : getPaths,
+    paths: getPaths,
     exports: 'named',
   };
   const bundle = await rollup.rollup(defaultOpts);
