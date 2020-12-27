@@ -18,7 +18,7 @@ yarn build:lib-full
 
 # -P6 stands for 6 maximum parallel, with
 # node .build/build.js command
-find './packages' -type d -depth 1 ! -name '*util*' ! -name '__mocks__' ! -name 'locale' ! -name 'theme*' -print0 | xargs -I {} -P6 -0 node ./build/build.comps.js {}
+find './packages' -type d -maxdepth 1 ! -name '*util*' ! -name '__mocks__' ! -name 'locale' ! -name 'theme*' -print0 | xargs -I {} -P6 -0 node ./build/build.comps.js {}
 
 node ./build/build.entry.js
 
