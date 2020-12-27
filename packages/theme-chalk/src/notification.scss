@@ -30,6 +30,7 @@
   @include e(title) {
     font-weight: bold;
     font-size: $--notification-title-font-size;
+    line-height: $--notification-icon-size;
     color: $--notification-title-color;
     margin: 0;
   }
@@ -82,7 +83,7 @@
   }
 }
 
-.el-notification-fade-enter-from{
+.el-notification-fade-enter-from {
   &.right {
     right: 0;
     transform: translateX(100%);
@@ -93,6 +94,7 @@
     transform: translateX(-100%);
   }
 }
+
 .el-notification-fade-leave-to {
   opacity: 0;
 }
