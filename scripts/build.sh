@@ -16,18 +16,17 @@ tar -zxvf ./es.gz --strip-component 2 -C ./es
 yarn build:lib
 yarn build:lib-full
 
-# -P6 stands for 6 maximum parallel, with
+# -P2 stands for 2 maximum parallel, with
 # node .build/build.js command
-find './packages' -type d -maxdepth 1 ! -name '*util*' ! -name '__mocks__' ! -name 'locale' ! -name 'theme*' -print0 | xargs -I {} -P6 -0 node ./build/build.comps.js {}
-
+find './packages' -type d -maxdepth 1 ! -name '*util*' ! -name '__mocks__' ! -name 'locale' ! -name 'theme*' -print0 | xargs -I {} -P2 -0 node ./build/build.comps.js {}
 
 find ./packages/utils -type f ! -name '*.test.ts' ! -name 'package.json' -print0 \
-| xargs -P6 -0 -I {} node ./build/build-util.js {}
+| xargs -P2 -0 -I {} node ./build/build-util.js {}
 
 node ./build/build.entry.js
 
 find ./packages/locale -type f ! -name '*.spec.ts' ! -name 'package.json' -print0 \
-| xargs -P6 -0 -I {} node ./build/build-util.js {}
+| xargs -P2 -0 -I {} node ./build/build-util.js {}
 
 yarn build:locale-umd
 
