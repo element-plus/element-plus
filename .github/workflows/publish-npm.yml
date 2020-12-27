@@ -43,13 +43,3 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
           REGISTRY: https://registry.npmjs.com/
-          PKG_NAME: element-plus
-      - name: Generate grp token
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ./.npmrc
-      - name: Publish grp
-        run: sh ./scripts/publish.sh
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          TAG_VERSION: ${{env.TAG_VERSION}}
-          REGISTRY: https://npm.pkg.github.com/
-          PKG_NAME: "@element-plus/element-plus"
