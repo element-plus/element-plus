@@ -52,4 +52,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
           REGISTRY: https://npm.pkg.github.com/
-          PKG_NAME: @element-plus/element-plus
+          PKG_NAME: "@element-plus/element-plus"
