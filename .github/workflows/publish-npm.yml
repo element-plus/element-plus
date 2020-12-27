@@ -5,7 +5,7 @@ on:
     types: [created]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,8 +20,8 @@ jobs:
       - name: Test
         run: yarn test
 
-  publish-npm:
-    needs: build
+  publish:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -32,36 +32,24 @@ jobs:
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: build
-        run: yarn build
+        run: yarn fast-build
         env:
           TAG_VERSION: ${{env.TAG_VERSION}}
-      - run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" > ./.npmrc
-      - name: Publish
-        run: sh ./scripts/publish.sh
+      - name: generate npm token
+        run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" > ./.npmrc
+      - name: Publish npm
+        run: sh ./scripts/publish-npm.sh
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
           REGISTRY: https://registry.npmjs.com/
-
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '12'
-          registry-url: https://npm.pkg.github.com/
-      - name: Get version
-        run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: build
-        run: yarn build
-        env:
-          TAG_VERSION: ${{env.TAG_VERSION}}
-      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ./.npmrc
-      - name: Publish
-        run: sh ./scripts/publish.sh
+          PKG_NAME: element-plus
+      - name: Generate grp token
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ./.npmrc
+      - name: Publish grp
+        run: sh ./scripts/publish-grp.sh
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           TAG_VERSION: ${{env.TAG_VERSION}}
           REGISTRY: https://npm.pkg.github.com/
+          PKG_NAME: "@element-plus/element-plus"
