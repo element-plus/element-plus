@@ -138,7 +138,8 @@
   },
   "files": [
     "lib",
-    "es"
+    "es",
+    "packages"
   ],
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
