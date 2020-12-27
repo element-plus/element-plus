@@ -86,18 +86,19 @@ import ElVirtualList from '@element-plus/virtual-list'
 import ElSpace from '@element-plus/space'
 import ElSkeleton from '@element-plus/skeleton'
 import ElSkeletonItem from '@element-plus/skeleton-item'
+import ElResult from '@element-plus/result'
 import { use } from '@element-plus/locale'
 // if you encountered problems alike "Can't resolve './version'"
 // please run `yarn bootstrap` first
 import { version as version_ } from './version'
-import { setConfig } from '@element-plus/utils/config'
 import type { InstallOptions } from '@element-plus/utils/config'
+import { setConfig } from '@element-plus/utils/config'
 
 const version = version_ // version_ to fix tsc issue
 
 const locale = use
 
-const defaultInstallOpt: InstallOptions =  {
+const defaultInstallOpt: InstallOptions = {
   size: '' as ComponentSize,
   zIndex: 2000,
 }
@@ -185,6 +186,7 @@ const components = [
   ElSpace,
   ElSkeleton,
   ElSkeletonItem,
+  ElResult,
 ]
 
 const plugins = [
@@ -298,6 +300,7 @@ export {
   ElSpace,
   ElSkeleton,
   ElSkeletonItem,
+  ElResult,
   version,
   install,
   locale,

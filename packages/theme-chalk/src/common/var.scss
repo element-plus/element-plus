@@ -65,7 +65,7 @@ $--border-color-lighter: #EBEEF5 !default;
 /// color|1|Border Color|3
 $--border-color-extra-light: #F2F6FC !default;
 
-// Variants 
+// Variants
 
 $--heading-padding: 20px 0 !default;
 
@@ -973,6 +973,12 @@ $--avatar-small-size: 28px !default;
 
 $--skeleton-color: #f2f2f2;
 $--skeleton-to-color: #e6e6e6;
+
+/* Result
+-------------------------- */
+$--result-padding: 40px 0 !default;
+$--empty-description-margin-top: 20px !default;
+$--empty-bottom-margin-top: 20px !default;
 
 /* Break-point
 --------------------------*/

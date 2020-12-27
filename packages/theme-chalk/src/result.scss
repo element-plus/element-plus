@@ -1,0 +1,32 @@
+@import 'mixins/mixins';
+@import 'common/var';
+
+@include b(result) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  box-sizing: border-box;
+  padding: $--result-padding;
+
+  @include e(icon) {
+
+  }
+
+  @include e(title) {
+    p {
+      margin: 0;
+      font-size: $--font-size-extra-large;
+      color: $--color-text-secondary;
+    }
+  }
+
+  @include e(subtitle) {
+    p {
+      margin: 0;
+      font-size: $--font-size-base;
+      color: $--color-text-secondary;
+    }
+  }
+}
