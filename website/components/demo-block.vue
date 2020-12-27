@@ -50,7 +50,13 @@ import hljs from 'highlight.js'
 import compoLang from '../i18n/component.json'
 import { stripScript, stripStyle, stripTemplate } from '../util'
 const version = '1.0.0' // element version
-
+const stripTemplateAndRemoveTemplate = code => {
+  const result = stripTemplate(code)
+  if (result.indexOf('<template>') === 0) {
+    return result.replace(/^<template>/, '').replace(/<\/template>$/,'')
+  }
+  return result
+}
 export default {
   data() {
     return {
@@ -129,7 +135,7 @@ export default {
         }
       }
       if (code) {
-        this.codepen.html = stripTemplate(code).replace(/<\/?template>/g, '')
+        this.codepen.html = stripTemplateAndRemoveTemplate(code)
         this.codepen.script = stripScript(code)
         this.codepen.style = stripStyle(code)
       }
