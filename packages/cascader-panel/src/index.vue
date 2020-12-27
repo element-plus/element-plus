@@ -168,7 +168,7 @@ export default defineComponent({
 
     const getCheckedNodes = (leafOnly: boolean) => {
       return getFlattedNodes(leafOnly)
-        .filter(node => node.checked)
+        .filter(node => node.checked !== false)
     }
 
     const clearCheckedNodes = () => {
