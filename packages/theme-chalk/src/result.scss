@@ -11,22 +11,50 @@
   padding: $--result-padding;
 
   @include e(icon) {
-
+    i {
+      font-size: $--result-icon-font-size;
+    }
   }
 
   @include e(title) {
+    margin-top: $--result-title-margin-top;
+
     p {
       margin: 0;
-      font-size: $--font-size-extra-large;
-      color: $--color-text-secondary;
+      font-size: $--result-title-font-size;
+      color: $--color-text-primary;
+      line-height: 1.7;
     }
   }
 
   @include e(subtitle) {
+    margin-top: $--result-subtitle-margin-top;
+
     p {
       margin: 0;
       font-size: $--font-size-base;
       color: $--color-text-secondary;
+      line-height: 1.5;
     }
+  }
+
+  @include e(extra) {
+    margin-top: $--result-extra-margin-top;
+  }
+
+  .el-icon-success {
+    color: $--color-success;
+  }
+
+  .el-icon-error {
+    color: $--color-danger;
+  }
+
+  .el-icon-info {
+    color: $--color-info;
+  }
+
+  .el-icon-warning {
+    color: $--color-warning;
   }
 }

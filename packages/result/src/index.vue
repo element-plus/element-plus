@@ -2,11 +2,12 @@
   <div class="el-result">
     <div class="el-result__icon">
       <slot v-if="$slots.icon" name="icon"></slot>
-      <!--      <i-->
-      <!--        v-if="type || iconClass"-->
-      <!--        class="el-notification__icon"-->
-      <!--        :class="[typeClass, iconClass]"-->
-      <!--      ></i>-->
+      <template v-else-if="statusCode">
+        <img-forbidden v-if="statusCode === '403'" />
+        <img-not-found v-if="statusCode === '404'" />
+        <img-server-error v-if="statusCode === '500'" />
+      </template>
+      <i v-else :class="typeClass"></i>
     </div>
     <div v-if="title || $slots.title" class="el-result__title">
       <slot v-if="$slots.title" name="title"></slot>
@@ -16,16 +17,25 @@
       <slot v-if="$slots.subTitle" name="subTitle"></slot>
       <p v-else>{{ subTitle }}</p>
     </div>
+    <div v-if="$slots.extra" class="el-result__extra">
+      <slot name="extra"></slot>
+    </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import ImgForbidden from './img-forbidden.vue'
+import ImgNotFound from './img-not-found.vue'
+import ImgServerError from './img-server-error.vue'
 
 const TypeMap: Indexable<string> = {
   success: 'success',
   info: 'info',
   warning: 'warning',
   error: 'error',
+}
+
+const StatusMap: Indexable<string> = {
   '403': '403',
   '404': '404',
   '500': '500',
@@ -33,6 +43,11 @@ const TypeMap: Indexable<string> = {
 
 export default defineComponent({
   name: 'ElResult',
+  components: {
+    [ImgForbidden.name]: ImgForbidden,
+    [ImgNotFound.name]: ImgNotFound,
+    [ImgServerError.name]: ImgServerError,
+  },
   props: {
     title: {
       type: String,
@@ -48,9 +63,19 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // init here
+    const typeClass = computed(() => {
+      const type = props.type
+      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
+    })
+    const statusCode = computed(() => {
+      const status = props.type
+      return status && StatusMap[status] ? StatusMap[status] : ''
+    })
+
+    return {
+      typeClass,
+      statusCode,
+    }
   },
 })
 </script>
-<style scoped>
-</style>
