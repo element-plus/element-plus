@@ -1,5 +1,16 @@
 ## Changelog
 
+### 1.0.1-beta.15
+
+*2020-12-27*
+
+#### Bug fixes
+
+- Fix cascader panel bug (#1112)
+- Fix date-picker clear bug (#1114)
+- Update build logic (#1118)
+- Fix notification style bug (#1122)
+
 ### 1.0.1-beta.14
 
 *2020-12-24*
