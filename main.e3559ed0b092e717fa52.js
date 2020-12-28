@@ -48,7 +48,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US7","64":"DOCS en-US8","65":"DOCS en-US9","66":"DOCS es0","67":"DOCS es1","68":"DOCS es10","69":"DOCS es11","70":"DOCS es12","71":"DOCS es13","72":"DOCS es14","73":"DOCS es15","74":"DOCS es16","75":"DOCS es17","76":"DOCS es18","77":"DOCS es19","78":"DOCS es2","79":"DOCS es20","80":"DOCS es21","81":"DOCS es22","82":"DOCS es23","83":"DOCS es24","84":"DOCS es25","85":"DOCS es26","86":"DOCS es27","87":"DOCS es28","88":"DOCS es29","89":"DOCS es3","90":"DOCS es30","91":"DOCS es31","92":"DOCS es32","93":"DOCS es33","94":"DOCS es34","95":"DOCS es35","96":"DOCS es36","97":"DOCS es37","98":"DOCS es38","99":"DOCS es39","100":"DOCS es4","101":"DOCS es40","102":"DOCS es41","103":"DOCS es42","104":"DOCS es43","105":"DOCS es44","106":"DOCS es45","107":"DOCS es46","108":"DOCS es47","109":"DOCS es48","110":"DOCS es49","111":"DOCS es5","112":"DOCS es50","113":"DOCS es51","114":"DOCS es52","115":"DOCS es53","116":"DOCS es54","117":"DOCS es55","118":"DOCS es56","119":"DOCS es57","120":"DOCS es58","121":"DOCS es59","122":"DOCS es6","123":"DOCS es60","124":"DOCS es61","125":"DOCS es62","126":"DOCS es63","127":"DOCS es64","128":"DOCS es7","129":"DOCS es8","130":"DOCS es9","131":"DOCS fr-FR0","132":"DOCS fr-FR1","133":"DOCS fr-FR10","134":"DOCS fr-FR11","135":"DOCS fr-FR12","136":"DOCS fr-FR13","137":"DOCS fr-FR14","138":"DOCS fr-FR15","139":"DOCS fr-FR16","140":"DOCS fr-FR17","141":"DOCS fr-FR18","142":"DOCS fr-FR19","143":"DOCS fr-FR2","144":"DOCS fr-FR20","145":"DOCS fr-FR21","146":"DOCS fr-FR22","147":"DOCS fr-FR23","148":"DOCS fr-FR24","149":"DOCS fr-FR25","150":"DOCS fr-FR26","151":"DOCS fr-FR27","152":"DOCS fr-FR28","153":"DOCS fr-FR29","154":"DOCS fr-FR3","155":"DOCS fr-FR30","156":"DOCS fr-FR31","157":"DOCS fr-FR32","158":"DOCS fr-FR33","159":"DOCS fr-FR34","160":"DOCS fr-FR35","161":"DOCS fr-FR36","162":"DOCS fr-FR37","163":"DOCS fr-FR38","164":"DOCS fr-FR39","165":"DOCS fr-FR4","166":"DOCS fr-FR40","167":"DOCS fr-FR41","168":"DOCS fr-FR42","169":"DOCS fr-FR43","170":"DOCS fr-FR44","171":"DOCS fr-FR45","172":"DOCS fr-FR46","173":"DOCS fr-FR47","174":"DOCS fr-FR48","175":"DOCS fr-FR49","176":"DOCS fr-FR5","177":"DOCS fr-FR50","178":"DOCS fr-FR51","179":"DOCS fr-FR52","180":"DOCS fr-FR53","181":"DOCS fr-FR54","182":"DOCS fr-FR55","183":"DOCS fr-FR56","184":"DOCS fr-FR57","185":"DOCS fr-FR58","186":"DOCS fr-FR59","187":"DOCS fr-FR6","188":"DOCS fr-FR60","189":"DOCS fr-FR61","190":"DOCS fr-FR62","191":"DOCS fr-FR63","192":"DOCS fr-FR64","193":"DOCS fr-FR7","194":"DOCS fr-FR8","195":"DOCS fr-FR9","196":"DOCS zh-CN0","197":"DOCS zh-CN1","198":"DOCS zh-CN10","199":"DOCS zh-CN11","200":"DOCS zh-CN12","201":"DOCS zh-CN13","202":"DOCS zh-CN14","203":"DOCS zh-CN15","204":"DOCS zh-CN16","205":"DOCS zh-CN17","206":"DOCS zh-CN18","207":"DOCS zh-CN19","208":"DOCS zh-CN2","209":"DOCS zh-CN20","210":"DOCS zh-CN21","211":"DOCS zh-CN22","212":"DOCS zh-CN23","213":"DOCS zh-CN24","214":"DOCS zh-CN25","215":"DOCS zh-CN26","216":"DOCS zh-CN27","217":"DOCS zh-CN28","218":"DOCS zh-CN29","219":"DOCS zh-CN3","220":"DOCS zh-CN30","221":"DOCS zh-CN31","222":"DOCS zh-CN32","223":"DOCS zh-CN33","224":"DOCS zh-CN34","225":"DOCS zh-CN35","226":"DOCS zh-CN36","227":"DOCS zh-CN37","228":"DOCS zh-CN38","229":"DOCS zh-CN39","230":"DOCS zh-CN4","231":"DOCS zh-CN40","232":"DOCS zh-CN41","233":"DOCS zh-CN42","234":"DOCS zh-CN43","235":"DOCS zh-CN44","236":"DOCS zh-CN45","237":"DOCS zh-CN46","238":"DOCS zh-CN47","239":"DOCS zh-CN48","240":"DOCS zh-CN49","241":"DOCS zh-CN5","242":"DOCS zh-CN50","243":"DOCS zh-CN51","244":"DOCS zh-CN52","245":"DOCS zh-CN53","246":"DOCS zh-CN54","247":"DOCS zh-CN55","248":"DOCS zh-CN56","249":"DOCS zh-CN57","250":"DOCS zh-CN58","251":"DOCS zh-CN59","252":"DOCS zh-CN6","253":"DOCS zh-CN60","254":"DOCS zh-CN61","255":"DOCS zh-CN62","256":"DOCS zh-CN63","257":"DOCS zh-CN64","258":"DOCS zh-CN7","259":"DOCS zh-CN8","260":"DOCS zh-CN9","262":"zh-CN0","263":"zh-CN1","264":"zh-CN2","265":"zh-CN3","266":"zh-CN4","267":"zh-CN5","268":"zh-CN6"}[chunkId]||chunkId) + "." + "6c41482899dd729bb157" + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US7","64":"DOCS en-US8","65":"DOCS en-US9","66":"DOCS es0","67":"DOCS es1","68":"DOCS es10","69":"DOCS es11","70":"DOCS es12","71":"DOCS es13","72":"DOCS es14","73":"DOCS es15","74":"DOCS es16","75":"DOCS es17","76":"DOCS es18","77":"DOCS es19","78":"DOCS es2","79":"DOCS es20","80":"DOCS es21","81":"DOCS es22","82":"DOCS es23","83":"DOCS es24","84":"DOCS es25","85":"DOCS es26","86":"DOCS es27","87":"DOCS es28","88":"DOCS es29","89":"DOCS es3","90":"DOCS es30","91":"DOCS es31","92":"DOCS es32","93":"DOCS es33","94":"DOCS es34","95":"DOCS es35","96":"DOCS es36","97":"DOCS es37","98":"DOCS es38","99":"DOCS es39","100":"DOCS es4","101":"DOCS es40","102":"DOCS es41","103":"DOCS es42","104":"DOCS es43","105":"DOCS es44","106":"DOCS es45","107":"DOCS es46","108":"DOCS es47","109":"DOCS es48","110":"DOCS es49","111":"DOCS es5","112":"DOCS es50","113":"DOCS es51","114":"DOCS es52","115":"DOCS es53","116":"DOCS es54","117":"DOCS es55","118":"DOCS es56","119":"DOCS es57","120":"DOCS es58","121":"DOCS es59","122":"DOCS es6","123":"DOCS es60","124":"DOCS es61","125":"DOCS es62","126":"DOCS es63","127":"DOCS es64","128":"DOCS es7","129":"DOCS es8","130":"DOCS es9","131":"DOCS fr-FR0","132":"DOCS fr-FR1","133":"DOCS fr-FR10","134":"DOCS fr-FR11","135":"DOCS fr-FR12","136":"DOCS fr-FR13","137":"DOCS fr-FR14","138":"DOCS fr-FR15","139":"DOCS fr-FR16","140":"DOCS fr-FR17","141":"DOCS fr-FR18","142":"DOCS fr-FR19","143":"DOCS fr-FR2","144":"DOCS fr-FR20","145":"DOCS fr-FR21","146":"DOCS fr-FR22","147":"DOCS fr-FR23","148":"DOCS fr-FR24","149":"DOCS fr-FR25","150":"DOCS fr-FR26","151":"DOCS fr-FR27","152":"DOCS fr-FR28","153":"DOCS fr-FR29","154":"DOCS fr-FR3","155":"DOCS fr-FR30","156":"DOCS fr-FR31","157":"DOCS fr-FR32","158":"DOCS fr-FR33","159":"DOCS fr-FR34","160":"DOCS fr-FR35","161":"DOCS fr-FR36","162":"DOCS fr-FR37","163":"DOCS fr-FR38","164":"DOCS fr-FR39","165":"DOCS fr-FR4","166":"DOCS fr-FR40","167":"DOCS fr-FR41","168":"DOCS fr-FR42","169":"DOCS fr-FR43","170":"DOCS fr-FR44","171":"DOCS fr-FR45","172":"DOCS fr-FR46","173":"DOCS fr-FR47","174":"DOCS fr-FR48","175":"DOCS fr-FR49","176":"DOCS fr-FR5","177":"DOCS fr-FR50","178":"DOCS fr-FR51","179":"DOCS fr-FR52","180":"DOCS fr-FR53","181":"DOCS fr-FR54","182":"DOCS fr-FR55","183":"DOCS fr-FR56","184":"DOCS fr-FR57","185":"DOCS fr-FR58","186":"DOCS fr-FR59","187":"DOCS fr-FR6","188":"DOCS fr-FR60","189":"DOCS fr-FR61","190":"DOCS fr-FR62","191":"DOCS fr-FR63","192":"DOCS fr-FR64","193":"DOCS fr-FR7","194":"DOCS fr-FR8","195":"DOCS fr-FR9","196":"DOCS zh-CN0","197":"DOCS zh-CN1","198":"DOCS zh-CN10","199":"DOCS zh-CN11","200":"DOCS zh-CN12","201":"DOCS zh-CN13","202":"DOCS zh-CN14","203":"DOCS zh-CN15","204":"DOCS zh-CN16","205":"DOCS zh-CN17","206":"DOCS zh-CN18","207":"DOCS zh-CN19","208":"DOCS zh-CN2","209":"DOCS zh-CN20","210":"DOCS zh-CN21","211":"DOCS zh-CN22","212":"DOCS zh-CN23","213":"DOCS zh-CN24","214":"DOCS zh-CN25","215":"DOCS zh-CN26","216":"DOCS zh-CN27","217":"DOCS zh-CN28","218":"DOCS zh-CN29","219":"DOCS zh-CN3","220":"DOCS zh-CN30","221":"DOCS zh-CN31","222":"DOCS zh-CN32","223":"DOCS zh-CN33","224":"DOCS zh-CN34","225":"DOCS zh-CN35","226":"DOCS zh-CN36","227":"DOCS zh-CN37","228":"DOCS zh-CN38","229":"DOCS zh-CN39","230":"DOCS zh-CN4","231":"DOCS zh-CN40","232":"DOCS zh-CN41","233":"DOCS zh-CN42","234":"DOCS zh-CN43","235":"DOCS zh-CN44","236":"DOCS zh-CN45","237":"DOCS zh-CN46","238":"DOCS zh-CN47","239":"DOCS zh-CN48","240":"DOCS zh-CN49","241":"DOCS zh-CN5","242":"DOCS zh-CN50","243":"DOCS zh-CN51","244":"DOCS zh-CN52","245":"DOCS zh-CN53","246":"DOCS zh-CN54","247":"DOCS zh-CN55","248":"DOCS zh-CN56","249":"DOCS zh-CN57","250":"DOCS zh-CN58","251":"DOCS zh-CN59","252":"DOCS zh-CN6","253":"DOCS zh-CN60","254":"DOCS zh-CN61","255":"DOCS zh-CN62","256":"DOCS zh-CN63","257":"DOCS zh-CN64","258":"DOCS zh-CN7","259":"DOCS zh-CN8","260":"DOCS zh-CN9","262":"zh-CN0","263":"zh-CN1","264":"zh-CN2","265":"zh-CN3","266":"zh-CN4","267":"zh-CN5","268":"zh-CN6"}[chunkId]||chunkId) + "." + "e3559ed0b092e717fa52" + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -91192,8 +91192,8 @@ module.exports = zephir;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_f6be720c_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_f6be720c_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_f6be720c_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_93bf45e8_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_93bf45e8_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_ref_4_3_node_modules_vue_loader_dist_index_js_ref_11_0_demo_block_vue_vue_type_style_index_0_id_93bf45e8_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
 
 
@@ -97691,12 +97691,12 @@ route_config_route = route_config_route.concat([{
   }
 }]);
 /* harmony default export */ var route_config = (route_config_route);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo-block.vue?vue&type=template&id=f6be720c&scoped=true
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo-block.vue?vue&type=template&id=93bf45e8&scoped=true
 
 
-var _withId = /*#__PURE__*/Object(vue_esm_browser["ib" /* withScopeId */])("data-v-f6be720c");
+var _withId = /*#__PURE__*/Object(vue_esm_browser["ib" /* withScopeId */])("data-v-93bf45e8");
 
-Object(vue_esm_browser["J" /* pushScopeId */])("data-v-f6be720c");
+Object(vue_esm_browser["J" /* pushScopeId */])("data-v-93bf45e8");
 
 var _hoisted_1 = {
   class: "source"
@@ -97786,7 +97786,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     _: 1
   }, 8, ["content"])], 2)], 34);
 });
-// CONCATENATED MODULE: ./website/components/demo-block.vue?vue&type=template&id=f6be720c&scoped=true
+// CONCATENATED MODULE: ./website/components/demo-block.vue?vue&type=template&id=93bf45e8&scoped=true
 
 // EXTERNAL MODULE: ./node_modules/highlight.js/lib/index.js
 var lib = __webpack_require__(78);
@@ -97819,6 +97819,16 @@ function stripTemplate(content) {
 
 
 var version = '1.0.0'; // element version
+
+var demo_blockvue_type_script_lang_js_stripTemplateAndRemoveTemplate = function stripTemplateAndRemoveTemplate(code) {
+  var result = stripTemplate(code);
+
+  if (result.indexOf('<template>') === 0) {
+    return result.replace(/^<template>/, '').replace(/<\/template>$/, '');
+  }
+
+  return result;
+};
 
 /* harmony default export */ var demo_blockvue_type_script_lang_js = ({
   data: function data() {
@@ -97902,7 +97912,7 @@ var version = '1.0.0'; // element version
       }
 
       if (code) {
-        this.codepen.html = stripTemplate(code).replace(/<\/?template>/g, '');
+        this.codepen.html = demo_blockvue_type_script_lang_js_stripTemplateAndRemoveTemplate(code);
         this.codepen.script = stripScript(code);
         this.codepen.style = stripStyle(code);
       }
@@ -97984,8 +97994,8 @@ var version = '1.0.0'; // element version
 });
 // CONCATENATED MODULE: ./website/components/demo-block.vue?vue&type=script&lang=js
  
-// EXTERNAL MODULE: ./website/components/demo-block.vue?vue&type=style&index=0&id=f6be720c&lang=scss&scoped=true
-var demo_blockvue_type_style_index_0_id_f6be720c_lang_scss_scoped_true = __webpack_require__(289);
+// EXTERNAL MODULE: ./website/components/demo-block.vue?vue&type=style&index=0&id=93bf45e8&lang=scss&scoped=true
+var demo_blockvue_type_style_index_0_id_93bf45e8_lang_scss_scoped_true = __webpack_require__(289);
 
 // CONCATENATED MODULE: ./website/components/demo-block.vue
 
@@ -97994,7 +98004,7 @@ var demo_blockvue_type_style_index_0_id_f6be720c_lang_scss_scoped_true = __webpa
 
 
 demo_blockvue_type_script_lang_js.render = render
-demo_blockvue_type_script_lang_js.__scopeId = "data-v-f6be720c"
+demo_blockvue_type_script_lang_js.__scopeId = "data-v-93bf45e8"
 
 /* harmony default export */ var demo_block = (demo_blockvue_type_script_lang_js);
 // CONCATENATED MODULE: ./website/assets/images/qrcode.png
