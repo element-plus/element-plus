@@ -65,7 +65,7 @@ export default defineComponent({
   setup(props) {
     const typeClass = computed(() => {
       const type = props.type
-      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : ''
+      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : 'el-icon-info'
     })
     const statusCode = computed(() => {
       const status = props.type

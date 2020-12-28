@@ -43,18 +43,18 @@
   }
 
   .el-icon-success {
-    color: $--color-success;
+    color: $--result-success-color;
   }
 
   .el-icon-error {
-    color: $--color-danger;
+    color: $--result-danger-color;
   }
 
   .el-icon-info {
-    color: $--color-info;
+    color: $--result-info-color;
   }
 
   .el-icon-warning {
-    color: $--color-warning;
+    color: $--result-warning-color;
   }
 }
