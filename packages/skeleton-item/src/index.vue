@@ -1,19 +1,19 @@
 <template>
   <div :class="['el-skeleton__item', `el-skeleton__${variant}`]">
-    <img-placeholder v-if="variant === 'image'" />
+    <el-picture v-if="variant === 'image'" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ImgPlaceholder from './img-placeholder.vue'
+import { Picture } from '@element-plus/icons'
 import type { Variants } from './constants'
 import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElSkeletonItem',
   components: {
-    [ImgPlaceholder.name]: ImgPlaceholder,
+    'el-picture': Picture,
   },
   props: {
     variant: {

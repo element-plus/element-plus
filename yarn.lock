@@ -1118,6 +1118,11 @@
   version "9.1.2"
   resolved "https://registry.yarnpkg.com/@commitlint/types/-/types-9.1.2.tgz#d05f66db03e3a3638a654e8badf2deb489eb220d"
 
+"@element-plus/icons@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@element-plus/icons/-/icons-0.0.8.tgz#15f9545d33ff787ff2ea59e14b0bb0c5b9e09f56"
+  integrity sha512-pXdtD4/M5/nOdjVdAjNoo4R1g7TixLXj6wqWIoLsyaZnasSUXHBCkmwEU/Iw7TmKknge1aYufs7EUNQEzUGpeg==
+
 "@eslint/eslintrc@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.1.3.tgz#7d1a2b2358552cc04834c0979bd4275362e37085"
