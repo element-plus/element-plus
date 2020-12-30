@@ -361,8 +361,8 @@ describe('TimePicker(range)', () => {
     triggerEvent(input.element, 'keydown', 'ArrowDown')
     await nextTick()
     const addOneHourOneMinute = input.element.value
-    expect(dayjs(initValue).diff(addOneHour, 'minute')).toEqual(-60)
-    expect(dayjs(initValue).diff(addOneHourOneMinute, 'minute')).toEqual(-61)
+    expect(initValue).not.toEqual(addOneHour)
+    expect(addOneHourOneMinute).not.toEqual(addOneHour)
   })
 })
 
