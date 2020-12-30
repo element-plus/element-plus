@@ -141,7 +141,7 @@ describe('TimePicker', () => {
     expect(secondsDom).toBeUndefined()
   })
 
-  it('event change, focus, blur', async () => {
+  it.only('event change, focus, blur', async () => {
     const changeHandler = jest.fn()
     const focusHandler = jest.fn()
     const blurHandler = jest.fn()
