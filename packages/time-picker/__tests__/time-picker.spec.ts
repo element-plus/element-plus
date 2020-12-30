@@ -346,7 +346,7 @@ describe('TimePicker(range)', () => {
     const wrapper = _mount(`<el-time-picker
         v-model="value"
         format="YYYY-MM-DD HH:mm:ss"
-      />`, () => ({ value: '' }))
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }))
 
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -361,8 +361,8 @@ describe('TimePicker(range)', () => {
     triggerEvent(input.element, 'keydown', 'ArrowDown')
     await nextTick()
     const addOneHourOneMinute = input.element.value
-    expect(initValue).not.toEqual(addOneHour)
-    expect(addOneHourOneMinute).not.toEqual(addOneHour)
+    expect(dayjs(initValue).diff(addOneHour, 'minute')).toEqual(-60)
+    expect(dayjs(initValue).diff(addOneHourOneMinute, 'minute')).toEqual(-61)
   })
 })
 
