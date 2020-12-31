@@ -37,8 +37,10 @@ function useStore(): Store {
         }
       }
       instance.store.updateAllSelected()
-
       instance.store.updateTableScrollY()
+      if (instance.$ready) {
+        instance.store.scheduleLayout()
+      }
     },
 
     insertColumn(states, column, index, parent) {
@@ -150,7 +152,7 @@ function useStore(): Store {
       instance.store.updateCurrentRow(row)
     },
   }
-  const commit = function (name, ...args) {
+  const commit = function(name, ...args) {
     const mutations = instance.store.mutations
     if (mutations[name]) {
       mutations[name].apply(instance, [instance.store.states].concat(args))
@@ -158,8 +160,8 @@ function useStore(): Store {
       throw new Error(`Action not found: ${name}`)
     }
   }
-  const updateTableScrollY = function () {
-    nextTick(instance.layout.updateScrollY.apply(instance.layout))
+  const updateTableScrollY = function() {
+    nextTick(() => instance.layout.updateScrollY.apply(instance.layout))
   }
   const watcher = useWatcher()
   return {

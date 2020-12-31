@@ -1,6 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import TimePicker from '../src/time-picker'
+import { triggerEvent } from '@element-plus/test-utils'
+import dayjs from 'dayjs'
 
 const _mount = (template: string, data, otherObj?) => mount({
   components: {
@@ -139,7 +141,7 @@ describe('TimePicker', () => {
     expect(secondsDom).toBeUndefined()
   })
 
-  it('event change, focus, blur', async () => {
+  it.only('event change, focus, blur', async () => {
     const changeHandler = jest.fn()
     const focusHandler = jest.fn()
     const blurHandler = jest.fn()
@@ -338,6 +340,29 @@ describe('TimePicker(range)', () => {
     await nextTick()
     const NextRightEndbledHours = getSpinnerTextAsArray(rightHoursEl, ':not(.disabled)')
     expect(NextRightEndbledHours).toEqual([ 12, 13, 14, 15, 16 ])
+  })
+
+  it('arrow key', async () => {
+    const wrapper = _mount(`<el-time-picker
+        v-model="value"
+        format="YYYY-MM-DD HH:mm:ss"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const initValue = input.element.value
+    triggerEvent(input.element, 'keydown', 'ArrowDown')
+    await nextTick()
+    const addOneHour = input.element.value
+    triggerEvent(input.element, 'keydown', 'ArrowRight')
+    await nextTick()
+    triggerEvent(input.element, 'keydown', 'ArrowDown')
+    await nextTick()
+    const addOneHourOneMinute = input.element.value
+    expect(dayjs(initValue).diff(addOneHour, 'minute')).toEqual(-60)
+    expect(dayjs(initValue).diff(addOneHourOneMinute, 'minute')).toEqual(-61)
   })
 })
 

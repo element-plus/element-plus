@@ -403,7 +403,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | start-placeholder | Le placeholder pour la date de début en mode plage de dates. | string | — | — |
 | end-placeholder | Le placeholder pour la date de fin en mode plage de dates. | string | — | — |
 | type | Type du picker. | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
-| format | Format d'affichage dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date). | yyyy-MM-dd |
+| format | Format d'affichage dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date). | YYYY-MM-DD |
 | align | Alignement. | left/center/right | left |
 | popper-class | Nom de classe pour le menu déroulant du DatePicker. | string | — | — |
 | range-separator | Séparateur de plage de dates. | string | — | '-' |

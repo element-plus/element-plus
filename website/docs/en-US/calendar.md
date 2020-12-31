@@ -64,4 +64,4 @@ Note, date time locale (month name, first day of the week ...) are also configed
 ### dateCell scoped slot 参数
 | Attribute       | Description   | Type      | Accepted Values       | Default  |
 |-----------------|-------------- |---------- |---------------------- |--------- |
-| data            | { type, isSelected, day, date }. `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format yyyy-MM-dd; `date` is date the cell represents    | Object      | —           | —      |
+| data            | { type, isSelected, day, date }. `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format YYYY-MM-DD; `date` is date the cell represents    | Object      | —           | —      |

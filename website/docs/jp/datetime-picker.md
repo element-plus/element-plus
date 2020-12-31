@@ -203,7 +203,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
 | end-placeholder | 範囲終了日のプレースホルダ | string | — | — |
 | time-arrow-control | 矢印ボタンで時間を選ぶかどうか | boolean | — | false |
 | type | ピッカーのタイプ | string | year/month/date/datetime/ week/datetimerange/daterange | date |
-| format | インプットボックスの表示値のフォーマット | string | see [date formats](#/en-US/component/date-picker#date-formats) | yyyy-MM-dd HH:mm:ss |
+| format | インプットボックスの表示値のフォーマット | string | see [date formats](#/en-US/component/date-picker#date-formats) | YYYY-MM-DD HH:mm:ss |
 | align | アライメント | left/center/right | left |
 | popper-class | DateTimePickerのドロップダウンのカスタムクラス名 | string | — | — |
 | range-separator | レンジセパレータ | string | - | '-' |
