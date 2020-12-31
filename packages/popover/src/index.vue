@@ -111,8 +111,6 @@ export default defineComponent({
     const _trigger = trigger ? renderTrigger(trigger, {
       ariaDescribedby: popperId,
       ref: 'triggerRef',
-      onMouseDown: stop,
-      onMouseUp: stop,
       ...events,
     }) : createCommentVNode('v-if', true)
 
