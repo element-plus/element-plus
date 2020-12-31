@@ -1,5 +1,18 @@
 ## Changelog
 
+### 1.0.1-beta.18
+
+*2020-12-31*
+
+#### Bug fixes
+
+- Fix timepicker keyevent bug (#1151)
+- Bumping vue version to 3.0.5 (#1159)
+- Fix table when the data changes, the layout is not updated bug (#1059)
+- Fix Module @vue/test-utils has no exported members bug (#1139)
+- Fix scrollbar mouseup event bug (#1123)
+- Fix select props modelValue type error (#1158)
+
 ### 1.0.1-beta.15
 
 *2020-12-27*
