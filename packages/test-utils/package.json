@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "license": "MIT",
   "dependencies": {
-    "vue": "^3.0.3",
+    "vue": "^3.0.5",
     "@vue/test-utils": "^2.0.0-beta.3"
   }
 }
