@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, computed, ref } from 'vue'
+import { defineComponent, watch, computed, ref, inject } from 'vue'
 import ElSelect from '@element-plus/select'
 import ElOption from '@element-plus/option'
 import { t } from '@element-plus/locale'
@@ -47,7 +47,8 @@ export default defineComponent({
   },
   emits: ['page-size-change'],
   setup(props, { emit }) {
-    const { pagination } = usePagination()
+    const key = inject<string|symbol>('pagination-key')
+    const { handleSizesChange } = usePagination(key)
     const innerPageSize = ref<Nullable<number>>(props.pageSize)
 
     watch(() => props.pageSizes, (newVal, oldVal) => {
@@ -69,7 +70,7 @@ export default defineComponent({
     function handleChange(val: number) {
       if (val !== innerPageSize.value) {
         innerPageSize.value = val
-        pagination?.handleSizesChange(Number(val))
+        handleSizesChange(Number(val))
       }
     }
 

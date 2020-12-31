@@ -1,18 +1,13 @@
 import { reactive, ref, toRefs, computed, onUnmounted, nextTick, watch } from 'vue'
 import { IPaginationProps } from './pagination'
 
-
-type ChangeCb = {
-  pageSizeCb: Array<() => void>
-  nextCb: Array<() => void>
-  prevCb: Array<() => void>
-}
+type HookType = 'pageSizeCb' | 'nextCb' | 'prevCb'
 
 // symbol index not work see: https://github.com/Microsoft/TypeScript/issues/1863
 const globalState = {}
 
 export const usePagination = (key?: string | symbol | null) => {
-  let state: IPaginationProps & ChangeCb = null
+  let state: IPaginationProps & Record<HookType, Array<() => void>> = null
   const lastEmittedPage = ref(-1)
   const userChangePageSize = ref(false)
 

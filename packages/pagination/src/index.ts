@@ -113,10 +113,10 @@ export default defineComponent({
       key, pageSize, total, pageSizeCb, currentPage,
       next, nextCb, prev, prevCb,
       internalPageCount, userChangePageSize, emitChange,
-      handleCurrentChange, handleSizesChange,
+      handleCurrentChange,
     } = usePagination(props.keyValue)
 
-    provide('pagination-key', key)
+    provide<string|symbol>('pagination-key', key)
 
     pageSizeCb.value = [
       () => {
@@ -137,16 +137,9 @@ export default defineComponent({
       },
     ]
 
-    watch(() => props.currentPage, val => {
-      currentPage.value = val
-    }, { immediate: true })
-    watch(() => props.pageSize, val => {
-      console.log(val)
-      pageSize.value = getValidPageSize(val)
-    }, { immediate: true })
-    watch(() => props.total, val => {
-      total.value = val
-    }, { immediate: true })
+    watch(() => props.currentPage, val => currentPage.value = val, { immediate: true })
+    watch(() => props.pageSize, val => pageSize.value = getValidPageSize(val), { immediate: true })
+    watch(() => props.total, val => total.value = val, { immediate: true })
 
     watch(currentPage, val => {
       emit('update:currentPage', val)
