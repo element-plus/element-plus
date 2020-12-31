@@ -206,13 +206,16 @@ describe('Select', () => {
     const options = getOptions()
     const vm = wrapper.vm as any
     expect(vm.value).toBe('')
+    expect(wrapper.find('.el-input__inner').element.value).toBe('')
     options[2].click()
     await nextTick()
     expect(vm.value).toBe('选项3')
+    expect(wrapper.find('.el-input__inner').element.value).toBe('蚵仔煎')
     expect(vm.count).toBe(1)
-    await nextTick()
     options[4].click()
+    await nextTick()
     expect(vm.value).toBe('选项5')
+    expect(wrapper.find('.el-input__inner').element.value).toBe('北京烤鸭')
     expect(vm.count).toBe(2)
   })
 
