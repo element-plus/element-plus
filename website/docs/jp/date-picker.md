@@ -399,7 +399,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | start-placeholder | 範囲モードでの開始日のプレースホルダ | string | — | — |
 | end-placeholder | 範囲終了日のプレースホルダ | string | — | — |
 | type | ピッカーのタイプ | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
-| format | 入力ボックスの表示値のフォーマット | string | see [date formats](#/jp/component/date-picker#date-formats) | yyyy-MM-dd |
+| format | 入力ボックスの表示値のフォーマット | string | see [date formats](#/jp/component/date-picker#date-formats) | YYYY-MM-DD |
 | align | アライメント | left/center/right | left |
 | popper-class | date-pickerのドロップダウン用カスタムクラス名 | string | — | — |
 | range-separator | 範囲セパレータ | string | — | '-' |

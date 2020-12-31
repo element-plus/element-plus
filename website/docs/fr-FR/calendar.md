@@ -66,4 +66,4 @@ Note, date time locale (month name, first day of the week ...) are also configed
 
 | Attribut       | Description   | Type      | Valeurs acceptées       | Défaut  |
 |-----------------|-------------- |---------- |---------------------- |--------- |
-| data            | { type, isSelected, day, date }. `type` indique le mois de la date courante, les valeurs prev-month, current-month et next-month pouvant être utilisées; `isSelected` indique si la date est sélectionnée; `day` est la date formattée en yyyy-MM-dd; `date` est la date de la cellule courante.    | Object      | —           | —      |
+| data            | { type, isSelected, day, date }. `type` indique le mois de la date courante, les valeurs prev-month, current-month et next-month pouvant être utilisées; `isSelected` indique si la date est sélectionnée; `day` est la date formattée en YYYY-MM-DD; `date` est la date de la cellule courante.    | Object      | —           | —      |

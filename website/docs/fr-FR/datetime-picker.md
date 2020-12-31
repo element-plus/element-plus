@@ -203,7 +203,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 | end-placeholder | Le placeholder de la date de fin en mode plage de dates. | string | — | — |
 | time-arrow-control | Si l'horaire peut être sélectionné en utilisant les flèches de direction. | boolean | — | false |
 | type | Type du picker. | string | year/month/date/datetime/ week/datetimerange/daterange | date |
-| format | Format d'affichage de la date dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date) | yyyy-MM-dd HH:mm:ss |
+| format | Format d'affichage de la date dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date) | YYYY-MM-DD HH:mm:ss |
 | align | Alignements. | left/center/right | left |
 | popper-class | Nom de classe pour le menu déroulant du DateTimePicker. | string | — | — |
 | range-separator | Séparateur de plage. | string | - | '-' |
