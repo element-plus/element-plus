@@ -33,3 +33,5 @@ export interface IPaginationSetups {
   disabled: boolean
   pageSizes: Array<number>
 }
+
+export type IPaginationHookCb = 'pageSizeCb' | 'nextCb' | 'prevCb'

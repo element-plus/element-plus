@@ -1,32 +1,25 @@
 import { reactive, ref, toRefs, computed, onUnmounted, nextTick, watch } from 'vue'
-import { IPaginationProps } from './pagination'
+import { IPaginationProps, IPaginationHookCb } from './pagination'
 
-type HookType = 'pageSizeCb' | 'nextCb' | 'prevCb'
+export type UsePaginationState = Pick<IPaginationProps, 'total' | 'pageCount' | 'currentPage' | 'pageSize' | 'pageSizes' | 'disabled'>
+                                  & Record<IPaginationHookCb, Array<() => void>>
 
 // symbol index not work see: https://github.com/Microsoft/TypeScript/issues/1863
 const globalState = {}
 
 export const usePagination = (key?: string | symbol | null) => {
-  let state: IPaginationProps & Record<HookType, Array<() => void>> = null
+  let state: UsePaginationState = null
   const lastEmittedPage = ref(-1)
   const userChangePageSize = ref(false)
 
   const initState = () => {
-    state = reactive({
-      pageSize: 0,
-      small: false,
+    state = reactive<UsePaginationState>({
       total: 0,
+      pageSize: 0,
+      pageSizes: [],
       pageCount: 0,
-      pagerCount: 0,
       currentPage: 0,
-      layout: {},
-      pageSizes: [10, 20, 30, 40, 50, 100],
-      popperClass: '',
-      prevText: '',
-      nextText: '',
-      background: false,
       disabled: false,
-      hideOnSinglePage: false,
       pageSizeCb: [],
       prevCb: [],
       nextCb: [],
