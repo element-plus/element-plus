@@ -88,9 +88,12 @@ describe('Drawer', () => {
   })
 
   test('should open and close drawer properly', async () => {
+    const onClose = jest.fn()
+    const onClosed = jest.fn()
+    const onOpened = jest.fn()
     const wrapper = _mount(
       `
-      <el-drawer :title='title' v-model='visible'>
+      <el-drawer :title='title' v-model='visible' @closed="onClosed" @close="onClose" @opened="onOpened">
         <span>${content}</span>
       </el-drawer>
       `,
@@ -98,18 +101,34 @@ describe('Drawer', () => {
         title,
         visible: false,
       }),
+      {
+        methods: {
+          onOpened,
+          onClose,
+          onClosed,
+        },
+      },
     )
     const vm = wrapper.vm as any
     await nextTick()
     await rAF()
     await nextTick()
+    expect(onOpened).not.toHaveBeenCalled()
 
     const drawerEl = wrapper.find('.el-overlay').element as HTMLDivElement
     expect(drawerEl.style.display).toEqual('none')
 
     vm.visible = true
     await nextTick()
+    await rAF()
     expect(drawerEl.style.display).not.toEqual('none')
+    expect(onOpened).toHaveBeenCalled()
+
+    // vm.visible = false
+    // await nextTick()
+    // await rAF()
+    // await nextTick()
+    // expect(onClose).toHaveBeenCalled()
   })
 
   test('should destroy every child after drawer was closed when destroy-on-close flag is true', async () => {

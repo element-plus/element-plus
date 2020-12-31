@@ -4,6 +4,7 @@
       name="dialog-fade"
       @after-enter="afterEnter"
       @after-leave="afterLeave"
+      @before-leave="beforeLeave"
     >
       <el-overlay
         v-show="visible"
