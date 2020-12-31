@@ -1,5 +1,5 @@
 <script lang="ts">
-import { createVNode, defineComponent, renderSlot } from 'vue'
+import { createVNode, defineComponent, renderSlot, h } from 'vue'
 import { PatchFlags } from '@element-plus/utils/vnode'
 
 export default defineComponent({
@@ -23,6 +23,8 @@ export default defineComponent({
     }
     // init here
     return () => {
+      // when the vnode meets the same structure but with different change trigger
+      // it will not automatically update, thus we simply use h function to manage updating
       return props.mask
         ? createVNode(
           'div',
@@ -37,7 +39,7 @@ export default defineComponent({
           PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
           ['onClick'],
         )
-        : createVNode('div', {
+        : h('div', {
           style: {
             zIndex: props.zIndex,
             position: 'fixed',
@@ -46,7 +48,7 @@ export default defineComponent({
             bottom: '0px',
             left: '0px',
           },
-        }, [renderSlot(slots, 'default')], PatchFlags.STYLE)
+        }, [renderSlot(slots, 'default')])
     }
   },
 })
