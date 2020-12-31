@@ -1,6 +1,7 @@
 import { CommonPicker } from '@element-plus/time-picker'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
 import { nextTick } from 'vue'
 import DatePicker from '../src/date-picker'
 
@@ -354,6 +355,30 @@ describe('WeekPicker', () => {
     (document.querySelector('.el-icon-d-arrow-right') as HTMLElement).click()
     await nextTick()
     expect(numberOfHighlightRows()).toBe(0)
+  })
+
+  ;[
+    { locale: 'zh-cn', name: 'Monday', value: 1 },
+    { locale: 'en', name: 'Sunday', value: 0 },
+  ].forEach(loObj => {
+    it(`emit first day of the week, ${loObj.locale} locale, ${loObj.name}`, async () => {
+      dayjs.locale(loObj.locale)
+      const wrapper = _mount(`<el-date-picker
+      type='week'
+      v-model="value"
+    />`, () => ({ value: '' }))
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      input.trigger('focus')
+      await nextTick();
+      // click Wednesday
+      (document.querySelectorAll('.el-date-table__row ~ .el-date-table__row td')[3] as HTMLElement).click()
+      await nextTick()
+      const vm = wrapper.vm as any
+      expect(vm.value).not.toBeNull()
+      expect(+dayjs(vm.value)).toBe(+dayjs(vm.value).startOf('week'))
+      expect(dayjs(vm.value).day()).toBe(loObj.value) // Sunday or Monday
+    })
   })
 })
 
