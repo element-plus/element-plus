@@ -14,15 +14,15 @@ export const usePagination = (key?: string | symbol | null) => {
 
   const initState = () => {
     state = reactive<UsePaginationState>({
-      total: 0,
-      pageSize: 0,
-      pageSizes: [],
-      pageCount: 0,
-      currentPage: 0,
-      disabled: false,
-      pageSizeCb: [],
-      prevCb: [],
-      nextCb: [],
+      total: null,
+      pageSize: null,
+      pageSizes: null,
+      pageCount: null,
+      currentPage: null,
+      disabled: null,
+      pageSizeCb: null,
+      prevCb: null,
+      nextCb: null,
     })
   }
 
@@ -140,5 +140,6 @@ export const usePagination = (key?: string | symbol | null) => {
     changeEvent: handleCurrentChange,
     handleCurrentChange,
     handleSizesChange,
+    getValidCurrentPage,
   }
 }

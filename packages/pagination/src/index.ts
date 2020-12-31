@@ -110,10 +110,10 @@ export default defineComponent({
   ],
   setup(props, { emit }) {
     const {
-      key, pageSize, total, pageSizeCb, currentPage,
-      next, nextCb, prev, prevCb,
+      key, pageSize, total, pageSizeCb, currentPage, pageSizes,
+      pageCount, next, nextCb, prev, prevCb,
       internalPageCount, userChangePageSize, emitChange,
-      handleCurrentChange,
+      handleCurrentChange, getValidCurrentPage,
     } = usePagination(props.keyValue)
 
     provide<string|symbol>('pagination-key', key)
@@ -136,10 +136,13 @@ export default defineComponent({
         emit('prev-click', currentPage.value)
       },
     ]
-
-    watch(() => props.currentPage, val => currentPage.value = val, { immediate: true })
+    watch(() => props.currentPage, val => currentPage.value = getValidCurrentPage(val), { immediate: true })
+    watch(() => props.pageCount, val => pageCount.value = val, { immediate: true })
     watch(() => props.pageSize, val => pageSize.value = getValidPageSize(val), { immediate: true })
     watch(() => props.total, val => total.value = val, { immediate: true })
+    watch(() => props.pageSizes, val => {
+      pageSizes.value = val.map(item => Number(item))
+    }, { immediate: true })
 
     watch(currentPage, val => {
       emit('update:currentPage', val)

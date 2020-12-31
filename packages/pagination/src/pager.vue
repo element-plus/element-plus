@@ -1,5 +1,7 @@
 <template>
   <ul class="el-pager" @click="onPagerClick">
+    {{ pageCount }}
+    '-----'
     <li
       v-if="pageCount > 0"
       :class="{ active: currentPage === 1, disabled }"
