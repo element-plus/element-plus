@@ -1,16 +1,13 @@
 <template>
-  <!-- todo popper props align left  -->
-  <!-- todo popper custom popper-class  -->
-  <!-- todo bug handleKeydown event twice  -->
   <el-popper
-    ref="popper"
+    ref="refPopper"
     v-model:visible="pickerVisible"
     manual-mode
     effect="light"
     pure
     trigger="click"
     v-bind="$attrs"
-    popper-class="el-picker__popper"
+    :popper-class="`el-picker__popper ${popperClass}`"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
@@ -21,7 +18,6 @@
     <template #trigger>
       <el-input
         v-if="!isRangeInput"
-        ref="refContainer"
         v-clickoutside="onClickOutside"
         :model-value="displayValue"
         :name="name"
@@ -57,7 +53,6 @@
       </el-input>
       <div
         v-else
-        ref="refContainer"
         v-clickoutside="onClickOutside"
         class="el-date-editor el-range-editor el-input__inner"
         :class="[
@@ -151,6 +146,7 @@ interface PickerOptions {
   getRangeAvaliableTime: any
   getDefaultValue: any
   panelReady: boolean
+  handleClear: any
 }
 
 // Date object and string
@@ -196,7 +192,7 @@ export default defineComponent({
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
-    const refContainer = ref(null)
+    const refPopper = ref(null)
     const pickerVisible = ref(false)
     const pickerActualVisible = ref(false)
     const valueOnOpen = ref(null)
@@ -224,8 +220,8 @@ export default defineComponent({
       }
     }
     const refInput = computed(() => {
-      if (refContainer.value) {
-        const _r = isRangeInput.value ? refContainer.value : refContainer.value.$el
+      if (refPopper.value.triggerRef) {
+        const _r = isRangeInput.value ? refPopper.value.triggerRef : refPopper.value.triggerRef.$el
         return [].slice.call(_r.querySelectorAll('input'))
       }
       return []
@@ -329,6 +325,7 @@ export default defineComponent({
         emitChange(null)
         showClose.value = false
         pickerVisible.value = false
+        pickerOptions.value.handleClear && pickerOptions.value.handleClear()
       }
     }
     const valueIsEmpty = computed(() => {
@@ -514,7 +511,7 @@ export default defineComponent({
       displayValue,
       parsedValue,
       setSelectionRange,
-      refContainer,
+      refPopper,
       pickerDisabled,
       onSetPickerOption,
     }

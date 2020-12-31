@@ -1,4 +1,4 @@
-import Picker from '@element-plus/time-picker/src/common/picker.vue'
+import { CommonPicker } from '@element-plus/time-picker'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
 import { nextTick } from 'vue'
@@ -22,19 +22,26 @@ afterEach(() => {
 
 describe('DatePicker', () => {
   it('create & custom class & style', async () => {
+    const popperClassName = 'popper-class-test'
+    const customClassName = 'custom-class-test'
     const wrapper = _mount(`<el-date-picker
         :readonly="true"
         placeholder='test_'
         format='HH-mm-ss'
         :style="{color:'red'}"
-        class="customClass"
-    />`)
+        :class="customClassName"
+        :popperClass="popperClassName"
+    />`, () => ({ popperClassName, customClassName }))
     const input = wrapper.find('input')
     expect(input.attributes('placeholder')).toBe('test_')
     expect(input.attributes('readonly')).not.toBeUndefined()
     const outterInput = wrapper.find('.el-input')
-    expect(outterInput.classes()).toContain('customClass')
+    expect(outterInput.classes()).toContain(customClassName)
     expect(outterInput.attributes().style).toBeDefined()
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    expect(document.querySelector('.el-picker__popper').classList.contains(popperClassName)).toBe(true)
   })
 
   it('select date', async () => {
@@ -87,10 +94,10 @@ describe('DatePicker', () => {
     expect(vm.value.getHours()).toBe(12)
     expect(vm.value.getMinutes()).toBe(0)
     expect(vm.value.getSeconds()).toBe(1)
-    const picker = wrapper.findComponent(Picker);
+    const picker = wrapper.findComponent(CommonPicker);
     (picker.vm as any).showClose = true
     await nextTick();
-    (picker.element.querySelector('.el-icon-circle-close') as HTMLElement).click()
+    (document.querySelector('.el-icon-circle-close') as HTMLElement).click()
     expect(vm.value).toBeNull()
   })
 

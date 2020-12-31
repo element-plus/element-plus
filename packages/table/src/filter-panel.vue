@@ -5,9 +5,10 @@
     :offset="0"
     :placement="placement"
     :show-arrow="false"
-    trigger="click"
+    :stop-popper-mouse-event="false"
     effect="light"
     pure
+    manual-mode
     popper-class="el-table-filter"
     append-to-body
   >
@@ -67,6 +68,7 @@
     </template>
     <template #trigger>
       <span
+        v-click-outside:[popperPaneRef]="hideFilterPanel"
         class="el-table__column-filter-trigger el-none-outline"
         @click="showFilterPanel"
       >
@@ -96,6 +98,7 @@ import { t } from '@element-plus/locale'
 import ElCheckbox from '@element-plus/checkbox'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElScrollbar from '@element-plus/scrollbar'
+import { ClickOutside } from '@element-plus/directives'
 
 import { Store, TableColumnCtx, TableHeader } from './table.type'
 
@@ -107,6 +110,7 @@ export default defineComponent({
     ElScrollbar,
     ElPopper,
   },
+  directives: { ClickOutside },
   props: {
     placement: {
       type: String,
@@ -129,6 +133,7 @@ export default defineComponent({
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
+    const tooltip = ref(null)
     const filters = computed(() => {
       return props.column && props.column.filters
     })
@@ -171,7 +176,10 @@ export default defineComponent({
     }
     const showFilterPanel = (e: MouseEvent) => {
       e.stopPropagation()
-      tooltipVisible.value = true
+      tooltipVisible.value = !tooltipVisible.value
+    }
+    const hideFilterPanel = () => {
+      tooltipVisible.value = false
     }
     const handleConfirm = () => {
       confirmFilter(filteredValue.value)
@@ -210,6 +218,11 @@ export default defineComponent({
         immediate: true,
       },
     )
+
+    const popperPaneRef = computed(() => {
+      return tooltip.value?.popperRef
+    })
+
     return {
       tooltipVisible,
       multiple,
@@ -222,6 +235,9 @@ export default defineComponent({
       isActive,
       t,
       showFilterPanel,
+      hideFilterPanel,
+      popperPaneRef,
+      tooltip,
     }
   },
 })

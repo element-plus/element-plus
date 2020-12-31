@@ -50,7 +50,13 @@ import hljs from 'highlight.js'
 import compoLang from '../i18n/component.json'
 import { stripScript, stripStyle, stripTemplate } from '../util'
 const version = '1.0.0' // element version
-
+const stripTemplateAndRemoveTemplate = code => {
+  const result = stripTemplate(code)
+  if (result.indexOf('<template>') === 0) {
+    return result.replace(/^<template>/, '').replace(/<\/template>$/,'')
+  }
+  return result
+}
 export default {
   data() {
     return {
@@ -129,7 +135,7 @@ export default {
         }
       }
       if (code) {
-        this.codepen.html = stripTemplate(code).replace(/<\/?template>/g, '')
+        this.codepen.html = stripTemplateAndRemoveTemplate(code)
         this.codepen.script = stripScript(code)
         this.codepen.style = stripStyle(code)
       }
@@ -160,7 +166,7 @@ export default {
     goCodepen() {
       // since 2.6.2 use code rather than jsfiddle https://blog.codepen.io/documentation/api/prefill/
       const { script, html, style } = this.codepen
-      const resourcesTpl = '<scr' + 'ipt src="//unpkg.com/vue@next"></scr' + 'ipt>' +
+      const resourcesTpl = '<scr' + 'ipt src="//unpkg.com/vue@3.0.3/dist/vue.global.js"></scr' + 'ipt>' +
         '\n<scr' + `ipt src="//unpkg.com/element-plus/lib/index.full.js"></scr` + 'ipt>'
       let htmlTpl = `${resourcesTpl}\n<div id="app">\n${html.trim()}\n</div>`
       let cssTpl = `@import url("//unpkg.com/element-plus/lib/theme-chalk/index.css");\n${(style || '').trim()}\n`

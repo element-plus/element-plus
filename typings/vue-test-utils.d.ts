@@ -1,4 +1,4 @@
-import { ComponentPublicInstance } from '@vue/test-utils'
+import { ComponentPublicInstance } from 'vue'
 
 declare module '@vue/test-utils' {
   interface DOMWrapper<ElementType> {

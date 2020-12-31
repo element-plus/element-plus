@@ -1,7 +1,7 @@
 <template>
   <div
     ref="selectWrapper"
-    v-clickOutside="handleClose"
+    v-click-outside:[popperPaneRef]="handleClose"
     class="el-select"
     :class="[selectSize ? 'el-select--' + selectSize : '']"
     @click.stop="toggleMenu"
@@ -17,6 +17,7 @@
       pure
       trigger="click"
       transition="el-zoom-in-top"
+      :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       @before-enter="handleMenuEnter"
     >
@@ -171,6 +172,7 @@ import {
   nextTick,
   reactive,
   provide,
+  computed,
 } from 'vue'
 import ElInput from '@element-plus/input'
 import ElOption from './option.vue'
@@ -204,7 +206,7 @@ export default defineComponent({
   props: {
     name: String,
     id: String,
-    modelValue: [Array, String, Number],
+    modelValue: [Array, String, Number, Boolean, Object],
     autocomplete: {
       type: String,
       default: 'off',
@@ -377,6 +379,10 @@ export default defineComponent({
       ctx.emit(UPDATE_MODEL_EVENT, '')
     }
 
+    const popperPaneRef = computed(() => {
+      return popper.value?.popperRef
+    })
+
     return {
       selectSize,
       readonly,
@@ -430,6 +436,7 @@ export default defineComponent({
       reference,
       input,
       popper,
+      popperPaneRef,
       tags,
       selectWrapper,
       scrollbar,

@@ -137,7 +137,7 @@ export default defineComponent({
 
       if (code === EVENT_CODE.up || code === EVENT_CODE.down) {
         const step = (code === EVENT_CODE.up) ? -1 : 1
-        timePickeOptions['min_scrollDown'](step)
+        timePickeOptions['start_scrollDown'](step)
         event.preventDefault()
         return
       }

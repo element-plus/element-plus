@@ -5,6 +5,10 @@ export const defaultProps = {
     type: [Array, String],
     default: '',
   },
+  popperClass: {
+    type: String,
+    default: '',
+  },
   format: {
     type: String,
   },

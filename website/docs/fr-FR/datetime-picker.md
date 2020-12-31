@@ -45,7 +45,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
     data() {
       return {
         shortcuts: [{
-          text: 'Aujourdh\'ui',
+          text: 'Aujourd\'hui',
           value: new Date(),
         }, {
           text: 'Hier',
@@ -143,7 +143,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 
 ### Horaire par défaut pour les plages de dates
 
-:::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
+:::demo Lorsque vous sélectionnez une plage de dates dans le panneau de date avec le type `datetimerange`, `00:00:00` sera utilisé comme horaire par défaut pour les dates de début et de fin. Vous pouvez contrôler cette valeur avec l'attribut `default-time`. Il accepte un tableau de une ou deux chaînes de caractères. La première indique l'horaire de la date de début, la deuxième celui de la date de fin.
 ```html
 <template>
   <div class="block">
@@ -203,7 +203,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 | end-placeholder | Le placeholder de la date de fin en mode plage de dates. | string | — | — |
 | time-arrow-control | Si l'horaire peut être sélectionné en utilisant les flèches de direction. | boolean | — | false |
 | type | Type du picker. | string | year/month/date/datetime/ week/datetimerange/daterange | date |
-| format | Format d'affichage de la date dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date) | yyyy-MM-dd HH:mm:ss |
+| format | Format d'affichage de la date dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date) | YYYY-MM-DD HH:mm:ss |
 | align | Alignements. | left/center/right | left |
 | popper-class | Nom de classe pour le menu déroulant du DateTimePicker. | string | — | — |
 | range-separator | Séparateur de plage. | string | - | '-' |

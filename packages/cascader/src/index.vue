@@ -2,10 +2,11 @@
   <el-popper
     ref="popper"
     v-model:visible="popperVisible"
-    trigger="manual"
+    manual-mode
     placement="bottom-start"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
+    :stop-popper-mouse-event="false"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
     effect="light"
@@ -14,7 +15,7 @@
   >
     <template #trigger>
       <div
-        v-clickoutside="() => togglePopperVisible(false)"
+        v-clickoutside:[popperPaneRef]="() => togglePopperVisible(false)"
         :class="[
           'el-cascader',
           realSize && `el-cascader--${realSize}`,
@@ -303,6 +304,10 @@ export default defineComponent({
       },
     })
 
+    const popperPaneRef = computed(() => {
+      return popper.value?.popperRef
+    })
+
     const togglePopperVisible = (visible?: boolean) => {
       if (isDisabled.value) return
 
@@ -539,6 +544,7 @@ export default defineComponent({
     return {
       popperOptions,
       popper,
+      popperPaneRef,
       input,
       tagWrapper,
       panel,
