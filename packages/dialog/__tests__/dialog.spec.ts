@@ -230,5 +230,32 @@ describe('Dialog.vue', () => {
       await nextTick()
       expect(wrapper.find('.el-dialog__body').exists()).toBe(false)
     })
+
+    test('should emit close event', async () => {
+      let visible = true
+      const onClose = jest.fn()
+      const onClosed = jest.fn()
+      const wrapper = _mount({
+        props: {
+          modelValue: visible,
+          'onUpdate:modelValue': (val: boolean) => visible = val,
+          onClose,
+          onClosed,
+        },
+      })
+
+      expect(wrapper.vm.visible).toBe(true)
+      await nextTick()
+      await rAF()
+      await nextTick()
+
+      await wrapper.find('.el-overlay').trigger('click')
+      await nextTick()
+      await rAF()
+      await nextTick()
+      expect(onClose).toHaveBeenCalled()
+      expect(onClosed).toHaveBeenCalled()
+      expect(visible).toBe(false)
+    })
   })
 })

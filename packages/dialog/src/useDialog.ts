@@ -1,4 +1,4 @@
-import { computed, ref, watch, nextTick, onMounted, CSSProperties } from 'vue'
+import { computed, ref, watch, nextTick, onMounted } from 'vue'
 
 import isServer from '@element-plus/utils/isServer'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
@@ -6,7 +6,7 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import { clearTimer } from '@element-plus/utils/util'
 import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
 
-import type { Ref } from 'vue'
+import type { Ref, CSSProperties } from 'vue'
 import type { SetupContext } from '@vue/runtime-core'
 import type { UseDialogProps } from './dialog'
 
@@ -47,6 +47,10 @@ export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref
     if (props.destroyOnClose) {
       rendered.value = false
     }
+  }
+
+  function beforeLeave() {
+    ctx.emit(CLOSE_EVENT)
   }
 
   function open() {
@@ -139,9 +143,8 @@ export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref
       })
     } else {
       // this.$el.removeEventListener('scroll', this.updatePopper
-      close()
-      if (!closed.value) {
-        ctx.emit(CLOSE_EVENT)
+      if (visible.value) {
+        close()
       }
     }
   })
@@ -157,6 +160,7 @@ export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref
   return {
     afterEnter,
     afterLeave,
+    beforeLeave,
     handleClose,
     onModalClick,
     closed,

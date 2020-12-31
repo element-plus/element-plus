@@ -37,7 +37,16 @@ export default defineComponent({
           PatchFlags.STYLE | PatchFlags.CLASS | PatchFlags.PROPS,
           ['onClick'],
         )
-        : renderSlot(slots, 'default')
+        : createVNode('div', {
+          style: {
+            zIndex: props.zIndex,
+            position: 'fixed',
+            top: '0px',
+            right: '0px',
+            bottom: '0px',
+            left: '0px',
+          },
+        }, [renderSlot(slots, 'default')], PatchFlags.STYLE)
     }
   },
 })
