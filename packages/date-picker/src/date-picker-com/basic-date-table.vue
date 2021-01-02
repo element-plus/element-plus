@@ -311,7 +311,7 @@ export default defineComponent({
       if (target.tagName !== 'TD') return
 
       const row = target.parentNode.rowIndex - 1
-      const column = props.selectionMode === 'week' ? 1 : target.cellIndex
+      const column = target.cellIndex
       const cell = rows.value[row][column]
 
       if (cell.disabled || cell.type === 'week') return
@@ -339,7 +339,7 @@ export default defineComponent({
           year: newDate.year(),
           week: weekNumber,
           value: value,
-          date: newDate,
+          date: newDate.startOf('week'),
         })
       } else if (props.selectionMode === 'dates') {
         const newValue = cell.selected
