@@ -42,5 +42,9 @@ describe('Overlay.vue', () => {
       mask: false,
     })
     expect(wrapper.find(selector).exists()).toBe(false)
+    await wrapper.setProps({
+      mask: true,
+    })
+    expect(wrapper.find(selector).exists()).toBe(true)
   })
 })

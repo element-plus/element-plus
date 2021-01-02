@@ -1,5 +1,15 @@
 ## Changelog
 
+### 1.0.1-beta.19
+
+*2021-01-02*
+
+#### Bug fixes
+
+- Fix WeekPicker should return the first day of the week (#1169)
+- Fix Dialog close event (#1164)
+- Fix Select prop type missing array (#1168)
+
 ### 1.0.1-beta.18
 
 *2020-12-31*
