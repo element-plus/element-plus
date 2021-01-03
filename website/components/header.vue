@@ -287,6 +287,7 @@ export default {
     }
 
     .nav-logo-small {
+      width: 44px;
       display: none;
     }
 
