@@ -10,16 +10,16 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 import localeData from 'dayjs/plugin/localeData'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import weekYear from 'dayjs/plugin/weekYear'
-import isLeapYear from 'dayjs/plugin/isLeapYear'
+import dayOfYear from 'dayjs/plugin/dayOfYear'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import { h } from 'vue'
-dayjs.extend(isLeapYear)
 dayjs.extend(localeData)
 dayjs.extend(advancedFormat)
 dayjs.extend(customParseFormat)
 dayjs.extend(weekOfYear)
 dayjs.extend(weekYear)
+dayjs.extend(dayOfYear)
 dayjs.extend(isSameOrAfter)
 dayjs.extend(isSameOrBefore)
 
