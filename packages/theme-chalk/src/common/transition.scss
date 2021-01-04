@@ -4,9 +4,9 @@
 .fade-in-linear-leave-active {
   transition: $--fade-linear-transition;
 }
+
 .fade-in-linear-enter-from,
-.fade-in-linear-leave-from,
-.fade-in-linear-leave-active {
+.fade-in-linear-leave-to {
   opacity: 0;
 }
 
@@ -15,8 +15,7 @@
   transition: $--fade-linear-transition;
 }
 .el-fade-in-linear-enter-from,
-.el-fade-in-linear-leave-from,
-.el-fade-in-linear-leave-active {
+.el-fade-in-linear-leave-to {
   opacity: 0;
 }
 
