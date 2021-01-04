@@ -49,7 +49,7 @@ export default defineComponent({
   },
   emits,
   setup(props, ctx) {
-    if (process.env.NODE_EVN !== 'production' && props.visible && !ctx.slots.reference) {
+    if (process.env.NODE_ENV !== 'production' && props.visible && !ctx.slots.reference) {
       warn(NAME, `
         You cannot init popover without given reference
       `)
