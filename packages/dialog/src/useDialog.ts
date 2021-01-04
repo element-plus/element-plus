@@ -131,8 +131,8 @@ export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref
   watch(() => props.modelValue, val => {
     if (val) {
       closed.value = false
-      rendered.value = true // enables lazy rendering
       open()
+      rendered.value = true // enables lazy rendering
       ctx.emit(OPEN_EVENT)
       zIndex.value = props.zIndex ? zIndex.value++ : PopupManager.nextZIndex()
       // this.$el.addEventListener('scroll', this.updatePopper)
