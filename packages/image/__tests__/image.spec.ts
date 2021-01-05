@@ -100,20 +100,4 @@ describe('Image.vue', () => {
   })
 
   //@todo lazy image test
-
-  test('big image preview', async() => {
-    const wrapper = mount(Image, {
-      props: {
-        src: IMAGE_SUCCESS,
-        previewSrcList: [IMAGE_SUCCESS],
-      },
-    })
-    await doubleWait()
-    expect(wrapper.find('.el-image__inner').exists()).toBe(true)
-    await wrapper.find('.el-image__inner').trigger('click')
-    const viewer = wrapper.find('.el-image-viewer__wrapper')
-    expect(viewer.exists()).toBe(true)
-    await wrapper.find('.el-image-viewer__close').trigger('click')
-    expect(wrapper.find('.el-image-viewer__wrapper').exists()).toBe(false)
-  })
 })

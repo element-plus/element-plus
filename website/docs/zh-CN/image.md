@@ -140,28 +140,43 @@
 ```
 :::
 
-### Attributes
+### Image Attributes
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
-| src | 图片源，同原生 | string | — | - |
-| fit | 确定图片如何适应容器框，同原生 [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) | string | fill / contain / cover / none / scale-down | - |
 | alt | 原生 alt | string | - | - |
-| referrer-policy | 原生 referrerPolicy | string | - | - |
+| fit | 确定图片如何适应容器框，同原生 [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) | string | fill / contain / cover / none / scale-down | - |
+| hide-on-click-modal | 当开启 preview 功能时，是否可以通过点击遮罩层关闭 preview | boolean | true / false | false |
 | lazy | 是否开启懒加载 | boolean | — | false |
-| scroll-container | 开启懒加载后，监听 scroll 事件的容器 | string / HTMLElement | — | 最近一个 overflow 值为 auto 或 scroll 的父元素 |
 | preview-src-list | 开启图片预览功能 | Array | — | - |
+| referrer-policy | 原生 referrerPolicy | string | - | - |
+| src | 图片源，同原生 | string | — | - |
+| scroll-container | 开启懒加载后，监听 scroll 事件的容器 | string / HTMLElement | — | 最近一个 overflow 值为 auto 或 scroll 的父元素 |
 | z-index | 设置图片预览的 z-index | Number | — | 2000 |
 
-### Events
+### Image Events
 | 事件名称      | 说明    | 回调参数      |
 |---------- |-------- |---------- |
 | load | 图片加载成功触发 | (e: Event) |
 | error | 图片加载失败触发 | (e: Error) |
 
-### Slots
+### Image Slots
 | 名称    | 说明         |
 |---------|-------------|
 | placeholder | 图片未加载的占位内容 |
 | error | 加载失败的内容 |
 
 
+### ImageViewer Attributes
+| 参数      | 说明    | 类型      | 可选值       | 默认值   |
+|---------- |-------- |---------- |-------------  |-------- |
+| url-list | 用于预览的图片链接列表 | Array\<string\> | - | [] |
+| z-index  | 预览时遮罩层的 z-index | number / string |  int / string\<int\> | 2000 |
+| initial-index | 预览的首张图片的位置, 小于等于数组长度 | number | int | 0 |
+| infinite | 是否可以无限循环预览 | boolean | true / false | true |
+| hide-on-click-modal | 是否可以通过点击遮罩层关闭预览 | boolean | true / false | false |
+
+### ImageViewer Events
+| 事件名称      | 说明    | 回调参数      |
+|---------- |-------- |---------- |
+| close | 当点击 X 按钮或者在 hide-on-click-modal 为 true 时点击遮罩层时触发 | 无 |
+| switch | 当图片切换时触发 | (val: number) 切换目标的下标 |

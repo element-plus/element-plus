@@ -141,26 +141,42 @@ En plus des propriétés natives de img, ce composant supporte le lazy loading, 
 ```
 :::
 
-### Attributs
+### Image Attributs
 | Attribut | Description | Type  | Valeurs acceptées | Défaut   |
 |---------- |-------- |---------- |-------------  |-------- |
-| src | Source de l'image, identique au natif. | string | — | - |
-| fit | Indique comment l'image devrait être redimmensionnée pour s'adapter à son conteneur, identique à [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) | string | fill / contain / cover / none / scale-down | - |
 | alt | Attribut alt natif.| string | - | - |
-| referrer-policy | Attribut referrerPolicy natif.| string | - | - |
+| fit | Indique comment l'image devrait être redimmensionnée pour s'adapter à son conteneur, identique à [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) | string | fill / contain / cover / none / scale-down | - |
+| hide-on-click-modal (needs translation) | When enabling preview, use this flag to control whether clicking on backdrop can exit preview mode | boolean | true / false | false |
 | lazy | Si le lazy loading doit être utilisé. | boolean | — | false |
-| scroll-container | Le conteneur auquel ajouter le listener du scroll en mode lazy loading. | string / HTMLElement | — | Le conteneur parent le plus proche avec la propriété overflow à auto ou scroll. |
 | preview-src-list | allow big image preview | Array | — | - |
+| referrer-policy | Attribut referrerPolicy natif.| string | - | - |
+| src | Source de l'image, identique au natif. | string | — | - |
+| scroll-container | Le conteneur auquel ajouter le listener du scroll en mode lazy loading. | string / HTMLElement | — | Le conteneur parent le plus proche avec la propriété overflow à auto ou scroll. |
 | z-index | set image preview z-index | Number | — | 2000 |
 
-### Évènements
+### Image Évènements
 | Nom | Description | Paramètres |
 |---------- |-------- |---------- |
 | load | Identique au load natif. | (e: Event) |
 | error | Identique au error natif. | (e: Error) |
 
-### Slots
+### Image Slots
 | Nom | Description |
 |---------|-------------|
 | placeholder | Se déclenche quand l'image charge. |
 | error | Se déclenche quand le chargement de l'image a échoué. |
+
+### ImageViewer Attributs
+| Attribute      | Description    | Type      | Acceptable Value    | Default   |
+|---------- |-------- |---------- |-------------  |-------- |
+| url-list | Preview link list | Array\<string\> | - | [] |
+| z-index  | Preview backdrop z-index | number / string |  int / string\<int\> | 2000 |
+| initial-index | The initial preview image index, less than or equal to the length of `url-list` | number | int | 0 |
+| infinite | Whether preview is infinite | boolean | true / false | true |
+| hide-on-click-modal | Whether user can emit close event when clicking backdrop | boolean | true / false | false |
+
+### ImageViewer Évènements
+| Event name      | Description    | Callback parameter      |
+|---------- |-------- |---------- |
+| close | Emitted when clicking on `X` button or when `hide-on-click-modal` enabled clicking on backdrop | None |
+| switch | When switching images | `(val: number)` switching target index |

@@ -37,6 +37,7 @@ import ElFormItem from '@element-plus/form-item'
 import ElHeader from '@element-plus/header'
 import ElIcon from '@element-plus/icon'
 import ElImage from '@element-plus/image'
+import ElImageViewer from '@element-plus/image-viewer'
 import ElInfiniteScroll from '@element-plus/infinite-scroll'
 import ElInput from '@element-plus/input'
 import ElInputNumber from '@element-plus/input-number'
@@ -141,6 +142,7 @@ const components = [
   ElHeader,
   ElIcon,
   ElImage,
+  ElImageViewer,
   ElInput,
   ElInputNumber,
   ElLink,
@@ -249,6 +251,7 @@ export {
   ElHeader,
   ElIcon,
   ElImage,
+  ElImageViewer,
   ElInfiniteScroll,
   ElInput,
   ElInputNumber,
