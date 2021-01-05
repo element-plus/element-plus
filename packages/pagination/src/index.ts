@@ -114,7 +114,31 @@ export default defineComponent({
       pageCount, next, nextCb, prev, prevCb,
       internalPageCount, userChangePageSize, emitChange,
       handleCurrentChange, getValidCurrentPage,
-    } = usePagination(props.keyValue)
+    } = usePagination(props.keyValue, () => {
+      watch(() => props.currentPage, val => currentPage.value = getValidCurrentPage(val), { immediate: true })
+      watch(() => props.pageCount, val => pageCount.value = val, { immediate: true })
+      watch(() => props.pageSize, val => pageSize.value = getValidPageSize(val), { immediate: true })
+      watch(() => props.total, val => total.value = val, { immediate: true })
+      watch(() => props.pageSizes, val => {
+        pageSizes.value = val.map(item => Number(item))
+      }, { immediate: true })
+
+      watch(currentPage, val => {
+        emit('update:currentPage', val)
+        emit('current-change', val)
+      })
+
+      watch(internalPageCount, val => {
+        const oldPage = currentPage.value
+        if (val > 0 && oldPage === 0) {
+          currentPage.value = 1
+        } else if (oldPage > val) {
+          currentPage.value = val === 0 ? 1 : val
+          userChangePageSize.value && emitChange()
+        }
+        userChangePageSize.value = false
+      })
+    })
 
     provide<string|symbol>('pagination-key', key)
 
@@ -136,29 +160,6 @@ export default defineComponent({
         emit('prev-click', currentPage.value)
       },
     ]
-    watch(() => props.currentPage, val => currentPage.value = getValidCurrentPage(val), { immediate: true })
-    watch(() => props.pageCount, val => pageCount.value = val, { immediate: true })
-    watch(() => props.pageSize, val => pageSize.value = getValidPageSize(val), { immediate: true })
-    watch(() => props.total, val => total.value = val, { immediate: true })
-    watch(() => props.pageSizes, val => {
-      pageSizes.value = val.map(item => Number(item))
-    }, { immediate: true })
-
-    watch(currentPage, val => {
-      emit('update:currentPage', val)
-      emit('current-change', val)
-    })
-
-    watch(internalPageCount, val => {
-      const oldPage = currentPage.value
-      if (val > 0 && oldPage === 0) {
-        currentPage.value = 1
-      } else if (oldPage > val) {
-        currentPage.value = val === 0 ? 1 : val
-        userChangePageSize.value && emitChange()
-      }
-      userChangePageSize.value = false
-    })
 
     return {
       internalCurrentPage: currentPage,

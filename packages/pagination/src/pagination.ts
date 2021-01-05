@@ -24,6 +24,7 @@ export interface IPaginationProps {
   background: boolean
   disabled: boolean
   hideOnSinglePage: boolean
+  keyValue: string
 }
 
 export interface IPaginationSetups {

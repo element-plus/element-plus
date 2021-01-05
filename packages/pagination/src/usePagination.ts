@@ -1,4 +1,4 @@
-import { reactive, ref, toRefs, computed, onUnmounted, nextTick, watch } from 'vue'
+import { reactive, ref, toRefs, computed, onUnmounted, nextTick } from 'vue'
 import { IPaginationProps, IPaginationHookCb } from './pagination'
 
 export type UsePaginationState = Pick<IPaginationProps, 'total' | 'pageCount' | 'currentPage' | 'pageSize' | 'pageSizes' | 'disabled'>
@@ -7,7 +7,7 @@ export type UsePaginationState = Pick<IPaginationProps, 'total' | 'pageCount' | 
 // symbol index not work see: https://github.com/Microsoft/TypeScript/issues/1863
 const globalState = {}
 
-export const usePagination = (key?: string | symbol | null) => {
+export const usePagination = (key: string | symbol | null, callbackFn?: () => void) => {
   let state: UsePaginationState = null
   const lastEmittedPage = ref(-1)
   const userChangePageSize = ref(false)
@@ -125,7 +125,9 @@ export const usePagination = (key?: string | symbol | null) => {
     return null
   })
 
-  watch(internalPageCount, val => state.pageCount = val)
+  if (typeof callbackFn === 'function') {
+    callbackFn()
+  }
 
   return {
     ...toRefs(state),
