@@ -6,7 +6,7 @@
 
 #### Bug fixes
 
-- Seperate ImageViewer component (#1199)
+- Separate ImageViewer component (#1199)
 - Fix YearPicker disabledDate bug (#1193)
 - Fix Dialog render bug (#1144)
 - Fix Tree deep watch data (#1188)
