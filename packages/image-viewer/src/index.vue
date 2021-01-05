@@ -2,14 +2,18 @@
   <transition name="viewer-fade">
     <div
       ref="wrapper"
-      tabindex="-1"
+      :tabindex="-1"
       class="el-image-viewer__wrapper"
-      :style="{ 'z-index': zIndex }"
+      :style="{ zIndex }"
     >
-      <div class="el-image-viewer__mask"></div>
+      <div
+        class="el-image-viewer__mask"
+        @click.self="hideOnClickModal && hide()"
+      >
+      </div>
       <!-- CLOSE -->
       <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
-        <i class="el-icon-circle-close"></i>
+        <i class="el-icon-close"></i>
       </span>
       <!-- ARROW -->
       <template v-if="!isSingle">
@@ -79,33 +83,38 @@ const Mode = {
 }
 
 const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
+const CLOSE_EVENT = 'close'
+const SWITCH_EVENT = 'switch'
+export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clocelise' | 'anticlocelise'
 
 export default defineComponent({
   name: 'ElImageViewer',
   props: {
     urlList: {
       type: Array as PropType<string[]>,
-      default: () => [],
+      default: [],
     },
     zIndex: {
       type: Number,
       default: 2000,
     },
-    onSwitch: {
-      type: Function,
-      default: () => ({}),
-    },
-    onClose: {
-      type: Function,
-      default: () => ({}),
-    },
     initialIndex: {
       type: Number,
       default: 0,
     },
+    infinite: {
+      type: Boolean,
+      default: true,
+    },
+    hideOnClickModal: {
+      type: Boolean,
+      default: false,
+    },
   },
 
-  setup(props) {
+  emits: [CLOSE_EVENT, SWITCH_EVENT],
+
+  setup(props, { emit }) {
     // init here
 
     let _keyDownHandler = null
@@ -114,7 +123,6 @@ export default defineComponent({
 
     const loading = ref(true)
     const index = ref(props.initialIndex)
-    const infinite = ref(true)
     const wrapper = ref(null)
     const img = ref(null)
     const mode = ref(Mode.CONTAIN)
@@ -148,9 +156,9 @@ export default defineComponent({
       const style = {
         transform: `scale(${scale}) rotate(${deg}deg)`,
         transition: enableTransition ? 'transform .3s' : '',
-        'margin-left': `${offsetX}px`,
-        'margin-top': `${offsetY}px`,
-      }
+        marginLeft: `${offsetX}px`,
+        marginTop: `${offsetY}px`,
+      } as CSSStyleDeclaration
       if (mode.value.name === Mode.CONTAIN.name) {
         style.maxWidth = style.maxHeight = '100%'
       }
@@ -159,11 +167,11 @@ export default defineComponent({
 
     function hide() {
       deviceSupportUninstall()
-      props.onClose()
+      emit(CLOSE_EVENT)
     }
 
     function deviceSupportInstall() {
-      _keyDownHandler = rafThrottle(e => {
+      _keyDownHandler = rafThrottle((e: KeyboardEvent) => {
         switch (e.code) {
           // ESC
           case EVENT_CODE.esc:
@@ -226,7 +234,7 @@ export default defineComponent({
       e.target.alt = t('el.image.error')
     }
 
-    function handleMouseDown(e) {
+    function handleMouseDown(e: MouseEvent) {
       if (loading.value || e.button !== 0) return
 
       const { offsetX, offsetY } = transform.value
@@ -270,18 +278,18 @@ export default defineComponent({
     }
 
     function prev() {
-      if (isFirst.value && !infinite.value) return
+      if (isFirst.value && !props.infinite) return
       const len = props.urlList.length
       index.value = (index.value - 1 + len) % len
     }
 
     function next() {
-      if (isLast.value && !infinite.value) return
+      if (isLast.value && !props.infinite) return
       const len = props.urlList.length
       index.value = (index.value + 1) % len
     }
 
-    function handleActions(action, options = {}) {
+    function handleActions(action: ImageViewerAction, options = {}) {
       if (loading.value) return
       const { zoomRate, rotateDeg, enableTransition } = {
         zoomRate: 0.2,
@@ -308,7 +316,6 @@ export default defineComponent({
       transform.value.enableTransition = enableTransition
     }
 
-
     watch(currentImg, () => {
       nextTick(() => {
         const $img = img.value
@@ -320,22 +327,20 @@ export default defineComponent({
 
     watch(index, val => {
       reset()
-      props.onSwitch(val)
+      emit(SWITCH_EVENT, val)
     })
 
     onMounted(() => {
       deviceSupportInstall()
       // add tabindex then wrapper can be focusable via Javascript
       // focus wrapper so arrow key can't cause inner scroll behavior underneath
-      wrapper.value?.focus()
+      wrapper.value?.focus?.()
     })
 
     return {
       index,
       wrapper,
       img,
-      infinite: true,
-      loading: false,
       isSingle,
       isFirst,
       isLast,
