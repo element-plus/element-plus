@@ -6,7 +6,6 @@ import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
 import { ClickOutside } from '@element-plus/directives'
 import { warn } from '@element-plus/utils/error'
 import { renderBlock, renderIf, PatchFlags } from '@element-plus/utils/vnode'
-import { stop } from '@element-plus/utils/dom'
 import usePopover, { SHOW_EVENT, HIDE_EVENT } from './usePopover'
 
 import type { PropType } from 'vue'
@@ -49,7 +48,7 @@ export default defineComponent({
   },
   emits,
   setup(props, ctx) {
-    if (process.env.NODE_EVN !== 'production' && props.visible && !ctx.slots.reference) {
+    if (process.env.NODE_ENV !== 'production' && props.visible && !ctx.slots.reference) {
       warn(NAME, `
         You cannot init popover without given reference
       `)
@@ -111,8 +110,6 @@ export default defineComponent({
     const _trigger = trigger ? renderTrigger(trigger, {
       ariaDescribedby: popperId,
       ref: 'triggerRef',
-      onMouseDown: stop,
-      onMouseUp: stop,
       ...events,
     }) : createCommentVNode('v-if', true)
 

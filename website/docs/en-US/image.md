@@ -140,28 +140,42 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 ```
 :::
 
-### Attributes
+### Image Attributes
 | Attribute | Description | Type  | Accepted values | Default   |
 |---------- |-------- |---------- |-------------  |-------- |
-| src | Image source, same as native | string | — | - |
-| fit | Indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) | string | fill / contain / cover / none / scale-down | - |
 | alt | Native alt | string | - | - |
-| referrer-policy | Native referrerPolicy | string | - | - |
+| fit | Indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) | string | fill / contain / cover / none / scale-down | - |
+| hide-on-click-modal | When enabling preview, use this flag to control whether clicking on backdrop can exit preview mode | boolean | true / false | false |
 | lazy | Whether to use lazy load | boolean | — | false |
-| scroll-container | The container to add scroll listener when using lazy load | string / HTMLElement | — | The nearest parent container whose overflow property is auto or scroll |
 | preview-src-list | allow big image preview | Array | — | - |
+| referrer-policy | Native referrerPolicy | string | - | - |
+| src | Image source, same as native | string | — | - |
+| scroll-container | The container to add scroll listener when using lazy load | string / HTMLElement | — | The nearest parent container whose overflow property is auto or scroll |
 | z-index | set image preview z-index | Number | — | 2000 |
 
-### Events
+### Image Events
 | Event Name | Description | Parameters |
 |---------- |-------- |---------- |
 | load | Same as native load | (e: Event) |
 | error | Same as native error | (e: Error) |
 
-### Slots
+### Image Slots
 | Slot Name | Description |
 |---------|-------------|
 | placeholder | Triggers when image load |
 | error | Triggers when image load failed |
 
+### ImageViewer Attributes
+| Attribute      | Description    | Type      | Acceptable Value    | Default   |
+|---------- |-------- |---------- |-------------  |-------- |
+| url-list | Preview link list | Array\<string\> | - | [] |
+| z-index  | Preview backdrop z-index | number / string |  int / string\<int\> | 2000 |
+| initial-index | The initial preview image index, less than or equal to the length of `url-list` | number | int | 0 |
+| infinite | Whether preview is infinite | boolean | true / false | true |
+| hide-on-click-modal | Whether user can emit close event when clicking backdrop | boolean | true / false | false |
 
+### ImageViewer Events
+| Event name      | Description    | Callback parameter      |
+|---------- |-------- |---------- |
+| close | Emitted when clicking on `X` button or when `hide-on-click-modal` enabled clicking on backdrop | None |
+| switch | When switching images | `(val: number)` switching target index |

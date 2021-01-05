@@ -55,8 +55,9 @@ import {
 import dayjs, { Dayjs } from 'dayjs'
 
 const datesInYear = year => {
-  const firstDay = dayjs().startOf('year')
-  const numOfDays = dayjs(year).isLeapYear() ? 366 : 365
+  const firstDay = dayjs(String(year)).startOf('year')
+  const lastDay = firstDay.endOf('year')
+  const numOfDays = lastDay.dayOfYear()
   return rangeArr(numOfDays).map(n => firstDay.add(n, 'day').toDate())
 }
 

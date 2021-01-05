@@ -181,7 +181,7 @@ export default defineComponent({
 
     watch(() => props.data, newVal => {
       store.value.setData(newVal)
-    })
+    }, { deep: true })
 
     watch(() => props.checkStrictly, newVal => {
       store.value.checkStrictly = newVal

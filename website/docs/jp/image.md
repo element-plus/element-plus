@@ -140,28 +140,42 @@ imgのネイティブ機能の他に、遅延ロード、カスタムプレー�
 ```
 :::
 
-### 属性
+### Image 属性
 | Attribute | Description | Type  | Accepted values | Default   |
 |---------- |-------- |---------- |-------------  |-------- |
-| src | image source、ネイティブと同じ | string | — | - |
-| fit | 画像のサイズをコンテナに合わせてどのように変更するかを指定します。[object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit)と同じ | string | fill / contain / cover / none / scale-down | - |
 | alt | ネイティブalt | string | - | - |
-| referrer-policy | ネイティブreferrerPolicy | string | - | - |
+| fit | 画像のサイズをコンテナに合わせてどのように変更するかを指定します。[object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit)と同じ | string | fill / contain / cover / none / scale-down | - |
+| hide-on-click-modal (needs translation) | When enabling preview, use this flag to control whether clicking on backdrop can exit preview mode | boolean | true / false | false |
 | lazy | 遅延ロードを使用するかどうか | boolean | — | false |
-| scroll-container | 遅延ロード時にスクロールリスナーを追加するコンテナ | string / HTMLElement | — | The nearest parent container whose overflow property is auto or scroll |
 | preview-src-list | 大きな画像のプレビューを許可する | Array | — | - |
+| referrer-policy | ネイティブreferrerPolicy | string | - | - |
+| src | image source、ネイティブと同じ | string | — | - |
+| scroll-container | 遅延ロード時にスクロールリスナーを追加するコンテナ | string / HTMLElement | — | The nearest parent container whose overflow property is auto or scroll |
 | z-index | セットイメージプレビュー z-index | Number | — | 2000 |
 
-### イベント
+### Image イベント
 | Event Name | Description | Parameters |
 |---------- |-------- |---------- |
 | load | ネイティブロードと同じ | (e: Event) |
 | error | ネイティブエラーと同じ | (e: Error) |
 
-### スロット
+### Image スロット
 | Slot Name | Description |
 |---------|-------------|
 | placeholder | 画像の読み込み時にトリガ |
 | error | 画像の読み込み失敗した場合のトリガー |
 
+### ImageViewer 属性
+| Attribute      | Description    | Type      | Acceptable Value    | Default   |
+|---------- |-------- |---------- |-------------  |-------- |
+| url-list | Preview link list | Array\<string\> | - | [] |
+| z-index  | Preview backdrop z-index | number / string |  int / string\<int\> | 2000 |
+| initial-index | The initial preview image index, less than or equal to the length of `url-list` | number | int | 0 |
+| infinite | Whether preview is infinite | boolean | true / false | true |
+| hide-on-click-modal | Whether user can emit close event when clicking backdrop | boolean | true / false | false |
 
+### ImageViewer イベント
+| Event name      | Description    | Callback parameter      |
+|---------- |-------- |---------- |
+| close | Emitted when clicking on `X` button or when `hide-on-click-modal` enabled clicking on backdrop | None |
+| switch | When switching images | `(val: number)` switching target index |

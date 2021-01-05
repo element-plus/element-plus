@@ -171,3 +171,4 @@
 | width | サークルプログレスバーのキャンバス幅 | number | — | 126 |
 | show-text | パーセンテージ表示の有無 | boolean | — | true |
 | stroke-linecap  | 終点でのサークル/ダッシュボード型の形状 | string | butt/round/square | round |
+| format  | カスタムテキスト形式 | function(percentage) | — | — |
