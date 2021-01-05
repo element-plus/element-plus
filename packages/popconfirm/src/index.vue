@@ -1,7 +1,7 @@
 <template>
   <el-popper
     v-model:visible="visible"
-    :trigger="['click']"
+    trigger="click"
     effect="light"
     popper-class="el-popover"
     append-to-body
