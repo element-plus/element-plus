@@ -1,7 +1,7 @@
 {
   "name": "element-plus",
   "private": true,
-  "version": "1.0.1-beta.11",
+  "version": "0.0.0-development",
   "scripts": {
     "cz": "npx git-cz",
     "test": "jest",

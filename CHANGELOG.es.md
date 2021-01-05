@@ -1,5 +1,19 @@
 ## Changelog
 
+### 1.0.1-beta.21
+
+*2021-01-05*
+
+#### Bug fixes
+
+- Seperate ImageViewer component (#1199)
+- Fix YearPicker disabledDate bug (#1193)
+- Fix Dialog render bug (#1144)
+- Fix Tree deep watch data (#1188)
+- Fix Popper transition lost bug (#1190)
+- Fix Popover clickoutside not working bug (#1171)
+- Fix Textarea line-height style bug (#1181)
+
 ### 1.0.1-beta.19
 
 *2021-01-02*
