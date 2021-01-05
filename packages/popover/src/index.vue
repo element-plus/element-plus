@@ -97,7 +97,7 @@ export default defineComponent({
       onMouseLeave: onPopperMouseLeave,
       onAfterEnter,
       onAfterLeave,
-      stopPopperMouseEvent: true,
+      stopPopperMouseEvent: false,
     }, [
       title,
       content,
