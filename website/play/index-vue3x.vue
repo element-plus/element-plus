@@ -2,12 +2,11 @@
   <div>
     <el-pagination
       :page-size="20"
-      layout="prev, pager, next"
       :total="1000"
+      layout="prev, pager, next"
     />
 
     <el-pagination
-      :page-size="10"
       layout="prev, pager, next"
       :key-value="pagerKey"
     />
@@ -15,7 +14,7 @@
 </template>
 
 <script>
-import { defineComponent, watchEffect, nextTick } from 'vue'
+import { defineComponent, watchEffect } from 'vue'
 import { usePagination } from '@element-plus/pagination/src/usePagination'
 
 export default defineComponent({
@@ -24,11 +23,9 @@ export default defineComponent({
     const { currentPage, total, pageSize } = usePagination(pagerKey)
 
     // Execute after initializing the props
-    nextTick(() => {
-      currentPage.value = 2
-      pageSize.value = 5
-      total.value = 200
-    })
+    currentPage.value = 2
+    pageSize.value = 5
+    total.value = 400
 
     watchEffect(() => {
       console.log(currentPage.value)

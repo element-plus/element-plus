@@ -7,7 +7,6 @@
     />
 
     <el-pagination
-      :page-size="10"
       layout="prev, pager, next"
       :key-value="pagerKey"
     />
@@ -23,8 +22,7 @@ export default {
       pagerKey: 'newPager',
     }
   },
-  // Execute after initializing the props
-  mounted () {
+  created () {
     const { currentPage, total, pageSize } = usePagination(this.pagerKey)
 
     currentPage.value = 2

@@ -1,13 +1,9 @@
 import {
   defineComponent,
   h,
-  // ref,
-  // computed,
   watch,
-  // nextTick,
   provide,
 } from 'vue'
-// import { IPagination } from './pagination'
 
 import Prev from './prev.vue'
 import Next from './next.vue'
@@ -114,7 +110,11 @@ export default defineComponent({
       pageCount, next, nextCb, prev, prevCb,
       internalPageCount, userChangePageSize, emitChange,
       handleCurrentChange, getValidCurrentPage,
-    } = usePagination(props.keyValue, () => {
+    } = usePagination(props.keyValue)
+
+    provide<string|symbol>('pagination-key', key)
+
+    if (!props.keyValue) {
       watch(() => props.currentPage, val => currentPage.value = getValidCurrentPage(val), { immediate: true })
       watch(() => props.pageCount, val => pageCount.value = val, { immediate: true })
       watch(() => props.pageSize, val => pageSize.value = getValidPageSize(val), { immediate: true })
@@ -122,25 +122,23 @@ export default defineComponent({
       watch(() => props.pageSizes, val => {
         pageSizes.value = val.map(item => Number(item))
       }, { immediate: true })
+    }
 
-      watch(currentPage, val => {
-        emit('update:currentPage', val)
-        emit('current-change', val)
-      })
-
-      watch(internalPageCount, val => {
-        const oldPage = currentPage.value
-        if (val > 0 && oldPage === 0) {
-          currentPage.value = 1
-        } else if (oldPage > val) {
-          currentPage.value = val === 0 ? 1 : val
-          userChangePageSize.value && emitChange()
-        }
-        userChangePageSize.value = false
-      })
+    watch(currentPage, val => {
+      emit('update:currentPage', val)
+      emit('current-change', val)
     })
 
-    provide<string|symbol>('pagination-key', key)
+    watch(internalPageCount, val => {
+      const oldPage = currentPage.value
+      if (val > 0 && oldPage === 0) {
+        currentPage.value = 1
+      } else if (oldPage > val) {
+        currentPage.value = val === 0 ? 1 : val
+        userChangePageSize.value && emitChange()
+      }
+      userChangePageSize.value = false
+    })
 
     pageSizeCb.value = [
       () => {
@@ -168,16 +166,6 @@ export default defineComponent({
       prev,
       next,
       handleCurrentChange,
-      // internalCurrentPage,
-      // internalPageSize,
-      // lastEmittedPage,
-      // userChangePageSize,
-      // internalPageCount,
-
-      // getValidCurrentPage,
-
-      // emitChange,
-      // handleCurrentChange,
     }
   },
   render() {

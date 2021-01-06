@@ -7,7 +7,7 @@ export type UsePaginationState = Pick<IPaginationProps, 'total' | 'pageCount' | 
 // symbol index not work see: https://github.com/Microsoft/TypeScript/issues/1863
 const globalState = {}
 
-export const usePagination = (key: string | symbol | null, callbackFn?: () => void) => {
+export const usePagination = (key: string | symbol | null) => {
   let state: UsePaginationState = null
   const lastEmittedPage = ref(-1)
   const userChangePageSize = ref(false)
@@ -93,8 +93,6 @@ export const usePagination = (key: string | symbol | null, callbackFn?: () => vo
   function handleSizesChange(val: number) {
     userChangePageSize.value = true
     state.pageSize = val
-    // emit('update:pageSize', val)
-    // emit('size-change', val)
     execlCallBack(state.pageSizeCb)
   }
 
@@ -102,7 +100,6 @@ export const usePagination = (key: string | symbol | null, callbackFn?: () => vo
     if (state.disabled) return
     const newVal = state.currentPage - 1
     state.currentPage = getValidCurrentPage(newVal)
-    // emit('prev-click', state.currentPage
     execlCallBack(state.prevCb)
     emitChange()
   }
@@ -111,7 +108,6 @@ export const usePagination = (key: string | symbol | null, callbackFn?: () => vo
     if (state.disabled) return
     const newVal = state.currentPage + 1
     state.currentPage = getValidCurrentPage(newVal)
-    // emit('next-click', state.currentPage)
     execlCallBack(state.nextCb)
     emitChange()
   }
@@ -124,10 +120,6 @@ export const usePagination = (key: string | symbol | null, callbackFn?: () => vo
     }
     return null
   })
-
-  if (typeof callbackFn === 'function') {
-    callbackFn()
-  }
 
   return {
     ...toRefs(state),
