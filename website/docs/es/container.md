@@ -2,7 +2,7 @@
 Componentes contenedores para iniciar una estructura básica de un sitio:
 
 `<el-container>`: Contenedor. Cuando este elemento se anida con un `<el-header>` o `<el-footer>`, todos los elementos secundarios se organizan verticalmente.
-De lo contrario, de forma horizontal. 
+De lo contrario, de forma horizontal.
 
 `<el-header>`: Contenedor para cabeceras.
 
@@ -20,57 +20,50 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
 
 :::demo
 ```html
-<el-container>
-  <el-header>Cabecera</el-header>
-  <el-main>Principal</el-main>
-</el-container>
-
-<el-container>
-  <el-header>Cabecera</el-header>
-  <el-main>Principal</el-main>
-  <el-footer>Pie de página</el-footer>
-</el-container>
-
-<el-container>
-  <el-aside width="200px">Barra lateral</el-aside>
-  <el-main>Principal</el-main>
-</el-container>
-
-<el-container>
-  <el-header>Cabecera</el-header>
-  <el-container>
-    <el-aside width="200px">Barra lateral</el-aside>
-    <el-main>Principal</el-main>
-  </el-container>
-</el-container>
-
-<el-container>
-  <el-header>Cabecera</el-header>
-  <el-container>
-    <el-aside width="200px">Barra lateral</el-aside>
-    <el-container>
-      <el-main>Principal</el-main>
-      <el-footer>Pie de página</el-footer>
-    </el-container>
-  </el-container>
-</el-container>
-
-<el-container>
-  <el-aside width="200px">Barra lateral</el-aside>
+<div class="common-layout">
   <el-container>
     <el-header>Cabecera</el-header>
     <el-main>Principal</el-main>
   </el-container>
-</el-container>
 
-<el-container>
-  <el-aside width="200px">Barra lateral</el-aside>
   <el-container>
     <el-header>Cabecera</el-header>
     <el-main>Principal</el-main>
     <el-footer>Pie de página</el-footer>
   </el-container>
-</el-container>
+
+  <el-container>
+    <el-aside width="200px">Barra lateral</el-aside>
+    <el-main>Principal</el-main>
+  </el-container>
+
+  <el-container>
+    <el-header>Cabecera</el-header>
+    <el-container>
+      <el-aside width="200px">Barra lateral</el-aside>
+      <el-main>Principal</el-main>
+    </el-container>
+  </el-container>
+
+  <el-container>
+    <el-header>Cabecera</el-header>
+    <el-container>
+      <el-aside width="200px">Barra lateral</el-aside>
+      <el-container>
+        <el-main>Principal</el-main>
+        <el-footer>Pie de página</el-footer>
+      </el-container>
+    </el-container>
+  </el-container>
+
+  <el-container>
+    <el-aside width="200px">Barra lateral</el-aside>
+    <el-container>
+      <el-header>Cabecera</el-header>
+      <el-main>Principal</el-main>
+    </el-container>
+  </el-container>
+</div>
 
 <style>
   .el-header, .el-footer {
@@ -79,30 +72,30 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
     text-align: center;
     line-height: 60px;
   }
-  
+
   .el-aside {
     background-color: #D3DCE6;
     color: #333;
     text-align: center;
     line-height: 200px;
   }
-  
+
   .el-main {
     background-color: #E9EEF3;
     color: #333;
     text-align: center;
     line-height: 160px;
   }
-  
+
   body > .el-container {
     margin-bottom: 40px;
   }
-  
+
   .el-container:nth-child(5) .el-aside,
   .el-container:nth-child(6) .el-aside {
     line-height: 260px;
   }
-  
+
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
   }
@@ -164,7 +157,7 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
       </el-submenu>
     </el-menu>
   </el-aside>
-  
+
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
       <el-dropdown>
@@ -179,7 +172,7 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
       </el-dropdown>
       <span>Tom</span>
     </el-header>
-    
+
     <el-main>
       <el-table :data="tableData">
         <el-table-column prop="date" label="Date" width="140">
@@ -199,7 +192,7 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
     color: #333;
     line-height: 60px;
   }
-  
+
   .el-aside {
     color: #333;
   }
