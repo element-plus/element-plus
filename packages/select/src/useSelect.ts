@@ -192,19 +192,19 @@ export const useSelect = (props, states: States, ctx) => {
 
       if (props.filterable) {
         states.query = props.remote ? '' : states.selectedLabel
-        handleQueryChange(states.query)
         if (props.multiple) {
           input.value.focus()
         } else {
-          if (!props.remote) {
-            states.selectEmitter.emit('elOptionQueryChange', '')
-            states.selectEmitter.emit('elOptionGroupQueryChange')
-          }
-
           if (states.selectedLabel) {
             states.currentPlaceholder = states.selectedLabel
             states.selectedLabel = ''
           }
+        }
+        if (!props.multiple && !props.remote) {
+          states.selectEmitter.emit('elOptionQueryChange', '')
+          states.selectEmitter.emit('elOptionGroupQueryChange')
+        } else {
+          handleQueryChange(states.query)
         }
       }
     }
