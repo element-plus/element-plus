@@ -22,7 +22,6 @@ export default defineComponent({
     const pagerKey = 'newPager'
     const { currentPage, total, pageSize } = usePagination(pagerKey)
 
-    // Execute after initializing the props
     currentPage.value = 2
     pageSize.value = 5
     total.value = 400

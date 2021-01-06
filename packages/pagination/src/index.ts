@@ -112,7 +112,7 @@ export default defineComponent({
       handleCurrentChange, getValidCurrentPage,
     } = usePagination(props.keyValue)
 
-    provide<string|symbol>('pagination-key', key)
+    provide<string | symbol>('pagination-key', key)
 
     if (!props.keyValue) {
       watch(() => props.currentPage, val => currentPage.value = getValidCurrentPage(val), { immediate: true })
