@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <li
     :class="[
       'el-submenu',
@@ -85,7 +85,7 @@
       </ul>
     </el-collapse-transition>
   </li>
-</template>
+</template> -->
 
 <script lang="ts">
 import mitt from 'mitt'
@@ -100,6 +100,11 @@ import {
   onMounted,
   onBeforeMount,
   onBeforeUnmount,
+  withDirectives,
+  Fragment,
+  Transition,
+  vShow,
+  h,
 } from 'vue'
 import ElCollapseTransition from '@element-plus/collapse-transition'
 import { ISubmenuProps, RootMenuProvider, SubMenuProvider } from './menu'
@@ -109,7 +114,6 @@ import ElPopper from '@element-plus/popper'
 export default defineComponent({
   name: 'ElSubmenu',
   componentName: 'ElSubmenu',
-  components: { ElCollapseTransition, ElPopper },
   props: {
     index: {
       type: String,
@@ -428,6 +432,106 @@ export default defineComponent({
       popperVnode,
       verticalTitleRef,
     }
+  },
+  render() {
+
+    const titleTag = [
+      this.$slots.title?.(),
+      h('i', {
+        class: ['el-submenu__icon-arrow', this.submenuTitleIcon],
+      }, null)]
+    const ulStyle = {
+      backgroundColor: this.rootProps.backgroundColor || '',
+    }
+    // this render function is only used for bypass `Vue`'s compiler caused patching issue.
+    // temporaryly mark ElPopper as any due to type inconsistency.
+    // TODO: correct popper's type.
+    const child = this.isMenuPopup
+      ? h(ElPopper as any, {
+        ref: 'popperVNode',
+        manualMode: true,
+        visible: this.opened,
+        'onUpdate:visible': (val: boolean) => this.opened = val,
+        effect: 'light',
+        pure: true,
+        offset: 6,
+        showArrow: false,
+        popperClass: this.popperClass,
+        placement: this.data.currentPlacement,
+        appendToBody: this.appendToBody,
+      }, {
+        default: () => h(
+          Transition,
+          {
+            name: this.menuTransitionName,
+          },
+          {
+            default: () => withDirectives(
+              h('div', {
+                ref: 'menu',
+                class: [
+                  `el-menu--${this.mode}`,
+                  this.popperClass,
+                ],
+                onMouseenter: ($event: Event) => this.handleMouseenter($event, 100),
+                onMouseleave: () => this.handleMouseleave(true),
+                onFocus: ($event: Event) => this.handleMouseenter($event, 100),
+              }, [
+                h('ul', {
+                  class: [
+                    'el-menu el-menu--popup',
+                    `el-menu--popup-${this.data.currentPlacement}`,
+                  ],
+                  style: ulStyle,
+                }, [this.$slots.default?.()]),
+              ]),
+              [[vShow, this.opened]]),
+          },
+        ),
+        trigger: () => h('div', {
+          class: 'el-submenu__title',
+          style: [this.paddingStyle, this.titleStyle, { backgroundColor: this.backgroundColor }],
+          onClick: this.handleClick,
+          onMouseenter: this.handleTitleMouseenter,
+          onMouseleave: this.handleTitleMouseleave,
+        }, titleTag),
+      })
+      : h(Fragment, {}, [
+        h('div', {
+          class: 'el-submenu__title',
+          style: [this.paddingStyle, this.titleStyle, { backgroundColor: this.backgroundColor }],
+          ref: 'verticalTitleRef',
+          onClick: this.handleClick,
+          onMouseenter: this.handleTitleMouseenter,
+          onMouseleave: this.handleTitleMouseleave,
+        }, titleTag),
+        h(ElCollapseTransition, {}, {
+          default: () => withDirectives(
+            h('ul', {
+              role: 'menu',
+              class: 'el-menu el-menu--inline',
+              style: ulStyle,
+            }, [this.$slots.default?.()]),
+            [[vShow, this.opened]]),
+        }),
+      ])
+
+    return h('li', {
+      class: [
+        'el-submenu',
+        {
+          'is-active': this.active,
+          'is-opened': this.opened,
+          'is-disabled': this.disabled,
+        },
+      ],
+      role: 'menuitem',
+      ariaHaspopup: true,
+      ariaExpanded: this.opened,
+      onMouseenter: this.handleMouseenter,
+      onMouseleave: () => this.handleMouseleave(true),
+      onFocus: this.handleMouseenter,
+    }, [child])
   },
 })
 </script>
