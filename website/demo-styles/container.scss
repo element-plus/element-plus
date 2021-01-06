@@ -9,7 +9,7 @@
   color: #333;
 }
 
-#chang-jian-ye-mian-bu-ju + .demo-container {
+.demo-container .common-layout {
   .el-header,
   .el-footer {
     text-align: center;
@@ -28,7 +28,7 @@
     line-height: 160px;
   }
 
-  & > .source  > div > .el-container {
+  .el-container {
     margin-bottom: 40px;
     &:last-child {
       margin-bottom: 0;
