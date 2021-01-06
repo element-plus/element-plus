@@ -29,7 +29,7 @@ Use `image-size` prop to control image size.
 :::demo
 
 ```html
-<el-empty :image-size="220"></el-empty>
+<el-empty :image-size="200"></el-empty>
 ```
 :::
 

@@ -3,7 +3,7 @@
     <div class="el-empty__image" :style="imageStyle">
       <img v-if="image" :src="image" ondragstart="return false">
       <slot v-else-if="$slots.image" name="image"></slot>
-      <img-placeholder v-else />
+      <img-empty v-else />
     </div>
     <div class="el-empty__description">
       <slot v-if="$slots.description" name="description"></slot>
@@ -17,13 +17,13 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import ImgPlaceholder from './img-placeholder.vue'
+import ImgEmpty from './img-empty.vue'
 import { t } from '@element-plus/locale'
 
 export default defineComponent({
   name: 'ElEmpty',
   components: {
-    [ImgPlaceholder.name]: ImgPlaceholder,
+    [ImgEmpty.name]: ImgEmpty,
   },
   props: {
     image: {
