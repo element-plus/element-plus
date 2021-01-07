@@ -2,8 +2,9 @@
   <div class="el-empty">
     <div class="el-empty__image" :style="imageStyle">
       <img v-if="image" :src="image" ondragstart="return false">
-      <slot v-else-if="$slots.image" name="image"></slot>
-      <img-empty v-else />
+      <slot v-else name="image">
+        <img-empty />
+      </slot>
     </div>
     <div class="el-empty__description">
       <slot v-if="$slots.description" name="description"></slot>

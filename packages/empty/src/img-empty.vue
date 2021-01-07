@@ -1,7 +1,5 @@
 <template>
   <svg
-    width="79px"
-    height="86px"
     viewBox="0 0 79 86"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +42,7 @@
       fill="none"
       fill-rule="evenodd"
     >
-      <g id="B-类空状态通用插图" transform="translate(-1268.000000, -535.000000)">
+      <g id="B-type" transform="translate(-1268.000000, -535.000000)">
         <g id="Group-2" transform="translate(1268.000000, 535.000000)">
           <path
             id="Oval-Copy-2"
