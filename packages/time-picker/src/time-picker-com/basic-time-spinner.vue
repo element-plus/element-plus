@@ -113,10 +113,10 @@ export default defineComponent({
   setup(props, ctx) {
     // data
     let isScrolling = false
-    const debouncedResetScroll = debounce(() => {
+    const debouncedResetScroll = debounce(type => {
       isScrolling = false
-      adjustSpinners()
-    }, 100)
+      adjustCurrentSpinner(type)
+    }, 200)
     const currentScrollbar = ref(null)
     const listHoursRef: Ref<Nullable<HTMLElement>> = ref(null)
     const listMinutesRef: Ref<Nullable<HTMLElement>> = ref(null)
@@ -292,7 +292,7 @@ export default defineComponent({
 
     const handleScroll = type => {
       isScrolling = true
-      debouncedResetScroll()
+      debouncedResetScroll(type)
       const value = Math.min(Math.round((listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap').scrollTop - (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) + 3) / typeItemHeight(type)), (type === 'hours' ? 23 : 59))
       modifyDateField(type, value)
     }
