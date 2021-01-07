@@ -1,5 +1,26 @@
 ## Changelog
 
+### 1.0.1-beta.23
+
+#### New feature
+- New component `ElEmpty` (#1210)
+#### Bug fixes
+- Fix dropdown menu stop-popper-mouse-event (#1219)
+- Fix menu item group not working (#1217)
+
+#### Chore updates
+- Bumping dep versions (#1214)
+### 1.0.1-beta.22
+
+*2021-01-06*
+#### Bug fixes
+
+- Fix menu item not expanding correctly (#1212)
+- Fix popover hijacking mouse event bug (#1201)
+#### Chore updates
+- Update contain doc style (#1204)
+
+
 ### 1.0.1-beta.21
 
 *2021-01-05*
