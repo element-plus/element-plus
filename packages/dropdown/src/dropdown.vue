@@ -10,6 +10,7 @@
     popper-class="el-dropdown__popper"
     append-to-body
     transition="el-zoom-in-top"
+    :stop-popper-mouse-event="false"
     :gpu-acceleration="false"
   >
     <template #default>
