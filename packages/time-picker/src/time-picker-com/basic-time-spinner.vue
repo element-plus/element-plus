@@ -222,7 +222,6 @@ export default defineComponent({
     const adjustSpinner = (type, value) => {
       if (props.arrowControl) return
       const el = listRefsMap[type]
-      if (isScrolling) return
       if (el.value) {
         el.value.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(0, value * typeItemHeight(type))
       }
@@ -342,7 +341,10 @@ export default defineComponent({
       props.disabledSeconds,
     )
 
-    watch(() => props.spinnerDate, adjustSpinners)
+    watch(() => props.spinnerDate, () => {
+      if (isScrolling) return
+      adjustSpinners()
+    })
 
     return {
       getRefId,
