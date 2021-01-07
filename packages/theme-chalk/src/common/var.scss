@@ -6,12 +6,12 @@
 
 /* Transition
 -------------------------- */
-$--all-transition: all .3s cubic-bezier(.645,.045,.355,1) !default;
+$--all-transition: all .3s cubic-bezier(.645, .045, .355, 1) !default;
 $--fade-transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) !default;
 $--fade-linear-transition: opacity 200ms linear !default;
 $--md-fade-transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) !default;
-$--border-transition-base: border-color .2s cubic-bezier(.645,.045,.355,1) !default;
-$--color-transition-base: color .2s cubic-bezier(.645,.045,.355,1) !default;
+$--border-transition-base: border-color .2s cubic-bezier(.645, .045, .355, 1) !default;
+$--color-transition-base: color .2s cubic-bezier(.645, .045, .355, 1) !default;
 
 /* Color
 -------------------------- */
@@ -65,7 +65,7 @@ $--border-color-lighter: #EBEEF5 !default;
 /// color|1|Border Color|3
 $--border-color-extra-light: #F2F6FC !default;
 
-// Variants 
+// Variants
 
 $--heading-padding: 20px 0 !default;
 
@@ -216,7 +216,6 @@ $--checkbox-button-checked-background-color: $--color-primary !default;
 $--checkbox-button-checked-font-color: $--color-white !default;
 /// color||Color|0
 $--checkbox-button-checked-border-color: $--color-primary !default;
-
 
 
 /* Radio
@@ -487,8 +486,8 @@ $--cascader-menu-radius: $--border-radius-base !default;
 $--cascader-menu-border: solid 1px $--border-color-light !default;
 $--cascader-menu-shadow: $--box-shadow-light !default;
 $--cascader-node-background-hover: $--background-color-base !default;
-$--cascader-node-color-disabled:$--color-text-placeholder !default;
-$--cascader-color-empty:$--color-text-placeholder !default;
+$--cascader-node-color-disabled: $--color-text-placeholder !default;
+$--cascader-color-empty: $--color-text-placeholder !default;
 $--cascader-tag-background: #f0f2f5;
 
 /* Group
@@ -973,6 +972,13 @@ $--avatar-small-size: 28px !default;
 
 $--skeleton-color: #f2f2f2;
 $--skeleton-to-color: #e6e6e6;
+
+/* Empty
+-------------------------- */
+$--empty-padding: 40px 0 !default;
+$--empty-image-width: 160px !default;
+$--empty-description-margin-top: 20px !default;
+$--empty-bottom-margin-top: 20px !default;
 
 /* Break-point
 --------------------------*/
