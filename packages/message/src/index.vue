@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-message-fade">
+  <transition name="el-message-fade" @after-leave="handleAfterLeave">
     <div
       v-show="visible"
       :id="id"
@@ -99,7 +99,6 @@ export default defineComponent({
     closed(newVal: boolean) {
       if (newVal) {
         this.visible = false
-        on(this.$el, 'transitionend', this.destroyElement)
       }
     },
   },
@@ -112,9 +111,11 @@ export default defineComponent({
     off(document, 'keydown', this.keydown)
   },
   methods: {
+    handleAfterLeave() {
+      this.destroyElement()
+    },
     destroyElement() {
       this.visible = false
-      off(this.$el, 'transitionend', this.destroyElement)
       this.onClose()
     },
     // start counting down to destroy message instance
