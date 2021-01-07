@@ -64,6 +64,7 @@ import {
   PropType,
 } from 'vue'
 import { Dayjs } from 'dayjs'
+import debounce from 'lodash/debounce'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/scrollbar'
 import { getTimeLists } from './useTimePicker'
@@ -111,6 +112,11 @@ export default defineComponent({
 
   setup(props, ctx) {
     // data
+    let isScrolling = false
+    const debouncedResetScroll = debounce(() => {
+      isScrolling = false
+      adjustSpinners()
+    }, 100)
     const currentScrollbar = ref(null)
     const listHoursRef: Ref<Nullable<HTMLElement>> = ref(null)
     const listMinutesRef: Ref<Nullable<HTMLElement>> = ref(null)
@@ -216,6 +222,7 @@ export default defineComponent({
     const adjustSpinner = (type, value) => {
       if (props.arrowControl) return
       const el = listRefsMap[type]
+      if (isScrolling) return
       if (el.value) {
         el.value.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(0, value * typeItemHeight(type))
       }
@@ -284,6 +291,8 @@ export default defineComponent({
     }
 
     const handleScroll = type => {
+      isScrolling = true
+      debouncedResetScroll()
       const value = Math.min(Math.round((listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap').scrollTop - (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) + 3) / typeItemHeight(type)), (type === 'hours' ? 23 : 59))
       modifyDateField(type, value)
     }
