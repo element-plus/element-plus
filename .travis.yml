@@ -1,0 +1,23 @@
+language: node_js
+cache:
+  directories:
+    - node_modules
+node_js:
+  - '12'
+install:
+  - yarn bootstrap
+script:
+  - yarn website-build
+  - export DEPLOY_DOMAIN=https://preview-${TRAVIS_PULL_REQUEST}-element-ui.surge.sh
+  - echo "Deploy to ${DEPLOY_DOMAIN}"
+  - npx surge --project ./website-dist --domain $DEPLOY_DOMAIN
+branches:
+  only:
+    - dev
+after_success:
+  - echo "Deploy to ${DEPLOY_DOMAIN} SUCCESS"
+  - curl --location --request POST ${BOT_URL} \
+   --header 'Content-Type: application/json' \
+   --data-raw '{"botAction": "Preview", "pr": ${TRAVIS_PULL_REQUEST}, "url": "${DEPLOY_DOMAIN}"}'
+after_failure:
+  - echo "Deploy to ${DEPLOY_DOMAIN} FAILURE"

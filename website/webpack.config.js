@@ -22,7 +22,6 @@ const config = {
     publicPath: '/',
     filename: isProd ? '[name].[hash].js' : '[name].js',
   },
-  stats: 'verbose',
   module: {
     rules: [
       {
