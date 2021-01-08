@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="banner">
+      BANNER
       <div class="banner-desc">
         <h1>{{ langConfig[1] }}</h1>
         <p>{{ langConfig[2] }}</p>
