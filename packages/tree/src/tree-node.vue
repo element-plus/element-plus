@@ -133,7 +133,10 @@ export default defineComponent({
     }
 
     const childrenKey = tree.props['children'] || 'children'
-    watch(() => props.node.data[childrenKey], () => {
+    watch(() => {
+      const children = props.node.data[childrenKey]
+      return children && [...children]
+    }, () => {
       props.node.updateChildren()
     })
 
