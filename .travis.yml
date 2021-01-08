@@ -7,7 +7,7 @@ install:
 script:
   - export DEPLOY_DOMAIN=https://preview-${TRAVIS_PULL_REQUEST}-element-ui.surge.sh
   - echo "Deploy to ${DEPLOY_DOMAIN}"
-  - curl ${BOT_URL} -v
+  - curl "${BOT_URL}" -v
 branches:
   only:
     - dev
