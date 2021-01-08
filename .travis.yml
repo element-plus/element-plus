@@ -9,12 +9,12 @@ install:
 script:
   - yarn website-build
   - export DEPLOY_DOMAIN=https://preview-${TRAVIS_PULL_REQUEST}-element-ui.surge.sh
-  - echo "Deploy to $DEPLOY_DOMAIN"
+  - echo "Deploy to ${DEPLOY_DOMAIN}"
   - npx surge --project ./website-dist --domain $DEPLOY_DOMAIN
 branches:
   only:
     - dev
 after_success:
-  - echo "Deploy to $DEPLOY_DOMAIN SUCCESS"
+  - echo "Deploy to ${DEPLOY_DOMAIN} SUCCESS"
 after_failure:
-  - echo "Deploy to $DEPLOY_DOMAIN FAILURE"
+  - echo "Deploy to ${DEPLOY_DOMAIN} FAILURE"
