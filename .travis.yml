@@ -7,9 +7,7 @@ install:
 script:
   - export DEPLOY_DOMAIN=https://preview-${TRAVIS_PULL_REQUEST}-element-ui.surge.sh
   - echo "Deploy to ${DEPLOY_DOMAIN}"
-  - curl -X POST -H 'Content-Type:application/json' ${BOT_URL}
-  - yarn website-build
-  - npx surge --project ./website-dist --domain $DEPLOY_DOMAIN
+  - curl -X POST -H 'Content-Type:application/json' --url ${BOT_URL}
 branches:
   only:
     - dev
