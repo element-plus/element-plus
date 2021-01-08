@@ -9,7 +9,6 @@ install:
   - yarn bootstrap
 script:
   - yarn website-build
-  - codecov
   - export DEPLOY_DOMAIN=https://preview-${TRAVIS_PULL_REQUEST}-element-ui.surge.sh
   - echo "Deploy to $DEPLOY_DOMAIN"
   - npx surge --project ./website-dist --domain $DEPLOY_DOMAIN
