@@ -1,7 +1,6 @@
 language: node_js
 cache:
   directories:
-    - ~/.npm
     - node_modules
 node_js:
   - '12'
@@ -15,3 +14,7 @@ script:
 branches:
   only:
     - dev
+after_success:
+  - echo "Deploy to $DEPLOY_DOMAIN SUCCESS"
+after_failure:
+  - echo "Deploy to $DEPLOY_DOMAIN FAILURE"
