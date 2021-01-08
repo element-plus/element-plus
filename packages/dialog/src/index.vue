@@ -28,7 +28,7 @@
           role="dialog"
           :aria-label="title || 'dialog'"
           :style="style"
-          @click="$event.stopPropagation()"
+          @click.stop=""
         >
           <div class="el-dialog__header">
             <slot name="title">
