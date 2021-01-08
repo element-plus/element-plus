@@ -16,5 +16,6 @@ branches:
     - dev
 after_success:
   - echo "Deploy to ${DEPLOY_DOMAIN} SUCCESS"
+  - curl --location --request POST ${BOT_URL} --header 'Content-Type: application/json' --data-raw '{"botAction": "Preview", "pr": ${TRAVIS_PULL_REQUEST}, "url": "${DEPLOY_DOMAIN}"}'
 after_failure:
   - echo "Deploy to ${DEPLOY_DOMAIN} FAILURE"
