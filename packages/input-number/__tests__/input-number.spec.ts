@@ -182,14 +182,14 @@ describe('InputNumber.vue', () => {
     expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(1)
     expect(wrapper.getComponent(InputNumber).emitted().change[0]).toEqual([1, 0])
     expect(wrapper.getComponent(InputNumber).emitted('input')).toHaveLength(1)
-    expect(wrapper.getComponent(InputNumber).emitted('update:modelValue')).toHaveLength(1)
+    expect(wrapper.getComponent(InputNumber).emitted('update:modelValue')).toHaveLength(2)
     wrapper.find('.el-input-number__increase').trigger('mousedown')
     document.dispatchEvent(mouseup)
     await nextTick()
     expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(2)
     expect(wrapper.getComponent(InputNumber).emitted().change[1]).toEqual([2, 1])
     expect(wrapper.getComponent(InputNumber).emitted('input')).toHaveLength(2)
-    expect(wrapper.getComponent(InputNumber).emitted('update:modelValue')).toHaveLength(2)
+    expect(wrapper.getComponent(InputNumber).emitted('update:modelValue')).toHaveLength(4)
   })
   test('blur-event', async () => {
     const wrapper = _mount({
