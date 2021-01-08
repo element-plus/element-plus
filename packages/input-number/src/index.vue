@@ -270,6 +270,7 @@ export default defineComponent({
         if (newVal <= props.min) newVal = props.min
         data.currentValue = newVal
         data.userInput = null
+        emit('update:modelValue', newVal)
       },
       { immediate: true },
     )
