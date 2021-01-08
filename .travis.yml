@@ -11,11 +11,10 @@ script:
   - export DEPLOY_DOMAIN=https://preview-${TRAVIS_PULL_REQUEST}-element-ui.surge.sh
   - echo "Deploy to ${DEPLOY_DOMAIN}"
   - npx surge --project ./website-dist --domain $DEPLOY_DOMAIN
-  - curl --location --request POST ${BOT_URL} --header 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":${TRAVIS_PULL_REQUEST}, "url":"${DEPLOY_DOMAIN}"}'
+  - curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":${TRAVIS_PULL_REQUEST}, "url":"${DEPLOY_DOMAIN}"}'
 branches:
   only:
     - dev
 
-
 after_failure:
-  - echo "Deploy to ${DEPLOY_DOMAIN} FAILURE"
+  - curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"status":"error", "botAction":"Preview", "pr":${TRAVIS_PULL_REQUEST}}'
