@@ -1,7 +1,5 @@
 language: node_js
-cache:
-  directories:
-    - node_modules
+cache: yarn
 node_js:
   - '12'
 install:
@@ -9,7 +7,7 @@ install:
 script:
   - export DEPLOY_DOMAIN=https://preview-${TRAVIS_PULL_REQUEST}-element-ui.surge.sh
   - echo "Deploy to ${DEPLOY_DOMAIN}"
-  - curl -X POST ${BOT_URL} -H 'Content-Type:application/json'
+  - curl -X POST --url ${BOT_URL} -H 'Content-Type:application/json'
   - yarn website-build
   - npx surge --project ./website-dist --domain $DEPLOY_DOMAIN
 branches:
