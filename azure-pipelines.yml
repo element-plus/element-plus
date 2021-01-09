@@ -44,9 +44,14 @@ stages:
             echo "Deploy to $DEPLOY_DOMAIN"
             npx surge --project ./website-dist --domain $DEPLOY_DOMAIN
           displayName: 'Deploy Site'
+          env:
+            SURGE_LOGIN: $(SURGE_LOGIN)
+            SURGE_TOKEN: $(SURGE_TOKEN)
         - script: |
             curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}, "url":"${DEPLOY_DOMAIN}"}'
           displayName: 'Update PR comment'
+          env:
+            BOT_URL: $(BOT_URL)
     - job: Build_Preview_Failed
       dependsOn: Build_Preview
       condition: failed()
@@ -54,3 +59,5 @@ stages:
         - script: |
             curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"status":"error", "botAction":"Preview", "pr":${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}}'
           displayName: 'Update PR comment'
+          env:
+            BOT_URL: $(BOT_URL)
