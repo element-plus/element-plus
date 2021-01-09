@@ -48,7 +48,7 @@ stages:
             SURGE_LOGIN: $(SURGE_LOGIN)
             SURGE_TOKEN: $(SURGE_TOKEN)
         - script: |
-            curtestl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":'${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}', "url":"'${DEPLOY_DOMAIN}'"}'
+            curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":'${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}', "url":"'${DEPLOY_DOMAIN}'"}'
           displayName: 'Update PR comment'
           env:
             BOT_URL: $(BOT_URL)
