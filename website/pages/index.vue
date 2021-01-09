@@ -2,7 +2,6 @@
   <div>
     <div class="banner">
       <div class="banner-desc">
-        BB
         <h1>{{ langConfig[1] }}</h1>
         <p>{{ langConfig[2] }}</p>
       </div>
