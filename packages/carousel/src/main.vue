@@ -240,6 +240,10 @@ export default defineComponent({
       items.value.push(item)
     }
 
+    function destroyItems(uid) {
+      items.value = items.value.filter(n => n.uid !== uid)
+    }
+
     function itemInStage(item, index) {
       const length = items.value.length
       if (
@@ -359,6 +363,7 @@ export default defineComponent({
       items,
       loop: props.loop,
       updateItems,
+      destroyItems,
       setActiveItem,
     })
 

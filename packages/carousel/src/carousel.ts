@@ -44,5 +44,6 @@ export interface InjectCarouselScope {
   items: Ref<UnwrapRef<CarouselItem[]>>
   loop: boolean
   updateItems: (item: CarouselItem) => void
+  destroyItems: (uid: number) => void
   setActiveItem: (index: number) => void
 }

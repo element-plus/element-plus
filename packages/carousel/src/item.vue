@@ -25,6 +25,7 @@ import {
   defineComponent,
   reactive,
   onMounted,
+  onUnmounted,
   inject,
   computed,
   toRefs,
@@ -165,6 +166,11 @@ export default defineComponent({
           ...toRefs(data),
           translateItem,
         })
+      }
+    })
+    onUnmounted(() => {
+      if (injectCarouselScope.destroyItems) {
+        injectCarouselScope.destroyItems(instance.uid)
       }
     })
 
