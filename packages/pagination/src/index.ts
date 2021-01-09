@@ -11,7 +11,7 @@ import Sizes from './sizes.vue'
 import Jumper from './jumper.vue'
 import Total from './total.vue'
 import Pager from './pager.vue'
-import { usePagination } from './usePagination'
+import usePagination from './usePagination'
 
 const getValidPageSize = (val: number) => Number.isNaN(val) ? 10 : val
 

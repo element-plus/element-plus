@@ -23,7 +23,7 @@ import ElSelect from '@element-plus/select'
 import ElOption from '@element-plus/option'
 import { t } from '@element-plus/locale'
 import isEqual from 'lodash/isEqual'
-import { usePagination } from './usePagination'
+import usePagination from './usePagination'
 
 export default defineComponent({
   name: 'Sizes',

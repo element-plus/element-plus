@@ -7,7 +7,7 @@ export type UsePaginationState = Pick<IPaginationProps, 'total' | 'pageCount' | 
 // symbol index not work see: https://github.com/Microsoft/TypeScript/issues/1863
 const globalState = {}
 
-export const usePagination = (key: string | symbol | null) => {
+export default function usePagination (key: string | symbol | null) {
   let state: UsePaginationState = null
   const lastEmittedPage = ref(-1)
   const userChangePageSize = ref(false)

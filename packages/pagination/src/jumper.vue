@@ -24,7 +24,7 @@ import {
 } from 'vue'
 import { t } from '@element-plus/locale'
 import ElInput from '@element-plus/input'
-import { usePagination } from './usePagination'
+import usePagination from './usePagination'
 
 export default defineComponent({
   components: {

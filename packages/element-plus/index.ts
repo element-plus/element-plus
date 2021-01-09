@@ -55,6 +55,7 @@ import ElOption from '@element-plus/option'
 import ElOptionGroup from '@element-plus/option-group'
 import ElPageHeader from '@element-plus/page-header'
 import ElPagination from '@element-plus/pagination'
+import useElPagination from '@element-plus/pagination/src/usePagination'
 import ElPopconfirm from '@element-plus/popconfirm'
 import ElPopover from '@element-plus/popover'
 import ElPopper from '@element-plus/popper'
@@ -271,6 +272,7 @@ export {
   ElOptionGroup,
   ElPageHeader,
   ElPagination,
+  useElPagination,
   ElPopconfirm,
   ElPopover,
   ElPopper,
