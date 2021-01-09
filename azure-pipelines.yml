@@ -11,6 +11,9 @@ pr:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
 stages:
 - stage: Preview
   jobs:
@@ -24,6 +27,14 @@ stages:
           displayName: 'Install Node.js'
           inputs:
             versionSpec: '12.20.0'
+        - task: Cache@2
+          inputs:
+            key: 'yarn | "$(Agent.OS)" | yarn.lock'
+            restoreKeys: |
+              yarn | "$(Agent.OS)"
+              yarn
+            path: $(YARN_CACHE_FOLDER)
+          displayName: Cache Yarn packages
         - script: yarn bootstrap
           displayName: 'Project bootstrap'
         - script: yarn website-build
