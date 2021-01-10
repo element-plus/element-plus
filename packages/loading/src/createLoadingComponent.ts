@@ -84,7 +84,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
         default: () => h('div', {
           style: {
             backgroundColor: this.background || '',
-            display: this.visible ? 'inherit' : 'none',
+            display: this.visible ? null : 'none',
           },
           class: [
             'el-loading-mask',
