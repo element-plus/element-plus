@@ -12,6 +12,15 @@
   left: 0;
   z-index: 2000;
   height: 100%;
+  text-align: center;
   background-color: rgba(0, 0, 0, 0.5);
   overflow: auto;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 0;
+    vertical-align: middle;
+  }
 }
