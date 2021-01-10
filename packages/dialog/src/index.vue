@@ -8,10 +8,10 @@
     >
       <el-overlay
         v-show="visible"
+        v-same-dom="onModalClick"
         :mask="modal"
         :overlay-class="modalClass"
         :z-index="zIndex"
-        @click="onModalClick"
       >
         <div
           ref="dialogRef"
@@ -62,7 +62,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { TrapFocus } from '@element-plus/directives'
+import { TrapFocus, SameDom } from '@element-plus/directives'
 import { isValidWidthUnit } from '@element-plus/utils/validators'
 
 import { Overlay } from '@element-plus/overlay'
@@ -85,6 +85,7 @@ export default defineComponent({
   },
   directives: {
     TrapFocus,
+    SameDom,
   },
   props: {
     appendToBody: {

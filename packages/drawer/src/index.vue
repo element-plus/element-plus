@@ -11,9 +11,9 @@
         :mask="modal"
         :overlay-class="modalClass"
         :z-index="zIndex"
-        @click="onModalClick"
       >
         <div
+          v-same-dom="onModalClick"
           class="el-drawer__container"
           :class="{ 'el-drawer__open': visible }"
           tabindex="-1"
@@ -72,7 +72,7 @@ import {
 } from 'vue'
 import { Overlay } from '@element-plus/overlay'
 import { useDialog } from '@element-plus/dialog'
-import { TrapFocus } from '@element-plus/directives'
+import { TrapFocus, SameDom } from '@element-plus/directives'
 
 import type { PropType, SetupContext } from 'vue'
 
@@ -86,6 +86,7 @@ export default defineComponent({
   },
   directives: {
     TrapFocus,
+    SameDom,
   },
   props: {
     modelValue: {

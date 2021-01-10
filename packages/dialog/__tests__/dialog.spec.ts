@@ -150,7 +150,8 @@ describe('Dialog.vue', () => {
       await nextTick()
       expect(wrapper.find('.el-overlay').exists()).toBe(true)
 
-      await wrapper.find('.el-overlay').trigger('click')
+      await wrapper.find('.el-overlay').trigger('mousedown')
+      await wrapper.find('.el-overlay').trigger('mouseup')
       expect(wrapper.vm.visible).toBe(false)
     })
   })
@@ -249,7 +250,8 @@ describe('Dialog.vue', () => {
       await rAF()
       await nextTick()
 
-      await wrapper.find('.el-overlay').trigger('click')
+      await wrapper.find('.el-overlay').trigger('mousedown')
+      await wrapper.find('.el-overlay').trigger('mouseup')
       await nextTick()
       await rAF()
       await nextTick()
