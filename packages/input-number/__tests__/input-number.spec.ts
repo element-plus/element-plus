@@ -217,4 +217,29 @@ describe('InputNumber.vue', () => {
     await wrapper.find('input').trigger('focus')
     expect(wrapper.getComponent(InputNumber).emitted('focus')).toHaveLength(1)
   })
+
+  test('clear', async () => {
+    const wrapper = _mount({
+      template: '<el-input-number v-model="num" :min="1"/>',
+      setup() {
+        const num = ref(2)
+        return {
+          num,
+        }
+      },
+    })
+    const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    elInput.handleInputChange('')
+    await nextTick()
+    expect(wrapper.vm.num).toBe(undefined)
+    elInput.increase()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(1)
+    elInput.handleInputChange('')
+    await nextTick()
+    expect(wrapper.vm.num).toBe(undefined)
+    elInput.decrease()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(1)
+  })
 })
