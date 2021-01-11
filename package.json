@@ -140,13 +140,15 @@
   "files": [
     "lib",
     "es",
-    "packages"
+    "packages",
+    "vetur"
   ],
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
   "typings": "lib/index.d.ts",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
+  "vetur": { "tags": "./vetur/tags.json", "attributes": "./vetur/attributes.json" },
   "browserslist": [
     "> 1%",
     "last 2 versions",
