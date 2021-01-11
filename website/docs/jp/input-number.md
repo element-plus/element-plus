@@ -170,7 +170,7 @@
 
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |----| ----| ---| ----| -----|
-|modelValue / v-model | バインディング値| number | — | 0 |
+|modelValue / v-model | バインディング値| number / undefined | — | 0 |
 |min | 最小許容値 | number | — | `-Infinity` |
 |max | 最大許容値 | number | — | `Infinity` |
 |step | インクリメンタルステップ | number | — | 1 |
