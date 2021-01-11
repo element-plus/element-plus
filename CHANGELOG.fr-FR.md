@@ -1,25 +1,47 @@
 ## Changelog
 
+### 1.0.1-beta.24
+
+*2021-01-11*
+
+#### Bug fixes
+
+- Fix time picker scroll bug (#1227)
+- Fix tree node don't update after push new node into parent (#1231)
+- Fix loading error show when parent's display is not block (#1250)
+- Fix input-number behavior error (#1252)
+- Fix select emptyText error show (#1213)
+- Fix select to replace symbols to strings to avoid individual importing symbol bug (#1224)
+
 ### 1.0.1-beta.23
 
+*2021-01-07*
+
 #### New feature
+
 - New component `ElEmpty` (#1210)
+
 #### Bug fixes
+
 - Fix dropdown menu stop-popper-mouse-event (#1219)
 - Fix menu item group not working (#1217)
 
 #### Chore updates
+
 - Bumping dep versions (#1214)
+
 ### 1.0.1-beta.22
 
 *2021-01-06*
+
 #### Bug fixes
 
 - Fix menu item not expanding correctly (#1212)
 - Fix popover hijacking mouse event bug (#1201)
-#### Chore updates
-- Update contain doc style (#1204)
 
+#### Chore updates
+
+- Update contain doc style (#1204)
 
 ### 1.0.1-beta.21
 

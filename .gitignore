@@ -14,4 +14,4 @@ website-dist
 lib
 website/play/index.vue
 packages/element-plus/version.ts
-es
+es/

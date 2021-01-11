@@ -17,7 +17,7 @@ interface SelectProps {
   popperClass?: string
 }
 
-const _mount = (template: string, data: any = () => ({}), otherObj?): any => mount({
+const _mount = (template: string, data: any = () => ({}), otherObj?) => mount({
   components: {
     'el-select': Select,
     'el-option': Option,
@@ -432,7 +432,6 @@ describe('Select', () => {
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
     const tagWrapperDom = tagWrappers[0].element
-    console.log(tagWrapperDom.style.maxWidth)
     expect(parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123).toBe(true)
     mockInputWidth.mockRestore()
   })
@@ -609,5 +608,41 @@ describe('Select', () => {
     vm.value = '选项1'
     await vm.$nextTick()
     expect(wrapper.find('.el-input__inner').element.value).toBe('黄金糕')
+  })
+
+  test('emptyText error show', async () => {
+    const wrapper = _mount(`
+    <el-select :model-value="value" filterable placeholder="Select">
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+      </el-option>
+    </el-select>`,
+    () => ({
+      options: [{
+        value: 'Option1',
+        label: 'Option1',
+      }, {
+        value: 'Option2',
+        label: 'Option2',
+      }, {
+        value: 'Option3',
+        label: 'Option3',
+      }, {
+        value: 'Option4',
+        label: 'Option4',
+      }, {
+        value: 'Option5',
+        label: 'Option5',
+      }],
+      value: 'test',
+    }))
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    select.trigger('click')
+    await nextTick()
+    expect(!!document.querySelector('.el-select__popper').style.display).toBeFalsy()
+    expect(wrapper.findAll('.el-select-dropdown__empty').length).toBe(0)
   })
 })

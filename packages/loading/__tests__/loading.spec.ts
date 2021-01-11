@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import Loading from '../src/index'
+import ElInput from '../../input'
 import vLoading from '../src/directive'
 import { nextTick } from 'vue'
 import { sleep } from '@element-plus/test-utils'
@@ -251,6 +252,24 @@ describe('Loading', () => {
     loadingInstance = Loading({ customClass: 'el-loading-custom-class' })
     const customClass = document.querySelector('.el-loading-custom-class')
     expect(customClass).toBeTruthy()
+  })
+
+  test('parent\'s display is not block', async () => {
+    const wrapper = mount({
+      directives: {
+        loading: vLoading,
+      },
+      components: {
+        ElInput,
+      },
+      template: `<el-input v-loading="true">
+      <template #append>
+        <i class="el-icon-question"></i>
+      </template>
+      </el-input>`,
+    })
+    const maskDisplay = getComputedStyle(wrapper.find('.el-loading-mask').element).display
+    expect(maskDisplay).toBe('block')
   })
 
 })
