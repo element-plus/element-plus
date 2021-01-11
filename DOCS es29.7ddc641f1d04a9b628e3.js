@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/input-number.md?vue&type=template&id=5d8187ec
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/input-number.md?vue&type=template&id=5ec8ad09
 
 var _hoisted_1 = {
   class: "content element-doc"
@@ -111,9 +111,9 @@ var _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
   class: "html"
 }, "<template>\n  <el-input-number v-model=\"num\" controls-position=\"right\" @change=\"handleChange\" :min=\"1\" :max=\"10\"></el-input-number>\n</template>\n<script>\n  export default {\n    data() {\n      return {\n        num: 1\n      };\n    },\n    methods: {\n      handleChange(value) {\n        console.log(value);\n      }\n    }\n  };\n</script>\n")], -1);
 
-var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"atributos\"><a class=\"header-anchor\" href=\"#atributos\">¶</a> Atributos</h3><table><thead><tr><th>Atributo</th><th>Descripción</th><th>Tipo</th><th>Valores aceptados</th><th>Por defecto</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>valor vinculado</td><td>number</td><td>—</td><td>0</td></tr><tr><td>min</td><td>el valor mínimo permitido</td><td>number</td><td>—</td><td><code>-Infinity</code></td></tr><tr><td>max</td><td>el valor maximo permitido</td><td>number</td><td>—</td><td><code>Infinity</code></td></tr><tr><td>step</td><td>incremento (salto)</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>si el valor del input puede ser solo un multiplo de step</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>precisión del valor del input</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>tamaño del componente</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>si el componente esta deshabilitado</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>si se activan los botones de control</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>posición de los botones de control</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>lo mismo que <code>name</code> en un input nativo</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>texto de la etiqueta</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>placeholder in input</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"eventos\"><a class=\"header-anchor\" href=\"#eventos\">¶</a> Eventos</h3><table><thead><tr><th>Nombre</th><th>Descripción</th><th>Parámetros</th></tr></thead><tbody><tr><td>change</td><td>se produce cuando el valor cambia</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>se produce cuando el componente pierde el foco</td><td>(event: Event)</td></tr><tr><td>focus</td><td>se produce cuando el componente obtiene el foco</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"metodos\"><a class=\"header-anchor\" href=\"#metodos\">¶</a> Métodos</h3><table><thead><tr><th>Método</th><th>Descripción</th><th>Parámetro</th></tr></thead><tbody><tr><td>focus</td><td>coloca el foco en el elemento actual</td><td>-</td></tr><tr><td>select</td><td>selecciona el contenido del input</td><td>-</td></tr></tbody></table>", 6);
+var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"atributos\"><a class=\"header-anchor\" href=\"#atributos\">¶</a> Atributos</h3><table><thead><tr><th>Atributo</th><th>Descripción</th><th>Tipo</th><th>Valores aceptados</th><th>Por defecto</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>valor vinculado</td><td>number / undefined</td><td>—</td><td>0</td></tr><tr><td>min</td><td>el valor mínimo permitido</td><td>number</td><td>—</td><td><code>-Infinity</code></td></tr><tr><td>max</td><td>el valor maximo permitido</td><td>number</td><td>—</td><td><code>Infinity</code></td></tr><tr><td>step</td><td>incremento (salto)</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>si el valor del input puede ser solo un multiplo de step</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>precisión del valor del input</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>tamaño del componente</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>si el componente esta deshabilitado</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>si se activan los botones de control</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>posición de los botones de control</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>lo mismo que <code>name</code> en un input nativo</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>texto de la etiqueta</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>placeholder in input</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"eventos\"><a class=\"header-anchor\" href=\"#eventos\">¶</a> Eventos</h3><table><thead><tr><th>Nombre</th><th>Descripción</th><th>Parámetros</th></tr></thead><tbody><tr><td>change</td><td>se produce cuando el valor cambia</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>se produce cuando el componente pierde el foco</td><td>(event: Event)</td></tr><tr><td>focus</td><td>se produce cuando el componente obtiene el foco</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"metodos\"><a class=\"header-anchor\" href=\"#metodos\">¶</a> Métodos</h3><table><thead><tr><th>Método</th><th>Descripción</th><th>Parámetro</th></tr></thead><tbody><tr><td>focus</td><td>coloca el foco en el elemento actual</td><td>-</td></tr><tr><td>select</td><td>selecciona el contenido del input</td><td>-</td></tr></tbody></table>", 6);
 
-function input_numbervue_type_template_id_5d8187ec_render(_ctx, _cache, $props, $setup, $data, $options) {
+function input_numbervue_type_template_id_5ec8ad09_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -206,7 +206,7 @@ function input_numbervue_type_template_id_5d8187ec_render(_ctx, _cache, $props, 
     _: 1
   }), _hoisted_27]);
 }
-// CONCATENATED MODULE: ./website/docs/es/input-number.md?vue&type=template&id=5d8187ec
+// CONCATENATED MODULE: ./website/docs/es/input-number.md?vue&type=template&id=5ec8ad09
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(5);
@@ -467,7 +467,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_5d8187ec_render
+input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_5ec8ad09_render
 
 /* harmony default export */ var input_number = __webpack_exports__["default"] = (input_numbervue_type_script_lang_ts);
 

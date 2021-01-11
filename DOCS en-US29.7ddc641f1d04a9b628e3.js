@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/input-number.md?vue&type=template&id=fb6c2d46
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/input-number.md?vue&type=template&id=71efedc8
 
 var _hoisted_1 = {
   class: "content element-doc"
@@ -111,9 +111,9 @@ var _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
   class: "html"
 }, "<template>\n  <el-input-number v-model=\"num\" controls-position=\"right\" @change=\"handleChange\" :min=\"1\" :max=\"10\"></el-input-number>\n</template>\n<script>\n  export default {\n    data() {\n      return {\n        num: 1\n      };\n    },\n    methods: {\n      handleChange(value) {\n        console.log(value);\n      }\n    }\n  };\n</script>\n")], -1);
 
-var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>binding value</td><td>number</td><td>—</td><td>0</td></tr><tr><td>min</td><td>the minimum allowed value</td><td>number</td><td>—</td><td><code>-Infinity</code></td></tr><tr><td>max</td><td>the maximum allowed value</td><td>number</td><td>—</td><td><code>Infinity</code></td></tr><tr><td>step</td><td>incremental step</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>whether input value can only be multiple of step</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>precision of input value</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>size of the component</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>whether the component is disabled</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>whether to enable the control buttons</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>position of the control buttons</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>same as <code>name</code> in native input</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>label text</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>placeholder in input</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>Event Name</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>change</td><td>triggers when the value changes</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>triggers when Input blurs</td><td>(event: Event)</td></tr><tr><td>focus</td><td>triggers when Input focuses</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"methods\"><a class=\"header-anchor\" href=\"#methods\">¶</a> Methods</h3><table><thead><tr><th>Method</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>focus</td><td>focus the Input component</td><td>-</td></tr><tr><td>select</td><td>select the text in input element</td><td>—</td></tr></tbody></table>", 6);
+var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>binding value</td><td>number / undefined</td><td>—</td><td>0</td></tr><tr><td>min</td><td>the minimum allowed value</td><td>number</td><td>—</td><td><code>-Infinity</code></td></tr><tr><td>max</td><td>the maximum allowed value</td><td>number</td><td>—</td><td><code>Infinity</code></td></tr><tr><td>step</td><td>incremental step</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>whether input value can only be multiple of step</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>precision of input value</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>size of the component</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>whether the component is disabled</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>whether to enable the control buttons</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>position of the control buttons</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>same as <code>name</code> in native input</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>label text</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>placeholder in input</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>Event Name</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>change</td><td>triggers when the value changes</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>triggers when Input blurs</td><td>(event: Event)</td></tr><tr><td>focus</td><td>triggers when Input focuses</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"methods\"><a class=\"header-anchor\" href=\"#methods\">¶</a> Methods</h3><table><thead><tr><th>Method</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>focus</td><td>focus the Input component</td><td>-</td></tr><tr><td>select</td><td>select the text in input element</td><td>—</td></tr></tbody></table>", 6);
 
-function input_numbervue_type_template_id_fb6c2d46_render(_ctx, _cache, $props, $setup, $data, $options) {
+function input_numbervue_type_template_id_71efedc8_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -206,7 +206,7 @@ function input_numbervue_type_template_id_fb6c2d46_render(_ctx, _cache, $props, 
     _: 1
   }), _hoisted_27]);
 }
-// CONCATENATED MODULE: ./website/docs/en-US/input-number.md?vue&type=template&id=fb6c2d46
+// CONCATENATED MODULE: ./website/docs/en-US/input-number.md?vue&type=template&id=71efedc8
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(5);
@@ -467,7 +467,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_fb6c2d46_render
+input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_71efedc8_render
 
 /* harmony default export */ var input_number = __webpack_exports__["default"] = (input_numbervue_type_script_lang_ts);
 

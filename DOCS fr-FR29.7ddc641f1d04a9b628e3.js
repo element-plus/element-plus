@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/input-number.md?vue&type=template&id=8a6fcbdc
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/input-number.md?vue&type=template&id=a3500f9a
 
 var _hoisted_1 = {
   class: "content element-doc"
@@ -111,9 +111,9 @@ var _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
   class: "html"
 }, "<template>\n  <el-input-number v-model=\"num\" controls-position=\"right\" @change=\"handleChange\" :min=\"1\" :max=\"10\"></el-input-number>\n</template>\n<script>\n  export default {\n    data() {\n      return {\n        num: 1\n      };\n    },\n    methods: {\n      handleChange(value) {\n        console.log(value);\n      }\n    }\n  };\n</script>\n")], -1);
 
-var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"shu-xing\"><a class=\"header-anchor\" href=\"#shu-xing\">¶</a> 属性</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>バインディング値</td><td>number</td><td>—</td><td>0</td></tr><tr><td>min</td><td>最小許容値</td><td>number</td><td>—</td><td><code>-Infinity</code></td></tr><tr><td>max</td><td>最大許容値</td><td>number</td><td>—</td><td><code>Infinity</code></td></tr><tr><td>step</td><td>インクリメンタルステップ</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>入力値がステップの倍数でなければならないかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>入力値精度</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>コンポーネントのサイズ</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>コンポーネントが無効化されているかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>コントロールボタンを有効にするかどうか</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>操作ボタンの位置</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>ネイティブ入力の <code>name</code> と同じ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>ラベルテキスト</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>インプット内のプレースホルダー</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"ibento\"><a class=\"header-anchor\" href=\"#ibento\">¶</a> イベント</h3><table><thead><tr><th>Event Name</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>change</td><td>値が変更されたときにトリガされる</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>インプットがぼやけときにトリガされる</td><td>(event: Event)</td></tr><tr><td>focus</td><td>インプットがフォーカスされたときにトリガされる</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"fang-fa\"><a class=\"header-anchor\" href=\"#fang-fa\">¶</a> 方法</h3><table><thead><tr><th>Method</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>focus</td><td>インプットコンポーネントにフォーカス</td><td>-</td></tr><tr><td>select</td><td>インプット要素のテキストを選択</td><td>—</td></tr></tbody></table>", 6);
+var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"shu-xing\"><a class=\"header-anchor\" href=\"#shu-xing\">¶</a> 属性</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>バインディング値</td><td>number / undefined</td><td>—</td><td>0</td></tr><tr><td>min</td><td>最小許容値</td><td>number</td><td>—</td><td><code>-Infinity</code></td></tr><tr><td>max</td><td>最大許容値</td><td>number</td><td>—</td><td><code>Infinity</code></td></tr><tr><td>step</td><td>インクリメンタルステップ</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>入力値がステップの倍数でなければならないかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>入力値精度</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>コンポーネントのサイズ</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>コンポーネントが無効化されているかどうか</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>コントロールボタンを有効にするかどうか</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>操作ボタンの位置</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>ネイティブ入力の <code>name</code> と同じ</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>ラベルテキスト</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>インプット内のプレースホルダー</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"ibento\"><a class=\"header-anchor\" href=\"#ibento\">¶</a> イベント</h3><table><thead><tr><th>Event Name</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>change</td><td>値が変更されたときにトリガされる</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>インプットがぼやけときにトリガされる</td><td>(event: Event)</td></tr><tr><td>focus</td><td>インプットがフォーカスされたときにトリガされる</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"fang-fa\"><a class=\"header-anchor\" href=\"#fang-fa\">¶</a> 方法</h3><table><thead><tr><th>Method</th><th>Description</th><th>Parameters</th></tr></thead><tbody><tr><td>focus</td><td>インプットコンポーネントにフォーカス</td><td>-</td></tr><tr><td>select</td><td>インプット要素のテキストを選択</td><td>—</td></tr></tbody></table>", 6);
 
-function input_numbervue_type_template_id_8a6fcbdc_render(_ctx, _cache, $props, $setup, $data, $options) {
+function input_numbervue_type_template_id_a3500f9a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -206,7 +206,7 @@ function input_numbervue_type_template_id_8a6fcbdc_render(_ctx, _cache, $props, 
     _: 1
   }), _hoisted_27]);
 }
-// CONCATENATED MODULE: ./website/docs/jp/input-number.md?vue&type=template&id=8a6fcbdc
+// CONCATENATED MODULE: ./website/docs/jp/input-number.md?vue&type=template&id=a3500f9a
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(5);
@@ -467,7 +467,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_8a6fcbdc_render
+input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_a3500f9a_render
 
 /* harmony default export */ var input_number = __webpack_exports__["default"] = (input_numbervue_type_script_lang_ts);
 
@@ -483,7 +483,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/input-number.md?vue&type=template&id=7ae4c65e
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/input-number.md?vue&type=template&id=effd5146
 
 var _hoisted_1 = {
   class: "content element-doc"
@@ -584,9 +584,9 @@ var _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
   class: "html"
 }, "<template>\n  <el-input-number v-model=\"num\" controls-position=\"right\" @change=\"handleChange\" :min=\"1\" :max=\"10\"></el-input-number>\n</template>\n<script>\n  export default {\n    data() {\n      return {\n        num: 1\n      };\n    },\n    methods: {\n      handleChange(value) {\n        console.log(value);\n      }\n    }\n  };\n</script>\n")], -1);
 
-var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributs\"><a class=\"header-anchor\" href=\"#attributs\">¶</a> Attributs</h3><table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>La valeur liée.</td><td>number</td><td>—</td><td>0</td></tr><tr><td>min</td><td>La valeur minimale autorisée.</td><td>number</td><td>—</td><td><code>-Infinity</code></td></tr><tr><td>max</td><td>La valeur maximale autorisée.</td><td>number</td><td>—</td><td><code>Infinity</code></td></tr><tr><td>step</td><td>Le pas pour l&#39;incrémentation.</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>Si la valeur ne peut être qu&#39;un multiple du pas.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>La précision de la valeur.</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>La taille du composant.</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>Si le composant est désactivé.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>Si les boutons sont visibles.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>Position des boutons.</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>Identique à <code>name</code> dans l&#39;input natif.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>Texte du label.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>Placeholder du champ.</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"evenements\"><a class=\"header-anchor\" href=\"#evenements\">¶</a> Évènements</h3><table><thead><tr><th>Nom</th><th>Description</th><th>Paramètres</th></tr></thead><tbody><tr><td>change</td><td>Se déclenche quand la valeur change.</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>Se déclenche quand le champ perds le focus.</td><td>(event: Event)</td></tr><tr><td>focus</td><td>Se déclenche quand le champ a le focus.</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"methodes\"><a class=\"header-anchor\" href=\"#methodes\">¶</a> Méthodes</h3><table><thead><tr><th>Méthode</th><th>Description</th><th>Paramètres</th></tr></thead><tbody><tr><td>focus</td><td>Met le focus sur le composant.</td><td>-</td></tr><tr><td>select</td><td>Sélectionne le texte dans le champ.</td><td>—</td></tr></tbody></table>", 6);
+var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributs\"><a class=\"header-anchor\" href=\"#attributs\">¶</a> Attributs</h3><table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>La valeur liée.</td><td>number / undefined</td><td>—</td><td>0</td></tr><tr><td>min</td><td>La valeur minimale autorisée.</td><td>number</td><td>—</td><td><code>-Infinity</code></td></tr><tr><td>max</td><td>La valeur maximale autorisée.</td><td>number</td><td>—</td><td><code>Infinity</code></td></tr><tr><td>step</td><td>Le pas pour l&#39;incrémentation.</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>Si la valeur ne peut être qu&#39;un multiple du pas.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>La précision de la valeur.</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>La taille du composant.</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>Si le composant est désactivé.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>Si les boutons sont visibles.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>Position des boutons.</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>Identique à <code>name</code> dans l&#39;input natif.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>Texte du label.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>Placeholder du champ.</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"evenements\"><a class=\"header-anchor\" href=\"#evenements\">¶</a> Évènements</h3><table><thead><tr><th>Nom</th><th>Description</th><th>Paramètres</th></tr></thead><tbody><tr><td>change</td><td>Se déclenche quand la valeur change.</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>Se déclenche quand le champ perds le focus.</td><td>(event: Event)</td></tr><tr><td>focus</td><td>Se déclenche quand le champ a le focus.</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"methodes\"><a class=\"header-anchor\" href=\"#methodes\">¶</a> Méthodes</h3><table><thead><tr><th>Méthode</th><th>Description</th><th>Paramètres</th></tr></thead><tbody><tr><td>focus</td><td>Met le focus sur le composant.</td><td>-</td></tr><tr><td>select</td><td>Sélectionne le texte dans le champ.</td><td>—</td></tr></tbody></table>", 6);
 
-function input_numbervue_type_template_id_7ae4c65e_render(_ctx, _cache, $props, $setup, $data, $options) {
+function input_numbervue_type_template_id_effd5146_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -679,7 +679,7 @@ function input_numbervue_type_template_id_7ae4c65e_render(_ctx, _cache, $props, 
     _: 1
   }), _hoisted_27]);
 }
-// CONCATENATED MODULE: ./website/docs/fr-FR/input-number.md?vue&type=template&id=7ae4c65e
+// CONCATENATED MODULE: ./website/docs/fr-FR/input-number.md?vue&type=template&id=effd5146
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(5);
@@ -940,7 +940,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_7ae4c65e_render
+input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_effd5146_render
 
 /* harmony default export */ var input_number = __webpack_exports__["default"] = (input_numbervue_type_script_lang_ts);
 

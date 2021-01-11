@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[111],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[45],{
 
-/***/ 649:
+/***/ 583:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,44 +10,44 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/skeleton.md?vue&type=template&id=1078bcd0
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/skeleton.md?vue&type=template&id=2133b498
 
-var skeletonvue_type_template_id_1078bcd0_hoisted_1 = {
+var skeletonvue_type_template_id_2133b498_hoisted_1 = {
   class: "content element-doc"
 };
 
-var skeletonvue_type_template_id_1078bcd0_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
+var skeletonvue_type_template_id_2133b498_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h2", {
   id: "skeleton"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#skeleton"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Skeleton")], -1);
 
-var skeletonvue_type_template_id_1078bcd0_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("When loading data, and you need a rich experience for visual and interactions for your end users, you can choose "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "skeleton"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")], -1);
+var skeletonvue_type_template_id_2133b498_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, [/*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])("When loading data, and you need a rich experience for visual and interactions for your end users, you can choose "), /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", null, "skeleton"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(".")], -1);
 
-var skeletonvue_type_template_id_1078bcd0_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var skeletonvue_type_template_id_2133b498_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "basic-usage"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#basic-usage"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Basic usage")], -1);
 
-var skeletonvue_type_template_id_1078bcd0_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "The basic skeleton.", -1);
+var skeletonvue_type_template_id_2133b498_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "The basic skeleton.", -1);
 
-var skeletonvue_type_template_id_1078bcd0_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var skeletonvue_type_template_id_2133b498_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<template>\n  <el-skeleton />\n</template>\n")], -1);
 
-var skeletonvue_type_template_id_1078bcd0_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
+var skeletonvue_type_template_id_2133b498_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("h3", {
   id: "configurable-rows"
 }, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("a", {
   class: "header-anchor",
   href: "#configurable-rows"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser["n" /* createTextVNode */])(" Configurable Rows")], -1);
 
-var skeletonvue_type_template_id_1078bcd0_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "You can configure the row numbers yourself, for more precise rendering effect, the actual rendered row number will always be 1 row more than the given number, that is because we are rendering a title row with 33% width of the others.", -1);
+var skeletonvue_type_template_id_2133b498_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p", null, "You can configure the row numbers yourself, for more precise rendering effect, the actual rendered row number will always be 1 row more than the given number, that is because we are rendering a title row with 33% width of the others.", -1);
 
-var skeletonvue_type_template_id_1078bcd0_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
+var skeletonvue_type_template_id_2133b498_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("code", {
   class: "html"
 }, "<el-skeleton :rows=\"5\" />\n")], -1);
 
@@ -124,7 +124,7 @@ var _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
 
 var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"skeleton-attributes\"><a class=\"header-anchor\" href=\"#skeleton-attributes\">¶</a> Skeleton Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Acceptable Value</th><th>Default Value</th></tr></thead><tbody><tr><td>animated</td><td>whether showing the animation</td><td>boolean</td><td>true / false</td><td>false</td></tr><tr><td>count</td><td>how many fake items to render to the DOM</td><td>number</td><td>integer</td><td>1</td></tr><tr><td>loading</td><td>whether showing the real DOM</td><td>boolean</td><td>true / false</td><td>false</td></tr><tr><td>rows</td><td>numbers of the row, only useful when no template slot were given</td><td>number</td><td>integer</td><td>3</td></tr><tr><td>throttle</td><td>Rendering delay in millseconds</td><td>number</td><td>integer</td><td>0</td></tr></tbody></table><h3 id=\"skeleton-item-attributes\"><a class=\"header-anchor\" href=\"#skeleton-item-attributes\">¶</a> Skeleton Item Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Acceptable Value</th><th>Default Value</th></tr></thead><tbody><tr><td>variant</td><td>The current rendering skeleton type</td><td>Enum(string)</td><td>p / text / h1 / h3 / text / caption / button / image / circle / rect</td><td>text</td></tr></tbody></table><h3 id=\"skeleton-slots\"><a class=\"header-anchor\" href=\"#skeleton-slots\">¶</a> Skeleton Slots</h3><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody><tr><td>default</td><td>\bReal rendering DOM</td></tr><tr><td>template</td><td>Custom rendering skeleton template</td></tr></tbody></table>", 6);
 
-function skeletonvue_type_template_id_1078bcd0_render(_ctx, _cache, $props, $setup, $data, $options) {
+function skeletonvue_type_template_id_2133b498_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -141,20 +141,20 @@ function skeletonvue_type_template_id_1078bcd0_render(_ctx, _cache, $props, $set
 
   var _component_element_demo6 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo6");
 
-  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", skeletonvue_type_template_id_1078bcd0_hoisted_1, [skeletonvue_type_template_id_1078bcd0_hoisted_2, skeletonvue_type_template_id_1078bcd0_hoisted_3, skeletonvue_type_template_id_1078bcd0_hoisted_4, skeletonvue_type_template_id_1078bcd0_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("section", skeletonvue_type_template_id_2133b498_hoisted_1, [skeletonvue_type_template_id_2133b498_hoisted_2, skeletonvue_type_template_id_2133b498_hoisted_3, skeletonvue_type_template_id_2133b498_hoisted_4, skeletonvue_type_template_id_2133b498_hoisted_5, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["db" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo0)];
     }),
     highlight: Object(vue_esm_browser["db" /* withCtx */])(function () {
-      return [skeletonvue_type_template_id_1078bcd0_hoisted_6];
+      return [skeletonvue_type_template_id_2133b498_hoisted_6];
     }),
     _: 1
-  }), skeletonvue_type_template_id_1078bcd0_hoisted_7, skeletonvue_type_template_id_1078bcd0_hoisted_8, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
+  }), skeletonvue_type_template_id_2133b498_hoisted_7, skeletonvue_type_template_id_2133b498_hoisted_8, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser["db" /* withCtx */])(function () {
       return [Object(vue_esm_browser["o" /* createVNode */])(_component_element_demo1)];
     }),
     highlight: Object(vue_esm_browser["db" /* withCtx */])(function () {
-      return [skeletonvue_type_template_id_1078bcd0_hoisted_9];
+      return [skeletonvue_type_template_id_2133b498_hoisted_9];
     }),
     _: 1
   }), _hoisted_10, _hoisted_11, Object(vue_esm_browser["o" /* createVNode */])(_component_demo_block, null, {
@@ -199,13 +199,13 @@ function skeletonvue_type_template_id_1078bcd0_render(_ctx, _cache, $props, $set
     _: 1
   }), _hoisted_27]);
 }
-// CONCATENATED MODULE: ./website/docs/es/skeleton.md?vue&type=template&id=1078bcd0
+// CONCATENATED MODULE: ./website/docs/en-US/skeleton.md?vue&type=template&id=2133b498
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(5);
 var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/skeleton.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/skeleton.md?vue&type=script&lang=ts
 
 
 /* harmony default export */ var skeletonvue_type_script_lang_ts = ({
@@ -465,7 +465,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
       var defineComponent = vue_esm_browser["q" /* defineComponent */];
 
-      var dayjs = __webpack_require__(3);
+      var dayjs = __webpack_require__(4);
 
       var democomponentExport = defineComponent({
         data: function data() {
@@ -610,7 +610,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
       var defineComponent = vue_esm_browser["q" /* defineComponent */];
 
-      var dayjs = __webpack_require__(3);
+      var dayjs = __webpack_require__(4);
 
       var democomponentExport = defineComponent({
         data: function data() {
@@ -785,7 +785,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
       var defineComponent = vue_esm_browser["q" /* defineComponent */];
 
-      var dayjs = __webpack_require__(3);
+      var dayjs = __webpack_require__(4);
 
       var democomponentExport = defineComponent({
         data: function data() {
@@ -801,13 +801,13 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/es/skeleton.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/en-US/skeleton.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/es/skeleton.md
+// CONCATENATED MODULE: ./website/docs/en-US/skeleton.md
 
 
 
-skeletonvue_type_script_lang_ts.render = skeletonvue_type_template_id_1078bcd0_render
+skeletonvue_type_script_lang_ts.render = skeletonvue_type_template_id_2133b498_render
 
 /* harmony default export */ var skeleton = __webpack_exports__["default"] = (skeletonvue_type_script_lang_ts);
 

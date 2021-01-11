@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.js
 var vue_esm_browser = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/input-number.md?vue&type=template&id=19539391
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/input-number.md?vue&type=template&id=d6ecbee0
 
 var _hoisted_1 = {
   class: "content element-doc"
@@ -111,9 +111,9 @@ var _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("p
   class: "html"
 }, "<template>\n  <el-input-number v-model=\"num\" controls-position=\"right\" @change=\"handleChange\" :min=\"1\" :max=\"10\"></el-input-number>\n</template>\n<script>\n  export default {\n    data() {\n      return {\n        num: 1\n      };\n    },\n    methods: {\n      handleChange(value) {\n        console.log(value);\n      }\n    }\n  };\n</script>\n")], -1);
 
-var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>绑定值</td><td>number</td><td>—</td><td>0</td></tr><tr><td>min</td><td>设置计数器允许的最小值</td><td>number</td><td>—</td><td>-Infinity</td></tr><tr><td>max</td><td>设置计数器允许的最大值</td><td>number</td><td>—</td><td>Infinity</td></tr><tr><td>step</td><td>计数器步长</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>是否只能输入 step 的倍数</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>数值精度</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>计数器尺寸</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>是否禁用计数器</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>是否使用控制按钮</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>控制按钮位置</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>原生属性</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>输入框关联的label文字</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>输入框默认 placeholder</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>change</td><td>绑定值被改变时触发</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>在组件 Input 失去焦点时触发</td><td>(event: Event)</td></tr><tr><td>focus</td><td>在组件 Input 获得焦点时触发</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"methods\"><a class=\"header-anchor\" href=\"#methods\">¶</a> Methods</h3><table><thead><tr><th>方法名</th><th>说明</th><th>参数</th></tr></thead><tbody><tr><td>focus</td><td>使 input 获取焦点</td><td>-</td></tr><tr><td>select</td><td>选中 input 中的文字</td><td>—</td></tr></tbody></table>", 6);
+var _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser["m" /* createStaticVNode */])("<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\">¶</a> Attributes</h3><table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>modelValue / v-model</td><td>绑定值</td><td>number / undefined</td><td>—</td><td>0</td></tr><tr><td>min</td><td>设置计数器允许的最小值</td><td>number</td><td>—</td><td>-Infinity</td></tr><tr><td>max</td><td>设置计数器允许的最大值</td><td>number</td><td>—</td><td>Infinity</td></tr><tr><td>step</td><td>计数器步长</td><td>number</td><td>—</td><td>1</td></tr><tr><td>step-strictly</td><td>是否只能输入 step 的倍数</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>precision</td><td>数值精度</td><td>number</td><td>—</td><td>—</td></tr><tr><td>size</td><td>计数器尺寸</td><td>string</td><td>large/medium/small/mini</td><td>large</td></tr><tr><td>disabled</td><td>是否禁用计数器</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>controls</td><td>是否使用控制按钮</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>controls-position</td><td>控制按钮位置</td><td>string</td><td>right</td><td>-</td></tr><tr><td>name</td><td>原生属性</td><td>string</td><td>—</td><td>—</td></tr><tr><td>label</td><td>输入框关联的label文字</td><td>string</td><td>—</td><td>—</td></tr><tr><td>placeholder</td><td>输入框默认 placeholder</td><td>string</td><td>-</td><td>-</td></tr></tbody></table><h3 id=\"events\"><a class=\"header-anchor\" href=\"#events\">¶</a> Events</h3><table><thead><tr><th>事件名称</th><th>说明</th><th>回调参数</th></tr></thead><tbody><tr><td>change</td><td>绑定值被改变时触发</td><td>currentValue, oldValue</td></tr><tr><td>blur</td><td>在组件 Input 失去焦点时触发</td><td>(event: Event)</td></tr><tr><td>focus</td><td>在组件 Input 获得焦点时触发</td><td>(event: Event)</td></tr></tbody></table><h3 id=\"methods\"><a class=\"header-anchor\" href=\"#methods\">¶</a> Methods</h3><table><thead><tr><th>方法名</th><th>说明</th><th>参数</th></tr></thead><tbody><tr><td>focus</td><td>使 input 获取焦点</td><td>-</td></tr><tr><td>select</td><td>选中 input 中的文字</td><td>—</td></tr></tbody></table>", 6);
 
-function input_numbervue_type_template_id_19539391_render(_ctx, _cache, $props, $setup, $data, $options) {
+function input_numbervue_type_template_id_d6ecbee0_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser["P" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser["P" /* resolveComponent */])("demo-block");
@@ -206,7 +206,7 @@ function input_numbervue_type_template_id_19539391_render(_ctx, _cache, $props, 
     _: 1
   }), _hoisted_27]);
 }
-// CONCATENATED MODULE: ./website/docs/zh-CN/input-number.md?vue&type=template&id=19539391
+// CONCATENATED MODULE: ./website/docs/zh-CN/input-number.md?vue&type=template&id=d6ecbee0
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(5);
@@ -468,7 +468,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_19539391_render
+input_numbervue_type_script_lang_ts.render = input_numbervue_type_template_id_d6ecbee0_render
 
 /* harmony default export */ var input_number = __webpack_exports__["default"] = (input_numbervue_type_script_lang_ts);
 
