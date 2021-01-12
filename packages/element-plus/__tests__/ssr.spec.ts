@@ -1,4 +1,6 @@
-import path from 'path'
+/**
+ * @jest-environment node
+ */
 
 describe('SSR', () => {
   test('require', () => {
