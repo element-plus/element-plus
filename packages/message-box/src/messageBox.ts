@@ -1,68 +1,25 @@
-import { createVNode, render } from 'vue'
+import { h, render } from 'vue'
 import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
-import { isVNode } from '../../utils/util'
-import { ElMessageBoxOptions } from './message-box.type'
+import { isVNode, isString } from '@element-plus/utils/util'
 
-let currentMsg, instance
+import type { ComponentPublicInstance } from 'vue'
+import type { ElMessageBoxOptions, Action } from './message-box.type'
 
-// component default props
-const PROP_KEYS = [
-  'lockScroll',
-  'showClose',
-  'closeOnClickModal',
-  'closeOnPressEscape',
-  'closeOnHashChange',
-  'center',
-  'roundButton',
-  'closeDelay',
-  'zIndex',
-  'modal',
-  'modalFade',
-  'modalClass',
-  'modalAppendToBody',
-  'lockScroll',
-]
+let currentMsg
 
 // component default merge props & data
 const defaults = {
-  title: null,
-  message: '',
-  type: '',
-  iconClass: '',
-  showInput: false,
-  showClose: true,
-  modalFade: true,
-  lockScroll: true,
-  closeOnClickModal: true,
-  closeOnPressEscape: true,
-  closeOnHashChange: true,
-  inputValue: null,
-  inputPlaceholder: '',
-  inputType: 'text',
-  inputPattern: null,
-  inputValidator: null,
   inputErrorMessage: '',
   showConfirmButton: true,
   showCancelButton: false,
   confirmButtonPosition: 'right',
   confirmButtonHighlight: false,
   cancelButtonHighlight: false,
-  confirmButtonText: '',
-  cancelButtonText: '',
-  confirmButtonClass: '',
-  cancelButtonClass: '',
-  customClass: '',
-  beforeClose: null,
-  dangerouslyUseHTMLString: false,
-  center: false,
-  roundButton: false,
-  distinguishCancelAndClose: false,
 }
-
 let msgQueue = []
 
-const defaultCallback = (action, ctx) => {
+const defaultCallback = (action: Action, ctx) => {
   if (currentMsg) {
     const callback = currentMsg.callback
     if (typeof callback === 'function') {
@@ -86,63 +43,69 @@ const defaultCallback = (action, ctx) => {
   }
 }
 
-const initInstance = () => {
-  const container = document.createElement('div')
-  const vnode = createVNode(MessageBoxConstructor)
+const initInstance = (props: any, container: HTMLElement) => {
+  
+  const vnode = h(MessageBoxConstructor, props)
   render(vnode, container)
-  instance = vnode.component
+  document.body.appendChild(container.firstElementChild)
+  return vnode.component
+}
+
+const genContainer = () => {
+  return document.createElement('div')
 }
 
 const showNextMsg = async () => {
-  if (!instance) {
-    initInstance()
-  }
-  if (instance && instance.setupInstall.state.visible) { return }
   if (msgQueue.length > 0) {
-    const props = {}
-    const state = {}
+
     currentMsg = msgQueue.shift()
     const options = currentMsg.options
-    Object.keys(options).forEach(key => {
-      if (PROP_KEYS.includes(key)) {
-        props[key] = options[key]
+
+    const container = genContainer()
+    // Adding destruct method.
+    // when transition leaves emitting `vanish` evt. so that we can do the clean job.
+    options.onVanish = () => {
+      // not sure if this causes mem leak, need proof to verify that.
+      // maybe calling out like 1000 msg-box then close them all.
+      render(null, container)
+      // here we were suppose to call document.body.removeChild(container.firstElementChild)
+      // but render(null, container) did that job for us. so that we do not call that directly       
+    }
+
+    options.onAction = (action: Action) => {
+      if (options.callback) {
+        options.callback(action, instance.proxy)
       } else {
-        state[key] = options[key]
+        if (action === 'cancel' || action === 'close') {
+          currentMsg.reject()
+        } else {
+
+        }
+        if (options.distinguishCloseAndCancel && action !== 'cancel') {
+
+        }
       }
-    })
-    // update props to instance/**/
-    const vmProps = instance.props
-    for (const prop in props) {
-      if (props.hasOwnProperty(prop)) {
-        vmProps[prop] = props[prop]
-      }
-    }
-    const vmState = instance.setupInstall.state
-    vmState.action = ''
-    if (options.callback === undefined) {
-      options.callback = defaultCallback
-    }
-    for (const prop in state) {
-      if (state.hasOwnProperty(prop)) {
-        vmState[prop] = state[prop]
-      }
-    }
-    if (isVNode(options.message)) {
-      instance.slots.default = () => [options.message]
-    }
-    const oldCb = options.callback
-    vmState.callback = (action, inst) => {
-      oldCb(action, inst)
       showNextMsg()
     }
-    document.body.appendChild(instance.vnode.el)
-    vmState.visible = true
+  
+    const instance = initInstance(options, container)
+
+    // This is how we use message box programmably.
+    // Maybe consider releasing a template version?
+    const vm = instance.proxy as ComponentPublicInstance<{ visible: boolean }>
+
+    if (isVNode(options.message)) {
+      // Override slots since message is vnode type.
+      instance.slots.default = () => [options.message]
+    }
+
+    vm.visible = true
   }
 }
 
-const MessageBox = function(options: ElMessageBoxOptions | string, callback?): Promise<any> {
+const MessageBox = function(options: ElMessageBoxOptions | string, callback?: Function): Promise<any> {
   if (isServer) return
-  if (typeof options === 'string' || isVNode(options)) {
+  if (isString(options) || isVNode(options)) {
     options = {
       message: options,
     }
@@ -152,28 +115,19 @@ const MessageBox = function(options: ElMessageBoxOptions | string, callback?): P
   } else if (options.callback && !callback) {
     callback = options.callback
   }
-  if (typeof Promise !== 'undefined') {
-    return new Promise((resolve, reject) => {
-      msgQueue.push({
-        options: Object.assign({}, defaults, options),
-        callback: callback,
-        resolve: resolve,
-        reject: reject,
-      })
 
-      showNextMsg()
-    })
-  } else {
+  return new Promise((resolve, reject) => {
     msgQueue.push({
       options: Object.assign({}, defaults, options),
       callback: callback,
+      resolve: resolve,
+      reject: reject,
     })
-
     showNextMsg()
-  }
+  })
 }
 
-MessageBox.alert = (message, title, options?: ElMessageBoxOptions) => {
+MessageBox.alert = (message: string, title: string, options?: ElMessageBoxOptions) => {
   if (typeof title === 'object') {
     options = title
     title = ''
@@ -184,13 +138,13 @@ MessageBox.alert = (message, title, options?: ElMessageBoxOptions) => {
   return MessageBox(Object.assign({
     title: title,
     message: message,
-    type$: 'alert',
+    type: 'alert',
     closeOnPressEscape: false,
     closeOnClickModal: false,
   }, options))
 }
 
-MessageBox.confirm = (message, title, options?: ElMessageBoxOptions) => {
+MessageBox.confirm = (message: string, title: string, options?: ElMessageBoxOptions) => {
   if (typeof title === 'object') {
     options = title
     title = ''
@@ -200,12 +154,12 @@ MessageBox.confirm = (message, title, options?: ElMessageBoxOptions) => {
   return MessageBox(Object.assign({
     title: title,
     message: message,
-    type$: 'confirm',
+    type: 'confirm',
     showCancelButton: true,
   }, options))
 }
 
-MessageBox.prompt = (message, title, options?: ElMessageBoxOptions) => {
+MessageBox.prompt = (message: string, title: string, options?: ElMessageBoxOptions) => {
   if (typeof title === 'object') {
     options = title
     title = ''
@@ -217,13 +171,13 @@ MessageBox.prompt = (message, title, options?: ElMessageBoxOptions) => {
     message: message,
     showCancelButton: true,
     showInput: true,
-    type$: 'prompt',
+    type: 'prompt',
   }, options))
 }
 
 MessageBox.close = () => {
-  instance.setupInstall.doClose()
-  instance.setupInstall.state.visible = false
+  // instance.setupInstall.doClose()
+  // instance.setupInstall.state.visible = false
   msgQueue = []
   currentMsg = null
 }

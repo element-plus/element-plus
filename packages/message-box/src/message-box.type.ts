@@ -3,6 +3,8 @@ export type MessageType = 'success' | 'warning' | 'info' | 'error'
 export type MessageBoxCloseAction = 'confirm' | 'cancel' | 'close'
 export type MessageBoxData = MessageBoxInputData
 
+export type Action = 'confirm' | 'prompt' | 'alert' | 'close' | 'cancel'
+
 export interface MessageBoxInputData {
   value: string
   action: MessageBoxCloseAction
