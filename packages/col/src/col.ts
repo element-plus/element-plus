@@ -8,6 +8,10 @@ type SizeObject = {
 const ElCol = defineComponent({
   name: 'ElCol',
   props: {
+    tag: {
+      type: String,
+      default: 'div',
+    },
     span: {
       type: Number,
       default: 24,
@@ -85,7 +89,7 @@ const ElCol = defineComponent({
     })
 
     return () => h(
-      'div',
+      props.tag,
       {
         class: ['el-col', classList.value],
         style: style.value,
