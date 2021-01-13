@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-message-fade">
+  <transition name="el-message-fade" @after-leave="handleAfterLeave">
     <div
       v-show="visible"
       :id="id"
@@ -95,14 +95,6 @@ export default defineComponent({
       timer,
     }
   },
-  watch: {
-    closed(newVal: boolean) {
-      if (newVal) {
-        this.visible = false
-        on(this.$el, 'transitionend', this.destroyElement)
-      }
-    },
-  },
   mounted() {
     this.startTimer()
     this.visible = true
@@ -112,9 +104,8 @@ export default defineComponent({
     off(document, 'keydown', this.keydown)
   },
   methods: {
-    destroyElement() {
+    handleAfterLeave() {
       this.visible = false
-      off(this.$el, 'transitionend', this.destroyElement)
       this.onClose()
     },
     // start counting down to destroy message instance
@@ -135,6 +126,7 @@ export default defineComponent({
     // Event handlers
     close() {
       this.closed = true
+      this.visible = false
       this.timer = null
     },
     keydown({ code }: KeyboardEvent) {
