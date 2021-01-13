@@ -439,7 +439,7 @@
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    height: 34px;
+    height: 14px;
     width: 24px;
     vertical-align: middle;
     cursor: pointer;
@@ -456,12 +456,12 @@
 
     &.ascending {
       border-bottom-color: $--color-text-placeholder;
-      top: 5px;
+      top: -5px;
     }
 
     &.descending {
       border-top-color: $--color-text-placeholder;
-      bottom: 7px;
+      bottom: -3px;
     }
   }
 
@@ -521,12 +521,12 @@
 
   @include e(column-filter-trigger) {
     display: inline-block;
-    line-height: 34px;
     cursor: pointer;
 
     & i {
       color: $--color-info;
       font-size: 12px;
+      vertical-align: middle;
       transform: scale(.75);
     }
   }
