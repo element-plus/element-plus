@@ -18,7 +18,7 @@
 
 通过设置 `target` 属性，让固钉始终保持在容器内，超过范围则隐藏。
 
-:::demo 请注意容器不能出现滚动条。
+:::demo 请注意容器避免出现滚动条。
 ```html
 <div class="affix-container">
   <el-affix target=".affix-container" :offset="80">

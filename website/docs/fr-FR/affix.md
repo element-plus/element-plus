@@ -18,7 +18,7 @@ Affix is fixed at the top of the page by default.
 
 You can set `target` attribute to keep the affix in the container at all times. It will be hidden if out of range.
 
-:::demo Please notice that the container cannot have scrollbar.
+:::demo Please notice that the container avoid having scrollbar.
 ```html
 <div class="affix-container">
   <el-affix target=".affix-container" :offset="80">
