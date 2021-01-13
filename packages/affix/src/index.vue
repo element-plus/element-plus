@@ -71,7 +71,7 @@ export default defineComponent({
       }
     })
 
-    const onScroll = () => {
+    const updateState = () => {
       const rootRect = root.value.getBoundingClientRect()
       const targetRect = target.value.getBoundingClientRect()
       state.height = rootRect.height
@@ -96,6 +96,10 @@ export default defineComponent({
           state.fixed = state.clientHeight - props.offset < rootRect.bottom
         }
       }
+    }
+
+    const onScroll = () => {
+      updateState()
 
       emit('scroll', {
         scrollTop: state.scrollTop,
@@ -117,12 +121,12 @@ export default defineComponent({
       }
       scrollContainer.value = getScrollContainer(root.value)
       on(scrollContainer.value, 'scroll', onScroll)
-      addResizeListener(root.value, onScroll)
+      addResizeListener(root.value, updateState)
     })
 
     onBeforeUnmount(() => {
       off(scrollContainer.value, 'scroll', onScroll)
-      removeResizeListener(root.value, onScroll)
+      removeResizeListener(root.value, updateState)
     })
 
     return {
