@@ -44,6 +44,8 @@ export declare class ElMessageBoxComponent {
   close(): any
 }
 
+export type Callback = ((value: string, action: Action) => any) | ((action: Action) => any);
+
 /** Options used in MessageBox */
 export interface ElMessageBoxOptions {
   /** Title of the MessageBox */
@@ -62,7 +64,7 @@ export interface ElMessageBoxOptions {
   customClass?: string
 
   /** MessageBox closing callback if you don't prefer Promise */
-  callback?: (action: MessageBoxCloseAction, instance: ElMessageBoxComponent) => void
+  callback?: Callback;
 
   /** Callback before MessageBox closes, and it will prevent MessageBox from closing */
   beforeClose?: (action: MessageBoxCloseAction, instance: ElMessageBoxComponent, done: (() => void)) => void

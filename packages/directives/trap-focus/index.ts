@@ -16,6 +16,7 @@ const FOCUS_STACK = []
 
 const FOCUS_HANDLER = (e: KeyboardEvent) => {
   // Getting the top layer.
+  if (FOCUS_STACK.length === 0) return
   const focusableElement = FOCUS_STACK[FOCUS_STACK.length - 1][FOCUSABLE_CHILDREN]
   if (focusableElement.length > 0 && e.code === EVENT_CODE.tab) {
     if (focusableElement.length === 1) {
@@ -62,10 +63,10 @@ const TrapFocus: ObjectDirective = {
       el[FOCUSABLE_CHILDREN] = obtainAllFocusableElements(el)
     })
   },
-  unmounted(el: ITrapFocusElement) {
+  unmounted() {
     FOCUS_STACK.shift()
-    if (FOCUS_STACK.length === 1) {
-      off(document, 'keydown', el[TRAP_FOCUS_HANDLER])
+    if (FOCUS_STACK.length === 0) {
+      off(document, 'keydown', FOCUS_HANDLER)
     }
   },
 }

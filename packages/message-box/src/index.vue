@@ -122,10 +122,11 @@ import ElButton from '@element-plus/button'
 import ElInput from '@element-plus/input'
 import { t } from '@element-plus/locale'
 import { Overlay as ElOverlay } from '@element-plus/overlay'
-import { useModal, useLockScreen, useRestoreActive } from '@element-plus/hooks'
+import { useModal, useLockScreen, useRestoreActive, usePreventGlobal } from '@element-plus/hooks'
 import { TrapFocus } from '@element-plus/directives'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { on, off } from '@element-plus/utils/dom'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { Action } from './message-box.type'
@@ -240,7 +241,7 @@ export default defineComponent({
     // s represents state
     const s = reactive({
       action: '',
-      inputValue: null,
+      inputValue: props.inputValue,
       confirmButtonLoading: false,
       cancelButtonLoading: false,
       confirmButtonDisabled: false,
@@ -391,21 +392,30 @@ export default defineComponent({
       handleAction('close')
     }
 
-    // const restStates = toRefs(state)
+    // when close on press escape is disabled, pressing esc should not callout
+    // any other message box and close any other dialog-ish elements
+    // e.g. Dialog has a close on press esc feature, and when it closes, it calls
+    // props.beforeClose method to make a intermediate state by callout a message box
+    // for some verification or alerting. then if we allow global event liek this
+    // to dispatch, it could callout another message box.
+    if (props.closeOnPressEscape) {
+      useModal({
+        handleClose,
+      }, visible)
+    } else {
+      usePreventGlobal(visible, 'keydown', (e: KeyboardEvent) => e.code === EVENT_CODE.esc)
+    }
 
-    useModal({
-      handleClose,
-    }, visible)
-
+    // locks the screen to prevent scroll
     if (props.lockScroll) {
       useLockScreen(visible)
     }
 
+    // restore to prev active element.
     useRestoreActive(visible)
 
 
     return {
-      // ...restStates,
       s,
       visible,
       hasMessage,
