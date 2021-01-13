@@ -6,7 +6,7 @@
     <link rel='mask-icon' href="https://raw.githubusercontent.com/ElemeFE/element/dev/examples/assets/images/element-plus-logo-small.svg" color="#409EFF">
     <link rel="stylesheet" href="//at.alicdn.com/t/font_137970_p1tpzmomxp9cnmi.css">
     <title>Element Plus - The world's most popular Vue UI framework</title>
-    <meta name="description" content="Element，一套为开发者、设计师和产品经理准备的基于 Vue 3.0 的桌面端组件库" />
+    <meta name="description" content="Element Plus, a Vue 3.0 based component library for developers, designers and product managers" />
   </head>
   <body>
     <div id="app"></div>
