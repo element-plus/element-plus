@@ -110,7 +110,6 @@
         :format="format"
         :type="type"
         :default-value="defaultValue"
-        v-bind="$attrs"
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
