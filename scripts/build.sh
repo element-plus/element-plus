@@ -5,9 +5,7 @@
 # find all folders under root/packages excludes
 # *utils, __mocks__ directives hooks locale theme*
 # which means the result will not contain folder name includes utils
-
 yarn bootstrap
-
 yarn clean:lib
 yarn build:esm-bundle
 tar --exclude=index.esm.js -zcvf  ./es.gz ./lib

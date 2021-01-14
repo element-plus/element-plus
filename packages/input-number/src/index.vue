@@ -269,8 +269,14 @@ export default defineComponent({
             newVal = toPrecision(newVal, props.precision)
           }
         }
-        if (newVal !== undefined && newVal >= props.max) newVal = props.max
-        if (newVal !== undefined && newVal <= props.min) newVal = props.min
+        if (newVal !== undefined && newVal >= props.max) {
+          newVal = props.max
+          emit('update:modelValue', newVal)
+        }
+        if (newVal !== undefined && newVal <= props.min) {
+          newVal = props.min
+          emit('update:modelValue', newVal)
+        }
         data.currentValue = newVal
         data.userInput = null
       },
@@ -284,7 +290,7 @@ export default defineComponent({
       innerInput.setAttribute('aria-valuenow', data.currentValue)
       innerInput.setAttribute('aria-disabled', inputNumberDisabled.value)
       if (toRawType(props.modelValue) !== 'Number' && props.modelValue !== undefined) {
-        setCurrentValue(undefined)
+        emit('update:modelValue', undefined)
       }
     })
     onUpdated(() => {

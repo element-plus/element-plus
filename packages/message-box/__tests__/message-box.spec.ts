@@ -1,18 +1,28 @@
+import { mount } from '@vue/test-utils'
 import MessageBox from '../src/messageBox'
-import { sleep } from '@element-plus/test-utils'
-import { nextTick } from 'vue'
+import { rAF } from '@element-plus/test-utils/tick'
+import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
 
-const selector = '.el-message-box__wrapper'
+const selector = '.el-overlay'
+
+const _mount = (invoker: () => void) => {
+  return mount(
+    {
+      template: '<div></div>',
+      mounted() {
+        invoker()
+      },
+    },
+    {
+      attachTo: 'body',
+    },
+  )
+}
 
 describe('MessageBox', () => {
-
-  afterEach(() => {
-    const el = document.querySelector('.el-message-box__wrapper')
-    if (!el) return
-    if (el.parentNode) {
-      el.parentNode.removeChild(el)
-    }
+  afterEach(async () => {
     MessageBox.close()
+    await rAF()
   })
 
   test('create and close', async () => {
@@ -22,17 +32,23 @@ describe('MessageBox', () => {
       message: '这是一段内容',
     })
     const msgbox: HTMLElement = document.querySelector(selector)
+
     expect(msgbox).toBeDefined()
-    await sleep()
-    expect(msgbox.querySelector('.el-message-box__title span').textContent).toEqual('消息')
-    expect(msgbox.querySelector('.el-message-box__message').querySelector('p').textContent).toEqual('这是一段内容')
+    await rAF()
+    expect(
+      msgbox.querySelector('.el-message-box__title span').textContent,
+    ).toEqual('消息')
+    expect(
+      msgbox.querySelector('.el-message-box__message').querySelector('p')
+        .textContent,
+    ).toEqual('这是一段内容')
     MessageBox.close()
-    await sleep(250)
+    await rAF()
     expect(msgbox.style.display).toEqual('none')
   })
 
   test('invoke with strings', () => {
-    MessageBox('消息', '这是一段内容')
+    MessageBox({ title: '消息', message: '这是一段内容' })
     const msgbox = document.querySelector(selector)
     expect(msgbox).toBeDefined()
   })
@@ -43,7 +59,7 @@ describe('MessageBox', () => {
       iconClass: 'el-icon-question',
       message: '这是一段内容',
     })
-    await sleep()
+    await rAF()
     const icon = document.querySelector('.el-message-box__status')
     expect(icon.classList.contains('el-icon-question')).toBe(true)
   })
@@ -54,25 +70,32 @@ describe('MessageBox', () => {
       dangerouslyUseHTMLString: true,
       message: '<strong>html string</strong>',
     })
-    await sleep()
+    await rAF()
     const message = document.querySelector('.el-message-box__message strong')
     expect(message.textContent).toEqual('html string')
   })
 
   test('distinguish cancel and close', async () => {
     let msgAction = ''
-    MessageBox({
-      title: '消息',
-      message: '这是一段内容',
-      distinguishCancelAndClose: true,
-      callback:  action => {
-        msgAction = action
-      },
-    })
-    await sleep()
-    const btn = document.querySelector('.el-message-box__close') as HTMLButtonElement
+    const invoker = () => {
+      MessageBox({
+        title: '消息',
+        message: '这是一段内容',
+        distinguishCancelAndClose: true,
+        callback: action => {
+          msgAction = action
+        },
+      })
+    }
+
+    _mount(invoker)
+    await rAF()
+
+    const btn = document.querySelector(
+      '.el-message-box__close',
+    ) as HTMLButtonElement
     btn.click()
-    await sleep()
+    await rAF()
     expect(msgAction).toEqual('close')
   })
 
@@ -81,26 +104,27 @@ describe('MessageBox', () => {
       title: '标题名称',
       type: 'warning',
     })
-    await sleep()
-    const vModal: HTMLElement = document.querySelector('.v-modal')
-    vModal.click()
-    await sleep(250)
+    await rAF()
+    await triggerNativeCompositeClick(document.querySelector(selector))
+    await rAF()
     const msgbox: HTMLElement = document.querySelector(selector)
     expect(msgbox.style.display).toEqual('')
     expect(msgbox.querySelector('.el-icon-warning')).toBeDefined()
   })
 
-  test('confirm',  async () => {
+  test('confirm', async () => {
     MessageBox.confirm('这是一段内容', {
       title: '标题名称',
       type: 'warning',
     })
-    await sleep()
-    const btn = document.querySelector(selector).querySelector('.el-button--primary') as HTMLButtonElement
+    await rAF()
+    const btn = document
+      .querySelector(selector)
+      .querySelector('.el-button--primary') as HTMLButtonElement
     btn.click()
-    await sleep(250)
+    await rAF()
     const msgbox: HTMLElement = document.querySelector(selector)
-    expect(msgbox.style.display).toEqual('none')
+    expect(msgbox).toBe(null)
   })
 
   test('prompt', async () => {
@@ -109,9 +133,13 @@ describe('MessageBox', () => {
       inputPattern: /test/,
       inputErrorMessage: 'validation failed',
     })
-    await sleep(0)
-    const inputElm = document.querySelector(selector).querySelector('.el-message-box__input')
-    const haveFocus = inputElm.querySelector('input').isSameNode(document.activeElement)
+    await rAF()
+    const inputElm = document
+      .querySelector(selector)
+      .querySelector('.el-message-box__input')
+    const haveFocus = inputElm
+      .querySelector('input')
+      .isSameNode(document.activeElement)
     expect(inputElm).toBeDefined()
     expect(haveFocus).toBe(true)
   })
@@ -121,8 +149,10 @@ describe('MessageBox', () => {
       inputType: 'textarea',
       title: '标题名称',
     })
-    await sleep()
-    const textareaElm = document.querySelector(selector).querySelector('textarea')
+    await rAF()
+    const textareaElm = document
+      .querySelector(selector)
+      .querySelector('textarea')
     const haveFocus = textareaElm.isSameNode(document.activeElement)
     expect(haveFocus).toBe(true)
   })
@@ -136,55 +166,65 @@ describe('MessageBox', () => {
         msgAction = action
       },
     })
-    await sleep()
-    const closeBtn = document.querySelector('.el-message-box__close') as HTMLButtonElement
+    await rAF()
+    const closeBtn = document.querySelector(
+      '.el-message-box__close',
+    ) as HTMLButtonElement
     closeBtn.click()
-    await sleep()
+    await rAF()
     expect(msgAction).toEqual('cancel')
   })
 
-  test('beforeClose', async() => {
+  test('beforeClose', async () => {
     let msgAction = ''
     MessageBox({
+      callback: action => {
+        msgAction = action
+      },
       title: '消息',
       message: '这是一段内容',
-      beforeClose: (action, instance) => {
-        instance.close()
+      beforeClose: (_, __, done) => {
+        done()
       },
-    }, action => {
-      msgAction = action
     })
-    await sleep();
-    (document.querySelector('.el-message-box__wrapper .el-button--primary') as HTMLButtonElement).click()
-    await nextTick()
-    await sleep()
+    await rAF()
+    ;(document.querySelector(
+      '.el-message-box__btns .el-button--primary',
+    ) as HTMLButtonElement).click()
+    await rAF()
     expect(msgAction).toEqual('confirm')
   })
 
   describe('promise', () => {
-    test('resolve',async () => {
+    test('resolve', async () => {
       let msgAction = ''
-      MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示')
-        .then(action => {
+      MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示').then(
+        action => {
           msgAction = action
-        })
-      await sleep()
-      const btn = document.querySelector('.el-message-box__btns .el-button--primary') as HTMLButtonElement
+        },
+      )
+      await rAF()
+      const btn = document.querySelector(
+        '.el-message-box__btns .el-button--primary',
+      ) as HTMLButtonElement
       btn.click()
-      await sleep()
+      await rAF()
       expect(msgAction).toEqual('confirm')
     })
 
     test('reject', async () => {
       let msgAction = ''
-      MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示')
-        .catch(action => {
+      MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示').catch(
+        action => {
           msgAction = action
-        })
-      await sleep()
-      const btn = document.querySelectorAll('.el-message-box__btns .el-button') as NodeListOf<HTMLButtonElement>
-      btn[0].click()
-      await sleep()
+        },
+      )
+      await rAF()
+      const btn = document.querySelector(
+        '.el-message-box__btns .el-button',
+      )
+      ;(btn as HTMLButtonElement).click()
+      await rAF()
       expect(msgAction).toEqual('cancel')
     })
   })

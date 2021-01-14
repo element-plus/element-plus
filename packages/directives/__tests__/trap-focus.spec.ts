@@ -9,7 +9,6 @@ const isVisibleMock = jest
 import TrapFocus, {
   ITrapFocusElement,
   FOCUSABLE_CHILDREN,
-  TRAP_FOCUS_HANDLER,
 } from '../trap-focus'
 
 let wrapper
@@ -45,9 +44,6 @@ describe('v-trap-focus', () => {
     expect(
       (wrapper.element as ITrapFocusElement)[FOCUSABLE_CHILDREN].length,
     ).toBe(1)
-    expect(
-      (wrapper.element as ITrapFocusElement)[TRAP_FOCUS_HANDLER].length,
-    ).toBeDefined()
   })
 
   test('should not fetch disabled element', () => {

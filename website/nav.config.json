@@ -228,6 +228,10 @@
           "groupName": "Navigation",
           "list": [
             {
+              "path": "/affix",
+              "title": "Affix 固钉"
+            },
+            {
               "path": "/menu",
               "title": "NavMenu 导航菜单"
             },
@@ -541,6 +545,10 @@
         {
           "groupName": "Navigation",
           "list": [
+            {
+              "path": "/affix",
+              "title": "Affix"
+            },
             {
               "path": "/menu",
               "title": "NavMenu"
@@ -860,6 +868,10 @@
           "groupName": "Navigation",
           "list": [
             {
+              "path": "/affix",
+              "title": "Affix"
+            },
+            {
               "path": "/menu",
               "title": "NavMenu"
             },
@@ -1178,6 +1190,10 @@
           "groupName": "Navigation",
           "list": [
             {
+              "path": "/affix",
+              "title": "Affix"
+            },
+            {
               "path": "/menu",
               "title": "NavMenu"
             },
@@ -1495,6 +1511,10 @@
         {
           "groupName": "Navigation",
           "list": [
+            {
+              "path": "/affix",
+              "title": "Affix"
+            },
             {
               "path": "/menu",
               "title": "NavMenu"
