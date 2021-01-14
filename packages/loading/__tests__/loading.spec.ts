@@ -42,7 +42,7 @@ describe('Loading', () => {
     vm.loading = false
 
     await sleep(100)
-    expect(vm.$el.querySelector('.el-loading-mask').style.display).toEqual('none')
+    expect(wrapper.find('.el-loading-mask').exists()).toBeFalsy()
   })
 
   test('unmounted directive', async () => {

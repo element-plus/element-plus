@@ -18,7 +18,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
     data.text = text
   }
 
-  function destorySelf() {
+  function destroySelf() {
     const target = data.parent
     if(!target.vLoadingAddClassList) {
       removeClass(target, 'el-loading-parent--relative')
@@ -41,7 +41,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
     afterLeaveTimer = window.setTimeout(() => {
       if (afterLeaveFlag.value) {
         afterLeaveFlag.value = false
-        destorySelf()
+        destroySelf()
       }
     }, 400)
     data.visible = false
@@ -50,7 +50,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
   function handleAfterLeave() {
     if (!afterLeaveFlag.value) return
     afterLeaveFlag.value = false
-    destorySelf()
+    destroySelf()
   }
 
   const componetSetupConfig = {
