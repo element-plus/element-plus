@@ -47,7 +47,7 @@ export function getPropByPath(obj: any, path: string, strict: boolean): {
   let tempObj = obj
   let key, value
 
-  if (hasOwn(obj, path)) {
+  if (obj && hasOwn(obj, path)) {
     key = path
     value = tempObj?.[path]
   } else {
