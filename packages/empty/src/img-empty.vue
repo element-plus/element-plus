@@ -5,7 +5,6 @@
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
   >
-    <title>Group 2</title>
     <defs>
       <linearGradient
         id="linearGradient-1"
