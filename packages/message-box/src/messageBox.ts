@@ -3,13 +3,20 @@ import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
 import { isVNode, isString } from '@element-plus/utils/util'
 
-import type { ComponentPublicInstance } from 'vue'
-import type { ElMessageBoxOptions, Action, Callback } from './message-box.type'
+import type { ComponentPublicInstance, VNode } from 'vue'
+import type {
+  Action,
+  Callback,
+  MessageBoxState,
+  ElMessageBox,
+  ElMessageBoxOptions,
+  MessageBoxData,
+} from './message-box.type'
 
 // component default merge props & data
 
-let messageInstance = new Map<
-  ComponentPublicInstance<{ doClose: () => void }>, // marking doClose as function
+const messageInstance = new Map<
+  ComponentPublicInstance<{ doClose: () => void; }>, // marking doClose as function
   {
     options: any
     callback: Callback
@@ -44,11 +51,11 @@ const showMessage = (options: any) => {
   }
 
   options.onAction = (action: Action) => {
-    
+
     const currentMsg = messageInstance.get(vm)
-    let resolve: Action | { value: string; action: Action }
+    let resolve: Action | { value: string; action: Action; }
     if (options.showInput) {
-      resolve = { value: vm.s.inputValue, action }
+      resolve = { value: vm.state.inputValue, action }
     } else {
       resolve = action
     }
@@ -74,10 +81,8 @@ const showMessage = (options: any) => {
   // get component instance like v2.
   const vm = instance.proxy as ComponentPublicInstance<{
     visible: boolean
-    s: {
-      inputValue: string
-    },
-    doClose: () => void,
+    state: MessageBoxState
+    doClose: () => void
   }>
 
   if (isVNode(options.message)) {
@@ -89,19 +94,17 @@ const showMessage = (options: any) => {
   return vm
 }
 
-const MessageBox = async function(
-  options: ElMessageBoxOptions | string,
-  callback?: Callback,
-): Promise<void> {
+async function MessageBox(options: ElMessageBoxOptions): Promise<MessageBoxData>
+function MessageBox(
+  options: ElMessageBoxOptions | string | VNode,
+): Promise<{value: string; action: Action;} | Action> {
   if (isServer) return
+  let callback
   if (isString(options) || isVNode(options)) {
     options = {
       message: options,
     }
-    if (typeof callback === 'string') {
-      options.title = callback
-    }
-  } else if (options.callback && !callback) {
+  } else {
     callback = options.callback
   }
 
@@ -195,9 +198,12 @@ MessageBox.prompt = (
 MessageBox.close = () => {
   // instance.setupInstall.doClose()
   // instance.setupInstall.state.visible = false
+
   messageInstance.forEach((_, vm) => {
     vm.doClose()
   })
+
+  messageInstance.clear()
 }
 
-export default MessageBox
+export default MessageBox as ElMessageBox

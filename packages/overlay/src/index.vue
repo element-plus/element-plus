@@ -1,5 +1,5 @@
 <script lang="ts">
-import { createVNode, defineComponent, renderSlot, h, nextTick } from 'vue'
+import { createVNode, defineComponent, renderSlot, h } from 'vue'
 import { PatchFlags } from '@element-plus/utils/vnode'
 
 export default defineComponent({

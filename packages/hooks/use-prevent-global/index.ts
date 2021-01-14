@@ -9,7 +9,7 @@ export default (indicator: Ref<boolean>, evt: string, cb: (e: Event) => boolean)
       e.stopImmediatePropagation()
     }
   }
-  watch(() => indicator.value, (val) => {
+  watch(() => indicator.value, val => {
     if (val) {
       on(document, evt, prevent, true)
     } else {
