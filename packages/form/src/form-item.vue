@@ -99,7 +99,6 @@ export default defineComponent({
       validator: isValidComponentSize,
     },
   },
-  emits: ['validate'],
   setup(props) {
     const formItemMitt = mitt()
     const $ELEMENT = useGlobalConfig()
