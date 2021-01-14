@@ -14,50 +14,41 @@
         @click="onModalClick"
       >
         <div
-          class="el-drawer__container"
-          :class="{ 'el-drawer__open': visible }"
-          tabindex="-1"
-          role="document"
+          ref="drawerRef"
+          v-trap-focus
+          aria-modal="true"
+          aria-labelledby="el-drawer__title"
+          :aria-label="title"
+          :class="['el-drawer', direction, customClass]"
+          :style="isHorizontal ? 'width: ' + size : 'height: ' + size"
+          role="dialog"
+          @click.stop
         >
-          <div
-            ref="drawerRef"
-            v-trap-focus
-            aria-modal="true"
-            aria-labelledby="el-drawer__title"
-            :aria-label="title"
-            class="el-drawer"
-            :class="[direction, customClass]"
-            :style="isHorizontal ? 'width: ' + size : 'height: ' + size"
-            role="dialog"
-            tabindex="-1"
-            @click.stop
+          <header
+            v-if="withHeader"
+            id="el-drawer__title"
+            class="el-drawer__header"
           >
-            <header
-              v-if="withHeader"
-              id="el-drawer__title"
-              class="el-drawer__header"
+            <slot name="title">
+              <span role="heading" :title="title">
+                {{ title }}
+              </span>
+            </slot>
+            <button
+              v-if="showClose"
+              :aria-label="'close ' + (title || 'drawer')"
+              class="el-drawer__close-btn"
+              type="button"
+              @click="handleClose"
             >
-              <slot name="title">
-                <span role="heading" tabindex="-1" :title="title">
-                  {{ title }}
-                </span>
-              </slot>
-              <button
-                v-if="showClose"
-                :aria-label="'close ' + (title || 'drawer')"
-                class="el-drawer__close-btn"
-                type="button"
-                @click="handleClose"
-              >
-                <i class="el-drawer__close el-icon el-icon-close"></i>
-              </button>
-            </header>
-            <template v-if="rendered">
-              <section class="el-drawer__body">
-                <slot></slot>
-              </section>
-            </template>
-          </div>
+              <i class="el-drawer__close el-icon el-icon-close"></i>
+            </button>
+          </header>
+          <template v-if="rendered">
+            <section class="el-drawer__body">
+              <slot></slot>
+            </section>
+          </template>
         </div>
       </el-overlay>
     </transition>

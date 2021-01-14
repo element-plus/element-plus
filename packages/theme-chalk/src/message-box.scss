@@ -18,23 +18,6 @@
   overflow: hidden;
   backface-visibility: hidden;
 
-  @include e(wrapper) {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
-
-    &::after {
-      content: "";
-      display: inline-block;
-      height: 100%;
-      width: 0;
-      vertical-align: middle;
-    }
-  }
-
   @include e(header) {
     position: relative;
     padding: $--msgbox-padding-primary;
@@ -195,12 +178,16 @@
   }
 }
 
-.msgbox-fade-enter-active {
-  animation: msgbox-fade-in .3s;
+.fade-in-linear-enter-active {
+  .el-message-box {
+    animation: msgbox-fade-in .3s;
+  }
 }
 
-.msgbox-fade-leave-active {
-  animation: msgbox-fade-out .3s;
+.fade-in-linear-leave-active {
+  .el-message-box {
+    animation: msgbox-fade-in .3s reverse;
+  }
 }
 
 @keyframes msgbox-fade-in {

@@ -1,23 +1,32 @@
 <template>
-  <transition name="msgbox-fade">
-    <div
+  <transition name="fade-in-linear" @after-leave="$emit('vanish')">
+    <el-overlay
       v-show="visible"
-      ref="root"
-      :aria-label="title || 'dialog'"
-      class="el-message-box__wrapper"
-      tabindex="-1"
-      role="dialog"
-      aria-modal="true"
+      :z-index="state.zIndex"
+      :overlay-class="modalClass"
+      :mask="modal"
       @click.self="handleWrapperClick"
     >
-      <div class="el-message-box" :class="[customClass, center && 'el-message-box--center']">
-        <div v-if="title !== null && title !== undefined" class="el-message-box__header">
+      <div
+        ref="root"
+        v-trap-focus
+        :aria-label="title || 'dialog'"
+        aria-modal="true"
+        :class="[
+          'el-message-box',
+          customClass,
+          { 'el-message-box--center': center },
+        ]"
+      >
+        <div
+          v-if="title !== null && title !== undefined"
+          class="el-message-box__header"
+        >
           <div class="el-message-box__title">
             <div
               v-if="icon && center"
               :class="['el-message-box__status', icon]"
-            >
-            </div>
+            ></div>
             <span>{{ title }}</span>
           </div>
           <button
@@ -25,8 +34,12 @@
             type="button"
             class="el-message-box__headerbtn"
             aria-label="Close"
-            @click="handleAction(distinguishCancelAndClose ? 'close' : 'cancel')"
-            @keydown.enter="handleAction(distinguishCancelAndClose ? 'close' : 'cancel')"
+            @click="
+              handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
+            "
+            @keydown.enter="
+              handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
+            "
           >
             <i class="el-message-box__close el-icon-close"></i>
           </button>
@@ -36,8 +49,7 @@
             <div
               v-if="icon && !center && hasMessage"
               :class="['el-message-box__status', icon]"
-            >
-            </div>
+            ></div>
             <div v-if="hasMessage" class="el-message-box__message">
               <slot>
                 <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
@@ -47,47 +59,54 @@
           </div>
           <div v-show="showInput" class="el-message-box__input">
             <el-input
-              ref="input"
-              v-model="inputValue"
+              ref="inputRef"
+              v-model="state.inputValue"
               :type="inputType"
               :placeholder="inputPlaceholder"
-              :class="{ invalid: validateError }"
-              @keydown.enter="handleInputEnter"
+              :class="{ invalid: state.validateError }"
+              @keydown.prevent.enter="handleInputEnter"
             />
-            <div class="el-message-box__errormsg" :style="{ visibility: !!editorErrorMessage ? 'visible' : 'hidden' }">{{ editorErrorMessage }}</div>
+            <div
+              class="el-message-box__errormsg"
+              :style="{
+                visibility: !!state.editorErrorMessage ? 'visible' : 'hidden',
+              }"
+            >
+              {{ state.editorErrorMessage }}
+            </div>
           </div>
         </div>
         <div class="el-message-box__btns">
           <el-button
             v-if="showCancelButton"
-            :loading="cancelButtonLoading"
-            :class="[ cancelButtonClass ]"
+            :loading="state.cancelButtonLoading"
+            :class="[cancelButtonClass]"
             :round="roundButton"
             size="small"
             @click="handleAction('cancel')"
             @keydown.enter="handleAction('cancel')"
           >
-            {{ cancelButtonText || t('el.messagebox.cancel') }}
+            {{ state.cancelButtonText || t('el.messagebox.cancel') }}
           </el-button>
           <el-button
             v-show="showConfirmButton"
-            ref="confirm"
-            :loading="confirmButtonLoading"
-            :class="[ confirmButtonClasses ]"
+            ref="confirmRef"
+            :loading="state.confirmButtonLoading"
+            :class="[confirmButtonClasses]"
             :round="roundButton"
-            :disabled="confirmButtonDisabled"
+            :disabled="state.confirmButtonDisabled"
             size="small"
             @click="handleAction('confirm')"
             @keydown.enter="handleAction('confirm')"
           >
-            {{ confirmButtonText || t('el.messagebox.confirm') }}
+            {{ state.confirmButtonText || t('el.messagebox.confirm') }}
           </el-button>
         </div>
       </div>
-    </div>
+    </el-overlay>
   </transition>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import {
   defineComponent,
   nextTick,
@@ -95,19 +114,21 @@ import {
   onBeforeUnmount,
   computed,
   watch,
-  onBeforeMount,
-  getCurrentInstance,
   reactive,
-  toRefs,
+  ref,
 } from 'vue'
 import ElButton from '@element-plus/button'
 import ElInput from '@element-plus/input'
 import { t } from '@element-plus/locale'
-import Dialog  from '@element-plus/utils/aria-dialog'
-import usePopup from '@element-plus/utils/popup/usePopup'
+import { Overlay as ElOverlay } from '@element-plus/overlay'
+import { useModal, useLockScreen, useRestoreActive, usePreventGlobal } from '@element-plus/hooks'
+import { TrapFocus } from '@element-plus/directives'
+import PopupManager from '@element-plus/utils/popup-manager'
 import { on, off } from '@element-plus/utils/dom'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 
-let dialog
+import type { ComponentPublicInstance, PropType } from 'vue'
+import type { Action, MessageBoxState } from './message-box.type'
 
 const TypeMap: Indexable<string> = {
   success: 'success',
@@ -121,41 +142,23 @@ export default defineComponent({
   components: {
     ElButton,
     ElInput,
+    ElOverlay,
+  },
+  directives: {
+    TrapFocus,
   },
   props: {
-    openDelay: {
-      type: Number,
-      default: 0,
+    beforeClose: {
+      type: Function as PropType<(action: Action, state: MessageBoxState, doClose: () => void) => any>,
+      default: undefined,
     },
-    closeDelay: {
-      type: Number,
-      default: 0,
-    },
-    zIndex: Number,
-    modalFade: {
-      type: Boolean,
-      default: true,
-    },
-    modalClass: {
+    callback: Function,
+    cancelButtonText: {
       type: String,
-      default: '',
+      default: 'Cancel',
     },
-    modalAppendToBody: {
-      type: Boolean,
-      default: false,
-    },
-    modal: {
-      type: Boolean,
-      default: true,
-    },
-    lockScroll: {
-      type: Boolean,
-      default: true,
-    },
-    showClose: {
-      type: Boolean,
-      default: true,
-    },
+    cancelButtonClass: String,
+    center: Boolean,
     closeOnClickModal: {
       type: Boolean,
       default: true,
@@ -168,78 +171,113 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    center: {
-      default: false,
-      type: Boolean,
+    confirmButtonText: {
+      type: String,
+      default: 'OK',
     },
-    roundButton: {
-      default: false,
-      type: Boolean,
+    confirmButtonClass: String,
+    container: {
+      type: String, // default append to body
+      default: 'body',
     },
-  } ,
-  setup(props) {
-    let vm
-    const popup = usePopup(props, doClose)
+    customClass: String,
+    dangerouslyUseHTMLString: Boolean,
+    distinguishCancelAndClose: Boolean,
+    iconClass: String,
+    inputPattern: {
+      type: Object as PropType<RegExp>,
+      default: () => undefined,
+      validator: (val: unknown) => (val instanceof RegExp || val === 'undefined'),
+    },
+    inputPlaceholder: {
+      type: String,
+    },
+    inputType: {
+      type: String,
+      default: 'text',
+    },
+    inputValue: {
+      type: String,
+    },
+    inputValidator: {
+      type: Function as PropType<(...args: any[]) => boolean | string>,
+      default: null,
+    },
+    inputErrorMessage: String,
+    lockScroll: {
+      type: Boolean,
+      default: true,
+    },
+    message: String,
+    modalFade: { // implement this feature
+      type: Boolean,
+      default: true,
+    },
+    modalClass: String,
+    modal: {
+      type: Boolean,
+      default: true,
+    },
+    roundButton: Boolean,
+    showCancelButton: Boolean,
+    showConfirmButton: {
+      type: Boolean,
+      default: true,
+    },
+    showClose: {
+      type: Boolean,
+      default: true,
+    },
+    type: String,
+    title: String,
+    showInput: Boolean,
+    zIndex: Number,
+  },
+  emits: ['vanish', 'action'],
+  setup(props, { emit }) {
+    // const popup = usePopup(props, doClose)
+    const visible = ref(false)
+    // s represents state
     const state = reactive({
-      uid: 1,
-      title: undefined,
-      message: '',
-      type: '',
-      iconClass: '',
-      customClass: '',
-      showInput: false,
-      inputValue: null,
-      inputPlaceholder: '',
-      inputType: 'text',
-      inputPattern: null,
-      inputValidator: null,
-      inputErrorMessage: '',
-      showConfirmButton: true,
-      showCancelButton: false,
-      action: '',
-      confirmButtonText: '',
-      cancelButtonText: '',
+      action: '' as Action,
+      inputValue: props.inputValue,
       confirmButtonLoading: false,
       cancelButtonLoading: false,
-      confirmButtonClass: '',
+      cancelButtonText: props.cancelButtonText,
       confirmButtonDisabled: false,
-      cancelButtonClass: '',
-      editorErrorMessage: null,
-      callback: null,
-      dangerouslyUseHTMLString: false,
-      focusAfterClosed: null,
-      isOnComposition: false,
-      distinguishCancelAndClose: false,
-      type$: '',
-      visible: false,
+      confirmButtonText: props.confirmButtonText,
+      editorErrorMessage: '',
+      // refer to: https://github.com/ElemeFE/element/commit/2999279ae34ef10c373ca795c87b020ed6753eed
+      // seemed ok for now without this state.
+      // isOnComposition: false, // temporary remove
       validateError: false,
+      zIndex: PopupManager.nextZIndex(),
     })
-    const icon = computed(() => state.iconClass || (state.type && TypeMap[state.type] ? `el-icon-${ TypeMap[state.type] }` : ''))
-    const hasMessage = computed(() => !!state.message)
+    const icon = computed(() => props.iconClass || (props.type && TypeMap[props.type] ? `el-icon-${TypeMap[props.type]}` : ''))
+    const hasMessage = computed(() => !!props.message)
+    const inputRef = ref<ComponentPublicInstance>(null)
+    const confirmRef = ref<ComponentPublicInstance>(null)
 
-    const confirmButtonClasses = computed(() => `el-button--primary ${ state.confirmButtonClass }`)
+    const confirmButtonClasses = computed(() => `el-button--primary ${props.confirmButtonClass}`)
 
     watch(() => state.inputValue, async val => {
       await nextTick()
-      if (state.type$ === 'prompt' && val !== null) {
+      if (props.type === 'prompt' && val !== null) {
         validate()
       }
     }, { immediate: true })
 
-    watch(() => state.visible, val => {
-      popup.state.visible = val
+    watch(() => visible.value, val => {
       if (val) {
-        state.uid++
-        if (state.type$ === 'alert' || state.type$ === 'confirm') {
-          nextTick().then(() => { vm.refs.confirm.$el.focus() })
+        if (props.type === 'alert' || props.type === 'confirm') {
+          nextTick().then(() => { confirmRef.value?.$el?.focus?.() })
         }
-        state.focusAfterClosed = document.activeElement
-        dialog = new Dialog(vm.vnode.el, state.focusAfterClosed, getFirstFocus())
+        state.zIndex = PopupManager.nextZIndex()
       }
-      if (state.type$ !== 'prompt') return
+      if (props.type !== 'prompt') return
       if (val) {
         nextTick().then(() => {
-          if (vm.refs.input && vm.refs.input.$el) {
+          if (inputRef.value && inputRef.value.$el) {
             getInputElement().focus()
           }
         })
@@ -249,98 +287,66 @@ export default defineComponent({
       }
     })
 
-    onBeforeMount(() => {
-      vm = getCurrentInstance()
-      vm.setupInstall = {
-        state,
-        doClose,
-      }
-    })
-
     onMounted(async () => {
       await nextTick()
       if (props.closeOnHashChange) {
-        on(window, 'hashchange', popup.close)
+        on(window, 'hashchange', doClose)
       }
     })
 
     onBeforeUnmount(() => {
       if (props.closeOnHashChange) {
-        off(window, 'hashchange', popup.close)
+        off(window, 'hashchange', doClose)
       }
-      setTimeout(() => {
-        dialog.closeDialog()
-      })
     })
 
-    function getSafeClose () {
-      const currentId = state.uid
-      return async () => {
-
-        await nextTick()
-        if (currentId === state.uid) doClose()
-      }
-    }
-
     function doClose() {
-      if (!state.visible) return
-      state.visible = false
-      popup.updateClosingFlag(true)
-      dialog.closeDialog()
-      if (props.lockScroll) {
-        setTimeout(popup.restoreBodyStyle, 200)
-      }
-      popup.state.opened = false
-      popup.doAfterClose()
-      setTimeout(() => {
-        if (state.action) state.callback(state.action, state)
+      if (!visible.value) return
+      visible.value = false
+      nextTick(() => {
+        if (state.action) emit('action', state.action)
       })
-    }
-
-    const getFirstFocus = () => {
-      const btn = vm.vnode.el.querySelector('.el-message-box__btns .el-button')
-      const title = vm.vnode.el.querySelector('.el-message-box__btns .el-message-box__title')
-      return btn || title
     }
 
     const handleWrapperClick = () => {
       if (props.closeOnClickModal) {
-        handleAction(state.distinguishCancelAndClose ? 'close' : 'cancel')
+        handleAction(props.distinguishCancelAndClose ? 'close' : 'cancel')
       }
     }
 
     const handleInputEnter = () => {
-      if (state.inputType !== 'textarea') {
+      if (props.inputType !== 'textarea') {
         return handleAction('confirm')
       }
     }
 
-    const handleAction = action => {
-      if (state.type$ === 'prompt' && action === 'confirm' && !validate()) {
+    const handleAction = (action: Action) => {
+      if (props.type === 'prompt' && action === 'confirm' && !validate()) {
         return
       }
+
       state.action = action
-      if (typeof vm.setupInstall.state.beforeClose === 'function') {
-        vm.setupInstall.state.close = getSafeClose()
-        vm.setupInstall.state.beforeClose(action, state, popup.close)
+
+      if (props.beforeClose) {
+        props.beforeClose?.(action, state, doClose)
       } else {
         doClose()
       }
     }
 
     const validate = () => {
-      if (state.type$ === 'prompt') {
-        const inputPattern = state.inputPattern
+      if (props.type === 'prompt') {
+        const inputPattern = props.inputPattern
         if (inputPattern && !inputPattern.test(state.inputValue || '')) {
-          state.editorErrorMessage = state.inputErrorMessage || t('el.messagebox.error')
+          state.editorErrorMessage = props.inputErrorMessage || t('el.messagebox.error')
           state.validateError = true
           return false
         }
-        const inputValidator = state.inputValidator
+        const inputValidator = props.inputValidator
         if (typeof inputValidator === 'function') {
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
-            state.editorErrorMessage = state.inputErrorMessage || t('el.messagebox.error')
+            state.editorErrorMessage = props.inputErrorMessage || t('el.messagebox.error')
             state.validateError = true
             return false
           }
@@ -357,25 +363,50 @@ export default defineComponent({
     }
 
     const getInputElement = () => {
-      const inputRefs = vm.refs.input.$refs
-      return inputRefs.input || inputRefs.textarea
+      const inputRefs = inputRef.value.$refs
+      return (inputRefs.input || inputRefs.textarea) as HTMLElement
     }
 
     const handleClose = () => {
       handleAction('close')
     }
 
+    // when close on press escape is disabled, pressing esc should not callout
+    // any other message box and close any other dialog-ish elements
+    // e.g. Dialog has a close on press esc feature, and when it closes, it calls
+    // props.beforeClose method to make a intermediate state by callout a message box
+    // for some verification or alerting. then if we allow global event liek this
+    // to dispatch, it could callout another message box.
+    if (props.closeOnPressEscape) {
+      useModal({
+        handleClose,
+      }, visible)
+    } else {
+      usePreventGlobal(visible, 'keydown', (e: KeyboardEvent) => e.code === EVENT_CODE.esc)
+    }
+
+    // locks the screen to prevent scroll
+    if (props.lockScroll) {
+      useLockScreen(visible)
+    }
+
+    // restore to prev active element.
+    useRestoreActive(visible)
+
     return {
-      ...toRefs(state),
+      state,
+      visible,
       hasMessage,
       icon,
       confirmButtonClasses,
+      inputRef,
+      confirmRef,
+      doClose, // for outside usage
+      handleClose, // for out side usage
       handleWrapperClick,
       handleInputEnter,
       handleAction,
-      handleClose,
       t,
-      doClose,
     }
   },
 })

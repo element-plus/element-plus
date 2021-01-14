@@ -14,7 +14,7 @@ export const rAF = async () => {
   return new Promise(res => {
     requestAnimationFrame(() => {
       requestAnimationFrame(async () => {
-        res()
+        res(null)
         await nextTick()
       })
     })
