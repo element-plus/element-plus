@@ -127,10 +127,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    id: {
-      type: String,
-      default: '',
-    },
+    id: String,
     loading:{
       type: Boolean,
       default: false,
