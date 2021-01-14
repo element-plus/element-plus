@@ -108,6 +108,7 @@
         :actual-visible="pickerActualVisible"
         :parsed-value="parsedValue"
         :format="format"
+        :unlink-panels="unlinkPanels"
         :type="type"
         :default-value="defaultValue"
         @pick="onPick"

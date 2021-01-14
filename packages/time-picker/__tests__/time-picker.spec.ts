@@ -50,10 +50,11 @@ describe('TimePicker', () => {
     expect(outterInput.attributes().style).toBeDefined()
   })
 
-  it('set format && default value && set AM/PM spinner', async () => {
+  it('set format && default value && set AM/PM spinner && no $attr to panel', async () => {
     const wrapper = _mount(`<el-time-picker
         :format="format"
         v-model="value"
+        class="customClass"
       />`, () => ({ format: 'hh-mm:ss A',
       value: new Date(2016, 9, 10, 18, 40) }))
     await nextTick()
@@ -73,6 +74,8 @@ describe('TimePicker', () => {
     expect(times[0].textContent).toBe('06 PM')
     expect(times[1].textContent).toBe('40') // default value
     expect(times[2].textContent).toBe('00')
+    const panel = document.querySelector('.el-time-panel') as any
+    expect(panel.classList).not.toContain('customClass')
   })
 
   it('select time', async () => {
