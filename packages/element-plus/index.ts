@@ -1,4 +1,5 @@
 import type { App } from 'vue'
+import ElAffix from '@element-plus/affix'
 import ElAlert from '@element-plus/alert'
 import ElAside from '@element-plus/aside'
 import ElAutocomplete from '@element-plus/autocomplete'
@@ -92,19 +93,20 @@ import { use } from '@element-plus/locale'
 // if you encountered problems alike "Can't resolve './version'"
 // please run `yarn bootstrap` first
 import { version as version_ } from './version'
-import { setConfig } from '@element-plus/utils/config'
 import type { InstallOptions } from '@element-plus/utils/config'
+import { setConfig } from '@element-plus/utils/config'
 
 const version = version_ // version_ to fix tsc issue
 
 const locale = use
 
-const defaultInstallOpt: InstallOptions =  {
+const defaultInstallOpt: InstallOptions = {
   size: '' as ComponentSize,
   zIndex: 2000,
 }
 
 const components = [
+  ElAffix,
   ElAlert,
   ElAside,
   ElAutocomplete,
@@ -215,6 +217,7 @@ const install = (app: App, opt: InstallOptions): void => {
 }
 
 export {
+  ElAffix,
   ElAlert,
   ElAside,
   ElAutocomplete,
