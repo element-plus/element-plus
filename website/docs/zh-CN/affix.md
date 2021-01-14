@@ -45,7 +45,7 @@ Affix 组件提供了两个固定位置：`top` 和 `bottom`。
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | offset     | 偏移距离           | number | — | 0 |
 | position | 固钉位置 | string | top / bottom | top |
-| target | 指定容器 | string | — | — |
+| target | 指定容器（CSS 选择器） | string | — | — |
 | z-index | 固钉层级 | number | — | 100 |
 
 ### Events

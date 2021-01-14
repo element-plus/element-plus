@@ -112,12 +112,13 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      target.value = document.documentElement
       if (props.target) {
         target.value = document.querySelector(props.target)
         if (!target.value) {
           throw new Error(`target is not existed: ${props.target}`)
         }
+      } else {
+        target.value = document.documentElement
       }
       scrollContainer.value = getScrollContainer(root.value)
       on(scrollContainer.value, 'scroll', onScroll)

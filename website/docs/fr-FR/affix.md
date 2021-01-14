@@ -45,7 +45,7 @@ The affix component provides two fixed positions: `top` and `bottom`.
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | offset     | offset distance      | number | — | 0 |
 | position | position of affix | string | top / bottom | top |
-| target | target container | string | — | — |
+| target | target container (CSS selector) | string | — | — |
 | z-index | z-index of affix | number | — | 100 |
 
 ### Events
