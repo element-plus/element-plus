@@ -1,5 +1,22 @@
 ## Changelog
 
+### 1.0.1-beta.25
+
+*2021-01-14*
+
+#### New feature
+
+- New component `Affix` (#1210)
+
+#### Bug fixes
+
+- Fix overlay event triggering issue (#1235)
+- Fix form add missing emits (#1272)
+- Fix switch id of input can't be empty (#1273)
+- Fix table filter icon height of table header (#1233)
+- Fix col lacking props named tag (#1264)
+- Fix input-number increase/decrease button not work (#1259)
+
 ### 1.0.1-beta.24
 
 *2021-01-11*
