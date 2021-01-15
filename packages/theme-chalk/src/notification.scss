@@ -37,8 +37,7 @@
 
   @include e(content) {
     font-size: $--notification-content-font-size;
-    line-height: 21px;
-    margin: 6px 0 0 0;
+    line-height: 24px;
     color: $--notification-content-color;
     text-align: justify;
 
