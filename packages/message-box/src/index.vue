@@ -3,7 +3,7 @@
     <el-overlay
       v-show="visible"
       :z-index="state.zIndex"
-      :overlay-class="modalClass"
+      :overlay-class="`is-message-box ${modalClass}`"
       :mask="modal"
       @click.self="handleWrapperClick"
     >
