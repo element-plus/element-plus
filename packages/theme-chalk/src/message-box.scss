@@ -5,7 +5,6 @@
 @import "input";
 
 @include b(message-box) {
-  display: inline-block;
   width: $--msgbox-width;
   padding-bottom: 10px;
   vertical-align: middle;
@@ -17,6 +16,7 @@
   text-align: left;
   overflow: hidden;
   backface-visibility: hidden;
+  margin: 50% auto;
 
   @include e(header) {
     position: relative;
