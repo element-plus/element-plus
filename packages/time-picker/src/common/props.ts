@@ -95,4 +95,5 @@ export const defaultProps = {
     type: Boolean,
     default: true,
   },
+  unlinkPanels: Boolean,
 }
