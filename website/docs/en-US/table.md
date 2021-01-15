@@ -1190,7 +1190,7 @@ Customize table header so it can be even more customized.
     </el-table-column>
     <el-table-column
       align="right">
-      <template #header #default="scope">
+      <template #header>
         <el-input
           v-model="search"
           size="mini"
