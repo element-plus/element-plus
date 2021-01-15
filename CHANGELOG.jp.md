@@ -1,5 +1,13 @@
 ## Changelog
 
+### 1.0.1-beta.27
+
+*2021-01-15
+
+- Fix overlay overflowing issue (#1282)
+- Fix loading directive cannot dispatch for the second time (#1281)
+- Fix Date picker bind attr to panel error (#1277)
+
 ### 1.0.1-beta.26
 
 *2021-01-14*

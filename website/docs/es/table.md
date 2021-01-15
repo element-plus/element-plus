@@ -1191,7 +1191,7 @@ Se puede personalizar el encabezado de la tabla para que se pueda adaptar aún m
     </el-table-column>
     <el-table-column
       align="right">
-      <template #header #default="scope">
+      <template #header>
         <el-input
           v-model="search"
           size="mini"
