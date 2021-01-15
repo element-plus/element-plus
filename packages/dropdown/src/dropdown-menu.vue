@@ -27,7 +27,7 @@ export default defineComponent({
       elDropdown.show?.()
     }
     function hide() {
-      if (elDropdown.trigger.value === 'click') return
+      if (['click', 'contextmenu'].includes(elDropdown.trigger.value)) return
       _hide()
     }
     function _hide() {
