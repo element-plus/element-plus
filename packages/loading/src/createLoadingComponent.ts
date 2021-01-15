@@ -1,4 +1,4 @@
-import { createVNode, reactive, ref, toRefs, h, Transition, render, VNode } from 'vue'
+import { createVNode, h, reactive, ref, render, toRefs, Transition, VNode, vShow, withCtx, withDirectives } from 'vue'
 import { removeClass } from '@element-plus/utils/dom'
 import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
 
@@ -18,7 +18,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
     data.text = text
   }
 
-  function destorySelf() {
+  function destroySelf() {
     const target = data.parent
     if(!target.vLoadingAddClassList) {
       removeClass(target, 'el-loading-parent--relative')
@@ -41,7 +41,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
     afterLeaveTimer = window.setTimeout(() => {
       if (afterLeaveFlag.value) {
         afterLeaveFlag.value = false
-        destorySelf()
+        destroySelf()
       }
     }, 400)
     data.visible = false
@@ -50,7 +50,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
   function handleAfterLeave() {
     if (!afterLeaveFlag.value) return
     afterLeaveFlag.value = false
-    destorySelf()
+    destroySelf()
   }
 
   const componetSetupConfig = {
@@ -80,11 +80,10 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
       return h(Transition, {
         name: 'el-loading-fade',
         onAfterLeave: this.handleAfterLeave,
-      },{
-        default: () => h('div', {
+      }, {
+        default: withCtx(() => [withDirectives(createVNode('div', {
           style: {
             backgroundColor: this.background || '',
-            display: this.visible ? null : 'none',
           },
           class: [
             'el-loading-mask',
@@ -99,6 +98,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
             this.text ? spinnerText : null,
           ]),
         ]),
+        [[vShow, this.visible]])]),
       })
     },
   }
