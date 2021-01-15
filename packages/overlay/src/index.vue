@@ -10,7 +10,7 @@ export default defineComponent({
       default: true,
     },
     overlayClass: {
-      type: String,
+      type: [String, Array, Object],
     },
     zIndex: {
       type: Number,

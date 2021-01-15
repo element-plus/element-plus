@@ -1,8 +1,8 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "common/popup";
-@import "button";
-@import "input";
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'common/popup';
+@import 'button';
+@import 'input';
 
 @include b(message-box) {
   display: inline-block;
@@ -17,6 +17,18 @@
   text-align: left;
   overflow: hidden;
   backface-visibility: hidden;
+
+  @at-root .el-overlay.is-message-box {
+    text-align: center;
+    &::after {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      width: 0;
+      vertical-align: middle;
+    }
+  }
+  
 
   @include e(header) {
     position: relative;
@@ -47,12 +59,12 @@
       color: $--color-info;
     }
 
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
       .el-message-box__close {
         color: $--color-primary;
       }
     }
-
   }
 
   @include e(content) {
@@ -180,13 +192,13 @@
 
 .fade-in-linear-enter-active {
   .el-message-box {
-    animation: msgbox-fade-in .3s;
+    animation: msgbox-fade-in 0.3s;
   }
 }
 
 .fade-in-linear-leave-active {
   .el-message-box {
-    animation: msgbox-fade-in .3s reverse;
+    animation: msgbox-fade-in 0.3s reverse;
   }
 }
 
