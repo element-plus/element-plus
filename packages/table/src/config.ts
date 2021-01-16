@@ -61,7 +61,7 @@ export const cellForced = {
         onInput: () => {
           store.commit('rowSelectedChanged', row)
         },
-        nativeOnClick: (event: Event) => event.stopPropagation(),
+        onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.isSelected(row),
       })
     },
