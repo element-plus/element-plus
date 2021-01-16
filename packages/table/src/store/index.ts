@@ -48,7 +48,15 @@ function useStore(): Store {
       const array = unref(states._columns)
 
       if (!parent) {
-        array.splice(index, 0, column)
+        if (array.length > index && (array[index] !== undefined)) {
+          array.splice(index, 0, column)
+          const nearlyEmptyIndex = array.findIndex((item, i) => i > index && item === undefined)
+          if (nearlyEmptyIndex > -1) {
+            array.splice(nearlyEmptyIndex, 1)
+          }
+        } else {
+          array[index] = column
+        }
         states._columns.value = array
       } else {
         if (parent && !parent.children) {
@@ -62,7 +70,6 @@ function useStore(): Store {
         states.selectable.value = column.selectable
         states.reserveSelection.value = column.reserveSelection
       }
-
       if (instance.$ready) {
         instance.store.updateColumns() // hack for dynamics insert column
         instance.store.scheduleLayout()
