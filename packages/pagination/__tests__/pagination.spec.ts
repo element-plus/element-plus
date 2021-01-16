@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { sleep } from '@element-plus/test-utils'
 import Pagination from '../src/index'
+import usePagination from '../src/usePagination'
 import { nextTick } from 'vue'
 
 const TIME_OUT = 100
@@ -55,6 +56,49 @@ describe('Pagination.vue', () => {
       },
     })
     expect(wrapper.findAll('li.number').length).toBe(4)
+  })
+
+  test('useHooks', async () => {
+    const key = 'PaginationKey'
+    const wrapper = mount(Pagination, {
+      props: {
+        keyValue: key,
+      },
+    })
+    const { currentPage, total, pageSize, disabled }  = usePagination(key)
+    currentPage.value = 2
+    pageSize.value = 5
+    total.value = 25
+    await nextTick()
+    expect(wrapper.findAll('li.number').length).toBe(5)
+    expect(wrapper.find('li.number.active').text()).toEqual('2')
+
+    currentPage.value = 4
+    await nextTick()
+    expect(wrapper.find('li.number.active').text()).toEqual('4')
+    wrapper.find('.btn-prev').trigger('click')
+    expect(currentPage.value).toEqual(3)
+    wrapper.find('.btn-next').trigger('click')
+    expect(currentPage.value).toEqual(4)
+
+    disabled.value = true
+    await nextTick()
+    expect(wrapper.findAll('li.number.disabled').length).toBe(5)
+  })
+
+  test('useHooks: pageCount', async () => {
+    const key = 'PaginationSizeKey'
+    const wrapper = mount(Pagination, {
+      props: {
+        keyValue: key,
+      },
+    })
+    const { currentPage, pageSize, pageCount }  = usePagination(key)
+    currentPage.value = 2
+    pageSize.value = 5
+    pageCount.value = 5
+    await nextTick()
+    expect(wrapper.findAll('li.number').length).toBe(5)
   })
 
   test('pageSize: NaN', () => {
