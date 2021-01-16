@@ -107,7 +107,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const {
       key, pageSize, total, pageSizeCb, currentPage, pageSizes,
-      pageCount, next, nextCb, prev, prevCb,
+      pageCount, disabled, next, nextCb, prev, prevCb,
       internalPageCount, userChangePageSize, emitChange,
       handleCurrentChange, getValidCurrentPage,
     } = usePagination(props.keyValue)
@@ -119,6 +119,7 @@ export default defineComponent({
       watch(() => props.pageCount, val => pageCount.value = val, { immediate: true })
       watch(() => props.pageSize, val => pageSize.value = getValidPageSize(val), { immediate: true })
       watch(() => props.total, val => total.value = val, { immediate: true })
+      watch(() => props.disabled, val => disabled.value = val, { immediate: true })
       watch(() => props.pageSizes, val => {
         pageSizes.value = val.map(item => Number(item))
       }, { immediate: true })
@@ -162,7 +163,9 @@ export default defineComponent({
     return {
       internalCurrentPage: currentPage,
       internalPageSize: pageSize,
+      internalPageSizes: pageSizes,
       internalPageCount,
+      internalDisabled: disabled,
       prev,
       next,
       handleCurrentChange,
@@ -192,7 +195,7 @@ export default defineComponent({
     const rightWrapperChildren = []
     const TEMPLATE_MAP = {
       prev: h(Prev, {
-        disabled: this.disabled,
+        disabled: this.internalDisabled,
         currentPage: this.internalCurrentPage,
         prevText: this.prevText,
         onClick: this.prev,
@@ -203,20 +206,20 @@ export default defineComponent({
         pageCount: this.internalPageCount,
         pagerCount: this.pagerCount,
         onChange: this.handleCurrentChange,
-        disabled: this.disabled,
+        disabled: this.internalDisabled,
       }),
       next: h(Next, {
-        disabled: this.disabled,
+        disabled: this.internalDisabled,
         currentPage: this.internalCurrentPage,
         pageCount: this.internalPageCount,
         nextText: this.nextText,
         onClick: this.next,
       }),
       sizes: h(Sizes, {
-        pageSize: this.pageSize,
-        pageSizes: this.pageSizes,
+        pageSize: this.internalPageSize,
+        pageSizes: this.internalPageSizes,
         popperClass: this.popperClass,
-        disabled: this.disabled,
+        disabled: this.internalDisabled,
       }),
       slot: this.$slots?.default?.() ?? null,
       total: h(Total, { total: this.total }),
