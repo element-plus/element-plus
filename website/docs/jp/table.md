@@ -1873,7 +1873,7 @@ rowspan と colspan を設定すると、セルをマージすることができ
 |------|--------|-------|
 | clearSelection | used in multiple selection Table, clear user selection | — |
 | toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected | row, selected |
-| toggleAllSelection | used in multiple selection Table, toggle the selected state of all rows | - |
+| toggleAllSelection | used in multiple selection Table, toggle select all and deselect all | - |
 | toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | row, expanded |
 | setCurrentRow | used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection. | row |
 | clearSort | clear sorting, restore data to the original order | — |

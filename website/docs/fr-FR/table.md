@@ -1882,7 +1882,7 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 |------|--------|-------|
 | clearSelection | Dans les tables avec sélection multiple, efface la sélection. | — |
 | toggleRowSelection | Dans les tables avec sélection multiple, change la sélection d'une ligne. Grâce au deuxième paramètre vous pouvez directement décider si cette ligne est sélectionnée. | row, selected |
-| toggleAllSelection | Utilisé dans les tables à sélection multiples, sélectionne toutes les lignes. | - |
+| toggleAllSelection | Utilisé dans les tables à sélection multiples, toggle select all and deselect all | - |
 | toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | row, expanded |
 | setCurrentRow | Dans les tables à sélection simple, sélectionne une ligne. Sans paramètre la sélection est effacé. | row |
 | clearSort | Efface le tri. | — |

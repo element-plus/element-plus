@@ -1916,7 +1916,7 @@
 | ---- | ---- | ---- |
 | clearSelection | 用于多选表格，清空用户的选择 | — |
 | toggleRowSelection | 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中） | row, selected |
-| toggleAllSelection | 用于多选表格，切换所有行的选中状态 | - |
+| toggleAllSelection | 用于多选表格，切换全选和全不选 | - |
 | toggleRowExpansion | 用于可展开表格与树形表格，切换某一行的展开状态，如果使用了第二个参数，则是设置这一行展开与否（expanded 为 true 则展开） | row, expanded |
 | setCurrentRow | 用于单选表格，设定某一行为选中行，如果调用时不加参数，则会取消目前高亮行的选中状态。 | row |
 | clearSort | 用于清空排序条件，数据会恢复成未排序的状态 | — |
