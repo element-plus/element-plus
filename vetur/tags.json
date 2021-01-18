@@ -29,10 +29,17 @@
     "attributes": ["height"],
     "description": "container for footers"
   },
+  "el-icon": {
+    "attributes": ["name"]
+  },
   "el-button": {
     "attributes": ["type", "size", "plain", "loading", "disabled", "icon", "autofocus", "native-type", "round", "circle"],
     "defaults": ["type"],
     "description": "Commonly used button."
+  },
+  "el-button-group": {
+    "subtags": ["el-button"],
+    "description": "Displayed as a button group, can be used to group a series of similar operations"
   },
   "el-link": {
     "attributes": ["type", "underline", "disabled", "href", "icon"],
@@ -259,6 +266,9 @@
     "description": "Toggleable menu for displaying lists of links and actions."
   },
   "el-dropdown-menu": {
+    "subtags": ["el-dropdown-item"]
+  },
+  "el-dropdown-item": {
     "attributes": ["command", "disabled", "divided", "icon"]
   },
   "el-steps": {
@@ -330,5 +340,19 @@
   },
   "el-image-viewer" : {
     "attributes": ["url-list", "z-index", "initial-index", "infinite", "hide-on-click-modal", "close", "switch"]
+  },
+  "el-backtop": {
+    "attributes": ["target", "visibility-height", "right", "bottom", "click"],
+    "description": "A button to back to top"
+  },
+  "el-avatar": {
+    "attributes": ["icon", "size", "shape", "src", "srcSet", "alt", "fit", "error"],
+    "description": "Avatars can be used to represent people or objects. It supports images, Icons, or characters"
+  },
+  "el-drawer": {
+    "attributes": ["model-value", "append-to-body", "before-close", "close-on-press-escape", "custom-class", "destroy-on-close", "modal", "direction", "show-close", "size", "title", "with-header", "z-index", "update:modelValue", "open", "opened", "close", "closed"]
+  },
+  "el-scrollbar": {
+    "attributes": ["native", "wrap-style", "wrap-class", "view-class", "view-style", "noresize", "tag"]
   }
 }
