@@ -152,6 +152,9 @@ export default defineComponent({
       defaultExpandAll: props.defaultExpandAll,
       filterNodeMethod: props.filterNodeMethod,
     }))
+
+    store.value.initialize()
+
     const root = ref<Node>(store.value.root)
     const currentNode = ref<Node>(null)
     const el$ = ref<Nullable<HTMLElement>>(null)
