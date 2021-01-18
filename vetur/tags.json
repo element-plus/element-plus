@@ -196,7 +196,7 @@
     "description": "Display a set of data with hierarchies."
   },
   "el-pagination": {
-    "attributes": ["small", "background", "page-size", "total", "page-count", "pager-count", "current-page", "layout", "page-sizes", "popper-class", "prev-text", "next-text", "disabled", "hide-on-single-page", "update:current-page", "update:page-size", "size-change", "current-page", "prev-click", "next-click"],
+    "attributes": ["small", "background", "page-size", "total", "page-count", "pager-count", "current-page", "layout", "page-sizes", "popper-class", "prev-text", "next-text", "disabled", "hide-on-single-page", "update:current-page", "update:page-size", "size-change", "currentPage", "prev-click", "next-click"],
     "defaults": ["v-model:current-page", "v-model:page-size", ":total"],
     "description": "If you have too much data to display in one page, use pagination."
   },
@@ -243,6 +243,7 @@
   "el-tabs": {
     "attributes": ["model-value", "type", "closable", "addable", "editable", "tab-position", "stretch", "before-leave", "update:model-value", "tab-click", "tab-remove", "tab-add", "edit", "input"],
     "subtags": ["el-tab-pane"],
+    "defaults": ["v-model"],
     "description": "Divide data collections which are related yet belong to different types."
   },
   "el-tab-pane": {
@@ -283,7 +284,7 @@
   },
   "el-dialog": {
     "attributes": ["model-value", "title", "top", "width", "fullscreen", "modal", "append-to-body", "lock-scroll", "custom-class", "open-delay", "close-delay", "close-on-click-modal", "close-on-press-escape", "show-close", "before-close", "center", "destroy-on-close", "modal-class", "z-index", "update:model-value", "close", "closed", "open", "opened"],
-    "defaults": ["title"],
+    "defaults": ["v-model", "title"],
     "description": "Informs users while preserving the current page state."
   },
   "el-tooltip": {
@@ -314,6 +315,7 @@
   "el-collapse": {
     "attributes": ["model-value", "accordion", "update:model-value", "change"],
     "subtags": ["el-collapse-item"],
+    "defaults": ["v-model"],
     "description": "Use Collapse to store contents."
   },
   "el-collapse-item": {
@@ -332,7 +334,8 @@
     "description": "The dividing line that separates the content"
   },
   "el-calendar": {
-    "attributes": ["model-value", "range", "update:model-value", "input"]
+    "attributes": ["model-value", "range", "update:model-value", "input"],
+    "defaults": ["v-model"]
   },
   "el-image": {
     "attributes": ["alt", "fit", "hide-on-click-modal", "lazy", "preview-src-list", "referrer-policy", "src", "scroll-container", "z-index", "load", "error"],
@@ -350,7 +353,8 @@
     "description": "Avatars can be used to represent people or objects. It supports images, Icons, or characters"
   },
   "el-drawer": {
-    "attributes": ["model-value", "append-to-body", "before-close", "close-on-press-escape", "custom-class", "destroy-on-close", "modal", "direction", "show-close", "size", "title", "with-header", "z-index", "update:modelValue", "open", "opened", "close", "closed"]
+    "attributes": ["model-value", "append-to-body", "before-close", "close-on-press-escape", "custom-class", "destroy-on-close", "modal", "direction", "show-close", "size", "title", "with-header", "z-index", "update:model-value", "open", "opened", "close", "closed"],
+    "defaults": ["v-model"]
   },
   "el-scrollbar": {
     "attributes": ["native", "wrap-style", "wrap-class", "view-class", "view-style", "noresize", "tag"]
