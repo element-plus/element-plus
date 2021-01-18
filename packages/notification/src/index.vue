@@ -20,7 +20,7 @@
         :class="{ 'is-with-icon': typeClass || iconClass }"
       >
         <h2 class="el-notification__title" v-text="title"></h2>
-        <div v-show="message" class="el-notification__content">
+        <div v-show="message" class="el-notification__content" :style="!!title ? null : 'margin: 0'">
           <slot>
             <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
             <!-- Caution here, message could've been compromized, nerver use user's input as message -->
