@@ -221,6 +221,9 @@
     "defaults": ["type", "title"],
     "description": "Displays important alert messages."
   },
+  "el-affix": {
+    "attributes": ["offset", "position", "target", "z-index", "change", "scroll"]
+  },
   "el-menu": {
     "attributes": ["mode", "collapse", "background-color", "text-color", "active-text-color", "default-active", "default-openeds", "unique-opened", "menu-trigger", "router", "collapse-transition", "select", "open", "close"],
     "defaults": ["default-active"],
