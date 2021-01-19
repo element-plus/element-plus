@@ -155,7 +155,7 @@ export default defineComponent({
     callback: Function,
     cancelButtonText: {
       type: String,
-      default: 'Cancel',
+      default: t('el.messagebox.cancel'),
     },
     cancelButtonClass: String,
     center: Boolean,
@@ -173,7 +173,7 @@ export default defineComponent({
     },
     confirmButtonText: {
       type: String,
-      default: 'OK',
+      default: t('el.messagebox.confirm'),
     },
     confirmButtonClass: String,
     container: {
