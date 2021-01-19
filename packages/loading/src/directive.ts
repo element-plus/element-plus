@@ -14,7 +14,7 @@ const createInstance = (el, binding) => {
     fullscreen: !!binding.modifiers.fullscreen,
     target: !!binding.modifiers.fullscreen ? null : el,
     body: !!binding.modifiers.body,
-    visible: !!binding.value,
+    visible: true,
     lock: !!binding.modifiers.lock,
   })
 }

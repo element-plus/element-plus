@@ -268,6 +268,8 @@ describe('Loading', () => {
       </template>
       </el-input>`,
     })
+    await nextTick()
+    await nextTick()
     const maskDisplay = getComputedStyle(wrapper.find('.el-loading-mask').element).display
     expect(maskDisplay).toBe('block')
   })
