@@ -163,12 +163,21 @@ export default defineComponent({
               calTime.isSameOrAfter(props.minDate, 'day')
           ) && (calEndDate &&
               calTime.isSameOrBefore(calEndDate, 'day')
+          ) || (
+            props.minDate &&
+            calTime.isSameOrBefore(props.minDate, 'day')
+          ) && (calEndDate &&
+            calTime.isSameOrAfter(calEndDate, 'day')
           )
 
-          cell.start = props.minDate
-            && calTime.isSame(props.minDate, 'day')
+          if (props.minDate?.isSameOrAfter(calEndDate)) {
+            cell.start = calEndDate && calTime.isSame(calEndDate, 'day')
+            cell.end = props.minDate && calTime.isSame(props.minDate, 'day')
+          } else {
+            cell.start = props.minDate && calTime.isSame(props.minDate, 'day')
+            cell.end = calEndDate && calTime.isSame(calEndDate, 'day')
+          }
 
-          cell.end = calEndDate && calTime.isSame(calEndDate, 'day')
           const isToday = calTime.isSame(calNow, 'day')
 
           if (isToday) {
