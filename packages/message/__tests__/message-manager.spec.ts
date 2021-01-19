@@ -12,9 +12,6 @@ const Transition = (_: UnknownProps, { attrs, slots }) =>
   Vue.h('div', attrs, slots)
 Transition.displayName = 'Transition'
 
-const wait = (ms: number) =>
-  new Promise(resolve => setTimeout(() => resolve(), ms))
-
 describe('Message on command', () => {
   const oldTransition = Vue.Transition
   beforeAll(() => {
