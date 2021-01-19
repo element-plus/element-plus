@@ -21,6 +21,7 @@ function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
           () => props_[columnKey],
           newVal => {
             instance.columnConfig.value[columnKey] = newVal
+            instance.columnConfig.value[key] = newVal
             const updateColumns = columnKey === 'fixed'
             owner.value.store.scheduleLayout(updateColumns)
           },
