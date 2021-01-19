@@ -118,7 +118,8 @@ describe('Message.vue', () => {
 
       const closeBtn = wrapper.find('.el-message__closeBtn')
       expect(closeBtn.exists()).toBe(true)
-      wrapper.vm.destroyElement()
+      wrapper.vm.visible = false
+      wrapper.vm.onClose()
       expect(onClose).toHaveBeenCalled()
     })
 
@@ -184,7 +185,7 @@ describe('Message.vue', () => {
       wrapper.vm.close()
       expect(wrapper.vm.closed).toBe(true)
       await nextTick()
-      await wrapper.trigger('transitionend')
+      await wrapper.vm.onClose()
       expect(onClose).toHaveBeenCalledTimes(1)
     })
   })
