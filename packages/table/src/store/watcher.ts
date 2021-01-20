@@ -1,4 +1,4 @@
-import { ref, getCurrentInstance, unref } from 'vue'
+import { ref, getCurrentInstance, unref, watch } from 'vue'
 import {
   getKeysMap,
   getRowIdentity,
@@ -67,6 +67,15 @@ function useWatcher() {
   const sortProp = ref(null)
   const sortOrder = ref(null)
   const hoverRow = ref(null)
+
+
+  watch(
+    data,
+    () => instance.state && scheduleLayout(false),
+    {
+      deep: true,
+    },
+  )
 
   // 检查 rowKey 是否存在
   const assertRowKey = () => {
