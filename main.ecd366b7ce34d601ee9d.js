@@ -48,7 +48,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US65","64":"DOCS en-US66","65":"DOCS en-US7","66":"DOCS en-US8","67":"DOCS en-US9","68":"DOCS es0","69":"DOCS es1","70":"DOCS es10","71":"DOCS es11","72":"DOCS es12","73":"DOCS es13","74":"DOCS es14","75":"DOCS es15","76":"DOCS es16","77":"DOCS es17","78":"DOCS es18","79":"DOCS es19","80":"DOCS es2","81":"DOCS es20","82":"DOCS es21","83":"DOCS es22","84":"DOCS es23","85":"DOCS es24","86":"DOCS es25","87":"DOCS es26","88":"DOCS es27","89":"DOCS es28","90":"DOCS es29","91":"DOCS es3","92":"DOCS es30","93":"DOCS es31","94":"DOCS es32","95":"DOCS es33","96":"DOCS es34","97":"DOCS es35","98":"DOCS es36","99":"DOCS es37","100":"DOCS es38","101":"DOCS es39","102":"DOCS es4","103":"DOCS es40","104":"DOCS es41","105":"DOCS es42","106":"DOCS es43","107":"DOCS es44","108":"DOCS es45","109":"DOCS es46","110":"DOCS es47","111":"DOCS es48","112":"DOCS es49","113":"DOCS es5","114":"DOCS es50","115":"DOCS es51","116":"DOCS es52","117":"DOCS es53","118":"DOCS es54","119":"DOCS es55","120":"DOCS es56","121":"DOCS es57","122":"DOCS es58","123":"DOCS es59","124":"DOCS es6","125":"DOCS es60","126":"DOCS es61","127":"DOCS es62","128":"DOCS es63","129":"DOCS es64","130":"DOCS es65","131":"DOCS es66","132":"DOCS es7","133":"DOCS es8","134":"DOCS es9","135":"DOCS fr-FR0","136":"DOCS fr-FR1","137":"DOCS fr-FR10","138":"DOCS fr-FR11","139":"DOCS fr-FR12","140":"DOCS fr-FR13","141":"DOCS fr-FR14","142":"DOCS fr-FR15","143":"DOCS fr-FR16","144":"DOCS fr-FR17","145":"DOCS fr-FR18","146":"DOCS fr-FR19","147":"DOCS fr-FR2","148":"DOCS fr-FR20","149":"DOCS fr-FR21","150":"DOCS fr-FR22","151":"DOCS fr-FR23","152":"DOCS fr-FR24","153":"DOCS fr-FR25","154":"DOCS fr-FR26","155":"DOCS fr-FR27","156":"DOCS fr-FR28","157":"DOCS fr-FR29","158":"DOCS fr-FR3","159":"DOCS fr-FR30","160":"DOCS fr-FR31","161":"DOCS fr-FR32","162":"DOCS fr-FR33","163":"DOCS fr-FR34","164":"DOCS fr-FR35","165":"DOCS fr-FR36","166":"DOCS fr-FR37","167":"DOCS fr-FR38","168":"DOCS fr-FR39","169":"DOCS fr-FR4","170":"DOCS fr-FR40","171":"DOCS fr-FR41","172":"DOCS fr-FR42","173":"DOCS fr-FR43","174":"DOCS fr-FR44","175":"DOCS fr-FR45","176":"DOCS fr-FR46","177":"DOCS fr-FR47","178":"DOCS fr-FR48","179":"DOCS fr-FR49","180":"DOCS fr-FR5","181":"DOCS fr-FR50","182":"DOCS fr-FR51","183":"DOCS fr-FR52","184":"DOCS fr-FR53","185":"DOCS fr-FR54","186":"DOCS fr-FR55","187":"DOCS fr-FR56","188":"DOCS fr-FR57","189":"DOCS fr-FR58","190":"DOCS fr-FR59","191":"DOCS fr-FR6","192":"DOCS fr-FR60","193":"DOCS fr-FR61","194":"DOCS fr-FR62","195":"DOCS fr-FR63","196":"DOCS fr-FR64","197":"DOCS fr-FR65","198":"DOCS fr-FR66","199":"DOCS fr-FR7","200":"DOCS fr-FR8","201":"DOCS fr-FR9","202":"DOCS zh-CN0","203":"DOCS zh-CN1","204":"DOCS zh-CN10","205":"DOCS zh-CN11","206":"DOCS zh-CN12","207":"DOCS zh-CN13","208":"DOCS zh-CN14","209":"DOCS zh-CN15","210":"DOCS zh-CN16","211":"DOCS zh-CN17","212":"DOCS zh-CN18","213":"DOCS zh-CN19","214":"DOCS zh-CN2","215":"DOCS zh-CN20","216":"DOCS zh-CN21","217":"DOCS zh-CN22","218":"DOCS zh-CN23","219":"DOCS zh-CN24","220":"DOCS zh-CN25","221":"DOCS zh-CN26","222":"DOCS zh-CN27","223":"DOCS zh-CN28","224":"DOCS zh-CN29","225":"DOCS zh-CN3","226":"DOCS zh-CN30","227":"DOCS zh-CN31","228":"DOCS zh-CN32","229":"DOCS zh-CN33","230":"DOCS zh-CN34","231":"DOCS zh-CN35","232":"DOCS zh-CN36","233":"DOCS zh-CN37","234":"DOCS zh-CN38","235":"DOCS zh-CN39","236":"DOCS zh-CN4","237":"DOCS zh-CN40","238":"DOCS zh-CN41","239":"DOCS zh-CN42","240":"DOCS zh-CN43","241":"DOCS zh-CN44","242":"DOCS zh-CN45","243":"DOCS zh-CN46","244":"DOCS zh-CN47","245":"DOCS zh-CN48","246":"DOCS zh-CN49","247":"DOCS zh-CN5","248":"DOCS zh-CN50","249":"DOCS zh-CN51","250":"DOCS zh-CN52","251":"DOCS zh-CN53","252":"DOCS zh-CN54","253":"DOCS zh-CN55","254":"DOCS zh-CN56","255":"DOCS zh-CN57","256":"DOCS zh-CN58","257":"DOCS zh-CN59","258":"DOCS zh-CN6","259":"DOCS zh-CN60","260":"DOCS zh-CN61","261":"DOCS zh-CN62","262":"DOCS zh-CN63","263":"DOCS zh-CN64","264":"DOCS zh-CN65","265":"DOCS zh-CN66","266":"DOCS zh-CN7","267":"DOCS zh-CN8","268":"DOCS zh-CN9","270":"zh-CN0","271":"zh-CN1","272":"zh-CN2","273":"zh-CN3","274":"zh-CN4","275":"zh-CN5","276":"zh-CN6"}[chunkId]||chunkId) + "." + "80cded825f829e186f90" + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US65","64":"DOCS en-US66","65":"DOCS en-US7","66":"DOCS en-US8","67":"DOCS en-US9","68":"DOCS es0","69":"DOCS es1","70":"DOCS es10","71":"DOCS es11","72":"DOCS es12","73":"DOCS es13","74":"DOCS es14","75":"DOCS es15","76":"DOCS es16","77":"DOCS es17","78":"DOCS es18","79":"DOCS es19","80":"DOCS es2","81":"DOCS es20","82":"DOCS es21","83":"DOCS es22","84":"DOCS es23","85":"DOCS es24","86":"DOCS es25","87":"DOCS es26","88":"DOCS es27","89":"DOCS es28","90":"DOCS es29","91":"DOCS es3","92":"DOCS es30","93":"DOCS es31","94":"DOCS es32","95":"DOCS es33","96":"DOCS es34","97":"DOCS es35","98":"DOCS es36","99":"DOCS es37","100":"DOCS es38","101":"DOCS es39","102":"DOCS es4","103":"DOCS es40","104":"DOCS es41","105":"DOCS es42","106":"DOCS es43","107":"DOCS es44","108":"DOCS es45","109":"DOCS es46","110":"DOCS es47","111":"DOCS es48","112":"DOCS es49","113":"DOCS es5","114":"DOCS es50","115":"DOCS es51","116":"DOCS es52","117":"DOCS es53","118":"DOCS es54","119":"DOCS es55","120":"DOCS es56","121":"DOCS es57","122":"DOCS es58","123":"DOCS es59","124":"DOCS es6","125":"DOCS es60","126":"DOCS es61","127":"DOCS es62","128":"DOCS es63","129":"DOCS es64","130":"DOCS es65","131":"DOCS es66","132":"DOCS es7","133":"DOCS es8","134":"DOCS es9","135":"DOCS fr-FR0","136":"DOCS fr-FR1","137":"DOCS fr-FR10","138":"DOCS fr-FR11","139":"DOCS fr-FR12","140":"DOCS fr-FR13","141":"DOCS fr-FR14","142":"DOCS fr-FR15","143":"DOCS fr-FR16","144":"DOCS fr-FR17","145":"DOCS fr-FR18","146":"DOCS fr-FR19","147":"DOCS fr-FR2","148":"DOCS fr-FR20","149":"DOCS fr-FR21","150":"DOCS fr-FR22","151":"DOCS fr-FR23","152":"DOCS fr-FR24","153":"DOCS fr-FR25","154":"DOCS fr-FR26","155":"DOCS fr-FR27","156":"DOCS fr-FR28","157":"DOCS fr-FR29","158":"DOCS fr-FR3","159":"DOCS fr-FR30","160":"DOCS fr-FR31","161":"DOCS fr-FR32","162":"DOCS fr-FR33","163":"DOCS fr-FR34","164":"DOCS fr-FR35","165":"DOCS fr-FR36","166":"DOCS fr-FR37","167":"DOCS fr-FR38","168":"DOCS fr-FR39","169":"DOCS fr-FR4","170":"DOCS fr-FR40","171":"DOCS fr-FR41","172":"DOCS fr-FR42","173":"DOCS fr-FR43","174":"DOCS fr-FR44","175":"DOCS fr-FR45","176":"DOCS fr-FR46","177":"DOCS fr-FR47","178":"DOCS fr-FR48","179":"DOCS fr-FR49","180":"DOCS fr-FR5","181":"DOCS fr-FR50","182":"DOCS fr-FR51","183":"DOCS fr-FR52","184":"DOCS fr-FR53","185":"DOCS fr-FR54","186":"DOCS fr-FR55","187":"DOCS fr-FR56","188":"DOCS fr-FR57","189":"DOCS fr-FR58","190":"DOCS fr-FR59","191":"DOCS fr-FR6","192":"DOCS fr-FR60","193":"DOCS fr-FR61","194":"DOCS fr-FR62","195":"DOCS fr-FR63","196":"DOCS fr-FR64","197":"DOCS fr-FR65","198":"DOCS fr-FR66","199":"DOCS fr-FR7","200":"DOCS fr-FR8","201":"DOCS fr-FR9","202":"DOCS zh-CN0","203":"DOCS zh-CN1","204":"DOCS zh-CN10","205":"DOCS zh-CN11","206":"DOCS zh-CN12","207":"DOCS zh-CN13","208":"DOCS zh-CN14","209":"DOCS zh-CN15","210":"DOCS zh-CN16","211":"DOCS zh-CN17","212":"DOCS zh-CN18","213":"DOCS zh-CN19","214":"DOCS zh-CN2","215":"DOCS zh-CN20","216":"DOCS zh-CN21","217":"DOCS zh-CN22","218":"DOCS zh-CN23","219":"DOCS zh-CN24","220":"DOCS zh-CN25","221":"DOCS zh-CN26","222":"DOCS zh-CN27","223":"DOCS zh-CN28","224":"DOCS zh-CN29","225":"DOCS zh-CN3","226":"DOCS zh-CN30","227":"DOCS zh-CN31","228":"DOCS zh-CN32","229":"DOCS zh-CN33","230":"DOCS zh-CN34","231":"DOCS zh-CN35","232":"DOCS zh-CN36","233":"DOCS zh-CN37","234":"DOCS zh-CN38","235":"DOCS zh-CN39","236":"DOCS zh-CN4","237":"DOCS zh-CN40","238":"DOCS zh-CN41","239":"DOCS zh-CN42","240":"DOCS zh-CN43","241":"DOCS zh-CN44","242":"DOCS zh-CN45","243":"DOCS zh-CN46","244":"DOCS zh-CN47","245":"DOCS zh-CN48","246":"DOCS zh-CN49","247":"DOCS zh-CN5","248":"DOCS zh-CN50","249":"DOCS zh-CN51","250":"DOCS zh-CN52","251":"DOCS zh-CN53","252":"DOCS zh-CN54","253":"DOCS zh-CN55","254":"DOCS zh-CN56","255":"DOCS zh-CN57","256":"DOCS zh-CN58","257":"DOCS zh-CN59","258":"DOCS zh-CN6","259":"DOCS zh-CN60","260":"DOCS zh-CN61","261":"DOCS zh-CN62","262":"DOCS zh-CN63","263":"DOCS zh-CN64","264":"DOCS zh-CN65","265":"DOCS zh-CN66","266":"DOCS zh-CN7","267":"DOCS zh-CN8","268":"DOCS zh-CN9","270":"zh-CN0","271":"zh-CN1","272":"zh-CN2","273":"zh-CN3","274":"zh-CN4","275":"zh-CN5","276":"zh-CN6"}[chunkId]||chunkId) + "." + "ecd366b7ce34d601ee9d" + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -14061,14 +14061,19 @@ module.exports = _defineProperty;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return t; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return use; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return i18n; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return t; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return use; });
 /* harmony import */ var _lang_en__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);
 
 
 var lang = _lang_en__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"];
+var i18nHandler = null;
+var i18n = function i18n(fn) {
+  i18nHandler = fn;
+};
 
 function template(str, option) {
   if (!str || !option) return str;
@@ -14077,7 +14082,14 @@ function template(str, option) {
   });
 }
 
-var t = function t(path, option) {
+var t = function t() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  if (i18nHandler) return i18nHandler.apply(void 0, args);
+  var path = args[0],
+      option = args[1];
   var value;
   var array = path.split('.');
   var current = lang;
@@ -14101,7 +14113,8 @@ var use = function use(l) {
 };
 /* unused harmony default export */ var _unused_webpack_default_export = ({
   use: use,
-  t: t
+  t: t,
+  i18n: i18n
 });
 
 /***/ }),
@@ -27349,7 +27362,7 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
       transitionName: transitionName,
       arrowControl: arrowControl,
       onSetOption: onSetOption,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       handleConfirm: handleConfirm,
       handleChange: handleChange,
       setSelectionRange: setSelectionRange,
@@ -27740,7 +27753,7 @@ var makeSelectRange = function makeSelectRange(start, end) {
       btnConfirmDisabled: btnConfirmDisabled,
       handleCancel: handleCancel,
       handleConfirm: handleConfirm,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       showSeconds: showSeconds,
       minDate: minDate,
       maxDate: maxDate,
@@ -28054,7 +28067,7 @@ date_tablevue_type_script_lang_ts.render = date_tablevue_type_template_id_cfaf6c
     });
     var i18nDate = Object(vue_esm_browser["h" /* computed */])(function () {
       var pickedMonth = "el.datepicker.month" + date.value.format('M');
-      return date.value.year() + " " + Object(locale["a" /* t */])('el.datepicker.year') + " " + Object(locale["a" /* t */])(pickedMonth);
+      return date.value.year() + " " + Object(locale["b" /* t */])('el.datepicker.year') + " " + Object(locale["b" /* t */])(pickedMonth);
     });
     var realSelectedDay = Object(vue_esm_browser["h" /* computed */])({
       get: function get() {
@@ -28145,7 +28158,7 @@ date_tablevue_type_script_lang_ts.render = date_tablevue_type_template_id_cfaf6c
       validatedRange: validatedRange,
       pickDay: pickDay,
       selectDate: selectDate,
-      t: locale["a" /* t */]
+      t: locale["b" /* t */]
     };
   }
 }));
@@ -29135,18 +29148,18 @@ function nodevue_type_template_id_19f21e6d_render(_ctx, _cache, $props, $setup, 
 }
 // CONCATENATED MODULE: ./packages/cascader-panel/src/node.vue?vue&type=template&id=19f21e6d
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/checkbox/src/checkbox.vue?vue&type=template&id=0f428d3f
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/checkbox/src/checkbox.vue?vue&type=template&id=76460e56
 
 
-var checkboxvue_type_template_id_0f428d3f_hoisted_1 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("span", {
+var checkboxvue_type_template_id_76460e56_hoisted_1 = /*#__PURE__*/Object(vue_esm_browser["o" /* createVNode */])("span", {
   class: "el-checkbox__inner"
 }, null, -1);
 
-var checkboxvue_type_template_id_0f428d3f_hoisted_2 = {
+var checkboxvue_type_template_id_76460e56_hoisted_2 = {
   key: 0,
   class: "el-checkbox__label"
 };
-function checkboxvue_type_template_id_0f428d3f_render(_ctx, _cache, $props, $setup, $data, $options) {
+function checkboxvue_type_template_id_76460e56_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("label", {
     id: _ctx.id,
     class: ["el-checkbox", [_ctx.border && _ctx.checkboxSize ? 'el-checkbox--' + _ctx.checkboxSize : '', {
@@ -29155,7 +29168,8 @@ function checkboxvue_type_template_id_0f428d3f_render(_ctx, _cache, $props, $set
       'is-bordered': _ctx.border
     }, {
       'is-checked': _ctx.isChecked
-    }]]
+    }]],
+    "aria-controls": _ctx.indeterminate ? _ctx.controls : null
   }, [Object(vue_esm_browser["o" /* createVNode */])("span", {
     class: ["el-checkbox__input", {
       'is-disabled': _ctx.isDisabled,
@@ -29166,7 +29180,7 @@ function checkboxvue_type_template_id_0f428d3f_render(_ctx, _cache, $props, $set
     tabindex: _ctx.indeterminate ? 0 : false,
     role: _ctx.indeterminate ? 'checkbox' : false,
     "aria-checked": _ctx.indeterminate ? 'mixed' : false
-  }, [checkboxvue_type_template_id_0f428d3f_hoisted_1, _ctx.trueLabel || _ctx.falseLabel ? Object(vue_esm_browser["eb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("input", {
+  }, [checkboxvue_type_template_id_76460e56_hoisted_1, _ctx.trueLabel || _ctx.falseLabel ? Object(vue_esm_browser["eb" /* withDirectives */])((Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("input", {
     key: 0,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return _ctx.model = $event;
@@ -29208,11 +29222,11 @@ function checkboxvue_type_template_id_0f428d3f_render(_ctx, _cache, $props, $set
     onBlur: _cache[8] || (_cache[8] = function ($event) {
       return _ctx.focus = false;
     })
-  }, null, 40, ["aria-hidden", "disabled", "value", "name"])), [[vue_esm_browser["X" /* vModelCheckbox */], _ctx.model]])], 10, ["tabindex", "role", "aria-checked"]), _ctx.$slots.default || _ctx.label ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", checkboxvue_type_template_id_0f428d3f_hoisted_2, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default"), !_ctx.$slots.default ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], {
+  }, null, 40, ["aria-hidden", "disabled", "value", "name"])), [[vue_esm_browser["X" /* vModelCheckbox */], _ctx.model]])], 10, ["tabindex", "role", "aria-checked"]), _ctx.$slots.default || _ctx.label ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("span", checkboxvue_type_template_id_76460e56_hoisted_2, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default"), !_ctx.$slots.default ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["b" /* Fragment */], {
     key: 0
-  }, [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.label), 1)], 64)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 10, ["id"]);
+  }, [Object(vue_esm_browser["n" /* createTextVNode */])(Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.label), 1)], 64)) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true)], 10, ["id", "aria-controls"]);
 }
-// CONCATENATED MODULE: ./packages/checkbox/src/checkbox.vue?vue&type=template&id=0f428d3f
+// CONCATENATED MODULE: ./packages/checkbox/src/checkbox.vue?vue&type=template&id=76460e56
 
 // CONCATENATED MODULE: ./packages/checkbox/src/useCheckbox.ts
 
@@ -29485,26 +29499,7 @@ var useCheckbox = function useCheckbox(props) {
   },
   emits: [UPDATE_MODEL_EVENT, 'change'],
   setup: function setup(props) {
-    var _useCheckbox = useCheckbox(props),
-        focus = _useCheckbox.focus,
-        isChecked = _useCheckbox.isChecked,
-        isDisabled = _useCheckbox.isDisabled,
-        checkboxSize = _useCheckbox.checkboxSize,
-        model = _useCheckbox.model,
-        handleChange = _useCheckbox.handleChange;
-
-    var instance = Object(vue_esm_browser["r" /* getCurrentInstance */])();
-    Object(vue_esm_browser["D" /* onMounted */])(function () {
-      instance.vnode.el.setAttribute('aria-controls', props.controls);
-    });
-    return {
-      focus: focus,
-      isChecked: isChecked,
-      isDisabled: isDisabled,
-      checkboxSize: checkboxSize,
-      model: model,
-      handleChange: handleChange
-    };
+    return useCheckbox(props);
   }
 }));
 // CONCATENATED MODULE: ./packages/checkbox/src/checkbox.vue?vue&type=script&lang=ts
@@ -29513,7 +29508,7 @@ var useCheckbox = function useCheckbox(props) {
 
 
 
-checkboxvue_type_script_lang_ts.render = checkboxvue_type_template_id_0f428d3f_render
+checkboxvue_type_script_lang_ts.render = checkboxvue_type_template_id_76460e56_render
 
 /* harmony default export */ var src_checkbox = (checkboxvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/checkbox/index.ts
@@ -29970,7 +29965,7 @@ nodevue_type_script_lang_ts.render = nodevue_type_template_id_19f21e6d_render
       hoverZone: hoverZone,
       isEmpty: isEmpty,
       menuId: menuId,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       handleExpand: handleExpand,
       handleMouseMove: handleMouseMove,
       clearHoverZone: clearHoverZone
@@ -30948,7 +30943,7 @@ var srcvue_type_script_lang_ts_popperOptions = {
     placeholder: {
       type: String,
       default: function _default() {
-        return Object(locale["a" /* t */])('el.cascader.placeholder');
+        return Object(locale["b" /* t */])('el.cascader.placeholder');
       }
     },
     disabled: Boolean,
@@ -31311,7 +31306,7 @@ var srcvue_type_script_lang_ts_popperOptions = {
       multiple: multiple,
       readonly: readonly,
       clearBtnVisible: clearBtnVisible,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       togglePopperVisible: togglePopperVisible,
       hideSuggestionPanel: hideSuggestionPanel,
       deleteTag: deleteTag,
@@ -33315,7 +33310,7 @@ var srcvue_type_script_lang_ts_useOptions = function useOptions() {
       handleTrigger: handleTrigger,
       clear: clear,
       confirmValue: confirmValue,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       hue: hue,
       svPanel: svPanel,
       alpha: alpha,
@@ -33942,7 +33937,7 @@ function basic_date_tablevue_type_template_id_ee3eae34_render(_ctx, _cache, $pro
 
     return {
       handleMouseMove: handleMouseMove,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       rows: rows,
       isWeekActive: isWeekActive,
       getCellClasses: getCellClasses,
@@ -34192,7 +34187,7 @@ var basic_month_tablevue_type_script_lang_ts_datesInMonth = function datesInMont
       handleMonthTableClick: handleMonthTableClick,
       rows: rows,
       getCellStyle: getCellStyle,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       months: months
     };
   }
@@ -34479,7 +34474,7 @@ var timeWithinRange = function timeWithinRange() {
 
     var currentView = Object(vue_esm_browser["L" /* ref */])('date');
     var yearLabel = Object(vue_esm_browser["h" /* computed */])(function () {
-      var yearTranslation = Object(locale["a" /* t */])('el.datepicker.year');
+      var yearTranslation = Object(locale["b" /* t */])('el.datepicker.year');
 
       if (currentView.value === 'year') {
         var startYear = Math.floor(year.value / 10) * 10;
@@ -34804,7 +34799,7 @@ var timeWithinRange = function timeWithinRange() {
       prevMonth_: prevMonth_,
       nextMonth_: nextMonth_,
       innerDate: innerDate,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       yearLabel: yearLabel,
       currentView: currentView,
       month: month,
@@ -35136,10 +35131,10 @@ function panel_date_rangevue_type_template_id_5247b744_render(_ctx, _cache, $pro
       max: null
     });
     var leftLabel = Object(vue_esm_browser["h" /* computed */])(function () {
-      return leftDate.value.year() + ' ' + Object(locale["a" /* t */])('el.datepicker.year') + ' ' + Object(locale["a" /* t */])("el.datepicker.month" + (leftDate.value.month() + 1));
+      return leftDate.value.year() + ' ' + Object(locale["b" /* t */])('el.datepicker.year') + ' ' + Object(locale["b" /* t */])("el.datepicker.month" + (leftDate.value.month() + 1));
     });
     var rightLabel = Object(vue_esm_browser["h" /* computed */])(function () {
-      return rightDate.value.year() + ' ' + Object(locale["a" /* t */])('el.datepicker.year') + ' ' + Object(locale["a" /* t */])("el.datepicker.month" + (rightDate.value.month() + 1));
+      return rightDate.value.year() + ' ' + Object(locale["b" /* t */])('el.datepicker.year') + ' ' + Object(locale["b" /* t */])("el.datepicker.month" + (rightDate.value.month() + 1));
     });
     var leftYear = Object(vue_esm_browser["h" /* computed */])(function () {
       return leftDate.value.year();
@@ -35538,7 +35533,7 @@ function panel_date_rangevue_type_template_id_5247b744_render(_ctx, _cache, $pro
       leftDate: leftDate,
       rightDate: rightDate,
       showTime: showTime,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       minVisibleDate: minVisibleDate,
       maxVisibleDate: maxVisibleDate,
       minVisibleTime: minVisibleTime,
@@ -35722,10 +35717,10 @@ function panel_month_rangevue_type_template_id_5c0060b5_render(_ctx, _cache, $pr
     };
 
     var leftLabel = Object(vue_esm_browser["h" /* computed */])(function () {
-      return leftDate.value.year() + " " + Object(locale["a" /* t */])('el.datepicker.year');
+      return leftDate.value.year() + " " + Object(locale["b" /* t */])('el.datepicker.year');
     });
     var rightLabel = Object(vue_esm_browser["h" /* computed */])(function () {
-      return rightDate.value.year() + " " + Object(locale["a" /* t */])('el.datepicker.year');
+      return rightDate.value.year() + " " + Object(locale["b" /* t */])('el.datepicker.year');
     });
     var leftYear = Object(vue_esm_browser["h" /* computed */])(function () {
       return leftDate.value.year();
@@ -35865,7 +35860,7 @@ function panel_month_rangevue_type_template_id_5c0060b5_render(_ctx, _cache, $pr
       leftPrevYear: leftPrevYear,
       rightNextYear: rightNextYear,
       rightPrevYear: rightPrevYear,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       leftDate: leftDate,
       rightDate: rightDate,
       hasShortcuts: hasShortcuts,
@@ -37439,7 +37434,7 @@ var srcvue_type_script_lang_ts_components;
   },
   setup: function setup(props) {
     var emptyDescription = Object(vue_esm_browser["h" /* computed */])(function () {
-      return props.description || Object(locale["a" /* t */])('el.table.emptyText');
+      return props.description || Object(locale["b" /* t */])('el.table.emptyText');
     });
     var imageStyle = Object(vue_esm_browser["h" /* computed */])(function () {
       return {
@@ -38420,7 +38415,7 @@ var SWITCH_EVENT = 'switch';
 
     function handleImgError(e) {
       loading.value = false;
-      e.target.alt = Object(locale["a" /* t */])('el.image.error');
+      e.target.alt = Object(locale["b" /* t */])('el.image.error');
     }
 
     function handleMouseDown(e) {
@@ -38845,7 +38840,7 @@ var prevOverflow = '';
       closeViewer: closeViewer,
       container: container,
       handleError: handleError,
-      t: locale["a" /* t */]
+      t: locale["b" /* t */]
     };
   }
 }));
@@ -39508,7 +39503,7 @@ function createLoadingComponent(_ref) {
   var data = Object(vue_esm_browser["K" /* reactive */])(extends_default()({}, options, {
     originalPosition: '',
     originalOverflow: '',
-    visible: options.hasOwnProperty('visible') ? options.visible : true
+    visible: false
   }));
 
   function setText(text) {
@@ -39519,7 +39514,16 @@ function createLoadingComponent(_ref) {
     var target = data.parent;
 
     if (!target.vLoadingAddClassList) {
-      removeClass(target, 'el-loading-parent--relative');
+      var loadingNumber = target.getAttribute('loading-number');
+      loadingNumber = Number.parseInt(loadingNumber) - 1;
+
+      if (!loadingNumber) {
+        removeClass(target, 'el-loading-parent--relative');
+        target.removeAttribute('loading-number');
+      } else {
+        target.setAttribute('loading-number', loadingNumber.toString());
+      }
+
       removeClass(target, 'el-loading-parent--hidden');
     }
 
@@ -39553,7 +39557,7 @@ function createLoadingComponent(_ref) {
     destroySelf();
   }
 
-  var componetSetupConfig = extends_default()({}, Object(vue_esm_browser["V" /* toRefs */])(data), {
+  var componentSetupConfig = extends_default()({}, Object(vue_esm_browser["V" /* toRefs */])(data), {
     setText: setText,
     close: close,
     handleAfterLeave: handleAfterLeave
@@ -39562,7 +39566,7 @@ function createLoadingComponent(_ref) {
   var elLoadingComponent = {
     name: 'ElLoading',
     setup: function setup() {
-      return componetSetupConfig;
+      return componentSetupConfig;
     },
     render: function render() {
       var _this = this;
@@ -39602,7 +39606,7 @@ function createLoadingComponent(_ref) {
   };
   vm = Object(vue_esm_browser["o" /* createVNode */])(elLoadingComponent);
   Object(vue_esm_browser["M" /* render */])(vm, document.createElement('div'));
-  return extends_default()({}, componetSetupConfig, {
+  return extends_default()({}, componentSetupConfig, {
     vm: vm,
 
     get $el() {
@@ -39612,6 +39616,9 @@ function createLoadingComponent(_ref) {
   });
 }
 // CONCATENATED MODULE: ./packages/loading/src/index.ts
+
+
+
 
 
 
@@ -39631,30 +39638,73 @@ var src_globalLoadingOption = {
   fullscreenLoading: null
 };
 
-var src_addStyle = function addStyle(options, parent, instance) {
-  var maskStyle = {};
+var addStyle = /*#__PURE__*/function () {
+  var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(options, parent, instance) {
+    var maskStyle;
+    return regenerator_default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            maskStyle = {};
 
-  if (options.fullscreen) {
-    instance.originalPosition.value = dom_getStyle(document.body, 'position');
-    instance.originalOverflow.value = dom_getStyle(document.body, 'overflow');
-    maskStyle.zIndex = String(popup_manager.nextZIndex());
-  } else if (options.body) {
-    instance.originalPosition.value = dom_getStyle(document.body, 'position');
-    ['top', 'left'].forEach(function (property) {
-      var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
-      maskStyle[property] = options.target.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] - parseInt(dom_getStyle(document.body, "margin-" + property), 10) + 'px';
-    });
-    ['height', 'width'].forEach(function (property) {
-      maskStyle[property] = options.target.getBoundingClientRect()[property] + 'px';
-    });
-  } else {
-    instance.originalPosition.value = dom_getStyle(parent, 'position');
-  }
+            if (!options.fullscreen) {
+              _context.next = 7;
+              break;
+            }
 
-  Object.keys(maskStyle).forEach(function (property) {
-    instance.$el.style[property] = maskStyle[property];
-  });
-};
+            instance.originalPosition.value = dom_getStyle(document.body, 'position');
+            instance.originalOverflow.value = dom_getStyle(document.body, 'overflow');
+            maskStyle.zIndex = String(popup_manager.nextZIndex());
+            _context.next = 16;
+            break;
+
+          case 7:
+            if (!options.body) {
+              _context.next = 15;
+              break;
+            }
+
+            instance.originalPosition.value = dom_getStyle(document.body, 'position');
+            /**
+             * await dom render when visible is true in init,
+             * because some component's height maybe 0.
+             * e.g. el-table.
+             */
+
+            _context.next = 11;
+            return Object(vue_esm_browser["x" /* nextTick */])();
+
+          case 11:
+            ['top', 'left'].forEach(function (property) {
+              var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
+              maskStyle[property] = options.target.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] - parseInt(dom_getStyle(document.body, "margin-" + property), 10) + 'px';
+            });
+            ['height', 'width'].forEach(function (property) {
+              maskStyle[property] = options.target.getBoundingClientRect()[property] + 'px';
+            });
+            _context.next = 16;
+            break;
+
+          case 15:
+            instance.originalPosition.value = dom_getStyle(parent, 'position');
+
+          case 16:
+            Object.keys(maskStyle).forEach(function (property) {
+              instance.$el.style[property] = maskStyle[property];
+            });
+
+          case 17:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function addStyle(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
 var src_addClassList = function addClassList(options, parent, instance) {
   if (instance.originalPosition.value !== 'absolute' && instance.originalPosition.value !== 'fixed') {
@@ -39700,14 +39750,36 @@ var src_Loading = function Loading(options) {
     options: options,
     globalLoadingOption: src_globalLoadingOption
   });
-  src_addStyle(options, parent, instance);
+  addStyle(options, parent, instance);
   src_addClassList(options, parent, instance);
 
   options.parent.vLoadingAddClassList = function () {
     src_addClassList(options, parent, instance);
   };
+  /**
+   * add loading-number to parent.
+   * because if a fullscreen loading is triggered when somewhere
+   * a v-loading.body was triggered before and it's parent is
+   * document.body which with a margin , the fullscreen loading's
+   * destroySelf function will remove 'el-loading-parent--relative',
+   * and then the position of v-loading.body will be error.
+   */
 
-  parent.appendChild(instance.$el);
+
+  var loadingNumber = parent.getAttribute('loading-number');
+
+  if (!loadingNumber) {
+    loadingNumber = 1;
+  } else {
+    loadingNumber = Number.parseInt(loadingNumber) + 1;
+  }
+
+  parent.setAttribute('loading-number', loadingNumber.toString());
+  parent.appendChild(instance.$el); // after instance render, then modify visible to trigger transition
+
+  Object(vue_esm_browser["x" /* nextTick */])().then(function () {
+    instance.visible.value = options.hasOwnProperty('visible') ? options.visible : true;
+  });
 
   if (options.fullscreen) {
     src_globalLoadingOption.fullscreenLoading = instance;
@@ -39734,7 +39806,7 @@ var directive_createInstance = function createInstance(el, binding) {
     fullscreen: !!binding.modifiers.fullscreen,
     target: !!binding.modifiers.fullscreen ? null : el,
     body: !!binding.modifiers.body,
-    visible: !!binding.value,
+    visible: true,
     lock: !!binding.modifiers.lock
   });
 };
@@ -41716,7 +41788,7 @@ var srcvue_type_script_lang_ts_TypeMap = {
         var inputPattern = props.inputPattern;
 
         if (inputPattern && !inputPattern.test(state.inputValue || '')) {
-          state.editorErrorMessage = props.inputErrorMessage || Object(locale["a" /* t */])('el.messagebox.error');
+          state.editorErrorMessage = props.inputErrorMessage || Object(locale["b" /* t */])('el.messagebox.error');
           state.validateError = true;
           return false;
         }
@@ -41727,7 +41799,7 @@ var srcvue_type_script_lang_ts_TypeMap = {
           var validateResult = inputValidator(state.inputValue);
 
           if (validateResult === false) {
-            state.editorErrorMessage = props.inputErrorMessage || Object(locale["a" /* t */])('el.messagebox.error');
+            state.editorErrorMessage = props.inputErrorMessage || Object(locale["b" /* t */])('el.messagebox.error');
             state.validateError = true;
             return false;
           }
@@ -41792,7 +41864,7 @@ var srcvue_type_script_lang_ts_TypeMap = {
       handleWrapperClick: handleWrapperClick,
       handleInputEnter: handleInputEnter,
       handleAction: handleAction,
-      t: locale["a" /* t */]
+      t: locale["b" /* t */]
     };
   }
 }));
@@ -41979,15 +42051,12 @@ messageBox.install = function (app) {
 };
 
 /* harmony default export */ var message_box = (messageBox);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/notification/src/index.vue?vue&type=template&id=7e078d12
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/notification/src/index.vue?vue&type=template&id=37856130
 
-var srcvue_type_template_id_7e078d12_hoisted_1 = {
-  class: "el-notification__content"
-};
-var srcvue_type_template_id_7e078d12_hoisted_2 = {
+var srcvue_type_template_id_37856130_hoisted_1 = {
   key: 0
 };
-function srcvue_type_template_id_7e078d12_render(_ctx, _cache, $props, $setup, $data, $options) {
+function srcvue_type_template_id_37856130_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])(vue_esm_browser["e" /* Transition */], {
     name: "el-notification-fade"
   }, {
@@ -42016,12 +42085,15 @@ function srcvue_type_template_id_7e078d12_render(_ctx, _cache, $props, $setup, $
       }, [Object(vue_esm_browser["o" /* createVNode */])("h2", {
         class: "el-notification__title",
         textContent: Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.title)
-      }, null, 8, ["textContent"]), Object(vue_esm_browser["eb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", srcvue_type_template_id_7e078d12_hoisted_1, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
-        return [!_ctx.dangerouslyUseHTMLString ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("p", srcvue_type_template_id_7e078d12_hoisted_2, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.message), 1)) : (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("p", {
+      }, null, 8, ["textContent"]), Object(vue_esm_browser["eb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", {
+        class: "el-notification__content",
+        style: !!_ctx.title ? null : 'margin: 0'
+      }, [Object(vue_esm_browser["O" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
+        return [!_ctx.dangerouslyUseHTMLString ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("p", srcvue_type_template_id_37856130_hoisted_1, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.message), 1)) : (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("p", {
           key: 1,
           innerHTML: _ctx.message
         }, null, 8, ["innerHTML"]))];
-      })], 512), [[vue_esm_browser["ab" /* vShow */], _ctx.message]]), _ctx.showClose ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", {
+      })], 4), [[vue_esm_browser["ab" /* vShow */], _ctx.message]]), _ctx.showClose ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", {
         key: 0,
         class: "el-notification__closeBtn el-icon-close",
         onClick: _cache[1] || (_cache[1] = Object(vue_esm_browser["gb" /* withModifiers */])(function () {
@@ -42032,7 +42104,7 @@ function srcvue_type_template_id_7e078d12_render(_ctx, _cache, $props, $setup, $
     _: 3
   });
 }
-// CONCATENATED MODULE: ./packages/notification/src/index.vue?vue&type=template&id=7e078d12
+// CONCATENATED MODULE: ./packages/notification/src/index.vue?vue&type=template&id=37856130
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/notification/src/index.vue?vue&type=script&lang=ts
  // notificationVM is an alias of vue.VNode
@@ -42215,7 +42287,7 @@ var notification_srcvue_type_script_lang_ts_TypeMap = {
 
 
 
-notification_srcvue_type_script_lang_ts.render = srcvue_type_template_id_7e078d12_render
+notification_srcvue_type_script_lang_ts.render = srcvue_type_template_id_37856130_render
 
 /* harmony default export */ var notification_src = (notification_srcvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/notification/src/notify.ts
@@ -42936,7 +43008,7 @@ function useSelectStates(props) {
     previousQuery: null,
     inputHovering: false,
     cachedPlaceHolder: '',
-    currentPlaceholder: Object(locale["a" /* t */])('el.select.placeholder'),
+    currentPlaceholder: Object(locale["b" /* t */])('el.select.placeholder'),
     menuVisibleOnFocus: false,
     isOnComposition: false,
     isSilentBlur: false,
@@ -42975,16 +43047,16 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
   });
   var emptyText = Object(vue_esm_browser["h" /* computed */])(function () {
     if (props.loading) {
-      return props.loadingText || Object(locale["a" /* t */])('el.select.loading');
+      return props.loadingText || Object(locale["b" /* t */])('el.select.loading');
     } else {
       if (props.remote && states.query === '' && states.options.length === 0) return false;
 
       if (props.filterable && states.query && states.options.length > 0 && states.filteredOptionsCount === 0) {
-        return props.noMatchText || Object(locale["a" /* t */])('el.select.noMatch');
+        return props.noMatchText || Object(locale["b" /* t */])('el.select.noMatch');
       }
 
       if (states.options.length === 0) {
-        return props.noDataText || Object(locale["a" /* t */])('el.select.noData');
+        return props.noDataText || Object(locale["b" /* t */])('el.select.noData');
       }
     }
 
@@ -43861,7 +43933,7 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
       setSelected: setSelected
     }));
     Object(vue_esm_browser["D" /* onMounted */])(function () {
-      states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder || Object(locale["a" /* t */])('el.select.placeholder');
+      states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder || Object(locale["b" /* t */])('el.select.placeholder');
 
       if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
         currentPlaceholder.value = '';
@@ -44100,7 +44172,7 @@ function srcvue_type_template_id_3c56f55a_render(_ctx, _cache, $props, $setup, $
     title: {
       type: String,
       default: function _default() {
-        return Object(locale["a" /* t */])('el.pageHeader.title');
+        return Object(locale["b" /* t */])('el.pageHeader.title');
       }
     },
     content: {
@@ -44351,7 +44423,7 @@ var usePagination_usePagination = function usePagination() {
     }
 
     return {
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       innerPagesizes: innerPagesizes,
       innerPageSize: innerPageSize,
       handleChange: handleChange
@@ -44421,7 +44493,7 @@ function jumpervue_type_template_id_5a884aaa_render(_ctx, _cache, $props, $setup
     }
 
     return {
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       userInput: userInput,
       pageCount: pageCount,
       disabled: disabled,
@@ -44465,7 +44537,7 @@ function totalvue_type_template_id_683dc098_render(_ctx, _cache, $props, $setup,
   },
   setup: function setup() {
     return {
-      t: locale["a" /* t */]
+      t: locale["b" /* t */]
     };
   }
 }));
@@ -45096,10 +45168,10 @@ function srcvue_type_template_id_7f6d99de_render(_ctx, _cache, $props, $setup, $
     };
 
     var confirmButtonText_ = Object(vue_esm_browser["h" /* computed */])(function () {
-      return props.confirmButtonText || Object(locale["a" /* t */])('el.popconfirm.confirmButtonText');
+      return props.confirmButtonText || Object(locale["b" /* t */])('el.popconfirm.confirmButtonText');
     });
     var cancelButtonText_ = Object(vue_esm_browser["h" /* computed */])(function () {
-      return props.cancelButtonText || Object(locale["a" /* t */])('el.popconfirm.cancelButtonText');
+      return props.cancelButtonText || Object(locale["b" /* t */])('el.popconfirm.cancelButtonText');
     });
     return {
       visible: visible,
@@ -46560,7 +46632,7 @@ var useSliderButton_useSliderButton = function useSliderButton(props, initData, 
     var clientX;
     var clientY;
 
-    if (event.type === 'touchstart') {
+    if (event.type.startsWith('touch')) {
       clientY = event.touches[0].clientY;
       clientX = event.touches[0].clientX;
     } else {
@@ -49509,7 +49581,12 @@ function useWatcher() {
   var sortingColumn = Object(vue_esm_browser["L" /* ref */])(null);
   var sortProp = Object(vue_esm_browser["L" /* ref */])(null);
   var sortOrder = Object(vue_esm_browser["L" /* ref */])(null);
-  var hoverRow = Object(vue_esm_browser["L" /* ref */])(null); // 检查 rowKey 是否存在
+  var hoverRow = Object(vue_esm_browser["L" /* ref */])(null);
+  Object(vue_esm_browser["bb" /* watch */])(data, function () {
+    return instance.state && scheduleLayout(false);
+  }, {
+    deep: true
+  }); // 检查 rowKey 是否存在
 
   var assertRowKey = function assertRowKey() {
     if (!rowKey.value) throw new Error('[ElTable] prop row-key is required');
@@ -49992,7 +50069,19 @@ function useStore() {
       var array = Object(vue_esm_browser["W" /* unref */])(states._columns);
 
       if (!parent) {
-        array.splice(index, 0, column);
+        if (array.length > index && array[index] !== undefined) {
+          array.splice(index, 0, column);
+          var nearlyEmptyIndex = array.findIndex(function (item, i) {
+            return i > index && item === undefined;
+          });
+
+          if (nearlyEmptyIndex > -1) {
+            array.splice(nearlyEmptyIndex, 1);
+          }
+        } else {
+          array[index] = column;
+        }
+
         states._columns.value = array;
       } else {
         if (parent && !parent.children) {
@@ -50792,7 +50881,7 @@ function filter_panelvue_type_template_id_c9933652_render(_ctx, _cache, $props, 
       handleReset: handleReset,
       handleSelect: handleSelect,
       isActive: isActive,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       showFilterPanel: showFilterPanel,
       hideFilterPanel: hideFilterPanel,
       popperPaneRef: popperPaneRef,
@@ -52867,7 +52956,7 @@ var tableIdSeed = 1;
       clearSort: clearSort,
       doLayout: doLayout,
       sort: sort,
-      t: locale["a" /* t */],
+      t: locale["b" /* t */],
       setDragVisible: setDragVisible,
       context: table
     };
@@ -52942,7 +53031,7 @@ var cellForced = {
         onInput: function onInput() {
           store.commit('rowSelectedChanged', row);
         },
-        nativeOnClick: function nativeOnClick(event) {
+        onClick: function onClick(event) {
           return event.stopPropagation();
         },
         modelValue: store.isSelected(row)
@@ -53090,6 +53179,7 @@ function watcher_helper_useWatcher(owner, props_) {
           return props_[columnKey];
         }, function (newVal) {
           instance.columnConfig.value[columnKey] = newVal;
+          instance.columnConfig.value[key] = newVal;
           var updateColumns = columnKey === 'fixed';
           owner.value.store.scheduleLayout(updateColumns);
         });
@@ -54938,7 +55028,7 @@ var useCheck_useCheck = function useCheck(props, panelState, emit) {
       inputIcon: inputIcon,
       hasFooter: hasFooter,
       clearQuery: clearQuery,
-      t: locale["a" /* t */]
+      t: locale["b" /* t */]
     };
   }
 }));
@@ -55179,13 +55269,13 @@ var srcvue_type_script_lang_ts_CHANGE_EVENT = 'change';
       return props.buttonTexts.length === 2;
     });
     var leftPanelTitle = Object(vue_esm_browser["h" /* computed */])(function () {
-      return props.titles[0] || Object(locale["a" /* t */])('el.transfer.titles.0');
+      return props.titles[0] || Object(locale["b" /* t */])('el.transfer.titles.0');
     });
     var rightPanelTitle = Object(vue_esm_browser["h" /* computed */])(function () {
-      return props.titles[1] || Object(locale["a" /* t */])('el.transfer.titles.1');
+      return props.titles[1] || Object(locale["b" /* t */])('el.transfer.titles.1');
     });
     var panelFilterPlaceholder = Object(vue_esm_browser["h" /* computed */])(function () {
-      return props.filterPlaceholder || Object(locale["a" /* t */])('el.transfer.filterPlaceholder');
+      return props.filterPlaceholder || Object(locale["b" /* t */])('el.transfer.filterPlaceholder');
     });
     Object(vue_esm_browser["bb" /* watch */])(function () {
       return props.modelValue;
@@ -55238,20 +55328,20 @@ transfer_src.install = function (app) {
 
 var _Transfer = transfer_src;
 /* harmony default export */ var transfer = (_Transfer);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/tree/src/tree.vue?vue&type=template&id=6f97b2ef
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/tree/src/tree.vue?vue&type=template&id=721c54de
 
-var treevue_type_template_id_6f97b2ef_hoisted_1 = {
+var treevue_type_template_id_721c54de_hoisted_1 = {
   key: 0,
   class: "el-tree__empty-block"
 };
-var treevue_type_template_id_6f97b2ef_hoisted_2 = {
+var treevue_type_template_id_721c54de_hoisted_2 = {
   class: "el-tree__empty-text"
 };
-var treevue_type_template_id_6f97b2ef_hoisted_3 = {
+var treevue_type_template_id_721c54de_hoisted_3 = {
   ref: "dropIndicator$",
   class: "el-tree__drop-indicator"
 };
-function treevue_type_template_id_6f97b2ef_render(_ctx, _cache, $props, $setup, $data, $options) {
+function treevue_type_template_id_721c54de_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_tree_node = Object(vue_esm_browser["P" /* resolveComponent */])("el-tree-node");
 
   return Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", {
@@ -55273,9 +55363,9 @@ function treevue_type_template_id_6f97b2ef_render(_ctx, _cache, $props, $setup, 
       "render-content": _ctx.renderContent,
       onNodeExpand: _ctx.handleNodeExpand
     }, null, 8, ["node", "props", "render-after-expand", "show-checkbox", "render-content", "onNodeExpand"]);
-  }), 128)), _ctx.isEmpty ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", treevue_type_template_id_6f97b2ef_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])("span", treevue_type_template_id_6f97b2ef_hoisted_2, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.emptyText), 1)])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["eb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", treevue_type_template_id_6f97b2ef_hoisted_3, null, 512), [[vue_esm_browser["ab" /* vShow */], _ctx.dragState.showDropIndicator]])], 2);
+  }), 128)), _ctx.isEmpty ? (Object(vue_esm_browser["G" /* openBlock */])(), Object(vue_esm_browser["j" /* createBlock */])("div", treevue_type_template_id_721c54de_hoisted_1, [Object(vue_esm_browser["o" /* createVNode */])("span", treevue_type_template_id_721c54de_hoisted_2, Object(vue_esm_browser["T" /* toDisplayString */])(_ctx.emptyText), 1)])) : Object(vue_esm_browser["k" /* createCommentVNode */])("", true), Object(vue_esm_browser["eb" /* withDirectives */])(Object(vue_esm_browser["o" /* createVNode */])("div", treevue_type_template_id_721c54de_hoisted_3, null, 512), [[vue_esm_browser["ab" /* vShow */], _ctx.dragState.showDropIndicator]])], 2);
 }
-// CONCATENATED MODULE: ./packages/tree/src/tree.vue?vue&type=template&id=6f97b2ef
+// CONCATENATED MODULE: ./packages/tree/src/tree.vue?vue&type=template&id=721c54de
 
 // CONCATENATED MODULE: ./packages/tree/src/model/util.ts
 var NODE_KEY = '$treeNodeId';
@@ -55920,8 +56010,6 @@ var model_node_Node = /*#__PURE__*/function () {
 
 var tree_store_TreeStore = /*#__PURE__*/function () {
   function TreeStore(options) {
-    var _this = this;
-
     defineProperty_default()(this, "currentNode", void 0);
 
     defineProperty_default()(this, "currentNodeKey", void 0);
@@ -55964,6 +56052,13 @@ var tree_store_TreeStore = /*#__PURE__*/function () {
     }
 
     this.nodesMap = {};
+  }
+
+  var _proto = TreeStore.prototype;
+
+  _proto.initialize = function initialize() {
+    var _this = this;
+
     this.root = new model_node_Node({
       data: this.data,
       store: this
@@ -55979,9 +56074,7 @@ var tree_store_TreeStore = /*#__PURE__*/function () {
     } else {
       this._initDefaultCheckedNodes();
     }
-  }
-
-  var _proto = TreeStore.prototype;
+  };
 
   _proto.filter = function filter(value) {
     var filterNodeMethod = this.filterNodeMethod;
@@ -57076,7 +57169,7 @@ function useKeydown(_ref, store) {
     emptyText: {
       type: String,
       default: function _default() {
-        return Object(locale["a" /* t */])('el.tree.emptyText');
+        return Object(locale["b" /* t */])('el.tree.emptyText');
       }
     },
     renderAfterExpand: {
@@ -57154,6 +57247,7 @@ function useKeydown(_ref, store) {
       defaultExpandAll: props.defaultExpandAll,
       filterNodeMethod: props.filterNodeMethod
     }));
+    store.value.initialize();
     var root = Object(vue_esm_browser["L" /* ref */])(store.value.root);
     var currentNode = Object(vue_esm_browser["L" /* ref */])(null);
     var el$ = Object(vue_esm_browser["L" /* ref */])(null);
@@ -57359,7 +57453,7 @@ function useKeydown(_ref, store) {
 
 
 
-treevue_type_script_lang_ts.render = treevue_type_template_id_6f97b2ef_render
+treevue_type_script_lang_ts.render = treevue_type_template_id_721c54de_render
 
 /* harmony default export */ var src_tree = (treevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/tree/index.ts
@@ -57624,7 +57718,7 @@ function upload_listvue_type_template_id_057f437c_render(_ctx, _cache, $props, $
       handleClick: handleClick,
       handleRemove: handleRemove,
       onFileClicked: onFileClicked,
-      t: locale["a" /* t */]
+      t: locale["b" /* t */]
     };
   }
 }));
@@ -59223,7 +59317,7 @@ var version = '0.0.0-development';
 
 var element_plus_version = version; // version_ to fix tsc issue
 
-var element_plus_locale = locale["b" /* use */];
+var element_plus_locale = locale["c" /* use */];
 var defaultInstallOpt = {
   size: '',
   zIndex: 2000
@@ -59234,6 +59328,11 @@ var plugins = [infinite_scroll, packages_loading, packages_message, message_box,
 var element_plus_install = function install(app, opt) {
   var option = Object.assign(defaultInstallOpt, opt);
   element_plus_locale(option.locale);
+
+  if (option.i18n) {
+    Object(locale["a" /* i18n */])(option.i18n);
+  }
+
   app.config.globalProperties.$ELEMENT = option;
   setConfig(option);
   element_plus_components.forEach(function (component) {
@@ -114346,23 +114445,23 @@ var appvue_type_script_lang_js_lang = location.hash.replace('#', '').split('/')[
 var appvue_type_script_lang_js_localize = function localize(lang) {
   switch (lang) {
     case Language.CN:
-      Object(locale["b" /* use */])(lang_zh_cn);
+      Object(locale["c" /* use */])(lang_zh_cn);
       break;
 
     case Language.ES:
-      Object(locale["b" /* use */])(es);
+      Object(locale["c" /* use */])(es);
       break;
 
     case Language.FR:
-      Object(locale["b" /* use */])(fr);
+      Object(locale["c" /* use */])(fr);
       break;
 
     case Language.JP:
-      Object(locale["b" /* use */])(ja);
+      Object(locale["c" /* use */])(ja);
       break;
 
     default:
-      Object(locale["b" /* use */])(en["a" /* default */]);
+      Object(locale["c" /* use */])(en["a" /* default */]);
   }
 };
 
