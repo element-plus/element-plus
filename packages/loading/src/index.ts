@@ -1,5 +1,6 @@
+import { nextTick } from 'vue'
 import { createLoadingComponent } from './createLoadingComponent'
-import type { ILoadingOptions, ILoadingInstance, ILoadingGlobalConfig } from './loading.type'
+import type { ILoadingGlobalConfig, ILoadingInstance, ILoadingOptions } from './loading.type'
 import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
 import PopupManager from '@element-plus/utils/popup-manager'
 import isServer from '@element-plus/utils/isServer'
@@ -19,14 +20,20 @@ const globalLoadingOption: ILoadingGlobalConfig = {
   fullscreenLoading: null,
 }
 
-const addStyle = (options: ILoadingOptions, parent: HTMLElement, instance: ILoadingInstance) => {
+const addStyle = async (options: ILoadingOptions, parent: HTMLElement, instance: ILoadingInstance) => {
   const maskStyle: Partial<CSSStyleDeclaration> = {}
   if (options.fullscreen) {
     instance.originalPosition.value = getStyle(document.body, 'position')
     instance.originalOverflow.value = getStyle(document.body, 'overflow')
     maskStyle.zIndex = String(PopupManager.nextZIndex())
   } else if (options.body) {
-    instance.originalPosition.value = getStyle(document.body, 'position');
+    instance.originalPosition.value = getStyle(document.body, 'position')
+    /**
+     * await dom render when visible is true in init,
+     * because some component's height maybe 0.
+     * e.g. el-table.
+     */
+    await nextTick();
     ['top', 'left'].forEach(property => {
       const scroll = property === 'top' ? 'scrollTop' : 'scrollLeft'
       maskStyle[property] = (options.target as HTMLElement).getBoundingClientRect()[property] +
@@ -59,8 +66,8 @@ const addClassList = (options: ILoadingOptions, parent: HTMLElement, instance: I
   }
 }
 
-const Loading = function(options: ILoadingOptions = {}): ILoadingInstance{
-  if(isServer) return
+const Loading = function (options: ILoadingOptions = {}): ILoadingInstance {
+  if (isServer) return
   options = {
     ...defaults,
     ...options,
@@ -95,7 +102,29 @@ const Loading = function(options: ILoadingOptions = {}): ILoadingInstance{
     addClassList(options, parent, instance)
   }
 
+  /**
+   * add loading-number to parent.
+   * because if a fullscreen loading is triggered when somewhere
+   * a v-loading.body was triggered before and it's parent is
+   * document.body which with a margin , the fullscreen loading's
+   * destroySelf function will remove 'el-loading-parent--relative',
+   * and then the position of v-loading.body will be error.
+   */
+  let loadingNumber: number | string = parent.getAttribute('loading-number')
+  if (!loadingNumber) {
+    loadingNumber = 1
+  } else {
+    loadingNumber = Number.parseInt(loadingNumber) + 1
+  }
+  parent.setAttribute('loading-number', loadingNumber.toString())
+
   parent.appendChild(instance.$el)
+
+  // after instance render, then modify visible to trigger transition
+  nextTick().then(() => {
+    instance.visible.value = options.hasOwnProperty('visible') ? options.visible : true
+  })
+
   if (options.fullscreen) {
     globalLoadingOption.fullscreenLoading = instance
   }
