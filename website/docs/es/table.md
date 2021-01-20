@@ -1878,7 +1878,7 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | ------------------ | ---------------------------------------- | ------------- |
 | clearSelection     | utilizado en selección múltiple de la tabla, limpiar selección | —     |
 | toggleRowSelection | utilizado en selección múltiple de la tabla, alterna si una cierta fila es seleccionada. Con el segundo parámetro, puede directamente establecer si la fila es seleccionada | row, selected |
-| toggleAllSelection | usado en Table de selección múltiple, cambia los estados de selección de todas las filas. | - |
+| toggleAllSelection | usado en Table de selección múltiple, toggle select all and deselect all | - |
 | toggleRowExpansion | utilizado en la Tabla expandible o en la Tabla de árbol, conmutar si se desglosa una determinada línea. Con el segundo parámetro, se puede fijar directamente si esta línea se desglosa o se pliega | row, expanded |
 | setCurrentRow      | utilizado en tabla con selección sencilla, establece una cierta fila seleccionada. Si es llamado sin ningún parámetro, este puede limpiar la selección | row           |
 | clearSort          | limpiar ordenamiento, restaurar datos a orden original | —             |

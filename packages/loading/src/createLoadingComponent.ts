@@ -2,7 +2,10 @@ import { createVNode, h, reactive, ref, render, toRefs, Transition, VNode, vShow
 import { removeClass } from '@element-plus/utils/dom'
 import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
 
-export function createLoadingComponent({ options , globalLoadingOption }: ILoadingCreateComponentParams): ILoadingInstance {
+export function createLoadingComponent({
+  options,
+  globalLoadingOption,
+}: ILoadingCreateComponentParams): ILoadingInstance {
   let vm: VNode = null
   let afterLeaveTimer: Nullable<number> = null
 
@@ -11,7 +14,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
     ...options,
     originalPosition: '',
     originalOverflow: '',
-    visible: options.hasOwnProperty('visible') ? options.visible : true,
+    visible: false,
   })
 
   function setText(text: string) {
@@ -20,8 +23,15 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
 
   function destroySelf() {
     const target = data.parent
-    if(!target.vLoadingAddClassList) {
-      removeClass(target, 'el-loading-parent--relative')
+    if (!target.vLoadingAddClassList) {
+      let loadingNumber: number | string = target.getAttribute('loading-number')
+      loadingNumber = Number.parseInt(loadingNumber) - 1
+      if (!loadingNumber) {
+        removeClass(target, 'el-loading-parent--relative')
+        target.removeAttribute('loading-number')
+      } else {
+        target.setAttribute('loading-number', loadingNumber.toString())
+      }
       removeClass(target, 'el-loading-parent--hidden')
     }
     if (vm.el && vm.el.parentNode) {
@@ -53,7 +63,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
     destroySelf()
   }
 
-  const componetSetupConfig = {
+  const componentSetupConfig = {
     ...toRefs(data),
     setText,
     close,
@@ -63,7 +73,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
   const elLoadingComponent = {
     name: 'ElLoading',
     setup() {
-      return componetSetupConfig
+      return componentSetupConfig
     },
     render() {
       const spinner = h('svg', {
@@ -108,9 +118,9 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
   render(vm, document.createElement('div'))
 
   return {
-    ...componetSetupConfig,
+    ...componentSetupConfig,
     vm,
-    get $el(){
+    get $el() {
       return vm.el as HTMLElement
     },
   }

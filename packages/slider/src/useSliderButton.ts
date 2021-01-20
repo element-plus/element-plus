@@ -106,7 +106,7 @@ export const useSliderButton = (props: ISliderButtonProps, initData: ISliderButt
   const getClientXY = (event: MouseEvent | TouchEvent) => {
     let clientX: number
     let clientY: number
-    if (event.type === 'touchstart') {
+    if (event.type.startsWith('touch')) {
       clientY = (event as TouchEvent).touches[0].clientY
       clientX = (event as TouchEvent).touches[0].clientX
     } else {

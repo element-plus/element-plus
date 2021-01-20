@@ -1,5 +1,27 @@
 ## Changelog
 
+### 1.0.2-beta.28
+
+*2021-01-20*
+
+#### New feature
+
+- Support vue-i18n@next (#1306)
+
+#### Bug fixes
+
+- Add tags and attributes completions for Vetur (#1303)
+- Fix table when the data changes, the table does not update the layout (#1315)
+- Fix table bug of table-column property watching (#1309)
+- Fix loading transition invalid (#1321)
+- Fix checkbox migrate error (#1293)
+- Fix notification style when its type set and title not set (#1288)
+- Fix tree node not render in lazy (#1298)
+- Fix slider can't drag in mobile (#1299)
+- Fix table column insertion disorder BUG
+- Fix table checkbox in table header style error (#1292)
+- Fix table migrate error (#1294)
+
 ### 1.0.1-beta.27
 
 *2021-01-15*
