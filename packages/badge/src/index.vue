@@ -59,11 +59,10 @@ export default defineComponent({
       if (props.isDot) {
         return
       }
-      const { value, max } = props
-      if (typeof value === 'number' && typeof max === 'number') {
-        return max < value ? `${max}+` : value
+      if (typeof props.value === 'number' && typeof props.max === 'number') {
+        return props.max < props.value ? `${props.max}+` : props.value
       }
-      return value
+      return props.value
     })
     return {
       content,
