@@ -80,7 +80,7 @@ export default defineComponent({
       state.clientHeight = document.documentElement.clientHeight
 
       if (props.position === 'top') {
-        if (target.value) {
+        if (props.target) {
           const difference = targetRect.bottom - props.offset - state.height
           state.fixed = props.offset > rootRect.top && targetRect.bottom > 0
           state.transform = difference < 0 ? difference : 0
@@ -88,7 +88,7 @@ export default defineComponent({
           state.fixed = props.offset > rootRect.top
         }
       } else {
-        if (target.value) {
+        if (props.target) {
           const difference = state.clientHeight - targetRect.top - props.offset - state.height
           state.fixed = state.clientHeight - props.offset < rootRect.bottom && state.clientHeight > targetRect.top
           state.transform = difference < 0 ? -difference : 0
