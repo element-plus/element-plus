@@ -159,11 +159,8 @@ class TableLayout {
       ? this.bodyHeight.value - this.gutterWidth
       : this.bodyHeight.value
 
-    const noData = !(
-      this.store.states.data.value && this.store.states.data.value.length
-    )
     this.viewportHeight.value = this.scrollX.value
-      ? tableHeight - (noData ? 0 : this.gutterWidth)
+      ? tableHeight - this.gutterWidth
       : tableHeight
 
     this.updateScrollY()
