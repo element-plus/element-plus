@@ -33,13 +33,15 @@ export const cellForced = {
   selection: {
     renderHeader: function({ store: store_ }) {
       const store = store_ as Store
+      function isDisabled() {
+        return store.states.data.value && store.states.data.value.length === 0
+      }
       return h(ElCheckbox, {
-        disabled:
-          store.states.data.value && store.states.data.value.length === 0,
+        disabled: isDisabled(),
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
-        onClick: store.toggleAllSelection,
+        'onUpdate:modelValue': store.toggleAllSelection,
         modelValue: store.states.isAllSelected.value,
       })
     },
