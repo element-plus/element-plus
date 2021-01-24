@@ -244,7 +244,7 @@ export default defineComponent({
       const index = items.value.findIndex(item => item.uid === uid)
       if (index !== -1) {
         items.value.splice(index, 1)
-        next()
+        if(data.activeIndex === index) next()
       }
     }
 
