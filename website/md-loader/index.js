@@ -63,6 +63,7 @@ module.exports = function(source) {
   <template>
     <section class="content element-doc">
       ${output.join('')}
+      <right-nav />
     </section>
   </template>
   ${pageScript}

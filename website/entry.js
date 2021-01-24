@@ -2,6 +2,7 @@ import { createApp, nextTick } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from './route.config'
 import demoBlock from './components/demo-block'
+import RightNav from './components/right-nav'
 import MainFooter from './components/footer'
 import MainHeader from './components/header'
 import SideNav from './components/side-nav'
@@ -25,6 +26,7 @@ const app = createApp(App)
 app.config.globalProperties.$icon = icon
 
 app.component('DemoBlock', demoBlock)
+app.component('RightNav', RightNav)
 app.component('MainFooter', MainFooter)
 app.component('MainHeader', MainHeader)
 app.component('SideNav', SideNav)
