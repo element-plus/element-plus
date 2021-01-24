@@ -22,7 +22,6 @@
           :class="['el-drawer', direction, customClass]"
           :style="isHorizontal ? 'width: ' + size : 'height: ' + size"
           role="dialog"
-          @click.stop
         >
           <header
             v-if="withHeader"

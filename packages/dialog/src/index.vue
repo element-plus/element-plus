@@ -16,6 +16,8 @@
         <div
           ref="dialogRef"
           v-trap-focus
+          aria-modal="true"
+          :aria-label="title || 'dialog'"
           :class="[
             'el-dialog',
             {
@@ -24,11 +26,8 @@
             },
             customClass,
           ]"
-          aria-modal="true"
-          role="dialog"
-          :aria-label="title || 'dialog'"
           :style="style"
-          @click.stop=""
+          role="dialog"
         >
           <div class="el-dialog__header">
             <slot name="title">

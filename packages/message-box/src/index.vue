@@ -2,20 +2,20 @@
   <transition name="fade-in-linear" @after-leave="$emit('vanish')">
     <el-overlay
       v-show="visible"
-      :z-index="state.zIndex"
-      :overlay-class="['is-message-box', modalClass]"
       :mask="modal"
-      @click.self="handleWrapperClick"
+      :overlay-class="['is-message-box', modalClass]"
+      :z-index="state.zIndex"
+      @click="handleWrapperClick"
     >
       <div
         ref="root"
         v-trap-focus
-        :aria-label="title || 'dialog'"
         aria-modal="true"
+        :aria-label="title || 'dialog'"
         :class="[
           'el-message-box',
-          customClass,
           { 'el-message-box--center': center },
+          customClass,
         ]"
       >
         <div
