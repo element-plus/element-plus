@@ -39,8 +39,9 @@ export default defineComponent({
     const visible = ref(false)
 
     const clickThumbHandler = e => {
-      // prevent click event of right button
-      if (e.ctrlKey || e.button === 2) {
+      // prevent click event of middle and right button
+      e.stopPropagation()
+      if (e.ctrlKey || [1, 2].includes(e.button)) {
         return
       }
       startDrag(e)
