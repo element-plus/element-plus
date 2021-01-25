@@ -76,6 +76,7 @@
   font-size: $--font-size-base;
   display: inline-block;
   width: 100%;
+  line-height: 40px;
   @include scroll-bar;
 
   & .el-input__clear {
@@ -230,10 +231,10 @@
 
   @include m(medium) {
     font-size: $--input-medium-font-size;
+    line-height: $--input-medium-height;
 
     @include e(inner) {
       height: $--input-medium-height;
-      line-height: $--input-medium-height;
     }
 
     .el-input__icon {
@@ -242,10 +243,10 @@
   }
   @include m(small) {
     font-size: $--input-small-font-size;
+    line-height: $--input-small-height;
 
     @include e(inner) {
       height: $--input-small-height;
-      line-height: $--input-small-height;
     }
 
     .el-input__icon {
@@ -254,10 +255,10 @@
   }
   @include m(mini) {
     font-size: $--input-mini-font-size;
+    line-height: $--input-mini-height;
 
     @include e(inner) {
       height: $--input-mini-height;
-      line-height: $--input-mini-height;
     }
 
     .el-input__icon {

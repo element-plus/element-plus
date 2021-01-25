@@ -17,7 +17,7 @@
       <slot name="dropdown"></slot>
     </template>
     <template #trigger>
-      <div class="el-dropdown">
+      <div :class="['el-dropdown', dropdownSize ? 'el-dropdown--' + dropdownSize : '']">
         <slot v-if="!splitButton" name="default"> </slot>
         <template v-else>
           <el-button-group>

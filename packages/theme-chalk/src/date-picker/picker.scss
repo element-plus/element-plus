@@ -122,6 +122,8 @@
   }
 
   @include m(medium) {
+    line-height: $--input-medium-height;
+
     &.el-input__inner {
       height: $--input-medium-height;
     }
@@ -142,6 +144,8 @@
   }
 
   @include m(small) {
+    line-height: $--input-small-height;
+
     &.el-input__inner {
       height: $--input-small-height;
     }
@@ -162,6 +166,8 @@
   }
 
   @include m(mini) {
+    line-height: $--input-mini-height;
+
     &.el-input__inner {
       height: $--input-mini-height;
     }
