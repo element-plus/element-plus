@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
+const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
@@ -14,6 +15,13 @@ let externals = [
     },
   },
 ]
+const plugins = [
+  new VueLoaderPlugin(),
+  // new BundleAnalyzerPlugin(),
+]
+
+const entry = path.resolve(__dirname, '../packages/element-plus/index.ts')
+
 if (!isFullMode) {
   externals.push({
     '@popperjs/core': '@popperjs/core',
@@ -28,7 +36,7 @@ if (!isFullMode) {
 
 const config = {
   mode: 'production',
-  entry: path.resolve(__dirname, '../packages/element-plus/index.ts'),
+  entry,
   output: {
     path: path.resolve(__dirname, '../lib'),
     publicPath: '/',
@@ -55,10 +63,7 @@ const config = {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   externals,
-  plugins: [
-    new VueLoaderPlugin(),
-    // new BundleAnalyzerPlugin(),
-  ],
+  plugins,
 }
 
 module.exports = config

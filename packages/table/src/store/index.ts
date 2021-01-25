@@ -37,7 +37,6 @@ function useStore(): Store {
         }
       }
       instance.store.updateAllSelected()
-      instance.store.updateTableScrollY()
       if (instance.$ready) {
         instance.store.scheduleLayout()
       }

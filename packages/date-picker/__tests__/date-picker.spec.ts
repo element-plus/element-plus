@@ -475,6 +475,43 @@ describe('DateRangePicker', () => {
     expect(vm.value[0].getTime() < vm.value[1].getTime()).toBeTruthy()
   })
 
+  it('range, start-date and end-date', async () => {
+    _mount(`<el-date-picker
+      type='daterange'
+      v-model="value"
+    />`, () => ({ value: '' }))
+
+    const table = document.querySelector('.el-date-table')
+    const availableTds = (table as HTMLTableElement).querySelectorAll('td.available');
+
+    (availableTds[0] as HTMLElement).click()
+    await nextTick();
+    (availableTds[1] as HTMLElement).click()
+    await nextTick()
+
+    expect(availableTds[0].classList.contains('in-range')).toBeTruthy()
+    expect(availableTds[0].classList.contains('start-date')).toBeTruthy()
+    expect(availableTds[1].classList.contains('in-range')).toBeTruthy()
+    expect(availableTds[1].classList.contains('end-date')).toBeTruthy();
+
+    (availableTds[1] as HTMLElement).click()
+    await nextTick();
+    (availableTds[0] as HTMLElement).click()
+    await nextTick()
+
+    expect(availableTds[0].classList.contains('in-range')).toBeTruthy()
+    expect(availableTds[0].classList.contains('start-date')).toBeTruthy()
+    expect(availableTds[1].classList.contains('in-range')).toBeTruthy()
+    expect(availableTds[1].classList.contains('end-date')).toBeTruthy()
+
+    const startDate = document.querySelectorAll('.start-date')
+    const endDate = document.querySelectorAll('.end-date')
+    const inRangeDate = document.querySelectorAll('.in-range')
+    expect(startDate.length).toBe(1)
+    expect(endDate.length).toBe(1)
+    expect(inRangeDate.length).toBe(2)
+  })
+
   it('unlink:true', async () => {
     const wrapper = _mount(`<el-date-picker
       type='daterange'
@@ -561,6 +598,44 @@ describe('MonthRange', () => {
     await nextTick()
     expect(vm.value[0].getTime() < vm.value[1].getTime()).toBeTruthy()
   })
+
+  it('range, start-date and end-date', async () => {
+    _mount(`<el-date-picker
+      type='monthrange'
+      v-model="value"
+    />`, () => ({ value: '' }))
+
+    const table = document.querySelector('.el-month-table')
+    const tds = (table as HTMLTableElement).querySelectorAll('td');
+
+    (tds[0] as HTMLElement).click()
+    await nextTick();
+    (tds[1] as HTMLElement).click()
+    await nextTick()
+
+    expect(tds[0].classList.contains('in-range')).toBeTruthy()
+    expect(tds[0].classList.contains('start-date')).toBeTruthy()
+    expect(tds[1].classList.contains('in-range')).toBeTruthy()
+    expect(tds[1].classList.contains('end-date')).toBeTruthy();
+
+    (tds[1] as HTMLElement).click()
+    await nextTick();
+    (tds[0] as HTMLElement).click()
+    await nextTick()
+
+    expect(tds[0].classList.contains('in-range')).toBeTruthy()
+    expect(tds[0].classList.contains('start-date')).toBeTruthy()
+    expect(tds[1].classList.contains('in-range')).toBeTruthy()
+    expect(tds[1].classList.contains('end-date')).toBeTruthy()
+
+    const startDate = document.querySelectorAll('.start-date')
+    const endDate = document.querySelectorAll('.end-date')
+    const inRangeDate = document.querySelectorAll('.in-range')
+    expect(startDate.length).toBe(1)
+    expect(endDate.length).toBe(1)
+    expect(inRangeDate.length).toBe(2)
+  })
+
 
   it('type:monthrange unlink:true', async () => {
     const wrapper = _mount(`<el-date-picker

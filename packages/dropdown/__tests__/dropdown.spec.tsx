@@ -9,6 +9,7 @@ const TIMEOUT = 250
 const MOUSE_ENTER_EVENT = 'mouseenter'
 const MOUSE_LEAVE_EVENT = 'mouseleave'
 const CLICK = 'click'
+const CONTEXTMENU = 'contextmenu'
 
 const _mount = (template: string, data, otherObj?) => mount({
   components: {
@@ -132,6 +133,37 @@ describe('Dropdown', () => {
     await sleep(TIMEOUT)
     expect(content.visible).toBe(false)
     await triggerElm.trigger(CLICK)
+    await sleep(TIMEOUT)
+    expect(content.visible).toBe(true)
+  })
+
+  test('trigger contextmenu', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown trigger="contextmenu" ref="b" placement="right">
+        <span class="el-dropdown-link" ref="a">
+          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="a">Apple</el-dropdown-item>
+            <el-dropdown-item command="b">Orange</el-dropdown-item>
+            <el-dropdown-item ref="c" :command="myCommandObject">Cherry</el-dropdown-item>
+            <el-dropdown-item command="d">Peach</el-dropdown-item>
+            <el-dropdown-item command="e">Pear</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({
+        myCommandObject: { name: 'CommandC' },
+        name: '',
+      }),
+    )
+    const content = wrapper.findComponent({ ref: 'b' }).vm as any
+    const triggerElm = wrapper.find('.el-dropdown-link')
+    expect(content.visible).toBe(false)
+    await triggerElm.trigger(CONTEXTMENU)
     await sleep(TIMEOUT)
     expect(content.visible).toBe(true)
   })

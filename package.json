@@ -126,7 +126,7 @@
     "type": "git",
     "url": "https://github.com/element-plus/element-plus.git"
   },
-  "homepage": "https://element-plus.org/",
+  "homepage": "https://element-plus.org",
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.4",

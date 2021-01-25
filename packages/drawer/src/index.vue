@@ -20,7 +20,7 @@
           aria-labelledby="el-drawer__title"
           :aria-label="title"
           :class="['el-drawer', direction, customClass]"
-          :style="isHorizontal ? 'width: ' + size : 'height: ' + size"
+          :style="isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize"
           role="dialog"
           @click.stop
         >
@@ -104,7 +104,7 @@ export default defineComponent({
       default: true,
     },
     size: {
-      type: String,
+      type: [String, Number],
       default: '30%',
     },
     title: {
@@ -159,6 +159,7 @@ export default defineComponent({
       ...useDialog(props, ctx as SetupContext, drawerRef),
       drawerRef,
       isHorizontal: computed(() => props.direction === 'rtl' || props.direction === 'ltr'),
+      drawerSize: computed(() => typeof props.size === 'number' ? `${props.size}px` : props.size),
     }
 
   },
