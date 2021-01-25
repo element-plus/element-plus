@@ -19,7 +19,9 @@ const plugins = [
   new VueLoaderPlugin(),
   // new BundleAnalyzerPlugin(),
 ]
-let entry = [path.resolve(__dirname, '../packages/element-plus/index.ts')]
+
+const entry = path.resolve(__dirname, '../packages/element-plus/index.ts')
+
 if (!isFullMode) {
   externals.push({
     '@popperjs/core': '@popperjs/core',
@@ -30,8 +32,6 @@ if (!isFullMode) {
   },
   /^dayjs.*/,
   /^lodash.*/)
-} else {
-  entry.push(path.resolve(__dirname, '../packages/element-plus/full.ts'))
 }
 
 const config = {

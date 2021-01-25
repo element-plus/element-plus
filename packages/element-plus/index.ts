@@ -95,6 +95,13 @@ import { use, i18n } from '@element-plus/locale'
 import { version as version_ } from './version'
 import type { InstallOptions } from '@element-plus/utils/config'
 import { setConfig } from '@element-plus/utils/config'
+import isServer from '@element-plus/utils/isServer'
+import dayjs from 'dayjs'
+
+// expose Day.js to window to make full bundle i18n work
+if (!isServer && !(window as any).dayjs) {
+  (window as any).dayjs = dayjs
+}
 
 const version = version_ // version_ to fix tsc issue
 
