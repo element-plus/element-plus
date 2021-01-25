@@ -168,7 +168,7 @@ Por supuesto, puedes anidar otras operaciones. Es más ligero que utilizar un `d
 | show-arrow  | si una flecha del tooltip es mostrada o no. Para más información, por favor refiérase a [Vue-popper](https://github.com/element-component/vue-popper) | boolean        | —                                        | true                                     |
 | popper-options | parámetros para [popper.js](https://popper.js.org/documentation.html) | object         | por favor, refiérase a [popper.js](https://popper.js.org/documentation.html) | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | popper-class   | clase propia para popover                | string         | —                                        | —                                        |
-| open-delay     | retraso de la aparición cuando `trigger` es hover, en milisegundos | number         | —                                        | —                                        |
+| show-after     | retraso de la aparición cuando `trigger` es hover, en milisegundos | number         | —                                        | 0                                        |
 | close-delay    | Retraso antes de desaparecer cuando el `trigger` es hover, en milisegundos. | number | — | 200 |
 | tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Popover |   number           |      —      |  0    |
 
