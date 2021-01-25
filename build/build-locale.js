@@ -30,7 +30,7 @@ fileList
           .replace('define(\"', 'define(\"element/locale/')
           .replace(
             /global\.(\S*) = mod.exports/,
-            'global.ELEMENT.lang = global.ELEMENT.lang || {};\n    global.ELEMENT.lang.$1 = mod.exports.default'
+            'global.ElementPlus.lang = global.ElementPlus.lang || {};\n    global.ElementPlus.lang.$1 = mod.exports.default'
           )
 
         save(resolve(__dirname, '../lib/umd/locale', `${name}.js`)).write(transformedCode)

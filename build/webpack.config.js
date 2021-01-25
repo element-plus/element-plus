@@ -26,6 +26,17 @@ if (!isFullMode) {
   /^lodash.*/)
 }
 
+const plugins = [
+  new VueLoaderPlugin(),
+  // new BundleAnalyzerPlugin(),
+],
+
+if (isFullMode) {
+  plugins.push(new webpack.ProvidePlugin({
+    'window.dayjs': 'dayjs',
+  }),
+  )
+}
 const config = {
   mode: 'production',
   entry: path.resolve(__dirname, '../packages/element-plus/index.ts'),
@@ -55,10 +66,7 @@ const config = {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   externals,
-  plugins: [
-    new VueLoaderPlugin(),
-    // new BundleAnalyzerPlugin(),
-  ],
+  plugins,
 }
 
 module.exports = config
