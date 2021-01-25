@@ -1,5 +1,25 @@
 ## Changelog
 
+### 1.0.2-beta.29
+
+*2021-01-25*
+
+#### New feature
+
+- Add type 'contextmenu' trigger for Dropdown (#1286)
+
+#### Bug fixes
+
+- Fix i18n bundle error (#1346)
+- Fix Drawer error size prop to support Number (#1335)
+- Fix affix to change target.value to props.target in judgement (#1343)
+- Fix carousel don't update the indicator and items when data change(#1244)
+- Fix fixed table height error when no data(#1332)
+- Fix table header checkbox can be triggered when disabled(#1333)
+- Repair table column width calculation abnormal (#1334)
+- Fix image incorrect custom object-fit ratio (#1338)
+- Fix color-picker can't select 8-digit hex color (#1323)
+
 ### 1.0.2-beta.28
 
 *2021-01-20*
