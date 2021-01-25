@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
+const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
@@ -14,6 +15,11 @@ let externals = [
     },
   },
 ]
+const plugins = [
+  new VueLoaderPlugin(),
+  // new BundleAnalyzerPlugin(),
+]
+let entry = [path.resolve(__dirname, '../packages/element-plus/index.ts')]
 if (!isFullMode) {
   externals.push({
     '@popperjs/core': '@popperjs/core',
@@ -24,22 +30,13 @@ if (!isFullMode) {
   },
   /^dayjs.*/,
   /^lodash.*/)
+} else {
+  entry.push(path.resolve(__dirname, '../packages/element-plus/full.ts'))
 }
 
-const plugins = [
-  new VueLoaderPlugin(),
-  // new BundleAnalyzerPlugin(),
-],
-
-if (isFullMode) {
-  plugins.push(new webpack.ProvidePlugin({
-    'window.dayjs': 'dayjs',
-  }),
-  )
-}
 const config = {
   mode: 'production',
-  entry: path.resolve(__dirname, '../packages/element-plus/index.ts'),
+  entry,
   output: {
     path: path.resolve(__dirname, '../lib'),
     publicPath: '/',
