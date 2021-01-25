@@ -37,6 +37,7 @@ export default defineComponent({
     const barStore = ref({})
     const cursorDown = ref(null)
     const visible = ref(false)
+    const onselectstartStore = ref({})
 
     const clickThumbHandler = e => {
       // prevent click event of middle and right button
@@ -61,6 +62,7 @@ export default defineComponent({
       cursorDown.value = true
       on(document, 'mousemove', mouseMoveDocumentHandler)
       on(document, 'mouseup', mouseUpDocumentHandler)
+      onselectstartStore.value = document.onselectstart
       document.onselectstart = () => false
     }
 
@@ -80,7 +82,7 @@ export default defineComponent({
       cursorDown.value = false
       barStore.value[bar.value.axis] = 0
       off(document, 'mousemove', mouseMoveDocumentHandler)
-      document.onselectstart = null
+      document.onselectstart = onselectstartStore.value
     }
 
     const thumbStyle = computed(() => renderThumbStyle({
@@ -98,13 +100,13 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      on(scrollbar.value, 'mouseenter', showBar)
+      on(scrollbar.value, 'mousemove', showBar)
       on(scrollbar.value, 'mouseleave', hideBar)
     })
 
     onBeforeUnmount(() => {
       off(document, 'mouseup', mouseUpDocumentHandler)
-      off(scrollbar.value, 'mouseenter', showBar)
+      off(scrollbar.value, 'mousemove', showBar)
       off(scrollbar.value, 'mouseleave', hideBar)
     })
 
