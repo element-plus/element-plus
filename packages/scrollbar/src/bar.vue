@@ -37,7 +37,7 @@ export default defineComponent({
     const barStore = ref({})
     const cursorDown = ref(null)
     const visible = ref(false)
-    const onselectstartStore = ref({})
+    let onselectstartStore = null
 
     const clickThumbHandler = e => {
       // prevent click event of middle and right button
@@ -62,7 +62,7 @@ export default defineComponent({
       cursorDown.value = true
       on(document, 'mousemove', mouseMoveDocumentHandler)
       on(document, 'mouseup', mouseUpDocumentHandler)
-      onselectstartStore.value = document.onselectstart
+      onselectstartStore = document.onselectstart
       document.onselectstart = () => false
     }
 
@@ -82,7 +82,7 @@ export default defineComponent({
       cursorDown.value = false
       barStore.value[bar.value.axis] = 0
       off(document, 'mousemove', mouseMoveDocumentHandler)
-      document.onselectstart = onselectstartStore.value
+      document.onselectstart = onselectstartStore
     }
 
     const thumbStyle = computed(() => renderThumbStyle({
