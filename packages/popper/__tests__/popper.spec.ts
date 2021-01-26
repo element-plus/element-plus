@@ -257,7 +257,7 @@ describe('Popper.vue', () => {
       const wrapper = _mount({
         trigger: [CLICK_EVENT],
         appendToBody: false,
-        closeDelay: 0,
+        hideAfter: 0,
       })
       await nextTick()
 
@@ -286,7 +286,7 @@ describe('Popper.vue', () => {
       const wrapper = _mount({
         trigger: CLICK_EVENT,
         appendToBody: false,
-        closeDelay: 0,
+        hideAfter: 0,
       })
       await nextTick()
 
@@ -307,7 +307,7 @@ describe('Popper.vue', () => {
       const wrapper = _mount({
         trigger: ['hover'],
         appendToBody: false,
-        closeDelay: 0,
+        hideAfter: 0,
       })
       await nextTick()
 
@@ -337,7 +337,7 @@ describe('Popper.vue', () => {
       const wrapper = _mount({
         trigger: [FOCUS_EVENT],
         appendToBody: false,
-        closeDelay: 0,
+        hideAfter: 0,
       })
       await nextTick()
 
@@ -376,7 +376,7 @@ describe('Popper.vue', () => {
       const wrapper = _mount({
         trigger: [FOCUS_EVENT, CLICK_EVENT, 'hover'],
         appendToBody: false,
-        closeDelay: 0,
+        hideAfter: 0,
       })
       await nextTick()
 

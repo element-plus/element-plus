@@ -70,10 +70,10 @@ export default function(
   })
 
   function _show() {
-    if (props.hideAfter > 0) {
+    if (props.autoClose > 0) {
       hideTimer = window.setTimeout(() => {
         _hide()
-      }, props.hideAfter)
+      }, props.autoClose)
     }
     visibility.value = true
   }
@@ -102,10 +102,10 @@ export default function(
   const hide = () => {
     if (isManualMode()) return
     clearTimers()
-    if (props.closeDelay > 0) {
+    if (props.hideAfter > 0) {
       hideTimer = window.setTimeout(() => {
         close()
-      }, props.closeDelay)
+      }, props.hideAfter)
     } else {
       close()
     }
