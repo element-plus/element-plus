@@ -44,7 +44,7 @@ export default defineComponent({
     },
     hideAfter: {
       type: Number,
-      default: 0,
+      default: 200,
     },
     manual: {
       type: Boolean,

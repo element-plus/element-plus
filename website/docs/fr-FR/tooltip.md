@@ -193,7 +193,7 @@ Les éléments de formulaire désactivés ne sont pas supportés par Tooltip, pl
 | visible-arrow | Si une flèche doit être affichée. Pour plus d'information, voir [Vue-popper](https://github.com/element-component/vue-popper). | boolean | — | true |
 | popper-options | Paramètres [popper.js](https://popper.js.org/documentation.html). | Object | Se référer à  [popper.js](https://popper.js.org/documentation.html). | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | show-after | Délai avant l'apparition en millisecondes. | number | — | 0 |
-| show-after | Le temps de disparaître en millisecondes | number | — | 0 |
+| hide-after | Le temps de disparaître en millisecondes | number | — | 0 |
 | auto-close | Délai avant disparition. | number | — | 0 |
 | manual | Si le contrôle du Tooltip doit être manuel. `mouseenter` et `mouseleave` n'auront pas d'effet si `true`. | boolean | — | false |
 | popper-class | Classe du popper de Tooltip. | string | — | — |

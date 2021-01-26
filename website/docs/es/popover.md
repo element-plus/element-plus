@@ -169,7 +169,7 @@ Por supuesto, puedes anidar otras operaciones. Es más ligero que utilizar un `d
 | popper-options | parámetros para [popper.js](https://popper.js.org/documentation.html) | object         | por favor, refiérase a [popper.js](https://popper.js.org/documentation.html) | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | popper-class   | clase propia para popover                | string         | —                                        | —                                        |
 | show-after     | retraso de la apariencia, en milisegundos | number  | —                                        | 0                                        |
-| close-after     | retraso en el cierre, en milisegundos | number  | —                                        | 0                                        |
+| hide-after     | retraso en el cierre, en milisegundos | number  | —                                        | 0                                        |
 | auto-close     | tiempo a esperar en milisegundos para esconder el Tooltip | number  | —                                        | 0                                        |
 | tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Popover |   number           |      —      |  0    |
 
