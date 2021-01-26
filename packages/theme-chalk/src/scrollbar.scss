@@ -6,15 +6,6 @@
   position: relative;
   height: 100%;
 
-  &:hover,
-  &:active,
-  &:focus {
-    > .el-scrollbar__bar {
-      opacity: 1;
-      transition: opacity 340ms ease-out;
-    }
-  }
-
   @include e(wrap) {
     overflow: auto;
     height: 100%;
@@ -48,8 +39,6 @@
     bottom: 2px;
     z-index: 1;
     border-radius: 4px;
-    opacity: 0;
-    transition: opacity 120ms ease-out;
 
     @include when(vertical) {
       width: 6px;
@@ -69,4 +58,17 @@
       }
     }
   }
+}
+
+.el-scrollbar-fade-enter-active {
+  transition: opacity 340ms ease-out;
+}
+
+.el-scrollbar-fade-leave-active {
+  transition: opacity 120ms ease-out;
+}
+
+.el-scrollbar-fade-enter-from,
+.el-scrollbar-fade-leave-active {
+  opacity: 0;
 }
