@@ -169,7 +169,7 @@ Of course, you can nest other operations. It's more light-weight than using a di
 |  show-arrow   |  whether a tooltip arrow is displayed or not. For more info, please refer to [Vue-popper](https://github.com/element-component/vue-popper) | boolean | — | true |
 |  popper-options        | parameters for [popper.js](https://popper.js.org/documentation.html) | object            | please refer to [popper.js](https://popper.js.org/documentation.html) | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 |  popper-class        |  custom class name for popover | string | — | — |
-|  open-delay        | delay before appearing when `trigger` is hover, in milliseconds | number | — | — |
+|  show-after        | delay before appearing when `trigger` is hover, in milliseconds | number | — | 0 |
 |  close-delay        | delay before disappearing when `trigger` is hover, in milliseconds | number | — | 200 |
 |  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover | number | — | 0 |
 
