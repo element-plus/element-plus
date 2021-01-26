@@ -1,5 +1,5 @@
 import type { SetupContext } from 'vue'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, watchEffect } from 'vue'
 import { isString } from '@element-plus/utils/util'
 import type { IPopperOptions } from '@element-plus/popper'
 import { usePopper } from '@element-plus/popper'
@@ -32,7 +32,7 @@ export default function usePopover(props: IUsePopover, ctx: SetupContext<string[
 
   const popperProps = usePopper(props, ctx as SetupContext<EmitType[]>)
 
-  onMounted(() => {
+  watchEffect(() => {
     updatePopperStyle()
   })
 
