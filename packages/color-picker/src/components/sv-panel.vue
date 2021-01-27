@@ -80,12 +80,12 @@ export default defineComponent({
       })
     }
     // watch
-    watch(colorValue, () => {
+    watch(() => colorValue.value, () => {
       update()
     })
     // mounted
     onMounted(() => {
-      draggable(instance.vnode.el, {
+      draggable(instance.vnode.el as HTMLElement, {
         drag: event => {
           handleDrag(event)
         },

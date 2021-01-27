@@ -86,11 +86,8 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent, computed, ref,
-  nextTick, reactive, watch,
-  provide,inject, onMounted,
-} from 'vue'
+import type { PropType } from 'vue'
+import { computed, defineComponent, inject, nextTick, onMounted, provide, reactive, ref, watch } from 'vue'
 import type { ComputedRef } from '@vue/reactivity'
 import { ClickOutside } from '@element-plus/directives'
 import Color from './color'
@@ -102,14 +99,12 @@ import ElPopper from '@element-plus/popper'
 import ElButton from '@element-plus/button'
 import ElInput from '@element-plus/input'
 import { t } from '@element-plus/locale'
-import { UPDATE_MODEL_EVENT }  from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/form'
-import debounce from 'lodash/debounce'
-
-import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
+import { elFormItemKey, elFormKey } from '@element-plus/form'
+import debounce from 'lodash/debounce'
 
 interface IUseOptions {
   currentColor: ComputedRef<string>
@@ -121,7 +116,7 @@ export const useOptions = () => {
   return inject<IUseOptions>(OPTIONS_KEY)
 }
 
-export default defineComponent( {
+export default defineComponent({
   name: 'ElColorPicker',
   components: {
     ElPopper,
@@ -147,11 +142,7 @@ export default defineComponent( {
     popperClass: String,
     predefine: Array,
   },
-  emits: {
-    change: null,
-    'active-change': null,
-    [UPDATE_MODEL_EVENT]: null,
-  },
+  emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
     const ELEMENT = useGlobalConfig()
     const elForm = inject(elFormKey, {} as ElFormContext)
@@ -194,7 +185,7 @@ export default defineComponent( {
         color.fromString(newVal)
       }
     })
-    watch(currentColor, val => {
+    watch(() => currentColor.value, val => {
       customInput.value = val
       emit('active-change', val)
       // showPanelColor.value = true
@@ -217,6 +208,7 @@ export default defineComponent( {
         ? `rgba(${ r }, ${ g }, ${ b }, ${ color.get('alpha') / 100 })`
         : `rgb(${ r }, ${ g }, ${ b })`
     }
+
     function setShowPicker(value) {
       showPicker.value = value
     }
@@ -227,6 +219,7 @@ export default defineComponent( {
       debounceSetShowPicker(false)
       resetColor()
     }
+
     function resetColor() {
       nextTick(() => {
         if (props.modelValue) {
@@ -236,20 +229,35 @@ export default defineComponent( {
         }
       })
     }
+
     function handleTrigger() {
       if (colorDisabled.value) return
       debounceSetShowPicker(!showPicker.value)
     }
+
     function handleConfirm() {
       color.fromString(customInput.value)
     }
+
     function confirmValue() {
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
       elFormItem.formItemMitt?.emit('el.form.change', value)
       debounceSetShowPicker(false)
+      // check if modelValue change, if not change, then reset color.
+      nextTick(() => {
+        const newColor = new Color({
+          enableAlpha: props.showAlpha,
+          format: props.colorFormat,
+        })
+        newColor.fromString(props.modelValue)
+        if (!color.compare(newColor)) {
+          resetColor()
+        }
+      })
     }
+
     function clear() {
       debounceSetShowPicker(false)
       emit(UPDATE_MODEL_EVENT, null)
@@ -266,7 +274,7 @@ export default defineComponent( {
         customInput.value = currentColor.value
       }
     })
-    watch(showPicker, () => {
+    watch(() => showPicker.value, () => {
       nextTick(() => {
         hue.value?.update()
         svPanel.value?.update()
