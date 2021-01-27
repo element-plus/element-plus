@@ -213,15 +213,9 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 | unlink-panels | Rend indépendants les deux panneaux de plage de dates | boolean | — | false |
 | prefix-icon | Icône de préfixe. | string | — | el-icon-date |
 | clear-icon | Icône de reset | string | — | el-icon-circle-close |
-| shortcuts | Un tableau d'objets { text, onClick } pour mettre en place des raccourcis, vérifier le tableau ci-dessous | object[] | — | — |
+| shortcuts | Un tableau d'objets pour configurer les raccourcis | object[{ text: string, value: Date }] | — | — |
 | disabledDate | Une fonction déterminant si une date est désactivée avec cette date en paramètre. Retourne un Boolean | function | — | — |
 | cellClassName | set custom className | Function(Date) | — | — |
-
-### Raccourcis
-| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| text | Titre du raccourci. | string | — | — |
-| onClick | Callback se déclenchant quand le raccourci est cliqué, avec `vm` en paramètre. Vous pouvez changer la valeur du picker en émettant l'évènement `pick`. Exemple: `vm.$emit('pick', new Date())`| function | — | — |
 
 ### Évènements
 | Nom | Description | Paramètres |
