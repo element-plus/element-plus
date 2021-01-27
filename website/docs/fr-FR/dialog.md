@@ -258,7 +258,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | model-value / v-model   | Visibilité du Dialog | boolean | — | — |
 | title     | Titre du Dialog. Peut aussi être passé via un slot (voir la table suivante). | string    | — | — |
-| width     | Largeur du Dialog. | string    | — | 50% |
+| width     | Largeur du Dialog. | string / number    | — | 50% |
 | fullscreen     | Si le Dialog doit être en plein écran. | boolean    | — | false |
 | top      | Valeur du `margin-top` du CSS du Dialog. | string    | — | 15vh |
 | modal     | Si un masque est affiché. | boolean   | — | true |
