@@ -2,6 +2,7 @@
   <span class="el-pagination__jump">
     {{ t('el.pagination.goto') }}
     <el-input
+      size="mini"
       class="el-pagination__editor is-in-pagination"
       :min="1"
       :max="pageCount"
