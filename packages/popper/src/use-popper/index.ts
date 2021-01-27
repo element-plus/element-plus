@@ -21,8 +21,8 @@ import type {
   RefElement,
 } from './defaults'
 
-type ElementType = ComponentPublicInstance | HTMLElement
-type EmitType = 'update:visible' | 'after-enter' | 'after-leave' | 'before-enter' | 'before-leave'
+export type ElementType = ComponentPublicInstance | HTMLElement
+export type EmitType = 'update:visible' | 'after-enter' | 'after-leave' | 'before-enter' | 'before-leave'
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
