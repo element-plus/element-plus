@@ -55,8 +55,6 @@ const ElCol = defineComponent({
     const style = computed(() => {
       if (gutter) {
         return {
-          display: 'block',
-          minHeight: '1px',
           paddingLeft: gutter / 2 + 'px',
           paddingRight: gutter / 2 + 'px',
         }
@@ -85,6 +83,11 @@ const ElCol = defineComponent({
           })
         }
       })
+      // this is for the fix 
+      if (gutter) {
+        ret.push('is-guttered');
+      }
+
       return ret
     })
 

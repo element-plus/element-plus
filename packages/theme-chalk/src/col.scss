@@ -1,13 +1,21 @@
-@import "./common/var.scss";
-@import "./mixins/mixins.scss";
+@import './common/var.scss';
+@import './mixins/mixins.scss';
 
-[class*="el-col-"] {
+[class*='el-col-'] {
   float: left;
   box-sizing: border-box;
+  @include when(guttered) {
+    display: block;
+    min-height: 1px;
+  }
 }
 
 .el-col-0 {
-  display: none !important;
+  display: none;
+  // to avoid introducing !important syntax, redundant css rule is required due to selector priority.
+  @include when(guttered) {
+    display: none;
+  }
 }
 
 @for $i from 0 through 24 {
@@ -33,7 +41,10 @@
 
 @include res(xs) {
   .el-col-xs-0 {
-    display: none !important;
+    display: none;
+    @include when(guttered) {
+      display: none;
+    }
   }
   @for $i from 0 through 24 {
     .el-col-xs-#{$i} {
@@ -59,7 +70,10 @@
 
 @include res(sm) {
   .el-col-sm-0 {
-    display: none !important;
+    display: none;
+    @include when(guttered) {
+      display: none;
+    }
   }
   @for $i from 0 through 24 {
     .el-col-sm-#{$i} {
@@ -85,7 +99,10 @@
 
 @include res(md) {
   .el-col-md-0 {
-    display: none !important;
+    display: none;
+    @include when(guttered) {
+      display: none;
+    }
   }
   @for $i from 0 through 24 {
     .el-col-md-#{$i} {
@@ -111,7 +128,10 @@
 
 @include res(lg) {
   .el-col-lg-0 {
-    display: none !important;
+    display: none;
+    @include when(guttered) {
+      display: none;
+    }
   }
   @for $i from 0 through 24 {
     .el-col-lg-#{$i} {
@@ -137,7 +157,10 @@
 
 @include res(xl) {
   .el-col-xl-0 {
-    display: none !important;
+    display: none;
+    @include when(guttered) {
+      display: none;
+    }
   }
   @for $i from 0 through 24 {
     .el-col-xl-#{$i} {
