@@ -215,15 +215,9 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más a
 | prefix-icon        | Clase personalizada para el icono prefijado | string            | —                                        | el-icon-date         |
 | clear-icon         | Clase personalizada para el icono `clear` | string              | —                                        | el-icon-circle-close |
 | validate-event     | si se debe disparar la validacion | boolean             | -                                        | true                 |
-| shortcuts      | un array de objetos { text, onClick } para establecer las opciones de acceso directo, verifique la tabla debajo | objeto[] | —                 | —           |
+| shortcuts | un array de objetos para establecer opciones de acceso directo | object[{ text: string, value: Date }] | — | — |
 | disabledDate   | una función que determina si una fecha está desactivada con esa fecha como parámetro. Debería devolver un booleano | función  | —                 | —           |
 | cellClassName | establecer nombre de clase personalizado | Function(Date) | — | — |
-
-### Accesos directos
-| Atributo | Descripción                                                  | Tipo     | Valores aceptados | Por defecto |
-| -------- | ------------------------------------------------------------ | -------- | ----------------- | ----------- |
-| text     | título del acceso directo                                    | string   | —                 | —           |
-| onClick  | la función se dispara cuando se hace clic en el acceso directo, con el `vm` como parámetro. Puede modificar el valor del picker emitiendo el evento`pick`. Ejemplo: `vm.$emit('pick', new Date())` | function | —                 | —           |
 
 ### Eventos
 | Nombre de evento | Descripción                              | Parámetros                    |

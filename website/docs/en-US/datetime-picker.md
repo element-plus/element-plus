@@ -213,16 +213,9 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 | unlink-panels | unllink two date-panels in range-picker | boolean | — | false |
 | prefix-icon | Custom prefix icon class | string | — | el-icon-date |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
-| shortcuts | a { text, onClick } object array to set shortcut options, check the table below | object[] | — | — |
+| shortcuts | an object array to set shortcut options | object[{ text: string, value: Date }] | — | — |
 | disabledDate | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function | — | — |
 | cellClassName | set custom className | Function(Date) | — | — |
-
-
-### shortcuts
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| text | title of the shortcut | string | — | — |
-| onClick | callback function, triggers when the shortcut is clicked, with the `vm` as its parameter. You can change the picker value by emitting the `pick` event. Example: `vm.$emit('pick', new Date())`| function | — | — |
 
 ### Events
 | Event Name | Description | Parameters |
