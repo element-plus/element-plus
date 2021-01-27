@@ -298,6 +298,8 @@ export function walkTreeNode(
   })
 }
 
+export let removePopper
+
 export function createTablePopper(
   trigger: HTMLElement,
   popperContent: string,
@@ -320,7 +322,7 @@ export function createTablePopper(
   function showPopper() {
     popperInstance && popperInstance.update()
   }
-  function removePopper() {
+  removePopper = function removePopper() {
     try {
       popperInstance && popperInstance.destroy()
       content && document.body.removeChild(content)
