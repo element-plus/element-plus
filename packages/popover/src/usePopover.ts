@@ -1,5 +1,5 @@
 import type { SetupContext } from 'vue'
-import { onMounted, ref, watch, watchEffect } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import { isString } from '@element-plus/utils/util'
 import type { IPopperOptions } from '@element-plus/popper'
 import { usePopper } from '@element-plus/popper'
