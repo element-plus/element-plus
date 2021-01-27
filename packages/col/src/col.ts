@@ -83,9 +83,9 @@ const ElCol = defineComponent({
           })
         }
       })
-      // this is for the fix 
+      // this is for the fix
       if (gutter) {
-        ret.push('is-guttered');
+        ret.push('is-guttered')
       }
 
       return ret
