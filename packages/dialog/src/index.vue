@@ -152,7 +152,7 @@ export default defineComponent({
     },
     modalClass: String,
     width: {
-      type: String,
+      type: [String, Number],
       default: '50%',
       validator: isValidWidthUnit,
     },

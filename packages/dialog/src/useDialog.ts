@@ -3,7 +3,7 @@ import { computed, ref, watch, nextTick, onMounted } from 'vue'
 import isServer from '@element-plus/utils/isServer'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import PopupManager from '@element-plus/utils/popup-manager'
-import { clearTimer } from '@element-plus/utils/util'
+import { clearTimer, isNumber } from '@element-plus/utils/util'
 import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
 
 import type { Ref, CSSProperties } from 'vue'
@@ -26,12 +26,19 @@ export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref
   const zIndex = ref(props.zIndex || PopupManager.nextZIndex())
   const modalRef = ref<HTMLElement>(null)
 
+  const normalizeWidth = () => {
+    if(isNumber(props.width))
+      return `${props.width}px`
+    else
+      return props.width
+  }
+
   const style = computed(() => {
     const style = {} as CSSProperties
     if (!props.fullscreen) {
       style.marginTop = props.top
       if (props.width) {
-        style.width = props.width
+        style.width = normalizeWidth()
       }
     }
     return style

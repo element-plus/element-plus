@@ -253,7 +253,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | model-value / v-model   | dialogの可視性 | boolean | — | — |
 | title     | dialogのタイトルを指定します。名前付きスロットで渡すこともできます (次のテーブルを参照してください)。 | string    | — | — |
-| width     | dialogの幅 | string    | — | 50% |
+| width     | dialogの幅 | string / number    | — | 50% |
 | fullscreen     | dialogが全画面を占めるかどうか | boolean    | — | false |
 | top      | dialogCSSの `margin-top` の値 | string    | — | 15vh |
 | modal     | マスクが表示されているかどうか | boolean   | — | true |
