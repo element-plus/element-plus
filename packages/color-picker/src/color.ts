@@ -104,15 +104,18 @@ const rgb2hsv = function(r, g, b) {
     h = 0 // achromatic
   } else {
     switch (max) {
-      case r:
+      case r: {
         h = (g - b) / d + (g < b ? 6 : 0)
         break
-      case g:
+      }
+      case g: {
         h = (b - r) / d + 2
         break
-      case b:
+      }
+      case b: {
         h = (r - g) / d + 4
         break
+      }
     }
     h /= 6
   }
@@ -291,32 +294,39 @@ export default class Color {
 
     if (this.enableAlpha) {
       switch (format) {
-        case 'hsl':
+        case 'hsl': {
           const hsl = hsv2hsl(_hue, _saturation / 100, _value / 100)
           this.value = `hsla(${ _hue }, ${ Math.round(hsl[1] * 100) }%, ${ Math.round(hsl[2] * 100) }%, ${ _alpha / 100})`
           break
-        case 'hsv':
+        }
+        case 'hsv': {
           this.value = `hsva(${ _hue }, ${ Math.round(_saturation) }%, ${ Math.round(_value) }%, ${ _alpha / 100})`
           break
-        default:
+        }
+        default: {
           const { r, g, b } = hsv2rgb(_hue, _saturation, _value)
           this.value = `rgba(${r}, ${g}, ${b}, ${ _alpha / 100 })`
+        }
       }
     } else {
       switch (format) {
-        case 'hsl':
+        case 'hsl': {
           const hsl = hsv2hsl(_hue, _saturation / 100, _value / 100)
           this.value = `hsl(${ _hue }, ${ Math.round(hsl[1] * 100) }%, ${ Math.round(hsl[2] * 100) }%)`
           break
-        case 'hsv':
+        }
+        case 'hsv': {
           this.value = `hsv(${ _hue }, ${ Math.round(_saturation) }%, ${ Math.round(_value) }%)`
           break
-        case 'rgb':
+        }
+        case 'rgb':{
           const { r, g, b } = hsv2rgb(_hue, _saturation, _value)
           this.value = `rgb(${r}, ${g}, ${b})`
           break
-        default:
+        }
+        default: {
           this.value = toHex(hsv2rgb(_hue, _saturation, _value))
+        }
       }
     }
   }

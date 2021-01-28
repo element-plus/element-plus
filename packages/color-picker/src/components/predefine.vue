@@ -34,7 +34,7 @@ export default defineComponent({
     const rgbaColors = ref(parseColors(props.colors, props.color))
 
     //watch
-    watch(currentColor, val => {
+    watch(() => currentColor.value, val => {
       const color = new Color()
       color.fromString(val)
 
