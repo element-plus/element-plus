@@ -10,7 +10,7 @@ import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
 import { TableColumn, TableColumnCtx } from '../table.type'
 
-function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
+function useRender (props: TableColumnCtx, slots, owner: ComputedRef<any>) {
   const instance = (getCurrentInstance() as unknown) as TableColumn
   const columnId = ref('')
   const isSubColumn = ref(false)
@@ -69,7 +69,7 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
     } else {
       check(children)
     }
-    function check(item) {
+    function check (item) {
       if (item?.type?.name === 'ElTableColumn') {
         item.vParent = instance
       }
@@ -122,9 +122,6 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
         }
         if (column.showOverflowTooltip) {
           props.class += ' el-tooltip'
-          props.style = {
-            width: (data.column.realWidth || data.column.width) - 1 + 'px',
-          }
         }
         checkSubColumn(children)
         return h('div', props, [prefix, children])
