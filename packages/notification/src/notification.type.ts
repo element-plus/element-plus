@@ -1,6 +1,7 @@
 import type { VNode } from 'vue'
 
 
+export type Position = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 export interface INotificationHandle {
   close: () => void
 }
@@ -18,7 +19,7 @@ export type INotificationOptions = {
   onClose?: () => void
   onClick?: () => void
   offset?: number // defaults 0
-  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' // default top-right
+  position?: Position // default top-right
   showClose?: boolean
   type?: 'success' | 'warning' | 'info' | 'error' | ''
   title?: string
@@ -28,7 +29,6 @@ export type NotificationVM = VNode
 
 type NotificationQueueItem = {
   vm: NotificationVM
-  $el: HTMLElement
 }
 
 export type NotificationQueue = Array<NotificationQueueItem>

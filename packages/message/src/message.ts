@@ -1,4 +1,4 @@
-import { createVNode, nextTick, render } from 'vue'
+import { createVNode, render } from 'vue'
 import { isVNode } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
 import isServer from '@element-plus/utils/isServer'
@@ -60,9 +60,14 @@ const Message: IMessage = function(
     isVNode(options.message) ? { default: () => message } : null,
   )
 
+  // clean message element preventing mem leak
+  vm.props.onDestroy = () => {
+    render(null, container)
+  }
+
   render(vm, container)
-  instances.push({ vm, $el: container })
-  document.body.appendChild(container)
+  instances.push({ vm })
+  document.body.appendChild(container.firstElementChild)
 
   return {
     close: options.onClose,
@@ -78,16 +83,11 @@ export function close(id: string, userOnClose?: (vm: MessageVM) => void): void {
     return
   }
 
-  const { vm, $el } = instances[idx]
+  const { vm } = instances[idx]
   if (!vm) return
   userOnClose?.(vm)
 
   const removedHeight = vm.el.offsetHeight
-  render(null, $el)
-  nextTick(() => {
-    document.body.removeChild($el)
-  })
-
   instances.splice(idx, 1)
 
   // adjust other instances vertical offset
@@ -98,7 +98,6 @@ export function close(id: string, userOnClose?: (vm: MessageVM) => void): void {
       parseInt(instances[i].vm.el.style['top'], 10) - removedHeight - 16
 
     instances[i].vm.component.props.offset = pos
-    instances[i].vm.component.props.vertOffset = pos
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-message-fade" @after-leave="onClose">
+  <transition name="el-message-fade" @before-leave="onClose" @after-leave="$emit('destroy')">
     <div
       v-show="visible"
       :id="id"
@@ -17,18 +17,12 @@
     >
       <i v-if="type || iconClass" :class="[typeClass, iconClass]"></i>
       <slot>
-        <p v-if="!dangerouslyUseHTMLString" class="el-message__content">
-          {{ message }}
-        </p>
+        <p v-if="!dangerouslyUseHTMLString" class="el-message__content">{{ message }}</p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
         <!--  eslint-disable-next-line -->
         <p v-else class="el-message__content" v-html="message"></p>
       </slot>
-      <div
-        v-if="showClose"
-        class="el-message__closeBtn el-icon-close"
-        @click.stop="close"
-      ></div>
+      <div v-if="showClose" class="el-message__closeBtn el-icon-close" @click.stop="close"></div>
     </div>
   </transition>
 </template>
@@ -66,6 +60,7 @@ export default defineComponent({
     offset: { type: Number, default: 20 },
     zIndex: { type: Number, default: 0 },
   },
+  emits: ['destroy'],
   setup(props) {
     const typeClass = computed(() => {
       const type = props.type
@@ -79,40 +74,38 @@ export default defineComponent({
         zIndex: props.zIndex,
       }
     })
+
     const visible = ref(false)
-    const closed = ref(false)
     let timer = null
 
     function startTimer() {
       if (props.duration > 0) {
         timer = setTimeout(() => {
-          if (!closed.value) {
+          if (visible.value) {
             close()
           }
         }, props.duration)
       }
     }
 
-    function close() {
-      closed.value = true
-      visible.value = false
+    function clearTimer() {
+      clearTimeout(timer)
       timer = null
+    }
+
+    function close() {
+      visible.value = false
     }
 
     function keydown({ code }: KeyboardEvent) {
       if (code === EVENT_CODE.esc) {
         // press esc to close the message
-        if (!closed.value) {
+        if (visible.value) {
           close()
         }
       } else {
         startTimer() // resume timer
       }
-    }
-
-    function clearTimer() {
-      clearTimeout(timer)
-      timer = null
     }
 
     onMounted(() => {
