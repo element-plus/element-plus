@@ -139,7 +139,8 @@ describe('Notification.vue', () => {
 
       const closeBtn = wrapper.find('.el-notification__closeBtn')
       expect(closeBtn.exists()).toBe(true)
-      wrapper.vm.destroyElement()
+      wrapper.vm.visible = false
+      wrapper.vm.onClose()
 
       expect(onClose).toHaveBeenCalled()
     })

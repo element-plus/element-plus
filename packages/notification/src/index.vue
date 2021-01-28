@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-notification-fade">
+  <transition name="el-notification-fade" @after-leave="onClose">
     <div
       v-show="visible"
       :id="id"
@@ -117,14 +117,6 @@ export default defineComponent({
       timer,
     }
   },
-  watch: {
-    closed(newVal: boolean) {
-      if (newVal) {
-        this.visible = false
-        on(this.$el, 'transitionend', this.destroyElement)
-      }
-    },
-  },
   mounted() {
     if (this.duration > 0) {
       this.timer = setTimeout(() => {
@@ -140,11 +132,6 @@ export default defineComponent({
     off(document, 'keydown', this.keydown)
   },
   methods: {
-    destroyElement() {
-      this.visible = false
-      off(this.$el, 'transitionend', this.destroyElement)
-      this.onClose()
-    },
     // start counting down to destroy notification instance
     startTimer() {
       if (this.duration > 0) {
@@ -165,6 +152,7 @@ export default defineComponent({
       this?.onClick()
     },
     close() {
+      this.visible = false
       this.closed = true
       this.timer = null
     },
