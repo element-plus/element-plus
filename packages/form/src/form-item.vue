@@ -63,7 +63,7 @@ import LabelWrap from './label-wrap'
 import { getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import mitt from 'mitt'
-import { elFormKey, elFormItemKey } from './token'
+import { elFormKey, elFormItemKey, elFormEvents } from './token'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ValidateFieldCallback } from './token'
@@ -339,7 +339,7 @@ export default defineComponent({
 
     onMounted(() => {
       if (props.prop) {
-        elForm.formMitt?.emit('el.form.addField', elFormItem)
+        elForm.formMitt?.emit(elFormEvents.addField, elFormItem)
 
         let value = fieldValue.value
         initialValue = Array.isArray(value)
@@ -349,7 +349,7 @@ export default defineComponent({
       }
     })
     onBeforeUnmount(() => {
-      elForm.formMitt?.emit('el.form.removeField', elFormItem)
+      elForm.formMitt?.emit(elFormEvents.removeField, elFormItem)
     })
 
     provide(elFormItemKey, elFormItem)
