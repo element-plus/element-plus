@@ -111,6 +111,7 @@
         :unlink-panels="unlinkPanels"
         :type="type"
         :default-value="defaultValue"
+        :clearable="clearable"
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"

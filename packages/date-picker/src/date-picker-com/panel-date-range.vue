@@ -181,6 +181,7 @@
     </div>
     <div v-if="showTime" class="el-picker-panel__footer">
       <el-button
+        v-if="clearable"
         size="mini"
         type="text"
         class="el-picker-panel__link-btn"
@@ -237,6 +238,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    clearable: Boolean,
   },
 
   emits: ['pick', 'set-picker-option'],
