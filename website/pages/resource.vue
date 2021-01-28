@@ -1,7 +1,7 @@
 <template>
   <div class="page-container page-resource">
     <h2>{{ langConfig[1] }}</h2>
-    <p>{{ langConfig[placeholder2] }}</p>
+    <p>{{ langConfig.placeholder2 }}</p>
     <div class="cards">
       <ul class="container">
         <li>

@@ -110,10 +110,12 @@ export default {
     })
   },
   beforeUnmount() {
-    window.removeEventListener('scroll', this.throttledHandleScroll)
+    const dom = document.querySelector('#app>.el-scrollbar>.el-scrollbar__wrap.el-scrollbar__wrap--hidden-default')
+    dom.removeEventListener('scroll', this.throttledHandleScroll)
   },
   mounted() {
-    window.addEventListener('scroll', this.throttledHandleScroll)
+    const dom = document.querySelector('#app>.el-scrollbar>.el-scrollbar__wrap.el-scrollbar__wrap--hidden-default')
+    dom.addEventListener('scroll', this.throttledHandleScroll)
   },
   methods: {
     handleScroll() {
