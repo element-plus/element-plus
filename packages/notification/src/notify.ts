@@ -22,12 +22,9 @@ const Notification: INotification = function(options = {}) {
   verticalOffset += 16
 
   const id = 'notification_' + seed++
+  console.log(verticalOffset)
   const userOnClose = options.onClose
   options = {
-    dangerouslyUseHTMLString: false,
-    duration: 4500,
-    position: 'top-right',
-    showClose: true,
     // default options end
     ...options,
     onClose: () => {

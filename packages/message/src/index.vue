@@ -33,7 +33,7 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from 'vue'
+import { defineComponent, computed, ref, PropType, onMounted, onBeforeUnmount } from 'vue'
 // MessageVM is an alias of vue.VNode
 import type { MessageVM } from './types'
 import { EVENT_CODE } from '../../utils/aria'
@@ -81,55 +81,59 @@ export default defineComponent({
     })
     const visible = ref(false)
     const closed = ref(false)
-    const timer = ref(null)
+    let timer = null
+
+    function startTimer() {
+      if (props.duration > 0) {
+        timer = setTimeout(() => {
+          if (!closed.value) {
+            close()
+          }
+        }, props.duration)
+      }
+    }
+
+    function close() {
+      closed.value = true
+      visible.value = false
+      timer = null
+    }
+
+    function keydown({ code }: KeyboardEvent) {
+      if (code === EVENT_CODE.esc) {
+        // press esc to close the message
+        if (!closed.value) {
+          close()
+        }
+      } else {
+        startTimer() // resume timer
+      }
+    }
+
+    function clearTimer() {
+      clearTimeout(timer)
+      timer = null
+    }
+
+    onMounted(() => {
+      startTimer()
+      visible.value = true
+      on(document, 'keydown', keydown)
+    })
+
+    onBeforeUnmount(() => {
+      off(document, 'keydown', keydown)
+    })
+
     return {
       typeClass,
       customStyle,
       visible,
-      closed,
-      timer,
+
+      close,
+      clearTimer,
+      startTimer,
     }
-  },
-  mounted() {
-    this.startTimer()
-    this.visible = true
-    on(document, 'keydown', this.keydown)
-  },
-  beforeUnmount() {
-    off(document, 'keydown', this.keydown)
-  },
-  methods: {
-    // start counting down to destroy message instance
-    startTimer() {
-      if (this.duration > 0) {
-        this.timer = setTimeout(() => {
-          if (!this.closed) {
-            this.close()
-          }
-        }, this.duration)
-      }
-    },
-    // clear timer
-    clearTimer() {
-      clearTimeout(this.timer)
-      this.timer = null
-    },
-    // Event handlers
-    close() {
-      this.closed = true
-      this.visible = false
-      this.timer = null
-    },
-    keydown({ code }: KeyboardEvent) {
-      if (code === EVENT_CODE.esc) {
-        // press esc to close the message
-        if (!this.closed) {
-          this.close()
-        }
-      } else {
-        this.startTimer() // resume timer
-      }
-    },
   },
 })
 </script>

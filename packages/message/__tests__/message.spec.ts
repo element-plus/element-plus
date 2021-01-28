@@ -1,23 +1,20 @@
 import { h, nextTick } from 'vue'
 import Message from '../src/index.vue'
 import * as domExports from '../../utils/dom'
-import { mount } from '@vue/test-utils'
+import makeMount from '@element-plus/test-utils/make-mount'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 
 const AXIOM = 'Rem is the best girl'
 
 jest.useFakeTimers()
 
-const _mount = (props: Record<string, unknown>) => {
-  const onClose = jest.fn()
-  return mount(Message, {
-    ...props,
-    props: {
-      onClose,
-      ...(props.props as Record<string, unknown>),
-    },
-  })
-}
+type MessageInstance = {visible: boolean; }
+const onClose = jest.fn()
+const _mount = makeMount(Message, {
+  props: {
+    onClose,
+  },
+})
 
 describe('Message.vue', () => {
   describe('render', () => {
@@ -76,11 +73,7 @@ describe('Message.vue', () => {
       const wrapper = _mount({
         slots: { default: AXIOM },
       })
-      expect(domExports.on).toHaveBeenCalledWith(
-        document,
-        'keydown',
-        wrapper.vm.keydown,
-      )
+      expect(domExports.on).toHaveBeenCalled()
       wrapper.unmount()
       expect(domExports.off).toHaveBeenCalled()
     })
@@ -106,7 +99,7 @@ describe('Message.vue', () => {
   })
 
   describe('event handlers', () => {
-    test('it should be able to close the message by clicking close button', () => {
+    test('it should be able to close the message by clicking close button', async () => {
       const onClose = jest.fn()
       const wrapper = _mount({
         slots: { default: AXIOM },
@@ -118,46 +111,40 @@ describe('Message.vue', () => {
 
       const closeBtn = wrapper.find('.el-message__closeBtn')
       expect(closeBtn.exists()).toBe(true)
-      wrapper.vm.visible = false
-      wrapper.vm.onClose()
-      expect(onClose).toHaveBeenCalled()
+      await closeBtn.trigger('click')
+      expect(wrapper.vm.visible).toBe(false)
     })
 
-    test('it should close after duration', () => {
+    test('it should close after duration', async () => {
       const duration = 1000
       const wrapper = _mount({ props: { duration } })
       wrapper.vm.close = jest.fn()
-      expect(wrapper.vm.timer).not.toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+      await nextTick()
+      expect(wrapper.vm.visible).toBe(true)
       jest.runAllTimers()
-      expect(wrapper.vm.close).toHaveBeenCalled()
+      await nextTick()
+      expect(wrapper.vm.visible).toBe(false)
     })
 
     test('it should prevent close when hovered', async () => {
       const duration = 1000
       const wrapper = _mount({ props: { duration } })
-      expect(wrapper.vm.timer).not.toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+      expect(wrapper.vm.visible).toBe(true)
       await wrapper.find('[role="alert"]').trigger('mouseenter')
       jest.runAllTimers()
-      expect(wrapper.vm.timer).toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+      expect(wrapper.vm.visible).toBe(true)
       await wrapper.find('[role="alert"]').trigger('mouseleave')
-      expect(wrapper.vm.timer).not.toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+      expect(wrapper.vm.visible).toBe(true)
       jest.runAllTimers()
-      expect(wrapper.vm.timer).toBe(null)
-      expect(wrapper.vm.closed).toBe(true)
+      expect(wrapper.vm.visible).toBe(false)
     })
 
     test('it should not close when duration is set to 0', () => {
       const duration = 0
       const wrapper = _mount({ props: { duration } })
-      expect(wrapper.vm.timer).toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+      expect(wrapper.vm.visible).toBe(true)
       jest.runAllTimers()
-      expect(wrapper.vm.timer).toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+      expect(wrapper.vm.visible).toBe(true)
     })
 
     test('it should close when esc is pressed', async () => {
@@ -170,8 +157,7 @@ describe('Message.vue', () => {
       wrapper.vm.close = jest.fn(() => oldClose())
       document.dispatchEvent(event)
 
-      expect(wrapper.vm.closed).toBe(true)
-      expect(wrapper.vm.close).toHaveBeenCalledTimes(1)
+      expect(wrapper.vm.visible).toBe(false)
     })
 
     test('it should call close after transition ends', async () => {
@@ -181,9 +167,9 @@ describe('Message.vue', () => {
         props: { onClose },
       })
 
-      expect(wrapper.vm.closed).toBe(false)
+      expect(wrapper.vm.visible).toBe(true)
       wrapper.vm.close()
-      expect(wrapper.vm.closed).toBe(true)
+      expect(wrapper.vm.visible).toBe(false)
       await nextTick()
       await wrapper.vm.onClose()
       expect(onClose).toHaveBeenCalledTimes(1)
