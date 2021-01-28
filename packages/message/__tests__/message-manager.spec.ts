@@ -41,19 +41,21 @@ describe('Message on command', () => {
 
   test('it should close all messages', async () => {
     const onClose = jest.fn()
+    const instances = []
     for (let i = 0; i < 4; i++) {
-      Message({
+      const instance = Message({
         onClose,
       })
+      instances.push(instance)
     }
 
     const elements = document.querySelectorAll(selector)
     expect(elements.length).toBe(4)
     Message.closeAll()
     await Vue.nextTick()
-
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].parentElement.dispatchEvent(new Event('transitionend'))
+    for (let i = 0; i < instances.length; i++) {
+      const instance = instances[i]
+      instance.close()
     }
 
     expect(onClose).toHaveBeenCalledTimes(4)

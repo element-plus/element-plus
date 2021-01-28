@@ -85,20 +85,6 @@ describe('Message.vue', () => {
       expect(domExports.off).toHaveBeenCalled()
     })
 
-    test('should listen to transitionend on close', async () => {
-      jest.spyOn(domExports, 'on')
-      jest.spyOn(domExports, 'off')
-      const wrapper = _mount({
-        slots: { default: AXIOM },
-      })
-      wrapper.vm.close()
-      await nextTick()
-      expect(domExports.on).toHaveBeenLastCalledWith(
-        wrapper.vm.$el,
-        'transitionend',
-        wrapper.vm.destroyElement,
-      )
-    })
   })
 
   describe('Message.type', () => {
@@ -132,7 +118,8 @@ describe('Message.vue', () => {
 
       const closeBtn = wrapper.find('.el-message__closeBtn')
       expect(closeBtn.exists()).toBe(true)
-      wrapper.vm.destroyElement()
+      wrapper.vm.visible = false
+      wrapper.vm.onClose()
       expect(onClose).toHaveBeenCalled()
     })
 
@@ -198,7 +185,7 @@ describe('Message.vue', () => {
       wrapper.vm.close()
       expect(wrapper.vm.closed).toBe(true)
       await nextTick()
-      await wrapper.trigger('transitionend')
+      await wrapper.vm.onClose()
       expect(onClose).toHaveBeenCalledTimes(1)
     })
   })

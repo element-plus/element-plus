@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-message-fade">
+  <transition name="el-message-fade" @after-leave="onClose">
     <div
       v-show="visible"
       :id="id"
@@ -38,14 +38,12 @@ import { defineComponent, computed, ref, PropType } from 'vue'
 import type { MessageVM } from './types'
 import { EVENT_CODE } from '../../utils/aria'
 import { on, off } from '../../utils/dom'
-
 const TypeMap: Indexable<string> = {
   success: 'success',
   info: 'info',
   warning: 'warning',
   error: 'error',
 }
-
 export default defineComponent({
   name: 'ElMessage',
   props: {
@@ -75,18 +73,15 @@ export default defineComponent({
         ? `el-message__icon el-icon-${TypeMap[type]}`
         : ''
     })
-
     const customStyle = computed(() => {
       return {
         top: `${props.offset}px`,
         zIndex: props.zIndex,
       }
     })
-
     const visible = ref(false)
     const closed = ref(false)
     const timer = ref(null)
-
     return {
       typeClass,
       customStyle,
@@ -94,14 +89,6 @@ export default defineComponent({
       closed,
       timer,
     }
-  },
-  watch: {
-    closed(newVal: boolean) {
-      if (newVal) {
-        this.visible = false
-        on(this.$el, 'transitionend', this.destroyElement)
-      }
-    },
   },
   mounted() {
     this.startTimer()
@@ -112,11 +99,6 @@ export default defineComponent({
     off(document, 'keydown', this.keydown)
   },
   methods: {
-    destroyElement() {
-      this.visible = false
-      off(this.$el, 'transitionend', this.destroyElement)
-      this.onClose()
-    },
     // start counting down to destroy message instance
     startTimer() {
       if (this.duration > 0) {
@@ -135,6 +117,7 @@ export default defineComponent({
     // Event handlers
     close() {
       this.closed = true
+      this.visible = false
       this.timer = null
     },
     keydown({ code }: KeyboardEvent) {
