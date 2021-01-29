@@ -1,14 +1,18 @@
 import { h, nextTick } from 'vue'
-import Message from '../src/index.vue'
-import * as domExports from '../../utils/dom'
+import * as domExports from '@element-plus/utils/dom'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import Message from '../src/index.vue'
+
+import type { ComponentPublicInstance, CSSProperties } from 'vue'
+import { rAF } from '@element-plus/test-utils/tick'
 
 const AXIOM = 'Rem is the best girl'
 
 jest.useFakeTimers()
 
-type MessageInstance = {visible: boolean; }
+type MessageInstance = ComponentPublicInstance<{visible: boolean; typeClass: string; customStyle: CSSProperties;}>
+
 const onClose = jest.fn()
 const _mount = makeMount(Message, {
   props: {
@@ -25,10 +29,12 @@ describe('Message.vue', () => {
         },
       })
 
+      const vm = wrapper.vm as MessageInstance
+
       expect(wrapper.text()).toEqual(AXIOM)
-      expect(wrapper.vm.visible).toBe(true)
-      expect(wrapper.vm.typeClass).toBe('el-message__icon el-icon-info')
-      expect(wrapper.vm.customStyle).toEqual({ top: '20px', zIndex: 0 })
+      expect(vm.visible).toBe(true)
+      expect(vm.typeClass).toBe('el-message__icon el-icon-info')
+      expect(vm.customStyle).toEqual({ top: '20px', zIndex: 0 })
     })
 
     test('should be able to render VNode', () => {
@@ -112,39 +118,41 @@ describe('Message.vue', () => {
       const closeBtn = wrapper.find('.el-message__closeBtn')
       expect(closeBtn.exists()).toBe(true)
       await closeBtn.trigger('click')
-      expect(wrapper.vm.visible).toBe(false)
+      expect((wrapper.vm as MessageInstance).visible).toBe(false)
     })
 
     test('it should close after duration', async () => {
       const duration = 1000
       const wrapper = _mount({ props: { duration } })
-      wrapper.vm.close = jest.fn()
+      const vm = wrapper.vm as MessageInstance
       await nextTick()
-      expect(wrapper.vm.visible).toBe(true)
+      expect(vm.visible).toBe(true)
       jest.runAllTimers()
       await nextTick()
-      expect(wrapper.vm.visible).toBe(false)
+      expect(vm.visible).toBe(false)
     })
 
     test('it should prevent close when hovered', async () => {
       const duration = 1000
       const wrapper = _mount({ props: { duration } })
-      expect(wrapper.vm.visible).toBe(true)
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.visible).toBe(true)
       await wrapper.find('[role="alert"]').trigger('mouseenter')
       jest.runAllTimers()
-      expect(wrapper.vm.visible).toBe(true)
+      expect(vm.visible).toBe(true)
       await wrapper.find('[role="alert"]').trigger('mouseleave')
-      expect(wrapper.vm.visible).toBe(true)
+      expect(vm.visible).toBe(true)
       jest.runAllTimers()
-      expect(wrapper.vm.visible).toBe(false)
+      expect(vm.visible).toBe(false)
     })
 
     test('it should not close when duration is set to 0', () => {
       const duration = 0
       const wrapper = _mount({ props: { duration } })
-      expect(wrapper.vm.visible).toBe(true)
+      const vm = wrapper.vm as MessageInstance
+      expect(vm.visible).toBe(true)
       jest.runAllTimers()
-      expect(wrapper.vm.visible).toBe(true)
+      expect(vm.visible).toBe(true)
     })
 
     test('it should close when esc is pressed', async () => {
@@ -153,11 +161,9 @@ describe('Message.vue', () => {
       const event = new KeyboardEvent('keydown', {
         code: EVENT_CODE.esc,
       })
-      const oldClose = wrapper.vm.close
-      wrapper.vm.close = jest.fn(() => oldClose())
       document.dispatchEvent(event)
 
-      expect(wrapper.vm.visible).toBe(false)
+      expect((wrapper.vm as MessageInstance).visible).toBe(false)
     })
 
     test('it should call close after transition ends', async () => {
@@ -166,12 +172,11 @@ describe('Message.vue', () => {
         slots: { default: AXIOM },
         props: { onClose },
       })
+      await rAF()
+      const vm = wrapper.vm as MessageInstance
+      vm.visible = false
+      await rAF()
 
-      expect(wrapper.vm.visible).toBe(true)
-      wrapper.vm.close()
-      expect(wrapper.vm.visible).toBe(false)
-      await nextTick()
-      await wrapper.vm.onClose()
       expect(onClose).toHaveBeenCalledTimes(1)
     })
   })

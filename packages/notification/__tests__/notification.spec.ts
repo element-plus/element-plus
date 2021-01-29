@@ -1,26 +1,24 @@
-import { mount, VueWrapper } from '@vue/test-utils'
-import { h, ComponentPublicInstance } from 'vue'
-import * as domExports from '../../utils/dom'
-import { EVENT_CODE } from '../../utils/aria'
+import { VueWrapper } from '@vue/test-utils'
+import { h, ComponentPublicInstance, nextTick } from 'vue'
+import * as domExports from '@element-plus/utils/dom'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import Notification from '../src/index.vue'
+import makeMount from '@element-plus/test-utils/make-mount'
+import { rAF } from '@element-plus/test-utils/tick'
 
 const AXIOM = 'Rem is the best girl'
 
 jest.useFakeTimers()
 
-const _mount = (props: Record<string, unknown>) => {
-  const onClose = jest.fn()
-  return mount(Notification, {
-    ...props,
-    props: {
-      onClose,
-      ...props.props as Record<string, unknown>,
-    },
-  })
-}
+const onClose = jest.fn()
+
+const _mount = makeMount(Notification, {
+  props: {
+    onClose,
+  },
+})
 
 describe('Notification.vue', () => {
-
   describe('render', () => {
     test('basic render test', () => {
       const wrapper = _mount({
@@ -28,20 +26,31 @@ describe('Notification.vue', () => {
           default: AXIOM,
         },
       })
+
+      const vm = wrapper.vm as ComponentPublicInstance<{
+        visible: boolean
+        typeClass: string
+        horizontalClass: string
+        positionStyle: Record<string, string>
+      }>
+
       expect(wrapper.text()).toEqual(AXIOM)
-      expect(wrapper.vm.visible).toBe(true)
-      expect(wrapper.vm.typeClass).toBe('')
-      expect(wrapper.vm.horizontalClass).toBe('right')
-      expect(wrapper.vm.verticalProperty).toBe('top')
-      expect(wrapper.vm.positionStyle).toEqual({ top: '0px' })
+      expect(vm.visible).toBe(true)
+      expect(vm.typeClass).toBe('')
+      expect(vm.horizontalClass).toBe('right')
+      expect(vm.positionStyle).toEqual({ top: '0px' })
     })
 
     test('should be able to render VNode', () => {
       const wrapper = _mount({
         slots: {
-          default: h('span', {
-            class: 'text-node',
-          }, AXIOM),
+          default: h(
+            'span',
+            {
+              class: 'text-node',
+            },
+            AXIOM,
+          ),
         },
       })
 
@@ -87,7 +96,6 @@ describe('Notification.vue', () => {
     })
 
     test('should add event listener to target element when init', () => {
-
       jest.spyOn(domExports, 'on')
       jest.spyOn(domExports, 'off')
       const wrapper = _mount({
@@ -95,7 +103,7 @@ describe('Notification.vue', () => {
           default: AXIOM,
         },
       })
-      expect(domExports.on).toHaveBeenCalledWith(document, 'keydown', wrapper.vm.keydown)
+      expect(domExports.on).toHaveBeenCalled()
       wrapper.unmount()
       expect(domExports.off).toHaveBeenCalled()
     })
@@ -111,7 +119,9 @@ describe('Notification.vue', () => {
             type,
           },
         })
-        expect(wrapper.find('.el-notification__icon').classes()).toContain(`el-icon-${type}`)
+        expect(wrapper.find('.el-notification__icon').classes()).toContain(
+          `el-icon-${type}`,
+        )
       }
     })
 
@@ -123,7 +133,9 @@ describe('Notification.vue', () => {
         },
       })
 
-      expect(wrapper.find('.el-notification__icon').classes()).not.toContain(`el-icon-${type}`)
+      expect(wrapper.find('.el-notification__icon').classes()).not.toContain(
+        `el-icon-${type}`,
+      )
     })
   })
 
@@ -136,28 +148,29 @@ describe('Notification.vue', () => {
         },
         props: { onClose },
       })
+      await rAF()
 
       const closeBtn = wrapper.find('.el-notification__closeBtn')
       expect(closeBtn.exists()).toBe(true)
-      wrapper.vm.visible = false
-      wrapper.vm.onClose()
-
+      await closeBtn.trigger('click')
+      await rAF()
+      await nextTick()
       expect(onClose).toHaveBeenCalled()
     })
 
-    test('should be able to close after duration', () => {
+    test('should be able to close after duration', async () => {
       const duration = 100
       const wrapper = _mount({
         props: {
           duration,
         },
       })
-      wrapper.vm.close = jest.fn()
-      // jest.spyOn(wrapper.vm, 'close')
-      expect(wrapper.vm.timer).not.toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
+
       jest.runAllTimers()
-      expect(wrapper.vm.close).toHaveBeenCalled()
+
+      await rAF()
+      expect(vm.visible).toBe(false)
     })
 
     test('should be able to prevent close itself when hover over', async () => {
@@ -167,44 +180,52 @@ describe('Notification.vue', () => {
           duration,
         },
       })
-      expect(wrapper.vm.timer).not.toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
+
+      await rAF()
       await wrapper.find('[role=alert]').trigger('mouseenter')
       jest.runAllTimers()
-      expect(wrapper.vm.timer).toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+      expect(vm.visible).toBe(true)
       await wrapper.find('[role=alert]').trigger('mouseleave')
-      expect(wrapper.vm.timer).not.toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+      // expect(wrapper.vm.timer).not.toBe(null)
+      expect(vm.visible).toBe(true)
+      // expect(wrapper.vm.closed).toBe(false)
       jest.runAllTimers()
-      expect(wrapper.vm.timer).toBe(null)
-      expect(wrapper.vm.closed).toBe(true)
+      expect(vm.visible).toBe(false)
+      // expect(wrapper.vm.timer).toBe(null)
+      // expect(wrapper.vm.closed).toBe(true)
     })
 
-    test('should not be able to close when duration is set to 0', () => {
+    test('should not be able to close when duration is set to 0', async () => {
       const duration = 0
       const wrapper = _mount({
         props: {
           duration,
         },
       })
-      expect(wrapper.vm.timer).toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
+      await rAF()
+      expect(vm.visible).toBe(true)
       jest.runAllTimers()
-      expect(wrapper.vm.timer).toBe(null)
-      expect(wrapper.vm.closed).toBe(false)
+
+      await rAF()
+      expect(vm.visible).toBe(true)
     })
 
     test('should be able to handle click event', async () => {
+      const onClick = jest.fn()
       const wrapper = _mount({
         props: {
           duration: 0,
-          onClick: jest.fn(),
+          onClick,
         },
       })
 
       await wrapper.trigger('click')
-      expect(wrapper.vm.onClick).toHaveBeenCalledTimes(1)
+      await rAF()
+      expect(onClick).toHaveBeenCalledTimes(1)
     })
 
     test('should be able to delete timer when press delete', async () => {
@@ -214,6 +235,8 @@ describe('Notification.vue', () => {
         },
       })
 
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
+
       const event = new KeyboardEvent('keydown', {
         code: EVENT_CODE.backspace,
         babels: true,
@@ -221,8 +244,8 @@ describe('Notification.vue', () => {
       document.dispatchEvent(event)
 
       jest.runOnlyPendingTimers()
-      expect(wrapper.vm.closed).toBe(false)
-      expect(wrapper.emitted('close')).toBeUndefined()
+      await rAF()
+      expect(vm.visible).toBe(true)
     })
 
     test('should be able to close the notification immediately when press esc', async () => {
@@ -231,18 +254,17 @@ describe('Notification.vue', () => {
           default: AXIOM,
         },
       })
-
+      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean; }>
       // Same as above
       const event = new KeyboardEvent('keydown', {
         code: EVENT_CODE.esc,
         // eslint-disable-next-line
       } as any)
-      const oldClose = wrapper.vm.close
-      wrapper.vm.close = jest.fn(() => oldClose())
+
       document.dispatchEvent(event)
       jest.runAllTimers()
-      expect(wrapper.vm.closed).toBe(true)
-      expect(wrapper.vm.close).toHaveBeenCalledTimes(1)
+      await rAF()
+      expect(vm.visible).toBe(false)
     })
   })
 })
