@@ -117,7 +117,6 @@ export default defineComponent({
     const expanded = ref(false)
     const childNodeRendered = ref(false)
     const oldChecked = ref<boolean>(null)
-    const oldIndeterminate = ref<boolean>(null)
     const node$ = ref<Nullable<HTMLElement>>(null)
     const { emitter } = useDragNodeEmitter()
     const instance = getCurrentInstance()
@@ -160,11 +159,10 @@ export default defineComponent({
     }
 
     const handleSelectChange = (checked: boolean, indeterminate: boolean) => {
-      if (oldChecked.value !== checked && oldIndeterminate.value !== indeterminate) {
+      if (oldChecked.value !== checked) {
         tree.ctx.emit('check-change', props.node.data, checked, indeterminate)
       }
       oldChecked.value = checked
-      oldIndeterminate.value = indeterminate
     }
 
     const handleClick = () => {
@@ -248,7 +246,6 @@ export default defineComponent({
       expanded,
       childNodeRendered,
       oldChecked,
-      oldIndeterminate,
       emitter,
       parent,
       getNodeKey,
