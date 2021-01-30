@@ -4,7 +4,10 @@
     "demo-block": {
       "hide-text": "隐藏代码",
       "show-text": "显示代码",
-      "button-text": "在线运行",
+      "copy-button-text": "复制代码片段",
+      "copy-success": "已复制！",
+      "copy-error": "该浏览器不支持自动复制！",
+      "run-online-button-text": "在线运行",
       "tooltip-text": "前往 codepen.io 运行此示例"
     },
     "footer": {
@@ -35,7 +38,10 @@
     "demo-block": {
       "hide-text": "Hide",
       "show-text": "Expand",
-      "button-text": "Try it!",
+      "copy-button-text": "Copy",
+      "copy-success": "Copied！",
+      "copy-error": "This browser does not support automatic copy！",
+      "run-online-button-text": "Try it!",
       "tooltip-text": "Run this demo on codepen.io"
     },
     "footer": {
@@ -66,7 +72,10 @@
     "demo-block": {
       "hide-text": "Ocultar",
       "show-text": "Mostrar",
-      "button-text": "Probar",
+      "copy-button-text": "Copiar",
+      "copy-success": "Copiar correctamente!",
+      "copy-error": "Este navegador no admite copia automática!",
+      "run-online-button-text": "Probar",
       "tooltip-text": "Prueba este ejemplo en codepen.io"
     },
     "footer": {
@@ -97,7 +106,10 @@
     "demo-block": {
       "hide-text": "Réduire",
       "show-text": "Agrandir",
-      "button-text": "Essayez!",
+      "copy-button-text": "Copie",
+      "copy-success": "Copier avec succès!",
+      "copy-error": "Ce navigateur ne prend pas en charge la copie automatique!",
+      "run-online-button-text": "Essayez!",
       "tooltip-text": "Essayer cette démo sur codepen.io"
     },
     "footer": {
@@ -128,7 +140,10 @@
     "demo-block": {
       "hide-text": "隠す",
       "show-text": "展開する",
-      "button-text": "試してみる!",
+      "copy-button-text": "コピー",
+      "copy-success": "正常にコピー!",
+      "copy-error": "このブラウザは自動コピーをサポートしていません!",
+      "run-online-button-text": "試してみる!",
       "tooltip-text": "codepen.ioでこのデモを実行します。"
     },
     "footer": {
