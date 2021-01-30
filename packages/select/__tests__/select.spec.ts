@@ -3,6 +3,8 @@ import { nextTick } from 'vue'
 import Select from '../src/select.vue'
 import Option from '../src/option.vue'
 
+jest.useFakeTimers()
+
 interface SelectProps {
   filterMethod?: any
   remoteMethod?: any
@@ -644,5 +646,106 @@ describe('Select', () => {
     await nextTick()
     expect(!!document.querySelector('.el-select__popper').style.display).toBeFalsy()
     expect(wrapper.findAll('.el-select-dropdown__empty').length).toBe(0)
+  })
+
+  test('multiple select with remote load', async () => {
+    const wrapper = mount({
+      template: `
+      <el-select
+        v-model="value"
+        multiple
+        filterable
+        remote
+        reserve-keyword
+        placeholder="请输入关键词"
+        :remote-method="remoteMethod"
+        :loading="loading"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      components: { ElSelect: Select, ElOption: Option },
+      data() {
+        return {
+          options: [],
+          value: [],
+          list: [],
+          loading: false,
+          states: ['Alabama', 'Alaska', 'Arizona',
+            'Arkansas', 'California', 'Colorado',
+            'Connecticut', 'Delaware', 'Florida',
+            'Georgia', 'Hawaii', 'Idaho', 'Illinois',
+            'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+            'Louisiana', 'Maine', 'Maryland',
+            'Massachusetts', 'Michigan', 'Minnesota',
+            'Mississippi', 'Missouri', 'Montana',
+            'Nebraska', 'Nevada', 'New Hampshire',
+            'New Jersey', 'New Mexico', 'New York',
+            'North Carolina', 'North Dakota', 'Ohio',
+            'Oklahoma', 'Oregon', 'Pennsylvania',
+            'Rhode Island', 'South Carolina',
+            'South Dakota', 'Tennessee', 'Texas',
+            'Utah', 'Vermont', 'Virginia',
+            'Washington', 'West Virginia', 'Wisconsin',
+            'Wyoming'],
+        }
+      },
+      mounted() {
+        this.list = this.states.map(item => {
+          return { value: `value:${item}`, label: `label:${item}` }
+        })
+      },
+      methods: {
+        remoteMethod(query) {
+          if (query !== '') {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+              this.options = this.list.filter(item => {
+                return item.label.toLowerCase()
+                  .indexOf(query.toLowerCase()) > -1
+              })
+            }, 200)
+          } else {
+            this.options = []
+          }
+        },
+      },
+    })
+
+    const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+    select.debouncedQueryChange({
+      target: {
+        value: '',
+      },
+    })
+
+    select.debouncedQueryChange({
+      target: {
+        value: 'a',
+      },
+    })
+    jest.runAllTimers()
+    await nextTick()
+    let options = getOptions()
+    options[0].click()
+    await nextTick()
+    select.debouncedQueryChange({
+      target: {
+        value: 'n',
+      },
+    })
+    jest.runAllTimers()
+    await nextTick()
+    options = getOptions()
+    options[5].click()
+    await nextTick()
+    expect(select.selected.length === 2).toBeTruthy()
+    expect(select.selected[0].currentLabel !== '').toBeTruthy()
+    expect(select.selected[1].currentLabel !== '').toBeTruthy()
   })
 })
