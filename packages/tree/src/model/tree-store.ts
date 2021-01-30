@@ -48,6 +48,7 @@ export default class TreeStore {
       data: this.data,
       store: this,
     })
+    this.root.initialize()
 
     if (this.lazy && this.load) {
       const loadFn = this.load
