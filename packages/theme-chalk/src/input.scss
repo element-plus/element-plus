@@ -76,7 +76,7 @@
   font-size: $--font-size-base;
   display: inline-block;
   width: 100%;
-  line-height: 40px;
+  line-height: $--input-height;
   @include scroll-bar;
 
   & .el-input__clear {

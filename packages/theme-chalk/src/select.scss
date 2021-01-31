@@ -11,7 +11,7 @@
 @include b(select) {
   display: inline-block;
   position: relative;
-  line-height: 40px;
+  line-height: $--input-height;
 
   @include e(popper) {
     @include picker-popper(
