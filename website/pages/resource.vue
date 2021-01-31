@@ -11,7 +11,7 @@
             <p>{{ langConfig[4] }}</p>
             <a
               onclick="ga('send', 'event', 'ResourceDownload', 'Download', 'Axure');"
-              href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.0.0.rplib"
+              href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
             >{{ langConfig[5] }}</a>
           </div>
         </li>
