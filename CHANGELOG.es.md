@@ -1,5 +1,46 @@
 ## Changelog
 
+### 1.0.2-beta.31
+
+*2021-01-31*
+
+#### Bug fixes
+
+- Fix Select can not scroll to default option (#1397)
+- Fix Select tag's text is empty string when multiple with remote (#1393)
+- Fix Tree error cause by child node's data is not reactive (#1396)
+- Update Button change height to min-height (#1402)
+- Fix Tree every node @check-change event fire only once (#1390)
+- Fix Notification remove dom when destoryed (#1378)
+- Fix Message component trigger many times bug #1269 (#1270)
+- Fix ColorPicker compilation errors caused by switch (#1375)
+- Fix Table column insertion disorder (#1329)
+- Fix Popover z-index won't update when popover is shown (#1364)
+- Update Dialog to accept number type (#1373)
+- Fix Pagination jumper style error (#1372)
+- Fix Col style gets affected by invalid value bug (#1370)
+- Fix table remove tooltip when the component destroyed (#1245)
+- Update Scrollbar when scrollbar isn't shown, hide the bar (#1342)
+- Fix MessageBox remove default button text which caused i18n not working (#1357)
+- Fix Popper api consistency (#1354)
+- Fix dropdown/select/picker popper position error when has line-height (#1349)
+- Fix DatePicker modify the judgment logic of startDate and endDate (#1322)
+- Refactor Message and Notification component with VCA (#1387)
+
+#### Chore updates
+
+- Update Axure resource v2.1.0 (#1400)
+
+### 1.0.2-beta.30
+
+*2021-01-25*
+
+#### Bug fixes
+
+- Fix dropdown/select/picker popper position error when has line-height (#1349)
+- Fix DatePicker modify the judgment logic of startDate and endDate (#1322)
+- Fix full bundle export bug (#1350)
+
 ### 1.0.2-beta.29
 
 *2021-01-25*
