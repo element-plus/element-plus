@@ -21,21 +21,18 @@ Muestra información dentro de un contenedor `card`
 </el-card>
 
 <style>
+  .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+    
   .text {
     font-size: 14px;
   }
 
   .item {
     margin-bottom: 18px;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both
   }
 
   .box-card {
@@ -86,7 +83,7 @@ Muestre un contenido más rico añadiendo algunas configuraciones.
       <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
       <div style="padding: 14px;">
         <span>Yummy hamburger</span>
-        <div class="bottom clearfix">
+        <div class="bottom">
           <time class="time">{{ currentDate }}</time>
           <el-button type="text" class="button">Operating</el-button>
         </div>
@@ -104,26 +101,19 @@ Muestre un contenido más rico añadiendo algunas configuraciones.
   .bottom {
     margin-top: 13px;
     line-height: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .button {
     padding: 0;
-    float: right;
+    min-height: auto;
   }
 
   .image {
     width: 100%;
     display: block;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-      display: table;
-      content: "";
-  }
-  
-  .clearfix:after {
-      clear: both
   }
 </style>
 
