@@ -10,9 +10,9 @@
 ```html
 <el-card class="box-card">
   <template #header>
-    <div class="clearfix">
+    <div class="card-header">
       <span>卡片名称</span>
-      <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+      <el-button class="button" type="text">操作按钮</el-button>
     </div>
   </template>
   <div v-for="o in 4" :key="o" class="text item">

@@ -11,11 +11,9 @@
   <el-space wrap>
     <el-card class="box-card" style="width: 250px" v-for="i in 3" :key="i">
       <template #header>
-        <div class="clearfix">
+        <div class="card-header">
           <span>Card name</span>
-          <el-button style="float: right; padding: 3px 0" type="text"
-            >Operation button</el-button
-          >
+          <el-button class="button" type="text">Operation button</el-button>
         </div>
       </template>
       <div v-for="o in 4" :key="o" class="text item">
@@ -37,11 +35,9 @@
   <el-space direction="vertical">
     <el-card class="box-card" style="width: 250px" v-for="i in 2" :key="i">
       <template #header>
-        <div class="clearfix">
+        <div class="card-header">
           <span>Card name</span>
-          <el-button style="float: right; padding: 3px 0" type="text"
-            >Operation button</el-button
-          >
+          <el-button class="button" type="text">Operation button</el-button>
         </div>
       </template>
       <div v-for="o in 4" :key="o" class="text item">
@@ -75,11 +71,9 @@
   <el-space wrap :size="size">
     <el-card class="box-card" style="width: 250px" v-for="i in 3" :key="i">
       <template #header>
-        <div class="clearfix">
+        <div class="card-header">
           <span>Card name</span>
-          <el-button style="float: right; padding: 3px 0" type="text"
-            >Operation button</el-button
-          >
+          <el-button class="button" type="text">Operation button</el-button>
         </div>
       </template>
       <div v-for="o in 4" :key="o" class="text item">
@@ -114,11 +108,9 @@ export default {
   <el-space wrap :size="size">
     <el-card class="box-card" style="width: 250px" v-for="i in 2" :key="i">
       <template #header>
-        <div class="clearfix">
+        <div class="card-header">
           <span>Card name</span>
-          <el-button style="float: right; padding: 3px 0" type="text"
-            >Operation button</el-button
-          >
+          <el-button class="button" type="text">Operation button</el-button>
         </div>
       </template>
       <div v-for="o in 4" :key="o" class="text item">

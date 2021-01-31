@@ -9,9 +9,9 @@ Card includes title, content and operations.
 ```html
 <el-card class="box-card">
   <template #header>
-    <div class="clearfix">
+    <div class="card-header">
       <span>Card name</span>
-      <el-button style="float: right; padding: 3px 0" type="text">Operation button</el-button>
+      <el-button class="button" type="text">Operation button</el-button>
     </div>
   </template>
   <div v-for="o in 4" :key="o" class="text item">
