@@ -1,9 +1,10 @@
-import { createVNode, nextTick, render } from 'vue'
+import { createVNode, render } from 'vue'
 import { isVNode } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
 import isServer from '@element-plus/utils/isServer'
 import MessageConstructor from './index.vue'
 
+import type { ComponentPublicInstance } from 'vue'
 import type {
   IMessage,
   MessageQueue,
@@ -13,10 +14,11 @@ import type {
   MessageParams,
 } from './types'
 
-let vm: MessageVM
 const instances: MessageQueue = []
 let seed = 1
 
+// TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to
+// reduce code duplication.
 const Message: IMessage = function(
   opts: MessageParams = {} as MessageParams,
 ): IMessageHandle {
@@ -54,18 +56,29 @@ const Message: IMessage = function(
   container.className = `container_${id}`
 
   const message = options.message
-  vm = createVNode(
+  const vm = createVNode(
     MessageConstructor,
     options,
     isVNode(options.message) ? { default: () => message } : null,
   )
 
+  // clean message element preventing mem leak
+  vm.props.onDestroy = () => {
+    render(null, container)
+    // since the element is destroy, then the VNode should be collected by GC as well
+    // we do not want cause any mem leak because we have returned vm as a reference to users
+    // so that we manually set it to false.
+  }
+
   render(vm, container)
-  instances.push({ vm, $el: container })
-  document.body.appendChild(container)
+  // instances will remove this item when close function gets called. So we do not need to worry about it.
+  instances.push({ vm })
+  document.body.appendChild(container.firstElementChild)
 
   return {
-    close: options.onClose,
+    // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
+    // for out component, so that all closing steps will not be skipped.
+    close: () => (vm.component.proxy as ComponentPublicInstance<{visible: boolean;}>).visible = false,
   }
 } as any
 
@@ -78,16 +91,11 @@ export function close(id: string, userOnClose?: (vm: MessageVM) => void): void {
     return
   }
 
-  const { vm, $el } = instances[idx]
+  const { vm } = instances[idx]
   if (!vm) return
   userOnClose?.(vm)
 
   const removedHeight = vm.el.offsetHeight
-  render(null, $el)
-  nextTick(() => {
-    document.body.removeChild($el)
-  })
-
   instances.splice(idx, 1)
 
   // adjust other instances vertical offset
@@ -98,7 +106,6 @@ export function close(id: string, userOnClose?: (vm: MessageVM) => void): void {
       parseInt(instances[i].vm.el.style['top'], 10) - removedHeight - 16
 
     instances[i].vm.component.props.offset = pos
-    instances[i].vm.component.props.vertOffset = pos
   }
 }
 

@@ -1,21 +1,34 @@
-import { createVNode, render, nextTick } from 'vue'
+import { createVNode, render } from 'vue'
 import NotificationConstructor from './index.vue'
-import type { INotificationOptions, INotification, NotificationQueue, NotificationVM } from './notification.type'
-import isServer from '../../utils/isServer'
-import PopupManager from '../../utils/popup-manager'
-import { isVNode } from '../../utils/util'
+import isServer from '@element-plus/utils/isServer'
+import PopupManager from '@element-plus/utils/popup-manager'
+import { isVNode } from '@element-plus/utils/util'
 
-let vm: NotificationVM
-const notifications: NotificationQueue = []
+import type { ComponentPublicInstance } from 'vue'
+import type {
+  INotificationOptions,
+  INotification,
+  NotificationQueue,
+  NotificationVM,
+  Position,
+} from './notification.type'
+
+// This should be a queue but considering there were `non-autoclosable` notifications.
+const notifications: Record<Position, NotificationQueue> = {
+  'top-left': [],
+  'top-right': [],
+  'bottom-left': [],
+  'bottom-right': [],
+}
+
 let seed = 1
 
-const Notification: INotification = function(options = {}) {
+const Notification: INotification = function(options = { }) {
   if (isServer) return
   const position = options.position || 'top-right'
 
   let verticalOffset = options.offset || 0
-  notifications
-    .filter(({ vm }) => vm.component.props.position === position)
+  notifications[position]
     .forEach(({ vm }) => {
       verticalOffset += (vm.el.offsetHeight || 0) + 16
     })
@@ -24,14 +37,10 @@ const Notification: INotification = function(options = {}) {
   const id = 'notification_' + seed++
   const userOnClose = options.onClose
   options = {
-    dangerouslyUseHTMLString: false,
-    duration: 4500,
-    position: 'top-right',
-    showClose: true,
     // default options end
     ...options,
     onClose: () => {
-      close(id, userOnClose)
+      close(id, position, userOnClose)
     },
     offset: verticalOffset,
     id,
@@ -40,10 +49,7 @@ const Notification: INotification = function(options = {}) {
 
   const container = document.createElement('div')
 
-  container.className = `container_${id}`
-  container.style.zIndex = String()
-
-  vm = createVNode(
+  const vm = createVNode(
     NotificationConstructor,
     options,
     isVNode(options.message)
@@ -52,16 +58,27 @@ const Notification: INotification = function(options = {}) {
       }
       : null,
   )
+
+  // clean notification element preventing mem leak
+  vm.props.onDestroy = () => {
+    render(null, container)
+  }
+
+  // instances will remove this item when close function gets called. So we do not need to worry about it.
   render(vm, container)
-  notifications.push({ vm, $el: container })
-  document.body.appendChild(container)
+  notifications[position].push({ vm })
+  document.body.appendChild(container.firstElementChild)
 
   return {
-    close: options.onClose,
+    // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
+    // for out component, so that all closing steps will not be skipped.
+    close: () => {
+      (vm.component.proxy as ComponentPublicInstance<{visible: boolean;}>).visible = false
+    },
   }
-};
+}
 
-(['success', 'warning', 'info', 'error'] as const).forEach(type => {
+;(['success', 'warning', 'info', 'error'] as const).forEach(type => {
   Object.assign(Notification, {
     [type]: (options: NotificationVM | INotificationOptions | string = {}) => {
       if (typeof options === 'string' || isVNode(options)) {
@@ -75,54 +92,61 @@ const Notification: INotification = function(options = {}) {
   })
 })
 
+/**
+ * This function gets called when user click `x` button or press `esc` or the time reached its limitation.
+ * Emitted by transition@before-leave event so that we can fetch the current notification.offsetHeight, if this was called
+ * by @after-leave the DOM element will be removed from the page thus we can no longer fetch the offsetHeight.
+ * @param {String} id notification id to be closed
+ * @param {Position} position the positioning strategy
+ * @param {Function} userOnClose the callback called when close passed by user
+ */
 export function close(
   id: string,
+  position: Position,
   userOnClose?: (vm: NotificationVM) => void,
 ): void {
-  const idx = notifications.findIndex(({ vm }) => {
+  // maybe we can store the index when inserting the vm to notification list.
+  const orientedNotifications = notifications[position]
+  const idx = orientedNotifications.findIndex(({ vm }) => {
     const { id: _id } = vm.component.props
     return id === _id
   })
+
   if (idx === -1) {
     return
   }
 
-  const { vm, $el } = notifications[idx]
+  const { vm } = orientedNotifications[idx]
   if (!vm) return
+  // calling user's on close function before notification gets removed from DOM.
   userOnClose?.(vm)
 
+  // note that this is called @before-leave, that's why we were able to fetch this property.
   const removedHeight = vm.el.offsetHeight
-  render(null, $el)
-
-  notifications.splice(idx, 1)
-  const len = notifications.length
-  nextTick(() => {
-    document.body.removeChild($el)
-  })
+  orientedNotifications.splice(idx, 1)
+  const len = orientedNotifications.length
   if (len < 1) return
-  const position = vm.props.position
+  // starting from the removing item.
   for (let i = idx; i < len; i++) {
-    if (notifications[i].vm.component.props.position === position) {
-      const verticalPos = vm.props.position.split('-')[0]
-      const pos = parseInt(
-        notifications[i].vm.el.style[verticalPos],
-        10,
-      ) -
+    const verticalPos = position.split('-')[0]
+    // new position equals the current offsetTop minus removed height plus 16px(the gap size between each item)
+    const pos =
+      parseInt(orientedNotifications[i].vm.el.style[verticalPos], 10) -
       removedHeight -
       16
 
-      notifications[i].vm.component.props.offset = pos
-      requestAnimationFrame(() => {
-        render(notifications[i].vm, notifications[i].$el)
-      })
-      // .vm.el.style[verticalPos] = pos
-    }
+    orientedNotifications[i].vm.component.props.offset = pos
   }
 }
 
 export function closeAll(): void {
-  for (let i = notifications.length - 1; i >= 0; i--) {
-    (notifications[i].vm.component.props as INotificationOptions).onClose()
+  // loop through all directions, close them at once.
+  for (const key in notifications) {
+    const orientedNotifications = notifications[key as Position]
+    orientedNotifications.forEach(({ vm }) => {
+      // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
+      (vm.component.proxy as ComponentPublicInstance<{ visible: boolean; }>).visible = false
+    })
   }
 }
 
