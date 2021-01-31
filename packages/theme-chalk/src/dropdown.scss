@@ -7,7 +7,7 @@
   position: relative;
   color: $--color-text-regular;
   font-size: $--font-size-base;
-  line-height: 40px;
+  line-height: $--input-height;
 
   @include m(mini) {
     line-height: $--input-mini-height;
