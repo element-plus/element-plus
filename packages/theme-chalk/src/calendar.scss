@@ -63,7 +63,7 @@
     border-left: $--calendar-border;
   }
 
-  tr.el-calendar-table__row--hide-border td {
+  tr.#{$namespace}-calendar-table__row--hide-border td {
     border-top: none;
   }
 

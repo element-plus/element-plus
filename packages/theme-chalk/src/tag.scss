@@ -10,7 +10,7 @@
     border-color: $--tag-primary-color;
   }
 
-  .el-tag__close {
+  .#{$namespace}-tag__close {
     color: mix($--tag-primary-color, $--color-white, $fontColorWeight);
     &:hover {
       color: $--color-white;
@@ -18,7 +18,7 @@
     }
   }
 
-  &.el-tag--info {
+  &.#{$namespace}-tag--info {
     background-color: mix($--tag-info-color, $--color-white, $backgroundColorWeight);
     border-color: mix($--tag-info-color, $--color-white, $borderColorWeight);
     color: mix($--tag-info-color, $--color-white, $fontColorWeight);
@@ -27,7 +27,7 @@
       border-color: $--tag-info-color;
     }
 
-    .el-tag__close {
+    .#{$namespace}-tag__close {
       color: mix($--tag-info-color, $--color-white, $fontColorWeight);
       &:hover {
         color: $--color-white;
@@ -36,7 +36,7 @@
     }
   }
 
-  &.el-tag--success {
+  &.#{$namespace}-tag--success {
     background-color: mix($--tag-success-color, $--color-white, $backgroundColorWeight);
     border-color: mix($--tag-success-color, $--color-white, $borderColorWeight);
     color: mix($--tag-success-color, $--color-white, $fontColorWeight);
@@ -45,7 +45,7 @@
       border-color: $--tag-success-color;
     }
 
-    .el-tag__close {
+    .#{$namespace}-tag__close {
       color: mix($--tag-success-color, $--color-white, $fontColorWeight);
       &:hover {
         color: $--color-white;
@@ -54,7 +54,7 @@
     }
   }
 
-  &.el-tag--warning {
+  &.#{$namespace}-tag--warning {
     background-color: mix($--tag-warning-color, $--color-white, $backgroundColorWeight);
     border-color: mix($--tag-warning-color, $--color-white, $borderColorWeight);
     color: mix($--tag-warning-color, $--color-white, $fontColorWeight);
@@ -63,7 +63,7 @@
       border-color: $--tag-warning-color;
     }
 
-    .el-tag__close {
+    .#{$namespace}-tag__close {
       color: mix($--tag-warning-color, $--color-white, $fontColorWeight);
       &:hover {
         color: $--color-white;
@@ -72,7 +72,7 @@
     }
   }
 
-  &.el-tag--danger {
+  &.#{$namespace}-tag--danger {
     background-color: mix($--tag-danger-color, $--color-white, $backgroundColorWeight);
     border-color: mix($--tag-danger-color, $--color-white, $borderColorWeight);
     color: mix($--tag-danger-color, $--color-white, $fontColorWeight);
@@ -81,7 +81,7 @@
       border-color: $--tag-danger-color;
     }
 
-    .el-tag__close {
+    .#{$namespace}-tag__close {
       color: mix($--tag-danger-color, $--color-white, $fontColorWeight);
       &:hover {
         color: $--color-white;
@@ -105,7 +105,7 @@
   box-sizing: border-box;
   white-space: nowrap;
 
-  .el-icon-close {
+  .#{$namespace}-icon-close {
     border-radius: 50%;
     text-align: center;
     position: relative;
@@ -135,7 +135,7 @@
     height: 28px;
     line-height: 26px;
 
-    .el-icon-close {
+    .#{$namespace}-icon-close {
       transform: scale(.8);
     }
   }
@@ -145,7 +145,7 @@
     padding: 0 8px;
     line-height: 22px;
 
-    .el-icon-close {
+    .#{$namespace}-icon-close {
       transform: scale(.8);
     }
   }
@@ -155,7 +155,7 @@
     padding: 0 5px;
     line-height: 19px;
 
-    .el-icon-close {
+    .#{$namespace}-icon-close {
       margin-left: -3px;
       transform: scale(.7);
     }

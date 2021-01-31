@@ -22,7 +22,7 @@
       background-color: $--border-color-base;
     }
 
-    .el-icon-back {
+    .#{$namespace}-icon-back {
       font-size: 18px;
       margin-right: 6px;
       align-self: center;

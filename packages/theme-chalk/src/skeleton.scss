@@ -10,10 +10,10 @@
     $--skeleton-color 63%
   );
   background-size: 400% 100%;
-  animation: el-skeleton-loading 1.4s ease infinite;
+  animation: #{$namespace}-skeleton-loading 1.4s ease infinite;
 }
 
-@keyframes el-skeleton-loading {
+@keyframes #{$namespace}-skeleton-loading {
   0% {
     background-position: 100% 50%;
   }
@@ -33,7 +33,7 @@
   }
 
   @include when(animated) {
-    .el-skeleton__item {
+    .#{$namespace}-skeleton__item {
       @include skeleton-color();
     }
   }

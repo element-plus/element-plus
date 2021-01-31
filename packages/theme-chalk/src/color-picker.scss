@@ -79,7 +79,7 @@
     height: 180px;
     padding: 2px 0;
 
-    .el-color-hue-slider__bar {
+    .#{$namespace}-color-hue-slider__bar {
       background: linear-gradient(
         to bottom, #f00 0%,
         #ff0 17%, #0f0 33%,
@@ -87,7 +87,7 @@
         #f0f 83%, #f00 100%);
     }
 
-    .el-color-hue-slider__thumb {
+    .#{$namespace}-color-hue-slider__thumb {
       left: 0;
       top: 0;
       width: 100%;
@@ -165,13 +165,13 @@
     width: 20px;
     height: 180px;
 
-    .el-color-alpha-slider__bar {
+    .#{$namespace}-color-alpha-slider__bar {
       background: linear-gradient(
         to bottom, rgba(255, 255, 255, 0) 0%,
         rgba(255, 255, 255, 1) 100%);
     }
 
-    .el-color-alpha-slider__thumb {
+    .#{$namespace}-color-alpha-slider__thumb {
       left: 0;
       top: 0;
       width: 100%;
@@ -246,7 +246,7 @@
   height: 40px;
 
   @include when(disabled) {
-    .el-color-picker__trigger {
+    .#{$namespace}-color-picker__trigger {
       cursor: not-allowed;
     }
   }
@@ -254,12 +254,12 @@
   @include m(medium) {
     height: 36px;
 
-    .el-color-picker__trigger {
+    .#{$namespace}-color-picker__trigger {
       height: 36px;
       width: 36px;
     }
 
-    .el-color-picker__mask {
+    .#{$namespace}-color-picker__mask {
       height: 34px;
       width: 34px;
     }
@@ -268,18 +268,18 @@
   @include m(small) {
     height: 32px;
 
-    .el-color-picker__trigger {
+    .#{$namespace}-color-picker__trigger {
       height: 32px;
       width: 32px;
     }
 
-    .el-color-picker__mask {
+    .#{$namespace}-color-picker__mask {
       height: 30px;
       width: 30px;
     }
 
-    .el-color-picker__icon,
-    .el-color-picker__empty {
+    .#{$namespace}-color-picker__icon,
+    .#{$namespace}-color-picker__empty {
       transform: translate3d(-50%, -50%, 0) scale(0.8);
     }
   }
@@ -287,18 +287,18 @@
   @include m(mini) {
     height: 28px;
 
-    .el-color-picker__trigger {
+    .#{$namespace}-color-picker__trigger {
       height: 28px;
       width: 28px;
     }
 
-    .el-color-picker__mask {
+    .#{$namespace}-color-picker__mask {
       height: 26px;
       width: 26px;
     }
 
-    .el-color-picker__icon,
-    .el-color-picker__empty {
+    .#{$namespace}-color-picker__icon,
+    .#{$namespace}-color-picker__empty {
       transform: translate3d(-50%, -50%, 0) scale(0.8);
     }
   }
@@ -380,7 +380,7 @@
     background-color: $--color-white;
     border-radius: $--border-radius-base;
     box-shadow: $--dropdown-menu-box-shadow;
-    &.el-popper{
+    &.#{$namespace}-popper{
       border: 1px solid $--border-color-lighter;
     }
   }

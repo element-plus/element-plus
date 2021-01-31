@@ -13,16 +13,16 @@
   outline: none;
 
   &:not(.is-disabled):hover {
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       cursor: pointer;
       border-color: $--input-hover-border;
     }
   }
 
-  .el-input {
+  .#{$namespace}-input {
     cursor: pointer;
 
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       text-overflow: ellipsis;
 
       &:focus {
@@ -30,7 +30,7 @@
       }
     }
 
-    .el-icon-arrow-down {
+    .#{$namespace}-icon-arrow-down {
       transition: transform .3s;
       font-size: 14px;
 
@@ -39,12 +39,12 @@
       }
     }
 
-    .el-icon-circle-close:hover {
+    .#{$namespace}-icon-circle-close:hover {
       color: $--input-clear-hover-color;
     }
 
     @include when(focus) {
-      .el-input__inner {
+      .#{$namespace}-input__inner {
         border-color: $--input-focus-border;
       }
     }
@@ -66,7 +66,7 @@
   }
 
   @include when(disabled) {
-    .el-cascader__label {
+    .#{$namespace}-cascader__label {
       z-index: #{$--index-normal + 1};
       color: $--disabled-color-base;
     }
@@ -95,7 +95,7 @@
     text-align: left;
     box-sizing: border-box;
 
-    .el-tag {
+    .#{$namespace}-tag {
       display: inline-flex;
       align-items: center;
       max-width: 100%;
@@ -113,7 +113,7 @@
         text-overflow: ellipsis;
       }
 
-      .el-icon-close {
+      .#{$namespace}-icon-close {
         flex: none;
         background-color: $--color-text-placeholder;
         color: $--color-white;
