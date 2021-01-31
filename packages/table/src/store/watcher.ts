@@ -39,7 +39,7 @@ const doFlattenColumns = columns => {
   return result
 }
 
-function useWatcher() {
+function useWatcher () {
   const instance = getCurrentInstance() as Table
   const rowKey = ref(null)
   const data = ref([])
@@ -68,14 +68,9 @@ function useWatcher() {
   const sortOrder = ref(null)
   const hoverRow = ref(null)
 
-
-  watch(
-    data,
-    () => instance.state && scheduleLayout(false),
-    {
-      deep: true,
-    },
-  )
+  watch(data, () => instance.state && scheduleLayout(false), {
+    deep: true,
+  })
 
   // 检查 rowKey 是否存在
   const assertRowKey = () => {
@@ -105,7 +100,6 @@ function useWatcher() {
       .concat(fixedColumns.value)
       .concat(notFixedColumns)
       .concat(rightFixedColumns.value)
-
     const leafColumns = doFlattenColumns(notFixedColumns)
     const fixedLeafColumns = doFlattenColumns(fixedColumns.value)
     const rightFixedLeafColumns = doFlattenColumns(rightFixedColumns.value)
@@ -160,9 +154,7 @@ function useWatcher() {
         }
       }
     } else {
-      deleted = selection.value.filter(
-        item => data.value.indexOf(item) === -1,
-      )
+      deleted = selection.value.filter(item => data.value.indexOf(item) === -1)
     }
     if (deleted.length) {
       const newSelection = selection.value.filter(
@@ -336,7 +328,8 @@ function useWatcher() {
     } = instance.refs as AnyObject
     let panels = {}
     if (tableHeader) panels = Object.assign(panels, tableHeader.filterPanels)
-    if (fixedTableHeader) panels = Object.assign(panels, fixedTableHeader.filterPanels)
+    if (fixedTableHeader)
+      panels = Object.assign(panels, fixedTableHeader.filterPanels)
     if (rightFixedTableHeader)
       panels = Object.assign(panels, rightFixedTableHeader.filterPanels)
 

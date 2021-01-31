@@ -191,9 +191,10 @@
 |  transition     |  アニメーション名 | string             | — | el-fade-in-linear |
 |  visible-arrow   |  矢印が表示されているかどうかを指定します。詳しくは、[Vue-popper](https://github.com/element-component/vue-popper)のページを参照してください。 | boolean | — | true |
 |  popper-options        | [popper.js](https://popper.js.org/documentation.html) parameters | Object            | refer to [popper.js](https://popper.js.org/documentation.html) doc | `{ boundariesElement: 'body', gpuAcceleration: false }` |
-| open-delay | ミリ秒単位の出現の遅延 | number | — | 0 |
+| show-after | ミリ秒単位の出現の遅延 | number | — | 0 |
+| hide-after | ミリ秒単位の消えるの遅延 | number | — | 0 |
+| auto-close | ツールチップを非表示にするタイムアウト（ミリ秒単位） | number | — | 0 |
 | manual | ツールチップを手動で制御するかどうかを指定します。`true` に設定すると `mouseenter` と `mouseleave` は効果を持ちません。 | boolean | — | false |
 |  popper-class  |  ツールチップのポッパーのカスタムクラス名 | string | — | — |
 | enterable | マウスがツールチップに入るかどうか | Boolean | — | true |
-| hide-after | ツールチップを非表示にするタイムアウト（ミリ秒単位） | number | — | 0 |
 | tabindex   | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) のツールチップ | number | — | 0 |

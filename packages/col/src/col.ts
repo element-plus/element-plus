@@ -55,8 +55,6 @@ const ElCol = defineComponent({
     const style = computed(() => {
       if (gutter) {
         return {
-          display: 'block',
-          minHeight: '1px',
           paddingLeft: gutter / 2 + 'px',
           paddingRight: gutter / 2 + 'px',
         }
@@ -68,7 +66,7 @@ const ElCol = defineComponent({
       const pos = ['span', 'offset', 'pull', 'push'] as const
       pos.forEach(prop => {
         const size = props[prop]
-        if (typeof size === 'number' && size >= 0) {
+        if (typeof size === 'number' && size > 0) {
           ret.push(prop !== 'span' ? `el-col-${prop}-${props[prop]}` : `el-col-${props[prop]}`)
         }
       })
@@ -85,6 +83,11 @@ const ElCol = defineComponent({
           })
         }
       })
+      // this is for the fix
+      if (gutter) {
+        ret.push('is-guttered')
+      }
+
       return ret
     })
 

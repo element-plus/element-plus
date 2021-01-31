@@ -1,3 +1,4 @@
+import { reactive } from 'vue'
 import { markNodeData, NODE_KEY } from './util'
 import TreeStore from './tree-store'
 
@@ -117,7 +118,9 @@ export default class Node {
     if (this.parent) {
       this.level = this.parent.level + 1
     }
+  }
 
+  initialize() {
     const store = this.store
     if (!store) {
       throw new Error('[Node]store is required!')
@@ -252,7 +255,10 @@ export default class Node {
         parent: this,
         store: this.store,
       })
-      child = new Node(child as TreeNodeOptions)
+      child = reactive(new Node(child as TreeNodeOptions))
+      if (child instanceof Node) {
+        child.initialize()
+      }
     }
 
     (child as Node).level = this.level + 1

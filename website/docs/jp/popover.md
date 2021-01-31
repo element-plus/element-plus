@@ -169,8 +169,9 @@ popoverの中には、他のコンポーネントを入れ子にすることが�
 |  show-arrow   |  ツールチップの矢印が表示されているかどうかを指定します。詳細については [Vue-popper](https://github.com/element-component/vue-popper) | boolean | — | true |
 |  popper-options        | [popper.js](https://popper.js.org/documentation.html) のためのパラメータ | object            | please refer to [popper.js](https://popper.js.org/documentation.html) | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 |  popper-class        |  popover用カスタムクラス名 | string | — | — |
-|  open-delay        | `trigger` がホバーされたときに表示されるまでの遅延時間(ミリ秒単位) | number | — | — |
-|  close-delay        | `trigger` がホバーされたときに消えるまでの遅延時間(ミリ秒単位) | number | — | 200 |
+| show-after | ミリ秒単位の出現の遅延 | number | — | 0 |
+| hide-after | ミリ秒単位の消えるの遅延 | number | — | 0 |
+| auto-close | ツールチップを非表示にするタイムアウト（ミリ秒単位） | number | — | 0 |
 |  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) のpopover | number | — | 0 |
 
 ### スロット

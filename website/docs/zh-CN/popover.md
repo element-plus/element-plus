@@ -167,8 +167,9 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
 |  show-arrow   |  是否显示 Tooltip 箭头，更多参数可见[Vue-popper](https://github.com/element-component/vue-popper) | Boolean | — | true |
 |  popper-options        | [popper.js](https://popper.js.org/documentation.html) 的参数 | Object            | 参考 [popper.js](https://popper.js.org/documentation.html) 文档 | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | popper-class | 为 popper 添加类名 | String | — | — |
-| open-delay | 触发方式为 hover 时的显示延迟，单位为毫秒 | Number | — | — |
-| close-delay | 触发方式为 hover 时的隐藏延迟，单位为毫秒 | number | — | 200 |
+| show-after | 延迟出现，单位毫秒 | Number | — | 0 |
+| hide-after | 延迟关闭，单位毫秒 | Number | — | 0 |
+| auto-close | Tooltip 出现后自动隐藏延时，单位毫秒，为 0 则不会自动隐藏 | number | — | 0 |
 | tabindex   | Popover 组件的 [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) | number | — | 0 |
 
 ### Slot

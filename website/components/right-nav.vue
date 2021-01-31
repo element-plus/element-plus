@@ -1,5 +1,10 @@
 <template>
-  <el-scrollbar ref="navScroll" wrap-style="max-height: 300px" style="position: fixed;right: 10px;top: 100px;width: 175px;border-left: 1px solid rgb(220, 223, 230);height: auto;max-height: 300px;">
+  <el-scrollbar
+    ref="navScroll"
+    class="right-nav"
+    wrap-style="max-height: 300px"
+    style="position: fixed;right: 10px;top: 100px;width: 150px;border-left: 1px solid rgb(220, 223, 230);height: auto;max-height: 300px;"
+  >
     <div v-for="item in anchors" :key="item" style="margin: 3px 0 3px 10px">
       <el-link
         :id="item"
@@ -16,9 +21,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, nextTick, onMounted, onBeforeUnmount } from 'vue'
+import { defineComponent, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
+import ResizeObserver from 'resize-observer-polyfill'
+
 export default defineComponent({
-  setup () {
+  setup() {
     // ordered
     const map = new Map()
     let anchors = ref([])
@@ -38,6 +45,7 @@ export default defineComponent({
       await nextTick()
       scrollContainer = document.querySelector('.el-scrollbar.page-component__scroll>.el-scrollbar__wrap.el-scrollbar__wrap--hidden-default')
       const content = document.querySelector('.content.element-doc.content')
+      if (!content) return
       const h3 = content.querySelectorAll('h3')
       anchors.value = Array.from(h3).map(item => {
         const text = item.childNodes[1].textContent.trim()
@@ -70,7 +78,7 @@ export default defineComponent({
     })
 
     onBeforeUnmount(() => {
-      resizeObserver.disconnect()
+      resizeObserver?.disconnect()
     })
     return {
       navScroll,
@@ -84,12 +92,18 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .link {
-  ::v-deep(span){
+  ::v-deep(span) {
     font-size: 12px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    max-width: 155px;
+    max-width: 135px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .right-nav {
+    display: none;
   }
 }
 </style>

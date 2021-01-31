@@ -24,6 +24,7 @@ import {
   reactive,
 } from 'vue'
 import { useOption } from './useOption'
+import { SelectOptionProxy } from './token'
 
 
 export default defineComponent({
@@ -72,7 +73,9 @@ export default defineComponent({
       const { selected } = select
       let selectedOptions = select.props.multiple ? selected : [selected]
       let index = select.cachedOptions.indexOf(vm)
-      let selectedIndex = selectedOptions?.indexOf(vm)
+      let selectedIndex = selectedOptions.findIndex(item => {
+        return item.value === (vm as unknown as SelectOptionProxy).value
+      })
 
       // if option is not selected, remove it from cache
       if (index > -1 && selectedIndex < 0) {

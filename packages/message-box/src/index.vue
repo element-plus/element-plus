@@ -155,7 +155,6 @@ export default defineComponent({
     callback: Function,
     cancelButtonText: {
       type: String,
-      default: 'Cancel',
     },
     cancelButtonClass: String,
     center: Boolean,
@@ -173,7 +172,6 @@ export default defineComponent({
     },
     confirmButtonText: {
       type: String,
-      default: 'OK',
     },
     confirmButtonClass: String,
     container: {

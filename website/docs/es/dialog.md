@@ -259,7 +259,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | --------------------- | ---------------------------------------- | ---------------------------------------- | ----------------- | ----------- |
 | model-value / v-model               | visibilidad del Diálogo | boolean                                  | —                 | —       |
 | title                 | título de Diálogo. También se puede pasar con un slot con nombre (ver la tabla siguiente) | string                                   | —                 | —           |
-| width                 | anchura de Diálogo                       | string                                   | —                 | 50%         |
+| width                 | anchura de Diálogo                       | string / number                                  | —                 | 50%         |
 | fullscreen            | si el diálogo ocupa pantalla completa    | boolean                                  | —                 | false       |
 | top                   | valor de `margin-top` del Diálogo CSS    | string                                   | —                 | 15vh        |
 | modal                 | si se muestra una máscara                | boolean                                  | —                 | true        |

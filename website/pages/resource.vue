@@ -1,7 +1,7 @@
 <template>
   <div class="page-container page-resource">
     <h2>{{ langConfig[1] }}</h2>
-    <p>{{ langConfig[placeholder2] }}</p>
+    <p>{{ langConfig.placeholder2 }}</p>
     <div class="cards">
       <ul class="container">
         <li>
@@ -11,7 +11,7 @@
             <p>{{ langConfig[4] }}</p>
             <a
               onclick="ga('send', 'event', 'ResourceDownload', 'Download', 'Axure');"
-              href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.0.0.rplib"
+              href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
             >{{ langConfig[5] }}</a>
           </div>
         </li>
