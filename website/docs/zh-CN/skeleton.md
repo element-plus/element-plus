@@ -106,7 +106,7 @@ ElementPlus 提供的排版模式有时候并不满足要求, 当您想要用自
           />
           <div style="padding: 14px;">
             <span>好吃的汉堡</span>
-            <div class="bottom clearfix">
+            <div class="bottom card-header">
               <span class="time">{{ currentDate }}</span>
               <el-button type="text" class="button">操作按钮</el-button>
             </div>
@@ -174,7 +174,7 @@ ElementPlus 提供的排版模式有时候并不满足要求, 当您想要用自
           <img :src="item.imgUrl" class="image multi-content" />
           <div style="padding: 14px;">
             <span>{{ item.name }}</span>
-            <div class="bottom clearfix">
+            <div class="bottom card-header">
               <span class="time">{{ currentDate }}</span>
               <el-button type="text" class="button">操作按钮</el-button>
             </div>
@@ -272,7 +272,7 @@ ElementPlus 提供的排版模式有时候并不满足要求, 当您想要用自
           />
           <div style="padding: 14px;">
             <span>好吃的汉堡</span>
-            <div class="bottom clearfix">
+            <div class="bottom card-header">
               <span class="time">{{ currentDate }}</span>
               <el-button type="text" class="button">操作按钮</el-button>
             </div>
