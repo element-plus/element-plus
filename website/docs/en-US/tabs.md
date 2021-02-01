@@ -194,7 +194,7 @@ Only card type Tabs support addable & closeable.
               }
             });
           }
-          
+
           this.editableTabsValue = activeName;
           this.editableTabs = tabs.filter(tab => tab.name !== targetName);
         }
@@ -267,7 +267,7 @@ Only card type Tabs support addable & closeable.
             }
           });
         }
-        
+
         this.editableTabsValue = activeName;
         this.editableTabs = tabs.filter(tab => tab.name !== targetName);
       }
@@ -280,7 +280,7 @@ Only card type Tabs support addable & closeable.
 ### Tabs Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model  | binding value, name of the selected tab  | string   |  —  |  name of first tab |
+| model-value / v-model  | binding value, name of the selected tab  | string   |  —  |  name of first tab |
 | type     | type of Tab | string   | card/border-card  |     —    |
 | closable  | whether Tab is closable | boolean   | — |  false  |
 | addable  | whether Tab is addable   | boolean   | — |  false  |

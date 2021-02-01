@@ -194,7 +194,7 @@
               }
             });
           }
-          
+
           this.editableTabsValue = activeName;
           this.editableTabs = tabs.filter(tab => tab.name !== targetName);
         }
@@ -267,7 +267,7 @@
             }
           });
         }
-        
+
         this.editableTabsValue = activeName;
         this.editableTabs = tabs.filter(tab => tab.name !== targetName);
       }
@@ -280,7 +280,7 @@
 ### タブの属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model  | バインディング値、選択されたタブの名前  | string   |  —  |  name of first tab |
+| model-value / v-model  | バインディング値、選択されたタブの名前  | string   |  —  |  name of first tab |
 | type     | タブの種類 | string   | card/border-card  |     —    |
 | closable  | タブが閉じられるかどうか | boolean   | — |  false  |
 | addable  | タブの追加が可能かどうか   | boolean   | — |  false  |

@@ -58,7 +58,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 ### 属性
 | Attribute       | Description        | Type      | Accepted Values       | Default  |
 |-----------------|------------------- |---------- |---------------------- |--------- |
-| value / v-model | バインディング値      | Date/string/number | —            | —        |
+| model-value / v-model | バインディング値      | Date/string/number | —            | —        |
 | range           | 開始時刻と終了時刻を含む時間範囲。開始時間は週の開始日、終了時間は週の終了日でなければならず、時間幅は2ヶ月を超えることはできません。 | Array  | —  | —  |
 | first-day-of-week | 週の最初の日| Number    | 1 to 7                |  1       |
 

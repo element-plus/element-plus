@@ -475,7 +475,7 @@ export default defineComponent({
     const handleSelect = (item) => {
       console.log(item);
     };
-    
+
     const handleIconClick = (ev) => {
       console.log(ev);
     };
@@ -608,7 +608,7 @@ export default defineComponent ({
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 | ----| ----| ----| ---- | ----- |
 |type| インプットタイプ | string | text, textarea and other [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
-|value / v-model| バインディング値 | string / number| — | — |
+|model-value / v-model| バインディング値 | string / number| — | — |
 |maxlength| ネイティブインプットの `maxlength` と同じ | number| — | — |
 |minlength| ネイティブインプットの `minlength` と同じ | number | — | — |
 |show-word-limit | `type` が 'text' または 'textarea' の場合に単語数を表示するかどうかを指定する | boolean    |  —  | false |
@@ -671,7 +671,7 @@ Attribute | Description | Type | Options | Default
 |disabled | オートコンプリートを無効にしているかどうか  | boolean | — | false|
 | value-key | 表示用インプットサジェスチョンオブジェクトのキー名 | string | — | value |
 |icon | アイコン名 | string | — | — |
-|value | バインディング値 | string | — | — |
+|model-value / v-model | バインディング値 | string | — | — |
 | debounce | タイプ時のデバウンス遅延（ミリ秒単位） | number | — | 300 |
 | placement | ポップアップメニューの配置 | string | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
 |fetch-suggestions | インプットサジェスチョンを取得するためのメソッドです。サジェスチョンの準備ができたら、`callback(data:[])` を呼び出してオートコンプリートに返す。 | Function(queryString, callback) | — | — |

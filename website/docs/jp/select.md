@@ -197,7 +197,7 @@
       :value="item.value">
     </el-option>
   </el-select>
-  
+
   <el-select
     v-model="value2"
     multiple
@@ -527,7 +527,7 @@
 ### 属性の選択
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | boolean / string / number | — | — |
+| model-value / v-model | バインディング値 | boolean / string / number | — | — |
 | multiple | 複数セレクトが有効かどうか | boolean | — | false |
 | disabled | セレクトが無効になっているかどうか | boolean | — | false |
 | value-key | 値がオブジェクトの場合に必要な、値の一意の ID キー名 | string | — | value |

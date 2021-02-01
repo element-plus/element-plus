@@ -109,7 +109,7 @@ color-pickerは、複数のカラーフォーマットに対応したカラー�
 ### 属性
 | Attribute | Description | Type | Accepted Values | Default |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | バインディング値 | string | — | — |
+| model-value / v-model | バインディング値 | string | — | — |
 | disabled | color-pickerを無効にするかどうか | boolean | — | false |
 | size | color-pickerのサイズ | string | — | medium / small / mini |
 | show-alpha | アルファスライダーを表示するかどうか | boolean | — | false |

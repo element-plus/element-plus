@@ -475,7 +475,7 @@ export default defineComponent({
     const handleSelect = (item) => {
       console.log(item);
     };
-    
+
     const handleIconClick = (ev) => {
       console.log(ev);
     };
@@ -608,7 +608,7 @@ export default defineComponent ({
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 | ----| ----| ----| ---- | ----- |
 |type| type of input | string | text, textarea and other [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
-|value / v-model| binding value | string / number| — | — |
+|model-value / v-model| binding value | string / number| — | — |
 |maxlength| same as `maxlength` in native input | number| — | — |
 |minlength| same as `minlength` in native input | number | — | — |
 |show-word-limit | whether show word count，only works when `type` is 'text' or 'textarea' | boolean    |  —  | false |
@@ -671,7 +671,7 @@ Attribute | Description | Type | Options | Default
 |disabled | whether Autocomplete is disabled  | boolean | — | false|
 | value-key | key name of the input suggestion object for display | string | — | value |
 |icon | icon name | string | — | — |
-|value | binding value | string | — | — |
+|model-value / v-model | binding value | string | — | — |
 | debounce | debounce delay when typing, in milliseconds | number | — | 300 |
 | placement | placement of the popup menu | string | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
 |fetch-suggestions | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | Function(queryString, callback) | — | — |

@@ -192,7 +192,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | date(DateTimePicker) / array(DateTimeRangePicker) | — | — |
+| model-value / v-model | バインディング値 | date(DateTimePicker) / array(DateTimeRangePicker) | — | — |
 | readonly | DatePicker が読み取り専用かどうか | boolean | — | false |
 | disabled | DatePicker が無効かどうか | boolean | — | false |
 | editable | DatePicker が編集可能かどうか | boolean | — | true |

@@ -106,7 +106,7 @@ Es posible escoger un rango de tiempo arbitrario.
 ### Atributos
 | Atributo          | Descripción                              | Tipo                                     | Valores aceptados                        | Por defecto          |
 | ----------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | -------------------- |
-| value / v-model    | valor enlazado                           | Date    | -                                        | -                    |
+| model-value / v-model    | valor enlazado                           | Date    | -                                        | -                    |
 | readonly          | si el Time Picker está en modo de sólo lectura | boolean                                  | —                                        | false                |
 | disabled          | si el Time Picker se encuentra deshabilitado | boolean                                  | —                                        | false                |
 | editable          | si el input puede ser editado            | boolean                                  | —                                        | true                 |

@@ -107,7 +107,7 @@ Vous pouvez également définir un intervalle libre.
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | La valeur liée. | Date | - | - |
+| model-value / v-model | La valeur liée. | Date | - | - |
 | readonly | Si TimePicker est en lecture seule. | boolean | — | false |
 | disabled | Si TimePicker est désactivé. | boolean | — | false |
 | editable | Si le champ d'input est éditable. | boolean | — | true |
