@@ -241,8 +241,9 @@ ${this.codepen.style}
 
     scrollHandler() {
       const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
-      this.fixedControl = bottom > document.documentElement.clientHeight &&
-          top + 44 <= document.documentElement.clientHeight
+      const controlBarHeight = 44
+      this.fixedControl = bottom + controlBarHeight > document.documentElement.clientHeight &&
+          top <= document.documentElement.clientHeight
       this.$refs.control.style.left = this.fixedControl ? `${ left }px` : '0'
     },
 
@@ -343,9 +344,8 @@ ${this.codepen.style}
       position: relative;
 
       &.is-fixed {
-        position: fixed;
+        position: sticky;
         bottom: 0;
-        width: 868px;
       }
 
       i {

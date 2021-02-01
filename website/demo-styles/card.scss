@@ -1,4 +1,10 @@
 .demo-block.demo-card {
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .text {
     font-size: 14px;
   }
@@ -11,15 +17,22 @@
   .bottom {
     margin-top: 13px;
     line-height: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .item {
     margin-bottom: 18px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .button {
     padding: 0;
-    float: right;
+    min-height: auto;
   }
 
   .image {
