@@ -53,7 +53,7 @@ module.exports = {
       {
         libraryName: 'element-plus',
         customStyleName: (name) => {
-          // Debido a la existencia de `customStyleName`, `style: true` no tendrá efecto.
+          // Debido a la existencia de `customStyleName`, `style: true` no será efectivo.
           // Así que si quieres usar el archivo fuente `.scss`, sólo tienes que reemplazar el nombre de la extensión de `.css` a `.scss`.
           return `element-plus/lib/theme-chalk/${name}.css`;
         },
