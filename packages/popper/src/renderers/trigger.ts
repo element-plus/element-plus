@@ -16,5 +16,5 @@ interface IRenderTriggerProps extends Record<string, unknown> {
 export default function renderTrigger(trigger: VNode[], extraProps: IRenderTriggerProps) {
   const firstElement = getFirstValidNode(trigger, 1)
   if (!firstElement) throwError('renderTrigger', 'trigger expects single rooted node')
-  return cloneVNode(firstElement, extraProps)
+  return cloneVNode(firstElement, extraProps, true)
 }
