@@ -333,7 +333,7 @@ export default defineComponent({
           key: `tab-${tabName}`,
           'aria-controls': `pane-${tabName}`,
           role: 'tab',
-          'aria-selected': pane.active ,
+          'aria-selected': pane.active,
           ref: `tab-${tabName}`,
           tabindex: tabindex,
           onFocus: () => { setFocus() },

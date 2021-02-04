@@ -35,28 +35,32 @@ El código anterior importa Element Plus completamente. Nótese que el archivo C
 
 #### En demanda
 
-Con la ayuda de [babel-plugin-component](https://github.com/QingWei-Li/babel-plugin-component), podemos importar los componentes que necesitamos, haciendo nuestro proyecto más pequeño que de la otra manera.
+Con la ayuda de [babel-plugin-import](https://github.com/ant-design/babel-plugin-import), podemos importar los componentes que necesitamos, haciendo nuestro proyecto más pequeño que de la otra manera.
 
-Primero, instale babel-plugin-component:
+Primero, instale babel-plugin-import:
 
 ```bash
-npm install babel-plugin-component -D
+npm install babel-plugin-import -D
 ```
 
-Luego edite .babelrc:
+Luego edite babel.config.js:
 
-```json
-{
-  "plugins": [
+```js
+module.exports = {
+  plugins: [
     [
-      "component",
+      "import",
       {
-        "libraryName": "element-plus",
-        "styleLibraryName": "theme-chalk"
-      }
-    ]
-  ]
-}
+        libraryName: 'element-plus',
+        customStyleName: (name) => {
+          // Debido a la existencia de `customStyleName`, `style: true` no será efectivo.
+          // Así que si quieres usar el archivo fuente `.scss`, sólo tienes que reemplazar el nombre de la extensión de `.css` a `.scss`.
+          return `element-plus/lib/theme-chalk/${name}.css`;
+        },
+      },
+    ],
+  ],
+};
 ```
 
 Luego, si necesita Button y Select, edite main.js:

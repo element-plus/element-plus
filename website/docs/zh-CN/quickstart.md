@@ -35,28 +35,38 @@ app.mount('#app')
 
 #### 按需引入
 
-借助 [babel-plugin-component](https://github.com/QingWei-Li/babel-plugin-component)，我们可以只引入需要的组件，以达到减小项目体积的目的。
+借助 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import)，我们可以只引入需要的组件，以达到减小项目体积的目的。
 
-首先，安装 babel-plugin-component：
+首先，安装 babel-plugin-import:
 
 ```bash
-npm install babel-plugin-component -D
+$ npm install babel-plugin-import -D
 ```
 
-然后，将 .babelrc 修改为：
+或者
 
-```json
-{
-  "plugins": [
+```bash
+$ yarn add babel-plugin-import -D
+```
+
+然后，将 babel.config.js 修改为：
+
+```js
+module.exports = {
+  plugins: [
     [
-      "component",
+      "import",
       {
-        "libraryName": "element-plus",
-        "styleLibraryName": "theme-chalk"
-      }
-    ]
-  ]
-}
+        libraryName: 'element-plus',
+        customStyleName: (name) => {
+          // 由于 customStyleName 在配置中被声明的原因，`style: true` 会被直接忽略掉，
+          // 如果你需要使用 scss 源文件，把文件结尾的扩展名从 `.css` 替换成 `.scss` 就可以了
+          return `element-plus/lib/theme-chalk/${name}.css`;
+        },
+      },
+    ],
+  ],
+};
 ```
 
 接下来，如果你只希望引入部分组件，比如 Button 和 Select，那么需要在 main.js 中写入以下内容：
