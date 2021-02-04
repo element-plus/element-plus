@@ -174,7 +174,10 @@ Vous pouvez également spécifier l'attribut `type` de `dashboard` pour utiliser
   <el-button type="success" icon="el-icon-check" circle></el-button>
 </el-progress>
 <el-progress type="dashboard" :percentage="80">
-  <span>Content</span>
+  <template #default="{ percentage }">
+    <span class="percentage-value">{{ percentage }}%</span>
+    <span class="percentage-label">Progressing</span>
+  </template>
 </el-progress>
 ```
 :::
@@ -197,4 +200,4 @@ Vous pouvez également spécifier l'attribut `type` de `dashboard` pour utiliser
 ### Slot
 | name | Description |
 |------|--------|
-| default | Customized content |
+| default | Customized content, parameter is { percentage } |

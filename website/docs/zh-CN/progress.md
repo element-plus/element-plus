@@ -178,7 +178,10 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
   <el-button type="success" icon="el-icon-check" circle></el-button>
 </el-progress>
 <el-progress type="dashboard" :percentage="80">
-  <span>自定义内容</span>
+  <template #default="{ percentage }">
+    <span class="percentage-value">{{ percentage }}%</span>
+    <span class="percentage-label">当前进度</span>
+  </template>
 </el-progress>
 ```
 :::
@@ -200,4 +203,4 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 ### Slot
 | name | 说明 |
 |------|--------|
-| default | 自定义内容 |
+| default | 自定义内容，参数为 { percentage } |

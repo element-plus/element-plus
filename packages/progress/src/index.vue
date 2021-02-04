@@ -18,7 +18,7 @@
       <div class="el-progress-bar__outer" :style="{height: `${strokeWidth}px`}">
         <div class="el-progress-bar__inner" :style="barStyle">
           <div v-if="(showText || $slots.default) && textInside" class="el-progress-bar__innerText">
-            <slot v-if="$slots.default"></slot>
+            <slot v-if="$slots.default" v-bind="slotData"></slot>
             <span v-else>{{ content }}</span>
           </div>
         </div>
@@ -50,7 +50,7 @@
       class="el-progress__text"
       :style="{fontSize: `${progressTextSize}px`}"
     >
-      <slot v-if="$slots.default"></slot>
+      <slot v-if="$slots.default" v-bind="slotData"></slot>
       <template v-else-if="!status">{{ content }}</template>
       <i v-else :class="iconClass"></i>
     </div>
@@ -176,7 +176,7 @@ export default defineComponent({
 
     const circlePathStyle = computed(() => {
       return {
-        strokeDasharray: `${perimeter.value * rate.value * (props.percentage / 100) }px, ${perimeter.value}px`,
+        strokeDasharray: `${perimeter.value * rate.value * (props.percentage / 100)}px, ${perimeter.value}px`,
         strokeDashoffset: strokeDashoffset.value,
         transition: 'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease',
       }
@@ -253,6 +253,12 @@ export default defineComponent({
       }
     }
 
+    const slotData = computed(() => {
+      return {
+        percentage: props.percentage,
+      }
+    })
+
     return {
       barStyle,
       relativeStrokeWidth,
@@ -268,6 +274,7 @@ export default defineComponent({
       progressTextSize,
       content,
       getCurrentColor,
+      slotData,
     }
   },
 })
