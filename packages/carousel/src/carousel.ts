@@ -28,9 +28,11 @@ export interface ICarouselProps {
   type: string
   loop: boolean
   direction: string
+  pauseOnHover: boolean
 }
 
 export type UnionCarouselItemData = ICarouselItemProps & ToRefs<ICarouselItemData>
+
 export interface CarouselItem extends UnionCarouselItemData {
   uid: number
   translateItem: (index: number, activeIndex: number, oldIndex: number) => void

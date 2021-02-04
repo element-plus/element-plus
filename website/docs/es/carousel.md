@@ -171,11 +171,11 @@ Por defecto, `direction` es `horizontal`. El carousel puede ser mostrado de form
     line-height: 200px;
     margin: 0;
   }
-  
+
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
   }
-  
+
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
@@ -196,6 +196,7 @@ Por defecto, `direction` es `horizontal`. El carousel puede ser mostrado de form
 | type               | Tipo de carrusel                                   | string  | card                | —           |
 | loop               | Si se muestra cíclicamente                         | boolean | —                   | true        |
 | direction          | direccion en la que se muestra el contenido        | string  | horizontal/vertical | horizontal  |
+| pause-on-hover | pause autoplay when hover | boolean | - | true |
 
 ### Eventos de Carousel
 | Nombre evento | Descripción                               | Parámetros                                                   |
