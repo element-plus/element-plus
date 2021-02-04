@@ -2,7 +2,7 @@
 @import 'common/var';
 
 @include b(popover) {
-  &.el-popper {
+  &.#{$namespace}-popper {
     background: $--popover-background-color;
     min-width: 150px;
     border-radius: 4px;

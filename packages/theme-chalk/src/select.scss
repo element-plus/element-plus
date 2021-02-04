@@ -33,24 +33,24 @@
     line-height: $--input-medium-height;
   }
 
-  .el-select__tags > span {
+  .#{$namespace}-select__tags > span {
     display: inline-block;
   }
 
   &:hover {
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       border-color: $--select-border-color-hover;
     }
   }
 
-  .el-select__tags-text {
+  .#{$namespace}-select__tags-text {
     text-overflow: ellipsis;
     display: inline-block;
     overflow-x: hidden;
     vertical-align: bottom;
   }
 
-  .el-input__inner {
+  .#{$namespace}-input__inner {
     cursor: pointer;
     padding-right: 35px;
     display: block;
@@ -60,10 +60,10 @@
     }
   }
 
-  .el-input {
+  .#{$namespace}-input {
     display: block;
 
-    & .el-select__caret {
+    & .#{$namespace}-select__caret {
       color: $--select-input-color;
       font-size: $--select-input-font-size;
       transition: transform 0.3s;
@@ -89,7 +89,7 @@
     }
 
     &.is-disabled {
-      & .el-input__inner {
+      & .#{$namespace}-input__inner {
         cursor: not-allowed;
 
         &:hover {
@@ -98,7 +98,7 @@
       }
     }
 
-    &.is-focus .el-input__inner {
+    &.is-focus .#{$namespace}-input__inner {
       border-color: $--select-input-focus-border-color;
     }
   }
@@ -145,17 +145,17 @@
     flex-wrap: wrap;
   }
 
-  .el-tag__close {
+  .#{$namespace}-tag__close {
     margin-top: -2px;
   }
 
-  .el-select__tags .el-tag {
+  .#{$namespace}-select__tags .#{$namespace}-tag {
     box-sizing: border-box;
     border-color: transparent;
     margin: 2px 0 2px 6px;
     background-color: #f0f2f5;
 
-    .el-icon-close {
+    .#{$namespace}-icon-close {
       background-color: $--color-text-placeholder;
       right: -7px;
       top: 0;

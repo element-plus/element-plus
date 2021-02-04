@@ -21,23 +21,23 @@
     box-sizing: border-box;
   }
 
-  .el-input__inner {
+  .#{$namespace}-input__inner {
     text-align: center;
     -moz-appearance: textfield;
     line-height: normal;
   }
 
   // pagesize 的下拉 icon
-  .el-input__suffix {
+  .#{$namespace}-input__suffix {
     right: 0;
     transform: scale(.8);
   }
 
-  .el-select .el-input {
+  .#{$namespace}-select .#{$namespace}-input {
     width: 100px;
     margin: 0 5px;
 
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       padding-right: 25px;
       border-radius: $--pagination-border-radius;
     }
@@ -72,7 +72,7 @@
     margin: 0;
     color: $--pagination-button-color;
 
-    .el-icon {
+    .#{$namespace}-icon {
       display: block;
       font-size: 12px;
       font-weight: bold;
@@ -87,7 +87,7 @@
     padding-left: 12px;    
   }
 
-  .el-pager li.disabled {
+  .#{$namespace}-pager li.disabled {
     color: $--color-text-placeholder;
     cursor: not-allowed;
   }
@@ -95,10 +95,10 @@
   @include m(small) {
     .btn-prev,
     .btn-next,
-    .el-pager li,
-    .el-pager li.btn-quicknext,
-    .el-pager li.btn-quickprev,
-    .el-pager li:last-child {
+    .#{$namespace}-pager li,
+    .#{$namespace}-pager li.btn-quicknext,
+    .#{$namespace}-pager li.btn-quickprev,
+    .#{$namespace}-pager li:last-child {
       border-color: transparent;
       font-size: 12px;
       line-height: 22px;
@@ -123,7 +123,7 @@
 
     @include e(editor) {
       height: 22px;
-      &.el-input .el-input__inner {
+      &.#{$namespace}-input .#{$namespace}-input__inner {
         height: 22px;
       }
     }
@@ -134,7 +134,7 @@
     font-weight: normal;
     color: $--color-text-regular;
 
-    .el-input .el-input__inner {
+    .#{$namespace}-input .#{$namespace}-input__inner {
       font-size: $--pagination-font-size;
       padding-left: 8px;
 
@@ -155,7 +155,7 @@
     font-weight: normal;
     color: $--color-text-regular;
 
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       padding: 0 3px;
     }
   }
@@ -174,16 +174,16 @@
     box-sizing: border-box;
     border-radius: $--pagination-border-radius;
 
-    &.el-input {
+    &.#{$namespace}-input {
       width: 50px;
     }
 
-    &.el-input .el-input__inner {
+    &.#{$namespace}-input .#{$namespace}-input__inner {
       height: $--pagination-button-height;
     }
 
-    .el-input__inner::-webkit-inner-spin-button,
-    .el-input__inner::-webkit-outer-spin-button {
+    .#{$namespace}-input__inner::-webkit-inner-spin-button,
+    .#{$namespace}-input__inner::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
@@ -192,7 +192,7 @@
   @include when(background) {
     .btn-prev,
     .btn-next,
-    .el-pager li {
+    .#{$namespace}-pager li {
       margin: 0 5px;
       background-color: $--color-info-lighter;
       color: $--color-text-regular;
@@ -212,7 +212,7 @@
       }
     }
 
-    .el-pager li:not(.disabled) {
+    .#{$namespace}-pager li:not(.disabled) {
       &:hover {
         color: $--pagination-hover-color;
       }
@@ -223,10 +223,10 @@
       }
     }
 
-    &.el-pagination--small {
+    &.#{$namespace}-pagination--small {
       .btn-prev,
       .btn-next,
-      .el-pager li {
+      .#{$namespace}-pager li {
         margin: 0 3px;
         min-width: 22px;
       }

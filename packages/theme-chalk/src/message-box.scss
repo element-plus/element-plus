@@ -18,7 +18,7 @@
   overflow: hidden;
   backface-visibility: hidden;
 
-  @at-root .el-overlay.is-message-box {
+  @at-root .#{$namespace}-overlay.is-message-box {
     text-align: center;
     &::after {
       content: '';
@@ -55,13 +55,13 @@
     font-size: $--message-close-size;
     cursor: pointer;
 
-    .el-message-box__close {
+    .#{$namespace}-message-box__close {
       color: $--color-info;
     }
 
     &:focus,
     &:hover {
-      .el-message-box__close {
+      .#{$namespace}-message-box__close {
         color: $--color-primary;
       }
     }
@@ -99,24 +99,24 @@
       padding-left: 1px;
     }
 
-    + .el-message-box__message {
+    + .#{$namespace}-message-box__message {
       padding-left: 36px;
       padding-right: 12px;
     }
 
-    &.el-icon-success {
+    &.#{$namespace}-icon-success {
       color: $--messagebox-success-color;
     }
 
-    &.el-icon-info {
+    &.#{$namespace}-icon-info {
       color: $--messagebox-info-color;
     }
 
-    &.el-icon-warning {
+    &.#{$namespace}-icon-warning {
       color: $--messagebox-warning-color;
     }
 
-    &.el-icon-error {
+    &.#{$namespace}-icon-error {
       color: $--messagebox-danger-color;
     }
   }
@@ -191,13 +191,13 @@
 }
 
 .fade-in-linear-enter-active {
-  .el-message-box {
+  .#{$namespace}-message-box {
     animation: msgbox-fade-in 0.3s;
   }
 }
 
 .fade-in-linear-leave-active {
-  .el-message-box {
+  .#{$namespace}-message-box {
     animation: msgbox-fade-in 0.3s reverse;
   }
 }

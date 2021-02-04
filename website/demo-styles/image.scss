@@ -32,7 +32,7 @@
     width: 49%;
   }
 
-  .el-image {
+  .#{$namespace}-image {
     width: 300px;
     height: 200px;
   }
@@ -66,7 +66,7 @@
   height: 400px;
   overflow-y: auto;
 
-  .el-image {
+  .#{$namespace}-image {
     display: block;
     min-height: 200px;
     margin-bottom: 10px;

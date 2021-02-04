@@ -1,8 +1,8 @@
-.el-table .warning-row {
+.#{$namespace}-table .warning-row {
   background: oldlace;
 }
 
-.el-table .success-row {
+.#{$namespace}-table .success-row {
   background: #f0f9eb;
 }
 
@@ -15,7 +15,7 @@
     width: 90px;
     color: #99a9bf;
   }
-  .el-form-item {
+  .#{$namespace}-form-item {
     margin-right: 0;
     margin-bottom: 0;
     width: 50%;

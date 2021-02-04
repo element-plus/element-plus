@@ -1,7 +1,7 @@
 @import './common/var.scss';
 @import './mixins/mixins.scss';
 
-[class*='el-col-'] {
+[class*='#{$namespace}-col-'] {
   float: left;
   box-sizing: border-box;
   @include when(guttered) {
@@ -10,7 +10,7 @@
   }
 }
 
-.el-col-0 {
+.#{$namespace}-col-0 {
   display: none;
   // to avoid introducing !important syntax, redundant css rule is required due to selector priority.
   @include when(guttered) {
@@ -19,49 +19,49 @@
 }
 
 @for $i from 0 through 24 {
-  .el-col-#{$i} {
+  .#{$namespace}-col-#{$i} {
     max-width: (1 / 24 * $i * 100) * 1%;
     flex: 0 0 (1 / 24 * $i * 100) * 1%;
   }
 
-  .el-col-offset-#{$i} {
+  .#{$namespace}-col-offset-#{$i} {
     margin-left: (1 / 24 * $i * 100) * 1%;
   }
 
-  .el-col-pull-#{$i} {
+  .#{$namespace}-col-pull-#{$i} {
     position: relative;
     right: (1 / 24 * $i * 100) * 1%;
   }
 
-  .el-col-push-#{$i} {
+  .#{$namespace}-col-push-#{$i} {
     position: relative;
     left: (1 / 24 * $i * 100) * 1%;
   }
 }
 
 @include res(xs) {
-  .el-col-xs-0 {
+  .#{$namespace}-col-xs-0 {
     display: none;
     @include when(guttered) {
       display: none;
     }
   }
   @for $i from 0 through 24 {
-    .el-col-xs-#{$i} {
+    .#{$namespace}-col-xs-#{$i} {
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-xs-offset-#{$i} {
+    .#{$namespace}-col-xs-offset-#{$i} {
       margin-left: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-xs-pull-#{$i} {
+    .#{$namespace}-col-xs-pull-#{$i} {
       position: relative;
       right: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-xs-push-#{$i} {
+    .#{$namespace}-col-xs-push-#{$i} {
       position: relative;
       left: (1 / 24 * $i * 100) * 1%;
     }
@@ -69,28 +69,28 @@
 }
 
 @include res(sm) {
-  .el-col-sm-0 {
+  .#{$namespace}-col-sm-0 {
     display: none;
     @include when(guttered) {
       display: none;
     }
   }
   @for $i from 0 through 24 {
-    .el-col-sm-#{$i} {
+    .#{$namespace}-col-sm-#{$i} {
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-sm-offset-#{$i} {
+    .#{$namespace}-col-sm-offset-#{$i} {
       margin-left: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-sm-pull-#{$i} {
+    .#{$namespace}-col-sm-pull-#{$i} {
       position: relative;
       right: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-sm-push-#{$i} {
+    .#{$namespace}-col-sm-push-#{$i} {
       position: relative;
       left: (1 / 24 * $i * 100) * 1%;
     }
@@ -98,28 +98,28 @@
 }
 
 @include res(md) {
-  .el-col-md-0 {
+  .#{$namespace}-col-md-0 {
     display: none;
     @include when(guttered) {
       display: none;
     }
   }
   @for $i from 0 through 24 {
-    .el-col-md-#{$i} {
+    .#{$namespace}-col-md-#{$i} {
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-md-offset-#{$i} {
+    .#{$namespace}-col-md-offset-#{$i} {
       margin-left: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-md-pull-#{$i} {
+    .#{$namespace}-col-md-pull-#{$i} {
       position: relative;
       right: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-md-push-#{$i} {
+    .#{$namespace}-col-md-push-#{$i} {
       position: relative;
       left: (1 / 24 * $i * 100) * 1%;
     }
@@ -127,28 +127,28 @@
 }
 
 @include res(lg) {
-  .el-col-lg-0 {
+  .#{$namespace}-col-lg-0 {
     display: none;
     @include when(guttered) {
       display: none;
     }
   }
   @for $i from 0 through 24 {
-    .el-col-lg-#{$i} {
+    .#{$namespace}-col-lg-#{$i} {
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-lg-offset-#{$i} {
+    .#{$namespace}-col-lg-offset-#{$i} {
       margin-left: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-lg-pull-#{$i} {
+    .#{$namespace}-col-lg-pull-#{$i} {
       position: relative;
       right: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-lg-push-#{$i} {
+    .#{$namespace}-col-lg-push-#{$i} {
       position: relative;
       left: (1 / 24 * $i * 100) * 1%;
     }
@@ -156,28 +156,28 @@
 }
 
 @include res(xl) {
-  .el-col-xl-0 {
+  .#{$namespace}-col-xl-0 {
     display: none;
     @include when(guttered) {
       display: none;
     }
   }
   @for $i from 0 through 24 {
-    .el-col-xl-#{$i} {
+    .#{$namespace}-col-xl-#{$i} {
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-xl-offset-#{$i} {
+    .#{$namespace}-col-xl-offset-#{$i} {
       margin-left: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-xl-pull-#{$i} {
+    .#{$namespace}-col-xl-pull-#{$i} {
       position: relative;
       right: (1 / 24 * $i * 100) * 1%;
     }
 
-    .el-col-xl-push-#{$i} {
+    .#{$namespace}-col-xl-push-#{$i} {
       position: relative;
       left: (1 / 24 * $i * 100) * 1%;
     }

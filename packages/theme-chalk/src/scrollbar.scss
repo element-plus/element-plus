@@ -60,15 +60,15 @@
   }
 }
 
-.el-scrollbar-fade-enter-active {
+.#{$namespace}-scrollbar-fade-enter-active {
   transition: opacity 340ms ease-out;
 }
 
-.el-scrollbar-fade-leave-active {
+.#{$namespace}-scrollbar-fade-leave-active {
   transition: opacity 120ms ease-out;
 }
 
-.el-scrollbar-fade-enter-from,
-.el-scrollbar-fade-leave-active {
+.#{$namespace}-scrollbar-fade-enter-from,
+.#{$namespace}-scrollbar-fade-leave-active {
   opacity: 0;
 }

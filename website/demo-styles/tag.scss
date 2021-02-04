@@ -1,5 +1,5 @@
 .demo-block.demo-tag {
-  .el-tag + .el-tag {
+  .#{$namespace}-tag + .#{$namespace}-tag {
     margin-left: 10px;
   }
 

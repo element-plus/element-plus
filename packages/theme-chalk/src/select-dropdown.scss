@@ -8,7 +8,7 @@
   box-sizing: border-box;
 
   @include when(multiple) {
-    & .el-select-dropdown__item.selected {
+    & .#{$namespace}-select-dropdown__item.selected {
       color: $--select-option-selected-font-color;
       background-color: $--select-dropdown-background;
 
@@ -29,7 +29,7 @@
     }
   }
 
-  .el-scrollbar.is-empty .el-select-dropdown__list{
+  .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list{
     padding: 0;
   }
 }
