@@ -17,7 +17,10 @@
     <div v-if="type === 'line'" class="el-progress-bar">
       <div class="el-progress-bar__outer" :style="{height: `${strokeWidth}px`}">
         <div class="el-progress-bar__inner" :style="barStyle">
-          <div v-if="showText && textInside" class="el-progress-bar__innerText">{{ content }}</div>
+          <div v-if="(showText || $slots.default) && textInside" class="el-progress-bar__innerText">
+            <slot v-if="$slots.default"></slot>
+            <span v-else>{{ content }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -43,11 +46,12 @@
       </svg>
     </div>
     <div
-      v-if="showText && !textInside"
+      v-if="(showText || $slots.default) && !textInside"
       class="el-progress__text"
       :style="{fontSize: `${progressTextSize}px`}"
     >
-      <template v-if="!status">{{ content }}</template>
+      <slot v-if="$slots.default"></slot>
+      <template v-else-if="!status">{{ content }}</template>
       <i v-else :class="iconClass"></i>
     </div>
   </div>
