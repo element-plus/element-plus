@@ -40,7 +40,7 @@
   line-height: 44px;
 }
 
-.demo-pagination .last .demonstration + .el-pagination {
+.demo-pagination .last .demonstration + .#{$namespace}-pagination {
   width: 70%;
   margin: 5px 20px 0 0;
 }

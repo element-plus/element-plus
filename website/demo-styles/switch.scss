@@ -1,5 +1,5 @@
 .demo-block.demo-switch {
-  .el-switch {
+  .#{$namespace}-switch {
     margin: 20px 20px 20px 0;
   }
 }

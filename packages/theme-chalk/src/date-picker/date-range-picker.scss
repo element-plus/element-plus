@@ -12,11 +12,11 @@
     width: 100%;
   }
 
-  .el-picker-panel__body {
+  .#{$namespace}-picker-panel__body {
     min-width: 513px;
   }
 
-  .el-picker-panel__content {
+  .#{$namespace}-picker-panel__content {
     margin: 0;
   }
 
@@ -50,7 +50,7 @@
     @include when(left) {
       border-right: 1px solid $--datepicker-inner-border-color;
     }
-    .el-date-range-picker__header {
+    .#{$namespace}-date-range-picker__header {
 
       div {
         margin-left: 50px;
@@ -77,7 +77,7 @@
     width: 100%;
     box-sizing: border-box;
 
-    > .el-icon-arrow-right {
+    > .#{$namespace}-icon-arrow-right {
       font-size: 20px;
       vertical-align: middle;
       display: table-cell;
@@ -90,14 +90,14 @@
     display: table-cell;
     padding: 0 5px;
 
-    .el-picker-panel {
+    .#{$namespace}-picker-panel {
       position: absolute;
       top: 13px;
       right: 0;
       z-index: 1;
       background: $--color-white;
     }
-    .el-time-panel {
+    .#{$namespace}-time-panel {
       position: absolute;
     }
   }

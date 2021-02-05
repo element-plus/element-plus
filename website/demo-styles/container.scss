@@ -1,44 +1,44 @@
-.el-header,
-.el-footer {
+.#{$namespace}-header,
+.#{$namespace}-footer {
   background-color: #b3c0d1;
   color: #333;
   line-height: 60px;
 }
 
-.el-aside {
+.#{$namespace}-aside {
   color: #333;
 }
 
 .demo-container .common-layout {
-  .el-header,
-  .el-footer {
+  .#{$namespace}-header,
+  .#{$namespace}-footer {
     text-align: center;
   }
 
-  .el-aside {
+  .#{$namespace}-aside {
     background-color: #d3dce6;
     text-align: center;
     line-height: 200px;
   }
 
-  .el-main {
+  .#{$namespace}-main {
     background-color: #e9eef3;
     color: #333;
     text-align: center;
     line-height: 160px;
   }
 
-  .el-container {
+  .#{$namespace}-container {
     margin-bottom: 40px;
     &:last-child {
       margin-bottom: 0;
     }
-    &:nth-child(5) .el-aside,
-    &:nth-child(6) .el-aside {
+    &:nth-child(5) .#{$namespace}-aside,
+    &:nth-child(6) .#{$namespace}-aside {
       line-height: 260px;
     }
 
-    &:nth-child(7) .el-aside {
+    &:nth-child(7) .#{$namespace}-aside {
       line-height: 320px;
     }
   }

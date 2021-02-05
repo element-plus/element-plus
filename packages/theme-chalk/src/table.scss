@@ -53,7 +53,7 @@
       transform: rotate(90deg);
     }
 
-    > .el-icon {
+    > .#{$namespace}-icon {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -95,13 +95,13 @@
   }
 
   @include m(scrollable-x) {
-    .el-table__body-wrapper {
+    .#{$namespace}-table__body-wrapper {
       overflow-x: auto;
     }
   }
 
   @include m(scrollable-y) {
-    .el-table__body-wrapper {
+    .#{$namespace}-table__body-wrapper {
       overflow-y: auto;
     }
   }
@@ -233,7 +233,7 @@
     padding-left: 10px;
     padding-right: 10px;
 
-    &.el-tooltip {
+    &.#{$namespace}-tooltip {
       white-space: nowrap;
       min-width: 50px;
     }
@@ -275,7 +275,7 @@
     border-bottom: none;
 
     // fix: #1013
-    // &.el-loading-parent--relative {
+    // &.#{$namespace}-loading-parent--relative {
     //   border-color: transparent;
     // }
 
@@ -334,9 +334,9 @@
     left: auto;
     right: 0;
 
-    .el-table__fixed-header-wrapper,
-    .el-table__fixed-body-wrapper,
-    .el-table__fixed-footer-wrapper {
+    .#{$namespace}-table__fixed-header-wrapper,
+    .#{$namespace}-table__fixed-body-wrapper,
+    .#{$namespace}-table__fixed-footer-wrapper {
       left: auto;
       right: 0;
     }
@@ -400,33 +400,33 @@
     position: relative;
 
     @include when(scrolling-none) {
-      ~ .el-table__fixed,
-      ~ .el-table__fixed-right {
+      ~ .#{$namespace}-table__fixed,
+      ~ .#{$namespace}-table__fixed-right {
         box-shadow: none;
       }
     }
 
     @include when(scrolling-left) {
-      ~ .el-table__fixed {
+      ~ .#{$namespace}-table__fixed {
         box-shadow: none;
       }
     }
 
     @include when(scrolling-right) {
-      ~ .el-table__fixed-right {
+      ~ .#{$namespace}-table__fixed-right {
         box-shadow: none;
       }
     }
 
-    .el-table--border {
+    .#{$namespace}-table--border {
       @include when(scrolling-right) {
-        ~ .el-table__fixed-right {
+        ~ .#{$namespace}-table__fixed-right {
           border-left: $--table-border;
         }
       }
 
       @include when(scrolling-left) {
-        ~ .el-table__fixed {
+        ~ .#{$namespace}-table__fixed {
           border-right: $--table-border;
         }
       }
@@ -478,8 +478,8 @@
   }
 
   @include m(striped) {
-    & .el-table__body {
-      & tr.el-table__row--striped {
+    & .#{$namespace}-table__body {
+      & tr.#{$namespace}-table__row--striped {
         td {
           background: #FAFAFA;
         }
@@ -493,7 +493,7 @@
 
   @include e(body) {
     tr.hover-row {
-      &, &.el-table__row--striped {
+      &, &.#{$namespace}-table__row--striped {
         &, &.current-row {
           > td {
             background-color: $--table-row-hover-background-color;
@@ -530,27 +530,27 @@
   }
 
   @include m(enable-row-transition) {
-    .el-table__body td {
+    .#{$namespace}-table__body td {
       transition: background-color .25s ease;
     }
   }
 
   @include m(enable-row-hover) {
-    .el-table__body tr:hover > td {
+    .#{$namespace}-table__body tr:hover > td {
       background-color: $--table-row-hover-background-color;
     }
   }
 
   @include m(fluid-height) {
-    .el-table__fixed,
-    .el-table__fixed-right {
+    .#{$namespace}-table__fixed,
+    .#{$namespace}-table__fixed-right {
       bottom: 0;
       overflow: hidden;
     }
   }
 
-  [class*=el-table__row--level] {
-    .el-table__expand-icon {
+  [class*=#{$namespace}-table__row--level] {
+    .#{$namespace}-table__expand-icon {
       display: inline-block;
       width: 20px;
       line-height: 20px;
