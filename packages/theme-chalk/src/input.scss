@@ -235,6 +235,7 @@
 
     @include e(inner) {
       height: $--input-medium-height;
+      line-height: $--input-medium-height;
     }
 
     .#{$namespace}-input__icon {
@@ -247,6 +248,7 @@
 
     @include e(inner) {
       height: $--input-small-height;
+      line-height: $--input-small-height;
     }
 
     .#{$namespace}-input__icon {
@@ -259,6 +261,7 @@
 
     @include e(inner) {
       height: $--input-mini-height;
+      line-height: $--input-mini-height;
     }
 
     .#{$namespace}-input__icon {
