@@ -5,13 +5,14 @@
 @include b(progress) {
   position: relative;
   line-height: 1;
+  display: flex;
+  align-items: center;
 
   @include e(text) {
-    font-size:14px;
+    font-size: 14px;
     color: $--color-text-regular;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 10px;
+    margin-left: 5px;
+    min-width: 50px;
     line-height: 1;
 
     i {
@@ -20,7 +21,7 @@
     }
   }
 
-  @include m((circle,dashboard)) {
+  @include m((circle, dashboard)) {
     display: inline-block;
 
     .#{$namespace}-progress__text {
@@ -91,11 +92,7 @@
 }
 
 @include b(progress-bar) {
-  padding-right: 50px;
-  display: inline-block;
-  vertical-align: middle;
-  width: 100%;
-  margin-right: -55px;
+  flex-grow: 1;
   box-sizing: border-box;
 
   @include e(outer) {
