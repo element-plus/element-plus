@@ -18,8 +18,9 @@
       <div class="el-progress-bar__outer" :style="{height: `${strokeWidth}px`}">
         <div class="el-progress-bar__inner" :style="barStyle">
           <div v-if="(showText || $slots.default) && textInside" class="el-progress-bar__innerText">
-            <slot v-if="$slots.default" v-bind="slotData"></slot>
-            <span v-else>{{ content }}</span>
+            <slot v-bind="slotData">
+              <span>{{ content }}</span>
+            </slot>
           </div>
         </div>
       </div>
@@ -50,9 +51,10 @@
       class="el-progress__text"
       :style="{fontSize: `${progressTextSize}px`}"
     >
-      <slot v-if="$slots.default" v-bind="slotData"></slot>
-      <template v-else-if="!status">{{ content }}</template>
-      <i v-else :class="iconClass"></i>
+      <slot v-bind="slotData">
+        <span v-if="!status">{{ content }}</span>
+        <i v-else :class="iconClass"></i>
+      </slot>
     </div>
   </div>
 </template>
