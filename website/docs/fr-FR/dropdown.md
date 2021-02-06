@@ -306,6 +306,28 @@ En plus de la taille par défaut, le composant Dropdown propose trois autres tai
 ```
 :::
 
+### Max height of menu
+
+You can use `max-height` property to set the max height of menu.
+
+:::demo
+```html
+<el-dropdown max-height="150px">
+  <span class="el-dropdown-link">
+    Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
+  </span>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+      <el-dropdown-item>Action 5</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
+</el-dropdown>
+```
+:::
 
 ### Attributs du Dropdown
 
@@ -313,6 +335,7 @@ En plus de la taille par défaut, le composant Dropdown propose trois autres tai
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | type          | Type du bouton, se référer au composant `Button`. Ne marche que si `split-button` est `true`.  | string  |  —   |    —     |
 | size          | Taille du menu, marche aussi avec `split button`.  | string  | medium / small / mini  |    —     |
+| max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | Si le bouton est séparé en deux. | boolean         |     —       | false   |
 | placement    | Emplacement du menu déroulant | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
 | trigger       | Comment déclencher l'ouverture du menu.     | string  |    hover/click/contextmenu  |  hover |

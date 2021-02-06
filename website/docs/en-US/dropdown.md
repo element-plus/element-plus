@@ -306,12 +306,35 @@ Besides default size, Dropdown component provides three additional sizes for you
 ```
 :::
 
+### Max height of menu
+
+You can use `max-height` property to set the max height of menu.
+
+:::demo
+```html
+<el-dropdown max-height="150px">
+  <span class="el-dropdown-link">
+    Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
+  </span>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+      <el-dropdown-item>Action 5</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
+</el-dropdown>
+```
+:::
 
 ### Dropdown Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | type          | menu button type, refer to `Button` Component, only works when `split-button` is true  | string  |  —   |    —     |
 | size          | menu size, also works on the split button  | string  | medium / small / mini  |    —     |
+| max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | whether a button group is displayed | boolean         |     —       | false   |
 | placement    | placement of pop menu | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
 | trigger       | how to trigger     | string  |    hover/click/contextmenu  |  hover |

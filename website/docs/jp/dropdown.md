@@ -305,12 +305,35 @@ dropdownリストを起動するには、ボタンを使用します。
 ```
 :::
 
+### Max height of menu
+
+You can use `max-height` property to set the max height of menu.
+
+:::demo
+```html
+<el-dropdown max-height="150px">
+  <span class="el-dropdown-link">
+    Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
+  </span>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+      <el-dropdown-item>Action 5</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
+</el-dropdown>
+```
+:::
 
 ### dropdown属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | type          | `split-button` が `true`のとき、メニューボタンのタイプは `Button` コンポーネントを参照する。  | string  |  —   |    —     |
 | size          | メニューのサイズ(分割ボタンでも動作)  | string  | medium / small / mini  |    —     |
+| max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | ボタングループの表示の有無 | boolean         |     —       | false   |
 | placement    | ポップメニューの配置 | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
 | trigger       | トリガーのきっかけ     | string  |    hover/click/contextmenu  |  hover |
