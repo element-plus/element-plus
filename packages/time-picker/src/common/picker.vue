@@ -359,7 +359,7 @@ export default defineComponent({
         const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
-            emitInput(value.toDate())
+            emitInput(Array.isArray(value) ? value.map(_=> _.toDate()) : value.toDate())
             userInput.value = null
           }
         }

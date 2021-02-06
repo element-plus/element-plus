@@ -557,7 +557,11 @@ export default defineComponent({
     }
 
     const formatToString = value => {
-      return value.map(_=> _.format(format))
+      return Array.isArray(value) ? value.map(_=> _.format(format)) : value.format(format)
+    }
+
+    const parseUserInput = value => {
+      return Array.isArray(value) ? value.map(_=> dayjs(_, format)) : dayjs(value, format)
     }
 
     const getDefaultValue = () => {
@@ -577,7 +581,8 @@ export default defineComponent({
       return [start, start.add(1, 'month')]
     }
 
-    // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
+    ctx.emit('set-picker-option', ['isValidValue', isValidValue])
+    ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['handleClear', handleClear])
 
