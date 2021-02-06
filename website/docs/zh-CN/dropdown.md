@@ -310,29 +310,6 @@ Dropdown 组件提供除了默认值以外的三种尺寸，可以在不同场�
 ```
 :::
 
-### 菜单最大高度
-
-通过 `max-height` 属性可以设置下拉菜单的最大高度。
-
-:::demo
-```html
-<el-dropdown max-height="150px">
-  <span class="el-dropdown-link">
-    下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
-  </span>
-  <template #dropdown>
-    <el-dropdown-menu>
-      <el-dropdown-item>黄金糕</el-dropdown-item>
-      <el-dropdown-item>狮子头</el-dropdown-item>
-      <el-dropdown-item>螺蛳粉</el-dropdown-item>
-      <el-dropdown-item>双皮奶</el-dropdown-item>
-      <el-dropdown-item>蚵仔煎</el-dropdown-item>
-    </el-dropdown-menu>
-  </template>
-</el-dropdown>
-```
-:::
-
 ### Dropdown Attributes
 | 参数          | 说明            | 类型            | 可选值                 | 默认值   |
 |-------------  |---------------- |---------------- |---------------------- |-------- |

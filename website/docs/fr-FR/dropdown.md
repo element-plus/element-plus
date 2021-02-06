@@ -306,29 +306,6 @@ En plus de la taille par défaut, le composant Dropdown propose trois autres tai
 ```
 :::
 
-### Max height of menu
-
-You can use `max-height` property to set the max height of menu.
-
-:::demo
-```html
-<el-dropdown max-height="150px">
-  <span class="el-dropdown-link">
-    Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
-  </span>
-  <template #dropdown>
-    <el-dropdown-menu>
-      <el-dropdown-item>Action 1</el-dropdown-item>
-      <el-dropdown-item>Action 2</el-dropdown-item>
-      <el-dropdown-item>Action 3</el-dropdown-item>
-      <el-dropdown-item>Action 4</el-dropdown-item>
-      <el-dropdown-item>Action 5</el-dropdown-item>
-    </el-dropdown-menu>
-  </template>
-</el-dropdown>
-```
-:::
-
 ### Attributs du Dropdown
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |

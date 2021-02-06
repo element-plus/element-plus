@@ -305,29 +305,6 @@ dropdownリストを起動するには、ボタンを使用します。
 ```
 :::
 
-### Max height of menu
-
-You can use `max-height` property to set the max height of menu.
-
-:::demo
-```html
-<el-dropdown max-height="150px">
-  <span class="el-dropdown-link">
-    Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
-  </span>
-  <template #dropdown>
-    <el-dropdown-menu>
-      <el-dropdown-item>Action 1</el-dropdown-item>
-      <el-dropdown-item>Action 2</el-dropdown-item>
-      <el-dropdown-item>Action 3</el-dropdown-item>
-      <el-dropdown-item>Action 4</el-dropdown-item>
-      <el-dropdown-item>Action 5</el-dropdown-item>
-    </el-dropdown-menu>
-  </template>
-</el-dropdown>
-```
-:::
-
 ### dropdown属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
