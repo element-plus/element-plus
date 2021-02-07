@@ -17,9 +17,9 @@ export type Trigger = TriggerType | TriggerType[]
 
 export type IPopperOptions = {
   arrowOffset: number
+  autoClose: number
   boundariesPadding: number
   class: string
-  closeDelay: number
   cutoff: boolean
   disabled: boolean
   enterable: boolean
@@ -50,6 +50,10 @@ export default {
     type: Boolean,
     default: true,
   },
+  autoClose: {
+    type: Number,
+    default: 0,
+  },
   boundariesPadding: {
     type: Number,
     default: 0,
@@ -63,7 +67,7 @@ export default {
     default: '',
   },
   style: Object,
-  closeDelay: {
+  hideAfter: {
     type: Number,
     default: 200,
   },
@@ -82,10 +86,6 @@ export default {
   enterable: {
     type: Boolean,
     default: true,
-  },
-  hideAfter: {
-    type: Number,
-    default: 0,
   },
   manualMode: {
     type: Boolean,

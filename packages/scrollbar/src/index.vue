@@ -1,5 +1,5 @@
 <template>
-  <div class="el-scrollbar">
+  <div ref="scrollbar" class="el-scrollbar">
     <div
       ref="wrap"
       :class="[
@@ -26,21 +26,10 @@
   </div>
 </template>
 <script lang="ts">
-import {
-  addResizeListener,
-  removeResizeListener,
-} from '@element-plus/utils/resize-event'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { toObject } from '@element-plus/utils/util'
-import {
-  defineComponent,
-  ref,
-  onMounted,
-  onBeforeUnmount,
-  nextTick,
-  provide,
-  computed,
-} from 'vue'
-import Bar from './bar'
+import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
+import Bar from './bar.vue'
 
 export default defineComponent({
   name: 'ElScrollbar',
@@ -77,10 +66,12 @@ export default defineComponent({
     const sizeHeight = ref('0')
     const moveX = ref(0)
     const moveY = ref(0)
+    const scrollbar = ref(null)
     const wrap = ref(null)
     const resize = ref(null)
 
-    provide('scroll-bar-wrap', wrap)
+    provide('scrollbar', scrollbar)
+    provide('scrollbar-wrap', wrap)
 
     const handleScroll = () => {
       if (!props.native && wrap.value) {
@@ -92,14 +83,19 @@ export default defineComponent({
     const update = () => {
       if (!wrap.value) return
 
-      const heightPercentage =
-        (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
-      const widthPercentage =
-        (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
+      const heightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
+      const widthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
 
       sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : ''
       sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : ''
     }
+
+    const style = computed(() => {
+      if (Array.isArray(props.wrapStyle)) {
+        return toObject(props.wrapStyle)
+      }
+      return props.wrapStyle
+    })
 
     onMounted(() => {
       if (props.native) return
@@ -111,19 +107,14 @@ export default defineComponent({
       if (props.native) return
       !props.noresize && removeResizeListener(resize.value, update)
     })
-    const style = computed(() => {
-      let style = props.wrapStyle
-      if (Array.isArray(props.wrapStyle)) {
-        style = toObject(props.wrapStyle)
-      }
-      return style
-    })
+
     return {
       moveX,
       moveY,
       sizeWidth,
       sizeHeight,
       style,
+      scrollbar,
       wrap,
       resize,
       update,

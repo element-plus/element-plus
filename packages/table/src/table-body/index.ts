@@ -1,11 +1,12 @@
 import { addClass, removeClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
-import { defineComponent, getCurrentInstance, h, PropType, watch } from 'vue'
+import { defineComponent, getCurrentInstance, h, PropType, watch, onUnmounted } from 'vue'
 import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
 import { Store, Table } from '../table.type'
 import useRender from './render-helper'
 import { TableBodyProps } from './table-body'
+import { removePopper } from '../util'
 export default defineComponent({
   name: 'ElTableBody',
   props: {
@@ -59,6 +60,10 @@ export default defineComponent({
         })
       },
     )
+
+    onUnmounted(() => {
+      removePopper?.()
+    })
 
     return {
       onColumnsChange,

@@ -37,3 +37,18 @@ export const selectEvents = {
   queryChange: 'elOptionQueryChange',
   groupQueryChange: 'elOptionGroupQueryChange',
 }
+
+export interface SelectOptionProxy {
+  value: string | number | Record<string, string>
+  label: string | number
+  created: boolean
+  disabled: boolean
+  currentLabel: string
+  itemSelected: boolean
+  isDisabled: boolean
+  select: SelectContext
+  hoverItem: () => void
+  visible: boolean
+  hover: boolean
+  selectOptionClick: () => void
+}

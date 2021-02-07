@@ -28,25 +28,38 @@
       <transition name="text-slide">
         <span v-show="hovering">{{ controlText }}</span>
       </transition>
-      <el-tooltip effect="dark" :content="langConfig['tooltip-text']" placement="right">
-        <transition name="text-slide">
-          <el-button
-            v-show="hovering || isExpanded"
-            size="small"
-            type="text"
-            class="control-button"
-            @click.stop="goCodepen"
-          >
-            {{ langConfig['button-text'] }}
-          </el-button>
-        </transition>
-      </el-tooltip>
+      <div class="control-button-container">
+        <el-button
+          v-show="hovering || isExpanded"
+          ref="copyButton"
+          size="small"
+          type="text"
+          class="control-button copy-button"
+          @click.stop="copy"
+        >
+          {{ langConfig['copy-button-text'] }}
+        </el-button>
+        <el-tooltip effect="dark" :content="langConfig['tooltip-text']" placement="right">
+          <transition name="text-slide">
+            <el-button
+              v-show="hovering || isExpanded"
+              size="small"
+              type="text"
+              class="control-button  run-online-button"
+              @click.stop="goCodepen"
+            >
+              {{ langConfig['run-online-button-text'] }}
+            </el-button>
+          </transition>
+        </el-tooltip>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { nextTick } from 'vue'
 import hljs from 'highlight.js'
+import clipboardCopy from 'clipboard-copy'
 import compoLang from '../i18n/component.json'
 import { stripScript, stripStyle, stripTemplate } from '../util'
 const version = '1.0.0' // element version
@@ -163,6 +176,35 @@ export default {
   },
 
   methods: {
+    copy() {
+      const res = clipboardCopy(`
+<template>
+${this.codepen.html}
+</template>
+
+<script>
+${'  ' + this.codepen.script}
+\<\/script>
+
+<style>
+${this.codepen.style}
+</style>
+`)
+
+      res.then(() => {
+        this.$message({
+          showClose: true,
+          message: this.langConfig['copy-success'],
+          type: 'success',
+        })
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          message: this.langConfig['copy-error'],
+          type: 'error',
+        })
+      })
+    },
     goCodepen() {
       // since 2.6.2 use code rather than jsfiddle https://blog.codepen.io/documentation/api/prefill/
       const { script, html, style } = this.codepen
@@ -199,8 +241,9 @@ export default {
 
     scrollHandler() {
       const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
-      this.fixedControl = bottom > document.documentElement.clientHeight &&
-          top + 44 <= document.documentElement.clientHeight
+      const controlBarHeight = 44
+      this.fixedControl = bottom + controlBarHeight > document.documentElement.clientHeight &&
+          top <= document.documentElement.clientHeight
       this.$refs.control.style.left = this.fixedControl ? `${ left }px` : '0'
     },
 
@@ -301,9 +344,8 @@ export default {
       position: relative;
 
       &.is-fixed {
-        position: fixed;
+        position: sticky;
         bottom: 0;
-        width: 868px;
       }
 
       i {
@@ -335,14 +377,18 @@ export default {
         transform: translateX(10px);
       }
 
-      .control-button {
-        line-height: 26px;
+      .control-button-container {
+        line-height: 40px;
         position: absolute;
         top: 0;
         right: 0;
-        font-size: 14px;
         padding-left: 5px;
         padding-right: 25px;
+      }
+
+      .control-button {
+        font-size: 14px;
+        margin: 0 10px;
       }
     }
   }

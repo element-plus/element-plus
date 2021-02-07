@@ -10,8 +10,8 @@
   height: $--switch-height;
   vertical-align: middle;
   @include when(disabled) {
-    & .el-switch__core,
-    & .el-switch__label {
+    & .#{$namespace}-switch__core,
+    & .#{$namespace}-switch__label {
       cursor: not-allowed;
     }
   }
@@ -66,7 +66,7 @@
     transition: border-color .3s, background-color .3s;
     vertical-align: middle;
 
-    .el-switch__action{
+    .#{$namespace}-switch__action{
       position: absolute;
       top: 1px;
       left: 1px;
@@ -83,10 +83,10 @@
   }
 
   @include when(checked) {
-    .el-switch__core {
+    .#{$namespace}-switch__core {
       border-color: $--switch-on-color;
       background-color: $--switch-on-color;
-      .el-switch__action{
+      .#{$namespace}-switch__action{
         left: 100%;
         margin-left: -$--switch-button-size - 1px;
         color:$--switch-on-color ;
@@ -99,13 +99,13 @@
   }
 
   @include m(wide) {
-    .el-switch__label {
-      &.el-switch__label--left {
+    .#{$namespace}-switch__label {
+      &.#{$namespace}-switch__label--left {
         span {
           left: 10px;
         }
       }
-      &.el-switch__label--right {
+      &.#{$namespace}-switch__label--right {
         span {
           right: 10px;
         }

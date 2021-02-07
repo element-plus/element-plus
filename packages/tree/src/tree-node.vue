@@ -160,7 +160,7 @@ export default defineComponent({
     }
 
     const handleSelectChange = (checked: boolean, indeterminate: boolean) => {
-      if (oldChecked.value !== checked && oldIndeterminate.value !== indeterminate) {
+      if (oldChecked.value !== checked || oldIndeterminate.value !== indeterminate) {
         tree.ctx.emit('check-change', props.node.data, checked, indeterminate)
       }
       oldChecked.value = checked

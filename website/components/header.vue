@@ -400,6 +400,14 @@ export default {
     width: auto;
   }
 
+  @media (max-width: 1000px) {
+    .header {
+      .nav-theme-switch, .nav-algolia-search {
+        display: none;
+      }
+    }
+  }
+
   @media (max-width: 850px) {
     .header {
       .nav-logo {
@@ -419,9 +427,6 @@ export default {
         a {
           padding: 0 5px;
         }
-      }
-      .nav-theme-switch, .nav-algolia-search {
-        display: none;
       }
     }
   }

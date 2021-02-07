@@ -17,7 +17,7 @@
   line-height: 44px;
 }
 
-.demo-block.demo-slider .demonstration + .el-slider {
+.demo-block.demo-slider .demonstration + .#{$namespace}-slider {
   float: right;
   width: 70%;
   margin-right: 20px;

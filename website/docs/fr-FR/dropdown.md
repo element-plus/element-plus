@@ -101,7 +101,7 @@ Vous pouvez choisir de déclencher le menu au moment du clic, ou en passant la s
 
 ```html
 <el-row class="block-col-2">
-  <el-col :span="12">
+  <el-col :span="8">
     <span class="demonstration">En passant la souris</span>
     <el-dropdown>
       <span class="el-dropdown-link">
@@ -118,9 +118,26 @@ Vous pouvez choisir de déclencher le menu au moment du clic, ou en passant la s
       </template>
     </el-dropdown>
   </el-col>
-  <el-col :span="12">
+  <el-col :span="8">
     <span class="demonstration">En cliquant</span>
     <el-dropdown trigger="click">
+      <span class="el-dropdown-link">
+        Liste déroulante<i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+  </el-col>
+  <el-col :span="8">
+    <span class="demonstration">Par clic droit</span>
+    <el-dropdown trigger="contextmenu">
       <span class="el-dropdown-link">
         Liste déroulante<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
@@ -298,7 +315,7 @@ En plus de la taille par défaut, le composant Dropdown propose trois autres tai
 | size          | Taille du menu, marche aussi avec `split button`.  | string  | medium / small / mini  |    —     |
 | split-button | Si le bouton est séparé en deux. | boolean         |     —       | false   |
 | placement    | Emplacement du menu déroulant | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
-| trigger       | Comment déclencher l'ouverture du menu.     | string  |    hover/click  |  hover |
+| trigger       | Comment déclencher l'ouverture du menu.     | string  |    hover/click/contextmenu  |  hover |
 | hide-on-click | Si le menu doit disparaître après avoir cliqué sur un élément.     | boolean          | — | true |
 | show-timeout | Délai avant d'afficher le menu (ne marche que si `trigger` est `hover`) | number | — | 250 |
 | hide-timeout | Délai avant de cacher le menu (ne marche que si `trigger` est `hover`) | number | — | 150 |

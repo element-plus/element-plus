@@ -1,14 +1,14 @@
 <template>
-  <transition name="el-notification-fade">
+  <transition name="el-notification-fade" @before-leave="onClose" @after-leave="$emit('destroy')">
     <div
       v-show="visible"
       :id="id"
       :class="['el-notification', customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
-      @mouseenter="clearTimer()"
-      @mouseleave="startTimer()"
-      @click="click"
+      @mouseenter="clearTimer"
+      @mouseleave="startTimer"
+      @click="onClick"
     >
       <i
         v-if="type || iconClass"
@@ -38,11 +38,13 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from 'vue'
+import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 // notificationVM is an alias of vue.VNode
+import { EVENT_CODE } from '@element-plus/utils/aria'
+import { on, off } from '@element-plus/utils/dom'
+
+import type { PropType } from 'vue'
 import type { NotificationVM } from './notification.type'
-import { EVENT_CODE } from '../../utils/aria'
-import { on, off } from '../../utils/dom'
 
 const TypeMap: Indexable<string> = {
   success: 'success',
@@ -81,8 +83,11 @@ export default defineComponent({
     type: { type: String, default: '' },
     zIndex: { type: Number, default: 0 },
   },
-  emits: ['close', 'click'],
+  emits: ['destroy'],
+
   setup(props) {
+    const visible = ref(false)
+    let timer = null
 
     const typeClass = computed(() => {
       const type = props.type
@@ -103,83 +108,59 @@ export default defineComponent({
       }
     })
 
-    const visible = ref(false)
-    const closed = ref(false)
-    const timer = ref(null)
+    function startTimer() {
+      if (props.duration > 0) {
+        timer = setTimeout(() => {
+          if (visible.value) {
+            close()
+          }
+        }, props.duration)
+      }
+    }
+
+    function clearTimer() {
+      clearTimeout(timer)
+      timer = null
+    }
+
+    function close() {
+      visible.value = false
+    }
+
+    function onKeydown({ code }: KeyboardEvent) {
+      if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
+        clearTimer() // press delete/backspace clear timer
+      } else if (code === EVENT_CODE.esc) {
+        // press esc to close the notification
+        if (visible.value) {
+          close()
+        }
+      } else {
+        startTimer() // resume timer
+      }
+    }
+
+    // lifecycle
+    onMounted(() => {
+      startTimer()
+      visible.value = true
+      on(document, 'keydown', onKeydown)
+    })
+
+    onBeforeUnmount(() => {
+      off(document, 'keydown', onKeydown)
+    })
 
     return {
       horizontalClass,
       typeClass,
       positionStyle,
-      verticalProperty,
       visible,
-      closed,
-      timer,
+
+      close,
+      clearTimer,
+      startTimer,
     }
-  },
-  watch: {
-    closed(newVal: boolean) {
-      if (newVal) {
-        this.visible = false
-        on(this.$el, 'transitionend', this.destroyElement)
-      }
-    },
-  },
-  mounted() {
-    if (this.duration > 0) {
-      this.timer = setTimeout(() => {
-        if (!this.closed) {
-          this.close()
-        }
-      }, this.duration)
-    }
-    this.visible = true
-    on(document, 'keydown', this.keydown)
-  },
-  beforeUnmount() {
-    off(document, 'keydown', this.keydown)
-  },
-  methods: {
-    destroyElement() {
-      this.visible = false
-      off(this.$el, 'transitionend', this.destroyElement)
-      this.onClose()
-    },
-    // start counting down to destroy notification instance
-    startTimer() {
-      if (this.duration > 0) {
-        this.timer = setTimeout(() => {
-          if (!this.closed) {
-            this.close()
-          }
-        }, this.duration)
-      }
-    },
-    // clear timer
-    clearTimer() {
-      clearTimeout(this.timer)
-      this.timer = null
-    },
-    // Event handlers
-    click() {
-      this?.onClick()
-    },
-    close() {
-      this.closed = true
-      this.timer = null
-    },
-    keydown({ code }: KeyboardEvent) {
-      if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
-        this.clearTimer() // press delete/backspace clear timer
-      } else if (code === EVENT_CODE.esc) {
-        // press esc to close the notification
-        if (!this.closed) {
-          this.close()
-        }
-      } else {
-        this.startTimer() // resume timer
-      }
-    },
   },
 })
 </script>

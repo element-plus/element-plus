@@ -7,6 +7,7 @@
   position: relative;
   color: $--color-text-regular;
   font-size: $--font-size-base;
+  line-height: 1;
 
   @include e(popper) {
     // using attributes selector to override
@@ -17,7 +18,7 @@
       $--dropdown-menu-box-shadow,
     );
 
-    .el-dropdown-menu {
+    .#{$namespace}-dropdown-menu {
       border: none;
     }
 
@@ -26,14 +27,14 @@
     }
   }
 
-  .el-button-group {
+  .#{$namespace}-button-group {
     display: block;
-    .el-button {
+    .#{$namespace}-button {
       float: none;
     }
   }
 
-  & .el-dropdown__caret-button {
+  & .#{$namespace}-dropdown__caret-button {
     padding-left: 5px;
     padding-right: 5px;
     position: relative;
@@ -52,7 +53,7 @@
       background: mix(white, transparent, 50%);
     }
 
-    &.el-button--default::before {
+    &.#{$namespace}-button--default::before {
       background: mix($--button-default-border-color, transparent, 50%);
     }
 
@@ -63,7 +64,7 @@
       }
     }
 
-    & .el-dropdown__icon {
+    & .#{$namespace}-dropdown__icon {
       padding-left: 0;
     }
   }
@@ -72,7 +73,7 @@
     margin: 0 3px;
   }
 
-  .el-dropdown-selfdefine { // 自定义
+  .#{$namespace}-dropdown-selfdefine { // 自定义
     outline: none;
   }
 }
@@ -138,7 +139,7 @@
       padding: 0 17px;
       font-size: 14px;
 
-      &.el-dropdown-menu__item--divided {
+      &.#{$namespace}-dropdown-menu__item--divided {
         $divided-offset: 6px;
         margin-top: $divided-offset;
 
@@ -158,7 +159,7 @@
       padding: 0 15px;
       font-size: 13px;
 
-      &.el-dropdown-menu__item--divided {
+      &.#{$namespace}-dropdown-menu__item--divided {
         $divided-offset: 4px;
         margin-top: $divided-offset;
 
@@ -178,7 +179,7 @@
       padding: 0 10px;
       font-size: 12px;
 
-      &.el-dropdown-menu__item--divided {
+      &.#{$namespace}-dropdown-menu__item--divided {
         $divided-offset: 3px;
         margin-top: $divided-offset;
 

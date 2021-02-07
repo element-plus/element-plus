@@ -83,14 +83,14 @@
   @include e(checkbox-group) {
     padding: 10px;
 
-    label.el-checkbox {
+    label.#{$namespace}-checkbox {
       display: block;
       margin-right: 5px;
       margin-bottom: 8px;
       margin-left: 5px;
     }
 
-    .el-checkbox:last-child {
+    .#{$namespace}-checkbox:last-child {
       margin-bottom: 0;
     }
   }

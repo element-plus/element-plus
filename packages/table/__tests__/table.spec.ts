@@ -781,10 +781,10 @@ describe('Table.vue', () => {
           done()
         })
 
-        it('cancel all', async done => {
+        it('select all', async done => {
           wrapper.find('.el-checkbox').trigger('click')
           await nextTick()
-          expect(wrapper.vm.selected.length).toEqual(0)
+          expect(wrapper.vm.selected.length).toEqual(5)
           wrapper.unmount()
           done()
         })

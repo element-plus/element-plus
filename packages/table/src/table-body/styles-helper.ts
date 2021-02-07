@@ -2,7 +2,7 @@ import { getCurrentInstance } from 'vue'
 import { TableBodyProps } from './table-body'
 import { Table, AnyObject, TableColumnCtx } from '../table.type'
 
-function useStyles(props: TableBodyProps) {
+function useStyles (props: TableBodyProps) {
   const instance = getCurrentInstance()
   const parent = instance.parent as Table
   const isColumnHidden = index => {
@@ -146,7 +146,7 @@ function useStyles(props: TableBodyProps) {
       return columns[index].realWidth
     }
     const widthArr = columns
-      .map(({ realWidth }) => realWidth)
+      .map(({ realWidth, width }) => realWidth || width)
       .slice(index, index + colspan)
     return widthArr.reduce((acc, width) => acc + width, -1)
   }

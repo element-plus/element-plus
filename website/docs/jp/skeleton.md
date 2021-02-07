@@ -104,7 +104,7 @@ When `Loading` ends, we always need to show the real UI with data to our end use
           />
           <div style="padding: 14px;">
             <span>Delicious hamberger</span>
-            <div class="bottom clearfix">
+            <div class="bottom card-header">
               <span class="time">{{ currentDate }}</span>
               <el-button type="text" class="button">Operation button</el-button>
             </div>
@@ -173,7 +173,7 @@ We do not recommend rendering lots of fake UI to the browser, it will still caus
           <img :src="item.imgUrl" class="image multi-content" />
           <div style="padding: 14px;">
             <span>{{ item.name }}</span>
-            <div class="bottom clearfix">
+            <div class="bottom card-header">
               <span class="time">{{ currentDate }}</span>
               <el-button type="text" class="button">Operation button</el-button>
             </div>
@@ -266,7 +266,7 @@ Sometimes API responds very quickly, when that happens, the skeleton just gets r
           />
           <div style="padding: 14px;">
             <span>Delicious hamberger</span>
-            <div class="bottom clearfix">
+            <div class="bottom card-header">
               <span class="time">{{ currentDate }}</span>
               <el-button type="text" class="button">operation button</el-button>
             </div>

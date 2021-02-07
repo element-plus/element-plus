@@ -43,7 +43,7 @@ export default defineComponent({
       return props.color.get('hue')
     })
     // watch
-    watch(hueValue, () => {
+    watch(() => hueValue.value, () => {
       update()
     })
     // methods

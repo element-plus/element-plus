@@ -78,7 +78,7 @@
       }
     }
 
-    & .el-icon-loading {
+    & .#{$namespace}-icon-loading {
       vertical-align: middle;
     }
   }

@@ -39,7 +39,6 @@ export type MessageVM = VNode
 
 type MessageQueueItem = {
   vm: MessageVM
-  $el: HTMLElement
 }
 
 export type MessageQueue = Array<MessageQueueItem>

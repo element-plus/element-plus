@@ -7,6 +7,7 @@
 @include b(button) {
   display: inline-block;
   line-height: 1;
+  min-height: $--input-height;
   white-space: nowrap;
   cursor: pointer;
   background: $--button-default-background-color;
@@ -44,7 +45,7 @@
     border: 0;
   }
 
-  & [class*="el-icon-"] {
+  & [class*="#{$namespace}-icon-"] {
     & + span {
       margin-left: 5px;
     }
@@ -82,7 +83,7 @@
       border-color: $--button-disabled-border-color;
     }
 
-    &.el-button--text {
+    &.#{$namespace}-button--text {
       background-color: transparent;
     }
 
@@ -137,18 +138,24 @@
     @include button-variant($--button-info-font-color, $--button-info-background-color, $--button-info-border-color);
   }
   @include m(medium) {
+    min-height: $--input-medium-height;
+
     @include button-size($--button-medium-padding-vertical, $--button-medium-padding-horizontal, $--button-medium-font-size, $--button-medium-border-radius);
     @include when(circle) {
       padding: $--button-medium-padding-vertical;
     }
   }
   @include m(small) {
+    min-height: $--input-small-height;
+
     @include button-size($--button-small-padding-vertical, $--button-small-padding-horizontal, $--button-small-font-size, $--button-small-border-radius);
     @include when(circle) {
       padding: $--button-small-padding-vertical;
     }
   }
   @include m(mini) {
+    min-height: $--input-mini-height;
+
     @include button-size($--button-mini-padding-vertical, $--button-mini-padding-horizontal, $--button-mini-font-size, $--button-mini-border-radius);
     @include when(circle) {
       padding: $--button-mini-padding-vertical;
@@ -186,10 +193,10 @@
   display: inline-block;
   vertical-align: middle;
 
-  & > .el-button {
+  & > .#{$namespace}-button {
     float: left;
     position: relative;
-    & + .el-button {
+    & + .#{$namespace}-button {
       margin-left: 0;
     }
     &.is-disabled {
@@ -234,9 +241,9 @@
       z-index: 1;
     }
   }
-  
-  & > .el-dropdown {
-    & > .el-button {
+
+  & > .#{$namespace}-dropdown {
+    & > .#{$namespace}-button {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       border-left-color: rgba($--color-white, 0.5);
@@ -244,7 +251,7 @@
   }
 
   @each $type in (primary, success, warning, danger, info) {
-    .el-button--#{$type} {
+    .#{$namespace}-button--#{$type} {
       &:first-child {
         border-right-color: rgba($--color-white, 0.5);
       }

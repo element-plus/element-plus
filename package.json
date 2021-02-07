@@ -56,6 +56,7 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-preset-vue": "^2.0.2",
     "chalk": "^4.1.0",
+    "clipboard-copy": "^4.0.1",
     "cp-cli": "^2.0.0",
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
@@ -126,7 +127,7 @@
     "type": "git",
     "url": "https://github.com/element-plus/element-plus.git"
   },
-  "homepage": "https://element-plus.org/",
+  "homepage": "https://element-plus.org",
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.4",
@@ -140,13 +141,15 @@
   "files": [
     "lib",
     "es",
-    "packages"
+    "packages",
+    "vetur"
   ],
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
   "typings": "lib/index.d.ts",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
+  "vetur": { "tags": "./vetur/tags.json", "attributes": "./vetur/attributes.json" },
   "browserslist": [
     "> 1%",
     "last 2 versions",

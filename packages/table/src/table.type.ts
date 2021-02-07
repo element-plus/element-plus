@@ -347,6 +347,8 @@ interface TableColumnCtx {
   order: string
   isColumnGroup: boolean
   columns: TableColumnCtx[]
+  getColumnIndex: () => number
+  no: number
 }
 
 interface TableColumn extends ComponentInternalInstance {

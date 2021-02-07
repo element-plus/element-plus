@@ -14,7 +14,7 @@
         v-if="showBackToTop"
         target=".page-component__scroll .el-scrollbar__wrap"
         :right="100"
-        :bottom="150"
+        :bottom="50"
       />
     </div>
   </el-scrollbar>
@@ -128,8 +128,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-component__scroll {
-  height: calc(100% - 80px);
-  margin-top: 80px;
+  height: 100%;
 
   ::v-deep( > .el-scrollbar__wrap) {
     overflow-x: auto;
@@ -141,7 +140,7 @@ export default {
   height: 100%;
 
   &.page-container {
-    padding: 0;
+    padding: 40px;
   }
 
   .page-component__nav {
@@ -163,7 +162,6 @@ export default {
 
   .side-nav {
     height: 100%;
-    padding-top: 50px;
     padding-bottom: 50px;
     padding-right: 0;
 
@@ -175,6 +173,7 @@ export default {
   .page-component__content {
     padding-left: 270px;
     padding-bottom: 100px;
+    margin-right: 150px;
     box-sizing: border-box;
   }
   .content-wrap {
@@ -182,7 +181,6 @@ export default {
   }
 
   .content {
-    padding-top: 50px;
 
     ::v-deep(>) {
       h3 {
@@ -230,6 +228,14 @@ export default {
         color: #5e6d82;
         line-height: 2em;
       }
+    }
+  }
+}
+
+@media (max-width: 1000px){
+  .page-component{
+    .page-component__content{
+      margin-right: 0;
     }
   }
 }

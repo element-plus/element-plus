@@ -87,7 +87,7 @@ export default defineComponent({
   },
   setup(prop, { slots }) {
     const instance = getCurrentInstance() as TableColumn
-    const columnConfig = ref({})
+    const columnConfig = ref<Partial<TableColumnCtx>>({})
     const props = (prop as unknown) as TableColumnCtx
     const owner = computed(() => {
       let parent = instance.parent as any
@@ -169,7 +169,6 @@ export default defineComponent({
       let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
 
       column = mergeOptions(defaults, column)
-
       // 注意 compose 中函数执行的顺序是从右到左
       const chains = compose(
         setColumnRenders,
@@ -188,11 +187,12 @@ export default defineComponent({
       const children = isSubColumn.value
         ? parent.vnode.el.children
         : parent.refs.hiddenColumns?.children
-      const columnIndex = getColumnElIndex(children || [], instance.vnode.el)
-      owner.value.store.commit(
+      const getColumnIndex = () => getColumnElIndex(children || [], instance.vnode.el)
+      columnConfig.value.getColumnIndex = getColumnIndex
+      const columnIndex = getColumnIndex()
+      columnIndex > -1 && owner.value.store.commit(
         'insertColumn',
         columnConfig.value,
-        columnIndex,
         isSubColumn.value ? parent.columnConfig.value : null,
       )
     })

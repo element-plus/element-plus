@@ -159,6 +159,29 @@ Vous pouvez également spécifier l'attribut `type` de `dashboard` pour utiliser
 ```
 :::
 
+### Customized content
+
+:::demo Use default slot to add customized content.
+
+```html
+<el-progress :percentage="50">
+  <el-button type="text">Content</el-button>
+</el-progress>
+<el-progress :text-inside="true" :stroke-width="20" :percentage="50" status="exception">
+  <span>Content</span>
+</el-progress>
+<el-progress type="circle" :percentage="100" status="success">
+  <el-button type="success" icon="el-icon-check" circle></el-button>
+</el-progress>
+<el-progress type="dashboard" :percentage="80">
+  <template #default="{ percentage }">
+    <span class="percentage-value">{{ percentage }}%</span>
+    <span class="percentage-label">Progressing</span>
+  </template>
+</el-progress>
+```
+:::
+
 ### Attributs
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
@@ -173,3 +196,8 @@ Vous pouvez également spécifier l'attribut `type` de `dashboard` pour utiliser
 | show-text | Si le pourcentage doit être affiché. | boolean | — | true |
 | stroke-linecap  | circle/dashboard type shape at the end path | string | butt/round/square | round |
 | format  | Vous pouvez personnaliser le format du texte en définissant le format  | function(percentage) | — | — |
+
+### Slot
+| name | Description |
+|------|--------|
+| default | Customized content, parameter is { percentage } |
