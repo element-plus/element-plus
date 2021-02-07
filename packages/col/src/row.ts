@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, provide } from 'vue'
+import { defineComponent, computed, h, provide, reactive } from 'vue'
 
 export default defineComponent({
   name: 'ElRow',
@@ -25,7 +25,8 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    provide('ElRow', props.gutter)
+    const elStatus = reactive({ gutter: props.gutter })
+    provide('ElStatus', elStatus)
 
     const style = computed(() => {
       const ret = {
@@ -39,8 +40,10 @@ export default defineComponent({
       return ret
     })
 
-    return () =>
-      h(
+    return () => {
+      elStatus.gutter = props.gutter // trigger
+
+      return h(
         props.tag,
         {
           class: [
@@ -53,5 +56,6 @@ export default defineComponent({
         },
         slots.default?.(),
       )
+    }
   },
 })
