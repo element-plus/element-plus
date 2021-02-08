@@ -192,6 +192,7 @@ Par défaut, `direction` est `horizontal`. Vous pouvez faire en sorte que le dé
 | type | Type du carrousel. | string | card | — |
 | loop | Affiche les éléments en boucle. | boolean | - | true |
 | direction | Détermine la direction du défilement. | string | horizontal/vertical | horizontal |
+| pause-on-hover | pause autoplay when hover | boolean | - | true |
 
 ### Évènements du Carrousel
 | Nom | Description | Paramètres |

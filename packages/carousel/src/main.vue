@@ -118,6 +118,10 @@ export default defineComponent({
         return ['horizontal', 'vertical'].includes(val)
       },
     },
+    pauseOnHover: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['change'],
   setup(props: ICarouselProps, { emit }) {
@@ -270,7 +274,9 @@ export default defineComponent({
 
     function handleMouseEnter() {
       data.hover = true
-      pauseTimer()
+      if (props.pauseOnHover) {
+        pauseTimer()
+      }
     }
 
     function handleMouseLeave() {
