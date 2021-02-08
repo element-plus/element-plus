@@ -207,9 +207,9 @@ export default defineComponent({
         valueOnOpen.value = props.modelValue
       }
     })
-    const emitChange = val => {
+    const emitChange = (val, isClear) => {
       // determine user real change only
-      if (!valueEquals(val, valueOnOpen.value)) {
+      if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
         props.validateEvent && elFormItem.formItemMitt?.emit('el.form.change', val)
       }
@@ -282,8 +282,6 @@ export default defineComponent({
 
     const displayValue = computed(() => {
       if (!pickerOptions.value.panelReady) return
-      if (!isTimePicker.value && valueIsEmpty.value) return
-      if (!pickerVisible.value && valueIsEmpty.value) return
       const formattedValue = formatDayjsToString(parsedValue.value)
       if (Array.isArray(userInput.value)) {
         return [
@@ -293,6 +291,8 @@ export default defineComponent({
       } else if (userInput.value !== null) {
         return userInput.value
       }
+      if (!isTimePicker.value && valueIsEmpty.value) return
+      if (!pickerVisible.value && valueIsEmpty.value) return
       if (formattedValue) {
         return isDatesPicker.value
           ? (formattedValue as Array<string>).join(', ')
@@ -322,7 +322,7 @@ export default defineComponent({
       if (showClose.value) {
         event.stopPropagation()
         emitInput(null)
-        emitChange(null)
+        emitChange(null, true)
         showClose.value = false
         pickerVisible.value = false
         pickerOptions.value.handleClear && pickerOptions.value.handleClear()
@@ -359,7 +359,7 @@ export default defineComponent({
         const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
-            emitInput(value.toDate())
+            emitInput(Array.isArray(value) ? value.map(_=> _.toDate()) : value.toDate())
             userInput.value = null
           }
         }
@@ -456,7 +456,7 @@ export default defineComponent({
 
     const handleStartChange = () => {
       const value = parseUserInputToDayjs(userInput.value && userInput.value[0])
-      if (value) {
+      if (value && value.isValid()) {
         userInput.value = [formatDayjsToString(value), displayValue.value[1]]
         const newValue = [value, parsedValue.value && parsedValue.value[1]]
         if (isValidValue(newValue)) {
@@ -468,7 +468,7 @@ export default defineComponent({
 
     const handleEndChange = () => {
       const value = parseUserInputToDayjs(userInput.value && userInput.value[1])
-      if (value) {
+      if (value && value.isValid()) {
         userInput.value = [displayValue.value[0], formatDayjsToString(value)]
         const newValue = [parsedValue.value && parsedValue.value[0], value]
         if (isValidValue(newValue)) {

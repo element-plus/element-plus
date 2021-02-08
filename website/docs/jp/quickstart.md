@@ -35,28 +35,32 @@ app.mount('#app')
 
 #### オンデマンド
 
-[babel-plugin-component](https://github.com/QingWei-Li/babel-plugin-component) を用いて、 必要な分のコンポーネントをインポートし、プロジェクトをより小さくすることが出来ます。
+[babel-plugin-import](https://github.com/ant-design/babel-plugin-import) を用いて、 必要な分のコンポーネントをインポートし、プロジェクトをより小さくすることが出来ます。
 
-はじめに、babel-plugin-componentをインストール:
+はじめに、babel-plugin-importをインストール:
 
 ```bash
-npm install babel-plugin-component -D
+npm install babel-plugin-import -D
 ```
 
-つぎに .babelrc を編集します:
+つぎに babel.config.js を編集します:
 
-```json
-{
-  "plugins": [
+```js
+module.exports = {
+  plugins: [
     [
-      "component",
+      "import",
       {
-        "libraryName": "element-plus",
-        "styleLibraryName": "theme-chalk"
-      }
-    ]
-  ]
-}
+        libraryName: 'element-plus',
+        customStyleName: (name) => {
+          // `customStyleName` が存在するため、`style: true` は有効になりません。
+          // そのため、`.scss` のソースファイルを使いたい場合は、拡張子を `.css` から `.scss` に置き換えるだけです。
+          return `element-plus/lib/theme-chalk/${name}.css`;
+        },
+      },
+    ],
+  ],
+};
 ```
 
 次に、ボタンとセレクトが必要な場合、main.jsを編集します:

@@ -2,7 +2,13 @@ import { nextTick, ref, isRef, Ref } from 'vue'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
-import { AnyObject, Table, Store, TableHeader, TableColumnCtx } from './table.type'
+import {
+  AnyObject,
+  Table,
+  Store,
+  TableHeader,
+  TableColumnCtx,
+} from './table.type'
 
 class TableLayout {
   observers: TableHeader[]
@@ -26,7 +32,7 @@ class TableLayout {
   bodyHeight: Ref<null | number> // Table Height - Table Header Height
   fixedBodyHeight: Ref<null | number> // Table Height - Table Header Height - Scroll Bar Height
   gutterWidth: number
-  constructor(options: AnyObject) {
+  constructor (options: AnyObject) {
     this.observers = []
     this.table = null
     this.store = null
@@ -64,7 +70,7 @@ class TableLayout {
     }
   }
 
-  updateScrollY() {
+  updateScrollY () {
     const height = this.height.value
     if (height === null) return false
     const bodyWrapper = this.table.refs.bodyWrapper as HTMLElement
@@ -78,7 +84,7 @@ class TableLayout {
     return false
   }
 
-  setHeight(value: string | number, prop = 'height') {
+  setHeight (value: string | number, prop = 'height') {
     if (isServer) return
     const el = this.table.vnode.el
     value = parseHeight(value)
@@ -96,11 +102,11 @@ class TableLayout {
     }
   }
 
-  setMaxHeight(value: string | number) {
+  setMaxHeight (value: string | number) {
     this.setHeight(value, 'max-height')
   }
 
-  getFlattenColumns(): TableColumnCtx[] {
+  getFlattenColumns (): TableColumnCtx[] {
     const flattenColumns = []
     const columns = this.table.store.states.columns.value
     columns.forEach(column => {
@@ -115,7 +121,7 @@ class TableLayout {
     return flattenColumns
   }
 
-  updateElsHeight() {
+  updateElsHeight () {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
     const {
       headerWrapper: headerWrapper_,
@@ -167,7 +173,7 @@ class TableLayout {
     this.notifyObservers('scrollable')
   }
 
-  headerDisplayNone(elm: HTMLElement) {
+  headerDisplayNone (elm: HTMLElement) {
     if (!elm) return true
     let headerChild = elm
     while (headerChild.tagName !== 'DIV') {
@@ -179,7 +185,7 @@ class TableLayout {
     return false
   }
 
-  updateColumnsWidth() {
+  updateColumnsWidth () {
     if (isServer) return
     const fit = this.fit
     const bodyWidth = this.table.vnode.el.clientWidth
@@ -233,7 +239,7 @@ class TableLayout {
       } else {
         // HAVE HORIZONTAL SCROLL BAR
         this.scrollX.value = true
-        flexColumns.forEach(function(column) {
+        flexColumns.forEach(function (column) {
           column.realWidth = column.minWidth
         })
       }
@@ -258,7 +264,7 @@ class TableLayout {
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0
-      fixedColumns.forEach(function(column) {
+      fixedColumns.forEach(function (column) {
         fixedWidth += column.realWidth || column.width
       })
 
@@ -268,29 +274,27 @@ class TableLayout {
     const rightFixedColumns = this.store.states.rightFixedColumns.value
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0
-      rightFixedColumns.forEach(function(column) {
+      rightFixedColumns.forEach(function (column) {
         rightFixedWidth += column.realWidth || column.width
       })
 
       this.rightFixedWidth.value = rightFixedWidth
     }
-
     this.notifyObservers('columns')
-    this.updateElsHeight()
   }
 
-  addObserver(observer: TableHeader) {
+  addObserver (observer: TableHeader) {
     this.observers.push(observer)
   }
 
-  removeObserver(observer: TableHeader) {
+  removeObserver (observer: TableHeader) {
     const index = this.observers.indexOf(observer)
     if (index !== -1) {
       this.observers.splice(index, 1)
     }
   }
 
-  notifyObservers(event: string) {
+  notifyObservers (event: string) {
     const observers = this.observers
     observers.forEach(observer => {
       switch (event) {

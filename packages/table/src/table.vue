@@ -397,9 +397,8 @@ export default defineComponent({
       toggleAllSelection,
       toggleRowExpansion,
       clearSort,
-      doLayout,
       sort,
-    } = useUtils(store, layout, shouldUpdateHeight)
+    } = useUtils(store)
     const {
       isHidden,
       renderExpanded,
@@ -416,7 +415,8 @@ export default defineComponent({
       resizeProxyVisible,
       bodyWidth,
       resizeState,
-    } = useStyle(props, layout, store, table, doLayout)
+      doLayout,
+    } = useStyle(props, layout, store, table)
 
     const debouncedUpdateLayout = debounce(() => doLayout(), 50)
 

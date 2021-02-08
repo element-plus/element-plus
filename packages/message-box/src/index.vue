@@ -116,6 +116,7 @@ import {
   watch,
   reactive,
   ref,
+  isVNode,
 } from 'vue'
 import ElButton from '@element-plus/button'
 import ElInput from '@element-plus/input'
@@ -125,9 +126,10 @@ import { useModal, useLockScreen, useRestoreActive, usePreventGlobal } from '@el
 import { TrapFocus } from '@element-plus/directives'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { on, off } from '@element-plus/utils/dom'
+import { isString } from '@element-plus/utils/util'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 
-import type { ComponentPublicInstance, PropType } from 'vue'
+import type { ComponentPublicInstance, PropType, VNode } from 'vue'
 import type { Action, MessageBoxState } from './message-box.type'
 
 const TypeMap: Indexable<string> = {
@@ -206,7 +208,12 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    message: String,
+    message: {
+      type: [String, Object] as PropType<string | VNode>,
+      validator: (val: unknown) => {
+        return isString(val) || isVNode(val)
+      },
+    },
     modalFade: { // implement this feature
       type: Boolean,
       default: true,

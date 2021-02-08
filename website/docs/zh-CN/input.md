@@ -545,25 +545,21 @@ export default defineComponent({
   </template>
 </el-autocomplete>
 
-<style lang="scss">
-.my-autocomplete {
-  li {
-    line-height: normal;
-    padding: 7px;
-
-    .name {
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-    .addr {
-      font-size: 12px;
-      color: #b4b4b4;
-    }
-
-    .highlighted .addr {
-      color: #ddd;
-    }
-  }
+<style>
+.my-autocomplete li {
+  line-height: normal;
+  padding: 7px;
+}
+.my-autocomplete li .name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.my-autocomplete li .addr {
+  font-size: 12px;
+  color: #b4b4b4;
+}
+.my-autocomplete li .highlighted .addr {
+  color: #ddd;
 }
 </style>
 
@@ -711,7 +707,7 @@ export default defineComponent({
     const handleSelect = (item) => {
       console.log(item);
     };
-    
+
     const handleIconClick = (ev) => {
       console.log(ev);
     };
@@ -968,7 +964,6 @@ export default defineComponent ({
 | rows          | 输入框行数，只对 `type="textarea"` 有效  |  number | — |  2   |
 | autosize      | 自适应内容高度，只对 `type="textarea"` 有效，可传入对象，如，{ minRows: 2, maxRows: 6 }  |  boolean / object | — |  false   |
 | autocomplete | 原生属性，自动补全 | string | on, off | off |
-| auto-complete | 下个主版本弃用 | string | on, off | off |
 | name | 原生属性 | string | — | — |
 | readonly | 原生属性，是否只读 | boolean | — | false |
 | max | 原生属性，设置最大值 | — | — | — |

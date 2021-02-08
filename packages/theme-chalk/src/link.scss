@@ -38,14 +38,14 @@ $typeMap: (
     cursor: not-allowed;
   } 
 
-  & [class*="el-icon-"] {
+  & [class*="#{$namespace}-icon-"] {
     & + span {
       margin-left: 5px;
     }
   }
     
     
-  &.el-link--default  {
+  &.#{$namespace}-link--default  {
     color: $--link-default-font-color;
     &:hover {
       color: $--link-default-active-color
@@ -59,7 +59,7 @@ $typeMap: (
   }
 
   @each $type, $primaryColor in $typeMap {
-    &.el-link--#{$type} {
+    &.#{$namespace}-link--#{$type} {
       color: $primaryColor;
       &:hover {
         color: mix($primaryColor, $--color-white, 80%)

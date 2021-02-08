@@ -189,12 +189,12 @@
 }
 
 @mixin picker-popper($background, $border, $box-shadow) {
-  &.el-popper[role="tooltip"] {
+  &.#{$namespace}-popper[role="tooltip"] {
     background: $background;
     border: $border;
     box-shadow: $box-shadow;
 
-    .el-popper__arrow {
+    .#{$namespace}-popper__arrow {
       &::before {
         border: $border;
       }
@@ -205,7 +205,7 @@
       in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
     {
       &[data-popper-placement^='#{$placement}'] {
-        .el-popper__arrow::before {
+        .#{$namespace}-popper__arrow::before {
           border-#{$placement}-color: transparent;
           border-#{$adjacency}-color: transparent;
         }

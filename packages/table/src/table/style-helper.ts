@@ -12,16 +12,14 @@ import {
   TableLayout,
   Store,
   TableColumnCtx,
-  fn,
 } from '../table.type'
 import { useGlobalConfig } from '@element-plus/utils/util'
 
-function useStyle(
+function useStyle (
   props: TableProps,
   layout: TableLayout,
   store: Store,
   table: Table,
-  doLayout: fn,
 ) {
   const $ElEMENT = useGlobalConfig()
   const isHidden = ref(false)
@@ -81,6 +79,15 @@ function useStyle(
       store.states.rightFixedColumns.value.length > 0
     )
   })
+
+  const doLayout = () => {
+    if (shouldUpdateHeight.value) {
+      layout.updateElsHeight()
+    }
+    layout.updateColumnsWidth()
+    syncPostion()
+  }
+
   onMounted(() => {
     setScrollClass('is-scrolling-left')
     bindEvents()
@@ -116,7 +123,8 @@ function useStyle(
     const { bodyWrapper } = table.refs
     setScrollClassByEl(bodyWrapper, className)
   }
-  const syncPostion = throttle(function() {
+  const syncPostion = throttle(function () {
+    if (!table.refs.bodyWrapper) return
     const {
       scrollLeft,
       scrollTop,
@@ -142,6 +150,7 @@ function useStyle(
       setScrollClass('is-scrolling-middle')
     }
   }, 10)
+
   const bindEvents = () => {
     table.refs.bodyWrapper.addEventListener('scroll', syncPostion, {
       passive: true,
@@ -319,6 +328,7 @@ function useStyle(
     resizeProxyVisible,
     bodyWidth,
     resizeState,
+    doLayout,
   }
 }
 

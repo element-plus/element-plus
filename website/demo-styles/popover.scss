@@ -1,11 +1,11 @@
 .demo-block.demo-popover {
-  .el-popover + .el-popover {
+  .#{$namespace}-popover + .#{$namespace}-popover {
     margin-left: 10px;
   }
-  .el-input {
+  .#{$namespace}-input {
     width: 360px;
   }
-  .el-button {
+  .#{$namespace}-button {
     margin-left: 10px;
   }
 }

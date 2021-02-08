@@ -422,21 +422,21 @@ Customize how suggestions are displayed.
   </template>
 </el-autocomplete>
 
-<style lang="scss">
-  .my-autocomplete {
-    li {
-      line-height: normal;
-      padding: 7px;
-
-      .value {
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      .link {
-        font-size: 12px;
-        color: #b4b4b4;
-      }
-    }
+<style>
+  .my-autocomplete li {
+    line-height: normal;
+    padding: 7px;
+  }
+  .my-autocomplete li .name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .my-autocomplete li .addr {
+    font-size: 12px;
+    color: #b4b4b4;
+  }
+  .my-autocomplete li .highlighted .addr {
+    color: #ddd;
   }
 </style>
 
@@ -475,7 +475,7 @@ export default defineComponent({
     const handleSelect = (item) => {
       console.log(item);
     };
-    
+
     const handleIconClick = (ev) => {
       console.log(ev);
     };
@@ -622,7 +622,6 @@ export default defineComponent ({
 |rows | number of rows of textarea, only works when `type` is 'textarea' | number | — | 2 |
 |autosize | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. { minRows: 2, maxRows: 6 }  | boolean / object | — | false |
 |autocomplete | same as `autocomplete` in native input | string | on/off | off |
-|auto-complete | @DEPRECATED in next major version | string | on/off | off |
 |name | same as `name` in native input | string | — | — |
 | readonly | same as `readonly` in native input | boolean | — | false |
 |max | same as `max` in native input | — | — | — |

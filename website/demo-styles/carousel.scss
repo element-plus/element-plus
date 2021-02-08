@@ -17,11 +17,11 @@
   margin-bottom: 20px;
 }
 
-.demo-carousel .el-carousel__container {
+.demo-carousel .#{$namespace}-carousel__container {
   text-align: center;
 }
 
-.demo-carousel .el-carousel__item {
+.demo-carousel .#{$namespace}-carousel__item {
   h3 {
     color: #fff;
     font-size: 18px;

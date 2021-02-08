@@ -45,7 +45,7 @@
     border: 0;
   }
 
-  & [class*="el-icon-"] {
+  & [class*="#{$namespace}-icon-"] {
     & + span {
       margin-left: 5px;
     }
@@ -83,7 +83,7 @@
       border-color: $--button-disabled-border-color;
     }
 
-    &.el-button--text {
+    &.#{$namespace}-button--text {
       background-color: transparent;
     }
 
@@ -193,10 +193,10 @@
   display: inline-block;
   vertical-align: middle;
 
-  & > .el-button {
+  & > .#{$namespace}-button {
     float: left;
     position: relative;
-    & + .el-button {
+    & + .#{$namespace}-button {
       margin-left: 0;
     }
     &.is-disabled {
@@ -242,8 +242,8 @@
     }
   }
 
-  & > .el-dropdown {
-    & > .el-button {
+  & > .#{$namespace}-dropdown {
+    & > .#{$namespace}-button {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       border-left-color: rgba($--color-white, 0.5);
@@ -251,7 +251,7 @@
   }
 
   @each $type in (primary, success, warning, danger, info) {
-    .el-button--#{$type} {
+    .#{$namespace}-button--#{$type} {
       &:first-child {
         border-right-color: rgba($--color-white, 0.5);
       }

@@ -1,4 +1,5 @@
 /* Element Chalk Variables */
+@import "../mixins/config";
 
 // Special comment for theme configurator
 // type|skipAutoTranslation|Category|Order
@@ -740,6 +741,7 @@ $--tree-expand-icon-color: $--color-text-placeholder !default;
 $--dropdown-menu-box-shadow: $--box-shadow-light !default;
 $--dropdown-menuItem-hover-fill: $--color-primary-light-9 !default;
 $--dropdown-menuItem-hover-color: $--link-color !default;
+$--dropdown-menu-index: 10 !default;
 
 /* Badge
 -------------------------- */

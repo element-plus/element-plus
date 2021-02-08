@@ -1,7 +1,6 @@
-import { ComputedRef } from 'vue'
-import { Store, AnyObject, TableLayout } from '../table.type'
+import { Store, AnyObject } from '../table.type'
 
-function useUtils(store: Store, layout: TableLayout, shouldUpdateHeight: ComputedRef<unknown>) {
+function useUtils (store: Store) {
   const setCurrentRow = (row: AnyObject) => {
     store.commit('setCurrentRow', row)
   }
@@ -24,12 +23,6 @@ function useUtils(store: Store, layout: TableLayout, shouldUpdateHeight: Compute
   const clearSort = () => {
     store.clearSort()
   }
-  const doLayout = () => {
-    if (shouldUpdateHeight.value) {
-      layout.updateElsHeight()
-    }
-    layout.updateColumnsWidth()
-  }
   const sort = (prop, order) => {
     store.commit('sort', { prop, order })
   }
@@ -42,7 +35,6 @@ function useUtils(store: Store, layout: TableLayout, shouldUpdateHeight: Compute
     toggleAllSelection,
     toggleRowExpansion,
     clearSort,
-    doLayout,
     sort,
   }
 }
