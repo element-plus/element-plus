@@ -4,7 +4,10 @@
 
 *2021-01-31*
 #### Bug fixes
+- Fix switch cannot change width dynamically (#1435)
+- Fix PopConfirm translation error (#1450)
 - Fix date range picker input issue (#1439)
+- Fix date picker second clear not trigger change event #1438
 - Fix behavior of tooltip (#1443)
 - Fix bug cause by scrollToOption (#1440)
 - Fix the issue which caused input area render error on Safari (#1429)
@@ -18,6 +21,7 @@
 - Fix upload list remove animation incorrect (#1379)
 
 #### Features
+- feat(carousel): add pause-on-hover prop (#1423)
 - feat(dropdown): add max-height prop of menu (#1436)
 - feat(progress): add default slot (#1426)
 
