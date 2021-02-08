@@ -25,8 +25,8 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const elStatus = reactive({ gutter: props.gutter })
-    provide('ElStatus', elStatus)
+    const elRow = reactive({ gutter: props.gutter })
+    provide('ElRow', elRow)
 
     const style = computed(() => {
       const ret = {
@@ -41,7 +41,7 @@ export default defineComponent({
     })
 
     return () => {
-      elStatus.gutter = props.gutter // trigger
+      elRow.gutter = props.gutter // trigger
 
       return h(
         props.tag,
