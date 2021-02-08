@@ -207,9 +207,9 @@ export default defineComponent({
         valueOnOpen.value = props.modelValue
       }
     })
-    const emitChange = val => {
+    const emitChange = (val, isClear) => {
       // determine user real change only
-      if (!valueEquals(val, valueOnOpen.value)) {
+      if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
         props.validateEvent && elFormItem.formItemMitt?.emit('el.form.change', val)
       }
@@ -322,7 +322,7 @@ export default defineComponent({
       if (showClose.value) {
         event.stopPropagation()
         emitInput(null)
-        emitChange(null)
+        emitChange(null, true)
         showClose.value = false
         pickerVisible.value = false
         pickerOptions.value.handleClear && pickerOptions.value.handleClear()
