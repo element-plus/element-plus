@@ -14,6 +14,8 @@ const defaults: ILoadingOptions = {
   body: false,
   lock: false,
   customClass: '',
+  empty: false,
+  showEmpty: false,
 }
 
 const globalLoadingOption: ILoadingGlobalConfig = {

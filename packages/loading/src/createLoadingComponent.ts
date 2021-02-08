@@ -1,5 +1,6 @@
-import { createVNode, h, reactive, ref, render, toRefs, Transition, VNode, vShow, withCtx, withDirectives } from 'vue'
+import { createVNode, h, reactive, ref, render, toRefs, Transition, VNode, vShow, withCtx, withDirectives, defineComponent } from 'vue'
 import { removeClass } from '@element-plus/utils/dom'
+import Empty from '../../empty/src/index.vue'
 import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
 
 export function createLoadingComponent({
@@ -63,6 +64,10 @@ export function createLoadingComponent({
     destroySelf()
   }
 
+  function changeEmpty(value: boolean) {
+    data.showEmpty = value
+  }
+
   const componentSetupConfig = {
     ...toRefs(data),
     setText,
@@ -70,7 +75,7 @@ export function createLoadingComponent({
     handleAfterLeave,
   }
 
-  const elLoadingComponent = {
+  const elLoadingComponent = defineComponent({
     name: 'ElLoading',
     setup() {
       return componentSetupConfig
@@ -87,31 +92,49 @@ export function createLoadingComponent({
 
       const spinnerText = h('p', { class: 'el-loading-text' }, [this.text])
 
+      const loadingContent = h('div', {
+        class: 'el-loading-spinner',
+      }, [
+        !this.spinner ? spinner : noSpinner,
+        this.text ? spinnerText : null,
+      ])
+
       return h(Transition, {
         name: 'el-loading-fade',
         onAfterLeave: this.handleAfterLeave,
       }, {
-        default: withCtx(() => [withDirectives(createVNode('div', {
-          style: {
-            backgroundColor: this.background || '',
-          },
-          class: [
-            'el-loading-mask',
-            this.customClass,
-            this.fullscreen ? 'is-fullscreen' : '',
-          ],
-        }, [
-          h('div', {
-            class: 'el-loading-spinner',
-          }, [
-            !this.spinner ? spinner : noSpinner,
-            this.text ? spinnerText : null,
-          ]),
+        default: withCtx(() => [
+          withDirectives(
+            createVNode('div', {
+              style: {
+                backgroundColor: this.background || '',
+              },
+              class: [
+                'el-loading-mask',
+                this.customClass,
+                this.fullscreen ? 'is-fullscreen' : '',
+              ],
+            },
+            [
+              !this.empty ? loadingContent : '',
+              this.empty
+                ? withDirectives(
+                  createVNode(
+                    Empty,
+                    this.emptyOption ? this.emptyOption : {},
+                  ),
+                  [[vShow, !this.showEmpty]])
+                : '',
+              this.empty
+                ? withDirectives(loadingContent, [[vShow, this.showEmpty]])
+                : '',
+            ]),
+            [[vShow, this.visible]],
+          ),
         ]),
-        [[vShow, this.visible]])]),
       })
     },
-  }
+  })
 
   vm = createVNode(elLoadingComponent)
 
@@ -120,6 +143,7 @@ export function createLoadingComponent({
   return {
     ...componentSetupConfig,
     vm,
+    changeEmpty,
     get $el() {
       return vm.el as HTMLElement
     },

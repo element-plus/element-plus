@@ -6,6 +6,10 @@ const createInstance = (el, binding) => {
   const backgroundExr = el.getAttribute('element-loading-background')
   const customClassExr = el.getAttribute('element-loading-custom-class')
   const vm = binding.instance
+  const emptyImage = el.getAttribute('element-loading-empty-image')
+  const emptyImageSize = el.getAttribute('element-loading-empty-image-size')
+  const emptyDescription = el.getAttribute('element-loading-empty-description')
+
   el.instance = Loading({
     text: vm && vm[textExr] || textExr,
     spinner: vm && vm[spinnerExr] || spinnerExr,
@@ -16,6 +20,13 @@ const createInstance = (el, binding) => {
     body: !!binding.modifiers.body,
     visible: true,
     lock: !!binding.modifiers.lock,
+    showEmpty: true,
+    empty: !!binding.modifiers.empty,
+    emptyOption: {
+      image: vm && vm[emptyImage] || emptyImage || '',
+      imageSize: vm && vm[emptyImageSize] || Number(emptyImageSize),
+      description: vm && vm[emptyDescription] || emptyDescription,
+    },
   })
 }
 
@@ -33,6 +44,9 @@ const vLoading = {
       } else {
         instance.close()
       }
+    } else if(instance.empty.value) {
+      const showEmpty = el.getAttribute('element-loading-show-empty')
+      instance.changeEmpty(showEmpty === 'true')
     }
   },
   unmounted(el) {

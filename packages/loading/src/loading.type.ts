@@ -1,5 +1,11 @@
 import type { Ref, VNode } from 'vue'
 
+export type ILoadingEmptyOption = {
+  image: string
+  imageSize: number
+  description: string
+}
+
 export type ILoadingOptions = {
     parent?: ILoadingParentElement
     background?: string
@@ -11,6 +17,9 @@ export type ILoadingOptions = {
     customClass?: string
     visible?: boolean
     target?: string | HTMLElement
+    empty?: boolean
+    showEmpty?: boolean
+    emptyOption?: ILoadingEmptyOption
 }
 
 export type ILoadingInstance = {
@@ -26,9 +35,12 @@ export type ILoadingInstance = {
     target?: Ref<string | HTMLElement>
     originalPosition?: Ref<string>
     originalOverflow?: Ref<string>
+    empty?: Ref<boolean>
+    showEmpty?: Ref<boolean>
     setText: (text: string) => void
     close: () => void
     handleAfterLeave: () => void
+    changeEmpty: (value: boolean) => void
     vm: VNode
     $el: HTMLElement
 }

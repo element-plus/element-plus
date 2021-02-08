@@ -34,6 +34,10 @@
       }
     }
   }
+
+  .#{$namespace}-empty {
+    height: 100%;
+  }
 }
 
 @include b(loading-spinner) {
@@ -62,6 +66,10 @@
     stroke-width: 2;
     stroke: $--color-primary;
     stroke-linecap: round;
+  }
+
+  .empty {
+    background-color: aquamarine;
   }
 
   i {
