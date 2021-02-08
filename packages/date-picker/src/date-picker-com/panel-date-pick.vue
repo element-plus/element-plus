@@ -449,7 +449,6 @@ export default defineComponent({
           ? !disabledDate(date_.toDate())
           : true
       )
-      return false
     }
 
     const formatToString = value => {
