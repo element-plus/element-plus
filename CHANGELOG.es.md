@@ -1,5 +1,31 @@
 ## Changelog
 
+### 1.0.2-beta.32
+
+*2021-01-31*
+#### Bug fixes
+- Fix date range picker input issue (#1439)
+- Fix behavior of tooltip (#1443)
+- Fix bug cause by scrollToOption (#1440)
+- Fix the issue which caused input area render error on Safari (#1429)
+- Fix shadow rendering bug of initializing fixed columns (#1418)
+- Fix popper trigger ref cannot be fetched (#1419)
+- Remove tab incorrect highlight style (#1416)
+- Fix type check error of message (#1413)
+- Fix that the column width is calculated incorrectly (#1381)
+- Fix popper position error (#1411)
+- Fix style of demo card header (#1405)
+- Fix upload list remove animation incorrect (#1379)
+
+#### Features
+- feat(dropdown): add max-height prop of menu (#1436)
+- feat(progress): add default slot (#1426)
+
+#### Chore updates
+- docs: remove auto-complete of input and select (#1437)
+- css prefix (#1407)
+- docs(project): Update `importing on demand` section in `quickstart.md, to solve the issue which caused importing on demand not working (#1414)
+- Fix dome-block bottom bar width error when fixed (#1406)
 ### 1.0.2-beta.31
 
 *2021-01-31*
