@@ -1,6 +1,6 @@
 import { createVNode, h, reactive, ref, render, toRefs, Transition, VNode, vShow, withCtx, withDirectives, defineComponent } from 'vue'
 import { removeClass } from '@element-plus/utils/dom'
-import Empty from '../../empty/src/index.vue'
+import Empty from '@element-plus/empty'
 import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
 
 export function createLoadingComponent({
@@ -95,7 +95,7 @@ export function createLoadingComponent({
       const loadingContent = h('div', {
         class: 'el-loading-spinner',
       }, [
-        !this.spinner ? spinner : noSpinner,
+        this.spinner ? noSpinner : spinner,
         this.text ? spinnerText : null,
       ])
 
