@@ -540,7 +540,6 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 | multiple-limit | Nombre maximum d'options multiples sélectionnable. Pas de limites quand est à 0. | number | — | 0 |
 | name | L'attribut name natif du sélecteur. | string | — | — |
 | autocomplete | L'attribut autocomplete natif du sélecteur. | string | — | off |
-| auto-complete | @DEPRECATED dans la prochaine version majeure. | string | — | off |
 | placeholder | Le placeholder du champ. | string | — | Select |
 | filterable | Si les options sont filtrables. | boolean | — | false |
 | allow-create | Si l'utilisateur peut créer des options. Dans ce cas `filterable` doit être activé. | boolean | — | false |

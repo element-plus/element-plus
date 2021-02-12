@@ -544,7 +544,6 @@ Si el valor de encuadernación de Select es un objeto, asegúrese de asignar `va
 | multiple-limit       | máximo numero de opciones que el usuario puede seleccionar cuando `multiple` es `true`.  Sin límite cuando se fija a 0 | number   | —                 | 0                |
 | name                 | el atributo `name` del input seleccionado | string   | —                 | —                |
 | autocomplete         | el atributo `autocomplete` del input seleccionado | string   | —         | off              |
-| auto-complete         | @DEPRECATED en la proxima major versión | string   | —         | off              |
 | placeholder          | placeholder                              | string   | —                 | Select           |
 | filterable           | si Select es filtrable                   | boolean  | —                 | false            |
 | allow-create         | si esta permitido crear nuevos items. Para usar esto, `filterable` debe ser `true`. | boolean  | —                 | false            |

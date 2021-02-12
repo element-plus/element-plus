@@ -197,7 +197,7 @@
       :value="item.value">
     </el-option>
   </el-select>
-  
+
   <el-select
     v-model="value2"
     multiple
@@ -537,7 +537,6 @@
 | multiple-limit | `multiple` が `true` のときにユーザがセレクトできるオプションの最大数。0に設定した場合は無制限 | number | — | 0 |
 | name | セレクト入力の名前属性 | string | — | — |
 | autocomplete | セレクト入力のオートコンプリート属性 | string | — | off |
-| auto-complete | 次期メジャーバージョンでは@DEPRECATED | string | — | off |
 | placeholder | プレースホルダー | string | — | Select |
 | filterable | セレクトがフィルタリング可能かどうか | boolean | — | false |
 | allow-create | 新しいアイテムの作成を許可するかどうかを指定します。これを使うには、`filterable` がtrueでなければなりません。 | boolean | — | false |

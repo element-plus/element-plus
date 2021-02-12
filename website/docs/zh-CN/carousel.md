@@ -39,7 +39,7 @@
   .el-carousel__item:nth-child(2n) {
      background-color: #99a9bf;
   }
-  
+
   .el-carousel__item:nth-child(2n+1) {
      background-color: #d3dce6;
   }
@@ -69,11 +69,11 @@
     line-height: 300px;
     margin: 0;
   }
-  
+
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
   }
-  
+
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
@@ -102,11 +102,11 @@
     line-height: 300px;
     margin: 0;
   }
-  
+
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
   }
-  
+
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
@@ -135,11 +135,11 @@
     line-height: 200px;
     margin: 0;
   }
-  
+
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
   }
-  
+
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
@@ -167,11 +167,11 @@
     line-height: 200px;
     margin: 0;
   }
-  
+
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
   }
-  
+
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
@@ -192,6 +192,7 @@
 | type | 走马灯的类型 | string | card | — |
 | loop | 是否循环显示 | boolean | - | true |
 | direction | 走马灯展示的方向 | string | horizontal/vertical | horizontal |
+| pause-on-hover | 鼠标悬浮时暂停自动切换 | boolean | - | true |
 
 ### Carousel Events
 | 事件名称 | 说明 | 回调参数 |

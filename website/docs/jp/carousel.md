@@ -167,11 +167,11 @@
     line-height: 200px;
     margin: 0;
   }
-  
+
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
   }
-  
+
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
@@ -192,6 +192,7 @@
 | type | carouselのタイプ | string | card | — |
 | loop | ループ表示 | boolean | - | true |
 | direction | 表示方向 | string | horizontal/vertical | horizontal |
+| pause-on-hover | pause autoplay when hover | boolean | - | true |
 
 ### carouselイベント
 | Event Name | Description | Parameters |
