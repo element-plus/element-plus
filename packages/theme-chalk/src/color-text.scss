@@ -1,0 +1,20 @@
+@import "mixins/mixins";
+@import "common/var";
+
+$typeMap: (
+  primary: $--link-primary-font-color, 
+  danger: $--link-danger-font-color, 
+  success: $--link-success-font-color, 
+  warning: $--link-warning-font-color, 
+  info: $--link-info-font-color);
+
+@include b(color-text) {
+  @each $type, $primaryColor in $typeMap {
+    &.#{$namespace}-color-text--#{$type} {
+      color: $primaryColor;
+      &:hover {
+        color: mix($primaryColor, $--color-white, 80%)
+      }
+    }
+  }
+}

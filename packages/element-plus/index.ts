@@ -16,6 +16,7 @@ import ElCarousel from '@element-plus/carousel'
 import ElCarouselItem from '@element-plus/carousel-item'
 import ElCascader from '@element-plus/cascader'
 import ElCascaderPanel from '@element-plus/cascader-panel'
+import ElColorText from '@element-plus/color-text'
 import ElCheckbox from '@element-plus/checkbox'
 import ElCheckboxButton from '@element-plus/checkbox-button'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
@@ -130,6 +131,7 @@ const components = [
   ElCarouselItem,
   ElCascader,
   ElCascaderPanel,
+  ElColorText,
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
@@ -244,6 +246,7 @@ export {
   ElCarouselItem,
   ElCascader,
   ElCascaderPanel,
+  ElColorText,
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,

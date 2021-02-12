@@ -328,6 +328,7 @@
   "el-button/type": {"options": ["primary", "success", "warning", "danger", "info", "text"], "description": "button type"},
   "el-badge/type": {"options": ["primary", "success", "warning", "danger", "info"], "description": "badge type"},
   "el-link/type": {"options": ["primary", "success", "warning", "danger", "info"], "description": "button type"},
+  "el-color-text/type": {"options": ["primary", "success", "warning", "danger", "info"], "description": "button type"},
   "el-date-picker/type": {"options": ["year", "month", "date", "dates", "datetime", "week", "datetimerange", "daterange", "monthrange"], "description": "type of the picker, default: date"},
   "el-date-picker/cell-class-name": {"description": "set custom className"},
   "el-table-column/type": {"options": ["selection", "index", "expand"], "description": "type of the column. If set to 'selection', the column will display checkbox. If set to 'index', the column will display index of the row (staring from 1). If set to 'expand', the column will display expand icon."},
