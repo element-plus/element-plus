@@ -88,7 +88,7 @@ function useEvents(props: TableBodyProps) {
       createTablePopper(cell, cell.innerText || cell.textContent, {
         placement: 'top',
         strategy: 'fixed',
-      })
+      }, row.tooltipEffect)
     }
   }
   const handleCellMouseLeave = event => {

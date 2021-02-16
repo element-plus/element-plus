@@ -15,6 +15,7 @@ export default defineComponent({
       type: Object as PropType<Store>,
     },
     stripe: Boolean,
+    tooltipEffect: String,
     context: {
       default: () => ({}),
       type: Object,

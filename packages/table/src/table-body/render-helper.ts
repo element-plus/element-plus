@@ -43,7 +43,8 @@ function useRender(props: TableBodyProps) {
     return index
   }
   const rowRender = (row, $index, treeRowData) => {
-    const { indent, columns } = props.store.states
+    const { tooltipEffect, store } = props
+    const { indent, columns } = store.states
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
@@ -108,7 +109,7 @@ function useRender(props: TableBodyProps) {
             class: getCellClass($index, cellIndex, row, column),
             rowspan,
             colspan,
-            onMouseenter: $event => handleCellMouseEnter($event, row),
+            onMouseenter: $event => handleCellMouseEnter($event, { ...row, tooltipEffect }),
             onMouseleave: handleCellMouseLeave,
           },
           [column.renderCell(data)],
