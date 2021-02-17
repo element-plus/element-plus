@@ -32,15 +32,21 @@ utilisez les prop `shape` et` size` pour définir la forme et la taille de l'ava
   </el-row>
 </template>
 <script>
-  export default {
-    data () {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+        squareUrl: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
+        sizeList: ['large', 'medium', 'small'],
+      });
+
       return {
-        circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-        squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-        sizeList: ["large", "medium", "small"]
-      }
-    }
-  }
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 
 ```
@@ -82,13 +88,15 @@ fallback en cas d'erreur de chargement d'image
   </div>
 </template>
 <script>
-  export default {
-    methods: {
-      errorHandler() {
-        return true
-      }
-    }
-  }
+  import { defineComponent } from 'vue'
+  export default defineComponent({
+    setup() {
+      const errorHandler = () => true;
+      return {
+        errorHandler,
+      };
+    },
+  });
 </script>
 
 ```
@@ -109,14 +117,20 @@ Défini comment l'image s'adapte à son conteneur, pareil que [object-fit](https
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
         url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-      }
-    }
-  }
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 
 ```
