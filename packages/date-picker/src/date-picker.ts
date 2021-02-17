@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER } from '@element-plus/time-picker'
 import { CommonPicker, defaultProps } from '@element-plus/time-picker'
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
@@ -44,11 +44,20 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
+    const commonPicker = ref(null)
     const format = DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE
+    const refProps = {
+      ...props,
+      focus: () => {
+        commonPicker.value?.handleFocus()
+      },
+    }
+    ctx.expose(refProps)
     return () => h(CommonPicker, {
       format,
       ...props, // allow format to be overwrite
       type: props.type,
+      ref: commonPicker,
       'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
     },
     {
