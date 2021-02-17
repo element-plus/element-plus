@@ -13,13 +13,16 @@
   <el-checkbox v-model="checked">备选项</el-checkbox>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked = ref(true);
       return {
-        checked: true
+        checked,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -36,14 +39,18 @@
   <el-checkbox v-model="checked2" disabled>备选项</el-checkbox>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked1 = ref(false);
+      const checked2 = ref(true);
       return {
-        checked1: false,
-        checked2: true
+        checked1,
+        checked2,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -66,13 +73,16 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checkList = ref(['选中且禁用', '复选框 A']);
       return {
-        checkList: ['选中且禁用','复选框 A']
+        checkList,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -92,28 +102,34 @@
   </el-checkbox-group>
 </template>
 <script>
+  import { defineComponent, reactive, toRefs } from 'vue';
+
   const cityOptions = ['上海', '北京', '广州', '深圳'];
-  export default {
-    data() {
-      return {
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         checkAll: false,
         checkedCities: ['上海', '北京'],
         cities: cityOptions,
-        isIndeterminate: true
+        isIndeterminate: true,
+      });
+      const handleCheckAllChange = (val) => {
+        state.checkedCities = val ? cityOptions : [];
+        state.isIndeterminate = false;
+      };
+      const handleCheckedCitiesChange = (value) => {
+        const checkedCount = value.length;
+        state.checkAll = checkedCount === state.cities.length;
+        state.isIndeterminate = checkedCount > 0 && checkedCount < state.cities.length;
+      };
+      return {
+        ...toRefs(state),
+        handleCheckAllChange,
+        handleCheckedCitiesChange,
       };
     },
-    methods: {
-      handleCheckAllChange(val) {
-        this.checkedCities = val ? cityOptions : [];
-        this.isIndeterminate = false;
-      },
-      handleCheckedCitiesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -134,15 +150,22 @@
   </el-checkbox-group>
 </template>
 <script>
+  import { defineComponent, reactive, toRefs } from 'vue';
+
   const cityOptions = ['上海', '北京', '广州', '深圳'];
-  export default {
-    data() {
-      return {
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         checkedCities: ['上海', '北京'],
-        cities: cityOptions
+        cities: cityOptions,
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 
@@ -177,18 +200,25 @@
   </div>
 </template>
 <script>
+  import { defineComponent, reactive, toRefs } from 'vue';
+
   const cityOptions = ['上海', '北京', '广州', '深圳'];
-  export default {
-    data () {
-      return {
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         checkboxGroup1: ['上海'],
         checkboxGroup2: ['上海'],
         checkboxGroup3: ['上海'],
         checkboxGroup4: ['上海'],
-        cities: cityOptions
+        cities: cityOptions,
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -221,18 +251,24 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         checked1: true,
         checked2: false,
         checked3: false,
         checked4: true,
         checkboxGroup1: [],
-        checkboxGroup2: []
+        checkboxGroup2: [],
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
