@@ -17,13 +17,15 @@ Vous pouvez fournir une liste d'horaires fixés pour que l'utilisateur en choisi
 </el-time-select>
 
 <script>
-  export default {
-    data() {
-      return {
-        value: ''
-      };
-    }
-  }
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  setup() {
+    return {
+      value: ref(''),
+    };
+  },
+});
 </script>
 ```
 :::
@@ -53,14 +55,16 @@ Vous pouvez définir un intervalle de temps. Si l'horaire de début est sélecti
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        startTime: '',
-        endTime: ''
+        startTime: ref(''),
+        endTime: ref(''),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::

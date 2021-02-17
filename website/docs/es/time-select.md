@@ -17,13 +17,15 @@ Provee una lista de tiempo fijo para que los usuarios escojan.
 </el-time-select>
 
 <script>
-  export default {
-    data() {
-      return {
-        value: ''
-      };
-    }
-  }
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  setup() {
+    return {
+      value: ref(''),
+    };
+  },
+});
 </script>
 ```
 :::
@@ -53,14 +55,16 @@ Si se escoge el tiempo de inicio al principio, el tiempo de finalización cambia
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        startTime: '',
-        endTime: ''
+        startTime: ref(''),
+        endTime: ref(''),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::

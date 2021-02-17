@@ -17,13 +17,15 @@ Provide a list of fixed time for users to choose.
 </el-time-select>
 
 <script>
-  export default {
-    data() {
-      return {
-        value: ''
-      };
-    }
-  }
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  setup() {
+    return {
+      value: ref(''),
+    };
+  },
+});
 </script>
 ```
 :::
@@ -54,14 +56,16 @@ If start time is picked at first, then the end time will change accordingly.
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        startTime: '',
-        endTime: ''
+        startTime: ref(''),
+        endTime: ref(''),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
