@@ -11,56 +11,61 @@
 <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           label: 'Level one 1',
           children: [{
             label: 'Level two 1-1',
             children: [{
-              label: 'Level three 1-1-1'
-            }]
-          }]
+              label: 'Level three 1-1-1',
+            }],
+          }],
         }, {
           label: 'Level one 2',
           children: [{
             label: 'Level two 2-1',
             children: [{
-              label: 'Level three 2-1-1'
-            }]
+              label: 'Level three 2-1-1',
+            }],
           }, {
             label: 'Level two 2-2',
             children: [{
-              label: 'Level three 2-2-1'
-            }]
-          }]
+              label: 'Level three 2-2-1',
+            }],
+          }],
         }, {
           label: 'Level one 3',
           children: [{
             label: 'Level two 3-1',
             children: [{
-              label: 'Level three 3-1-1'
-            }]
+              label: 'Level three 3-1-1',
+            }],
           }, {
             label: 'Level two 3-2',
             children: [{
-              label: 'Level three 3-2-1'
-            }]
-          }]
+              label: 'Level three 3-2-1',
+            }],
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+
+      const handleNodeClick = (data) => {
+        console.log(data);
+      };
+      return {
+        ...toRefs(state),
+        handleNodeClick,
       };
     },
-    methods: {
-      handleNodeClick(data) {
-        console.log(data);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -80,30 +85,31 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         props: {
           label: 'name',
-          children: 'zones'
+          children: 'zones',
         },
-        count: 1
-      };
-    },
-    methods: {
-      handleCheckChange(data, checked, indeterminate) {
+        count: 1,
+      });
+
+      const handleCheckChange = (data, checked, indeterminate) => {
         console.log(data, checked, indeterminate);
-      },
-      handleNodeClick(data) {
+      };
+      const handleNodeClick = (data) => {
         console.log(data);
-      },
-      loadNode(node, resolve) {
+      };
+      const loadNode = (node, resolve) => {
         if (node.level === 0) {
           return resolve([{ name: 'Root1' }, { name: 'Root2' }]);
         }
         if (node.level > 3) return resolve([]);
 
-        var hasChild;
+        let hasChild;
         if (node.data.name === 'region1') {
           hasChild = true;
         } else if (node.data.name === 'region2') {
@@ -113,12 +119,12 @@
         }
 
         setTimeout(() => {
-          var data;
+          let data;
           if (hasChild) {
             data = [{
-              name: 'zone' + this.count++
+              name: `zone${state.count++}`,
             }, {
-              name: 'zone' + this.count++
+              name: `zone${state.count++}`,
             }];
           } else {
             data = [];
@@ -126,9 +132,15 @@
 
           resolve(data);
         }, 500);
-      }
-    }
-  };
+      };
+      return {
+        ...toRefs(state),
+        handleNodeClick,
+        handleCheckChange,
+        loadNode,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -145,18 +157,18 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         props: {
           label: 'name',
           children: 'zones',
-          isLeaf: 'leaf'
+          isLeaf: 'leaf',
         },
-      };
-    },
-    methods: {
-      loadNode(node, resolve) {
+      });
+      const loadNode = (node, resolve) => {
         if (node.level === 0) {
           return resolve([{ name: 'region' }]);
         }
@@ -165,16 +177,20 @@
         setTimeout(() => {
           const data = [{
             name: 'leaf',
-            leaf: true
+            leaf: true,
           }, {
-            name: 'zone'
+            name: 'zone',
           }];
 
           resolve(data);
         }, 500);
-      }
-    }
-  };
+      };
+      return {
+        ...toRefs(state),
+        loadNode,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -188,14 +204,15 @@
 <el-tree
   :data="data"
   :props="defaultProps"
-  show-checkbox
-  @check-change="handleCheckChange">
+  show-checkbox>
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           id: 1,
           label: 'Level one 1',
@@ -204,34 +221,38 @@
             label: 'Level two 2-1',
             children: [{
               id: 4,
-              label: 'Level three 3-1-1'
+              label: 'Level three 3-1-1',
             }, {
               id: 5,
               label: 'Level three 3-1-2',
-              disabled: true
-            }]
+              disabled: true,
+            }],
           }, {
             id: 2,
             label: 'Level two 2-2',
             disabled: true,
             children: [{
               id: 6,
-              label: 'Level three 3-2-1'
+              label: 'Level three 3-2-1',
             }, {
               id: 7,
               label: 'Level three 3-2-2',
-              disabled: true
-            }]
-          }]
+              disabled: true,
+            }],
+          }],
         }],
         defaultProps: {
-            children: 'children',
-            label: 'label',
-            disabled: 'disabled',
+          children: 'children',
+          label: 'label',
+          disabled: 'disabled',
         },
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -251,9 +272,11 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           id: 1,
           label: 'Level one 1',
@@ -262,40 +285,44 @@
             label: 'Level two 1-1',
             children: [{
               id: 9,
-              label: 'Level three 1-1-1'
+              label: 'Level three 1-1-1',
             }, {
               id: 10,
-              label: 'Level three 1-1-2'
-            }]
-          }]
+              label: 'Level three 1-1-2',
+            }],
+          }],
         }, {
           id: 2,
           label: 'Level one 2',
           children: [{
             id: 5,
-            label: 'Level two 2-1'
+            label: 'Level two 2-1',
           }, {
             id: 6,
-            label: 'Level two 2-2'
-          }]
+            label: 'Level two 2-2',
+          }],
         }, {
           id: 3,
           label: 'Level one 3',
           children: [{
             id: 7,
-            label: 'Level two 3-1'
+            label: 'Level two 3-1',
           }, {
             id: 8,
-            label: 'Level two 3-2'
-          }]
+            label: 'Level two 3-2',
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -323,33 +350,10 @@
 </div>
 
 <script>
-  export default {
-    methods: {
-      getCheckedNodes() {
-        console.log(this.$refs.tree.getCheckedNodes());
-      },
-      getCheckedKeys() {
-        console.log(this.$refs.tree.getCheckedKeys());
-      },
-      setCheckedNodes() {
-        this.$refs.tree.setCheckedNodes([{
-          id: 5,
-          label: 'Level two 2-1'
-        }, {
-          id: 9,
-          label: 'Level three 1-1-1'
-        }]);
-      },
-      setCheckedKeys() {
-        this.$refs.tree.setCheckedKeys([3]);
-      },
-      resetChecked() {
-        this.$refs.tree.setCheckedKeys([]);
-      }
-    },
-
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs, ref } from 'vue';
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           id: 1,
           label: 'Level one 1',
@@ -358,40 +362,75 @@
             label: 'Level two 1-1',
             children: [{
               id: 9,
-              label: 'Level three 1-1-1'
+              label: 'Level three 1-1-1',
             }, {
               id: 10,
-              label: 'Level three 1-1-2'
-            }]
-          }]
+              label: 'Level three 1-1-2',
+            }],
+          }],
         }, {
           id: 2,
           label: 'Level one 2',
           children: [{
             id: 5,
-            label: 'Level two 2-1'
+            label: 'Level two 2-1',
           }, {
             id: 6,
-            label: 'Level two 2-2'
-          }]
+            label: 'Level two 2-2',
+          }],
         }, {
           id: 3,
           label: 'Level one 3',
           children: [{
             id: 7,
-            label: 'Level two 3-1'
+            label: 'Level two 3-1',
           }, {
             id: 8,
-            label: 'Level two 3-2'
-          }]
+            label: 'Level two 3-2',
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+      const tree = ref();
+      const getCheckedNodes = () => {
+        console.log(tree.value.getCheckedNodes());
       };
-    }
-  };
+      const getCheckedKeys = () => {
+        console.log(tree.value.getCheckedKeys());
+      };
+      const setCheckedNodes = () => {
+        tree.value.setCheckedNodes([
+          {
+            id: 5,
+            label: 'Level two 2-1',
+          }, {
+            id: 9,
+            label: 'Level three 1-1-1',
+          },
+        ]);
+      };
+
+      const setCheckedKeys = () => {
+        tree.value.setCheckedKeys([3]);
+      };
+      const resetChecked = () => {
+        tree.value.setCheckedKeys([]);
+      };
+
+      return {
+        ...toRefs(state),
+        tree,
+        getCheckedNodes,
+        getCheckedKeys,
+        setCheckedNodes,
+        setCheckedKeys,
+        resetChecked,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -425,65 +464,68 @@
 </el-tree>
 
 <script>
-  export default {
-    watch: {
-      filterText(val) {
-        this.$refs.tree.filter(val);
-      }
-    },
+  import { defineComponent, reactive, toRefs, watch, ref } from 'vue';
 
-    methods: {
-      filterNode(value, data) {
+  export default defineComponent({
+    setup() {
+      const tree = ref();
+      const state = reactive({
+          filterText: '',
+          data: [{
+            id: 1,
+            label: 'Level one 1',
+            children: [{
+              id: 4,
+              label: 'Level two 1-1',
+              children: [{
+                id: 9,
+                label: 'Level three 1-1-1'
+              }, {
+                id: 10,
+                label: 'Level three 1-1-2'
+              }]
+            }]
+          }, {
+            id: 2,
+            label: 'Level one 2',
+            children: [{
+              id: 5,
+              label: 'Level two 2-1'
+            }, {
+              id: 6,
+              label: 'Level two 2-2'
+            }]
+          }, {
+            id: 3,
+            label: 'Level one 3',
+            children: [{
+              id: 7,
+              label: 'Level two 3-1'
+            }, {
+              id: 8,
+              label: 'Level two 3-2'
+            }]
+          }],
+          defaultProps: {
+            children: 'children',
+            label: 'label'
+          }
+      });
+      const filterNode = (value, data) => {
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
-      }
-    },
-
-    data() {
-      return {
-        filterText: '',
-        data: [{
-          id: 1,
-          label: 'Level one 1',
-          children: [{
-            id: 4,
-            label: 'Level two 1-1',
-            children: [{
-              id: 9,
-              label: 'Level three 1-1-1'
-            }, {
-              id: 10,
-              label: 'Level three 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: 'Level one 2',
-          children: [{
-            id: 5,
-            label: 'Level two 2-1'
-          }, {
-            id: 6,
-            label: 'Level two 2-2'
-          }]
-        }, {
-          id: 3,
-          label: 'Level one 3',
-          children: [{
-            id: 7,
-            label: 'Level two 3-1'
-          }, {
-            id: 8,
-            label: 'Level two 3-2'
-          }]
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        }
       };
-    }
-  };
+
+      watch(() => state.filterText, (value) => {
+        tree.value.filter(value);
+      });
+      return {
+        ...toRefs(state),
+        tree,
+        filterNode,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -502,56 +544,61 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           label: 'Level one 1',
           children: [{
             label: 'Level two 1-1',
             children: [{
-              label: 'Level three 1-1-1'
-            }]
-          }]
+              label: 'Level three 1-1-1',
+            }],
+          }],
         }, {
           label: 'Level one 2',
           children: [{
             label: 'Level two 2-1',
             children: [{
-              label: 'Level three 2-1-1'
-            }]
+              label: 'Level three 2-1-1',
+            }],
           }, {
             label: 'Level two 2-2',
             children: [{
-              label: 'Level three 2-2-1'
-            }]
-          }]
+              label: 'Level three 2-2-1',
+            }],
+          }],
         }, {
           label: 'Level one 3',
           children: [{
             label: 'Level two 3-1',
             children: [{
-              label: 'Level three 3-1-1'
-            }]
+              label: 'Level three 3-1-1',
+            }],
           }, {
             label: 'Level two 3-2',
             children: [{
-              label: 'Level three 3-2-1'
-            }]
-          }]
+              label: 'Level three 3-2-1',
+            }],
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+
+      const handleNodeClick = (data) => {
+        console.log(data);
+      };
+      return {
+        ...toRefs(state),
+        handleNodeClick,
       };
     },
-    methods: {
-      handleNodeClick(data) {
-        console.log(data);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -578,9 +625,11 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           label: 'Level one 1',
           children: [{
@@ -620,39 +669,45 @@
           children: 'children',
           label: 'label'
         }
-      };
-    },
-    methods: {
-      handleDragStart(node, ev) {
+      });
+      const handleDragStart = (node, ev) => {
         console.log('drag start', node);
-      },
-      handleDragEnter(draggingNode, dropNode, ev) {
+      };
+      const handleDragEnter = (draggingNode, dropNode, ev) => {
         console.log('tree drag enter: ', dropNode.label);
-      },
-      handleDragLeave(draggingNode, dropNode, ev) {
+      };
+      const handleDragLeave = (draggingNode, dropNode, ev) => {
         console.log('tree drag leave: ', dropNode.label);
-      },
-      handleDragOver(draggingNode, dropNode, ev) {
+      };
+      const handleDragOver = (draggingNode, dropNode, ev) => {
         console.log('tree drag over: ', dropNode.label);
-      },
-      handleDragEnd(draggingNode, dropNode, dropType, ev) {
+      };
+      const handleDragEnd = (draggingNode, dropNode, dropType, ev) => {
         console.log('tree drag end: ', dropNode && dropNode.label, dropType);
-      },
-      handleDrop(draggingNode, dropNode, dropType, ev) {
+      };
+      const handleDrop = (draggingNode, dropNode, dropType, ev) => {
         console.log('tree drop: ', dropNode.label, dropType);
-      },
-      allowDrop(draggingNode, dropNode, type) {
+      };
+      const allowDrop = (draggingNode, dropNode, type) => {
         if (dropNode.data.label === 'Level two 3-1') {
           return type !== 'inner';
-        } else {
-          return true;
         }
-      },
-      allowDrag(draggingNode) {
-        return draggingNode.data.label.indexOf('Level three 3-1-1') === -1;
-      }
-    }
-  };
+        return true;
+      };
+      const allowDrag = (draggingNode) => draggingNode.data.label.indexOf('Level three 3-1-1') === -1;
+      return {
+        ...toRefs(state),
+        handleDragStart,
+        handleDragEnter,
+        handleDragLeave,
+        handleDragOver,
+        handleDragEnd,
+        handleDrop,
+        allowDrop,
+        allowDrag,
+      };
+    },
+  });
 </script>
 ```
 :::

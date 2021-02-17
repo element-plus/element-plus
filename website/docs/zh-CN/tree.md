@@ -11,56 +11,61 @@
 <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           label: '一级 1',
           children: [{
             label: '二级 1-1',
             children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
+              label: '三级 1-1-1',
+            }],
+          }],
         }, {
           label: '一级 2',
           children: [{
             label: '二级 2-1',
             children: [{
-              label: '三级 2-1-1'
-            }]
+              label: '三级 2-1-1',
+            }],
           }, {
             label: '二级 2-2',
             children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
+              label: '三级 2-2-1',
+            }],
+          }],
         }, {
           label: '一级 3',
           children: [{
             label: '二级 3-1',
             children: [{
-              label: '三级 3-1-1'
-            }]
+              label: '三级 3-1-1',
+            }],
           }, {
             label: '二级 3-2',
             children: [{
-              label: '三级 3-2-1'
-            }]
-          }]
+              label: '三级 3-2-1',
+            }],
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+
+      const handleNodeClick = (data) => {
+        console.log(data);
+      };
+      return {
+        ...toRefs(state),
+        handleNodeClick,
       };
     },
-    methods: {
-      handleNodeClick(data) {
-        console.log(data);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -80,30 +85,31 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         props: {
           label: 'name',
-          children: 'zones'
+          children: 'zones',
         },
-        count: 1
-      };
-    },
-    methods: {
-      handleCheckChange(data, checked, indeterminate) {
+        count: 1,
+      });
+
+      const handleCheckChange = (data, checked, indeterminate) => {
         console.log(data, checked, indeterminate);
-      },
-      handleNodeClick(data) {
+      };
+      const handleNodeClick = (data) => {
         console.log(data);
-      },
-      loadNode(node, resolve) {
+      };
+      const loadNode = (node, resolve) => {
         if (node.level === 0) {
           return resolve([{ name: 'region1' }, { name: 'region2' }]);
         }
         if (node.level > 3) return resolve([]);
 
-        var hasChild;
+        let hasChild;
         if (node.data.name === 'region1') {
           hasChild = true;
         } else if (node.data.name === 'region2') {
@@ -113,12 +119,12 @@
         }
 
         setTimeout(() => {
-          var data;
+          let data;
           if (hasChild) {
             data = [{
-              name: 'zone' + this.count++
+              name: `zone${state.count++}`,
             }, {
-              name: 'zone' + this.count++
+              name: `zone${state.count++}`,
             }];
           } else {
             data = [];
@@ -126,9 +132,15 @@
 
           resolve(data);
         }, 500);
-      }
-    }
-  };
+      };
+      return {
+        ...toRefs(state),
+        handleNodeClick,
+        handleCheckChange,
+        loadNode,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -145,18 +157,18 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         props: {
           label: 'name',
           children: 'zones',
-          isLeaf: 'leaf'
+          isLeaf: 'leaf',
         },
-      };
-    },
-    methods: {
-      loadNode(node, resolve) {
+      });
+      const loadNode = (node, resolve) => {
         if (node.level === 0) {
           return resolve([{ name: 'region' }]);
         }
@@ -165,16 +177,20 @@
         setTimeout(() => {
           const data = [{
             name: 'leaf',
-            leaf: true
+            leaf: true,
           }, {
-            name: 'zone'
+            name: 'zone',
           }];
 
           resolve(data);
         }, 500);
-      }
-    }
-  };
+      };
+      return {
+        ...toRefs(state),
+        loadNode,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -194,9 +210,11 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           id: 1,
           label: '一级 1',
@@ -205,40 +223,44 @@
             label: '二级 1-1',
             children: [{
               id: 9,
-              label: '三级 1-1-1'
+              label: '三级 1-1-1',
             }, {
               id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
+              label: '三级 1-1-2',
+            }],
+          }],
         }, {
           id: 2,
           label: '一级 2',
           children: [{
             id: 5,
-            label: '二级 2-1'
+            label: '二级 2-1',
           }, {
             id: 6,
-            label: '二级 2-2'
-          }]
+            label: '二级 2-2',
+          }],
         }, {
           id: 3,
           label: '一级 3',
           children: [{
             id: 7,
-            label: '二级 3-1'
+            label: '二级 3-1',
           }, {
             id: 8,
-            label: '二级 3-2'
-          }]
+            label: '二级 3-2',
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -257,9 +279,11 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           id: 1,
           label: '一级 2',
@@ -268,33 +292,37 @@
             label: '二级 2-1',
             children: [{
               id: 4,
-              label: '三级 3-1-1'
+              label: '三级 3-1-1',
             }, {
               id: 5,
               label: '三级 3-1-2',
-              disabled: true
-            }]
+              disabled: true,
+            }],
           }, {
             id: 2,
             label: '二级 2-2',
             disabled: true,
             children: [{
               id: 6,
-              label: '三级 3-2-1'
+              label: '三级 3-2-1',
             }, {
               id: 7,
               label: '三级 3-2-2',
-              disabled: true
-            }]
-          }]
+              disabled: true,
+            }],
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -322,75 +350,102 @@
 </div>
 
 <script>
-  export default {
-    methods: {
-      getCheckedNodes() {
-        console.log(this.$refs.tree.getCheckedNodes());
-      },
-      getCheckedKeys() {
-        console.log(this.$refs.tree.getCheckedKeys());
-      },
-      setCheckedNodes() {
-        this.$refs.tree.setCheckedNodes([{
-          id: 5,
-          label: '二级 2-1'
-        }, {
-          id: 9,
-          label: '三级 1-1-1'
-        }]);
-      },
-      setCheckedKeys() {
-        this.$refs.tree.setCheckedKeys([3]);
-      },
-      resetChecked() {
-        this.$refs.tree.setCheckedKeys([]);
-      }
-    },
-
-    data() {
-      return {
-        data: [{
-          id: 1,
-          label: '一级 1',
-          children: [{
-            id: 4,
-            label: '二级 1-1',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 5,
-            label: '二级 2-1'
-          }, {
-            id: 6,
-            label: '二级 2-2'
-          }]
-        }, {
-          id: 3,
-          label: '一级 3',
-          children: [{
-            id: 7,
-            label: '二级 3-1'
-          }, {
-            id: 8,
-            label: '二级 3-2'
-          }]
-        }],
+  import { defineComponent, reactive, toRefs, ref } from 'vue';
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        data: [
+          {
+            id: 1,
+            label: '一级 1',
+            children: [
+              {
+                id: 4,
+                label: '二级 1-1',
+                children: [
+                  {
+                    id: 9,
+                    label: '三级 1-1-1',
+                  },
+                  {
+                    id: 10,
+                    label: '三级 1-1-2',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 2,
+            label: '一级 2',
+            children: [
+              {
+                id: 5,
+                label: '二级 2-1',
+              },
+              {
+                id: 6,
+                label: '二级 2-2',
+              },
+            ],
+          },
+          {
+            id: 3,
+            label: '一级 3',
+            children: [
+              {
+                id: 7,
+                label: '二级 3-1',
+              },
+              {
+                id: 8,
+                label: '二级 3-2',
+              },
+            ],
+          },
+        ],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+      const tree = ref();
+      const getCheckedNodes = () => {
+        console.log(tree.value.getCheckedNodes());
       };
-    }
-  };
+      const getCheckedKeys = () => {
+        console.log(tree.value.getCheckedKeys());
+      };
+      const setCheckedNodes = () => {
+        tree.value.setCheckedNodes([
+          {
+            id: 5,
+            label: '二级 2-1',
+          },
+          {
+            id: 9,
+            label: '三级 1-1-1',
+          },
+        ]);
+      };
+
+      const setCheckedKeys = () => {
+        tree.value.setCheckedKeys([3]);
+      };
+      const resetChecked = () => {
+        tree.value.setCheckedKeys([]);
+      };
+
+      return {
+        ...toRefs(state),
+        getCheckedNodes,
+        getCheckedKeys,
+        setCheckedNodes,
+        setCheckedKeys,
+        resetChecked,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -440,79 +495,82 @@
 </div>
 
 <script>
-  let id = 1000;
+ import { defineComponent, reactive, toRefs } from 'vue';
 
-  export default {
-    data() {
-      const data = [{
-        id: 1,
-        label: '一级 1',
+export default defineComponent({
+  setup() {
+    const id = 1000;
+
+    const tmpData = [{
+      id: 1,
+      label: '一级 1',
+      children: [{
+        id: 4,
+        label: '二级 1-1',
         children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }, {
-            id: 10,
-            label: '三级 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
+          id: 9,
+          label: '三级 1-1-1',
         }, {
-          id: 6,
-          label: '二级 2-2'
-        }]
+          id: 10,
+          label: '三级 1-1-2',
+        }],
+      }],
+    }, {
+      id: 2,
+      label: '一级 2',
+      children: [{
+        id: 5,
+        label: '二级 2-1',
       }, {
-        id: 3,
-        label: '一级 3',
-        children: [{
-          id: 7,
-          label: '二级 3-1'
-        }, {
-          id: 8,
-          label: '二级 3-2'
-        }]
-      }];
-      return {
-        data: JSON.parse(JSON.stringify(data)),
+        id: 6,
+        label: '二级 2-2',
+      }],
+    }, {
+      id: 3,
+      label: '一级 3',
+      children: [{
+        id: 7,
+        label: '二级 3-1',
+      }, {
+        id: 8,
+        label: '二级 3-2',
+      }],
+    }];
+
+    const state = reactive({
+      data: JSON.parse(JSON.stringify(tmpData)),
+    });
+    const append = (data) => {
+      const newChild = { id: id + 1, label: 'testtest', children: [] };
+      if (!data.children) {
+        data.children = [];
       }
-    },
+      data.children.push(newChild);
+      state.data = [...state.data];
+    };
+    const remove = (node, data) => {
+      const { parent } = node;
+      const children = parent.data.children || parent.data;
+      const index = children.findIndex((d) => d.id === data.id);
+      children.splice(index, 1);
+      state.data = [...state.data];
+    };
+    const renderContent = (h, { node, data, store }) => h('span', {
+      class: 'custom-tree-node',
+    }, h('span', null, node.label), h('span', null, h('a', {
+      onClick: () => append(data),
+    }, 'Append '), h('a', {
+      onClick: () => remove(node, data),
+    }, 'Delete')));
 
-    methods: {
-      append(data) {
-        const newChild = { id: id++, label: 'testtest', children: [] };
-        if (!data.children) {
-          data.children = []
-        }
-        data.children.push(newChild);
-        this.data = [...this.data]
-      },
-
-      remove(node, data) {
-        const parent = node.parent;
-        const children = parent.data.children || parent.data;
-        const index = children.findIndex(d => d.id === data.id);
-        children.splice(index, 1);
-        this.data = [...this.data]
-      },
-
-      renderContent(h, { node, data, store }) {
-        return h("span", {
-          class: "custom-tree-node"
-        }, h("span", null, node.label), h("span", null, h("a", {
-          onClick: () => this.append(data)
-        }, "Append "), h("a", {
-          onClick: () => this.remove(node, data)
-        }, "Delete")));
-      }
-    }
-  };
+    return {
+      ...toRefs(state),
+      append,
+      remove,
+      renderContent,
+    };
+  },
+});
 </script>
 
 <style>
@@ -548,65 +606,68 @@
 </el-tree>
 
 <script>
-  export default {
-    watch: {
-      filterText(val) {
-        this.$refs.tree.filter(val);
-      }
-    },
+import { defineComponent, reactive, toRefs, watch, ref } from 'vue';
 
-    methods: {
-      filterNode(value, data) {
-        if (!value) return true;
-        return data.label.indexOf(value) !== -1;
-      }
-    },
-
-    data() {
-      return {
-        filterText: '',
-        data: [{
-          id: 1,
-          label: '一级 1',
+export default defineComponent({
+  setup() {
+    const tree = ref();
+    const state = reactive({
+      filterText: '',
+      data: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
           children: [{
-            id: 4,
-            label: '二级 1-1',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 5,
-            label: '二级 2-1'
+            id: 9,
+            label: '三级 1-1-1',
           }, {
-            id: 6,
-            label: '二级 2-2'
-          }]
-        }, {
-          id: 3,
-          label: '一级 3',
-          children: [{
-            id: 7,
-            label: '二级 3-1'
-          }, {
-            id: 8,
-            label: '二级 3-2'
-          }]
+            id: 10,
+            label: '三级 1-1-2',
+          }],
         }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        }
-      };
-    }
-  };
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 5,
+          label: '二级 2-1',
+        }, {
+          id: 6,
+          label: '二级 2-2',
+        }],
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 7,
+          label: '二级 3-1',
+        }, {
+          id: 8,
+          label: '二级 3-2',
+        }],
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label',
+      },
+    });
+    const filterNode = (value, data) => {
+      if (!value) return true;
+      return data.label.indexOf(value) !== -1;
+    };
+
+    watch(() => state.filterText, (value) => {
+      tree.value.filter(value);
+    });
+    return {
+      ...toRefs(state),
+      tree,
+      filterNode,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -625,56 +686,61 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           label: '一级 1',
           children: [{
             label: '二级 1-1',
             children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
+              label: '三级 1-1-1',
+            }],
+          }],
         }, {
           label: '一级 2',
           children: [{
             label: '二级 2-1',
             children: [{
-              label: '三级 2-1-1'
-            }]
+              label: '三级 2-1-1',
+            }],
           }, {
             label: '二级 2-2',
             children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
+              label: '三级 2-2-1',
+            }],
+          }],
         }, {
           label: '一级 3',
           children: [{
             label: '二级 3-1',
             children: [{
-              label: '三级 3-1-1'
-            }]
+              label: '三级 3-1-1',
+            }],
           }, {
             label: '二级 3-2',
             children: [{
-              label: '三级 3-2-1'
-            }]
-          }]
+              label: '三级 3-2-1',
+            }],
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+      const handleNodeClick = (data) => {
+        console.log(data);
+      };
+
+      return {
+        ...toRefs(state),
+        handleNodeClick,
       };
     },
-    methods: {
-      handleNodeClick(data) {
-        console.log(data);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -701,9 +767,11 @@
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           id: 1,
           label: '一级 1',
@@ -712,80 +780,86 @@
             label: '二级 1-1',
             children: [{
               id: 9,
-              label: '三级 1-1-1'
+              label: '三级 1-1-1',
             }, {
               id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
+              label: '三级 1-1-2',
+            }],
+          }],
         }, {
           id: 2,
           label: '一级 2',
           children: [{
             id: 5,
-            label: '二级 2-1'
+            label: '二级 2-1',
           }, {
             id: 6,
-            label: '二级 2-2'
-          }]
+            label: '二级 2-2',
+          }],
         }, {
           id: 3,
           label: '一级 3',
           children: [{
             id: 7,
-            label: '二级 3-1'
+            label: '二级 3-1',
           }, {
             id: 8,
             label: '二级 3-2',
             children: [{
-             id: 11,
-              label: '三级 3-2-1'
+              id: 11,
+              label: '三级 3-2-1',
             }, {
               id: 12,
-              label: '三级 3-2-2'
+              label: '三级 3-2-2',
             }, {
               id: 13,
-              label: '三级 3-2-3'
-            }]
-          }]
+              label: '三级 3-2-3',
+            }],
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
-      };
-    },
-    methods: {
-      handleDragStart(node, ev) {
+          label: 'label',
+        },
+      });
+      const handleDragStart = (node, ev) => {
         console.log('drag start', node);
-      },
-      handleDragEnter(draggingNode, dropNode, ev) {
+      };
+      const handleDragEnter = (draggingNode, dropNode, ev) => {
         console.log('tree drag enter: ', dropNode.label);
-      },
-      handleDragLeave(draggingNode, dropNode, ev) {
+      };
+      const handleDragLeave = (draggingNode, dropNode, ev) => {
         console.log('tree drag leave: ', dropNode.label);
-      },
-      handleDragOver(draggingNode, dropNode, ev) {
+      };
+      const handleDragOver = (draggingNode, dropNode, ev) => {
         console.log('tree drag over: ', dropNode.label);
-      },
-      handleDragEnd(draggingNode, dropNode, dropType, ev) {
+      };
+      const handleDragEnd = (draggingNode, dropNode, dropType, ev) => {
         console.log('tree drag end: ', dropNode && dropNode.label, dropType);
-      },
-      handleDrop(draggingNode, dropNode, dropType, ev) {
+      };
+      const handleDrop = (draggingNode, dropNode, dropType, ev) => {
         console.log('tree drop: ', dropNode.label, dropType);
-      },
-      allowDrop(draggingNode, dropNode, type) {
+      };
+      const allowDrop = (draggingNode, dropNode, type) => {
         if (dropNode.data.label === '二级 3-1') {
           return type !== 'inner';
-        } else {
-          return true;
         }
-      },
-      allowDrag(draggingNode) {
-        return draggingNode.data.label.indexOf('三级 3-2-2') === -1;
-      }
-    }
-  };
+        return true;
+      };
+      const allowDrag = (draggingNode) => draggingNode.data.label.indexOf('三级 3-2-2') === -1;
+      return {
+        ...toRefs(state),
+        handleDragStart,
+        handleDragEnter,
+        handleDragLeave,
+        handleDragOver,
+        handleDragEnd,
+        handleDrop,
+        allowDrop,
+        allowDrag,
+      };
+    },
+  });
 </script>
 ```
 :::

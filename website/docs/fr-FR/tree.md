@@ -11,56 +11,61 @@ Voici la structure basique.
 <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           label: 'Niveau un 1',
           children: [{
             label: 'Niveau deux 1-1',
             children: [{
-              label: 'Niveau trois 1-1-1'
-            }]
-          }]
+              label: 'Niveau trois 1-1-1',
+            }],
+          }],
         }, {
           label: 'Niveau un 2',
           children: [{
             label: 'Niveau deux 2-1',
             children: [{
-              label: 'Niveau trois 2-1-1'
-            }]
+              label: 'Niveau trois 2-1-1',
+            }],
           }, {
             label: 'Niveau deux 2-2',
             children: [{
-              label: 'Niveau trois 2-2-1'
-            }]
-          }]
+              label: 'Niveau trois 2-2-1',
+            }],
+          }],
         }, {
           label: 'Niveau un 3',
           children: [{
             label: 'Niveau deux 3-1',
             children: [{
-              label: 'Niveau trois 3-1-1'
-            }]
+              label: 'Niveau trois 3-1-1',
+            }],
           }, {
             label: 'Niveau deux 3-2',
             children: [{
-              label: 'Niveau trois 3-2-1'
-            }]
-          }]
+              label: 'Niveau trois 3-2-1',
+            }],
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+
+      const handleNodeClick = (data) => {
+        console.log(data);
+      };
+      return {
+        ...toRefs(state),
+        handleNodeClick,
       };
     },
-    methods: {
-      handleNodeClick(data) {
-        console.log(data);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -80,30 +85,31 @@ Vous pouvez activer la sélection des noeuds.
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         props: {
           label: 'name',
-          children: 'zones'
+          children: 'zones',
         },
-        count: 1
-      };
-    },
-    methods: {
-      handleCheckChange(data, checked, indeterminate) {
+        count: 1,
+      });
+
+      const handleCheckChange = (data, checked, indeterminate) => {
         console.log(data, checked, indeterminate);
-      },
-      handleNodeClick(data) {
+      };
+      const handleNodeClick = (data) => {
         console.log(data);
-      },
-      loadNode(node, resolve) {
+      };
+      const loadNode = (node, resolve) => {
         if (node.level === 0) {
           return resolve([{ name: 'Root1' }, { name: 'Root2' }]);
         }
         if (node.level > 3) return resolve([]);
 
-        var hasChild;
+        let hasChild;
         if (node.data.name === 'region1') {
           hasChild = true;
         } else if (node.data.name === 'region2') {
@@ -113,12 +119,12 @@ Vous pouvez activer la sélection des noeuds.
         }
 
         setTimeout(() => {
-          var data;
+          let data;
           if (hasChild) {
             data = [{
-              name: 'zone' + this.count++
+              name: `zone${state.count++}`,
             }, {
-              name: 'zone' + this.count++
+              name: `zone${state.count++}`,
             }];
           } else {
             data = [];
@@ -126,9 +132,15 @@ Vous pouvez activer la sélection des noeuds.
 
           resolve(data);
         }, 500);
-      }
-    }
-  };
+      };
+      return {
+        ...toRefs(state),
+        handleNodeClick,
+        handleCheckChange,
+        loadNode,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -145,18 +157,18 @@ Vous pouvez activer la sélection des noeuds.
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         props: {
           label: 'name',
           children: 'zones',
-          isLeaf: 'leaf'
+          isLeaf: 'leaf',
         },
-      };
-    },
-    methods: {
-      loadNode(node, resolve) {
+      });
+      const loadNode = (node, resolve) => {
         if (node.level === 0) {
           return resolve([{ name: 'region' }]);
         }
@@ -165,16 +177,20 @@ Vous pouvez activer la sélection des noeuds.
         setTimeout(() => {
           const data = [{
             name: 'leaf',
-            leaf: true
+            leaf: true,
           }, {
-            name: 'zone'
+            name: 'zone',
           }];
 
           resolve(data);
         }, 500);
-      }
-    }
-  };
+      };
+      return {
+        ...toRefs(state),
+        loadNode,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -319,37 +335,14 @@ Certains noeuds peuvent être ouverts et/ou sélectionnés par défaut.
   <el-button @click="getCheckedKeys">Récupération par clé</el-button>
   <el-button @click="setCheckedNodes">Sélection par noeud</el-button>
   <el-button @click="setCheckedKeys">Sélection par clé</el-button>
-  <el-button @click="resetChecked">Reset</el-button>
+  <el-button @click="resetChecked">reset</el-button>
 </div>
 
 <script>
-  export default {
-    methods: {
-      getCheckedNodes() {
-        console.log(this.$refs.tree.getCheckedNodes());
-      },
-      getCheckedKeys() {
-        console.log(this.$refs.tree.getCheckedKeys());
-      },
-      setCheckedNodes() {
-        this.$refs.tree.setCheckedNodes([{
-          id: 5,
-          label: 'Niveau deux 2-1'
-        }, {
-          id: 9,
-          label: 'Niveau trois 1-1-1'
-        }]);
-      },
-      setCheckedKeys() {
-        this.$refs.tree.setCheckedKeys([3]);
-      },
-      resetChecked() {
-        this.$refs.tree.setCheckedKeys([]);
-      }
-    },
-
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs, ref } from 'vue';
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           id: 1,
           label: 'Niveau un 1',
@@ -358,40 +351,75 @@ Certains noeuds peuvent être ouverts et/ou sélectionnés par défaut.
             label: 'Niveau deux 1-1',
             children: [{
               id: 9,
-              label: 'Niveau trois 1-1-1'
+              label: 'Niveau trois 1-1-1',
             }, {
               id: 10,
-              label: 'Niveau trois 1-1-2'
-            }]
-          }]
+              label: 'Niveau trois 1-1-2',
+            }],
+          }],
         }, {
           id: 2,
           label: 'Niveau un 2',
           children: [{
             id: 5,
-            label: 'Niveau deux 2-1'
+            label: 'Niveau deux 2-1',
           }, {
             id: 6,
-            label: 'Niveau deux 2-2'
-          }]
+            label: 'Niveau deux 2-2',
+          }],
         }, {
           id: 3,
           label: 'Niveau un 3',
           children: [{
             id: 7,
-            label: 'Niveau deux 3-1'
+            label: 'Niveau deux 3-1',
           }, {
             id: 8,
-            label: 'Niveau deux 3-2'
-          }]
+            label: 'Niveau deux 3-2',
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+      const tree = ref();
+      const getCheckedNodes = () => {
+        console.log(tree.value.getCheckedNodes());
       };
-    }
-  };
+      const getCheckedKeys = () => {
+        console.log(tree.value.getCheckedKeys());
+      };
+      const setCheckedNodes = () => {
+        tree.value.setCheckedNodes([
+          {
+            id: 5,
+            label: 'Niveau deux 2-1',
+          }, {
+            id: 9,
+            label: 'Niveau trois 1-1-1',
+          },
+        ]);
+      };
+
+      const setCheckedKeys = () => {
+        tree.value.setCheckedKeys([3]);
+      };
+      const resetChecked = () => {
+        tree.value.setCheckedKeys([]);
+      };
+
+      return {
+        ...toRefs(state),
+        tree,
+        getCheckedNodes,
+        getCheckedKeys,
+        setCheckedNodes,
+        setCheckedKeys,
+        resetChecked,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -442,11 +470,13 @@ Le contenu des noeuds peut être personnalisé, afin de pouvoir ajouter des icô
 </div>
 
 <script>
-  let id = 1000;
+  import { defineComponent, reactive, toRefs } from 'vue';
 
-  export default {
-    data() {
-      const data = [{
+  export default defineComponent({
+    setup() {
+      const id = 1000;
+
+      const tmpData = [{
         id: 1,
         label: 'Niveau un 1',
         children: [{
@@ -454,67 +484,68 @@ Le contenu des noeuds peut être personnalisé, afin de pouvoir ajouter des icô
           label: 'Niveau deux 1-1',
           children: [{
             id: 9,
-            label: 'Niveau trois 1-1-1'
+            label: 'Niveau trois 1-1-1',
           }, {
             id: 10,
-            label: 'Niveau trois 1-1-2'
-          }]
-        }]
+            label: 'Niveau trois 1-1-2',
+          }],
+        }],
       }, {
         id: 2,
         label: 'Niveau un 2',
         children: [{
           id: 5,
-          label: 'Niveau deux 2-1'
+          label: 'Niveau deux 2-1',
         }, {
           id: 6,
-          label: 'Niveau deux 2-2'
-        }]
+          label: 'Niveau deux 2-2',
+        }],
       }, {
         id: 3,
         label: 'Niveau un 3',
         children: [{
           id: 7,
-          label: 'Niveau deux 3-1'
+          label: 'Niveau deux 3-1',
         }, {
           id: 8,
-          label: 'Niveau deux 3-2'
-        }]
+          label: 'Niveau deux 3-2',
+        }],
       }];
-      return {
-        data: JSON.parse(JSON.stringify(data)),
-      }
-    },
 
-    methods: {
-      append(data) {
-        const newChild = { id: id++, label: 'testtest', children: [] };
+      const state = reactive({
+        data: JSON.parse(JSON.stringify(tmpData)),
+      });
+      const append = (data) => {
+        const newChild = { id: id + 1, label: 'testtest', children: [] };
         if (!data.children) {
-          data.children = []
+          data.children = [];
         }
         data.children.push(newChild);
-        this.data = [...this.data]
-      },
-
-      remove(node, data) {
-        const parent = node.parent;
+        state.data = [...state.data];
+      };
+      const remove = (node, data) => {
+        const { parent } = node;
         const children = parent.data.children || parent.data;
-        const index = children.findIndex(d => d.id === data.id);
+        const index = children.findIndex((d) => d.id === data.id);
         children.splice(index, 1);
-        this.data = [...this.data]
-      },
+        state.data = [...state.data];
+      };
+      const renderContent = (h, { node, data, store }) => h('span', {
+        class: 'custom-tree-node',
+      }, h('span', null, node.label), h('span', null, h('a', {
+        onClick: () => append(data),
+      }, 'Append '), h('a', {
+        onClick: () => remove(node, data),
+      }, 'Delete')));
 
-      renderContent(h, { node, data, store }) {
-        return h("span", {
-          class: "custom-tree-node"
-        }, h("span", null, node.label), h("span", null, h("a", {
-          onClick: () => this.append(data)
-        }, "Append "), h("a", {
-          onClick: () => this.remove(node, data)
-        }, "Delete")));
-      }
-    }
-  };
+      return {
+        ...toRefs(state),
+        append,
+        remove,
+        renderContent,
+      };
+    },
+  });
 </script>
 
 <style>
@@ -628,56 +659,61 @@ Vous pouvez utiliser un mode accordéon afin que seul un noeud par niveau soit o
 </el-tree>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         data: [{
           label: 'Niveau un 1',
           children: [{
             label: 'Niveau deux 1-1',
             children: [{
-              label: 'Niveau trois 1-1-1'
-            }]
-          }]
+              label: 'Niveau trois 1-1-1',
+            }],
+          }],
         }, {
           label: 'Niveau un 2',
           children: [{
             label: 'Niveau deux 2-1',
             children: [{
-              label: 'Niveau trois 2-1-1'
-            }]
+              label: 'Niveau trois 2-1-1',
+            }],
           }, {
             label: 'Niveau deux 2-2',
             children: [{
-              label: 'Niveau trois 2-2-1'
-            }]
-          }]
+              label: 'Niveau trois 2-2-1',
+            }],
+          }],
         }, {
           label: 'Niveau un 3',
           children: [{
             label: 'Niveau deux 3-1',
             children: [{
-              label: 'Niveau trois 3-1-1'
-            }]
+              label: 'Niveau trois 3-1-1',
+            }],
           }, {
             label: 'Niveau deux 3-2',
             children: [{
-              label: 'Niveau trois 3-2-1'
-            }]
-          }]
+              label: 'Niveau trois 3-2-1',
+            }],
+          }],
         }],
         defaultProps: {
           children: 'children',
-          label: 'label'
-        }
+          label: 'label',
+        },
+      });
+
+      const handleNodeClick = (data) => {
+        console.log(data);
+      };
+      return {
+        ...toRefs(state),
+        handleNodeClick,
       };
     },
-    methods: {
-      handleNodeClick(data) {
-        console.log(data);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
