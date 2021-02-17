@@ -28,40 +28,43 @@
 </template>
 
 <script>
-  const makeRange = (start, end) => {
-    const result = []
-    for (let i = start; i <= end; i++) {
-      result.push(i)
-    }
-    return result
-  }
-  export default {
-    data() {
-      return {
-        value1: new Date(2016, 9, 10, 18, 40),
-        value2: new Date(2016, 9, 10, 18, 40)
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref(new Date(2016, 9, 10, 18, 40));
+      const value2 = ref(new Date(2016, 9, 10, 18, 40));
+      const makeRange = (start, end) => {
+        const result = [];
+        for (let i = start; i <= end; i += 1) {
+          result.push(i);
+        }
+        return result;
       };
-    },
-    methods: {
       // e.g. allow 17:30:00 - 18:30:00
-      disabledHours() {
-        return makeRange(0, 16).concat(makeRange(19, 23))
-      },
-      disabledMinutes (hour) {
+      const disabledHours = () => makeRange(0, 16).concat(makeRange(19, 23));
+      const disabledMinutes = (hour) => {
         if (hour === 17) {
-          return makeRange(0, 29)
+          return makeRange(0, 29);
         }
         if (hour === 18) {
-          return makeRange(31, 59)
+          return makeRange(31, 59);
         }
-      },
-      disabledSeconds(hour, minute) {
+      };
+      const disabledSeconds = (hour, minute) => {
         if (hour === 18 && minute === 30) {
-          return makeRange(1, 59)
+          return makeRange(1, 59);
         }
-      },
+      };
+      return {
+        value1,
+        value2,
+        disabledHours,
+        disabledMinutes,
+        disabledSeconds,
+      };
     },
-  }
+  });
 </script>
 ```
 :::
@@ -91,14 +94,16 @@
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value1: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
-        value2: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)]
+        value1: ref([new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)]),
+        value2: ref([new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)]),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
