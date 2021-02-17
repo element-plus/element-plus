@@ -11,18 +11,20 @@ Input de  valores numéricos con un rango personalizable.
   <el-input-number v-model="num" @change="handleChange" :min="1" :max="10"></el-input-number>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      const handleChange = (value) => {
+        console.log(value);
+      };
       return {
-        num: 1
+        num,
+        handleChange,
       };
     },
-    methods: {
-      handleChange(value) {
-        console.log(value)
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -36,13 +38,16 @@ Input de  valores numéricos con un rango personalizable.
   <el-input-number v-model="num" :disabled="true"></el-input-number>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
       return {
-        num: 1
-      }
-    }
-  };
+        num,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -58,13 +63,16 @@ Le permite definir el nivel de incremento de los saltos.
   <el-input-number v-model="num" :step="2"></el-input-number>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(5);
       return {
-        num: 5
-      }
-    }
-  };
+        num,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -78,13 +86,16 @@ Le permite definir el nivel de incremento de los saltos.
   <el-input-number v-model="num" :step="2" step-strictly></el-input-number>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(2);
       return {
-        num: 2
-      }
-    }
-  };
+        num,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -98,13 +109,16 @@ Le permite definir el nivel de incremento de los saltos.
   <el-input-number v-model="num" :precision="2" :step="0.1" :max="10"></el-input-number>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
       return {
-        num: 1
-      }
-    }
-  };
+        num,
+      };
+    },
+  });
 </script>
 ```
 
@@ -129,16 +143,22 @@ Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `s
     <el-input-number size="mini" v-model="num4"></el-input-number>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num1 = ref(1);
+      const num2 = ref(2);
+      const num3 = ref(3);
+      const num4 = ref(4);
       return {
-        num1: 1,
-        num2: 1,
-        num3: 1,
-        num4: 1
-      }
-    }
-  };
+        num1,
+        num2,
+        num3,
+        num4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -152,18 +172,20 @@ Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `s
   <el-input-number v-model="num" controls-position="right" @change="handleChange" :min="1" :max="10"></el-input-number>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      const handleChange = (value) => {
+        console.log(value);
+      };
       return {
-        num: 1
+        num,
+        handleChange,
       };
     },
-    methods: {
-      handleChange(value) {
-        console.log(value);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
