@@ -20,15 +20,17 @@
 </div>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value1: null,
-        value2: null,
-        colors: ['#99A9BF', '#F7BA2A', '#FF9900'] // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
-      }
-    }
-  }
+        value1: ref(null),
+        value2: ref(null),
+        colors: ref(['#99A9BF', '#F7BA2A', '#FF9900']), // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -43,14 +45,15 @@
 
 
 <script>
-import { defineComponent, ref } from 'vue'
-  export default {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
     setup() {
       return {
-        value: ref(null)
-      }
-    }
-  }
+        value: ref(null),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -69,13 +72,15 @@ import { defineComponent, ref } from 'vue'
 </el-rate>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value: null
-      }
-    }
-  }
+        value: ref(null),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -95,14 +100,16 @@ import { defineComponent, ref } from 'vue'
 </el-rate>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value: null,
-        iconClasses: ['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3'] // same as { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' }
-      }
-    }
-  }
+        value: ref(null),
+        iconClasses: ref(['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3']), // same as { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' }
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -123,13 +130,15 @@ import { defineComponent, ref } from 'vue'
 </el-rate>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value: 3.7
-      }
-    }
-  }
+        value: ref(3.7),
+      };
+    },
+  });
 </script>
 ```
 :::
