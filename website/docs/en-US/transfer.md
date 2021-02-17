@@ -71,35 +71,38 @@ You can customize list titles, button texts, render function for data items, che
 </style>
 
 <script>
-  export default {
-    data() {
-      const generateData = _ => {
-        const data = [];
-        for (let i = 1; i <= 15; i++) {
-          data.push({
-            key: i,
-            label: `Option ${ i }`,
-            disabled: i % 4 === 0
-          });
-        }
-        return data;
-      };
-      return {
-        data: generateData(),
-        rightValue: [1],
-        leftValue: [1],
-        renderFunc(h, option) {
-          return h("span", null, option.key, " - ", option.label);
-        }
-      };
-    },
+import { defineComponent, reactive, toRefs } from 'vue';
 
-    methods: {
-      handleChange(value, direction, movedKeys) {
-        console.log(value, direction, movedKeys);
+export default defineComponent({
+  setup() {
+    const generateData = (_) => {
+      const data = [];
+      for (let i = 1; i <= 15; i += 1) {
+        data.push({
+          key: i,
+          label: `Option ${i}`,
+          disabled: i % 4 === 0,
+        });
       }
-    }
-  };
+      return data;
+    };
+    const state = reactive({
+      data: generateData(),
+      rightValue: [1],
+      leftValue: [1],
+      renderFunc(h, option) {
+        return h('span', null, option.key, ' - ', option.label);
+      },
+    });
+    const handleChange = (value, direction, movedKeys) => {
+      console.log(value, direction, movedKeys);
+    };
+    return {
+      ...toRefs(state),
+      handleChange,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -121,25 +124,31 @@ By default, Transfer looks for `key`, `label` and `disabled` in a data item. If 
 </template>
 
 <script>
-  export default {
-    data() {
-      const generateData = _ => {
-        const data = [];
-        for (let i = 1; i <= 15; i++) {
-          data.push({
-            value: i,
-            desc: `Option ${ i }`,
-            disabled: i % 4 === 0
-          });
-        }
-        return data;
-      };
-      return {
-        data: generateData(),
-        value: []
-      };
-    }
-  };
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const generateData = (_) => {
+      const data = [];
+      for (let i = 1; i <= 15; i += 1) {
+        data.push({
+          value: i,
+          desc: `Option ${i}`,
+          disabled: i % 4 === 0,
+        });
+      }
+      return data;
+    };
+    const state = reactive({
+      data: generateData(),
+      value: [],
+    });
+
+    return {
+      ...toRefs(state),
+    };
+  },
+});
 </script>
 ```
 :::

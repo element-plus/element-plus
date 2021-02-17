@@ -11,25 +11,31 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      const generateData = _ => {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const generateData = (_) => {
         const data = [];
-        for (let i = 1; i <= 15; i++) {
+        for (let i = 1; i <= 15; i += 1) {
           data.push({
             key: i,
-            label: `Option ${ i }`,
-            disabled: i % 4 === 0
+            label: `Option ${i}`,
+            disabled: i % 4 === 0,
           });
         }
         return data;
       };
-      return {
+      const state = reactive({
         data: generateData(),
-        value: [1, 4]
+        value: [1, 4],
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -51,9 +57,11 @@ Puede buscar y filtrar los items.
 </template>
 
 <script>
-  export default {
-    data() {
-      const generateData = _ => {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const generateData = (_) => {
         const data = [];
         const states = ['California', 'Illinois', 'Maryland', 'Texas', 'Florida', 'Colorado', 'Connecticut '];
         const initials = ['CA', 'IL', 'MD', 'TX', 'FL', 'CO', 'CT'];
@@ -61,20 +69,24 @@ Puede buscar y filtrar los items.
           data.push({
             label: city,
             key: index,
-            initial: initials[index]
+            initial: initials[index],
           });
         });
         return data;
       };
-      return {
+      const state = reactive({
         data: generateData(),
         value: [],
         filterMethod(query, item) {
           return item.initial.toLowerCase().indexOf(query.toLowerCase()) > -1;
-        }
+        },
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -150,35 +162,40 @@ Puede personalizar los títulos, botones, la función de renderizado de los item
 </style>
 
 <script>
-  export default {
-    data() {
-      const generateData = _ => {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const generateData = (_) => {
         const data = [];
-        for (let i = 1; i <= 15; i++) {
+        for (let i = 1; i <= 15; i += 1) {
           data.push({
             key: i,
-            label: `Option ${ i }`,
-            disabled: i % 4 === 0
+            label: `Option ${i}`,
+            disabled: i % 4 === 0,
           });
         }
         return data;
       };
-      return {
+      const state = reactive({
         data: generateData(),
         leftValue: [1],
         rightValue: [1],
         renderFunc(h, option) {
-          return h("span", null, option.key, " - ", option.label);
-        }
+          return h('span', null, option.key, ' - ', option.label);
+        },
+      });
+
+      const handleChange = (value, direction, movedKeys) => {
+        console.log(value, direction, movedKeys);
+      };
+
+      return {
+        ...toRefs(state),
+        handleChange,
       };
     },
-
-    methods: {
-      handleChange(value, direction, movedKeys) {
-        console.log(value, direction, movedKeys);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -201,25 +218,31 @@ Por defecto Transfer busca los atributos `key`, `label`, y `disabled` en cada el
 </template>
 
 <script>
-  export default {
-    data() {
-      const generateData = _ => {
-        const data = [];
-        for (let i = 1; i <= 15; i++) {
-          data.push({
-            value: i,
-            desc: `Option ${ i }`,
-            disabled: i % 4 === 0
-          });
-        }
-        return data;
-      };
-      return {
-        data: generateData(),
-        value: []
-      };
-    }
-  };
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const generateData = (_) => {
+      const data = [];
+      for (let i = 1; i <= 15; i += 1) {
+        data.push({
+          value: i,
+          desc: `Option ${i}`,
+          disabled: i % 4 === 0,
+        });
+      }
+      return data;
+    };
+    const state = reactive({
+      data: generateData(),
+      value: [],
+    });
+
+    return {
+      ...toRefs(state),
+    };
+  },
+});
 </script>
 ```
 :::
