@@ -118,18 +118,17 @@ ElementPlus 提供的排版模式有时候并不满足要求, 当您想要用自
 </template>
 
 <script>
-  import { defineComponent } from 'vue'
-
+  import { defineComponent, ref } from 'vue';
   const dayjs = require('dayjs')
 
   export default defineComponent({
-    data() {
+    setup() {
       return {
-        loading: true,
-        currentDate: dayjs().format('YYYY-MM-DD'),
-      }
+        loading: ref(true),
+        currentDate: ref(dayjs().format('YYYY-MM-DD')),
+      };
     },
-  })
+  });
 </script>
 ```
 
@@ -186,45 +185,45 @@ ElementPlus 提供的排版模式有时候并不满足要求, 当您想要用自
 </template>
 
 <script>
-  import { defineComponent } from 'vue'
+  import { defineComponent, reactive, toRefs, onMounted } from 'vue';
 
-  const dayjs = require('dayjs')
+  const dayjs = require('dayjs');
 
   export default defineComponent({
-    data() {
-      return {
+    setup() {
+      const state = reactive({
         loading: true,
         currentDate: dayjs().format('YYYY-MM-DD'),
         lists: [],
-      }
+      });
+
+      const setLoading = () => {
+        state.loading = true;
+        setTimeout(() => { state.loading = false; }, 2000);
+      };
+      onMounted(() => {
+        state.loading = false;
+        state.lists = [
+          {
+            imgUrl: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+            name: '鹿',
+          },
+          {
+            imgUrl: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
+            name: '马',
+          },
+          {
+            imgUrl: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
+            name: '山狮',
+          },
+        ];
+      });
+      return {
+        ...toRefs(state),
+        setLoading,
+      };
     },
-    mounted() {
-      this.loading = false
-      this.lists = [
-        {
-          imgUrl:
-            'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-          name: '鹿',
-        },
-        {
-          imgUrl:
-            'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-          name: '马',
-        },
-        {
-          imgUrl:
-            'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-          name: '山狮',
-        },
-      ]
-    },
-    methods: {
-      setLoading() {
-        this.loading = true
-        setTimeout(() => (this.loading = false), 2000)
-      },
-    },
-  })
+  });
 </script>
 ```
 
@@ -284,18 +283,17 @@ ElementPlus 提供的排版模式有时候并不满足要求, 当您想要用自
 </template>
 
 <script>
-  import { defineComponent } from 'vue'
-
+  import { defineComponent, ref } from 'vue';
   const dayjs = require('dayjs')
 
   export default defineComponent({
-    data() {
+    setup() {
       return {
-        loading: false,
-        currentDate: dayjs().format('YYYY-MM-DD'),
-      }
+        loading: ref(false),
+        currentDate: ref(dayjs().format('YYYY-MM-DD')),
+      };
     },
-  })
+  });
 </script>
 ```
 
