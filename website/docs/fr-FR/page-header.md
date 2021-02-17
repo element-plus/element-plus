@@ -10,13 +10,19 @@ Si le chemin de la page est simple, il est recommandé d’utiliser PageHeader a
 </el-page-header>
 
 <script>
-  export default {
-    methods: {
-      goBack() {
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const goBack = () => {
         console.log('go back');
-      }
-    }
-  }
+      };
+
+      return {
+        goBack,
+      };
+    },
+  });
 </script>
 ```
 :::

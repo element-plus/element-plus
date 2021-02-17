@@ -10,13 +10,19 @@ If path of the page is simple, it is recommended to use PageHeader instead of th
 </el-page-header>
 
 <script>
-  export default {
-    methods: {
-      goBack() {
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const goBack = () => {
         console.log('go back');
-      }
-    }
-  }
+      };
+
+      return {
+        goBack,
+      };
+    },
+  });
 </script>
 ```
 :::

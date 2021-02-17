@@ -122,24 +122,27 @@ Vous pouvez ajouter plus de modules suivant vos besoins.
   </div>
 </template>
 <script>
-  export default {
-    methods: {
-      handleSizeChange(val) {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleSizeChange = (val) => {
         console.log(`${val} items per page`);
-      },
-      handleCurrentChange(val) {
-        console.log(`current page: ${val}`);
-      }
-    },
-    data() {
-      return {
-        currentPage1: 5,
-        currentPage2: 5,
-        currentPage3: 5,
-        currentPage4: 4
       };
-    }
-  }
+      const handleCurrentChange = (val) => {
+        console.log(`current page: ${val}`);
+      };
+
+      return {
+        currentPage1: ref(5),
+        currentPage2: ref(5),
+        currentPage3: ref(5),
+        currentPage4: ref(4),
+        handleSizeChange,
+        handleCurrentChange,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -161,13 +164,15 @@ Lorsqu'il n'y a qu'une seule page, il est possible de cacher la pagination avec 
 </div>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value: false
-      }
-    }
-  }
+        value: ref(false),
+      };
+    },
+  });
 </script>
 ```
 :::

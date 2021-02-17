@@ -105,24 +105,27 @@ Agrega más módulos basados en su escenario.
   </div>
 </template>
 <script>
-  export default {
-    methods: {
-      handleSizeChange(val) {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleSizeChange = (val) => {
         console.log(`${val} items per page`);
-      },
-      handleCurrentChange(val) {
-        console.log(`current page: ${val}`);
-      }
-    },
-    data() {
-      return {
-        currentPage1: 5,
-        currentPage2: 5,
-        currentPage3: 5,
-        currentPage4: 4
       };
-    }
-  }
+      const handleCurrentChange = (val) => {
+        console.log(`current page: ${val}`);
+      };
+
+      return {
+        currentPage1: ref(5),
+        currentPage2: ref(5),
+        currentPage3: ref(5),
+        currentPage4: ref(4),
+        handleSizeChange,
+        handleCurrentChange,
+      };
+    },
+  });
 </script>
 ```
 
@@ -144,13 +147,15 @@ Cuando sólo hay una página, oculte la paginación configurando el atributo `hi
 </div>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value: false
-      }
-    }
-  }
+        value: ref(false),
+      };
+    },
+  });
 </script>
 ```
 :::
