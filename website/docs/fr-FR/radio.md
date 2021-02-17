@@ -126,8 +126,8 @@ Des radios affichés comme des boutons standards.
   export default defineComponent({
     setup() {
       return {
-        radio: ref('New York'),
-        radio2: ref('New York'),
+        radio1: ref('1'),
+        radio2: ref('1'),
         radio3: ref('New York'),
         radio4: ref('New York'),
       };
@@ -170,7 +170,7 @@ Des radios affichés comme des boutons standards.
   export default defineComponent({
     setup() {
       return {
-        radio: ref('1'),
+        radio1: ref('1'),
         radio2: ref('1'),
         radio3: ref('1'),
         radio4: ref('1'),

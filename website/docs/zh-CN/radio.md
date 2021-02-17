@@ -129,7 +129,7 @@
   export default defineComponent({
     setup() {
       return {
-        radio: ref('上海'),
+        radio1: ref('上海'),
         radio2: ref('上海'),
         radio3: ref('上海'),
         radio4: ref('上海'),
@@ -173,7 +173,7 @@
   export default defineComponent({
     setup() {
       return {
-        radio: ref('1'),
+        radio1: ref('1'),
         radio2: ref('1'),
         radio3: ref('1'),
         radio4: ref('1'),
