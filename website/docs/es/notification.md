@@ -76,39 +76,48 @@ Proporcionamos cuatro tipos: success, warning, info y error.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$notify({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open1 = () => {
+        proxy.$notify({
           title: 'Success',
           message: 'This is a success message',
-          type: 'success'
+          type: 'success',
         });
-      },
+      };
 
-      open2() {
-        this.$notify({
+      const open2 = () => {
+        proxy.$notify({
           title: 'Warning',
           message: 'This is a warning message',
-          type: 'warning'
+          type: 'warning',
         });
-      },
+      };
 
-      open3() {
-        this.$notify.info({
+      const open3 = () => {
+        proxy.$notify({
           title: 'Info',
-          message: 'This is an info message'
+          message: 'This is an info message',
         });
-      },
+      };
 
-      open4() {
-        this.$notify.error({
+      const open4 = () => {
+        proxy.$notify({
           title: 'Error',
-          message: 'This is an error message'
+          message: 'This is an error message',
         });
-      }
-    }
-  }
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -144,40 +153,49 @@ La notificación puede surgir de cualquier rincón que uno desee.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$notify({
-          title: 'Custom Position',
-          message: 'I\'m at the top right corner'
-        });
-      },
+  import { defineComponent, getCurrentInstance } from 'vue';
 
-      open2() {
-        this.$notify({
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open1 = () => {
+        proxy.$notify({
+          title: 'Custom Position',
+          message: 'I\'m at the top right corner',
+        });
+      };
+
+      const open2 = () => {
+        proxy.$notify({
           title: 'Custom Position',
           message: 'I\'m at the bottom right corner',
-          position: 'bottom-right'
+          position: 'bottom-right',
         });
-      },
+      };
 
-      open3() {
-        this.$notify({
+      const open3 = () => {
+        proxy.$notify({
           title: 'Custom Position',
           message: 'I\'m at the bottom left corner',
-          position: 'bottom-left'
+          position: 'bottom-left',
         });
-      },
+      };
 
-      open4() {
-        this.$notify({
+      const open4 = () => {
+        proxy.$notify({
           title: 'Custom Position',
           message: 'I\'m at the top left corner',
-          position: 'top-left'
+          position: 'top-left',
         });
-      }
-    }
-  }
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -198,17 +216,24 @@ Personalizar el desplazamiento de notificación desde el borde de la pantalla.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$notify.success({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open = () => {
+        proxy.$notify.success({
           title: 'Success',
           message: 'This is a success message',
-          offset: 100
+          offset: 100,
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -228,17 +253,24 @@ Personalizar el desplazamiento de notificación desde el borde de la pantalla.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$notify({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open = () => {
+        proxy.$notify({
           title: 'HTML String',
           dangerouslyUseHTMLString: true,
-          message: '<strong>This is <i>HTML</i> string</strong>'
+          message: '<strong>This is <i>HTML</i> string</strong>',
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -265,17 +297,24 @@ Es posible ocultar el botón de cerrar
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$notify.success({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open = () => {
+        proxy.$notify.success({
           title: 'Info',
           message: 'This is a message without close button',
-          showClose: false
+          showClose: false,
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::

@@ -21,26 +21,32 @@ Affiche une notification globale dans un coin de la page.
 </template>
 
 <script>
-  import { h } from 'vue';
+  import { defineComponent, getCurrentInstance, h } from 'vue';
 
-  export default {
-    methods: {
-      open1() {
-        this.$notify({
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open1 = () => {
+        proxy.$notify({
           title: 'Titre',
-          message: h('i', { style: 'color: teal' }, 'Ceci est un rappel')
+          message: h('i', { style: 'color: teal' }, 'Ceci est un rappel'),
         });
-      },
+      };
 
-      open2() {
-        this.$notify({
+      const open2 = () => {
+        proxy.$notify({
           title: 'Prompt',
           message: 'Ceci est un message qui ne se ferme pas',
-          duration: 0
+          duration: 0,
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open1,
+        open2,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -75,39 +81,48 @@ Nous fournissons quatre types: succès, avertissement, information et erreur.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$notify({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open1 = () => {
+        proxy.$notify({
           title: 'Success',
           message: 'Ceci est un message de succès',
-          type: 'success'
+          type: 'success',
         });
-      },
+      };
 
-      open2() {
-        this.$notify({
+      const open2 = () => {
+        proxy.$notify({
           title: 'Warning',
           message: 'Ceci est un avertissement',
-          type: 'warning'
+          type: 'warning',
         });
-      },
+      };
 
-      open3() {
-        this.$notify.info({
+      const open3 = () => {
+        proxy.$notify({
           title: 'Info',
-          message: 'Ceci est une information'
+          message: 'Ceci est une information',
         });
-      },
+      };
 
-      open4() {
-        this.$notify.error({
+      const open4 = () => {
+        proxy.$notify({
           title: 'Error',
-          message: 'Ceci est une erreur'
+          message: 'Ceci est une erreur',
         });
-      }
-    }
-  }
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -142,40 +157,49 @@ La notification peut apparaître dans le coin de votre choix.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$notify({
-          title: 'Custom Position',
-          message: 'Je suis dans le coin supérieur droit'
-        });
-      },
+  import { defineComponent, getCurrentInstance } from 'vue';
 
-      open2() {
-        this.$notify({
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open1 = () => {
+        proxy.$notify({
+          title: 'Custom Position',
+          message: 'Je suis dans le coin supérieur droit',
+        });
+      };
+
+      const open2 = () => {
+        proxy.$notify({
           title: 'Custom Position',
           message: 'Je suis dans le coin inférieur droit',
-          position: 'bottom-right'
+          position: 'bottom-right',
         });
-      },
+      };
 
-      open3() {
-        this.$notify({
+      const open3 = () => {
+        proxy.$notify({
           title: 'Custom Position',
           message: 'Je suis dans le coin inférieur gauche',
-          position: 'bottom-left'
+          position: 'bottom-left',
         });
-      },
+      };
 
-      open4() {
-        this.$notify({
+      const open4 = () => {
+        proxy.$notify({
           title: 'Custom Position',
           message: 'Je suis dans le coin supérieur gauche',
-          position: 'top-left'
+          position: 'top-left',
         });
-      }
-    }
-  }
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -195,17 +219,24 @@ Vous pouvez décaler l'emplacement de la notification par rapport au bord de la 
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$notify.success({
-          title: 'Success',
-          message: 'Ceci est un message de succès',
-          offset: 100
-        });
-      }
-    }
-  }
+import { defineComponent, getCurrentInstance } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const { proxy } = getCurrentInstance();
+    const open = () => {
+      proxy.$notify.success({
+        title: 'Success',
+        message: 'Ceci est un message de succès',
+        offset: 100,
+      });
+    };
+
+    return {
+      open,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -226,17 +257,24 @@ L'attribut `message` supporte le HTML.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$notify({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open = () => {
+        proxy.$notify({
           title: 'HTML String',
           dangerouslyUseHTMLString: true,
-          message: '<strong>Ceci est du <i>HTML</i></strong>'
+          message: '<strong>Ceci est du <i>HTML</i></strong>',
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -261,17 +299,24 @@ Il est possible de cacher le bouton de fermeture.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$notify.success({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open = () => {
+        proxy.$notify.success({
           title: 'Info',
           message: 'Ceci est un message sans bouton de fermeture',
-          showClose: false
+          showClose: false,
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::

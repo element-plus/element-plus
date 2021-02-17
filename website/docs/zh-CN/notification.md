@@ -22,26 +22,35 @@
 </template>
 
 <script>
-  import { h } from 'vue';
+  import { defineComponent, getCurrentInstance, h } from 'vue';
 
-  export default {
-    methods: {
-      open1() {
-        this.$notify({
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open1 = () => {
+        proxy.$notify({
           title: '标题名称',
-          message: h('i', { style: 'color: teal'}, '这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案')
+          message: h(
+            'i',
+            { style: 'color: teal' },
+            '这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案',
+          ),
         });
-      },
+      };
 
-      open2() {
-        this.$notify({
+      const open2 = () => {
+        proxy.$notify({
           title: '提示',
           message: '这是一条不会自动关闭的消息',
-          duration: 0
+          duration: 0,
         });
-      }
-    }
-  }
+      };
+      return {
+        open1,
+        open2,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -76,39 +85,48 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$notify({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open1 = () => {
+        proxy.$notify({
           title: '成功',
           message: '这是一条成功的提示消息',
-          type: 'success'
+          type: 'success',
         });
-      },
+      };
 
-      open2() {
-        this.$notify({
+      const open2 = () => {
+        proxy.$notify({
           title: '警告',
           message: '这是一条警告的提示消息',
-          type: 'warning'
+          type: 'warning',
         });
-      },
+      };
 
-      open3() {
-        this.$notify.info({
+      const open3 = () => {
+        proxy.$notify({
           title: '消息',
-          message: '这是一条消息的提示消息'
+          message: '这是一条消息的提示消息',
         });
-      },
+      };
 
-      open4() {
-        this.$notify.error({
+      const open4 = () => {
+        proxy.$notify({
           title: '错误',
-          message: '这是一条错误的提示消息'
+          message: '这是一条错误的提示消息',
         });
-      }
-    }
-  }
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -143,40 +161,49 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$notify({
-          title: '自定义位置',
-          message: '右上角弹出的消息'
-        });
-      },
+  import { defineComponent, getCurrentInstance } from 'vue';
 
-      open2() {
-        this.$notify({
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open1 = () => {
+        proxy.$notify({
+          title: '自定义位置',
+          message: '右上角弹出的消息',
+        });
+      };
+
+      const open2 = () => {
+        proxy.$notify({
           title: '自定义位置',
           message: '右下角弹出的消息',
-          position: 'bottom-right'
+          position: 'bottom-right',
         });
-      },
+      };
 
-      open3() {
-        this.$notify({
+      const open3 = () => {
+        proxy.$notify({
           title: '自定义位置',
           message: '左下角弹出的消息',
-          position: 'bottom-left'
+          position: 'bottom-left',
         });
-      },
+      };
 
-      open4() {
-        this.$notify({
+      const open4 = () => {
+        proxy.$notify({
           title: '自定义位置',
           message: '左上角弹出的消息',
-          position: 'top-left'
+          position: 'top-left',
         });
-      }
-    }
-  }
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -196,17 +223,24 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$notify({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open = () => {
+        proxy.$notify({
           title: '偏移',
           message: '这是一条带有偏移的提示消息',
-          offset: 100
+          offset: 100,
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -225,17 +259,24 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$notify({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open = () => {
+        proxy.$notify({
           title: 'HTML 片段',
           dangerouslyUseHTMLString: true,
-          message: '<strong>这是 <i>HTML</i> 片段</strong>'
+          message: '<strong>这是 <i>HTML</i> 片段</strong>',
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -259,17 +300,24 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$notify.success({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const open = () => {
+        proxy.$notify.success({
           title: 'Info',
           message: '这是一条没有关闭按钮的消息',
-          showClose: false
+          showClose: false,
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
