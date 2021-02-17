@@ -29,19 +29,24 @@
 </el-tag>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tags: [
           { name: '标签一', type: '' },
           { name: '标签二', type: 'success' },
           { name: '标签三', type: 'info' },
           { name: '标签四', type: 'warning' },
-          { name: '标签五', type: 'danger' }
-        ]
+          { name: '标签五', type: 'danger' },
+        ],
+      });
+      return {
+        ...toRefs(state),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -91,36 +96,44 @@
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
-        dynamicTags: ['标签一', '标签二', '标签三'],
-        inputVisible: false,
-        inputValue: ''
-      };
-    },
-    methods: {
-      handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-      },
+import { defineComponent, reactive, toRefs, nextTick, ref } from 'vue';
 
-      showInput() {
-        this.inputVisible = true;
-        this.$nextTick(_ => {
-          this.$refs.saveTagInput.$refs.input.focus();
-        });
-      },
+export default defineComponent({
+  setup() {
+    const saveTagInput = ref();
+    const state = reactive({
+      dynamicTags: ['标签一', '标签二', '标签三'],
+      inputVisible: false,
+      inputValue: '',
+    });
+    const handleClose = (tag) => {
+      state.dynamicTags.splice(state.dynamicTags.indexOf(tag), 1);
+    };
 
-      handleInputConfirm() {
-        let inputValue = this.inputValue;
-        if (inputValue) {
-          this.dynamicTags.push(inputValue);
-        }
-        this.inputVisible = false;
-        this.inputValue = '';
+    const showInput = () => {
+      state.inputVisible = true;
+      nextTick((_) => {
+        saveTagInput.value.$refs.input.focus();
+      });
+    };
+
+    const handleInputConfirm = () => {
+      const { inputValue } = state;
+      if (inputValue) {
+        state.dynamicTags.push(inputValue);
       }
-    }
-  }
+      state.inputVisible = false;
+      state.inputValue = '';
+    };
+    return {
+      ...toRefs(state),
+      saveTagInput,
+      handleClose,
+      showInput,
+      handleInputConfirm,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -167,19 +180,25 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 </div>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         items: [
           { type: '', label: '标签一' },
           { type: 'success', label: '标签二' },
           { type: 'info', label: '标签三' },
           { type: 'danger', label: '标签四' },
-          { type: 'warning', label: '标签五' }
-        ]
-      }
-    }
-  }
+          { type: 'warning', label: '标签五' },
+        ],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::

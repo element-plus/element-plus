@@ -29,19 +29,24 @@
 </el-tag>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tags: [
           { name: 'Tag 1', type: '' },
           { name: 'Tag 2', type: 'success' },
           { name: 'Tag 3', type: 'info' },
           { name: 'Tag 4', type: 'warning' },
-          { name: 'Tag 5', type: 'danger' }
-        ]
+          { name: 'Tag 5', type: 'danger' },
+        ],
+      });
+      return {
+        ...toRefs(state),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -91,36 +96,44 @@
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
-        dynamicTags: ['Tag 1', 'Tag 2', 'Tag 3'],
-        inputVisible: false,
-        inputValue: ''
-      };
-    },
-    methods: {
-      handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-      },
+import { defineComponent, reactive, toRefs, nextTick, ref } from 'vue';
 
-      showInput() {
-        this.inputVisible = true;
-        this.$nextTick(_ => {
-          this.$refs.saveTagInput.$refs.input.focus();
-        });
-      },
+export default defineComponent({
+  setup() {
+    const saveTagInput = ref();
+    const state = reactive({
+      dynamicTags: ['Tag 1', 'Tag 2', 'Tag 3'],
+      inputVisible: false,
+      inputValue: '',
+    });
+    const handleClose = (tag) => {
+      state.dynamicTags.splice(state.dynamicTags.indexOf(tag), 1);
+    };
 
-      handleInputConfirm() {
-        let inputValue = this.inputValue;
-        if (inputValue) {
-          this.dynamicTags.push(inputValue);
-        }
-        this.inputVisible = false;
-        this.inputValue = '';
+    const showInput = () => {
+      state.inputVisible = true;
+      nextTick((_) => {
+        saveTagInput.value.$refs.input.focus();
+      });
+    };
+
+    const handleInputConfirm = () => {
+      const { inputValue } = state;
+      if (inputValue) {
+        state.dynamicTags.push(inputValue);
       }
-    }
-  }
+      state.inputVisible = false;
+      state.inputValue = '';
+    };
+    return {
+      ...toRefs(state),
+      saveTagInput,
+      handleClose,
+      showInput,
+      handleInputConfirm,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -168,19 +181,25 @@
 </div>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         items: [
           { type: '', label: 'Tag 1' },
           { type: 'success', label: 'Tag 2' },
           { type: 'info', label: 'Tag 3' },
           { type: 'danger', label: 'Tag 4' },
-          { type: 'warning', label: 'Tag 5' }
-        ]
-      }
-    }
-  }
+          { type: 'warning', label: 'Tag 5' },
+        ],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
