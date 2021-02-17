@@ -15,24 +15,31 @@
 </template>
 
 <script>
-  import { h } from 'vue';
+  import { defineComponent, getCurrentInstance, h } from 'vue';
 
-  export default {
-    methods: {
-      open() {
-        this.$message('This is a message.');
-      },
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
 
-      openVn() {
-        this.$message({
+      const open = () => {
+        proxy.$message('this is a message.');
+      };
+
+      const openVn = () => {
+        proxy.$message({
           message: h('p', null, [
             h('span', null, 'Message can be '),
-            h('i', { style: 'color: teal' }, 'VNode')
-          ])
+            h('i', { style: 'color: teal' }, 'VNode'),
+          ]),
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+        openVn,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -51,30 +58,38 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$message('This is a message.');
-      },
-      open2() {
-        this.$message({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open1 = () => {
+        proxy.$message('this is a message.');
+      };
+      const open2 = () => {
+        proxy.$message({
           message: 'Congrats, this is a success message.',
-          type: 'success'
+          type: 'success',
         });
-      },
-
-      open3() {
-        this.$message({
+      };
+      const open3 = () => {
+        proxy.$message({
           message: 'Warning, this is a warning message.',
-          type: 'warning'
+          type: 'warning',
         });
-      },
-
-      open4() {
-        this.$message.error('Oops, this is a error message.');
-      }
-    }
-  }
+      };
+      const open4 = () => {
+        proxy.$message.error('Oops, this is a error message.');
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -93,40 +108,47 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$message({
-          showClose: true,
-          message: 'This is a message.'
-        });
-      },
+  import { defineComponent, getCurrentInstance } from 'vue';
 
-      open2() {
-        this.$message({
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open1 = () => {
+        proxy.$message({
+          showClose: true,
+          message: 'This is a message.',
+        });
+      };
+      const open2 = () => {
+        proxy.$message({
           showClose: true,
           message: 'Congrats, this is a success message.',
-          type: 'success'
+          type: 'success',
         });
-      },
-
-      open3() {
-        this.$message({
+      };
+      const open3 = () => {
+        proxy.$message({
           showClose: true,
           message: 'Warning, this is a warning message.',
-          type: 'warning'
+          type: 'warning',
         });
-      },
-
-      open4() {
-        this.$message({
+      };
+      const open4 = () => {
+        proxy.$message({
           showClose: true,
           message: 'Oops, this is a error message.',
-          type: 'error'
+          type: 'error',
         });
-      }
-    }
-  }
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -142,16 +164,22 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      openCenter() {
-        this.$message({
-          message: 'Centered text',
-          center: true
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const openCenter = () => {
+        proxy.$message({
+          showClose: true,
+          message: 'This is a message.',
         });
-      }
-    }
-  }
+      };
+      return {
+        openCenter,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -167,16 +195,22 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      openHTML() {
-        this.$message({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const openCenter = () => {
+        proxy.$message({
           dangerouslyUseHTMLString: true,
-          message: '<strong>This is <i>HTML</i> string</strong>'
+          message: '<strong>This is <i>HTML</i> string</strong>',
         });
-      }
-    }
-  }
+      };
+      return {
+        openCenter,
+      };
+    },
+  });
 </script>
 ```
 :::

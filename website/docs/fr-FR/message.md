@@ -15,24 +15,31 @@ S'affiche en haut de la page et disparaît après trois secondes.
 </template>
 
 <script>
-  import { h } from 'vue';
+  import { defineComponent, getCurrentInstance, h } from 'vue';
 
-  export default {
-    methods: {
-      open() {
-        this.$message('Ceci est un message.');
-      },
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
 
-      openVn() {
-        this.$message({
+      const open = () => {
+        proxy.$message('Ceci est un message.');
+      };
+
+      const openVn = () => {
+        proxy.$message({
           message: h('p', null, [
             h('span', null, 'Message peut être '),
-            h('i', { style: 'color: teal' }, 'VNode')
-          ])
+            h('i', { style: 'color: teal' }, 'VNode'),
+          ]),
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+        openVn,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -51,30 +58,40 @@ Utilisé pour montrer un retour d'activités Success, Warning, Message ou Error.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$message('Ceci est un message.');
-      },
-      open2() {
-        this.$message({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open1 = () => {
+        proxy.$message('Ceci est un message.');
+      };
+
+      const open2 = () => {
+        proxy.$message({
           message: 'Félicitations, ceci est un message de succès.',
-          type: 'success'
+          type: 'success',
         });
-      },
-
-      open3() {
-        this.$message({
+      };
+      const open3 = () => {
+        proxy.$message({
           message: 'Attention, ceci est un avertissement.',
-          type: 'warning'
+          type: 'warning',
         });
-      },
+      };
+      const open4 = () => {
+        proxy.$message.error('Ouups, ceci est une erreur.');
+      };
 
-      open4() {
-        this.$message.error('Ouups, ceci est une erreur.');
-      }
-    }
-  }
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -93,40 +110,49 @@ Un bouton de fermeture peut être ajouté.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open1() {
-        this.$message({
-          showClose: true,
-          message: 'Ceci est un message.'
-        });
-      },
+  import { defineComponent, getCurrentInstance } from 'vue';
 
-      open2() {
-        this.$message({
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open1 = () => {
+        proxy.$message({
+          showClose: true,
+          message: 'Ceci est un message.',
+        });
+      };
+
+      const open2 = () => {
+        proxy.$message({
           showClose: true,
           message: 'Félicitations, ceci est un message de succès.',
-          type: 'success'
+          type: 'success',
         });
-      },
-
-      open3() {
-        this.$message({
+      };
+      const open3 = () => {
+        proxy.$message({
           showClose: true,
           message: 'Attention, ceci est un avertissement.',
-          type: 'warning'
+          type: 'warning',
         });
-      },
-
-      open4() {
-        this.$message({
+      };
+      const open4 = () => {
+        proxy.$message({
           showClose: true,
           message: 'Ouups, ceci est une erreur.',
-          type: 'error'
+          type: 'error',
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -143,16 +169,24 @@ Utilisez l'attribut `center` pour centrer le texte.
 </template>
 
 <script>
-  export default {
-    methods: {
-      openCenter() {
-        this.$message({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const openCenter = () => {
+        proxy.$message({
           message: 'Texte centré',
-          center: true
+          center: true,
         });
-      }
-    }
-  }
+      };
+
+      return {
+        openCenter,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -169,16 +203,24 @@ Utilisez l'attribut `center` pour centrer le texte.
 </template>
 
 <script>
-  export default {
-    methods: {
-      openHTML() {
-        this.$message({
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const openHTML = () => {
+        proxy.$message({
           dangerouslyUseHTMLString: true,
-          message: '<strong>Ceci est du <i>HTML</i></strong>'
+          message: '<strong>Ceci est du <i>HTML</i></strong>',
         });
-      }
-    }
-  }
+      };
+
+      return {
+        openHTML,
+      };
+    },
+  });
 </script>
 ```
 :::
