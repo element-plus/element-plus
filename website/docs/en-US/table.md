@@ -31,29 +31,40 @@ Basic table is just for data display.
   </template>
 
   <script>
-    export default {
-      data() {
+    import { defineComponent, reactive, toRefs } from 'vue';
+
+    export default defineComponent({
+      setup() {
+        const state = reactive({
+          tableData: [
+            {
+              date: '2016-05-03',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-02',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-04',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-01',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+          ],
+        });
+
         return {
-          tableData: [{
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles'
-          }, {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles'
-          }, {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles'
-          }, {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles'
-          }]
-        }
-      }
-    }
+          ...toRefs(state),
+        };
+      },
+    });
   </script>
 ```
 :::
@@ -87,29 +98,40 @@ Striped table makes it easier to distinguish different rows.
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        tableData: [
+          {
+            date: '2016-05-03',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-02',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+        ],
+      });
+
       return {
-        tableData: [{
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }]
-      }
-    }
-  }
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -142,29 +164,40 @@ Striped table makes it easier to distinguish different rows.
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        tableData: [
+          {
+            date: '2016-05-03',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-02',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+        ],
+      });
+
       return {
-        tableData: [{
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }]
-      }
-    }
-  }
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -208,39 +241,50 @@ You can highlight your table content to distinguish between "success, informatio
 </style>
 
 <script>
-  export default {
-    methods: {
-      tableRowClassName({row, rowIndex}) {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        tableData: [
+          {
+            date: '2016-05-03',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-02',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+        ],
+      });
+
+      const tableRowClassName = ({ row, rowIndex }) => {
         if (rowIndex === 1) {
           return 'warning-row';
-        } else if (rowIndex === 3) {
+        } if (rowIndex === 3) {
           return 'success-row';
         }
         return '';
-      }
-    },
-    data() {
+      };
+
       return {
-        tableData:  [{
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }]
-      }
-    }
-  }
+        ...toRefs(state),
+        tableRowClassName,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -274,41 +318,47 @@ When there are too many rows, you can use a fixed header.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-02',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-04',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-01',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-08',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-06',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-07',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }],
-      }
-    }
-  }
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -367,14 +417,11 @@ When there are too many columns, you can fix some of them.
 </template>
 
 <script>
-  export default {
-    methods: {
-      handleClick() {
-        console.log('click');
-      }
-    },
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -382,7 +429,7 @@ When there are too many columns, you can fix some of them.
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
           zip: 'CA 90036',
-          tag: 'Home'
+          tag: 'Home',
         }, {
           date: '2016-05-02',
           name: 'Tom',
@@ -390,7 +437,7 @@ When there are too many columns, you can fix some of them.
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
           zip: 'CA 90036',
-          tag: 'Office'
+          tag: 'Office',
         }, {
           date: '2016-05-04',
           name: 'Tom',
@@ -398,7 +445,7 @@ When there are too many columns, you can fix some of them.
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
           zip: 'CA 90036',
-          tag: 'Home'
+          tag: 'Home',
         }, {
           date: '2016-05-01',
           name: 'Tom',
@@ -406,11 +453,20 @@ When there are too many columns, you can fix some of them.
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
           zip: 'CA 90036',
-          tag: 'Office'
-        }]
-      }
-    }
-  }
+          tag: 'Office',
+        }],
+      });
+
+      const handleClick = () => {
+        console.log('click');
+      };
+
+      return {
+        ...toRefs(state),
+        handleClick,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -461,62 +517,67 @@ When you have huge chunks of data to put in a table, you can fix the header and 
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-02',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-04',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-01',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-08',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-06',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-07',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
-        }]
-      }
-    }
-  }
+          zip: 'CA 90036',
+        }],
+      });
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -580,67 +641,73 @@ When the the data is dynamically changed, you might want the table to have a max
 </template>
 
 <script>
-  export default {
-    methods: {
-      deleteRow(index, rows) {
-        rows.splice(index, 1);
-      }
-    },
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-02',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-04',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-01',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-08',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-06',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-07',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
-        }]
-      }
-    }
-  }
+          zip: 'CA 90036',
+        }],
+      });
+
+      const deleteRow = (index, rows) => {
+        rows.splice(index, 1);
+      };
+
+      return {
+        ...toRefs(state),
+        deleteRow,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -693,62 +760,67 @@ When the data structure is complex, you can use group header to show the data hi
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-02',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-04',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-01',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-08',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-06',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-07',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
-        }]
-      }
-    }
-  }
+          zip: 'CA 90036',
+        }],
+      });
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -792,39 +864,47 @@ Single row selection is supported.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs, ref, } from 'vue';
+  
+  export default defineComponent({
+    setup() {
+      const singleTable = ref();
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-02',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-04',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-01',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }],
-        currentRow: null
-      }
-    },
+        currentRow: null,
+      });
+      const setCurrent = (row) => {
+        singleTable.value.setCurrentRow(row);
+      };
 
-    methods: {
-      setCurrent(row) {
-        this.$refs.singleTable.setCurrentRow(row);
-      },
-      handleCurrentChange(val) {
-        this.currentRow = val;
-      }
-    }
-  }
+      const handleCurrentChange = (val) => {
+        state.currentRow = val;
+      };
+
+      return {
+        ...toRefs(state),
+        singleTable,
+        setCurrent,
+        handleCurrentChange,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -868,57 +948,73 @@ You can also select multiple rows.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        tableData: [{
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-08',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-06',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-07',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }],
-        multipleSelection: []
-      }
-    },
+  import { defineComponent, reactive, toRefs, ref, } from 'vue';
 
-    methods: {
-      toggleSelection(rows) {
+  export default defineComponent({
+    setup() {
+      const multipleTable = ref();
+      const state = reactive({
+        tableData: [
+          {
+            date: '2016-05-03',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-02',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-08',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-06',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-07',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+        ],
+        multipleSelection: [],
+      });
+      const toggleSelection = (rows) => {
         if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
+          rows.forEach((row) => {
+            multipleTable.value.toggleRowSelection(row);
           });
         } else {
-          this.$refs.multipleTable.clearSelection();
+          multipleTable.value.clearSelection();
         }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      }
-    }
-  }
+      };
+
+      const handleSelectionChange = (val) => {
+        state.multipleSelection = val;
+      };
+
+      return {
+        ...toRefs(state),
+        multipleTable,
+        toggleSelection,
+        handleSelectionChange,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -954,34 +1050,42 @@ Sort the data to find or compare data quickly.
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        tableData: [
+          {
+            date: '2016-05-03',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-02',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Tom',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+        ],
+      });
+      const formatter = (row, column) => row.address;
+
       return {
-        tableData: [{
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }]
-      }
+        ...toRefs(state),
+        formatter,
+      };
     },
-    methods: {
-      formatter(row, column) {
-        return row.address;
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -1037,51 +1141,59 @@ Filter the table to find desired data.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const filterTable = ref();
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
           address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Home'
+          tag: 'Home',
         }, {
           date: '2016-05-02',
           name: 'Tom',
           address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Office'
+          tag: 'Office',
         }, {
           date: '2016-05-04',
           name: 'Tom',
           address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Home'
+          tag: 'Home',
         }, {
           date: '2016-05-01',
           name: 'Tom',
           address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Office'
-        }]
-      }
-    },
-    methods: {
-      resetDateFilter() {
-        this.$refs.filterTable.clearFilter('date');
-      },
-      clearFilter() {
-        this.$refs.filterTable.clearFilter();
-      },
-      formatter(row, column) {
-        return row.address;
-      },
-      filterTag(value, row) {
-        return row.tag === value;
-      },
-      filterHandler(value, row, column) {
-        const property = column['property'];
+          tag: 'Office',
+        }],
+      });
+
+      const resetDateFilter = () => {
+        filterTable.value.clearFilter('date');
+      };
+      const clearFilter = () => {
+        filterTable.value.clearFilter();
+      };
+      const formatter = (row, column) => row.address;
+      const filterTag = (value, row) => row.tag === value;
+      const filterHandler = (value, row, column) => {
+        const { property } = column;
         return row[property] === value;
-      }
-    }
-  }
+      };
+
+      return {
+        ...toRefs(state),
+        filterTable,
+        resetDateFilter,
+        clearFilter,
+        formatter,
+        filterTag,
+        filterHandler,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -1136,37 +1248,44 @@ Customize table column so it can be integrated with other components.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-02',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-04',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-01',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }]
-      }
+          address: 'No. 189, Grove St, Los Angeles',
+        }],
+      });
+      const handleEdit = (index, row) => {
+        console.log(index, row);
+      };
+
+      const handleDelete = (index, row) => {
+        console.log(index, row);
+      };
+
+      return {
+        ...toRefs(state),
+        handleEdit,
+        handleDelete,
+      };
     },
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -1210,38 +1329,46 @@ Customize table header so it can be even more customized.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-02',
           name: 'John',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-04',
           name: 'Morgan',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }, {
           date: '2016-05-01',
           name: 'Jessy',
-          address: 'No. 189, Grove St, Los Angeles'
+          address: 'No. 189, Grove St, Los Angeles',
         }],
         search: '',
-      }
-    },
-    methods: {
-      handleEdit(index, row) {
+      });
+
+      const handleEdit = (index, row) => {
         console.log(index, row);
-      },
-      handleDelete(index, row) {
+      };
+
+      const handleDelete = (index, row) => {
         console.log(index, row);
-      }
+      };
+
+      return {
+        ...toRefs(state),
+        handleEdit,
+        handleDelete,
+      };
     },
-  }
+  });
 </script>
 ```
 :::
@@ -1275,62 +1402,67 @@ When the row content is too long and you do not want to display the horizontal s
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-02',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-04',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-01',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-08',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-06',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
+          zip: 'CA 90036',
         }, {
           date: '2016-05-07',
           name: 'Tom',
           state: 'California',
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036'
-        }]
-      }
-    }
-  }
+          zip: 'CA 90036',
+        }],
+      });
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -1384,73 +1516,93 @@ When the row content is too long and you do not want to display the horizontal s
 </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        tableData: [{
-          id: 1,
-          date: '2016-05-02',
-          name: 'wangxiaohu'
-        }, {
-          id: 2,
-          date: '2016-05-04',
-          name: 'wangxiaohu'
-        }, {
-          id: 3,
-          date: '2016-05-01',
-          name: 'wangxiaohu',
-          children: [{
-              id: 31,
-              date: '2016-05-01',
-              name: 'wangxiaohu'
-            }, {
-              id: 32,
-              date: '2016-05-01',
-              name: 'wangxiaohu'
-          }]
-        }, {
-          id: 4,
-          date: '2016-05-03',
-          name: 'wangxiaohu'
-        }],
-        tableData1: [{
-          id: 1,
-          date: '2016-05-02',
-          name: 'wangxiaohu'
-        }, {
-          id: 2,
-          date: '2016-05-04',
-          name: 'wangxiaohu'
-        }, {
-          id: 3,
-          date: '2016-05-01',
-          name: 'wangxiaohu',
-          hasChildren: true
-        }, {
-          id: 4,
-          date: '2016-05-03',
-          name: 'wangxiaohu'
-        }]
-      }
-    },
-    methods: {
-      load(tree, treeNode, resolve) {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        tableData: [
+          {
+            id: 1,
+            date: '2016-05-02',
+            name: 'wangxiaohu',
+          },
+          {
+            id: 2,
+            date: '2016-05-04',
+            name: 'wangxiaohu',
+          },
+          {
+            id: 3,
+            date: '2016-05-01',
+            name: 'wangxiaohu',
+            children: [
+              {
+                id: 31,
+                date: '2016-05-01',
+                name: 'wangxiaohu',
+              },
+              {
+                id: 32,
+                date: '2016-05-01',
+                name: 'wangxiaohu',
+              },
+            ],
+          },
+          {
+            id: 4,
+            date: '2016-05-03',
+            name: 'wangxiaohu',
+          },
+        ],
+        tableData1: [
+          {
+            id: 1,
+            date: '2016-05-02',
+            name: 'wangxiaohu',
+          },
+          {
+            id: 2,
+            date: '2016-05-04',
+            name: 'wangxiaohu',
+          },
+          {
+            id: 3,
+            date: '2016-05-01',
+            name: 'wangxiaohu',
+            hasChildren: true,
+          },
+          {
+            id: 4,
+            date: '2016-05-03',
+            name: 'wangxiaohu',
+          },
+        ],
+      });
+
+      const load = (tree, treeNode, resolve) => {
         setTimeout(() => {
           resolve([
             {
               id: 31,
               date: '2016-05-01',
-              name: 'wangxiaohu'
-            }, {
+              name: 'wangxiaohu',
+            },
+            {
               id: 32,
               date: '2016-05-01',
-              name: 'wangxiaohu'
-            }
-          ])
-        }, 1000)
-      }
+              name: 'wangxiaohu',
+            },
+          ]);
+        }, 1000);
+      };
+
+      return {
+        ...toRefs(state),
+        load,
+      };
     },
-  }
+  });
 </script>
 ```
 :::
@@ -1524,44 +1676,44 @@ For table of numbers, you can add an extra row at the table footer displaying ea
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           id: '12987122',
           name: 'Tom',
           amount1: '234',
           amount2: '3.2',
-          amount3: 10
+          amount3: 10,
         }, {
           id: '12987123',
           name: 'Tom',
           amount1: '165',
           amount2: '4.43',
-          amount3: 12
+          amount3: 12,
         }, {
           id: '12987124',
           name: 'Tom',
           amount1: '324',
           amount2: '1.9',
-          amount3: 9
+          amount3: 9,
         }, {
           id: '12987125',
           name: 'Tom',
           amount1: '621',
           amount2: '2.2',
-          amount3: 17
+          amount3: 17,
         }, {
           id: '12987126',
           name: 'Tom',
           amount1: '539',
           amount2: '4.1',
-          amount3: 15
-        }]
-      };
-    },
-    methods: {
-      getSummaries(param) {
+          amount3: 15,
+        }],
+      });
+
+      const getSummaries = (param) => {
         const { columns, data } = param;
         const sums = [];
         columns.forEach((column, index) => {
@@ -1569,25 +1721,28 @@ For table of numbers, you can add an extra row at the table footer displaying ea
             sums[index] = 'Total Cost';
             return;
           }
-          const values = data.map(item => Number(item[column.property]));
-          if (!values.every(value => isNaN(value))) {
-            sums[index] = '$ ' + values.reduce((prev, curr) => {
+          const values = data.map((item) => Number(item[column.property]));
+          if (!values.every((value) => isNaN(value))) {
+            sums[index] = `$ ${values.reduce((prev, curr) => {
               const value = Number(curr);
               if (!isNaN(value)) {
                 return prev + curr;
-              } else {
-                return prev;
               }
-            }, 0);
+              return prev;
+            }, 0)}`;
           } else {
             sums[index] = 'N/A';
           }
         });
-
         return sums;
-      }
-    }
-  };
+      };
+
+      return {
+        ...toRefs(state),
+        getSummaries,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -1662,70 +1817,81 @@ Configuring rowspan and colspan allows you to merge cells
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           id: '12987122',
           name: 'Tom',
           amount1: '234',
           amount2: '3.2',
-          amount3: 10
+          amount3: 10,
         }, {
           id: '12987123',
           name: 'Tom',
           amount1: '165',
           amount2: '4.43',
-          amount3: 12
+          amount3: 12,
         }, {
           id: '12987124',
           name: 'Tom',
           amount1: '324',
           amount2: '1.9',
-          amount3: 9
+          amount3: 9,
         }, {
           id: '12987125',
           name: 'Tom',
           amount1: '621',
           amount2: '2.2',
-          amount3: 17
+          amount3: 17,
         }, {
           id: '12987126',
           name: 'Tom',
           amount1: '539',
           amount2: '4.1',
-          amount3: 15
-        }]
-      };
-    },
-    methods: {
-      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+          amount3: 15,
+        }],
+      });
+
+      const arraySpanMethod = ({
+        row, column, rowIndex, columnIndex,
+      }) => {
         if (rowIndex % 2 === 0) {
           if (columnIndex === 0) {
             return [1, 2];
-          } else if (columnIndex === 1) {
+          }
+          if (columnIndex === 1) {
             return [0, 0];
           }
         }
-      },
+      };
 
-      objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      const objectSpanMethod = ({
+        row, column, rowIndex, columnIndex,
+      }) => {
         if (columnIndex === 0) {
           if (rowIndex % 2 === 0) {
             return {
               rowspan: 2,
-              colspan: 1
-            };
-          } else {
-            return {
-              rowspan: 0,
-              colspan: 0
+              colspan: 1,
             };
           }
+          return {
+            rowspan: 0,
+            colspan: 0,
+          };
         }
-      }
-    }
-  };
+      };
+
+      return {
+        ...toRefs(state),
+        arraySpanMethod,
+        objectSpanMethod,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -1762,9 +1928,11 @@ You can customize row index in `type=index` columns.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -1772,7 +1940,7 @@ You can customize row index in `type=index` columns.
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
           zip: 'CA 90036',
-          tag: 'Home'
+          tag: 'Home',
         }, {
           date: '2016-05-02',
           name: 'Tom',
@@ -1780,7 +1948,7 @@ You can customize row index in `type=index` columns.
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
           zip: 'CA 90036',
-          tag: 'Office'
+          tag: 'Office',
         }, {
           date: '2016-05-04',
           name: 'Tom',
@@ -1788,7 +1956,7 @@ You can customize row index in `type=index` columns.
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
           zip: 'CA 90036',
-          tag: 'Home'
+          tag: 'Home',
         }, {
           date: '2016-05-01',
           name: 'Tom',
@@ -1796,16 +1964,18 @@ You can customize row index in `type=index` columns.
           city: 'Los Angeles',
           address: 'No. 189, Grove St, Los Angeles',
           zip: 'CA 90036',
-          tag: 'Office'
+          tag: 'Office',
         }],
-      }
+      });
+
+      const indexMethod = (index) => index * 2;
+
+      return {
+        ...toRefs(state),
+        indexMethod,
+      };
     },
-    methods: {
-      indexMethod(index) {
-        return index * 2;
-      }
-    }
-  };
+  });
 </script>
 ```
 :::

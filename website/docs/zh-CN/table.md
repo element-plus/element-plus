@@ -30,29 +30,35 @@
   </template>
 
   <script>
-    export default {
-      data() {
-        return {
+    import { defineComponent, reactive, toRefs } from 'vue';
+
+    export default defineComponent({
+      setup() {
+        const state = reactive({
           tableData: [{
             date: '2016-05-02',
             name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
+            address: '上海市普陀区金沙江路 1518 弄',
           }, {
             date: '2016-05-04',
             name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
+            address: '上海市普陀区金沙江路 1517 弄',
           }, {
             date: '2016-05-01',
             name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
+            address: '上海市普陀区金沙江路 1519 弄',
           }, {
             date: '2016-05-03',
             name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }]
-        }
-      }
-    }
+            address: '上海市普陀区金沙江路 1516 弄',
+          }],
+        });
+
+        return {
+          ...toRefs(state),
+        };
+      },
+    });
   </script>
 ```
 :::
@@ -86,29 +92,35 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          address: '上海市普陀区金沙江路 1517 弄',
         }, {
           date: '2016-05-01',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          address: '上海市普陀区金沙江路 1519 弄',
         }, {
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
-      }
-    }
-  }
+          address: '上海市普陀区金沙江路 1516 弄',
+        }],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -140,29 +152,35 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          address: '上海市普陀区金沙江路 1517 弄',
         }, {
           date: '2016-05-01',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          address: '上海市普陀区金沙江路 1519 弄',
         }, {
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
-      }
-    }
-  }
+          address: '上海市普陀区金沙江路 1516 弄',
+        }],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -206,19 +224,11 @@
 </style>
 
 <script>
-  export default {
-    methods: {
-      tableRowClassName({row, rowIndex}) {
-        if (rowIndex === 1) {
-          return 'warning-row';
-        } else if (rowIndex === 3) {
-          return 'success-row';
-        }
-        return '';
-      }
-    },
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
@@ -236,9 +246,23 @@
           name: '王小虎',
           address: '上海市普陀区金沙江路 1518 弄'
         }]
-      }
-    }
-  }
+      });
+
+      const tableRowClassName = ({ row, rowIndex }) => {
+        if (rowIndex === 1) {
+          return 'warning-row';
+        } if (rowIndex === 3) {
+          return 'success-row';
+        }
+        return '';
+      };
+
+      return {
+        ...toRefs(state),
+        tableRowClassName,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -273,41 +297,55 @@
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        tableData: [
+          {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-08',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-06',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-07',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+        ],
+      });
+
       return {
-        tableData: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }]
-      }
-    }
-  }
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -367,47 +405,52 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      handleClick(row) {
-        console.log(row);
-      }
-    },
+  import { defineComponent, reactive, toRefs } from 'vue';
 
-    data() {
-      return {
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-04',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1517 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-01',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-03',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }]
-      }
-    }
-  }
+          zip: 200333,
+        }],
+      });
+
+      const handleClick = (row) => {
+        console.log(row);
+      };
+
+      return {
+        ...toRefs(state),
+        handleClick,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -458,62 +501,68 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-02',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-04',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-01',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-08',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-06',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-07',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }]
-      }
-    }
-  }
+          zip: 200333,
+        }],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -577,67 +626,73 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      deleteRow(index, rows) {
-        rows.splice(index, 1);
-      }
-    },
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-02',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-04',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-01',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-08',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-06',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-07',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }]
-      }
-    }
-  }
+          zip: 200333,
+        }],
+      });
+
+      const deleteRow = (index, rows) => {
+        rows.splice(index, 1);
+      };
+
+      return {
+        ...toRefs(state),
+        deleteRow,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -690,62 +745,68 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-02',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-04',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-01',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-08',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-06',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
+          zip: 200333,
         }, {
           date: '2016-05-07',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }]
-      }
-    }
-  }
+          zip: 200333,
+        }],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -789,39 +850,47 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+    import { defineComponent, reactive, toRefs, ref, } from 'vue';
+  
+  export default defineComponent({
+    setup() {
+      const singleTable = ref();
+      const state = reactive({
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          address: '上海市普陀区金沙江路 1517 弄',
         }, {
           date: '2016-05-01',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          address: '上海市普陀区金沙江路 1519 弄',
         }, {
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          address: '上海市普陀区金沙江路 1516 弄',
         }],
-        currentRow: null
-      }
-    },
+        currentRow: null,
+      });
+      const setCurrent = (row) => {
+        singleTable.value.setCurrentRow(row);
+      };
 
-    methods: {
-      setCurrent(row) {
-        this.$refs.singleTable.setCurrentRow(row);
-      },
-      handleCurrentChange(val) {
-        this.currentRow = val;
-      }
-    }
-  }
+      const handleCurrentChange = (val) => {
+        state.currentRow = val;
+      };
+
+      return {
+        ...toRefs(state),
+        singleTable,
+        setCurrent,
+        handleCurrentChange,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -866,57 +935,65 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+    import { defineComponent, reactive, toRefs, ref, } from 'vue';
+  
+  export default defineComponent({
+    setup() {
+      const multipleTable = ref();
+      const state = reactive({
         tableData: [{
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-01',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-08',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-06',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-07',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }],
-        multipleSelection: []
-      }
-    },
-
-    methods: {
-      toggleSelection(rows) {
+        multipleSelection: [],
+      });
+      const toggleSelection = (rows) => {
         if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
+          rows.forEach((row) => {
+            multipleTable.value.toggleRowSelection(row);
           });
         } else {
-          this.$refs.multipleTable.clearSelection();
+          multipleTable.value.clearSelection();
         }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      }
-    }
-  }
+      };
+
+      const handleSelectionChange = (val) => {
+        state.multipleSelection = val;
+      };
+
+      return {
+        ...toRefs(state),
+        multipleTable,
+        toggleSelection,
+        handleSelectionChange,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -954,34 +1031,37 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          address: '上海市普陀区金沙江路 1517 弄',
         }, {
           date: '2016-05-01',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          address: '上海市普陀区金沙江路 1519 弄',
         }, {
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
-      }
+          address: '上海市普陀区金沙江路 1516 弄',
+        }],
+      });
+      const formatter = (row, column) => row.address;
+
+      return {
+        ...toRefs(state),
+        formatter,
+      };
     },
-    methods: {
-      formatter(row, column) {
-        return row.address;
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -1037,51 +1117,64 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄',
-          tag: '公司'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄',
-          tag: '公司'
-        }]
-      }
-    },
-    methods: {
-      resetDateFilter() {
-        this.$refs.filterTable.clearFilter('date');
-      },
-      clearFilter() {
-        this.$refs.filterTable.clearFilter();
-      },
-      formatter(row, column) {
-        return row.address;
-      },
-      filterTag(value, row) {
-        return row.tag === value;
-      },
-      filterHandler(value, row, column) {
-        const property = column['property'];
+  import { defineComponent, reactive, toRefs, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const filterTable = ref();
+      const state = reactive({
+        tableData: [
+          {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+            tag: '家',
+          },
+          {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄',
+            tag: '公司',
+          },
+          {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄',
+            tag: '家',
+          },
+          {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄',
+            tag: '公司',
+          },
+        ],
+      });
+
+      const resetDateFilter = () => {
+        filterTable.value.clearFilter('date');
+      };
+      const clearFilter = () => {
+        filterTable.value.clearFilter();
+      };
+      const formatter = (row, column) => row.address;
+      const filterTag = (value, row) => row.tag === value;
+      const filterHandler = (value, row, column) => {
+        const { property } = column;
         return row[property] === value;
-      }
-    }
-  }
+      };
+
+      return {
+        ...toRefs(state),
+        filterTable,
+        resetDateFilter,
+        clearFilter,
+        formatter,
+        filterTag,
+        filterHandler,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -1135,37 +1228,44 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          address: '上海市普陀区金沙江路 1517 弄',
         }, {
           date: '2016-05-01',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          address: '上海市普陀区金沙江路 1519 弄',
         }, {
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
-      }
+          address: '上海市普陀区金沙江路 1516 弄',
+        }],
+      });
+      const handleEdit = (index, row) => {
+        console.log(index, row);
+      };
+
+      const handleDelete = (index, row) => {
+        console.log(index, row);
+      };
+
+      return {
+        ...toRefs(state),
+        handleEdit,
+        handleDelete,
+      };
     },
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -1237,9 +1337,11 @@
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           id: '12987122',
           name: '好滋好味鸡蛋仔',
@@ -1247,7 +1349,7 @@
           desc: '荷兰优质淡奶，奶香浓而不腻',
           address: '上海市普陀区真北路',
           shop: '王小虎夫妻店',
-          shopId: '10333'
+          shopId: '10333',
         }, {
           id: '12987123',
           name: '好滋好味鸡蛋仔',
@@ -1255,7 +1357,7 @@
           desc: '荷兰优质淡奶，奶香浓而不腻',
           address: '上海市普陀区真北路',
           shop: '王小虎夫妻店',
-          shopId: '10333'
+          shopId: '10333',
         }, {
           id: '12987125',
           name: '好滋好味鸡蛋仔',
@@ -1263,7 +1365,7 @@
           desc: '荷兰优质淡奶，奶香浓而不腻',
           address: '上海市普陀区真北路',
           shop: '王小虎夫妻店',
-          shopId: '10333'
+          shopId: '10333',
         }, {
           id: '12987126',
           name: '好滋好味鸡蛋仔',
@@ -1271,11 +1373,14 @@
           desc: '荷兰优质淡奶，奶香浓而不腻',
           address: '上海市普陀区真北路',
           shop: '王小虎夫妻店',
-          shopId: '10333'
-        }]
-      }
-    }
-  }
+          shopId: '10333',
+        }],
+      });
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -1338,85 +1443,91 @@
 </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           id: 1,
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           id: 2,
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          address: '上海市普陀区金沙江路 1517 弄',
         }, {
           id: 3,
           date: '2016-05-01',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1519 弄',
           children: [{
-              id: 31,
-              date: '2016-05-01',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1519 弄'
-            }, {
-              id: 32,
-              date: '2016-05-01',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1519 弄'
-          }]
+            id: 31,
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄',
+          }, {
+            id: 32,
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄',
+          }],
         }, {
           id: 4,
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          address: '上海市普陀区金沙江路 1516 弄',
         }],
         tableData1: [{
           id: 1,
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           id: 2,
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          address: '上海市普陀区金沙江路 1517 弄',
         }, {
           id: 3,
           date: '2016-05-01',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1519 弄',
-          hasChildren: true
+          hasChildren: true,
         }, {
           id: 4,
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
-      }
-    },
-    methods: {
-      load(tree, treeNode, resolve) {
+          address: '上海市普陀区金沙江路 1516 弄',
+        }],
+      });
+
+      const load = (tree, treeNode, resolve) => {
         setTimeout(() => {
           resolve([
             {
               id: 31,
               date: '2016-05-01',
               name: '王小虎',
-              address: '上海市普陀区金沙江路 1519 弄'
+              address: '上海市普陀区金沙江路 1519 弄',
             }, {
               id: 32,
               date: '2016-05-01',
               name: '王小虎',
-              address: '上海市普陀区金沙江路 1519 弄'
-            }
-          ])
-        }, 1000)
-      }
+              address: '上海市普陀区金沙江路 1519 弄',
+            },
+          ]);
+        }, 1000);
+      };
+
+      return {
+        ...toRefs(state),
+        load,
+      };
     },
-  }
+  });
 </script>
 ```
 :::
@@ -1461,38 +1572,46 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
         }, {
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          address: '上海市普陀区金沙江路 1517 弄',
         }, {
           date: '2016-05-01',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          address: '上海市普陀区金沙江路 1519 弄',
         }, {
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          address: '上海市普陀区金沙江路 1516 弄',
         }],
-        search: ''
-      }
-    },
-    methods: {
-      handleEdit(index, row) {
+        search: '',
+      });
+
+      const handleEdit = (index, row) => {
         console.log(index, row);
-      },
-      handleDelete(index, row) {
+      };
+
+      const handleDelete = (index, row) => {
         console.log(index, row);
-      }
+      };
+
+      return {
+        ...toRefs(state),
+        handleEdit,
+        handleDelete,
+      };
     },
-  }
+  });
 </script>
 ```
 :::
@@ -1566,44 +1685,45 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           id: '12987122',
           name: '王小虎',
           amount1: '234',
           amount2: '3.2',
-          amount3: 10
+          amount3: 10,
         }, {
           id: '12987123',
           name: '王小虎',
           amount1: '165',
           amount2: '4.43',
-          amount3: 12
+          amount3: 12,
         }, {
           id: '12987124',
           name: '王小虎',
           amount1: '324',
           amount2: '1.9',
-          amount3: 9
+          amount3: 9,
         }, {
           id: '12987125',
           name: '王小虎',
           amount1: '621',
           amount2: '2.2',
-          amount3: 17
+          amount3: 17,
         }, {
           id: '12987126',
           name: '王小虎',
           amount1: '539',
           amount2: '4.1',
-          amount3: 15
-        }]
-      };
-    },
-    methods: {
-      getSummaries(param) {
+          amount3: 15,
+        }],
+      });
+
+      const getSummaries = (param) => {
         const { columns, data } = param;
         const sums = [];
         columns.forEach((column, index) => {
@@ -1611,15 +1731,14 @@
             sums[index] = '总价';
             return;
           }
-          const values = data.map(item => Number(item[column.property]));
-          if (!values.every(value => isNaN(value))) {
+          const values = data.map((item) => Number(item[column.property]));
+          if (!values.every((value) => isNaN(value))) {
             sums[index] = values.reduce((prev, curr) => {
               const value = Number(curr);
               if (!isNaN(value)) {
                 return prev + curr;
-              } else {
-                return prev;
               }
+              return prev;
             }, 0);
             sums[index] += ' 元';
           } else {
@@ -1628,9 +1747,14 @@
         });
 
         return sums;
-      }
-    }
-  };
+      };
+
+      return {
+        ...toRefs(state),
+        getSummaries,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -1705,70 +1829,87 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        tableData: [{
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      tableData: [
+        {
           id: '12987122',
           name: '王小虎',
           amount1: '234',
           amount2: '3.2',
-          amount3: 10
-        }, {
+          amount3: 10,
+        },
+        {
           id: '12987123',
           name: '王小虎',
           amount1: '165',
           amount2: '4.43',
-          amount3: 12
-        }, {
+          amount3: 12,
+        },
+        {
           id: '12987124',
           name: '王小虎',
           amount1: '324',
           amount2: '1.9',
-          amount3: 9
-        }, {
+          amount3: 9,
+        },
+        {
           id: '12987125',
           name: '王小虎',
           amount1: '621',
           amount2: '2.2',
-          amount3: 17
-        }, {
+          amount3: 17,
+        },
+        {
           id: '12987126',
           name: '王小虎',
           amount1: '539',
           amount2: '4.1',
-          amount3: 15
-        }]
-      };
-    },
-    methods: {
-      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex % 2 === 0) {
-          if (columnIndex === 0) {
-            return [1, 2];
-          } else if (columnIndex === 1) {
-            return [0, 0];
-          }
-        }
-      },
+          amount3: 15,
+        },
+      ],
+    });
 
-      objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+    const arraySpanMethod = ({
+      row, column, rowIndex, columnIndex,
+    }) => {
+      if (rowIndex % 2 === 0) {
         if (columnIndex === 0) {
-          if (rowIndex % 2 === 0) {
-            return {
-              rowspan: 2,
-              colspan: 1
-            };
-          } else {
-            return {
-              rowspan: 0,
-              colspan: 0
-            };
-          }
+          return [1, 2];
+        }
+        if (columnIndex === 1) {
+          return [0, 0];
         }
       }
-    }
-  };
+    };
+
+    const objectSpanMethod = ({
+      row, column, rowIndex, columnIndex,
+    }) => {
+      if (columnIndex === 0) {
+        if (rowIndex % 2 === 0) {
+          return {
+            rowspan: 2,
+            colspan: 1,
+          };
+        }
+        return {
+          rowspan: 0,
+          colspan: 0,
+        };
+      }
+    };
+
+    return {
+      ...toRefs(state),
+      arraySpanMethod,
+      objectSpanMethod,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -1805,9 +1946,11 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         tableData: [{
           date: '2016-05-02',
           name: '王小虎',
@@ -1815,7 +1958,7 @@
           city: '普陀区',
           address: '上海市普陀区金沙江路 1518 弄',
           zip: 200333,
-          tag: '家'
+          tag: '家',
         }, {
           date: '2016-05-04',
           name: '王小虎',
@@ -1823,7 +1966,7 @@
           city: '普陀区',
           address: '上海市普陀区金沙江路 1517 弄',
           zip: 200333,
-          tag: '公司'
+          tag: '公司',
         }, {
           date: '2016-05-01',
           name: '王小虎',
@@ -1831,7 +1974,7 @@
           city: '普陀区',
           address: '上海市普陀区金沙江路 1519 弄',
           zip: 200333,
-          tag: '家'
+          tag: '家',
         }, {
           date: '2016-05-03',
           name: '王小虎',
@@ -1839,16 +1982,18 @@
           city: '普陀区',
           address: '上海市普陀区金沙江路 1516 弄',
           zip: 200333,
-          tag: '公司'
+          tag: '公司',
         }],
-      }
+      });
+
+      const indexMethod = (index) => index * 2;
+
+      return {
+        ...toRefs(state),
+        indexMethod,
+      };
     },
-    methods: {
-      indexMethod(index) {
-        return index * 2;
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
