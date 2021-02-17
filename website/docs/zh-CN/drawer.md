@@ -33,23 +33,28 @@
 </el-drawer>
 
 <script>
-  export default {
-    data() {
-      return {
-        drawer: false,
-        direction: 'rtl',
-      };
-    },
-    methods: {
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const drawer = ref(false);
+      const direction = ref('rtl');
+      const handleClose = (done) => {
+        proxy
+          .$confirm('确认关闭')
+          .then((_) => {
             done();
           })
-          .catch(_ => {});
-      }
-    }
-  };
+          .catch((_) => {});
+      };
+      return {
+        drawer,
+        direction,
+        handleClose,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -73,13 +78,17 @@
 </el-drawer>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const drawer = ref(false);
+
       return {
-        drawer: false,
+        drawer,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -134,68 +143,83 @@
 </el-drawer>
 
 <script>
-export default {
-  data() {
-    return {
-      table: false,
-      dialog: false,
-      loading: false,
-      gridData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }],
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
-      formLabelWidth: '80px',
-      timer: null,
-    };
-  },
-  methods: {
-    handleClose(done) {
-      if (this.loading) {
-        return;
-      }
-      this.$confirm('确定要提交表单吗？')
-        .then(_ => {
-          this.loading = true;
-          this.timer = setTimeout(() => {
-            done();
-            // 动画关闭需要一定的时间
-            setTimeout(() => {
-              this.loading = false;
-            }, 400);
-          }, 2000);
-        })
-        .catch(_ => {});
+  import { defineComponent, reactive, toRefs, getCurrentInstance, } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const state = reactive({
+        table: false,
+        dialog: false,
+        loading: false,
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+        ],
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: '',
+        },
+        formLabelWidth: '80px',
+        timer: null,
+      });
+
+      const handleClose = (done) => {
+        if (state.loading) {
+          return;
+        }
+        proxy
+          .$confirm('确定要提交表单吗？')
+          .then((_) => {
+            state.loading = true;
+            state.timer = setTimeout(() => {
+              done();
+              // 动画关闭需要一定的时间
+              setTimeout(() => {
+                state.loading = false;
+              }, 400);
+            }, 2000);
+          })
+          .catch((_) => {});
+      };
+
+      const cancelForm = () => {
+        state.loading = false;
+        state.dialog = false;
+        clearTimeout(state.timer);
+      };
+
+      return {
+        ...toRefs(state),
+        handleClose,
+        cancelForm,
+      };
     },
-    cancelForm() {
-      this.loading = false;
-      this.dialog = false;
-      clearTimeout(this.timer);
-    }
-  }
-}
+  });
 </script>
 ```
 :::
@@ -229,23 +253,28 @@ export default {
 </el-drawer>
 
 <script>
-  export default {
-    data() {
-      return {
-        drawer: false,
-        innerDrawer: false,
-      };
-    },
-    methods: {
-      handleClose(done) {
-        this.$confirm('还有未保存的工作哦确定关闭吗？')
-          .then(_ => {
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const drawer = ref(false);
+      const innerDrawer = ref(false);
+      const handleClose = (done) => {
+        proxy
+          .$confirm('还有未保存的工作哦确定关闭吗？')
+          .then((_) => {
             done();
           })
-          .catch(_ => {});
-      }
-    }
-  };
+          .catch((_) => {});
+      };
+      return {
+        drawer,
+        innerDrawer,
+        handleClose,
+      };
+    },
+  });
 </script>
 
 ```
