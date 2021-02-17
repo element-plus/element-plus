@@ -19,29 +19,35 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         options: [{
           value: 'Option1',
-          label: 'Option1'
+          label: 'Option1',
         }, {
           value: 'Option2',
-          label: 'Option2'
+          label: 'Option2',
         }, {
           value: 'Option3',
-          label: 'Option3'
+          label: 'Option3',
         }, {
           value: 'Option4',
-          label: 'Option4'
+          label: 'Option4',
         }, {
           value: 'Option5',
-          label: 'Option5'
+          label: 'Option5',
         }],
-        value: ''
-      }
-    }
-  }
+        value: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -64,30 +70,36 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         options: [{
           value: 'Option1',
-          label: 'Option1'
+          label: 'Option1',
         }, {
           value: 'Option2',
           label: 'Option2',
-          disabled: true
+          disabled: true,
         }, {
           value: 'Option3',
-          label: 'Option3'
+          label: 'Option3',
         }, {
           value: 'Option4',
-          label: 'Option4'
+          label: 'Option4',
         }, {
           value: 'Option5',
-          label: 'Option5'
+          label: 'Option5',
         }],
-        value: ''
-      }
-    }
-  }
+        value: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -110,29 +122,35 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         options: [{
           value: 'Option1',
-          label: 'Option1'
+          label: 'Option1',
         }, {
           value: 'Option2',
-          label: 'Option2'
+          label: 'Option2',
         }, {
           value: 'Option3',
-          label: 'Option3'
+          label: 'Option3',
         }, {
           value: 'Option4',
-          label: 'Option4'
+          label: 'Option4',
         }, {
           value: 'Option5',
-          label: 'Option5'
+          label: 'Option5',
         }],
-        value: ''
-      }
-    }
-  }
+        value: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -155,29 +173,35 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         options: [{
           value: 'Option1',
-          label: 'Option1'
+          label: 'Option1',
         }, {
           value: 'Option2',
-          label: 'Option2'
+          label: 'Option2',
         }, {
           value: 'Option3',
-          label: 'Option3'
+          label: 'Option3',
         }, {
           value: 'Option4',
-          label: 'Option4'
+          label: 'Option4',
         }, {
           value: 'Option5',
-          label: 'Option5'
+          label: 'Option5',
         }],
-        value: ''
-      }
-    }
-  }
+        value: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -214,30 +238,36 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         options: [{
           value: 'Option1',
-          label: 'Option1'
+          label: 'Option1',
         }, {
           value: 'Option2',
-          label: 'Option2'
+          label: 'Option2',
         }, {
           value: 'Option3',
-          label: 'Option3'
+          label: 'Option3',
         }, {
           value: 'Option4',
-          label: 'Option4'
+          label: 'Option4',
         }, {
           value: 'Option5',
-          label: 'Option5'
+          label: 'Option5',
         }],
         value1: [],
-        value2: []
-      }
-    }
-  }
+        value2: [],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -263,32 +293,36 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         cities: [{
           value: 'Beijing',
-          label: 'Beijing'
+          label: 'Beijing',
         }, {
           value: 'Shanghai',
-          label: 'Shanghai'
+          label: 'Shanghai',
         }, {
           value: 'Nanjing',
-          label: 'Nanjing'
+          label: 'Nanjing',
         }, {
           value: 'Chengdu',
-          label: 'Chengdu'
+          label: 'Chengdu',
         }, {
           value: 'Shenzhen',
-          label: 'Shenzhen'
+          label: 'Shenzhen',
         }, {
           value: 'Guangzhou',
-          label: 'Guangzhou'
+          label: 'Guangzhou',
         }],
-        value: ''
-      }
-    }
-  }
+        value: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -317,38 +351,44 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         options: [{
           label: 'Popular cities',
           options: [{
             value: 'Shanghai',
-            label: 'Shanghai'
+            label: 'Shanghai',
           }, {
             value: 'Beijing',
-            label: 'Beijing'
-          }]
+            label: 'Beijing',
+          }],
         }, {
           label: 'City name',
           options: [{
             value: 'Chengdu',
-            label: 'Chengdu'
+            label: 'Chengdu',
           }, {
             value: 'Shenzhen',
-            label: 'Shenzhen'
+            label: 'Shenzhen',
           }, {
             value: 'Guangzhou',
-            label: 'Guangzhou'
+            label: 'Guangzhou',
           }, {
             value: 'Dalian',
-            label: 'Dalian'
-          }]
+            label: 'Dalian',
+          }],
         }],
-        value: ''
-      }
-    }
-  }
+        value: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -371,29 +411,35 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         options: [{
           value: 'Option1',
-          label: 'Option1'
+          label: 'Option1',
         }, {
           value: 'Option2',
-          label: 'Option2'
+          label: 'Option2',
         }, {
           value: 'Option3',
-          label: 'Option3'
+          label: 'Option3',
         }, {
           value: 'Option4',
-          label: 'Option4'
+          label: 'Option4',
         }, {
           value: 'Option5',
-          label: 'Option5'
+          label: 'Option5',
         }],
-        value: ''
-      }
-    }
-  }
+        value: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -425,54 +471,55 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import {defineComponent, reactive, toRefs, onMounted } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         options: [],
         value: [],
         list: [],
         loading: false,
-        states: ["Alabama", "Alaska", "Arizona",
-        "Arkansas", "California", "Colorado",
-        "Connecticut", "Delaware", "Florida",
-        "Georgia", "Hawaii", "Idaho", "Illinois",
-        "Indiana", "Iowa", "Kansas", "Kentucky",
-        "Louisiana", "Maine", "Maryland",
-        "Massachusetts", "Michigan", "Minnesota",
-        "Mississippi", "Missouri", "Montana",
-        "Nebraska", "Nevada", "New Hampshire",
-        "New Jersey", "New Mexico", "New York",
-        "North Carolina", "North Dakota", "Ohio",
-        "Oklahoma", "Oregon", "Pennsylvania",
-        "Rhode Island", "South Carolina",
-        "South Dakota", "Tennessee", "Texas",
-        "Utah", "Vermont", "Virginia",
-        "Washington", "West Virginia", "Wisconsin",
-        "Wyoming"]
-      }
-    },
-    mounted() {
-      this.list = this.states.map(item => {
-        return { value: `value:${item}`, label: `label:${item}` };
+        states: ['Alabama', 'Alaska', 'Arizona',
+          'Arkansas', 'California', 'Colorado',
+          'Connecticut', 'Delaware', 'Florida',
+          'Georgia', 'Hawaii', 'Idaho', 'Illinois',
+          'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+          'Louisiana', 'Maine', 'Maryland',
+          'Massachusetts', 'Michigan', 'Minnesota',
+          'Mississippi', 'Missouri', 'Montana',
+          'Nebraska', 'Nevada', 'New Hampshire',
+          'New Jersey', 'New Mexico', 'New York',
+          'North Carolina', 'North Dakota', 'Ohio',
+          'Oklahoma', 'Oregon', 'Pennsylvania',
+          'Rhode Island', 'South Carolina',
+          'South Dakota', 'Tennessee', 'Texas',
+          'Utah', 'Vermont', 'Virginia',
+          'Washington', 'West Virginia', 'Wisconsin',
+          'Wyoming'],
       });
-    },
-    methods: {
-      remoteMethod(query) {
+      const remoteMethod = (query) => {
         if (query !== '') {
-          this.loading = true;
+          state.loading = true;
           setTimeout(() => {
-            this.loading = false;
-            this.options = this.list.filter(item => {
-              return item.label.toLowerCase()
-                .indexOf(query.toLowerCase()) > -1;
-            });
+            state.loading = false;
+            state.options = state.list.filter((item) => item.label.toLowerCase()
+              .indexOf(query.toLowerCase()) > -1);
           }, 200);
         } else {
-          this.options = [];
+          state.options = [];
         }
-      }
-    }
-  }
+      };
+      onMounted(() => {
+        state.list = state.states.map((item) => ({ value: `value:${item}`, label: `label:${item}` }));
+      });
+
+      return {
+        ...toRefs(state),
+        remoteMethod,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -499,23 +546,29 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         options: [{
           value: 'HTML',
-          label: 'HTML'
+          label: 'HTML',
         }, {
           value: 'CSS',
-          label: 'CSS'
+          label: 'CSS',
         }, {
           value: 'JavaScript',
-          label: 'JavaScript'
+          label: 'JavaScript',
         }],
-        value: []
-      }
-    }
-  }
+        value: [],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
