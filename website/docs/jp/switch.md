@@ -15,14 +15,19 @@
 </el-switch>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref(true);
+      const value2 = ref(true);
+
       return {
-        value1: true,
-        value2: true
-      }
-    }
-  };
+        value1,
+        value2,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -46,14 +51,19 @@
 </el-switch>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref(true);
+      const value2 = ref(true);
+
       return {
-        value1: true,
-        value2: true
-      }
-    }
-  };
+        value1,
+        value2,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -74,13 +84,17 @@
 </el-tooltip>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value = ref('100');
+
       return {
-        value: '100'
-      }
-    }
-  };
+        value,
+      };
+    },
+  });
 </script>
 ```
 
@@ -101,14 +115,16 @@
 </el-switch>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value1: true,
-        value2: false
-      }
-    }
-  };
+        value1: ref(true),
+        value2: ref(false),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -127,14 +143,16 @@
   loading>
 </el-switch>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value1: true,
-        value2: false
-      }
-    }
-  };
+        value1: ref(true),
+        value2: ref(false),
+      };
+    },
+  });
 </script>
 ```
 :::

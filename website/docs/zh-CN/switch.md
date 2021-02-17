@@ -7,20 +7,28 @@
 :::demo 绑定`v-model`到一个`Boolean`类型的变量。可以使用`active-color`属性与`inactive-color`属性来设置开关的背景色。
 
 ```html
+<el-switch v-model="value1">
+</el-switch>
 <el-switch
-  v-model="value"
+  v-model="value2"
   active-color="#13ce66"
   inactive-color="#ff4949">
 </el-switch>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref(true);
+      const value2 = ref(true);
+
       return {
-        value: true
-      }
-    }
-  };
+        value1,
+        value2,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -45,14 +53,19 @@
 </el-switch>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref(true);
+      const value2 = ref(true);
+
       return {
-        value1: true,
-        value2: true
-      }
-    }
-  };
+        value1,
+        value2,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -73,13 +86,17 @@
 </el-tooltip>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value = ref('100');
+
       return {
-        value: '100'
-      }
-    }
-  };
+        value,
+      };
+    },
+  });
 </script>
 ```
 
@@ -100,14 +117,16 @@
   disabled>
 </el-switch>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value1: true,
-        value2: false
-      }
-    }
-  };
+        value1: ref(true),
+        value2: ref(false),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -127,14 +146,16 @@
   loading>
 </el-switch>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value1: true,
-        value2: false
-      }
-    }
-  };
+        value1: ref(true),
+        value2: ref(false),
+      };
+    },
+  });
 </script>
 ```
 :::
