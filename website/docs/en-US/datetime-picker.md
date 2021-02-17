@@ -41,34 +41,44 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        shortcuts: [{
-          text: 'Today',
-          value: new Date(),
-        }, {
-          text: 'Yesterday',
-          value: (() => {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            return date
-          })(),
-        }, {
-          text: 'A week ago',
-          value: (() => {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            return date
-          })(),
-        }],
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: 'Today',
+            value: new Date(),
+          },
+          {
+            text: 'Yesterday',
+            value: (() => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              return date;
+            })(),
+          },
+          {
+            text: 'A week ago',
+            value: (() => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              return date;
+            })(),
+          },
+        ],
         value1: '',
         value2: '',
         value3: '',
-        defaultTime: new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0), // '12:00:00'
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -104,39 +114,49 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        shortcuts: [{
-          text: 'Last week',
-          value: (() => {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            return [start, end]
-          })()
-        }, {
-          text: 'Last month',
-          value: (() => {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            return [start, end]
-          })()
-        }, {
-          text: 'Last 3 months',
-          value: (() => {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            return [start, end]
-          })()
-        }],
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: 'Last week',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              return [start, end];
+            })(),
+          },
+          {
+            text: 'Last month',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              return [start, end];
+            })(),
+          },
+          {
+            text: 'Last 3 months',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              return [start, end];
+            })(),
+          },
+        ],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
-        value2: ''
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -170,21 +190,25 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         value1: '',
         value2: '',
-        defaultTime1: [
-          new Date(2000, 1, 1, 12, 0, 0),
-        ], // '12:00:00'
+        defaultTime1: [new Date(2000, 1, 1, 12, 0, 0)], // '12:00:00'
         defaultTime2: [
           new Date(2000, 1, 1, 12, 0, 0),
-          new Date(2000, 2, 1, 8, 0, 0)
-        ] // '12:00:00', '08:00:00'
+          new Date(2000, 2, 1, 8, 0, 0),
+        ], // '12:00:00', '08:00:00'
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
