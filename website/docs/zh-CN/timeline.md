@@ -20,22 +20,28 @@ Timeline 可拆分成多个按照时间戳排列的 activity，时间戳是其�
 </div>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         activities: [{
           content: '活动按期开始',
-          timestamp: '2018-04-15'
+          timestamp: '2018-04-15',
         }, {
           content: '通过审核',
-          timestamp: '2018-04-13'
+          timestamp: '2018-04-13',
         }, {
           content: '创建成功',
-          timestamp: '2018-04-11'
-        }]
+          timestamp: '2018-04-11',
+        }],
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -62,30 +68,36 @@ Timeline 可拆分成多个按照时间戳排列的 activity，时间戳是其�
 </div>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         activities: [{
           content: '支持使用图标',
           timestamp: '2018-04-12 20:46',
           size: 'large',
           type: 'primary',
-          icon: 'el-icon-more'
+          icon: 'el-icon-more',
         }, {
           content: '支持自定义颜色',
           timestamp: '2018-04-03 20:46',
-          color: '#0bbd87'
+          color: '#0bbd87',
         }, {
           content: '支持自定义尺寸',
           timestamp: '2018-04-03 20:46',
-          size: 'large'
+          size: 'large',
         }, {
           content: '默认样式的节点',
-          timestamp: '2018-04-03 20:46'
-        }]
+          timestamp: '2018-04-03 20:46',
+        }],
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::

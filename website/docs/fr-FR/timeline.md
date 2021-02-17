@@ -20,22 +20,28 @@ La timeline peut être divisée en plusieurs activités. Les timestamps sont des
 </div>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         activities: [{
           content: 'Début de l\'évènement',
-          timestamp: '2018-04-15'
+          timestamp: '2018-04-15',
         }, {
           content: 'Approuvé',
-          timestamp: '2018-04-13'
+          timestamp: '2018-04-13',
         }, {
           content: 'Succès',
-          timestamp: '2018-04-11'
-        }]
+          timestamp: '2018-04-11',
+        }],
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -62,30 +68,36 @@ Vous pouvez personnaliser la taille, la couleur et les icônes de chaque Noeud.
 </div>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         activities: [{
           content: 'Icône',
           timestamp: '2018-04-12 20:46',
           size: 'large',
           type: 'primary',
-          icon: 'el-icon-more'
+          icon: 'el-icon-more',
         }, {
           content: 'Couleur',
           timestamp: '2018-04-03 20:46',
-          color: '#0bbd87'
+          color: '#0bbd87',
         }, {
           content: 'Taille',
           timestamp: '2018-04-03 20:46',
-          size: 'large'
+          size: 'large',
         }, {
           content: 'Défaut',
-          timestamp: '2018-04-03 20:46'
-        }]
+          timestamp: '2018-04-03 20:46',
+        }],
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::

@@ -20,22 +20,28 @@
 </div>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         activities: [{
           content: 'Event start',
-          timestamp: '2018-04-15'
+          timestamp: '2018-04-15',
         }, {
           content: 'Approved',
-          timestamp: '2018-04-13'
+          timestamp: '2018-04-13',
         }, {
           content: 'Success',
-          timestamp: '2018-04-11'
-        }]
+          timestamp: '2018-04-11',
+        }],
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -62,30 +68,36 @@
 </div>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         activities: [{
           content: 'Custom icon',
           timestamp: '2018-04-12 20:46',
           size: 'large',
           type: 'primary',
-          icon: 'el-icon-more'
+          icon: 'el-icon-more',
         }, {
           content: 'Custom color',
           timestamp: '2018-04-03 20:46',
-          color: '#0bbd87'
+          color: '#0bbd87',
         }, {
           content: 'Custom size',
           timestamp: '2018-04-03 20:46',
-          size: 'large'
+          size: 'large',
         }, {
           content: 'Default node',
-          timestamp: '2018-04-03 20:46'
-        }]
+          timestamp: '2018-04-03 20:46',
+        }],
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
