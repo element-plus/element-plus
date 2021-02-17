@@ -38,26 +38,35 @@
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
-        tableData: [{
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      tableData: [
+        {
           date: '2016-05-02',
           name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
           date: '2016-05-04',
           name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
           date: '2016-05-01',
           name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }],
-        loading: true
-      };
-    }
-  };
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+      ],
+      loading: true,
+    });
+    return {
+      ...toRefs(state),
+    };
+  },
+});
 </script>
 ```
 :::
@@ -94,26 +103,35 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        tableData: [{
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      tableData: [
+        {
           date: '2016-05-02',
           name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
           date: '2016-05-04',
           name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
           date: '2016-05-01',
           name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }],
-        loading: true
-      };
-    }
-  };
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+      ],
+      loading: true,
+    });
+    return {
+      ...toRefs(state),
+    };
+  },
+});
 </script>
 ```
 :::
@@ -140,32 +158,38 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        fullscreenLoading: false
-      }
-    },
-    methods: {
-      openFullScreen1() {
-        this.fullscreenLoading = true;
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const fullscreenLoading = ref(false);
+      const openFullScreen1 = () => {
+        fullscreenLoading.value = true;
         setTimeout(() => {
-          this.fullscreenLoading = false;
+          fullscreenLoading.value = false;
         }, 2000);
-      },
-      openFullScreen2() {
-        const loading = this.$loading({
+      };
+
+      const openFullScreen2 = () => {
+        const loading = proxy.$loading({
           lock: true,
           text: 'Loading',
           spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
+          background: 'rgba(0, 0, 0, 0.7)',
         });
         setTimeout(() => {
           loading.close();
         }, 2000);
-      }
-    }
-  }
+      };
+
+      return {
+        fullscreenLoading,
+        openFullScreen1,
+        openFullScreen2,
+      };
+    },
+  });
 </script>
 ```
 :::
