@@ -85,15 +85,15 @@
 </template>
 
 <script>
+  import { defineComponent, ref } from 'vue';
 
-export default {
-
-  data() {
-    return {
-      size: 'mini',
-    }
-  }
-}
+  export default defineComponent({
+    setup() {
+      return {
+        size: ref('mini'),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -121,14 +121,15 @@ export default {
 </template>
 
 <script>
-export default {
+  import { defineComponent, ref } from 'vue';
 
-  data() {
-    return {
-      size: 20,
-    }
-  }
-}
+  export default defineComponent({
+    setup() {
+      return {
+        size: ref(20),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -172,14 +173,15 @@ export default {
 </template>
 
 <script>
+  import { defineComponent, ref } from 'vue';
 
-export default {
-  data() {
-    return {
-      size: 10,
-    }
-  },
-}
+  export default defineComponent({
+    setup() {
+      return {
+        size: ref(10),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -199,16 +201,17 @@ export default {
 </template>
 
 <script>
-import { h, resolveComponent } from 'vue'
-import { ElDivider } from 'element-plus'
-export default {
-  data() {
-    return {
-      size: 10,
-      spacer: h(ElDivider, { direction: 'vertical' }),
-    }
-  },
-}
+  import { defineComponent, ref, h } from 'vue';
+  import { ElDivider } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      return {
+        size: ref(10),
+        spacer: ref(h(ElDivider, { direction: 'vertical' })),
+      };
+    },
+  });
 </script>
 
 ```
