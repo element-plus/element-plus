@@ -18,18 +18,19 @@ Onglets basiques.
   </el-tabs>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = (tab, event) => {
+        console.log(tab, event);
+      };
       return {
-        activeName: 'first'
+        activeName: ref('first'),
+        handleClick,
       };
     },
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -50,18 +51,19 @@ Les onglets peuvent être stylisés comme des cartes.
   </el-tabs>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = (tab, event) => {
+        console.log(tab, event);
+      };
       return {
-        activeName: 'first'
+        activeName: ref('first'),
+        handleClick,
       };
     },
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -106,13 +108,15 @@ Vous pouvez utiliser `tab-position` pour régler la position des onglets.
   </el-tabs>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        tabPosition: 'left'
+        tabPosition: ref('left'),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -154,40 +158,41 @@ Seuls les onglets de type carte supportent l'ajout et la suppression.
   </el-tab-pane>
 </el-tabs>
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         editableTabsValue: '2',
         editableTabs: [{
           title: 'Onglet 1',
           name: '1',
-          content: 'Contenu de l\'onglet 1'
+          content: 'Contenu de l\'onglet 1',
         }, {
           title: 'Onglet 2',
           name: '2',
-          content: 'Contenu de l\'onglet 2'
+          content: 'Contenu de l\'onglet 2',
         }],
-        tabIndex: 2
-      }
-    },
-    methods: {
-      handleTabsEdit(targetName, action) {
+        tabIndex: 2,
+      });
+
+      const handleTabsEdit = (targetName, action) => {
         if (action === 'add') {
-          let newTabName = ++this.tabIndex + '';
-          this.editableTabs.push({
+          const newTabName = `${state.tabIndex + 1}`;
+          state.editableTabs.push({
             title: 'Nouvel onglet',
             name: newTabName,
-            content: 'Contenu du nouvel onglet'
+            content: 'Contenu du nouvel onglet',
           });
-          this.editableTabsValue = newTabName;
+          state.editableTabsValue = newTabName;
         }
         if (action === 'remove') {
-          let tabs = this.editableTabs;
-          let activeName = this.editableTabsValue;
+          const tabs = state.editableTabs;
+          let activeName = state.editableTabsValue;
           if (activeName === targetName) {
             tabs.forEach((tab, index) => {
               if (tab.name === targetName) {
-                let nextTab = tabs[index + 1] || tabs[index - 1];
+                const nextTab = tabs[index + 1] || tabs[index - 1];
                 if (nextTab) {
                   activeName = nextTab.name;
                 }
@@ -195,12 +200,16 @@ Seuls les onglets de type carte supportent l'ajout et la suppression.
             });
           }
 
-          this.editableTabsValue = activeName;
-          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+          state.editableTabsValue = activeName;
+          state.editableTabs = tabs.filter((tab) => tab.name !== targetName);
         }
-      }
-    }
-  }
+      };
+      return {
+        ...toRefs(state),
+        handleTabsEdit,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -228,39 +237,40 @@ Seuls les onglets de type carte supportent l'ajout et la suppression.
   </el-tab-pane>
 </el-tabs>
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         editableTabsValue: '2',
         editableTabs: [{
           title: 'Onglet 1',
           name: '1',
-          content: 'Contenu de l\'onglet 1'
+          content: 'Contenu de l\'onglet 1',
         }, {
           title: 'Onglet 2',
           name: '2',
-          content: 'Contenu de l\'onglet 2'
+          content: 'Contenu de l\'onglet 2',
         }],
-        tabIndex: 2
-      }
-    },
-    methods: {
-      addTab(targetName) {
-        let newTabName = ++this.tabIndex + '';
-        this.editableTabs.push({
+        tabIndex: 2,
+      });
+
+      const addTab = (targetName) => {
+        const newTabName = `${state.tabIndex + 1}`;
+        state.editableTabs.push({
           title: 'Nouvel onglet',
           name: newTabName,
-          content: 'Contenu du nouvel onglet'
+          content: 'Contenu du nouvel onglet',
         });
-        this.editableTabsValue = newTabName;
-      },
-      removeTab(targetName) {
-        let tabs = this.editableTabs;
-        let activeName = this.editableTabsValue;
+        state.editableTabsValue = newTabName;
+      };
+      const removeTab = (targetName) => {
+        const tabs = state.editableTabs;
+        let activeName = state.editableTabsValue;
         if (activeName === targetName) {
           tabs.forEach((tab, index) => {
             if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
+              const nextTab = tabs[index + 1] || tabs[index - 1];
               if (nextTab) {
                 activeName = nextTab.name;
               }
@@ -268,11 +278,16 @@ Seuls les onglets de type carte supportent l'ajout et la suppression.
           });
         }
 
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-      }
-    }
-  }
+        state.editableTabsValue = activeName;
+        state.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+      };
+      return {
+        ...toRefs(state),
+        addTab,
+        removeTab,
+      };
+    },
+  });
 </script>
 ```
 :::

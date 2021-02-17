@@ -18,18 +18,19 @@ Basic and concise tabs.
   </el-tabs>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = (tab, event) => {
+        console.log(tab, event);
+      };
       return {
-        activeName: 'first'
+        activeName: ref('first'),
+        handleClick,
       };
     },
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -50,18 +51,19 @@ Tabs styled as cards.
   </el-tabs>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = (tab, event) => {
+        console.log(tab, event);
+      };
       return {
-        activeName: 'first'
+        activeName: ref('first'),
+        handleClick,
       };
     },
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -106,13 +108,15 @@ You can use `tab-position` attribute to set the tab's position.
   </el-tabs>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        tabPosition: 'left'
+        tabPosition: ref('left'),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -154,53 +158,61 @@ Only card type Tabs support addable & closeable.
   </el-tab-pane>
 </el-tabs>
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         editableTabsValue: '2',
-        editableTabs: [{
-          title: 'Tab 1',
-          name: '1',
-          content: 'Tab 1 content'
-        }, {
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
-        }],
-        tabIndex: 2
-      }
-    },
-    methods: {
-      handleTabsEdit(targetName, action) {
+        editableTabs: [
+          {
+            title: 'Tab 1',
+            name: '1',
+            content: 'Tab 1 content',
+          },
+          {
+            title: 'Tab 2',
+            name: '2',
+            content: 'Tab 2 content',
+          },
+        ],
+        tabIndex: 2,
+      });
+
+      const handleTabsEdit = (targetName, action) => {
         if (action === 'add') {
-          let newTabName = ++this.tabIndex + '';
-          this.editableTabs.push({
+          const newTabName = `${state.tabIndex + 1}`;
+          state.editableTabs.push({
             title: 'New Tab',
             name: newTabName,
-            content: 'New Tab content'
+            content: 'New Tab content',
           });
-          this.editableTabsValue = newTabName;
+          state.editableTabsValue = newTabName;
         }
         if (action === 'remove') {
-          let tabs = this.editableTabs;
-          let activeName = this.editableTabsValue;
+          const tabs = state.editableTabs;
+          let activeName = state.editableTabsValue;
           if (activeName === targetName) {
             tabs.forEach((tab, index) => {
               if (tab.name === targetName) {
-                let nextTab = tabs[index + 1] || tabs[index - 1];
+                const nextTab = tabs[index + 1] || tabs[index - 1];
                 if (nextTab) {
                   activeName = nextTab.name;
                 }
               }
             });
           }
-          
-          this.editableTabsValue = activeName;
-          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+
+          state.editableTabsValue = activeName;
+          state.editableTabs = tabs.filter((tab) => tab.name !== targetName);
         }
-      }
-    }
-  }
+      };
+      return {
+        ...toRefs(state),
+        handleTabsEdit,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -228,51 +240,60 @@ Only card type Tabs support addable & closeable.
   </el-tab-pane>
 </el-tabs>
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         editableTabsValue: '2',
-        editableTabs: [{
-          title: 'Tab 1',
-          name: '1',
-          content: 'Tab 1 content'
-        }, {
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
-        }],
-        tabIndex: 2
-      }
-    },
-    methods: {
-      addTab(targetName) {
-        let newTabName = ++this.tabIndex + '';
-        this.editableTabs.push({
-          title: 'New Tab',
+        editableTabs: [
+          {
+            title: 'Tab 1',
+            name: '1',
+            content: 'Tab 1 content',
+          },
+          {
+            title: 'Tab 2',
+            name: '2',
+            content: 'Tab 2 content',
+          },
+        ],
+        tabIndex: 2,
+      });
+
+      const addTab = (targetName) => {
+        const newTabName = `${state.tabIndex + 1}`;
+        state.editableTabs.push({
+          title: 'Nouvel onglet',
           name: newTabName,
-          content: 'New Tab content'
+          content: 'Contenu du nouvel onglet',
         });
-        this.editableTabsValue = newTabName;
-      },
-      removeTab(targetName) {
-        let tabs = this.editableTabs;
-        let activeName = this.editableTabsValue;
+        state.editableTabsValue = newTabName;
+      };
+      const removeTab = (targetName) => {
+        const tabs = state.editableTabs;
+        let activeName = state.editableTabsValue;
         if (activeName === targetName) {
           tabs.forEach((tab, index) => {
             if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
+              const nextTab = tabs[index + 1] || tabs[index - 1];
               if (nextTab) {
                 activeName = nextTab.name;
               }
             }
           });
         }
-        
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-      }
-    }
-  }
+
+        state.editableTabsValue = activeName;
+        state.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+      };
+      return {
+        ...toRefs(state),
+        addTab,
+        removeTab,
+      };
+    },
+  });
 </script>
 ```
 :::
