@@ -116,13 +116,17 @@ cardはタイトル、内容、操作を含む。
 </style>
 
 <script>
-export default {
-  data() {
-    return {
-      currentDate: new Date()
-    };
-  }
-}
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const currentDate = ref(new Date());
+
+      return {
+        currentDate,
+      };
+    },
+  });
 </script>
 ```
 :::

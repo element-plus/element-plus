@@ -118,13 +118,17 @@ Muestre un contenido más rico añadiendo algunas configuraciones.
 </style>
 
 <script>
-export default {
-  data() {
-    return {
-      currentDate: new Date()
-    };
-  }
-}
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const currentDate = ref(new Date());
+
+      return {
+        currentDate,
+      };
+    },
+  });
 </script>
 ```
 :::
