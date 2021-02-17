@@ -17,21 +17,29 @@ Alert interrumpe las operaciones realizadas hasta que el usuario confirme la ale
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$alert('This is a message', 'Title', {
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$alert('This is a message', 'Title', {
           confirmButtonText: 'OK',
-          callback: action => {
+          callback: (action) => {
             this.$message({
               type: 'info',
-              message: `action: ${ action }`
+              message: `action: ${action}`,
             });
-          }
+          },
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -49,27 +57,35 @@ Confirm es utilizado para preguntar al usuario y recibir una confirmación.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: 'Delete completed'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Delete canceled'
-          });
+import { defineComponent, getCurrentInstance } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const { proxy } = getCurrentInstance();
+
+    const open = () => {
+      proxy.$confirm('proxy will permanently delete the file. Continue?', 'Warning', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+      }).then(() => {
+        proxy.$message({
+          type: 'success',
+          message: 'Delete completed',
         });
-      }
-    }
-  }
+      }).catch(() => {
+        proxy.$message({
+          type: 'info',
+          message: 'Delete canceled',
+        });
+      });
+    };
+
+    return {
+      open,
+    };
+  },
+});
 </script>
 ```
 
@@ -87,28 +103,38 @@ Prompt es utilizado cuando se requiere entrada de información del usuario.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$prompt('Please input your e-mail', 'Tip', {
+   import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$prompt('Please input your e-mail', 'Tip', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-          inputErrorMessage: 'Invalid Email'
-        }).then(({ value }) => {
-          this.$message({
-            type: 'success',
-            message: 'Your email is:' + value
+          inputErrorMessage: 'Invalid Email',
+        })
+          .then(({ value }) => {
+            proxy.$message({
+              type: 'success',
+              message: `Your email is:${value}`,
+            });
+          })
+          .catch(() => {
+            proxy.$message({
+              type: 'info',
+              message: 'Input canceled',
+            });
           });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Input canceled'
-          });
-        });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -125,43 +151,49 @@ Puede ser personalizado para mostrar diversos contenidos.
 </template>
 
 <script>
-  import { h } from 'vue';
+import { defineComponent, getCurrentInstance, h } from 'vue';
 
-  export default {
-    methods: {
-      open() {
-        this.$msgbox({
-          title: 'Message',
-          message: h('p', null, [
-            h('span', null, 'Message can be '),
-            h('i', { style: 'color: teal' }, 'VNode')
-          ]),
-          showCancelButton: true,
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          beforeClose: (action, instance, done) => {
-            if (action === 'confirm') {
-              instance.confirmButtonLoading = true;
-              instance.confirmButtonText = 'Loading...';
-              setTimeout(() => {
-                done();
-                setTimeout(() => {
-                  instance.confirmButtonLoading = false;
-                }, 300);
-              }, 3000);
-            } else {
+export default defineComponent({
+  setup() {
+    const { proxy } = getCurrentInstance();
+
+    const open = () => {
+      proxy.$msgbox({
+        title: 'Message',
+        message: h('p', null, [
+          h('span', null, 'Message can be '),
+          h('i', { style: 'color: teal' }, 'VNode'),
+        ]),
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = 'Loading...';
+            setTimeout(() => {
               done();
-            }
+              setTimeout(() => {
+                instance.confirmButtonLoading = false;
+              }, 300);
+            }, 3000);
+          } else {
+            done();
           }
-        }).then(action => {
-          this.$message({
-            type: 'info',
-            message: 'action: ' + action
-          });
+        },
+      }).then((action) => {
+        proxy.$message({
+          type: 'info',
+          message: `action: ${action}`,
         });
-      },
-    }
-  }
+      });
+    };
+
+    return {
+      open,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -184,15 +216,23 @@ El contenido de MessageBox puede ser `VNode`, permitiéndonos pasar componentes 
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$alert('<strong>This is <i>HTML</i> string</strong>', 'HTML String', {
-          dangerouslyUseHTMLString: true
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$alert('<strong>proxy is <i>HTML</i> string</strong>', 'HTML String', {
+          dangerouslyUseHTMLString: true,
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -214,31 +254,39 @@ En algunos casos, hacer clic en el botón Cancelar y en el botón Cerrar puede t
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$confirm('You have unsaved changes, save and proceed?', 'Confirm', {
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$confirm('You have unsaved changes, save and proceed?', 'Confirm', {
           distinguishCancelAndClose: true,
           confirmButtonText: 'Save',
-          cancelButtonText: 'Discard Changes'
+          cancelButtonText: 'Discard Changes',
         })
           .then(() => {
-            this.$message({
+            proxy.$message({
               type: 'info',
-              message: 'Changes saved. Proceeding to a new route.'
+              message: 'Changes saved. Proceeding to a new route.',
             });
           })
-          .catch(action => {
-            this.$message({
+          .catch((action) => {
+            proxy.$message({
               type: 'info',
               message: action === 'cancel'
                 ? 'Changes discarded. Proceeding to a new route.'
-                : 'Stay in the current route'
-            })
+                : 'Stay in the current route',
+            });
           });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -254,28 +302,36 @@ El contenido del componente MessageBox puede ser centrado.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$confirm('proxy will permanently delete the file. Continue?', 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning',
-          center: true
+          center: true,
         }).then(() => {
-          this.$message({
+          proxy.$message({
             type: 'success',
-            message: 'Delete completed'
+            message: 'Delete completed',
           });
         }).catch(() => {
-          this.$message({
+          proxy.$message({
             type: 'info',
-            message: 'Delete canceled'
+            message: 'Delete canceled',
           });
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::

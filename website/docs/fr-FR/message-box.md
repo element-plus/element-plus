@@ -18,21 +18,29 @@ Alert interrompt l'action de l'utilisateur jusqu'à ce qu'il confirme.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$alert('Ceci est un message', 'Titre', {
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$alert('Ceci est un message', 'Titre', {
           confirmButtonText: 'OK',
-          callback: action => {
+          callback: (action) => {
             this.$message({
               type: 'info',
-              message: `action: ${ action }`
+              message: `action: ${action}`,
             });
-          }
+          },
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -49,27 +57,38 @@ Confirm est utilisé pour demander une confirmation à l'utilisateur.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$confirm('Ceci effacera le fichier. Continuer?', 'Warning', {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Annuler',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: 'Fichier supprimé'
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy
+          .$confirm('Ceci effacera le fichier. Continuer?', 'Warning', {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Annuler',
+            type: 'warning',
+          })
+          .then(() => {
+            proxy.$message({
+              type: 'success',
+              message: 'Fichier supprimé',
+            });
+          })
+          .catch(() => {
+            proxy.$message({
+              type: 'info',
+              message: 'Suppression annulée',
+            });
           });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Suppression annulée'
-          });
-        });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 
@@ -87,28 +106,36 @@ Prompt est utilisé lorsqu'un utilisateur.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$prompt('Entrez votre e-mail', 'Astuce', {
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$prompt('Entrez votre e-mail', 'Astuce', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Annuler',
           inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-          inputErrorMessage: 'E-mail invalide'
+          inputErrorMessage: 'E-mail invalide',
         }).then(({ value }) => {
-          this.$message({
+          proxy.$message({
             type: 'success',
-            message: 'Votre e-mail est: ' + value
+            message: `Votre e-mail est: ${value}`,
           });
         }).catch(() => {
-          this.$message({
+          proxy.$message({
             type: 'info',
-            message: 'Annulé'
+            message: 'Annulé',
           });
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -125,16 +152,18 @@ Il est possible d'afficher du contenu un peu plus varié et personnalisé.
 </template>
 
 <script>
-  import { h } from 'vue';
+  import { defineComponent, getCurrentInstance, h } from 'vue';
 
-  export default {
-    methods: {
-      open() {
-        this.$msgbox({
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$msgbox({
           title: 'Message',
           message: h('p', null, [
             h('span', null, 'Le message peut être '),
-            h('i', { style: 'color: teal' }, 'VNode')
+            h('i', { style: 'color: teal' }, 'VNode'),
           ]),
           showCancelButton: true,
           confirmButtonText: 'OK',
@@ -152,16 +181,20 @@ Il est possible d'afficher du contenu un peu plus varié et personnalisé.
             } else {
               done();
             }
-          }
-        }).then(action => {
-          this.$message({
+          },
+        }).then((action) => {
+          proxy.$message({
             type: 'info',
-            message: 'Action: ' + action
+            message: `Action: ${action}`,
           });
         });
-      },
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -182,15 +215,23 @@ Le contenu de MessageBox peut être `VNode`, Vous permettant de passer des compo
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$alert('<strong>Ceci est du <i>HTML</i></strong>', 'HTML', {
-          dangerouslyUseHTMLString: true
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$alert('<strong>Ceci est du <i>HTML</i></strong>', 'HTML', {
+          dangerouslyUseHTMLString: true,
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -211,31 +252,39 @@ Dans certains cas, les boutons fermer et annuler peuvent avoir des sens différe
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$confirm('Vous avez du travail non enregistré, enregistrer et quitter?', 'Confirm', {
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$confirm('Vous avez du travail non enregistré, enregistrer et quitter?', 'Confirm', {
           distinguishCancelAndClose: true,
           confirmButtonText: 'Enregistrer',
-          cancelButtonText: 'Ne pas enregistrer'
+          cancelButtonText: 'Ne pas enregistrer',
         })
           .then(() => {
-            this.$message({
+            proxy.$message({
               type: 'info',
-              message: 'Enregistré. Passage a une nouvelle route.'
+              message: 'Enregistré. Passage a une nouvelle route.',
             });
           })
-          .catch(action => {
-            this.$message({
+          .catch((action) => {
+            proxy.$message({
               type: 'info',
               message: action === 'cancel'
                 ? 'Changements annulés. Passage sur une nouvelle route.'
-                : 'Reste sur la même route'
-            })
+                : 'Reste sur la même route',
+            });
           });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -252,28 +301,36 @@ le contenu de MessageBox peut être centré.
 </template>
 
 <script>
-  export default {
-    methods: {
-      open() {
-        this.$confirm('Ceci effacera le fichier, continuer?' , 'Warning', {
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+
+      const open = () => {
+        proxy.$confirm('Ceci effacera le fichier, continuer?', 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Annuler',
           type: 'warning',
-          center: true
+          center: true,
         }).then(() => {
-          this.$message({
+          proxy.$message({
             type: 'success',
-            message: 'Fichier supprimé'
+            message: 'Fichier supprimé',
           });
         }).catch(() => {
-          this.$message({
+          proxy.$message({
             type: 'info',
-            message: 'Annulé'
+            message: 'Annulé',
           });
         });
-      }
-    }
-  }
+      };
+
+      return {
+        open,
+      };
+    },
+  });
 </script>
 ```
 :::
