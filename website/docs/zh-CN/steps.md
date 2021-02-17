@@ -16,19 +16,22 @@
 <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const active = ref(0);
+
+      const next = () => {
+        active.value += 1;
+        if (active.value > 3) active.value = 0;
+      };
       return {
-        active: 0
+        active,
+        next,
       };
     },
-
-    methods: {
-      next() {
-        if (this.active++ > 2) this.active = 0;
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
