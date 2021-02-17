@@ -14,13 +14,16 @@ Checkbox peut être utilisé seul pour switcher entre deux états.
   <el-checkbox v-model="checked">Option</el-checkbox>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked = ref(true);
       return {
-        checked: true
+        checked,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -37,14 +40,18 @@ La checkbox peut être désactivée.
   <el-checkbox v-model="checked2" disabled>Option</el-checkbox>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked1 = ref(false);
+      const checked2 = ref(true);
       return {
-        checked1: false,
-        checked2: true
+        checked1,
+        checked2,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -67,13 +74,16 @@ Utile pour grouper des checkbox, indiquant si une option est sélectionnée en v
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checkList = ref(['selected and disabled','Option A']);
       return {
-        checkList: ['selected and disabled','Option A']
+        checkList,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -93,28 +103,34 @@ La propriété `indeterminate` permet de réaliser un effet "Sélectionner tout"
   </el-checkbox-group>
 </template>
 <script>
+  import { defineComponent, reactive, toRefs } from 'vue';
+
   const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
-  export default {
-    data() {
-      return {
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         checkAll: false,
         checkedCities: ['Shanghai', 'Beijing'],
         cities: cityOptions,
-        isIndeterminate: true
+        isIndeterminate: true,
+      });
+      const handleCheckAllChange = (val) => {
+        state.checkedCities = val ? cityOptions : [];
+        state.isIndeterminate = false;
+      };
+      const handleCheckedCitiesChange = (value) => {
+        const checkedCount = value.length;
+        state.checkAll = checkedCount === state.cities.length;
+        state.isIndeterminate = checkedCount > 0 && checkedCount < state.cities.length;
+      };
+      return {
+        ...toRefs(state),
+        handleCheckAllChange,
+        handleCheckedCitiesChange,
       };
     },
-    methods: {
-      handleCheckAllChange(val) {
-        this.checkedCities = val ? cityOptions : [];
-        this.isIndeterminate = false;
-      },
-      handleCheckedCitiesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-      }
-    }
-  };
+  });
 </script>
 ```
 :::
@@ -135,15 +151,22 @@ Les propriétés `min` et `max` permettent de limiter la quantité d'éléments 
   </el-checkbox-group>
 </template>
 <script>
+  import { defineComponent, reactive, toRefs } from 'vue';
+
   const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
-  export default {
-    data() {
-      return {
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         checkedCities: ['Shanghai', 'Beijing'],
-        cities: cityOptions
+        cities: cityOptions,
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -176,21 +199,25 @@ Des checkbox avec une apparence de bouton.
     </el-checkbox-group>
   </div>
 </template>
-<script>
-  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+import { defineComponent, reactive, toRefs } from 'vue';
 
-  export default {
-    data () {
-      return {
-        checkboxGroup1: ['Shanghai'],
-        checkboxGroup2: ['Shanghai'],
-        checkboxGroup3: ['Shanghai'],
-        checkboxGroup4: ['Shanghai'],
-        cities: cityOptions
-      };
-    }
-  }
-</script>
+const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      checkboxGroup1: ['Shanghai'],
+      checkboxGroup2: ['Shanghai'],
+      checkboxGroup3: ['Shanghai'],
+      checkboxGroup4: ['Shanghai'],
+      cities: cityOptions,
+    });
+
+    return {
+      ...toRefs(state),
+    };
+  },
+});
 ```
 :::
 
@@ -222,18 +249,24 @@ Des checkbox avec une apparence de bouton.
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         checked1: true,
         checked2: false,
         checked3: false,
         checked4: true,
         checkboxGroup1: [],
-        checkboxGroup2: []
+        checkboxGroup2: [],
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
