@@ -53,19 +53,22 @@ Top bar NavMenu puede ser usado en distinto escenarios.
 </el-menu>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeIndex = ref('1');
+      const activeIndex2 = ref('1');
+      const handleSelect = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
       return {
-        activeIndex: '1',
-        activeIndex2: '1'
+        activeIndex,
+        activeIndex2,
+        handleSelect,
       };
     },
-    methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -160,16 +163,22 @@ NavMenu vertical con sub-menús.
 </el-row>
 
 <script>
-  export default {
-    methods: {
-      handleOpen(key, keyPath) {
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleOpen = (key, keyPath) => {
         console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
+      };
+      const handleClose = (key, keyPath) => {
         console.log(key, keyPath);
-      }
-    }
-  }
+      };
+      return {
+        handleOpen,
+        handleClose,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -225,21 +234,24 @@ NavMenu vertical puede ser colapsado.
 </style>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const isCollapse = ref(true);
+      const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      const handleClose = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
       return {
-        isCollapse: true
+        isCollapse,
+        handleOpen,
+        handleClose,
       };
     },
-    methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
