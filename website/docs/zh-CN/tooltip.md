@@ -142,13 +142,15 @@ Tooltip 组件提供了两个不同的主题：`dark`和`light`。
   </el-tooltip>
 </template>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        disabled: false
+        disabled: ref(false),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::

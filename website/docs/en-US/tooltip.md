@@ -146,13 +146,15 @@ In fact, Tooltip is an extension based on [Vue-popper](https://github.com/elemen
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        disabled: false
+        disabled: ref(false),
       };
-    }
-  };
+    },
+  });
 </script>
 
 <style>
