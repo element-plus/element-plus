@@ -28,18 +28,20 @@
   </el-collapse-item>
 </el-collapse>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeNames = ref(['1']);
+      const handleChange = (val) => {
+        console.log(val);
+      };
       return {
-        activeNames: ['1']
+        activeNames,
+        handleChange,
       };
     },
-    methods: {
-      handleChange(val) {
-        console.log(val);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -70,13 +72,17 @@
   </el-collapse-item>
 </el-collapse>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeName = ref('1');
+
       return {
-        activeName: '1'
+        activeName,
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
