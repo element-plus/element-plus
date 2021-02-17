@@ -27,22 +27,26 @@ Dialog abre una caja de diálogo, y es bastante personalizable.
 </el-dialog>
 
 <script>
-  export default {
-    data() {
-      return {
-        dialogVisible: false
-      };
-    },
-    methods: {
-      handleClose(done) {
-        this.$confirm('Are you sure to close this dialog?')
-          .then(_ => {
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const dialogVisible = ref(false);
+      const { proxy } = getCurrentInstance();
+      const handleClose = (done) => {
+        proxy
+          .$confirm('Are you sure to close this dialog?')
+          .then((_) => {
             done();
           })
-          .catch(_ => {});
-      }
-    }
-  };
+          .catch((_) => {});
+      };
+      return {
+        dialogVisible,
+        handleClose,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -95,26 +99,33 @@ El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formu
 </el-dialog>
 
 <script>
-  export default {
-    data() {
-      return {
-        gridData: [{
-          date: '2016-05-02',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-04',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-01',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-03',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }],
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-04',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-01',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-03',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+        ],
         dialogTableVisible: false,
         dialogFormVisible: false,
         form: {
@@ -125,12 +136,16 @@ El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formu
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
+          desc: '',
         },
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -161,14 +176,19 @@ Si un diálogo está anidado en otro diálogo, se requiere append-to-body.
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const outerVisible = ref(false);
+      const innerVisible = ref(false);
+
       return {
-        outerVisible: false,
-        innerVisible: false
+        outerVisible,
+        innerVisible,
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -196,13 +216,17 @@ El contenido de Diálogo se puede centrar.
 </el-dialog>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const centerDialogVisible = ref(false);
+
       return {
-        centerDialogVisible: false
+        centerDialogVisible,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -239,13 +263,17 @@ When this is feature is enabled, the content under default slot will be destroye
 </el-dialog>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const centerDialogVisible = ref(false);
+
       return {
-        centerDialogVisible: false
+        centerDialogVisible,
       };
-    }
-  };
+    },
+  });
 </script>
 
 ```
