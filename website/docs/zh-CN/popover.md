@@ -59,13 +59,15 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        visible: false
+        visible: ref(false),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -92,29 +94,39 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
 </el-popover>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+        ],
+      });
       return {
-        gridData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }]
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -141,13 +153,15 @@ Popover 的属性与 Tooltip 很类似，它们都是基于`Vue-popper`开发的
 </el-popover>
 
 <script>
-  export default {
-    data() {
-      return {
-        visible: false,
-      };
-    }
-  }
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  setup() {
+    return {
+      visible: ref(false),
+    };
+  },
+});
 </script>
 ```
 :::

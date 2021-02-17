@@ -60,13 +60,15 @@ Similaire à Tooltip, Popover est aussi construit avec `Vue-popper`. Certains at
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        visible: false
+        visible: ref(false),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -94,29 +96,39 @@ D'autres composants peuvent s'imbriquer dans un popover.
 </el-popover>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'Jack',
+            address: 'New York City',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Jack',
+            address: 'New York City',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Jack',
+            address: 'New York City',
+          },
+          {
+            date: '2016-05-03',
+            name: 'Jack',
+            address: 'New York City',
+          },
+        ],
+      });
       return {
-        gridData: [{
-          date: '2016-05-02',
-          name: 'Jack',
-          address: 'New York City'
-        }, {
-          date: '2016-05-04',
-          name: 'Jack',
-          address: 'New York City'
-        }, {
-          date: '2016-05-01',
-          name: 'Jack',
-          address: 'New York City'
-        }, {
-          date: '2016-05-03',
-          name: 'Jack',
-          address: 'New York City'
-        }]
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -143,13 +155,15 @@ Vous pouvez aussi imbriquer des opérations. Procéder ainsi est plus léger que
 </el-popover>
 
 <script>
-  export default {
-    data() {
-      return {
-        visible: false,
-      };
-    }
-  }
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  setup() {
+    return {
+      visible: ref(false),
+    };
+  },
+});
 </script>
 ```
 :::
