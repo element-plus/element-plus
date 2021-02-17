@@ -520,15 +520,17 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const getEl = option => {
-    const options = states.options.filter(item => item.value === option.value)
-    if (options.length > 0) {
-      return options[0].$el
-    }
-  }
-
   const scrollToOption = option => {
-    const target = Array.isArray(option) ? getEl(option[0]) : getEl(option)
+    const targetOption = Array.isArray(option) ? option[0] : option
+    let target = null
+
+    if(targetOption?.value){
+      const options = states.options.filter(item => item.value === targetOption.value)
+      if (options.length > 0) {
+        target =  options[0].$el
+      }
+    }
+
     if (popper.value && target) {
       const menu = popper.value?.popperRef?.querySelector?.('.el-select-dropdown__wrap')
       if (menu) {

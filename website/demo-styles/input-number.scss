@@ -1,5 +1,5 @@
 .demo-block.demo-input-number {
-  .el-input-number + .el-input-number {
+  .#{$namespace}-input-number + .#{$namespace}-input-number {
     margin-left: 10px;
   }
 }

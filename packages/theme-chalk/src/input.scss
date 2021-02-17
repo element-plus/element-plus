@@ -37,7 +37,7 @@
     }
   }
 
-  & .el-input__count {
+  & .#{$namespace}-input__count {
     color: $--color-info;
     background: $--color-white;
     position: absolute;
@@ -48,7 +48,7 @@
   }
 
   @include when(disabled) {
-    .el-textarea__inner {
+    .#{$namespace}-textarea__inner {
       background-color: $--input-disabled-fill;
       border-color: $--input-disabled-border;
       color: $--input-disabled-color;
@@ -61,11 +61,11 @@
   }
 
   @include when(exceed) {
-    .el-textarea__inner {
+    .#{$namespace}-textarea__inner {
       border-color: $--color-danger;
     }
 
-    .el-input__count {
+    .#{$namespace}-input__count {
       color: $--color-danger;
     }
   }
@@ -79,7 +79,7 @@
   line-height: $--input-height;
   @include scroll-bar;
 
-  & .el-input__clear {
+  & .#{$namespace}-input__clear {
     color: $--input-icon-color;
     font-size: $--input-font-size;
     cursor: pointer;
@@ -90,14 +90,14 @@
     }
   }
 
-  & .el-input__count {
+  & .#{$namespace}-input__count {
     height: 100%;
     display: inline-flex;
     align-items: center;
     color: $--color-info;
     font-size: 12px;
 
-    .el-input__count-inner {
+    .#{$namespace}-input__count-inner {
       background: $--color-white;
       line-height: initial;
       display: inline-block;
@@ -182,14 +182,14 @@
   }
 
   @include when(active) {
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       outline: none;
       border-color: $--input-focus-border;
     }
   }
 
   @include when(disabled) {
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       background-color: $--input-disabled-fill;
       border-color: $--input-disabled-border;
       color: $--input-disabled-color;
@@ -200,31 +200,31 @@
       }
     }
 
-    .el-input__icon {
+    .#{$namespace}-input__icon {
       cursor: not-allowed;
     }
   }
 
   @include when(exceed) {
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       border-color: $--color-danger;
     }
 
-    .el-input__suffix {
-      .el-input__count {
+    .#{$namespace}-input__suffix {
+      .#{$namespace}-input__count {
         color: $--color-danger;
       }
     }
   }
 
   @include m(suffix) {
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       padding-right: 30px;
     }
   }
 
   @include m(prefix) {
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       padding-left: 30px;
     }
   }
@@ -235,9 +235,10 @@
 
     @include e(inner) {
       height: $--input-medium-height;
+      line-height: $--input-medium-height;
     }
 
-    .el-input__icon {
+    .#{$namespace}-input__icon {
       line-height: $--input-medium-height;
     }
   }
@@ -247,9 +248,10 @@
 
     @include e(inner) {
       height: $--input-small-height;
+      line-height: $--input-small-height;
     }
 
-    .el-input__icon {
+    .#{$namespace}-input__icon {
       line-height: $--input-small-height;
     }
   }
@@ -259,9 +261,10 @@
 
     @include e(inner) {
       height: $--input-mini-height;
+      line-height: $--input-mini-height;
     }
 
-    .el-input__icon {
+    .#{$namespace}-input__icon {
       line-height: $--input-mini-height;
     }
   }
@@ -274,7 +277,7 @@
   border-collapse: separate;
   border-spacing:0;
 
-  > .el-input__inner {
+  > .#{$namespace}-input__inner {
     vertical-align: middle;
     display: table-cell;
   }
@@ -295,15 +298,15 @@
       outline: none;
     }
 
-    .el-select,
-    .el-button {
+    .#{$namespace}-select,
+    .#{$namespace}-button {
       display: inline-block;
       margin: -10px -20px;
     }
 
-    button.el-button,
-    div.el-select .el-input__inner,
-    div.el-select:hover .el-input__inner {
+    button.#{$namespace}-button,
+    div.#{$namespace}-select .#{$namespace}-input__inner,
+    div.#{$namespace}-select:hover .#{$namespace}-input__inner {
       border-color: transparent;
       background-color: transparent;
       color: inherit;
@@ -311,8 +314,8 @@
       border-bottom: 0;
     }
 
-    .el-button,
-    .el-input {
+    .#{$namespace}-button,
+    .#{$namespace}-input {
       font-size: inherit;
     }
   }
@@ -330,28 +333,28 @@
   }
 
   @include m(prepend) {
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-    .el-select .el-input.is-focus .el-input__inner {
+    .#{$namespace}-select .#{$namespace}-input.is-focus .#{$namespace}-input__inner {
       border-color: transparent;
     }
   }
 
   @include m(append) {
-    .el-input__inner {
+    .#{$namespace}-input__inner {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
-    .el-select .el-input.is-focus .el-input__inner {
+    .#{$namespace}-select .#{$namespace}-input.is-focus .#{$namespace}-input__inner {
       border-color: transparent;
     }
   }
 }
 
 /** disalbe default clear on IE */
-.el-input__inner::-ms-clear {
+.#{$namespace}-input__inner::-ms-clear {
   display: none;
   width: 0;
   height: 0;

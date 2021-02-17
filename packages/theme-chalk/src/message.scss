@@ -24,7 +24,7 @@
   }
 
   @include when(closable) {
-    .el-message__content {
+    .#{$namespace}-message__content {
       padding-right: 16px;
     }
   }
@@ -34,7 +34,7 @@
   }
 
   @include m(info) {
-    .el-message__content {
+    .#{$namespace}-message__content {
       color: $--message-info-font-color;
     }
   }
@@ -43,7 +43,7 @@
     background-color: $--color-success-lighter;
     border-color: $--color-success-light;
 
-    .el-message__content {
+    .#{$namespace}-message__content {
       color: $--message-success-font-color;
     }
   }
@@ -52,7 +52,7 @@
     background-color: $--color-warning-lighter;
     border-color: $--color-warning-light;
 
-    .el-message__content {
+    .#{$namespace}-message__content {
       color: $--message-warning-font-color;
     }
   }
@@ -61,7 +61,7 @@
     background-color: $--color-danger-lighter;
     border-color: $--color-danger-light;
 
-    .el-message__content {
+    .#{$namespace}-message__content {
       color: $--message-danger-font-color;
     }
   }
@@ -96,25 +96,25 @@
     }
   }
 
-  & .el-icon-success {
+  & .#{$namespace}-icon-success {
     color: $--message-success-font-color;
   }
 
-  & .el-icon-error {
+  & .#{$namespace}-icon-error {
     color: $--message-danger-font-color;
   }
 
-  & .el-icon-info {
+  & .#{$namespace}-icon-info {
     color: $--message-info-font-color;
   }
 
-  & .el-icon-warning {
+  & .#{$namespace}-icon-warning {
     color: $--message-warning-font-color;
   }
 }
 
-.el-message-fade-enter-from,
-.el-message-fade-leave-to {
+.#{$namespace}-message-fade-enter-from,
+.#{$namespace}-message-fade-leave-to {
   opacity: 0;
   transform: translate(-50%, -100%);
 }

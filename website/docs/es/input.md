@@ -485,7 +485,7 @@ export default defineComponent({
     const handleSelect = (item) => {
       console.log(item);
     };
-    
+
     const handleIconClick = (ev) => {
       console.log(ev);
     };
@@ -636,7 +636,6 @@ export default defineComponent ({
 | rows          | número de filas, sólo funciona cuando `type` es `textarea`.                                                                                    | number           | —                                                                                                                                       | 2           |
 | autosize      | si textarea tiene una altura adaptativa, sólo funciona cuando el`type` es `textarea`. Puede aceptar un objeto, p. ej. { minRows: 2, maxRows: 6 } | boolean / object | —                                                                                                                                       | false       |
 | autocomplete  | igual que `autocomplete` en el input nativo                                                                                                      | string           | on/off                                                                                                                                  | off         |
-| auto-complete | @DEPRECATED en el próximo cambio mayor de versión                                                                                  | string           | on/off                                                                                                                                  | off         |
 | name          | igual que `name` en el input nativo                                                                                                              | string           | —                                                                                                                                       | —           |
 | readonly      | igual que `readonly` en el input nativo                                                                                                          | boolean          | —                                                                                                                                       | false       |
 | max           | igual que `max` en el input nativo                                                                                                               | —                | —                                                                                                                                       | —           |

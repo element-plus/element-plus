@@ -43,7 +43,7 @@
 import { defineComponent, ref, computed } from 'vue'
 import ElButton from '@element-plus/button'
 import ElPopper from '@element-plus/popper'
-import { t } from '../../locale'
+import { t } from '@element-plus/locale'
 
 export default defineComponent({
   name: 'ElPopconfirm',

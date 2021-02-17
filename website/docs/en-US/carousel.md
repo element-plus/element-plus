@@ -167,11 +167,11 @@ By default, `direction` is `horizontal`. Let carousel be displayed in the vertic
     line-height: 200px;
     margin: 0;
   }
-  
+
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
   }
-  
+
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
@@ -192,6 +192,7 @@ By default, `direction` is `horizontal`. Let carousel be displayed in the vertic
 | type | type of the Carousel | string | card | — |
 | loop | display the items in loop | boolean | - | true |
 | direction | display direction | string | horizontal/vertical | horizontal |
+| pause-on-hover | pause autoplay when hover | boolean | - | true |
 
 ### Carousel Events
 | Event Name | Description | Parameters |

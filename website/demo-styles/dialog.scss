@@ -5,16 +5,16 @@
   .full-image {
     width: 100%;
   }
-  .el-dialog__wrapper {
+  .#{$namespace}-dialog__wrapper {
     margin: 0;
   }
-  .el-select {
+  .#{$namespace}-select {
     width: 300px;
   }
-  .el-input {
+  .#{$namespace}-input {
     width: 300px;
   }
-  .el-button--text {
+  .#{$namespace}-button--text {
     margin-right: 15px;
   }
 }

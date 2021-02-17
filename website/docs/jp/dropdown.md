@@ -305,12 +305,12 @@ dropdownリストを起動するには、ボタンを使用します。
 ```
 :::
 
-
 ### dropdown属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | type          | `split-button` が `true`のとき、メニューボタンのタイプは `Button` コンポーネントを参照する。  | string  |  —   |    —     |
 | size          | メニューのサイズ(分割ボタンでも動作)  | string  | medium / small / mini  |    —     |
+| max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | ボタングループの表示の有無 | boolean         |     —       | false   |
 | placement    | ポップメニューの配置 | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
 | trigger       | トリガーのきっかけ     | string  |    hover/click/contextmenu  |  hover |

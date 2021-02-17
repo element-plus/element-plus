@@ -2,7 +2,7 @@
 @import 'common/var';
 @import './overlay.scss';
 
-@keyframes el-drawer-fade-in {
+@keyframes #{$namespace}-drawer-fade-in {
   0% {
     opacity: 0;
   }
@@ -81,11 +81,11 @@ $directions: rtl, ltr, ttb, btt;
   overflow: hidden;
 
   @each $direction in $directions {
-    .el-drawer-fade-enter-active & {
+    .#{$namespace}-drawer-fade-enter-active & {
       @include animation-in($direction);
     }
 
-    .el-drawer-fade-leave-active & {
+    .#{$namespace}-drawer-fade-leave-active & {
       @include animation-out($direction);
     }
   }
@@ -155,12 +155,12 @@ $directions: rtl, ltr, ttb, btt;
   }
 }
 
-.el-drawer-fade-enter-active {
-  animation: el-drawer-fade-in 0.3s;
+.#{$namespace}-drawer-fade-enter-active {
+  animation: #{$namespace}-drawer-fade-in 0.3s;
   overflow: hidden !important;
 }
 
-.el-drawer-fade-leave-active {
+.#{$namespace}-drawer-fade-leave-active {
   overflow: hidden !important;
-  animation: el-drawer-fade-in 0.3s reverse;
+  animation: #{$namespace}-drawer-fade-in 0.3s reverse;
 }

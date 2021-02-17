@@ -159,6 +159,29 @@
 ```
 :::
 
+### Customized content
+
+:::demo Use default slot to add customized content.
+
+```html
+<el-progress :percentage="50">
+  <el-button type="text">Content</el-button>
+</el-progress>
+<el-progress :text-inside="true" :stroke-width="20" :percentage="50" status="exception">
+  <span>Content</span>
+</el-progress>
+<el-progress type="circle" :percentage="100" status="success">
+  <el-button type="success" icon="el-icon-check" circle></el-button>
+</el-progress>
+<el-progress type="dashboard" :percentage="80">
+  <template #default="{ percentage }">
+    <span class="percentage-value">{{ percentage }}%</span>
+    <span class="percentage-label">Progressing</span>
+  </template>
+</el-progress>
+```
+:::
+
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 | --- | ---- | ---- | ---- | ---- |
@@ -172,3 +195,8 @@
 | show-text | パーセンテージ表示の有無 | boolean | — | true |
 | stroke-linecap  | 終点でのサークル/ダッシュボード型の形状 | string | butt/round/square | round |
 | format  | カスタムテキスト形式 | function(percentage) | — | — |
+
+### Slot
+| name | Description |
+|------|--------|
+| default | Customized content, parameter is { percentage } |
