@@ -15,13 +15,15 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio: '1'
+        radio: ref('1'),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -38,13 +40,15 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio: '选中且禁用'
+        radio: ref('选中且禁用'),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -65,13 +69,15 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio: 3
+        radio: ref(3),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -118,16 +124,18 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio1: '上海',
-        radio2: '上海',
-        radio3: '上海',
-        radio4: '上海'
+        radio: ref('上海'),
+        radio2: ref('上海'),
+        radio3: ref('上海'),
+        radio4: ref('上海'),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -160,16 +168,18 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio1: '1',
-        radio2: '1',
-        radio3: '1',
-        radio4: '1'
+        radio: ref('1'),
+        radio2: ref('1'),
+        radio3: ref('1'),
+        radio4: ref('1'),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::

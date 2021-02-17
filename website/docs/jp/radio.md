@@ -14,13 +14,15 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio: '1'
+        radio: ref('1'),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -37,13 +39,15 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio: 'selected and disabled'
+        radio: ref('selected and disabled'),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -62,13 +66,15 @@
 </el-radio-group>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio: 3
+        radio: ref(3),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -115,16 +121,18 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio1: 'New York',
-        radio2: 'New York',
-        radio3: 'New York',
-        radio4: 'New York'
+        radio: ref('New York'),
+        radio2: ref('New York'),
+        radio3: ref('New York'),
+        radio4: ref('New York'),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -157,16 +165,18 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        radio1: '1',
-        radio2: '1',
-        radio3: '1',
-        radio4: '1'
+        radio: ref('1'),
+        radio2: ref('1'),
+        radio3: ref('1'),
+        radio4: ref('1'),
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
