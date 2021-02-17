@@ -82,13 +82,18 @@ Utilisez le bouton pour ouvrir le menu déroulant.
 </style>
 
 <script>
-  export default {
-    methods: {
-      handleClick() {
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = () => {
         alert('button click');
-      }
-    }
-  }
+      };
+      return {
+        handleClick,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -238,13 +243,19 @@ Le paramètre de cet évènement peut être assigné à chaque élément de la l
 </style>
 
 <script>
-  export default {
-    methods: {
-      handleCommand(command) {
-        this.$message('click on item ' + command);
-      }
-    }
-  }
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const handleCommand = (command) => {
+        proxy.$message(`click on item ${command}`);
+      };
+      return {
+        handleCommand,
+      };
+    },
+  });
 </script>
 ```
 :::

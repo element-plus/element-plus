@@ -83,13 +83,18 @@ Utilizando un botón para activar la lista desplegable.
 </style>
 
 <script>
-  export default {
-    methods: {
-      handleClick() {
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = () => {
         alert('button click');
-      }
-    }
-  }
+      };
+      return {
+        handleClick,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -239,13 +244,19 @@ Al hacer clic en cada elemento desplegable se detona un evento cuyo parámetro e
 </style>
 
 <script>
-  export default {
-    methods: {
-      handleCommand(command) {
-        this.$message('click on item ' + command);
-      }
-    }
-  }
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const handleCommand = (command) => {
+        proxy.$message(`click on item ${command}`);
+      };
+      return {
+        handleCommand,
+      };
+    },
+  });
 </script>
 ```
 :::

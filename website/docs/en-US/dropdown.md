@@ -82,13 +82,18 @@ Use the button to trigger the dropdown list.
 </style>
 
 <script>
-  export default {
-    methods: {
-      handleClick() {
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = () => {
         alert('button click');
-      }
-    }
-  }
+      };
+      return {
+        handleClick,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -237,13 +242,19 @@ Clicking each dropdown item fires an event whose parameter is assigned by each i
 </style>
 
 <script>
-  export default {
-    methods: {
-      handleCommand(command) {
-        this.$message('click on item ' + command);
-      }
-    }
-  }
+  import { defineComponent, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const handleCommand = (command) => {
+        proxy.$message(`click on item ${command}`);
+      };
+      return {
+        handleCommand,
+      };
+    },
+  });
 </script>
 ```
 :::
