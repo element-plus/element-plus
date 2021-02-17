@@ -33,35 +33,45 @@ Basic date picker measured by 'day'.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         disabledDate(time) {
-          return time.getTime() > Date.now()
+          return time.getTime() > Date.now();
         },
-        shortcuts: [{
-          text: 'Today',
-          value: new Date(),
-        }, {
-          text: 'Yesterday',
-          value: (() => {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24)
-            return date
-          })(),
-        }, {
-          text: 'A week ago',
-          value: (() => {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-            return date
-          })(),
-        }],
+        shortcuts: [
+          {
+            text: 'Today',
+            value: new Date(),
+          },
+          {
+            text: 'Yesterday',
+            value: (() => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              return date;
+            })(),
+          },
+          {
+            text: 'A week ago',
+            value: (() => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              return date;
+            })(),
+          },
+        ],
         value1: '',
         value2: '',
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -112,16 +122,22 @@ You can choose week, month, year or multiple dates by extending the standard dat
 </div>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         value1: '',
         value2: '',
         value3: '',
-        value4: ''
+        value4: '',
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 
@@ -162,39 +178,49 @@ Picking a date range is supported.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        shortcuts: [{
-          text: 'Last week',
-          value: (() => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            return [start, end]
-          })(),
-        }, {
-          text: 'Last month',
-          value: (() => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            return [start, end]
-          })(),
-        }, {
-          text: 'Last 3 months',
-          value: (() => {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            return [start, end]
-          })(),
-        }],
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: 'Last week',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              return [start, end];
+            })(),
+          },
+          {
+            text: 'Last month',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              return [start, end];
+            })(),
+          },
+          {
+            text: 'Last 3 months',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              return [start, end];
+            })(),
+          },
+        ],
         value1: '',
-        value2: ''
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 
@@ -234,33 +260,43 @@ Picking a month range is supported.
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        shortcuts: [{
-          text: 'This month',
-          value: [new Date(), new Date()],
-        }, {
-          text: 'This year',
-          value: (() => {
-            const end = new Date()
-            const start = new Date(new Date().getFullYear(), 0)
-            return [start, end]
-          })(),
-        }, {
-          text: 'Last 6 months',
-          value: (() => {
-            const end = new Date()
-            const start = new Date()
-            start.setMonth(start.getMonth() - 6)
-            return [start, end]
-          })(),
-        }],
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: 'This month',
+            value: [new Date(), new Date()],
+          },
+          {
+            text: 'This year',
+            value: (() => {
+              const end = new Date();
+              const start = new Date(new Date().getFullYear(), 0);
+              return [start, end];
+            })(),
+          },
+          {
+            text: 'Last 6 months',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setMonth(start.getMonth() - 6);
+              return [start, end];
+            })(),
+          },
+        ],
         value1: '',
-        value2: ''
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -297,14 +333,19 @@ If type is `daterange`, `default-value` sets the left side calendar.
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref('');
+      const value2 = ref('');
+
       return {
-        value1: '',
-        value2: ''
+        value1,
+        value2,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -367,17 +408,22 @@ When picking a date range, you can assign the time part for start date and end d
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value = ref('');
+      const defaultTime = ref([
+        new Date(2000, 1, 1, 0, 0, 0),
+        new Date(2000, 2, 1, 23, 59, 59),
+      ]); // '00:00:00', '23:59:59'
+
       return {
-        value: '',
-        defaultTime: [
-          new Date(2000, 1, 1, 0, 0, 0),
-          new Date(2000, 2, 1, 23, 59, 59)
-        ] // '00:00:00', '23:59:59'
+        value,
+        defaultTime,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
