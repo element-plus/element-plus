@@ -23,27 +23,46 @@
   </template>
 </el-upload>
 <script>
-  export default {
-    data() {
-      return {
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
-      };
-    },
-    methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove(file, fileList) {
-        return this.$confirm(`确定移除 ${ file.name }？`);
-      }
-    }
-  }
+import { defineComponent, reactive, toRefs, getCurrentInstance } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      fileList: [
+        {
+          name: 'food.jpeg',
+          url:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+        },
+        {
+          name: 'food2.jpeg',
+          url:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+        },
+      ],
+    });
+    const { proxy } = getCurrentInstance();
+
+    const handleRemove = (file, fileList) => {
+      console.log(file, fileList);
+    };
+    const handlePreview = (file) => {
+      console.log(file);
+    };
+    const handleExceed = (files, fileList) => {
+      proxy.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    };
+    const beforeRemove = (file, fileList) => proxy.$confirm(`确定移除 ${file.name}？`);
+
+    return {
+      ...toRefs(state),
+      handleRemove,
+      handlePreview,
+      handleExceed,
+      beforeRemove,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -92,30 +111,34 @@
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
-        imageUrl: ''
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const imageUrl = ref('');
+      const { proxy } = getCurrentInstance();
+      const handleAvatarSuccess = (res, file) => {
+        imageUrl.value = URL.createObjectURL(file.raw);
       };
-    },
-    methods: {
-      handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
+      const beforeAvatarUpload = (file) => {
         const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+          proxy.$message.error('上传头像图片只能是 JPG 格式!');
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+          proxy.$message.error('上传头像图片大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
-      }
-    }
-  }
+      };
+      return {
+        imageUrl,
+        handleAvatarSuccess,
+        beforeAvatarUpload,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -137,23 +160,27 @@
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const dialogImageUrl = ref('');
+      const dialogVisible = ref(false);
+      const handleRemove = (file, fileList) => {
+        console.log(file, fileList);
+      };
+      const handlePictureCardPreview = (file) => {
+        dialogImageUrl.value = file.url;
+        dialogVisible.value = true;
+      };
       return {
-        dialogImageUrl: '',
-        dialogVisible: false
+        dialogImageUrl,
+        dialogVisible,
+        handleRemove,
+        handlePictureCardPreview,
       };
     },
-    methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -203,27 +230,33 @@
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const dialogImageUrl = ref('');
+      const dialogVisible = ref(false);
+      const disabled = ref(false);
+      const handleRemove = (file, fileList) => {
+        console.log(file, fileList);
+      };
+      const handlePictureCardPreview = (file) => {
+        dialogImageUrl.value = file.url;
+        dialogVisible.value = true;
+      };
+      const handleDownload = (file) => {
+        console.log(file);
+      };
       return {
-        dialogImageUrl: '',
-        dialogVisible: false,
-        disabled: false
+        dialogImageUrl,
+        dialogVisible,
+        disabled,
+        handleRemove,
+        handlePictureCardPreview,
+        handleDownload,
       };
     },
-    methods: {
-      handleRemove(file) {
-        console.log(file);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
-      handleDownload(file) {
-        console.log(file);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -247,21 +280,38 @@
   </template>
 </el-upload>
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        fileList: [
+          {
+            name: 'food.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+          {
+            name: 'food2.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+        ],
+      });
+
+      const handleRemove = (file, fileList) => {
+        console.log(file, fileList);
+      };
+      const handlePreview = (file) => {
+        console.log(file);
+      };
       return {
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+        ...toRefs(state),
+        handleRemove,
+        handlePreview,
       };
     },
-    methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -285,24 +335,35 @@
   </template>
 </el-upload>
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        fileList: [
+          {
+            name: 'food.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+          {
+            name: 'food2.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+        ],
+      });
+
+      const handleChange = (file, fileList) => {
+        state.fileList = fileList.slice(-3);
+      };
+
       return {
-        fileList: [{
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }, {
-          name: 'food2.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }]
+        ...toRefs(state),
+        handleChange,
       };
     },
-    methods: {
-      handleChange(file, fileList) {
-        this.fileList = fileList.slice(-3);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -350,24 +411,46 @@
   </template>
 </el-upload>
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        fileList: [
+          {
+            name: 'food.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+          {
+            name: 'food2.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+        ],
+      });
+
+      const upload = ref();
+
+      const submitUpload = () => {
+        upload.value.submit();
+      };
+      const handleRemove = (file, fileList) => {
+        console.log(file, fileList);
+      };
+      const handlePreview = (file) => {
+        console.log(file);
+      };
+
       return {
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+        ...toRefs(state),
+        upload,
+        submitUpload,
+        handleRemove,
+        handlePreview,
       };
     },
-    methods: {
-      submitUpload() {
-        this.$refs.upload.submit();
-      },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::

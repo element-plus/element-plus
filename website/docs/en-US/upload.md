@@ -112,30 +112,34 @@ Use `before-upload` hook to limit the upload file format and size.
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
-        imageUrl: '',
-      }
-    },
-    methods: {
-      handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw)
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg'
-        const isLt2M = file.size / 1024 / 1024 < 2
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const imageUrl = ref('');
+      const { proxy } = getCurrentInstance();
+      const handleAvatarSuccess = (res, file) => {
+        imageUrl.value = URL.createObjectURL(file.raw);
+      };
+      const beforeAvatarUpload = (file) => {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
 
         if (!isJPG) {
-          this.$message.error('Avatar picture must be JPG format!')
+          proxy.$message.error('Avatar picture must be JPG format!');
         }
         if (!isLt2M) {
-          this.$message.error('Avatar picture size can not exceed 2MB!')
+          proxy.$message.error('Avatar picture size can not exceed 2MB!');
         }
-        return isJPG && isLt2M
-      },
+        return isJPG && isLt2M;
+      };
+      return {
+        imageUrl,
+        handleAvatarSuccess,
+        beforeAvatarUpload,
+      };
     },
-  }
+  });
 </script>
 ```
 
@@ -363,9 +367,6 @@ You can drag your file to a certain area to upload it.
   class="upload-demo"
   drag
   action="https://jsonplaceholder.typicode.com/posts/"
-  :on-preview="handlePreview"
-  :on-remove="handleRemove"
-  :file-list="fileList"
   multiple
 >
   <i class="el-icon-upload"></i>

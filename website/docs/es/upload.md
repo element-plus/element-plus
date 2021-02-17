@@ -21,24 +21,46 @@ Carga archivos haciendo clic o arrastrándolos.
   </template>
 </el-upload>
 <script>
-  export default {
-    data() {
-      return {
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
-      };
-    },
-    methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`El límite es 3, haz seleccionado ${files.length} archivos esta vez, añade hasta ${files.length + fileList.length}`);
-      }
-    }
-  }
+import { defineComponent, reactive, toRefs, getCurrentInstance } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      fileList: [
+        {
+          name: 'food.jpeg',
+          url:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+        },
+        {
+          name: 'food2.jpeg',
+          url:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+        },
+      ],
+    });
+    const { proxy } = getCurrentInstance();
+
+    const handleRemove = (file, fileList) => {
+      console.log(file, fileList);
+    };
+    const handlePreview = (file) => {
+      console.log(file);
+    };
+    const handleExceed = (files, fileList) => {
+      proxy.$message.warning(`El límite es 3, haz seleccionado ${files.length} archivos esta vez, añade hasta ${files.length + fileList.length}`);
+    };
+    const beforeRemove = (file, fileList) => proxy.$confirm(`Supprimer le transfert de ${file.name} ?`);
+
+    return {
+      ...toRefs(state),
+      handleRemove,
+      handlePreview,
+      handleExceed,
+      beforeRemove,
+    };
+  },
+});
 </script>
 ```
 :::
@@ -131,23 +153,27 @@ Utilice la propiedad `list-type` para cambiar el estilo a un listado de archivos
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const dialogImageUrl = ref('');
+      const dialogVisible = ref(false);
+      const handleRemove = (file, fileList) => {
+        console.log(file, fileList);
+      };
+      const handlePictureCardPreview = (file) => {
+        dialogImageUrl.value = file.url;
+        dialogVisible.value = true;
+      };
       return {
-        dialogImageUrl: '',
-        dialogVisible: false
+        dialogImageUrl,
+        dialogVisible,
+        handleRemove,
+        handlePictureCardPreview,
       };
     },
-    methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -197,27 +223,33 @@ Use `scoped-slot` to change default thumbnail template.
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const dialogImageUrl = ref('');
+      const dialogVisible = ref(false);
+      const disabled = ref(false);
+      const handleRemove = (file, fileList) => {
+        console.log(file, fileList);
+      };
+      const handlePictureCardPreview = (file) => {
+        dialogImageUrl.value = file.url;
+        dialogVisible.value = true;
+      };
+      const handleDownload = (file) => {
+        console.log(file);
+      };
       return {
-        dialogImageUrl: '',
-        dialogVisible: false,
-        disabled: false
+        dialogImageUrl,
+        dialogVisible,
+        disabled,
+        handleRemove,
+        handlePictureCardPreview,
+        handleDownload,
       };
     },
-    methods: {
-      handleRemove(file) {
-        console.log(file);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
-      handleDownload(file) {
-        console.log(file);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -239,21 +271,38 @@ Use `scoped-slot` to change default thumbnail template.
   </template>
 </el-upload>
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        fileList: [
+          {
+            name: 'food.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+          {
+            name: 'food2.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+        ],
+      });
+
+      const handleRemove = (file, fileList) => {
+        console.log(file, fileList);
+      };
+      const handlePreview = (file) => {
+        console.log(file);
+      };
       return {
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+        ...toRefs(state),
+        handleRemove,
+        handlePreview,
       };
     },
-    methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -275,24 +324,35 @@ Utilice el _hook_ `on-change` para controlar la funcionalidad de la lista de arc
   </template>
 </el-upload>
 <script>
-  export default {
-    data() {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        fileList: [
+          {
+            name: 'food.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+          {
+            name: 'food2.jpeg',
+            url:
+              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+          },
+        ],
+      });
+
+      const handleChange = (file, fileList) => {
+        state.fileList = fileList.slice(-3);
+      };
+
       return {
-        fileList: [{
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }, {
-          name: 'food2.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }]
+        ...toRefs(state),
+        handleChange,
       };
     },
-    methods: {
-      handleChange(file, fileList) {
-        this.fileList = fileList.slice(-3);
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -307,9 +367,6 @@ Puede arrastrar el archivo dentro de un área en especifico para cargar el archi
   class="upload-demo"
   drag
   action="https://jsonplaceholder.typicode.com/posts/"
-  :on-preview="handlePreview"
-  :on-remove="handleRemove"
-  :file-list="fileList"
   multiple>
   <i class="el-icon-upload"></i>
   <div class="el-upload__text">Suelta tu archivo aquí o <em>haz clic para cargar</em></div>
