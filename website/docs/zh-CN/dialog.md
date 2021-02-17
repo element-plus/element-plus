@@ -25,22 +25,28 @@ Dialog 弹出一个对话框，适合需要定制性更大的场景。
 </el-dialog>
 
 <script>
-  export default {
-    data() {
-      return {
-        dialogVisible: false
-      };
-    },
-    methods: {
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const dialogVisible = ref(false);
+      const { proxy } = getCurrentInstance();
+      const handleClose = (done) => {
+        proxy
+          .$confirm('确认关闭？')
+          .then((_) => {
             done();
           })
-          .catch(_ => {});
-      }
-    }
-  };
+          .catch((_) => {
+            // catch
+          });
+      };
+      return {
+        dialogVisible,
+        handleClose,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -89,26 +95,33 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 </el-dialog>
 
 <script>
-  export default {
-    data() {
-      return {
-        gridData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+        ],
         dialogTableVisible: false,
         dialogFormVisible: false,
         form: {
@@ -119,12 +132,16 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
+          desc: '',
         },
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -153,14 +170,19 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const outerVisible = ref(false);
+      const innerVisible = ref(false);
+
       return {
-        outerVisible: false,
-        innerVisible: false
+        outerVisible,
+        innerVisible,
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -190,13 +212,17 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
 </el-dialog>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const centerDialogVisible = ref(false);
+
       return {
-        centerDialogVisible: false
+        centerDialogVisible,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -231,13 +257,17 @@ Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默�
 </el-dialog>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const centerDialogVisible = ref(false);
+
       return {
-        centerDialogVisible: false
+        centerDialogVisible,
       };
-    }
-  };
+    },
+  });
 </script>
 
 ```

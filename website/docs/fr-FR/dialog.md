@@ -26,22 +26,26 @@ Le Dialog ouvre un modal personnalisable.
 </el-dialog>
 
 <script>
-  export default {
-    data() {
-      return {
-        dialogVisible: false
-      };
-    },
-    methods: {
-      handleClose(done) {
-        this.$confirm('Voulez-vous vraiment quitter ?')
-          .then(_ => {
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const dialogVisible = ref(false);
+      const { proxy } = getCurrentInstance();
+      const handleClose = (done) => {
+        proxy
+          .$confirm('Voulez-vous vraiment quitter ?')
+          .then((_) => {
             done();
           })
-          .catch(_ => {});
-      }
-    }
-  };
+          .catch((_) => {});
+      };
+      return {
+        dialogVisible,
+        handleClose,
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -92,26 +96,33 @@ Le contenu du modal peut être n'importe quoi, tableau ou formulaire compris.
 </el-dialog>
 
 <script>
-  export default {
-    data() {
-      return {
-        gridData: [{
-          date: '2016-05-02',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-04',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-01',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-03',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }],
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-04',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-01',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-03',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+        ],
         dialogTableVisible: false,
         dialogFormVisible: false,
         form: {
@@ -122,12 +133,16 @@ Le contenu du modal peut être n'importe quoi, tableau ou formulaire compris.
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
+          desc: '',
         },
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+      });
+
+      return {
+        ...toRefs(state),
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -158,14 +173,19 @@ Si un Dialog est imbriqué dans un autre Dialog, `append-to-body` est requis.
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const outerVisible = ref(false);
+      const innerVisible = ref(false);
+
       return {
-        outerVisible: false,
-        innerVisible: false
+        outerVisible,
+        innerVisible,
       };
-    }
-  }
+    },
+  });
 </script>
 ```
 :::
@@ -194,13 +214,17 @@ Le contenu du modal peut être centré.
 </el-dialog>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const centerDialogVisible = ref(false);
+
       return {
-        centerDialogVisible: false
+        centerDialogVisible,
       };
-    }
-  };
+    },
+  });
 </script>
 ```
 :::
@@ -237,13 +261,17 @@ When this is feature is enabled, the content under default slot will be destroye
 </el-dialog>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const centerDialogVisible = ref(false);
+
       return {
-        centerDialogVisible: false
+        centerDialogVisible,
       };
-    }
-  };
+    },
+  });
 </script>
 
 ```
