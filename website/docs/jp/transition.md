@@ -22,11 +22,15 @@ Element Plusにビルトインされているトランジションをダイレ�
 </template>
 
 <script>
-    export default {
-    data: () => ({
-      show: true
-    })
-  }
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        show: ref(true),
+      };
+    },
+  });
 </script>
 
 <style>
@@ -71,11 +75,15 @@ Element Plusにビルトインされているトランジションをダイレ�
 </template>
 
 <script>
-    export default {
-    data: () => ({
-      show2: true
-    })
-  }
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        show2: ref(true),
+      };
+    },
+  });
 </script>
 
 <style>
@@ -118,11 +126,15 @@ Element Plusにビルトインされているトランジションをダイレ�
 </template>
 
 <script>
-    export default {
-    data: () => ({
-      show3: true
-    })
-  }
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        show3: ref(true),
+      };
+    },
+  });
 </script>
 
 <style>

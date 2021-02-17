@@ -22,11 +22,15 @@ Puede usar directamente las transiciones incorporadas en Element. Antes de hacer
 </template>
 
 <script>
-    export default {
-    data: () => ({
-      show: true
-    })
-  }
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        show: ref(true),
+      };
+    },
+  });
 </script>
 
 <style>
@@ -71,11 +75,15 @@ Puede usar directamente las transiciones incorporadas en Element. Antes de hacer
 </template>
 
 <script>
-    export default {
-    data: () => ({
-      show2: true
-    })
-  }
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        show2: ref(true),
+      };
+    },
+  });
 </script>
 
 <style>
@@ -117,11 +125,15 @@ Para efectos de colapsado usar el componente `el-collapse-transition`.
 </template>
 
 <script>
-    export default {
-    data: () => ({
-      show3: true
-    })
-  }
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        show3: ref(true),
+      };
+    },
+  });
 </script>
 
 <style>
