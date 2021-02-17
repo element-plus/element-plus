@@ -13,18 +13,20 @@
 </template>
 
 <script>
-  export default {
-    data () {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const count = ref(0);
+      const load = () => {
+        count.value += 2;
+      };
       return {
-        count: 0
-      }
+        count,
+        load,
+      };
     },
-    methods: {
-      load () {
-        this.count += 2
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -47,31 +49,30 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        count: 10,
-        loading: false
-      }
-    },
-    computed: {
-      noMore () {
-        return this.count >= 20
-      },
-      disabled () {
-        return this.loading || this.noMore
-      }
-    },
-    methods: {
-      load () {
-        this.loading = true
+  import { defineComponent, ref, computed } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const count = ref(10);
+      const loading = ref(false);
+      const noMore = computed(() => count.value >= 20);
+      const disabled = computed(() => loading.value || noMore.value);
+      const load = () => {
+        loading.value = true;
         setTimeout(() => {
-          this.count += 2
-          this.loading = false
-        }, 2000)
-      }
-    }
-  }
+          count.value += 2;
+          loading.value = false;
+        }, 2000);
+      };
+      return {
+        count,
+        loading,
+        noMore,
+        disabled,
+        load,
+      };
+    },
+  });
 </script>
 ```
 :::
