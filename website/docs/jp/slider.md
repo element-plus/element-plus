@@ -33,22 +33,21 @@
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const formatTooltip = (val) => val / 100;
       return {
-        value1: 0,
-        value2: 50,
-        value3: 36,
-        value4: 48,
-        value5: 42
-      }
+        value1: ref(0),
+        value2: ref(50),
+        value3: ref(36),
+        value4: ref(48),
+        value5: ref(42),
+        formatTooltip,
+      };
     },
-    methods: {
-      formatTooltip(val) {
-        return val / 100;
-      }
-    }
-  }
+  });
 </script>
 ```
 :::
@@ -79,14 +78,16 @@
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value1: 0,
-        value2: 0
-      }
-    }
-  }
+        value1: ref(0),
+        value2: ref(0),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -108,13 +109,15 @@
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value: 0
-      }
-    }
-  }
+        value: ref(0),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -137,13 +140,15 @@
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value: [4, 8]
-      }
-    }
-  }
+        value: ref([4,8]),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -163,13 +168,15 @@
 </template>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       return {
-        value: 0
-      }
-    }
-  }
+        value: ref(0),
+      };
+    },
+  });
 </script>
 ```
 :::
@@ -189,9 +196,11 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
         value: [30, 60],
         marks: {
           0: '0°C',
@@ -199,14 +208,18 @@
           37: '37°C',
           50: {
             style: {
-              color: '#1989FA'
+              color: '#1989FA',
             },
-            label: '50%'
-          }
-        }
-      }
-    }
-  }
+            label: '50%',
+          },
+        },
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
 </script>
 ```
 :::
