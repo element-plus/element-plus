@@ -207,18 +207,23 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
 </style>
 
 <script>
-  export default {
-    data() {
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
       const item = {
         date: '2016-05-02',
         name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
+        address: 'No. 189, Grove St, Los Angeles',
       };
+
+      const tableData = ref(Array(20).fill(item));
+
       return {
-        tableData: Array(20).fill(item)
-      }
-    }
-  };
+        tableData,
+      };
+    },
+  });
 </script>
 ```
 :::
