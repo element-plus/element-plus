@@ -10,9 +10,10 @@
         'el-input-group--append': $slots.append,
         'el-input-group--prepend': $slots.prepend,
         'el-input--prefix': $slots.prefix || prefixIcon,
-        'el-input--suffix': $slots.suffix || suffixIcon || clearable || showPassword
+        'el-input--suffix':
+          $slots.suffix || suffixIcon || clearable || showPassword,
       },
-      $attrs.class
+      $attrs.class,
     ]"
     :style="$attrs.style"
     @mouseenter="onMouseEnter"
@@ -28,7 +29,7 @@
         ref="input"
         class="el-input__inner"
         v-bind="attrs"
-        :type="showPassword ? (passwordVisible ? 'text': 'password') : type"
+        :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
         :disabled="inputDisabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
@@ -47,10 +48,7 @@
       <!-- 前置内容 -->
       <span v-if="$slots.prefix || prefixIcon" class="el-input__prefix">
         <slot name="prefix"></slot>
-        <i
-          v-if="prefixIcon"
-          :class="['el-input__icon', prefixIcon]"
-        ></i>
+        <i v-if="prefixIcon" :class="['el-input__icon', prefixIcon]"></i>
       </span>
       <!-- 后置内容 -->
       <span v-if="getSuffixVisible()" class="el-input__suffix">
@@ -65,14 +63,21 @@
             @mousedown.prevent
             @click="clear"
           ></i>
-          <i v-if="showPwdVisible" class="el-input__icon el-icon-view el-input__clear" @click="handlePasswordVisible"></i>
+          <i
+            v-if="showPwdVisible"
+            class="el-input__icon el-icon-view el-input__clear"
+            @click="handlePasswordVisible"
+          ></i>
           <span v-if="isWordLimitVisible" class="el-input__count">
             <span class="el-input__count-inner">
               {{ textLength }}/{{ upperLimit }}
             </span>
           </span>
         </span>
-        <i v-if="validateState" :class="['el-input__icon', 'el-input__validateIcon', validateIcon]"></i>
+        <i
+          v-if="validateState"
+          :class="['el-input__icon', 'el-input__validateIcon', validateIcon]"
+        ></i>
       </span>
       <!-- 后置元素 -->
       <div v-if="$slots.append" class="el-input-group__append">
@@ -100,7 +105,10 @@
       @change="handleChange"
     >
     </textarea>
-    <span v-if="isWordLimitVisible && type === 'textarea'" class="el-input__count">{{ textLength }}/{{ upperLimit }}</span>
+    <span
+      v-if="isWordLimitVisible && type === 'textarea'"
+      class="el-input__count"
+    >{{ textLength }}/{{ upperLimit }}</span>
   </div>
 </template>
 
@@ -118,7 +126,10 @@ import {
   onUpdated,
 } from 'vue'
 import { useAttrs } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT, VALIDATE_STATE_MAP } from '@element-plus/utils/constants'
+import {
+  UPDATE_MODEL_EVENT,
+  VALIDATE_STATE_MAP,
+} from '@element-plus/utils/constants'
 import { isObject, useGlobalConfig } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
@@ -129,10 +140,12 @@ import calcTextareaHeight from './calcTextareaHeight'
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
-type AutosizeProp = {
-  minRows?: number
-  maxRows?: number
-} | boolean
+type AutosizeProp =
+  | {
+      minRows?: number
+      maxRows?: number
+    }
+  | boolean
 
 const PENDANT_MAP = {
   suffix: 'append',
@@ -159,7 +172,8 @@ export default defineComponent({
     },
     resize: {
       type: String as PropType<'none' | 'both' | 'horizontal' | 'vertical'>,
-      validator: (val: string) => ['none', 'both', 'horizontal', 'vertical'].includes(val),
+      validator: (val: string) =>
+        ['none', 'both', 'horizontal', 'vertical'].includes(val),
     },
     autosize: {
       type: [Boolean, Object] as PropType<AutosizeProp>,
@@ -210,8 +224,8 @@ export default defineComponent({
       default: '',
     },
     tabindex: {
-      type: String,
-      default: '',
+      type: Number,
+      default: 0,
     },
     validateEvent: {
       type: Boolean,
@@ -219,8 +233,17 @@ export default defineComponent({
     },
   },
 
-  emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'focus', 'blur', 'clear',
-    'mouseleave', 'mouseenter', 'keydown'],
+  emits: [
+    UPDATE_MODEL_EVENT,
+    'input',
+    'change',
+    'focus',
+    'blur',
+    'clear',
+    'mouseleave',
+    'mouseenter',
+    'keydown',
+  ],
 
   setup(props, ctx) {
     const instance = getCurrentInstance()
@@ -231,7 +254,7 @@ export default defineComponent({
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
     const input = ref(null)
-    const textarea = ref (null)
+    const textarea = ref(null)
     const focused = ref(false)
     const hovering = ref(false)
     const isComposing = ref(false)
@@ -239,7 +262,9 @@ export default defineComponent({
     const _textareaCalcStyle = shallowRef({})
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
-    const inputSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
+    const inputSize = computed(
+      () => props.size || elFormItem.size || $ELEMENT.size,
+    )
     const needStatusIcon = computed(() => elForm.statusIcon)
     const validateState = computed(() => elFormItem.validateState || '')
     const validateIcon = computed(() => VALIDATE_STATE_MAP[validateState.value])
@@ -248,35 +273,47 @@ export default defineComponent({
       resize: props.resize,
     }))
     const inputDisabled = computed(() => props.disabled || elForm.disabled)
-    const nativeInputValue = computed(() => (props.modelValue === null || props.modelValue === undefined) ? '' : String(props.modelValue))
+    const nativeInputValue = computed(() =>
+      props.modelValue === null || props.modelValue === undefined
+        ? ''
+        : String(props.modelValue),
+    )
     const upperLimit = computed(() => ctx.attrs.maxlength)
     const showClear = computed(() => {
-      return props.clearable &&
+      return (
+        props.clearable &&
         !inputDisabled.value &&
         !props.readonly &&
         nativeInputValue.value &&
         (focused.value || hovering.value)
+      )
     })
     const showPwdVisible = computed(() => {
-      return props.showPassword &&
+      return (
+        props.showPassword &&
         !inputDisabled.value &&
         !props.readonly &&
         (!!nativeInputValue.value || focused.value)
+      )
     })
     const isWordLimitVisible = computed(() => {
-      return props.showWordLimit &&
+      return (
+        props.showWordLimit &&
         ctx.attrs.maxlength &&
         (props.type === 'text' || props.type === 'textarea') &&
         !inputDisabled.value &&
         !props.readonly &&
         !props.showPassword
+      )
     })
     const textLength = computed(() => {
-      return typeof props.modelValue === 'number' ? String(props.modelValue).length : (props.modelValue || '').length
+      return typeof props.modelValue === 'number'
+        ? String(props.modelValue).length
+        : (props.modelValue || '').length
     })
     const inputExceed = computed(() => {
       // show exceed style if length of initial value greater then maxlength
-      return isWordLimitVisible.value && (textLength.value > upperLimit.value)
+      return isWordLimitVisible.value && textLength.value > upperLimit.value
     })
 
     const resizeTextarea = () => {
@@ -287,7 +324,11 @@ export default defineComponent({
       if (autosize) {
         const minRows = isObject(autosize) ? autosize.minRows : void 0
         const maxRows = isObject(autosize) ? autosize.maxRows : void 0
-        _textareaCalcStyle.value = calcTextareaHeight(textarea.value, minRows, maxRows)
+        _textareaCalcStyle.value = calcTextareaHeight(
+          textarea.value,
+          minRows,
+          maxRows,
+        )
       } else {
         _textareaCalcStyle.value = {
           minHeight: calcTextareaHeight(textarea.value).minHeight,
@@ -303,7 +344,9 @@ export default defineComponent({
 
     const calcIconOffset = place => {
       const { el } = instance.vnode
-      const elList: HTMLSpanElement[] = Array.from(el.querySelectorAll(`.el-input__${place}`))
+      const elList: HTMLSpanElement[] = Array.from(
+        el.querySelectorAll(`.el-input__${place}`),
+      )
       const target = elList.find(item => item.parentNode === el)
 
       if (!target) return
@@ -311,7 +354,9 @@ export default defineComponent({
       const pendant = PENDANT_MAP[place]
 
       if (ctx.slots[pendant]) {
-        target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${el.querySelector(`.el-input-group__${pendant}`).offsetWidth}px)`
+        target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
+          el.querySelector(`.el-input-group__${pendant}`).offsetWidth
+        }px)`
       } else {
         target.removeAttribute('style')
       }
@@ -402,20 +447,25 @@ export default defineComponent({
     }
 
     const getSuffixVisible = () => {
-      return ctx.slots.suffix ||
+      return (
+        ctx.slots.suffix ||
         props.suffixIcon ||
         showClear.value ||
         props.showPassword ||
         isWordLimitVisible.value ||
         (validateState.value && needStatusIcon.value)
+      )
     }
 
-    watch(() => props.modelValue, val => {
-      nextTick(resizeTextarea)
-      if (props.validateEvent) {
-        elFormItem.formItemMitt?.emit('el.form.change', [val])
-      }
-    })
+    watch(
+      () => props.modelValue,
+      val => {
+        nextTick(resizeTextarea)
+        if (props.validateEvent) {
+          elFormItem.formItemMitt?.emit('el.form.change', [val])
+        }
+      },
+    )
 
     // native input value is set explicitly
     // do not use v-model / :value in template
@@ -427,13 +477,16 @@ export default defineComponent({
     // when change between <input> and <textarea>,
     // update DOM dependent value and styles
     // https://github.com/ElemeFE/element/issues/14857
-    watch(() => props.type, () => {
-      nextTick(() => {
-        setNativeInputValue()
-        resizeTextarea()
-        updateIconOffset()
-      })
-    })
+    watch(
+      () => props.type,
+      () => {
+        nextTick(() => {
+          setNativeInputValue()
+          resizeTextarea()
+          updateIconOffset()
+        })
+      },
+    )
 
     onMounted(() => {
       setNativeInputValue()
@@ -497,5 +550,4 @@ export default defineComponent({
     }
   },
 })
-
 </script>
