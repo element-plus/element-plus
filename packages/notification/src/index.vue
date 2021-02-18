@@ -44,7 +44,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 
 import type { PropType } from 'vue'
-import type { NotificationVM } from './notification.type'
+import type { NotificationVM, Position } from './notification.type'
 
 const TypeMap: Indexable<string> = {
   success: 'success',
@@ -75,7 +75,7 @@ export default defineComponent({
       required: true,
     },
     position: {
-      type: String as PropType<'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'>,
+      type: String as PropType<Position>,
       default: 'top-right',
     },
     showClose: { type: Boolean, default: true },
