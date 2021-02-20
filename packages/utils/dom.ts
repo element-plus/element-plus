@@ -219,16 +219,39 @@ export const isInContainer = (
   )
 }
 
-export const getOffsetTop = (el: HTMLElement) => {
-  let offset = 0
-  let parent = el
+/* istanbul ignore next */
+const getOffset = (type: string) => {
+  const offsetType = type === 'top' ? 'offsetTop' : 'offsetLeft'
 
-  while (parent) {
-    offset += parent.offsetTop
-    parent = parent.offsetParent as HTMLElement
+  return (el: HTMLElement): number => {
+    let offset = 0
+    let parent = el
+
+    while (parent) {
+      offset += parent[offsetType]
+      parent = parent.offsetParent as HTMLElement
+    }
+
+    return offset
   }
+}
 
-  return offset
+/* istanbul ignore next */
+export const getOffsetTop: (el: HTMLElement) => number = getOffset('top')
+
+/* istanbul ignore next */
+export const getOffsetLeft: (el: HTMLElement) => number = getOffset('left')
+
+/* istanbul ignore next */
+export const isInElRegin = (el: HTMLElement, pos: number[]): boolean => {
+  const [x, y] = pos
+
+  const x1 = getOffsetLeft(el),
+    y1 = getOffsetTop(el),
+    x2 = x1 + el.offsetWidth,
+    y2 = y1 + el.offsetHeight
+
+  return !(x < x1 || x > x2 || y < y1 || y > y2)
 }
 
 export const getOffsetTopDistance = (el: HTMLElement, containerEl: HTMLElement) => {

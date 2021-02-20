@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, Ref } from 'vue'
-import { off, on } from '@element-plus/utils/dom'
+import { off, on, isInElRegin } from '@element-plus/utils/dom'
 import { BAR_MAP, renderThumbStyle } from './util'
 
 export default defineComponent({
@@ -78,11 +78,16 @@ export default defineComponent({
       wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
     }
 
-    const mouseUpDocumentHandler = () => {
+    const mouseUpDocumentHandler = e => {
       cursorDown.value = false
       barStore.value[bar.value.axis] = 0
       off(document, 'mousemove', mouseMoveDocumentHandler)
       document.onselectstart = onselectstartStore
+
+      const inElRegin = isInElRegin(scrollbar.value, [e.clientX, e.clientY])
+      if (!inElRegin) {
+        hideBar()
+      }
     }
 
     const thumbStyle = computed(() => renderThumbStyle({
@@ -96,6 +101,7 @@ export default defineComponent({
     }
 
     const hideBar = () => {
+      if (cursorDown.value === true) return
       visible.value = false
     }
 
