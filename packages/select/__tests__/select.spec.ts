@@ -519,6 +519,29 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalled()
   })
 
+  test('event:focus & blur for multile & filterable select', async () => {
+    const handleFocus = jest.fn()
+    const handleBlur = jest.fn()
+    const wrapper = _mount(`
+    <el-select
+      @focus="handleFocus"
+      @blur="handleBlur"
+      multiple
+      filterable
+    />`, () => ({
+      handleFocus,
+      handleBlur,
+    }))
+    const select = wrapper.findComponent(({ name: 'ElSelect' }))
+    const input = select.find('input')
+
+    expect(input.exists()).toBe(true)
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalled()
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalled()
+  })
+
   test('should not open popper when automatic-dropdown not set', async () => {
     const wrapper = getSelectVm()
     const select = wrapper.findComponent({ name: 'ElSelect' })
