@@ -33,8 +33,16 @@ export default (props: IUseHandlersProps) => {
     uploadRef.value.abort(file)
   }
 
-  function clearFiles() {
+  function clearFiles(status = ['success', 'fail']) {
     uploadFiles.value = []
+    let n
+    uploadFiles.value = uploadFiles.value.filter(row => {
+      n = 0
+      status.forEach(item => {
+        n += row.status === item
+      })
+      return !n
+    })
   }
 
   function handleError(err: Error, rawFile: ElFile) {
