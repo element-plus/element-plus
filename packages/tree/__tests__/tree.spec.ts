@@ -441,6 +441,20 @@ describe('Tree.vue', () => {
     expect(tree.store.currentNode).toEqual(null)
   })
 
+  test('setCurrentKey should also auto expand parent', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm
+
+    tree.setCurrentKey(111)
+    await nextTick()
+    expect(wrapper.find('.is-current').exists()).toBeTruthy()
+
+    tree.setCurrentKey(null)
+    await nextTick()
+    expect(wrapper.find('.is-current').exists()).toBeFalsy()
+  })
+
   test('setCurrentNode', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
@@ -454,6 +468,23 @@ describe('Tree.vue', () => {
 
     tree.setCurrentKey(null)
     expect(tree.store.currentNode).toEqual(null)
+  })
+
+  test('setCurrentNode should also auto expand parent', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm
+
+    tree.setCurrentNode({
+      id: 111,
+      label: '三级 1-1',
+    })
+    await nextTick()
+    expect(wrapper.find('.is-current').exists()).toBeTruthy()
+
+    tree.setCurrentKey(null)
+    await nextTick()
+    expect(wrapper.find('.is-current').exists()).toBeFalsy()
   })
 
   test('getCurrentKey', async () => {

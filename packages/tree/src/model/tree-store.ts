@@ -358,6 +358,7 @@ export default class TreeStore {
     const key = node[this.key]
     const currNode = this.nodesMap[key]
     this.setCurrentNode(currNode)
+    this.currentNode.expand(null, this.autoExpandParent)
   }
 
   setCurrentNodeKey(key: TreeKey): void {
@@ -369,6 +370,7 @@ export default class TreeStore {
     const node = this.getNode(key)
     if (node) {
       this.setCurrentNode(node)
+      this.currentNode.expand(null, this.autoExpandParent)
     }
   }
 }
