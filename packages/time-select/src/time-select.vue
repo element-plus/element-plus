@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, computed } from 'vue'
 import ElSelect from '@element-plus/select'
 import ElOption from '@element-plus/option'
 interface Time {
@@ -144,7 +144,7 @@ export default defineComponent({
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
     // data
-    const value = ref(props.modelValue)
+    const value = computed(() => props.modelValue)
     // computed
     const items = computed(() => {
       const result = []
