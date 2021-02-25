@@ -347,7 +347,7 @@
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -442,12 +442,12 @@
     <el-table-column
       prop="city"
       label="市区"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -553,7 +553,7 @@
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -676,8 +676,7 @@
         </el-table-column>
         <el-table-column
           prop="address"
-          label="地址"
-          width="300">
+          label="地址">
         </el-table-column>
         <el-table-column
           prop="zip"
