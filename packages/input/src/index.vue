@@ -207,11 +207,9 @@ export default defineComponent({
     },
     label: {
       type: String,
-      default: '',
     },
     tabindex: {
       type: String,
-      default: '',
     },
     validateEvent: {
       type: Boolean,
