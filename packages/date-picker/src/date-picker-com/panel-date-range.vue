@@ -606,6 +606,8 @@ export default defineComponent({
           rightDate.value = leftDate.value.add(1, 'month')
         }
       } else {
+        minDate.value = null
+        maxDate.value = null
         const defaultArr = getDefaultValue()
         leftDate.value = defaultArr[0]
         rightDate.value = defaultArr[1]
