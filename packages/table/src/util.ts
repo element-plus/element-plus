@@ -304,10 +304,12 @@ export function createTablePopper(
   trigger: HTMLElement,
   popperContent: string,
   popperOptions: Partial<IPopperOptions>,
+  tooltipEffect: string,
 ) {
   function renderContent(): HTMLDivElement {
+    const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
-    content.className = 'el-tooltip__popper is-dark'
+    content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
     content.innerHTML = popperContent
     content.style.zIndex = String(PopupManager.nextZIndex())
     document.body.appendChild(content)

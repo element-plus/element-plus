@@ -8,6 +8,7 @@ interface TableBodyProps {
   rowStyle: AnyObject | fn
   fixed: string
   highlight: boolean
+  tooltipEffect: string
 }
 
 export {
