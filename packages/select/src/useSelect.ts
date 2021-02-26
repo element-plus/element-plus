@@ -595,6 +595,7 @@ export const useSelect = (props, states: States, ctx) => {
       if (props.automaticDropdown || props.filterable) {
         states.visible = true
         if (props.filterable) {
+          states.filteredOptionsCount = states.optionsCount
           states.menuVisibleOnFocus = true
         }
       }
