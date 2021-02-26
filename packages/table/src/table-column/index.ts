@@ -7,6 +7,7 @@ import {
   getCurrentInstance,
   h,
   onBeforeUnmount,
+  Fragment,
 } from 'vue'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
@@ -74,10 +75,10 @@ export default defineComponent({
     index: [Number, Function],
     sortOrders: {
       type: Array,
-      default() {
+      default () {
         return ['ascending', 'descending', null]
       },
-      validator(val: unknown[]) {
+      validator (val: unknown[]) {
         return val.every(
           (order: string) =>
             ['ascending', 'descending', null].indexOf(order) > -1,
@@ -85,7 +86,7 @@ export default defineComponent({
       },
     },
   },
-  setup(prop, { slots }) {
+  setup (prop, { slots }) {
     const instance = getCurrentInstance() as TableColumn
     const columnConfig = ref<Partial<TableColumnCtx>>({})
     const props = (prop as unknown) as TableColumnCtx
@@ -117,7 +118,6 @@ export default defineComponent({
     const parent = columnOrTableParent.value
     columnId.value =
       (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++
-
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
@@ -187,14 +187,16 @@ export default defineComponent({
       const children = isSubColumn.value
         ? parent.vnode.el.children
         : parent.refs.hiddenColumns?.children
-      const getColumnIndex = () => getColumnElIndex(children || [], instance.vnode.el)
+      const getColumnIndex = () =>
+        getColumnElIndex(children || [], instance.vnode.el)
       columnConfig.value.getColumnIndex = getColumnIndex
       const columnIndex = getColumnIndex()
-      columnIndex > -1 && owner.value.store.commit(
-        'insertColumn',
-        columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null,
-      )
+      columnIndex > -1 &&
+        owner.value.store.commit(
+          'insertColumn',
+          columnConfig.value,
+          isSubColumn.value ? parent.columnConfig.value : null,
+        )
     })
     onBeforeUnmount(() => {
       owner.value.store.commit(
@@ -209,20 +211,22 @@ export default defineComponent({
     instance.columnConfig = columnConfig
     return
   },
-  render() {
+  render () {
+    let children = []
     try {
-      return h(
-        'div',
-        this.$slots.default?.({
-          store: {},
-          _self: {},
-          column: {},
-          row: {},
-          $index: -1,
-        }),
-      )
+      const renderDefault = this.$slots.default?.()
+      if (renderDefault instanceof Array) {
+        for (const childNode of renderDefault) {
+          if (childNode.type?.name === 'ElTableColumn') {
+            children.push(childNode)
+          } else if (childNode.type === Fragment && childNode.children instanceof Array) {
+            renderDefault.push(...childNode.children)
+          }
+        }
+      }
     } catch {
-      return h('div')
+      children = []
     }
+    return h('div', children)
   },
 })
