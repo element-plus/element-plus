@@ -191,6 +191,7 @@ export const useSelect = (props, states: States, ctx) => {
       popper.value?.update?.()
 
       if (props.filterable) {
+        states.filteredOptionsCount = states.optionsCount
         states.query = props.remote ? '' : states.selectedLabel
         if (props.multiple) {
           input.value.focus()
