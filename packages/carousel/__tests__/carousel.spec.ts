@@ -210,6 +210,7 @@ describe('Carousel', () => {
     await nextTick()
     await wrapper.find('.el-carousel').trigger('mouseenter')
     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
+    await nextTick()
     await wait(60)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
     done()
