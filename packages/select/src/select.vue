@@ -79,7 +79,7 @@
               :autocomplete="autocomplete"
               :style="{ 'flex-grow': '1', width: inputLength / (inputWidth - 32) + '%', 'max-width': inputWidth - 42 + 'px' }"
               @focus="handleFocus"
-              @blur="softFocus = false"
+              @blur="handleBlur"
               @keyup="managePlaceholder"
               @keydown="resetInputState"
               @keydown.down.prevent="navigateOptions('next')"
