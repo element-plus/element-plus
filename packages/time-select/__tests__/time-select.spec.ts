@@ -36,9 +36,24 @@ describe('TimeSelect', () => {
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
+
     await nextTick()
     expect(document.querySelector('.selected')).toBeDefined()
     expect(document.querySelector('.selected').textContent).toBe('14:30')
+  })
+
+  it('set modelvalue', async () => {
+    const wrapper = _mount(`<el-time-select
+    v-model="value"
+  />`, () => ({ value: '14:30' }))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    const vm = wrapper.vm as any
+    vm.value = '09:00'
+    await nextTick()
+    expect(document.querySelector('.selected')).toBeDefined()
+    expect(document.querySelector('.selected').textContent).toBe('09:00')
   })
 
   it('set minTime', async () => {
