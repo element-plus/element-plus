@@ -137,7 +137,7 @@
       <template #default>
         <el-select-menu>
           <el-scrollbar
-            v-show="options.length > 0 && !loading"
+            v-show="options.size > 0 && !loading"
             ref="scrollbar"
             tag="ul"
             wrap-class="el-select-dropdown__wrap"
@@ -151,7 +151,7 @@
             />
             <slot></slot>
           </el-scrollbar>
-          <template v-if="emptyText && (!allowCreate || loading || (allowCreate && options.length === 0 ))">
+          <template v-if="emptyText && (!allowCreate || loading || (allowCreate && options.size === 0 ))">
             <slot v-if="$slots.empty" name="empty"></slot>
             <p v-else class="el-select-dropdown__empty">
               {{ emptyText }}
@@ -260,6 +260,7 @@ export default defineComponent({
   setup(props, ctx) {
     const states = useSelectStates(props)
     const {
+      optionsArray,
       selectSize,
       readonly,
       handleResize,
@@ -329,6 +330,7 @@ export default defineComponent({
     provide(selectKey, reactive({
       props,
       options,
+      optionsArray,
       cachedOptions,
       optionsCount,
       filteredOptionsCount,
