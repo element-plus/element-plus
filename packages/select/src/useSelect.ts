@@ -230,6 +230,9 @@ export const useSelect = (props, states: States, ctx) => {
         checkDefaultFirstOption()
       }
     },
+    {
+      flush: 'post',
+    },
   )
 
   watch(() => states.hoverIndex, val => {
