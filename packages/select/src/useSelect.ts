@@ -24,14 +24,14 @@ import { elFormKey, elFormItemKey } from '@element-plus/form'
 import isEqual from 'lodash/isEqual'
 import { isObject, toRawType } from '@vue/shared'
 
-import type { ComponentPublicInstance } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
+import { SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
   const selectEmitter = mitt()
   return reactive({
-    options: [],
-    cachedOptions: [],
+    options: new Map(),
+    cachedOptions: new Map(),
     createdLabel: null,
     createdSelected: false,
     selected: props.multiple ? [] : {} as any,
@@ -97,19 +97,23 @@ export const useSelect = (props, states: States, ctx) => {
     if (props.loading) {
       return props.loadingText || t('el.select.loading')
     } else {
-      if (props.remote && states.query === '' && states.options.length === 0) return false
-      if (props.filterable && states.query && states.options.length > 0 && states.filteredOptionsCount === 0) {
+      if (props.remote && states.query === '' && states.options.size === 0) return false
+      if (props.filterable && states.query && states.options.size > 0 && states.filteredOptionsCount === 0) {
         return props.noMatchText || t('el.select.noMatch')
       }
-      if (states.options.length === 0) {
+      if (states.options.size === 0) {
         return props.noDataText || t('el.select.noData')
       }
     }
     return null
   })
 
+  const optionsArray = computed(() => Array.from(states.options.values()))
+
+  const cachedOptionsArray = computed(() => Array.from(states.cachedOptions.values()))
+
   const showNewOption = computed(() => {
-    const hasExistingOption = states.options.filter(option => {
+    const hasExistingOption = optionsArray.value.filter(option => {
       return !option.created
     }).some(option => {
       return option.currentLabel === states.query
@@ -215,7 +219,7 @@ export const useSelect = (props, states: States, ctx) => {
   watch(
     // fix `Array.prototype.push/splice/..` cannot trigger non-deep watcher
     // https://github.com/vuejs/vue-next/issues/2116
-    () => ([...states.options]),
+    () => states.options.entries(),
     () => {
       if (isServer) return
       popper.value?.update?.()
@@ -237,9 +241,9 @@ export const useSelect = (props, states: States, ctx) => {
 
   watch(() => states.hoverIndex, val => {
     if (typeof val === 'number' && val > -1) {
-      hoverOption.value = states.options[val] || {}
+      hoverOption.value = optionsArray.value[val] || {}
     }
-    states.options.forEach(option => {
+    optionsArray.value.forEach(option => {
       option.hover = hoverOption.value === option
     })
   })
@@ -313,16 +317,16 @@ export const useSelect = (props, states: States, ctx) => {
     states.hoverIndex = -1
     // highlight the created option
     let hasCreated = false
-    for (let i = states.options.length - 1; i >= 0; i--) {
-      if (states.options[i].created) {
+    for (let i = states.options.size - 1; i >= 0; i--) {
+      if (optionsArray.value[i].created) {
         hasCreated = true
         states.hoverIndex = i
         break
       }
     }
     if (hasCreated) return
-    for (let i = 0; i !== states.options.length; ++i) {
-      const option = states.options[i]
+    for (let i = 0; i !== states.options.size; ++i) {
+      const option = optionsArray.value[i]
       if (states.query) {
         // highlight first options that passes the filter
         if (!option.disabled && !option.groupDisabled && option.visible) {
@@ -371,8 +375,8 @@ export const useSelect = (props, states: States, ctx) => {
     const isNull = toRawType(value).toLowerCase() === 'null'
     const isUndefined = toRawType(value).toLowerCase() === 'undefined'
 
-    for (let i = states.cachedOptions.length - 1; i >= 0; i--) {
-      const cachedOption = states.cachedOptions[i]
+    for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
+      const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
         ? getValueByPath(cachedOption.value, props.valueKey) === getValueByPath(value, props.valueKey)
         : cachedOption.value === value
@@ -399,10 +403,10 @@ export const useSelect = (props, states: States, ctx) => {
   const resetHoverIndex = () => {
     setTimeout(() => {
       if (!props.multiple) {
-        states.hoverIndex = states.options.indexOf(states.selected)
+        states.hoverIndex = optionsArray.value.indexOf(states.selected)
       } else {
         if (states.selected.length > 0) {
-          states.hoverIndex = Math.min.apply(null, states.selected.map(item => states.options.indexOf(item)))
+          states.hoverIndex = Math.min.apply(null, states.selected.map(item => optionsArray.value.indexOf(item)))
         } else {
           states.hoverIndex = -1
         }
@@ -529,7 +533,7 @@ export const useSelect = (props, states: States, ctx) => {
     let target = null
 
     if(targetOption?.value){
-      const options = states.options.filter(item => item.value === targetOption.value)
+      const options = optionsArray.value.filter(item => item.value === targetOption.value)
       if (options.length > 0) {
         target =  options[0].$el
       }
@@ -544,19 +548,17 @@ export const useSelect = (props, states: States, ctx) => {
     scrollbar.value?.handleScroll()
   }
 
-  const onOptionCreate = (vm: ComponentPublicInstance) => {
+  const onOptionCreate = (vm: SelectOptionProxy) => {
     states.optionsCount++
     states.filteredOptionsCount++
-    states.options.push(vm)
-    states.cachedOptions.push(vm)
+    states.options.set(vm.value, vm)
+    states.cachedOptions.set(vm.value, vm)
   }
 
-  const onOptionDestroy = (index: number) => {
-    if (index > -1) {
-      states.optionsCount--
-      states.filteredOptionsCount--
-      states.options.splice(index, 1)
-    }
+  const onOptionDestroy = key => {
+    states.optionsCount--
+    states.filteredOptionsCount--
+    states.options.delete(key)
   }
 
   const resetInputState = (e: KeyboardEvent) => {
@@ -651,8 +653,8 @@ export const useSelect = (props, states: States, ctx) => {
     if (!states.visible) {
       toggleMenu()
     } else {
-      if (states.options[states.hoverIndex]) {
-        handleOptionSelect(states.options[states.hoverIndex], undefined)
+      if (optionsArray.value[states.hoverIndex]) {
+        handleOptionSelect(optionsArray.value[states.hoverIndex], undefined)
       }
     }
   }
@@ -663,28 +665,28 @@ export const useSelect = (props, states: States, ctx) => {
       : item.value
   }
 
-  const optionsAllDisabled = computed(() => states.options.filter(option => option.visible).every(option => option.disabled))
+  const optionsAllDisabled = computed(() => optionsArray.value.filter(option => option.visible).every(option => option.disabled))
 
   const navigateOptions = direction => {
     if (!states.visible) {
       states.visible = true
       return
     }
-    if (states.options.length === 0 || states.filteredOptionsCount === 0) return
+    if (states.options.size === 0 || states.filteredOptionsCount === 0) return
 
     if (!optionsAllDisabled.value) {
       if (direction === 'next') {
         states.hoverIndex++
-        if (states.hoverIndex === states.options.length) {
+        if (states.hoverIndex === states.options.size) {
           states.hoverIndex = 0
         }
       } else if (direction === 'prev') {
         states.hoverIndex--
         if (states.hoverIndex < 0) {
-          states.hoverIndex = states.options.length - 1
+          states.hoverIndex = states.options.size - 1
         }
       }
-      const option = states.options[states.hoverIndex]
+      const option = optionsArray.value[states.hoverIndex]
       if (option.disabled === true ||
         option.groupDisabled === true ||
         !option.visible) {
@@ -695,6 +697,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   return {
+    optionsArray,
     selectSize,
     handleResize,
     debouncedOnInputChange,
