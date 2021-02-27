@@ -82,6 +82,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    expandOnHighlightNode: {
+      type: Boolean,
+      default: true,
+    },
     defaultCheckedKeys: Array,
     defaultExpandedKeys: Array,
     currentNodeKey: [String, Number] as PropType<string | number>,
@@ -149,6 +153,7 @@ export default defineComponent({
       defaultCheckedKeys: props.defaultCheckedKeys,
       defaultExpandedKeys: props.defaultExpandedKeys,
       autoExpandParent: props.autoExpandParent,
+      expandOnHighlightNode: props.expandOnHighlightNode,
       defaultExpandAll: props.defaultExpandAll,
       filterNodeMethod: props.filterNodeMethod,
     }))

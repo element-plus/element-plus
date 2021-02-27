@@ -49,6 +49,7 @@ export declare interface TreeStoreOptions {
     defaultCheckedKeys: TreeKey[]
     defaultExpandedKeys: TreeKey[]
     autoExpandParent: boolean
+    expandOnHighlightNode: boolean
     defaultExpandAll: boolean
     filterNodeMethod: FilterNodeMethodFunction
 }
@@ -82,6 +83,7 @@ export declare interface TreeComponentProps {
     checkOnClickNode: boolean
     checkDescendants: boolean
     autoExpandParent: boolean
+    expandOnHighlightNode: boolean
     defaultCheckedKeys: TreeKey[]
     defaultExpandedKeys: TreeKey[]
     currentNodeKey: TreeKey
