@@ -394,6 +394,6 @@ on-exceed | Fonction pour quand la limite d'envoi est dépassée. | function(fil
 
 | Méthode | Description | Paramètres |
 |---------- |-------- |---------- |
-| clearFiles | Efface la liste (non supporté dans `before-upload`). | — |
+| clearFiles | Efface la liste (non supporté dans `before-upload`). | status: UploadStatus[] |
 | abort | Annule l'envoi en cours. | （ file: fileList's item ） |
 | submit | Envoi la liste de fichiers manuellement. |  —  |

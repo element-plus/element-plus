@@ -387,6 +387,6 @@ Puede arrastrar el archivo dentro de un área en especifico para cargar el archi
 ### Métodos
 | Nombre del método | Descripción                              | Parametros                |
 | ----------------- | ---------------------------------------- | ------------------------- |
-| clearFiles        | limpia la lista de archivos cargados (este método no esta soportado en el _hook_ `before-upload`) | —                         |
+| clearFiles        | limpia la lista de archivos cargados (este método no esta soportado en el _hook_ `before-upload`) | status: UploadStatus[] |
 | abort             | cancela la petición de carga             | （ file: fileList's item ） |
 | submit            | La lista de archivos se sube manualmente |  —                         |

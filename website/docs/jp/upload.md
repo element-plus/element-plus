@@ -448,6 +448,6 @@ on-exceed | リミットを突破した時のフック関数 | function(files, f
 ### メソッド
 | Methods Name | Description | Parameters |
 |---------- |-------- |---------- |
-| clearFiles | アップロードされたファイルリストをクリアします (このメソッドは `before-upload` フックではサポートされていません)。 | — |
+| clearFiles | アップロードされたファイルリストをクリアします (このメソッドは `before-upload` フックではサポートされていません)。 | status: UploadStatus[] |
 | abort      | アップロード要求の取り消し                    | （ file: fileList's item ） |
 | submit     | ファイルリストを手動でアップロード            |  —                         |

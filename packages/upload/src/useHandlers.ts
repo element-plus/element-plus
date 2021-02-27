@@ -28,9 +28,12 @@ export default (props: IUseHandlersProps) => {
     uploadRef.value.abort(file)
   }
 
-  function clearFiles() {
-    uploadFiles.value = []
+  function clearFiles(status = ['success', 'fail']) {
+    uploadFiles.value = uploadFiles.value.filter(row => {
+      return (status.indexOf(row.status) !== -1)
+    })
   }
+
 
   function handleError(err: Error, rawFile: ElFile) {
     const file = getFile(rawFile, uploadFiles.value)
