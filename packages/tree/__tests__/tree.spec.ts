@@ -455,6 +455,20 @@ describe('Tree.vue', () => {
     expect(wrapper.find('.is-current').exists()).toBeFalsy()
   })
 
+  test('setCurrentKey should not expand self', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm
+
+    tree.setCurrentKey(1, true)
+    await nextTick()
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
+
+    tree.setCurrentKey(11, true)
+    await nextTick()
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
+  })
+
   test('setCurrentNode', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
@@ -485,6 +499,26 @@ describe('Tree.vue', () => {
     tree.setCurrentKey(null)
     await nextTick()
     expect(wrapper.find('.is-current').exists()).toBeFalsy()
+  })
+
+  test('setCurrentNode should not expand self', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm
+
+    tree.setCurrentNode({
+      id: 1,
+      label: '一级 1-1',
+    }, true)
+    await nextTick()
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
+
+    tree.setCurrentNode({
+      id: 11,
+      label: '二级 1-1',
+    }, true)
+    await nextTick()
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
   })
 
   test('getCurrentKey', async () => {
