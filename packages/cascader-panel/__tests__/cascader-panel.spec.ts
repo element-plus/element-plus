@@ -308,6 +308,45 @@ describe('CascaderPanel.vue', () => {
     expect(wrapper.vm.value).toBe('beijing')
   })
 
+  test('emit value only, issue 1531', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          v-model="value"
+          :options="options"
+          :props="props"
+        />
+      `,
+      data() {
+        return {
+          options: [
+            {
+              value: 0,
+              label: 'label one',
+            },
+            {
+              value: 1,
+              label: 'label two',
+            },
+          ],
+          props: { emitPath: false },
+          value: null,
+        }
+      },
+    })
+
+    await nextTick()
+
+    const shNode = wrapper.findAll(MENU)[0].find(NODE)
+    expect(shNode.classes('is-active')).toBe(false)
+
+    await wrapper.findAll(NODE)[0].trigger('click')
+    expect(wrapper.vm.value).toBe(0)
+
+    await wrapper.findAll(NODE)[1].trigger('click')
+    expect(wrapper.vm.value).toBe(1)
+  })
+
   test('multiple mode', async () => {
     const wrapper = _mount({
       template: `
