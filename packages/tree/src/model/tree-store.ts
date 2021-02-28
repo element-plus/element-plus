@@ -354,14 +354,16 @@ export default class TreeStore {
     this.currentNode.isCurrent = true
   }
 
-  setUserCurrentNode(node: Node): void {
+  setUserCurrentNode(node: Node, shouldAutoExpandParent = false): void {
     const key = node[this.key]
     const currNode = this.nodesMap[key]
     this.setCurrentNode(currNode)
-    this.currentNode.expand(null, this.autoExpandParent)
+    if (shouldAutoExpandParent) {
+      this.currentNode.expand(null, true)
+    }
   }
 
-  setCurrentNodeKey(key: TreeKey): void {
+  setCurrentNodeKey(key: TreeKey, shouldAutoExpandParent = false): void {
     if (key === null || key === undefined) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null
@@ -370,7 +372,9 @@ export default class TreeStore {
     const node = this.getNode(key)
     if (node) {
       this.setCurrentNode(node)
-      this.currentNode.expand(null, this.autoExpandParent)
+      if (shouldAutoExpandParent) {
+        this.currentNode.expand(null, true)
+      }
     }
   }
 }

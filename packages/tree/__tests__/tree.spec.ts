@@ -446,7 +446,7 @@ describe('Tree.vue', () => {
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
-    tree.setCurrentKey(111)
+    tree.setCurrentKey(111, true)
     await nextTick()
     expect(wrapper.find('.is-current').exists()).toBeTruthy()
 
@@ -478,7 +478,7 @@ describe('Tree.vue', () => {
     tree.setCurrentNode({
       id: 111,
       label: '三级 1-1',
-    })
+    }, true)
     await nextTick()
     expect(wrapper.find('.is-current').exists()).toBeTruthy()
 
