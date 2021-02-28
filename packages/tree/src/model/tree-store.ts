@@ -26,7 +26,6 @@ export default class TreeStore {
   checkStrictly: boolean;
   defaultExpandedKeys: TreeKey[];
   autoExpandParent: boolean;
-  expandOnHighlightNode: boolean;
   defaultExpandAll: boolean;
   checkDescendants: boolean;
   props: TreeOptionProps;
@@ -359,9 +358,7 @@ export default class TreeStore {
     const key = node[this.key]
     const currNode = this.nodesMap[key]
     this.setCurrentNode(currNode)
-    if (this.expandOnHighlightNode) {
-      this.currentNode.expand(null, this.autoExpandParent)
-    }
+    this.currentNode.expand(null, this.autoExpandParent)
   }
 
   setCurrentNodeKey(key: TreeKey): void {
@@ -373,9 +370,7 @@ export default class TreeStore {
     const node = this.getNode(key)
     if (node) {
       this.setCurrentNode(node)
-      if (this.expandOnHighlightNode) {
-        this.currentNode.expand(null, this.autoExpandParent)
-      }
+      this.currentNode.expand(null, this.autoExpandParent)
     }
   }
 }
