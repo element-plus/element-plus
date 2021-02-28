@@ -376,7 +376,7 @@ Puede arrastrar el archivo dentro de un área en especifico para cargar el archi
 | http-request     | sobrescribe el comportamiento por defecto de xhr, permitiendo implementar tu propia petición de carga de archivos | function                           | —                         | —           |
 | disabled         | especifica si se deshabilita la carga de archivos            | boolean                            | —                         | false       |
 | limit            | número máximo de cargas permitidas                           | number                             | —                         | —           |
-| on-exceed        | _hook_ lanzado cuando el límite ha sido excedido             | function(files, fileList)          | —                         | -           |
+| on-exceed        | _hook_ lanzado cuando el límite ha sido excedido             | function(files, fileList)          | —                         | —           |
 
 ### Slot
 | Nombre       | Descripcion                              |
@@ -385,8 +385,8 @@ Puede arrastrar el archivo dentro de un área en especifico para cargar el archi
 | tip | contenido de los tips |
 
 ### Métodos
-| Nombre del método | Descripción                              | Parametros                |
-| ----------------- | ---------------------------------------- | ------------------------- |
-| clearFiles        | limpia la lista de archivos cargados (este método no esta soportado en el _hook_ `before-upload`) | status: UploadStatus[] |
-| abort             | cancela la petición de carga             | （ file: fileList's item ） |
-| submit            | La lista de archivos se sube manualmente |  —                         |
+| Nombre del método | Descripción                              | Parametros                | Tipo                               | Valores aceptados         | Por defecto |
+| ----------------- | ---------------------------------------- | ------------------------- | ---- | --------------- | ------ |
+| clearFiles        | limpia la lista de archivos cargados (este método no esta soportado en el _hook_ `before-upload`) | status | UploadStatus[]  | ['ready','uploading','success','fail'] | ['success','fail'] |
+| abort             | cancela la petición de carga             | （ file: fileList's item ） | — | — | — |
+| submit            | La lista de archivos se sube manualmente |  —                         | — | — | — |

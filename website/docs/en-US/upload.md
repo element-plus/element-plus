@@ -456,8 +456,8 @@ on-exceed | hook function when limit is exceeded | function(files, fileList) | �
 | tip | content of tips |
 
 ### Methods
-| Methods Name | Description | Parameters |
-|---------- |-------- |---------- |
-| clearFiles | clear the uploaded file list (this method is not supported in the `before-upload` hook) | status: UploadStatus[] |
-| abort      | cancel upload request                    | （ file: fileList's item ） |
-| submit     | upload the file list manually            |  —                         |
+| Methods Name | Description | Parameters | Type | Accepted Values | Default |
+|------------- |------------ | ---------- | ---- | --------------- | ------ |
+| clearFiles | clear the uploaded file list (this method is not supported in the `before-upload` hook) | status | UploadStatus[]  | ['ready','uploading','success','fail'] | ['success','fail'] |
+| abort      | cancel upload request                    | （ file: fileList's item ） | — | — | — |
+| submit     | upload the file list manually            |  —                          | — | — | — |

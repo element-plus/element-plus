@@ -381,7 +381,7 @@ auto-upload | Si l'envoi est automatique. | boolean | — | true |
 http-request | Écrase le xhr par défaut, afin que vous puissiez implémenter votre propre fonction d'envoi. | function | — | — |
 disabled | Si le composant est désactivé. | boolean | — | false |
 limit | Nombre maximum d'envoi autorisés. | number | — | — |
-on-exceed | Fonction pour quand la limite d'envoi est dépassée. | function(files, fileList) | — | - |
+on-exceed | Fonction pour quand la limite d'envoi est dépassée. | function(files, fileList) | — | — |
 
 ### Slot
 
@@ -392,8 +392,8 @@ on-exceed | Fonction pour quand la limite d'envoi est dépassée. | function(fil
 
 ### Méthodes
 
-| Méthode | Description | Paramètres |
-|---------- |-------- |---------- |
-| clearFiles | Efface la liste (non supporté dans `before-upload`). | status: UploadStatus[] |
-| abort | Annule l'envoi en cours. | （ file: fileList's item ） |
-| submit | Envoi la liste de fichiers manuellement. |  —  |
+| Méthode | Description | Paramètres | Type      | Valeurs acceptées       | Défaut |
+|---------- |-------- |---------- | ---- | --------------- | ------ |
+| clearFiles | Efface la liste (non supporté dans `before-upload`). | status | UploadStatus[]  | ['ready','uploading','success','fail'] | ['success','fail'] |
+| abort | Annule l'envoi en cours. | （ file: fileList's item ） | — | — | — |
+| submit | Envoi la liste de fichiers manuellement. |  —  | — | — | — |

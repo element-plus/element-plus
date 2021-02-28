@@ -437,7 +437,7 @@ auto-upload | ファイルを自動アップロードするかどうか | boolea
 http-request | デフォルトの xhr の動作をオーバーライドし、独自のアップロードファイルのリクエストを実装できるようにします。 | function | — | — |
 disabled | アップロードを無効にするかどうか | boolean | — | false |
 limit | アップロード可能な最大数 | number | — | — |
-on-exceed | リミットを突破した時のフック関数 | function(files, fileList) | — | - |
+on-exceed | リミットを突破した時のフック関数 | function(files, fileList) | — | — |
 
 ### スロット
 | Name | Description |
@@ -446,8 +446,8 @@ on-exceed | リミットを突破した時のフック関数 | function(files, f
 | tip | tipsの内容 |
 
 ### メソッド
-| Methods Name | Description | Parameters |
-|---------- |-------- |---------- |
-| clearFiles | アップロードされたファイルリストをクリアします (このメソッドは `before-upload` フックではサポートされていません)。 | status: UploadStatus[] |
-| abort      | アップロード要求の取り消し                    | （ file: fileList's item ） |
-| submit     | ファイルリストを手動でアップロード            |  —                         |
+| Methods Name | Description | Parameters | Type      | Accepted Values       | Default |
+|---------- |-------- |---------- | ---- | --------------- | ------ |
+| clearFiles | アップロードされたファイルリストをクリアします (このメソッドは `before-upload` フックではサポートされていません)。 | status | UploadStatus[]  | ['ready','uploading','success','fail'] | ['success','fail'] |
+| abort      | アップロード要求の取り消し                    | （ file: fileList's item ） | — | — | — |
+| submit     | ファイルリストを手動でアップロード            |  —                         | — | — | — |

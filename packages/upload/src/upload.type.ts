@@ -76,5 +76,5 @@ export interface ElUpload extends IUseHandlersProps {
   uploadDisabled: boolean
   uploadFiles: UploadFile[]
   submit: () => void
-  clearFiles: (status: UploadStatus[]) => void
+  clearFiles: () => void
 }

@@ -398,7 +398,7 @@
 | http-request | 覆盖默认的上传行为，可以自定义上传的实现 | function | — | — |
 | disabled | 是否禁用 | boolean | — | false |
 | limit | 最大允许上传个数 |  number | — | — |
-| on-exceed | 文件超出个数限制时的钩子 | function(files, fileList) | — | - |
+| on-exceed | 文件超出个数限制时的钩子 | function(files, fileList) | — | — |
 
 ### Slot
 | name | 说明 |
@@ -407,8 +407,8 @@
 | tip | 提示说明文字 |
 
 ### Methods
-| 方法名      | 说明          | 参数 |
-|----------- |-------------- | -- |
-| clearFiles | 清空已上传的文件列表（该方法不支持在 before-upload 中调用） | status: UploadStatus[] |
-| abort      | 取消上传请求    | （ file: fileList 中的 file 对象 ） |
-| submit     | 手动上传文件列表 |  —                                |
+| 方法名      | 说明          | 参数 | 类型      | 可选值                           | 默认值  |
+|----------- |-------------- | -- | ---- | --------------- | ------ |
+| clearFiles | 清空已上传的文件列表（该方法不支持在 before-upload 中调用） | status | UploadStatus[]  | ['ready','uploading','success','fail'] | ['success','fail'] |
+| abort      | 取消上传请求    | （ file: fileList 中的 file 对象 ） | — | — | — |
+| submit     | 手动上传文件列表 |  —                                | — | — | — |
