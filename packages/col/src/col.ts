@@ -50,10 +50,10 @@ const ElCol = defineComponent({
     },
   },
   setup(props, { slots }) {
-    const elRow = inject('ElRow', { gutter: 0 })
+    const elRow = inject('ElRow', { value: 0 })
 
     const style = computed(() => {
-      const { gutter } = elRow // track
+      const gutter = elRow.value // track
       if (gutter) {
         return {
           paddingLeft: gutter / 2 + 'px',
@@ -85,7 +85,7 @@ const ElCol = defineComponent({
         }
       })
       // this is for the fix
-      if (elRow.gutter) {
+      if (elRow.value) {
         ret.push('is-guttered')
       }
 

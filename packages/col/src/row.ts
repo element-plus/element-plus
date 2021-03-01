@@ -1,4 +1,4 @@
-import { defineComponent, computed, h, provide, reactive } from 'vue'
+import { defineComponent, computed, h, provide } from 'vue'
 
 export default defineComponent({
   name: 'ElRow',
@@ -25,7 +25,7 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const elRow = reactive({ gutter: props.gutter })
+    const elRow = computed(() => props.gutter)
     provide('ElRow', elRow)
 
     const style = computed(() => {
@@ -40,22 +40,18 @@ export default defineComponent({
       return ret
     })
 
-    return () => {
-      elRow.gutter = props.gutter // trigger
-
-      return h(
-        props.tag,
-        {
-          class: [
-            'el-row',
-            props.justify !== 'start' ? `is-justify-${props.justify}` : '',
-            props.align !== 'top' ? `is-align-${props.align}` : '',
-            props.type === 'flex' ? 'el-row--flex' : '',
-          ],
-          style: style.value,
-        },
-        slots.default?.(),
-      )
-    }
+    return () => h(
+      props.tag,
+      {
+        class: [
+          'el-row',
+          props.justify !== 'start' ? `is-justify-${props.justify}` : '',
+          props.align !== 'top' ? `is-align-${props.align}` : '',
+          props.type === 'flex' ? 'el-row--flex' : '',
+        ],
+        style: style.value,
+      },
+      slots.default?.(),
+    )
   },
 })
