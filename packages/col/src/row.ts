@@ -25,8 +25,10 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const elRow = computed(() => props.gutter)
-    provide('ElRow', elRow)
+    const gutter = computed(() => props.gutter)
+    provide('ElRow', {
+      gutter,
+    })
 
     const style = computed(() => {
       const ret = {
@@ -40,18 +42,19 @@ export default defineComponent({
       return ret
     })
 
-    return () => h(
-      props.tag,
-      {
-        class: [
-          'el-row',
-          props.justify !== 'start' ? `is-justify-${props.justify}` : '',
-          props.align !== 'top' ? `is-align-${props.align}` : '',
-          props.type === 'flex' ? 'el-row--flex' : '',
-        ],
-        style: style.value,
-      },
-      slots.default?.(),
-    )
+    return () =>
+      h(
+        props.tag,
+        {
+          class: [
+            'el-row',
+            props.justify !== 'start' ? `is-justify-${props.justify}` : '',
+            props.align !== 'top' ? `is-align-${props.align}` : '',
+            props.type === 'flex' ? 'el-row--flex' : '',
+          ],
+          style: style.value,
+        },
+        slots.default?.(),
+      )
   },
 })
