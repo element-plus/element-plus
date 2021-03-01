@@ -461,12 +461,19 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm
 
     tree.setCurrentKey(1, true)
-    await nextTick()
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
 
     tree.setCurrentKey(11, true)
-    await nextTick()
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1二级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
+
+    tree.setCurrentKey(111, true)
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1二级 1-1三级 1-1一级 2一级 3')
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(2)
   })
 
   test('setCurrentNode', async () => {
@@ -510,15 +517,25 @@ describe('Tree.vue', () => {
       id: 1,
       label: '一级 1-1',
     }, true)
-    await nextTick()
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
 
     tree.setCurrentNode({
       id: 11,
       label: '二级 1-1',
     }, true)
-    await nextTick()
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1二级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
+
+    tree.setCurrentNode({
+      id: 111,
+      label: '三级 1-1',
+    }, true)
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1二级 1-1三级 1-1一级 2一级 3')
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(2)
   })
 
   test('getCurrentKey', async () => {
