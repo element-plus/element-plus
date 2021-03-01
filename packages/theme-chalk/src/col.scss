@@ -48,6 +48,9 @@
   }
   @for $i from 0 through 24 {
     .#{$namespace}-col-xs-#{$i} {
+      @if $i != 0 {
+        display: block;
+      }
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
@@ -77,6 +80,9 @@
   }
   @for $i from 0 through 24 {
     .#{$namespace}-col-sm-#{$i} {
+      @if $i != 0 {
+        display: block;
+      }
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
@@ -106,6 +112,9 @@
   }
   @for $i from 0 through 24 {
     .#{$namespace}-col-md-#{$i} {
+      @if $i != 0 {
+        display: block;
+      }
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
@@ -135,6 +144,9 @@
   }
   @for $i from 0 through 24 {
     .#{$namespace}-col-lg-#{$i} {
+      @if $i != 0 {
+        display: block;
+      }
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
@@ -164,6 +176,9 @@
   }
   @for $i from 0 through 24 {
     .#{$namespace}-col-xl-#{$i} {
+      @if $i != 0 {
+        display: block;
+      }
       max-width: (1 / 24 * $i * 100) * 1%;
       flex: 0 0 (1 / 24 * $i * 100) * 1%;
     }
