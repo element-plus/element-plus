@@ -102,11 +102,13 @@ type DWindow =  Window & typeof globalThis & {
   dayjs?: typeof dayjs
 }
 
-const _window: DWindow = window
-
 // expose Day.js to window to make full bundle i18n work
-if (!isServer && !_window.dayjs) {
-  _window.dayjs = dayjs
+if (!isServer) {
+  const _window: DWindow = window
+
+  if (!_window.dayjs) {
+    _window.dayjs = dayjs
+  }
 }
 
 const version = version_ // version_ to fix tsc issue
