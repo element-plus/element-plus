@@ -8,8 +8,8 @@ type EventHandler = (e: Event) => any
 interface IRenderTriggerProps extends Record<string, unknown> {
   ref: string | Ref<ComponentPublicInstance | HTMLElement>
   onClick?: EventHandler
-  onMouseOver?: EventHandler
-  onMouseLeave?: EventHandler
+  onMouseover?: EventHandler
+  onMouseleave?: EventHandler
   onFocus?: EventHandler
 }
 
