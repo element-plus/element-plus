@@ -7,7 +7,6 @@
   position: relative;
   color: $--color-text-regular;
   font-size: $--font-size-base;
-  line-height: 1;
 
   @include e(popper) {
     // using attributes selector to override
