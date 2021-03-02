@@ -101,6 +101,10 @@ export function useOption(props, states) {
     }
   })
 
+  watch(() => selectGroup.disabled, () => {
+    states.groupDisabled = selectGroup.disabled
+  }, { immediate: true })
+
   // Emitter
   select.selectEmitter.on(selectEvents.queryChange, queryChange)
 
