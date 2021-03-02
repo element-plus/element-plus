@@ -62,11 +62,11 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: [Boolean, String, Number],
+      type: [String, Number, Boolean],
       default: '',
     },
     label: {
-      type: [Boolean, String, Number],
+      type: [String, Number, Boolean],
       default: '',
     },
     disabled: Boolean,
