@@ -1,6 +1,5 @@
 .demo-block {
   .#{$namespace}-dropdown {
-    vertical-align: top;
 
     & + .#{$namespace}-dropdown {
       margin-left: 15px;
