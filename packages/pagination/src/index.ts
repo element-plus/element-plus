@@ -1,13 +1,9 @@
 import {
   defineComponent,
   h,
-  ref,
-  computed,
   watch,
-  nextTick,
   provide,
 } from 'vue'
-import { IPagination } from './pagination'
 
 import Prev from './prev.vue'
 import Next from './next.vue'
@@ -15,6 +11,7 @@ import Sizes from './sizes.vue'
 import Jumper from './jumper.vue'
 import Total from './total.vue'
 import Pager from './pager.vue'
+import usePagination from './usePagination'
 
 const getValidPageSize = (val: number) => Number.isNaN(val) ? 10 : val
 
@@ -87,6 +84,11 @@ export default defineComponent({
       default: '',
     },
 
+    keyValue: {
+      type: String,
+      default: '',
+    },
+
     background: Boolean,
 
     disabled: Boolean,
@@ -103,135 +105,70 @@ export default defineComponent({
     'update:pageSize',
   ],
   setup(props, { emit }) {
-    const lastEmittedPage = ref(-1)
-    const userChangePageSize = ref(false)
-    const internalPageSize = ref(getValidPageSize(props.pageSize))
+    const {
+      key, pageSize, total, pageSizeCb, currentPage, pageSizes,
+      pageCount, disabled, next, nextCb, prev, prevCb,
+      internalPageCount, userChangePageSize, emitChange,
+      handleCurrentChange, getValidCurrentPage,
+    } = usePagination(props.keyValue)
 
-    const internalPageCount = computed<Nullable<number>>(() => {
-      if (typeof props.total === 'number') {
-        return Math.max(1, Math.ceil(props.total / internalPageSize.value))
-      } else if (typeof props.pageCount === 'number') {
-        return Math.max(1, props.pageCount)
-      }
-      return null
-    })
+    provide<string | symbol>('pagination-key', key)
 
-    const internalCurrentPage = ref(getValidCurrentPage(props.currentPage))
-
-    function emitChange() {
-      nextTick(() => {
-        if (
-          internalCurrentPage.value !== lastEmittedPage.value ||
-          userChangePageSize.value
-        ) {
-          lastEmittedPage.value = internalCurrentPage.value
-          userChangePageSize.value = false
-        }
-      })
+    if (!props.keyValue) {
+      watch(() => props.currentPage, val => currentPage.value = getValidCurrentPage(val), { immediate: true })
+      watch(() => props.pageCount, val => pageCount.value = val, { immediate: true })
+      watch(() => props.pageSize, val => pageSize.value = getValidPageSize(val), { immediate: true })
+      watch(() => props.total, val => total.value = val, { immediate: true })
+      watch(() => props.disabled, val => disabled.value = val, { immediate: true })
+      watch(() => props.pageSizes, val => {
+        pageSizes.value = val.map(item => Number(item))
+      }, { immediate: true })
     }
 
-    function handleCurrentChange(val: number) {
-      internalCurrentPage.value = getValidCurrentPage(val)
-      userChangePageSize.value = true
-    }
-
-    function handleSizesChange(val: number) {
-      userChangePageSize.value = true
-      internalPageSize.value = val
-      emit('update:pageSize', val)
-      emit('size-change', val)
-    }
-
-    function prev() {
-      if (props.disabled) return
-      const newVal = internalCurrentPage.value - 1
-      internalCurrentPage.value = getValidCurrentPage(newVal)
-      emit('prev-click', internalCurrentPage)
-      emitChange()
-    }
-
-    function next() {
-      if (props.disabled) return
-      const newVal = internalCurrentPage.value + 1
-      internalCurrentPage.value = getValidCurrentPage(newVal)
-      emit('next-click', internalCurrentPage.value)
-      emitChange()
-    }
-
-    function getValidCurrentPage(value: number | string) {
-      if (typeof value === 'string') {
-        value = parseInt(value, 10)
-      }
-      let resetValue: number | undefined
-      const havePageCount = typeof internalPageCount.value === 'number'
-
-      if (!havePageCount) {
-        if (isNaN(value) || value < 1) resetValue = 1
-      } else {
-        if (value < 1) {
-          resetValue = 1
-        } else if (value > internalPageCount.value) {
-          resetValue = internalPageCount.value
-        }
-      }
-
-      if (resetValue === undefined && isNaN(value)) {
-        resetValue = 1
-      } else if (resetValue === 0) {
-        resetValue = 1
-      }
-
-      return resetValue === undefined ? value : resetValue
-    }
-
-    watch(() => getValidCurrentPage(props.currentPage), val => {
-      internalCurrentPage.value = val
-    })
-
-    watch(() => props.pageSize, val => {
-      internalPageSize.value = getValidPageSize(val)
-    })
-
-    watch(internalCurrentPage, val => {
+    watch(currentPage, val => {
       emit('update:currentPage', val)
       emit('current-change', val)
     })
 
-    watch(
-      () => internalPageCount.value,
-      val => {
-        const oldPage = internalCurrentPage.value
-        if (val > 0 && oldPage === 0) {
-          internalCurrentPage.value = 1
-        } else if (oldPage > val) {
-          internalCurrentPage.value = val === 0 ? 1 : val
-          userChangePageSize.value && emitChange()
-        }
-        userChangePageSize.value = false
-      },
-    )
-
-    provide<IPagination>('pagination', {
-      pageCount: computed(() => props.pageCount),
-      disabled: computed(() => props.disabled),
-      currentPage: computed(() => internalCurrentPage.value),
-      changeEvent: handleCurrentChange,
-      handleSizesChange,
+    watch(internalPageCount, val => {
+      const oldPage = currentPage.value
+      if (val > 0 && oldPage === 0) {
+        currentPage.value = 1
+      } else if (oldPage > val) {
+        currentPage.value = val === 0 ? 1 : val
+        userChangePageSize.value && emitChange()
+      }
+      userChangePageSize.value = false
     })
 
+    pageSizeCb.value = [
+      () => {
+        emit('update:pageSize', pageSize.value)
+        emit('size-change', pageSize.value)
+      },
+    ]
+
+    nextCb.value = [
+      () => {
+        emit('next-click', currentPage.value)
+      },
+    ]
+
+    prevCb.value = [
+      () => {
+        emit('prev-click', currentPage.value)
+      },
+    ]
+
     return {
-      internalCurrentPage,
-      internalPageSize,
-      lastEmittedPage,
-      userChangePageSize,
+      internalCurrentPage: currentPage,
+      internalPageSize: pageSize,
+      internalPageSizes: pageSizes,
       internalPageCount,
-
-      getValidCurrentPage,
-      emitChange,
-      handleCurrentChange,
-
+      internalDisabled: disabled,
       prev,
       next,
+      handleCurrentChange,
     }
   },
   render() {
@@ -258,7 +195,7 @@ export default defineComponent({
     const rightWrapperChildren = []
     const TEMPLATE_MAP = {
       prev: h(Prev, {
-        disabled: this.disabled,
+        disabled: this.internalDisabled,
         currentPage: this.internalCurrentPage,
         prevText: this.prevText,
         onClick: this.prev,
@@ -269,20 +206,20 @@ export default defineComponent({
         pageCount: this.internalPageCount,
         pagerCount: this.pagerCount,
         onChange: this.handleCurrentChange,
-        disabled: this.disabled,
+        disabled: this.internalDisabled,
       }),
       next: h(Next, {
-        disabled: this.disabled,
+        disabled: this.internalDisabled,
         currentPage: this.internalCurrentPage,
         pageCount: this.internalPageCount,
         nextText: this.nextText,
         onClick: this.next,
       }),
       sizes: h(Sizes, {
-        pageSize: this.pageSize,
-        pageSizes: this.pageSizes,
+        pageSize: this.internalPageSize,
+        pageSizes: this.internalPageSizes,
         popperClass: this.popperClass,
-        disabled: this.disabled,
+        disabled: this.internalDisabled,
       }),
       slot: this.$slots?.default?.() ?? null,
       total: h(Total, { total: this.total }),

@@ -21,17 +21,19 @@ import {
   computed,
   defineComponent,
   ref,
+  inject,
 } from 'vue'
 import { t } from '@element-plus/locale'
 import ElInput from '@element-plus/input'
-import { usePagination } from './usePagination'
+import usePagination from './usePagination'
 
 export default defineComponent({
   components: {
     ElInput,
   },
   setup() {
-    const { pagination, pageCount, disabled, currentPage } = usePagination()
+    const key = inject<string|symbol>('pagination-key')
+    const { changeEvent, pageCount, disabled, currentPage } = usePagination(key)
     const userInput = ref<Nullable<number>>(null)
     const innerValue = computed(() => userInput.value ?? currentPage.value)
 
@@ -40,7 +42,7 @@ export default defineComponent({
     }
 
     function handleChange(val: number | string) {
-      pagination?.changeEvent(Number(val))
+      changeEvent(Number(val))
       userInput.value = null
     }
 

@@ -24,6 +24,7 @@ export interface IPaginationProps {
   background: boolean
   disabled: boolean
   hideOnSinglePage: boolean
+  keyValue: string
 }
 
 export interface IPaginationSetups {
@@ -33,3 +34,5 @@ export interface IPaginationSetups {
   disabled: boolean
   pageSizes: Array<number>
 }
+
+export type IPaginationHookCb = 'pageSizeCb' | 'nextCb' | 'prevCb'

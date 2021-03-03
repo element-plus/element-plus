@@ -23,6 +23,82 @@
 ```
 :::
 
+### useHooks用法 - Vue2.x
+
+:::demo 默认情况下，当总页数超过 7 页时，Pagination 会折叠多余的页码按钮。通过`pager-count`属性可以设置最大页码按钮数。
+```html
+<template>
+  <el-pagination
+    layout="prev, pager, next"
+    :key-value="pagerKey"
+    @current-change="handleCurrentChange"
+  />
+</template>
+
+<script>
+import {useElPagination} from 'element-plus';
+
+export default {
+  data() {
+    return {
+      pagerKey: 'newPager',
+    }
+  },
+  created() {
+    // init
+    const { currentPage, total, pageSize } = useElPagination(this.pagerKey);
+
+    currentPage.value = 2;
+    pageSize.value = 5;
+    total.value = 200;
+  },
+  methods: {
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    }
+  }
+}
+</script>
+```
+:::
+
+### useHooks用法 - Vue3.x
+
+:::demo 默认情况下，当总页数超过 7 页时，Pagination 会折叠多余的页码按钮。通过`pager-count`属性可以设置最大页码按钮数。
+```html
+<template>
+  <el-pagination
+    layout="prev, pager, next"
+    :key-value="pagerKey"
+  />
+</template>
+
+<script>
+import { defineComponent, watchEffect } from 'vue';
+import { useElPagination } from 'element-plus';
+
+export default defineComponent({
+  setup () {
+    const pagerKey = 'newPager2';
+    const { currentPage, total, pageSize } = useElPagination(pagerKey);
+
+    currentPage.value = 2;
+    pageSize.value = 5;
+    total.value = 400;
+
+    watchEffect(() => {
+      console.log(`当前页: ${currentPage.value}`);
+    })
+
+    return {
+      pagerKey,
+    }
+  },
+})
+</script>
+```
+:::
+
 ### 设置最大页码按钮数
 
 :::demo 默认情况下，当总页数超过 7 页时，Pagination 会折叠多余的页码按钮。通过`pager-count`属性可以设置最大页码按钮数。
@@ -175,16 +251,35 @@
 | background | 是否为分页按钮添加背景色 | boolean | — | false |
 | page-size | 每页显示条目个数，支持 .sync 修饰符 | number | — | 10 |
 | total | 总条目数 | number | — | — |
-| page-count | 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；如果要支持 page-sizes 的更改，则需要使用 total 属性 | Number | — | — |
+| page-count | 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；如果要支持 page-sizes 的更改，则需要使用 total 属性 | number | — | — |
 | pager-count | 页码按钮的数量，当总页数超过该值时会折叠 | number | 大于等于 5 且小于等于 21 的奇数 | 7 |
 | current-page | 当前页数，支持 .sync 修饰符 | number | — | 1 |
-| layout | 组件布局，子组件名用逗号分隔| String | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total'  |
+| layout | 组件布局，子组件名用逗号分隔| string | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total'  |
 | page-sizes | 每页显示个数选择器的选项设置 | number[] | — |  [10, 20, 30, 40, 50, 100] |
 | popper-class | 每页显示个数选择器的下拉框类名 | string | — | — |
 | prev-text | 替代图标显示的上一页文字 | string | — | — |
 | next-text | 替代图标显示的下一页文字 | string | — | — |
 | disabled | 是否禁用 | boolean | — | false |
 | hide-on-single-page | 只有一页时是否隐藏 | boolean | — | - |
+
+### Hooks
+| 传入参数               | 说明                                                     | 类型              |
+|--------------------|----------------------------------------------------------|-------------------|
+| key | 传入组件的key值，传入null自动生成symbol | string \| symbol |
+
+| 返回参数               | 说明                                                     | 类型              |
+|--------------------|----------------------------------------------------------|-------------------|
+| total | 总条目数 | number |
+| page-size | 每页显示条目个数 | number |
+| page-count | 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；如果要支持 page-sizes 的更改，则需要使用 total 属性 | number |
+| current-page | 当前页数 | number |
+| page-sizes | 每页显示个数选择器的选项设置 | number[] |
+| disabled | 是否禁用 | boolean |
+| pageSizeCb | pageSize 改变时后触发 | function[] |
+| prevCb | 用户点击上一页按钮改变当前页后触发 | function[] |
+| nextCb | 用户点击下一页按钮改变当前页后触发 | function[] |
+| initState | 初始化组件状态 | - |
+| key | 返回组件的key值 | - |
 
 ### Events
 | 事件名称 | 说明 | 回调参数 |
