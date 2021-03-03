@@ -44,6 +44,7 @@ import {
   computed,
   inject,
   PropType,
+  watch,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { t } from '@element-plus/locale'
@@ -91,6 +92,12 @@ export default defineComponent({
       if (props.format.includes('A')) return 'A'
       if (props.format.includes('a')) return 'a'
       return ''
+    })
+    // watch
+    watch(() => props.visible, val => {
+      if (val) {
+        oldValue.value = props.parsedValue
+      }
     })
     // method
     const isValidValue = _date => {
