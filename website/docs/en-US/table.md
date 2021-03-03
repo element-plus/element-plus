@@ -347,7 +347,7 @@ When there are too many columns, you can fix some of them.
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -445,12 +445,12 @@ When you have huge chunks of data to put in a table, you can fix the header and 
     <el-table-column
       prop="city"
       label="City"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -556,7 +556,7 @@ When the the data is dynamically changed, you might want the table to have a max
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -679,8 +679,7 @@ When the data structure is complex, you can use group header to show the data hi
         </el-table-column>
         <el-table-column
           prop="address"
-          label="Address"
-          width="300">
+          label="Address">
         </el-table-column>
         <el-table-column
           prop="zip"

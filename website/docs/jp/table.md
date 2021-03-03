@@ -347,7 +347,7 @@
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -445,12 +445,12 @@
     <el-table-column
       prop="city"
       label="City"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -556,7 +556,7 @@
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -679,8 +679,7 @@
         </el-table-column>
         <el-table-column
           prop="address"
-          label="Address"
-          width="300">
+          label="Address">
         </el-table-column>
         <el-table-column
           prop="zip"

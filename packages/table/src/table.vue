@@ -45,6 +45,7 @@
         :context="context"
         :highlight="highlightCurrentRow"
         :row-class-name="rowClassName"
+        :tooltip-effect="tooltipEffect"
         :row-style="rowStyle"
         :store="store"
         :stripe="stripe"
@@ -129,6 +130,7 @@
         <table-body
           :highlight="highlightCurrentRow"
           :row-class-name="rowClassName"
+          :tooltip-effect="tooltipEffect"
           :row-style="rowStyle"
           :store="store"
           :stripe="stripe"
@@ -202,6 +204,7 @@
         <table-body
           :highlight="highlightCurrentRow"
           :row-class-name="rowClassName"
+          :tooltip-effect="tooltipEffect"
           :row-style="rowStyle"
           :store="store"
           :stripe="stripe"

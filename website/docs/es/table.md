@@ -347,7 +347,7 @@ Cuando se tienen demasiadas columnas, puede fijar alguna de estas.
     <el-table-column
       prop="address"
       label="Dirección"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -445,12 +445,12 @@ Cuando tienes grandes cantidades de datos para colocar en una tabla, puede fijar
     <el-table-column
       prop="city"
       label="Ciudad"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="Dirección"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -556,7 +556,7 @@ Cuando los datos se modifican dinámicamente, es posible que necesite que la tab
     <el-table-column
       prop="address"
       label="Dirección"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -679,8 +679,7 @@ Cuando la estructura de datos es compleja, tu puedes hacer uso de cabeceras agru
         </el-table-column>
         <el-table-column
           prop="address"
-          label="Dirección"
-          width="300">
+          label="Dirección">
         </el-table-column>
         <el-table-column
           prop="zip"

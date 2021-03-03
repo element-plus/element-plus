@@ -164,6 +164,38 @@ describe('Select', () => {
     expect(wrapper.find('.el-input__inner').element.value).toBe('双皮奶')
   })
 
+
+  test('sync set value and options', async () => {
+    const wrapper = _mount(`
+    <el-select v-model="value">
+      <el-option
+        v-for="item in options"
+        :label="item.label"
+        :key="item.value"
+        :value="item.value">
+      </el-option>
+    </el-select>
+  `,
+    () => ({
+      options: [{
+        value: '选项1',
+        label: '黄金糕',
+      }, {
+        value: '选项2',
+        label: '双皮奶',
+      }],
+      value: '选项2',
+    }))
+    const vm = wrapper.vm as any
+    vm.options = [{
+      value: '选项1',
+      label: '黄金糕',
+    }]
+    vm.value = '选项1'
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.el-input__inner').element.value).toBe('黄金糕')
+  })
+
   test('single select', async () => {
     const wrapper = _mount(`
       <el-select v-model="value" @change="handleChange">
@@ -506,6 +538,29 @@ describe('Select', () => {
     const wrapper = _mount(`<el-select
       @focus="handleFocus"
       @blur="handleBlur" />`, () => ({
+      handleFocus,
+      handleBlur,
+    }))
+    const select = wrapper.findComponent(({ name: 'ElSelect' }))
+    const input = select.find('input')
+
+    expect(input.exists()).toBe(true)
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalled()
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalled()
+  })
+
+  test('event:focus & blur for multile & filterable select', async () => {
+    const handleFocus = jest.fn()
+    const handleBlur = jest.fn()
+    const wrapper = _mount(`
+    <el-select
+      @focus="handleFocus"
+      @blur="handleBlur"
+      multiple
+      filterable
+    />`, () => ({
       handleFocus,
       handleBlur,
     }))

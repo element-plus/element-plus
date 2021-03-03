@@ -28,7 +28,7 @@
     "fast-build": "sh ./scripts/build.sh"
   },
   "peerDependencies": {
-    "vue": "^3.0.5"
+    "vue": "^3.0.7"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
@@ -47,7 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
     "@vue/babel-plugin-jsx": "^1.0.0",
-    "@vue/compiler-sfc": "^3.0.5",
+    "@vue/compiler-sfc": "^3.0.7",
     "@vue/component-compiler-utils": "^3.2.0",
     "algoliasearch": "^4.4.0",
     "babel-jest": "^26.3.0",
@@ -94,7 +94,7 @@
     "ts-loader": "^8.0.3",
     "typescript": "^4.0.2",
     "url-loader": "^4.1.0",
-    "vue": "^3.0.5",
+    "vue": "^3.0.7",
     "vue-jest": "5.0.0-alpha.5",
     "vue-loader": "^16.1.2",
     "vue-router": "^4.0.2",

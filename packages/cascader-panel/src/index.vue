@@ -184,7 +184,7 @@ export default defineComponent({
       const nodes = sortByOriginalOrder(oldNodes, newNodes)
       const values = nodes.map(node => node.valueByOption)
       checkedNodes.value = nodes
-      checkedValue.value = multiple ? values : (values[0] || null)
+      checkedValue.value = multiple ? values : (values[0] ?? null)
     }
 
     const syncCheckedValue = (loaded = false, forced = false) => {

@@ -347,7 +347,7 @@ Lorsque qu'il y a beaucoup de colonnes, il peut être utile d'en fixer certaines
     <el-table-column
       prop="address"
       label="Adresse"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -445,12 +445,12 @@ Si vous avez un gros volume de données à afficher, vous pouvez fixer le header
     <el-table-column
       prop="city"
       label="Ville"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="Adresse"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -556,7 +556,7 @@ Quand les données changent dynamiquement, vous pouvez avoir besoin d'une hauteu
     <el-table-column
       prop="address"
       label="Adresse"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -679,8 +679,7 @@ Quand la structure du tableau est complexe, vous pouvez grouper les headers afin
         </el-table-column>
         <el-table-column
           prop="address"
-          label="Adresse"
-          width="300">
+          label="Adresse">
         </el-table-column>
         <el-table-column
           prop="zip"

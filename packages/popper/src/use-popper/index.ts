@@ -167,8 +167,8 @@ export default function(
 
   const events = {} as {
     onClick?: (e: Event) => void
-    onMouseEnter?: (e: Event) => void
-    onMouseLeave?: (e: Event) => void
+    onMouseenter?: (e: Event) => void
+    onMouseleave?: (e: Event) => void
     onFocus?: (e: Event) => void
     onBlur?: (e: Event) => void
   }
@@ -240,8 +240,8 @@ export default function(
           break
         }
         case 'hover': {
-          events.onMouseEnter = popperEventsHandler
-          events.onMouseLeave = popperEventsHandler
+          events.onMouseenter = popperEventsHandler
+          events.onMouseleave = popperEventsHandler
           break
         }
         case 'focus': {
