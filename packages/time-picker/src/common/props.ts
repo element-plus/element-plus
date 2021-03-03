@@ -16,6 +16,10 @@ export const defaultProps = {
     type: String,
     default: '',
   },
+  align: {
+    type: String,
+    default: 'left',
+  },
   clearable: {
     type: Boolean,
     default: true,

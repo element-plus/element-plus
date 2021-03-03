@@ -11,6 +11,7 @@
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
+    :placement="placement"
     append-to-body
     @before-enter="pickerActualVisible = true"
     @after-leave="pickerActualVisible = false"
@@ -175,6 +176,12 @@ const valueEquals = function(a, b) {
     return dateEquals(a, b)
   }
   return false
+}
+
+const PLACEMENT_MAP = {
+  left: 'bottom-start',
+  center: 'bottom',
+  right: 'bottom-end',
 }
 
 export default defineComponent({
@@ -346,6 +353,9 @@ export default defineComponent({
 
     const pickerSize = computed(() => {
       return props.size || elFormItem.size || ELEMENT.size
+    })
+    const placement = computed(() => {
+      return PLACEMENT_MAP[props.align]
     })
     const onClickOutside = () => {
       if (!pickerVisible.value) return
