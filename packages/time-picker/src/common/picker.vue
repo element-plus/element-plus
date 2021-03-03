@@ -524,6 +524,7 @@ export default defineComponent({
       refPopper,
       pickerDisabled,
       onSetPickerOption,
+      placement
     }
   },
 })
