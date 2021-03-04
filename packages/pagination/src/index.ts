@@ -119,20 +119,21 @@ export default defineComponent({
     const internalCurrentPage = ref(getValidCurrentPage(props.currentPage))
 
     function emitChange() {
-      nextTick(() => {
-        if (
-          internalCurrentPage.value !== lastEmittedPage.value ||
-          userChangePageSize.value
-        ) {
-          lastEmittedPage.value = internalCurrentPage.value
-          userChangePageSize.value = false
-        }
-      })
+      if (
+        internalCurrentPage.value !== lastEmittedPage.value ||
+        userChangePageSize.value
+      ) {
+        lastEmittedPage.value = internalCurrentPage.value
+        userChangePageSize.value = false
+        emit('update:currentPage', internalCurrentPage.value)
+        emit('current-change', internalCurrentPage.value)
+      }
     }
 
     function handleCurrentChange(val: number) {
       internalCurrentPage.value = getValidCurrentPage(val)
       userChangePageSize.value = true
+      emitChange()
     }
 
     function handleSizesChange(val: number) {
@@ -146,7 +147,7 @@ export default defineComponent({
       if (props.disabled) return
       const newVal = internalCurrentPage.value - 1
       internalCurrentPage.value = getValidCurrentPage(newVal)
-      emit('prev-click', internalCurrentPage)
+      emit('prev-click', internalCurrentPage.value)
       emitChange()
     }
 
@@ -184,17 +185,12 @@ export default defineComponent({
       return resetValue === undefined ? value : resetValue
     }
 
-    watch(() => getValidCurrentPage(props.currentPage), val => {
-      internalCurrentPage.value = val
+    watch(() => props.currentPage, val => {
+      internalCurrentPage.value = getValidCurrentPage(val)
     })
 
     watch(() => props.pageSize, val => {
       internalPageSize.value = getValidPageSize(val)
-    })
-
-    watch(internalCurrentPage, val => {
-      emit('update:currentPage', val)
-      emit('current-change', val)
     })
 
     watch(
@@ -205,9 +201,8 @@ export default defineComponent({
           internalCurrentPage.value = 1
         } else if (oldPage > val) {
           internalCurrentPage.value = val === 0 ? 1 : val
-          userChangePageSize.value && emitChange()
+          emitChange()
         }
-        userChangePageSize.value = false
       },
     )
 
