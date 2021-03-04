@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import Select from '../src/select.vue'
+import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
 
 jest.useFakeTimers()
@@ -23,6 +24,7 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) => mount({
   components: {
     'el-select': Select,
     'el-option': Option,
+    'el-group-option': Group,
   },
   template,
   data,
@@ -802,5 +804,59 @@ describe('Select', () => {
     expect(select.selected.length === 2).toBeTruthy()
     expect(select.selected[0].currentLabel !== '').toBeTruthy()
     expect(select.selected[1].currentLabel !== '').toBeTruthy()
+  })
+
+  test('disabled group', async () => {
+    const wrapper = _mount(`
+    <el-select v-model="value">
+      <el-group-option
+        v-for="group in options"
+        :key="group.label"
+        :label="group.label"
+        :disabled="group.disabled">
+        <el-option
+          v-for="item in group.options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-group-option>
+    </el-select>`,
+    () => ({
+      options: [
+        {
+          label: 'Popular cities',
+          options: [
+            { value: 'Shanghai', label: 'Shanghai' },
+            { value: 'Beijing', label: 'Beijing' },
+          ],
+        },
+        {
+          label: 'City name',
+          options: [
+            { value: 'Chengdu',label: 'Chengdu' },
+            { value: 'Shenzhen', label: 'Shenzhen' },
+            { value: 'Guangzhou',label: 'Guangzhou' },
+            { value: 'Dalian',label: 'Dalian' },
+          ],
+        },
+      ],
+      value: '',
+    }))
+
+    const vm = wrapper.vm as any
+    wrapper.find('.select-trigger').trigger('click')
+    await nextTick()
+    vm.options[1].disabled = true
+    await nextTick()
+    const options = getOptions()
+    expect(options[0].className).not.toContain('is-disabled')
+    expect(options[2].className).toContain('is-disabled')
+    options[0].click()
+    await nextTick()
+    expect(vm.value).toBe('Shanghai')
+    options[2].click()
+    await nextTick()
+    expect(vm.value).toBe('Shanghai')
   })
 })
