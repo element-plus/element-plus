@@ -534,7 +534,7 @@ Si el valor de encuadernación de Select es un objeto, asegúrese de asignar `va
 ### Select atributos
 | Atributo             | Descripción                              | Tipo     | Valores aceptados | Por defecto      |
 | -------------------- | ---------------------------------------- | -------- | ----------------- | ---------------- |
-| value / v-model       | valor enlazado                           | boolean / string / number  | —         | —                |
+| value / v-model       | valor enlazado                           | string / number / boolean / object  | —         | —                |
 | multiple             | si multiple-select esta activo           | boolean  | —                 | false            |
 | disabled             | si Select esta deshabilitado             | boolean  | —                 | false            |
 | collapse-tags        | si se colapsan los tags a un texto cuando `multiple` es `true`. | boolean  | —                 | false            |
@@ -587,7 +587,7 @@ Si el valor de encuadernación de Select es un objeto, asegúrese de asignar `va
 ### Atributos de opciones
 | Atributo | Descripción                              | Tipo                 | Valores aceptados | Por defecto |
 | -------- | ---------------------------------------- | -------------------- | ----------------- | ----------- |
-| value    | valor de option                          | string/number/object | —                 | —           |
+| value    | valor de option                          | string / number / boolean / object | —                 | —           |
 | label    | etiqueta de option, es igual a  `value` si se omite | string/number        | —                 | —           |
 | disabled | si  option esta deshabilitado            | boolean              | —                 | false       |
 

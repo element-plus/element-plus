@@ -530,7 +530,7 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | La valeur liée. | boolean / string / number | — | — |
+| value / v-model | La valeur liée. | string / number / boolean / object | — | — |
 | multiple | Si la sélection multiple est activée. | boolean | — | false |
 | disabled | Si le sélecteur est désactivé. | boolean | — | false |
 | value-key | Identifiant unique pour la valeur, requis quand la valeur est un objet. | string | — | value |
@@ -587,7 +587,7 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value | Valeur de l'option. | string/number/object | — | — |
+| value | Valeur de l'option. | string / number / boolean / object | — | — |
 | label | Label de l'option, identique à `value` si omis. | string/number | — | — |
 | disabled | Si l'option est désactivée. | boolean | — | false |
 
