@@ -254,8 +254,8 @@ export default defineComponent({
       ],
     })
     const rootChildren = []
-    const rightWrapperRoot = h('div', { class: 'el-pagination__rightwrapper' })
     const rightWrapperChildren = []
+    const rightWrapperRoot = h('div', { class: 'el-pagination__rightwrapper' }, rightWrapperChildren)
     const TEMPLATE_MAP = {
       prev: h(Prev, {
         disabled: this.disabled,
@@ -304,7 +304,7 @@ export default defineComponent({
       }
     })
 
-    if (haveRightWrapper) {
+    if (haveRightWrapper && rightWrapperChildren.length > 0) {
       rootChildren.unshift(rightWrapperRoot)
     }
 
