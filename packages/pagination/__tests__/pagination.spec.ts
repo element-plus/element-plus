@@ -21,7 +21,6 @@ describe('Pagination.vue', () => {
   })
 
   test('change layout value', async () => {
-
     const layout = ref('prev, pager, next')
 
     const Comp = {
@@ -29,10 +28,10 @@ describe('Pagination.vue', () => {
         return () => {
           return h(Pagination, {
             class: 'pagination-wrapper',
-            layout: layout.value
+            layout: layout.value,
           })
         }
-      }
+      },
     }
     const wrapper = mount(Comp)
 
@@ -74,7 +73,6 @@ describe('Pagination.vue', () => {
     expect(wrapper.find('.el-pagination__rightwrapper .el-pagination__jump').exists()).toBe(true)
     expect(wrapper.find('.el-pagination__rightwrapper .el-pagination__sizes').exists()).toBe(true)
     expect(wrapper.find('.el-pagination__rightwrapper .el-pagination__total').exists()).toBe(true)
-
   })
 
   test('slot', () => {
