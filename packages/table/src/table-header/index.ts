@@ -155,7 +155,7 @@ export default defineComponent({
                     onContextmenu: $event =>
                       this.handleHeaderContextMenu($event, column),
                     onMousedown: $event => this.handleMouseDown($event, column),
-                    onMouseMove: $event => this.handleMouseMove($event, column),
+                    onMousemove: $event => this.handleMouseMove($event, column),
                     onMouseout: this.handleMouseOut,
                   },
                   [
