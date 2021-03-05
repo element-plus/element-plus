@@ -622,8 +622,11 @@ describe('CascaderPanel.vue', () => {
     const secondMenu = wrapper.findAll(MENU)[1]
     expect(secondMenu.exists()).toBe(true)
     expect(firstMenu.find(CHECKBOX).classes('is-checked')).toBe(true)
+    expect(firstMenu.find(CHECKBOX).classes('is-indeterminate')).toBe(true)
     expect(secondMenu.findAll(CHECKBOX)[0].classes('is-checked')).toBe(false)
+    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-indeterminate')).toBe(false)
     expect(secondMenu.findAll(CHECKBOX)[1].classes('is-checked')).toBe(true)
+    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(false)
   })
 
   test('getCheckedNodes and clearCheckedNodes', () => {
