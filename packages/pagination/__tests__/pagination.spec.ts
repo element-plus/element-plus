@@ -274,19 +274,11 @@ describe('click pager', () => {
       },
     })
 
-    const triggerEvent = (el, type) => {
-      const event = new Event(type)
-      el.dispatchEvent(event)
-    }
-
-    const selectDom = document.querySelector('.select-dropdown-klass')
-    const items = selectDom.querySelectorAll('.el-select-dropdown__item:not(.selected)')
-    if (items[0]) {
-      triggerEvent(items[0], 'click')
-      expect(onSizeChange).toHaveBeenCalled()
-      expect(wrapper.vm.pageSize).toBe(100)
-      expect(wrapper.findComponent(Pagination).emitted()).toHaveProperty('size-change')
-    }
+    const items = document.querySelector('.select-dropdown-klass').querySelectorAll('.el-select-dropdown__item:not(.selected)');
+    (items[0] as HTMLOptionElement)?.click()
+    expect(onSizeChange).toHaveBeenCalled()
+    expect(wrapper.vm.pageSize).toBe(100)
+    expect(wrapper.findComponent(Pagination).emitted()).toHaveProperty('size-change')
   })
 
 
