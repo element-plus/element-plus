@@ -256,6 +256,7 @@ describe('click pager', () => {
       },
       template: `
         <el-pagination
+          popper-class="select-dropdown-klass"
           @size-change="onSizeChange"
           v-model:page-size="pageSize"
          :total="1000"
@@ -273,11 +274,19 @@ describe('click pager', () => {
       },
     })
 
-    // const items = document.querySelectorAll('.el-select-dropdown__item:not(.selected)');
-    // (items[0] as HTMLOptionElement)?.click()
-    // expect(onSizeChange).toHaveBeenCalled()
-    // expect(wrapper.vm.pageSize).toBe(100)
-    // expect(wrapper.findComponent(Pagination).emitted()).toHaveProperty('size-change')
+    const triggerEvent = (el, type) => {
+      const event = new Event(type)
+      el.dispatchEvent(event)
+    }
+
+    const selectDom = document.querySelector('.select-dropdown-klass')
+    const items = selectDom.querySelectorAll('.el-select-dropdown__item:not(.selected)')
+    if (items[0]) {
+      triggerEvent(items[0], 'click')
+      expect(onSizeChange).toHaveBeenCalled()
+      expect(wrapper.vm.pageSize).toBe(100)
+      expect(wrapper.findComponent(Pagination).emitted()).toHaveProperty('size-change')
+    }
   })
 
 
