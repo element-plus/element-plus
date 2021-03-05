@@ -147,8 +147,8 @@ export default class Node {
       return c + num
     }, 0)
 
-    this.checked = checked
-    this.indeterminate = checkedNum !== totalNum && checkedNum > 0
+    this.checked = this.loaded && checked
+    this.indeterminate = this.loaded && checkedNum !== totalNum && checkedNum > 0
   }
 
   doCheck(checked: boolean) {
