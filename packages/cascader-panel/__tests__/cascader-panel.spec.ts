@@ -560,6 +560,37 @@ describe('CascaderPanel.vue', () => {
     expect(wrapper.vm.value).toEqual([1, 2])
   })
 
+  test('click checkbox should works after lazy node loaded', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          v-model="value"
+          :props="props"
+        />
+      `,
+      data() {
+        return {
+          value: [],
+          props: {
+            multiple: true,
+            lazy: true,
+            lazyLoad,
+          },
+        }
+      },
+    })
+    jest.runAllTimers()
+    await nextTick()
+    const firstCheckbox = wrapper.find(CHECKBOX)
+
+    await firstCheckbox.find('input').trigger('click')
+    jest.runAllTimers()
+    await nextTick()
+    await firstCheckbox.find('input').trigger('click')
+
+    expect(firstCheckbox.classes('is-checked')).toBe(true)
+  })
+
   test('lazy load with default value', async () => {
     const wrapper = mount(CascaderPanel, {
       props: {

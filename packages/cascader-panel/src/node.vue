@@ -119,10 +119,9 @@ export default defineComponent({
       panel.expandNode(props.node)
     }
 
-    const doCheck = (checked: boolean) => {
+    const doCheck = () => {
       const { node } = props
-      if (checked === node.checked) return
-      panel.handleCheckChange(node, checked)
+      panel.handleCheckChange(node, !node.checked)
     }
 
     const doLoad = () => {
@@ -148,17 +147,17 @@ export default defineComponent({
       if (isHoverMenu.value && !isLeaf.value) return
 
       if (isLeaf.value && !isDisabled.value && !checkStrictly.value && !multiple.value) {
-        handleCheck(true)
+        handleCheck()
       } else {
         handleExpand()
       }
     }
 
-    const handleCheck = (checked: boolean) => {
+    const handleCheck = () => {
       if (!props.node.loaded) {
         doLoad()
       } else {
-        doCheck(checked)
+        doCheck()
         !checkStrictly.value && doExpand()
       }
     }
