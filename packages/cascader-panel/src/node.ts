@@ -147,7 +147,7 @@ export default class Node {
       return c + num
     }, 0)
 
-    this.checked = this.loaded && checked
+    this.checked = this.loaded && this.children.every(child => child.loaded && child.checked) && checked
     this.indeterminate = this.loaded && checkedNum !== totalNum && checkedNum > 0
   }
 
