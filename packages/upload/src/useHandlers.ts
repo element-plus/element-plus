@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 import { NOOP } from '@vue/shared'
 
 // Inline types
-import type { ListType, UploadFile, ElFile, ElUploadProgressEvent, IUseHandlersProps } from './upload.type'
+import type { ListType, UploadFile, UploadStatus, ElFile, ElUploadProgressEvent, IUseHandlersProps } from './upload.type'
 type UploadRef = {
   abort: (file: UploadFile) => void
   upload: (file: ElFile) => void
@@ -28,15 +28,9 @@ export default (props: IUseHandlersProps) => {
     uploadRef.value.abort(file)
   }
 
-  function clearFiles(status = ['success', 'fail']) {
-    uploadFiles.value = []
-    let n
+  function clearFiles(status: UploadStatus[] = ['success', 'fail']) {
     uploadFiles.value = uploadFiles.value.filter(row => {
-      n = 0
-      status.forEach(item => {
-        n += row.status === item
-      })
-      return !n
+      return (status.indexOf(row.status) === -1)
     })
   }
 
