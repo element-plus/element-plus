@@ -217,7 +217,7 @@ export default defineComponent({
       const renderDefault = this.$slots.default?.()
       if (renderDefault instanceof Array) {
         for (const childNode of renderDefault) {
-          if (childNode.type?.name === 'ElTableColumn') {
+          if (childNode.type?.name === 'ElTableColumn' || childNode.shapeFlag !== 36) {
             children.push(childNode)
           } else if (childNode.type === Fragment && childNode.children instanceof Array) {
             renderDefault.push(...childNode.children)
