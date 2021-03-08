@@ -17,7 +17,6 @@ function useRender(props: TableBodyProps) {
     handleMouseLeave,
     handleCellMouseEnter,
     handleCellMouseLeave,
-    tooltipVisible,
     tooltipContent,
     tooltipTrigger,
   } = useEvents(props)
@@ -240,7 +239,6 @@ function useRender(props: TableBodyProps) {
 
   return {
     wrappedRowRender,
-    tooltipVisible,
     tooltipContent,
     tooltipTrigger,
   }
