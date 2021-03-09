@@ -253,12 +253,12 @@ export default defineComponent({
       return store.value.getHalfCheckedKeys()
     }
 
-    const setCurrentNode = (node: Node, shouldAutoExpandParent = false) => {
+    const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
       if (!props.nodeKey) throw new Error('[Tree] nodeKey is required in setCurrentNode')
       store.value.setUserCurrentNode(node, shouldAutoExpandParent)
     }
 
-    const setCurrentKey = (key: TreeKey, shouldAutoExpandParent = false) => {
+    const setCurrentKey = (key: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey) throw new Error('[Tree] nodeKey is required in setCurrentKey')
       store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
     }

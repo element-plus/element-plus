@@ -446,7 +446,7 @@ describe('Tree.vue', () => {
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
-    tree.setCurrentKey(111, true)
+    tree.setCurrentKey(111)
     await nextTick()
     expect(wrapper.find('.is-current').exists()).toBeTruthy()
 
@@ -460,17 +460,17 @@ describe('Tree.vue', () => {
     const treeWrapper = wrapper.findComponent(Tree)
     const tree = treeWrapper.vm
 
-    tree.setCurrentKey(1, true)
+    tree.setCurrentKey(1)
     await sleep(100)
     expect(wrapper.text()).toBe('一级 1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
 
-    tree.setCurrentKey(11, true)
+    tree.setCurrentKey(11)
     await sleep(100)
     expect(wrapper.text()).toBe('一级 1二级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
 
-    tree.setCurrentKey(111, true)
+    tree.setCurrentKey(111)
     await sleep(100)
     expect(wrapper.text()).toBe('一级 1二级 1-1三级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(2)
@@ -499,7 +499,7 @@ describe('Tree.vue', () => {
     tree.setCurrentNode({
       id: 111,
       label: '三级 1-1',
-    }, true)
+    })
     await nextTick()
     expect(wrapper.find('.is-current').exists()).toBeTruthy()
 
@@ -516,7 +516,7 @@ describe('Tree.vue', () => {
     tree.setCurrentNode({
       id: 1,
       label: '一级 1-1',
-    }, true)
+    })
     await sleep(100)
     expect(wrapper.text()).toBe('一级 1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
@@ -524,7 +524,7 @@ describe('Tree.vue', () => {
     tree.setCurrentNode({
       id: 11,
       label: '二级 1-1',
-    }, true)
+    })
     await sleep(100)
     expect(wrapper.text()).toBe('一级 1二级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
@@ -532,7 +532,7 @@ describe('Tree.vue', () => {
     tree.setCurrentNode({
       id: 111,
       label: '三级 1-1',
-    }, true)
+    })
     await sleep(100)
     expect(wrapper.text()).toBe('一级 1二级 1-1三级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(2)
