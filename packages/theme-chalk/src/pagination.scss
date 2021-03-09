@@ -127,6 +127,22 @@
         height: 22px;
       }
     }
+
+    .#{$namespace}-input__inner,
+    .#{$namespace}-input--mini {
+      height: 22px !important;
+      line-height: 22px;
+    }
+
+    .#{$namespace}-input__suffix {
+      line-height: 22px;
+      .#{$namespace}-input__suffix-inner {
+        line-height: 22px;
+        i.el-select__caret {
+          line-height: 22px;
+        }
+      }
+    }
   }
 
   @include e(sizes) {
