@@ -522,7 +522,7 @@
 ### Select Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | 绑定值 | boolean / string / number | — | — |
+| value / v-model | 绑定值 | string / number / boolean / object | — | — |
 | multiple | 是否多选 | boolean | — | false |
 | disabled | 是否禁用 | boolean | — | false |
 | value-key | 作为 value 唯一标识的键名，绑定值为对象类型时必填 | string | — | value |
@@ -575,7 +575,7 @@
 ### Option Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value | 选项的值 | string/number/object | — | — |
+| value | 选项的值 | string / number / boolean / object | — | — |
 | label | 选项的标签，若不设置则默认与 `value` 相同 | string/number | — | — |
 | disabled | 是否禁用该选项 | boolean | — | false |
 
