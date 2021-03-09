@@ -1,15 +1,12 @@
 <script lang='ts'>
-import { h, defineComponent, ref, onMounted, onUpdated, provide, watch, nextTick, getCurrentInstance, ComputedRef, PropType, Ref, ComponentInternalInstance, VNode, Component, Fragment } from 'vue'
+import { h, defineComponent, ref, onMounted, onUpdated, provide, computed,  watch, nextTick, getCurrentInstance, ComputedRef, PropType, Ref, ComponentInternalInstance, VNode, Component, Fragment } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TabNav from './tab-nav.vue'
-
-type RefElement = Nullable<HTMLElement>
 
 type BeforeLeave = (newTabName: string, oldTabName: string) => void | Promise<void> | boolean
 
 export interface IETabsProps {
   type: string
-  activeName: string
   closable: boolean
   addable: boolean
   modelValue: string
@@ -52,10 +49,6 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    activeName: {
-      type: String,
-      default: '',
-    },
     closable: Boolean,
     addable: Boolean,
     modelValue: {
@@ -73,10 +66,10 @@ export default defineComponent({
     },
     stretch: Boolean,
   },
-  emits: ['tab-click', 'edit', 'tab-remove', 'tab-add', 'input', 'update:modelValue'],
+  emits: ['tab-click', 'edit', 'tab-remove', 'tab-add', 'update:modelValue'],
   setup(props: IETabsProps, ctx) {
     const nav$ = ref<typeof TabNav>(null)
-    const currentName = ref(props.modelValue || props.activeName || '0')
+    const currentName = computed(() => props.modelValue || '0')
     const panes = ref([])
     const instance = getCurrentInstance()
     const paneStatesMap = {}
@@ -88,10 +81,6 @@ export default defineComponent({
 
     provide<UpdatePaneStateCallback>('updatePaneState', (pane: Pane) => {
       paneStatesMap[pane.uid] = pane
-    })
-
-    watch(() => props.activeName, modelValue => {
-      setCurrentName(modelValue)
     })
 
     watch(() => props.modelValue, modelValue => {
@@ -147,8 +136,6 @@ export default defineComponent({
     }
 
     const changeCurrentName = value => {
-      currentName.value = value
-      ctx.emit('input', value)
       ctx.emit('update:modelValue', value)
     }
 
