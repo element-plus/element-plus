@@ -255,7 +255,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, computed } from 'vue'
+import { defineComponent, getCurrentInstance } from 'vue'
 import { createStore } from './store/helper'
 import { t } from '@element-plus/locale'
 import { Mousewheel } from '@element-plus/directives'
@@ -381,14 +381,6 @@ export default defineComponent({
     })
     table.layout = layout
 
-    const shouldUpdateHeight = computed(() => {
-      return (
-        props.height ||
-          props.maxHeight ||
-          store.states.fixedColumns.value.length > 0 ||
-          store.states.rightFixedColumns.value.length > 0
-      )
-    })
     /**
        * open functions
        */
