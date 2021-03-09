@@ -6,7 +6,7 @@
 
 基本的で簡潔なタブです。
 
-:::demo タブはカードの選択機能を提供します。デフォルトでは最初のタブがアクティブとして選択されており、`value`属性を設定することで任意のタブをアクティブにすることができます。
+:::demo タブはカードの選択機能を提供します。デフォルトでは最初のタブがアクティブとして選択されており、`model-value`属性を設定することで任意のタブをアクティブにすることができます。
 
 ```html
 <template>
@@ -194,7 +194,7 @@
               }
             });
           }
-          
+
           this.editableTabsValue = activeName;
           this.editableTabs = tabs.filter(tab => tab.name !== targetName);
         }
@@ -267,7 +267,7 @@
             }
           });
         }
-        
+
         this.editableTabsValue = activeName;
         this.editableTabs = tabs.filter(tab => tab.name !== targetName);
       }
@@ -280,7 +280,7 @@
 ### タブの属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model  | バインディング値、選択されたタブの名前  | string   |  —  |  name of first tab |
+| model-value / v-model  | バインディング値、選択されたタブの名前  | string   |  —  |  index of first tab |
 | type     | タブの種類 | string   | card/border-card  |     —    |
 | closable  | タブが閉じられるかどうか | boolean   | — |  false  |
 | addable  | タブの追加が可能かどうか   | boolean   | — |  false  |
@@ -302,6 +302,6 @@
 |---------- |-------- |---------- |-------------  |-------- |
 | label     | タブのタイトル   | string   | — |    —     |
 | disabled | タブが無効になっているかどうか | boolean | — | false |
-| name      | タブの名前に対応する識別子、タブペインのエイリアスを表す | string | — | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '1' |
+| name      | タブの名前に対応する識別子、タブペインのエイリアスを表す | string | — | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '0' |
 | closable  | タブが閉じられるかどうか | boolean   | — |  false  |
 | lazy  | タブがレイジーにレンダリングされるかどうか   | boolean   | — |  false  |

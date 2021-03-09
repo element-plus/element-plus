@@ -6,7 +6,7 @@ Divide colecciones de datos que están relacionados pero pertenecen a diferentes
 
 Tabulación básica y concisa
 
-:::demo Tabulación provee funcionalidad de tarjeta selectiva. Por defecto, la primer pestaña es seleccionada como activa, y es posible activar cualquier pestaña estableciendo el atributo de `value`.
+:::demo Tabulación provee funcionalidad de tarjeta selectiva. Por defecto, la primer pestaña es seleccionada como activa, y es posible activar cualquier pestaña estableciendo el atributo de `model-value`.
 
 ```html
 <template>
@@ -194,7 +194,7 @@ Solo las pestañas de tipo tarjeta soportan adición y cierre.
               }
             });
           }
-          
+
           this.editableTabsValue = activeName;
           this.editableTabs = tabs.filter(tab => tab.name !== targetName);
         }
@@ -267,7 +267,7 @@ Solo las pestañas de tipo tarjeta soportan adición y cierre.
             }
           });
         }
-        
+
         this.editableTabsValue = activeName;
         this.editableTabs = tabs.filter(tab => tab.name !== targetName);
       }
@@ -280,7 +280,7 @@ Solo las pestañas de tipo tarjeta soportan adición y cierre.
 ### Atributos de Pestañas
 | Atributo       | Descripción                          | Tipo    | Valores aceptados     | Por defecto                 |
 | -------------- | ------------------------------------ | ------- | --------------------- | --------------------------- |
-| value / v-model | valor enlazado, nombre de la pestaña seleccionada    | string  | —                     | nombre de la primer pestaña |
+| model-value / v-model | valor enlazado, nombre de la pestaña seleccionada    | string  | —                     | index de la primer pestaña |
 | type           | tipo de Pestaña                      | string  | card/border-card      | —                           |
 | closable       | si la Pestaña es cerrable            | boolean | —                     | false                       |
 | addable        | si la Pestaña es añadible            | boolean | —                     | false                       |
@@ -302,6 +302,6 @@ Solo las pestañas de tipo tarjeta soportan adición y cierre.
 | -------- | ------------------------------------------------------------ | ------- | ----------------- | ------------------------------------------------------------ |
 | label    | título de la pestaña                                         | string  | —                 | —                                                            |
 | disabled | si la Tabulación está deshabilitada                          | boolean | —                 | false                                                        |
-| name     | identificador correspondiente al value de la Tabulación, representando el alias del tab-pane | string  | —                 | número ordinal del tab-pane en la secuencia, p.ej el primer tab-pane de pestañas es '1' |
+| name     | identificador correspondiente al value de la Tabulación, representando el alias del tab-pane | string  | —                 | número ordinal del tab-pane en la secuencia, p.ej el primer tab-pane de pestañas es '0' |
 | closable | si el Tab es cerrable                                        | boolean | —                 | false                                                        |
 | lazy     | si Tab es renderizado con `lazy-load`                        | boolean | —                 | false                                                        |

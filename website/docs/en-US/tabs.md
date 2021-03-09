@@ -6,7 +6,7 @@ Divide data collections which are related yet belong to different types.
 
 Basic and concise tabs.
 
-:::demo Tabs provide a selective card functionality. By default the first tab is selected as active, and you can activate any tab by setting the `value` attribute.
+:::demo Tabs provide a selective card functionality. By default the first tab is selected as active, and you can activate any tab by setting the `model-value` attribute.
 
 ```html
 <template>
@@ -194,7 +194,7 @@ Only card type Tabs support addable & closeable.
               }
             });
           }
-          
+
           this.editableTabsValue = activeName;
           this.editableTabs = tabs.filter(tab => tab.name !== targetName);
         }
@@ -267,7 +267,7 @@ Only card type Tabs support addable & closeable.
             }
           });
         }
-        
+
         this.editableTabsValue = activeName;
         this.editableTabs = tabs.filter(tab => tab.name !== targetName);
       }
@@ -280,7 +280,7 @@ Only card type Tabs support addable & closeable.
 ### Tabs Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model  | binding value, name of the selected tab  | string   |  —  |  name of first tab |
+| model-value / v-model  | binding value, name of the selected tab  | string   |  —  |  index of first tab |
 | type     | type of Tab | string   | card/border-card  |     —    |
 | closable  | whether Tab is closable | boolean   | — |  false  |
 | addable  | whether Tab is addable   | boolean   | — |  false  |
@@ -302,6 +302,6 @@ Only card type Tabs support addable & closeable.
 |---------- |-------- |---------- |-------------  |-------- |
 | label     | title of the tab   | string   | — |    —     |
 | disabled | whether Tab is disabled | boolean | — | false |
-| name      | identifier corresponding to the name of Tabs, representing the alias of the tab-pane | string | — | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '1' |
+| name      | identifier corresponding to the name of Tabs, representing the alias of the tab-pane | string | — | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '0' |
 | closable  | whether Tab is closable | boolean   | — |  false  |
 | lazy  | whether Tab is lazily rendered   | boolean   | — |  false  |
