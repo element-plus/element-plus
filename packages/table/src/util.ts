@@ -329,9 +329,9 @@ export function createTablePopper(
       popperInstance && popperInstance.destroy()
       content && document.body.removeChild(content)
       off(trigger, 'mouseenter', showPopper)
+      off(trigger, 'mouseleave', removePopper)
     } catch {}
   }
-  off(trigger, 'mouseleave', removePopper)
   let popperInstance: Nullable<PopperInstance> = null
   const content = renderContent()
   const arrow = renderArrow()
@@ -357,4 +357,5 @@ export function createTablePopper(
   })
   on(trigger, 'mouseenter', showPopper)
   on(trigger, 'mouseleave', removePopper)
+  return popperInstance
 }
