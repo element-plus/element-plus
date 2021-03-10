@@ -435,6 +435,35 @@ describe('CascaderPanel.vue', () => {
     expect(wrapper.vm.value).toEqual(['beijing'])
   })
 
+  test('clicking on checked option should keep opening in single node', async () => {
+    const handleClose = jest.fn()
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          v-model="value"
+          :options="options"
+          @close="handleClose"
+        />
+      `,
+      data() {
+        return {
+          value: [],
+          options: NORMAL_OPTIONS,
+          handleClose,
+        }
+      },
+    })
+
+    const options = wrapper.findAll(NODE)
+    const [bjNode] = options
+
+    await bjNode.trigger('click')
+    expect(handleClose).toBeCalledTimes(1)
+
+    await bjNode.trigger('click')
+    expect(handleClose).toBeCalledTimes(1)
+  })
+
   test('check strictly in single mode', async () => {
     const wrapper = _mount({
       template: `
