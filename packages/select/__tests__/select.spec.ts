@@ -862,7 +862,7 @@ describe('Select', () => {
 
   test('tag of disabled option is not closable', async () => {
     const wrapper = _mount(`
-    <el-select v-model="vendors" multiple :collapse-tags="isCollapsed" placeholder="Select Business Unit">
+    <el-select v-model="vendors" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
     <el-option
       v-for="(vendor, index) in options"
       :key="index"
@@ -874,6 +874,7 @@ describe('Select', () => {
   </el-select>`, () => ({
       vendors: [2, 3, 4],
       isCollapsed: false,
+      isClearable: false,
       options: [
         { name: 'Test 1', isDisabled: false },
         { name: 'Test 2', isDisabled: true },
@@ -883,17 +884,41 @@ describe('Select', () => {
     }))
     const vm = wrapper.vm as any
     await vm.$nextTick()
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
     expect(wrapper.findAll('.el-tag').length).toBe(3)
     const tagCloseIcons = wrapper.findAll('.el-tag__close')
     expect(tagCloseIcons.length).toBe(1)
     await tagCloseIcons[0].trigger('click')
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
     expect(wrapper.findAll('.el-tag').length).toBe(2)
+
+    //test if is clearable
+    vm.isClearable = true
+    vm.vendors = [2, 3, 4]
+    await vm.$nextTick()
+    selectVm.inputHovering = true
+    await selectVm.$nextTick()
+    const iconClear = wrapper.find('.el-input__icon.el-icon-circle-close')
+    expect(wrapper.findAll('.el-tag').length).toBe(3)
+    await iconClear.trigger('click')
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+
     // test for collapse select
     vm.vendors = [1, 2, 4]
     vm.isCollapsed = true
+    vm.isClearable = false
     await vm.$nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(2)
+    await wrapper.find('.el-tag__close').trigger('click')
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+
+    // test for collapse select if is clearable
+    vm.vendors = [1, 2, 4]
+    vm.isCollapsed = true
+    vm.isClearable = true
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag__close').length).toBe(1)
     await wrapper.find('.el-tag__close').trigger('click')
     expect(wrapper.findAll('.el-tag').length).toBe(2)
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
