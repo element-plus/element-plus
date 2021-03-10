@@ -384,6 +384,7 @@ export const useSelect = (props, states: States, ctx) => {
         option = {
           value,
           currentLabel: cachedOption.currentLabel,
+          isDisabled: cachedOption.isDisabled,
         }
         break
       }
