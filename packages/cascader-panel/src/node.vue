@@ -121,7 +121,9 @@ export default defineComponent({
 
     const doCheck = () => {
       const { node } = props
-      panel.handleCheckChange(node, multiple.value ? !node.checked : true, multiple.value || !node.checked)
+      const newCheckedState = multiple.value ? !node.checked : true
+      const shouldEmitClose = newCheckedState !== node.checked
+      panel.handleCheckChange(node, newCheckedState, shouldEmitClose)
     }
 
     const doLoad = () => {
