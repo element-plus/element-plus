@@ -31,7 +31,7 @@
           >
             <span v-if="collapseTags && selected.length">
               <el-tag
-                :closable="!selectDisabled"
+                :closable="!selectDisabled && !selected[0].isDisabled"
                 :size="collapseTagSize"
                 :hit="selected[0].hitState"
                 type="info"
