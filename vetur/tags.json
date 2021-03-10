@@ -253,7 +253,7 @@
     "attributes": ["label", "disabled", "name", "closable", "lazy"]
   },
   "el-color-text": {
-    "attributes": ["value", "options", "tag", "colors"],
+    "attributes": ["value", "options", "tag", "colors", "type"],
     "description": "Color Text"
   },
   "el-breadcrumb": {
