@@ -407,6 +407,34 @@ describe('CascaderPanel.vue', () => {
     expect(bjCheckbox.classes('is-checked')).toBe(true)
   })
 
+  test('clicking the option should always check it in single node', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          v-model="value"
+          :options="options"
+        />
+      `,
+      data() {
+        return {
+          value: [],
+          options: NORMAL_OPTIONS,
+        }
+      },
+    })
+
+    const options = wrapper.findAll(NODE)
+    const [bjNode] = options
+
+    await bjNode.trigger('click')
+    expect(bjNode.find('.el-icon-check').exists()).toBe(true)
+    expect(wrapper.vm.value).toEqual(['beijing'])
+
+    await bjNode.trigger('click')
+    expect(bjNode.find('.el-icon-check').exists()).toBe(true)
+    expect(wrapper.vm.value).toEqual(['beijing'])
+  })
+
   test('check strictly in single mode', async () => {
     const wrapper = _mount({
       template: `
