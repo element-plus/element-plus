@@ -115,6 +115,7 @@ describe('Select', () => {
   afterEach(() => {
     document.body.innerHTML = ''
   })
+
   test('create', async () => {
     const wrapper = _mount(`<el-select v-model="value"></el-select>`, () => ({ value: '' }))
     expect(wrapper.classes()).toContain('el-select')
@@ -165,7 +166,6 @@ describe('Select', () => {
     await wrapper.vm.$nextTick()
     expect(wrapper.find('.el-input__inner').element.value).toBe('双皮奶')
   })
-
 
   test('sync set value and options', async () => {
     const wrapper = _mount(`
@@ -858,5 +858,44 @@ describe('Select', () => {
     options[2].click()
     await nextTick()
     expect(vm.value).toBe('Shanghai')
+  })
+
+  test('tag of disabled option is not closable', async () => {
+    const wrapper = _mount(`
+    <el-select v-model="vendors" multiple :collapse-tags="isCollapsed" placeholder="Select Business Unit">
+    <el-option
+      v-for="(vendor, index) in options"
+      :key="index"
+      :value="index + 1"
+      :label="vendor.name"
+      :disabled="vendor.isDisabled"
+    >
+    </el-option>
+  </el-select>`, () => ({
+      vendors: [2, 3, 4],
+      isCollapsed: false,
+      options: [
+        { name: 'Test 1', isDisabled: false },
+        { name: 'Test 2', isDisabled: true },
+        { name: 'Test 3', isDisabled: false },
+        { name: 'Test 4', isDisabled: true },
+      ],
+    }))
+    const vm = wrapper.vm as any
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(3)
+    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    expect(tagCloseIcons.length).toBe(1)
+    await tagCloseIcons[0].trigger('click')
+    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    // test for collapse select
+    vm.vendors = [1, 2, 4]
+    vm.isCollapsed = true
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    await wrapper.find('.el-tag__close').trigger('click')
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
   })
 })
