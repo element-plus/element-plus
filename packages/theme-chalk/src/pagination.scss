@@ -3,6 +3,9 @@
 @import "common/var";
 @import "select";
 
+$--pagination-height-extra-small: 22px !default;
+$--pagination-line-height-extra-small: $--pagination-height-extra-small !default;
+
 @include b(pagination) {
   white-space: nowrap;
   padding: 2px 5px;
@@ -100,9 +103,9 @@
     .#{$namespace}-pager li.btn-quickprev,
     .#{$namespace}-pager li:last-child {
       border-color: transparent;
-      font-size: 12px;
-      line-height: 22px;
-      height: 22px;
+      font-size: $--font-size-extra-small;
+      line-height: $--pagination-line-height-extra-small;
+      height: $--pagination-height-extra-small;
       min-width: 22px;
     }
 
@@ -112,19 +115,35 @@
 
     .more::before,
     li.more::before {
-      line-height: 24px;
+      line-height: $--pagination-line-height-extra-small;
     }
 
     span:not([class*=suffix]),
     button {
-      height: 22px;
-      line-height: 22px;
+      height: $--pagination-height-extra-small;
+      line-height: $--pagination-line-height-extra-small;
     }
 
     @include e(editor) {
-      height: 22px;
+      height: $--pagination-line-height-extra-small;
       &.#{$namespace}-input .#{$namespace}-input__inner {
-        height: 22px;
+        height: $--pagination-height-extra-small;
+      }
+    }
+
+    .#{$namespace}-input__inner,
+    .#{$namespace}-input--mini {
+      height: $--pagination-height-extra-small !important;
+      line-height: $--pagination-line-height-extra-small;
+    }
+
+    .#{$namespace}-input__suffix {
+      line-height: $--pagination-line-height-extra-small;
+      .#{$namespace}-input__suffix-inner {
+        line-height: $--pagination-line-height-extra-small;
+        i.el-select__caret {
+          line-height: $--pagination-line-height-extra-small;
+        }
       }
     }
   }
