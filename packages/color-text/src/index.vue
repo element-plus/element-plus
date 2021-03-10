@@ -1,30 +1,24 @@
 <template>
-  <component
-    :is="tag"
-    v-if="value && colorValue && colorValue.type === 'class'"
-    :class="[baseClass, colorValue.value]"
-  >
+  <component :is="tag" v-if="type" :class="typeClass">
     <slot></slot>
   </component>
   <component
     :is="tag"
-    v-else-if="value && colorValue && colorValue.type === 'style'"
-    :class="baseClass"
-    :style="{ color: colorValue.value}"
+    v-else
+    class="el-color-text"
+    :[colorValue.type]="colorValue.value"
   >
-    <slot></slot>
-  </component>
-  <component :is="tag" v-else :class="typeClass">
     <slot></slot>
   </component>
 </template>
+
 <script lang='ts'>
 import { computed, defineComponent } from 'vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
 
 import type { PropType } from 'vue'
 import type { InstallOptions } from '@element-plus/utils/config'
-import type { ColorTextType } from '@element-plus/color-text/src/color-text.type'
+import type { ColorTextType, Color, Option } from '@element-plus/color-text/src/color-text.type'
 
 const themeColor = ['primary', 'success', 'warning', 'danger', 'default', 'info']
 
@@ -37,14 +31,13 @@ export default defineComponent({
     },
     type: {
       type: String as PropType<ColorTextType>,
-      default: 'default',
       validator: (val: string) => themeColor.includes(val),
     },
     colors: {
-      type: Array as PropType<string[]>,
+      type: Array as PropType<Color[]>,
     },
     options: {
-      type: Array as PropType<string[] | Array<string[]>>,
+      type: Array as PropType<Option[]>,
     },
     value: {
       type: [String, Number],
@@ -76,12 +69,12 @@ export default defineComponent({
 
       for(const [index,first] of option.value.entries()) {
 
-        if (typeof first === 'string' && first === props.value) {
+        if(Array.isArray(first) && first.some((item: string | number) => item === props.value)) {
           colorsIndex = index
           break
         }
 
-        if(Array.isArray(first) && first.some(item => item === props.value)) {
+        if (first === props.value) {
           colorsIndex = index
           break
         }
@@ -92,7 +85,7 @@ export default defineComponent({
       if(!targetColor) {
         return {
           type: 'class',
-          value: `el-color-text--${props.type}`,
+          value: `el-color-text--default`,
         }
       }
 
@@ -100,7 +93,7 @@ export default defineComponent({
 
         return {
           type: 'style',
-          value: targetColor,
+          value: { color: targetColor },
         }
       }
 
