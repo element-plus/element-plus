@@ -384,6 +384,7 @@ export const useSelect = (props, states: States, ctx) => {
         option = {
           value,
           currentLabel: cachedOption.currentLabel,
+          isDisabled: cachedOption.isDisabled,
         }
         break
       }
@@ -469,6 +470,11 @@ export const useSelect = (props, states: States, ctx) => {
   const deleteSelected = event => {
     event.stopPropagation()
     const value = props.multiple ? [] : ''
+    if (typeof value !== 'string') {
+      for (const item of states.selected) {
+        if (item.isDisabled) value.push(item.value)
+      }
+    }
     ctx.emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
     states.visible = false
