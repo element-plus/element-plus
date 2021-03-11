@@ -47,7 +47,7 @@
     "description": "Text hyperlink"
   },
   "el-space": {
-    "attributes": ["alignment", "direction", "prefix-cls", "spacer", "size", "wrap"],
+    "attributes": ["alignment", "direction", "prefix-cls", "spacer", "size", "wrap", "spacer-align"],
     "description": "provide unified space between each components"
   },
   "el-radio": {

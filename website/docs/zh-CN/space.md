@@ -279,6 +279,7 @@ export default {
 | prefixCls | 给 space-items 的类名前缀 | string | el-space | - |
 | style     | 额外样式   | string / Array<Object \| String> / Object | - | - |
 | spacer    | 间隔符     | string / number / VNode | - | - |
+| spacer-align      | 间隔符对齐方式 | string | center / left / right  | 'center' |
 | size      | 间隔大小   | string / number / [number, number] | - | 'small' |
 | wrap      | 设置是否自动折行 | boolean | true / false  | false |
 ### Space Slot

@@ -4,6 +4,7 @@ import {
   createVNode,
   createTextVNode,
   isVNode,
+  unref,
 } from 'vue'
 import {
   PatchFlags,
@@ -34,6 +35,7 @@ export default defineComponent({
       itemStyle,
       spacer,
       prefixCls,
+      direction,
     } = ctx
 
     const children = renderSlot($slots, 'default', { key: 0 }, () => [])
@@ -49,12 +51,33 @@ export default defineComponent({
       children.children.forEach((child: VNode, loopKey) => {
         if (isFragment(child)) {
           if (isArray(child.children)) {
+            // This inference is `ComputedRef`, It's actually wrong
+            const unrefItemStyle = unref(itemStyle)
+
+            const childLength = child.children.length - 1
+
             child.children.forEach((nested, key) => {
+              const nodeStype = {
+                paddingBottom: '0',
+                marginRight: '0',
+              }
+
+              if (childLength === key) {
+                if (direction === 'horizontal') {
+                  nodeStype.paddingBottom = unrefItemStyle.paddingBottom
+                } else {
+                  nodeStype.paddingBottom = '0'
+                }
+              } else {
+                nodeStype.marginRight = unrefItemStyle.marginRight
+                nodeStype.paddingBottom = unrefItemStyle.paddingBottom
+              }
+
               extractedChildren.push(
                 createVNode(
                   Item,
                   {
-                    style: itemStyle,
+                    style: nodeStype,
                     prefixCls,
                     key: `nested-${key}`,
                   },

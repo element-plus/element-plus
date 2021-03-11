@@ -355,6 +355,7 @@
   "el-popover/close-delay": {"description": "delay before disappearing when trigger is hover, in milliseconds, default: 200"},
   "el-input/size": {"options": ["medium", "small", "mini"], "description": "size of Input, works when type is not 'textarea'"},
   "el-space/size": {"options": ["large", "medium", "small", "mini"], "description": "Spacing size, support string/number/[horizontal number, vertical number], default: small"},
+  "el-space/spacer-align": {"options": ["center", "left", "right"], "description": "Space spacer-align, support [center left right], default: center"},
   "el-timeline-item/size": {"options": ["large", "normal"], "description": "node size, default: normal"},
   "el-autocomplete/palcement": {"options": ["top", "top-start", "top-end", "bottom", "bottom-start", "bottom-end"], "description": "placement of the popup menu, default: 'bottom-start"},
   "el-tag/effect": {"options": ["dark", "light", "plain"], "description": "component theme"},
