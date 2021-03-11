@@ -51,6 +51,7 @@ function useStyle (
     },
     {
       immediate: true,
+      deep: true,
     },
   )
   watchEffect(() => {
