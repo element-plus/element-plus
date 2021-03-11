@@ -1,6 +1,6 @@
 import { addClass, removeClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
-import { defineComponent, getCurrentInstance, h, PropType, watch, onUnmounted } from 'vue'
+import { defineComponent, getCurrentInstance, h, PropType, watch, onUnmounted, onUpdated } from 'vue'
 import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
 import { Store, Table } from '../table.type'
@@ -34,7 +34,6 @@ export default defineComponent({
 
     const {
       wrappedRowRender,
-      tooltipVisible,
       tooltipContent,
       tooltipTrigger,
     } = useRender(props as TableBodyProps)
@@ -65,12 +64,14 @@ export default defineComponent({
     onUnmounted(() => {
       removePopper?.()
     })
+    onUpdated(() => {
+      removePopper?.()
+    })
 
     return {
       onColumnsChange,
       onScrollableChange,
       wrappedRowRender,
-      tooltipVisible,
       tooltipContent,
       tooltipTrigger,
     }

@@ -24,6 +24,7 @@ export default defineComponent({
     const size = _elDropdownSize.value
 
     function show() {
+      if (['click', 'contextmenu'].includes(elDropdown.trigger.value)) return
       elDropdown.show?.()
     }
     function hide() {

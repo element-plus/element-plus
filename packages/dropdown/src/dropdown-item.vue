@@ -33,6 +33,8 @@ export default defineComponent({
     const _instance = getCurrentInstance()
 
     function handleClick(e: UIEvent) {
+      // if disabled don't collapse the drop-down list
+      if(props.disabled) return
       if (elDropdown.hideOnClick.value) {
         elDropdown.handleClick?.()
       }

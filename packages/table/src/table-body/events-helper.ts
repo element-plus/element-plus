@@ -8,7 +8,6 @@ import { Table, AnyObject, TableColumnCtx } from '../table.type'
 function useEvents(props: TableBodyProps) {
   const instance = getCurrentInstance()
   const parent = instance.parent as Table
-  const tooltipVisible = ref(false)
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
   const handleEvent = (event: Event, row: AnyObject, name: string) => {
@@ -92,7 +91,6 @@ function useEvents(props: TableBodyProps) {
     }
   }
   const handleCellMouseLeave = event => {
-    tooltipVisible.value = false
     const cell = getCell(event)
     if (!cell) return
 
@@ -114,7 +112,6 @@ function useEvents(props: TableBodyProps) {
     handleMouseLeave,
     handleCellMouseEnter,
     handleCellMouseLeave,
-    tooltipVisible,
     tooltipContent,
     tooltipTrigger,
   }

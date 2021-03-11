@@ -1907,7 +1907,7 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 | width | Largeur de la colonne. | string | — | — |
 | min-width | Largeur minimale de la colonne. Les colonnes avec `width` ont une largeur fixe, alors que celles avec `min-width` ont une largeur proportionnellement distribuée. | string | — | — |
 | fixed | Si la colonne est fixée à droite ou à gauche. Fixée à gauche si `true`. | string/boolean | true/left/right | — |
-| render-header | Fonction de rendu pour le header de cette colonne. | Function(h, { column, $index }) | — | — |
+| render-header | Fonction de rendu pour le header de cette colonne. | Function({ column, $index }) | — | — |
 | sortable | Si la colonne peut être triée. Tri dynamique possible en mettant à 'custom' et en écoutant l'évènement `sort-change` de Table. | boolean, string | true, false, custom | false |
 | sort-method | Méthode de tri, marche quand `sortable` est `true`. Doit retourner un nombre, tout comme Array.sort. | Function(a, b) | — | — |
 | sort-by | Détermine par quelle propriété effectuer le tri, marche quand `sortable` est `true` et `sort-method` est `undefined`. Si c'est un Array, sera triée par la propriété suivante si la précédente est équivalente. | Function(row, index)/String/Array | — | — |
