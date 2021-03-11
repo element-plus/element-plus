@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, PropType, watch, toRefs } from 'vue'
+import { defineComponent, computed, ref, PropType, watch, toRef } from 'vue'
 
 const ERROR_EVENT = 'error'
 export default defineComponent({
@@ -50,7 +50,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const hasLoadError = ref(false)
 
-    const { src } = toRefs(props)
+    const src = toRef(props, 'src')
     // need reset hasLoadError to false if src changed
     watch(src,()=>{
       hasLoadError.value = false
