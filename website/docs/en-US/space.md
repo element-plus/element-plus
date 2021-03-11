@@ -279,6 +279,7 @@ Setting this attribute can adjust the alignment of child nodes, the desirable va
 | prefixCls | Prefix for space-items | string | el-space | - |
 | style     | Extra style rules  | string / Array<Object \| String> / Object | - | - |
 | spacer    | Spacer    | string / number / VNode | - | - |
+| spacer-align      | Spacer align | string | center / left / right  | 'center' |
 | size      | Spacing size   | string / number / [number, number] | - | 'small' |
 | wrap      | Auto wrapping | boolean | true / false  | false |
 ### Space Slot

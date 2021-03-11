@@ -4,6 +4,7 @@ import {
   createVNode,
   createTextVNode,
   isVNode,
+  unref,
 } from 'vue'
 import {
   PatchFlags,
@@ -34,6 +35,8 @@ export default defineComponent({
       itemStyle,
       spacer,
       prefixCls,
+      spacerAlign,
+      direction,
     } = ctx
 
     const children = renderSlot($slots, 'default', { key: 0 }, () => [])
@@ -49,12 +52,33 @@ export default defineComponent({
       children.children.forEach((child: VNode, loopKey) => {
         if (isFragment(child)) {
           if (isArray(child.children)) {
+            // This inference is `ComputedRef`, It's actually wrong
+            const unrefItemStyle = unref(itemStyle)
+
+            const childLength = child.children.length - 1
+
             child.children.forEach((nested, key) => {
+              const nodeStype = {
+                paddingBottom: '0',
+                marginRight: '0',
+              }
+
+              if (childLength === key) {
+                if (direction === 'horizontal') {
+                  nodeStype.paddingBottom = unrefItemStyle.paddingBottom
+                } else {
+                  nodeStype.paddingBottom = '0'
+                }
+              } else {
+                nodeStype.marginRight = unrefItemStyle.marginRight
+                nodeStype.paddingBottom = unrefItemStyle.paddingBottom
+              }
+
               extractedChildren.push(
                 createVNode(
                   Item,
                   {
-                    style: itemStyle,
+                    style: nodeStype,
                     prefixCls,
                     key: `nested-${key}`,
                   },
@@ -103,7 +127,7 @@ export default defineComponent({
                 // when the spacer inherit the width from the
                 // parent, this span's width was not set, so space
                 // might disappear
-                { style: [itemStyle, 'width: 100%'], key: idx },
+                { style: [itemStyle, 'width: 100%', `text-align: ${spacerAlign}`], key: idx },
                 [
                   // if spacer is already a valid vnode, then append it to the current
                   // span element.

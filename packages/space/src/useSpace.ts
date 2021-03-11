@@ -45,6 +45,11 @@ export const defaultProps = {
     },
   },
 
+  spacerAlign: {
+    type: String,
+    default: 'center',
+  },
+
   wrap: {
     type: Boolean,
     default: false,
@@ -111,7 +116,7 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
     const alignment: CSSProperties = {
       alignItems: props.alignment,
     }
-    return [wrapKls, alignment, props.style] as Array<CSSProperties>
+    return [wrapKls, alignment, { whiteSpace: 'nowrap' }, props.style] as Array<CSSProperties>
   })
 
   const itemStyle = computed(() => {
