@@ -4,7 +4,6 @@ import {
   createVNode,
   createTextVNode,
   isVNode,
-  unref,
 } from 'vue'
 import {
   PatchFlags,
@@ -15,7 +14,7 @@ import { isArray } from '@element-plus/utils/util'
 import Item from './item.vue'
 import { useSpace, defaultProps } from './useSpace'
 
-import type { VNode, ExtractPropTypes, Slots } from 'vue'
+import type { VNode, ExtractPropTypes, Slots, UnwrapRef } from 'vue'
 
 export default defineComponent({
   name: 'ElSpace',
@@ -25,7 +24,7 @@ export default defineComponent({
   },
 
   render(
-    ctx: ReturnType<typeof useSpace> &
+    ctx: UnwrapRef<ReturnType<typeof useSpace>> &
       ExtractPropTypes<typeof defaultProps> & { $slots: Slots; },
   ) {
     const {
@@ -51,8 +50,6 @@ export default defineComponent({
       children.children.forEach((child: VNode, loopKey) => {
         if (isFragment(child)) {
           if (isArray(child.children)) {
-            // This inference is `ComputedRef`, It's actually wrong
-            const unrefItemStyle = unref(itemStyle)
 
             const childLength = child.children.length - 1
 
@@ -64,13 +61,13 @@ export default defineComponent({
 
               if (childLength === key) {
                 if (direction === 'horizontal') {
-                  nodeStype.paddingBottom = unrefItemStyle.paddingBottom
+                  nodeStype.paddingBottom = itemStyle.paddingBottom
                 } else {
                   nodeStype.paddingBottom = '0'
                 }
               } else {
-                nodeStype.marginRight = unrefItemStyle.marginRight
-                nodeStype.paddingBottom = unrefItemStyle.paddingBottom
+                nodeStype.marginRight = itemStyle.marginRight
+                nodeStype.paddingBottom = itemStyle.paddingBottom
               }
 
               extractedChildren.push(
