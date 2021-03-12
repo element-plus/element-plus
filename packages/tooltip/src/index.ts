@@ -108,6 +108,7 @@ export default defineComponent({
         },
       },
     )
+
     return popper
   },
 })
