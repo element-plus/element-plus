@@ -160,6 +160,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }, {
     flush: 'post',
+    deep: true,
   })
 
   watch(() => states.visible, val => {
