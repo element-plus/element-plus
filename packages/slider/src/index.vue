@@ -190,9 +190,9 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const initData = reactive({
-      firstValue: null,
-      secondValue: null,
-      oldValue: null,
+      firstValue: 0,
+      secondValue: 0,
+      oldValue: 0,
       dragging: false,
       sliderSize: 1,
     })
