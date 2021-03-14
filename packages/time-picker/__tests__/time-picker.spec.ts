@@ -128,6 +128,49 @@ describe('TimePicker', () => {
     expect(vm.value instanceof Date).toBeTruthy()
   })
 
+  it('should update oldValue when visible change', async () => {
+    const wrapper = _mount(`<el-time-picker
+        v-model="value"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }))
+
+    // show picker panel
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+
+    // select time
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const minutesEl = list[1]
+    const secondsEl = list[2]
+    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    const minuteEl = minutesEl.querySelectorAll('.el-time-spinner__item')[36] as any
+    const secondEl = secondsEl.querySelectorAll('.el-time-spinner__item')[20] as any
+    hourEl.click()
+    await nextTick()
+    minuteEl.click()
+    await nextTick()
+    secondEl.click()
+    await nextTick();
+
+    // click confirm button
+    (document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    const date = (wrapper.vm as any).value
+    expect(date.getHours()).toBe(4)
+    expect(date.getMinutes()).toBe(36)
+    expect(date.getSeconds()).toBe(20)
+
+    // show picker panel and click cancel button
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick();
+    (document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    expect(date.getHours()).toBe(4)
+    expect(date.getMinutes()).toBe(36)
+    expect(date.getSeconds()).toBe(20)
+  })
+
   it('set format', async () => {
     const wrapper = _mount(`<el-time-picker
         v-model="value"

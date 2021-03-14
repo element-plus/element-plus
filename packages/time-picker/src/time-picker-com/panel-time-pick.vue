@@ -42,6 +42,7 @@ import {
   defineComponent,
   ref,
   computed,
+  watch,
   inject,
   PropType,
 } from 'vue'
@@ -91,6 +92,12 @@ export default defineComponent({
       if (props.format.includes('A')) return 'A'
       if (props.format.includes('a')) return 'a'
       return ''
+    })
+    // watch
+    watch(() => props.visible, val => {
+      if (!val) {
+        oldValue.value = props.parsedValue
+      }
     })
     // method
     const isValidValue = _date => {

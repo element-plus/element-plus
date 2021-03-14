@@ -71,6 +71,7 @@ import {
   defineComponent,
   ref,
   computed,
+  watch,
   PropType,
   inject,
 } from 'vue'
@@ -124,6 +125,13 @@ export default defineComponent({
 
     const minSelectableRange = ref([])
     const maxSelectableRange = ref([])
+
+    // watch
+    watch(() => props.visible, val => {
+      if (!val) {
+        oldValue.value = props.parsedValue
+      }
+    })
 
     const handleConfirm = (visible = false) => {
       ctx.emit('pick', [minDate.value, maxDate.value], visible)
