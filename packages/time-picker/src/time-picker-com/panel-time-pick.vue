@@ -103,6 +103,7 @@ export default defineComponent({
     }
     const handleConfirm = (visible = false, first) => {
       if (first) return
+      oldValue.value = props.parsedValue
       ctx.emit('pick', props.parsedValue, visible)
     }
     const handleChange = (_date: Dayjs) => {
