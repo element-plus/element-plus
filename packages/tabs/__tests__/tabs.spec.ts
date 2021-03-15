@@ -12,13 +12,8 @@ describe('Tabs.vue', () => {
         'el-tabs': Tabs,
         'el-tab-pane': TabPane,
       },
-      data() {
-        return {
-          value: '0',
-        }
-      },
       template: `
-        <el-tabs v-model="value">
+        <el-tabs>
           <el-tab-pane label="label-1">A</el-tab-pane>
           <el-tab-pane label="label-2">B</el-tab-pane>
           <el-tab-pane label="label-3" ref="pane-click">C</el-tab-pane>
@@ -46,6 +41,52 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
     expect(tabsWrapper.vm.currentName).toEqual('2')
+  })
+
+  test('active-name', async () => {
+    const wrapper = mount({
+      components: {
+        'el-tabs': Tabs,
+        'el-tab-pane': TabPane,
+      },
+      data() {
+        return {
+          activeName: 'b',
+        }
+      },
+      methods: {
+        handleClick(tab) {
+          this.activeName = tab.paneName
+        },
+      },
+      template: `
+        <el-tabs :active-name="activeName" @tab-click="handleClick">
+          <el-tab-pane name="a" label="label-1">A</el-tab-pane>
+          <el-tab-pane name="b" label="label-2">B</el-tab-pane>
+          <el-tab-pane name="c" label="label-3" ref="pane-click">C</el-tab-pane>
+          <el-tab-pane name="d" label="label-4">D</el-tab-pane>
+        </el-tabs>
+      `,
+    })
+
+    const tabsWrapper = wrapper.findComponent(Tabs)
+    const navWrapper = wrapper.findComponent(TabNav)
+    const panesWrapper = wrapper.findAllComponents(TabPane)
+    await nextTick()
+
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+    expect(navItemsWrapper[1].classes('is-active')).toBe(true)
+    expect(panesWrapper[1].classes('el-tab-pane')).toBe(true)
+    expect(panesWrapper[1].attributes('id')).toBe('pane-b')
+    expect(panesWrapper[1].attributes('aria-hidden')).toEqual('false')
+    expect(tabsWrapper.vm.currentName).toEqual('b')
+
+    await navItemsWrapper[2].trigger('click')
+    expect(navItemsWrapper[1].classes('is-active')).toBe(false)
+    expect(panesWrapper[1].attributes('aria-hidden')).toEqual('true')
+    expect(navItemsWrapper[2].classes('is-active')).toBe(true)
+    expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
+    expect(tabsWrapper.vm.currentName).toEqual('c')
   })
 
   test('card', async () => {
@@ -446,13 +487,8 @@ describe('Tabs.vue', () => {
         'el-tabs': Tabs,
         'el-tab-pane': TabPane,
       },
-      data() {
-        return {
-          value: 'A',
-        }
-      },
       template: `
-        <el-tabs ref="tabs" v-model="value">
+        <el-tabs ref="tabs">
           <el-tab-pane label="label-1" name="A">A</el-tab-pane>
           <el-tab-pane label="label-2" name="B">B</el-tab-pane>
           <el-tab-pane label="label-3" name="C">C</el-tab-pane>
