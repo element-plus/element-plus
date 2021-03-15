@@ -331,6 +331,8 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
     }
   }
 
+  setValues()
+
   watch(() => initData.dragging, val => {
     if (!val) {
       setValues()
