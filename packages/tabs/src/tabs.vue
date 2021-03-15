@@ -3,8 +3,6 @@ import { h, defineComponent, ref, onMounted, onUpdated, provide, watch, nextTick
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TabNav from './tab-nav.vue'
 
-type RefElement = Nullable<HTMLElement>
-
 type BeforeLeave = (newTabName: string, oldTabName: string) => void | Promise<void> | boolean
 
 export interface IETabsProps {
