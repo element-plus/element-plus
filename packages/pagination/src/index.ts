@@ -4,7 +4,6 @@ import {
   ref,
   computed,
   watch,
-  nextTick,
   provide,
 } from 'vue'
 import { IPagination } from './pagination'

@@ -20,7 +20,7 @@
 - Fix table fix #1591 (#1593)
 - Fix radio type order (#1554)
 - Fix time-picker replace test `it.only` with `it` in test (#1586)
-- Fix popper simplify mapEvents logic & add IEvents (#1541)
+- Fix popper simplify mapEvents logic & add  (#1541)
 - Fix pagination component layout prop bug (#1576)
 - Fix select disabled group not works (#1559)
 - Fix dropdown dropdown will expand when unexpected (#1569)
