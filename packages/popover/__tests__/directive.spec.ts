@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { h, nextTick, Fragment, withDirectives, ref } from 'vue'
 import Popover from '../src/index.vue'
 import PopoverDirective, { VPopover } from '../src/directive'
 import makeMount from '@element-plus/test-utils/make-mount'
@@ -61,6 +61,32 @@ describe('v-popover', () => {
     await rAF()
     await nextTick()
     expect(document.body.querySelector('.el-popover').getAttribute('style')).not.toContain('display: none')
+    wrapper.unmount()
+  })
+
+  test('should render correctly with tabindex', async () => {
+    const tabindex = ref(1)
+
+    const Comp = {
+      setup() {
+        return () => {
+          return h(Fragment, null, [
+            h(Popover, { title: 'title', content: AXIOM, ref: 'popover', tabindex: tabindex.value }),
+            withDirectives(h('div', { ref: 'trigger' }, AXIOM), [[PopoverDirective, 'popover']]),
+          ])
+        }
+      },
+    }
+
+    const wrapper = makeMount(Comp, {})()
+    const triggerDom = wrapper.vm.$refs.trigger
+    expect((triggerDom as HTMLElement).getAttribute('tabindex')).toEqual('1')
+
+    tabindex.value = 2
+
+    await nextTick()
+    expect((triggerDom as HTMLElement).getAttribute('tabindex')).toEqual('2')
+
     wrapper.unmount()
   })
 })
