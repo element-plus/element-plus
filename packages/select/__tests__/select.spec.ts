@@ -923,4 +923,33 @@ describe('Select', () => {
     expect(wrapper.findAll('.el-tag').length).toBe(2)
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
   })
+
+  test('modelValue should be deep reactive in multiple mode', async () => {
+    const wrapper = _mount(`
+    <el-select v-model="modelValue" multiple>
+      <el-option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :label="option.label"
+      >
+      </el-option>
+    </el-select>`, () => ({
+      modelValue: [1],
+      options: [
+        { label: 'Test 1', value: 1 },
+        { label: 'Test 2', value: 2 },
+        { label: 'Test 3', value: 3 },
+        { label: 'Test 4', value: 4 },
+      ],
+    }))
+    const vm = wrapper.vm as any
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+
+    vm.modelValue.splice(0, 1)
+
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(0)
+  })
 })
