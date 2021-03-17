@@ -173,7 +173,7 @@ Vous pouvez aussi imbriquer des opérations. Procéder ainsi est plus léger que
 | show-after | Délai avant l'apparition en millisecondes. | number | — | 0 |
 | hide-after | Le temps de disparaître en millisecondes | number | — | 0 |
 | auto-close | Délai avant disparition. | number | — | 0 |
-| tabindex   | [tabindex](https://developer.mozilla.org/fr/docs/Web/HTML/Attributs_universels/tabindex) de Popover | number | — | 0 |
+| tabindex   | [tabindex](https://developer.mozilla.org/fr/docs/Web/HTML/Attributs_universels/tabindex) de Popover | number | — | — |
 
 ### Slot
 
