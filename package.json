@@ -150,6 +150,7 @@
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
   "vetur": { "tags": "./vetur/tags.json", "attributes": "./vetur/attributes.json" },
+  "web-types": "./vetur/web-types.json",
   "browserslist": [
     "> 1%",
     "last 2 versions",
