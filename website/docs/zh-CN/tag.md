@@ -184,6 +184,36 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 ```
 :::
 
+### 类似复选框的标签
+
+有时候因为业务需求，我们可能会需要用到类似复选框的标签，但是按钮式的复选框的样式又不满足需求，此时我们就可以用到 `check-tag`
+
+:::demo check-tag 的基础使用方法，check-tag 提供的 API 非常简单
+```html
+
+<div>
+  <el-check-tag checked style="margin-right: 8px;">选中</el-check-tag>
+  <el-check-tag @change="onChange" :checked="checked">点我切换</el-check-tag>
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        checked: false,
+      }
+    },
+    methods: {
+      onChange(checked) {
+        this.checked = checked;
+      }
+    }
+  }
+</script>
+
+```
+:::
+
 ### Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
@@ -201,3 +231,13 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 |---------- |-------- |---------- |
 | click | 点击 Tag 时触发的事件 | — |
 | close | 关闭 Tag 时触发的事件 | — |
+
+### CheckTag Attributes
+| 参数      | 说明          | 类型      | 可选值                           | 默认值  |
+|---------- |-------------- |---------- |--------------------------------  |-------- |
+| checked | 是否选中 | boolean | true/false | — |
+
+### CheckTag Events
+| 事件名称 | 说明 | 回调参数 |
+|---------- |-------- |---------- |
+| change | 点击 Check Tag 时触发的事件 | checked |
