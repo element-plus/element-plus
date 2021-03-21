@@ -1,7 +1,8 @@
 import type { VNode } from 'vue'
 
 export type Action = 'confirm' | 'close' | 'cancel'
-export type MessageType = 'success' | 'warning' | 'info' | 'error'
+export type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
+export type MessageBoxType = '' | 'prompt' | 'alert' | 'confirm'
 export type MessageBoxData = MessageBoxInputData & Action
 export interface MessageBoxInputData {
   value: string
@@ -12,28 +13,13 @@ export interface MessageBoxInputValidator {
   (value: string): boolean | string
 }
 
-export interface MessageBoxState {
-  action: Action
-  cancelButtonLoading: boolean
-  cancelButtonText: string
-  confirmButtonLoading: boolean
-  confirmButtonDisabled: boolean
-  confirmButtonText: string
-  editorErrorMessage: string
-  // isOnComposition: boolean temporary commented
-  inputValue: string
-  validateError: boolean
-  zIndex: number
-}
-
-export declare class ElMessageBoxComponent {
+export declare interface MessageBoxState {
   title: string
   message: string
   type: MessageType
   iconClass: string
   customClass: string
   showInput: boolean
-  showClose: boolean
   inputValue: string
   inputPlaceholder: string
   inputType: string
@@ -53,7 +39,16 @@ export declare class ElMessageBoxComponent {
   cancelButtonClass: string
   editorErrorMessage: string
 
-  close(): any
+  beforeClose: null | ((action: Action, instance: MessageBoxState, done: () => void) => void)
+  callback: null | Callback
+  distinguishCancelAndClose: boolean
+  modalFade: boolean
+  modalClass: string
+  // refer to: https://github.com/ElemeFE/element/commit/2999279ae34ef10c373ca795c87b020ed6753eed
+  // seemed ok for now without this state.
+  // isOnComposition: false, // temporary remove
+  validateError: boolean
+  zIndex: number
 }
 
 export type Callback =
@@ -66,7 +61,7 @@ export interface ElMessageBoxOptions {
   /** Callback before MessageBox closes, and it will prevent MessageBox from closing */
   beforeClose?: (
     action: Action,
-    instance: ElMessageBoxComponent,
+    instance: MessageBoxState,
     done: () => void,
   ) => void
 
@@ -99,6 +94,9 @@ export interface ElMessageBoxOptions {
 
   /** Message type, used for icon display */
   type?: MessageType
+
+  /** Message box type */
+  boxType?: MessageBoxType
 
   /** Custom icon's class */
   iconClass?: string
