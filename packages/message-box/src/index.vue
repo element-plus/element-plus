@@ -82,7 +82,7 @@
             :loading="cancelButtonLoading"
             :class="[cancelButtonClass]"
             :round="roundButton"
-            :size="buttonSize ? buttonSize : 'small'"
+            :size="buttonSize || 'small'"
             @click="handleAction('cancel')"
             @keydown.enter="handleAction('cancel')"
           >
@@ -95,7 +95,7 @@
             :class="[confirmButtonClasses]"
             :round="roundButton"
             :disabled="confirmButtonDisabled"
-            :size="buttonSize ? buttonSize : 'small'"
+            :size="buttonSize || 'small'"
             @click="handleAction('confirm')"
             @keydown.enter="handleAction('confirm')"
           >
@@ -116,7 +116,8 @@ import {
   watch,
   reactive,
   ref,
-  toRefs, PropType,
+  toRefs,
+  PropType,
 } from 'vue'
 import ElButton from '@element-plus/button'
 import ElInput from '@element-plus/input'
@@ -127,10 +128,10 @@ import { TrapFocus } from '@element-plus/directives'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { on, off } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
+import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { ComponentPublicInstance } from 'vue'
 import type { Action, MessageBoxState, MessageBoxType } from './message-box.type'
-import { isValidComponentSize } from '@element-plus/utils/validators'
 
 const TypeMap: Indexable<string> = {
   success: 'success',

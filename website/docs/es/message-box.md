@@ -330,3 +330,4 @@ Los métodos correspondientes: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | inputErrorMessage        | mensaje de error cuando la validación falla | string                                   | —                                | Illegal input                            |
 | center                   | utilizado para alinear el contenido al centro | boolean                                  | —                                | false                                    |
 | roundButton              | utilizado para redondear el botón   | boolean                                  | —                                | false                                    |
+| buttonSize               | custom size of confirm and cancel buttons  | string | mini / small / medium / large | small |
