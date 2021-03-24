@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -951,5 +952,38 @@ describe('Select', () => {
 
     await vm.$nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(0)
+  })
+
+  test('should reset placeholder after clear when both multiple and filterable are true', async () => {
+    const placeholder = 'placeholder'
+    const wrapper = _mount(`
+    <el-select v-model="modelValue" multiple filterable placeholder=${placeholder}>
+      <el-option label="1" value="1" />
+    </el-select>`, () => ({
+      modelValue: ['1'],
+    }))
+    const vm = wrapper.vm as any
+    await vm.$nextTick()
+
+    const innerInput = wrapper.find('.el-input__inner')
+    const innerInputEl = innerInput.element as HTMLInputElement
+    expect(innerInputEl.placeholder).toBe('')
+
+    const tagCloseIcon = wrapper.find('.el-tag__close')
+    await tagCloseIcon.trigger('click')
+    expect(innerInputEl.placeholder).toBe(placeholder)
+
+    const selectInput = wrapper.find('.el-select__input')
+    const selectInputEl = selectInput.element as HTMLInputElement
+    selectInputEl.value = 'a'
+    selectInput.trigger('input')
+    await vm.$nextTick()
+    expect(innerInputEl.placeholder).toBe('')
+
+    selectInput.trigger('keydown', {
+      key: EVENT_CODE.backspace,
+    })
+    await vm.$nextTick()
+    expect(innerInputEl.placeholder).toBe(placeholder)
   })
 })

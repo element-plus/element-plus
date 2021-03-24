@@ -310,7 +310,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const managePlaceholder = () => {
     if (states.currentPlaceholder !== '') {
-      states.currentPlaceholder = input.value ? '' : states.cachedPlaceHolder
+      states.currentPlaceholder = input.value.value ? '' : states.cachedPlaceHolder
     }
   }
 
@@ -453,6 +453,10 @@ export const useSelect = (props, states: States, ctx) => {
       value.pop()
       ctx.emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
+    }
+
+    if (e.target.value.length === 1 && props.modelValue.length === 0) {
+      states.currentPlaceholder = states.cachedPlaceHolder
     }
   }
 
