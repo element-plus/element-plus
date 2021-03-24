@@ -72,12 +72,26 @@ class TableLayout {
 
   updateScrollY () {
     const height = this.height.value
+    /**
+     * When the height is not initialized, it is null.
+     * After the table is initialized, when the height is not configured, the height is 0.
+     */
     if (height === null) return false
     const bodyWrapper = this.table.refs.bodyWrapper as HTMLElement
     if (this.table.vnode.el && bodyWrapper) {
-      const body = bodyWrapper.querySelector('.el-table__body') as HTMLElement
+      let scrollY = true
       const prevScrollY = this.scrollY.value
-      const scrollY = body.offsetHeight > this.bodyHeight.value
+      /**
+       * When bodyHeight has no value,
+       * it means that the table height is not set,
+       * and the scroll bar will never appear
+       */
+      if (this.bodyHeight.value === null) {
+        scrollY = false
+      } else {
+        const body = bodyWrapper.querySelector('.el-table__body') as HTMLElement
+        scrollY = body.offsetHeight > this.bodyHeight.value
+      }
       this.scrollY.value = scrollY
       return prevScrollY !== scrollY
     }
