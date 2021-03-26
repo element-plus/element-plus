@@ -172,7 +172,7 @@ Of course, you can nest other operations. It's more light-weight than using a di
 | show-after | delay of appearance, in millisecond | number | — | 0 |
 | hide-after | delay of disappear, in millisecond | number | — | 0 |
 | auto-close | timeout in milliseconds to hide tooltip | number | — | 0 |
-|  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover | number | — | 0 |
+|  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover | number | — | — |
 
 ### Slot
 | Name | Description |
