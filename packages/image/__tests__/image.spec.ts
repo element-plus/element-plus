@@ -99,5 +99,18 @@ describe('Image.vue', () => {
     expect(result).toBeTruthy()
   })
 
+  test('emit load event', async () => {
+    const handleLoad = jest.fn()
+    const wrapper = mount(Image, {
+      props: {
+        src: IMAGE_SUCCESS,
+        onLoad: handleLoad,
+      },
+    })
+    await doubleWait()
+    expect(wrapper.find('.el-image__inner').exists()).toBe(true)
+    expect(handleLoad).toBeCalled()
+  })
+
   //@todo lazy image test
 })
