@@ -4335,6 +4335,28 @@
           ]
         },
         {
+          "name": "el-check-tag",
+          "description": "Light weighted checkbox with tag appearance",
+          "doc-url": "https://element-plus.org/#/en-US/component/tag",
+          "attributes": [
+            {
+              "name": "checked",
+              "default": "-",
+              "description": "whether the tag is selected",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "description": "triggers when check tag checked state change"
+            }
+          ]
+        },
+        {
           "name": "el-progress",
           "description": "Progress is used to show the progress of current operation, and inform the user the current status.",
           "doc-url": "https://element-plus.org/#/en-US/component/progress",

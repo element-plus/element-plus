@@ -185,6 +185,10 @@
     "defaults": ["type"],
     "description": "Used for marking and selection."
   },
+  "el-check-tag": {
+    "attributes": ["checked"],
+    "description": "Light weighted checkbox with tag appearance"
+  },
   "el-progress": {
     "attributes": ["percentage", "type", "stroke-width", "text-inside", "status", "color", "width", "show-text", "stroke-linecap", "format"],
     "defaults": ["percentage"],
