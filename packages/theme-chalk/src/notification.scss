@@ -41,6 +41,7 @@
     margin: 6px 0 0 0;
     color: $--notification-content-color;
     text-align: justify;
+    word-break: break-all;
 
     p {
       margin: 0;
