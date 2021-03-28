@@ -89,6 +89,8 @@ import ElVirtualList from '@element-plus/virtual-list'
 import ElSpace from '@element-plus/space'
 import ElSkeleton from '@element-plus/skeleton'
 import ElSkeletonItem from '@element-plus/skeleton-item'
+import ElCheckTag from '@element-plus/check-tag'
+
 import { use, i18n } from '@element-plus/locale'
 // if you encountered problems alike "Can't resolve './version'"
 // please run `yarn bootstrap` first
@@ -98,9 +100,17 @@ import { setConfig } from '@element-plus/utils/config'
 import isServer from '@element-plus/utils/isServer'
 import dayjs from 'dayjs'
 
+type DWindow =  Window & typeof globalThis & {
+  dayjs?: typeof dayjs
+}
+
 // expose Day.js to window to make full bundle i18n work
-if (!isServer && !(window as any).dayjs) {
-  (window as any).dayjs = dayjs
+if (!isServer) {
+  const _window: DWindow = window
+
+  if (!_window.dayjs) {
+    _window.dayjs = dayjs
+  }
 }
 
 const version = version_ // version_ to fix tsc issue
@@ -133,6 +143,7 @@ const components = [
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
+  ElCheckTag,
   ElCol,
   ElCollapse,
   ElCollapseItem,
@@ -222,7 +233,7 @@ const install = (app: App, opt: InstallOptions): void => {
   })
 
   plugins.forEach(plugin => {
-    app.use(plugin as any)
+    app.use(plugin)
   })
 }
 
@@ -247,6 +258,7 @@ export {
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
+  ElCheckTag,
   ElCol,
   ElCollapse,
   ElCollapseItem,

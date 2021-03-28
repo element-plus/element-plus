@@ -100,12 +100,18 @@ export default defineComponent({
     onMounted(() => {
       if (props.native) return
       nextTick(update)
-      !props.noresize && addResizeListener(resize.value, update)
+      if (!props.noresize) {
+        addResizeListener(resize.value, update)
+        addEventListener('resize', update)
+      }
     })
 
     onBeforeUnmount(() => {
       if (props.native) return
-      !props.noresize && removeResizeListener(resize.value, update)
+      if (!props.noresize) {
+        removeResizeListener(resize.value, update)
+        removeEventListener('resize', update)
+      }
     })
 
     return {

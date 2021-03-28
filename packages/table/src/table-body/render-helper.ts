@@ -17,7 +17,6 @@ function useRender(props: TableBodyProps) {
     handleMouseLeave,
     handleCellMouseEnter,
     handleCellMouseLeave,
-    tooltipVisible,
     tooltipContent,
     tooltipTrigger,
   } = useEvents(props)
@@ -43,7 +42,8 @@ function useRender(props: TableBodyProps) {
     return index
   }
   const rowRender = (row, $index, treeRowData) => {
-    const { indent, columns } = props.store.states
+    const { tooltipEffect, store } = props
+    const { indent, columns } = store.states
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
@@ -108,7 +108,7 @@ function useRender(props: TableBodyProps) {
             class: getCellClass($index, cellIndex, row, column),
             rowspan,
             colspan,
-            onMouseenter: $event => handleCellMouseEnter($event, row),
+            onMouseenter: $event => handleCellMouseEnter($event, { ...row, tooltipEffect }),
             onMouseleave: handleCellMouseLeave,
           },
           [column.renderCell(data)],
@@ -136,26 +136,28 @@ function useRender(props: TableBodyProps) {
         return tr
       }
       // 使用二维数组，避免修改 $index
+      /**
+       * TIP: One dimensional array is used temporarily to avoid rendering flicker.
+       * The case of $index being modified has not been found by testing
+       */
       return [
-        [
-          tr,
-          h(
-            'tr',
-            {
-              key: 'expanded-row__' + tr.key,
-            },
-            [
-              h(
-                'td',
-                {
-                  colspan: store.states.columns.value.length,
-                  class: 'el-table__expanded-cell',
-                },
-                [renderExpanded({ row, $index, store })],
-              ),
-            ],
-          ),
-        ],
+        tr,
+        h(
+          'tr',
+          {
+            key: 'expanded-row__' + tr.key,
+          },
+          [
+            h(
+              'td',
+              {
+                colspan: store.states.columns.value.length,
+                class: 'el-table__expanded-cell',
+              },
+              [renderExpanded({ row, $index, store })],
+            ),
+          ],
+        ),
       ]
     } else if (Object.keys(treeData.value).length) {
       assertRowKey()
@@ -239,7 +241,6 @@ function useRender(props: TableBodyProps) {
 
   return {
     wrappedRowRender,
-    tooltipVisible,
     tooltipContent,
     tooltipTrigger,
   }

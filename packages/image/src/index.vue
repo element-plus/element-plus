@@ -185,6 +185,8 @@ export default defineComponent({
       // so it can behave consistently
       Object.keys(attributes)
         .forEach(key => {
+          // avoid onload to be overwritten
+          if (key.toLowerCase() === 'onload') return
           const value = attributes[key]
           img.setAttribute(key, value)
         })

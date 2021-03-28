@@ -839,8 +839,8 @@ Vous pouvez déplacer les noeuds par drag'n drop en ajoutant l'attribut `draggab
 | getHalfCheckedKeys | Si le noeud peut être sélectionné (`show-checkbox` est `true`), retourne les clés de la moitié des noeuds sélectionnés. | - |
 | getCurrentKey   | retourne la clé du noeud actuellement en valeur (`null` si aucun noeud n'est en valeur). | — |
 | getCurrentNode  | retourne les données du noeud actuellement en valeur (`null` si aucun noeud n'est en valeur). | — |
-| setCurrentKey   | Met un noeud en valeur par sa clé, ne marche que si `node_key` est assigné. | (key) la clé du noeud. Si `null`, annule la sélection actuelle. |
-| setCurrentNode  | Met un noeud en valeur, ne marche que si `node_key` est assigné. | (node) le noeud. |
+| setCurrentKey   | Met un noeud en valeur par sa clé, ne marche que si `node_key` est assigné. | (key, shouldAutoExpandParent=true) 1. la clé du noeud. Si `null`, annule la sélection actuelle. 2. whether to automatically expand parent node |
+| setCurrentNode  | Met un noeud en valeur, ne marche que si `node_key` est assigné. | (node, shouldAutoExpandParent=true) 1. le noeud. 2. whether to automatically expand parent node |
 | getNode         | Retourne le noeud grâce à sa clé ou ses données. | (data) la clé ou les données du noeud. |
 | remove          | Supprime un noeud, ne marche que si node-key est assigné. | (data) le noeud ou ses données à supprimer. |
 | append          | Ajoute un noeud à un autre noeud. | (data, parentNode) 1. les données du noeud à ajouter 2. les données du parent, clé ou données. |

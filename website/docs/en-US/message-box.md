@@ -327,3 +327,4 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | inputErrorMessage | error message when validation fails | string | — | Illegal input |
 | center | whether to align the content in center | boolean | — | false |
 | roundButton | whether to use round button | boolean | — | false |
+| buttonSize | custom size of confirm and cancel buttons | string | mini / small / medium / large | small |

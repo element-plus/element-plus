@@ -25,7 +25,10 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    provide('ElRow', props.gutter)
+    const gutter = computed(() => props.gutter)
+    provide('ElRow', {
+      gutter,
+    })
 
     const style = computed(() => {
       const ret = {

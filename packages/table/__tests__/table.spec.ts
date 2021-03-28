@@ -2,6 +2,8 @@ import { mount as _mount, VueWrapper } from '@vue/test-utils'
 import { ComponentPublicInstance, nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
+import ElCheckboxGroup from '@element-plus/checkbox-group'
+import ElCheckbox from '@element-plus/checkbox'
 import sinon from 'sinon'
 
 const testDataArr = []
@@ -125,6 +127,58 @@ describe('Table.vue', () => {
       equalArray(cells, testDataArr)
       wrapper.unmount()
     })
+  })
+
+  it('custom template', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+        ElCheckboxGroup,
+        ElCheckbox,
+      },
+      template: `
+      <el-table :data="tableData">
+        <el-table-column label="someLabel">
+          <template #default="{ row }">
+            <el-checkbox-group v-model="row.checkList">
+              <el-checkbox label="复选框 A"></el-checkbox>
+              <el-checkbox label="复选框 B"></el-checkbox>
+            </el-checkbox-group>
+          </template>
+        </el-table-column>
+      </el-table>
+      `,
+      data() {
+        return {
+          tableData: [
+            {
+              checkList: [],
+            },
+            {
+              checkList: ['复选框 A'],
+            },
+            {
+              checkList: ['复选框 A', '复选框 B'],
+            },
+          ],
+        }
+      },
+    })
+    const vm = wrapper.vm
+    await nextTick()
+    const checkGroup = vm.$el.querySelectorAll(
+      '.el-table__body-wrapper .el-checkbox-group',
+    )
+    expect(checkGroup.length).toBe(3)
+    const checkbox = vm.$el.querySelectorAll(
+      '.el-table__body-wrapper .el-checkbox',
+    )
+    expect(checkbox.length).toBe(6)
+    const checkSelect = vm.$el.querySelectorAll(
+      '.el-table__body-wrapper label.is-checked',
+    )
+    expect(checkSelect.length).toBe(3)
   })
   describe('attributes', () => {
     const createTable = function(props, opts?) {

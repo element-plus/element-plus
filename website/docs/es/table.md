@@ -347,7 +347,7 @@ Cuando se tienen demasiadas columnas, puede fijar alguna de estas.
     <el-table-column
       prop="address"
       label="Dirección"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -445,12 +445,12 @@ Cuando tienes grandes cantidades de datos para colocar en una tabla, puede fijar
     <el-table-column
       prop="city"
       label="Ciudad"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="Dirección"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -556,7 +556,7 @@ Cuando los datos se modifican dinámicamente, es posible que necesite que la tab
     <el-table-column
       prop="address"
       label="Dirección"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -679,8 +679,7 @@ Cuando la estructura de datos es compleja, tu puedes hacer uso de cabeceras agru
         </el-table-column>
         <el-table-column
           prop="address"
-          label="Dirección"
-          width="300">
+          label="Dirección">
         </el-table-column>
         <el-table-column
           prop="zip"
@@ -1902,7 +1901,7 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | width                 | ancho de la columna                      | string                            | —                             | —           |
 | min-width             | ancho mínimo de la columna. Columnas con `width` tienen un ancho fijo, mientras que las columnas con `min-width` tienen un ancho que se distribuye en proporción. | string                            | —                             | —           |
 | fixed                 | especifica si la columna se fija a la izquierda o a la derecha. Se fijará a la izquierda si es `true` | string/boolean                    | true/left/right               | —           |
-| render-header         | Función de renderizado para la cabecera de la tabla de esta columna | Function(h, { column, $index })   | —                             | —           |
+| render-header         | Función de renderizado para la cabecera de la tabla de esta columna | Function({ column, $index })   | —                             | —           |
 | sortable              | especifica que columna puede ser ordenado. El ordenamiento remoto puede ser hecho configurando el atributo `custom` y escucha al evento de tabla `sort-change` | boolean, string                   | true, false, custom           | false       |
 | sort-method           | método de ordenamiento, funciona cuando `sortable` está en `true`. Debería devolver un número, al igual que Array.sort | Function(a, b)                    | —                             | —           |
 | sort-by               | especifica por cual propiedad de va a ordenar, funciona cuando `sortable` es `true` y `sort-method` es `undefined`. Si se establece a un arreglo, la columna ordenara secuencialmente por la siguiente propiedad si la anterior es igual | Function(row, index)/String/Array | —                             | —           |

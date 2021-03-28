@@ -45,7 +45,7 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
+<style>
 </style>
 EOF
 
@@ -67,7 +67,7 @@ cat > $DIRNAME/package.json <<EOF
   "main": "dist/index.js",
   "license": "MIT",
   "peerDependencies": {
-    "vue": "^3.0.5"
+    "vue": "^3.0.9"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.0.0-beta.3"

@@ -504,6 +504,7 @@ export default defineComponent({
 
       if (isPromise(passed)) {
         passed.then(calculateSuggestions)
+          .catch(() => { /* prevent log error */ })
       } else if (passed !== false) {
         calculateSuggestions()
       } else {
