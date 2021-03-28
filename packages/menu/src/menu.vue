@@ -253,7 +253,7 @@ export default defineComponent({
     watch(
       () => props.defaultActive,
       currentActive => {
-        if (!items[currentActive]) {
+        if (!items.value[currentActive]) {
           activeIndex.value = ''
         }
         updateActiveIndex(currentActive)
