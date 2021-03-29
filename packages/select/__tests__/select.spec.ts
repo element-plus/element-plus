@@ -1020,7 +1020,6 @@ describe('Select', () => {
     expect(filterMethod).toBeCalled()
     expect(filterMethod.mock.calls[0][0]).toBe('a')
 
-
     inputEl.value = 'aa'
     await input.trigger('input')
     expect(filterMethod).toBeCalledTimes(2)
@@ -1059,7 +1058,6 @@ describe('Select', () => {
     await input.trigger('input')
     expect(filterMethod).toBeCalled()
     expect(filterMethod.mock.calls[0][0]).toBe('a')
-
 
     inputEl.value = 'aa'
     await input.trigger('input')
