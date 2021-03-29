@@ -986,4 +986,84 @@ describe('Select', () => {
     await vm.$nextTick()
     expect(innerInputEl.placeholder).toBe(placeholder)
   })
+
+  test('should call filter method after search', async () => {
+    const filterMethod = jest.fn()
+    const wrapper = _mount(`
+    <el-select v-model="modelValue" filterable :filter-method="filterMethod">
+      <el-option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :label="option.label"
+      >
+      </el-option>
+    </el-select>`, () => ({
+      modelValue: 1,
+      options: [
+        { label: 'Test 1', value: 1 },
+        { label: 'Test 2', value: 2 },
+        { label: 'Test 3', value: 3 },
+        { label: 'Test 4', value: 4 },
+      ],
+      filterMethod,
+    }))
+
+    const vm = wrapper.vm as any
+    await vm.$nextTick()
+
+    const input = wrapper.find('.el-input__inner')
+    const inputEl = input.element as HTMLInputElement
+    await input.trigger('click')
+    inputEl.value = 'a'
+    await input.trigger('input')
+    expect(filterMethod).toBeCalled()
+    expect(filterMethod.mock.calls[0][0]).toBe('a')
+
+
+    inputEl.value = 'aa'
+    await input.trigger('input')
+    expect(filterMethod).toBeCalledTimes(2)
+    expect(filterMethod.mock.calls[1][0]).toBe('aa')
+  })
+
+  test('should call filter method after search in multiple mode', async () => {
+    const filterMethod = jest.fn()
+    const wrapper = _mount(`
+    <el-select v-model="modelValue" multiple filterable :filter-method="filterMethod">
+      <el-option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :label="option.label"
+      >
+      </el-option>
+    </el-select>`, () => ({
+      modelValue: [1],
+      options: [
+        { label: 'Test 1', value: 1 },
+        { label: 'Test 2', value: 2 },
+        { label: 'Test 3', value: 3 },
+        { label: 'Test 4', value: 4 },
+      ],
+      filterMethod,
+    }))
+
+    const vm = wrapper.vm as any
+    await vm.$nextTick()
+
+    const input = wrapper.find('.el-select__input')
+    const inputEl = input.element as HTMLInputElement
+    await input.trigger('click')
+    inputEl.value = 'a'
+    await input.trigger('input')
+    expect(filterMethod).toBeCalled()
+    expect(filterMethod.mock.calls[0][0]).toBe('a')
+
+
+    inputEl.value = 'aa'
+    await input.trigger('input')
+    expect(filterMethod).toBeCalledTimes(2)
+    expect(filterMethod.mock.calls[1][0]).toBe('aa')
+  })
 })
