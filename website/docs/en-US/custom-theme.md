@@ -109,19 +109,27 @@ createApp(App).use(ElementPlus)
 ```
 
 #### <strong>Import component theme on demand</strong>
-If you are using `babel-plugin-component` for on-demand import, just modify `.babelrc` and specify `styleLibraryName` to the path where your custom theme is located relative to `.babelrc`. Note that `~` is required:
+If you are using `babel-plugin-import` for on-demand import, and want to customize a 'theme-chalk' use of theme generator is not needed. You can simple copy directory `.../node_modules/element-plus/packages/theme-chalk/` to some directory in your project (in this example directory `src/asset/css/elementPlus/` will be used). Then modify `babel.config.js` and specify `customStyleName` to the path where your custom theme is located relative to `babel.config.js` (remark: it is advisable to copy original of mentioned directory so made changes could be tracked).
 ```json
-{
+const path = require('path'); // <-- this line is not needed if you use alias (see below)
+
+module.exports = {
+  ...
   "plugins": [
     [
-      "component",
+      "import",
       {
         "libraryName": "element-plus",
-        "styleLibraryName": "~theme"
+        customStyleName: (name) => {
+          name = name.slice(3); // removing the first three characters is needed because *.scss files do not have 'el-' at the beginning of its name
+          // return `element-plus/packages/theme-chalk/src/${name}.scss`; <-- works nice (as it is described in "Quick Start"), but this is original location of theme-chalk *.scss files and it is not recommended to change them because update of 'element-plus' package can overwrite all changes
+          return path.resolve(__dirname, 'src/asset/css/elementPlus/theme-chalk/src') + `/${name}.scss`;
+          //return `@elemPlusScss/${name}.scss`; // <-- works nice also but '@elemPlusScss' should be previously defined as alias to 'src/asset/css/elementPlus/theme-chalk/src' folder
+        }
       }
     ]
   ]
 }
 ```
 
-If you are unfamiliar with `babel-plugin-component`, please refer to <a href="./#/en-US/component/quickstart">Quick Start</a>. For more details, check out the [project repository](https://github.com/ElementUI/element-theme) of `element-theme`.
+If you are unfamiliar with `babel-plugin-import`, please refer to <a href="./#/en-US/component/quickstart">Quick Start</a>. For more details, check out the [project repository](https://github.com/ElementUI/element-theme) of `element-theme`.
