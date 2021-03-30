@@ -281,7 +281,7 @@ Setting this attribute can adjust the alignment of child nodes, the desirable va
 | spacer    | Spacer    | string / number / VNode | - | - |
 | size      | Spacing size   | string / number / [number, number] | - | 'small' |
 | wrap      | Auto wrapping | boolean | true / false  | false |
-### Space Slot
-| name | description  |
+### Space Slots
+| Name | Description  |
 |----|----|
 | default | Items to be spaced |

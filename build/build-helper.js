@@ -7,7 +7,7 @@ const _version = tagVer ? tagVer.startsWith('v') ? tagVer.slice(1) : tagVer : ve
 helper({
   name,
   version: _version,
-  entry: 'website/docs/en-US/!(color|custom-theme|datetime-picker|i18n|installation|message-box|message|migration-from-2.x|notification|quickstart|transition|typography).md',
+  entry: 'website/docs/en-US/!(custom-theme|datetime-picker|i18n|installation|message-box|message|migration-from-2.x|notification|quickstart|transition|typography).md',
   outDir: 'lib',
   reComponentName,
   reDocUrl,
@@ -33,7 +33,9 @@ function reAttribute(value, key) {
   const _value = value.match(/^\*\*(.*)\*\*$/)
   const str = _value ? _value[1]: value
 
-  if (/^(-|—)$/.test(str)) {
+  if (str === '') {
+    return undefined
+  } else if (/^(-|—)$/.test(str)) {
     return key === 'Name' ? 'default' : undefined
   } else if (/v-model:(.+)/.test(str)){
     const _str = str.match(/v-model:(.+)/)

@@ -174,7 +174,7 @@ Of course, you can nest other operations. It's more light-weight than using a di
 | auto-close | timeout in milliseconds to hide tooltip | number | — | 0 |
 |  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover | number | — | — |
 
-### Slot
+### Slots
 | Name | Description |
 | --- | --- |
 | — | text content of popover |

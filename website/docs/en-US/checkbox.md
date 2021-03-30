@@ -127,7 +127,7 @@ The `min` and `max` properties can help you to limit the number of checked items
 
 ```html
 <template>
-  <el-checkbox-group 
+  <el-checkbox-group
     v-model="checkedCities"
     :min="1"
     :max="2">
@@ -239,7 +239,7 @@ Checkbox with button styles.
 :::
 
 ### Checkbox Attributes
-| Attribute      | Description         | Type    | Options                         | Default|
+| Attribute      | Description         | Type    | Accepted Values                    | Default|
 |---------- |-------- |---------- |-------------  |-------- |
 | value / v-model | binding value | string / number / boolean | — | — |
 | label     | value of the Checkbox when used inside a `checkbox-group`   | string / number / boolean   |       —        |     —    |
