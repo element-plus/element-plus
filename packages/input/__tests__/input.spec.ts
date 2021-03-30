@@ -445,6 +445,30 @@ describe('Input.vue', () => {
     expect(handleKeyup).toBeCalledTimes(1)
   })
 
+  describe('Textarea Events', () => {
+    test('event:keydown', async () => {
+      const handleKeydown = jest.fn()
+      const wrapper = _mount({
+        template: `<el-input
+          type="textarea"
+          :model-value="val"
+          @keydown="handleKeydown"
+        />`,
+        setup() {
+          const val = ref('')
+
+          return {
+            val,
+            handleKeydown,
+          }
+        },
+      })
+
+      await wrapper.find('textarea').trigger('keydown')
+      expect(handleKeydown).toBeCalledTimes(1)
+    })
+  })
+
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
   // ...
 
