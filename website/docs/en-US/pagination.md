@@ -194,7 +194,7 @@ When there is only one page, hide the pagination by setting the `hide-on-single-
 | prev-click | triggers when the prev button is clicked and current page changes | the new current page |
 | next-click | triggers when the next button is clicked and current page changes | the new current page |
 
-### Slot
+### Slots
 | Name | Description |
 | --- | --- |
 | — | custom content. To use this, you need to declare `slot` in `layout` |

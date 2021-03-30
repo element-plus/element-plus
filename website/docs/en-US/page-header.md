@@ -33,7 +33,7 @@ If path of the page is simple, it is recommended to use PageHeader instead of th
 | back       | triggers when right side is clicked | — |
 
 ### Slots
-| slot      | Description            |
+| Name      | Description            |
 |---------- | ---------------------- |
 | title     | title content          |
 | content   | content                |
