@@ -1,6 +1,6 @@
 <template>
   <el-select
-    v-model="value"
+    :model-value="value"
     :disabled="!editable"
     :clearable="clearable"
     :clear-icon="clearIcon"
@@ -8,10 +8,14 @@
     :placeholder="placeholder"
     default-first-option
     filterable
+    @update:model-value="
+      (value) => {
+        $emit('update:modelValue', value)
+      }
+    "
     @change="
       (value) => {
         $emit('change', value)
-        $emit('update:modelValue', value)
       }
     "
     @blur="(event) => $emit('blur', event)"
@@ -143,9 +147,8 @@ export default defineComponent({
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
-    // data
-    const value = ref(props.modelValue)
     // computed
+    const value = computed(() => props.modelValue)
     const items = computed(() => {
       const result = []
       if (props.start && props.end && props.step) {
