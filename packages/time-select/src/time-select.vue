@@ -8,16 +8,8 @@
     :placeholder="placeholder"
     default-first-option
     filterable
-    @update:model-value="
-      (value) => {
-        $emit('update:modelValue', value)
-      }
-    "
-    @change="
-      (value) => {
-        $emit('change', value)
-      }
-    "
+    @update:model-value="(event) => $emit('update:modelValue', event)"
+    @change="(event) => $emit('change', event)"
     @blur="(event) => $emit('blur', event)"
     @focus="(event) => $emit('focus', event)"
   >

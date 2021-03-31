@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import Option from '@element-plus/option'
 import TimeSelect from '../src/time-select.vue'
 
 const _mount = (template: string, data, otherObj?) =>
@@ -73,18 +74,37 @@ describe('TimeSelect', () => {
     }))
     await nextTick()
 
-    const input = document.querySelector(
-      'input.el-input__inner',
-    ) as HTMLInputElement
+    const input = wrapper.find('input')
 
-    expect(input).toBeDefined()
-    expect((input as HTMLInputElement).value).toBe('10:00')
+    expect(input.exists()).toBe(true)
+    expect(input.element.value).toBe('10:00')
     // wrapper.setData is not supported until version 2.0.0-beta.8
     // change value directly on `wrapper.vm`
     const vm = wrapper.vm as any
     vm.value = '10:30'
     await nextTick()
     expect(vm.value).toBe('10:30')
-    expect(input.value).toBe('10:30')
+    expect(input.element.value).toBe('10:30')
+  })
+
+  it('update value', async () => {
+    const wrapper = _mount(`<el-time-select v-model="value" />`, () => ({
+      value: '10:00',
+    }))
+    await nextTick()
+    const vm = wrapper.vm as any
+    const input = wrapper.find('input')
+    expect(vm.value).toBe('10:00')
+    expect(input.element.value).toBe('10:00')
+
+    const option = wrapper
+      .findAllComponents(Option)
+      .filter(w => w.text().trim() === '11:00')[0]
+
+    expect(option.exists()).toBe(true)
+    option.trigger('click')
+    await nextTick()
+    expect(vm.value).toBe('11:00')
+    expect(input.element.value).toBe('11:00')
   })
 })
