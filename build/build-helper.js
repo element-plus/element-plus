@@ -45,13 +45,7 @@ function reAttribute(value, key) {
   } else if (key === 'Attribute') {
     return str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
   } else if (key === 'Type') {
-    return str
-      .replace(/\s*\/\s*/g, '|')
-      .replace(/\(.*\)/g, '')
-      .replace(/\[.*\]/g, '')
-      .replace(/\{.*\}/g, '')
-      .replace(/<.*>/g, '')
-      .toLowerCase()
+    return str.replace(/\s*\/\s*/g, '|').replace(/\(.*\)/g, '').toLowerCase()
   } else if (key === 'Accepted Values') {
     return /\[.+\]\(.+\)/.test(str) || /^\*$/.test(str) ? undefined : str
   } else {

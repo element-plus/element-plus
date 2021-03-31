@@ -263,7 +263,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ### Drawer Attributes
 
-| Attribute | Description | Type      | Acceptable Values                           | Defaults  |
+| Attribute | Description | Type      | Acceptable Values                           | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | append-to-body | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**| boolean   | — | false |
 | before-close | If set, closing procedure will be halted | function(done), done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure | — | — |

@@ -121,6 +121,11 @@ Timestamp can be placed on top of content when content is too high.
 ```
 :::
 
+### Timeline Slots
+| name | Description |
+|------|--------|
+| — | Custom content for timeline |
+
 ### Timeline-item Attributes
 | Attribute      | Description    | Type      | Accepted Values | Default   |
 |---------- |-------- |---------- |-------------  |-------- |
