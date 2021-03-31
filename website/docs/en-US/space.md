@@ -271,7 +271,7 @@ Setting this attribute can adjust the alignment of child nodes, the desirable va
 
 ### Space Attributes
 
-| Attribute | Description   | Type      | Available value       | Defaults   |
+| Attribute | Description   | Type      | Available value       | Default   |
 |---------- |-------- |---------- |-------------  |-------- |
 | alignment | Controls the alignment of items | string | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items)| 'center' |
 | class     | Classname | string / Array<Object \| String> / Object | - | - |

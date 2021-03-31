@@ -46,7 +46,7 @@ Use the default slot to insert content at the bottom.
 :::
 
 ### Empty Attributes
-| Attribute       | Description      | Type         | Acceptable Value    | Default Value   |
+| Attribute       | Description      | Type         | Acceptable Value    | Default   |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | image          | image URL       | string  |          —             |    —     |
 | image-size    | image size (width)  | number | — |    —  |
