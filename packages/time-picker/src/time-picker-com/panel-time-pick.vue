@@ -49,7 +49,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { t } from '@element-plus/locale'
 import TimeSpinner from './basic-time-spinner.vue'
 import dayjs, { Dayjs } from 'dayjs'
-import { getAvaliableArrs } from './useTimePicker'
+import { getAvaliableArrs, useOldValue } from './useTimePicker'
 
 export default defineComponent({
   components: {
@@ -79,7 +79,7 @@ export default defineComponent({
   setup(props, ctx) {
     // data
     const selectionRange = ref([0, 2])
-    const oldValue = ref(props.parsedValue)
+    const oldValue = useOldValue(props)
     // computed
     const transitionName = computed(() => {
       return props.actualVisible === undefined ? 'el-zoom-in-top' : ''

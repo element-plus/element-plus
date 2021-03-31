@@ -136,26 +136,28 @@ function useRender(props: TableBodyProps) {
         return tr
       }
       // 使用二维数组，避免修改 $index
+      /**
+       * TIP: One dimensional array is used temporarily to avoid rendering flicker.
+       * The case of $index being modified has not been found by testing
+       */
       return [
-        [
-          tr,
-          h(
-            'tr',
-            {
-              key: 'expanded-row__' + tr.key,
-            },
-            [
-              h(
-                'td',
-                {
-                  colspan: store.states.columns.value.length,
-                  class: 'el-table__expanded-cell',
-                },
-                [renderExpanded({ row, $index, store })],
-              ),
-            ],
-          ),
-        ],
+        tr,
+        h(
+          'tr',
+          {
+            key: 'expanded-row__' + tr.key,
+          },
+          [
+            h(
+              'td',
+              {
+                colspan: store.states.columns.value.length,
+                class: 'el-table__expanded-cell',
+              },
+              [renderExpanded({ row, $index, store })],
+            ),
+          ],
+        ),
       ]
     } else if (Object.keys(treeData.value).length) {
       assertRowKey()

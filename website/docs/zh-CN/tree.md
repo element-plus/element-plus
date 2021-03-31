@@ -844,8 +844,8 @@
 | getHalfCheckedKeys | 若节点可被选择（即 `show-checkbox` 为 `true`），则返回目前半选中的节点的 key 所组成的数组 | - |
 | getCurrentKey   | 获取当前被选中节点的 key，使用此方法必须设置 node-key 属性，若没有节点被选中则返回 null | — |
 | getCurrentNode  | 获取当前被选中节点的 data，若没有节点被选中则返回 null | — |
-| setCurrentKey   | 通过 key 设置某个节点的当前选中状态，使用此方法必须设置 node-key 属性 | (key) 待被选节点的 key，若为 null 则取消当前高亮的节点 |
-| setCurrentNode  | 通过 node 设置某个节点的当前选中状态，使用此方法必须设置 node-key 属性 | (node) 待被选节点的 node |
+| setCurrentKey   | 通过 key 设置某个节点的当前选中状态，使用此方法必须设置 node-key 属性 | (key, shouldAutoExpandParent=true) 1. 待被选节点的 key，若为 null 则取消当前高亮的节点 2. 是否扩展父节点 |
+| setCurrentNode  | 通过 node 设置某个节点的当前选中状态，使用此方法必须设置 node-key 属性 | (node, shouldAutoExpandParent=true) 1. 待被选节点的 node 2. 是否扩展父节点 |
 | getNode         | 根据 data 或者 key 拿到 Tree 组件中的 node | (data) 要获得 node 的 key 或者 data |
 | remove          | 删除 Tree 中的一个节点，使用此方法必须设置 node-key 属性  | (data) 要删除的节点的 data 或者 node |
 | append          | 为 Tree 中的一个节点追加一个子节点 | (data, parentNode) 接收两个参数，1. 要追加的子节点的 data 2. 子节点的 parent 的 data、key 或者 node |

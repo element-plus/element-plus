@@ -53,6 +53,8 @@ export function useSelectStates(props) {
     isOnComposition: false,
     isSilentBlur: false,
     selectEmitter,
+    prefixWidth: null,
+    tagInMultiLine: false,
   })
 }
 
@@ -160,6 +162,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }, {
     flush: 'post',
+    deep: true,
   })
 
   watch(() => states.visible, val => {
@@ -263,6 +266,9 @@ export const useSelect = (props, states: States, ctx) => {
         : Math.max(
           _tags ? (_tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)) : 0,
           sizeInMap) + 'px'
+
+      states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
+
       if (states.visible && emptyText.value !== false) {
         popper.value?.update?.()
       }
@@ -309,7 +315,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const managePlaceholder = () => {
     if (states.currentPlaceholder !== '') {
-      states.currentPlaceholder = input.value ? '' : states.cachedPlaceHolder
+      states.currentPlaceholder = input.value.value ? '' : states.cachedPlaceHolder
     }
   }
 
@@ -384,6 +390,7 @@ export const useSelect = (props, states: States, ctx) => {
         option = {
           value,
           currentLabel: cachedOption.currentLabel,
+          isDisabled: cachedOption.isDisabled,
         }
         break
       }
@@ -452,6 +459,10 @@ export const useSelect = (props, states: States, ctx) => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
     }
+
+    if (e.target.value.length === 1 && props.modelValue.length === 0) {
+      states.currentPlaceholder = states.cachedPlaceHolder
+    }
   }
 
   const deleteTag = (event, tag) => {
@@ -469,6 +480,11 @@ export const useSelect = (props, states: States, ctx) => {
   const deleteSelected = event => {
     event.stopPropagation()
     const value = props.multiple ? [] : ''
+    if (typeof value !== 'string') {
+      for (const item of states.selected) {
+        if (item.isDisabled) value.push(item.value)
+      }
+    }
     ctx.emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
     states.visible = false

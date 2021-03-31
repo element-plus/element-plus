@@ -1,3 +1,6 @@
+import { ref, watch } from 'vue'
+import { Dayjs } from 'dayjs'
+
 const makeList = (total, method, methodFunc) => {
   const arr = []
   const disabledArr = method && methodFunc()
@@ -60,4 +63,19 @@ export const getAvaliableArrs = (disabledHours, disabledMinutes, disabledSeconds
     getAvaliableMinutes,
     getAvaliableSeconds,
   }
+}
+
+export const useOldValue = (props: {
+  parsedValue?: string | Dayjs | Dayjs[]
+  visible: boolean
+}) => {
+  const oldValue = ref(props.parsedValue)
+
+  watch(() => props.visible, val => {
+    if (!val) {
+      oldValue.value = props.parsedValue
+    }
+  })
+
+  return oldValue
 }

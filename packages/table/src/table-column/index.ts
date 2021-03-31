@@ -214,7 +214,7 @@ export default defineComponent({
   render () {
     let children = []
     try {
-      const renderDefault = this.$slots.default?.()
+      const renderDefault = this.$slots.default?.({ row: {}, column: {}, $index: -1 })
       if (renderDefault instanceof Array) {
         for (const childNode of renderDefault) {
           if (childNode.type?.name === 'ElTableColumn' || childNode.shapeFlag !== 36) {
