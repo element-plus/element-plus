@@ -168,7 +168,7 @@ export default defineComponent({
           ret.marginLeft = elForm.autoLabelWidth
         }
       } else {
-        ret.marginLeft = labelWidth
+        ret.marginLeft = labelWidth || computedLabelWidth.value
       }
       return ret
     })

@@ -67,7 +67,13 @@ export default defineComponent({
   props: {
     model: Object,
     rules: Object,
-    labelPosition: String,
+    labelPosition: {
+      type: String,
+      default: 'right',
+      validator: (val: string) => {
+        return ['right', 'left', 'top'].includes(val)
+      },
+    },
     labelWidth: String,
     labelSuffix: {
       type: String,
