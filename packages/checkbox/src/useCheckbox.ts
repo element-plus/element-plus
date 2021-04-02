@@ -50,9 +50,6 @@ const useModel = (props: ICheckboxProps) => {
       if (isGroup.value && Array.isArray(val)) {
         isLimitExceeded.value = false
 
-        if (checkboxGroup.min !== undefined && val.length < checkboxGroup.min.value) {
-          isLimitExceeded.value = true
-        }
         if (checkboxGroup.max !== undefined && val.length > checkboxGroup.max.value) {
           isLimitExceeded.value = true
         }
