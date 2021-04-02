@@ -129,7 +129,7 @@ export default defineConfig({
       libs: [{
         libraryName: 'element-plus',
         resolveStyle: (name) => {
-          name = name.splice(3)
+          name = name.slice(3)
           return `element-plus/packages/theme-chalk/src/${name}.scss`;
         },
         resolveComponent: (name) => {
