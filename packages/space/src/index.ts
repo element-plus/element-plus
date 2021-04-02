@@ -14,7 +14,7 @@ import { isArray } from '@element-plus/utils/util'
 import Item from './item.vue'
 import { useSpace, defaultProps } from './useSpace'
 
-import type { VNode, ExtractPropTypes, Slots } from 'vue'
+import type { VNode, ExtractPropTypes, Slots, UnwrapRef } from 'vue'
 
 export default defineComponent({
   name: 'ElSpace',
@@ -24,7 +24,7 @@ export default defineComponent({
   },
 
   render(
-    ctx: ReturnType<typeof useSpace> &
+    ctx: UnwrapRef<ReturnType<typeof useSpace>> &
       ExtractPropTypes<typeof defaultProps> & { $slots: Slots; },
   ) {
     const {
@@ -34,6 +34,7 @@ export default defineComponent({
       itemStyle,
       spacer,
       prefixCls,
+      direction,
     } = ctx
 
     const children = renderSlot($slots, 'default', { key: 0 }, () => [])
@@ -49,12 +50,31 @@ export default defineComponent({
       children.children.forEach((child: VNode, loopKey) => {
         if (isFragment(child)) {
           if (isArray(child.children)) {
+
+            const childLength = child.children.length - 1
+
             child.children.forEach((nested, key) => {
+              const nodeStype = {
+                paddingBottom: '0',
+                marginRight: '0',
+              }
+
+              if (childLength === key) {
+                if (direction === 'horizontal') {
+                  nodeStype.paddingBottom = itemStyle.paddingBottom
+                } else {
+                  nodeStype.paddingBottom = '0'
+                }
+              } else {
+                nodeStype.marginRight = itemStyle.marginRight
+                nodeStype.paddingBottom = itemStyle.paddingBottom
+              }
+
               extractedChildren.push(
                 createVNode(
                   Item,
                   {
-                    style: itemStyle,
+                    style: nodeStype,
                     prefixCls,
                     key: `nested-${key}`,
                   },
