@@ -10,7 +10,6 @@ import {
   nextTick,
   Fragment,
   cloneVNode,
-  createCommentVNode,
 } from 'vue'
 
 import {
@@ -47,8 +46,12 @@ export default defineComponent({
 
     const getLabelWidth = () => {
       const element = el.value?.firstElementChild || el.value
-      const width = (element && window.getComputedStyle(element).width) || '0'
-      return Math.ceil(parseFloat(width))
+      if (element && element.nodeType === 1) {
+        const width = (element && window.getComputedStyle(element).width) || '0'
+        return Math.ceil(parseFloat(width))
+      } else {
+        return 0
+      }
     }
     const updateLabelWidth = (action = 'update') => {
       nextTick(() => {
@@ -100,9 +103,12 @@ export default defineComponent({
           slots.default?.(),
         )
       } else {
-        const firstVNode = getFirstValidNode(slots?.default(), 1) // type label VNode
-        const defaultVNode = cloneVNode(firstVNode || createCommentVNode('error'), { ref: el }, true) // createCommentVNode('error'): avoid ts report errors
-        return h(Fragment, null, [ defaultVNode ])
+        const firstVNode = getFirstValidNode(slots?.default(), 1)
+        if (firstVNode) {
+          return h(Fragment, null, [ cloneVNode(firstVNode, { ref: el }, true) ])
+        } else {
+          return h(Fragment, { ref: el }, slots.default?.())
+        }
       }
     }
     return render
