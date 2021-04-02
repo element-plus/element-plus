@@ -256,6 +256,10 @@
   "el-tab-pane": {
     "attributes": ["label", "disabled", "name", "closable", "lazy"]
   },
+  "el-color-text": {
+    "attributes": ["value", "options", "tag", "colors", "type"],
+    "description": "Color Text"
+  },
   "el-breadcrumb": {
     "attributes": ["separator", "separator-class"],
     "defaults": ["separator"],

@@ -18,11 +18,23 @@ import 'dayjs/locale/zh-cn'
 dayjs.locale('zh-cn') // todo: locale based on Doc site lang
 
 import App from './app.vue'
-import ElementPlus from 'element-plus'
+import ElementPlus, { install } from 'element-plus'
 import '../packages/theme-chalk/src/index.scss'
 import '../packages/theme-chalk/src/display.scss'
 
 const app = createApp(App)
+
+install(app, {
+  colorTextOptions: {
+    colors: ['#8d4bbb','#ff0097','#ff3300', '#0aa344'],
+    options: [
+      ['1', 'CEREAL'],
+      ['2', 'ANIMAL_FOOD'],
+      ['3', 'NUTS'],
+      ['4', 'VEGETABLES'],
+    ],
+  },
+})
 
 app.config.globalProperties.$icon = icon
 

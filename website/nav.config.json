@@ -60,6 +60,10 @@
               "title": "Color 色彩"
             },
             {
+              "path": "/color-text",
+              "title": "ColorText 文本色彩"
+            },
+            {
               "path": "/typography",
               "title": "Typography 字体"
             },
