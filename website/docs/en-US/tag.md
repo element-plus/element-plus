@@ -234,7 +234,7 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 | close | triggers when Tag is removed | — |
 
 ### CheckTag Attributes
-| Attribute      | Description          | Type      | Accepted                           | Default  |
+| Attribute      | Description          | Type      | Accepted Values   | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | checked | is checked | boolean | true/false | — |
 

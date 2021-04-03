@@ -258,7 +258,7 @@ Checkbox with button styles.
 | change  | triggers when the binding value changes | the updated value |
 
 ### Checkbox-group Attributes
-| Attribute      | Description         | Type    | Options                         | Default|
+| Attribute      | Description         | Type    | Accepted Values         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
 | value / v-model | binding value | array | — | — |
 |size | size of checkbox buttons or bordered checkboxes | string | medium / small / mini | — |
@@ -274,7 +274,7 @@ Checkbox with button styles.
 | change  | triggers when the binding value changes | the updated value |
 
 ### Checkbox-button Attributes
-| Attribute      | Description         | Type    | Options                         | Default|
+| Attribute      | Description         | Type    | Accepted Values        | Default|
 |---------- |-------- |---------- |-------------  |-------- |
 | label     | value of the checkbox when used inside a `checkbox-group` | string / number / boolean  |       —        |     —    |
 | true-label | value of the checkbox if it's checked | string / number | — |     —    |

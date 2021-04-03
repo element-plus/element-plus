@@ -1891,7 +1891,7 @@ You can customize row index in `type=index` columns.
 | type | type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon.  | string | selection/index/expand | — |
 | index | customize indices for each row, works on columns with `type=index` | number, Function(index) | - | - |
 | label | column label | string | — | — |
-| column-key | column's key. If you need to use the filter-change event, you need this attribute to identify which column is being filtered | string | string | — | — |
+| column-key | column's key. If you need to use the filter-change event, you need this attribute to identify which column is being filtered | string | — | — |
 | prop |  field name. You can also use its alias: `property` | string | — | — |
 | width | column width | string | — | — |
 | min-width | column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion | string | — | — |

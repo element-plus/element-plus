@@ -663,7 +663,7 @@ export default defineComponent ({
 
 ### Autocomplete Attributes
 
-Attribute | Description | Type | Options | Default
+Attribute | Description | Type | Accepted Values | Default
 |----| ----| ----| ---- | -----|
 |placeholder| the placeholder of Autocomplete| string | — | — |
 | clearable | whether to show clear button | boolean | — | false |
