@@ -1942,7 +1942,7 @@ You can customize the content of cascader node.
 | getCheckedNodes | get an array of currently selected node | (leafOnly) whether only return the leaf checked nodes, default is `false` |
 
 ### Cascader Slots
-| Slot Name | Description |
+| Name | Description |
 |---------|-------------|
 | - | the custom content of cascader node, the parameter is { node, data }, which are current Node object and node data respectively. |
 | empty  | content when there is no matched options. |
@@ -1967,7 +1967,7 @@ You can customize the content of cascader node.
 | clearCheckedNodes | clear checked nodes | - |
 
 ### CascaderPanel Slots
-| Slot Name | Description |
+| Name | Description |
 |---------|-------------|
 | - | the custom content of cascader node, the parameter is { node, data }, which are current Node object and node data respectively. |
 

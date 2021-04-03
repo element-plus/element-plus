@@ -160,7 +160,7 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 | error | Same as native error | (e: Error) |
 
 ### Image Slots
-| Slot Name | Description |
+| Name | Description |
 |---------|-------------|
 | placeholder | Triggers when image load |
 | error | Triggers when image load failed |

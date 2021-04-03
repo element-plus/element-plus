@@ -197,6 +197,6 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
 | format  | custom text format  | function(percentage) | — | — |
 
 ### Slots
-| name | Description |
+| Name | Description |
 |------|--------|
 | default | Customized content, parameter is { percentage } |
