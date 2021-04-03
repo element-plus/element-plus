@@ -45,6 +45,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    isRenderPopper: {
+      type: Boolean,
+      default: true,
+    },
     tabindex: Number,
   },
   emits,
@@ -88,7 +92,7 @@ export default defineComponent({
       popperClass,
     ].join(' ')
 
-    let popover = renderPopper({
+    let popover = this.isRenderPopper ? [renderPopper({
       effect: Effect.LIGHT,
       name: transition,
       popperClass: kls,
@@ -105,7 +109,7 @@ export default defineComponent({
       content,
       renderArrow(showArrow),
     ],
-    )
+    )] : []
 
     // when user uses popover directively, trigger will be null so that we only
     // render a popper window for displaying contents
@@ -123,7 +127,7 @@ export default defineComponent({
       createVNode(Teleport as any, {
         disabled: !this.appendToBody,
         to: 'body',
-      }, [popover], PatchFlags.PROPS, ['disabled']),
+      }, popover, PatchFlags.PROPS, ['disabled']),
     ])
   },
 })
