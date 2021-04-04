@@ -1897,7 +1897,7 @@ You can customize row index in `type=index` columns.
 | min-width | column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion | string | — | — |
 | fixed | whether column is fixed at left/right. Will be fixed at left if `true` | string/boolean | true/left/right | — |
 | render-header | render function for table header of this column | Function({ column, $index }) | — | — |
-| sortable | whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table | boolean, string | true, false, custom | false |
+| sortable | whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table | boolean / string | true / false / custom | false |
 | sort-method | sorting method, works when `sortable` is `true`. Should return a number, just like Array.sort | Function(a, b) | — | — |
 | sort-by | specify which property to sort by, works when `sortable` is `true` and `sort-method` is `undefined`. If set to an Array, the column will sequentially sort by the next property if the previous one is equal | Function(row, index)/String/Array | — | — |
 | sort-orders | the order of the sorting strategies used when sorting the data, works when `sortable` is `true`. Accepts an array, as the user clicks on the header, the column is sorted in order of the elements in the array | array | the elements in the array need to be one of the following: `ascending`, `descending` and `null` (restores to the original order) | ['ascending', 'descending', null] |
@@ -1911,7 +1911,7 @@ You can customize row index in `type=index` columns.
 | selectable | function that determines if a certain row can be selected, works when `type` is 'selection' | Function(row, index) | — | — |
 | reserve-selection | whether to reserve selection after data refreshing, works when `type` is 'selection'. Note that `row-key` is required for this to work | boolean | — | false |
 | filters | an array of data filtering options. For each element in this array, `text` and `value` are required | Array[{ text, value }] | — | — |
-| filter-placement | placement for the filter dropdown | String | same as Tooltip's `placement` | — |
+| filter-placement | placement for the filter dropdown | String | top / top-start / top-end / bottom / bottom-star t /bottom-end / left / left-start / left-end / right / right-start / right-end | — |
 | filter-multiple | whether data filtering supports multiple options | Boolean | — | true |
 | filter-method | data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true` | Function(value, row, column) | — | — |
 | filtered-value | filter value for selected data, might be useful when table header is rendered with `render-header` | Array | — | — |
