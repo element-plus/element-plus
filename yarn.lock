@@ -4391,10 +4391,10 @@ component-emitter@^1.2.1:
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
   integrity sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==
 
-components-helper@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/components-helper/-/components-helper-1.0.0.tgz#f6dff21f87078101f6d4510e451602aeaff9e0c5"
-  integrity sha512-qnVzXfUfBFY43DchV4sUbD2zpTEyIomZJNmsdTSgKwqmq7XphFlj7Z87aUZKRy8l0vZieV7olzHKUCj7nPBTqg==
+components-helper@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/components-helper/-/components-helper-1.0.2.tgz#064e604dde0e81a31b8dc5b6180ae5ba999d0c58"
+  integrity sha512-szHWmB64SomAv454oH/Y0gyn4YvQEhR4XDb8rW+paJpGWpn8bsx9wmqKg38KxIyQRXW9edrhaIdsS/tG+oldIw==
   dependencies:
     fast-glob "^3.2.5"
 
@@ -6100,6 +6100,7 @@ fill-range@^4.0.0:
 fill-range@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-7.0.1.tgz#1919a6a7c75fe38b2c7c77e5198535da9acdda40"
+  integrity sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==
   dependencies:
     to-regex-range "^5.0.1"
 
@@ -7582,6 +7583,7 @@ is-number@^4.0.0:
 is-number@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
+  integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
 is-obj@^1.0.0, is-obj@^1.0.1:
   version "1.0.1"
@@ -9094,6 +9096,7 @@ micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4:
 micromatch@^4.0.0, micromatch@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.2.tgz#4fcb0999bf9fbc2fcbdd212f6d629b9a56c39259"
+  integrity sha512-y7FpHSbMUMoyPbYUSzO6PaZ6FyRnQOpHuKwbo1G+Knck95XVU4QAiKdGEnj5wwoS7PlOgthX/09u5iFJ+aYf5Q==
   dependencies:
     braces "^3.0.1"
     picomatch "^2.0.5"
@@ -12636,6 +12639,7 @@ to-regex-range@^2.1.0:
 to-regex-range@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/to-regex-range/-/to-regex-range-5.0.1.tgz#1648c44aae7c8d988a326018ed72f5b4dd0392e4"
+  integrity sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==
   dependencies:
     is-number "^7.0.0"
 
