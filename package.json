@@ -58,7 +58,7 @@
     "babel-preset-vue": "^2.0.2",
     "chalk": "^4.1.0",
     "clipboard-copy": "^4.0.1",
-    "components-helper": "^1.0.0",
+    "components-helper": "^1.0.2",
     "cp-cli": "^2.0.0",
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
