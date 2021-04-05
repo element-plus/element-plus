@@ -83,7 +83,7 @@ export const coerceTruthyValueToArray = arr => {
 }
 
 export const isIE = function (): boolean {
-  return !isServer && !isNaN(Number(document.DOCUMENT_NODE))
+  return !isServer && !isNaN(Number(document.documentMode))
 }
 
 export const isEdge = function (): boolean {
