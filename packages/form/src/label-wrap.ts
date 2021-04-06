@@ -46,7 +46,7 @@ export default defineComponent({
 
     const getLabelWidth = () => {
       const element = el.value?.firstElementChild || el.value
-      if (element && element.nodeType === 1) {
+      if (element?.nodeType === 1) {
         const width = (element && window.getComputedStyle(element).width) || '0'
         return Math.ceil(parseFloat(width))
       } else {
@@ -80,6 +80,7 @@ export default defineComponent({
 
     function render() {
       if (!slots) return null
+      const defaultSlots = slots.default?.()
       if (props.isAutoWidth) {
         const autoLabelWidth = elForm.autoLabelWidth
         const style = {} as CSSStyleDeclaration
@@ -100,15 +101,13 @@ export default defineComponent({
             class: ['el-form-item__label-wrap'],
             style,
           },
-          slots.default?.(),
+          defaultSlots,
         )
       } else {
-        const firstVNode = getFirstValidNode(slots?.default(), 1)
-        if (firstVNode) {
-          return h(Fragment, null, [ cloneVNode(firstVNode, { ref: el }, true) ])
-        } else {
-          return h(Fragment, { ref: el }, slots.default?.())
-        }
+        const firstVNode = getFirstValidNode(defaultSlots, 1)
+        return firstVNode
+          ? h(Fragment, null, [ cloneVNode(firstVNode, { ref: el }, true) ])
+          : h(Fragment, { ref: el }, defaultSlots)
       }
     }
     return render
