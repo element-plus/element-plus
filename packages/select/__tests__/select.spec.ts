@@ -986,4 +986,77 @@ describe('Select', () => {
     await vm.$nextTick()
     expect(innerInputEl.placeholder).toBe(placeholder)
   })
+
+  describe('after search', () => {
+    async function testAfterSearch({ multiple, filterMethod, remote, remoteMethod }) {
+      const wrapper = _mount(`
+      <el-select
+        v-model="modelValue"
+        filterable
+        :multiple="multiple"
+        :filter-method="filterMethod"
+        :remote="remote"
+        :remote-method="remoteMethod"
+      >
+        <el-option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          :label="option.label"
+        >
+        </el-option>
+      </el-select>`, () => ({
+        modelValue: multiple ? [1] : 1,
+        options: [
+          { label: 'Test 1', value: 1 },
+          { label: 'Test 2', value: 2 },
+          { label: 'Test 3', value: 3 },
+          { label: 'Test 4', value: 4 },
+        ],
+        multiple,
+        filterMethod,
+        remote,
+        remoteMethod,
+      }))
+      const method = remote ? remoteMethod : filterMethod
+      const firstInputLetter = 'a'
+      const secondInputLetter = 'aa'
+
+      const vm = wrapper.vm as any
+      await vm.$nextTick()
+
+      const input = wrapper.find(multiple ? '.el-select__input' : '.el-input__inner')
+      const inputEl = input.element as HTMLInputElement
+      await input.trigger('click')
+      inputEl.value = firstInputLetter
+      await input.trigger('input')
+      expect(method).toBeCalled()
+      expect(method.mock.calls[0][0]).toBe(firstInputLetter)
+
+      inputEl.value = secondInputLetter
+      await input.trigger('input')
+      expect(method).toBeCalledTimes(2)
+      expect(method.mock.calls[1][0]).toBe(secondInputLetter)
+    }
+
+    test('should call filter method', async () => {
+      const filterMethod = jest.fn()
+      await testAfterSearch({ filterMethod })
+    })
+
+    test('should call filter method in multiple mode', async () => {
+      const filterMethod = jest.fn()
+      await testAfterSearch({ multiple: true, filterMethod })
+    })
+
+    test('should call remote method', async () => {
+      const remoteMethod = jest.fn()
+      await testAfterSearch({ remote: true, remoteMethod })
+    })
+
+    test('should call remote method in multiple mode', async () => {
+      const remoteMethod = jest.fn()
+      await testAfterSearch({ multiple: true, remote: true, remoteMethod })
+    })
+  })
 })
