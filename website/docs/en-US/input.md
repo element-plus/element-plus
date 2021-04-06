@@ -627,7 +627,7 @@ export default defineComponent ({
 |max | same as `max` in native input | — | — | — |
 |min | same as `min` in native input | — | — | — |
 |step| same as `step` in native input | — | — | — |
-|resize| control the resizability | string | none, both, horizontal, vertical | — |
+|resize| control the resizability | string | none / both / horizontal / vertical | — |
 |autofocus | same as `autofocus` in native input | boolean | — | false |
 |form | same as `form` in native input | string | — | — |
 | label | label text | string | — | — |
@@ -663,7 +663,7 @@ export default defineComponent ({
 
 ### Autocomplete Attributes
 
-Attribute | Description | Type | Options | Default
+Attribute | Description | Type | Accepted Values | Default
 |----| ----| ----| ---- | -----|
 |placeholder| the placeholder of Autocomplete| string | — | — |
 | clearable | whether to show clear button | boolean | — | false |

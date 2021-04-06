@@ -449,7 +449,7 @@ disabled | whether to disable upload | boolean | — | false |
 limit | maximum number of uploads allowed | number | — | — |
 on-exceed | hook function when limit is exceeded | function(files, fileList) | — | - |
 
-### Slot
+### Slots
 | Name | Description |
 |------|--------|
 | trigger | content which triggers file dialog |
