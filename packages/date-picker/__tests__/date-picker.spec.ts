@@ -176,6 +176,21 @@ describe('DatePicker', () => {
     await nextTick()
     expect(document.querySelector('.disabled')).not.toBeNull()
   })
+
+  it('ref focus', async () => {
+    _mount(`<el-date-picker
+        v-model="value"
+        ref="input"
+      />`, () => ({ value: '' }), {
+      mounted() {
+        this.$refs.input.focus()
+      },
+    })
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+  })
 })
 
 describe('DatePicker Navigation', () => {

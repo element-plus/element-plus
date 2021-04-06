@@ -207,7 +207,7 @@ export default defineComponent({
         valueOnOpen.value = props.modelValue
       }
     })
-    const emitChange = (val, isClear) => {
+    const emitChange = (val, isClear?: boolean) => {
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)

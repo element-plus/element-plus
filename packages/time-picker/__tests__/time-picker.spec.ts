@@ -289,6 +289,21 @@ describe('TimePicker', () => {
     expect(enabledMinutes).toEqual([0])
     expect(enabledSeconds).toEqual([0])
   })
+
+  it('ref focus', async () => {
+    _mount(`<el-time-picker
+        v-model="value"
+        ref="input"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }), {
+      mounted() {
+        this.$refs.input.focus()
+      },
+    })
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+  })
 })
 
 describe('TimePicker(range)', () => {
