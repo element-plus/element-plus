@@ -120,6 +120,7 @@
 | align | 整列 | left / center / right | left |
 | popper-class | タイムピッカーのドロップダウンのカスタムクラス名 | string | — | — |
 | range-separator | 範囲セパレータ | string | - | '-' |
+| format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | HH:mm:ss |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date for TimePicker, string for TimeSelect | anything accepted by `new Date()` for TimePicker, selectable value for TimeSelect | — |
 | name | ネイティブ入力の `name` と同じ | string | — | — |
 | prefix-icon | カスタムプレフィックスアイコンクラス | string | — | el-icon-time |
