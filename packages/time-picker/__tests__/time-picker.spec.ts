@@ -275,14 +275,15 @@ describe('TimePicker', () => {
     const minutesEl = list[1]
     const secondsEl = list[2]
     const disabledHours = getSpinnerTextAsArray(hoursEl, '.disabled')
-    expect(disabledHours).toEqual(disabledHoursArr)
-    const hourSpinners = hoursEl.querySelectorAll('.el-time-spinner__item');
-    (hourSpinners[18] as any).click()
+    expect(disabledHours).toEqual([])
+    const hourSpinners = hoursEl.querySelectorAll('.el-time-spinner__item')
+    expect(hourSpinners.length).toEqual(6);
+    (hourSpinners[0] as any).click()
     await nextTick()
     const disabledMinutes = getSpinnerTextAsArray(minutesEl, '.disabled')
-    expect(disabledMinutes.every(t => t > 30 && t < 50)).toBeTruthy()
-    expect(disabledMinutes.length).toEqual(19);
-    (hourSpinners[22] as any).click()
+    // expect(disabledMinutes.every(t => t > 30 && t < 50)).toBeTruthy()
+    expect(disabledMinutes.length).toEqual(0);
+    (hourSpinners[5] as any).click()
     await nextTick()
     const enabledMinutes = getSpinnerTextAsArray(minutesEl, ':not(.disabled)')
     const enabledSeconds = getSpinnerTextAsArray(secondsEl, ':not(.disabled)')
@@ -397,7 +398,7 @@ describe('TimePicker(range)', () => {
     const rightHoursEl = list[3]
     const rightEndbledHours = getSpinnerTextAsArray(rightHoursEl, ':not(.disabled)')
     expect(rightEndbledHours).toEqual([ 11, 12, 13, 14, 15, 16 ]);
-    (leftHoursEl.querySelectorAll('.el-time-spinner__item')[12] as any).click()
+    (leftHoursEl.querySelectorAll('.el-time-spinner__item')[4] as any).click()
     await nextTick()
     const NextRightEndbledHours = getSpinnerTextAsArray(rightHoursEl, ':not(.disabled)')
     expect(NextRightEndbledHours).toEqual([ 12, 13, 14, 15, 16 ])
