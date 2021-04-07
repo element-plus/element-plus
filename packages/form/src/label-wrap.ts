@@ -90,7 +90,11 @@ export default defineComponent({
           autoLabelWidth !== 'auto'
         ) {
           const marginLeft = parseInt(autoLabelWidth, 10) - computedWidth.value
-          if (marginLeft && elForm.labelPosition !== 'left') {
+          if (
+            marginLeft &&
+            elForm.labelPosition !== 'left' &&
+            (elFormItem as any).labelWidth !== 'auto'
+          ) {
             style.marginLeft = marginLeft + 'px'
           }
         }
