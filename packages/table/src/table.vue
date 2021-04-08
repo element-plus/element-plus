@@ -413,7 +413,7 @@ export default defineComponent({
       doLayout,
     } = useStyle(props, layout, store, table)
 
-    const debouncedUpdateLayout = debounce(() => doLayout(), 50)
+    const debouncedUpdateLayout = debounce(doLayout, 50)
 
     const tableId = 'el-table_' + tableIdSeed++
     table.tableId = tableId

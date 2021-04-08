@@ -112,6 +112,7 @@ function useWatcher () {
       .concat(fixedLeafColumns)
       .concat(leafColumns)
       .concat(rightFixedLeafColumns)
+    console.log(columns.value)
     isComplex.value =
       fixedColumns.value.length > 0 || rightFixedColumns.value.length > 0
   }

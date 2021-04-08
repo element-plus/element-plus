@@ -1,9 +1,11 @@
-import { PopperInstance, IPopperOptions } from '@element-plus/popper'
 import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
 import { createPopper } from '@popperjs/core'
-import { AnyObject, TableColumnCtx } from './table.type'
 import PopupManager from '@element-plus/utils/popup-manager'
+import { isObject, isUndefined } from '@element-plus/utils/util'
+
+import type { PopperInstance, IPopperOptions } from '@element-plus/popper'
+import type { AnyObject, TableColumnCtx } from './table.type'
 
 export const getCell = function(event: Event): HTMLElement {
   let cell = event.target as HTMLElement
@@ -16,10 +18,6 @@ export const getCell = function(event: Event): HTMLElement {
   }
 
   return null
-}
-
-const isObject = function(obj) {
-  return obj !== null && typeof obj === 'object'
 }
 
 export const orderBy = function(array, sortKey, reverse, sortMethod, sortBy) {
@@ -177,7 +175,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   for (key in config) {
     if (hasOwn(config, key)) {
       const value = config[key]
-      if (typeof value !== 'undefined') {
+      if (!isUndefined(value)) {
         options[key] = value
       }
     }
@@ -186,23 +184,24 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
 }
 
 export function parseWidth(width: number | string): number | string {
-  if (width !== undefined) {
-    width = parseInt(width as string, 10)
-    if (isNaN(width)) {
-      width = null
+  if (!isUndefined(width)) {
+    const parsed = parseInt(width as string, 10)
+    if (isNaN(parsed)) {
+      return undefined
     }
+    return parsed
   }
-  return width
+  return undefined
 }
 
-export function parseMinWidth(minWidth): number {
-  if (typeof minWidth !== 'undefined') {
-    minWidth = parseWidth(minWidth)
-    if (isNaN(minWidth)) {
-      minWidth = 80
+export function parseMinWidth(minWidth: number | string): number {
+  if (!isUndefined(minWidth)) {
+    const parsed = parseWidth(minWidth)
+    if (isUndefined(parsed)) {
+      return 80
     }
   }
-  return minWidth
+  return undefined
 }
 
 export function parseHeight(height: number | string) {

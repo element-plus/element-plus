@@ -4,8 +4,9 @@ import {
   ComputedRef,
   ref,
   computed,
-  watchEffect,
+  watch,
 } from 'vue'
+import { isUndefined } from '@element-plus/utils/util'
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
 import { TableColumn, TableColumnCtx } from '../table.type'
@@ -13,22 +14,9 @@ import cloneDeep from 'lodash/cloneDeep'
 
 function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
   const instance = (getCurrentInstance() as unknown) as TableColumn
-  const columnId = ref('')
-  const isSubColumn = ref(false)
   const realAlign = ref<string>()
   const realHeaderAlign = ref<string>()
-  watchEffect(() => {
-    realAlign.value = !!props.align ? 'is-' + props.align : null
-    // nextline help render
-    realAlign.value
-  })
-  watchEffect(() => {
-    realHeaderAlign.value = !!props.headerAlign
-      ? 'is-' + props.headerAlign
-      : realAlign.value
-    // nextline help render
-    realHeaderAlign.value
-  })
+
   const columnOrTableParent = computed(() => {
     let parent = (instance.vnode as any).vParent || (instance.parent as any)
     while (parent && !parent.tableId && !parent.columnId) {
@@ -37,18 +25,14 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
     return parent
   })
 
-  const realWidth = ref(parseWidth(props.width))
-  const realMinWidth = ref(parseMinWidth(props.minWidth))
+  const realWidth = parseWidth(props.width)
+  const realMinWidth = parseMinWidth(props.minWidth)
   const setColumnWidth = column => {
-    if (realWidth.value) column.width = realWidth.value
-    if (realMinWidth.value) {
-      column.minWidth = realMinWidth.value
-    }
-    if (!column.minWidth) {
-      column.minWidth = 80
-    }
+    if (realWidth) column.width = realWidth
+
+    column.minWidth = realMinWidth ? realMinWidth : 80
     column.realWidth =
-      column.width === undefined ? column.minWidth : column.width
+      isUndefined(column.width) ? column.minWidth : column.width
     return column
   }
   const setColumnForcedProps = column => {
@@ -57,7 +41,7 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
     const source = cellForced[type] || {}
     Object.keys(source).forEach(prop => {
       const value = source[prop]
-      if (value !== undefined) {
+      if (!isUndefined(value)) {
         column[prop] = prop === 'className' ? `${column[prop]} ${value}` : value
       }
     })
@@ -143,14 +127,29 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
       return prev
     }, {})
   }
-  const getColumnElIndex = (children, child) => {
-    return [].indexOf.call(children, child)
+  const getColumnElIndex = <T = any>(children: T[], child: T) => {
+    return Array.from(children).indexOf(child)
   }
 
+  // watchers
+  watch(
+    () => props.align,
+    val => {
+      realAlign.value = val ? `is-${props.align}` : null
+    },
+    { immediate: true },
+  )
+
+  watch(
+    () => props.headerAlign,
+    val => {
+      realHeaderAlign.value = val ? `is-${props.headerAlign}` : realAlign.value
+    },
+    { immediate: true },
+  )
+
   return {
-    columnId,
     realAlign,
-    isSubColumn,
     realHeaderAlign,
     columnOrTableParent,
     setColumnWidth,

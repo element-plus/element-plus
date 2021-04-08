@@ -1,20 +1,63 @@
 import {
   defineComponent,
   ref,
-  onBeforeMount,
-  onMounted,
   computed,
   getCurrentInstance,
   h,
-  onBeforeUnmount,
-  Fragment,
+  onBeforeMount,
+  onMounted,
+  onUnmounted,
 } from 'vue'
+import ElCheckbox from '@element-plus/checkbox'
+import { isFragment, isTemplate } from '@element-plus/utils/vnode'
+import { isArray } from '@element-plus/utils/util'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
-import ElCheckbox from '@element-plus/checkbox'
 import { TableColumnCtx, TableColumn } from '../table.type'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
+
+import type { VNode, VNodeChild, Component } from 'vue'
+
+const HIDDEN_CLM_KLS = 'el-column__hidden-column'
+const HIDDEN_CLM_GRP_KLS = 'el-column__hidden-column-group'
+
+const buildColumnStructure = (vnodes: VNodeChild) => {
+  const children = []
+
+  if (isArray(vnodes)) {
+    // resume here, if the current node is an array, then we loop the array.
+    // otherwise we check if the current vnode is ElTableColumn, if it is,
+    // then we go through the entire tree,
+    // otherwise we don't
+    vnodes.map(c => {
+      if (isFragment(c) || isTemplate(c)) {
+        children.push(
+          ...buildColumnStructure((c as VNode).children as VNodeChild),
+        )
+      } else if (((c as VNode).type as Component)?.name === 'ElTableColumn'){
+        c = c as VNode
+        if ((c as VNode).children !== null) {
+          // since vue did not expose the type declaration of RawSlots we had to covert it to any
+          children.push(
+            h('div',
+              {
+                class: HIDDEN_CLM_GRP_KLS,
+              },
+              buildColumnStructure((c.children as any).default())
+            ),
+          )
+
+        } else {
+          children.push(
+            h('div', { class: HIDDEN_CLM_KLS }, []),
+          )
+        }
+      }
+    })
+  }
+  return children
+}
 
 let columnIdSeed = 1
 export default defineComponent({
@@ -103,8 +146,6 @@ export default defineComponent({
       props,
     )
     const {
-      columnId,
-      isSubColumn,
       realHeaderAlign,
       columnOrTableParent,
       setColumnWidth,
@@ -115,18 +156,22 @@ export default defineComponent({
       realAlign,
     } = useRender(props, slots, owner)
 
+    // local variable indicates whether the current column is sub
+
     const parent = columnOrTableParent.value
-    columnId.value =
-      (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++
+    const columnId = (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++
+    const isSubColumn = owner.value !== parent
+
+    // local variable ends
+
     onBeforeMount(() => {
-      isSubColumn.value = owner.value !== parent
 
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
       const defaults = {
         ...cellStarts[type],
-        id: columnId.value,
-        type: type,
+        id: columnId,
+        type,
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
@@ -139,7 +184,7 @@ export default defineComponent({
         isColumnGroup: false,
         filterOpened: false,
         // sort 相关属性
-        sortable: sortable,
+        sortable,
         // index 列
         index: props.index,
       }
@@ -184,49 +229,68 @@ export default defineComponent({
     })
     onMounted(() => {
       const parent = columnOrTableParent.value
-      const children = isSubColumn.value
+
+      const children = isSubColumn
         ? parent.vnode.el.children
         : parent.refs.hiddenColumns?.children
-      const getColumnIndex = () =>
-        getColumnElIndex(children || [], instance.vnode.el)
-      columnConfig.value.getColumnIndex = getColumnIndex
-      const columnIndex = getColumnIndex()
+
+      const columnIndex = getColumnElIndex(children || [], instance.vnode.el)
+
       columnIndex > -1 &&
         owner.value.store.commit(
           'insertColumn',
           columnConfig.value,
-          isSubColumn.value ? parent.columnConfig.value : null,
+          isSubColumn ? parent.columnConfig.value : null,
         )
     })
-    onBeforeUnmount(() => {
+
+    onUnmounted(() => {
       owner.value.store.commit(
         'removeColumn',
         columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null,
+        isSubColumn ? parent.columnConfig.value : null,
       )
     })
-    instance.columnId = columnId.value
+    instance.columnId = columnId
 
     // eslint-disable-next-line
     instance.columnConfig = columnConfig
-    return
+    return {
+      columnId,
+    }
   },
   render () {
-    let children = []
-    try {
-      const renderDefault = this.$slots.default?.({ row: {}, column: {}, $index: -1 })
-      if (renderDefault instanceof Array) {
-        for (const childNode of renderDefault) {
-          if (childNode.type?.name === 'ElTableColumn' || childNode.shapeFlag !== 36) {
-            children.push(childNode)
-          } else if (childNode.type === Fragment && childNode.children instanceof Array) {
-            renderDefault.push(...childNode.children)
-          }
-        }
-      }
-    } catch {
-      children = []
-    }
-    return h('div', children)
+    // let children = []
+    // console.log(this.columnId)
+    // try {
+    const renderDefault = this.$slots.default?.({ row: {}, column: {}, $index: -1 })
+    // exhaustively loop through the entire template to build up the structure.
+    // if (renderDefault instanceof Array) {
+    //   renderDefault.map((c) => {
+    //     if (isTemplate(c) || isFragment(c)) {
+
+    //     }
+    //   })
+      // for (const childNode of renderDefault) {
+      //   if
+      //   if (childNode.type?.name === 'ElTableColumn') {
+      //     children.push(childNode)
+      //   } else if (childNode.type === Fragment && childNode.children instanceof Array) {
+      //     renderDefault.push(...childNode.children)
+      //   }
+      // }
+    // }
+    // } catch {
+    //   children = []
+    // }
+
+    // renderDefault.map(c => {
+    //   // if (c.type.name === 'ElTableColumn') {
+    //   //   children.push(h('div', {}, []))
+    //   // }
+    // })
+    const result = buildColumnStructure(renderDefault)
+    console.log(result)
+    return result
   },
 })
