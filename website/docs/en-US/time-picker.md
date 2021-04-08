@@ -120,6 +120,7 @@ Can pick an arbitrary time range.
 | align | alignment | left / center / right | left |
 | popper-class | custom class name for TimePicker's dropdown | string | — | — |
 | range-separator | range separator | string | - | '-' |
+| format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | HH:mm:ss |
 | default-value | optional, default date of the calendar | Date for TimePicker, string for TimeSelect | anything accepted by `new Date()` for TimePicker, selectable value for TimeSelect | — |
 | name | same as `name` in native input | string | — | — |
 | prefix-icon | Custom prefix icon class | string | — | el-icon-time |

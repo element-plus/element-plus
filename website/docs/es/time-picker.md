@@ -120,6 +120,7 @@ Es posible escoger un rango de tiempo arbitrario.
 | align             | alineación                               | left / center / right                    | left                                     |                      |
 | popper-class      | nombre de clase personalizada para el dropdown del Time Picker | string                                   | —                                        | —                    |
 | range-separator   | separador de rango                       | string                                   | -                                        | '-'                  |
+| format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | HH:mm:ss |
 | default-value     | opcional, fecha por defecto del calendario | Fecha para Selector de Tiempo, string para el Seleccionador de Tiempo | cualquier cosa aceptada por `new Date()` para el Selector de Tiempo,  Selector de Tiempo, valor seleccionable para el Seleccionador de Tiempo | —                    |
 | name              | como `name` en input nativo              | string                                   | —                                        | —                    |
 | prefix-icon       | Clase personalizada para el icono de prefijado | string                                   | —                                        | el-icon-time         |
