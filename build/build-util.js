@@ -27,9 +27,7 @@ const defaultOpts = {
     }),
   ],
   external(id) {
-    return /^vue/.test(id)
-      || /^@vue/.test(id)
-      || deps.some(k => new RegExp('^' + k).test(id))
+    return true
   },
 }
 

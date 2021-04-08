@@ -1,5 +1,10 @@
 ## Changelog
 
+
+### 1.0.2-beta.38
+*2021-04-08*
+
+- Fix `packages/utils` build issue caused `setConfig` not working (#1788)
 ### 1.0.2-beta.37
 
 *2021-04-08*
