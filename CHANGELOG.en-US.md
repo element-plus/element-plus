@@ -1,9 +1,29 @@
 ## Changelog
 
+### 1.0.2-beta.37
+
+*2021-04-08*
+
+#### Bug fixes
+
+- Fix input prefix-icon-incorrect-height (#1766)
+- Fix select  fix filter method is not called when input first letter (#1711)
+- Fix picker add focus (#1475)
+- Fix time-select input value not changed with v-model bindings (#1725)
+- Fix tooltip component tabindex prop (#1621)
+- Fix select fix type of modelValue incompatible (#1719)
+- Fix utils isIE logic (#1757)
+- Refactor card remove needless div tag (#1732)
+- Fix input add keydown event listener for textarea (#1723)
+- Fix time-picker  update oldValue when visible change (#1635)
+- Fix drawer close button outline issue when focusing (#1727)
+
 ### 1.0.2-beta.36
+
 *2021-03-28*
 
 #### Bug fixes
+
 - fix option-group error when groupQueryChange event trigger
 - fix model-value error when Slider rendered
 - fix use-lock-screen hook (#1651)
@@ -23,18 +43,25 @@
 - fix the current row render flashing when expanding line toggle
 - fix menu component animation bug (#1690)
 - fix style of break word (#1701)
+
 #### Features
-- add new feature check-tag (#1696) …
+
+- add new feature check-tag (#1696)
 
 #### Chore updates
+
 - docs update label docs of tab-pane (#1646)
 - add web-types.json (#1662)
 - chore: remove an repetitive file in .gitignore (#1673)
-- docs: Update the quickstart.md of zh-cn language (#1698) …
+- docs: Update the quickstart.md of zh-cn language (#1698)
 - docs: update on demand import docs (#1672)
-- project/bumping-vue-version (#1702) …
+- project/bumping-vue-version (#1702)
+
 ### 1.0.2-beta.35
+
+
 *2021-03-15*
+
 - Fix type generator error
 
 ### 1.0.2-beta.34
