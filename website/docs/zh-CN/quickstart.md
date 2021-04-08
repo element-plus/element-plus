@@ -127,8 +127,10 @@ export default defineConfig({
     styleImport({
       libs: [{
         libraryName: 'element-plus',
+        esModule: true,
+        ensureStyleFile: true,
         resolveStyle: (name) => {
-          name = name.splice(3)
+          name = name.slice(3)
           return `element-plus/packages/theme-chalk/src/${name}.scss`;
         },
         resolveComponent: (name) => {
@@ -154,6 +156,8 @@ export default defineConfig({
       libs: [
         {
           libraryName: 'element-plus',
+          esModule: true,
+          ensureStyleFile: true,
           resolveStyle: (name) => {
             return `element-plus/lib/theme-chalk/${name}.css`;
           },

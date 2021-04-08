@@ -1,14 +1,9 @@
-import { defineComponent, h, ref } from 'vue'
+import { defineComponent, h, ref, cloneVNode } from 'vue'
 import ElPopper from '@element-plus/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import throwError from '@element-plus/utils/error'
-
-import type { PropType } from 'vue'
-import type {
-  Effect,
-  Placement,
-  Options,
-} from '@element-plus/popper'
+import { defaultProps } from '@element-plus/popper'
+import { getFirstValidNode } from '@element-plus/utils/vnode'
 
 /**
  * ElTooltip
@@ -22,30 +17,7 @@ export default defineComponent({
     ElPopper,
   },
   props: {
-    effect: {
-      type: String as PropType<Effect>,
-      default: 'dark' as Effect,
-    },
-    class: {
-      type: String,
-      default: '',
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    enterable: {
-      type: Boolean,
-      default: true,
-    },
-    hideAfter: {
-      type: Number,
-      default: 200,
-    },
+    ...defaultProps,
     manual: {
       type: Boolean,
       default: false,
@@ -57,44 +29,18 @@ export default defineComponent({
       },
       default: undefined,
     },
-    offset: {
-      type: Number,
-      default: 12,
-    },
     // This API should be decaprecate since it's confusing with close-delay
     openDelay: {
       type: Number,
       default: 0,
     },
-    placement: {
-      type: String as PropType<Placement>,
-      default: 'bottom' as Placement,
-    },
-    // Once this option were given, the entire popper is under the users' control, top priority
-    popperOptions: {
-      type: Object as PropType<Options>,
-      default: () => null,
-    },
-    // Alias for open-delay, which controls the popper's appearing time
-    showAfter: {
-      type: Number,
-      default: 0,
-    },
-    transition: {
-      type: String,
-      default: 'el-fade-in-linear',
-    },
-    trigger: {
-      type: [String, Array] as PropType<string | string[]>,
-      default: () => ['hover'],
-    },
     visibleArrow: {
       type: Boolean,
       default: true,
     },
-    stopPopperMouseEvent: {
-      type: Boolean,
-      default: true,
+    tabindex: {
+      type: Number,
+      default: 0,
     },
   },
   emits: [UPDATE_MODEL_EVENT],
@@ -124,49 +70,45 @@ export default defineComponent({
     const {
       $slots,
       content,
-      disabled,
-      effect,
-      enterable,
-      hideAfter,
       manual,
-      offset,
       openDelay,
       onUpdateVisible,
-      placement,
-      popperOptions,
       showAfter,
-      transition,
-      trigger,
       visibleArrow,
-      stopPopperMouseEvent,
+      modelValue,
+      tabindex,
     } = this
+
+    const throwErrorTip = () => {
+      throwError('[ElTooltip]', 'you need to provide a valid default slot.')
+    }
+
     const popper = h(
       ElPopper,
       {
+        ...Object.keys(defaultProps).reduce((result, key) => {
+          return { ...result, [key]: this[key] }
+        }, {}),
         ref: 'popper',
-        appendToBody: true,
-        class: this.class,
-        disabled,
-        effect,
-        enterable,
-        hideAfter,
         manualMode: manual,
-        offset,
-        placement,
         showAfter: openDelay || showAfter, // this is for mapping API due to we decided to rename the current openDelay API to showAfter for better readability,
         showArrow: visibleArrow,
-        stopPopperMouseEvent,
-        transition,
-        trigger,
-        popperOptions, // Breakings!: Once popperOptions is provided, the whole popper is under user's control, ElPopper nolonger generates the default options for popper, this is by design if the user wants the full control on @PopperJS, read the doc @https://popper.js.org/docs/v2/
-        visible: this.modelValue,
+        visible: modelValue,
         'onUpdate:visible': onUpdateVisible,
       },
       {
         default: () => ($slots.content ? $slots.content() : content),
-        trigger: () => $slots.default(),
+        trigger: () => {
+          if ($slots.default) {
+            const firstVnode = getFirstValidNode($slots.default(), 1)
+            if (!firstVnode) throwErrorTip()
+            return cloneVNode(firstVnode, { tabindex }, true)
+          }
+          throwErrorTip()
+        },
       },
     )
+
     return popper
   },
 })

@@ -789,7 +789,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | props                 | configuration options, see the following table | object                      | —               | —       |
 | render-after-expand   | whether to render child nodes only after a parent node is expanded for the first time | boolean | — | true |
 | load                  | method for loading subtree data, only works when `lazy` is true  | function(node, resolve)     | —               | —       |
-| render-content        | render function for tree node            | Function(h, { node, data, store }        | —               | —       |
+| render-content        | render function for tree node            | Function(h, { node, data, store })        | —               | —       |
 | highlight-current     | whether current node is highlighted      | boolean                     | —               | false   |
 | default-expand-all    | whether to expand all nodes by default   | boolean                     | —               | false   |
 | expand-on-click-node  | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon. | boolean | — | true |
@@ -857,7 +857,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 | node-drag-end  | triggers when dragging ends  | four parameters: node object corresponding to the dragging node, node object corresponding to the dragging end node (may be `undefined`), node drop type (before / after / inner), event. |
 | node-drop  | triggers after the dragging node is dropped | four parameters: node object corresponding to the dragging node, node object corresponding to the dropped node, node drop type (before / after / inner), event. |
 
-### Scoped Slot
+### Slots
 | Name | Description |
 |------|--------|
 | — | Custom content for tree nodes. The scope parameter is { node, data } |
