@@ -291,7 +291,7 @@ describe('Slider', () => {
     }, 10)
   })
 
-  it('input event', done => {
+  it('input event', async done => {
     const wrapper = mount({
       template: `
         <div style="width: 200px">
@@ -323,16 +323,14 @@ describe('Slider', () => {
     const mockClientWidth = jest
       .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth', 'get')
       .mockImplementation(() => 200)
-    setTimeout(() => {
-      expect(wrapper.vm.data).toBe(0)
-      slider.vm.onSliderClick({ clientX: 100 })
-      setTimeout(() => {
-        expect(wrapper.vm.data === 50).toBeTruthy()
-        mockRectLeft.mockRestore()
-        mockClientWidth.mockRestore()
-        done()
-      }, 10)
-    }, 10)
+    await nextTick()
+    expect(wrapper.vm.data).toBe(0)
+    slider.vm.onSliderClick({ clientX: 100 })
+    await nextTick()
+    expect(wrapper.vm.data === 50).toBeTruthy()
+    mockRectLeft.mockRestore()
+    mockClientWidth.mockRestore()
+    done()
   })
 
   it('disabled', done => {
@@ -582,10 +580,10 @@ describe('Slider', () => {
         template: `
           <div>
           <slider
-            v-model="value"
-            range
-            :step="10"
-            show-stops
+              v-model="value"
+              range
+              :step="10"
+              show-stops
           ></slider>
           </div>
         `,
@@ -608,12 +606,12 @@ describe('Slider', () => {
         template: `
           <div>
           <slider
-            v-model="value"
-            range
-            :step="10"
-            :marks="marks"
-            :min="20"
-            show-stops
+              v-model="value"
+              range
+              :step="10"
+              :marks="marks"
+              :min="20"
+              show-stops
           ></slider>
           </div>
         `,
