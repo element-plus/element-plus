@@ -291,6 +291,50 @@ describe('Slider', () => {
     }, 10)
   })
 
+  it('input event', done => {
+    const wrapper = mount({
+      template: `
+        <div style="width: 200px">
+        <slider v-model="value" @input="onInput">
+        </slider>
+        </div>
+      `,
+      components: { Slider },
+      data() {
+        return {
+          data: 0,
+          value: 0,
+        }
+      },
+      methods: {
+        onInput(val) {
+          this.data = val
+        },
+      },
+    })
+    const slider: any = wrapper.findComponent({ name: 'ElSlider' })
+    const mockRectLeft = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'getBoundingClientRect')
+      .mockImplementation(() => {
+        return {
+          left: 0,
+        } as DOMRect
+      })
+    const mockClientWidth = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth', 'get')
+      .mockImplementation(() => 200)
+    setTimeout(() => {
+      expect(wrapper.vm.data).toBe(0)
+      slider.vm.onSliderClick({ clientX: 100 })
+      setTimeout(() => {
+        expect(wrapper.vm.data === 50).toBeTruthy()
+        mockRectLeft.mockRestore()
+        mockClientWidth.mockRestore()
+        done()
+      }, 10)
+    }, 10)
+  })
+
   it('disabled', done => {
     const wrapper = mount({
       template: `
