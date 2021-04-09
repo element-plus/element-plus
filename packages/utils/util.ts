@@ -7,6 +7,13 @@ import isServer from './isServer'
 import type { AnyFunction } from './types'
 import { warn } from './error'
 
+// type polyfill for compat isIE method
+declare global {
+  interface Document {
+    documentMode?: any
+  }
+}
+
 export const SCOPE = 'Util'
 
 export type PartialCSSStyleDeclaration = Partial<Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>>

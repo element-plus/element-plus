@@ -8,7 +8,6 @@ export const isValidWidthUnit = (val: string | number): boolean =>{
       (val as string).endsWith(unit),
     )
   }
-  return false
 }
 
 
