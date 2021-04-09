@@ -26,7 +26,7 @@ const defaultOpts = {
       abortOnError: false,
     }),
   ],
-  external(id) {
+  external() {
     return true
   },
 }
