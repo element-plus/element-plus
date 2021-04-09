@@ -1,4 +1,4 @@
-import { isNumber } from '@element-plus/utils/util'
+import { isNumber } from './util'
 
 export const isValidWidthUnit = (val: string | number): boolean =>{
   if(isNumber(val)){
