@@ -143,7 +143,7 @@ export function defaultRenderCell({
   if (column && column.formatter) {
     return column.formatter(row, column, value, $index)
   }
-  return value
+  return value?.toString?.() || ''
 }
 
 export function treeCellPrefix({
