@@ -9,7 +9,6 @@ import {
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
 import { TableColumn, TableColumnCtx } from '../table.type'
-import cloneDeep from 'lodash/cloneDeep'
 
 function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
   const instance = (getCurrentInstance() as unknown) as TableColumn
@@ -128,7 +127,7 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
           }
         }
         checkSubColumn(children)
-        return h('div', props, [prefix, cloneDeep(children)])
+        return h('div', props, [prefix, children])
       }
     }
     return column
