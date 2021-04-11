@@ -18,7 +18,7 @@
     <template #trigger>
       <el-input
         v-if="!isRangeInput"
-        v-clickoutside="onClickOutside"
+        v-clickoutside:[popperPaneRef]="onClickOutside"
         :model-value="displayValue"
         :name="name"
         :size="pickerSize"
@@ -53,7 +53,7 @@
       </el-input>
       <div
         v-else
-        v-clickoutside="onClickOutside"
+        v-clickoutside:[popperPaneRef]="onClickOutside"
         class="el-date-editor el-range-editor el-input__inner"
         :class="[
           'el-date-editor--' + type,
@@ -347,6 +347,11 @@ export default defineComponent({
     const pickerSize = computed(() => {
       return props.size || elFormItem.size || ELEMENT.size
     })
+
+    const popperPaneRef = computed(() => {
+      return refPopper.value?.popperRef
+    })
+
     const onClickOutside = () => {
       if (!pickerVisible.value) return
       pickerVisible.value = false
@@ -496,6 +501,7 @@ export default defineComponent({
       onUserInput,
       handleChange,
       handleKeydown,
+      popperPaneRef,
       onClickOutside,
       pickerSize,
       isRangeInput,
