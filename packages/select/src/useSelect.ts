@@ -207,12 +207,12 @@ export const useSelect = (props, states: States, ctx) => {
             states.currentPlaceholder = states.selectedLabel
             states.selectedLabel = ''
           }
-          if (!props.remote) {
-            states.selectEmitter.emit('elOptionQueryChange', '')
-            states.selectEmitter.emit('elOptionGroupQueryChange')
-          }
         }
         handleQueryChange(states.query)
+        if (!props.multiple && !props.remote) {
+          states.selectEmitter.emit('elOptionQueryChange', '')
+          states.selectEmitter.emit('elOptionGroupQueryChange')
+        }
       }
     }
     ctx.emit('visible-change', val)
