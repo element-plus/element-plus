@@ -3,6 +3,7 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
+import type { ResizableElement } from '@element-plus/utils/resize-event'
 import throttle from 'lodash/throttle'
 import { parseHeight } from '../util'
 import {
@@ -153,13 +154,12 @@ function useStyle (
   }, 10)
 
   const bindEvents = () => {
+    window.addEventListener('resize', doLayout)
     table.refs.bodyWrapper.addEventListener('scroll', syncPostion, {
       passive: true,
     })
     if (props.fit) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      addResizeListener(table.vnode.el, resizeListener)
+      addResizeListener(table.vnode.el as ResizableElement, resizeListener)
     }
   }
   onUnmounted(() => {
@@ -167,10 +167,9 @@ function useStyle (
   })
   const unbindEvents = () => {
     table.refs.bodyWrapper?.removeEventListener('scroll', syncPostion, true)
+    window.removeEventListener('resize', doLayout)
     if (props.fit) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      removeResizeListener(table.vnode.el, resizeListener)
+      removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
     }
   }
   const resizeListener = () => {
