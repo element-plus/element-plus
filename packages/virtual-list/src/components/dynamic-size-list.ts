@@ -1,6 +1,6 @@
-import createList from './builders/buildList'
+import createList from '../builders/buildList'
 
-import { isHorizontal } from './utils'
+import { isHorizontal } from '../utils'
 import {
   AUTO_ALIGNMENT,
   CENTERED_ALIGNMENT,
@@ -9,9 +9,9 @@ import {
   END_ALIGNMENT,
   SMART_ALIGNMENT,
   START_ALIGNMENT,
-} from './defaults'
+} from '../defaults'
 
-import type { ListCache, ListItem, ItemSize } from './types'
+import type { ListCache, ListItem, ItemSize } from '../types'
 import type { ExtractPropTypes } from 'vue'
 
 type Props = ExtractPropTypes<typeof DefaultListProps>
@@ -22,19 +22,19 @@ const getItemFromCache = (
   listCache: ListCache,
 ): ListItem => {
   const { itemSize } = props
-  const { cachedItems, lastVisitedIndex } = listCache
+  const { items, lastVisitedIndex } = listCache
 
   if (index > lastVisitedIndex) {
     let offset = 0
     if (lastVisitedIndex >= 0) {
-      const item = cachedItems[lastVisitedIndex]
+      const item = items[lastVisitedIndex]
       offset = item.offset + item.size
     }
 
     for (let i = lastVisitedIndex + 1; i <= index; i++) {
       const size = (itemSize as ItemSize)(i)
 
-      cachedItems[i] = {
+      items[i] = {
         offset,
         size,
       }
@@ -45,7 +45,7 @@ const getItemFromCache = (
     listCache.lastVisitedIndex = index
   }
 
-  return cachedItems[index]
+  return items[index]
 }
 
 const findItem = (
@@ -53,28 +53,26 @@ const findItem = (
   listCache: ListCache,
   offset: number,
 ) => {
-  const { cachedItems, lastVisitedIndex } = listCache
+  const { items, lastVisitedIndex } = listCache
 
   const lastVisitedOffset =
-    lastVisitedIndex > 0 ? cachedItems[lastVisitedIndex].offset : 0
+    lastVisitedIndex > 0 ? items[lastVisitedIndex].offset : 0
 
   if (lastVisitedOffset >= offset) {
-    // If we've already measured items within this range just use a binary search as it's faster.
     return bs(
       props,
       listCache,
-      lastVisitedIndex,
       0,
-      offset,
-    )
-  } else {
-    return es(
-      props,
-      listCache,
-      Math.max(0, lastVisitedIndex),
+      lastVisitedIndex,
       offset,
     )
   }
+  return es(
+    props,
+    listCache,
+    Math.max(0, lastVisitedIndex),
+    offset,
+  )
 }
 
 // bs stands for binary search which has approximately time complexity of O(Log n)
@@ -84,8 +82,8 @@ const findItem = (
 const bs = (
   props: Props,
   listCache: ListCache,
-  high: number,
   low: number,
+  high: number,
   offset: number,
 ) => {
   while (low <= high) {
@@ -130,15 +128,15 @@ const es = (
   return bs(
     props,
     listCache,
-    Math.min(index, total - 1),
     Math.floor(index / 2),
+    Math.min(index, total - 1),
     offset,
   )
 }
 
 const getEstimatedTotalSize = (
   { total }: Props,
-  { cachedItems, estimatedItemSize, lastVisitedIndex }: ListCache,
+  { items, estimatedItemSize, lastVisitedIndex }: ListCache,
 ) => {
   let totalSizeOfMeasuredItems = 0
 
@@ -147,7 +145,7 @@ const getEstimatedTotalSize = (
   }
 
   if (lastVisitedIndex >= 0) {
-    const item = cachedItems[lastVisitedIndex]
+    const item = items[lastVisitedIndex]
     totalSizeOfMeasuredItems = item.offset + item.size
   }
 
@@ -166,9 +164,9 @@ export default createList({
 
   getItemSize: (
     _,
-    index: number,
-    { cachedItems },
-  )=> cachedItems[index].size,
+    index,
+    { items },
+  )=> items[index].size,
 
   getEstimatedTotalSize,
 
@@ -233,14 +231,14 @@ export default createList({
     props,
     offset,
     listCache,
-  ): number => findItem(props, listCache, offset),
+  ) => findItem(props, listCache, offset),
 
   getStopIndexForStartIndex: (
     props,
     startIndex,
     scrollOffset,
     listCache,
-  ): number => {
+  ) => {
     const { height, total, layout, width } = props
 
     const size = (isHorizontal(layout) ? width : height) as number
@@ -258,12 +256,11 @@ export default createList({
     return stopIndex
   },
 
-  initCache(props, instance) {
-    const { estimatedItemSize } = props
+  initCache({ estimatedItemSize = DEFAULT_DYNAMIC_LIST_ITEM_SIZE }, instance) {
 
     const cache = {
-      cachedItems: {},
-      estimatedItemSize: estimatedItemSize || DEFAULT_DYNAMIC_LIST_ITEM_SIZE,
+      items: {},
+      estimatedItemSize,
       lastVisitedIndex: -1,
     } as ListCache
 
@@ -280,7 +277,7 @@ export default createList({
       }
     }
 
-    return cache as any
+    return cache
   },
 
   clearCache: false,

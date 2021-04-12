@@ -51,8 +51,11 @@ const createList = ({
       const instance = getCurrentInstance()
       const initProps = ref(initCache(props, instance))
       // refs
-      const containerRef = ref<HTMLElement>(null)
-      const innerRef = ref(null)
+      // here windowRef and innerRef can be type of HTMLElement
+      // or user defined component type, depends on the type passed
+      // by user
+      const windowRef = ref<HTMLElement>(null)
+      const innerRef = ref<HTMLElement>(null)
       const states = ref({
         isScrolling: false,
         scrollDir: 'forward',
@@ -102,7 +105,7 @@ const createList = ({
 
       const _isHorizontal = computed(() => isHorizontal(props.layout))
 
-      const containerStyle = computed(() => ([
+      const windowStyle = computed(() => ([
         {
           position: 'relative',
           overflow: 'auto',
@@ -264,8 +267,6 @@ const createList = ({
         } else {
           const offset = getItemOffset(props, idx, $(initProps))
           const size = getItemSize(props, idx, $(initProps))
-
-          // TODO Deprecate direction "horizontal"
           const horizontal = $(_isHorizontal)
 
           const isRtl = direction === RTL
@@ -310,12 +311,12 @@ const createList = ({
       // life cycles
       onMounted(() => {
         const { initScrollOffset } = props
-        const container = $(containerRef)
-        if (isNumber(initScrollOffset) && container !== null) {
+        const windowElement = $(windowRef)
+        if (isNumber(initScrollOffset) && windowElement !== null) {
           if ($(_isHorizontal)) {
-            container.scrollLeft = initScrollOffset
+            windowElement.scrollLeft = initScrollOffset
           } else {
-            container.scrollTop = initScrollOffset
+            windowElement.scrollTop = initScrollOffset
           }
         }
         emitEvents()
@@ -325,8 +326,8 @@ const createList = ({
         const { direction, layout } = props
         const { scrollOffset, updateRequested } = $(states)
 
-        if (updateRequested && $(containerRef) !== null) {
-          const container = $(containerRef)
+        if (updateRequested && $(windowRef) !== null) {
+          const windowElement = $(windowRef)
 
           if (layout === HORIZONTAL) {
             if (direction === RTL) {
@@ -335,32 +336,32 @@ const createList = ({
               // So we need to determine which browser behavior we're dealing with, and mimic it.
               switch (getRTLOffsetType()) {
                 case 'negative': {
-                  container.scrollLeft = -scrollOffset
+                  windowElement.scrollLeft = -scrollOffset
                   break
                 }
                 case 'positive-ascending': {
-                  container.scrollLeft = scrollOffset
+                  windowElement.scrollLeft = scrollOffset
                   break
                 }
                 default: {
-                  const { clientWidth, scrollWidth } = container
-                  container.scrollLeft = scrollWidth - clientWidth - scrollOffset
+                  const { clientWidth, scrollWidth } = windowElement
+                  windowElement.scrollLeft = scrollWidth - clientWidth - scrollOffset
                   break
                 }
               }
             } else {
-              container.scrollLeft = scrollOffset
+              windowElement.scrollLeft = scrollOffset
             }
           } else {
-            container.scrollTop = scrollOffset
+            windowElement.scrollTop = scrollOffset
           }
         }
       })
 
 
       const api = {
-        containerStyle,
-        containerRef,
+        windowStyle,
+        windowRef,
         innerRef,
         innerStyle,
         itemsToRender,
@@ -372,7 +373,7 @@ const createList = ({
       }
 
       expose({
-        containerRef,
+        windowRef,
         innerRef,
         getItemStyleCache,
         scrollTo,
@@ -387,15 +388,15 @@ const createList = ({
         $slots,
         className,
         containerElement,
-        containerStyle,
+        data,
         getItemStyle,
-        itemData,
         innerElement,
         itemsToRender,
         innerStyle,
         onScroll,
-        useIsScrolling,
         states,
+        useIsScrolling,
+        windowStyle,
       } = ctx
 
       const [start, end] = itemsToRender
@@ -408,7 +409,7 @@ const createList = ({
       for (let i = start; i <= end; i++) {
         children.push(
           $slots.default?.({
-            data: itemData,
+            data,
             key: i,
             index: i,
             isScrolling: useIsScrolling ? states.isScrolling : undefined,
@@ -426,9 +427,9 @@ const createList = ({
 
       return h(Container as VNode, {
         class: className,
-        style: containerStyle,
+        style: windowStyle,
         onScroll,
-        ref: 'containerRef',
+        ref: 'windowRef',
       }, isVNode(Container) ? { default: () => InnerNode } : InnerNode)
     },
   })

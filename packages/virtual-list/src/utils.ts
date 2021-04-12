@@ -9,13 +9,15 @@ import {
   RTL_OFFSET_POS_ASC,
 } from './defaults'
 
-import type { RTLOffsetType } from './types'
+import type { RTLOffsetType, Direction } from './types'
 
 export const getScrollDir = (prev: number, cur: number) =>
   prev < cur ? FORWARD : BACKWARD
 
 export const isHorizontal = (dir: string) =>
   dir === LTR || dir === RTL || dir === HORIZONTAL
+
+export const isRTL = (dir: Direction) => dir === RTL
 
 let cachedRTLResult: RTLOffsetType | null = null
 

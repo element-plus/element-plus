@@ -27,52 +27,72 @@ export type ListItem = {
 }
 
 export type ListCache = {
-  cachedItems: Record<string, ListItem>
+  items: Record<string, ListItem>
   estimatedItemSize: number
   lastVisitedIndex: number
   clearCacheAfterIndex: (idx: number, forceUpdate?: boolean) => void
 }
 
+export type GridCache = {
+  column: Record<string, ListItem>
+  row: Record<string, ListItem>
+  estimatedColumnWidth: number
+  estimatedRowHeight: number
+  lastVisitedColumnIndex: number
+  lastVisitedRowIndex: number
+}
+
 export type ScrollDir = 'forwards' | 'backwards'
 
-export type ListItemSizer<T, P> = (props: ExtractPropTypes<T>, index: number, initProps: P) => number
+export type ListItemSizer<T, P extends InitListCacheFunc<T>> = (
+  props: ExtractPropTypes<T>,
+  index: number,
+  cache: ReturnType<P>
+) => number
 
-export type GetEstimatedTotalSize<T, P> = (props: ExtractPropTypes<T>, initProps: P) => number
+export type GetEstimatedTotalSize<T, P extends InitCacheFunc<T, GridCache | ListCache>> = (
+  props: ExtractPropTypes<T>,
+  cache: ReturnType<P>
+) => number
 
-export type GetOffset<T, P> = (
+export type GetOffset<T, P extends InitListCacheFunc<T>> = (
   props: ExtractPropTypes<T>,
   idx: number,
   alignment: Alignment,
   offset: number,
-  initProps: P,
+  cache: ReturnType<P>,
 ) => number
 
-export type GetStartIndexForOffset<T, P> = (
+export type GetStartIndexForOffset<T, P extends InitCacheFunc<T, GridCache | ListCache>> = (
   props: ExtractPropTypes<T>,
   offset: number,
-  initProps: P,
+  cache: ReturnType<P>,
 ) => number;
 
-export type GetStopIndexForStartIndex<T, P> = (
+export type GetStopIndexForStartIndex<T, P extends InitCacheFunc<T, GridCache | ListCache>> = (
   props: ExtractPropTypes<T>,
   startIndex: number,
   scrollOffset: number,
-  initProps: P,
+  cache: ReturnType<P>,
 ) => number;
 
-export type InitPropsFunc<T> = <P extends ListCache>(props: ExtractPropTypes<T>, initProps: Instance) => P
+export type PropValidator<T> = (props: ExtractPropTypes<T>) => void
 
-export type ListConstructorProps<T, P extends InitPropsFunc<T> = InitPropsFunc<T>> = {
+export type InitCacheFunc<T, P> = (props: ExtractPropTypes<T>, cache: Instance) => P
+export type InitListCacheFunc<T> = InitCacheFunc<T, ListCache>
+export type InitGridCacheFunc<T> = InitCacheFunc<T, GridCache>
+
+export type ListConstructorProps<T, P extends InitListCacheFunc<T> = InitListCacheFunc<T>> = {
   name?: string
-  getItemOffset: ListItemSizer<T, ReturnType<P>>
-  getEstimatedTotalSize: GetEstimatedTotalSize<T, ReturnType<P>>
-  getItemSize: ListItemSizer<T, ReturnType<P>>
-  getOffset: GetOffset<T, ReturnType<P>>
-  getStartIndexForOffset: GetStartIndexForOffset<T, ReturnType<P>>
-  getStopIndexForStartIndex: GetStopIndexForStartIndex<T, ReturnType<P>>
+  getItemOffset: ListItemSizer<T, P>
+  getEstimatedTotalSize: GetEstimatedTotalSize<T, P>
+  getItemSize: ListItemSizer<T, P>
+  getOffset: GetOffset<T, P>
+  getStartIndexForOffset: GetStartIndexForOffset<T, P>
+  getStopIndexForStartIndex: GetStopIndexForStartIndex<T, P>
   initCache: P
   clearCache: boolean
-  validateProps: (props: ExtractPropTypes<T>) => void
+  validateProps: PropValidator<T>
 }
 
 export type ListExposes = {
@@ -81,4 +101,43 @@ export type ListExposes = {
   getItemStyleCache: CSSProperties
   scrollTo: (offset: number) => void
   scrollToItem: (idx: number, alignment: Alignment) => void
+}
+
+export type GetGridOffset<T, P extends InitGridCacheFunc<T>> = (
+  props: ExtractPropTypes<T>,
+  index: number,
+  alignment: Alignment,
+  offset: number,
+  cache: ReturnType<P>,
+  scrollbarWidth: number,
+) => number
+
+export type GetPosition<T, P extends InitGridCacheFunc<T>> = (
+  props: ExtractPropTypes<T>,
+  index: number,
+  cache: ReturnType<P>,
+) => [number, number]
+
+export type GridConstructorProps<T, P extends InitGridCacheFunc<T> = InitGridCacheFunc<T>> = {
+  name?: string
+  // columns getter
+  getColumnOffset: GetGridOffset<T, P>
+  getColumnPosition: GetPosition<T, P>
+  getColumnStartIndexForOffset: GetStartIndexForOffset<T, P>
+  getColumnStopIndexForStartIndex: GetStopIndexForStartIndex<T, P>
+
+  // grid meta getter
+  getEstimatedTotalHeight: GetEstimatedTotalSize<T, P>
+  getEstimatedTotalWidth: GetEstimatedTotalSize<T, P>
+
+  // row getter
+  getRowOffset: GetGridOffset<T, P>
+  getRowPosition: GetPosition<T, P>
+  getRowStartIndexForOffset: GetStartIndexForOffset<T, P>
+  getRowStopIndexForStartIndex: GetStopIndexForStartIndex<T, P>
+
+  // configs
+  initCache: P
+  clearCache: boolean
+  validateProps: PropValidator<T>
 }

@@ -15,6 +15,10 @@ export const DefaultListProps = {
     type: [String, Object],
     default: 'div',
   },
+  data: {
+    type: [Array] as PropType<any[]>,
+    default: () => [],
+  },
   // even though we can use Enums here but due to the issue for some
   // intelligence plugin distinguishes string enums to strings
   // we had some code that uses enums but the plugins were quite
@@ -33,10 +37,6 @@ export const DefaultListProps = {
   layout: {
     type: String as PropType<LayoutDirection>,
     default: 'vertical',
-  },
-  itemData: {
-    type: Object as PropType<any>,
-    default: () => undefined,
   },
   initScrollOffset: {
     type: Number,
@@ -66,6 +66,28 @@ export const DefaultListProps = {
     type: [Number, String] as PropType<string | number>,
     required: true,
   },
+}
+
+export const DefaultGridProps = {
+  className: DefaultListProps.className,
+  columnCache: DefaultListProps.cache,
+  columnWidth: DefaultListProps.itemSize,
+  containerElement: DefaultListProps.containerElement,
+  data: DefaultListProps.data,
+  direction: DefaultListProps.direction,
+  estimatedColumnWidth: DefaultListProps.estimatedItemSize,
+  estimatedRowHeight: DefaultListProps.estimatedItemSize,
+  height: DefaultListProps.height,
+  initScrollLeft: DefaultListProps.initScrollOffset,
+  initScrollTop: DefaultListProps.initScrollOffset,
+  innerElement: DefaultListProps.innerElement,
+  rowCache: DefaultListProps.cache,
+  rowHeight: DefaultListProps.itemSize,
+  style: DefaultListProps.style,
+  useIsScrolling: DefaultListProps.useIsScrolling,
+  width: DefaultListProps.width,
+  totalColumn: DefaultListProps.total,
+  totalRow: DefaultListProps.total,
 }
 
 export const DEFAULT_DYNAMIC_LIST_ITEM_SIZE = 50
