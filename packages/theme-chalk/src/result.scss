@@ -1,0 +1,60 @@
+@import 'mixins/mixins';
+@import 'common/var';
+
+@include b(result) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  box-sizing: border-box;
+  padding: $--result-padding;
+
+  @include e(icon) {
+    i {
+      font-size: $--result-icon-font-size;
+    }
+  }
+
+  @include e(title) {
+    margin-top: $--result-title-margin-top;
+
+    p {
+      margin: 0;
+      font-size: $--result-title-font-size;
+      color: $--color-text-primary;
+      line-height: 1.7;
+    }
+  }
+
+  @include e(subtitle) {
+    margin-top: $--result-subtitle-margin-top;
+
+    p {
+      margin: 0;
+      font-size: $--font-size-base;
+      color: $--color-text-secondary;
+      line-height: 1.5;
+    }
+  }
+
+  @include e(extra) {
+    margin-top: $--result-extra-margin-top;
+  }
+
+  .el-icon-success {
+    color: $--result-success-color;
+  }
+
+  .el-icon-error {
+    color: $--result-danger-color;
+  }
+
+  .el-icon-info {
+    color: $--result-info-color;
+  }
+
+  .el-icon-warning {
+    color: $--result-warning-color;
+  }
+}
