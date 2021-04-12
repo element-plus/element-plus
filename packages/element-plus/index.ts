@@ -90,6 +90,8 @@ import ElSpace from '@element-plus/space'
 import ElSkeleton from '@element-plus/skeleton'
 import ElSkeletonItem from '@element-plus/skeleton-item'
 import ElCheckTag from '@element-plus/check-tag'
+import ElDescriptions from '@element-plus/descriptions'
+import ElDescriptionsItem from '@element-plus/descriptions-item'
 
 import { use, i18n } from '@element-plus/locale'
 // if you encountered problems alike "Can't resolve './version'"
@@ -209,6 +211,8 @@ const components = [
   ElSpace,
   ElSkeleton,
   ElSkeletonItem,
+  ElDescriptions,
+  ElDescriptionsItem,
 ]
 
 const plugins = [
@@ -329,6 +333,8 @@ export {
   ElSpace,
   ElSkeleton,
   ElSkeletonItem,
+  ElDescriptions,
+  ElDescriptionsItem,
   version,
   install,
   locale,

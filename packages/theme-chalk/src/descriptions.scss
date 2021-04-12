@@ -1,0 +1,17 @@
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'descriptions-item';
+
+@include b(descriptions) {
+  @include e(header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $--descriptions-header-margin-bottom;
+
+    @include e(title) {
+      font-size: $--descriptions-title-font-size;
+      font-weight: bold;
+    }
+  }
+}

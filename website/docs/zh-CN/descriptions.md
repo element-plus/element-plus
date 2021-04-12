@@ -1,0 +1,47 @@
+## Descriptions 描述列表
+
+列表形式展示多个字段。
+
+### 基础用法
+
+:::demo
+
+```html
+<el-descriptions title="用户信息">
+    <el-descriptions-item label="用户名">kooriookami</el-descriptions-item>
+    <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
+    <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
+    <el-descriptions-item label="备注">空</el-descriptions-item>
+    <el-descriptions-item label="联系地址">江苏省苏州市吴中区吴中大道1188号</el-descriptions-item>
+</el-descriptions>
+```
+:::
+
+### Descriptions Attributes
+| 参数          | 说明            | 类型            | 可选值                 | 默认值   |
+|-------------  |---------------- |---------------- |---------------------- |-------- |
+| border        | 是否带有边框         | boolean  |          —             |    false     |
+| column        | 一行 `Descriptions Item` 的数量  | number | — |    3  |
+| direction     | 排列的方向  | string | vertical / horizontal |    horizontal  |
+| size          | 列表的尺寸    | string  |    medium / small / mini  |  — |
+| title         | 标题文本，显示在左上方    | string  |    —  |  — |
+| extra         | 操作区文本，显示在右上方    | string  |    —  |  — |
+
+### Descriptions Slots
+
+| Name | 说明 |
+|------|--------|
+| title | 自定义标题，显示在左上方  |
+| extra | 自定义操作区，显示在右上方  |
+
+### Descriptions Item Attributes
+| 参数          | 说明            | 类型            | 可选值                 | 默认值   |
+|-------------  |---------------- |---------------- |---------------------- |-------- |
+| label          | 标签文本         | string  |          —             |    —     |
+| span          | 列的数量         | number  |          —             |    1     |
+
+### Descriptions Item Slots
+
+| Name | 说明 |
+|------|--------|
+| label | 自定义标签文本  |
