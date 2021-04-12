@@ -5,9 +5,7 @@ Used to give feedback on the result of user's operation or access exception.
 ### Basic usage
 
 :::demo
-
 ```html
-
 <el-row>
   <el-col :sm="12" :lg="6">
     <el-result type="success" title="Success Tip" subTitle="Please follow the instructions">
@@ -45,9 +43,7 @@ Used to give feedback on the result of user's operation or access exception.
 ### Customized content
 
 :::demo
-
 ```html
-
 <el-result title="404" subTitle="Sorry, request error">
   <template #icon>
     <el-image src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"></el-image>

@@ -7,7 +7,6 @@
 :::demo
 
 ```html
-
 <el-row>
   <el-col :sm="12" :lg="6">
     <el-result type="success" title="成功提示" subTitle="请根据提示进行操作">
@@ -47,7 +46,6 @@
 :::demo
 
 ```html
-
 <el-result title="404" subTitle="抱歉，请求错误">
   <template #icon>
     <el-image src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"></el-image>
