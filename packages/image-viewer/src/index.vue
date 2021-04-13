@@ -51,7 +51,7 @@
           v-show="i === index"
           ref="img"
           :key="url"
-          :src="currentImg"
+          :src="url"
           :style="imgStyle"
           class="el-image-viewer__img"
           @load="handleImgLoad"
