@@ -2,7 +2,7 @@
   <div class="el-result">
     <div class="el-result__icon">
       <slot name="icon">
-        <i :class="typeClass"></i>
+        <component :is="iconElement" :class="iconElement" />
       </slot>
     </div>
     <div v-if="title || $slots.title" class="el-result__title">
@@ -22,16 +22,26 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import IconSuccess from './icon-success.vue'
+import IconError from './icon-error.vue'
+import IconWarning from './icon-warning.vue'
+import IconInfo from './icon-info.vue'
 
-const TypeMap: Indexable<string> = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error',
+const IconMAP: Indexable<string> = {
+  success: 'icon-success',
+  warning: 'icon-warning',
+  error: 'icon-error',
+  info: 'icon-info',
 }
 
 export default defineComponent({
   name: 'ElResult',
+  components: {
+    [IconSuccess.name]: IconSuccess,
+    [IconError.name]: IconError,
+    [IconWarning.name]: IconWarning,
+    [IconInfo.name]: IconInfo,
+  },
   props: {
     title: {
       type: String,
@@ -41,19 +51,19 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    type: {
+    icon: {
       type: String,
       default: 'info',
     },
   },
   setup(props) {
-    const typeClass = computed(() => {
-      const type = props.type
-      return type && TypeMap[type] ? `el-icon-${TypeMap[type]}` : 'el-icon-info'
+    const iconElement = computed(() => {
+      const icon = props.icon
+      return icon && IconMAP[icon] ? IconMAP[icon] : 'icon-info'
     })
 
     return {
-      typeClass,
+      iconElement,
     }
   },
 })

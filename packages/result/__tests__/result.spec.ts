@@ -29,29 +29,29 @@ describe('Result.vue', () => {
     expect(wrapper.find('.el-result__subtitle').text()).toBe(AXIOM)
   })
 
-  test('should render type props', async () => {
+  test('should render icon props', async () => {
     const wrapper = mount({
       props: {
-        type: 'success',
+        icon: 'success',
       },
     })
-    expect(wrapper.find('.el-result__icon i').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon i').classes()).toContain('el-icon-success')
+    expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
+    expect(wrapper.find('.el-result__icon svg').classes()).toContain('icon-success')
     await wrapper.setProps({
-      type: 'error',
+      icon: 'error',
     })
-    expect(wrapper.find('.el-result__icon i').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon i').classes()).toContain('el-icon-error')
+    expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
+    expect(wrapper.find('.el-result__icon svg').classes()).toContain('icon-error')
     await wrapper.setProps({
-      type: 'warning',
+      icon: 'warning',
     })
-    expect(wrapper.find('.el-result__icon i').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon i').classes()).toContain('el-icon-warning')
+    expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
+    expect(wrapper.find('.el-result__icon svg').classes()).toContain('icon-warning')
     await wrapper.setProps({
-      type: 'info',
+      icon: 'info',
     })
-    expect(wrapper.find('.el-result__icon i').exists()).toBe(true)
-    expect(wrapper.find('.el-result__icon i').classes()).toContain('el-icon-info')
+    expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
+    expect(wrapper.find('.el-result__icon svg').classes()).toContain('icon-info')
   })
 
   test('should render icon slots', () => {

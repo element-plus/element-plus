@@ -9,28 +9,28 @@ Used to give feedback on the result of user's operation or access exception.
 ```html
 <el-row>
   <el-col :sm="12" :lg="6">
-    <el-result type="success" title="Success Tip" subTitle="Please follow the instructions">
+    <el-result icon="success" title="Success Tip" subTitle="Please follow the instructions">
       <template #extra>
         <el-button type="primary" size="medium">Back</el-button>
       </template>
     </el-result>
   </el-col>
   <el-col :sm="12" :lg="6">
-    <el-result type="warning" title="Warning Tip" subTitle="Please follow the instructions">
+    <el-result icon="warning" title="Warning Tip" subTitle="Please follow the instructions">
       <template #extra>
         <el-button type="primary" size="medium">Back</el-button>
       </template>
     </el-result>
   </el-col>
   <el-col :sm="12" :lg="6">
-    <el-result type="error" title="Error Tip" subTitle="Please follow the instructions">
+    <el-result icon="error" title="Error Tip" subTitle="Please follow the instructions">
       <template #extra>
         <el-button type="primary" size="medium">Back</el-button>
       </template>
     </el-result>
   </el-col>
   <el-col :sm="12" :lg="6">
-    <el-result type="info" title="Info Tip" subTitle="Please follow the instructions">
+    <el-result icon="info" title="Info Tip" subTitle="Please follow the instructions">
       <template #extra>
         <el-button type="primary" size="medium">Back</el-button>
       </template>
@@ -64,7 +64,7 @@ Used to give feedback on the result of user's operation or access exception.
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | title          | title         | string  |          —             |    —     |
 | sub-title    | sub title  | string | — |    —  |
-| type  | result type    | string  |    success / warning / info / error  |  info |
+| icon  | icon type    | string  |    success / warning / info / error  |  info |
 
 ### Result Slots
 

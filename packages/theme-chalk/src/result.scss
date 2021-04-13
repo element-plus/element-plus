@@ -11,8 +11,9 @@
   padding: $--result-padding;
 
   @include e(icon) {
-    i {
-      font-size: $--result-icon-font-size;
+    svg {
+      width: $--result-icon-font-size;
+      height: $--result-icon-font-size;
     }
   }
 
@@ -23,7 +24,7 @@
       margin: 0;
       font-size: $--result-title-font-size;
       color: $--color-text-primary;
-      line-height: 1.7;
+      line-height: 1.5;
     }
   }
 
@@ -33,8 +34,8 @@
     p {
       margin: 0;
       font-size: $--font-size-base;
-      color: $--color-text-secondary;
-      line-height: 1.5;
+      color: $--color-text-regular;
+      line-height: 1.3;
     }
   }
 
@@ -42,19 +43,19 @@
     margin-top: $--result-extra-margin-top;
   }
 
-  .el-icon-success {
-    color: $--result-success-color;
+  .icon-success {
+    fill: $--result-success-color;
   }
 
-  .el-icon-error {
-    color: $--result-danger-color;
+  .icon-error {
+    fill: $--result-danger-color;
   }
 
-  .el-icon-info {
-    color: $--result-info-color;
+  .icon-info {
+    fill: $--result-info-color;
   }
 
-  .el-icon-warning {
-    color: $--result-warning-color;
+  .icon-warning {
+    fill: $--result-warning-color;
   }
 }

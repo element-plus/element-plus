@@ -9,28 +9,28 @@
 ```html
 <el-row>
   <el-col :sm="12" :lg="6">
-    <el-result type="success" title="成功提示" subTitle="请根据提示进行操作">
+    <el-result icon="success" title="成功提示" subTitle="请根据提示进行操作">
       <template #extra>
         <el-button type="primary" size="medium">返回</el-button>
       </template>
     </el-result>
   </el-col>
   <el-col :sm="12" :lg="6">
-    <el-result type="warning" title="警告提示" subTitle="请根据提示进行操作">
+    <el-result icon="warning" title="警告提示" subTitle="请根据提示进行操作">
       <template #extra>
         <el-button type="primary" size="medium">返回</el-button>
       </template>
     </el-result>
   </el-col>
   <el-col :sm="12" :lg="6">
-    <el-result type="error" title="错误提示" subTitle="请根据提示进行操作">
+    <el-result icon="error" title="错误提示" subTitle="请根据提示进行操作">
       <template #extra>
         <el-button type="primary" size="medium">返回</el-button>
       </template>
     </el-result>
   </el-col>
   <el-col :sm="12" :lg="6">
-    <el-result type="info" title="信息提示" subTitle="请根据提示进行操作">
+    <el-result icon="info" title="信息提示" subTitle="请根据提示进行操作">
       <template #extra>
         <el-button type="primary" size="medium">返回</el-button>
       </template>
@@ -64,7 +64,7 @@
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | title          | 标题         | string  |          —             |    —     |
 | sub-title    | 二级标题  | string | — |    —  |
-| type  | 结果类型    | string  |    success / warning / info / error  |  info |
+| icon  | 图标类型    | string  |    success / warning / info / error  |  info |
 
 ### Result Slots
 
