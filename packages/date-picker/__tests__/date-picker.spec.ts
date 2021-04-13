@@ -134,6 +134,7 @@ describe('DatePicker', () => {
     expect(focusHandler).toHaveBeenCalledTimes(1);
     (document.querySelector('td.available') as HTMLElement).click()
     await nextTick()
+    await nextTick() // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1)
     expect(blurHandler).toHaveBeenCalledTimes(1)
     expect(onChangeValue.getTime()).toBe(new Date(2016, 9, 1).getTime())

@@ -219,9 +219,11 @@ describe('TimePicker', () => {
     const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
     hourEl.click()
     await nextTick()
-    expect(changeHandler).toHaveBeenCalledTimes(1);
-    (document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    expect(changeHandler).toHaveBeenCalledTimes(0);
+    (document.querySelector('.el-time-panel__btn.confirm') as any).click()
     await nextTick()
+    await nextTick() // onchange is triggered by props.modelValue update
+    expect(changeHandler).toHaveBeenCalledTimes(1)
     expect(blurHandler).toHaveBeenCalledTimes(1)
   })
 

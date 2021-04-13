@@ -124,6 +124,7 @@ import {
   defineComponent,
   ref,
   computed,
+  nextTick,
   inject,
   watch,
   provide,
@@ -200,6 +201,9 @@ export default defineComponent({
     watch(pickerVisible, val => {
       if (!val) {
         userInput.value = null
+        nextTick(() => {
+          emitChange(props.modelValue)
+        })
         ctx.emit('blur')
         blurInput()
         props.validateEvent && elFormItem.formItemMitt?.emit('el.form.blur')
@@ -248,7 +252,6 @@ export default defineComponent({
       }
       userInput.value = null
       emitInput(result)
-      emitChange(result)
     }
     const handleFocus = e => {
       if (props.readonly || pickerDisabled.value) return
