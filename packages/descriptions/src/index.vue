@@ -10,17 +10,27 @@
     </div>
 
     <div class="el-descriptions__body">
-      描述列表
+      <table :class="{'is-bordered': border}">
+        <tbody>
+          <tr>
+            <slot></slot>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { computed, defineComponent, PropType, provide } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import DescriptionsItem from '@element-plus/descriptions-item'
 
 export default defineComponent({
   name: 'ElDescriptions',
+  components: {
+    [DescriptionsItem.name]: DescriptionsItem,
+  },
   props: {
     border: {
       type: Boolean,
@@ -29,6 +39,7 @@ export default defineComponent({
     column: {
       type: Number,
       default: 3,
+      min: 1,
     },
     direction: {
       type: String as PropType<'horizontal' | 'vertical'>,
@@ -47,8 +58,29 @@ export default defineComponent({
       default: '',
     },
   },
-  setup(props) {
-    // init here
+  setup(props, { slots }) {
+    provide('descriptions', props)
+
+    const tdStyle = computed(() => {
+      const width = `${100 / props.column}%`
+      return {
+        width: width,
+      }
+    })
+
+    const rowCount = computed(() => {
+      const slotCount = slots.default?.().length || 0
+      return Math.ceil(slotCount / props.column)
+    })
+
+    console.log(rowCount.value)
+
+    console.log()
+
+    return {
+      tdStyle,
+      rowCount,
+    }
   },
 })
 </script>

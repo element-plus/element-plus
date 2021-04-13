@@ -2,7 +2,15 @@
 @import 'common/var';
 
 @include b(descriptions) {
-  @include e(item) {
+  @include e(label) {
+    &.is-bordered-label {
+      font-weight: bold;
+      color: $--color-text-secondary;
+      background: $--descriptions-item-bordered-label-background
+    }
+  }
+
+  @include e(content) {
 
   }
 }

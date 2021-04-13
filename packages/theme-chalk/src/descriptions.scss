@@ -3,6 +3,10 @@
 @import 'descriptions-item';
 
 @include b(descriptions) {
+  box-sizing: border-box;
+  font-size: $--font-size-base;
+  color: $--color-text-primary;
+
   @include e(header) {
     display: flex;
     justify-content: space-between;
@@ -12,6 +16,46 @@
     @include e(title) {
       font-size: $--descriptions-title-font-size;
       font-weight: bold;
+    }
+  }
+
+  @include e(body) {
+    color: $--color-text-regular;
+    background-color: $--color-white;
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+
+      &.is-bordered {
+        tr, td {
+          border: $--descriptions-table-border
+        }
+      }
+
+      td {
+        padding: 12px 10px;
+      }
+
+      @include m(medium) {
+        td {
+          padding: 10px;
+        }
+      }
+
+      @include m(small) {
+        font-size: 12px;
+        td {
+          padding: 8px 10px;
+        }
+      }
+
+      @include m(mini) {
+        font-size: 12px;
+        td {
+          padding: 6px 10px;
+        }
+      }
     }
   }
 }
