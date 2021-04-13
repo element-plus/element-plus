@@ -490,6 +490,30 @@ describe('DateRangePicker', () => {
     expect(vm.value[0].getTime() < vm.value[1].getTime()).toBeTruthy()
   })
 
+  it('reset selection', async () => {
+    const wrapper = _mount(`<el-date-picker
+      type='daterange'
+      v-model="value"
+    />`, () => ({ value: '' }))
+
+    const inputs = wrapper.findAll('input')
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
+    const panels = document.querySelectorAll('.el-date-range-picker__content');
+    (panels[1].querySelector('td.available') as HTMLElement).click()
+    await nextTick();
+    (panels[0].querySelector('td.available') as HTMLElement).click()
+    await nextTick();
+
+    (wrapper.vm as any).value = ''
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
+    const inRangeDate = document.querySelectorAll('.in-range')
+    expect(inRangeDate.length).toBe(0)
+  })
+
   it('range, start-date and end-date', async () => {
     _mount(`<el-date-picker
       type='daterange'
