@@ -88,11 +88,12 @@ export default defineComponent({
     const { checkboxGroup } = useCheckboxGroup()
 
     const activeStyle = computed(() => {
+      const fillValue = checkboxGroup?.fill?.value ?? ''
       return {
-        backgroundColor: checkboxGroup?.fill?.value ?? '',
-        borderColor: checkboxGroup?.fill?.value ?? '',
+        backgroundColor: fillValue,
+        borderColor: fillValue,
         color: checkboxGroup?.textColor?.value ?? '',
-        boxShadow: '-1px 0 0 0 ' + checkboxGroup?.fill?.value ?? '',
+        boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : null,
       }
     })
 
