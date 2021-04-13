@@ -89,6 +89,7 @@
       color: $--color-danger;
     }
   }
+
 }
 
 @include b(progress-bar) {
@@ -118,6 +119,10 @@
     @include utils-vertical-center;
   }
 
+  @include e(inner__indeterminate) {
+    animation: indeterminate 3s infinite;
+  }
+
   @include e(innerText) {
     display: inline-block;
     vertical-align: middle;
@@ -134,5 +139,15 @@
 
   100% {
     background-position: 32px 0;
+  }
+}
+
+@keyframes indeterminate {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
   }
 }

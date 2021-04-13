@@ -186,6 +186,29 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 ```
 :::
 
+### 动画进度条
+
+:::demo Progress 组件设置`indeterminate`属性控制进度条运动，true为动画运动。通过设置`speed`属性可以控制运动速度。
+
+```html
+<el-progress :percentage="50" :indeterminate="true"></el-progress>
+<el-progress :percentage="100" :format="format" :indeterminate="true"></el-progress>
+<el-progress :percentage="100" status="success" :indeterminate="true" :speed="5"></el-progress>
+<el-progress :percentage="100" status="warning" :indeterminate="true" :speed="1"></el-progress>
+<el-progress :percentage="50" status="exception" :indeterminate="true"></el-progress>
+
+<script>
+  export default {
+    methods: {
+      format(percentage) {
+        return percentage === 100 ? '满' : `${percentage}%`;
+      }
+    }
+  };
+</script>
+```
+:::
+
 ### Attributes
 | 参数          | 说明            | 类型            | 可选值                 | 默认值   |
 |-------------  |---------------- |---------------- |---------------------- |-------- |

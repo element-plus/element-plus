@@ -16,7 +16,7 @@
   >
     <div v-if="type === 'line'" class="el-progress-bar">
       <div class="el-progress-bar__outer" :style="{height: `${strokeWidth}px`}">
-        <div class="el-progress-bar__inner" :style="barStyle">
+        <div :class="`el-progress-bar__inner ${indeterminate ? 'el-progress-bar__inner__indeterminate' : ''}`" :style="barStyle">
           <div v-if="(showText || $slots.default) && textInside" class="el-progress-bar__innerText">
             <slot v-bind="slotData">
               <span>{{ content }}</span>
@@ -68,6 +68,8 @@ interface IProgressProps {
   type: string
   percentage: number
   status: string
+  indeterminate: boolean
+  speed: number
   strokeWidth: number
   strokeLinecap: string
   textInside: boolean
@@ -95,6 +97,14 @@ export default defineComponent({
       type: String,
       default: '',
       validator: (val: string): boolean => ['', 'success', 'exception', 'warning'].indexOf(val) > -1,
+    },
+    indeterminate: {
+      type: Boolean,
+      default: false,
+    },
+    speed: {
+      type: Number,
+      default: 3,
     },
     strokeWidth: {
       type: Number,
@@ -129,6 +139,7 @@ export default defineComponent({
     const barStyle = computed(() => {
       return {
         width: `${props.percentage}%`,
+        animationDuration: `${props.speed}s`,
         backgroundColor: getCurrentColor(props.percentage),
       }
     })
