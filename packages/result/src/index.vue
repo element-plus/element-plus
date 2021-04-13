@@ -1,16 +1,19 @@
 <template>
   <div class="el-result">
     <div class="el-result__icon">
-      <slot v-if="$slots.icon" name="icon"></slot>
-      <i v-else :class="typeClass"></i>
+      <slot name="icon">
+        <i :class="typeClass"></i>
+      </slot>
     </div>
     <div v-if="title || $slots.title" class="el-result__title">
-      <slot v-if="$slots.title" name="title"></slot>
-      <p v-else>{{ title }}</p>
+      <slot name="title">
+        <p>{{ title }}</p>
+      </slot>
     </div>
     <div v-if="subTitle || $slots.subTitle" class="el-result__subtitle">
-      <slot v-if="$slots.subTitle" name="subTitle"></slot>
-      <p v-else>{{ subTitle }}</p>
+      <slot name="subTitle">
+        <p>{{ subTitle }}</p>
+      </slot>
     </div>
     <div v-if="$slots.extra" class="el-result__extra">
       <slot name="extra"></slot>
