@@ -45,16 +45,19 @@ export default defineComponent({
   },
 })
 </script>
-<style scoped>
+<style>
 </style>
 EOF
 
 cat <<EOF >"$DIRNAME/index.ts"
 import { App } from 'vue'
 import ${NAME} from './src/index.vue'
-export default (app: App): void => {
+
+${NAME}.install = (app: App): void => {
   app.component(${NAME}.name, ${NAME})
 }
+
+export default ${NAME}
 EOF
 
 cat > $DIRNAME/package.json <<EOF
@@ -64,7 +67,7 @@ cat > $DIRNAME/package.json <<EOF
   "main": "dist/index.js",
   "license": "MIT",
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "vue": "^3.0.9"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.0.0-beta.3"

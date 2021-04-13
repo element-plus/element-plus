@@ -34,6 +34,7 @@
         :autocomplete="autocomplete"
         :tabindex="tabindex"
         :aria-label="label"
+        :placeholder="placeholder"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -89,6 +90,7 @@
       :autocomplete="autocomplete"
       :style="textareaStyle"
       :aria-label="label"
+      :placeholder="placeholder"
       @compositionstart="handleCompositionStart"
       @compositionupdate="handleCompositionUpdate"
       @compositionend="handleCompositionEnd"
@@ -96,6 +98,7 @@
       @focus="handleFocus"
       @blur="handleBlur"
       @change="handleChange"
+      @keydown="handleKeydown"
     >
     </textarea>
     <span v-if="isWordLimitVisible && type === 'textarea'" class="el-input__count">{{ textLength }}/{{ upperLimit }}</span>
@@ -168,6 +171,9 @@ export default defineComponent({
       default: 'off',
       validator: (val: string) => ['on', 'off'].includes(val),
     },
+    placeholder: {
+      type: String,
+    },
     form: {
       type: String,
       default: '',
@@ -202,11 +208,9 @@ export default defineComponent({
     },
     label: {
       type: String,
-      default: '',
     },
     tabindex: {
       type: String,
-      default: '',
     },
     validateEvent: {
       type: Boolean,
@@ -219,8 +223,8 @@ export default defineComponent({
 
   setup(props, ctx) {
     const instance = getCurrentInstance()
-    const attrs = useAttrs(true)
-    const $ElEMENT = useGlobalConfig()
+    const attrs = useAttrs()
+    const $ELEMENT = useGlobalConfig()
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -234,7 +238,7 @@ export default defineComponent({
     const _textareaCalcStyle = shallowRef({})
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
-    const inputSize = computed(() => props.size || elFormItem.size || $ElEMENT.size)
+    const inputSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
     const needStatusIcon = computed(() => elForm.statusIcon)
     const validateState = computed(() => elFormItem.validateState || '')
     const validateIcon = computed(() => VALIDATE_STATE_MAP[validateState.value])
@@ -243,7 +247,7 @@ export default defineComponent({
       resize: props.resize,
     }))
     const inputDisabled = computed(() => props.disabled || elForm.disabled)
-    const nativeInputValue = computed(() => String(props.modelValue))
+    const nativeInputValue = computed(() => (props.modelValue === null || props.modelValue === undefined) ? '' : String(props.modelValue))
     const upperLimit = computed(() => ctx.attrs.maxlength)
     const showClear = computed(() => {
       return props.clearable &&
@@ -462,6 +466,7 @@ export default defineComponent({
       validateState,
       validateIcon,
       textareaStyle,
+      resizeTextarea,
       inputDisabled,
       showClear,
       showPwdVisible,

@@ -1,87 +1,85 @@
 <template>
-  <transition name="el-zoom-in-top">
-    <div
-      class="el-picker-panel el-date-range-picker"
-      :class="[{
-        'has-sidebar': $slots.sidebar || hasShortcuts
-      }]"
-    >
-      <div class="el-picker-panel__body-wrapper">
-        <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
-        <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
-          <button
-            v-for="(shortcut, key) in shortcuts"
-            :key="key"
-            type="button"
-            class="el-picker-panel__shortcut"
-            @click="handleShortcutClick(shortcut)"
-          >
-            {{ shortcut.text }}
-          </button>
+  <div
+    class="el-picker-panel el-date-range-picker"
+    :class="[{
+      'has-sidebar': $slots.sidebar || hasShortcuts
+    }]"
+  >
+    <div class="el-picker-panel__body-wrapper">
+      <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
+      <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
+        <button
+          v-for="(shortcut, key) in shortcuts"
+          :key="key"
+          type="button"
+          class="el-picker-panel__shortcut"
+          @click="handleShortcutClick(shortcut)"
+        >
+          {{ shortcut.text }}
+        </button>
+      </div>
+      <div class="el-picker-panel__body">
+        <div class="el-picker-panel__content el-date-range-picker__content is-left">
+          <div class="el-date-range-picker__header">
+            <button
+              type="button"
+              class="el-picker-panel__icon-btn el-icon-d-arrow-left"
+              @click="leftPrevYear"
+            ></button>
+            <button
+              v-if="unlinkPanels"
+              type="button"
+              :disabled="!enableYearArrow"
+              :class="{ 'is-disabled': !enableYearArrow }"
+              class="el-picker-panel__icon-btn el-icon-d-arrow-right"
+              @click="leftNextYear"
+            ></button>
+            <div>{{ leftLabel }}</div>
+          </div>
+          <month-table
+            selection-mode="range"
+            :date="leftDate"
+            :min-date="minDate"
+            :max-date="maxDate"
+            :range-state="rangeState"
+            :disabled-date="disabledDate"
+            @changerange="handleChangeRange"
+            @pick="handleRangePick"
+            @select="onSelect"
+          />
         </div>
-        <div class="el-picker-panel__body">
-          <div class="el-picker-panel__content el-date-range-picker__content is-left">
-            <div class="el-date-range-picker__header">
-              <button
-                type="button"
-                class="el-picker-panel__icon-btn el-icon-d-arrow-left"
-                @click="leftPrevYear"
-              ></button>
-              <button
-                v-if="unlinkPanels"
-                type="button"
-                :disabled="!enableYearArrow"
-                :class="{ 'is-disabled': !enableYearArrow }"
-                class="el-picker-panel__icon-btn el-icon-d-arrow-right"
-                @click="leftNextYear"
-              ></button>
-              <div>{{ leftLabel }}</div>
-            </div>
-            <month-table
-              selection-mode="range"
-              :date="leftDate"
-              :min-date="minDate"
-              :max-date="maxDate"
-              :range-state="rangeState"
-              :disabled-date="disabledDate"
-              @changerange="handleChangeRange"
-              @pick="handleRangePick"
-              @select="onSelect"
-            />
+        <div class="el-picker-panel__content el-date-range-picker__content is-right">
+          <div class="el-date-range-picker__header">
+            <button
+              v-if="unlinkPanels"
+              type="button"
+              :disabled="!enableYearArrow"
+              :class="{ 'is-disabled': !enableYearArrow }"
+              class="el-picker-panel__icon-btn el-icon-d-arrow-left"
+              @click="rightPrevYear"
+            ></button>
+            <button
+              type="button"
+              class="el-picker-panel__icon-btn el-icon-d-arrow-right"
+              @click="rightNextYear"
+            ></button>
+            <div>{{ rightLabel }}</div>
           </div>
-          <div class="el-picker-panel__content el-date-range-picker__content is-right">
-            <div class="el-date-range-picker__header">
-              <button
-                v-if="unlinkPanels"
-                type="button"
-                :disabled="!enableYearArrow"
-                :class="{ 'is-disabled': !enableYearArrow }"
-                class="el-picker-panel__icon-btn el-icon-d-arrow-left"
-                @click="rightPrevYear"
-              ></button>
-              <button
-                type="button"
-                class="el-picker-panel__icon-btn el-icon-d-arrow-right"
-                @click="rightNextYear"
-              ></button>
-              <div>{{ rightLabel }}</div>
-            </div>
-            <month-table
-              selection-mode="range"
-              :date="rightDate"
-              :min-date="minDate"
-              :max-date="maxDate"
-              :range-state="rangeState"
-              :disabled-date="disabledDate"
-              @changerange="handleChangeRange"
-              @pick="handleRangePick"
-              @select="onSelect"
-            />
-          </div>
+          <month-table
+            selection-mode="range"
+            :date="rightDate"
+            :min-date="minDate"
+            :max-date="maxDate"
+            :range-state="rangeState"
+            :disabled-date="disabledDate"
+            @changerange="handleChangeRange"
+            @pick="handleRangePick"
+            @select="onSelect"
+          />
         </div>
       </div>
     </div>
-  </transition>
+  </div>
 </template>
 
 <script lang="ts">
@@ -144,7 +142,7 @@ export default defineComponent({
       leftDate.value = leftDate.value.add(1, 'year')
     }
 
-    const rightPrevYear = () =>{
+    const rightPrevYear = () => {
       rightDate.value = rightDate.value.subtract(1, 'year')
     }
     const leftLabel = computed(() => {
@@ -155,7 +153,7 @@ export default defineComponent({
       return `${rightDate.value.year()} ${t('el.datepicker.year')}`
     })
 
-    const leftYear = computed(() =>{
+    const leftYear = computed(() => {
       return leftDate.value.year()
     })
 

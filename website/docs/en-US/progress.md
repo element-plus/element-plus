@@ -159,6 +159,29 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
 ```
 :::
 
+### Customized content
+
+:::demo Use default slot to add customized content.
+
+```html
+<el-progress :percentage="50">
+  <el-button type="text">Content</el-button>
+</el-progress>
+<el-progress :text-inside="true" :stroke-width="20" :percentage="50" status="exception">
+  <span>Content</span>
+</el-progress>
+<el-progress type="circle" :percentage="100" status="success">
+  <el-button type="success" icon="el-icon-check" circle></el-button>
+</el-progress>
+<el-progress type="dashboard" :percentage="80">
+  <template #default="{ percentage }">
+    <span class="percentage-value">{{ percentage }}%</span>
+    <span class="percentage-label">Progressing</span>
+  </template>
+</el-progress>
+```
+:::
+
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 | --- | ---- | ---- | ---- | ---- |
@@ -171,3 +194,9 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
 | width | the canvas width of circle progress bar | number | — | 126 |
 | show-text | whether to show percentage | boolean | — | true |
 | stroke-linecap  | circle/dashboard type shape at the end path | string | butt/round/square | round |
+| format  | custom text format  | function(percentage) | — | — |
+
+### Slots
+| Name | Description |
+|------|--------|
+| default | Customized content, parameter is { percentage } |

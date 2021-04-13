@@ -58,7 +58,6 @@ The content of Dialog can be anything, even a table or a form. This example show
 :::demo
 
 ```html
-<!-- Table -->
 <el-button type="text" @click="dialogTableVisible = true">open a Table nested Dialog</el-button>
 
 <el-dialog title="Shipping address" v-model="dialogTableVisible">
@@ -84,10 +83,12 @@ The content of Dialog can be anything, even a table or a form. This example show
       </el-select>
     </el-form-item>
   </el-form>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -148,10 +149,10 @@ If a Dialog is nested in another Dialog, `append-to-body` is required.
       </el-dialog>
     </template>
     <template #footer>
-    <div class="dialog-footer">
-      <el-button @click="outerVisible = false">Cancel</el-button>
-      <el-button type="primary" @click="innerVisible = true">open the inner Dialog</el-button>
-    </div>
+      <div class="dialog-footer">
+        <el-button @click="outerVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="innerVisible = true">open the inner Dialog</el-button>
+      </div>
     </template>
   </el-dialog>
 </template>
@@ -208,24 +209,63 @@ Dialog's content can be centered.
 The content of Dialog is lazily rendered, which means the default slot is not rendered onto the DOM until it is firstly opened. Therefore, if you need to perform a DOM manipulation or access a component using `ref`, do it in the `open` event callback.
 :::
 
+### Destroy on Close
+When this is feature is enabled, the content under default slot will be destroyed with a `v-if` directive. Enable this when you have perf concerns.
+
+:::demo Note that by enabling this feature, the content will not be rendered before `transition.beforeEnter` dispatched, there will only be `overlay` `header(if any)` `footer(if any)`.
+
+```html
+<el-button type="text" @click="centerDialogVisible = true">Click to open Dialog</el-button>
+
+<el-dialog
+  title="Notice"
+  v-model="centerDialogVisible"
+  width="30%"
+  destroy-on-close
+  center>
+  <span>Notice: before dialog gets opened for the first time this node and the one bellow will not be rendered</span>
+  <div>
+    <strong>Extra content (Not rendered)</strong>
+  </div>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
+
+</el-dialog>
+
+<script>
+  export default {
+    data() {
+      return {
+        centerDialogVisible: false
+      };
+    }
+  };
+</script>
+
+```
 :::tip
-If the variable bound to `visible` is managed in Vuex store, the `.sync` can not work properly. In this case, please remove the `.sync` modifier, listen to `open` and `close` events of Dialog, and commit Vuex mutations to update the value of that variable in the event handlers.
+When using `modal` = false, please make sure that `append-to-body` was set to **true**, because `Dialog` was positioned by `position: relative`, when `modal` gets removed, `Dialog` will position itself based on the current position in the DOM, instead of `Document.Body`, thus the style will be messed up.
 :::
 
 ### Attributes
 
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| visible   | visibility of Dialog, supports the .sync modifier | boolean | — | false |
+| model-value / v-model   | visibility of Dialog | boolean | — | — |
 | title     | title of Dialog. Can also be passed with a named slot (see the following table) | string    | — | — |
-| width     | width of Dialog | string    | — | 50% |
+| width     | width of Dialog | string / number    | — | 50% |
 | fullscreen     | whether the Dialog takes up full screen | boolean    | — | false |
 | top      | value for `margin-top` of Dialog CSS | string    | — | 15vh |
 | modal     | whether a mask is displayed | boolean   | — | true |
-| modal-append-to-body     | whether to append modal to body element. If false, the modal will be appended to Dialog's parent element | boolean   | — | true |
 | append-to-body     | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` | boolean   | — | false |
 | lock-scroll     | whether scroll of body is disabled while Dialog is displayed | boolean   | — | true |
 | custom-class      | custom class names for Dialog | string    | — | — |
+| open-delay        | Time(milliseconds) before open | number    | — | 0 |
+| close-delay       | Time(milliseconds) before close | number    | — | 0 |
 | close-on-click-modal | whether the Dialog can be closed by clicking the mask | boolean    | — | true |
 | close-on-press-escape | whether the Dialog can be closed by pressing ESC | boolean    | — | true |
 | show-close | whether to show a close button | boolean    | — | true |
@@ -233,7 +273,7 @@ If the variable bound to `visible` is managed in Vuex store, the `.sync` can not
 | center | whether to align the header and footer in center | boolean | — | false |
 | destroy-on-close | Destroy elements in Dialog when closed   | boolean | — | false |
 
-### Slot
+### Slots
 
 | Name | Description |
 |------|--------|

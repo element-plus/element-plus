@@ -14,7 +14,7 @@
         v-if="showBackToTop"
         target=".page-component__scroll .el-scrollbar__wrap"
         :right="100"
-        :bottom="150"
+        :bottom="50"
       />
     </div>
   </el-scrollbar>
@@ -25,20 +25,6 @@ import navsData from '../nav.config.json'
 import { throttle } from 'throttle-debounce'
 
 export default {
-  beforeRouteUpdate(to, from, next) {
-    next()
-    setTimeout(() => {
-      const toPath = to.path
-      const fromPath = from.path
-      if (toPath === fromPath && to.hash) {
-        this.goAnchor()
-      }
-      if (toPath !== fromPath) {
-        document.documentElement.scrollTop = document.body.scrollTop = 0
-        this.renderAnchorHref()
-      }
-    }, 100)
-  },
   data() {
     return {
       lang: this.$route.meta.lang,
@@ -73,17 +59,31 @@ export default {
     this.componentScrollBox = this.componentScrollBar.$el.querySelector('.el-scrollbar__wrap')
     this.throttledScrollHandler = throttle(300, this.handleScroll)
     this.componentScrollBox.addEventListener('scroll', this.throttledScrollHandler)
-    this.renderAnchorHref()
-    this.goAnchor()
     document.body.classList.add('is-component')
+    this.addContentObserver()
   },
   unmounted() {
     document.body.classList.remove('is-component')
   },
   beforeUnmount() {
     this.componentScrollBox.removeEventListener('scroll', this.throttledScrollHandler)
+    this.observer.disconnect()
   },
   methods: {
+    addContentObserver() {
+      this.observer = new MutationObserver((mutationsList, observer) => {
+        for(const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            this.renderAnchorHref()
+            this.goAnchor()
+          }
+        }
+      })
+      this.observer.observe(
+        document.querySelector('.content-wrap'),
+        { childList: true },
+      )
+    },
     renderAnchorHref() {
       if (/changelog/g.test(location.href)) return
       const anchors = document.querySelectorAll('h2 a,h3 a,h4 a,h5 a')
@@ -91,7 +91,9 @@ export default {
 
       [].slice.call(anchors).forEach(a => {
         const href = a.getAttribute('href')
-        a.href = basePath + href
+        if (href.indexOf('#') === 0) {
+          a.href = basePath + href
+        }
       })
     },
 
@@ -124,12 +126,11 @@ export default {
   },
 }
 </script>
-<style lang="sass" scoped>
+<style lang="scss" scoped>
 .page-component__scroll {
-  height: calc(100% - 80px);
-  margin-top: 80px;
+  height: 100%;
 
-  > .el-scrollbar__wrap {
+  ::v-deep( > .el-scrollbar__wrap) {
     overflow-x: auto;
   }
 }
@@ -139,18 +140,17 @@ export default {
   height: 100%;
 
   &.page-container {
-    padding: 0;
+    padding: 40px;
   }
 
   .page-component__nav {
     width: 240px;
-    position: fixed;
+    position: absolute;
     top: 0;
     bottom: 0;
-    margin-top: 80px;
     transition: padding-top .3s;
 
-    > .el-scrollbar__wrap {
+    ::v-deep( > .el-scrollbar__wrap) {
       height: 100%;
       overflow-x: auto;
     }
@@ -162,7 +162,6 @@ export default {
 
   .side-nav {
     height: 100%;
-    padding-top: 50px;
     padding-bottom: 50px;
     padding-right: 0;
 
@@ -174,6 +173,7 @@ export default {
   .page-component__content {
     padding-left: 270px;
     padding-bottom: 100px;
+    margin-right: 150px;
     box-sizing: border-box;
   }
   .content-wrap {
@@ -181,7 +181,6 @@ export default {
   }
 
   .content {
-    padding-top: 50px;
 
     ::v-deep(>) {
       h3 {
@@ -229,6 +228,14 @@ export default {
         color: #5e6d82;
         line-height: 2em;
       }
+    }
+  }
+}
+
+@media (max-width: 1000px){
+  .page-component{
+    .page-component__content{
+      margin-right: 0;
     }
   }
 }

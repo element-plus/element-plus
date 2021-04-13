@@ -52,13 +52,13 @@ import dayjs, { Dayjs } from 'dayjs'
 export default defineComponent({
   props: {
     date: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
     },
     minDate: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
     },
     maxDate: {
-      type: Dayjs,
+      type: Object as PropType<Dayjs>,
     },
     parsedValue: {
       type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
@@ -112,7 +112,7 @@ export default defineComponent({
       return WEEKS_CONSTANT.concat(WEEKS_CONSTANT).slice(firstDayOfWeek, firstDayOfWeek + 7)
     })
 
-    const rows = computed(()=>  {
+    const rows = computed(() =>  {
       // TODO: refactory rows / getCellClasses
       const startOfMonth = props.date.startOf('month')
       const startOfMonthDay = startOfMonth.day() || 7 // day of first day
@@ -163,12 +163,21 @@ export default defineComponent({
               calTime.isSameOrAfter(props.minDate, 'day')
           ) && (calEndDate &&
               calTime.isSameOrBefore(calEndDate, 'day')
+          ) || (
+            props.minDate &&
+            calTime.isSameOrBefore(props.minDate, 'day')
+          ) && (calEndDate &&
+            calTime.isSameOrAfter(calEndDate, 'day')
           )
 
-          cell.start = props.minDate
-            && calTime.isSame(props.minDate, 'day')
+          if (props.minDate?.isSameOrAfter(calEndDate)) {
+            cell.start = calEndDate && calTime.isSame(calEndDate, 'day')
+            cell.end = props.minDate && calTime.isSame(props.minDate, 'day')
+          } else {
+            cell.start = props.minDate && calTime.isSame(props.minDate, 'day')
+            cell.end = calEndDate && calTime.isSame(calEndDate, 'day')
+          }
 
-          cell.end = calEndDate && calTime.isSame(calEndDate, 'day')
           const isToday = calTime.isSame(calNow, 'day')
 
           if (isToday) {
@@ -311,7 +320,7 @@ export default defineComponent({
       if (target.tagName !== 'TD') return
 
       const row = target.parentNode.rowIndex - 1
-      const column = props.selectionMode === 'week' ? 1 : target.cellIndex
+      const column = target.cellIndex
       const cell = rows.value[row][column]
 
       if (cell.disabled || cell.type === 'week') return
@@ -339,7 +348,7 @@ export default defineComponent({
           year: newDate.year(),
           week: weekNumber,
           value: value,
-          date: newDate,
+          date: newDate.startOf('week'),
         })
       } else if (props.selectionMode === 'dates') {
         const newValue = cell.selected

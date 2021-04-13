@@ -1,8 +1,11 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Avatar from './src/index.vue'
 
-export default (app: App): void => {
+Avatar.install = (app: App): void => {
   app.component(Avatar.name, Avatar)
 }
 
-export { Avatar }
+const _Avatar: SFCWithInstall<typeof Avatar> = Avatar
+
+export default _Avatar

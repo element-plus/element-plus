@@ -5,18 +5,17 @@
     :offset="0"
     :placement="placement"
     :show-arrow="false"
-    trigger="click"
+    :stop-popper-mouse-event="false"
     effect="light"
-    popper-class="el-table-filter el-table-filter-padding"
+    pure
+    manual-mode
+    popper-class="el-table-filter"
+    append-to-body
   >
     <template #default>
       <div v-if="multiple">
         <div class="el-table-filter__content">
-          <el-scrollbar
-            :native="false"
-            :noresize="true"
-            wrap-class="el-table-filter__wrap"
-          >
+          <el-scrollbar wrap-class="el-table-filter__wrap">
             <el-checkbox-group
               v-model="filteredValue"
               class="el-table-filter__checkbox-group"
@@ -69,6 +68,7 @@
     </template>
     <template #trigger>
       <span
+        v-click-outside:[popperPaneRef]="hideFilterPanel"
         class="el-table__column-filter-trigger el-none-outline"
         @click="showFilterPanel"
       >
@@ -83,12 +83,9 @@
   </el-popper>
 </template>
 
-<script lang='ts'>
-import { Popper as ElPopper } from '@element-plus/popper'
-import { t } from '@element-plus/locale'
-import { Checkbox as ElCheckbox, CheckboxGroup as ElCheckboxGroup } from '@element-plus/checkbox'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
+<script lang="ts">
 import {
+  defineComponent,
   ref,
   computed,
   getCurrentInstance,
@@ -96,9 +93,16 @@ import {
   WritableComputedRef,
   PropType,
 } from 'vue'
-import { Store, TableColumnCtx, TableHeader } from './table'
+import ElPopper from '@element-plus/popper'
+import { t } from '@element-plus/locale'
+import ElCheckbox from '@element-plus/checkbox'
+import ElCheckboxGroup from '@element-plus/checkbox-group'
+import ElScrollbar from '@element-plus/scrollbar'
+import { ClickOutside } from '@element-plus/directives'
 
-export default {
+import { Store, TableColumnCtx, TableHeader } from './table.type'
+
+export default defineComponent({
   name: 'ElTableFilterPanel',
   components: {
     ElCheckbox,
@@ -106,6 +110,7 @@ export default {
     ElScrollbar,
     ElPopper,
   },
+  directives: { ClickOutside },
   props: {
     placement: {
       type: String,
@@ -128,7 +133,7 @@ export default {
       parent.filterPanels.value[props.column.id] = instance
     }
     const tooltipVisible = ref(false)
-
+    const tooltip = ref(null)
     const filters = computed(() => {
       return props.column && props.column.filters
     })
@@ -163,30 +168,28 @@ export default {
       }
       return true
     })
-
     const isActive = filter => {
       return filter.value === filterValue.value
     }
-
     const hidden = () => {
       tooltipVisible.value = false
     }
     const showFilterPanel = (e: MouseEvent) => {
       e.stopPropagation()
-      tooltipVisible.value = true
+      tooltipVisible.value = !tooltipVisible.value
     }
-
+    const hideFilterPanel = () => {
+      tooltipVisible.value = false
+    }
     const handleConfirm = () => {
       confirmFilter(filteredValue.value)
       hidden()
     }
-
     const handleReset = () => {
       filteredValue.value = []
       confirmFilter(filteredValue.value)
       hidden()
     }
-
     const handleSelect = (_filterValue?: string | string[]) => {
       filterValue.value = _filterValue
       if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
@@ -196,7 +199,6 @@ export default {
       }
       hidden()
     }
-
     const confirmFilter = (filteredValue: unknown[]) => {
       props.store.commit('filterChange', {
         column: props.column,
@@ -216,6 +218,11 @@ export default {
         immediate: true,
       },
     )
+
+    const popperPaneRef = computed(() => {
+      return tooltip.value?.popperRef
+    })
+
     return {
       tooltipVisible,
       multiple,
@@ -228,7 +235,10 @@ export default {
       isActive,
       t,
       showFilterPanel,
+      hideFilterPanel,
+      popperPaneRef,
+      tooltip,
     }
   },
-}
+})
 </script>

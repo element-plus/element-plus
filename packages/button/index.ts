@@ -1,10 +1,11 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Button from './src/button.vue'
-import ButtonGroup from './src/button-group.vue'
 
-export default (app: App): void => {
+Button.install = (app: App): void => {
   app.component(Button.name, Button)
-  app.component(ButtonGroup.name, ButtonGroup)
 }
 
-export { Button, ButtonGroup }
+const _Button: SFCWithInstall<typeof Button> = Button
+
+export default _Button

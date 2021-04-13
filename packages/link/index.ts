@@ -1,8 +1,11 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Link from './src/index.vue'
 
-export default (app: App): void => {
+Link.install = (app: App): void => {
   app.component(Link.name, Link)
 }
 
-export { Link }
+const _Link: SFCWithInstall<typeof Link> = Link
+
+export default _Link

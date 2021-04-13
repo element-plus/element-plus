@@ -1,4 +1,5 @@
 export default {
+  name: 'sk',
   el: {
     colorpicker: {
       confirm: 'OK',

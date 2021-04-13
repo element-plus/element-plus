@@ -3,7 +3,8 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import { throttle } from 'lodash'
+import type { ResizableElement } from '@element-plus/utils/resize-event'
+import throttle from 'lodash/throttle'
 import { parseHeight } from '../util'
 import {
   TableProps,
@@ -12,16 +13,16 @@ import {
   TableLayout,
   Store,
   TableColumnCtx,
-  fn,
-} from '../table'
+} from '../table.type'
+import { useGlobalConfig } from '@element-plus/utils/util'
 
-function useStyle(
+function useStyle (
   props: TableProps,
   layout: TableLayout,
   store: Store,
   table: Table,
-  doLayout: fn,
 ) {
+  const $ElEMENT = useGlobalConfig()
   const isHidden = ref(false)
   const renderExpanded = ref(null)
   const resizeProxyVisible = ref(false)
@@ -33,7 +34,6 @@ function useStyle(
     height: null,
   })
   const isGroup = ref(false)
-  const scrollPosition = ref('left')
 
   watchEffect(() => {
     layout.setHeight(props.height as string)
@@ -52,6 +52,7 @@ function useStyle(
     },
     {
       immediate: true,
+      deep: true,
     },
   )
   watchEffect(() => {
@@ -80,7 +81,17 @@ function useStyle(
       store.states.rightFixedColumns.value.length > 0
     )
   })
+
+  const doLayout = () => {
+    if (shouldUpdateHeight.value) {
+      layout.updateElsHeight()
+    }
+    layout.updateColumnsWidth()
+    syncPostion()
+  }
+
   onMounted(() => {
+    setScrollClass('is-scrolling-left')
     bindEvents()
     store.updateColumns()
     doLayout()
@@ -102,7 +113,20 @@ function useStyle(
     })
     table.$ready = true
   })
+  const setScrollClassByEl = (el: HTMLElement, className: string) => {
+    if (!el) return
+    const classList = Array.from(el.classList).filter(
+      item => !item.startsWith('is-scrolling-'),
+    )
+    classList.push(layout.scrollX.value ? className : 'is-scrolling-none')
+    el.className = classList.join(' ')
+  }
+  const setScrollClass = (className: string) => {
+    const { bodyWrapper } = table.refs
+    setScrollClassByEl(bodyWrapper, className)
+  }
   const syncPostion = throttle(function () {
+    if (!table.refs.bodyWrapper) return
     const {
       scrollLeft,
       scrollTop,
@@ -121,21 +145,21 @@ function useStyle(
     if (rightFixedBodyWrapper) rightFixedBodyWrapper.scrollTop = scrollTop
     const maxScrollLeftPosition = scrollWidth - offsetWidth - 1
     if (scrollLeft >= maxScrollLeftPosition) {
-      scrollPosition.value = 'right'
+      setScrollClass('is-scrolling-right')
     } else if (scrollLeft === 0) {
-      scrollPosition.value = 'left'
+      setScrollClass('is-scrolling-left')
     } else {
-      scrollPosition.value = 'middle'
+      setScrollClass('is-scrolling-middle')
     }
-  }, 20)
+  }, 10)
+
   const bindEvents = () => {
+    window.addEventListener('resize', doLayout)
     table.refs.bodyWrapper.addEventListener('scroll', syncPostion, {
       passive: true,
     })
     if (props.fit) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      addResizeListener(table.vnode.el, resizeListener)
+      addResizeListener(table.vnode.el as ResizableElement, resizeListener)
     }
   }
   onUnmounted(() => {
@@ -143,10 +167,9 @@ function useStyle(
   })
   const unbindEvents = () => {
     table.refs.bodyWrapper?.removeEventListener('scroll', syncPostion, true)
+    window.removeEventListener('resize', doLayout)
     if (props.fit) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      removeResizeListener(table.vnode.el, resizeListener)
+      removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
     }
   }
   const resizeListener = () => {
@@ -174,7 +197,7 @@ function useStyle(
     }
   }
   const tableSize = computed(() => {
-    return props.size
+    return props.size || $ElEMENT.size
   })
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
@@ -305,7 +328,7 @@ function useStyle(
     resizeProxyVisible,
     bodyWidth,
     resizeState,
-    scrollPosition,
+    doLayout,
   }
 }
 

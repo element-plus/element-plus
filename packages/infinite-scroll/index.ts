@@ -1,8 +1,10 @@
-import { App } from 'vue'
 import InfiniteScroll from './src/index'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 
-export default (app: App): void => {
-  app.directive('infinite-scroll', InfiniteScroll)
+const _InfiniteScroll: SFCWithInstall<typeof InfiniteScroll> = InfiniteScroll as SFCWithInstall<typeof InfiniteScroll>
+
+_InfiniteScroll.install = app => {
+  app.directive('InfiniteScroll', _InfiniteScroll)
 }
 
-export { InfiniteScroll }
+export default _InfiniteScroll

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
+const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -21,7 +22,6 @@ const config = {
     publicPath: '/',
     filename: isProd ? '[name].[hash].js' : '[name].js',
   },
-  stats: 'verbose',
   module: {
     rules: [
       {
@@ -110,6 +110,10 @@ config.plugins.push(
   new MiniCssExtractPlugin({
     filename: '[name].[contenthash].css',
     chunkFilename: '[id].[contenthash].css',
+  }),
+  new webpack.DefinePlugin({
+    __VUE_OPTIONS_API__: JSON.stringify(true),
+    __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
   }),
 )
 cssRule.use.unshift(MiniCssExtractPlugin.loader)

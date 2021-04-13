@@ -3,9 +3,7 @@ import {
   h,
   ref,
   computed,
-  watchEffect,
   watch,
-  nextTick,
   provide,
 } from 'vue'
 import { IPagination } from './pagination'
@@ -16,6 +14,8 @@ import Sizes from './sizes.vue'
 import Jumper from './jumper.vue'
 import Total from './total.vue'
 import Pager from './pager.vue'
+
+const getValidPageSize = (val: number) => Number.isNaN(val) ? 10 : val
 
 export default defineComponent({
   name: 'ElPagination',
@@ -38,12 +38,10 @@ export default defineComponent({
 
     total: {
       type: Number,
-      default: 1000,
     },
 
     pageCount: {
       type: Number,
-      default: 50,
     },
 
     pagerCount: {
@@ -104,11 +102,10 @@ export default defineComponent({
     'update:pageSize',
   ],
   setup(props, { emit }) {
-    const internalCurrentPage = ref(1)
     const lastEmittedPage = ref(-1)
     const userChangePageSize = ref(false)
+    const internalPageSize = ref(getValidPageSize(props.pageSize))
 
-    const internalPageSize = ref(0)
     const internalPageCount = computed<Nullable<number>>(() => {
       if (typeof props.total === 'number') {
         return Math.max(1, Math.ceil(props.total / internalPageSize.value))
@@ -118,35 +115,18 @@ export default defineComponent({
       return null
     })
 
-    watchEffect(() => {
-      internalCurrentPage.value = getValidCurrentPage(props.currentPage)
-    })
-    watchEffect(() => {
-      internalPageSize.value = isNaN(props.pageSize) ? 10 : props.pageSize
-    })
-    watchEffect(() => {
-      emit('update:currentPage', internalCurrentPage.value)
-      lastEmittedPage.value = -1
-    })
-    watch(() => internalPageCount.value,val => {
-      const oldPage = internalCurrentPage.value
-      if (val > 0 && oldPage === 0) {
-        internalCurrentPage.value = 1
-      } else if (oldPage > val) {
-        internalCurrentPage.value = val === 0 ? 1 : val
-        userChangePageSize.value && emitChange()
-      }
-      userChangePageSize.value = false
-    })
+    const internalCurrentPage = ref(getValidCurrentPage(props.currentPage))
 
     function emitChange() {
-      nextTick(() => {
-        if (internalCurrentPage.value !== lastEmittedPage.value || userChangePageSize) {
-          emit('current-change', internalCurrentPage.value)
-          lastEmittedPage.value = internalCurrentPage.value
-          userChangePageSize.value = false
-        }
-      })
+      if (
+        internalCurrentPage.value !== lastEmittedPage.value ||
+        userChangePageSize.value
+      ) {
+        lastEmittedPage.value = internalCurrentPage.value
+        userChangePageSize.value = false
+        emit('update:currentPage', internalCurrentPage.value)
+        emit('current-change', internalCurrentPage.value)
+      }
     }
 
     function handleCurrentChange(val: number) {
@@ -158,6 +138,7 @@ export default defineComponent({
     function handleSizesChange(val: number) {
       userChangePageSize.value = true
       internalPageSize.value = val
+      emit('update:pageSize', val)
       emit('size-change', val)
     }
 
@@ -165,7 +146,7 @@ export default defineComponent({
       if (props.disabled) return
       const newVal = internalCurrentPage.value - 1
       internalCurrentPage.value = getValidCurrentPage(newVal)
-      emit('prev-click', internalCurrentPage)
+      emit('prev-click', internalCurrentPage.value)
       emitChange()
     }
 
@@ -203,6 +184,27 @@ export default defineComponent({
       return resetValue === undefined ? value : resetValue
     }
 
+    watch(() => props.currentPage, val => {
+      internalCurrentPage.value = getValidCurrentPage(val)
+    })
+
+    watch(() => props.pageSize, val => {
+      internalPageSize.value = getValidPageSize(val)
+    })
+
+    watch(
+      () => internalPageCount.value,
+      val => {
+        const oldPage = internalCurrentPage.value
+        if (val > 0 && oldPage === 0) {
+          internalCurrentPage.value = 1
+        } else if (oldPage > val) {
+          internalCurrentPage.value = val === 0 ? 1 : val
+          emitChange()
+        }
+      },
+    )
+
     provide<IPagination>('pagination', {
       pageCount: computed(() => props.pageCount),
       disabled: computed(() => props.disabled),
@@ -230,12 +232,24 @@ export default defineComponent({
     const layout = this.layout
 
     if (!layout) return null
-    if (this.hideOnSinglePage && (!this.internalPageCount || this.internalPageCount === 1)) return null
+    if (
+      this.hideOnSinglePage &&
+      (!this.internalPageCount || this.internalPageCount === 1)
+    )
+      return null
 
-    const rootNode = h('div', { class: ['el-pagination', { 'is-background': this.background, 'el-pagination--small': this.small }] })
+    const rootNode = h('div', {
+      class: [
+        'el-pagination',
+        {
+          'is-background': this.background,
+          'el-pagination--small': this.small,
+        },
+      ],
+    })
     const rootChildren = []
-    const rightWrapperRoot = h('div', { class: 'el-pagination__rightwrapper' })
     const rightWrapperChildren = []
+    const rightWrapperRoot = h('div', { class: 'el-pagination__rightwrapper' }, rightWrapperChildren)
     const TEMPLATE_MAP = {
       prev: h(Prev, {
         disabled: this.disabled,
@@ -255,7 +269,8 @@ export default defineComponent({
         disabled: this.disabled,
         currentPage: this.internalCurrentPage,
         pageCount: this.internalPageCount,
-        nextText: this.nextText, onClick: this.next,
+        nextText: this.nextText,
+        onClick: this.next,
       }),
       sizes: h(Sizes, {
         pageSize: this.pageSize,
@@ -283,11 +298,10 @@ export default defineComponent({
       }
     })
 
-    if (haveRightWrapper) {
+    if (haveRightWrapper && rightWrapperChildren.length > 0) {
       rootChildren.unshift(rightWrapperRoot)
     }
 
     return h(rootNode, {}, rootChildren)
   },
-
 })

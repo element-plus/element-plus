@@ -125,14 +125,14 @@ Añada un icono para indicar el tipo de Input.
   <el-input
     placeholder="Pick a date"
     v-model="input3">
-    <template v-slot:suffix>
+    <template #suffix>
       <i class="el-input__icon el-icon-date"></i>
     </template>
   </el-input>
   <el-input
     placeholder="Type something"
     v-model="input4">
-    <template v-slot:prefix>
+    <template #prefix>
       <i class="el-input__icon el-icon-search"></i>
     </template>
   </el-input>
@@ -235,24 +235,24 @@ Añade un elemento antes o después del input, generalmente una etiqueta o un bo
 ```html
 <div>
   <el-input placeholder="Please input" v-model="input1">
-    <template v-slot:prepend>Http://</template>
+    <template #prepend>Http://</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Please input" v-model="input2">
-    <template v-slot:append>.com</template>
+    <template #append>.com</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Please input" v-model="input3" class="input-with-select">
-    <template v-slot:prepend>
+    <template #prepend>
       <el-select v-model="select" placeholder="Select">
         <el-option label="Restaurant" value="1"></el-option>
         <el-option label="Order No." value="2"></el-option>
         <el-option label="Tel" value="3"></el-option>
       </el-select>
     </template>
-    <template v-slot:append>
+    <template #append>
       <el-button icon="el-icon-search"></el-button>
     </template>
   </el-input>
@@ -424,31 +424,31 @@ Personalice cómo se muestran las sugerencias.
   placeholder="Please input"
   @select="handleSelect"
 >
-  <template v-slot:suffix>
+  <template #suffix>
     <i class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
   </template>
-  <template v-slot="{ item }">
+  <template #default="{ item }">
     <div class="value">{{ item.value }}</div>
     <span class="link">{{ item.link }}</span>
   </template>
 </el-autocomplete>
 
-<style lang="scss">
-  .my-autocomplete {
-    li {
-      line-height: normal;
-      padding: 7px;
-
-      .value {
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      .link {
-        font-size: 12px;
-        color: #b4b4b4;
-      }
-    }
-  }
+<style>
+.my-autocomplete li {
+  line-height: normal;
+  padding: 7px;
+}
+.my-autocomplete li .name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.my-autocomplete li .addr {
+  font-size: 12px;
+  color: #b4b4b4;
+}
+.my-autocomplete li .highlighted .addr {
+  color: #ddd;
+}
 </style>
 
 <script>
@@ -485,7 +485,7 @@ export default defineComponent({
     const handleSelect = (item) => {
       console.log(item);
     };
-    
+
     const handleIconClick = (ev) => {
       console.log(ev);
     };
@@ -622,7 +622,7 @@ export default defineComponent ({
 | Atributo      | Descripción                                                                                                                                      | Tipo             | Valores aceptados                                                                                                                       | Por defecto |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | type          | tipo de input                                                                                                                                    | string           | text, textarea y otros [tipos de entrada nativos](https://developer.mozilla.org/es/docs/Web/HTML/Elemento/input#Form_%3Cinput%3E_types) | text        |
-| value / v-model | valor enlazado                          | boolean / string / number | —                       | —           |
+| modelValue / v-model | valor enlazado                          | boolean / string / number | —                       | —           |
 | maxlength     | igual que `maxlength` en el input nativo                                                                                                         | number           | —                                                                                                                                       | —           |
 | minlength     | igual que `minlength` en el input nativo                                                                                                         | number           | —                                                                                                                                       | —           |
 | show-word-limit | Si se muestra el contador de palabras, solamente funciona con los tipos `text` o `textarea` | boolean    |  —  | false |
@@ -636,7 +636,6 @@ export default defineComponent ({
 | rows          | número de filas, sólo funciona cuando `type` es `textarea`.                                                                                    | number           | —                                                                                                                                       | 2           |
 | autosize      | si textarea tiene una altura adaptativa, sólo funciona cuando el`type` es `textarea`. Puede aceptar un objeto, p. ej. { minRows: 2, maxRows: 6 } | boolean / object | —                                                                                                                                       | false       |
 | autocomplete  | igual que `autocomplete` en el input nativo                                                                                                      | string           | on/off                                                                                                                                  | off         |
-| auto-complete | @DEPRECATED en el próximo cambio mayor de versión                                                                                  | string           | on/off                                                                                                                                  | off         |
 | name          | igual que `name` en el input nativo                                                                                                              | string           | —                                                                                                                                       | —           |
 | readonly      | igual que `readonly` en el input nativo                                                                                                          | boolean          | —                                                                                                                                       | false       |
 | max           | igual que `max` en el input nativo                                                                                                               | —                | —                                                                                                                                       | —           |
@@ -696,7 +695,7 @@ export default defineComponent ({
 | prefix-icon           | prefix icon class                                                                                                                                  | string                          | —                                                              | —            |
 | suffix-icon           | suffix icon class                                                                                                                                  | string                          | —                                                              | —            |
 | hide-loading          | si se debe ocultar el icono de loading en la búsqueda remota                                                                                       | boolean                         | —                                                              | false        |
-| popper-append-to-body | si añadir el desplegable al cuerpo. Si la posición del menú desplegable es incorrecta, puede intentar establecer este prop a false                 | boolean                         | -                                                              | true         |
+| popper-append-to-body | si añadir el desplegable al cuerpo. Si la posición del menú desplegable es incorrecta, puede intentar establecer este prop a false                 | boolean                         | -                                                              | false         |
 | validate-event        | si se debe lanzar la validación de formulario                                                                                                                 | boolean                         | -                                                   | true         |
 | highlight-first-item | si se debe resaltar el primer elemento en las sugerencias de búsqueda remota de forma predeterminada                 | boolean                         | -                                                              | false         |
 

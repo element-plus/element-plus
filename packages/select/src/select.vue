@@ -1,7 +1,7 @@
 <template>
   <div
     ref="selectWrapper"
-    v-clickOutside="handleClose"
+    v-click-outside:[popperPaneRef]="handleClose"
     class="el-select"
     :class="[selectSize ? 'el-select--' + selectSize : '']"
     @click.stop="toggleMenu"
@@ -10,13 +10,16 @@
       ref="popper"
       v-model:visible="dropMenuVisible"
       placement="bottom-start"
-      :show-arrow="true"
       :append-to-body="popperAppendToBody"
-      popper-class="el-select--popper"
+      :popper-class="`el-select__popper ${popperClass}`"
       manual-mode
       effect="light"
+      pure
       trigger="click"
-      :offset="11"
+      transition="el-zoom-in-top"
+      :stop-popper-mouse-event="false"
+      :gpu-acceleration="false"
+      @before-enter="handleMenuEnter"
     >
       <template #trigger>
         <div class="select-trigger">
@@ -28,14 +31,14 @@
           >
             <span v-if="collapseTags && selected.length">
               <el-tag
-                :closable="!selectDisabled"
+                :closable="!selectDisabled && !selected[0].isDisabled"
                 :size="collapseTagSize"
                 :hit="selected[0].hitState"
                 type="info"
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
               >
-                <span class="el-select__tags-text">{{ selected[0].currentLabel }}</span>
+                <span class="el-select__tags-text" :style="{ 'max-width': inputWidth - 123 + 'px' }">{{ selected[0].currentLabel }}</span>
               </el-tag>
               <el-tag
                 v-if="selected.length > 1"
@@ -49,18 +52,18 @@
             </span>
             <!-- <div> -->
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
-              <span>
+              <span :style="{marginLeft: prefixWidth && selected.length ? `${prefixWidth}px` : null}">
                 <el-tag
                   v-for="item in selected"
                   :key="getValueKey(item)"
-                  :closable="!selectDisabled"
+                  :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
                   :hit="item.hitState"
                   type="info"
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >
-                  <span class="el-select__tags-text">{{ item.currentLabel }}</span>
+                  <span class="el-select__tags-text" :style="{ 'max-width': inputWidth - 75 + 'px' }">{{ item.currentLabel }}</span>
                 </el-tag>
               </span>
             </transition>
@@ -74,9 +77,9 @@
               :class="[selectSize ? `is-${ selectSize }` : '']"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
-              :style="{ 'flex-grow': '1', width: inputLength / (inputWidth - 32) + '%', 'max-width': inputWidth - 42 + 'px' }"
+              :style="{ marginLeft: prefixWidth && !selected.length || tagInMultiLine ? `${prefixWidth}px` : null, flexGrow: '1', width: `${inputLength / (inputWidth - 32)}%`, maxWidth: `${inputWidth - 42}px` }"
               @focus="handleFocus"
-              @blur="softFocus = false"
+              @blur="handleBlur"
               @keyup="managePlaceholder"
               @keydown="resetInputState"
               @keydown.down.prevent="navigateOptions('next')"
@@ -118,7 +121,9 @@
             @mouseleave="inputHovering = false"
           >
             <template v-if="$slots.prefix" #prefix>
-              <slot name="prefix"></slot>
+              <div style="height: 100%;display: flex;justify-content: center;align-items: center">
+                <slot name="prefix"></slot>
+              </div>
             </template>
             <template #suffix>
               <i v-show="!showClose" :class="['el-select__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
@@ -132,38 +137,29 @@
         </div>
       </template>
       <template #default>
-        <transition
-          name="el-zoom-in-top"
-          @before-enter="handleMenuEnter"
-          @after-leave="doDestroy"
-        >
-          <el-select-menu
-            v-show="visible && emptyText !== false"
-            ref="popper"
+        <el-select-menu>
+          <el-scrollbar
+            v-show="options.size > 0 && !loading"
+            ref="scrollbar"
+            tag="ul"
+            wrap-class="el-select-dropdown__wrap"
+            view-class="el-select-dropdown__list"
+            :class="{ 'is-empty': !allowCreate && query && filteredOptionsCount === 0 }"
           >
-            <el-scrollbar
-              v-show="options.length > 0 && !loading"
-              ref="scrollbar"
-              tag="ul"
-              wrap-class="el-select-dropdown__wrap"
-              view-class="el-select-dropdown__list"
-              :class="{ 'is-empty': !allowCreate && query && filteredOptionsCount === 0 }"
-            >
-              <el-option
-                v-if="showNewOption"
-                :value="query"
-                :created="true"
-              />
-              <slot></slot>
-            </el-scrollbar>
-            <template v-if="emptyText && (!allowCreate || loading || (allowCreate && options.length === 0 ))">
-              <slot v-if="$slots.empty" name="empty"></slot>
-              <p v-else class="el-select-dropdown__empty">
-                {{ emptyText }}
-              </p>
-            </template>
-          </el-select-menu>
-        </transition>
+            <el-option
+              v-if="showNewOption"
+              :value="query"
+              :created="true"
+            />
+            <slot></slot>
+          </el-scrollbar>
+          <template v-if="emptyText && (!allowCreate || loading || (allowCreate && options.size === 0 ))">
+            <slot v-if="$slots.empty" name="empty"></slot>
+            <p v-else class="el-select-dropdown__empty">
+              {{ emptyText }}
+            </p>
+          </template>
+        </el-select-menu>
       </template>
     </el-popper>
   </div>
@@ -178,13 +174,14 @@ import {
   nextTick,
   reactive,
   provide,
+  computed,
 } from 'vue'
-import { Input as ElInput } from '@element-plus/input'
+import ElInput from '@element-plus/input'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
-import { Tag as ElTag } from '@element-plus/tag'
-import { Popper as ElPopper } from '@element-plus/popper'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
+import ElTag from '@element-plus/tag'
+import ElPopper from '@element-plus/popper'
+import ElScrollbar from '@element-plus/scrollbar'
 import { ClickOutside } from '@element-plus/directives'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { t } from '@element-plus/locale'
@@ -192,6 +189,7 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
+import { useFocus } from '@element-plus/hooks'
 
 import type { PropType } from 'vue'
 
@@ -210,7 +208,7 @@ export default defineComponent({
   props: {
     name: String,
     id: String,
-    modelValue: [Array, String, Number],
+    modelValue: [Array, String, Number, Boolean, Object],
     autocomplete: {
       type: String,
       default: 'off',
@@ -225,7 +223,10 @@ export default defineComponent({
     filterable: Boolean,
     allowCreate: Boolean,
     loading: Boolean,
-    popperClass: String,
+    popperClass: {
+      type: String,
+      default: '',
+    },
     remote: Boolean,
     loadingText: String,
     noMatchText: String,
@@ -239,7 +240,6 @@ export default defineComponent({
     },
     placeholder: {
       type: String,
-      default: t('el.select.placeholder'),
     },
     defaultFirstOption: Boolean,
     reserveKeyword: Boolean,
@@ -262,6 +262,7 @@ export default defineComponent({
   setup(props, ctx) {
     const states = useSelectStates(props)
     const {
+      optionsArray,
       selectSize,
       readonly,
       handleResize,
@@ -284,13 +285,13 @@ export default defineComponent({
       toggleLastOptionHitState,
       resetInputState,
       handleComposition,
+      onOptionCreate,
       onOptionDestroy,
       handleMenuEnter,
       handleFocus,
       blur,
       handleBlur,
       handleClearClick,
-      doDestroy,
       handleClose,
       toggleMenu,
       selectOption,
@@ -305,6 +306,8 @@ export default defineComponent({
       selectWrapper,
       scrollbar,
     } = useSelect(props, states, ctx)
+
+    const { focus } = useFocus(reference)
 
     const {
       inputWidth,
@@ -324,17 +327,21 @@ export default defineComponent({
       options,
       cachedOptions,
       optionsCount,
+      prefixWidth,
+      tagInMultiLine,
     } = toRefs(states)
 
     provide(selectKey, reactive({
       props,
       options,
+      optionsArray,
       cachedOptions,
       optionsCount,
       filteredOptionsCount,
       hoverIndex,
       handleOptionSelect,
       selectEmitter: states.selectEmitter,
+      onOptionCreate,
       onOptionDestroy,
       selectWrapper,
       selected,
@@ -342,7 +349,7 @@ export default defineComponent({
     }))
 
     onMounted(() => {
-      states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder
+      states.cachedPlaceHolder = currentPlaceholder.value = (props.placeholder || t('el.select.placeholder'))
       if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
         currentPlaceholder.value = ''
       }
@@ -353,7 +360,7 @@ export default defineComponent({
           small: 32,
           mini: 28,
         }
-        const input = reference.value.$el
+        const input = reference.value.input
         states.initialInputHeight = input.getBoundingClientRect().height || sizeMap[selectSize.value]
       }
       if (props.remote && props.multiple) {
@@ -363,9 +370,20 @@ export default defineComponent({
         if (reference.value.$el) {
           inputWidth.value = reference.value.$el.getBoundingClientRect().width
         }
+        if (ctx.slots.prefix) {
+          const inputChildNodes = reference.value.$el.childNodes
+          const input = [].filter.call(inputChildNodes, item => item.tagName === 'INPUT')[0]
+          const prefix = reference.value.$el.querySelector('.el-input__prefix')
+          prefixWidth.value = Math.max(prefix.getBoundingClientRect().width + 5, 30)
+          if (states.prefixWidth) {
+            input.style.paddingLeft = `${Math.max(states.prefixWidth, 30)}px`
+          }
+        }
       })
       setSelected()
     })
+
+
 
     onBeforeUnmount(() => {
       removeResizeListener(selectWrapper.value as any, handleResize)
@@ -377,7 +395,14 @@ export default defineComponent({
     if (!props.multiple && Array.isArray(props.modelValue)) {
       ctx.emit(UPDATE_MODEL_EVENT, '')
     }
+
+    const popperPaneRef = computed(() => {
+      return popper.value?.popperRef
+    })
+
     return {
+      tagInMultiLine,
+      prefixWidth,
       selectSize,
       readonly,
       handleResize,
@@ -419,17 +444,18 @@ export default defineComponent({
       blur,
       handleBlur,
       handleClearClick,
-      doDestroy,
       handleClose,
       toggleMenu,
       selectOption,
       getValueKey,
       navigateOptions,
       dropMenuVisible,
+      focus,
 
       reference,
       input,
       popper,
+      popperPaneRef,
       tags,
       selectWrapper,
       scrollbar,

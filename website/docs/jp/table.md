@@ -347,7 +347,7 @@
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -358,7 +358,7 @@
       fixed="right"
       label="Operations"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button @click="handleClick" type="text" size="small">Detail</el-button>
         <el-button type="text" size="small">Edit</el-button>
       </template>
@@ -445,12 +445,12 @@
     <el-table-column
       prop="city"
       label="City"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -556,7 +556,7 @@
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -567,7 +567,7 @@
       fixed="right"
       label="Operations"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -679,8 +679,7 @@
         </el-table-column>
         <el-table-column
           prop="address"
-          label="Address"
-          width="300">
+          label="Address">
         </el-table-column>
         <el-table-column
           prop="zip"
@@ -848,7 +847,7 @@
     <el-table-column
       label="Date"
       width="120">
-      <template v-slot="scope">{{ scope.row.date }}</template>
+      <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       property="name"
@@ -1027,7 +1026,7 @@
       :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-tag
           :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1098,7 +1097,7 @@
     <el-table-column
       label="Date"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1106,13 +1105,13 @@
     <el-table-column
       label="Name"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
             <p>姓名: {{ scope.row.name }}</p>
             <p>住址: {{ scope.row.address }}</p>
           </template>
-          <template #trigger>
+          <template #reference>
             <div class="name-wrapper">
               <el-tag size="medium">{{ scope.row.name }}</el-tag>
             </div>
@@ -1122,7 +1121,7 @@
     </el-table-column>
     <el-table-column
       label="Operations">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -1190,13 +1189,13 @@
     </el-table-column>
     <el-table-column
       align="right">
-      <template #header v-slot="scope">
+      <template #header>
         <el-input
           v-model="search"
           size="mini"
           placeholder="Type to search"/>
       </template>
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -1256,7 +1255,7 @@
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template v-slot="props">
+      <template #default="props">
         <p>State: {{ props.row.state }}</p>
         <p>City: {{ props.row.city }}</p>
         <p>Address: {{ props.row.address }}</p>
@@ -1832,7 +1831,7 @@ rowspan と colspan を設定すると、セルをマージすることができ
 | header-cell-class-name | function that returns custom class names for a cell in table header, or a string assigning class names for every cell in table header | Function({row, column, rowIndex, columnIndex})/String | — | — |
 | header-cell-style | function that returns custom style for a cell in table header, or an object assigning custom style for every cell in table header | Function({row, column, rowIndex, columnIndex})/Object | — | — |
 | row-key | key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used. | Function(row)/String | — | — |
-| empty-text | Displayed text when data is empty. You can customize this area with `slot="empty"` | String | — | No Data |
+| empty-text | Displayed text when data is empty. You can customize this area with `#empty` | String | — | No Data |
 | default-expand-all | whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data | Boolean | — | false |
 | expand-row-keys | set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop | Array | — | |
 | default-sort | set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order | Object | `order`: ascending, descending | if `prop` is set, and `order` is not set, then `order` is default to ascending |
@@ -1873,7 +1872,7 @@ rowspan と colspan を設定すると、セルをマージすることができ
 |------|--------|-------|
 | clearSelection | used in multiple selection Table, clear user selection | — |
 | toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected | row, selected |
-| toggleAllSelection | used in multiple selection Table, toggle the selected state of all rows | - |
+| toggleAllSelection | used in multiple selection Table, toggle select all and deselect all | - |
 | toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | row, expanded |
 | setCurrentRow | used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection. | row |
 | clearSort | clear sorting, restore data to the original order | — |
@@ -1897,7 +1896,7 @@ rowspan と colspan を設定すると、セルをマージすることができ
 | width | column width | string | — | — |
 | min-width | column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion | string | — | — |
 | fixed | whether column is fixed at left/right. Will be fixed at left if `true` | string/boolean | true/left/right | — |
-| render-header | render function for table header of this column | Function(h, { column, $index }) | — | — |
+| render-header | render function for table header of this column | Function({ column, $index }) | — | — |
 | sortable | whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table | boolean, string | true, false, custom | false |
 | sort-method | sorting method, works when `sortable` is `true`. Should return a number, just like Array.sort | Function(a, b) | — | — |
 | sort-by | specify which property to sort by, works when `sortable` is `true` and `sort-method` is `undefined`. If set to an Array, the column will sequentially sort by the next property if the previous one is equal | Function(row, index)/String/Array | — | — |

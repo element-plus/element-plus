@@ -75,7 +75,7 @@ Add more modules based on your scenario.
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage1"
+      v-model:currentPage="currentPage1"
       :page-size="100"
       layout="total, prev, pager, next"
       :total="1000">
@@ -86,7 +86,7 @@ Add more modules based on your scenario.
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage2"
+      v-model:currentPage="currentPage2"
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="sizes, prev, pager, next"
@@ -98,7 +98,7 @@ Add more modules based on your scenario.
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage3"
+      v-model:currentPage="currentPage3"
       :page-size="100"
       layout="prev, pager, next, jumper"
       :total="1000">
@@ -109,7 +109,7 @@ Add more modules based on your scenario.
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage4"
+      v-model:currentPage="currentPage4"
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="total, sizes, prev, pager, next, jumper"
@@ -178,7 +178,7 @@ When there is only one page, hide the pagination by setting the `hide-on-single-
 | page-count | total page count. Set either `total` or `page-count` and pages will be displayed; if you need `page-sizes`, `total` is required | number | — | — |
 | pager-count | number of pagers. Pagination collapses when the total page count exceeds this value | number | odd number between 5 and 21 | 7 |
 | current-page | current page number, supports the .sync modifier | number | — | 1 |
-| layout | layout of Pagination, elements separated with a comma | string | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total'  |
+| layout | layout of Pagination, elements separated with a comma | string | `sizes` / `prev` / `pager` / `next` / `jumper` / `->` / `total` / `slot` | 'prev, pager, next, jumper, ->, total'  |
 | page-sizes | options of item count per page | number[] | — |  [10, 20, 30, 40, 50, 100] |
 | popper-class | custom class name for the page size Select's dropdown | string | — | — |
 | prev-text | text for the prev button | string | — | — |
@@ -194,7 +194,7 @@ When there is only one page, hide the pagination by setting the `hide-on-single-
 | prev-click | triggers when the prev button is clicked and current page changes | the new current page |
 | next-click | triggers when the next button is clicked and current page changes | the new current page |
 
-### Slot
+### Slots
 | Name | Description |
 | --- | --- |
 | — | custom content. To use this, you need to declare `slot` in `layout` |

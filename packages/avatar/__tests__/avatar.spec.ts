@@ -68,5 +68,19 @@ describe('Avatar.vue', () => {
       expect(wrapper.find('img').attributes('style')).toContain(`object-fit: ${fit};`)
     }
   })
+
+  test('src changed', async () => {
+    const wrapper = mount(Avatar, {
+      slots: { default: 'fallback' },
+    })
+    expect(wrapper.vm.hasLoadError).toBe(false)
+    await wrapper.setProps({ src: IMAGE_FAIL })
+    // wait error event trigger
+    await nextTick()
+    expect(wrapper.vm.hasLoadError).toBe(true)
+    await wrapper.setProps({ src: IMAGE_SUCCESS })
+    expect(wrapper.vm.hasLoadError).toBe(false)
+    expect(wrapper.find('img').exists()).toBe(true)
+  })
 })
 

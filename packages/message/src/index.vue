@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-message-fade">
+  <transition name="el-message-fade" @before-leave="onClose" @after-leave="$emit('destroy')">
     <div
       v-show="visible"
       :id="id"
@@ -17,35 +17,27 @@
     >
       <i v-if="type || iconClass" :class="[typeClass, iconClass]"></i>
       <slot>
-        <p v-if="!dangerouslyUseHTMLString" class="el-message__content">
-          {{ message }}
-        </p>
+        <p v-if="!dangerouslyUseHTMLString" class="el-message__content">{{ message }}</p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
         <!--  eslint-disable-next-line -->
         <p v-else class="el-message__content" v-html="message"></p>
       </slot>
-      <div
-        v-if="showClose"
-        class="el-message__closeBtn el-icon-close"
-        @click.stop="close"
-      ></div>
+      <div v-if="showClose" class="el-message__closeBtn el-icon-close" @click.stop="close"></div>
     </div>
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from 'vue'
+import { defineComponent, computed, ref, PropType, onMounted, onBeforeUnmount } from 'vue'
 // MessageVM is an alias of vue.VNode
 import type { MessageVM } from './types'
 import { EVENT_CODE } from '../../utils/aria'
 import { on, off } from '../../utils/dom'
-
 const TypeMap: Indexable<string> = {
   success: 'success',
   info: 'info',
   warning: 'warning',
   error: 'error',
 }
-
 export default defineComponent({
   name: 'ElMessage',
   props: {
@@ -68,6 +60,7 @@ export default defineComponent({
     offset: { type: Number, default: 20 },
     zIndex: { type: Number, default: 0 },
   },
+  emits: ['destroy'],
   setup(props) {
     const typeClass = computed(() => {
       const type = props.type
@@ -75,7 +68,6 @@ export default defineComponent({
         ? `el-message__icon el-icon-${TypeMap[type]}`
         : ''
     })
-
     const customStyle = computed(() => {
       return {
         top: `${props.offset}px`,
@@ -84,69 +76,57 @@ export default defineComponent({
     })
 
     const visible = ref(false)
-    const closed = ref(false)
-    const timer = ref(null)
+    let timer = null
+
+    function startTimer() {
+      if (props.duration > 0) {
+        timer = setTimeout(() => {
+          if (visible.value) {
+            close()
+          }
+        }, props.duration)
+      }
+    }
+
+    function clearTimer() {
+      clearTimeout(timer)
+      timer = null
+    }
+
+    function close() {
+      visible.value = false
+    }
+
+    function keydown({ code }: KeyboardEvent) {
+      if (code === EVENT_CODE.esc) {
+        // press esc to close the message
+        if (visible.value) {
+          close()
+        }
+      } else {
+        startTimer() // resume timer
+      }
+    }
+
+    onMounted(() => {
+      startTimer()
+      visible.value = true
+      on(document, 'keydown', keydown)
+    })
+
+    onBeforeUnmount(() => {
+      off(document, 'keydown', keydown)
+    })
 
     return {
       typeClass,
       customStyle,
       visible,
-      closed,
-      timer,
+
+      close,
+      clearTimer,
+      startTimer,
     }
-  },
-  watch: {
-    closed(newVal: boolean) {
-      if (newVal) {
-        this.visible = false
-        on(this.$el, 'transitionend', this.destroyElement)
-      }
-    },
-  },
-  mounted() {
-    this.startTimer()
-    this.visible = true
-    on(document, 'keydown', this.keydown)
-  },
-  beforeUnmount() {
-    off(document, 'keydown', this.keydown)
-  },
-  methods: {
-    destroyElement() {
-      this.visible = false
-      off(this.$el, 'transitionend', this.destroyElement)
-      this.onClose()
-    },
-    // start counting down to destroy message instance
-    startTimer() {
-      if (this.duration > 0) {
-        this.timer = setTimeout(() => {
-          if (!this.closed) {
-            this.close()
-          }
-        }, this.duration)
-      }
-    },
-    // clear timer
-    clearTimer() {
-      clearTimeout(this.timer)
-      this.timer = null
-    },
-    // Event handlers
-    close() {
-      this.closed = true
-      this.timer = null
-    },
-    keydown({ code }: KeyboardEvent) {
-      if (code === EVENT_CODE.esc) {
-        // press esc to close the message
-        if (!this.closed) {
-          this.close()
-        }
-      } else {
-        this.startTimer() // resume timer
-      }
-    },
   },
 })
 </script>

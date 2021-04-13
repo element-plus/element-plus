@@ -347,7 +347,7 @@
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -358,7 +358,7 @@
       fixed="right"
       label="操作"
       width="100">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
         <el-button type="text" size="small">编辑</el-button>
       </template>
@@ -442,12 +442,12 @@
     <el-table-column
       prop="city"
       label="市区"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -553,7 +553,7 @@
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -564,7 +564,7 @@
       fixed="right"
       label="操作"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -676,8 +676,7 @@
         </el-table-column>
         <el-table-column
           prop="address"
-          label="地址"
-          width="300">
+          label="地址">
         </el-table-column>
         <el-table-column
           prop="zip"
@@ -846,7 +845,7 @@
     <el-table-column
       label="日期"
       width="120">
-      <template v-slot="scope">{{ scope.row.date }}</template>
+      <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       prop="name"
@@ -1027,7 +1026,7 @@
       :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-tag
           :type="scope.row.tag === '家' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1098,7 +1097,7 @@
     <el-table-column
       label="日期"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1106,13 +1105,13 @@
     <el-table-column
       label="姓名"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
             <p>姓名: {{ scope.row.name }}</p>
             <p>住址: {{ scope.row.address }}</p>
           </template>
-          <template #trigger>
+          <template #reference>
             <div class="name-wrapper">
               <el-tag size="medium">{{ scope.row.name }}</el-tag>
             </div>
@@ -1121,7 +1120,7 @@
       </template>
     </el-table-column>
     <el-table-column label="操作">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -1180,7 +1179,7 @@
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template v-slot="props">
+      <template #default="props">
         <el-form label-position="left" inline class="demo-table-expand">
           <el-form-item label="商品名称">
             <span>{{ props.row.name }}</span>
@@ -1441,13 +1440,13 @@
     </el-table-column>
     <el-table-column
       align="right">
-      <template #header v-slot="scope">
+      <template #header>
         <el-input
           v-model="search"
           size="mini"
           placeholder="输入关键字搜索"/>
       </template>
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -1875,7 +1874,7 @@
 | header-cell-class-name | 表头单元格的 className 的回调方法，也可以使用字符串为所有表头单元格设置一个固定的 className。 | Function({row, column, rowIndex, columnIndex})/String | — | — |
 | header-cell-style | 表头单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有表头单元格设置一样的 Style。 | Function({row, column, rowIndex, columnIndex})/Object | — | — |
 | row-key | 行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的。类型为 String 时，支持多层访问：`user.info.id`，但不支持 `user.info[0].id`，此种情况请使用 `Function`。 | Function(row)/String | — | — |
-| empty-text | 空数据时显示的文本内容，也可以通过 `slot="empty"` 设置 | String | — | 暂无数据 |
+| empty-text | 空数据时显示的文本内容，也可以通过 `#empty` 设置 | String | — | 暂无数据 |
 | default-expand-all | 是否默认展开所有行，当 Table 包含展开行存在或者为树形表格时有效 | Boolean | — | false |
 | expand-row-keys | 可以通过该属性设置 Table 目前的展开行，需要设置 row-key 属性才能使用，该属性为展开行的 keys 数组。| Array | — | |
 | default-sort | 默认的排序列的 prop 和顺序。它的`prop`属性指定默认的排序的列，`order`指定默认排序的顺序| Object | `order`: ascending, descending | 如果只指定了`prop`, 没有指定`order`, 则默认顺序是ascending |
@@ -1916,7 +1915,7 @@
 | ---- | ---- | ---- |
 | clearSelection | 用于多选表格，清空用户的选择 | — |
 | toggleRowSelection | 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中） | row, selected |
-| toggleAllSelection | 用于多选表格，切换所有行的选中状态 | - |
+| toggleAllSelection | 用于多选表格，切换全选和全不选 | - |
 | toggleRowExpansion | 用于可展开表格与树形表格，切换某一行的展开状态，如果使用了第二个参数，则是设置这一行展开与否（expanded 为 true 则展开） | row, expanded |
 | setCurrentRow | 用于单选表格，设定某一行为选中行，如果调用时不加参数，则会取消目前高亮行的选中状态。 | row |
 | clearSort | 用于清空排序条件，数据会恢复成未排序的状态 | — |
@@ -1940,7 +1939,7 @@
 | width | 对应列的宽度 | string | — | — |
 | min-width | 对应列的最小宽度，与 width 的区别是 width 是固定的，min-width 会把剩余宽度按比例分配给设置了 min-width 的列 | string | — | — |
 | fixed | 列是否固定在左侧或者右侧，true 表示固定在左侧 | string, boolean | true, left, right | — |
-| render-header | 列标题 Label 区域渲染使用的 Function | Function(h, { column, $index }) | — | — |
+| render-header | 列标题 Label 区域渲染使用的 Function | Function({ column, $index }) | — | — |
 | sortable | 对应列是否可以排序，如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件 | boolean, string | true, false, 'custom' | false |
 | sort-method | 对数据进行排序的时候使用的方法，仅当 sortable 设置为 true 的时候有效，需返回一个数字，和 Array.sort 表现一致 | Function(a, b) | — | — |
 | sort-by | 指定数据按照哪个属性进行排序，仅当 sortable 设置为 true 且没有设置 sort-method 的时候有效。如果 sort-by 为数组，则先按照第 1 个属性排序，如果第 1 个相等，再按照第 2 个排序，以此类推 | String/Array/Function(row, index) | — | — |

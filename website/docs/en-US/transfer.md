@@ -1,4 +1,4 @@
-
+## Transfer
 
 ### Customizable
 
@@ -10,8 +10,8 @@ You can customize list titles, button texts, render function for data items, che
   <p style="text-align: center; margin: 0 0 20px">Customize data items using render-content</p>
   <div style="text-align: center">
     <el-transfer
+      v-model="leftValue"
       style="text-align: left; display: inline-block"
-      v-model="value"
       filterable
       :left-default-checked="[2, 3]"
       :right-default-checked="[1]"
@@ -22,16 +22,21 @@ You can customize list titles, button texts, render function for data items, che
         noChecked: '${total}',
         hasChecked: '${checked}/${total}'
       }"
+      :data="data"
       @change="handleChange"
-      :data="data">
-      <el-button class="transfer-footer" slot="left-footer" size="small">Operation</el-button>
-      <el-button class="transfer-footer" slot="right-footer" size="small">Operation</el-button>
+    >
+      <template #left-footer>
+        <el-button class="transfer-footer" size="small">Operation</el-button>
+      </template>
+      <template #right-footer>
+        <el-button class="transfer-footer" size="small">Operation</el-button>
+      </template>
     </el-transfer>
     <p style="text-align: center; margin: 50px 0 20px">Customize data items using scoped slot</p>
     <div style="text-align: center">
       <el-transfer
+        v-model="rightValue"
         style="text-align: left; display: inline-block"
-        v-model="value4"
         filterable
         :left-default-checked="[2, 3]"
         :right-default-checked="[1]"
@@ -41,21 +46,28 @@ You can customize list titles, button texts, render function for data items, che
           noChecked: '${total}',
           hasChecked: '${checked}/${total}'
         }"
+        :data="data"
         @change="handleChange"
-        :data="data">
-        <span slot-scope="{ option }">{{ option.key }} - {{ option.label }}</span>
-        <el-button class="transfer-footer" slot="left-footer" size="small">Operation</el-button>
-        <el-button class="transfer-footer" slot="right-footer" size="small">Operation</el-button>
+      >
+        <template #default="{ option }">
+          <span>{{ option.key }} - {{ option.label }}</span>
+        </template>
+        <template #left-footer>
+          <el-button class="transfer-footer" size="small">Operation</el-button>
+        </template>
+        <template #right-footer>
+          <el-button class="transfer-footer" size="small">Operation</el-button>
+        </template>
       </el-transfer>
     </div>
   </div>
 </template>
 
 <style>
-  .transfer-footer {
-    margin-left: 20px;
-    padding: 6px 5px;
-  }
+.transfer-footer {
+  margin-left: 20px;
+  padding: 6px 5px;
+}
 </style>
 
 <script>
@@ -74,8 +86,8 @@ You can customize list titles, button texts, render function for data items, che
       };
       return {
         data: generateData(),
-        value: [1],
-        value4: [1],
+        rightValue: [1],
+        leftValue: [1],
         renderFunc(h, option) {
           return h("span", null, option.key, " - ", option.label);
         }
@@ -149,7 +161,7 @@ By default, Transfer looks for `key`, `label` and `disabled` in a data item. If 
 | left-default-checked | key array of initially checked data items of the left list | array | — | [ ] |
 | right-default-checked | key array of initially checked data items of the right list | array | — | [ ] |
 
-### Slot
+### Slots
 | Name | Description |
 |------|--------|
 | left-footer | content of left list footer |

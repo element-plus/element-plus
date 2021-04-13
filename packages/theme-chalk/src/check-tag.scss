@@ -1,0 +1,26 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(check-tag) {
+  background-color: $--background-color-base;
+  border-radius: $--border-radius-base;
+  color: $--color-info;
+  cursor: pointer;
+  display: inline-block;
+  font-size: $--font-size-base;
+  line-height: $--font-size-base;
+  padding: 7px 15px;
+  transition: $--all-transition;
+  font-weight: bold;
+  &:hover {
+    background-color: rgb(220, 223, 230);
+  }
+
+  @include when(checked) {
+    background-color: #DEEDFC;
+    color: $--color-primary-light-1;
+    &:hover {
+      background-color: $--color-primary-light-7;
+    }
+  }
+}

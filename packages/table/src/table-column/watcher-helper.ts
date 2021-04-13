@@ -1,5 +1,5 @@
 import { watch, getCurrentInstance, ComputedRef } from 'vue'
-import { TableColumnCtx, TableColumn } from '../table'
+import { TableColumnCtx, TableColumn } from '../table.type'
 
 function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
   const instance = (getCurrentInstance() as unknown) as TableColumn
@@ -21,6 +21,7 @@ function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
           () => props_[columnKey],
           newVal => {
             instance.columnConfig.value[columnKey] = newVal
+            instance.columnConfig.value[key] = newVal
             const updateColumns = columnKey === 'fixed'
             owner.value.store.scheduleLayout(updateColumns)
           },

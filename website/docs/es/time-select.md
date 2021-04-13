@@ -10,11 +10,9 @@ Provee una lista de tiempo fijo para que los usuarios escojan.
 ```html
 <el-time-select
   v-model="value"
-  :picker-options="{
-    start: '08:30',
-    step: '00:15',
-    end: '18:30'
-  }"
+  start='08:30'
+  step='00:15'
+  end='18:30'
   placeholder="Select time">
 </el-time-select>
 
@@ -40,21 +38,17 @@ Si se escoge el tiempo de inicio al principio, el tiempo de finalización cambia
   <el-time-select
     placeholder="Start time"
     v-model="startTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30'
-    }">
+    start='08:30'
+  step='00:15'
+  end='18:30'>
   </el-time-select>
   <el-time-select
     placeholder="End time"
     v-model="endTime"
-    :picker-options="{
-      start: '08:30',
-      step: '00:15',
-      end: '18:30',
-      minTime: startTime
-    }">
+    start='08:30'
+    step='00:15'
+    end='18:30'
+    :minTime="startTime">
   </el-time-select>
 </template>
 
@@ -74,25 +68,19 @@ Si se escoge el tiempo de inicio al principio, el tiempo de finalización cambia
 ### Atributos
 | Atributo          | Descripción                              | Tipo                                     | Valores aceptados                        | Por defecto          |
 | ----------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | -------------------- |
-| value / v-model    | valor enlazado                           | date(TimePicker) / string(TimeSelect)    | -                                        | -                    |
+| value / v-model    | valor enlazado                           | string    | -                                        | -                    |
 | editable          | si el input puede ser editado            | boolean                                  | —                                        | true                 |
 | clearable         | si mostrar el botón de borrado           | boolean                                  | —                                        | true                 |
 | size              | tamaño del input                         | string                                   | medium / small / mini                    | —                    |
 | placeholder       | placeholder en un modo fuera de rango    | string                                   | —                                        | —                    |
-| picker-options    | opciones adicionales, revisar la tabla posterior | object                                   | —                                        | {}                   |
 | name              | como `name` en input nativo              | string                                   | —                                        | —                    |
 | prefix-icon       | Clase personalizada para el icono de prefijado | string                                   | —                                        | el-icon-time         |
 | clear-icon        | Clase personalizada para el icono `clear` | string                                   | —                                        | el-icon-circle-close |
-
-### Opciones para Time Select
-| Atributo | Descripción                              | Tipo   | Valores aceptados | Por defecto |
-| -------- | ---------------------------------------- | ------ | ----------------- | ----------- |
 | start    | tiempo de inicio                         | string | —                 | 09:00       |
 | end      | tiempo de finalización                   | string | —                 | 18:00       |
 | step     | salto de tiempo                          | string | —                 | 00:30       |
 | minTime  | tiempo mínimo, cualquier tiempo antes de éste será deshabilitado | string | —                 | 00:00       |
 | maxTime  | tiempo máximo, cualquier tiempo después de éste será deshabilitado | string | —                 | —           |
-
 
 ### Eventos
 | Nombre de Evento | Descripción                              | Parámetros                     |

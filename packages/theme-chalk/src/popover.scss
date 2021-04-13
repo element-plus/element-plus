@@ -2,7 +2,7 @@
 @import 'common/var';
 
 @include b(popover) {
-  &.el-popper {
+  &.#{$namespace}-popper {
     background: $--popover-background-color;
     min-width: 150px;
     border-radius: 4px;
@@ -15,13 +15,6 @@
     font-size: $--popover-font-size;
     box-shadow: $--box-shadow-light;
     word-break: break-all;
-
-    &.el-popper[role="tooltip"] {
-      border: none;
-      .el-popper__arrow::before {
-        border: none;
-      }
-    }
 
     @include m(plain) {
       padding: $--popover-padding-large;

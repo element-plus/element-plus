@@ -8,15 +8,19 @@
 @include b(autocomplete) {
   position: relative;
   display: inline-block;
+
+  @include e(popper) {
+    @include picker-popper(
+      $--color-white,
+      1px solid $--border-color-light,
+      $--box-shadow-light,
+    );
+  }
 }
 
 @include b(autocomplete-suggestion) {
-  margin: 5px 0;
-  box-shadow: $--box-shadow-light;
   border-radius: $--border-radius-base;
-  border: 1px solid $--border-color-light;
   box-sizing: border-box;
-  background-color: $--color-white;
 
   @include e(wrap) {
     max-height: 280px;
@@ -37,6 +41,7 @@
     color: $--color-text-regular;
     font-size: $--font-size-base;
     list-style: none;
+    text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -73,7 +78,7 @@
       }
     }
 
-    & .el-icon-loading {
+    & .#{$namespace}-icon-loading {
       vertical-align: middle;
     }
   }

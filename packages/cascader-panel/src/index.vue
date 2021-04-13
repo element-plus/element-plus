@@ -109,11 +109,10 @@ export default defineComponent({
         initialLoaded = false
         lazyLoad(null, () => {
           initialLoaded = true
-          syncCheckedValue()
+          syncCheckedValue(false, true)
         })
       } else {
-        const nodes = checkedNodes.value.map(node => store.value.getSameNode(node))
-        syncMenuState(nodes)
+        syncCheckedValue(false, true)
       }
     }
 
@@ -169,7 +168,7 @@ export default defineComponent({
 
     const getCheckedNodes = (leafOnly: boolean) => {
       return getFlattedNodes(leafOnly)
-        .filter(node => node.checked)
+        .filter(node => node.checked !== false)
     }
 
     const clearCheckedNodes = () => {
@@ -185,10 +184,10 @@ export default defineComponent({
       const nodes = sortByOriginalOrder(oldNodes, newNodes)
       const values = nodes.map(node => node.valueByOption)
       checkedNodes.value = nodes
-      checkedValue.value = multiple ? values : (values[0] || null)
+      checkedValue.value = multiple ? values : (values[0] ?? null)
     }
 
-    const syncCheckedValue = (loaded = false) => {
+    const syncCheckedValue = (loaded = false, forced = false) => {
       const { modelValue } = props
       const { lazy, multiple, checkStrictly } = config.value
       const leafOnly = !checkStrictly
@@ -196,7 +195,7 @@ export default defineComponent({
       if (
         !initialLoaded ||
         manualChecked ||
-        isEqual(modelValue, checkedValue.value)
+        !forced && isEqual(modelValue, checkedValue.value)
       ) return
 
       if (lazy && !loaded) {
@@ -206,10 +205,10 @@ export default defineComponent({
 
         if (nodes.length) {
           nodes.forEach(node => {
-            lazyLoad(node, () => syncCheckedValue())
+            lazyLoad(node, () => syncCheckedValue(false, forced))
           })
         } else {
-          syncCheckedValue(true)
+          syncCheckedValue(true, forced)
         }
       } else {
         const values = multiple ? coerceTruthyValueToArray(modelValue) : [modelValue]

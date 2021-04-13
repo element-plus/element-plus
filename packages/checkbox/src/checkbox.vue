@@ -8,6 +8,7 @@
       { 'is-bordered': border },
       { 'is-checked': isChecked }
     ]"
+    :aria-controls="indeterminate ? controls : null"
   >
     <span
       class="el-checkbox__input"
@@ -60,8 +61,6 @@
 <script lang='ts'>
 import {
   defineComponent,
-  getCurrentInstance,
-  onMounted,
   PropType,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
@@ -109,21 +108,7 @@ export default defineComponent({
   },
   emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props) {
-    const { focus, isChecked, isDisabled, checkboxSize, model, handleChange } = useCheckbox(props)
-    const instance = getCurrentInstance()
-
-    onMounted(() => {
-      instance.vnode.el.setAttribute('aria-controls', props.controls)
-    })
-
-    return {
-      focus,
-      isChecked,
-      isDisabled,
-      checkboxSize,
-      model,
-      handleChange,
-    }
+    return useCheckbox(props)
   },
 })
 </script>

@@ -1,9 +1,9 @@
-import { Ref } from 'vue'
 import isServer from './isServer'
-import { getConfig } from './config'
+import * as configs from './config'
 import { addClass, removeClass, on } from './dom'
 import { EVENT_CODE } from './aria'
 
+import type { Ref } from 'vue'
 interface Instance {
   closeOnClickModal: Ref<boolean>
   closeOnPressEscape: Ref<boolean>
@@ -88,7 +88,7 @@ const PopupManager: IPopupManager = {
   },
 
   nextZIndex: function() {
-    return PopupManager.zIndex++
+    return ++PopupManager.zIndex
   },
 
   modalStack: [],
@@ -194,7 +194,7 @@ Object.defineProperty(PopupManager, 'zIndex', {
   configurable: true,
   get() {
     if (zIndex === undefined) {
-      zIndex = getConfig('zIndex') as number || 2000
+      zIndex = configs.getConfig('zIndex') as number || 2000
     }
     return zIndex
   },

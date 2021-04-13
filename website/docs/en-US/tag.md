@@ -185,6 +185,36 @@ Tag provide three different themes: `dark`、`light` and `plain`
 ```
 :::
 
+### Checkable tag
+
+Sometimes because of the business needs, we might need checkbox like tag, but **button like checkbox** cannot meet our needs, here comes `check-tag`
+
+:::demo basic check-tag usage, the API is rather simple.
+```html
+
+<div>
+  <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
+  <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        checked: false,
+      }
+    },
+    methods: {
+      onChange(checked) {
+        this.checked = checked;
+      }
+    }
+  }
+</script>
+
+```
+:::
+
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
@@ -202,3 +232,13 @@ Tag provide three different themes: `dark`、`light` and `plain`
 |---------- |-------- |---------- |
 | click | triggers when Tag is clicked | — |
 | close | triggers when Tag is removed | — |
+
+### CheckTag Attributes
+| Attribute      | Description          | Type      | Accepted Values   | Default  |
+|---------- |-------------- |---------- |--------------------------------  |-------- |
+| checked | is checked | boolean | true/false | — |
+
+### CheckTag Events
+| Event Name | Description | Parameters |
+|---------- |-------- |---------- |
+| change | triggers when Check Tag is clicked | checked |

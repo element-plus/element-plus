@@ -4,9 +4,10 @@
   </transition>
 </template>
 <script lang="ts">
+import { defineComponent } from 'vue'
 import { addClass, removeClass, hasClass } from '@element-plus/utils/dom'
 
-export default {
+export default defineComponent({
   name: 'ElMenuCollapseTransition',
   setup() {
     return {
@@ -15,9 +16,10 @@ export default {
           el.style.opacity = 0.2
         },
 
-        enter(el) {
+        enter(el, done) {
           addClass(el, 'el-opacity-transition')
           el.style.opacity = 1
+          done()
         },
 
         afterEnter(el) {
@@ -51,5 +53,5 @@ export default {
       },
     }
   },
-}
+})
 </script>

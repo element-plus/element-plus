@@ -347,7 +347,7 @@ Lorsque qu'il y a beaucoup de colonnes, il peut être utile d'en fixer certaines
     <el-table-column
       prop="address"
       label="Adresse"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -358,7 +358,7 @@ Lorsque qu'il y a beaucoup de colonnes, il peut être utile d'en fixer certaines
       fixed="right"
       label="Opérations"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button @click="handleClick" type="text" size="small">Detail</el-button>
         <el-button type="text" size="small">Editer</el-button>
       </template>
@@ -445,12 +445,12 @@ Si vous avez un gros volume de données à afficher, vous pouvez fixer le header
     <el-table-column
       prop="city"
       label="Ville"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="Adresse"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -556,7 +556,7 @@ Quand les données changent dynamiquement, vous pouvez avoir besoin d'une hauteu
     <el-table-column
       prop="address"
       label="Adresse"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -567,7 +567,7 @@ Quand les données changent dynamiquement, vous pouvez avoir besoin d'une hauteu
       fixed="right"
       label="Opérations"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -679,8 +679,7 @@ Quand la structure du tableau est complexe, vous pouvez grouper les headers afin
         </el-table-column>
         <el-table-column
           prop="address"
-          label="Adresse"
-          width="300">
+          label="Adresse">
         </el-table-column>
         <el-table-column
           prop="zip"
@@ -848,7 +847,7 @@ Vous pouvez aussi sélectionner plusieurs lignes.
     <el-table-column
       label="Date"
       width="120">
-      <template v-slot="scope">{{ scope.row.date }}</template>
+      <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       property="name"
@@ -1027,7 +1026,7 @@ Vous pouvez filtrer la table pour obtenir rapidement les lignes désirées.
       :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-tag
           :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1099,7 +1098,7 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
     <el-table-column
       label="Date"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1107,13 +1106,13 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
     <el-table-column
       label="Nom"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
             <p>姓名: {{ scope.row.name }}</p>
             <p>住址: {{ scope.row.address }}</p>
           </template>
-          <template #trigger>
+          <template #reference>
             <div class="name-wrapper">
               <el-tag size="medium">{{ scope.row.name }}</el-tag>
             </div>
@@ -1123,7 +1122,7 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
     </el-table-column>
     <el-table-column
       label="Opérations">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Editer</el-button>
@@ -1192,13 +1191,13 @@ Vous pouvez également personnaliser le header de la table.
     </el-table-column>
     <el-table-column
       align="right">
-      <template #header v-slot="scope">
+      <template #header>
         <el-input
           v-model="search"
           size="mini"
           placeholder="Type to search"/>
       </template>
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Editer</el-button>
@@ -1259,7 +1258,7 @@ Lorsque le contenu d'une ligne est trop long et que vous ne souhaitez pas affich
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template v-slot="props">
+      <template #default="props">
         <p>État: {{ props.row.state }}</p>
         <p>Ville: {{ props.row.city }}</p>
         <p>Adresse: {{ props.row.address }}</p>
@@ -1839,7 +1838,7 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 | header-cell-class-name | Fonction qui retourne un nom de classe pour chaque cellule de header. Peut aussi être une simple chaîne de caractères assignant une classe à chaque cellule de header. | Function({row, column, rowIndex, columnIndex})/String | — | — |
 | header-cell-style | Fonction qui retourne un style pour chaque cellule de header. Peut aussi être un objet assignant un style à chaque cellule de header. | Function({row, column, rowIndex, columnIndex})/Object | — | — |
 | row-key | Clé de chaque ligne, utilisée pour optimiser le rendu. Requise si `reserve-selection` est activé. Quand c'est un `String`, l'accès multi-niveaux est supporté, e.g. `user.info.id`, mais `user.info[0].id` n'est pas supporté. Dans ce dernier cas une `Function` devrait être utilisée. | Function(row)/String | — | — |
-| empty-text | Texte à afficher quand il n'y a pas de données. Vous pouvez changer cette zone grâce à `slot="empty"`. | String | — | No Data |
+| empty-text | Texte à afficher quand il n'y a pas de données. Vous pouvez changer cette zone grâce à `#empty`. | String | — | No Data |
 | default-expand-all | whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data | Boolean | — | false |
 | expand-row-keys | Détermine les lignes qui sont étendues, contient les clés des lignes correspondantes. Vous devriez configurer `row-key` avant celle-ci. | Array | — | |
 | default-sort | Détermine l'ordre de tri par défaut. La propriété `prop` détermine la colonne par défaut, `order` détermine l'ordre par défaut. | Object | `order`: ascending, descending | Si `order` est absent, son défaut sera `ascending`. |
@@ -1882,7 +1881,7 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 |------|--------|-------|
 | clearSelection | Dans les tables avec sélection multiple, efface la sélection. | — |
 | toggleRowSelection | Dans les tables avec sélection multiple, change la sélection d'une ligne. Grâce au deuxième paramètre vous pouvez directement décider si cette ligne est sélectionnée. | row, selected |
-| toggleAllSelection | Utilisé dans les tables à sélection multiples, sélectionne toutes les lignes. | - |
+| toggleAllSelection | Utilisé dans les tables à sélection multiples, toggle select all and deselect all | - |
 | toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | row, expanded |
 | setCurrentRow | Dans les tables à sélection simple, sélectionne une ligne. Sans paramètre la sélection est effacé. | row |
 | clearSort | Efface le tri. | — |
@@ -1908,7 +1907,7 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 | width | Largeur de la colonne. | string | — | — |
 | min-width | Largeur minimale de la colonne. Les colonnes avec `width` ont une largeur fixe, alors que celles avec `min-width` ont une largeur proportionnellement distribuée. | string | — | — |
 | fixed | Si la colonne est fixée à droite ou à gauche. Fixée à gauche si `true`. | string/boolean | true/left/right | — |
-| render-header | Fonction de rendu pour le header de cette colonne. | Function(h, { column, $index }) | — | — |
+| render-header | Fonction de rendu pour le header de cette colonne. | Function({ column, $index }) | — | — |
 | sortable | Si la colonne peut être triée. Tri dynamique possible en mettant à 'custom' et en écoutant l'évènement `sort-change` de Table. | boolean, string | true, false, custom | false |
 | sort-method | Méthode de tri, marche quand `sortable` est `true`. Doit retourner un nombre, tout comme Array.sort. | Function(a, b) | — | — |
 | sort-by | Détermine par quelle propriété effectuer le tri, marche quand `sortable` est `true` et `sort-method` est `undefined`. Si c'est un Array, sera triée par la propriété suivante si la précédente est équivalente. | Function(row, index)/String/Array | — | — |

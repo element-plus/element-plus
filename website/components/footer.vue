@@ -20,7 +20,7 @@
         <a href="https://github.com/ElementUI/awesome-element" class="footer-main-link" target="_blank">Awesome Element</a>
       </div>
       <div class="footer-social">
-        <p class="footer-social-title">Element {{ version && version.slice(0, 3) }} Fullerene</p>
+        <p class="footer-social-title">Element Team</p>
         <el-popover
           ref="weixin"
           v-model:visible="footerVisible"
@@ -37,14 +37,8 @@
             <img src="../assets/images/qrcode.png" alt="">
           </template>
         </el-popover>
-        <a href="https://github.com/elemefe" target="_blank">
+        <a href="https://github.com/element-plus/element-plus" target="_blank">
           <i class="doc-icon-github elementdoc"></i>
-        </a>
-        <a :href="gitterLink" target="_blank">
-          <i class="doc-icon-gitter elementdoc"></i>
-        </a>
-        <a href="https://www.netlify.com">
-          <img src="https://www.netlify.com/img/global/badges/netlify-light.svg" alt="Deploys by Netlify">
         </a>
       </div>
     </div>

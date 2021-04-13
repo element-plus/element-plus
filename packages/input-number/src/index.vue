@@ -60,10 +60,11 @@ import {
   onUpdated,
 } from 'vue'
 import { RepeatClick } from '@element-plus/directives'
-import { Input as ElInput } from '@element-plus/input'
+import ElInput from '@element-plus/input'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
+import { toRawType } from '@vue/shared'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
@@ -99,8 +100,10 @@ export default defineComponent({
       default: -Infinity,
     },
     modelValue: {
-      type: Number,
-      default: 0,
+      required: true,
+      validator: val => {
+        return toRawType(val) === 'Number' || val === undefined
+      },
     },
     disabled: {
       type: Boolean,
@@ -134,7 +137,7 @@ export default defineComponent({
 
     const input = ref(null)
     const data = reactive<IData>({
-      currentValue: 0,
+      currentValue: props.modelValue,
       userInput: null,
     })
 
@@ -230,8 +233,8 @@ export default defineComponent({
       ) {
         newVal = toPrecision(newVal, props.precision)
       }
-      if (newVal >= props.max) newVal = props.max
-      if (newVal <= props.min) newVal = props.min
+      if (newVal !== undefined && newVal >= props.max) newVal = props.max
+      if (newVal !== undefined && newVal <= props.min) newVal = props.min
       if (oldVal === newVal) return
       data.userInput = null
       emit('update:modelValue', newVal)
@@ -266,8 +269,14 @@ export default defineComponent({
             newVal = toPrecision(newVal, props.precision)
           }
         }
-        if (newVal >= props.max) newVal = props.max
-        if (newVal <= props.min) newVal = props.min
+        if (newVal !== undefined && newVal >= props.max) {
+          newVal = props.max
+          emit('update:modelValue', newVal)
+        }
+        if (newVal !== undefined && newVal <= props.min) {
+          newVal = props.min
+          emit('update:modelValue', newVal)
+        }
         data.currentValue = newVal
         data.userInput = null
       },
@@ -280,6 +289,9 @@ export default defineComponent({
       innerInput.setAttribute('aria-valuemin', props.min)
       innerInput.setAttribute('aria-valuenow', data.currentValue)
       innerInput.setAttribute('aria-disabled', inputNumberDisabled.value)
+      if (toRawType(props.modelValue) !== 'Number' && props.modelValue !== undefined) {
+        emit('update:modelValue', undefined)
+      }
     })
     onUpdated(() => {
       let innerInput = input.value.input

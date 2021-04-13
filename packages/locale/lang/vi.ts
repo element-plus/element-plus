@@ -1,4 +1,5 @@
 export default {
+  name: 'vi',
   el: {
     colorpicker: {
       confirm: 'OK',

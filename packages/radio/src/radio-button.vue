@@ -37,15 +37,15 @@
   </label>
 </template>
 <script lang="ts">
-import { computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useRadio, useRadioAttrs } from './useRadio'
 
-export default {
+export default defineComponent({
   name: 'ElRadioButton',
 
   props: {
     label: {
-      type: [Boolean, String, Number],
+      type: [String, Number, Boolean],
       default: '',
     },
     disabled: Boolean,
@@ -106,5 +106,5 @@ export default {
       activeStyle,
     }
   },
-}
+})
 </script>

@@ -1,3 +1,5 @@
+import type { App } from 'vue'
+
 type OptionalKeys<T extends Record<string, unknown>> = {
   [K in keyof T]: T extends Record<K, T[K]>
     ? never
@@ -16,3 +18,5 @@ export type EventEmitter<T extends Record<string, unknown>> =
 export type AnyFunction<T> = (...args: any[]) => T
 
 export type PartialReturnType<T extends (...args: unknown[]) =>  unknown> = Partial<ReturnType<T>>
+
+export type SFCWithInstall<T> = T & { install(app: App): void; }

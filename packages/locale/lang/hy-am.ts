@@ -1,4 +1,5 @@
 export default {
+  name: 'hy-am',
   el: {
     colorpicker: {
       confirm: 'Լաւ',

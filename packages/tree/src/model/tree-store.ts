@@ -10,7 +10,7 @@ import {
   TreeStoreOptions,
   FilterValue,
   TreeNodeData,
-} from '../tree.d'
+} from '../tree.type'
 
 export default class TreeStore {
   currentNode: Node
@@ -41,11 +41,14 @@ export default class TreeStore {
     }
 
     this.nodesMap = {}
+  }
 
+  initialize() {
     this.root = new Node({
       data: this.data,
       store: this,
     })
+    this.root.initialize()
 
     if (this.lazy && this.load) {
       const loadFn = this.load
@@ -163,10 +166,14 @@ export default class TreeStore {
 
   registerNode(node: Node): void {
     const key = this.key
-    if (!key || !node || !node.data) return
+    if (!node || !node.data) return
 
-    const nodeKey = node.key
-    if (nodeKey !== undefined) this.nodesMap[node.key] = node
+    if(!key){
+      this.nodesMap[node.id] = node
+    }else {
+      const nodeKey = node.key
+      if (nodeKey !== undefined) this.nodesMap[node.key] = node
+    }
   }
 
   deregisterNode(node: Node): void {
@@ -347,13 +354,16 @@ export default class TreeStore {
     this.currentNode.isCurrent = true
   }
 
-  setUserCurrentNode(node: Node): void {
+  setUserCurrentNode(node: Node, shouldAutoExpandParent = true): void {
     const key = node[this.key]
     const currNode = this.nodesMap[key]
     this.setCurrentNode(currNode)
+    if (shouldAutoExpandParent && this.currentNode.level > 1) {
+      this.currentNode.parent.expand(null, true)
+    }
   }
 
-  setCurrentNodeKey(key: TreeKey): void {
+  setCurrentNodeKey(key: TreeKey, shouldAutoExpandParent = true): void {
     if (key === null || key === undefined) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null
@@ -362,6 +372,9 @@ export default class TreeStore {
     const node = this.getNode(key)
     if (node) {
       this.setCurrentNode(node)
+      if (shouldAutoExpandParent && this.currentNode.level > 1) {
+        this.currentNode.parent.expand(null, true)
+      }
     }
   }
 }

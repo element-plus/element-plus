@@ -119,7 +119,9 @@
 :::demo `el-tooltip` の `content` という名前のスロットを追加して `el-tooltip` の `content` 属性をオーバーライドします。
 ```html
 <el-tooltip placement="top">
-  <div slot="content">multiple lines<br/>second line</div>
+  <template #content>
+    multiple lines<br/>second line
+  </template>
   <el-button>Top center</el-button>
 </el-tooltip>
 ```
@@ -179,6 +181,7 @@
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |----------------|---------|-----------|-------------|--------|
+| append-to-body | dialog自身をボディに追加するかどうかを指定します。入れ子になったdialogは、この属性を `true` に設定しなければなりません。 | boolean   | — | false |
 |  effect   |  ツールチップのテーマ  | string   | dark/light  | dark  |
 |  content  | コンテンツを表示、`slot#content` で上書きすることができます。 | String   | — | — |
 |  placement | ツールチップの位置   | string    |  top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end |  bottom |
@@ -188,9 +191,10 @@
 |  transition     |  アニメーション名 | string             | — | el-fade-in-linear |
 |  visible-arrow   |  矢印が表示されているかどうかを指定します。詳しくは、[Vue-popper](https://github.com/element-component/vue-popper)のページを参照してください。 | boolean | — | true |
 |  popper-options        | [popper.js](https://popper.js.org/documentation.html) parameters | Object            | refer to [popper.js](https://popper.js.org/documentation.html) doc | `{ boundariesElement: 'body', gpuAcceleration: false }` |
-| open-delay | ミリ秒単位の出現の遅延 | number | — | 0 |
+| show-after | ミリ秒単位の出現の遅延 | number | — | 0 |
+| hide-after | ミリ秒単位の消えるの遅延 | number | — | 0 |
+| auto-close | ツールチップを非表示にするタイムアウト（ミリ秒単位） | number | — | 0 |
 | manual | ツールチップを手動で制御するかどうかを指定します。`true` に設定すると `mouseenter` と `mouseleave` は効果を持ちません。 | boolean | — | false |
 |  popper-class  |  ツールチップのポッパーのカスタムクラス名 | string | — | — |
 | enterable | マウスがツールチップに入るかどうか | Boolean | — | true |
-| hide-after | ツールチップを非表示にするタイムアウト（ミリ秒単位） | number | — | 0 |
 | tabindex   | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) のツールチップ | number | — | 0 |

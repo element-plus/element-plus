@@ -18,6 +18,12 @@ const triggerEvent = (elm, name, ...opts) => {
   const evt = document.createEvent(eventName)
 
   evt.initEvent(name, ...opts)
+
+  if (name === 'keydown' && opts[0]) {
+    // trigger event with keycode
+    // triggerEvent(ele, 'keydown', 'ArrowDown')
+    Object.defineProperty(evt, 'code', { value: opts[0] })
+  }
   elm.dispatchEvent
     ? elm.dispatchEvent(evt)
     : elm.fireEvent('on' + name, evt)

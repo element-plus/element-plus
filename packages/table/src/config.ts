@@ -1,7 +1,7 @@
 import { getPropByPath } from '@element-plus/utils/util'
-import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
+import ElCheckbox from '@element-plus/checkbox'
 import { h } from 'vue'
-import { Store, TreeNode, AnyObject, TableColumnCtx } from './table'
+import { Store, TreeNode, AnyObject, TableColumnCtx } from './table.type'
 
 export const cellStarts = {
   default: {
@@ -31,36 +31,39 @@ export const cellStarts = {
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader: function ({ store: store_ }) {
+    renderHeader: function({ store: store_ }) {
       const store = store_ as Store
+      function isDisabled() {
+        return store.states.data.value && store.states.data.value.length === 0
+      }
       return h(ElCheckbox, {
-        disabled:
-          store.states.data.value && store.states.data.value.length === 0,
+        disabled: isDisabled(),
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
-        onClick: store.toggleAllSelection,
+        'onUpdate:modelValue': store.toggleAllSelection,
         modelValue: store.states.isAllSelected.value,
       })
     },
-    renderCell: function ({
-      row: row_,
-      column: column_,
-      store: store_,
-      index_: $index_,
+    renderCell: function({
+      row,
+      column,
+      store,
+      $index,
+    }: {
+      row: AnyObject
+      column: TableColumnCtx
+      store: Store
+      $index: string
     }) {
-      const store = store_ as Store
-      const row = row_ as AnyObject
-      const column = column_ as TableColumnCtx
-      const index_ = $index_ as string
       return h(ElCheckbox, {
         disabled: column.selectable
-          ? !column.selectable.call(null, row, index_)
+          ? !column.selectable.call(null, row, $index)
           : false,
         onInput: () => {
           store.commit('rowSelectedChanged', row)
         },
-        nativeOnClick: (event: Event) => event.stopPropagation(),
+        onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.isSelected(row),
       })
     },
@@ -68,38 +71,42 @@ export const cellForced = {
     resizable: false,
   },
   index: {
-    renderHeader: function ({ column: column_ }) {
+    renderHeader: function({ column: column_ }) {
       const column = column_ as TableColumnCtx
       return column.label || '#'
     },
-    renderCell: function ({ index_: $index_, column: column_ }) {
-      const index_ = $index_ as string
-      const column = column_ as TableColumnCtx
-      let i = index_ + 1
+    renderCell: function({
+      column,
+      $index,
+    }: {
+      column: TableColumnCtx
+      $index: string
+    }) {
+      let i = $index + 1
       const index = column.index
 
       if (typeof index === 'number') {
-        i = index_ + index
+        i = $index + index
       } else if (typeof index === 'function') {
-        i = index(index_)
+        i = index($index)
       }
       return h('div', {}, [i])
     },
     sortable: false,
   },
   expand: {
-    renderHeader: function ({ column: column_ }) {
+    renderHeader: function({ column: column_ }) {
       const column = column_ as TableColumnCtx
       return column.label || ''
     },
-    renderCell: function ({ row: row_, store: store_ }) {
+    renderCell: function({ row: row_, store: store_ }) {
       const store = store_ as Store
       const row = row_ as AnyObject
       const classes = ['el-table__expand-icon']
       if (store.states.expandRows.value.indexOf(row) > -1) {
         classes.push('el-table__expand-icon--expanded')
       }
-      const callback = function (e) {
+      const callback = function(e) {
         e.stopPropagation()
         store.toggleRowExpansion(row)
       }
@@ -123,19 +130,20 @@ export const cellForced = {
 }
 
 export function defaultRenderCell({
-  row: row_,
-  column: column_,
-  index_: $index_,
+  row,
+  column,
+  $index,
+}: {
+  row: AnyObject
+  column: TableColumnCtx
+  $index: string
 }) {
-  const row = row_ as AnyObject
-  const column = column_ as TableColumnCtx
-  const index_ = $index_ as string
   const property = column.property
   const value = property && getPropByPath(row, property, false).v
   if (column && column.formatter) {
-    return column.formatter(row, column, value, index_)
+    return column.formatter(row, column, value, $index)
   }
-  return value
+  return value?.toString?.() || ''
 }
 
 export function treeCellPrefix({
@@ -148,7 +156,7 @@ export function treeCellPrefix({
   const treeNode = treeNode_ as TreeNode
   if (!treeNode) return null
   const ele = []
-  const callback = function (e) {
+  const callback = function(e) {
     e.stopPropagation()
     store.loadOrToggle(row)
   }

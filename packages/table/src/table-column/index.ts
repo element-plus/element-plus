@@ -6,11 +6,13 @@ import {
   computed,
   getCurrentInstance,
   h,
+  onBeforeUnmount,
+  Fragment,
 } from 'vue'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
-import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
-import { TableColumnCtx, TableColumn } from '../table'
+import ElCheckbox from '@element-plus/checkbox'
+import { TableColumnCtx, TableColumn } from '../table.type'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 
@@ -73,10 +75,10 @@ export default defineComponent({
     index: [Number, Function],
     sortOrders: {
       type: Array,
-      default() {
+      default () {
         return ['ascending', 'descending', null]
       },
-      validator(val: unknown[]) {
+      validator (val: unknown[]) {
         return val.every(
           (order: string) =>
             ['ascending', 'descending', null].indexOf(order) > -1,
@@ -84,13 +86,10 @@ export default defineComponent({
       },
     },
   },
-  setup(prop, { slots }) {
+  setup (prop, { slots }) {
     const instance = getCurrentInstance() as TableColumn
-    const columnConfig = ref({})
+    const columnConfig = ref<Partial<TableColumnCtx>>({})
     const props = (prop as unknown) as TableColumnCtx
-    const row = ref({})
-    const r = ref({})
-    const index_ = ref(0)
     const owner = computed(() => {
       let parent = instance.parent as any
       while (parent && !parent.tableId) {
@@ -119,7 +118,6 @@ export default defineComponent({
     const parent = columnOrTableParent.value
     columnId.value =
       (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++
-
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
@@ -171,7 +169,6 @@ export default defineComponent({
       let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
 
       column = mergeOptions(defaults, column)
-
       // 注意 compose 中函数执行的顺序是从右到左
       const chains = compose(
         setColumnRenders,
@@ -190,11 +187,21 @@ export default defineComponent({
       const children = isSubColumn.value
         ? parent.vnode.el.children
         : parent.refs.hiddenColumns?.children
-      const columnIndex = getColumnElIndex(children || [], instance.vnode.el)
+      const getColumnIndex = () =>
+        getColumnElIndex(children || [], instance.vnode.el)
+      columnConfig.value.getColumnIndex = getColumnIndex
+      const columnIndex = getColumnIndex()
+      columnIndex > -1 &&
+        owner.value.store.commit(
+          'insertColumn',
+          columnConfig.value,
+          isSubColumn.value ? parent.columnConfig.value : null,
+        )
+    })
+    onBeforeUnmount(() => {
       owner.value.store.commit(
-        'insertColumn',
+        'removeColumn',
         columnConfig.value,
-        columnIndex,
         isSubColumn.value ? parent.columnConfig.value : null,
       )
     })
@@ -202,24 +209,24 @@ export default defineComponent({
 
     // eslint-disable-next-line
     instance.columnConfig = columnConfig
-    return {
-      row,
-      r,
-      index_,
-      columnId,
-      columnConfig,
-    }
+    return
   },
-  render() {
-    return h(
-      'div',
-      this.$slots.default?.({
-        store: {},
-        _self: {},
-        column: {},
-        row: {},
-        index_: undefined,
-      }),
-    )
+  render () {
+    let children = []
+    try {
+      const renderDefault = this.$slots.default?.({ row: {}, column: {}, $index: -1 })
+      if (renderDefault instanceof Array) {
+        for (const childNode of renderDefault) {
+          if (childNode.type?.name === 'ElTableColumn' || childNode.shapeFlag !== 36) {
+            children.push(childNode)
+          } else if (childNode.type === Fragment && childNode.children instanceof Array) {
+            renderDefault.push(...childNode.children)
+          }
+        }
+      }
+    } catch {
+      children = []
+    }
+    return h('div', children)
   },
 })

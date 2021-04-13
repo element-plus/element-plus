@@ -1,10 +1,11 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Steps from './src/index.vue'
-import Step from './src/item.vue'
 
-export default (app: App): void => {
+Steps.install = (app: App): void => {
   app.component(Steps.name, Steps)
-  app.component(Step.name, Step)
 }
 
-export { Steps, Step }
+const _Steps: SFCWithInstall<typeof Steps> = Steps
+
+export default _Steps

@@ -129,4 +129,13 @@ describe('Progress.vue', () => {
     })
     expect(wrapper.find('.el-progress__text').text()).toBe('占比100%')
   })
+
+  test('slot', () => {
+    const wrapper = mount(Progress, {
+      slots: {
+        default: '自定义内容',
+      },
+    })
+    expect(wrapper.find('.el-progress__text').text()).toBe('自定义内容')
+  })
 })

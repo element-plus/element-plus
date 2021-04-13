@@ -1,0 +1,64 @@
+name: Element Plus
+
+trigger: none
+
+pr:
+  autoCancel: true
+  branches:
+    exclude:
+      - gh-pages
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
+stages:
+- stage: Preview
+  jobs:
+    - job: Build_Preview
+      steps:
+        - checkout: self
+          displayName: 'Checkout'
+          clean: true
+          fetchDepth: 1
+        - task: NodeTool@0
+          displayName: 'Install Node.js'
+          inputs:
+            versionSpec: '12.20.0'
+        - task: Cache@2
+          inputs:
+            key: 'yarn | "$(Agent.OS)" | yarn.lock'
+            restoreKeys: |
+              yarn | "$(Agent.OS)"
+              yarn
+            path: $(YARN_CACHE_FOLDER)
+          displayName: Cache Yarn packages
+        - script: yarn bootstrap
+          displayName: 'Project bootstrap'
+        - script: yarn website-build
+          displayName: 'Build website'
+        - script: |
+            export DEPLOY_DOMAIN=https://preview-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-element-plus.surge.sh
+            echo "Deploy to $DEPLOY_DOMAIN"
+            npx surge --project ./website-dist --domain $DEPLOY_DOMAIN
+          displayName: 'Deploy Site'
+          env:
+            SURGE_LOGIN: $(SURGE_LOGIN)
+            SURGE_TOKEN: $(SURGE_TOKEN)
+        - script: |
+            export DEPLOY_DOMAIN=https://preview-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-element-plus.surge.sh
+            curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"botAction":"Preview", "pr":'${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}', "url":"'${DEPLOY_DOMAIN}'"}'
+          displayName: 'Update PR comment'
+          env:
+            BOT_URL: $(BOT_URL)
+    - job: Build_Preview_Failed
+      dependsOn: Build_Preview
+      condition: failed()
+      steps:
+        - script: |
+            curl -X POST ${BOT_URL} -H 'Content-Type:application/json' --data-raw '{"status":"error", "botAction":"Preview", "pr":'${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}'}'
+          displayName: 'Update PR comment'
+          env:
+            BOT_URL: $(BOT_URL)

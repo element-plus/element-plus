@@ -125,7 +125,9 @@
 ```html
 <el-tabs type="border-card">
   <el-tab-pane>
-    <span slot="label"><i class="el-icon-date"></i> Route</span>
+    <template #label>
+      <span><i class="el-icon-date"></i> Route</span>
+    </template>
     Route
   </el-tab-pane>
   <el-tab-pane label="Config">Config</el-tab-pane>
@@ -303,3 +305,10 @@
 | name      | タブの名前に対応する識別子、タブペインのエイリアスを表す | string | — | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '1' |
 | closable  | タブが閉じられるかどうか | boolean   | — |  false  |
 | lazy  | タブがレイジーにレンダリングされるかどうか   | boolean   | — |  false  |
+
+### Tab-pane Slots
+
+| Name | Description |
+|------|--------|
+| - | Tab-pane's content |
+| label | Tab-pane's label |

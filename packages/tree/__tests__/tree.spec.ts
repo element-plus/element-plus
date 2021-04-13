@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import Tree from '../src/tree.vue'
-import { sleep } from '@element-plus/test-utils'
+import { sleep, defineGetter } from '@element-plus/test-utils'
 
 const ALL_NODE_COUNT = 9
 
@@ -441,6 +441,41 @@ describe('Tree.vue', () => {
     expect(tree.store.currentNode).toEqual(null)
   })
 
+  test('setCurrentKey should also auto expand parent', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm
+
+    tree.setCurrentKey(111)
+    await nextTick()
+    expect(wrapper.find('.is-current').exists()).toBeTruthy()
+
+    tree.setCurrentKey(null)
+    await nextTick()
+    expect(wrapper.find('.is-current').exists()).toBeFalsy()
+  })
+
+  test('setCurrentKey should not expand self', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm
+
+    tree.setCurrentKey(1)
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1一级 2一级 3')
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
+
+    tree.setCurrentKey(11)
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1二级 1-1一级 2一级 3')
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
+
+    tree.setCurrentKey(111)
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1二级 1-1三级 1-1一级 2一级 3')
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(2)
+  })
+
   test('setCurrentNode', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
@@ -454,6 +489,53 @@ describe('Tree.vue', () => {
 
     tree.setCurrentKey(null)
     expect(tree.store.currentNode).toEqual(null)
+  })
+
+  test('setCurrentNode should also auto expand parent', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm
+
+    tree.setCurrentNode({
+      id: 111,
+      label: '三级 1-1',
+    })
+    await nextTick()
+    expect(wrapper.find('.is-current').exists()).toBeTruthy()
+
+    tree.setCurrentKey(null)
+    await nextTick()
+    expect(wrapper.find('.is-current').exists()).toBeFalsy()
+  })
+
+  test('setCurrentNode should not expand self', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" show-checkbox node-key="id"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm
+
+    tree.setCurrentNode({
+      id: 1,
+      label: '一级 1-1',
+    })
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1一级 2一级 3')
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(0)
+
+    tree.setCurrentNode({
+      id: 11,
+      label: '二级 1-1',
+    })
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1二级 1-1一级 2一级 3')
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(1)
+
+    tree.setCurrentNode({
+      id: 111,
+      label: '三级 1-1',
+    })
+    await sleep(100)
+    expect(wrapper.text()).toBe('一级 1二级 1-1三级 1-1一级 2一级 3')
+    expect(wrapper.findAll('.is-expanded')).toHaveLength(2)
   })
 
   test('getCurrentKey', async () => {
@@ -753,13 +835,13 @@ describe('Tree.vue', () => {
             return resolve([{ label: 'region1' }, { label: 'region2' }])
           }
           if (node.level > 4) return resolve([])
-          setTimeout(() => {
+          nextTick(() => {
             resolve([{
               label: 'zone' + this.count++,
             }, {
               label: 'zone' + this.count++,
             }])
-          }, 50)
+          })
         },
         handleNodeOpen(data) {
           this.currentNode = data
@@ -778,13 +860,17 @@ describe('Tree.vue', () => {
     expect(firstNodeWrapper.find('.el-tree-node__children').exists()).toBe(false)
 
     await firstNodeContentWrapper.trigger('click')
-    await sleep(100)
+    await nextTick() // first next tick for UI update
+    await nextTick() // second next tick for triggering loadNode
+    await nextTick() // third next tick for updating props.node.expanded
 
     expect(vm.nodeExpended).toEqual(true)
     expect(vm.currentNode.label).toEqual('region1')
 
     await firstNodeContentWrapper.trigger('click')
-    await sleep(100)
+    await nextTick()
+    await nextTick()
+    await nextTick()
 
     expect(vm.nodeExpended).toEqual(false)
     expect(vm.currentNode.label).toEqual('region1')
@@ -832,4 +918,212 @@ describe('Tree.vue', () => {
     expect(treeWrappers[1].vm.getNode(4).data).toEqual(nodeData)
   })
 
+  test('navigate with defaultExpandAll',  () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree default-expand-all ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
+        </div>
+      `,
+    })
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    expect(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length).toBe(9)
+  })
+
+  test('navigate up',  async () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
+        </div>
+      `,
+    })
+    let flag = false
+    function handleFocus(){
+      return () => (flag = true)
+    }
+    await nextTick()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const targetElement = wrapper.find('div[data-key="3"]').element
+    const fromElement =  wrapper.find('div[data-key="1"]').element
+    defineGetter(targetElement, 'focus', handleFocus)
+    tree.vm.setCurrentKey(1)
+    expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
+    fromElement.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp', bubbles: true, cancelable: false }))
+    expect(flag).toBe(true)
+  })
+
+  test('navigate down', async () => {
+    const { wrapper } = getTreeVm(``, {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
+        </div>
+      `,
+    })
+    let flag = false
+    function handleFocus(){
+      return () => (flag = true)
+    }
+    await nextTick()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const targetElement = wrapper.find('div[data-key="2"]').element
+    const fromElement =  wrapper.find('div[data-key="1"]').element
+    defineGetter(targetElement, 'focus', handleFocus)
+    tree.vm.setCurrentKey(1)
+    expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
+    fromElement.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    expect(flag).toBe(true)
+  })
+
+  test('navigate with disabled',  async () => {
+    const wrapper = mount( {
+      template: `
+        <div>
+          <el-tree ref="tree1" :data="data" node-key="id" :props="defaultProps"></el-tree>
+        </div>
+      `,
+      components: {
+        'el-tree': Tree,
+      },
+      data(){
+        return {
+          data: [{
+            id: 1,
+            label: '一级 1',
+            children: [{
+              id: 11,
+              label: '二级 1-1',
+              children: [{
+                id: 111,
+                label: '三级 1-1',
+                disabled: true,
+              }],
+            }],
+          }, {
+            id: 2,
+            label: '一级 2',
+            disabled: true,
+            children: [{
+              id: 21,
+              label: '二级 2-1',
+            }, {
+              id: 22,
+              label: '二级 2-2',
+            }],
+          }, {
+            id: 3,
+            label: '一级 3',
+            children: [{
+              id: 31,
+              label: '二级 3-1',
+            }, {
+              id: 32,
+              label: '二级 3-2',
+            }],
+          }],
+          defaultProps: {
+            children: 'children',
+            label: 'label',
+            disabled: 'disabled',
+          },
+        }
+      },
+    })
+    let flag = false
+    function handleFocus(){
+      return () => (flag = true)
+    }
+    await nextTick()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const targetElement = wrapper.find('div[data-key="3"]').element
+    const fromElement =  wrapper.find('div[data-key="1"]').element
+    defineGetter(targetElement, 'focus', handleFocus)
+    tree.vm.setCurrentKey(1)
+    expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
+    fromElement.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    expect(flag).toBe(true)
+  })
+
+  test('navigate with lazy and without node-key',  async () => {
+    const wrapper = mount( {
+      template: `
+        <div>
+        <el-tree
+          :props="defaultProps"
+          :load="loadNode"
+          lazy
+          show-checkbox>
+        </el-tree>
+        </div>
+      `,
+      components: {
+        'el-tree': Tree,
+      },
+      data(){
+        return {
+          defaultProps: {
+            children: 'children',
+            label: 'label',
+            disabled: 'disabled',
+          },
+        }
+      },
+      methods: {
+        loadNode(node, resolve) {
+          if (node.level === 0) {
+            return resolve([{ name: 'region1' }, { name: 'region2' }])
+          }
+          if (node.level > 3) return resolve([])
+
+          let hasChild
+          if (node.data.name === 'region1') {
+            hasChild = true
+          } else if (node.data.name === 'region2') {
+            hasChild = false
+          } else {
+            hasChild = false
+          }
+
+          let data
+          if (hasChild) {
+            data = [{
+              name: 'zone' + this.count++,
+            }, {
+              name: 'zone' + this.count++,
+            }]
+          } else {
+            data = []
+          }
+          resolve(data)
+        },
+      },
+    })
+    let flag = false
+    function handleFocus(){
+      return () => (flag = !flag)
+    }
+    await nextTick()
+    const tree = wrapper.findComponent({ name: 'ElTree' })
+    const originElements = wrapper.findAll('div[data-key]')
+    const region1 = originElements[0].element
+    const region2 = originElements[1].element
+    defineGetter(region2, 'focus', handleFocus)
+    // expand
+    region1.dispatchEvent(new MouseEvent('click'))
+    expect(region1.classList.contains('is-focusable')).toBeTruthy()
+    await sleep(100)
+    expect(Object.values(tree.vm.store.nodesMap.length === 4)).toBeTruthy()
+    expect(Object.values(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length === 4)).toBeTruthy()
+    // collapse
+    region1.dispatchEvent(new MouseEvent('click'))
+    expect(Object.values(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length === 2)).toBeTruthy()
+    // ArrowDown, region2 focus
+    region1.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    expect(flag).toBe(true)
+    defineGetter(region1, 'focus', handleFocus)
+    // ArrowDown, region1 focus
+    region2.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }))
+    expect(flag).toBe(false)
+  })
 })

@@ -347,7 +347,7 @@ Cuando se tienen demasiadas columnas, puede fijar alguna de estas.
     <el-table-column
       prop="address"
       label="Dirección"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -358,7 +358,7 @@ Cuando se tienen demasiadas columnas, puede fijar alguna de estas.
       fixed="right"
       label="Operaciones"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button @click="handleClick" type="text" size="small">Detalle</el-button>
         <el-button type="text" size="small">Editar</el-button>
       </template>
@@ -445,12 +445,12 @@ Cuando tienes grandes cantidades de datos para colocar en una tabla, puede fijar
     <el-table-column
       prop="city"
       label="Ciudad"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="Dirección"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -556,7 +556,7 @@ Cuando los datos se modifican dinámicamente, es posible que necesite que la tab
     <el-table-column
       prop="address"
       label="Dirección"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -567,7 +567,7 @@ Cuando los datos se modifican dinámicamente, es posible que necesite que la tab
       fixed="right"
       label="Operaciones"
       width="120">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
@@ -679,8 +679,7 @@ Cuando la estructura de datos es compleja, tu puedes hacer uso de cabeceras agru
         </el-table-column>
         <el-table-column
           prop="address"
-          label="Dirección"
-          width="300">
+          label="Dirección">
         </el-table-column>
         <el-table-column
           prop="zip"
@@ -848,7 +847,7 @@ También puede seleccionar múltiples filas.
     <el-table-column
       label="Fecha"
       width="120">
-      <template v-slot="scope">{{ scope.row.date }}</template>
+      <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
     <el-table-column
       property="name"
@@ -1027,7 +1026,7 @@ Filtra la tabla para encontrar la información que necesita.
       :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
       :filter-method="filterTag"
       filter-placement="bottom-end">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-tag
           :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
           disable-transitions>{{scope.row.tag}}</el-tag>
@@ -1099,7 +1098,7 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
     <el-table-column
       label="Fecha"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.date }}</span>
       </template>
@@ -1107,13 +1106,13 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
     <el-table-column
       label="Nombre"
       width="180">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
             <p>姓名: {{ scope.row.name }}</p>
             <p>住址: {{ scope.row.address }}</p>
           </template>
-          <template #trigger>
+          <template #reference>
             <div class="name-wrapper">
               <el-tag size="medium">{{ scope.row.name }}</el-tag>
             </div>
@@ -1123,7 +1122,7 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
     </el-table-column>
     <el-table-column
       label="Operaciones">
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Editar</el-button>
@@ -1191,13 +1190,13 @@ Se puede personalizar el encabezado de la tabla para que se pueda adaptar aún m
     </el-table-column>
     <el-table-column
       align="right">
-      <template #header v-slot="scope">
+      <template #header>
         <el-input
           v-model="search"
           size="mini"
           placeholder="Type to search"/>
       </template>
-      <template v-slot="scope">
+      <template #default="scope">
         <el-button
           size="mini"
           @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -1258,7 +1257,7 @@ Cuando el contenido de la fila es demasiado largo y busca no mostrar la barra de
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template v-slot="props">
+      <template #default="props">
         <p>Estado: {{ props.row.state }}</p>
         <p>Ciudad: {{ props.row.city }}</p>
         <p>Dirección: {{ props.row.address }}</p>
@@ -1837,7 +1836,7 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | header-cell-class-name | función que devuelve nombre de clases personalizadas para una celda en la cabecera de la tabla, o una cadena asignando nombres de clases para cada celda en la cabecera de la tabla | Function({row, column, rowIndex, columnIndex})/String         | —                              | —                                        |
 | header-cell-style      | función que devuelve estilos personalizados para una celda en la cabecera de la tabla, o un objeto asignando estilos personalizados para cada celda en la cabecera de la tabla | Function({row, column, rowIndex, columnIndex})/Object         | —                              | —                                        |
 | row-key | key de los datos de las filas, utilizada para optimizar el renderizado. Requerido si `reserve-selection` está activada o muestra los datos del árbol. Cuando su tipo es String, se admite el acceso multinivel, por ejemplo, `user.info.id`, pero `user.info[0].id` no se admite, en cuyo caso se debe utilizar la función. | Function(row)/String | — | — |
-| empty-text             | Texto mostrado cuando no existen datos. Puede personalizar esta área con `slot="empty"` | String                                   | —                              | No Data                                  |
+| empty-text             | Texto mostrado cuando no existen datos. Puede personalizar esta área con `#empty` | String                                   | —                              | No Data                                  |
 | default-expand-all     | especifica si todas las filas se expanden por defecto, solo funciona cuando la tabla tiene una columna `type="expand"` | Boolean                                  | —                              | false                                    |
 | expand-row-keys        | establece las filas expandidas a través de esta propiedad, este valor es la clave de filas expandidas, debería establecer `row-key` antes de usar esta propiedad | Array                                    | —                              |                                          |
 | default-sort           | establece la columna y orden por defecto. La propiedad `prop` es utilizada para establecer la columna de ordenamiento por defecto, la propiedad `order` es utilizada para definir el tipo de orden por defecto | Object                                   | `order`: ascending, descending | if `prop` is set, and `order` is not set, then `order` is default to ascending |
@@ -1878,7 +1877,7 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | ------------------ | ---------------------------------------- | ------------- |
 | clearSelection     | utilizado en selección múltiple de la tabla, limpiar selección | —     |
 | toggleRowSelection | utilizado en selección múltiple de la tabla, alterna si una cierta fila es seleccionada. Con el segundo parámetro, puede directamente establecer si la fila es seleccionada | row, selected |
-| toggleAllSelection | usado en Table de selección múltiple, cambia los estados de selección de todas las filas. | - |
+| toggleAllSelection | usado en Table de selección múltiple, toggle select all and deselect all | - |
 | toggleRowExpansion | utilizado en la Tabla expandible o en la Tabla de árbol, conmutar si se desglosa una determinada línea. Con el segundo parámetro, se puede fijar directamente si esta línea se desglosa o se pliega | row, expanded |
 | setCurrentRow      | utilizado en tabla con selección sencilla, establece una cierta fila seleccionada. Si es llamado sin ningún parámetro, este puede limpiar la selección | row           |
 | clearSort          | limpiar ordenamiento, restaurar datos a orden original | —             |
@@ -1902,7 +1901,7 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | width                 | ancho de la columna                      | string                            | —                             | —           |
 | min-width             | ancho mínimo de la columna. Columnas con `width` tienen un ancho fijo, mientras que las columnas con `min-width` tienen un ancho que se distribuye en proporción. | string                            | —                             | —           |
 | fixed                 | especifica si la columna se fija a la izquierda o a la derecha. Se fijará a la izquierda si es `true` | string/boolean                    | true/left/right               | —           |
-| render-header         | Función de renderizado para la cabecera de la tabla de esta columna | Function(h, { column, $index })   | —                             | —           |
+| render-header         | Función de renderizado para la cabecera de la tabla de esta columna | Function({ column, $index })   | —                             | —           |
 | sortable              | especifica que columna puede ser ordenado. El ordenamiento remoto puede ser hecho configurando el atributo `custom` y escucha al evento de tabla `sort-change` | boolean, string                   | true, false, custom           | false       |
 | sort-method           | método de ordenamiento, funciona cuando `sortable` está en `true`. Debería devolver un número, al igual que Array.sort | Function(a, b)                    | —                             | —           |
 | sort-by               | especifica por cual propiedad de va a ordenar, funciona cuando `sortable` es `true` y `sort-method` es `undefined`. Si se establece a un arreglo, la columna ordenara secuencialmente por la siguiente propiedad si la anterior es igual | Function(row, index)/String/Array | —                             | —           |

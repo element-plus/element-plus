@@ -1,4 +1,4 @@
-import { Store, AnyObject, fn } from '../table'
+import { Store, AnyObject, fn } from '../table.type'
 
 interface TableBodyProps {
   store: Store
@@ -8,6 +8,7 @@ interface TableBodyProps {
   rowStyle: AnyObject | fn
   fixed: string
   highlight: boolean
+  tooltipEffect: string
 }
 
 export {

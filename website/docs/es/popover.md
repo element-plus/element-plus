@@ -4,7 +4,7 @@
 
 Similar a un Tooltip, Popover está construido con `Vue-popper`. Así que para atributos duplicados, por favor refiérase a la documentación de Tooltip.
 
-:::demo El atributo `trigger` es usado para definir como el popover se dispara: `hover`, `click`, `focus` o `manual`. En cuanto al elemento desencadenante, puedes escribirlo de dos maneras diferentes: usando el `slot="reference"`[named slot](https://vuejs.org/v2/guide/components.html#Named-Slots), o usando la directiva `v-popover` y poniendo  el `ref` de Popover.
+:::demo El atributo `trigger` es usado para definir como el popover se dispara: `hover`, `click`, `focus` o `manual`. En cuanto al elemento desencadenante, puedes escribirlo de dos maneras diferentes: usando el `#reference`[named slot](https://vuejs.org/v2/guide/components.html#Named-Slots), o usando la directiva `v-popover` y poniendo  el `ref` de Popover.
 
 ```html
 <template>
@@ -162,15 +162,16 @@ Por supuesto, puedes anidar otras operaciones. Es más ligero que utilizar un `d
 | width          | ancho del popover                        | string, number | —                                        | Min width 150px                          |
 | placement      | posición del popover en la pantalla      | string         | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom                                   |
 | disabled       | si el popover está deshabilitado         | boolean        | —                                        | false                                    |
-| value / v-model | si el popover está visible               | Boolean        | —                                        | false                                    |
+| visible / v-model:visible | si el popover está visible               | Boolean        | —                                        | false                                    |
 | offset         | popover offset                           | number         | —                                        | 0                                        |
 | transition     | animación de transición del popover | string         | —                                        | el-fade-in-linear                        |
-| visible-arrow  | si una flecha del tooltip es mostrada o no. Para más información, por favor refiérase a [Vue-popper](https://github.com/element-component/vue-popper) | boolean        | —                                        | true                                     |
+| show-arrow  | si una flecha del tooltip es mostrada o no. Para más información, por favor refiérase a [Vue-popper](https://github.com/element-component/vue-popper) | boolean        | —                                        | true                                     |
 | popper-options | parámetros para [popper.js](https://popper.js.org/documentation.html) | object         | por favor, refiérase a [popper.js](https://popper.js.org/documentation.html) | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | popper-class   | clase propia para popover                | string         | —                                        | —                                        |
-| open-delay     | retraso de la aparición cuando `trigger` es hover, en milisegundos | number         | —                                        | —                                        |
-| close-delay    | Retraso antes de desaparecer cuando el `trigger` es hover, en milisegundos. | number | — | 200 |
-| tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Popover |   number           |      —      |  0    |
+| show-after     | retraso de la apariencia, en milisegundos | number  | —                                        | 0                                        |
+| hide-after     | retraso en el cierre, en milisegundos | number  | —                                        | 0                                        |
+| auto-close     | tiempo a esperar en milisegundos para esconder el Tooltip | number  | —                                        | 0                                        |
+| tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Popover |   number           |      —      |  —    |
 
 ### Slot
 | Nombre    | Descripción                          |

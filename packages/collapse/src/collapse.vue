@@ -15,6 +15,7 @@ import {
   onUnmounted,
 } from 'vue'
 import mitt, { Emitter } from 'mitt'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 
 export interface CollapseProvider {
   activeNames: Ref
@@ -31,7 +32,7 @@ export default defineComponent({
       default: () => [],
     },
   },
-  emits: ['update:modelValue'],
+  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
   setup(props, { emit }) {
     const activeNames = ref([].concat(props.modelValue))
     const collapseMitt: Emitter = mitt()
@@ -39,7 +40,8 @@ export default defineComponent({
     const setActiveNames = _activeNames => {
       activeNames.value = [].concat(_activeNames)
       const value = props.accordion ? activeNames.value[0] : activeNames.value
-      emit('update:modelValue', value)
+      emit(UPDATE_MODEL_EVENT, value)
+      emit(CHANGE_EVENT, value)
     }
 
     const handleItemClick = name => {

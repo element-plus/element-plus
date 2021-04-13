@@ -95,13 +95,13 @@ export default defineComponent({
   emits: ['click'],
 
   setup(props, ctx) {
-    const $ElEMENT = useGlobalConfig()
+    const $ELEMENT = useGlobalConfig()
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
     const buttonSize = computed(() => {
-      return props.size || elFormItem.size || $ElEMENT.size
+      return props.size || elFormItem.size || $ELEMENT.size
     })
     const buttonDisabled = computed(() => {
       return props.disabled || elForm.disabled

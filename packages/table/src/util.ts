@@ -1,7 +1,11 @@
+import { PopperInstance, IPopperOptions } from '@element-plus/popper'
 import { getValueByPath } from '@element-plus/utils/util'
-import { AnyObject, TableColumnCtx } from './table'
+import { off, on } from '@element-plus/utils/dom'
+import { createPopper } from '@popperjs/core'
+import { AnyObject, TableColumnCtx } from './table.type'
+import PopupManager from '@element-plus/utils/popup-manager'
 
-export const getCell = function (event: Event): HTMLElement {
+export const getCell = function(event: Event): HTMLElement {
   let cell = event.target as HTMLElement
 
   while (cell && cell.tagName.toUpperCase() !== 'HTML') {
@@ -14,11 +18,11 @@ export const getCell = function (event: Event): HTMLElement {
   return null
 }
 
-const isObject = function (obj) {
+const isObject = function(obj) {
   return obj !== null && typeof obj === 'object'
 }
 
-export const orderBy = function (array, sortKey, reverse, sortMethod, sortBy) {
+export const orderBy = function(array, sortKey, reverse, sortMethod, sortBy) {
   if (
     !sortKey &&
     !sortMethod &&
@@ -33,12 +37,12 @@ export const orderBy = function (array, sortKey, reverse, sortMethod, sortBy) {
   }
   const getKey = sortMethod
     ? null
-    : function (value, index) {
+    : function(value, index) {
       if (sortBy) {
         if (!Array.isArray(sortBy)) {
           sortBy = [sortBy]
         }
-        return sortBy.map(function (by) {
+        return sortBy.map(function(by) {
           if (typeof by === 'string') {
             return getValueByPath(value, by)
           } else {
@@ -51,7 +55,7 @@ export const orderBy = function (array, sortKey, reverse, sortMethod, sortBy) {
       }
       return [isObject(value) ? getValueByPath(value, sortKey) : value]
     }
-  const compare = function (a, b) {
+  const compare = function(a, b) {
     if (sortMethod) {
       return sortMethod(a.value, b.value)
     }
@@ -66,14 +70,14 @@ export const orderBy = function (array, sortKey, reverse, sortMethod, sortBy) {
     return 0
   }
   return array
-    .map(function (value, index) {
+    .map(function(value, index) {
       return {
         value: value,
         index: index,
         key: getKey ? getKey(value, index) : null,
       }
     })
-    .sort(function (a, b) {
+    .sort(function(a, b) {
       let order = compare(a, b)
       if (!order) {
         // make stable https://en.wikipedia.org/wiki/Sorting_algorithm#Stability
@@ -84,14 +88,14 @@ export const orderBy = function (array, sortKey, reverse, sortMethod, sortBy) {
     .map(item => item.value)
 }
 
-export const getColumnById = function (
+export const getColumnById = function(
   table: {
     columns: TableColumnCtx[]
   },
   columnId: string,
 ): null | TableColumnCtx {
   let column = null
-  table.columns.forEach(function (item) {
+  table.columns.forEach(function(item) {
     if (item.id === columnId) {
       column = item
     }
@@ -99,7 +103,7 @@ export const getColumnById = function (
   return column
 }
 
-export const getColumnByKey = function (
+export const getColumnByKey = function(
   table: {
     columns: TableColumnCtx[]
   },
@@ -116,7 +120,7 @@ export const getColumnByKey = function (
   return column
 }
 
-export const getColumnByCell = function (
+export const getColumnByCell = function(
   table: {
     columns: TableColumnCtx[]
   },
@@ -149,12 +153,12 @@ export const getRowIdentity = (
   }
 }
 
-export const getKeysMap = function (
+export const getKeysMap = function(
   array: AnyObject[],
   rowKey: string,
 ): AnyObject {
-  const arrayMap = {};
-  (array || []).forEach((row, index) => {
+  const arrayMap = {}
+  ;(array || []).forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index }
   })
   return arrayMap
@@ -292,4 +296,66 @@ export function walkTreeNode(
       _walker(item, children, 0)
     }
   })
+}
+
+export let removePopper
+
+export function createTablePopper(
+  trigger: HTMLElement,
+  popperContent: string,
+  popperOptions: Partial<IPopperOptions>,
+  tooltipEffect: string,
+) {
+  function renderContent(): HTMLDivElement {
+    const isLight = tooltipEffect === 'light'
+    const content = document.createElement('div')
+    content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
+    content.innerHTML = popperContent
+    content.style.zIndex = String(PopupManager.nextZIndex())
+    document.body.appendChild(content)
+    return content
+  }
+  function renderArrow(): HTMLDivElement {
+    const arrow = document.createElement('div')
+    arrow.className = 'el-popper__arrow'
+    arrow.style.bottom = '-4px'
+    return arrow
+  }
+  function showPopper() {
+    popperInstance && popperInstance.update()
+  }
+  removePopper = function removePopper() {
+    try {
+      popperInstance && popperInstance.destroy()
+      content && document.body.removeChild(content)
+      off(trigger, 'mouseenter', showPopper)
+      off(trigger, 'mouseleave', removePopper)
+    } catch {}
+  }
+  let popperInstance: Nullable<PopperInstance> = null
+  const content = renderContent()
+  const arrow = renderArrow()
+  content.appendChild(arrow)
+
+  popperInstance = createPopper(trigger, content, {
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+      {
+        name: 'arrow',
+        options: {
+          element: arrow,
+          padding: 10,
+        },
+      },
+    ],
+    ...popperOptions,
+  })
+  on(trigger, 'mouseenter', showPopper)
+  on(trigger, 'mouseleave', removePopper)
+  return popperInstance
 }

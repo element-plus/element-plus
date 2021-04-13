@@ -77,10 +77,11 @@ Add `v-infinite-scroll` to the list to automatically execute loading method when
 :::
 
 
-### Attributes
+### Directives
 
-| Attribute | Description | Type  | Accepted values | Default   |
+| Name | Description | Type  | Accepted values | Default   |
 | -------------- | ------------------------------ | --------- | ------------------------------------ | ------- |
+| v-infinite-scroll | Load more data while reach bottom of the page | function      | - | - |
 | infinite-scroll-disabled | is disabled           | boolean      | - |false |
 | infinite-scroll-delay   | throttle delay (ms)   | number       |   - |200   |
 | infinite-scroll-distance| trigger distance (px) | number   |- |0 |

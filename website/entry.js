@@ -2,6 +2,7 @@ import { createApp, nextTick } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from './route.config'
 import demoBlock from './components/demo-block'
+import RightNav from './components/right-nav'
 import MainFooter from './components/footer'
 import MainHeader from './components/header'
 import SideNav from './components/side-nav'
@@ -19,12 +20,14 @@ dayjs.locale('zh-cn') // todo: locale based on Doc site lang
 import App from './app.vue'
 import ElementPlus from 'element-plus'
 import '../packages/theme-chalk/src/index.scss'
+import '../packages/theme-chalk/src/display.scss'
 
 const app = createApp(App)
 
 app.config.globalProperties.$icon = icon
 
 app.component('DemoBlock', demoBlock)
+app.component('RightNav', RightNav)
 app.component('MainFooter', MainFooter)
 app.component('MainHeader', MainHeader)
 app.component('SideNav', SideNav)
@@ -36,7 +39,7 @@ const router = createRouter({
 })
 app.use(ElementPlus)
 app.use(router)
-router.isReady().then(()=>{
+router.isReady().then(() => {
 
   router.afterEach(async route => {
     await nextTick()

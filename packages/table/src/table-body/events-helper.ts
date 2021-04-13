@@ -1,14 +1,13 @@
-import { getCurrentInstance, VNode, ref, h } from 'vue'
+import { getCurrentInstance, ref, h } from 'vue'
 import { getStyle, hasClass } from '@element-plus/utils/dom'
-import { getCell, getColumnByCell } from '../util'
-import { debounce } from 'lodash'
+import { createTablePopper, getCell, getColumnByCell } from '../util'
+import debounce from 'lodash/debounce'
 import { TableBodyProps } from './table-body'
-import { Table, AnyObject, TableColumnCtx } from '../table'
+import { Table, AnyObject, TableColumnCtx } from '../table.type'
 
 function useEvents(props: TableBodyProps) {
   const instance = getCurrentInstance()
   const parent = instance.parent as Table
-  const tooltipVisible = ref(false)
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
   const handleEvent = (event: Event, row: AnyObject, name: string) => {
@@ -38,10 +37,10 @@ function useEvents(props: TableBodyProps) {
   const handleContextMenu = (event: Event, row: AnyObject) => {
     handleEvent(event, row, 'contextmenu')
   }
-  const handleMouseEnter = debounce(function (index: number) {
+  const handleMouseEnter = debounce(function(index: number) {
     props.store.commit('setHoverRow', index)
   }, 30)
-  const handleMouseLeave = debounce(function () {
+  const handleMouseLeave = debounce(function() {
     props.store.commit('setHoverRow', null)
   }, 30)
   const handleCellMouseEnter = (event: MouseEvent, row: AnyObject) => {
@@ -85,15 +84,13 @@ function useEvents(props: TableBodyProps) {
       rangeWidth + padding > cellChild.offsetWidth ||
       cellChild.scrollWidth > cellChild.offsetWidth
     ) {
-      // TODO 会引起整个 Table 的重新渲染，需要优化
-      tooltipContent.value = cell.innerText || cell.textContent
-      tooltipVisible.value = true
-      // TODO 动态绑定触发的元素会导致开发模式下产生警告
-      tooltipTrigger.value = (cell as unknown) as VNode
+      createTablePopper(cell, cell.innerText || cell.textContent, {
+        placement: 'top',
+        strategy: 'fixed',
+      }, row.tooltipEffect)
     }
   }
   const handleCellMouseLeave = event => {
-    tooltipVisible.value = false
     const cell = getCell(event)
     if (!cell) return
 
@@ -115,7 +112,6 @@ function useEvents(props: TableBodyProps) {
     handleMouseLeave,
     handleCellMouseEnter,
     handleCellMouseLeave,
-    tooltipVisible,
     tooltipContent,
     tooltipTrigger,
   }

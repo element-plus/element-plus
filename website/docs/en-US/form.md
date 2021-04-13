@@ -631,7 +631,7 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | inline-message  | inline style validate message | boolean | — | false |
 | size  | control the size of components in this form-item | string | medium / small / mini | - |
 
-### Form-Item Slot
+### Form-Item Slots
 | Name | Description |
 |------|--------|
 | — | content of Form Item |

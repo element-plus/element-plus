@@ -273,6 +273,25 @@ describe('Input.vue', () => {
       expect(input.selectionStart).toEqual(0)
       expect(input.selectionEnd).toEqual(testContent.length)
     })
+    test('method:resizeTextarea', async () => {
+      const testContent = 'TEXT:resizeTextarea'
+      const wrapper = _mount({
+        template: `<el-input  ref="textarea"  :autosize="{ minRows: 1, maxRows: 1 }" type="textarea" v-model="text" />`,
+        data() {
+          return {
+            text: testContent,
+          }
+        },
+      })
+      const ref = wrapper.vm.$refs.textarea
+      const originMinHeight  = ref.textareaStyle.minHeight
+
+      ref.autosize.minRows = 5
+      ref.resizeTextarea()
+      // Atfer this textarea min-height (style)  will change
+      const nowMinHeight = ref.textareaStyle.minHeight
+      expect(originMinHeight).not.toEqual(nowMinHeight)
+    })
   })
 
   describe('Input Events', () => {
@@ -411,6 +430,42 @@ describe('Input.vue', () => {
       // native input value is controlled
       expect(vm.input).toEqual('a')
       expect(nativeInput.value).toEqual('a')
+    })
+  })
+
+  test('non-emit event such as keyup should work', async () => {
+    const handleKeyup = jest.fn()
+    const wrapper = mount(Input, {
+      attrs: {
+        onKeyup: handleKeyup,
+      },
+    })
+
+    await wrapper.find('input').trigger('keyup')
+    expect(handleKeyup).toBeCalledTimes(1)
+  })
+
+  describe('Textarea Events', () => {
+    test('event:keydown', async () => {
+      const handleKeydown = jest.fn()
+      const wrapper = _mount({
+        template: `<el-input
+          type="textarea"
+          :model-value="val"
+          @keydown="handleKeydown"
+        />`,
+        setup() {
+          const val = ref('')
+
+          return {
+            val,
+            handleKeydown,
+          }
+        },
+      })
+
+      await wrapper.find('textarea').trigger('keydown')
+      expect(handleKeydown).toBeCalledTimes(1)
     })
   })
 

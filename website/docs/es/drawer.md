@@ -2,6 +2,11 @@
 
 A veces, `Dialog` no siempre satisface nuestros requisitos, digamos que tiene un formulario masivo, o necesita espacio para mostrar algo como `terminos & condiciones`, `Drawer` tiene una API casi idéntica a `Dialog`, pero introduce una experiencia de usuario diferente.
 
+:::tip
+#### Translation needed
+
+Since v-model is natively supported for all components, `visible.sync` has been deprecated, use `v-model="visibilityBinding"` to control the visibility of the current drawer.
+:::
 ### Uso básico
 
 Llamada de un drawer temporal, desde varias direcciones
@@ -267,13 +272,11 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 | custom-class | Nombre extra de clase para  Drawer | string | — | — |
 | destroy-on-close | Indica si los children deben ser destruidos después de cerrar el Drawer. | boolean | - | false |
 | modal | Mostrará una capa de sombra | boolean | — | true |
-| modal-append-to-body | Indica si se debe insertar una capa de sombreado en el elemento DocumentBody | boolean   | — | true |
 | direction | Dirección de apertura del Drawer | Direction | rtl / ltr / ttb / btt | rtl |
 | show-close | Se mostrará el botón de cerrar en la parte superior derecha del Drawer | boolean | — | true |
 | size | Tamaño del Drawer. Si el Drawer está en modo horizontal, afecta a la propiedad width, de lo contrario afecta a la propiedad height, cuando el tamaño es tipo `number`, describe el tamaño por unidad de píxeles; cuando el tamaño es tipo `string`, se debe usar con notación `x%`, de lo contrario se interpretará como unidad de píxeles. | number / string | - | '30%' |
 | title | El título del Drawer, también se puede establecer por slot con nombre, las descripciones detalladas se pueden encontrar en el formulario de slot. | string | — | — |
-| model-value | Si se muestra el Drawer, también soporta la notación `.sync` | boolean | — | false |
-| wrapperClosable | Indica si el usuario puede cerrar el Drawer haciendo clic en la capa de sombreado. | boolean | - | true |
+| model-value / v-model | Si se muestra el Drawer | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
 
 ### Drawer Slot's
@@ -287,7 +290,7 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 
 | Nombre | Descripción |
 | ---- | ---  |
-| closeDrawer | Para cerrar el Drawer, este método llamará `before-close`. |
+| handleClose | Para cerrar el Drawer, este método llamará `before-close`. |
 
 ### Eventos Drawer
 

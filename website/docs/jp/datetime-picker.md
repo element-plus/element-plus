@@ -3,7 +3,7 @@
 1つのピッカーで日時を選択します。
 
 :::tip
-DateTimePickerはDatePickerとTimePickerから派生したものです。`pickerOptions`やその他の属性についての詳しい説明は、DatePickerとTimePickerを参照してください。
+DateTimePickerはDatePickerとTimePickerから派生したものです。属性についての詳しい説明は、DatePickerとTimePickerを参照してください。
 :::
 
 ###  日付と時間
@@ -26,7 +26,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
       v-model="value2"
       type="datetime"
       placeholder="Select date and time"
-      :picker-options="pickerOptions">
+      :shortcuts="shortcuts">
     </el-date-picker>
   </div>
   <div class="block">
@@ -35,7 +35,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
       v-model="value3"
       type="datetime"
       placeholder="Select date and time"
-      default-time="12:00:00">
+      :default-time="defaultTime">
     </el-date-picker>
   </div>
 </template>
@@ -44,31 +44,28 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
   export default {
     data() {
       return {
-        pickerOptions: {
-          shortcuts: [{
-            text: 'Today',
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: 'Yesterday',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: 'A week ago',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
-        },
+        shortcuts: [{
+          text: 'Today',
+          value: new Date(),
+        }, {
+          text: 'Yesterday',
+          value: (() => {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            return date
+          })(),
+        }, {
+          text: 'A week ago',
+          value: (() => {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            return date
+          })(),
+        }],
         value1: '',
         value2: '',
-        value3: ''
+        value3: '',
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
       };
     }
   };
@@ -97,7 +94,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
     <el-date-picker
       v-model="value2"
       type="datetimerange"
-      :picker-options="pickerOptions"
+      :shortcuts="shortcuts"
       range-separator="To"
       start-placeholder="Start date"
       end-placeholder="End date"
@@ -110,33 +107,31 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
   export default {
     data() {
       return {
-        pickerOptions: {
-          shortcuts: [{
-            text: 'Last week',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Last month',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Last 3 months',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
+        shortcuts: [{
+          text: 'Last week',
+          value: (() => {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            return [start, end]
+          })()
+        }, {
+          text: 'Last month',
+          value: (() => {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            return [start, end]
+          })()
+        }, {
+          text: 'Last 3 months',
+          value: (() => {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            return [start, end]
+          })()
+        }],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
         value2: ''
       };
@@ -148,7 +143,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
 
 ###  開始日と終了日のデフォルトの時間値
 
-:::demo 日付パネルで `datetimerange` 型の日付範囲を選択した場合、開始日と終了日のデフォルト値として `00:00:00` が用いられる。これは `default-time` 属性で制御することができる。`default-time`は最大2つの文字列の配列を受け付ける。1つ目の項目は開始日の時刻を制御し、2つ目の項目は終了日の時刻を制御する。
+:::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
 ```html
 <template>
   <div class="block">
@@ -158,7 +153,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
       type="datetimerange"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      :default-time="['12:00:00']">
+      :default-time="defaultTime1">
     </el-date-picker>
   </div>
   <div class="block">
@@ -169,7 +164,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
       align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
-      :default-time="['12:00:00', '08:00:00']">
+      :default-time="defaultTime2">
     </el-date-picker>
   </div>
 </template>
@@ -179,7 +174,14 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
     data() {
       return {
         value1: '',
-        value2: ''
+        value2: '',
+        defaultTime1: [
+          new Date(2000, 1, 1, 12, 0, 0),
+        ], // '12:00:00'
+        defaultTime2: [
+          new Date(2000, 1, 1, 12, 0, 0),
+          new Date(2000, 2, 1, 8, 0, 0)
+        ] // '12:00:00', '08:00:00'
       };
     }
   };
@@ -201,32 +203,20 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。`picker
 | end-placeholder | 範囲終了日のプレースホルダ | string | — | — |
 | time-arrow-control | 矢印ボタンで時間を選ぶかどうか | boolean | — | false |
 | type | ピッカーのタイプ | string | year/month/date/datetime/ week/datetimerange/daterange | date |
-| format | インプットボックスの表示値のフォーマット | string | see [date formats](#/en-US/component/date-picker#date-formats) | yyyy-MM-dd HH:mm:ss |
+| format | インプットボックスの表示値のフォーマット | string | see [date formats](#/en-US/component/date-picker#date-formats) | YYYY-MM-DD HH:mm:ss |
 | align | アライメント | left/center/right | left |
 | popper-class | DateTimePickerのドロップダウンのカスタムクラス名 | string | — | — |
-| picker-options | 追加のオプションについては、以下の表を参照してください。 | object | — | {} |
 | range-separator | レンジセパレータ | string | - | '-' |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date | anything accepted by `new Date()` | — |
-| default-time | 日付を選択した後のデフォルトの時刻の値 | non-range: string / range: string[] | non-range: a string like `12:00:00`, range: array of two strings, and the first item is for the start date and second for the end date. `00:00:00` will be used if not specified | — |
-| value-format | オプションで、バインディング値のフォーマットを指定します。指定しない場合、バインディング値は Date オブジェクトになります。 | string | see [date formats](#/en-US/component/date-picker#date-formats) | — |
+| default-time | the default time value after picking a date | non-range: Date / range: Date[] | non-range: a Date object, range: array of two Date objects, and the first item is for the start date and second for the end date. Time `00:00:00` will be used if not specified | — |
 | name | ネイティブインプットの `name` と同じ | string | — | — |
 | unlink-panels | レンジピッカーで2つのデータパネルのリンクを解除する | boolean | — | false |
 | prefix-icon | カスタムプレフィックスアイコンクラス | string | — | el-icon-date |
 | clear-icon | カスタムクリアアイコンクラス | string | — | el-icon-circle-close |
-
-### ピッカーオプション
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| shortcuts | a { text, onClick } object array to set shortcut options, check the table below | object[] | — | — |
+| shortcuts | an object array to set shortcut options | object[{ text: string, value: Date }] | — | — |
 | disabledDate | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function | — | — |
 | cellClassName | set custom className | Function(Date) | — | — |
-| firstDayOfWeek | first day of week | Number | 1 to 7 | 7 |
 
-### ショートカット
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-|---------- |-------------- |---------- |--------------------------------  |-------- |
-| text | title of the shortcut | string | — | — |
-| onClick | callback function, triggers when the shortcut is clicked, with the `vm` as its parameter. You can change the picker value by emitting the `pick` event. Example: `vm.$emit('pick', new Date())`| function | — | — |
 
 ### イベント
 | Event Name | Description | Parameters |

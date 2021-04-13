@@ -1,8 +1,11 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Input from './src/index.vue'
 
-export default (app: App): void => {
+Input.install = (app: App): void => {
   app.component(Input.name, Input)
 }
 
-export { Input }
+const _Input: SFCWithInstall<typeof Input> = Input
+
+export default _Input

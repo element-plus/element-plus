@@ -1,9 +1,12 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import PageHeader from './src/index.vue'
 
-export default (app: App): void => {
+PageHeader.install = (app: App): void => {
   app.component(PageHeader.name, PageHeader)
 }
 
-export { PageHeader }
+const _PageHeader: SFCWithInstall<typeof PageHeader> = PageHeader
+
+export default _PageHeader
 

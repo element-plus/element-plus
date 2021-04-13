@@ -38,6 +38,7 @@ import {
   Ref,
   onMounted,
   ComputedRef,
+  isRef,
 } from 'vue'
 import mitt from 'mitt'
 import {
@@ -95,6 +96,7 @@ export default defineComponent({
     const submenus = ref({})
     const alteredCollapse = ref(false)
     const rootMenuEmitter = mitt()
+    const router = instance.appContext.config.globalProperties.$router
 
     const hoverBackground = useMenuColor(props.backgroundColor)
 
@@ -139,13 +141,16 @@ export default defineComponent({
       delete items.value[item.index]
     }
 
-    const openMenu = (index: string, indexPath?: Ref<string[]>) => {
+    const openMenu = (index: string, indexPath?: Ref<string[]> | string[]) => {
       if (openedMenus.value.includes(index)) return
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
       if (props.uniqueOpened) {
         openedMenus.value = openedMenus.value.filter((index: string) => {
-          return indexPath.value.indexOf(index) !== -1
+          return (
+            (isRef(indexPath) ? indexPath.value : indexPath).indexOf(index) !==
+            -1
+          )
         })
       }
       openedMenus.value.push(index)
@@ -159,7 +164,7 @@ export default defineComponent({
     }
 
     const open = index => {
-      const { indexPath } = submenus[index.toString()]
+      const { indexPath } = submenus.value[index.toString()]
       indexPath.forEach(i => openMenu(i, indexPath))
     }
 
@@ -173,10 +178,10 @@ export default defineComponent({
 
       if (isOpened) {
         closeMenu(index)
-        ctx.emit('close', index, indexPath)
+        ctx.emit('close', index, indexPath.value)
       } else {
         openMenu(index, indexPath)
-        ctx.emit('open', index, indexPath)
+        ctx.emit('open', index, indexPath.value)
       }
     }
 
@@ -187,42 +192,39 @@ export default defineComponent({
     }) => {
       const { index, indexPath } = item
       const hasIndex = item.index !== null
-      // const oldActiveIndex = activeIndex.value
+      const oldActiveIndex = activeIndex.value
 
       if (hasIndex) {
         activeIndex.value = item.index
       }
 
-      ctx.emit('select', index, indexPath, item)
+      ctx.emit('select', index, indexPath.value, item)
 
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
-      // TODO: support vue-router
-      // const currentRouter = instance.appContext.config.globalProperties.$router
-      // if (currentRouter && hasIndex) {
-      //   routeToItem(item, error => {
-      //     activeIndex.value = oldActiveIndex
-      //     if (error) {
-      //       // vue-router 3.1.0+ push/replace cause NavigationDuplicated error
-      //       // https://github.com/ElemeFE/element/issues/17044
-      //       if (error.name === 'NavigationDuplicated') return
-      //       console.error(error)
-      //     }
-      //   })
-      // }
+
+      if (props.router && router && hasIndex) {
+        routeToItem(item, error => {
+          activeIndex.value = oldActiveIndex
+          if (error) {
+            // vue-router 3.1.0+ push/replace cause NavigationDuplicated error
+            // https://github.com/ElemeFE/element/issues/17044
+            if (error.name === 'NavigationDuplicated') return
+            console.error(error)
+          }
+        })
+      }
     }
 
-    // const routeToItem = (item, onError) => {
-    //   let route = item.route || item.index
-    //   try {
-    //     const currentRouter =
-    //       instance.appContext.config.globalProperties.$router
-    //     currentRouter?.push(route, () => null, onError)
-    //   } catch (e) {
-    //     console.error(e)
-    //   }
-    // }
+    const routeToItem = (item, onError) => {
+      let route = item.route || item.index
+      try {
+        router?.push(route, () => null, onError)
+      } catch (e) {
+        console.error(e)
+      }
+    }
 
     const updateActiveIndex = (val?: string) => {
       const itemsInData = items.value
@@ -231,7 +233,6 @@ export default defineComponent({
         itemsInData[activeIndex.value] ||
         itemsInData[props.defaultActive]
 
-      alteredCollapse.value
       if (item) {
         activeIndex.value = item.index
         initializeMenu()
@@ -252,7 +253,7 @@ export default defineComponent({
     watch(
       () => props.defaultActive,
       currentActive => {
-        if (!items[currentActive]) {
+        if (!items.value[currentActive]) {
           activeIndex.value = ''
         }
         updateActiveIndex(currentActive)

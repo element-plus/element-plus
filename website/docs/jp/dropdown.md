@@ -11,13 +11,15 @@ dropdownメニューの上にカーソルを置くと、より多くのアクシ
   <span class="el-dropdown-link">
     Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
   </span>
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>Action 1</el-dropdown-item>
-    <el-dropdown-item>Action 2</el-dropdown-item>
-    <el-dropdown-item>Action 3</el-dropdown-item>
-    <el-dropdown-item disabled>Action 4</el-dropdown-item>
-    <el-dropdown-item divided>Action 5</el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item disabled>Action 4</el-dropdown-item>
+      <el-dropdown-item divided>Action 5</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 
 <style>
@@ -44,23 +46,27 @@ dropdownリストを起動するには、ボタンを使用します。
   <el-button type="primary">
     Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
   </el-button>
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>Action 1</el-dropdown-item>
-    <el-dropdown-item>Action 2</el-dropdown-item>
-    <el-dropdown-item>Action 3</el-dropdown-item>
-    <el-dropdown-item>Action 4</el-dropdown-item>
-    <el-dropdown-item>Action 5</el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+      <el-dropdown-item>Action 5</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 <el-dropdown split-button type="primary" @click="handleClick">
   Dropdown List
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>Action 1</el-dropdown-item>
-    <el-dropdown-item>Action 2</el-dropdown-item>
-    <el-dropdown-item>Action 3</el-dropdown-item>
-    <el-dropdown-item>Action 4</el-dropdown-item>
-    <el-dropdown-item>Action 5</el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+      <el-dropdown-item>Action 5</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 
 <style>
@@ -95,34 +101,55 @@ dropdownリストを起動するには、ボタンを使用します。
 
 ```html
 <el-row class="block-col-2">
-  <el-col :span="12">
+  <el-col :span="8">
     <span class="demonstration">hover to trigger</span>
     <el-dropdown>
       <span class="el-dropdown-link">
         Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
-      </el-dropdown-menu>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
     </el-dropdown>
   </el-col>
-  <el-col :span="12">
+  <el-col :span="8">
     <span class="demonstration">click to trigger</span>
     <el-dropdown trigger="click">
       <span class="el-dropdown-link">
         Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
-        <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
-      </el-dropdown-menu>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+  </el-col>
+  <el-col :span="8">
+    <span class="demonstration">right click to trigger</span>
+    <el-dropdown trigger="contextmenu">
+      <span class="el-dropdown-link">
+        Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
     </el-dropdown>
   </el-col>
 </el-row>
@@ -155,13 +182,15 @@ dropdownリストを起動するには、ボタンを使用します。
   <span class="el-dropdown-link">
     Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
   </span>
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>Action 1</el-dropdown-item>
-    <el-dropdown-item>Action 2</el-dropdown-item>
-    <el-dropdown-item>Action 3</el-dropdown-item>
-    <el-dropdown-item disabled>Action 4</el-dropdown-item>
-    <el-dropdown-item divided>Action 5</el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item disabled>Action 4</el-dropdown-item>
+      <el-dropdown-item divided>Action 5</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 
 <style>
@@ -186,13 +215,15 @@ dropdownリストを起動するには、ボタンを使用します。
   <span class="el-dropdown-link">
     Dropdown List<i class="el-icon-arrow-down el-icon--right"></i>
   </span>
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item command="a">Action 1</el-dropdown-item>
-    <el-dropdown-item command="b">Action 2</el-dropdown-item>
-    <el-dropdown-item command="c">Action 3</el-dropdown-item>
-    <el-dropdown-item command="d" disabled>Action 4</el-dropdown-item>
-    <el-dropdown-item command="e" divided>Action 5</el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item command="a">Action 1</el-dropdown-item>
+      <el-dropdown-item command="b">Action 2</el-dropdown-item>
+      <el-dropdown-item command="c">Action 3</el-dropdown-item>
+      <el-dropdown-item command="d" disabled>Action 4</el-dropdown-item>
+      <el-dropdown-item command="e" divided>Action 5</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 
 <style>
@@ -226,55 +257,63 @@ dropdownリストを起動するには、ボタンを使用します。
 ```html
 <el-dropdown split-button type="primary">
   Default
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>Action 1</el-dropdown-item>
-    <el-dropdown-item>Action 2</el-dropdown-item>
-    <el-dropdown-item>Action 3</el-dropdown-item>
-    <el-dropdown-item>Action 4</el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 
 <el-dropdown size="medium" split-button type="primary">
   Medium
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>Action 1</el-dropdown-item>
-    <el-dropdown-item>Action 2</el-dropdown-item>
-    <el-dropdown-item>Action 3</el-dropdown-item>
-    <el-dropdown-item>Action 4</el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 
 <el-dropdown size="small" split-button type="primary">
   Small
-  <el-dropdown-menu slot="dropdown">
-   <el-dropdown-item>Action 1</el-dropdown-item>
-   <el-dropdown-item>Action 2</el-dropdown-item>
-   <el-dropdown-item>Action 3</el-dropdown-item>
-   <el-dropdown-item>Action 4</el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 
 <el-dropdown size="mini" split-button type="primary">
   Mini
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>Action 1</el-dropdown-item>
-    <el-dropdown-item>Action 2</el-dropdown-item>
-    <el-dropdown-item>Action 3</el-dropdown-item>
-    <el-dropdown-item>Action 4</el-dropdown-item>
-  </el-dropdown-menu>
+  <template #dropdown>
+    <el-dropdown-menu>
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+    </el-dropdown-menu>
+  </template>
 </el-dropdown>
 ```
 :::
-
 
 ### dropdown属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | type          | `split-button` が `true`のとき、メニューボタンのタイプは `Button` コンポーネントを参照する。  | string  |  —   |    —     |
 | size          | メニューのサイズ(分割ボタンでも動作)  | string  | medium / small / mini  |    —     |
+| max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | ボタングループの表示の有無 | boolean         |     —       | false   |
 | placement    | ポップメニューの配置 | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
-| trigger       | トリガーのきっかけ     | string  |    hover/click  |  hover |
+| trigger       | トリガーのきっかけ     | string  |    hover/click/contextmenu  |  hover |
 | hide-on-click | メニューアイテムをクリックした後にメニューを非表示にするかどうか     | boolean          | — | true |
 | show-timeout | dropdownを表示するまでの遅延時間 (トリガーが `hover` の場合のみ動作) | number | — | 250 |
 | hide-timeout | dropdownを非表示にするまでの遅延時間 (トリガーが `hover` の場合のみ動作) | number | — | 150 |

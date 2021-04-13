@@ -2,18 +2,20 @@
   <el-popper
     ref="popper"
     v-model:visible="popperVisible"
-    trigger="manual"
-    transition="el-zoom-in-top"
+    manual-mode
     placement="bottom-start"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
+    :stop-popper-mouse-event="false"
+    transition="el-zoom-in-top"
+    :gpu-acceleration="false"
     effect="light"
     pure
     @after-leave="hideSuggestionPanel"
   >
     <template #trigger>
       <div
-        v-clickoutside="() => togglePopperVisible(false)"
+        v-clickoutside:[popperPaneRef]="() => togglePopperVisible(false)"
         :class="[
           'el-cascader',
           realSize && `el-cascader--${realSize}`,
@@ -134,11 +136,11 @@ import {
   onMounted, onBeforeUnmount,
   Ref, ref, watch,
 } from 'vue'
-import { CascaderPanel as ElCascaderPanel } from '@element-plus/cascader-panel'
-import { Input as ElInput } from '@element-plus/input'
-import { Popper as ElPopper } from '@element-plus/popper'
-import { Scrollbar as ElScrollbar } from '@element-plus/scrollbar'
-import { Tag as ElTag } from '@element-plus/tag'
+import ElCascaderPanel from '@element-plus/cascader-panel'
+import ElInput from '@element-plus/input'
+import ElPopper from '@element-plus/popper'
+import ElScrollbar from '@element-plus/scrollbar'
+import ElTag from '@element-plus/tag'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
 import { t } from '@element-plus/locale'
 import { isPromise } from '@vue/shared'
@@ -166,13 +168,6 @@ const INPUT_HEIGHT_MAP = {
 
 const popperOptions = {
   modifiers: [
-    {
-      name: 'computeStyles',
-      options: {
-        gpuAcceleration: false,
-        adaptive: false,
-      },
-    },
     {
       name: 'arrowPosition',
       enabled: true,
@@ -256,7 +251,7 @@ export default defineComponent({
     let inputInitialHeight = 0
     let pressDeleteCount = 0
 
-    const $ElEMENT = useGlobalConfig()
+    const $ELEMENT = useGlobalConfig()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
@@ -274,7 +269,7 @@ export default defineComponent({
     const suggestions: Ref<CascaderNode[]> = ref([])
 
     const isDisabled = computed(() => props.disabled || elForm.disabled)
-    const realSize: ComputedRef<string> = computed(() => props.size || elFormItem.size || $ElEMENT.size)
+    const realSize: ComputedRef<string> = computed(() => props.size || elFormItem.size || $ELEMENT.size)
     const tagSize = computed(() => ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small')
     const multiple = computed(() => !!props.props.multiple)
     const readonly = computed(() => !props.filterable || multiple.value)
@@ -307,6 +302,10 @@ export default defineComponent({
         emit(CHANGE_EVENT, val)
         elFormItem.formItemMitt?.emit('el.form.change', [val])
       },
+    })
+
+    const popperPaneRef = computed(() => {
+      return popper.value?.popperRef
     })
 
     const togglePopperVisible = (visible?: boolean) => {
@@ -505,6 +504,7 @@ export default defineComponent({
 
       if (isPromise(passed)) {
         passed.then(calculateSuggestions)
+          .catch(() => { /* prevent log error */ })
       } else if (passed !== false) {
         calculateSuggestions()
       } else {
@@ -545,6 +545,7 @@ export default defineComponent({
     return {
       popperOptions,
       popper,
+      popperPaneRef,
       input,
       tagWrapper,
       panel,

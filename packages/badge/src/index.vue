@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 interface IBadgeProps {
   value: string | number
@@ -33,7 +33,7 @@ interface IBadgeProps {
 interface IBadgeSetups {
   content: number | string
 }
-export default {
+export default defineComponent({
   name: 'ElBadge',
   props: {
     value: {
@@ -59,15 +59,14 @@ export default {
       if (props.isDot) {
         return
       }
-      const { value, max } = props
-      if (typeof value === 'number' && typeof max === 'number') {
-        return max < value ? `${max}+` : value
+      if (typeof props.value === 'number' && typeof props.max === 'number') {
+        return props.max < props.value ? `${props.max}+` : props.value
       }
-      return value
+      return props.value
     })
     return {
       content,
     }
   },
-}
+})
 </script>

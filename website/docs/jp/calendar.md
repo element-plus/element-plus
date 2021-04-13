@@ -26,10 +26,7 @@
 :::demo `scoped-slot` に `dateCell` という名前を設定することで、calendarセルに表示する内容をカスタマイズすることができる。`scoped-slot`では、日付(現在のセルの日付)とデータ(type, isSelected, day属性を含む)を取得することができます。詳細は以下のAPIドキュメントを参照のこと。
 ```html
 <el-calendar>
-  <!-- Use 2.5 slot syntax. If you use Vue 2.6, please use new slot syntax-->
-  <template
-    slot="dateCell"
-    slot-scope="{date, data}">
+  <template #dateCell="{data}">
     <p :class="data.isSelected ? 'is-selected' : ''">
       {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
     </p>
@@ -52,6 +49,12 @@
 ```
 :::
 
+### Localization
+
+The default locale of is English, if you need to use other languages, please check [Internationalization](#/jp/component/i18n)
+
+Note, date time locale (month name, first day of the week ...) are also configed in localization.
+
 ### 属性
 | Attribute       | Description        | Type      | Accepted Values       | Default  |
 |-----------------|------------------- |---------- |---------------------- |--------- |
@@ -62,5 +65,4 @@
 ### デートセルスコープスロット
 | Attribute       | Description   | Type      | Accepted Values       | Default  |
 |-----------------|-------------- |---------- |---------------------- |--------- |
-| date            | セルが表す日付  | Date      | —                     | —        |
-| data            | {type, isSelected, day}.  `type` は日付が属する月を示し、オプションの値は前月、現在の月、次の月です。`isSelected` は日付が選択されているかどうかを示す。`day`はyyyy-MM-dd形式でフォーマットされた日付です。    | Object      | —           | —      |
+| data            | { type, isSelected, day, date }.  `type` は日付が属する月を示し、オプションの値は前月、現在の月、次の月です。`isSelected` は日付が選択されているかどうかを示す。`day`はyyyy-MM-dd形式でフォーマットされた日付です。`date` はセルが表す日付    | Object      | —           | —      |

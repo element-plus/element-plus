@@ -197,4 +197,22 @@ describe('Carousel', () => {
     expect(wrapper.vm.$refs.carousel.direction).toBe('vertical')
     expect(items[0].style.transform.indexOf('translateY') !== -1).toBeTruthy()
   })
+
+  it('pause auto play on hover', async done => {
+    const wrapper = _mount(`
+        <div>
+          <el-carousel :interval="50" :pause-on-hover="false">
+            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
+          </el-carousel>
+        </div>
+      `)
+
+    await nextTick()
+    await wrapper.find('.el-carousel').trigger('mouseenter')
+    const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
+    await nextTick()
+    await wait(60)
+    expect(items[1].classList.contains('is-active')).toBeTruthy()
+    done()
+  })
 })

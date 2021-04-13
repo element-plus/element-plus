@@ -1,8 +1,10 @@
-import { App } from 'vue'
 import Message from './src/message'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 
-export default (app: App): void => {
-  app.config.globalProperties.$message = Message
+const _Message: SFCWithInstall<typeof Message> = Message as SFCWithInstall<typeof Message>
+
+_Message.install = app => {
+  app.config.globalProperties.$message = _Message
 }
 
-export { Message }
+export default _Message

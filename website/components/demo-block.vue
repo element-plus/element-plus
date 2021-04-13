@@ -28,29 +28,48 @@
       <transition name="text-slide">
         <span v-show="hovering">{{ controlText }}</span>
       </transition>
-      <el-tooltip effect="dark" :content="langConfig['tooltip-text']" placement="right">
-        <transition name="text-slide">
-          <el-button
-            v-show="hovering || isExpanded"
-            size="small"
-            type="text"
-            class="control-button"
-            @click.stop="goCodepen"
-          >
-            {{ langConfig['button-text'] }}
-          </el-button>
-        </transition>
-      </el-tooltip>
+      <div class="control-button-container">
+        <el-button
+          v-show="hovering || isExpanded"
+          ref="copyButton"
+          size="small"
+          type="text"
+          class="control-button copy-button"
+          @click.stop="copy"
+        >
+          {{ langConfig['copy-button-text'] }}
+        </el-button>
+        <el-tooltip effect="dark" :content="langConfig['tooltip-text']" placement="right">
+          <transition name="text-slide">
+            <el-button
+              v-show="hovering || isExpanded"
+              size="small"
+              type="text"
+              class="control-button  run-online-button"
+              @click.stop="goCodepen"
+            >
+              {{ langConfig['run-online-button-text'] }}
+            </el-button>
+          </transition>
+        </el-tooltip>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { nextTick } from 'vue'
 import hljs from 'highlight.js'
+import clipboardCopy from 'clipboard-copy'
 import compoLang from '../i18n/component.json'
 import { stripScript, stripStyle, stripTemplate } from '../util'
 const version = '1.0.0' // element version
-
+const stripTemplateAndRemoveTemplate = code => {
+  const result = stripTemplate(code)
+  if (result.indexOf('<template>') === 0) {
+    return result.replace(/^<template>/, '').replace(/<\/template>$/,'')
+  }
+  return result
+}
 export default {
   data() {
     return {
@@ -122,14 +141,14 @@ export default {
     if (highlight && highlight[0]) {
       let code = ''
       let cur = highlight[0]
-      if (cur.tag === 'pre' && (cur.children && cur.children[0])) {
+      if (cur.type === 'pre' && (cur.children && cur.children[0])) {
         cur = cur.children[0]
-        if (cur.tag === 'code') {
-          code = cur.children[0].text
+        if (cur.type === 'code') {
+          code = cur.children
         }
       }
       if (code) {
-        this.codepen.html = stripTemplate(code)
+        this.codepen.html = stripTemplateAndRemoveTemplate(code)
         this.codepen.script = stripScript(code)
         this.codepen.style = stripStyle(code)
       }
@@ -157,17 +176,44 @@ export default {
   },
 
   methods: {
+    copy() {
+      const res = clipboardCopy(`
+<template>
+${this.codepen.html}
+</template>
+
+<script>
+${'  ' + this.codepen.script}
+\<\/script>
+
+<style>
+${this.codepen.style}
+</style>
+`)
+
+      res.then(() => {
+        this.$message({
+          showClose: true,
+          message: this.langConfig['copy-success'],
+          type: 'success',
+        })
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          message: this.langConfig['copy-error'],
+          type: 'error',
+        })
+      })
+    },
     goCodepen() {
       // since 2.6.2 use code rather than jsfiddle https://blog.codepen.io/documentation/api/prefill/
       const { script, html, style } = this.codepen
-      const resourcesTpl = '<scr' + 'ipt src="//unpkg.com/vue/dist/vue.js"></scr' + 'ipt>' +
-        '\n<scr' + `ipt src="//unpkg.com/element-ui@${ version }/lib/index.js"></scr` + 'ipt>'
-      let jsTpl = (script || '').replace(/export default/, 'var Main =').trim()
+      const resourcesTpl = '<scr' + 'ipt src="//unpkg.com/vue@next"></scr' + 'ipt>' +
+        '\n<scr' + `ipt src="//unpkg.com/element-plus/lib/index.full.js"></scr` + 'ipt>'
       let htmlTpl = `${resourcesTpl}\n<div id="app">\n${html.trim()}\n</div>`
-      let cssTpl = `@import url("//unpkg.com/element-ui@${ version }/lib/theme-chalk/index.css");\n${(style || '').trim()}\n`
-      jsTpl = jsTpl
-        ? jsTpl + '\nvar Ctor = Vue.extend(Main)\nnew Ctor().$mount(\'#app\')'
-        : 'new Vue().$mount(\'#app\')'
+      let cssTpl = `@import url("//unpkg.com/element-plus/lib/theme-chalk/index.css");\n${(style || '').trim()}\n`
+      let jsTpl = script ? script.replace(/export default/, 'var Main =').trim().replace(/import ({.*}) from 'vue'/g, (s, s1) => `const ${s1} = Vue`).replace(/import ({.*}) from 'element-plus'/g, (s, s1) => `const ${s1} = ElementPlus`) : 'var Main = {}'
+      jsTpl += '\n;const app = Vue.createApp(Main);\napp.use(ElementPlus);\napp.mount("#app")'
       const data = {
         js: jsTpl,
         css: cssTpl,
@@ -191,12 +237,14 @@ export default {
       document.body.appendChild(form)
 
       form.submit()
+      document.body.removeChild(form)
     },
 
     scrollHandler() {
       const { top, bottom, left } = this.$refs.meta.getBoundingClientRect()
-      this.fixedControl = bottom > document.documentElement.clientHeight &&
-          top + 44 <= document.documentElement.clientHeight
+      const controlBarHeight = 44
+      this.fixedControl = bottom + controlBarHeight > document.documentElement.clientHeight &&
+          top <= document.documentElement.clientHeight
       this.$refs.control.style.left = this.fixedControl ? `${ left }px` : '0'
     },
 
@@ -297,9 +345,8 @@ export default {
       position: relative;
 
       &.is-fixed {
-        position: fixed;
+        position: sticky;
         bottom: 0;
-        width: 868px;
       }
 
       i {
@@ -331,14 +378,18 @@ export default {
         transform: translateX(10px);
       }
 
-      .control-button {
-        line-height: 26px;
+      .control-button-container {
+        line-height: 40px;
         position: absolute;
         top: 0;
         right: 0;
-        font-size: 14px;
         padding-left: 5px;
         padding-right: 25px;
+      }
+
+      .control-button {
+        font-size: 14px;
+        margin: 0 10px;
       }
     }
   }

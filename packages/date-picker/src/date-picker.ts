@@ -1,5 +1,6 @@
-import { DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER } from '@element-plus/time-picker/src/common/constant'
-import Picker from '@element-plus/time-picker/src/common/picker.vue'
+import { defineComponent, ref } from 'vue'
+import { DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER } from '@element-plus/time-picker'
+import { CommonPicker, defaultProps } from '@element-plus/time-picker'
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
 import DateRangePickPanel from './date-picker-com/panel-date-range.vue'
 import MonthRangePickPanel from './date-picker-com/panel-month-range.vue'
@@ -9,16 +10,16 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 import localeData from 'dayjs/plugin/localeData'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import weekYear from 'dayjs/plugin/weekYear'
-import isLeapYear from 'dayjs/plugin/isLeapYear'
+import dayOfYear from 'dayjs/plugin/dayOfYear'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import { h } from 'vue'
-dayjs.extend(isLeapYear)
 dayjs.extend(localeData)
 dayjs.extend(advancedFormat)
 dayjs.extend(customParseFormat)
 dayjs.extend(weekOfYear)
 dayjs.extend(weekYear)
+dayjs.extend(dayOfYear)
 dayjs.extend(isSameOrAfter)
 dayjs.extend(isSameOrBefore)
 
@@ -31,23 +32,36 @@ const getPanel = function(type) {
   return DatePickPanel
 }
 
-export default {
+export default defineComponent({
   name: 'ElDatePicker',
+  install: null,
   props: {
+    ...defaultProps,
     type: {
       type: String,
       default: 'date',
     },
   },
-  setup(props) {
+  emits: ['update:modelValue'],
+  setup(props, ctx) {
+    const commonPicker = ref(null)
     const format = DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE
-    return () => h(Picker, {
-      format,
-      type: props.type,
+    const refProps = {
       ...props,
+      focus: () => {
+        commonPicker.value?.handleFocus()
+      },
+    }
+    ctx.expose(refProps)
+    return () => h(CommonPicker, {
+      format,
+      ...props, // allow format to be overwrite
+      type: props.type,
+      ref: commonPicker,
+      'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
     },
     {
       default: scopedProps => h(getPanel(props.type), scopedProps),
     })
   },
-}
+})

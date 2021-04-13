@@ -1,3 +1,6 @@
+@import 'element-theme-chalk/src/mixins/config.scss';
+
+@import "./affix.scss";
 @import "./alert.scss";
 @import "./badge.scss";
 @import "./border.scss";
@@ -44,4 +47,5 @@
 @import "./infinite-scroll.scss";
 @import "./avatar.scss";
 @import "./drawer.scss";
-
+@import "./skeleton.scss";
+@import "./space.scss";

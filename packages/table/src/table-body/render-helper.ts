@@ -4,7 +4,7 @@ import useStyles from './styles-helper'
 import { arrayFindIndex } from '@element-plus/utils/util'
 import { getRowIdentity } from '../util'
 import { TableBodyProps } from './table-body'
-import { RenderRowData, AnyObject, Table } from '../table'
+import { RenderRowData, AnyObject, Table } from '../table.type'
 
 function useRender(props: TableBodyProps) {
   const instance = getCurrentInstance()
@@ -17,7 +17,6 @@ function useRender(props: TableBodyProps) {
     handleMouseLeave,
     handleCellMouseEnter,
     handleCellMouseLeave,
-    tooltipVisible,
     tooltipContent,
     tooltipTrigger,
   } = useEvents(props)
@@ -42,9 +41,10 @@ function useRender(props: TableBodyProps) {
     }
     return index
   }
-  const rowRender = (row, index_, treeRowData) => {
-    const { indent, columns } = props.store.states
-    const rowClasses = getRowClass(row, index_)
+  const rowRender = (row, $index, treeRowData) => {
+    const { tooltipEffect, store } = props
+    const { indent, columns } = store.states
+    const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
       rowClasses.push('el-table__row--level-' + treeRowData.level)
@@ -58,17 +58,17 @@ function useRender(props: TableBodyProps) {
     return h(
       'tr',
       {
-        style: [displayStyle, getRowStyle(row, index_)],
+        style: [displayStyle, getRowStyle(row, $index)],
         class: rowClasses,
-        key: getKeyOfRow(row, index_),
+        key: getKeyOfRow(row, $index),
         onDblclick: $event => handleDoubleClick($event, row),
         onClick: $event => handleClick($event, row),
         onContextmenu: $event => handleContextMenu($event, row),
-        onMouseenter: () => handleMouseEnter(index_),
+        onMouseenter: () => handleMouseEnter($index),
         onMouseleave: handleMouseLeave,
       },
       columns.value.map((column, cellIndex) => {
-        const { rowspan, colspan } = getSpan(row, column, index_, cellIndex)
+        const { rowspan, colspan } = getSpan(row, column, $index, cellIndex)
         if (!rowspan || !colspan) {
           return null
         }
@@ -78,13 +78,12 @@ function useRender(props: TableBodyProps) {
           colspan,
           cellIndex,
         )
-        // debugger;
         const data: RenderRowData = {
           store: props.store,
           _self: props.context || parent,
           column: columnData,
           row,
-          index_,
+          $index,
         }
         if (cellIndex === firstDefaultColumnIndex.value && treeRowData) {
           data.treeNode = {
@@ -105,11 +104,11 @@ function useRender(props: TableBodyProps) {
         return h(
           'td',
           {
-            style: getCellStyle(index_, cellIndex, row, column),
-            class: getCellClass(index_, cellIndex, row, column),
+            style: getCellStyle($index, cellIndex, row, column),
+            class: getCellClass($index, cellIndex, row, column),
             rowspan,
             colspan,
-            onMouseenter: $event => handleCellMouseEnter($event, row),
+            onMouseenter: $event => handleCellMouseEnter($event, { ...row, tooltipEffect }),
             onMouseleave: handleCellMouseLeave,
           },
           [column.renderCell(data)],
@@ -117,7 +116,7 @@ function useRender(props: TableBodyProps) {
       }),
     )
   }
-  const wrappedRowRender = (row, index_) => {
+  const wrappedRowRender = (row, $index) => {
     const store = props.store as any
     const { isRowExpanded, assertRowKey } = store
     const {
@@ -131,32 +130,34 @@ function useRender(props: TableBodyProps) {
     )
     if (hasExpandColumn && isRowExpanded(row)) {
       const renderExpanded = parent.renderExpanded
-      const tr = rowRender(row, index_, undefined)
+      const tr = rowRender(row, $index, undefined)
       if (!renderExpanded) {
         console.error('[Element Error]renderExpanded is required.')
         return tr
       }
-      // 使用二维数组，避免修改 index_
+      // 使用二维数组，避免修改 $index
+      /**
+       * TIP: One dimensional array is used temporarily to avoid rendering flicker.
+       * The case of $index being modified has not been found by testing
+       */
       return [
-        [
-          tr,
-          h(
-            'tr',
-            {
-              key: 'expanded-row__' + tr.key,
-            },
-            [
-              h(
-                'td',
-                {
-                  colspan: store.states.columns.value.length,
-                  class: 'el-table__expanded-cell',
-                },
-                [renderExpanded({ row, index_, store })],
-              ),
-            ],
-          ),
-        ],
+        tr,
+        h(
+          'tr',
+          {
+            key: 'expanded-row__' + tr.key,
+          },
+          [
+            h(
+              'td',
+              {
+                colspan: store.states.columns.value.length,
+                class: 'el-table__expanded-cell',
+              },
+              [renderExpanded({ row, $index, store })],
+            ),
+          ],
+        ),
       ]
     } else if (Object.keys(treeData.value).length) {
       assertRowKey()
@@ -178,7 +179,7 @@ function useRender(props: TableBodyProps) {
           treeRowData.loading = cur.loading
         }
       }
-      const tmp = [rowRender(row, index_, treeRowData)]
+      const tmp = [rowRender(row, $index, treeRowData)]
       // 渲染嵌套数据
       if (cur) {
         // currentRow 记录的是 index，所以还需主动增加 TreeTable 的 index
@@ -217,7 +218,7 @@ function useRender(props: TableBodyProps) {
               }
             }
             i++
-            tmp.push(rowRender(node, index_ + i, innerTreeRowData))
+            tmp.push(rowRender(node, $index + i, innerTreeRowData))
             if (cur) {
               const nodes =
                 lazyTreeNodeMap.value[childKey] ||
@@ -234,13 +235,12 @@ function useRender(props: TableBodyProps) {
       }
       return tmp
     } else {
-      return rowRender(row, index_, undefined)
+      return rowRender(row, $index, undefined)
     }
   }
 
   return {
     wrappedRowRender,
-    tooltipVisible,
     tooltipContent,
     tooltipTrigger,
   }

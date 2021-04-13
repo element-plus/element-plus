@@ -12,9 +12,14 @@ html, body {
   }
 }
 
+body{
+  padding-top: 80px;
+  height: calc(100% - 80px);
+}
+
 #app {
   height: 100%;
-  
+
   &.is-component {
     overflow-y: hidden;
 
@@ -31,9 +36,9 @@ html, body {
       left: 0;
       top: 0;
       z-index: 1500;
-      
+
       .container {
-        padding: 0;
+        padding: 0 40px;
       }
     }
   }
@@ -71,17 +76,15 @@ button, input, select, textarea {
 }
 
 .main-cnt {
-  margin-top: -80px;
-  padding: 80px 0 340px;
+  padding-bottom: 340px;
   box-sizing: border-box;
   min-height: 100%;
 }
 
 .container,
 .page-container {
-  width: 1140px;
-  padding: 0;
-  margin: 0 auto;
+  //width: 1140px;
+  padding: 0 40px;
 }
 
 .page-container {

@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import {
+  defineComponent,
   nextTick,
   computed,
   provide,
@@ -30,14 +31,14 @@ import radioGroupKey from './token'
 import type { PropType } from 'vue'
 import type { ElFormItemContext } from '@element-plus/form'
 
-export default {
+export default defineComponent({
   name: 'ElRadioGroup',
 
   componentName: 'ElRadioGroup',
 
   props: {
     modelValue: {
-      type: [Boolean, String, Number],
+      type: [String, Number, Boolean],
       default: '',
     },
     size: {
@@ -127,6 +128,6 @@ export default {
       radioGroup,
     }
   },
-}
+})
 </script>
 

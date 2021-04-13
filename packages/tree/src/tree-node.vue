@@ -16,6 +16,7 @@
     :aria-disabled="node.disabled"
     :aria-checked="node.checked"
     :draggable="tree.props.draggable"
+    :data-key="getNodeKey(node)"
     @click.stop="handleClick"
     @contextmenu="handleContextMenu"
     @dragstart.stop="handleDragStart"
@@ -77,14 +78,14 @@
 </template>
 <script lang='ts'>
 import { defineComponent, getCurrentInstance, ref, watch, nextTick, inject, provide, PropType, ComponentInternalInstance } from 'vue'
-import ElCollapseTransition from '@element-plus/transition/collapse-transition/index.vue'
-import { Checkbox as ElCheckbox } from '@element-plus/checkbox'
+import ElCollapseTransition from '@element-plus/collapse-transition'
+import ElCheckbox from '@element-plus/checkbox'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeEmitter } from './model/useDragNode'
 import Node from './model/node'
-import { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.d'
+import { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
 
 export default defineComponent({
   name: 'ElTreeNode',
@@ -132,7 +133,10 @@ export default defineComponent({
     }
 
     const childrenKey = tree.props['children'] || 'children'
-    watch(() => props.node.data[childrenKey], () => {
+    watch(() => {
+      const children = props.node.data[childrenKey]
+      return children && [...children]
+    }, () => {
       props.node.updateChildren()
     })
 
@@ -156,7 +160,7 @@ export default defineComponent({
     }
 
     const handleSelectChange = (checked: boolean, indeterminate: boolean) => {
-      if (oldChecked.value !== checked && oldIndeterminate.value !== indeterminate) {
+      if (oldChecked.value !== checked || oldIndeterminate.value !== indeterminate) {
         tree.ctx.emit('check-change', props.node.data, checked, indeterminate)
       }
       oldChecked.value = checked
@@ -182,7 +186,7 @@ export default defineComponent({
     }
 
     const handleContextMenu = (event: Event) => {
-      if (tree.instance.vnode.props['onNode-contextmenu']) {
+      if (tree.instance.vnode.props['onNodeContextmenu']) {
         event.stopPropagation()
         event.preventDefault()
       }

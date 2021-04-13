@@ -1,4 +1,6 @@
 import isServer from '@element-plus/utils/isServer'
+import { on, off } from '@element-plus/utils/dom'
+
 let isDragging = false
 
 export declare interface IOptions {
@@ -7,14 +9,16 @@ export declare interface IOptions {
   end?: (event: Event) => void
 }
 
-export default function(element: HTMLElement, options: IOptions) {
+export default function (element: HTMLElement, options: IOptions) {
   if (isServer) return
-  const moveFn = function(event) {
+
+  const moveFn = function (event: Event) {
     options.drag?.(event)
   }
-  const upFn = function(event) {
-    document.onmousemove = null
-    document.onmouseup = null
+
+  const upFn = function (event: Event) {
+    off(document, 'mousemove', moveFn)
+    off(document, 'mouseup', upFn)
     document.onselectstart = null
     document.ondragstart = null
 
@@ -22,15 +26,16 @@ export default function(element: HTMLElement, options: IOptions) {
 
     options.end?.(event)
   }
-  element.onmousedown = function(event) {
+
+  on(element, 'mousedown', function (event) {
     if (isDragging) return
     document.onselectstart = () => false
     document.ondragstart = () => false
+    on(document, 'mousemove', moveFn)
+    on(document, 'mouseup', upFn)
 
-    document.onmousemove = moveFn
-    document.onmouseup = upFn
     isDragging = true
 
     options.start?.(event)
-  }
+  })
 }

@@ -1,10 +1,10 @@
 .demo-cascader {
-  .el-cascader {
+  .#{$namespace}-cascader {
     width: 222px;
   }
 }
 .demo-cascader-size {
-  .el-cascader {
+  .#{$namespace}-cascader {
     vertical-align: top;
     margin-right: 15px;
   }

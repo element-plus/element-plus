@@ -4,20 +4,12 @@ Línea de tiempo visual.
 
 ### Uso básico
 
-El Timeline puede ser dividido en múltiples actividades en forma ascendente o descendente. Las marcas de tiempo son características importantes que los distinguen de otros componentes. Observe la diferencia con Steps.
+El Timeline puede ser dividido en múltiples actividades. Las marcas de tiempo son características importantes que los distinguen de otros componentes. Observe la diferencia con Steps.
 
 :::demo
 ```html
 <div class="block">
-  <div class="radio">
-    Order: 
-    <el-radio-group v-model="reverse">
-      <el-radio :label="true">descending</el-radio>
-      <el-radio :label="false">ascending</el-radio>
-    </el-radio-group>
-  </div>
-
-  <el-timeline :reverse="reverse">
+  <el-timeline>
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
@@ -31,7 +23,6 @@ El Timeline puede ser dividido en múltiples actividades en forma ascendente o d
   export default {
     data() {
       return {
-        reverse: true,
         activities: [{
           content: 'Success',
           timestamp: '2018-04-11'
@@ -129,11 +120,6 @@ Las marcas de tiempo ( timestamp )  puede colocarse encima del contenido cuando 
 </div>
 ```
 :::
-
-### Timeline Atributos
-| Atributo | Descripción | Tipo    | Valores aceptados | Por defecto |
-|---------- |-------- |---------- |-------------  |-------- |
-| reverse | Si el node es ascendente o descendente. Por defecto es ascendente | boolean | — | false |
 
 ### Timeline-item Atributos
 | Atributo    | Descripción | Tipo    | Valores aceptados | Por defecto |

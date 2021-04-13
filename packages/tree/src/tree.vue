@@ -47,7 +47,7 @@ import {
   TreeKey,
   TreeData,
   RootTreeType,
-} from './tree.d'
+} from './tree.type'
 
 export default defineComponent({
   name: 'ElTree',
@@ -152,6 +152,9 @@ export default defineComponent({
       defaultExpandAll: props.defaultExpandAll,
       filterNodeMethod: props.filterNodeMethod,
     }))
+
+    store.value.initialize()
+
     const root = ref<Node>(store.value.root)
     const currentNode = ref<Node>(null)
     const el$ = ref<Nullable<HTMLElement>>(null)
@@ -163,7 +166,7 @@ export default defineComponent({
       props, ctx, el$, dropIndicator$, store,
     })
 
-    useKeydown({ el$ })
+    useKeydown({ el$ }, store)
 
     const isEmpty = computed(() => {
       const { childNodes } = root.value
@@ -181,7 +184,7 @@ export default defineComponent({
 
     watch(() => props.data, newVal => {
       store.value.setData(newVal)
-    })
+    }, { deep: true })
 
     watch(() => props.checkStrictly, newVal => {
       store.value.checkStrictly = newVal
@@ -250,14 +253,14 @@ export default defineComponent({
       return store.value.getHalfCheckedKeys()
     }
 
-    const setCurrentNode = (node: Node) => {
+    const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
       if (!props.nodeKey) throw new Error('[Tree] nodeKey is required in setCurrentNode')
-      store.value.setUserCurrentNode(node)
+      store.value.setUserCurrentNode(node, shouldAutoExpandParent)
     }
 
-    const setCurrentKey = (key: TreeKey) => {
+    const setCurrentKey = (key: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey) throw new Error('[Tree] nodeKey is required in setCurrentKey')
-      store.value.setCurrentNodeKey(key)
+      store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
     }
 
     const getNode = (data: TreeKey | TreeNodeData): Node => {

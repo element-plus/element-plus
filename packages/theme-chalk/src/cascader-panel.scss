@@ -23,7 +23,7 @@
 
   &:last-child {
     border-right: none;
-    .el-cascader-node {
+    .#{$namespace}-cascader-node {
       padding-right: 20px;
     }
   }
@@ -104,16 +104,17 @@
 
   @include e(label) {
     flex: 1;
+    text-align: left;
     padding: 0 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  > .el-radio {
+  > .#{$namespace}-radio {
     margin-right: 0;
 
-    .el-radio__label {
+    .#{$namespace}-radio__label {
       padding-left: 0;
     }
   }

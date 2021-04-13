@@ -2,6 +2,10 @@
 
 Sometimes, `Dialog` does not always satisfy our requirements, let's say you have a massive form, or you need space to display something like `terms & conditions`, `Drawer` has almost identical API with `Dialog`, but it introduces different user experience.
 
+:::tip
+
+Since v-model is natively supported for all components, `visible.sync` has been deprecated, use `v-model="visibilityBinding"` to control the visibility of the current drawer.
+:::
 ### Basic Usage
 
 Callout a temporary drawer, from multiple direction
@@ -259,24 +263,22 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ### Drawer Attributes
 
-| Parameter| Description | Type      | Acceptable Values                           | Defaults  |
+| Attribute | Description | Type      | Acceptable Values                           | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | append-to-body | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**| boolean   | — | false |
-| before-close | If set, closing procedure will be halted | function(done), done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure | — | — |
+| before-close | If set, closing procedure will be halted | function(done) (done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure) | — | — |
 | close-on-press-escape | Indicates whether Drawer can be closed by pressing ESC | boolean | — | true |
 | custom-class | Extra class names for Drawer | string | — | — |
 | destroy-on-close | Indicates whether children should be destroyed after Drawer closed | boolean | - | false |
 | modal | Should show shadowing layer | boolean | — | true |
-| modal-append-to-body | Indicates should shadowing layer be insert into DocumentBody element | boolean   | — | true |
 | direction | Drawer's opening direction | Direction | rtl / ltr / ttb / btt | rtl |
 | show-close | Should show close button at the top right of Drawer | boolean | — | true |
 | size | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | number / string | - | '30%' |
 | title | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form | string | — | — |
-| model-value | Should Drawer be displayed, also support the `.sync` notation | boolean | — | false |
-| wrapperClosable | Indicates whether user can close Drawer by clicking the shadowing layer. | boolean | - | true |
+| model-value / v-model | Should Drawer be displayed | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
 
-### Drawer Slot
+### Drawer Slots
 
 | Name | Description |
 |------|--------|
@@ -287,7 +289,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 | Name | Description |
 | ---- | ---  |
-| closeDrawer | In order to close Drawer, this method will call `before-close`. |
+| handleClose | In order to close Drawer, this method will call `before-close`. |
 
 ### Drawer Events
 

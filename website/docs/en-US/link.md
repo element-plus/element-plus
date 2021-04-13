@@ -68,7 +68,7 @@ Link with icon
 
 ### Attributes
 
-| Attribute | Description                         | Type    | Options                                     | Default |
+| Attribute | Description                         | Type    | Accepted Values                             | Default |
 | --------- | ----------------------------------- | ------- | ------------------------------------------- | ------- |
 | type      | type                                | string  | primary / success / warning / danger / info | default |
 | underline | whether the component has underline | boolean | —                                           | true    |

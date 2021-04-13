@@ -4,20 +4,12 @@ Affiche une suite d'évènements dans un ordre chronologique.
 
 ### Usage
 
-La timeline peut être divisée en plusieurs activités en ordre ascendant ou descendant. Les timestamps sont des caractéristiques importantes qui les distinguent des autres composants. Notez la différence avec Steps.
+La timeline peut être divisée en plusieurs activités. Les timestamps sont des caractéristiques importantes qui les distinguent des autres composants. Notez la différence avec Steps.
 
 :::demo
 ```html
 <div class="block">
-  <div class="radio">
-    Order:
-    <el-radio-group v-model="reverse">
-      <el-radio :label="true">Descendant</el-radio>
-      <el-radio :label="false">Ascendant</el-radio>
-    </el-radio-group>
-  </div>
-
-  <el-timeline :reverse="reverse">
+  <el-timeline>
     <el-timeline-item
       v-for="(activity, index) in activities"
       :key="index"
@@ -31,7 +23,6 @@ La timeline peut être divisée en plusieurs activités en ordre ascendant ou de
   export default {
     data() {
       return {
-        reverse: true,
         activities: [{
           content: 'Début de l\'évènement',
           timestamp: '2018-04-15'
@@ -129,12 +120,6 @@ Le timestamp peut être placé au-dessus du contenu lorsque celui-ci est trop ha
 </div>
 ```
 :::
-
-### Attributs de Timeline
-
-| Attribut      | Description    | Type      | Valeurs acceptées | Défaut   |
-|---------- |-------- |---------- |-------------  |-------- |
-| reverse | Si l'ordre chronologique est ascendant ou descendant, le défaut étant ascendant. | boolean | — | false |
 
 ### Attribut de Timeline-item
 

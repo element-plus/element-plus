@@ -4,14 +4,11 @@
 
 @include b(select-dropdown) {
   z-index: #{$--index-top + 1};
-  border: $--select-dropdown-border;
   border-radius: $--border-radius-base;
-  background-color: $--select-dropdown-background;
-  box-shadow: $--select-dropdown-shadow;
   box-sizing: border-box;
 
   @include when(multiple) {
-    & .el-select-dropdown__item.selected {
+    & .#{$namespace}-select-dropdown__item.selected {
       color: $--select-option-selected-font-color;
       background-color: $--select-dropdown-background;
 
@@ -32,7 +29,7 @@
     }
   }
 
-  .el-scrollbar.is-empty .el-select-dropdown__list{
+  .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list{
     padding: 0;
   }
 }

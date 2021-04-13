@@ -21,7 +21,7 @@ Element Plus peut être importé entièrement ou à la demande. Commençons par 
 Dans main.js:
 
 ```javascript
-import { createApp, Vue } from 'vue'
+import { createApp } from 'vue'
 import ElementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 import App from './App.vue';
@@ -35,218 +35,348 @@ L'exemple ci-dessus importe Element Plus entièrement. Notez que les fichiers CS
 
 #### À la demande
 
-Grâce au [babel-plugin-component](https://github.com/QingWei-Li/babel-plugin-component), nous pouvons importer uniquement les composants désirés, rendant ainsi le projet plus léger.
+**Vue CLI**
+Grâce au [babel-plugin-import](https://github.com/ant-design/babel-plugin-import), nous pouvons importer uniquement les composants désirés, rendant ainsi le projet plus léger.
 
-Tout d'abord, installez babel-plugin-component:
+Tout d'abord, installez babel-plugin-import:
 
 ```bash
-npm install babel-plugin-component -D
+npm install babel-plugin-import -D
 ```
 
-Puis éditez .babelrc:
+Puis éditez babel.config.js:
 
-```json
-{
-  "presets": [["es2015", { "modules": false }]],
-  "plugins": [
+- import `.scss` style
+
+:::warning
+Please make sure that `sass` and `sass-loader` dependencies have been installed and import `element-plus/packages/theme-chalk/src/base.scss` in the entry file.
+:::
+
+```js
+module.exports = {
+  plugins: [
     [
-      "component",
+      "import",
       {
-        "libraryName": "element-plus",
-        "styleLibraryName": "theme-chalk"
-      }
-    ]
+        libraryName: 'element-plus',
+        customStyleName: (name) => {
+          name = name.slice(3)
+          return `element-plus/packages/theme-chalk/src/${name}.scss`;
+        },
+      },
+    ],
+  ],
+};
+```
+
+- import `.css` style
+
+```js
+module.exports = {
+  plugins: [
+    [
+      "import",
+      {
+        libraryName: 'element-plus',
+        customStyleName: (name) => {
+          return `element-plus/lib/theme-chalk/${name}.css`;
+        },
+      },
+    ],
+  ],
+};
+```
+  
+**Vite**
+  
+Firstly，install [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import):
+
+```bash
+$ npm install vite-plugin-style-import -D
+```
+
+or if you use `Yarn` as package manager
+
+```bash
+$ yarn add vite-plugin-style-import -D
+```
+
+Then edit vite.config.js:
+
+- import `.scss` style
+
+:::warning
+Please make sure that the `sass` dependency have been installed and import `element-plus/packages/theme-chalk/src/base.scss` in the entry file.
+:::
+
+```js
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import styleImport from 'vite-plugin-style-import'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    styleImport({
+      libs: [{
+        libraryName: 'element-plus',
+        esModule: true,
+        ensureStyleFile: true,
+        resolveStyle: (name) => {
+          name = name.slice(3)
+          return `element-plus/packages/theme-chalk/src/${name}.scss`;
+        },
+        resolveComponent: (name) => {
+          return `element-plus/lib/${name}`;
+        },
+      }]
+    })
   ]
-}
+})
+```
+
+- import `.css` style
+
+```js
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import styleImport from 'vite-plugin-style-import'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    styleImport({
+      libs: [
+        {
+          libraryName: 'element-plus',
+          esModule: true,
+          ensureStyleFile: true,
+          resolveStyle: (name) => {
+            return `element-plus/lib/theme-chalk/${name}.css`;
+          },
+          resolveComponent: (name) => {
+            return `element-plus/lib/${name}`;
+          },
+        }
+      ]
+    })
+  ]
+})
 ```
 
 Ensuite, si vous n'avez besoin que de Button et Select, éditez main.js comme suit:
 
 ```javascript
-import Vue from 'vue';
-import { Button, Select } from 'element-plus';
+import { createApp } from 'vue'
+import { ElButton, ElSelect } from 'element-plus';
 import App from './App.vue';
+// If you want to use the .scss style file, you need to import the base.scss file
+// import 'element-plus/packages/theme-chalk/src/base.scss'
 
-Vue.component(Button.name, Button);
-Vue.component(Select.name, Select);
-/* ou
- * Vue.use(Button)
- * Vue.use(Select)
+const app = createApp(App)
+app.component(ElButton.name, ElButton);
+app.component(ElSelect.name, ElSelect);
+
+/* or
+ * app.use(ElButton)
+ * app.use(ElSelect)
  */
 
-new Vue({
-  el: '#app',
-  render: h => h(App)
-});
+app.mount('#app')
 ```
 
-Exemple complet (liste complète des composants dans [components.json](https://github.com/ElemeFE/element/blob/master/components.json)):
+Exemple complet (liste complète des composants dans [reference](https://github.com/element-plus/element-plus/tree/dev/packages)):
 
 ```javascript
-import Vue from 'vue';
+import { createApp } from 'vue'
+import App from './App.vue';
+// If you want to use the .scss style file, you need to import the base.scss file
+// import 'element-plus/packages/theme-chalk/src/base.scss'
+
 import {
-  Pagination,
-  Dialog,
-  Autocomplete,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  Menu,
-  Submenu,
-  MenuItem,
-  MenuItemGroup,
-  Input,
-  InputNumber,
-  Radio,
-  RadioGroup,
-  RadioButton,
-  Checkbox,
-  CheckboxButton,
-  CheckboxGroup,
-  Switch,
-  Select,
-  Option,
-  OptionGroup,
-  Button,
-  ButtonGroup,
-  Table,
-  TableColumn,
-  DatePicker,
-  TimeSelect,
-  TimePicker,
-  Popover,
-  Tooltip,
-  Breadcrumb,
-  BreadcrumbItem,
-  Form,
-  FormItem,
-  Tabs,
-  TabPane,
-  Tag,
-  Tree,
-  Alert,
-  Slider,
-  Icon,
-  Row,
-  Col,
-  Upload,
-  Progress,
-  Spinner,
-  Badge,
-  Card,
-  Rate,
-  Steps,
-  Step,
-  Carousel,
-  CarouselItem,
-  Collapse,
-  CollapseItem,
-  Cascader,
-  ColorPicker,
-  Transfer,
-  Container,
-  Header,
-  Aside,
-  Main,
-  Footer,
-  Timeline,
-  TimelineItem,
-  Link,
-  Divider,
-  Image,
-  Calendar,
-  Backtop,
-  PageHeader,
-  CascaderPanel,
-  Loading,
-  MessageBox,
-  Message,
-  Notification
+  ElAlert,
+  ElAside,
+  ElAutocomplete,
+  ElAvatar,
+  ElBacktop,
+  ElBadge,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
+  ElButton,
+  ElButtonGroup,
+  ElCalendar,
+  ElCard,
+  ElCarousel,
+  ElCarouselItem,
+  ElCascader,
+  ElCascaderPanel,
+  ElCheckbox,
+  ElCheckboxButton,
+  ElCheckboxGroup,
+  ElCol,
+  ElCollapse,
+  ElCollapseItem,
+  ElCollapseTransition,
+  ElColorPicker,
+  ElContainer,
+  ElDatePicker,
+  ElDialog,
+  ElDivider,
+  ElDrawer,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
+  ElFooter,
+  ElForm,
+  ElFormItem,
+  ElHeader,
+  ElIcon,
+  ElImage,
+  ElInput,
+  ElInputNumber,
+  ElLink,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElOption,
+  ElOptionGroup,
+  ElPageHeader,
+  ElPagination,
+  ElPopconfirm,
+  ElPopover,
+  ElPopper,
+  ElProgress,
+  ElRadio,
+  ElRadioButton,
+  ElRadioGroup,
+  ElRate,
+  ElRow,
+  ElScrollbar,
+  ElSelect,
+  ElSlider,
+  ElStep,
+  ElSteps,
+  ElSubmenu,
+  ElSwitch,
+  ElTabPane,
+  ElTable,
+  ElTableColumn,
+  ElTabs,
+  ElTag,
+  ElTimePicker,
+  ElTimeSelect,
+  ElTimeline,
+  ElTimelineItem,
+  ElTooltip,
+  ElTransfer,
+  ElTree,
+  ElUpload,
+  ElInfiniteScroll,
+  ElLoading,
+  ElMessage,
+  ElMessageBox,
+  ElNotification,
 } from 'element-plus';
 
-Vue.use(Pagination);
-Vue.use(Dialog);
-Vue.use(Autocomplete);
-Vue.use(Dropdown);
-Vue.use(DropdownMenu);
-Vue.use(DropdownItem);
-Vue.use(Menu);
-Vue.use(Submenu);
-Vue.use(MenuItem);
-Vue.use(MenuItemGroup);
-Vue.use(Input);
-Vue.use(InputNumber);
-Vue.use(Radio);
-Vue.use(RadioGroup);
-Vue.use(RadioButton);
-Vue.use(Checkbox);
-Vue.use(CheckboxButton);
-Vue.use(CheckboxGroup);
-Vue.use(Switch);
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(OptionGroup);
-Vue.use(Button);
-Vue.use(ButtonGroup);
-Vue.use(Table);
-Vue.use(TableColumn);
-Vue.use(DatePicker);
-Vue.use(TimeSelect);
-Vue.use(TimePicker);
-Vue.use(Popover);
-Vue.use(Tooltip);
-Vue.use(Breadcrumb);
-Vue.use(BreadcrumbItem);
-Vue.use(Form);
-Vue.use(FormItem);
-Vue.use(Tabs);
-Vue.use(TabPane);
-Vue.use(Tag);
-Vue.use(Tree);
-Vue.use(Alert);
-Vue.use(Slider);
-Vue.use(Icon);
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(Upload);
-Vue.use(Progress);
-Vue.use(Spinner);
-Vue.use(Badge);
-Vue.use(Card);
-Vue.use(Rate);
-Vue.use(Steps);
-Vue.use(Step);
-Vue.use(Carousel);
-Vue.use(CarouselItem);
-Vue.use(Collapse);
-Vue.use(CollapseItem);
-Vue.use(Cascader);
-Vue.use(ColorPicker);
-Vue.use(Transfer);
-Vue.use(Container);
-Vue.use(Header);
-Vue.use(Aside);
-Vue.use(Main);
-Vue.use(Footer);
-Vue.use(Timeline);
-Vue.use(TimelineItem);
-Vue.use(Link);
-Vue.use(Divider);
-Vue.use(Image);
-Vue.use(Calendar);
-Vue.use(Backtop);
-Vue.use(PageHeader);
-Vue.use(CascaderPanel);
+const components = [
+  ElAlert,
+  ElAside,
+  ElAutocomplete,
+  ElAvatar,
+  ElBacktop,
+  ElBadge,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
+  ElButton,
+  ElButtonGroup,
+  ElCalendar,
+  ElCard,
+  ElCarousel,
+  ElCarouselItem,
+  ElCascader,
+  ElCascaderPanel,
+  ElCheckbox,
+  ElCheckboxButton,
+  ElCheckboxGroup,
+  ElCol,
+  ElCollapse,
+  ElCollapseItem,
+  ElCollapseTransition,
+  ElColorPicker,
+  ElContainer,
+  ElDatePicker,
+  ElDialog,
+  ElDivider,
+  ElDrawer,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
+  ElFooter,
+  ElForm,
+  ElFormItem,
+  ElHeader,
+  ElIcon,
+  ElImage,
+  ElInput,
+  ElInputNumber,
+  ElLink,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElOption,
+  ElOptionGroup,
+  ElPageHeader,
+  ElPagination,
+  ElPopconfirm,
+  ElPopover,
+  ElPopper,
+  ElProgress,
+  ElRadio,
+  ElRadioButton,
+  ElRadioGroup,
+  ElRate,
+  ElRow,
+  ElScrollbar,
+  ElSelect,
+  ElSlider,
+  ElStep,
+  ElSteps,
+  ElSubmenu,
+  ElSwitch,
+  ElTabPane,
+  ElTable,
+  ElTableColumn,
+  ElTabs,
+  ElTag,
+  ElTimePicker,
+  ElTimeSelect,
+  ElTimeline,
+  ElTimelineItem,
+  ElTooltip,
+  ElTransfer,
+  ElTree,
+  ElUpload,
+]
 
-Vue.use(Loading.directive);
+const plugins = [
+  ElInfiniteScroll,
+  ElLoading,
+  ElMessage,
+  ElMessageBox,
+  ElNotification,
+]
 
-Vue.prototype.$loading = Loading.service;
-Vue.prototype.$msgbox = MessageBox;
-Vue.prototype.$alert = MessageBox.alert;
-Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$prompt = MessageBox.prompt;
-Vue.prototype.$notify = Notification;
-Vue.prototype.$message = Message;
+const app = createApp(App)
+
+components.forEach(component => {
+  app.component(component.name, component)
+})
+
+plugins.forEach(plugin => {
+  app.use(plugin)
+})
 ```
 
 ### Configuration globale
@@ -256,19 +386,26 @@ Lors de l'import d'Element, vous pouvez définir un objet de configuration globa
 Import total d'Element：
 
 ```js
-import Vue from 'vue';
+import { createApp } from 'vue'
 import ElementPlus from 'element-plus';
-Vue.use(Element, { size: 'small', zIndex: 3000 });
+import App from './App.vue';
+
+const app = createApp(App)
+app.use(ElementPlus, { size: 'small', zIndex: 3000 });
 ```
 
 Import partiel d'Element：
 
 ```js
-import Vue from 'vue';
-import { Button } from 'element-plus';
+import { createApp } from 'vue'
+import { ElButton } from 'element-plus';
+import App from './App.vue';
+// If you want to use the .scss style file, you need to import the base.scss file
+// import 'element-plus/packages/theme-chalk/src/base.scss'
 
-Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
-Vue.use(Button);
+const app = createApp(App)
+app.config.globalProperties.$ELEMENT = option
+app.use(ElButton);
 ```
 
 Avec la configuration ci-dessus, la taille par défaut des composants ayant l'attribut size sera 'small', et le z-index initial des fenêtres modales est 3000.

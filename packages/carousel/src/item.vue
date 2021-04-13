@@ -29,6 +29,7 @@ import {
   computed,
   toRefs,
   getCurrentInstance,
+  onUnmounted,
 } from 'vue'
 import {
   autoprefixer,
@@ -158,8 +159,8 @@ export default defineComponent({
 
     // lifecycle
     onMounted(() => {
-      if (injectCarouselScope.updateItems) {
-        injectCarouselScope.updateItems({
+      if (injectCarouselScope.addItem) {
+        injectCarouselScope.addItem({
           uid: instance.uid,
           ...props,
           ...toRefs(data),
@@ -168,13 +169,17 @@ export default defineComponent({
       }
     })
 
+    onUnmounted(() => {
+      if (injectCarouselScope.removeItem) {
+        injectCarouselScope.removeItem(instance.uid)
+      }
+    })
+
     return {
       data,
-
       itemStyle,
       translateItem,
       type: injectCarouselScope.type,
-
       handleItemClick,
     }
   },

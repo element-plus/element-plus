@@ -45,7 +45,7 @@ dialog はdialogボックスをポップアップ表示します。
 :::
 
 :::tip
-`before-close` はユーザが閉じるアイコンか背景をクリックしたときにのみ動作します。footerer` という名前のスロットにdialogを閉じるボタンがある場合、ボタンのクリックイベントハンドラに `before-close` と同じように `before-close` を追加することができます。
+`before-close` はユーザが閉じるアイコンか背景をクリックしたときにのみ動作します。footer` という名前のスロットにdialogを閉じるボタンがある場合、ボタンのクリックイベントハンドラに `before-close` と同じように `before-close` を追加することができます。
 :::
 
 ### カスタマイズ
@@ -55,10 +55,9 @@ dialog の内容は何でも構いません、テーブルやフォームであ�
 :::demo
 
 ```html
-<!-- Table -->
 <el-button type="text" @click="dialogTableVisible = true">open a Table nested Dialog</el-button>
 
-<el-dialog title="Shipping address" :visible.sync="dialogTableVisible">
+<el-dialog title="Shipping address" v-model="dialogTableVisible">
   <el-table :data="gridData">
     <el-table-column property="date" label="Date" width="150"></el-table-column>
     <el-table-column property="name" label="Name" width="200"></el-table-column>
@@ -69,7 +68,7 @@ dialog の内容は何でも構いません、テーブルやフォームであ�
 <!-- Form -->
 <el-button type="text" @click="dialogFormVisible = true">open a Form nested Dialog</el-button>
 
-<el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
+<el-dialog title="Shipping address" v-model="dialogFormVisible">
   <el-form :model="form">
     <el-form-item label="Promotion name" :label-width="formLabelWidth">
       <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -81,10 +80,12 @@ dialog の内容は何でも構いません、テーブルやフォームであ�
       </el-select>
     </el-form-item>
   </el-form>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -135,17 +136,19 @@ dialog の内容は何でも構いません、テーブルやフォームであ�
 <template>
   <el-button type="text" @click="outerVisible = true">open the outer Dialog</el-button>
 
-  <el-dialog title="Outer Dialog" :visible.sync="outerVisible">
+  <el-dialog title="Outer Dialog" v-model="outerVisible">
     <el-dialog
         width="30%"
         title="Inner Dialog"
-        :visible.sync="innerVisible"
+        v-model="innerVisible"
         append-to-body>
     </el-dialog>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="outerVisible = false">Cancel</el-button>
-      <el-button type="primary" @click="innerVisible = true">open the inner Dialog</el-button>
-    </div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="outerVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="innerVisible = true">open the inner Dialog</el-button>
+      </div>
+    </template>
   </el-dialog>
 </template>
 
@@ -172,14 +175,16 @@ dialogの内容を中央揃えにすることができます。
 
 <el-dialog
   title="Warning"
-  :visible.sync="centerDialogVisible"
+  v-model="centerDialogVisible"
   width="30%"
   center>
   <span>It should be noted that the content will not be aligned in center by default</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
-  </span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
 </el-dialog>
 
 <script>
@@ -199,24 +204,64 @@ dialogの内容は遅延的にレンダリングされます。つまり、デ�
 :::
 
 
+### dialog内の要素を破棄する (translation needed)
+When this is feature is enabled, the content under default slot will be destroyed with a `v-if` directive. Enable this when you have perf concerns.
+
+:::demo Note that by enabling this feature, the content will not be rendered before `transition.beforeEnter` dispatched, there will only be `overlay` `header(if any)` `footer(if any)`.
+
+```html
+<el-button type="text" @click="centerDialogVisible = true">Click to open Dialog</el-button>
+
+<el-dialog
+  title="Notice"
+  v-model="centerDialogVisible"
+  width="30%"
+  destroy-on-close
+  center>
+  <span>Notice: before dialog gets opened for the first time this node and the one bellow will not be rendered</span>
+  <div>
+    <strong>Extra content (Not rendered)</strong>
+  </div>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="centerDialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
+
+</el-dialog>
+
+<script>
+  export default {
+    data() {
+      return {
+        centerDialogVisible: false
+      };
+    }
+  };
+</script>
+
+```
+
 :::tip
-Vuexストアで `visible` にバインドされた変数を管理している場合、`.sync` が正しく動作しません。この場合は、`.sync` モディファイアを削除し、Dialog の `open`, `close` イベントをリッスンし、Vuex のミューテーションをコミットして、イベントハンドラでその変数の値を更新してください。
+When using `modal` = false, please make sure that `append-to-body` was set to **true**, because `Dialog` was positioned by `position: relative`, when `modal` gets removed, `Dialog` will position itself based on the current position in the DOM, instead of `Document.Body`, thus the style will be messed up.
 :::
 
 ### 属性
 
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| visible   | dialogの可視性、.sync 修飾子をサポートしています。 | boolean | — | false |
+| model-value / v-model   | dialogの可視性 | boolean | — | — |
 | title     | dialogのタイトルを指定します。名前付きスロットで渡すこともできます (次のテーブルを参照してください)。 | string    | — | — |
-| width     | dialogの幅 | string    | — | 50% |
+| width     | dialogの幅 | string / number    | — | 50% |
 | fullscreen     | dialogが全画面を占めるかどうか | boolean    | — | false |
 | top      | dialogCSSの `margin-top` の値 | string    | — | 15vh |
 | modal     | マスクが表示されているかどうか | boolean   | — | true |
-| modal-append-to-body     | モーダルを ボディ要素に追加するかどうかを指定します。false の場合、モーダルはdialogの親要素に追加されます。 | boolean   | — | true |
 | append-to-body     | dialog自身をボディに追加するかどうかを指定します。入れ子になったdialogは、この属性を `true` に設定しなければなりません。 | boolean   | — | false |
 | lock-scroll     | dialog表示中にボディのスクロールを無効にするかどうか | boolean   | — | true |
 | custom-class      | dialog用のカスタムクラス名 | string    | — | — |
+| open-delay        | Time(milliseconds) before open | number    | — | 0 |
+| close-delay       | Time(milliseconds) before close | number    | — | 0 |
 | close-on-click-modal | マスクをクリックしてdialogを閉じることができるかどうか | boolean    | — | true |
 | close-on-press-escape | ESC を押してdialogを閉じることができるかどうか | boolean    | — | true |
 | show-close | 閉じるボタンを表示するかどうか | boolean    | — | true |

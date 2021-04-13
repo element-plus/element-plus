@@ -19,26 +19,23 @@
     background: $--color-text-primary;
     #{$arrow-selector}::before {
       background: $--color-text-primary;
+      right: 0;
     }
   }
 
   @include when(light) {
     background: $--color-white;
-    border: 1px solid $--color-text-primary;
+    border: 1px solid $--border-color-light;
 
     #{$arrow-selector}::before {
-      border: 1px solid $--color-text-primary;
+      border: 1px solid $--border-color-light;
       background: $--color-white;
+      right: 0;
     }
   }
 
   @include when(pure) {
     padding: 0;
-    border: none;
-
-    #{$arrow-selector}::before {
-      border: none;
-    }
   }
 
   @include e(arrow) {

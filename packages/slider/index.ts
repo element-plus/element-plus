@@ -1,8 +1,11 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Slider from './src/index.vue'
 
-export default (app: App): void => {
+Slider.install = (app: App): void => {
   app.component(Slider.name, Slider)
 }
 
-export { Slider }
+const _Slider: SFCWithInstall<typeof Slider> = Slider
+
+export default _Slider

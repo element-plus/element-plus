@@ -123,7 +123,9 @@
 ```html
 <el-tabs type="border-card">
   <el-tab-pane>
-    <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
+    <template #label>
+      <span><i class="el-icon-date"></i> 我的行程</span>
+    </template>
     我的行程
   </el-tab-pane>
   <el-tab-pane label="消息中心">消息中心</el-tab-pane>
@@ -301,3 +303,10 @@
 | name      | 与选项卡绑定值 value 对应的标识符，表示选项卡别名 | string | — | 该选项卡在选项卡列表中的顺序值，如第一个选项卡则为'1' |
 | closable  | 标签是否可关闭   | boolean   | — |  false  |
 | lazy  | 标签是否延迟渲染   | boolean   | — |  false  |
+
+### Tab-pane Slots
+
+| name | 说明 |
+|------|--------|
+| - | Tab-pane 的内容 |
+| label | Tab-pane 的标题内容 |

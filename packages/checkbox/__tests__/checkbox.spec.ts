@@ -13,14 +13,6 @@ const _mount = <D>(template: string, data: () => D, otherObj?: Record<string, un
   template,
   data,
   ...otherObj,
-}, {
-  global: {
-    provide: {
-      elForm: {},
-      elFormItem: {},
-      CheckboxGroup: {},
-    },
-  },
 })
 
 describe('Checkbox', () => {

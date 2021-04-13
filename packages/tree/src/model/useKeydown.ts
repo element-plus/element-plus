@@ -1,11 +1,12 @@
 import { onMounted, onUpdated, onBeforeUnmount, ref, watch, Ref } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
+import TreeStore from './tree-store'
 
 interface UseKeydownOption {
   el$: Ref<HTMLElement>
 }
-export function useKeydown({ el$ }: UseKeydownOption) {
+export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   const treeItems = ref<Nullable<HTMLElement>[]>([])
   const checkboxItems = ref<Nullable<HTMLElement>[]>([])
 
@@ -39,11 +40,35 @@ export function useKeydown({ el$ }: UseKeydownOption) {
     if ([EVENT_CODE.up, EVENT_CODE.down].indexOf(code) > -1) {
       ev.preventDefault()
       if (code === EVENT_CODE.up) {
-        nextIndex = currentIndex !== 0 ? currentIndex - 1 : 0
+        nextIndex = currentIndex === -1 ? 0 : currentIndex !== 0 ? currentIndex - 1 : treeItems.value.length - 1
+        const startIndex = nextIndex
+        while (true) {
+          if(store.value.getNode(treeItems.value[nextIndex].dataset.key).canFocus) break
+          nextIndex--
+          if(nextIndex === startIndex) {
+            nextIndex = -1
+            break
+          }
+          if(nextIndex < 0) {
+            nextIndex = treeItems.value.length - 1
+          }
+        }
       } else {
-        nextIndex = (currentIndex < treeItems.value.length - 1) ? currentIndex + 1 : 0
+        nextIndex = currentIndex === -1 ? 0 : (currentIndex < treeItems.value.length - 1) ? currentIndex + 1 : 0
+        const startIndex = nextIndex
+        while (true) {
+          if(store.value.getNode(treeItems.value[nextIndex].dataset.key).canFocus) break
+          nextIndex++
+          if(nextIndex === startIndex) {
+            nextIndex = -1
+            break
+          }
+          if(nextIndex >= treeItems.value.length) {
+            nextIndex = 0
+          }
+        }
       }
-      treeItems.value[nextIndex].focus()
+      nextIndex !== -1 && treeItems.value[nextIndex].focus()
     }
     if ([EVENT_CODE.left, EVENT_CODE.right].indexOf(code) > -1) {
       ev.preventDefault()

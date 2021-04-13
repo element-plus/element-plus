@@ -1,8 +1,11 @@
-import { createVNode, reactive, ref, toRefs, h, Transition, render, VNode } from 'vue'
+import { createVNode, h, reactive, ref, render, toRefs, Transition, VNode, vShow, withCtx, withDirectives } from 'vue'
 import { removeClass } from '@element-plus/utils/dom'
-import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading'
+import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
 
-export function createLoadingComponent({ options , globalLoadingOption }: ILoadingCreateComponentParams): ILoadingInstance {
+export function createLoadingComponent({
+  options,
+  globalLoadingOption,
+}: ILoadingCreateComponentParams): ILoadingInstance {
   let vm: VNode = null
   let afterLeaveTimer: Nullable<number> = null
 
@@ -11,17 +14,24 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
     ...options,
     originalPosition: '',
     originalOverflow: '',
-    visible: options.hasOwnProperty('visible') ? options.visible : true,
+    visible: false,
   })
 
   function setText(text: string) {
     data.text = text
   }
 
-  function destorySelf() {
+  function destroySelf() {
     const target = data.parent
-    if(!target.vLoadingAddClassList) {
-      removeClass(target, 'el-loading-parent--relative')
+    if (!target.vLoadingAddClassList) {
+      let loadingNumber: number | string = target.getAttribute('loading-number')
+      loadingNumber = Number.parseInt(loadingNumber) - 1
+      if (!loadingNumber) {
+        removeClass(target, 'el-loading-parent--relative')
+        target.removeAttribute('loading-number')
+      } else {
+        target.setAttribute('loading-number', loadingNumber.toString())
+      }
       removeClass(target, 'el-loading-parent--hidden')
     }
     if (vm.el && vm.el.parentNode) {
@@ -41,7 +51,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
     afterLeaveTimer = window.setTimeout(() => {
       if (afterLeaveFlag.value) {
         afterLeaveFlag.value = false
-        destorySelf()
+        destroySelf()
       }
     }, 400)
     data.visible = false
@@ -50,10 +60,10 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
   function handleAfterLeave() {
     if (!afterLeaveFlag.value) return
     afterLeaveFlag.value = false
-    destorySelf()
+    destroySelf()
   }
 
-  const componetSetupConfig = {
+  const componentSetupConfig = {
     ...toRefs(data),
     setText,
     close,
@@ -63,7 +73,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
   const elLoadingComponent = {
     name: 'ElLoading',
     setup() {
-      return componetSetupConfig
+      return componentSetupConfig
     },
     render() {
       const spinner = h('svg', {
@@ -80,11 +90,10 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
       return h(Transition, {
         name: 'el-loading-fade',
         onAfterLeave: this.handleAfterLeave,
-      },{
-        default: () => h('div', {
+      }, {
+        default: withCtx(() => [withDirectives(createVNode('div', {
           style: {
             backgroundColor: this.background || '',
-            display: this.visible ? 'inherit' : 'none',
           },
           class: [
             'el-loading-mask',
@@ -99,6 +108,7 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
             this.text ? spinnerText : null,
           ]),
         ]),
+        [[vShow, this.visible]])]),
       })
     },
   }
@@ -108,9 +118,9 @@ export function createLoadingComponent({ options , globalLoadingOption }: ILoadi
   render(vm, document.createElement('div'))
 
   return {
-    ...componetSetupConfig,
+    ...componentSetupConfig,
     vm,
-    get $el(){
+    get $el() {
       return vm.el as HTMLElement
     },
   }

@@ -197,7 +197,7 @@ Multiple select uses tags to display selected options.
       :value="item.value">
     </el-option>
   </el-select>
-  
+
   <el-select
     v-model="value2"
     multiple
@@ -527,7 +527,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 ### Select Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | binding value | boolean / string / number | — | — |
+| value / v-model | binding value | string / number / boolean / object | — | — |
 | multiple | whether multiple-select is activated | boolean | — | false |
 | disabled | whether Select is disabled | boolean | — | false |
 | value-key | unique identity key name for value, required when value is an object | string | — | value |
@@ -537,7 +537,6 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | multiple-limit | maximum number of options user can select when `multiple` is `true`. No limit when set to 0 | number | — | 0 |
 | name | the name attribute of select input | string | — | — |
 | autocomplete | the autocomplete attribute of select input | string | — | off |
-| auto-complete | @DEPRECATED in next major version | string | — | off |
 | placeholder | placeholder | string | — | Select |
 | filterable | whether Select is filterable | boolean | — | false |
 | allow-create | whether creating new items is allowed. To use this, `filterable` must be true | boolean | — | false |
@@ -551,7 +550,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | popper-class | custom class name for Select's dropdown | string | — | — |
 | reserve-keyword | when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option | boolean | — | false |
 | default-first-option | select first matching option on enter key. Use with `filterable` or `remote` | boolean | - | false |
-| popper-append-to-body| whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | true |
+| popper-append-to-body| whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | false |
 | automatic-dropdown | for non-filterable Select, this prop decides if the option menu pops up when the input is focused | boolean | - | false |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
 
@@ -581,7 +580,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 ### Option Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value | value of option | string/number/object | — | — |
+| value | value of option | string / number / boolean / object | — | — |
 | label | label of option, same as `value` if omitted | string/number | — | — |
 | disabled | whether option is disabled | boolean | — | false |
 

@@ -40,6 +40,7 @@
 </template>
 <script lang="ts">
 import {
+  defineComponent,
   computed,
   onMounted,
   onBeforeUnmount,
@@ -48,9 +49,9 @@ import {
 } from 'vue'
 import { IMenuItemProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
-import { Tooltip as ElTooltip } from '@element-plus/tooltip'
+import ElTooltip from '@element-plus/tooltip'
 
-export default {
+export default defineComponent({
   name: 'ElMenuItem',
 
   componentName: 'ElMenuItem',
@@ -127,10 +128,11 @@ export default {
         rootMenu.rootMenuEmit('menuItem:item-click', {
           index: props.index,
           indexPath,
+          route: props.route,
         })
         emit('click', {
           index: props.index,
-          indexPath,
+          indexPath: indexPath.value,
         })
       }
     }
@@ -159,5 +161,5 @@ export default {
       onMouseLeave,
     }
   },
-}
+})
 </script>

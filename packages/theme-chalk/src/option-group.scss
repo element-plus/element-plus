@@ -36,7 +36,7 @@
     line-height: $--select-group-height;
   }
 
-  & .el-select-dropdown__item {
+  & .#{$namespace}-select-dropdown__item {
     padding-left: $gap;
   }
 }

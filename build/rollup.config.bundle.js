@@ -1,7 +1,6 @@
 // import vue from 'rollup-plugin-vue'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import path from 'path'
-import css from 'rollup-plugin-css-only'
 // import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
@@ -21,7 +20,6 @@ export default [
       terser(),
       nodeResolve(),
       // commonjs(),
-      css(),
       vue({
         target: 'browser',
         css: false,

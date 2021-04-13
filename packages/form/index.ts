@@ -1,13 +1,14 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Form from './src/form.vue'
-import FormItem from './src/form-item.vue'
-import LabelWrap from './src/label-wrap'
 
-export default (app: App): void => {
+Form.install = (app: App): void => {
   app.component(Form.name, Form)
-  app.component(FormItem.name, FormItem)
-  app.component(LabelWrap.name, LabelWrap)
 }
 
-export { Form, FormItem, LabelWrap }
+const _Form: SFCWithInstall<typeof Form> = Form
+
+export default _Form
+
+
 export * from './src/token'

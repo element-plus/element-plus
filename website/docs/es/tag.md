@@ -17,7 +17,7 @@ Se utiliza para marcar y seleccionar.
 
 ### Etiqueta removible
 
-:::demo el atributo `closable` puede usarse para definir una etiqueta removible. Acepta un `Boolean`. De forma predeterminada, la eliminación de la etiqueta tiene una animación que se desvanece. Si no quiere usarlo, puede configurar el atributo `disable-transitions` , que acepta `Boolean`, como `true`. Se dispara el evento `close` cuando la etiqueta es removida. 
+:::demo el atributo `closable` puede usarse para definir una etiqueta removible. Acepta un `Boolean`. De forma predeterminada, la eliminación de la etiqueta tiene una animación que se desvanece. Si no quiere usarlo, puede configurar el atributo `disable-transitions` , que acepta `Boolean`, como `true`. Se dispara el evento `close` cuando la etiqueta es removida.
 
 ```html
 <el-tag
@@ -184,6 +184,36 @@ Tag provide three different themes: `dark`、`light` and `plain`
 ```
 :::
 
+### Checkable tag
+
+Sometimes because of the business needs, we might need checkbox like tag, but **button like checkbox** cannot meet our needs, here comes `check-tag`
+
+:::demo basic check-tag usage, the API is rather simple.
+```html
+
+<div>
+  <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
+  <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        checked: false,
+      }
+    },
+    methods: {
+      onChange(checked) {
+        this.checked = checked;
+      }
+    }
+  }
+</script>
+
+```
+:::
+
 ### Atributos
 | Atributo            | Descripción                         | Tipo    | Valores aceptados           | Por defecto |
 | ------------------- | ----------------------------------- | ------- | --------------------------- | ----------- |
@@ -201,3 +231,13 @@ Tag provide three different themes: `dark`、`light` and `plain`
 | ------ | ------------------------------------ | ---------- |
 | click  | se dispara cuando el Tag es clic     | —          |
 | close  | se dispara cuando el Tag es removido | —          |
+
+### CheckTag Atributos
+| Attribute      | Description          | Type      | Accepted                           | Default  |
+|---------- |-------------- |---------- |--------------------------------  |-------- |
+| checked | is checked | boolean | true/false | — |
+
+### CheckTag Eventos
+| Event Name | Description | Parameters |
+|---------- |-------- |---------- |
+| change | triggers when Check Tag is clicked | checked |

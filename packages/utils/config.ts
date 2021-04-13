@@ -1,11 +1,18 @@
 
-const $ELEMENT: Record<string, unknown> = { }
-
-const setConfig = (key: string, value: unknown): void => {
-  $ELEMENT[key] = value
+export interface InstallOptions {
+  size: ComponentSize
+  zIndex: number
+  locale?: any
+  i18n?: (...args: any[]) => string
 }
 
-const getConfig = (key: string): unknown => {
+let $ELEMENT = { } as InstallOptions
+
+const setConfig = (option: InstallOptions): void => {
+  $ELEMENT = option
+}
+
+const getConfig = (key: keyof InstallOptions): unknown => {
   return $ELEMENT[key]
 }
 

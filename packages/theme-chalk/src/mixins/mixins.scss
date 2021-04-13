@@ -6,7 +6,7 @@
 @mixin res($key, $map: $--breakpoints) {
   // 循环断点Map，如果存在则返回
   @if map-has-key($map, $key) {
-    @media only screen and #{inspect(map-get($map, $key))} {
+    @media only screen and #{unquote(map-get($map, $key))} {
       @content;
     }
   } @else {
@@ -140,7 +140,7 @@
 
   @at-root {
     #{&}#{$specSelector}.#{$block+$element-separator+$element+$modifierCombo} {
-      @content
+      @content;
     }
   }
 }
@@ -156,7 +156,7 @@
   @at-root {
     #{$selector} {
       .#{$block+$element-separator+$element+$modifierCombo} {
-        @content
+        @content;
       }
     }
   }
@@ -178,13 +178,38 @@
   $rule-name: '%shared-'+$name;
 
   @at-root #{$rule-name} {
-    @content
+    @content;
   }
 }
 
 @mixin pseudo($pseudo) {
   @at-root #{&}#{':#{$pseudo}'} {
-    @content
+    @content;
   }
 }
 
+@mixin picker-popper($background, $border, $box-shadow) {
+  &.#{$namespace}-popper[role="tooltip"] {
+    background: $background;
+    border: $border;
+    box-shadow: $box-shadow;
+
+    .#{$namespace}-popper__arrow {
+      &::before {
+        border: $border;
+      }
+    }
+
+    @each $placement,
+      $adjacency
+      in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
+    {
+      &[data-popper-placement^='#{$placement}'] {
+        .#{$namespace}-popper__arrow::before {
+          border-#{$placement}-color: transparent;
+          border-#{$adjacency}-color: transparent;
+        }
+      }
+    }
+  }
+}

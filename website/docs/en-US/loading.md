@@ -173,28 +173,28 @@ Show a full screen animation while loading data.
 ### Service
 You can also invoke Loading with a service. Import Loading service:
 ```javascript
-import { Loading } from 'element-plus';
+import { ElLoading } from 'element-plus';
 ```
 Invoke it:
 ```javascript
-Loading.service(options);
+ElLoading.service(options);
 ```
 The parameter `options` is the configuration of Loading, and its details can be found in the following table. `LoadingService` returns a Loading instance, and you can close it by invoking its `close` method:
 ```javascript
-let loadingInstance = Loading.service(options);
+let loadingInstance = ElLoading.service(options);
 this.$nextTick(() => { // Loading should be closed asynchronously
   loadingInstance.close();
 });
 ```
 Note that in this case the full screen Loading is singleton. If a new full screen Loading is invoked before an existing one is closed, the existing full screen Loading instance will be returned instead of actually creating another Loading instance:
 ```javascript
-let loadingInstance1 = Loading.service({ fullscreen: true });
-let loadingInstance2 = Loading.service({ fullscreen: true });
+let loadingInstance1 = ElLoading.service({ fullscreen: true });
+let loadingInstance2 = ElLoading.service({ fullscreen: true });
 console.log(loadingInstance1 === loadingInstance2); // true
 ```
 Calling the `close` method on any one of them can close this full screen Loading.
 
-If Element Plus is imported entirely, a globally method `$loading` will be registered to Vue.prototype. You can invoke it like this: `this.$loading(options)`, and it also returns a Loading instance.
+If Element Plus is imported entirely, a globally method `$loading` will be registered to `app.config.globalProperties`. You can invoke it like this: `this.$loading(options)`, and it also returns a Loading instance.
 
 ### Options
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -207,3 +207,12 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 | spinner | class name of the custom spinner | string | — | — |
 | background | background color of the mask | string | — | — |
 | customClass | custom class name for Loading | string | — | — |
+
+### Directives
+
+| Name | Description | Type  |
+| -------------- | ---------------- | --------- |
+| v-loading | show animation while loading data | boolean |
+| element-loading-text | loading text that displays under the spinner | string |
+| element-loading-spinner | class name of the custom spinner | string |
+| element-loading-background | background color of the mask | string |

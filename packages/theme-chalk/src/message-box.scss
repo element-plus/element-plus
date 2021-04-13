@@ -1,8 +1,9 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "common/popup";
-@import "button";
-@import "input";
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'common/popup';
+@import 'button';
+@import 'input';
+@import 'overlay';
 
 @include b(message-box) {
   display: inline-block;
@@ -18,22 +19,17 @@
   overflow: hidden;
   backface-visibility: hidden;
 
-  @include e(wrapper) {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  @at-root .#{$namespace}-overlay.is-message-box {
     text-align: center;
-
     &::after {
-      content: "";
+      content: '';
       display: inline-block;
       height: 100%;
       width: 0;
       vertical-align: middle;
     }
   }
+
 
   @include e(header) {
     position: relative;
@@ -60,16 +56,16 @@
     font-size: $--message-close-size;
     cursor: pointer;
 
-    .el-message-box__close {
+    .#{$namespace}-message-box__close {
       color: $--color-info;
     }
 
-    &:focus, &:hover {
-      .el-message-box__close {
+    &:focus,
+    &:hover {
+      .#{$namespace}-message-box__close {
         color: $--color-primary;
       }
     }
-
   }
 
   @include e(content) {
@@ -77,7 +73,7 @@
     color: $--messagebox-content-color;
     font-size: $--messagebox-content-font-size;
   }
-  
+
   @include e(container) {
     position: relative;
   }
@@ -85,7 +81,7 @@
   @include e(input) {
     padding-top: 15px;
 
-    & input.invalid {
+    & div.invalid > input {
       border-color: $--color-danger;
       &:focus {
         border-color: $--color-danger;
@@ -104,24 +100,24 @@
       padding-left: 1px;
     }
 
-    + .el-message-box__message {
+    + .#{$namespace}-message-box__message {
       padding-left: 36px;
       padding-right: 12px;
     }
 
-    &.el-icon-success {
+    &.#{$namespace}-icon-success {
       color: $--messagebox-success-color;
     }
 
-    &.el-icon-info {
+    &.#{$namespace}-icon-info {
       color: $--messagebox-info-color;
     }
 
-    &.el-icon-warning {
+    &.#{$namespace}-icon-warning {
       color: $--messagebox-warning-color;
     }
 
-    &.el-icon-error {
+    &.#{$namespace}-icon-error {
       color: $--messagebox-danger-color;
     }
   }
@@ -195,12 +191,16 @@
   }
 }
 
-.msgbox-fade-enter-active {
-  animation: msgbox-fade-in .3s;
+.fade-in-linear-enter-active {
+  .#{$namespace}-message-box {
+    animation: msgbox-fade-in 0.3s;
+  }
 }
 
-.msgbox-fade-leave-active {
-  animation: msgbox-fade-out .3s;
+.fade-in-linear-leave-active {
+  .#{$namespace}-message-box {
+    animation: msgbox-fade-in 0.3s reverse;
+  }
 }
 
 @keyframes msgbox-fade-in {

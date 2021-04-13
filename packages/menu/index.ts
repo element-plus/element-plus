@@ -1,13 +1,12 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Menu from './src/menu.vue'
-import Submenu from './src/submenu.vue'
-import MenuItem from './src/menuItem.vue'
-import MenuItemGroup from './src/menuItemGroup.vue'
-export default (app: App): void => {
+
+Menu.install = (app: App): void => {
   app.component(Menu.name, Menu)
-  app.component(Submenu.name, Submenu)
-  app.component(MenuItem.name, MenuItem)
-  app.component(MenuItemGroup.name, MenuItemGroup)
 }
 
-export { Menu, Submenu, MenuItem, MenuItemGroup }
+const _Menu: SFCWithInstall<typeof Menu> = Menu
+
+export default _Menu
+

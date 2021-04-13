@@ -1,11 +1,16 @@
 import makeMount from '../../test-utils/make-mount'
 import Popover from '../src/index.vue'
+import PopupManager from '@element-plus/utils/popup-manager'
+import { ref, nextTick, h, createSlots } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
 
 const mount = makeMount(Popover, {
   slots: {
     default: AXIOM,
+  },
+  props: {
+    appendToBody: false,
   },
 })
 describe('Popover.vue', () => {
@@ -58,9 +63,49 @@ describe('Popover.vue', () => {
     const wrapper = makeMount(Popover, {
       props: {
         content,
+        appendToBody: false,
       },
     })()
 
     expect(wrapper.text()).toBe(content)
+    wrapper.unmount()
+  })
+
+  test('popper z-index should be dynamical', () => {
+    const wrapper = mount()
+
+    expect(
+      Number.parseInt(
+        window.getComputedStyle(wrapper.find('.el-popper').element).zIndex,
+      ),
+    ).toBeLessThanOrEqual(PopupManager.zIndex)
+  })
+
+  test('should render correctly with tabindex', async () => {
+    const tabindex = ref(1)
+
+    const Comp = {
+      render() {
+        const slot = () => [ h('button', { ref: 'btn' }, 'click 激活') ]
+
+        return h(Popover, {
+          placement: 'bottom',
+          title: '标题',
+          width: 200,
+          trigger: 'click',
+          tabindex: tabindex.value,
+          content: '这是一段内容,这是一段内容,这是一段内容,这是一段内容。',
+        }, createSlots({}, [{ name: 'reference', fn: slot }]))
+      },
+    }
+
+    const wrapper = makeMount(Comp, {})()
+    const ele = wrapper.vm.$refs.btn
+    expect((ele as HTMLElement).getAttribute('tabindex')).toEqual('1')
+
+    tabindex.value = 2
+
+    await nextTick()
+    expect((ele as HTMLElement).getAttribute('tabindex')).toEqual('2')
   })
 })

@@ -15,6 +15,6 @@
   font-size: 14px;
   margin-bottom: 20px;
 }
-.demo-color-picker .el-color-picker + .el-color-picker {
+.demo-color-picker .#{$namespace}-color-picker + .#{$namespace}-color-picker {
   margin-left: 20px;
 }

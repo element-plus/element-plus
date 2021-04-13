@@ -156,7 +156,7 @@ Use `list-type` to change the fileList style.
 >
   <i class="el-icon-plus"></i>
 </el-upload>
-<el-dialog :visible.sync="dialogVisible">
+<el-dialog v-model="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="" />
 </el-dialog>
 <script>
@@ -221,7 +221,7 @@ Use `scoped-slot` to change default thumbnail template.
     </div>
   </template>
 </el-upload>
-<el-dialog :visible.sync="dialogVisible">
+<el-dialog v-model="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="" />
 </el-dialog>
 <script>
@@ -449,7 +449,7 @@ disabled | whether to disable upload | boolean | — | false |
 limit | maximum number of uploads allowed | number | — | — |
 on-exceed | hook function when limit is exceeded | function(files, fileList) | — | - |
 
-### Slot
+### Slots
 | Name | Description |
 |------|--------|
 | trigger | content which triggers file dialog |

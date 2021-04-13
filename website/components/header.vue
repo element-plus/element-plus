@@ -158,18 +158,18 @@ export default {
     },
   },
   created() {
-    const xhr = new XMLHttpRequest()
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        const versions = JSON.parse(xhr.responseText)
-        this.versions = Object.keys(versions).reduce((prev, next) => {
-          prev[next] = versions[next]
-          return prev
-        }, {})
-      }
-    }
-    xhr.open('GET', '/versions.json')
-    xhr.send()
+    // const xhr = new XMLHttpRequest()
+    // xhr.onreadystatechange = () => {
+    //   if (xhr.readyState === 4 && xhr.status === 200) {
+    //     const versions = JSON.parse(xhr.responseText)
+    //     this.versions = Object.keys(versions).reduce((prev, next) => {
+    //       prev[next] = versions[next]
+    //       return prev
+    //     }, {})
+    //   }
+    // }
+    // xhr.open('GET', '/versions.json')
+    // xhr.send()
   },
   methods: {
     switchVersion(version) {
@@ -287,6 +287,7 @@ export default {
     }
 
     .nav-logo-small {
+      width: 44px;
       display: none;
     }
 
@@ -399,6 +400,14 @@ export default {
     width: auto;
   }
 
+  @media (max-width: 1000px) {
+    .header {
+      .nav-theme-switch, .nav-algolia-search {
+        display: none;
+      }
+    }
+  }
+
   @media (max-width: 850px) {
     .header {
       .nav-logo {
@@ -418,9 +427,6 @@ export default {
         a {
           padding: 0 5px;
         }
-      }
-      .nav-theme-switch, .nav-algolia-search {
-        display: none;
       }
     }
   }

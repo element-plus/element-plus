@@ -184,6 +184,37 @@ Les balises utilisent trois thèmes différents: `dark`, `light` et `plain`
 ```
 :::
 
+### Checkable tag
+
+Sometimes because of the business needs, we might need checkbox like tag, but **button like checkbox** cannot meet our needs, here comes `check-tag`
+
+:::demo basic check-tag usage, the API is rather simple.
+```html
+
+<div>
+  <el-check-tag checked style="margin-right: 8px;">Checked</el-check-tag>
+  <el-check-tag @change="onChange" :checked="checked">Toggle me</el-check-tag>
+</div>
+
+<script>
+  export default {
+    data() {
+      return {
+        checked: false,
+      }
+    },
+    methods: {
+      onChange(checked) {
+        this.checked = checked;
+      }
+    }
+  }
+</script>
+
+```
+:::
+
+
 ### Attributs
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
@@ -202,3 +233,13 @@ Les balises utilisent trois thèmes différents: `dark`, `light` et `plain`
 |---------- |-------- |---------- |
 | click | Se déclenche quand le tag est cliqué. | — |
 | close | Se déclenche quand le tag est supprimé. | — |
+
+### CheckTag Attributs
+| Attribute      | Description          | Type      | Accepted                           | Default  |
+|---------- |-------------- |---------- |--------------------------------  |-------- |
+| checked | is checked | boolean | true/false | — |
+
+### CheckTag Évènements
+| Event Name | Description | Parameters |
+|---------- |-------- |---------- |
+| change | triggers when Check Tag is clicked | checked |

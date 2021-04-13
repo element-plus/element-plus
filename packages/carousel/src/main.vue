@@ -60,6 +60,7 @@
 
 <script lang="ts">
 import {
+  defineComponent,
   reactive,
   computed,
   ref,
@@ -76,7 +77,7 @@ import {
 } from '@element-plus/utils/resize-event'
 import { ICarouselProps, CarouselItem, InjectCarouselScope } from './carousel'
 
-export default {
+export default defineComponent({
   name: 'ElCarousel',
   props: {
     initialIndex: {
@@ -116,6 +117,10 @@ export default {
       validator(val: string) {
         return ['horizontal', 'vertical'].includes(val)
       },
+    },
+    pauseOnHover: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['change'],
@@ -235,8 +240,16 @@ export default {
       })
     }
 
-    function updateItems(item) {
+    function addItem(item) {
       items.value.push(item)
+    }
+
+    function removeItem(uid) {
+      const index = items.value.findIndex(item => item.uid === uid)
+      if (index !== -1) {
+        items.value.splice(index, 1)
+        if(data.activeIndex === index) next()
+      }
     }
 
     function itemInStage(item, index) {
@@ -261,7 +274,9 @@ export default {
 
     function handleMouseEnter() {
       data.hover = true
-      pauseTimer()
+      if (props.pauseOnHover) {
+        pauseTimer()
+      }
     }
 
     function handleMouseLeave() {
@@ -357,7 +372,8 @@ export default {
       type: props.type,
       items,
       loop: props.loop,
-      updateItems,
+      addItem,
+      removeItem,
       setActiveItem,
     })
 
@@ -386,5 +402,5 @@ export default {
       root,
     }
   },
-}
+})
 </script>

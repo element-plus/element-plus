@@ -1,4 +1,5 @@
 export default {
+  name: 'eo',
   el: {
     colorpicker: {
       confirm: 'Bone',

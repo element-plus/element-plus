@@ -278,17 +278,15 @@ Il est possible de cacher le bouton de fermeture.
 
 ### Méthode globale
 
-Element Plus ajoute la méthode `$notify` à Vue.prototype. Vous pouvez donc appeler `Notification` dans l'instance de Vue comme nous avons fait dans cette page.
+Element Plus ajoute la méthode `$notify` à `app.config.globalProperties`. Vous pouvez donc appeler `Notification` dans l'instance de Vue comme nous avons fait dans cette page.
 
 ### Import à la demande
 
-Importez `Notification`:
-
 ```javascript
-import { Notification } from 'element-plus';
+import { ElNotification } from 'element-plus';
 ```
 
-Dans ce cas vous devrez appeler `Notification(options)`. Il existe aussi des méthodes pour chaque type, e.g. `Notification.success(options)`. Vous pouvez appeler `Notification.closeAll()` pour fermer manuellement toutes les instances.
+Dans ce cas vous devrez appeler `ElNotification(options)`. Il existe aussi des méthodes pour chaque type, e.g. `ElNotification.success(options)`. Vous pouvez appeler `ElNotification.closeAll()` pour fermer manuellement toutes les instances.
 
 ### Options
 

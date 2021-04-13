@@ -2,6 +2,8 @@ import { mount as _mount, VueWrapper } from '@vue/test-utils'
 import { ComponentPublicInstance, nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
+import ElCheckboxGroup from '@element-plus/checkbox-group'
+import ElCheckbox from '@element-plus/checkbox'
 import sinon from 'sinon'
 
 const testDataArr = []
@@ -9,9 +11,10 @@ const toArray = function(obj) {
   return [].slice.call(obj)
 }
 
-const mount = (opt: any) => _mount(opt, {
-  attachTo: 'body',
-})
+const mount = (opt: any) =>
+  _mount(opt, {
+    attachTo: 'body',
+  })
 
 const triggerEvent = function(elm, name, ...opts) {
   let eventName
@@ -124,6 +127,58 @@ describe('Table.vue', () => {
       equalArray(cells, testDataArr)
       wrapper.unmount()
     })
+  })
+
+  it('custom template', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+        ElCheckboxGroup,
+        ElCheckbox,
+      },
+      template: `
+      <el-table :data="tableData">
+        <el-table-column label="someLabel">
+          <template #default="{ row }">
+            <el-checkbox-group v-model="row.checkList">
+              <el-checkbox label="复选框 A"></el-checkbox>
+              <el-checkbox label="复选框 B"></el-checkbox>
+            </el-checkbox-group>
+          </template>
+        </el-table-column>
+      </el-table>
+      `,
+      data() {
+        return {
+          tableData: [
+            {
+              checkList: [],
+            },
+            {
+              checkList: ['复选框 A'],
+            },
+            {
+              checkList: ['复选框 A', '复选框 B'],
+            },
+          ],
+        }
+      },
+    })
+    const vm = wrapper.vm
+    await nextTick()
+    const checkGroup = vm.$el.querySelectorAll(
+      '.el-table__body-wrapper .el-checkbox-group',
+    )
+    expect(checkGroup.length).toBe(3)
+    const checkbox = vm.$el.querySelectorAll(
+      '.el-table__body-wrapper .el-checkbox',
+    )
+    expect(checkbox.length).toBe(6)
+    const checkSelect = vm.$el.querySelectorAll(
+      '.el-table__body-wrapper label.is-checked',
+    )
+    expect(checkSelect.length).toBe(3)
   })
   describe('attributes', () => {
     const createTable = function(props, opts?) {
@@ -780,10 +835,10 @@ describe('Table.vue', () => {
           done()
         })
 
-        it('cancel all', async done => {
+        it('select all', async done => {
           wrapper.find('.el-checkbox').trigger('click')
           await nextTick()
-          expect(wrapper.vm.selected.length).toEqual(0)
+          expect(wrapper.vm.selected.length).toEqual(5)
           wrapper.unmount()
           done()
         })
@@ -830,7 +885,7 @@ describe('Table.vue', () => {
             template: `
             <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
               <el-table-column type="expand">
-                <template v-slot="props">
+                <template #default="props">
                   <div>{{props.row.name}}</div>
                 </template>
               </el-table-column>
@@ -1045,6 +1100,65 @@ describe('Table.vue', () => {
         wrapper.unmount()
         done()
       })
+    })
+
+    it('change column configuration', async done => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <template>
+            <button
+              id="addBut"
+              @click="
+                () => {
+                  cols.push('b')
+                }
+              "
+              >+</button>
+            <button
+              id="delBut"
+              @click="
+                () => {
+                  cols.pop()
+                }
+              "
+              >-</button>
+            <el-table :data="data">
+              <el-table-column
+                v-for="item of cols"
+                :prop="item"
+                :label="item"
+                :key="item"
+              ></el-table-column>
+            </el-table>
+          </template>
+        `,
+
+        data() {
+          return { cols: ['a', 'v', 'b'], data: [{ a: 1, v: 2, b: 3 }] }
+        },
+      })
+
+      await nextTick()
+      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
+      const addBut = wrapper.find('#addBut')
+      const delBut = wrapper.find('#delBut')
+      addBut.trigger('click')
+      await nextTick()
+      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(4)
+      addBut.trigger('click')
+      await nextTick()
+      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(5)
+      delBut.trigger('click')
+      await nextTick()
+      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(4)
+      delBut.trigger('click')
+      await nextTick()
+      expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
+      done()
     })
   })
   describe('summary row', () => {

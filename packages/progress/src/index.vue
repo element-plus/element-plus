@@ -17,7 +17,11 @@
     <div v-if="type === 'line'" class="el-progress-bar">
       <div class="el-progress-bar__outer" :style="{height: `${strokeWidth}px`}">
         <div class="el-progress-bar__inner" :style="barStyle">
-          <div v-if="showText && textInside" class="el-progress-bar__innerText">{{ content }}</div>
+          <div v-if="(showText || $slots.default) && textInside" class="el-progress-bar__innerText">
+            <slot v-bind="slotData">
+              <span>{{ content }}</span>
+            </slot>
+          </div>
         </div>
       </div>
     </div>
@@ -43,12 +47,14 @@
       </svg>
     </div>
     <div
-      v-if="showText && !textInside"
+      v-if="(showText || $slots.default) && !textInside"
       class="el-progress__text"
       :style="{fontSize: `${progressTextSize}px`}"
     >
-      <template v-if="!status">{{ content }}</template>
-      <i v-else :class="iconClass"></i>
+      <slot v-bind="slotData">
+        <span v-if="!status">{{ content }}</span>
+        <i v-else :class="iconClass"></i>
+      </slot>
     </div>
   </div>
 </template>
@@ -172,7 +178,7 @@ export default defineComponent({
 
     const circlePathStyle = computed(() => {
       return {
-        strokeDasharray: `${perimeter.value * rate.value * (props.percentage / 100) }px, ${perimeter.value}px`,
+        strokeDasharray: `${perimeter.value * rate.value * (props.percentage / 100)}px, ${perimeter.value}px`,
         strokeDashoffset: strokeDashoffset.value,
         transition: 'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease',
       }
@@ -249,6 +255,12 @@ export default defineComponent({
       }
     }
 
+    const slotData = computed(() => {
+      return {
+        percentage: props.percentage,
+      }
+    })
+
     return {
       barStyle,
       relativeStrokeWidth,
@@ -264,6 +276,7 @@ export default defineComponent({
       progressTextSize,
       content,
       getCurrentColor,
+      slotData,
     }
   },
 })

@@ -28,9 +28,11 @@ export interface ICarouselProps {
   type: string
   loop: boolean
   direction: string
+  pauseOnHover: boolean
 }
 
 export type UnionCarouselItemData = ICarouselItemProps & ToRefs<ICarouselItemData>
+
 export interface CarouselItem extends UnionCarouselItemData {
   uid: number
   translateItem: (index: number, activeIndex: number, oldIndex: number) => void
@@ -43,6 +45,7 @@ export interface InjectCarouselScope {
   type: string
   items: Ref<UnwrapRef<CarouselItem[]>>
   loop: boolean
-  updateItems: (item: CarouselItem) => void
+  addItem: (item: CarouselItem) => void
+  removeItem: (uid: number) => void
   setActiveItem: (index: number) => void
 }

@@ -1,76 +1,69 @@
 <template>
-  <transition
-    name="el-zoom-in-top"
-  >
-    <div
-      v-if="visible"
-      class="el-time-range-picker el-picker-panel"
-    >
-      <div class="el-time-range-picker__content">
-        <div class="el-time-range-picker__cell">
-          <div class="el-time-range-picker__header">{{ t('el.datepicker.startTime') }}</div>
-          <div
-            :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
-            class="el-time-range-picker__body el-time-panel__content"
-          >
-            <time-spinner
-              ref="minSpinner"
-              role="start"
-              :show-seconds="showSeconds"
-              :am-pm-mode="amPmMode"
-              :arrow-control="arrowControl"
-              :spinner-date="minDate"
-              :disabled-hours="disabledHours_"
-              :disabled-minutes="disabledMinutes_"
-              :disabled-seconds="disabledSeconds_"
-              @change="handleMinChange"
-              @set-option="onSetOption"
-              @select-range="setMinSelectionRange"
-            />
-          </div>
-        </div>
-        <div class="el-time-range-picker__cell">
-          <div class="el-time-range-picker__header">{{ t('el.datepicker.endTime') }}</div>
-          <div
-            :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
-            class="el-time-range-picker__body el-time-panel__content"
-          >
-            <time-spinner
-              ref="maxSpinner"
-              role="end"
-              :show-seconds="showSeconds"
-              :am-pm-mode="amPmMode"
-              :arrow-control="arrowControl"
-              :spinner-date="maxDate"
-              :disabled-hours="disabledHours_"
-              :disabled-minutes="disabledMinutes_"
-              :disabled-seconds="disabledSeconds_"
-              @change="handleMaxChange"
-              @set-option="onSetOption"
-              @select-range="setMaxSelectionRange"
-            />
-          </div>
+  <div v-if="actualVisible" class="el-time-range-picker el-picker-panel">
+    <div class="el-time-range-picker__content">
+      <div class="el-time-range-picker__cell">
+        <div class="el-time-range-picker__header">{{ t('el.datepicker.startTime') }}</div>
+        <div
+          :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
+          class="el-time-range-picker__body el-time-panel__content"
+        >
+          <time-spinner
+            ref="minSpinner"
+            role="start"
+            :show-seconds="showSeconds"
+            :am-pm-mode="amPmMode"
+            :arrow-control="arrowControl"
+            :spinner-date="minDate"
+            :disabled-hours="disabledHours_"
+            :disabled-minutes="disabledMinutes_"
+            :disabled-seconds="disabledSeconds_"
+            @change="handleMinChange"
+            @set-option="onSetOption"
+            @select-range="setMinSelectionRange"
+          />
         </div>
       </div>
-      <div class="el-time-panel__footer">
-        <button
-          type="button"
-          class="el-time-panel__btn cancel"
-          @click="handleCancel()"
+      <div class="el-time-range-picker__cell">
+        <div class="el-time-range-picker__header">{{ t('el.datepicker.endTime') }}</div>
+        <div
+          :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
+          class="el-time-range-picker__body el-time-panel__content"
         >
-          {{ t('el.datepicker.cancel') }}
-        </button>
-        <button
-          type="button"
-          class="el-time-panel__btn confirm"
-          :disabled="btnConfirmDisabled"
-          @click="handleConfirm()"
-        >
-          {{ t('el.datepicker.confirm') }}
-        </button>
+          <time-spinner
+            ref="maxSpinner"
+            role="end"
+            :show-seconds="showSeconds"
+            :am-pm-mode="amPmMode"
+            :arrow-control="arrowControl"
+            :spinner-date="maxDate"
+            :disabled-hours="disabledHours_"
+            :disabled-minutes="disabledMinutes_"
+            :disabled-seconds="disabledSeconds_"
+            @change="handleMaxChange"
+            @set-option="onSetOption"
+            @select-range="setMaxSelectionRange"
+          />
+        </div>
       </div>
     </div>
-  </transition>
+    <div class="el-time-panel__footer">
+      <button
+        type="button"
+        class="el-time-panel__btn cancel"
+        @click="handleCancel()"
+      >
+        {{ t('el.datepicker.cancel') }}
+      </button>
+      <button
+        type="button"
+        class="el-time-panel__btn confirm"
+        :disabled="btnConfirmDisabled"
+        @click="handleConfirm()"
+      >
+        {{ t('el.datepicker.confirm') }}
+      </button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -86,7 +79,7 @@ import union from 'lodash/union'
 import { t } from '@element-plus/locale'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'
-import { getAvaliableArrs } from './useTimePicker'
+import { getAvaliableArrs, useOldValue } from './useTimePicker'
 
 const makeSelectRange = (start, end) => {
   const result = []
@@ -100,10 +93,8 @@ export default defineComponent({
   components: { TimeSpinner },
 
   props: {
-    visible:{
-      type: [Boolean],
-      default: false,
-    },
+    visible: Boolean,
+    actualVisible: Boolean,
     parsedValue: {
       type: [Array, String] as PropType<string | Array<Dayjs>>,
     },
@@ -118,8 +109,8 @@ export default defineComponent({
   setup(props, ctx) {
     const minDate = computed(() => props.parsedValue[0])
     const maxDate = computed(() => props.parsedValue[1])
-    const oldValue = ref(props.parsedValue)
-    const handleCancel = () =>{
+    const oldValue = useOldValue(props)
+    const handleCancel = () => {
       ctx.emit('pick', oldValue.value, null)
     }
     const showSeconds = computed(() => {

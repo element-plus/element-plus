@@ -1,8 +1,11 @@
 import { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 import Tag from './src/index.vue'
 
-export default (app: App): void => {
+Tag.install = (app: App): void => {
   app.component(Tag.name, Tag)
 }
 
-export { Tag }
+const _Tag: SFCWithInstall<typeof Tag> = Tag
+
+export default _Tag

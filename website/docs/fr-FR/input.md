@@ -122,14 +122,14 @@ Ajoutez une icône pour indiquer le type d'input.
   <el-input
     placeholder="Entrez une date"
     v-model="input3">
-    <template v-slot:suffix>
+    <template #suffix>
       <i class="el-input__icon el-icon-date"></i>
     </template>
   </el-input>
   <el-input
     placeholder="Entrez du texte"
     v-model="input4">
-    <template v-slot:prefix>
+    <template #prefix>
       <i class="el-input__icon el-icon-search"></i>
     </template>
   </el-input>
@@ -229,24 +229,24 @@ Ajouter un élément avant ou après l'input, généralement du texte ou un bout
 ```html
 <div>
   <el-input placeholder="Entrez quelque chose" v-model="input1">
-    <template v-slot:prepend>Http://</template>
+    <template #prepend>Http://</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Entrez quelque chose" v-model="input2">
-    <template v-slot:append>.com</template>
+    <template #append>.com</template>
   </el-input>
 </div>
 <div style="margin-top: 15px;">
   <el-input placeholder="Entrez quelque chose" v-model="input3" class="input-with-select">
-    <template v-slot:prepend>
+    <template #prepend>
       <el-select v-model="select" placeholder="Choisir">
         <el-option label="Restaurant" value="1"></el-option>
         <el-option label="Num. Commande" value="2"></el-option>
         <el-option label="Tel" value="3"></el-option>
       </el-select>
     </template>
-    <template v-slot:append>
+    <template #append>
       <el-button icon="el-icon-search"></el-button>
     </template>
   </el-input>
@@ -412,31 +412,31 @@ Vous pouvez personnaliser la manière dont les suggestions sont affichées.
   :fetch-suggestions="querySearch"
   placeholder="Entrez quelque chose"
   @select="handleSelect">
-  <template v-slot:suffix>
+  <template #suffix>
     <i class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
   </template>
-  <template v-slot="{ item }">
+  <template #default="{ item }">
     <div class="value">{{ item.value }}</div>
     <span class="link">{{ item.link }}</span>
   </template>
 </el-autocomplete>
 
-<style lang="scss">
-  .my-autocomplete {
-    li {
-      line-height: normal;
-      padding: 7px;
-
-      .value {
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      .link {
-        font-size: 12px;
-        color: #b4b4b4;
-      }
-    }
-  }
+<style>
+.my-autocomplete li {
+  line-height: normal;
+  padding: 7px;
+}
+.my-autocomplete li .name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.my-autocomplete li .addr {
+  font-size: 12px;
+  color: #b4b4b4;
+}
+.my-autocomplete li .highlighted .addr {
+  color: #ddd;
+}
 </style>
 
 <script>
@@ -473,7 +473,7 @@ export default defineComponent({
     const handleSelect = (item) => {
       console.log(item);
     };
-    
+
     const handleIconClick = (ev) => {
       console.log(ev);
     };
@@ -607,7 +607,7 @@ export default defineComponent ({
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 | ----| ----| ----| ---- | ----- |
 | type| Type de l'input. | string | text, textarea et autres [types d'input natifs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
-| value / v-model | Variable liée. | string / number | — | — |
+| modelValue / v-model | Variable liée. | string / number | — | — |
 | maxlength| Identique à `maxlength` dans l'input natif. | number| — | — |
 | minlength| Identique à `minlength` dans l'input natif. | number | — | — |
 | show-word-limit | Affiche le nombre de caractères restant， ne marche que lorsque `type` est 'text' ou 'textarea'. | boolean    |  —  | false |
@@ -621,7 +621,6 @@ export default defineComponent ({
 | rows | Nombre de ligne pour une zone de texte, ne marche que si `type` est 'textarea'. | number | — | 2 |
 | autosize | Si la zone de texte à une hauteur adaptative, ne marche que si `type` est 'textarea'. Peut accepter un objet, e.g. { minRows: 2, maxRows: 6 }  | boolean / object | — | false |
 | autocomplete | Identique à `autocomplete` dans l'input natif. | string | on / off | off |
-| auto-complete | @DEPRECATED dans la prochaine version majeure. | string | on/off | off |
 | name | Identique à `name` dans l'input natif. | string | — | — |
 | readonly | Identique à `readonly` dans l'input natif. | boolean | — | false |
 | max | Identique à `max` dans l'input natif. | — | — | — |
@@ -683,7 +682,7 @@ export default defineComponent ({
 | prefix-icon | Classe de l'icône de préfixe. | string | — | — |
 | suffix-icon | Classe de l'iĉone de suffixe. | string | — | — |
 | hide-loading | Si l'icône de chargement doit être cachée dans le cas d'une recherche distante. | boolean | — | false |
-| popper-append-to-body | Si le menu doit être ajouter au body. Si le positionnement du menu est incorrect, essayez de mettre cette propriété à `false`. | boolean | - | true |
+| popper-append-to-body | Si le menu doit être ajouter au body. Si le positionnement du menu est incorrect, essayez de mettre cette propriété à `false`. | boolean | - | false |
 | highlight-first-item | Si la première suggestion de la liste issue de la recherche distante doit être en surbrillance par défaut. | boolean | — | false |
 
 ### Slots de l'autocomplétion

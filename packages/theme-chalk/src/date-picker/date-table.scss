@@ -6,7 +6,7 @@
   user-select: none;
 
   @include when(week-mode) {
-    .el-date-table__row {
+    .#{$namespace}-date-table__row {
       &:hover {
         div {
           background-color: $--datepicker-inrange-background-color;
