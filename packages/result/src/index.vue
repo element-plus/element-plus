@@ -27,7 +27,7 @@ import IconError from './icon-error.vue'
 import IconWarning from './icon-warning.vue'
 import IconInfo from './icon-info.vue'
 
-const IconMAP: Indexable<string> = {
+const IconMap: Indexable<string> = {
   success: 'icon-success',
   warning: 'icon-warning',
   error: 'icon-error',
@@ -59,7 +59,7 @@ export default defineComponent({
   setup(props) {
     const iconElement = computed(() => {
       const icon = props.icon
-      return icon && IconMAP[icon] ? IconMAP[icon] : 'icon-info'
+      return icon && IconMap[icon] ? IconMap[icon] : 'icon-info'
     })
 
     return {
