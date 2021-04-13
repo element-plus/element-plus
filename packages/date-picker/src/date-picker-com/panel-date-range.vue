@@ -374,7 +374,7 @@ export default defineComponent({
 
     const isValidValue = value => {
       return Array.isArray(value) &&
-        value && value[0] && value[1] &&
+        value[0] && value[1] &&
         value[0].valueOf() <= value[1].valueOf()
     }
 
