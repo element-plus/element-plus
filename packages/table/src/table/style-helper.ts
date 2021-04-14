@@ -22,7 +22,7 @@ function useStyle (
   store: Store,
   table: Table,
 ) {
-  const $ElEMENT = useGlobalConfig()
+  const $ELEMENT = useGlobalConfig()
   const isHidden = ref(false)
   const renderExpanded = ref(null)
   const resizeProxyVisible = ref(false)
@@ -197,7 +197,7 @@ function useStyle (
     }
   }
   const tableSize = computed(() => {
-    return props.size || $ElEMENT.size
+    return props.size || $ELEMENT.size
   })
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
