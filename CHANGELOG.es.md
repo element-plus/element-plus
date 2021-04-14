@@ -22,6 +22,7 @@
 #### Features
 
 - feat(result): new componet Result (#1818)
+
 #### Chore updares
 
 - style: using 'Array.prototype.forEach()' (#1826)
@@ -32,8 +33,6 @@
 *2021-04-09*
 
 #### Bug fixes
-
-*2021-04-09*
 
 - Fix `packages/utils` path issue (#1792)
 

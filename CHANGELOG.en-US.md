@@ -23,6 +23,7 @@
 #### Features
 
 - feat(result): new componet Result (#1818)
+
 #### Chore updares
 
 - style: using 'Array.prototype.forEach()' (#1826)
