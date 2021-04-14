@@ -196,6 +196,10 @@
             {
               "path": "/empty",
               "title": "Empty 空状态"
+            },
+            {
+              "path": "/result",
+              "title": "Result 结果"
             }
           ]
         },
@@ -514,6 +518,10 @@
             {
               "path": "/empty",
               "title": "Empty"
+            },
+            {
+              "path": "/result",
+              "title": "Result"
             }
           ]
         },
@@ -836,6 +844,10 @@
             {
               "path": "/empty",
               "title": "Empty"
+            },
+            {
+              "path": "/result",
+              "title": "Result"
             }
           ]
         },
@@ -1158,6 +1170,10 @@
             {
               "path": "/empty",
               "title": "Empty"
+            },
+            {
+              "path": "/result",
+              "title": "Result"
             }
           ]
         },
@@ -1480,6 +1496,10 @@
             {
               "path": "/empty",
               "title": "Empty"
+            },
+            {
+              "path": "/result",
+              "title": "Result"
             }
           ]
         },
