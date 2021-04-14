@@ -172,7 +172,7 @@ function useRender(props: TableBodyProps) {
         level: cur.level,
         display: true,
         loading: false,
-        noLazyChildren: false
+        noLazyChildren: false,
       }
       if (typeof cur.lazy === 'boolean') {
         if (typeof cur.loaded === 'boolean' && cur.loaded) {
