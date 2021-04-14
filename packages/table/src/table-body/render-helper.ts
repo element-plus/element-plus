@@ -167,18 +167,19 @@ function useRender(props: TableBodyProps) {
       // 在调用 rowRender 函数时，仍然会计算 rowKey，不太好的操作
       const key = getRowIdentity(row, rowKey.value)
       let cur = treeData.value[key]
-      const treeRowData = {
-        expanded: cur.expanded,
-        level: cur.level,
-        display: true,
-        loading: false,
-        noLazyChildren: false,
-      }
-      if (typeof cur.lazy === 'boolean') {
-        if (typeof cur.loaded === 'boolean' && cur.loaded) {
-          treeRowData.noLazyChildren = !(cur.children && cur.children.length)
+      let treeRowData = null
+      if (cur) {
+        treeRowData = {
+          expanded: cur.expanded,
+          level: cur.level,
+          display: true,
         }
-        treeRowData.loading = cur.loading
+        if (typeof cur.lazy === 'boolean') {
+          if (typeof cur.loaded === 'boolean' && cur.loaded) {
+            treeRowData.noLazyChildren = !(cur.children && cur.children.length)
+          }
+          treeRowData.loading = cur.loading
+        }
       }
       const tmp = [rowRender(row, $index, treeRowData)]
       // 渲染嵌套数据
