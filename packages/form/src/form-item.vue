@@ -189,7 +189,7 @@ export default defineComponent({
       let rules = getRules()
       let required = false
 
-      if (rules && rules.length) {
+      if (rules.length) {
         rules.every(rule => {
           if (rule.required) {
             required = true
@@ -208,13 +208,13 @@ export default defineComponent({
     const validate = (trigger: string, callback: ValidateFieldCallback = NOOP) => {
       validateDisabled.value = false
       const rules = getFilteredRule(trigger)
-      if ((!rules || rules.length === 0) && props.required === undefined) {
+      if ((rules.length === 0) && props.required === undefined) {
         callback()
         return
       }
       validateState.value = 'validating'
       const descriptor = {}
-      if (rules && rules.length > 0) {
+      if (rules.length > 0) {
         rules.forEach(rule => {
           delete rule.trigger
         })
