@@ -248,7 +248,7 @@ export default function(
     }
 
     if (isArray(props.trigger)) {
-      Object.values(props.trigger).map(mapEvents)
+      Object.values(props.trigger).forEach(mapEvents)
     } else {
       mapEvents(props.trigger as TriggerType)
     }

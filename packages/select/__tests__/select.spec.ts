@@ -987,37 +987,39 @@ describe('Select', () => {
     expect(innerInputEl.placeholder).toBe(placeholder)
   })
 
+  describe('should show all options when open select dropdown', () => {
+    async function testShowOptions({ filterable, multiple }: SelectProps = {}) {
+      const wrapper = getSelectVm({ filterable, multiple })
+      const options = wrapper.findAllComponents({ name: 'ElOption' })
+
+      await wrapper.find('.select-trigger').trigger('click')
+      expect(options.every(option => option.vm.visible)).toBe(true)
+
+      await options[1].trigger('click')
+      await wrapper.find('.select-trigger').trigger('click')
+      expect(options.every(option => option.vm.visible)).toBe(true)
+    }
+
+    test('both filterable and multiple are false', async () => {
+      await testShowOptions()
+    })
+
+    test('filterable is true and multiple is false', async () => {
+      await testShowOptions({ filterable: true })
+    })
+
+    test('filterable is false and multiple is true', async () => {
+      await testShowOptions({ multiple: true })
+    })
+
+    test('both filterable and multiple are true', async () => {
+      await testShowOptions({ filterable: true, multiple: true })
+    })
+  })
+
   describe('after search', () => {
-    async function testAfterSearch({ multiple, filterMethod, remote, remoteMethod }) {
-      const wrapper = _mount(`
-      <el-select
-        v-model="modelValue"
-        filterable
-        :multiple="multiple"
-        :filter-method="filterMethod"
-        :remote="remote"
-        :remote-method="remoteMethod"
-      >
-        <el-option
-          v-for="option in options"
-          :key="option.value"
-          :value="option.value"
-          :label="option.label"
-        >
-        </el-option>
-      </el-select>`, () => ({
-        modelValue: multiple ? [1] : 1,
-        options: [
-          { label: 'Test 1', value: 1 },
-          { label: 'Test 2', value: 2 },
-          { label: 'Test 3', value: 3 },
-          { label: 'Test 4', value: 4 },
-        ],
-        multiple,
-        filterMethod,
-        remote,
-        remoteMethod,
-      }))
+    async function testAfterSearch({ multiple, filterMethod, remote, remoteMethod }: SelectProps) {
+      const wrapper = getSelectVm({ filterable: true, multiple, filterMethod, remote, remoteMethod })
       const method = remote ? remoteMethod : filterMethod
       const firstInputLetter = 'a'
       const secondInputLetter = 'aa'

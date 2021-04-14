@@ -38,7 +38,10 @@ export default defineComponent({
       },
     },
     icon: String,
-    src: String,
+    src: {
+      type: String,
+      default: '',
+    },
     alt: String,
     srcSet: String,
     fit: {

@@ -14,7 +14,7 @@ const attachEvents = (el: HTMLElement, binding: DirectiveBinding, vnode: VNode) 
     popover.triggerRef = el
     el.setAttribute('tabindex', popover.tabindex)
     // because v-popover cannot modify the vnode itself due to it has already been
-    Object.entries(popover.events).map(([eventName, e]) => {
+    Object.entries(popover.events).forEach(([eventName, e]) => {
       on(el, eventName.toLowerCase().slice(2), e)
     })
   }

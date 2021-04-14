@@ -1,8 +1,38 @@
 ## Changelog
 
+### 1.0.2-beta.40
+*2021-04-14*
+
+#### Bug fixes
+
+- fix(table): page resize event not monitor (#1790)
+- fix(time-picker): added popperRef in picker to Fix issue #1809 (#1812)
+- fix(select): fix select with filterable has wrong dropdown options (#1811)
+- fix(table): fix bug of table crash under complex data (#1805)
+- fix(alert.scss carousel.scss switch.scss): v-enter(vue2) to v-enter(vue3) (#1803)
+- fix(build): not generate code hint files when publish-npm (#1802)
+- fix(avatar): fix src attributes default value (#1770)
+- fix(talbe): null check error (#1807)
+- fix(image-viewer): fix image src attribute error #1791 (#1819)
+- fix(date-picker): date-picker daterange panel clear value and view not updated (#1816)
+- style(date-picker): date-picker-com conditional judgment (#1823)
+- fix(docs): footer links error (#1827)
+- fix(table): fix table column rerendered whenever table updates
+
+#### Features
+
+- feat(result): new componet Result (#1818)
+
+#### Chore updares
+
+- style: using 'Array.prototype.forEach()' (#1826)
+- fix(time-picker): time picker change event bug (#1828)
+
 ### 1.0.2-beta.39
 
 *2021-04-09*
+
+#### Bug fixes
 
 - Fix `packages/utils` path issue (#1792)
 

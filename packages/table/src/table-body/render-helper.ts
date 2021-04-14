@@ -101,11 +101,13 @@ function useRender(props: TableBodyProps) {
             }
           }
         }
+        const key = `${$index},${cellIndex}`
         return h(
           'td',
           {
             style: getCellStyle($index, cellIndex, row, column),
             class: getCellClass($index, cellIndex, row, column),
+            key,
             rowspan,
             colspan,
             onMouseenter: $event => handleCellMouseEnter($event, { ...row, tooltipEffect }),
