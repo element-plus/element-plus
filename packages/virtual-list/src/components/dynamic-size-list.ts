@@ -1,3 +1,5 @@
+import throwError from '@element-plus/utils/error'
+
 import createList from '../builders/buildList'
 
 import { isHorizontal } from '../utils'
@@ -16,6 +18,7 @@ import type { ExtractPropTypes } from 'vue'
 
 type Props = ExtractPropTypes<typeof DefaultListProps>
 
+const SCOPE = 'ElDynamicSizeList'
 const getItemFromCache = (
   props: Props,
   index: number,
@@ -154,7 +157,7 @@ const getEstimatedTotalSize = (
   return totalSizeOfMeasuredItems + totalSizeOfUnmeasuredItems
 }
 
-export default createList({
+const DynamicSizeList = createList({
   name: 'ElDynamicSizeList',
   getItemOffset: (
     props,
@@ -285,12 +288,12 @@ export default createList({
   validateProps: ({ itemSize }) => {
     if (process.env.NODE_ENV !== 'production') {
       if (typeof itemSize !== 'function') {
-        throw Error(
-          'An invalid "itemSize" prop has been specified. ' +
-            'Value should be a function. ' +
-            `"${itemSize === null ? 'null' : typeof itemSize}" was specified.`,
-        )
+        throwError(SCOPE, `
+          itemSize is required as function, but the given value was ${typeof itemSize}
+        `)
       }
     }
   },
 })
+
+export default DynamicSizeList

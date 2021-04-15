@@ -15,7 +15,7 @@ import type { ExtractPropTypes } from 'vue'
 
 type IProps = ExtractPropTypes<typeof DefaultListProps>
 
-export default buildList({
+const FixedSizeList = buildList({
   name: 'ElFixedSizeList',
   getItemOffset: (
     { itemSize },
@@ -33,7 +33,7 @@ export default buildList({
     scrollOffset,
   ) => {
     const size = (isHorizontal(layout) ? width : height) as number
-    if (process.env.NODE_EVN !== 'production' && isString(size)) {
+    if (process.env.ENV !== 'production' && isString(size)) {
       throwError('[ElVirtualList]', `
         You should set
           width/height
@@ -51,7 +51,7 @@ export default buildList({
     )
     const minOffset = Math.max(
       0,
-      index * (itemSize as number) - size + (itemSize as number),
+      (index + 1) * (itemSize as number) - size,
     )
 
     if (alignment === SMART_ALIGNMENT) {
@@ -122,6 +122,8 @@ export default buildList({
       0,
       Math.min(
         total - 1,
+        // because startIndex is inclusive, so in order to prevent array outbound indexing
+        // we need to - 1 to prevent outbound behavior
         startIndex + numVisibleItems - 1,
       ),
     )
@@ -137,3 +139,5 @@ export default buildList({
     //
   },
 })
+
+export default FixedSizeList

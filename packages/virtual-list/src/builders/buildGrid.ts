@@ -7,12 +7,12 @@ import {
   onMounted,
   onUpdated,
   resolveDynamicComponent,
-  isVNode,
   h,
 } from 'vue'
 import memo from 'lodash/memoize'
 
-import { isNumber, $ } from '@element-plus/utils/util'
+import { isNumber, isString, $ } from '@element-plus/utils/util'
+import isServer from '@element-plus/utils/isServer'
 import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
 
 import { getScrollDir, getRTLOffsetType, isRTL } from '../utils'
@@ -47,6 +47,7 @@ const createGrid = ({
   getRowStopIndexForStartIndex,
 
   initCache,
+  validateProps,
 }: GridConstructorProps<typeof DefaultGridProps>) => {
 
   return defineComponent({
@@ -55,6 +56,7 @@ const createGrid = ({
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose }) {
 
+      validateProps(props)
       const instance = getCurrentInstance()
       const cache = ref(initCache(props, instance))
       // refs
@@ -248,9 +250,7 @@ const createGrid = ({
           yAxisScrollDir: getScrollDir(_states.scrollTop, scrollTop),
         }
 
-        nextTick(() => {
-          resetIsScrolling()
-        })
+        nextTick(resetIsScrolling)
 
         emitEvents()
       }
@@ -265,7 +265,7 @@ const createGrid = ({
         scrollLeft = Math.max(scrollLeft, 0)
         scrollTop = Math.max(scrollTop, 0)
         const _states = $(states)
-        if (scrollTop === _states.scrollTop && scrollLeft === _states) {
+        if (scrollTop === _states.scrollTop && scrollLeft === _states.scrollLeft) {
           return
         }
 
@@ -278,25 +278,22 @@ const createGrid = ({
           updateRequested: true,
         }
 
-        nextTick(() => {
-          resetIsScrolling
-        })
+        nextTick(resetIsScrolling)
       }
 
       const scrollToItem = (
-        columnIdx = 0,
         rowIndex = 0,
+        columnIdx = 0,
         alignment: Alignment = AUTO_ALIGNMENT,
       ) => {
         const _states = $(states)
         columnIdx = Math.max(0, Math.min(columnIdx, props.totalColumn - 1))
-        rowIndex = Math.max(0, Math.max(rowIndex, props.totalRow - 1))
+        rowIndex = Math.max(0, Math.min(rowIndex, props.totalRow - 1))
         const scrollBarWidth = getScrollBarWidth()
 
         const _cache = $(cache)
         const estimatedHeight = getEstimatedTotalHeight(props, _cache)
         const estimatedWidth = getEstimatedTotalWidth(props, _cache)
-
 
         scrollTo({
           scrollLeft: getColumnOffset(
@@ -354,19 +351,7 @@ const createGrid = ({
 
       }
 
-      // resetIsScrollingDebounced = () => {
-      //   if (timer !== null) {
-      //     cancelTimeout
-      //   }
-      //   if (this._resetIsScrollingTimeoutId !== null) {
-      //     cancelTimeout(this._resetIsScrollingTimeoutId)
-      //   }
-
-      //   this._resetIsScrollingTimeoutId = requestTimeout(
-      //     this._resetIsScrolling,
-      //     IS_SCROLLING_DEBOUNCE_INTERVAL,
-      //   )
-      // }
+      // TODO: debounce setting is scrolling.
 
       const resetIsScrolling = () => {
         // timer = null
@@ -380,6 +365,8 @@ const createGrid = ({
 
       // life cycles
       onMounted(() => {
+        // for SSR
+        if (isServer) return
         const { initScrollLeft, initScrollTop } = props
         const windowElement = $(windowRef)
         if (windowElement !== null) {
@@ -445,6 +432,7 @@ const createGrid = ({
         getItemStyleCache,
         scrollTo,
         scrollToItem,
+        states,
       })
 
       return api
@@ -465,6 +453,8 @@ const createGrid = ({
         states,
         useIsScrolling,
         windowStyle,
+        totalColumn,
+        totalRow,
       } = ctx
 
       const [columnStart, columnEnd] = columnsToRender
@@ -474,26 +464,27 @@ const createGrid = ({
       const Inner = resolveDynamicComponent(innerElement)
 
       const children = []
-
-      for (let row = rowStart; row <= rowEnd; row ++) {
-        for (let column = columnStart; column <= columnEnd; column ++) {
-          children.push(
-            $slots.default?.({
-              columnIndex: column,
-              data,
-              key: column,
-              isScrolling: useIsScrolling ? states.isScrolling : undefined,
-              style: getItemStyle(row, column),
-              rowIndex: row,
-            }),
-          )
+      if (totalRow > 0 && totalColumn > 0) {
+        for (let row = rowStart; row <= rowEnd; row ++) {
+          for (let column = columnStart; column <= columnEnd; column ++) {
+            children.push(
+              $slots.default?.({
+                columnIndex: column,
+                data,
+                key: column,
+                isScrolling: useIsScrolling ? states.isScrolling : undefined,
+                style: getItemStyle(row, column),
+                rowIndex: row,
+              }),
+            )
+          }
         }
       }
 
       const InnerNode = [h(Inner as VNode, {
         style: innerStyle,
         ref: 'innerRef',
-      }, isVNode(Inner) ? {
+      }, !isString(Inner) ? {
         default: () => children,
       } : children)]
 
@@ -502,7 +493,7 @@ const createGrid = ({
         style: windowStyle,
         onScroll,
         ref: 'windowRef',
-      }, isVNode(Container) ? { default: () => InnerNode } : InnerNode)
+      }, !isString(Container) ? { default: () => InnerNode } : InnerNode)
     },
   })
 }

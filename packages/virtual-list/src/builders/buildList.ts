@@ -7,12 +7,12 @@ import {
   onMounted,
   onUpdated,
   resolveDynamicComponent,
-  isVNode,
   h,
 } from 'vue'
 import memo from 'lodash/memoize'
 
-import { isNumber, $ } from '@element-plus/utils/util'
+import { isNumber, isString, $ } from '@element-plus/utils/util'
+import isServer from '@element-plus/utils/isServer'
 
 import { getScrollDir, isHorizontal, getRTLOffsetType } from '../utils'
 import {
@@ -41,6 +41,7 @@ const createList = ({
   getStopIndexForStartIndex,
   initCache,
   clearCache,
+  validateProps,
 }: ListConstructorProps<typeof DefaultListProps>) => {
   return defineComponent({
     name: name ?? 'ElVirtualList',
@@ -48,8 +49,9 @@ const createList = ({
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose }) {
 
+      validateProps(props)
       const instance = getCurrentInstance()
-      const initProps = ref(initCache(props, instance))
+      const dynamicSizeCache = ref(initCache(props, instance))
       // refs
       // here windowRef and innerRef can be type of HTMLElement
       // or user defined component type, depends on the type passed
@@ -75,13 +77,13 @@ const createList = ({
         const startIndex = getStartIndexForOffset(
           props,
           scrollOffset,
-          $(initProps),
+          $(dynamicSizeCache),
         )
         const stopIndex = getStopIndexForStartIndex(
           props,
           startIndex,
           scrollOffset,
-          $(initProps),
+          $(dynamicSizeCache),
         )
 
         const cacheBackward =
@@ -101,7 +103,7 @@ const createList = ({
         ]
       })
 
-      const estimatedTotalSize = computed(() => getEstimatedTotalSize(props, $(initProps)))
+      const estimatedTotalSize = computed(() => getEstimatedTotalSize(props, $(dynamicSizeCache)))
 
       const _isHorizontal = computed(() => isHorizontal(props.layout))
 
@@ -144,7 +146,8 @@ const createList = ({
 
       const scrollVertically = (e: Event) => {
         const { clientHeight, scrollHeight, scrollTop } = e.currentTarget as HTMLElement
-        if ($(states).scrollOffset === scrollTop) {
+        const _states = $(states)
+        if (_states.scrollOffset === scrollTop) {
           return
         }
 
@@ -154,24 +157,24 @@ const createList = ({
         )
 
         states.value = {
-          ...$(states),
+          ..._states,
           isScrolling: true,
-          scrollDir:
-              $(states).scrollOffset < scrollOffset ? FORWARD : BACKWARD,
+          scrollDir: getScrollDir(_states.scrollOffset, scrollOffset),
           scrollOffset,
           updateRequested: false,
         }
 
-        nextTick(() => {
-          resetIsScrolling()
-        })
+        nextTick(resetIsScrolling)
       }
 
       const scrollHorizontally = (e: Event) => {
         const { clientWidth, scrollLeft, scrollWidth } = (e.currentTarget) as HTMLElement
-        if ($(states).scrollOffset === scrollLeft) {
+        const _states = $(states)
+
+        if (_states.scrollOffset === scrollLeft) {
           return
         }
+
         const { direction } = props
 
         let scrollOffset = scrollLeft
@@ -182,12 +185,14 @@ const createList = ({
           // It's also easier for this component if we convert offsets to the same format as they would be in for ltr.
           // So the simplest solution is to determine which browser behavior we're dealing with, and convert based on it.
           switch (getRTLOffsetType()) {
-            case RTL_OFFSET_NAG:
+            case RTL_OFFSET_NAG: {
               scrollOffset = -scrollLeft
               break
-            case RTL_OFFSET_POS_DESC:
+            }
+            case RTL_OFFSET_POS_DESC: {
               scrollOffset = scrollWidth - clientWidth - scrollLeft
               break
+            }
           }
         }
 
@@ -197,17 +202,14 @@ const createList = ({
         )
 
         states.value = {
-          ...$(states),
+          ..._states,
           isScrolling: true,
-          scrollDir:
-              $(states).scrollOffset < scrollLeft ? FORWARD : BACKWARD,
+          scrollDir: getScrollDir(_states.scrollOffset, scrollOffset),
           scrollOffset,
           updateRequested: false,
         }
 
-        nextTick(() => {
-          resetIsScrolling()
-        })
+        nextTick(resetIsScrolling)
       }
 
       const onScroll = (e: Event) => {
@@ -227,27 +229,25 @@ const createList = ({
 
         states.value = {
           ...$(states),
+          scrollOffset: offset,
           scrollDir: getScrollDir($(states).scrollOffset, offset),
           updateRequested: true,
         }
 
-        nextTick(() => {
-          resetIsScrolling
-        })
+        nextTick(resetIsScrolling)
       }
 
       const scrollToItem = (idx: number, alignment: Alignment = AUTO_ALIGNMENT) => {
         const { scrollOffset } = $(states)
 
         idx = Math.max(0, Math.min(idx, props.total - 1))
-
         scrollTo(
           getOffset(
             props,
             idx,
             alignment,
             scrollOffset,
-            $(initProps),
+            $(dynamicSizeCache),
           ),
         )
       }
@@ -265,8 +265,8 @@ const createList = ({
         if (itemStyleCache.hasOwnProperty(idx)) {
           style = itemStyleCache[idx]
         } else {
-          const offset = getItemOffset(props, idx, $(initProps))
-          const size = getItemSize(props, idx, $(initProps))
+          const offset = getItemOffset(props, idx, $(dynamicSizeCache))
+          const size = getItemSize(props, idx, $(dynamicSizeCache))
           const horizontal = $(_isHorizontal)
 
           const isRtl = direction === RTL
@@ -284,19 +284,8 @@ const createList = ({
         return style
       }
 
-      // resetIsScrollingDebounced = () => {
-      //   if (timer !== null) {
-      //     cancelTimeout
-      //   }
-      //   if (this._resetIsScrollingTimeoutId !== null) {
-      //     cancelTimeout(this._resetIsScrollingTimeoutId)
-      //   }
-
-      //   this._resetIsScrollingTimeoutId = requestTimeout(
-      //     this._resetIsScrolling,
-      //     IS_SCROLLING_DEBOUNCE_INTERVAL,
-      //   )
-      // }
+      // TODO:
+      // perf optimization here, reset isScrolling with debounce.
 
       const resetIsScrolling = () => {
         // timer = null
@@ -310,6 +299,7 @@ const createList = ({
 
       // life cycles
       onMounted(() => {
+        if (isServer) return
         const { initScrollOffset } = props
         const windowElement = $(windowRef)
         if (isNumber(initScrollOffset) && windowElement !== null) {
@@ -378,6 +368,7 @@ const createList = ({
         getItemStyleCache,
         scrollTo,
         scrollToItem,
+        states,
       })
 
       return api
@@ -393,6 +384,7 @@ const createList = ({
         innerElement,
         itemsToRender,
         innerStyle,
+        total,
         onScroll,
         states,
         useIsScrolling,
@@ -406,22 +398,24 @@ const createList = ({
 
       const children = []
 
-      for (let i = start; i <= end; i++) {
-        children.push(
-          $slots.default?.({
-            data,
-            key: i,
-            index: i,
-            isScrolling: useIsScrolling ? states.isScrolling : undefined,
-            style: getItemStyle(i),
-          }),
-        )
+      if (total > 0) {
+        for (let i = start; i <= end; i++) {
+          children.push(
+            $slots.default?.({
+              data,
+              key: i,
+              index: i,
+              isScrolling: useIsScrolling ? states.isScrolling : undefined,
+              style: getItemStyle(i),
+            }),
+          )
+        }
       }
 
       const InnerNode = [h(Inner as VNode, {
         style: innerStyle,
         ref: 'innerRef',
-      }, isVNode(Inner) ? {
+      }, !isString(Inner) ? {
         default: () => children,
       } : children)]
 
@@ -430,7 +424,7 @@ const createList = ({
         style: windowStyle,
         onScroll,
         ref: 'windowRef',
-      }, isVNode(Container) ? { default: () => InnerNode } : InnerNode)
+      }, !isString(Container) ? { default: () => InnerNode } : InnerNode)
     },
   })
 }

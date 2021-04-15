@@ -10,7 +10,7 @@ import {
   END_ALIGNMENT,
 } from '../defaults'
 
-const SCOPE = '[ElFixedSizeGrid]'
+const SCOPE = 'ElFixedSizeGrid'
 
 const FixedSizeGrid = createGrid({
   name: 'ElFixedSizeGrid',

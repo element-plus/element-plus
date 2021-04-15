@@ -95,13 +95,40 @@ export type ListConstructorProps<T, P extends InitListCacheFunc<T> = InitListCac
   validateProps: PropValidator<T>
 }
 
-export type ListExposes = {
-  containerRef: HTMLElement
-  innerRef: HTMLElement
-  getItemStyleCache: CSSProperties
-  scrollTo: (offset: number) => void
-  scrollToItem: (idx: number, alignment: Alignment) => void
+export type ExposesStates = {
+  isScrolling: boolean
+  updateRequested: boolean
 }
+
+export type SharedExposes = {
+  windowRef: HTMLElement
+  innerRef: HTMLElement
+  getItemStyleCache: (_: any, __: any, ___: any) => CSSProperties
+}
+
+export type ListExposes = {
+  scrollTo: (offset: number) => void
+  scrollToItem: (idx: number, alignment?: Alignment) => void
+  states: {
+    scrollDir: Direction
+    scrollOffset: number
+  } & ExposesStates
+} & SharedExposes
+
+export type GridExposes = {
+  states: {
+    scrollLeft: number
+    scrollTop: number
+    xAxisScrollDir: Direction
+    yAxisScrollDir: Direction
+  } & ExposesStates
+  scrollTo: (props: {
+    scrollLeft: number
+    scrollTop: number
+  }) => void
+  scrollToItem: (columnIndex?: number, rowIndex?: number, alignment?: Alignment) => void
+
+} & SharedExposes
 
 export type GetGridOffset<T, P extends InitGridCacheFunc<T>> = (
   props: ExtractPropTypes<T>,

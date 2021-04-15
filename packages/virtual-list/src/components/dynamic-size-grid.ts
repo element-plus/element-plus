@@ -1,4 +1,4 @@
-import { isNumber } from '@element-plus/utils/util'
+import { isFunction } from '@vue/shared'
 import throwError from '@element-plus/utils/error'
 import createGrid from '../builders/buildGrid'
 
@@ -16,7 +16,7 @@ import type { ExtractPropTypes } from 'vue'
 import type { Alignment, GridCache, ListItem, ItemSize  } from '../types'
 
 const { max, min, floor } = Math
-const SCOPE = '[ElDynamicSizeGrid]'
+const SCOPE = 'ElDynamicSizeGrid'
 
 type Props = ExtractPropTypes<typeof DefaultGridProps>
 type CacheItemType = 'column' | 'row'
@@ -214,13 +214,12 @@ const getOffset = (
     size,
     estimatedSizeAssociates,
   ] = [
-    props[type],
+    type === 'row' ? props.height : props.width,
     ACCESS_ESTIMATED_SIZE_KEY_MAP[type],
   ] as [number, (props: Props, cache: GridCache) => number]
   const item = getItemFromCache(props, index, cache, type)
 
   const estimatedSize = estimatedSizeAssociates(props, cache)
-
 
   const maxOffset = max(0, min(estimatedSize - size, item.offset))
   const minOffset = max(0, item.offset - size + scrollBarWidth + item.size)
@@ -286,7 +285,7 @@ const FixedSizeGrid = createGrid({
     scrollTop,
     cache,
     scrollBarWidth: number,
-  ) => getOffset(props, rowIndex, alignment, scrollTop, cache, 'column', scrollBarWidth),
+  ) => getOffset(props, rowIndex, alignment, scrollTop, cache, 'row', scrollBarWidth),
 
   getColumnStartIndexForOffset: (
     props,
@@ -364,16 +363,16 @@ const FixedSizeGrid = createGrid({
 
   validateProps: ({ columnWidth, rowHeight }) => {
     if (process.env.NODE_ENV !== 'production') {
-      if (!isNumber(columnWidth)) {
+      if (!isFunction(columnWidth)) {
         throwError(SCOPE, `
-          "columnWidth" must be passed as number,
+          "columnWidth" must be passed as function,
             instead ${typeof columnWidth} was given.
         `)
       }
 
-      if (!isNumber(rowHeight)) {
+      if (!isFunction(rowHeight)) {
         throwError(SCOPE, `
-          "columnWidth" must be passed as number,
+          "columnWidth" must be passed as function,
             instead ${typeof rowHeight} was given.
         `)
       }
