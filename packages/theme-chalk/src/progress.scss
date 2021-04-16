@@ -120,6 +120,7 @@
   }
 
   @include e(inner__indeterminate) {
+    transform: translateZ(0);
     animation: indeterminate 3s infinite;
   }
 
