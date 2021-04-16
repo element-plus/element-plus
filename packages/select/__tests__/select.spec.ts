@@ -168,6 +168,38 @@ describe('Select', () => {
     expect(wrapper.find('.el-input__inner').element.value).toBe('双皮奶')
   })
 
+  test('default value when focus', async() => {
+    const wrapper = _mount(`
+      <el-select v-model="value">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+    () => ({
+      options: [{
+        value: '选项1',
+        label: '黄金糕',
+      }, {
+        value: '选项2',
+        label: '双皮奶',
+      }],
+      value: '选项3',
+    }))
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.el-input__inner').element.value).toBe('选项3')
+    wrapper.find('input').element.focus()
+    wrapper.vm.options.push({
+      value: '选项3',
+      label: '蚵仔煎',
+    })
+    await nextTick()
+    expect(wrapper.find('.el-input__inner').element.value).toBe('蚵仔煎')
+  })
+
   test('sync set value and options', async () => {
     const wrapper = _mount(`
     <el-select v-model="value">
