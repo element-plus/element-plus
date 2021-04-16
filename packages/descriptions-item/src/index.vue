@@ -1,10 +1,22 @@
 <template>
-  <td class="el-descriptions__label" :class="{'is-bordered-label': border}">
-    <slot name="label">{{ label }}</slot>
-  </td>
-  <td class="el-descriptions__content">
-    <slot></slot>
-  </td>
+  <template v-if="border">
+    <td class="el-descriptions__label is-bordered-label">
+      <slot name="label">{{ label }}</slot>
+    </td>
+    <td class="el-descriptions__content">
+      <slot></slot>
+    </td>
+  </template>
+  <template v-else>
+    <td>
+      <span class="el-descriptions__label" :class="{'is-bordered-label': border}">
+        <slot name="label">{{ label }}</slot>
+      </span>
+      <span class="el-descriptions__content">
+        <slot></slot>
+      </span>
+    </td>
+  </template>
 </template>
 
 <script lang="ts">
@@ -33,7 +45,7 @@ export default defineComponent({
   },
   setup(props) {
     const descriptions: IDescriptionsInject = inject('descriptions')
-    console.log(props)
+
     return {
       border: descriptions.border,
     }

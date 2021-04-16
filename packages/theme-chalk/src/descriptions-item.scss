@@ -6,7 +6,11 @@
     &.is-bordered-label {
       font-weight: bold;
       color: $--color-text-secondary;
-      background: $--descriptions-item-bordered-label-background
+      background: $--descriptions-item-bordered-label-background;
+    }
+
+    &:not(.is-bordered-label) {
+      margin-right: 10px;
     }
   }
 

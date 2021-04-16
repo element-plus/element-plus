@@ -26,35 +26,69 @@
     table {
       border-collapse: collapse;
       width: 100%;
+    }
+  }
 
-      &.is-bordered {
-        tr, td {
-          border: $--descriptions-table-border
-        }
+  .is-bordered {
+    tr, th, td {
+      border: $--descriptions-table-border;
+    }
+
+    th, td {
+      line-height: 1.5;
+      padding: 12px 10px;
+    }
+  }
+
+  :not(.is-bordered) {
+    th, td {
+      line-height: 1.5;
+      padding-bottom: 12px;
+    }
+  }
+
+  @include m(medium) {
+    &.is-bordered {
+      th, td {
+        padding: 10px;
       }
+    }
 
-      td {
-        padding: 12px 10px;
+    &:not(.is-bordered) {
+      th, td {
+        padding-bottom: 10px;
       }
+    }
+  }
 
-      @include m(medium) {
-        td {
-          padding: 10px;
-        }
+  @include m(small) {
+    font-size: 12px;
+
+    &.is-bordered {
+      th, td {
+        padding: 8px 10px;
       }
+    }
 
-      @include m(small) {
-        font-size: 12px;
-        td {
-          padding: 8px 10px;
-        }
+    &:not(.is-bordered) {
+      th, td {
+        padding-bottom: 8px;
       }
+    }
+  }
 
-      @include m(mini) {
-        font-size: 12px;
-        td {
-          padding: 6px 10px;
-        }
+  @include m(mini) {
+    font-size: 12px;
+
+    &.is-bordered {
+      th, td {
+        padding: 6px 10px;
+      }
+    }
+
+    &:not(.is-bordered) {
+      th, td {
+        padding-bottom: 6px;
       }
     }
   }

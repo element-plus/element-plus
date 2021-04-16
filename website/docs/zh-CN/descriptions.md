@@ -7,12 +7,75 @@
 :::demo
 
 ```html
-<el-descriptions title="用户信息" :column="4" border>
+<el-descriptions title="用户信息">
     <el-descriptions-item label="用户名">kooriookami</el-descriptions-item>
     <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
     <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
     <el-descriptions-item label="备注">无</el-descriptions-item>
     <el-descriptions-item label="联系地址">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+</el-descriptions>
+```
+:::
+
+### 不同尺寸
+
+:::demo
+
+```html
+<template>
+  <el-radio-group v-model="size">
+    <el-radio label="">默认</el-radio>
+    <el-radio label="medium">中等</el-radio>
+    <el-radio label="small">小型</el-radio>
+    <el-radio label="mini">超小</el-radio>
+  </el-radio-group>
+
+  <el-descriptions class="margin-top" title="带边框列表" :column="3" :size="size" border>
+    <template #extra>
+      <el-button type="primary" size="small">操作</el-button>
+    </template>
+    <el-descriptions-item label="用户名">kooriookami</el-descriptions-item>
+    <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
+    <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
+    <el-descriptions-item label="备注">无</el-descriptions-item>
+    <el-descriptions-item label="联系地址">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+  </el-descriptions>
+
+  <el-descriptions class="margin-top" title="无边框列表" :column="3" :size="size">
+    <template #extra>
+      <el-button type="primary" size="small">操作</el-button>
+    </template>
+    <el-descriptions-item label="用户名">kooriookami</el-descriptions-item>
+    <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
+    <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
+    <el-descriptions-item label="备注">无</el-descriptions-item>
+    <el-descriptions-item label="联系地址">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+  </el-descriptions>
+</template>
+
+<script>
+  export default {
+    data () {
+      return {
+        size: ''
+      };
+    }
+  }
+</script>
+```
+:::
+
+### 垂直列表
+
+:::demo
+
+```html
+<el-descriptions title="垂直列表" direction="vertical" border>
+  <el-descriptions-item label="用户名">kooriookami</el-descriptions-item>
+  <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
+  <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
+  <el-descriptions-item label="备注">无</el-descriptions-item>
+  <el-descriptions-item label="联系地址">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
 </el-descriptions>
 ```
 :::

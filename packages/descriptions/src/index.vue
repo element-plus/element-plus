@@ -10,11 +10,11 @@
     </div>
 
     <div class="el-descriptions__body">
-      <table :class="{'is-bordered': border}">
+      <table :class="[{'is-bordered': border}, descriptionsSize ? `el-descriptions--${descriptionsSize}` : '']">
         <tbody>
-          <tr>
-            <slot></slot>
-          </tr>
+          <template v-for="(row, index) in rows" :key="index">
+            <el-descriptions-row :row="row" />
+          </template>
         </tbody>
       </table>
     </div>
@@ -22,14 +22,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, provide } from 'vue'
+import { computed, defineComponent, PropType, provide, reactive, toRefs } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import DescriptionsItem from '@element-plus/descriptions-item'
+import DescriptionsRow from './descriptions-row.vue'
+import { useGlobalConfig } from '@element-plus/utils/util'
 
 export default defineComponent({
   name: 'ElDescriptions',
   components: {
     [DescriptionsItem.name]: DescriptionsItem,
+    [DescriptionsRow.name]: DescriptionsRow,
   },
   props: {
     border: {
@@ -39,7 +42,6 @@ export default defineComponent({
     column: {
       type: Number,
       default: 3,
-      min: 1,
     },
     direction: {
       type: String as PropType<'horizontal' | 'vertical'>,
@@ -59,27 +61,47 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    provide('descriptions', props)
+    provide('descriptions', reactive({ ...toRefs(props) }))
 
-    const tdStyle = computed(() => {
-      const width = `${100 / props.column}%`
-      return {
-        width: width,
-      }
+    const $ELEMENT = useGlobalConfig()
+    const descriptionsSize = computed(() => {
+      return props.size || $ELEMENT.size
     })
 
-    const rowCount = computed(() => {
-      const slotCount = slots.default?.().length || 0
-      return Math.ceil(slotCount / props.column)
+    const rows = computed(() => {
+      const children = slots.default?.()?.filter(node => node?.type?.name === 'ElDescriptionsItem')
+      const rows = []
+      let temp = []
+      let count = props.column
+
+      children.forEach((node, index) => {
+        const span = node.props.span || 1
+
+        if (index === children.length - 1) {
+          temp.push(node)
+          rows.push(temp)
+          return
+        }
+
+        if (span < count) {
+          count -= span
+          temp.push(node)
+        } else {
+          temp.push(node)
+          rows.push(temp)
+          count = props.column
+          temp = []
+        }
+      })
+
+      return rows
     })
 
-    console.log(rowCount.value)
-
-    console.log()
+    console.log(rows)
 
     return {
-      tdStyle,
-      rowCount,
+      descriptionsSize,
+      rows,
     }
   },
 })
