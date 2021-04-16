@@ -17,8 +17,8 @@ export default defineComponent({
   setup(props) {
     const descriptions: IDescriptionsInject = inject('descriptions')
 
-    const label = computed(() => props.cell?.children.label?.() || props.cell?.props?.label)
-    const content = computed(() => props.cell?.children.default?.())
+    const label = computed(() => props.cell?.children?.label?.() || props.cell?.props?.label)
+    const content = computed(() => props.cell?.children?.default?.())
     const span = computed(() => props.cell?.props?.span || 1)
     const border = computed(() => descriptions.border)
     const direction = computed(() => descriptions.direction)
@@ -40,7 +40,7 @@ export default defineComponent({
     } else if (this.type === 'content') {
       return h(this.tag, {
         class: 'el-descriptions__content',
-        colSpan: this.span,
+        colSpan: this.direction === 'vertical' ? this.span : this.span * 2 - 1,
       }, this.content)
     } else {
       return h('td', {

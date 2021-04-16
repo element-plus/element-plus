@@ -103,7 +103,7 @@
     kooriookami
   </el-descriptions-item>
   <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
-  <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
+  <el-descriptions-item label="居住地" :span="2">苏州市</el-descriptions-item>
   <el-descriptions-item label="备注">
     <el-tag size="small">学校</el-tag>
   </el-descriptions-item>
@@ -119,7 +119,7 @@
     kooriookami
   </el-descriptions-item>
   <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
-  <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
+  <el-descriptions-item label="居住地" :span="2">苏州市</el-descriptions-item>
   <el-descriptions-item label="备注">
     <el-tag size="small">学校</el-tag>
   </el-descriptions-item>

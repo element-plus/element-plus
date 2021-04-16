@@ -68,6 +68,19 @@ export default defineComponent({
       return props.size || $ELEMENT.size
     })
 
+    const flattedChildren = children => {
+      const temp = Array.isArray(children) ? children : [children]
+      const res = []
+      temp.forEach(child => {
+        if (Array.isArray(child.children)) {
+          res.push(...flattedChildren(child.children))
+        } else {
+          res.push(child)
+        }
+      })
+      return res
+    }
+
     const filledNode = (node, span, count, isLast = false) => {
       if (!node.props) {
         node.props = {}
@@ -76,13 +89,14 @@ export default defineComponent({
         node.props.span = count
       }
       if (isLast) {
-        node.props.span = 2 * props.column - 1
+        // set the max span, cause of the last td
+        node.props.span = props.column
       }
       return node
     }
 
     const rows = computed(() => {
-      const children = slots.default?.()?.filter(node => node?.type?.name === 'ElDescriptionsItem')
+      const children = flattedChildren(slots.default?.()).filter(node => node?.type?.name === 'ElDescriptionsItem')
       const rows = []
       let temp = []
       let count = props.column
