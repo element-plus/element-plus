@@ -1,6 +1,6 @@
 import { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
-import DescriptionsItem from './src/index.vue'
+import DescriptionsItem from './src'
 
 DescriptionsItem.install = (app: App): void => {
   app.component(DescriptionsItem.name, DescriptionsItem)

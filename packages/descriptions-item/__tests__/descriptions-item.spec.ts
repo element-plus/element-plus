@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import DescriptionsItem from '../src/index.vue'
+import DescriptionsItem from '../src'
 
 const AXIOM = 'Rem is the best girl'
 

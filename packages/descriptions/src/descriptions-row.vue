@@ -1,19 +1,19 @@
 <template>
   <template v-if="direction === 'vertical'">
     <tr>
-      <template v-for="(cell, index) in row" :key="`d1-${index}`">
+      <template v-for="(cell, index) in row" :key="`tr1-${index}`">
         <el-descriptions-cell :cell="cell" tag="th" type="label" />
       </template>
     </tr>
     <tr>
-      <template v-for="(cell, index) in row" :key="`d2-${index}`">
+      <template v-for="(cell, index) in row" :key="`tr2-${index}`">
         <el-descriptions-cell :cell="cell" tag="td" type="content" />
       </template>
     </tr>
   </template>
   <template v-else>
     <tr>
-      <template v-for="(cell, index) in row" :key="`d3-${index}`">
+      <template v-for="(cell, index) in row" :key="`tr3-${index}`">
         <template v-if="border">
           <el-descriptions-cell :cell="cell" tag="td" type="label" />
           <el-descriptions-cell :cell="cell" tag="td" type="content" />
@@ -27,17 +27,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, PropType, toRefs } from 'vue'
-import DescriptionsCell from './descriptions-cell.vue'
-
-interface IDescriptionsInject {
-  border: boolean
-  column: number
-  direction: PropType<'horizontal' | 'vertical'>
-  size: PropType<ComponentSize>
-  title: string
-  extra: string
-}
+import { computed, defineComponent, inject } from 'vue'
+import DescriptionsCell from './descriptions-cell'
+import { IDescriptionsInject } from './descriptions.type'
 
 export default defineComponent({
   name: 'ElDescriptionsRow',
@@ -51,10 +43,12 @@ export default defineComponent({
   },
   setup() {
     const descriptions: IDescriptionsInject = inject('descriptions')
-    // console.log(descriptions.border)
+    const direction = computed(() => descriptions.direction)
+    const border = computed(() => descriptions.border)
 
     return {
-      ...toRefs(descriptions),
+      direction: direction,
+      border: border,
     }
   },
 })

@@ -26,23 +26,24 @@
     table {
       border-collapse: collapse;
       width: 100%;
+
+      th, td {
+        text-align: left;
+        font-weight: normal;
+        line-height: 1.5;
+      }
     }
   }
 
   .is-bordered {
-    tr, th, td {
-      border: $--descriptions-table-border;
-    }
-
     th, td {
-      line-height: 1.5;
+      border: $--descriptions-table-border;
       padding: 12px 10px;
     }
   }
 
   :not(.is-bordered) {
     th, td {
-      line-height: 1.5;
       padding-bottom: 12px;
     }
   }

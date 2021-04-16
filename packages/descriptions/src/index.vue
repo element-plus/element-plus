@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, provide, reactive, toRefs } from 'vue'
+import { computed, defineComponent, PropType, provide } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import DescriptionsItem from '@element-plus/descriptions-item'
 import DescriptionsRow from './descriptions-row.vue'
@@ -61,12 +61,25 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    provide('descriptions', reactive({ ...toRefs(props) }))
+    provide('descriptions', props)
 
     const $ELEMENT = useGlobalConfig()
     const descriptionsSize = computed(() => {
       return props.size || $ELEMENT.size
     })
+
+    const filledNode = (node, span, count, isLast = false) => {
+      if (!node.props) {
+        node.props = {}
+      }
+      if (span > count) {
+        node.props.span = count
+      }
+      if (isLast) {
+        node.props.span = 2 * props.column - 1
+      }
+      return node
+    }
 
     const rows = computed(() => {
       const children = slots.default?.()?.filter(node => node?.type?.name === 'ElDescriptionsItem')
@@ -75,10 +88,10 @@ export default defineComponent({
       let count = props.column
 
       children.forEach((node, index) => {
-        const span = node.props.span || 1
+        const span = node.props?.span || 1
 
         if (index === children.length - 1) {
-          temp.push(node)
+          temp.push(filledNode(node, span, count, true))
           rows.push(temp)
           return
         }
@@ -87,7 +100,7 @@ export default defineComponent({
           count -= span
           temp.push(node)
         } else {
-          temp.push(node)
+          temp.push(filledNode(node, span, count))
           rows.push(temp)
           count = props.column
           temp = []
@@ -96,8 +109,6 @@ export default defineComponent({
 
       return rows
     })
-
-    console.log(rows)
 
     return {
       descriptionsSize,
