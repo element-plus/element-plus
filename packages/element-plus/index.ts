@@ -85,7 +85,6 @@ import ElTooltip from '@element-plus/tooltip'
 import ElTransfer from '@element-plus/transfer'
 import ElTree from '@element-plus/tree'
 import ElUpload from '@element-plus/upload'
-import ElVirtualList from '@element-plus/virtual-list'
 import ElSpace from '@element-plus/space'
 import ElSkeleton from '@element-plus/skeleton'
 import ElSkeletonItem from '@element-plus/skeleton-item'
@@ -206,7 +205,6 @@ const components = [
   ElTransfer,
   ElTree,
   ElUpload,
-  ElVirtualList,
   ElSpace,
   ElSkeleton,
   ElSkeletonItem,
@@ -327,7 +325,6 @@ export {
   ElTransfer,
   ElTree,
   ElUpload,
-  ElVirtualList,
   ElSpace,
   ElSkeleton,
   ElSkeletonItem,
