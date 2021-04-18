@@ -27,7 +27,7 @@
 </template>
 <script lang="ts">
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import { toObject } from '@element-plus/utils/util'
+import { addUnit, toObject } from '@element-plus/utils/util'
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import Bar from './bar.vue'
 
@@ -35,6 +35,14 @@ export default defineComponent({
   name: 'ElScrollbar',
   components: { Bar },
   props: {
+    height: {
+      type: [String, Number],
+      default: '',
+    },
+    maxHeight: {
+      type: [String, Number],
+      default: '',
+    },
     native: {
       type: Boolean,
       default: false,
@@ -61,7 +69,8 @@ export default defineComponent({
       default: 'div',
     },
   },
-  setup(props) {
+  emits: ['scroll'],
+  setup(props, { emit }) {
     const sizeWidth = ref('0')
     const sizeHeight = ref('0')
     const moveX = ref(0)
@@ -74,9 +83,13 @@ export default defineComponent({
     provide('scrollbar-wrap', wrap)
 
     const handleScroll = () => {
-      if (!props.native && wrap.value) {
+      if (wrap.value) {
         moveY.value = (wrap.value.scrollTop * 100) / wrap.value.clientHeight
         moveX.value = (wrap.value.scrollLeft * 100) / wrap.value.clientWidth
+        emit('scroll', {
+          scrollLeft: moveX.value,
+          scrollTop: moveY.value,
+        })
       }
     }
 
@@ -91,14 +104,19 @@ export default defineComponent({
     }
 
     const style = computed(() => {
-      if (Array.isArray(props.wrapStyle)) {
-        return toObject(props.wrapStyle)
+      let style = props.wrapStyle
+      if (Array.isArray(style)) {
+        style = toObject(style)
+        style.height = addUnit(props.height)
+        style.maxHeight = addUnit(props.maxHeight)
+      } else if (typeof style === 'string') {
+        style += `height: ${addUnit(props.height)};`
+        style += `max-height: ${addUnit(props.maxHeight)};`
       }
-      return props.wrapStyle
+      return style
     })
 
     onMounted(() => {
-      if (props.native) return
       nextTick(update)
       if (!props.noresize) {
         addResizeListener(resize.value, update)
@@ -107,7 +125,6 @@ export default defineComponent({
     })
 
     onBeforeUnmount(() => {
-      if (props.native) return
       if (!props.noresize) {
         removeResizeListener(resize.value, update)
         removeEventListener('resize', update)
