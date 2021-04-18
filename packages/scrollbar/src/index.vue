@@ -110,8 +110,8 @@ export default defineComponent({
         style.height = addUnit(props.height)
         style.maxHeight = addUnit(props.maxHeight)
       } else if (typeof style === 'string') {
-        style += `height: ${addUnit(props.height)};`
-        style += `max-height: ${addUnit(props.maxHeight)};`
+        style += addUnit(props.height) ? `height: ${addUnit(props.height)};` : ''
+        style += addUnit(props.maxHeight) ? `max-height: ${addUnit(props.maxHeight)};` : ''
       }
       return style
     })
