@@ -27,7 +27,7 @@
 </template>
 <script lang="ts">
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import { addUnit, toObject } from '@element-plus/utils/util'
+import { addUnit, isArray, isString, toObject } from '@element-plus/utils/util'
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import Bar from './bar.vue'
 
@@ -105,11 +105,11 @@ export default defineComponent({
 
     const style = computed(() => {
       let style = props.wrapStyle
-      if (Array.isArray(style)) {
+      if (isArray(style)) {
         style = toObject(style)
         style.height = addUnit(props.height)
         style.maxHeight = addUnit(props.maxHeight)
-      } else if (typeof style === 'string') {
+      } else if (isString(style)) {
         style += addUnit(props.height) ? `height: ${addUnit(props.height)};` : ''
         style += addUnit(props.maxHeight) ? `max-height: ${addUnit(props.maxHeight)};` : ''
       }
@@ -117,7 +117,9 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      nextTick(update)
+      if (!props.native) {
+        nextTick(update)
+      }
       if (!props.noresize) {
         addResizeListener(resize.value, update)
         addEventListener('resize', update)
