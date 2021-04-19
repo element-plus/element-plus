@@ -27,6 +27,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import DescriptionsItem from '@element-plus/descriptions-item'
 import DescriptionsRow from './descriptions-row.vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
+import { elDescriptionsKey } from './descriptions.type'
 
 export default defineComponent({
   name: 'ElDescriptions',
@@ -61,7 +62,7 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    provide('descriptions', props)
+    provide(elDescriptionsKey, props)
 
     const $ELEMENT = useGlobalConfig()
     const descriptionsSize = computed(() => {

@@ -1,5 +1,5 @@
 import { computed, defineComponent, h, inject } from 'vue'
-import { IDescriptionsInject } from './descriptions.type'
+import { elDescriptionsKey, IDescriptionsInject } from './descriptions.type'
 
 export default defineComponent({
   name: 'ElDescriptionsCell',
@@ -15,7 +15,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const descriptions: IDescriptionsInject = inject('descriptions')
+    const descriptions = inject(elDescriptionsKey, {} as IDescriptionsInject)
 
     const label = computed(() => props.cell?.children?.label?.() || props.cell?.props?.label)
     const content = computed(() => props.cell?.children?.default?.())
