@@ -184,13 +184,13 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
 
 ### Indeterminate progress
 
-:::demo Use `indeterminate` attribute to set indeterminate progress, with `speed` to control the animation speed.
+:::demo Use `indeterminate` attribute to set indeterminate progress, with `duration` to control the animation duration.
 
 ```html
 <el-progress :percentage="50" :indeterminate="true"></el-progress>
 <el-progress :percentage="100" :format="format" :indeterminate="true"></el-progress>
-<el-progress :percentage="100" status="success" :indeterminate="true" :speed="5"></el-progress>
-<el-progress :percentage="100" status="warning" :indeterminate="true" :speed="1"></el-progress>
+<el-progress :percentage="100" status="success" :indeterminate="true" :duration="5"></el-progress>
+<el-progress :percentage="100" status="warning" :indeterminate="true" :duration="1"></el-progress>
 <el-progress :percentage="50" status="exception" :indeterminate="true"></el-progress>
 
 <script>
@@ -214,7 +214,7 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
 | text-inside | whether to place the percentage inside progress bar, only works when `type` is 'line' | boolean | — | false |
 | status | the current status of progress bar | string | success/exception/warning | — |
 | indeterminate  | set indeterminate progress | boolean | - | false |
-| speed  | change the animation duration of indeterminate progress | number | - | 3 |
+| duration  | control the animation duration of indeterminate progress | number | - | 3 |
 | color  | background color of progress bar. Overrides `status` prop | string/function/array | — | '' |
 | width | the canvas width of circle progress bar | number | — | 126 |
 | show-text | whether to show percentage | boolean | — | true |

@@ -188,13 +188,13 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 
 ### 动画进度条
 
-:::demo Progress 组件设置`indeterminate`属性控制进度条运动，true为动画运动。通过设置`speed`属性可以控制运动速度。
+:::demo Progress 组件设置`indeterminate`属性控制进度条运动。通过设置`duration`属性可以控制运动速度。
 
 ```html
 <el-progress :percentage="50" :indeterminate="true"></el-progress>
 <el-progress :percentage="100" :format="format" :indeterminate="true"></el-progress>
-<el-progress :percentage="100" status="success" :indeterminate="true" :speed="5"></el-progress>
-<el-progress :percentage="100" status="warning" :indeterminate="true" :speed="1"></el-progress>
+<el-progress :percentage="100" status="success" :indeterminate="true" :duration="5"></el-progress>
+<el-progress :percentage="100" status="warning" :indeterminate="true" :duration="1"></el-progress>
 <el-progress :percentage="50" status="exception" :indeterminate="true"></el-progress>
 
 <script>
@@ -218,7 +218,7 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 | text-inside  | 进度条显示文字内置在进度条内（只在 type=line 时可用） | boolean | — | false |
 | status  | 进度条当前状态 | string | success/exception/warning | — |
 | indeterminate  | 是否为动画进度条 | boolean | - | false |
-| speed  | 控制动画进度条速度 | number | - | 3 |
+| duration  | 控制动画进度条速度 | number | - | 3 |
 | color  | 进度条背景色（会覆盖 status 状态颜色） | string/function/array | — | '' |
 | width  | 环形进度条画布宽度（只在 type 为 circle 或 dashboard 时可用） | number |  | 126 |
 | show-text  | 是否显示进度条文字内容 | boolean | — | true |

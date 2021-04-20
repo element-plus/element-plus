@@ -184,13 +184,13 @@ Vous pouvez également spécifier l'attribut `type` de `dashboard` pour utiliser
 
 ### Indeterminate progress
 
-:::demo Use `indeterminate` attribute to set indeterminate progress, with `speed` to control the animation speed.
+:::demo Use `indeterminate` attribute to set indeterminate progress, with `duration` to control the animation duration.
 
 ```html
 <el-progress :percentage="50" :indeterminate="true"></el-progress>
 <el-progress :percentage="100" :format="format" :indeterminate="true"></el-progress>
-<el-progress :percentage="100" status="success" :indeterminate="true" :speed="5"></el-progress>
-<el-progress :percentage="100" status="warning" :indeterminate="true" :speed="1"></el-progress>
+<el-progress :percentage="100" status="success" :indeterminate="true" :duration="5"></el-progress>
+<el-progress :percentage="100" status="warning" :indeterminate="true" :duration="1"></el-progress>
 <el-progress :percentage="50" status="exception" :indeterminate="true"></el-progress>
 
 <script>
@@ -215,7 +215,7 @@ Vous pouvez également spécifier l'attribut `type` de `dashboard` pour utiliser
 | text-inside | Si le pourcentage doit être à l'intérieur de la barre, ne marche que si `type` est 'line'. | boolean | — | false |
 | status | Le statut actuel de la progression. | string | success/exception/text | — |
 | indeterminate  | set indeterminate progress | boolean | - | false |
-| speed  | change the animation duration of indeterminate progress | number | - | 3 |
+| duration  | control the animation duration of indeterminate progress | number | - | 3 |
 | color  | La couleur de fon de la barre. Écrase `status`. | string/function/array | — | '' |
 | width | La largeur du canvas dans le cas d'une barre circulaire. | number | — | 126 |
 | show-text | Si le pourcentage doit être affiché. | boolean | — | true |

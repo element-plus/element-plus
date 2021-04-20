@@ -75,7 +75,7 @@ interface IProgressProps {
   percentage: number
   status: string
   indeterminate: boolean
-  speed: number
+  duration: number
   strokeWidth: number
   strokeLinecap: string
   textInside: boolean
@@ -108,7 +108,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    speed: {
+    duration: {
       type: Number,
       default: 3,
     },
@@ -145,7 +145,7 @@ export default defineComponent({
     const barStyle = computed(() => {
       return {
         width: `${props.percentage}%`,
-        animationDuration: `${props.speed}s`,
+        animationDuration: `${props.duration}s`,
         backgroundColor: getCurrentColor(props.percentage),
       }
     })

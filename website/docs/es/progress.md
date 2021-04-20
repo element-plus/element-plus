@@ -182,13 +182,13 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 
 ### Indeterminate progress
 
-:::demo Use `indeterminate` attribute to set indeterminate progress, with `speed` to control the animation speed.
+:::demo Use `indeterminate` attribute to set indeterminate progress, with `duration` to control the animation duration.
 
 ```html
 <el-progress :percentage="50" :indeterminate="true"></el-progress>
 <el-progress :percentage="100" :format="format" :indeterminate="true"></el-progress>
-<el-progress :percentage="100" status="success" :indeterminate="true" :speed="5"></el-progress>
-<el-progress :percentage="100" status="warning" :indeterminate="true" :speed="1"></el-progress>
+<el-progress :percentage="100" status="success" :indeterminate="true" :duration="5"></el-progress>
+<el-progress :percentage="100" status="warning" :indeterminate="true" :duration="1"></el-progress>
 <el-progress :percentage="50" status="exception" :indeterminate="true"></el-progress>
 
 <script>
@@ -212,7 +212,7 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 | text-inside  | mostrar el porcentaje dentro de la barra de progreso, solo funciona cuando `type` es 'line' | boolean | —                 | false       |
 | status       | estado actual de la barra de progreso    | string  | success/exception/warning | —   |
 | indeterminate  | set indeterminate progress | boolean | - | false |
-| speed  | change the animation duration of indeterminate progress  | number | - | 3 |
+| duration  | control the animation duration of indeterminate progress  | number | - | 3 |
 | color        | color de fondo de la barra de progreso. Sobreescribe la propiedad `status` | string/function/array | — | '' |
 | width        | ancho del canvas que contiene la barra de progreso circula | number  | —                 | 126         |
 | show-text    | mostrar porcentaje                       | boolean | —                 | true        |
