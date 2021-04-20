@@ -49,4 +49,28 @@ describe('ScrollBar', () => {
     await makeScroll(scrollDom, 'scrollLeft', 300)
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain('width: 40%; transform: translateX(150%); webkit-transform: translateX(150%)')
   })
+
+  test('should render height props', async () => {
+    const outerHeight = 200
+    const innerHeight = 500
+    const wrapper = _mount(`
+      <el-scrollbar height="${outerHeight}px">
+        <div style="height: ${innerHeight}px;"></div>
+      </el-scrollbar>
+    `)
+
+    expect(wrapper.find('.el-scrollbar__wrap').attributes('style')).toContain('height: 200px;')
+  })
+
+  test('should render max-height props', async () => {
+    const outerHeight = 200
+    const innerHeight = 100
+    const wrapper = _mount(`
+      <el-scrollbar max-height="${outerHeight}px">
+        <div style="height: ${innerHeight}px;"></div>
+      </el-scrollbar>
+    `)
+
+    expect(wrapper.find('.el-scrollbar__wrap').attributes('style')).toContain('max-height: 200px;')
+  })
 })
