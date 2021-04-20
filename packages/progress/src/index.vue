@@ -16,7 +16,13 @@
   >
     <div v-if="type === 'line'" class="el-progress-bar">
       <div class="el-progress-bar__outer" :style="{height: `${strokeWidth}px`}">
-        <div :class="`el-progress-bar__inner ${indeterminate ? 'el-progress-bar__inner__indeterminate' : ''}`" :style="barStyle">
+        <div
+          :class="[
+            'el-progress-bar__inner',
+            { 'el-progress-bar__inner--indeterminate' : indeterminate }
+          ]"
+          :style="barStyle"
+        >
           <div v-if="(showText || $slots.default) && textInside" class="el-progress-bar__innerText">
             <slot v-bind="slotData">
               <span>{{ content }}</span>

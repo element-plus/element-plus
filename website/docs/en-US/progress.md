@@ -184,7 +184,7 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
 
 ### Indeterminate progress
 
-:::demo Usa `indeterminate` attribute to set indeterminate progress. And use `speed` attribute to change the animation duration.
+:::demo Use `indeterminate` attribute to set indeterminate progress, with `speed` to control the animation speed.
 
 ```html
 <el-progress :percentage="50" :indeterminate="true"></el-progress>
