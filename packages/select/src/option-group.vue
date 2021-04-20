@@ -38,7 +38,7 @@ export default defineComponent({
     const select = inject(selectKey)
 
     const queryChange = () => {
-      visible.value = select?.options?.some(option => option.visible === true)
+      visible.value = select?.optionsArray?.some(option => option.visible === true)
     }
     select.selectEmitter.on(selectEvents.groupQueryChange, queryChange)
 

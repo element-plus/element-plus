@@ -98,6 +98,7 @@
       @focus="handleFocus"
       @blur="handleBlur"
       @change="handleChange"
+      @keydown="handleKeydown"
     >
     </textarea>
     <span v-if="isWordLimitVisible && type === 'textarea'" class="el-input__count">{{ textLength }}/{{ upperLimit }}</span>
@@ -207,11 +208,9 @@ export default defineComponent({
     },
     label: {
       type: String,
-      default: '',
     },
     tabindex: {
       type: String,
-      default: '',
     },
     validateEvent: {
       type: Boolean,

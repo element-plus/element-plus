@@ -475,7 +475,7 @@ export default defineComponent({
     const handleSelect = (item) => {
       console.log(item);
     };
-    
+
     const handleIconClick = (ev) => {
       console.log(ev);
     };
@@ -608,7 +608,7 @@ export default defineComponent ({
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 | ----| ----| ----| ---- | ----- |
 |type| type of input | string | text, textarea and other [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
-|value / v-model| binding value | string / number| — | — |
+|modelValue / v-model| binding value | string / number| — | — |
 |maxlength| same as `maxlength` in native input | number| — | — |
 |minlength| same as `minlength` in native input | number | — | — |
 |show-word-limit | whether show word count，only works when `type` is 'text' or 'textarea' | boolean    |  —  | false |
@@ -622,13 +622,12 @@ export default defineComponent ({
 |rows | number of rows of textarea, only works when `type` is 'textarea' | number | — | 2 |
 |autosize | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. { minRows: 2, maxRows: 6 }  | boolean / object | — | false |
 |autocomplete | same as `autocomplete` in native input | string | on/off | off |
-|auto-complete | @DEPRECATED in next major version | string | on/off | off |
 |name | same as `name` in native input | string | — | — |
 | readonly | same as `readonly` in native input | boolean | — | false |
 |max | same as `max` in native input | — | — | — |
 |min | same as `min` in native input | — | — | — |
 |step| same as `step` in native input | — | — | — |
-|resize| control the resizability | string | none, both, horizontal, vertical | — |
+|resize| control the resizability | string | none / both / horizontal / vertical | — |
 |autofocus | same as `autofocus` in native input | boolean | — | false |
 |form | same as `form` in native input | string | — | — |
 | label | label text | string | — | — |
@@ -664,7 +663,7 @@ export default defineComponent ({
 
 ### Autocomplete Attributes
 
-Attribute | Description | Type | Options | Default
+Attribute | Description | Type | Accepted Values | Default
 |----| ----| ----| ---- | -----|
 |placeholder| the placeholder of Autocomplete| string | — | — |
 | clearable | whether to show clear button | boolean | — | false |

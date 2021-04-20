@@ -1,11 +1,4 @@
-import { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
-import VirtualList from './src/index.vue'
-
-VirtualList.install = (app: App): void => {
-  app.component(VirtualList.name, VirtualList)
-}
-
-const _VirtualList: SFCWithInstall<typeof VirtualList> = VirtualList
-
-export default _VirtualList
+export { default as FixedSizeList } from './src/components/fixed-size-list'
+export { default as DynamicSizeList } from './src/components/dynamic-size-list'
+export { default as FixedSizeGrid } from './src/components/fixed-size-grid'
+export { default as DynamicSizeGrid } from './src/components/dynamic-size-grid'

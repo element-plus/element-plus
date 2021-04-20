@@ -32,7 +32,7 @@ function useLayoutObserver(root: Table) {
     return layout
   })
   const onColumnsChange = (layout: TableLayout) => {
-    const cols = root.vnode.el?.querySelectorAll('colgroup > col')
+    const cols = root.vnode.el?.querySelectorAll('colgroup > col') || []
     if (!cols.length) return
     const flattenColumns = layout.getFlattenColumns()
     const columnsMap = {}

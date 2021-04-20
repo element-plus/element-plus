@@ -75,7 +75,7 @@ export function useOption(props, states) {
 
   const hoverItem = () => {
     if (!props.disabled && !selectGroup.disabled) {
-      select.hoverIndex = select.options.indexOf(instance)
+      select.hoverIndex = select.optionsArray.indexOf(instance)
     }
   }
 
@@ -100,6 +100,10 @@ export function useOption(props, states) {
       select.setSelected()
     }
   })
+
+  watch(() => selectGroup.disabled, () => {
+    states.groupDisabled = selectGroup.disabled
+  }, { immediate: true })
 
   // Emitter
   select.selectEmitter.on(selectEvents.queryChange, queryChange)

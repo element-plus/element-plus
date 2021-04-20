@@ -160,7 +160,7 @@ Of course, you can nest other operations. It's more light-weight than using a di
 | trigger | how the popover is triggered | string  | click/focus/hover/manual |    click    |
 |  title              | popover title | string | — | — |
 |  content        |  popover content, can be replaced with a default `slot`    | string            | — | — |
-|  width        |  popover width  | string, number            | — | Min width 150px |
+|  width        |  popover width  | string / number            | — | Min width 150px |
 |  placement        |  popover placement  | string | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end |  bottom |
 |  disabled       |  whether Popover is disabled  | boolean    | — |  false |
 |  visible / v-model:visible  |  whether popover is visible  | Boolean           | — |  false |
@@ -172,9 +172,9 @@ Of course, you can nest other operations. It's more light-weight than using a di
 | show-after | delay of appearance, in millisecond | number | — | 0 |
 | hide-after | delay of disappear, in millisecond | number | — | 0 |
 | auto-close | timeout in milliseconds to hide tooltip | number | — | 0 |
-|  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover | number | — | 0 |
+|  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover | number | — | — |
 
-### Slot
+### Slots
 | Name | Description |
 | --- | --- |
 | — | text content of popover |

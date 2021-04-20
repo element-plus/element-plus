@@ -273,7 +273,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | center | whether to align the header and footer in center | boolean | — | false |
 | destroy-on-close | Destroy elements in Dialog when closed   | boolean | — | false |
 
-### Slot
+### Slots
 
 | Name | Description |
 |------|--------|

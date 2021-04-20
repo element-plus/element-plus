@@ -196,7 +196,7 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
 | stroke-linecap  | circle/dashboard type shape at the end path | string | butt/round/square | round |
 | format  | custom text format  | function(percentage) | — | — |
 
-### Slot
-| name | Description |
+### Slots
+| Name | Description |
 |------|--------|
 | default | Customized content, parameter is { percentage } |

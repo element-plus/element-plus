@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from 'vue'
+import { defineComponent, computed, ref, PropType, watch, toRef } from 'vue'
 
 const ERROR_EVENT = 'error'
 export default defineComponent({
@@ -38,7 +38,10 @@ export default defineComponent({
       },
     },
     icon: String,
-    src: String,
+    src: {
+      type: String,
+      default: '',
+    },
     alt: String,
     srcSet: String,
     fit: {
@@ -49,6 +52,12 @@ export default defineComponent({
   emits: [ERROR_EVENT],
   setup(props, { emit }) {
     const hasLoadError = ref(false)
+
+    const src = toRef(props, 'src')
+    // need reset hasLoadError to false if src changed
+    watch(src,()=>{
+      hasLoadError.value = false
+    })
 
     const avatarClass = computed(() => {
       const { size, icon, shape } = props

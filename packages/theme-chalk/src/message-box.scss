@@ -3,6 +3,7 @@
 @import 'common/popup';
 @import 'button';
 @import 'input';
+@import 'overlay';
 
 @include b(message-box) {
   display: inline-block;
@@ -28,7 +29,7 @@
       vertical-align: middle;
     }
   }
-  
+
 
   @include e(header) {
     position: relative;

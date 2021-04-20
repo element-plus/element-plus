@@ -14,11 +14,18 @@
     :gpu-acceleration="false"
   >
     <template #default>
-      <slot name="dropdown"></slot>
+      <el-scrollbar
+        ref="scrollbar"
+        tag="ul"
+        :wrap-style="wrapStyle"
+        view-class="el-dropdown__list"
+      >
+        <slot name="dropdown"></slot>
+      </el-scrollbar>
     </template>
     <template #trigger>
       <div :class="['el-dropdown', dropdownSize ? 'el-dropdown--' + dropdownSize : '']">
-        <slot v-if="!splitButton" name="default"> </slot>
+        <slot v-if="!splitButton" name="default"></slot>
         <template v-else>
           <el-button-group>
             <el-button
@@ -55,14 +62,17 @@ import {
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import ElButton from '@element-plus/button'
 import ElButtonGroup from '@element-plus/button-group'
+import ElScrollbar from '@element-plus/scrollbar'
 import ElPopper from '@element-plus/popper'
 import { useDropdown } from './useDropdown'
+import { addUnit } from '@element-plus/utils/util'
 
 export default defineComponent({
   name: 'ElDropdown',
   components: {
     ElButton,
     ElButtonGroup,
+    ElScrollbar,
     ElPopper,
   },
   props: {
@@ -100,6 +110,10 @@ export default defineComponent({
       type: String,
       default: 'light',
     },
+    maxHeight: {
+      type: [Number, String],
+      default: '',
+    },
   },
   emits: ['visible-change', 'click', 'command'],
   setup(props, { emit }) {
@@ -109,6 +123,9 @@ export default defineComponent({
     const timeout = ref<Nullable<number>>(null)
 
     const visible = ref(false)
+    const scrollbar = ref(null)
+    const wrapStyle = computed(() => `max-height: ${addUnit(props.maxHeight)}`)
+
     watch(
       () => visible.value,
       val => {
@@ -187,11 +204,13 @@ export default defineComponent({
     function triggerElmFocus() {
       triggerElm.value?.focus?.()
     }
+
     function triggerElmBlur() {
       triggerElm.value?.blur?.()
     }
 
     const dropdownSize = computed(() => props.size || ELEMENT.size)
+
     function commandHandler(...args) {
       emit('command', ...args)
     }
@@ -247,6 +266,8 @@ export default defineComponent({
 
     return {
       visible,
+      scrollbar,
+      wrapStyle,
       dropdownSize,
       handlerMainButtonClick,
       triggerVnode,

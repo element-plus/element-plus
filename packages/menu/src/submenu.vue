@@ -25,29 +25,28 @@
       :popper-class="props.popperClass"
       :placement="data.currentPlacement"
       :append-to-body="appendToBody"
+      transition: this.menuTransitionName,
+      gpuAcceleration: false,
     >
       <template #default>
-        <transition :name="menuTransitionName">
-          <div
-            v-show="opened"
-            ref="menu"
-            :class="[`el-menu--${mode}`, props.popperClass]"
-            @mouseenter="$event => handleMouseenter($event, 100)"
-            @mouseleave="() => handleMouseleave(true)"
-            @focus="$event => handleMouseenter($event, 100)"
+        <div
+          ref="menu"
+          :class="[`el-menu--${mode}`, props.popperClass]"
+          @mouseenter="$event => handleMouseenter($event, 100)"
+          @mouseleave="() => handleMouseleave(true)"
+          @focus="$event => handleMouseenter($event, 100)"
+        >
+          <ul
+            role="menu"
+            :class="[
+              'el-menu el-menu--popup',
+              `el-menu--popup-${data.currentPlacement}`,
+            ]"
+            :style="{ backgroundColor: rootProps.backgroundColor || '' }"
           >
-            <ul
-              role="menu"
-              :class="[
-                'el-menu el-menu--popup',
-                `el-menu--popup-${data.currentPlacement}`,
-              ]"
-              :style="{ backgroundColor: rootProps.backgroundColor || '' }"
-            >
-              <slot name="default"></slot>
-            </ul>
-          </div>
-        </transition>
+            <slot name="default"></slot>
+          </ul>
+        </div>
       </template>
       <template #trigger>
         <div
@@ -102,7 +101,6 @@ import {
   onBeforeUnmount,
   withDirectives,
   Fragment,
-  Transition,
   vShow,
   h,
 } from 'vue'
@@ -459,35 +457,27 @@ export default defineComponent({
         popperClass: this.popperClass,
         placement: this.data.currentPlacement,
         appendToBody: this.appendToBody,
+        transition: this.menuTransitionName,
+        gpuAcceleration: false,
       }, {
-        default: () => h(
-          Transition,
-          {
-            name: this.menuTransitionName,
-          },
-          {
-            default: () => withDirectives(
-              h('div', {
-                ref: 'menu',
-                class: [
-                  `el-menu--${this.mode}`,
-                  this.popperClass,
-                ],
-                onMouseenter: ($event: Event) => this.handleMouseenter($event, 100),
-                onMouseleave: () => this.handleMouseleave(true),
-                onFocus: ($event: Event) => this.handleMouseenter($event, 100),
-              }, [
-                h('ul', {
-                  class: [
-                    'el-menu el-menu--popup',
-                    `el-menu--popup-${this.data.currentPlacement}`,
-                  ],
-                  style: ulStyle,
-                }, [this.$slots.default?.()]),
-              ]),
-              [[vShow, this.opened]]),
-          },
-        ),
+        default: () => h('div', {
+          ref: 'menu',
+          class: [
+            `el-menu--${this.mode}`,
+            this.popperClass,
+          ],
+          onMouseenter: ($event: Event) => this.handleMouseenter($event, 100),
+          onMouseleave: () => this.handleMouseleave(true),
+          onFocus: ($event: Event) => this.handleMouseenter($event, 100),
+        }, [
+          h('ul', {
+            class: [
+              'el-menu el-menu--popup',
+              `el-menu--popup-${this.data.currentPlacement}`,
+            ],
+            style: ulStyle,
+          }, [this.$slots.default?.()]),
+        ]),
         trigger: () => h('div', {
           class: 'el-submenu__title',
           style: [this.paddingStyle, this.titleStyle, { backgroundColor: this.backgroundColor }],

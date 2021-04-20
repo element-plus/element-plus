@@ -347,7 +347,7 @@
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -442,12 +442,12 @@
     <el-table-column
       prop="city"
       label="市区"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -553,7 +553,7 @@
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -676,8 +676,7 @@
         </el-table-column>
         <el-table-column
           prop="address"
-          label="地址"
-          width="300">
+          label="地址">
         </el-table-column>
         <el-table-column
           prop="zip"
@@ -1940,7 +1939,7 @@
 | width | 对应列的宽度 | string | — | — |
 | min-width | 对应列的最小宽度，与 width 的区别是 width 是固定的，min-width 会把剩余宽度按比例分配给设置了 min-width 的列 | string | — | — |
 | fixed | 列是否固定在左侧或者右侧，true 表示固定在左侧 | string, boolean | true, left, right | — |
-| render-header | 列标题 Label 区域渲染使用的 Function | Function(h, { column, $index }) | — | — |
+| render-header | 列标题 Label 区域渲染使用的 Function | Function({ column, $index }) | — | — |
 | sortable | 对应列是否可以排序，如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件 | boolean, string | true, false, 'custom' | false |
 | sort-method | 对数据进行排序的时候使用的方法，仅当 sortable 设置为 true 的时候有效，需返回一个数字，和 Array.sort 表现一致 | Function(a, b) | — | — |
 | sort-by | 指定数据按照哪个属性进行排序，仅当 sortable 设置为 true 且没有设置 sort-method 的时候有效。如果 sort-by 为数组，则先按照第 1 个属性排序，如果第 1 个相等，再按照第 2 个排序，以此类推 | String/Array/Function(row, index) | — | — |

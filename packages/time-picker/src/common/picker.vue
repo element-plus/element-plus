@@ -18,7 +18,7 @@
     <template #trigger>
       <el-input
         v-if="!isRangeInput"
-        v-clickoutside="onClickOutside"
+        v-clickoutside:[popperPaneRef]="onClickOutside"
         :model-value="displayValue"
         :name="name"
         :size="pickerSize"
@@ -53,7 +53,7 @@
       </el-input>
       <div
         v-else
-        v-clickoutside="onClickOutside"
+        v-clickoutside:[popperPaneRef]="onClickOutside"
         class="el-date-editor el-range-editor el-input__inner"
         :class="[
           'el-date-editor--' + type,
@@ -124,6 +124,7 @@ import {
   defineComponent,
   ref,
   computed,
+  nextTick,
   inject,
   watch,
   provide,
@@ -200,6 +201,9 @@ export default defineComponent({
     watch(pickerVisible, val => {
       if (!val) {
         userInput.value = null
+        nextTick(() => {
+          emitChange(props.modelValue)
+        })
         ctx.emit('blur')
         blurInput()
         props.validateEvent && elFormItem.formItemMitt?.emit('el.form.blur')
@@ -207,9 +211,9 @@ export default defineComponent({
         valueOnOpen.value = props.modelValue
       }
     })
-    const emitChange = val => {
+    const emitChange = (val, isClear?: boolean) => {
       // determine user real change only
-      if (!valueEquals(val, valueOnOpen.value)) {
+      if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
         props.validateEvent && elFormItem.formItemMitt?.emit('el.form.change', val)
       }
@@ -248,7 +252,6 @@ export default defineComponent({
       }
       userInput.value = null
       emitInput(result)
-      emitChange(result)
     }
     const handleFocus = e => {
       if (props.readonly || pickerDisabled.value) return
@@ -282,8 +285,6 @@ export default defineComponent({
 
     const displayValue = computed(() => {
       if (!pickerOptions.value.panelReady) return
-      if (!isTimePicker.value && valueIsEmpty.value) return
-      if (!pickerVisible.value && valueIsEmpty.value) return
       const formattedValue = formatDayjsToString(parsedValue.value)
       if (Array.isArray(userInput.value)) {
         return [
@@ -293,6 +294,8 @@ export default defineComponent({
       } else if (userInput.value !== null) {
         return userInput.value
       }
+      if (!isTimePicker.value && valueIsEmpty.value) return
+      if (!pickerVisible.value && valueIsEmpty.value) return
       if (formattedValue) {
         return isDatesPicker.value
           ? (formattedValue as Array<string>).join(', ')
@@ -322,7 +325,7 @@ export default defineComponent({
       if (showClose.value) {
         event.stopPropagation()
         emitInput(null)
-        emitChange(null)
+        emitChange(null, true)
         showClose.value = false
         pickerVisible.value = false
         pickerOptions.value.handleClear && pickerOptions.value.handleClear()
@@ -347,6 +350,11 @@ export default defineComponent({
     const pickerSize = computed(() => {
       return props.size || elFormItem.size || ELEMENT.size
     })
+
+    const popperPaneRef = computed(() => {
+      return refPopper.value?.popperRef
+    })
+
     const onClickOutside = () => {
       if (!pickerVisible.value) return
       pickerVisible.value = false
@@ -359,7 +367,7 @@ export default defineComponent({
         const value = parseUserInputToDayjs(displayValue.value)
         if (value) {
           if (isValidValue(value)) {
-            emitInput(value.toDate())
+            emitInput(Array.isArray(value) ? value.map(_=> _.toDate()) : value.toDate())
             userInput.value = null
           }
         }
@@ -456,7 +464,7 @@ export default defineComponent({
 
     const handleStartChange = () => {
       const value = parseUserInputToDayjs(userInput.value && userInput.value[0])
-      if (value) {
+      if (value && value.isValid()) {
         userInput.value = [formatDayjsToString(value), displayValue.value[1]]
         const newValue = [value, parsedValue.value && parsedValue.value[1]]
         if (isValidValue(newValue)) {
@@ -468,7 +476,7 @@ export default defineComponent({
 
     const handleEndChange = () => {
       const value = parseUserInputToDayjs(userInput.value && userInput.value[1])
-      if (value) {
+      if (value && value.isValid()) {
         userInput.value = [displayValue.value[0], formatDayjsToString(value)]
         const newValue = [parsedValue.value && parsedValue.value[0], value]
         if (isValidValue(newValue)) {
@@ -496,6 +504,7 @@ export default defineComponent({
       onUserInput,
       handleChange,
       handleKeydown,
+      popperPaneRef,
       onClickOutside,
       pickerSize,
       isRangeInput,

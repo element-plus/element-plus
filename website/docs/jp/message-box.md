@@ -326,3 +326,4 @@ import { ElMessageBox } from 'element-plus';
 | inputErrorMessage | バリデーション失敗時のエラーメッセージ | string | — | Illegal input |
 | center | コンテンツを中央に配置するかどうか | boolean | — | false |
 | roundButton | 丸いボタンを使うかどうか | boolean | — | false |
+| buttonSize | custom size of confirm and cancel buttons | string | mini / small / medium / large | small |

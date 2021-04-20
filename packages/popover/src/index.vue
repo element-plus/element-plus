@@ -45,6 +45,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    tabindex: Number,
   },
   emits,
   setup(props, ctx) {
@@ -78,6 +79,7 @@ export default defineComponent({
       showArrow,
       transition,
       visibility,
+      tabindex,
     } = this
 
     const kls = [
@@ -93,8 +95,8 @@ export default defineComponent({
       popperStyle: popperStyle,
       popperId,
       visibility,
-      onMouseEnter: onPopperMouseEnter,
-      onMouseLeave: onPopperMouseLeave,
+      onMouseenter: onPopperMouseEnter,
+      onMouseleave: onPopperMouseLeave,
       onAfterEnter,
       onAfterLeave,
       stopPopperMouseEvent: false,
@@ -110,6 +112,7 @@ export default defineComponent({
     const _trigger = trigger ? renderTrigger(trigger, {
       ariaDescribedby: popperId,
       ref: 'triggerRef',
+      tabindex,
       ...events,
     }) : createCommentVNode('v-if', true)
 

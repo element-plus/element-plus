@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import type { App } from 'vue'
 
 type OptionalKeys<T extends Record<string, unknown>> = {
   [K in keyof T]: T extends Record<K, T[K]>

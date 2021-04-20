@@ -3,6 +3,7 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
+import type { ResizableElement } from '@element-plus/utils/resize-event'
 import throttle from 'lodash/throttle'
 import { parseHeight } from '../util'
 import {
@@ -21,7 +22,7 @@ function useStyle (
   store: Store,
   table: Table,
 ) {
-  const $ElEMENT = useGlobalConfig()
+  const $ELEMENT = useGlobalConfig()
   const isHidden = ref(false)
   const renderExpanded = ref(null)
   const resizeProxyVisible = ref(false)
@@ -51,6 +52,7 @@ function useStyle (
     },
     {
       immediate: true,
+      deep: true,
     },
   )
   watchEffect(() => {
@@ -152,13 +154,12 @@ function useStyle (
   }, 10)
 
   const bindEvents = () => {
+    window.addEventListener('resize', doLayout)
     table.refs.bodyWrapper.addEventListener('scroll', syncPostion, {
       passive: true,
     })
     if (props.fit) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      addResizeListener(table.vnode.el, resizeListener)
+      addResizeListener(table.vnode.el as ResizableElement, resizeListener)
     }
   }
   onUnmounted(() => {
@@ -166,10 +167,9 @@ function useStyle (
   })
   const unbindEvents = () => {
     table.refs.bodyWrapper?.removeEventListener('scroll', syncPostion, true)
+    window.removeEventListener('resize', doLayout)
     if (props.fit) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      removeResizeListener(table.vnode.el, resizeListener)
+      removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
     }
   }
   const resizeListener = () => {
@@ -197,7 +197,7 @@ function useStyle (
     }
   }
   const tableSize = computed(() => {
-    return props.size || $ElEMENT.size
+    return props.size || $ELEMENT.size
   })
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout

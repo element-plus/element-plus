@@ -115,6 +115,12 @@ $directions: rtl, ltr, ttb, btt;
     font-size: $--font-size-extra-large;
     color: inherit;
     background-color: transparent;
+    outline: none;
+    &:hover {
+      i {
+        color: $--color-primary;
+      }
+    }
   }
 
   &__body {

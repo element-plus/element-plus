@@ -1,5 +1,5 @@
 import isServer from './isServer'
-import { getConfig } from './config'
+import * as configs from './config'
 import { addClass, removeClass, on } from './dom'
 import { EVENT_CODE } from './aria'
 
@@ -194,7 +194,7 @@ Object.defineProperty(PopupManager, 'zIndex', {
   configurable: true,
   get() {
     if (zIndex === undefined) {
-      zIndex = getConfig('zIndex') as number || 2000
+      zIndex = configs.getConfig('zIndex') as number || 2000
     }
     return zIndex
   },

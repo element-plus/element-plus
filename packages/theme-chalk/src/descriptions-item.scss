@@ -1,0 +1,20 @@
+@import 'mixins/mixins';
+@import 'common/var';
+
+@include b(descriptions) {
+  @include e(label) {
+    &.is-bordered-label {
+      font-weight: bold;
+      color: $--color-text-secondary;
+      background: $--descriptions-item-bordered-label-background;
+    }
+
+    &:not(.is-bordered-label) {
+      margin-right: 10px;
+    }
+  }
+
+  @include e(content) {
+
+  }
+}

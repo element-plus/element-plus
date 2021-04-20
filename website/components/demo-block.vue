@@ -237,6 +237,7 @@ ${this.codepen.style}
       document.body.appendChild(form)
 
       form.submit()
+      document.body.removeChild(form)
     },
 
     scrollHandler() {

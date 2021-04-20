@@ -128,6 +128,49 @@ describe('TimePicker', () => {
     expect(vm.value instanceof Date).toBeTruthy()
   })
 
+  it('should update oldValue when visible change', async () => {
+    const wrapper = _mount(`<el-time-picker
+        v-model="value"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }))
+
+    // show picker panel
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+
+    // select time
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const minutesEl = list[1]
+    const secondsEl = list[2]
+    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    const minuteEl = minutesEl.querySelectorAll('.el-time-spinner__item')[36] as any
+    const secondEl = secondsEl.querySelectorAll('.el-time-spinner__item')[20] as any
+    hourEl.click()
+    await nextTick()
+    minuteEl.click()
+    await nextTick()
+    secondEl.click()
+    await nextTick();
+
+    // click confirm button
+    (document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    const date = (wrapper.vm as any).value
+    expect(date.getHours()).toBe(4)
+    expect(date.getMinutes()).toBe(36)
+    expect(date.getSeconds()).toBe(20)
+
+    // show picker panel and click cancel button
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick();
+    (document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    expect(date.getHours()).toBe(4)
+    expect(date.getMinutes()).toBe(36)
+    expect(date.getSeconds()).toBe(20)
+  })
+
   it('set format', async () => {
     const wrapper = _mount(`<el-time-picker
         v-model="value"
@@ -144,7 +187,7 @@ describe('TimePicker', () => {
     expect(secondsDom).toBeUndefined()
   })
 
-  it.only('event change, focus, blur', async () => {
+  it('event change, focus, blur', async () => {
     const changeHandler = jest.fn()
     const focusHandler = jest.fn()
     const blurHandler = jest.fn()
@@ -176,9 +219,11 @@ describe('TimePicker', () => {
     const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
     hourEl.click()
     await nextTick()
-    expect(changeHandler).toHaveBeenCalledTimes(1);
-    (document.querySelector('.el-time-panel__btn.cancel') as any).click()
+    expect(changeHandler).toHaveBeenCalledTimes(0);
+    (document.querySelector('.el-time-panel__btn.confirm') as any).click()
     await nextTick()
+    await nextTick() // onchange is triggered by props.modelValue update
+    expect(changeHandler).toHaveBeenCalledTimes(1)
     expect(blurHandler).toHaveBeenCalledTimes(1)
   })
 
@@ -245,6 +290,21 @@ describe('TimePicker', () => {
     const enabledSeconds = getSpinnerTextAsArray(secondsEl, ':not(.disabled)')
     expect(enabledMinutes).toEqual([0])
     expect(enabledSeconds).toEqual([0])
+  })
+
+  it('ref focus', async () => {
+    _mount(`<el-time-picker
+        v-model="value"
+        ref="input"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }), {
+      mounted() {
+        this.$refs.input.focus()
+      },
+    })
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
   })
 })
 

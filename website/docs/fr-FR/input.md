@@ -473,7 +473,7 @@ export default defineComponent({
     const handleSelect = (item) => {
       console.log(item);
     };
-    
+
     const handleIconClick = (ev) => {
       console.log(ev);
     };
@@ -607,7 +607,7 @@ export default defineComponent ({
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 | ----| ----| ----| ---- | ----- |
 | type| Type de l'input. | string | text, textarea et autres [types d'input natifs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
-| value / v-model | Variable liée. | string / number | — | — |
+| modelValue / v-model | Variable liée. | string / number | — | — |
 | maxlength| Identique à `maxlength` dans l'input natif. | number| — | — |
 | minlength| Identique à `minlength` dans l'input natif. | number | — | — |
 | show-word-limit | Affiche le nombre de caractères restant， ne marche que lorsque `type` est 'text' ou 'textarea'. | boolean    |  —  | false |
@@ -621,7 +621,6 @@ export default defineComponent ({
 | rows | Nombre de ligne pour une zone de texte, ne marche que si `type` est 'textarea'. | number | — | 2 |
 | autosize | Si la zone de texte à une hauteur adaptative, ne marche que si `type` est 'textarea'. Peut accepter un objet, e.g. { minRows: 2, maxRows: 6 }  | boolean / object | — | false |
 | autocomplete | Identique à `autocomplete` dans l'input natif. | string | on / off | off |
-| auto-complete | @DEPRECATED dans la prochaine version majeure. | string | on/off | off |
 | name | Identique à `name` dans l'input natif. | string | — | — |
 | readonly | Identique à `readonly` dans l'input natif. | boolean | — | false |
 | max | Identique à `max` dans l'input natif. | — | — | — |

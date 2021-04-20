@@ -207,3 +207,12 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 | spinner | class name of the custom spinner | string | — | — |
 | background | background color of the mask | string | — | — |
 | customClass | custom class name for Loading | string | — | — |
+
+### Directives
+
+| Name | Description | Type  |
+| -------------- | ---------------- | --------- |
+| v-loading | show animation while loading data | boolean |
+| element-loading-text | loading text that displays under the spinner | string |
+| element-loading-spinner | class name of the custom spinner | string |
+| element-loading-background | background color of the mask | string |

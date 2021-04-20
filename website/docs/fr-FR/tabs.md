@@ -308,3 +308,10 @@ Seuls les onglets de type carte supportent l'ajout et la suppression.
 | name      | Identifiant correspondant au nom des onglets, utilisé par Tabs pour savoir quel est l'onglet actif. | string | — | Numéro de l'onglet dans l'ordre d'apparition, e.g. le premier est '1'. |
 | closable  | Si l'onglet est supprimable. | boolean   | — |  false  |
 | lazy  | Si le contenu de l'onglet bénéficie du lazy-loading.  | boolean   | — |  false  |
+
+### Tab-pane Slots
+
+| Name | Description |
+|------|--------|
+| - | Tab-pane's content |
+| label | Tab-pane's label |

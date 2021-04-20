@@ -1,4 +1,4 @@
-import type { ComponentPublicInstance, InjectionKey } from 'vue'
+import type { InjectionKey } from 'vue'
 import type { Emitter } from 'mitt'
 
 interface SelectGroupContext {
@@ -10,21 +10,22 @@ export interface SelectContext {
     multiple?: boolean
     multipleLimit?: number
     valueKey?: string
-    modelValue?: string | number | unknown[]
+    modelValue?: string | number | unknown | unknown[]
     popperClass?: string
     remote?: boolean
   }
   selectWrapper: HTMLElement
-  cachedOptions: any[]
+  cachedOptions: Map<any,any>
   hoverIndex: number
   optionsCount: number
   filteredOptionsCount: number
-  options: any[]
+  options: Map<any,any>
+  optionsArray: any[]
   selected: any | any[]
   selectEmitter: Emitter
   setSelected(): void
-  onOptionCreate(vm: ComponentPublicInstance): void
-  onOptionDestroy(i: number): void
+  onOptionCreate(vm: SelectOptionProxy): void
+  onOptionDestroy(key: number | string | Record<string, any>): void
   handleOptionSelect(vm: unknown, byClick: boolean): void
 }
 

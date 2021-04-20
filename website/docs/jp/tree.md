@@ -709,8 +709,8 @@
 | getHalfCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | - |
 | getCurrentKey   | return the highlight node's key (null if no node is highlighted) | — |
 | getCurrentNode  | return the highlight node's data (null if no node is highlighted) | — |
-| setCurrentKey   | set highlighted node by key, only works when `node-key` is assigned | (key) the node's key to be highlighted. If `null`, cancel the currently highlighted node |
-| setCurrentNode  | set highlighted node, only works when `node-key` is assigned | (node) the node to be highlighted |
+| setCurrentKey   | set highlighted node by key, only works when `node-key` is assigned | (key, shouldAutoExpandParent=true) 1. the node's key to be highlighted. If `null`, cancel the currently highlighted node 2. whether to automatically expand parent node |
+| setCurrentNode  | set highlighted node, only works when `node-key` is assigned | (node, shouldAutoExpandParent=true) 1. the node to be highlighted 2. whether to automatically expand parent node |
 | getNode         | get node by data or key | (data) the node's data or key |
 | remove          | remove a node, only works when node-key is assigned | (data) the node's data or node to be deleted |
 | append          | append a child node to a given node in the tree | (data, parentNode) 1. child node's data to be appended 2. parent node's data, key or node |

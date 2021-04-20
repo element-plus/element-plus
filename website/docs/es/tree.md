@@ -832,8 +832,8 @@ Puede arrastrar y soltar nodos de Tree añadiendo un atributo `draggable` .
 | getHalfCheckedKeys | Si el nodo puede ser seleccionado (`show-checkbox` es `true`), devuelve la mitad del array de claves del nodo actualmente seleccionado. | - |
 | getCurrentKey     | devuelve la clave del nodo resaltado actualmente (null si no hay ninguno) | —                                        |
 | getCurrentNode    | devuelve los datos del nodo de resaltado (nulo si no hay ningún nodo resaltado) | —                                        |
-| setCurrentKey     | establece el nodo resaltado por la clave, solo funciona si `node-key` está asignado | (key) la clave del nodo a ser resaltado. Si es `null`, cancela los nodos actualmente resaltados |
-| setCurrentNode    | establece el nodo resaltado, solo funciona si `node-key` está asignado | (node) nodo a ser resaltado              |
+| setCurrentKey     | establece el nodo resaltado por la clave, solo funciona si `node-key` está asignado | (key, shouldAutoExpandParent=true) 1. la clave del nodo a ser resaltado. Si es `null`, cancela los nodos actualmente resaltados 2. whether to automatically expand parent node |
+| setCurrentNode    | establece el nodo resaltado, solo funciona si `node-key` está asignado | (node, shouldAutoExpandParent=true) 1. nodo a ser resaltado 2. whether to automatically expand parent node |
 | getNode         | devuelve el nodo por el dato o la clave | (data) los datos o clave del nodo |
 | remove          | elimina un nodo, solo funciona si `node-key` está asignado  | (data) los datos del nodo o nodo a borrar |
 | append          | añadir un nodo hijo a un nodo determinado del árbol | (data, parentNode) 1. los datos del nodo hijo que se añadirán 2. los datos del nodo padre, clave o nodo |

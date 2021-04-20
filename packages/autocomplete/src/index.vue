@@ -33,8 +33,8 @@
           @clear="handleClear"
           @keydown.up.prevent="highlight(highlightedIndex - 1)"
           @keydown.down.prevent="highlight(highlightedIndex + 1)"
-          @keydown.enter.prevent="handleKeyEnter"
-          @keydown.tab.prevent="close"
+          @keydown.enter="handleKeyEnter"
+          @keydown.tab="close"
         >
           <template v-if="$slots.prepend" #prepend>
             <slot name="prepend"></slot>

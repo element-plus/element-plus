@@ -14,7 +14,7 @@ fs.copyFileSync(
 const newIndexPath = path.resolve(__dirname, '../lib/index.d.ts')
 fs.copyFileSync(path.resolve(__dirname, '../lib/element-plus/index.d.ts'), newIndexPath)
 const index = fs.readFileSync(newIndexPath)
-const newIndex = index.toString().replace(/@element-plus\//g, './el-').replace('el-utils', 'utils')
+const newIndex = index.toString().replace(/@element-plus\//g, './el-').replace('el-utils', 'utils').replace('el-locale', 'locale')
 fs.writeFileSync(newIndexPath, newIndex)
 
 // remove ep
@@ -37,7 +37,7 @@ fs.readdirSync(libDirPath).forEach(comp => {
       if(outsideImport.test(imp) || imp.includes('@element-plus/')) {
         const newImp = imp.replace(outsideImport, (i, c) => {
           return i.replace(`../${c}`, `../el-${c}`)
-        }).replace('@element-plus/', '../el-').replace('el-utils', 'utils')
+        }).replace(/@element-plus\//g, '../el-').replace('el-utils', 'utils').replace('el-locale', 'locale')
         fs.writeFileSync(path.resolve(__dirname, '../lib', newCompName, 'index.d.ts'), newImp)
       }
     }
@@ -57,7 +57,7 @@ fs.readdirSync(libDirPath).forEach(comp => {
           if (!fs.lstatSync(path.resolve(srcPath, f)).isDirectory()) {
             const imp = fs.readFileSync(path.resolve(srcPath, f)).toString()
             if (imp.includes('@element-plus/')) {
-              const newImp = imp.replace(/@element-plus\//g, '../../el-')
+              const newImp = imp.replace(/@element-plus\//g, '../../el-').replace('el-utils', 'utils').replace('el-locale', 'locale')
               fs.writeFileSync(path.resolve(srcPath, f), newImp)
             }
           }

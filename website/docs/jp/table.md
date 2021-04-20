@@ -347,7 +347,7 @@
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -445,12 +445,12 @@
     <el-table-column
       prop="city"
       label="City"
-      width="120">
+      width="320">
     </el-table-column>
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -556,7 +556,7 @@
     <el-table-column
       prop="address"
       label="Address"
-      width="300">
+      width="600">
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -679,8 +679,7 @@
         </el-table-column>
         <el-table-column
           prop="address"
-          label="Address"
-          width="300">
+          label="Address">
         </el-table-column>
         <el-table-column
           prop="zip"
@@ -1897,7 +1896,7 @@ rowspan と colspan を設定すると、セルをマージすることができ
 | width | column width | string | — | — |
 | min-width | column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion | string | — | — |
 | fixed | whether column is fixed at left/right. Will be fixed at left if `true` | string/boolean | true/left/right | — |
-| render-header | render function for table header of this column | Function(h, { column, $index }) | — | — |
+| render-header | render function for table header of this column | Function({ column, $index }) | — | — |
 | sortable | whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table | boolean, string | true, false, custom | false |
 | sort-method | sorting method, works when `sortable` is `true`. Should return a number, just like Array.sort | Function(a, b) | — | — |
 | sort-by | specify which property to sort by, works when `sortable` is `true` and `sort-method` is `undefined`. If set to an Array, the column will sequentially sort by the next property if the previous one is equal | Function(row, index)/String/Array | — | — |

@@ -197,7 +197,7 @@
       :value="item.value">
     </el-option>
   </el-select>
-  
+
   <el-select
     v-model="value2"
     multiple
@@ -527,7 +527,7 @@
 ### 属性の選択
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | boolean / string / number | — | — |
+| value / v-model | バインディング値 | string / number / boolean / object | — | — |
 | multiple | 複数セレクトが有効かどうか | boolean | — | false |
 | disabled | セレクトが無効になっているかどうか | boolean | — | false |
 | value-key | 値がオブジェクトの場合に必要な、値の一意の ID キー名 | string | — | value |
@@ -537,7 +537,6 @@
 | multiple-limit | `multiple` が `true` のときにユーザがセレクトできるオプションの最大数。0に設定した場合は無制限 | number | — | 0 |
 | name | セレクト入力の名前属性 | string | — | — |
 | autocomplete | セレクト入力のオートコンプリート属性 | string | — | off |
-| auto-complete | 次期メジャーバージョンでは@DEPRECATED | string | — | off |
 | placeholder | プレースホルダー | string | — | Select |
 | filterable | セレクトがフィルタリング可能かどうか | boolean | — | false |
 | allow-create | 新しいアイテムの作成を許可するかどうかを指定します。これを使うには、`filterable` がtrueでなければなりません。 | boolean | — | false |
@@ -580,7 +579,7 @@
 ### オプション属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value | オプションの値 | string/number/object | — | — |
+| value | オプションの値 | string / number / boolean / object | — | — |
 | label | オプションのラベル、省略された場合は `value` と同じ | string/number | — | — |
 | disabled | オプションが無効かどうか | boolean | — | false |
 
