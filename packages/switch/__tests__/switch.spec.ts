@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import Switch from '../src/index.vue'
+import { sleep } from '@element-plus/test-utils'
 
 describe('Switch.vue', () => {
 
@@ -227,5 +228,102 @@ describe('Switch.vue', () => {
     vm.value = false
     await vm.$nextTick()
     expect(inputEl.checked).toEqual(false)
+  })
+
+  test('beforeChange function return promise', async () => {
+    const wrapper = mount({
+      components: {
+        'el-switch': Switch,
+      },
+      template: `
+        <div>
+          <el-switch 
+            v-model="value"
+            :loading="loading"
+            :before-change="beforeChange"
+          />
+        </div>
+      `,
+      data() {
+        return {
+          value: true,
+          loading: false,
+          asyncResult: 'error',
+        }
+      },
+      methods: {
+        beforeChange() {
+          this.loading = true
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              this.loading = false
+              return this.asyncResult == 'success'
+                ? resolve(true)
+                : reject(new Error('error'))
+            }, 1000)
+          })
+        },
+      },
+    })
+    const vm = wrapper.vm
+
+    const coreWrapper = wrapper.find('.el-switch__core')
+
+    await coreWrapper.trigger('click')
+    await sleep(1000)
+    expect(vm.value).toEqual(true)
+
+    vm.asyncResult = 'success'
+    await vm.$nextTick()
+
+    await coreWrapper.trigger('click')
+    await sleep(1000)
+    expect(vm.value).toEqual(false)
+
+    await coreWrapper.trigger('click')
+    await sleep(1000)
+    expect(vm.value).toEqual(true)
+  })
+
+  test('beforeChange function return truthy/falsy', async () => {
+    const wrapper = mount({
+      components: {
+        'el-switch': Switch,
+      },
+      template: `
+        <div>
+          <el-switch 
+            v-model="value"
+            :before-change="beforeChange"
+          />
+        </div>
+      `,
+      data() {
+        return {
+          value: true,
+          result: false,
+        }
+      },
+      methods: {
+        beforeChange() {
+          // do something ...
+          return this.result
+        },
+      },
+    })
+    const vm = wrapper.vm
+
+    const coreWrapper = wrapper.find('.el-switch__core')
+
+    await coreWrapper.trigger('click')
+    expect(vm.value).toEqual(true)
+
+    vm.result = true
+
+    await coreWrapper.trigger('click')
+    expect(vm.value).toEqual(false)
+
+    await coreWrapper.trigger('click')
+    expect(vm.value).toEqual(true)
   })
 })

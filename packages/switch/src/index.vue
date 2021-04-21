@@ -43,6 +43,7 @@
 <script lang='ts'>
 import { defineComponent, computed, onMounted, ref, inject, nextTick, watch } from 'vue'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
+import { isPromise } from '@vue/shared'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
@@ -66,6 +67,7 @@ interface ISwitchProps {
   validateEvent: boolean
   id: string
   loading:boolean
+  beforeChange?: () => void
 }
 
 export default defineComponent({
@@ -132,6 +134,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    beforeChange: Function,
   },
   emits: ['update:modelValue', 'change', 'input'],
   setup(props: ISwitchProps, ctx) {
@@ -191,7 +194,23 @@ export default defineComponent({
     }
 
     const switchValue = (): void => {
-      !switchDisabled.value && handleChange()
+      if (switchDisabled.value) return
+
+      const beforeChange = props.beforeChange
+      if (!beforeChange) {
+        return handleChange()
+      }
+
+      const before = beforeChange() as any
+      if (isPromise(before)) {
+        before.then(result => {
+          if (!!result) {
+            handleChange()
+          }
+        }).catch(() => { /* prevent log error */ })
+      } else if (!!before) {
+        handleChange()
+      }
     }
 
     const setBackgroundColor = (): void => {
