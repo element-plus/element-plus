@@ -89,6 +89,7 @@
       color: $--color-danger;
     }
   }
+
 }
 
 @include b(progress-bar) {
@@ -116,6 +117,11 @@
     transition: width 0.6s ease;
 
     @include utils-vertical-center;
+
+    @include m(indeterminate) {
+      transform: translateZ(0);
+      animation: indeterminate 3s infinite;
+    }
   }
 
   @include e(innerText) {
@@ -134,5 +140,15 @@
 
   100% {
     background-position: 32px 0;
+  }
+}
+
+@keyframes indeterminate {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
   }
 }
