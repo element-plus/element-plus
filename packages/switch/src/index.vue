@@ -226,6 +226,10 @@ export default defineComponent({
       coreEl.children[0].style.color = newColor
     }
 
+    const focus = (): void => {
+      input.value?.focus?.()
+    }
+
     onMounted(() => {
       if (props.activeValue || props.inactiveValue) {
         setBackgroundColor()
@@ -241,6 +245,7 @@ export default defineComponent({
       checked,
       handleChange,
       switchValue,
+      focus,
     }
   },
 })
