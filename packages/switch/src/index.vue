@@ -44,8 +44,10 @@
 import { defineComponent, computed, onMounted, ref, inject, nextTick, watch } from 'vue'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
 import { isPromise } from '@vue/shared'
+import { isBool } from '@element-plus/utils/util'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
+import type { PropType } from 'vue'
 
 
 type ValueType = boolean | string | number;
@@ -67,7 +69,7 @@ interface ISwitchProps {
   validateEvent: boolean
   id: string
   loading:boolean
-  beforeChange?: () => void
+  beforeChange?: () => (Promise<boolean> | boolean)
 }
 
 export default defineComponent({
@@ -134,7 +136,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    beforeChange: Function,
+    beforeChange: Function as PropType<() => (Promise<boolean> | boolean)>,
   },
   emits: ['update:modelValue', 'change', 'input'],
   setup(props: ISwitchProps, ctx) {
@@ -198,18 +200,21 @@ export default defineComponent({
 
       const beforeChange = props.beforeChange
       if (!beforeChange) {
-        return handleChange()
+        handleChange()
+        return
       }
 
-      const before = beforeChange() as any
+      const before = beforeChange()
       if (isPromise(before)) {
         before.then(result => {
-          if (!!result) {
+          if (result) {
             handleChange()
           }
         }).catch(() => { /* prevent log error */ })
-      } else if (!!before) {
+      } else if (isBool(before) && before) {
         handleChange()
+      } else if (!isBool(before)) {
+        throw new Error(`beforeChange Function must return Promise<boolean> or boolean.`)
       }
     }
 

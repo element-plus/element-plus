@@ -1,6 +1,8 @@
 import { mount } from '@vue/test-utils'
 import Switch from '../src/index.vue'
-import { sleep } from '@element-plus/test-utils'
+import { nextTick } from 'vue'
+
+jest.useFakeTimers()
 
 describe('Switch.vue', () => {
 
@@ -269,23 +271,25 @@ describe('Switch.vue', () => {
 
     const coreWrapper = wrapper.find('.el-switch__core')
 
-    await coreWrapper.trigger('click')
-    await sleep(1000)
+    coreWrapper.trigger('click')
+    jest.runAllTimers()
+    await nextTick()
     expect(vm.value).toEqual(true)
 
     vm.asyncResult = 'success'
-    await vm.$nextTick()
 
-    await coreWrapper.trigger('click')
-    await sleep(1000)
+    coreWrapper.trigger('click')
+    jest.runAllTimers()
+    await nextTick()
     expect(vm.value).toEqual(false)
 
-    await coreWrapper.trigger('click')
-    await sleep(1000)
+    coreWrapper.trigger('click')
+    jest.runAllTimers()
+    await nextTick()
     expect(vm.value).toEqual(true)
   })
 
-  test('beforeChange function return truthy/falsy', async () => {
+  test('beforeChange function return boolean', async () => {
     const wrapper = mount({
       components: {
         'el-switch': Switch,
