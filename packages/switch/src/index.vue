@@ -45,6 +45,7 @@ import { defineComponent, computed, onMounted, ref, inject, nextTick, watch } fr
 import { elFormKey, elFormItemKey } from '@element-plus/form'
 import { isPromise } from '@vue/shared'
 import { isBool } from '@element-plus/utils/util'
+import throwError, { warn } from '@element-plus/utils/error'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import type { PropType } from 'vue'
@@ -147,6 +148,8 @@ export default defineComponent({
     const input = ref(null)
     const core = ref(null)
 
+    const scope = 'ElSwitch'
+
     watch(() => props.modelValue, () => {
       isModelValue.value = true
     })
@@ -198,23 +201,31 @@ export default defineComponent({
     const switchValue = (): void => {
       if (switchDisabled.value) return
 
-      const beforeChange = props.beforeChange
+      const { beforeChange } = props
       if (!beforeChange) {
         handleChange()
         return
       }
 
-      const before = beforeChange()
-      if (isPromise(before)) {
-        before.then(result => {
+      const shouldChange = beforeChange()
+
+      const isExpectType = [isPromise(shouldChange), isBool(shouldChange)].some(i => i)
+      if (!isExpectType) {
+        throwError(scope, 'beforeChange must return type `Promise<boolean>` or `boolean`')
+      }
+
+      if (isPromise(shouldChange)) {
+        shouldChange.then(result => {
           if (result) {
             handleChange()
           }
-        }).catch(() => { /* prevent log error */ })
-      } else if (isBool(before) && before) {
+        }).catch(e => {
+          if (process.env.NODE_ENV !== 'production') {
+            warn(scope, `some error occurred: ${e}`)
+          }
+        })
+      } else if (shouldChange) {
         handleChange()
-      } else if (!isBool(before)) {
-        throw new Error(`beforeChange Function must return Promise<boolean> or boolean.`)
       }
     }
 
