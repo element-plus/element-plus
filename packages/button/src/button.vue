@@ -36,8 +36,8 @@ type IButtonType = PropType<'primary' | 'success' | 'warning' | 'danger' | 'info
 type IButtonNativeType = PropType<'button' | 'submit' | 'reset'>
 
 interface IButtonProps {
-  type: string
-  size: string
+  type: IButtonType
+  size: PropType<ComponentSize>
   icon: string
   nativeType: string
   loading: boolean
