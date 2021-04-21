@@ -4,7 +4,7 @@ Element Plus utilise le style BEM pour le CSS afin que vous puissiez écraser le
 
 ### Changer la couleur du thème
 
-Si vous avez juste besoin de changer la couleur du thème, le [générateur de thème en ligne](https://wsmdyj.github.io/element-plus-theme/#/en-US) est recommandé. La couleur du thème d'Element Plus est un bleu clair et agréable. En le changeant, vous rendez Element Plus visuellement plus adapté à vos projets.
+Si vous avez juste besoin de changer la couleur du thème, le [générateur de thème en ligne](https://element-plus.github.io/theme-chalk-preview/#/en-US) est recommandé. La couleur du thème d'Element Plus est un bleu clair et agréable. En le changeant, vous rendez Element Plus visuellement plus adapté à vos projets.
 
 Le site précédent vous permet de visualiser et de télécharger un nouveau thème immédiatement (pour importer un nouveau thème, référez-vous à la partie 'Importer un thème personnalisé' or 'Importer un thème de composant à la demande' de cette section).
 

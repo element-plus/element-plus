@@ -4,7 +4,7 @@ Element Plus uses BEM-styled CSS so that you can override styles easily. But if 
 
 ### Changing theme color
 
-If you just want to change the theme color of Element Plus, the [theme preview website](https://wsmdyj.github.io/element-plus-theme/#/en-US) is recommended. The theme color of Element Plus is bright and friendly blue. By changing it, you can make Element Plus more visually connected to specific projects.
+If you just want to change the theme color of Element Plus, the [theme preview website](https://element-plus.github.io/theme-chalk-preview/#/en-US) is recommended. The theme color of Element Plus is bright and friendly blue. By changing it, you can make Element Plus more visually connected to specific projects.
 
 The above website enables you to preview theme of a new theme color in real-time, and it can generate a complete style package based on the new theme color for you to download directly (to import new style files in your project, please refer to the 'Import custom theme' or 'Import component theme on demand' part of this section).
 

@@ -4,7 +4,7 @@ Element Plus utiliza la metodología BEM en CSS con la finalidad de que puedas s
 
 ### Cambiando el color del tema
 
-Si lo que se busca es cambiar el color del tema de Element, se recomienda utilizar el [sitio de visualización de temas](https://wsmdyj.github.io/element-plus-theme/#/en-US). Element Plus utiliza un color azul brillante y amigable como tema principal. Al cambiarlo, puede hacer que Element Plus este más conectado visualmente a proyectos específicos.
+Si lo que se busca es cambiar el color del tema de Element, se recomienda utilizar el [sitio de visualización de temas](https://element-plus.github.io/theme-chalk-preview/#/en-US). Element Plus utiliza un color azul brillante y amigable como tema principal. Al cambiarlo, puede hacer que Element Plus este más conectado visualmente a proyectos específicos.
 
 Este sitio, le permitirá obtener una vista previa del tema con un nuevo color en tiempo real, y, además, obtener un paquete de estilos completo basado en el nuevo color para su descarga (para importar estos nuevos estilos, consulte la sección ‘Importar un tema personalizado’ o ‘Importar un tema de componente bajo demanda' que se encuentran dentro de esta sección).
 
