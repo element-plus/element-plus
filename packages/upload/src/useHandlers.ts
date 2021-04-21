@@ -149,6 +149,7 @@ export default (props: IUseHandlersProps) => {
   })
 
   return {
+    abort,
     clearFiles,
     handleError,
     handleProgress,

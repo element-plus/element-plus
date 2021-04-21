@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 import {
   computed,
   defineComponent,
@@ -141,6 +141,7 @@ export default defineComponent({
     })
 
     const {
+      abort,
       clearFiles,
       handleError,
       handleProgress,
@@ -164,6 +165,7 @@ export default defineComponent({
     })
 
     return {
+      abort,
       dragOver: ref(false),
       draging: ref(false),
       handleError,
