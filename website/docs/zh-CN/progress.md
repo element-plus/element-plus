@@ -188,7 +188,7 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 
 ### 动画进度条
 
-:::demo Progress 组件设置`indeterminate`属性控制进度条运动。通过设置`duration`属性可以控制运动速度。
+:::demo Progress 组件设置 `indeterminate` 属性控制进度条运动。通过设置 `duration` 属性可以控制运动速度。
 
 ```html
 <el-progress :percentage="50" :indeterminate="true"></el-progress>

@@ -213,8 +213,8 @@
 | stroke-width | プログレスバーの幅 | number | — | 6 |
 | text-inside | パーセントをプログレスバーの中に配置するかどうか、`type`が 'line'の場合のみ動作します。 | boolean | — | false |
 | status | プログレスバーの現在の状態 | string | success/exception/warning | — |
-| indeterminate  | set indeterminate progress | boolean | - | false |
-| duration  | control the animation duration of indeterminate progress | number | - | 3 |
+| indeterminate  | 操作にかかる時間を示しません | boolean | - | false |
+| duration  | indeterminateのプログレスバーのアニメーション期間 | number | - | 3 |
 | color  | プログレスバーの背景色を指定します。`status` プロップをオーバーライドします。 | string/function/array | — | '' |
 | width | サークルプログレスバーのキャンバス幅 | number | — | 126 |
 | show-text | パーセンテージ表示の有無 | boolean | — | true |
