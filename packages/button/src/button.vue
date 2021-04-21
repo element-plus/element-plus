@@ -94,7 +94,7 @@ export default defineComponent({
 
   emits: ['click'],
 
-  setup(props, ctx) {
+  setup(props: IButtonProps, { emit }) {
     const $ELEMENT = useGlobalConfig()
 
     const elForm = inject(elFormKey, {} as ElFormContext)
@@ -109,7 +109,7 @@ export default defineComponent({
 
     //methods
     const handleClick = evt => {
-      ctx.emit('click', evt)
+      emit('click', evt)
     }
 
     return {
