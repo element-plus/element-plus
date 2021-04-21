@@ -11,6 +11,21 @@ describe('PageHeader.vue', () => {
     expect(wrapper.find('.el-page-header__content').text()).toEqual(AXIOM)
   })
 
+  test('should render icon props', () => {
+    const icon = 'el-icon-arrow-left'
+    const wrapper = mount(PageHeader, {
+      props: { icon: icon },
+    })
+    expect(wrapper.find('.el-page-header__icon i').classes()).toContain(icon)
+  })
+
+  test('should render icon slots', () => {
+    const wrapper = mount(PageHeader, {
+      slots: { icon: AXIOM },
+    })
+    expect(wrapper.find('.el-page-header__icon').text()).toEqual(AXIOM)
+  })
+
   test('slot content', () => {
     const wrapper = mount(PageHeader, {
       slots: { content: AXIOM },
