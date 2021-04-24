@@ -68,7 +68,8 @@
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | - | - |
+| value / v-model | バインディング値 | string | — | — |
+| disabled | タイムピッカーが無効になっているかどうか | boolean | — | false |
 | editable | 入力が編集可能かどうか | boolean | — | true |
 | clearable | クリアボタンを表示するかどうか | boolean | — | true |
 | size | 入力のサイズ | string | medium / small / mini | — |
