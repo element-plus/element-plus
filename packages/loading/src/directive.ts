@@ -1,34 +1,37 @@
 import Loading from './index'
 
+const INSTANCE_NAME = 'ElLoading'
+
 const createInstance = (el, binding) => {
   const textExr = el.getAttribute('element-loading-text')
   const spinnerExr = el.getAttribute('element-loading-spinner')
   const backgroundExr = el.getAttribute('element-loading-background')
   const customClassExr = el.getAttribute('element-loading-custom-class')
   const vm = binding.instance
-  el.instance = Loading({
-    text: vm && vm[textExr] || textExr,
-    spinner: vm && vm[spinnerExr] || spinnerExr,
-    background: vm && vm[backgroundExr] || backgroundExr,
-    customClass: vm && vm[customClassExr] || customClassExr,
+  const instance = Loading({
+    text: (vm && vm[textExr]) || textExr,
+    spinner: (vm && vm[spinnerExr]) || spinnerExr,
+    background: (vm && vm[backgroundExr]) || backgroundExr,
+    customClass: (vm && vm[customClassExr]) || customClassExr,
     fullscreen: !!binding.modifiers.fullscreen,
     target: !!binding.modifiers.fullscreen ? null : el,
     body: !!binding.modifiers.body,
     visible: true,
     lock: !!binding.modifiers.lock,
   })
+  el[INSTANCE_NAME] = instance
 }
 
 const vLoading = {
   mounted(el, binding) {
-    if(!!binding.value){
+    if (!!binding.value) {
       createInstance(el, binding)
     }
   },
   updated(el, binding) {
-    const instance = el.instance
+    const instance = el[INSTANCE_NAME].instance
     if (binding.oldValue !== binding.value) {
-      if(binding.value) {
+      if (binding.value) {
         createInstance(el, binding)
       } else {
         instance.close()
@@ -36,7 +39,7 @@ const vLoading = {
     }
   },
   unmounted(el) {
-    el?.instance?.close()
+    el?.[INSTANCE_NAME]?.close()
   },
 }
 
