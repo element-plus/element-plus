@@ -1,8 +1,8 @@
-## ページヘッダー
+## PageHeader
 
-ページのパスがシンプルな場合は、パンくず(Breadcrumb)ではなくPageHeaderを使用することをお勧めします。
+If path of the page is simple, it is recommended to use PageHeader instead of the Breadcrumb.
 
-### 基本
+### Basic usage
 
 :::demo
 ```html
@@ -21,19 +21,29 @@
 ```
 :::
 
-### 属性
+### Custom icon
+
+:::demo
+```html
+<el-page-header icon="el-icon-arrow-left" content="detail"></el-page-header>
+```
+:::
+
+### Attributes
 | Attribute | Description   | Type      | Accepted Values               | Default |
 |---------- |-------------- |---------- |------------------------------ | ------ |
-| title     | メインタイトル  | string    |  —                            | Back   |
-| content   | 内容           | string    |  —                            | —      |
+| icon     |  icon    | string    |  —                            | el-icon-back   |
+| title     | main title    | string    |  —                            | Back   |
+| content   | content       | string    |  —                            | —      |
 
-### イベント
+### Events
 | Event Name | Description   | Parameters |
 |----------- |-------------- |----------- |
-| back       | 右側をクリックするとトリガー | — |
+| back       | triggers when right side is clicked | — |
 
-### スロット
-| slot      | Description            |
+### Slots
+| Name      | Description            |
 |---------- | ---------------------- |
-| title     | タイトル                |
-| content   | 内容                    |
+| icon     | custom icon          |
+| title     | title content          |
+| content   | content                |
