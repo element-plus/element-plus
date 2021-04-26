@@ -182,6 +182,29 @@
 ```
 :::
 
+### Indeterminate progress
+
+:::demo Use `indeterminate` attribute to set indeterminate progress, with `duration` to control the animation duration.
+
+```html
+<el-progress :percentage="50" :indeterminate="true"></el-progress>
+<el-progress :percentage="100" :format="format" :indeterminate="true"></el-progress>
+<el-progress :percentage="100" status="success" :indeterminate="true" :duration="5"></el-progress>
+<el-progress :percentage="100" status="warning" :indeterminate="true" :duration="1"></el-progress>
+<el-progress :percentage="50" status="exception" :indeterminate="true"></el-progress>
+
+<script>
+  export default {
+    methods: {
+      format(percentage) {
+        return percentage === 100 ? 'Full' : `${percentage}%`;
+      }
+    }
+  };
+</script>
+```
+:::
+
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 | --- | ---- | ---- | ---- | ---- |
@@ -190,6 +213,8 @@
 | stroke-width | プログレスバーの幅 | number | — | 6 |
 | text-inside | パーセントをプログレスバーの中に配置するかどうか、`type`が 'line'の場合のみ動作します。 | boolean | — | false |
 | status | プログレスバーの現在の状態 | string | success/exception/warning | — |
+| indeterminate  | 操作にかかる時間を示しません | boolean | - | false |
+| duration  | indeterminateのプログレスバーのアニメーション期間 | number | - | 3 |
 | color  | プログレスバーの背景色を指定します。`status` プロップをオーバーライドします。 | string/function/array | — | '' |
 | width | サークルプログレスバーのキャンバス幅 | number | — | 126 |
 | show-text | パーセンテージ表示の有無 | boolean | — | true |

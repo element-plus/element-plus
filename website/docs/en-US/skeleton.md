@@ -169,6 +169,7 @@ We do not recommend rendering lots of fake UI to the browser, it will still caus
         <el-card
           :body-style="{ padding: '0px', marginBottom: '1px' }"
           v-for="item in lists"
+          :key="item.name"
         >
           <img :src="item.imgUrl" class="image multi-content" />
           <div style="padding: 14px;">

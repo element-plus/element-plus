@@ -5,14 +5,6 @@
       "path": "/changelog"
     },
     {
-      "name": "Element React",
-      "href": "https://elemefe.github.io/element-react/"
-    },
-    {
-      "name": "Element Angular",
-      "href": "https://element-angular.faas.ele.me/"
-    },
-    {
       "name": "开发指南",
       "children": [
         {
@@ -82,6 +74,10 @@
             {
               "path": "/space",
               "title": "Space 间距"
+            },
+            {
+              "path": "/scrollbar",
+              "title": "Scrollbar 滚动条"
             }
           ]
         },
@@ -196,6 +192,10 @@
             {
               "path": "/empty",
               "title": "Empty 空状态"
+            },
+            {
+              "path": "/descriptions",
+              "title": "Descriptions 描述列表"
             },
             {
               "path": "/result",
@@ -331,14 +331,6 @@
       "path": "/changelog"
     },
     {
-      "name": "Element React",
-      "href": "https://elemefe.github.io/element-react/"
-    },
-    {
-      "name": "Element Angular",
-      "href": "https://element-angular.faas.ele.me/"
-    },
-    {
       "name": "Development",
       "children": [
         {
@@ -408,6 +400,10 @@
             {
               "path": "/space",
               "title": "Space"
+            },
+            {
+              "path": "/scrollbar",
+              "title": "Scrollbar"
             }
           ]
         },
@@ -518,6 +514,10 @@
             {
               "path": "/empty",
               "title": "Empty"
+            },
+            {
+              "path": "/descriptions",
+              "title": "Descriptions"
             },
             {
               "path": "/result",
@@ -657,14 +657,6 @@
       "path": "/changelog"
     },
     {
-      "name": "Element React",
-      "href": "https://elemefe.github.io/element-react/"
-    },
-    {
-      "name": "Element Angular",
-      "href": "https://element-angular.faas.ele.me/"
-    },
-    {
       "name": "Development",
       "children": [
         {
@@ -734,6 +726,10 @@
             {
               "path": "/space",
               "title": "Space"
+            },
+            {
+              "path": "/scrollbar",
+              "title": "Scrollbar"
             }
           ]
         },
@@ -844,6 +840,10 @@
             {
               "path": "/empty",
               "title": "Empty"
+            },
+            {
+              "path": "/descriptions",
+              "title": "Descriptions"
             },
             {
               "path": "/result",
@@ -983,14 +983,6 @@
       "path": "/changelog"
     },
     {
-      "name": "Element pour React",
-      "href": "https://elemefe.github.io/element-react/"
-    },
-    {
-      "name": "Element pour Angular",
-      "href": "https://element-angular.faas.ele.me/"
-    },
-    {
       "name": "Développement",
       "children": [
         {
@@ -1060,6 +1052,10 @@
             {
               "path": "/space",
               "title": "Space"
+            },
+            {
+              "path": "/scrollbar",
+              "title": "Scrollbar"
             }
           ]
         },
@@ -1170,6 +1166,10 @@
             {
               "path": "/empty",
               "title": "Empty"
+            },
+            {
+              "path": "/descriptions",
+              "title": "Descriptions"
             },
             {
               "path": "/result",
@@ -1309,14 +1309,6 @@
       "path": "/changelog"
     },
     {
-      "name": "Element React",
-      "href": "https://elemefe.github.io/element-react/"
-    },
-    {
-      "name": "Element Angular",
-      "href": "https://element-angular.faas.ele.me/"
-    },
-    {
       "name": "Development",
       "children": [
         {
@@ -1386,6 +1378,10 @@
             {
               "path": "/space",
               "title": "Space"
+            },
+            {
+              "path": "/scrollbar",
+              "title": "Scrollbar"
             }
           ]
         },
@@ -1496,6 +1492,10 @@
             {
               "path": "/empty",
               "title": "Empty"
+            },
+            {
+              "path": "/descriptions",
+              "title": "Descriptions"
             },
             {
               "path": "/result",
