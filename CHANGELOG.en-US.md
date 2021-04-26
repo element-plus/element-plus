@@ -9,11 +9,11 @@
 - Progress: indeterminate progress bar (#1832)
 - Descriptions: new component descriptions (#1856)
 - Scrollbar: new component Scrollbar (#1859)
+- Switch: add beforeChange hook (#1878)
 
 #### Bug fixes
 
 - Fix Image fix image Add the dom of the preview picture to the body (#1577)
-- Fix Switch add beforeChange hook (#1878)
 - Fix Icon fix icon (#1896)
 - Fix page-header add icon props and slots (#1882)
 - Fix Scrollbar perf behavior of scrollbar (#1869)
