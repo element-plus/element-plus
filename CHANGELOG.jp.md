@@ -1,33 +1,56 @@
 ## Changelog
 
+### 1.0.2-beta.41
+
+*2021-04-26*
+
+#### Features
+
+- Progress: indeterminate progress bar (#1832)
+- Descriptions: new component descriptions (#1856)
+- Scrollbar: new component Scrollbar (#1859)
+- Switch: add beforeChange hook (#1878)
+
+#### Bug fixes
+
+- Fix Image fix image Add the dom of the preview picture to the body (#1577)
+- Fix Icon fix icon (#1896)
+- Fix page-header add icon props and slots (#1882)
+- Fix Scrollbar perf behavior of scrollbar (#1869)
+- Fix Button setup props add type (#1879)
+- Fix Upload expose abort method (#1877)
+- Fix Dropdown fix click disabled still trigger (#1865)
+- Fix Virtual-list enhance-virtual-list (#1813)
+- Fix Space string spacer style issue (#1845)
+- Fix Checkbox activeStyle boxShadow error (#1829)
+
 ### 1.0.2-beta.40
 
 *2021-04-14*
 
 #### Bug fixes
 
-- fix(table): page resize event not monitor (#1790)
-- fix(time-picker): added popperRef in picker to Fix issue #1809 (#1812)
-- fix(select): fix select with filterable has wrong dropdown options (#1811)
-- fix(table): fix bug of table crash under complex data (#1805)
-- fix(alert.scss carousel.scss switch.scss): v-enter(vue2) to v-enter(vue3) (#1803)
-- fix(build): not generate code hint files when publish-npm (#1802)
-- fix(avatar): fix src attributes default value (#1770)
-- fix(talbe): null check error (#1807)
-- fix(image-viewer): fix image src attribute error #1791 (#1819)
-- fix(date-picker): date-picker daterange panel clear value and view not updated (#1816)
+- Fix table page resize event not monitor (#1790)
+- Fix time-picker added popperRef in picker to Fix issue #1809 (#1812)
+- Fix select fix select with filterable has wrong dropdown options (#1811)
+- Fix table fix bug of table crash under complex data (#1805)
+- Fix alert.scss carousel.scss switch.scss v-enter(vue2) to v-enter(vue3) (#1803)
+- Fix build not generate code hint files when publish-npm (#1802)
+- Fix avatar fix src attributes default value (#1770)
+- Fix talbe null check error (#1807)
+- Fix image-viewer fix image src attribute error #1791 (#1819)
+- Fix date-picker date-picker daterange panel clear value and view not updated (#1816)
 - style(date-picker): date-picker-com conditional judgment (#1823)
-- fix(docs): footer links error (#1827)
-- fix(table): fix table column rerendered whenever table updates
-
+- Fix docs footer links error (#1827)
+- Fix table fix table column rerendered whenever table updates
+- Fix time-picker time picker change event bug (#1828)
 #### Features
 
-- feat(result): new componet Result (#1818)
+- Result: new componet Result (#1818)
 
 #### Chore updares
 
-- style: using 'Array.prototype.forEach()' (#1826)
-- fix(time-picker): time picker change event bug (#1828)
+- style using 'Array.prototype.forEach()' (#1826)
 
 ### 1.0.2-beta.39
 
