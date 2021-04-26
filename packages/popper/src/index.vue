@@ -102,7 +102,7 @@ export default defineComponent({
     const _t = $slots.trigger?.()
 
     const triggerProps = {
-      ariaDescribedby: popperId,
+      'aria-describedby': popperId,
       class: kls,
       style,
       ref: 'triggerRef',

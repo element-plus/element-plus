@@ -15,6 +15,7 @@ import memo from 'lodash/memoize'
 import { isNumber, isString, $ } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 
+import Scrollbar from '../components/scrollbar'
 import { getScrollDir, isHorizontal, getRTLOffsetType } from '../utils'
 import {
   DefaultListProps,
@@ -111,7 +112,7 @@ const createList = ({
       const windowStyle = computed(() => ([
         {
           position: 'relative',
-          overflow: 'auto',
+          overflow: 'hidden',
           WebkitOverflowScrolling: 'touch',
           willChange: 'transform',
         }, {
@@ -131,6 +132,8 @@ const createList = ({
           width: horizontal ? `${size}px` : '100%',
         }
       })
+
+      const clientSize = computed(() => _isHorizontal.value ? props.width : props.height)
 
       // methods
       const emitEvents = () => {
@@ -216,6 +219,16 @@ const createList = ({
       const onScroll = (e: Event) => {
         $(_isHorizontal) ? scrollHorizontally(e) : scrollVertically(e)
         emitEvents()
+      }
+
+      const onScrollbarScroll = (distanceToGo: number, totalSteps: number) => {
+        const offset = estimatedTotalSize.value / totalSteps * distanceToGo
+        scrollTo(
+          Math.min(
+            estimatedTotalSize.value - (clientSize.value as number),
+            offset,
+          ),
+        )
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -351,6 +364,8 @@ const createList = ({
 
 
       const api = {
+        clientSize,
+        estimatedTotalSize,
         windowStyle,
         windowRef,
         innerRef,
@@ -359,6 +374,7 @@ const createList = ({
         states,
         getItemStyle,
         onScroll,
+        onScrollbarScroll,
         scrollTo,
         scrollToItem,
       }
@@ -379,14 +395,17 @@ const createList = ({
       const {
         $slots,
         className,
+        clientSize,
         containerElement,
         data,
         getItemStyle,
         innerElement,
         itemsToRender,
         innerStyle,
+        layout,
         total,
         onScroll,
+        onScrollbarScroll,
         states,
         useIsScrolling,
         windowStyle,
@@ -420,12 +439,37 @@ const createList = ({
         default: () => children,
       } : children)]
 
-      return h(Container as VNode, {
+      const scrollbar = h(Scrollbar, {
+        clientSize,
+        layout,
+        onScroll: onScrollbarScroll,
+        ratio: (clientSize * 100) / this.estimatedTotalSize,
+        scrollFrom: states.scrollOffset,
+        total,
+        visible: true,
+      })
+
+      const listContainer = h(Container as VNode, {
         class: className,
         style: windowStyle,
         onScroll,
+        onWheel: (e: WheelEvent) => {
+          console.log(e)
+        },
         ref: 'windowRef',
-      }, !isString(Container) ? { default: () => InnerNode } : InnerNode)
+        key: 0,
+      }, !isString(Container)
+        ? { default: () => [InnerNode] }
+        : [InnerNode],
+      )
+
+      return h('div', {
+        key: 0,
+        class: 'el-vl__wrapper',
+      }, [
+        listContainer,
+        scrollbar,
+      ])
     },
   })
 }

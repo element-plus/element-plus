@@ -7,9 +7,12 @@ import {
   RTL_OFFSET_NAG,
   RTL_OFFSET_POS_DESC,
   RTL_OFFSET_POS_ASC,
+  PageKey,
 } from './defaults'
 
-import type { RTLOffsetType, Direction } from './types'
+import type { RTLOffsetType, Direction, LayoutDirection } from './types'
+
+import type { CSSProperties } from 'vue'
 
 export const getScrollDir = (prev: number, cur: number) =>
   prev < cur ? FORWARD : BACKWARD
@@ -56,4 +59,27 @@ export function getRTLOffsetType(recalculate = false): RTLOffsetType {
   }
 
   return cachedRTLResult
+}
+
+export const getRelativePos = (e: TouchEvent | MouseEvent, layout: LayoutDirection) => {
+  return 'touches' in e ? e.touches[0][PageKey[layout]] : e[PageKey[layout]]
+}
+
+export function renderThumbStyle({ move, size, bar }, layout: string) {
+  const style: CSSProperties = {}
+  const translate = `translate${bar.axis}(${ move }px)`
+
+  style[bar.size] = size
+  style.transform = translate
+  style.msTransform = translate
+  // polyfill
+  ;(style as any).webkitTransform = translate
+
+  if (layout === 'horizontal') {
+    style.height = '100%'
+  } else {
+    style.width = '100%'
+  }
+
+  return style
 }
