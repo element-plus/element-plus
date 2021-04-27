@@ -168,7 +168,6 @@ const ScrollBar = defineComponent({
           )
         emit('scroll', distance, totalSteps)
       })
-
     }
 
     const onScrollbarTouchStart = (e: Event) => e.preventDefault()

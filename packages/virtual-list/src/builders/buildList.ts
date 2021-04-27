@@ -2,6 +2,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  reactive,
   ref,
   nextTick,
   onMounted,
@@ -12,9 +13,11 @@ import {
 import { hasOwn } from '@vue/shared'
 import memo from 'lodash/memoize'
 
+import { on, off } from '@element-plus/utils/dom'
 import { isNumber, isString, $ } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 
+import useWheel from '../hooks/useWheel'
 import Scrollbar from '../components/scrollbar'
 import { getScrollDir, isHorizontal, getRTLOffsetType } from '../utils'
 import {
@@ -134,6 +137,22 @@ const createList = ({
       })
 
       const clientSize = computed(() => _isHorizontal.value ? props.width : props.height)
+
+      const {
+        hasReachedEdge,
+        onWheel,
+      } = useWheel({
+        atStartEdge: computed(() => states.value.scrollOffset <= 0),
+        atEndEdge: computed(() => states.value.scrollOffset >= estimatedTotalSize.value),
+        layout: computed(() => props.layout),
+      }, offset => {
+        scrollTo(
+          Math.min(
+            states.value.scrollOffset + offset,
+            estimatedTotalSize.value - (clientSize.value as number),
+          ),
+        )
+      })
 
       // methods
       const emitEvents = () => {
@@ -323,6 +342,7 @@ const createList = ({
             windowElement.scrollTop = initScrollOffset
           }
         }
+
         emitEvents()
       })
 
@@ -375,6 +395,7 @@ const createList = ({
         getItemStyle,
         onScroll,
         onScrollbarScroll,
+        onWheel,
         scrollTo,
         scrollToItem,
       }
@@ -406,6 +427,7 @@ const createList = ({
         total,
         onScroll,
         onScrollbarScroll,
+        onWheel,
         states,
         useIsScrolling,
         windowStyle,
@@ -453,9 +475,7 @@ const createList = ({
         class: className,
         style: windowStyle,
         onScroll,
-        onWheel: (e: WheelEvent) => {
-          console.log(e)
-        },
+        onWheel,
         ref: 'windowRef',
         key: 0,
       }, !isString(Container)

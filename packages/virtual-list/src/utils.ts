@@ -1,3 +1,4 @@
+import { isObject } from '@vue/shared'
 import {
   FORWARD,
   BACKWARD,
@@ -83,3 +84,5 @@ export function renderThumbStyle({ move, size, bar }, layout: string) {
 
   return style
 }
+
+export const isFF = isObject(navigator) && /Firefox/i.test(navigator.userAgent)
