@@ -223,11 +223,11 @@ export default defineComponent({
         : true
     }
     const formatEmit = (emitDayjs: Dayjs) => {
-      if (showTime.value) return emitDayjs.millisecond(0)
       if (defaultTime) {
         const defaultTimeD = dayjs(defaultTime)
         return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date())
       }
+      if (showTime.value) return emitDayjs.millisecond(0)
       return emitDayjs.startOf('day')
     }
     const emit = (value, ...args) => {
