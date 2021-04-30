@@ -1,5 +1,6 @@
 <template>
   <el-select
+    ref="select"
     :model-value="value"
     :disabled="!editable"
     :clearable="clearable"
@@ -27,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/select'
 import ElOption from '@element-plus/option'
 interface Time {
@@ -157,9 +158,20 @@ export default defineComponent({
       }
       return result
     })
+
+    const select = ref(null)
+
     return {
       value,
       items,
+
+      select,
+      blur: () => {
+        return select.value?.blur()
+      },
+      focus: () => {
+        return select.value?.focus()
+      },
     }
   },
 })
