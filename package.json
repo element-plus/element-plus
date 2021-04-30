@@ -147,7 +147,8 @@
     "packages"
   ],
   "main": "lib/index.js",
-  "module": "lib/index.esm.js",
+  "module": "es/index.js",
+  "sideEffects": false,
   "typings": "lib/index.d.ts",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
