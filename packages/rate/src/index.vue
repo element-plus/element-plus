@@ -229,7 +229,7 @@ export default defineComponent({
       }
       if (props.allowHalf && pointerAtLeftHalf.value) {
         emit('update:modelValue', currentValue.value)
-        emit('change', this.currentValue)
+        emit('change', currentValue.value)
       } else {
         emit('update:modelValue', value)
         emit('change', value)
