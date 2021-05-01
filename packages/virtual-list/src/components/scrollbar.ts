@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, reactive, onMounted, onBeforeUnmount } from 'vue'
+import { computed, defineComponent, ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue'
 import { BAR_MAP } from '@element-plus/scrollbar/src/util'
 import { on, off } from '@element-plus/utils/dom'
 import { rAF, cAF } from '@element-plus/utils/raf'
@@ -64,6 +64,8 @@ const ScrollBar = defineComponent({
 
       return style
     })
+
+    const totalSteps = computed(() => (props.clientSize - thumbSize.value - 4))
 
     const attachEvents = () => {
 
@@ -154,7 +156,6 @@ const ScrollBar = defineComponent({
       const distance = offset - thumbClickPosition
       // get how many steps in total.
       // gap of 2 on top, 2 on bottom, in total 4.
-      const totalSteps = (props.clientSize - thumbSize.value - 4)
       // using totalSteps ÷ totalSize getting each step's size * distance to get the new
       // scroll offset to scrollTo
       frameHandle = rAF(() => {
@@ -163,14 +164,19 @@ const ScrollBar = defineComponent({
             2,
             Math.min(
               distance,
-              totalSteps, // 2 is the top value
+              totalSteps.value, // 2 is the top value
             ),
           )
-        emit('scroll', distance, totalSteps)
+        emit('scroll', distance, totalSteps.value)
       })
     }
 
     const onScrollbarTouchStart = (e: Event) => e.preventDefault()
+
+    watch(() => props.scrollFrom, v => {
+      // this is simply mapping the current scrollbar offset
+      state.traveled = v * totalSteps.value
+    })
 
     onMounted(() => {
       if (isServer) return
