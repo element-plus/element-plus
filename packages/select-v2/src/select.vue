@@ -20,8 +20,143 @@
       :gpu-acceleration="false"
     >
       <template #trigger>
-        <div ref="controlRef" :aria-expanded="expanded">
-          <el-input ref="inputRef" />
+        <div class="el-selector__wrapper">
+          <div v-if="$slots.prefix">
+            <slot name="prefix" />
+          </div>
+          <div v-if="multiple" class="el-select__tags">
+            <template v-if="collapseTags && modelValue.length > 0">
+              <div class="el-select__selected-item">
+                <el-tag
+                  :closable="!selectDisabled && !modelValue[0].disable"
+                  :size="collapseTagSize"
+                  type="info"
+                  disable-transitions
+                  @close="deleteTag($event, modelValue[0])"
+                >
+                  <span
+                    class="el-select__tags-text"
+                    :style="{ maxWidth: inputWidth - 123 + 'px' }"
+                  >{{ modelValue[0].currentLabel }}</span>
+                </el-tag>
+                <el-tag
+                  v-if="modelValue.length > 1"
+                  :closable="false"
+                  :size="collapseTagSize"
+                  type="info"
+                  disable-transitions
+                >
+                  <span class="el-select__tags-text">+ {{ modelValue.length - 1 }}</span>
+                </el-tag>
+              </div>
+            </template>
+
+            <template v-else>
+              <div v-for="selected in modelValue" class="el-select__selected-item">
+                <el-tag
+                  :closable="!selectDisabled && !selected.disabled"
+                  :key="getValueKey(selected)"
+                  :size="collapseTagSize"
+                  type="info"
+                  disable-transitions
+                  @close="deleteTag($event, selected)"
+                >{{ getLabel(selected) }}</el-tag>
+              </div>
+            </template>
+            <div
+              class="el-select__selected-item el-select__input-wrapper"
+              :style="inputWrapperStyle"
+            >
+              <input
+                class="el-select__combobox-input"
+                ref="inputRef"
+                v-model="states.currentPlaceholder"
+                :autocomplete="autocomplete"
+                :aria-expanded="expanded"
+                :aria-labelledby="label"
+                :disabled="disabled"
+                :id="id"
+                :readonly="filterable"
+                :name="name"
+                :unselectable="expanded ? 'on' : undefined"
+                aria-autocomplete="list"
+                aria-haspopup="listbox"
+                autocapitalize="off"
+                role="combobox"
+                spellcheck="false"
+                type="text"
+                @blur="handleBlur"
+                @focus="handleFocus"
+              >
+              <span
+                aria-hidden="true"
+                class="el-select__input-calculator"
+              >
+                {{ states.currentPlaceholder }}
+              </span>
+            </div>
+          </div>
+          <template v-else>
+            <span>
+              <input
+                class="el-select__combobox-input"
+                ref="inputRef"
+                :autocomplete="autocomplete"
+                :aria-expanded="expanded"
+                :aria-labelledby="label"
+                :disabled="disabled"
+                :id="id"
+                :readonly="filterable"
+                :name="name"
+                :unselectable="expanded ? 'on' : undefined"
+                aria-autocomplete="list"
+                aria-haspopup="listbox"
+                autocapitalize="off"
+                role="combobox"
+                spellcheck="false"
+                type="text"
+                @blur="handleBlur"
+                @focus="handleFocus"
+              >
+            </span>
+            <span class="el-select__selected-item" :title="modelValue">
+              {{ modelValue }}
+            </span>
+          </template>
+          <span v-if="shouldShowPlaceholder" class="el-select__placeholder">
+            {{ placeholder }}
+          </span>
+          <div v-if="$slots.suffix">
+            <slot name="suffix" />
+          </div>
+          <!-- <div ref="controlRef" :aria-expanded="expanded">
+            <el-input
+              ref="inputRef"
+              :id="id"
+              v-model="states.selectedLabel"
+              type="text"
+              :placeholder="states.currentPlaceholder"
+              :name="name"
+              :autocomplete="autocomplete"
+              :size="selectSize"
+              :disabled="selectDisabled"
+              :readonly="readonly"
+              :validate-event="false"
+              :class="{ 'is-focus': expanded }"
+              :tabindex="(multiple && filterable) ? '-1' : null"
+              @focus="handleFocus"
+              @blur="handleBlur"
+              @input="debouncedOnInputChange"
+              @paste="debouncedOnInputChange"
+              @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
+              @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
+              @keydown.enter.stop.prevent="expanded = !expanded"
+              @keydown.esc.stop.prevent="expanded = false"
+              @keydown.tab="expanded = false"
+              @mouseenter="states.inputHovering = true"
+              @mouseleave="states.inputHovering = false"
+            />
+          </div> -->
         </div>
 
         <!-- <div class="select-trigger">
@@ -149,6 +284,7 @@
       </template>
       <template #default>
         <el-select-menu
+          ref="menuRef"
           :data="filteredOptions"
           :width="200"
           :hovering-index="states.hoveringIndex"
@@ -213,76 +349,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     // const states = useSelectStates(props)
-    const {
-      // optionsArray,
-      // selectSize,
-      // readonly,
-      // handleResize,
-      // collapseTagSize,
-      // debouncedOnInputChange,
-      // debouncedQueryChange,
-      // deletePrevTag,
-      // deleteTag,
-      // deleteSelected,
-      // handleOptionSelect,
-      // scrollToOption,
-      // setSelected,
-      // resetInputHeight,
-      // managePlaceholder,
-      // showClose,
-      // selectDisabled,
-      // iconClass,
-      // showNewOption,
-      // emptyText,
-      // toggleLastOptionHitState,
-      // resetInputState,
-      // handleComposition,
-      // onOptionCreate,
-      // onOptionDestroy,
-      // handleMenuEnter,
-      // handleFocus,
-      // blur,
-      // handleBlur,
-      // handleClearClick,
-      // handleClose,
-      // toggleMenu,
-      // selectOption,
-      // getValueKey,
-      // navigateOptions,
-      // dropMenuVisible,
-
-      // reference,
-      // input,
-      // popper,
-      // tags,
-      // selectWrapper,
-      // scrollbar,
-      collapseTagSize,
-      expanded,
-      emptyText,
-      debounce,
-      filteredOptions,
-      iconClass,
-      readonly,
-      selectDisabled,
-      selected,
-      selectSize,
-      showClearBtn,
-      states,
-
-      // refs items exports
-      controlRef,
-      hiddenInputRef,
-      inputRef,
-      popperRef,
-      selectRef,
-      tagsRef,
-
-      // methods exports
-      onSelect,
-      toggleMenu,
-
-    } = useSelect(props, emit)
+    const API = useSelect(props, emit)
 
     // const { focus } = useFocus(reference)
 
@@ -309,8 +376,7 @@ export default defineComponent({
     // } = toRefs(states)
     provide(selectKey, {
       props,
-      selected,
-      onSelect,
+      ...API,
     })
 
     // provide(selectKey, reactive({
@@ -444,31 +510,7 @@ export default defineComponent({
     //   scrollbar,
     // }
 
-    return {
-      collapseTagSize,
-      expanded,
-      emptyText,
-      debounce,
-      filteredOptions,
-      iconClass,
-      readonly,
-      selectDisabled,
-      selected,
-      selectSize,
-      showClearBtn,
-      states,
-
-      // refs items exports
-      controlRef,
-      hiddenInputRef,
-      inputRef,
-      popperRef,
-      selectRef,
-      tagsRef,
-
-      // methods exports
-      toggleMenu,
-    }
+    return API
   },
 })
 </script>

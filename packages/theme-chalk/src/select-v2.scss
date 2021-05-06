@@ -1,7 +1,7 @@
 @import 'mixins/mixins';
 @import 'mixins/utils';
 @import 'common/var';
-@import 'select-dropdown';
+@import 'select-dropdown-v2';
 @import 'input';
 @import 'tag';
 @import 'option-item';
@@ -143,6 +143,18 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+  }
+
+  @include e(wrapper) {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    position: relative;
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+  }
+
+  @include e(input-calculator) {
+    visibility: hidden;
   }
 
   .#{$namespace}-tag__close {

@@ -9,6 +9,8 @@ import {
   renderSlot,
   h,
   withCtx,
+  withKeys,
+  withModifiers,
 } from 'vue'
 import { getValueByPath, isUndefined, isObject } from '@element-plus/utils/util'
 // import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
@@ -32,6 +34,8 @@ export default defineComponent({
   setup(props) {
     const select = inject(selectKey)
     const cachedHeights = ref<Array<number>>([])
+
+    const listRef = ref(null)
 
     const isSized = computed(() => isUndefined(select.props.estimatedOptionHeight))
     const listProps = computed(() => {
@@ -90,19 +94,26 @@ export default defineComponent({
 
     const isItemHovering = (target: number) => props.hoveringIndex === target
 
+    const scrollToItem = (index: number) => {
+      listRef.value.scrollToItem(index)
+    }
+
     // computed
     return {
       select,
       listProps,
+      listRef,
       isSized,
 
       isItemDisabled,
       isItemHovering,
       isItemSelected,
+
+      scrollToItem,
     }
   },
 
-  render() {
+  render(_ctx, _cache) {
     const {
       $slots,
 
@@ -115,10 +126,11 @@ export default defineComponent({
       isItemDisabled,
       isItemHovering,
       isItemSelected,
-    } = this
+    } = _ctx
+
     const Comp = isSized ? FixedSizeList : DynamicSizeList
 
-    const { props: selectProps, onSelect } = select
+    const { props: selectProps, onSelect, onKeyboardNavigate, onKeyboardSelect } = select
     const { height, modelValue, multiple } = selectProps
 
     if (data.length === 0) {
@@ -173,6 +185,34 @@ export default defineComponent({
         height,
         width,
         total: data.length,
+        onClick: () => {
+          console.log(1)
+        },
+        onKeydown: [
+          _cache[1] || (_cache[1] = withKeys(
+            withModifiers(() => onKeyboardNavigate('forward'), ['stop', 'prevent']),
+            ['down'],
+          )),
+          _cache[2] || (_cache[2] = withKeys(
+            withModifiers(() => onKeyboardNavigate('backward'), ['stop', 'prevent']),
+            ['up'],
+          )),
+          _cache[3] || (_cache[3] = withKeys(
+            withModifiers(onKeyboardSelect, ['stop', 'prevent']),
+            ['enter'],
+          )),
+
+          _cache[4] || (_cache[4] = withKeys(
+            withModifiers(() => (select.expanded = false), ['stop', 'prevent']),
+            ['esc'],
+          )),
+          _cache[5] || (_cache[5] = withKeys(() => (select.expanded = false),
+            ['tab'],
+          )),
+          _cache[6] || (_cache[6] = () => {
+            console.log(11)
+          }),
+        ],
         ...listProps,
       },
       {

@@ -6,8 +6,8 @@ import type { OptionType } from './select.types'
 export const SelectProps = {
   allowCreate: Boolean,
   autocomplete: {
-    type: String,
-    default: 'off',
+    type: String as PropType<'none' | 'both' | 'list' | 'inline'>,
+    default: 'none',
   },
   automaticDropdown: Boolean,
   clearable: Boolean,
@@ -35,7 +35,8 @@ export const SelectProps = {
   id: String,
   loading: Boolean,
   loadingText: String,
-  modelValue: [Array, String, Number, Boolean, Object] as PropType<any[] | string | number | boolean | Record<string, any>>,
+  label: String,
+  modelValue: [Array, String, Number, Boolean, Object] as PropType<any[] | string | number | boolean | Record<string, any> | any>,
   multiple: Boolean,
   multipleLimit: {
     type: Number,
