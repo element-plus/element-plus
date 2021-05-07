@@ -173,11 +173,11 @@
 |--------------------|----------------------------------------------------------|-------------------|-------------|--------|
 | small              |   小さなページネーションの有無    | boolean |      —       | false |
 | background | ボタンに背景色があるかどうか | boolean | — | false |
-| page-size              | 各ページの項目数.sync 修飾子をサポートしています。  | number |      —       | 10 |
+| page-size              | 各ページの項目数 v-model 双方向バインディングをサポートします。  | number |      —       | 10 |
 | total | 総項目数 | number | — | — |
 | page-count | ページ数の合計を指定します。`total`か`page-count`のいずれかを設定するとページが表示されます。もし `page-sizes`が必要な場合は`total`が必要です。 | number | — | — |
 | pager-count | ページャーの数を指定します。ページ数の合計がこの値を超えるとページネーションが崩れます。 | number | odd number between 5 and 21 | 7 |
-| current-page | 現在のページ番号 .sync 修飾子をサポートしています。 | number | — | 1 |
+| current-page | 現在のページ番号 v-model 双方向バインディングをサポートします。 | number | — | 1 |
 | layout | ページネーションのレイアウト、カンマで区切られた要素 | string | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total'  |
 | page-sizes | ページあたりの項目数のオプション | number[] | — |  [10, 20, 30, 40, 50, 100] |
 | popper-class | ページサイズセレクトドロップダウンのカスタムクラス名 | string | — | — |
