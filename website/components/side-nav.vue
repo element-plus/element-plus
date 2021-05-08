@@ -219,6 +219,10 @@ export default {
         position: relative;
         transition: .15s ease-out;
         font-weight: bold;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-weight: normal;
 
         &.active {
           color: #409EFF;
