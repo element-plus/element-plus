@@ -9,6 +9,7 @@ import {
   resolveDynamicComponent,
   h,
 } from 'vue'
+import { hasOwn } from '@vue/shared'
 import memo from 'lodash/memoize'
 
 import { isNumber, isString, $ } from '@element-plus/utils/util'
@@ -262,7 +263,7 @@ const createList = ({
         )
 
         let style: CSSProperties
-        if (itemStyleCache.hasOwnProperty(idx)) {
+        if (hasOwn(itemStyleCache, String(idx))) {
           style = itemStyleCache[idx]
         } else {
           const offset = getItemOffset(props, idx, $(dynamicSizeCache))

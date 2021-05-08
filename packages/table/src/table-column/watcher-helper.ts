@@ -1,4 +1,5 @@
 import { watch, getCurrentInstance, ComputedRef } from 'vue'
+import { hasOwn } from '@vue/shared'
 import { TableColumnCtx, TableColumn } from '../table.type'
 
 function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
@@ -16,7 +17,7 @@ function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
 
     Object.keys(allAliases).forEach(key => {
       const columnKey = aliases[key]
-      if (props_.hasOwnProperty(columnKey)) {
+      if (hasOwn(props_, columnKey)) {
         watch(
           () => props_[columnKey],
           newVal => {
@@ -54,7 +55,7 @@ function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
     }, aliases)
     Object.keys(allAliases).forEach(key => {
       const columnKey = aliases[key]
-      if (props_.hasOwnProperty(columnKey)) {
+      if (hasOwn(props_, columnKey)) {
         watch(
           () => props_[columnKey],
           newVal => {
