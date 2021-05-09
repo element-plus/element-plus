@@ -1,5 +1,28 @@
 ## Changelog
 
+### 1.0.2-beta.42
+
+*2021-05-09*
+
+#### Bug fixes
+- Fix Rate: remove the confusing this (#1910)
+- Fix Drawer: add modal false div class (#1932)
+- Fix Button: fix incorrect style rule when hovering disabled plain button (#1937)
+- Fix Form: fix validate typing error (#1938)
+- Fix Table: fix table checkbox onChange event unable to be emitted in legacy browser (#1945)
+- Fix Icon: update icon design styles (#1950)
+- Fix Transfer: remove useless button style (#1953)
+- Fix Popover: add additional css in popover (#1956)
+- Fix Switch: fix switch component onMounted condition error (#1966)
+
+#### Chore
+- Chore Notification: Remove magic numbers (#1928)
+- Chore Tag: keep the same with property name (#1940)
+- Chore Pagination: update Pagination documentation with .sync modifier (#1920 #1957)
+- Chore Project: replace unreasonable code (#1963)
+- Chore website: update ad (#1968)
+- Chore ThemeChalk: add missing `!default` modifiers for global variables (#1969)
+
 ### 1.0.2-beta.41
 
 *2021-04-26*
