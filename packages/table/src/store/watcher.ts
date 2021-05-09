@@ -1,4 +1,5 @@
 import { ref, getCurrentInstance, unref, watch } from 'vue'
+import { hasOwn } from '@vue/shared'
 import {
   getKeysMap,
   getRowIdentity,
@@ -149,7 +150,7 @@ function useWatcher () {
       const selectedMap = getKeysMap(selection.value, rowKey.value)
       const dataMap = getKeysMap(data.value, rowKey.value)
       for (const key in selectedMap) {
-        if (selectedMap.hasOwnProperty(key) && !dataMap[key]) {
+        if (hasOwn(selectedMap, key) && !dataMap[key]) {
           deleted.push(selectedMap[key].row)
         }
       }

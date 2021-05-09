@@ -16,18 +16,6 @@
   }
 
   @include e(button) {
-    display: block;
-    margin: 0 auto;
-    padding: 10px;
-    border-radius: 50%;
-    color: $--color-white;
-    background-color: $--color-primary;
-    font-size: 0;
-
-    @include when(with-texts) {
-      border-radius: $--border-radius-base;
-    }
-
     @include when(disabled) {
       border: $--border-base;
       background-color: $--background-color-base;

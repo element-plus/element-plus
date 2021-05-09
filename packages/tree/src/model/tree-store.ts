@@ -1,3 +1,4 @@
+import { hasOwn } from '@vue/shared'
 import Node from './node'
 import { getNodeKey } from './util'
 import {
@@ -35,7 +36,7 @@ export default class TreeStore {
     this.currentNodeKey = null
 
     for (const option in options) {
-      if (options.hasOwnProperty(option)) {
+      if (hasOwn(options, option)) {
         this[option] = options[option]
       }
     }
@@ -237,7 +238,7 @@ export default class TreeStore {
     const allNodes: Node[] = []
     const nodesMap = this.nodesMap
     for (const nodeKey in nodesMap) {
-      if (nodesMap.hasOwnProperty(nodeKey)) {
+      if (hasOwn(nodesMap, nodeKey)) {
         allNodes.push(nodesMap[nodeKey])
       }
     }
