@@ -18,13 +18,6 @@
       </div>
     </div>
     <div class="sponsors">
-      <a class="sponsor" href="https://www.duohui.cn/?utm_source=element&utm_medium=web&utm_campaign=element-index" target="_blank">
-        <img width="45" src="~examples/assets/images/duohui.svg" alt="duohui">
-        <div>
-          <p>{{ sponsorLabel }} <span class="name">多会</span></p>
-          <p>活动服务销售平台</p>
-        </div>
-      </a>
       <a
         class="sponsor"
         href="https://bit.dev/?from=element-ui"

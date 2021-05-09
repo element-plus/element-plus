@@ -32,11 +32,6 @@ This project is still under heavy development. Feel free to join us and make you
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://www.duohui.cn/?utm_source=element&utm_medium=web&utm_campaign=element-index" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/10731096/100414179-11741980-30b4-11eb-9ee3-4d0a30d4e21d.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://bit.dev/?from=element-ui" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>

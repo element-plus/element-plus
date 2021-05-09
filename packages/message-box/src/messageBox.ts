@@ -1,4 +1,5 @@
 import { h, watch, render } from 'vue'
+import { hasOwn } from '@vue/shared'
 import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
 import { isVNode, isString } from '@element-plus/utils/util'
@@ -85,8 +86,8 @@ const showMessage = (options: any) => {
   } & MessageBoxState>
 
   for (const prop in options) {
-    if (options.hasOwnProperty(prop) && !vm.$props.hasOwnProperty(prop)) {
-      vm[prop] = options[prop]
+    if (hasOwn(options, prop) && !hasOwn(vm.$props, prop)) {
+      vm[prop as string] = options[prop]
     }
   }
 

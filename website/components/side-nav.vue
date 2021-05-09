@@ -10,11 +10,6 @@
         <a>{{ lang === 'zh-CN' ? '赞助商' : 'Sponsors' }}</a>
         <ul class="pure-menu-list sub-nav">
           <li class="nav-item">
-            <a class="sponsor" href="https://www.duohui.cn/?utm_source=element&utm_medium=web&utm_campaign=element-index" target="_blank">
-              <img src="~examples/assets/images/duohui.svg" alt="duohui">
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="sponsor" href="https://bit.dev/?from=element-ui" target="_blank">
               <img src="~examples/assets/images/bit.svg" alt="bit">
             </a>
