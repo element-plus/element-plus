@@ -1,3 +1,4 @@
+import { hasOwn } from '@vue/shared'
 import { PopperInstance, IPopperOptions } from '@element-plus/popper'
 import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
@@ -164,10 +165,6 @@ export const getKeysMap = function(
   return arrayMap
 }
 
-function hasOwn(obj: AnyObject, key: string): boolean {
-  return Object.prototype.hasOwnProperty.call(obj, key)
-}
-
 export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   const options = {} as T & K
   let key
@@ -175,7 +172,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
     options[key] = defaults[key]
   }
   for (key in config) {
-    if (hasOwn(config, key)) {
+    if (hasOwn(config as unknown as Indexable<any>, key)) {
       const value = config[key]
       if (typeof value !== 'undefined') {
         options[key] = value

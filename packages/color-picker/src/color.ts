@@ -1,3 +1,5 @@
+import { hasOwn } from '@vue/shared'
+
 const hsv2hsl = function(hue: number, sat: number, val: number) {
   return [
     hue,
@@ -169,7 +171,7 @@ export default class Color {
     options = options || {} as Options
 
     for (const option in options) {
-      if (options.hasOwnProperty(option)) {
+      if (hasOwn(options, option)) {
         this[option] = options[option]
       }
     }
@@ -180,7 +182,7 @@ export default class Color {
   set(prop: {[key: string]: any;} | any, value?: number) {
     if (arguments.length === 1 && typeof prop === 'object') {
       for (const p in prop) {
-        if (prop.hasOwnProperty(p)) {
+        if (hasOwn(prop, p)) {
           this.set(p, prop[p])
         }
       }
