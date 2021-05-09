@@ -242,7 +242,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      if (props.activeValue || props.inactiveValue) {
+      if (props.activeColor || props.inactiveColor) {
         setBackgroundColor()
       }
 
