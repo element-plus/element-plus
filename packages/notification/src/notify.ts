@@ -21,18 +21,20 @@ const notifications: Record<Position, NotificationQueue> = {
   'bottom-right': [],
 }
 
+// the gap size between each notification
+const GAP_SIZE = 16
 let seed = 1
 
-const Notification: INotification = function(options = { }) {
+const Notification: INotification = function (options = {}) {
   if (isServer) return
   const position = options.position || 'top-right'
 
   let verticalOffset = options.offset || 0
   notifications[position]
     .forEach(({ vm }) => {
-      verticalOffset += (vm.el.offsetHeight || 0) + 16
+      verticalOffset += (vm.el.offsetHeight || 0) + GAP_SIZE
     })
-  verticalOffset += 16
+  verticalOffset += GAP_SIZE
 
   const id = 'notification_' + seed++
   const userOnClose = options.onClose
@@ -73,12 +75,12 @@ const Notification: INotification = function(options = { }) {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      (vm.component.proxy as ComponentPublicInstance<{visible: boolean;}>).visible = false
+      (vm.component.proxy as ComponentPublicInstance<{ visible: boolean; }>).visible = false
     },
   }
 }
 
-;(['success', 'warning', 'info', 'error'] as const).forEach(type => {
+  ; (['success', 'warning', 'info', 'error'] as const).forEach(type => {
   Object.assign(Notification, {
     [type]: (options: NotificationVM | INotificationOptions | string = {}) => {
       if (typeof options === 'string' || isVNode(options)) {
@@ -107,15 +109,8 @@ export function close(
 ): void {
   // maybe we can store the index when inserting the vm to notification list.
   const orientedNotifications = notifications[position]
-  const idx = orientedNotifications.findIndex(({ vm }) => {
-    const { id: _id } = vm.component.props
-    return id === _id
-  })
-
-  if (idx === -1) {
-    return
-  }
-
+  const idx = orientedNotifications.findIndex(({ vm }) => vm.component.props.id === id)
+  if (idx === -1) return
   const { vm } = orientedNotifications[idx]
   if (!vm) return
   // calling user's on close function before notification gets removed from DOM.
@@ -123,19 +118,16 @@ export function close(
 
   // note that this is called @before-leave, that's why we were able to fetch this property.
   const removedHeight = vm.el.offsetHeight
+  const verticalPos = position.split('-')[0]
   orientedNotifications.splice(idx, 1)
   const len = orientedNotifications.length
   if (len < 1) return
   // starting from the removing item.
   for (let i = idx; i < len; i++) {
-    const verticalPos = position.split('-')[0]
     // new position equals the current offsetTop minus removed height plus 16px(the gap size between each item)
-    const pos =
-      parseInt(orientedNotifications[i].vm.el.style[verticalPos], 10) -
-      removedHeight -
-      16
-
-    orientedNotifications[i].vm.component.props.offset = pos
+    const { el, component } = orientedNotifications[i].vm
+    const pos = parseInt(el.style[verticalPos], 10) - removedHeight - GAP_SIZE
+    component.props.offset = pos
   }
 }
 
