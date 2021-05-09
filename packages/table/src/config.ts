@@ -60,7 +60,7 @@ export const cellForced = {
         disabled: column.selectable
           ? !column.selectable.call(null, row, $index)
           : false,
-        onInput: () => {
+        onChange: () => {
           store.commit('rowSelectedChanged', row)
         },
         onClick: (event: Event) => event.stopPropagation(),
