@@ -1,8 +1,8 @@
 <template>
   <div
     ref="selectRef"
-    class="el-select"
-    :class="[selectSize ? 'el-select--' + selectSize : '']"
+    class="el-select-v2"
+    :class="[selectSize ? 'el-select-v2--' + selectSize : '']"
     @click.stop="toggleMenu"
   >
     <el-popper
@@ -10,7 +10,7 @@
       v-model:visible="expanded"
       placement="bottom-start"
       :append-to-body="popperAppendToBody"
-      :popper-class="`el-select__popper ${popperClass}`"
+      :popper-class="`el-select-v2__popper ${popperClass}`"
       manual-mode
       effect="light"
       pure
@@ -20,13 +20,13 @@
       :gpu-acceleration="false"
     >
       <template #trigger>
-        <div class="el-selector__wrapper">
+        <div class="el-select-v2__wrapper">
           <div v-if="$slots.prefix">
             <slot name="prefix" />
           </div>
-          <div v-if="multiple" class="el-select__tags">
+          <div v-if="multiple" class="el-select-v2__tags">
             <template v-if="collapseTags && modelValue.length > 0">
-              <div class="el-select__selected-item">
+              <div class="el-select-v2__selected-item">
                 <el-tag
                   :closable="!selectDisabled && !modelValue[0].disable"
                   :size="collapseTagSize"
@@ -35,7 +35,7 @@
                   @close="deleteTag($event, modelValue[0])"
                 >
                   <span
-                    class="el-select__tags-text"
+                    class="el-select-v2__tags-text"
                     :style="{ maxWidth: inputWidth - 123 + 'px' }"
                   >{{ modelValue[0].currentLabel }}</span>
                 </el-tag>
@@ -46,7 +46,7 @@
                   type="info"
                   disable-transitions
                 >
-                  <span class="el-select__tags-text">+ {{ modelValue.length - 1 }}</span>
+                  <span class="el-select-v2__tags-text">+ {{ modelValue.length - 1 }}</span>
                 </el-tag>
               </div>
             </template>
@@ -64,13 +64,13 @@
               </div>
             </template>
             <div
-              class="el-select__selected-item el-select__input-wrapper"
+              class="el-select-v2__selected-item el-select-v2__input-wrapper"
               :style="inputWrapperStyle"
             >
               <input
-                class="el-select__combobox-input"
+                class="el-select-v2__combobox-input"
                 ref="inputRef"
-                v-model="states.currentPlaceholder"
+                v-model="states.inputValue"
                 :autocomplete="autocomplete"
                 :aria-expanded="expanded"
                 :aria-labelledby="label"
@@ -87,19 +87,22 @@
                 type="text"
                 @blur="handleBlur"
                 @focus="handleFocus"
+                @input="onInput"
               >
               <span
                 aria-hidden="true"
-                class="el-select__input-calculator"
+                class="el-select-v2__input-calculator"
+                ref="calculatorRef"
+                v-text="states.inputValue"
               >
-                {{ states.currentPlaceholder }}
               </span>
             </div>
           </div>
           <template v-else>
             <span>
               <input
-                class="el-select__combobox-input"
+                class="el-select-v2__combobox-input"
+                v-model="states.inputValue"
                 ref="inputRef"
                 :autocomplete="autocomplete"
                 :aria-expanded="expanded"
@@ -117,13 +120,14 @@
                 type="text"
                 @blur="handleBlur"
                 @focus="handleFocus"
+                @input="onInput"
               >
             </span>
-            <span class="el-select__selected-item" :title="modelValue">
+            <span class="el-select-v2__selected-item" :title="modelValue">
               {{ modelValue }}
             </span>
           </template>
-          <span v-if="shouldShowPlaceholder" class="el-select__placeholder">
+          <span v-if="shouldShowPlaceholder" class="el-select-v2__placeholder">
             {{ placeholder }}
           </span>
           <div v-if="$slots.suffix">
@@ -294,7 +298,7 @@
           </template>
           <template #empty>
             <slot name="empty">
-              <p class="el-select-dropdown__empty">{{ emptyText }}</p>
+              <p class="el-select-v2-dropdown__empty">{{ emptyText }}</p>
             </slot>
           </template>
           <!-- <template

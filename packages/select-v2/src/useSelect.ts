@@ -29,6 +29,8 @@ import type { ExtractPropTypes } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import type { OptionType, Option } from './select.types'
 
+const DEFAULT_INPUT_PLACEHOLDER = ' '
+const MINIMUM_INPUT_WIDTH = 4
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
@@ -38,7 +40,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const $ELEMENT = useGlobalConfig()
 
   const states = reactive({
-    inputValue: '',
+    inputValue: DEFAULT_INPUT_PLACEHOLDER,
+    calculatedWidth: 0,
     cachedPlaceholder: '',
     createdOptions: [] as Option[],
     createdLabel: '',
@@ -71,6 +74,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const popperRef = ref(null)
   const selectRef = ref(null)
   const tagsRef = ref(null) // tags ref
+  const calculatorRef = ref<HTMLElement>(null)
 
   // the controller of the expanded popup
   const expanded = ref(false)
@@ -118,7 +122,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !expanded.value))
 
   const inputWrapperStyle = computed(() => {
-    return {} as CSSProperties
+
+    return {
+      width: `${
+        // 7 represents the margin-left value
+        states.calculatedWidth === 0
+        ? MINIMUM_INPUT_WIDTH
+        : Math.ceil(states.calculatedWidth) + MINIMUM_INPUT_WIDTH
+      }px`,
+    } as CSSProperties
   })
 
   const shouldShowPlaceholder = computed(() => {
@@ -534,6 +546,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
+  const onInput = () => {
+    states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+    debouncedOnInputChange()
+  }
+
   const handleMenuEnter = () => {
     // nextTick(() => scrollToOption(selected.value))
   }
@@ -588,6 +605,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     states,
 
     // refs items exports
+    calculatorRef,
     controlRef,
     hiddenInputRef,
     inputRef,
@@ -604,10 +622,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleBlur,
     handleFocus,
     toggleMenu,
+    onInput,
     onKeyboardNavigate,
     onKeyboardSelect,
     onSelect,
-
   }
 }
 

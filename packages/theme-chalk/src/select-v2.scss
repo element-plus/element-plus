@@ -8,10 +8,60 @@
 @import 'option-group';
 @import 'scrollbar';
 
-@include b(select) {
+@include b(select-v2) {
   display: inline-block;
   position: relative;
-  line-height: $--input-height;
+
+  @include e(wrapper) {
+    box-sizing: border-box;
+    cursor: text;
+
+    padding-left: 15px;
+    padding-right: 30px;
+
+    border: 1px solid $--border-color-base;
+    border-radius: $--border-radius-base;
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+
+    &:hover {
+      border-color: $--color-text-placeholder;
+    }
+
+    .#{$namespace}-select-v2__input-wrapper {
+      box-sizing: border-box;
+      position: relative;
+      padding-bottom: 2px;
+      margin-inline-start: 7px;
+      padding-top: 2px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    &, .#{$namespace}-select-v2__input-wrapper {
+      line-height: $--input-height;
+      height: $--input-height;
+    }
+
+    .#{$namespace}-select-v2__input-wrapper input {
+      line-height: $--input-medium-height;
+      height: $--input-medium-height;
+
+      min-width: 4px;
+      width: 100%;
+
+      background-color: transparent;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: 0 0;
+      border: none;
+
+      margin: 0;
+      outline: none;
+      padding: 0;
+
+    }
+  }
 
   @include e(popper) {
     @include picker-popper(
@@ -22,23 +72,54 @@
   }
 
   @include m(mini) {
-    line-height: $--input-mini-height;
+    @include e(wrapper) {
+      &, .#{$namespace}-select-v2__input-wrapper {
+        // since there were no 24px predefined, we can only hand write here.
+        line-height: $--input-mini-height;
+        height: $--input-mini-height;
+      }
+
+      .#{$namespace}-select-v2__input-wrapper input {
+        line-height: 24px;
+        height: 24px;
+      }
+    }
   }
 
   @include m(small) {
-    line-height: $--input-small-height;
+    @include e(wrapper) {
+      &, .#{$namespace}-select-v2__input-wrapper {
+        line-height: $--input-small-height;
+        height: $--input-small-height;
+      }
+
+      .#{$namespace}-select-v2__input-wrapper input {
+        line-height: $--input-mini-height;
+        height: $--input-mini-height;
+      }
+    }
   }
 
   @include m(medium) {
-    line-height: $--input-medium-height;
+    @include e(wrapper) {
+      &, .#{$namespace}-select-v2__input-wrapper {
+        line-height: $--input-medium-height;
+        height: $--input-medium-height;
+      }
+
+      .#{$namespace}-select-v2__input-wrapper input {
+        line-height: $--input-small-height;
+        height: $--input-small-height;
+      }
+    }
   }
 
-  .#{$namespace}-select__tags > span {
+  .#{$namespace}-select-v2__tags > span {
     display: inline-block;
   }
 
   &:hover {
-    .#{$namespace}-input__inner {
+    .#{$namespace}-select-v2__combobox-input {
       border-color: $--select-border-color-hover;
     }
   }
@@ -50,8 +131,7 @@
     vertical-align: bottom;
   }
 
-  .#{$namespace}-input__inner {
-    cursor: pointer;
+  .#{$namespace}-select-v2__combobox-input {
     padding-right: 35px;
     display: block;
 
@@ -63,7 +143,7 @@
   .#{$namespace}-input {
     display: block;
 
-    & .#{$namespace}-select__caret {
+    & .#{$namespace}-select-v2__caret {
       color: $--select-input-color;
       font-size: $--select-input-font-size;
       transition: transform 0.3s;
@@ -112,7 +192,7 @@
     font-size: $--select-font-size;
     appearance: none;
     height: 28px;
-    background-color: transparent;
+
     @include when(mini) {
       height: 14px;
     }
@@ -134,15 +214,19 @@
   }
 
   @include e(tags) {
-    position: absolute;
     line-height: normal;
     white-space: normal;
     z-index: $--index-normal;
-    top: 50%;
-    transform: translateY(-50%);
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+
+    .#{$namespace}-tag {
+      box-sizing: border-box;
+      border-color: transparent;
+      margin: 2px 0 2px 6px;
+      background-color: #f0f2f5;
+    }
   }
 
   @include e(wrapper) {
@@ -154,7 +238,12 @@
   }
 
   @include e(input-calculator) {
+    left: 0;
+    position: absolute;
+    top: 0;
     visibility: hidden;
+    white-space: pre;
+    z-index: 999;
   }
 
   .#{$namespace}-tag__close {
