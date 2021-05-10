@@ -1,4 +1,4 @@
-export type IDatePickerType =
+export declare type IDatePickerType =
   | 'year'
   | 'month'
   | 'date'
@@ -9,15 +9,4 @@ export type IDatePickerType =
   | 'daterange'
   | 'monthrange'
 
-export const IDatePickerTypeList = [
-  'year',
-  'month',
-  'date',
-  'dates',
-  'week',
-  'datetime',
-  'datetimerange',
-  'daterange',
-  'monthrange',
-]
 

@@ -157,14 +157,14 @@ import ElInput from '@element-plus/input'
 import { ClickOutside } from '@element-plus/directives'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import ElButton from '@element-plus/button'
+import { isValidDatePickType } from '@element-plus/utils/validators'
 import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
-import type { IDatePickerType } from '../date-picker.type.ts'
-import { IDatePickerTypeList } from '../date-picker.type'
-
 import { computed, defineComponent, inject, PropType, ref, watch } from 'vue'
+
+import type { IDatePickerType } from '../date-picker.type'
 
 // todo
 const timeWithinRange = () => true
@@ -190,9 +190,7 @@ export default defineComponent({
     type: {
       type: String as PropType<IDatePickerType>,
       required: true,
-      validator: (val: string) => {
-        return IDatePickerTypeList.includes(val)
-      },
+      validator: isValidDatePickType
     },
   },
   emits: ['pick', 'set-picker-option'],
