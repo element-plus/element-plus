@@ -437,7 +437,8 @@ describe('TimePicker(range)', () => {
       `<el-time-picker
         v-model="value"
         format="YYYY-MM-DD HH:mm:ss"
-      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+        :popper-options="options"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40), options: ElPopperOptions }),
       {
         provide() {
           return {

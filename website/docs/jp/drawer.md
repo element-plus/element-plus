@@ -262,54 +262,6 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 
 :::
 
-### With nested popup form element
-In a lot of our use cases user tend to use drawer with form, but when you have popup items like
-time picker, and the height is insufficient, it will cause disfunction, then we need to do something to fix it.
-
-:::demo
-```html
-
-<el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
-  Open
-</el-button>
-
-<el-drawer
-  title="Drawer"
-  v-model="drawer"
-  size="50%">
-  <div>
-   <el-button @click="innerDrawer = true">I am a button</el-button>
-  </div>
-</el-drawer>
-
-<script>
-  export default {
-    data() {
-      return {
-        drawer: false,
-      };
-    },
-    provide() {
-      return {
-        ElPopperOptions: {
-          // Refer to：https://popper.js.org/docs/v2/constructors/
-          // Normally with this option we can position our popper perfectly, more info refer to 👆
-          //  modifiers: [
-          //  {
-          //    name: 'flip',
-          //    options: {
-          //      fallbackPlacements: ['top', 'right'],
-          //    },
-          //  },
-          // ],
-        }
-      }
-    }
-  };
-</script>
-```
-:::
-
 
 ### Drawer属性
 
