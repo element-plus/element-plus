@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import TimePicker from '../src/time-picker'
+import Picker from '../src/common/picker.vue'
 import { triggerEvent } from '@element-plus/test-utils'
 import dayjs from 'dayjs'
 
@@ -426,6 +427,31 @@ describe('TimePicker(range)', () => {
     const addOneHourOneMinute = input.element.value
     expect(dayjs(initValue).diff(addOneHour, 'minute')).toEqual(-60)
     expect(dayjs(initValue).diff(addOneHourOneMinute, 'minute')).toEqual(-61)
+  })
+
+  it('should be able to inherit options from parent injection', async () => {
+    const ElPopperOptions = {
+      strategy: 'fixed',
+    }
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        format="YYYY-MM-DD HH:mm:ss"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+      {
+        provide() {
+          return {
+            ElPopperOptions,
+          }
+        },
+      },
+    )
+
+    await nextTick()
+
+    expect((
+      (wrapper.findComponent(Picker).vm as any).elPopperOptions),
+    ).toEqual(ElPopperOptions)
   })
 })
 

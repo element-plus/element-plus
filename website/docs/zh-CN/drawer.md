@@ -261,6 +261,69 @@ Drawer 的内容是懒渲染的，即在第一次被打开之前，传入的默�
 
 Drawer 提供一个 `destroyOnClose` API, 用来在关闭 Drawer 时销毁子组件内容, 例如清理表单内的状态, 在必要时可以将该属性设置为 **true** 用来保证初始状态的一致性
 
+### 和带有弹出框的表单一起用
+很多时候我们需要在 Drawer 里面嵌套表单，但是表单弹出可能会导致一些功能失效，这时候我们就需要去调整弹出框的位置
+这时候我们需要做的是：
+
+:::demo
+```html
+
+<el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
+  点我打开
+</el-button>
+
+<el-drawer
+  title="我是外面的 Drawer"
+  v-model="drawer"
+  size="50%">
+  <div>
+   <el-button @click="innerDrawer = true">打开里面的!</el-button>
+   <el-drawer
+     title="我是里面的"
+     :append-to-body="true"
+     :before-close="handleClose"
+     v-model="innerDrawer">
+     <p>_(:зゝ∠)_</p>
+   </el-drawer>
+  </div>
+</el-drawer>
+
+<script>
+  export default {
+    data() {
+      return {
+        drawer: false,
+        innerDrawer: false,
+      };
+    },
+    methods: {
+      handleClose(done) {
+        this.$confirm('还有未保存的工作哦确定关闭吗？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      }
+    },
+    provide() {
+      return {
+        ElPopperOptions: {
+          // 请看这里的说明：https://popper.js.org/docs/v2/constructors/
+          // 一般来说 通过下面这个 option 就能保证我们的 popper 的定位完美。更多用法请看👆
+          //  modifiers: [
+          //  {
+          //    name: 'flip',
+          //    options: {
+          //      fallbackPlacements: ['top', 'right'],
+          //    },
+          //  },
+          // ],
+        }
+      }
+    }
+  };
+</script>
+```
 :::
 
 ### Drawer Attributes

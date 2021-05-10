@@ -8,4 +8,3 @@ export const VALIDATE_STATE_MAP = {
   success: 'el-icon-circle-check',
   error: 'el-icon-circle-close',
 }
-

@@ -8,6 +8,7 @@
     trigger="click"
     v-bind="$attrs"
     :popper-class="`el-picker__popper ${popperClass}`"
+    :popper-options="elPopperOptions"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
@@ -192,6 +193,7 @@ export default defineComponent({
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elPopperOptions = inject('ElPopperOptions', {})
 
     const refPopper = ref(null)
     const pickerVisible = ref(false)
@@ -496,6 +498,9 @@ export default defineComponent({
       props,
     })
     return {
+      // injected popper options
+      elPopperOptions,
+
       isDatesPicker,
       handleEndChange,
       handleStartChange,
