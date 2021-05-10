@@ -262,6 +262,7 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 
 :::
 
+
 ### Atributos de Drawer
 
 | Parámetros | Descripción | Tipo   | Valores aceptados           | Por defecto |
