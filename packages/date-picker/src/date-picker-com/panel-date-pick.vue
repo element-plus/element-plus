@@ -151,11 +151,7 @@
 </template>
 
 <script lang="ts">
-import {
-  extractDateFormat,
-  extractTimeFormat,
-  TimePickPanel,
-} from '@element-plus/time-picker'
+import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
 import { t } from '@element-plus/locale'
 import ElInput from '@element-plus/input'
 import { ClickOutside } from '@element-plus/directives'
@@ -165,15 +161,10 @@ import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
+import type { IDatePickerType } from '../date-picker.type.ts'
+import { IDatePickerTypeList } from '../date-picker.type'
 
-import {
-  defineComponent,
-  computed,
-  ref,
-  PropType,
-  watch,
-  inject,
-} from 'vue'
+import { computed, defineComponent, inject, PropType, ref, watch } from 'vue'
 
 // todo
 const timeWithinRange = () => true
@@ -197,8 +188,11 @@ export default defineComponent({
       default: '',
     },
     type: {
-      type: String,
+      type: String as PropType<IDatePickerType>,
       required: true,
+      validator: (val: string) => {
+        return IDatePickerTypeList.includes(val)
+      },
     },
   },
   emits: ['pick', 'set-picker-option'],
