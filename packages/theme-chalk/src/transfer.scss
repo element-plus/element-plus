@@ -16,18 +16,6 @@
   }
 
   @include e(button) {
-    @include when(disabled) {
-      border: $--border-base;
-      background-color: $--background-color-base;
-      color: $--color-text-placeholder;
-
-      &:hover {
-        border: $--border-base;
-        background-color: $--background-color-base;
-        color: $--color-text-placeholder;
-      }
-    }
-
     &:first-child {
       margin-bottom: 10px;
     }
