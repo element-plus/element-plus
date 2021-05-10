@@ -190,7 +190,7 @@ export default defineComponent({
     type: {
       type: String as PropType<IDatePickerType>,
       required: true,
-      validator: isValidDatePickType
+      validator: isValidDatePickType,
     },
   },
   emits: ['pick', 'set-picker-option'],
