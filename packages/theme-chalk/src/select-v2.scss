@@ -18,7 +18,8 @@
 
     padding-left: 15px;
     padding-right: 30px;
-
+    padding-top: 1px;
+    padding-bottom: 1px;
     border: 1px solid $--border-color-base;
     border-radius: $--border-radius-base;
     transition: border-color .2s cubic-bezier(.645,.045,.355,1);
@@ -39,7 +40,7 @@
 
     &, .#{$namespace}-select-v2__input-wrapper {
       line-height: $--input-height;
-      height: $--input-height;
+      // height: $--input-height;
     }
 
     .#{$namespace}-select-v2__input-wrapper input {
@@ -76,7 +77,7 @@
       &, .#{$namespace}-select-v2__input-wrapper {
         // since there were no 24px predefined, we can only hand write here.
         line-height: $--input-mini-height;
-        height: $--input-mini-height;
+        // height: $--input-mini-height;
       }
 
       .#{$namespace}-select-v2__input-wrapper input {
@@ -90,7 +91,7 @@
     @include e(wrapper) {
       &, .#{$namespace}-select-v2__input-wrapper {
         line-height: $--input-small-height;
-        height: $--input-small-height;
+        // height: $--input-small-height;
       }
 
       .#{$namespace}-select-v2__input-wrapper input {
@@ -104,7 +105,7 @@
     @include e(wrapper) {
       &, .#{$namespace}-select-v2__input-wrapper {
         line-height: $--input-medium-height;
-        height: $--input-medium-height;
+        // height: $--input-medium-height;
       }
 
       .#{$namespace}-select-v2__input-wrapper input {
@@ -114,7 +115,7 @@
     }
   }
 
-  .#{$namespace}-select-v2__tags > span {
+  .#{$namespace}-select-v2__selection > span {
     display: inline-block;
   }
 
@@ -124,7 +125,7 @@
     }
   }
 
-  .#{$namespace}-select__tags-text {
+  .#{$namespace}-select__selection-text {
     text-overflow: ellipsis;
     display: inline-block;
     overflow-x: hidden;
@@ -213,8 +214,7 @@
     }
   }
 
-  @include e(tags) {
-    line-height: normal;
+  @include e(selection) {
     white-space: normal;
     z-index: $--index-normal;
     display: flex;
@@ -232,7 +232,7 @@
   @include e(wrapper) {
     background-color: #fff;
     border: 1px solid #d9d9d9;
-    border-radius: 2px;
+    border-radius: $--border-radius-base;
     position: relative;
     transition: all .3s cubic-bezier(.645,.045,.355,1);
   }
@@ -246,11 +246,16 @@
     z-index: 999;
   }
 
+  @include e(selected-item) {
+    line-height: inherit;
+    height: inherit;
+  }
+
   .#{$namespace}-tag__close {
     margin-top: -2px;
   }
 
-  .#{$namespace}-select__tags .#{$namespace}-tag {
+  .#{$namespace}-select__selection .#{$namespace}-tag {
     box-sizing: border-box;
     border-color: transparent;
     margin: 2px 0 2px 6px;

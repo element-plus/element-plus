@@ -68,12 +68,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // DOM & Component refs
   const controlRef = ref(null)
-  const hiddenInputRef = ref(null)
   const inputRef = ref(null) // el-input ref
   const menuRef = ref(null)
-  const popperRef = ref(null)
+  const popper = ref(null)
   const selectRef = ref(null)
-  const tagsRef = ref(null) // tags ref
+  const selectionRef = ref(null) // tags ref
   const calculatorRef = ref<HTMLElement>(null)
 
   // the controller of the expanded popup
@@ -140,6 +139,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         : !props.modelValue
   })
 
+  const popperRef = computed(() => popper.value?.popperRef)
   // methods
   const toggleMenu = () => {
     if (props.automaticDropdown) return
@@ -150,7 +150,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       expanded.value = !expanded.value
       // }
       if (expanded.value) {
-        (hiddenInputRef.value || inputRef.value).focus()
+        inputRef.value?.focus?.()
       }
     }
   }
@@ -166,12 +166,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
     states.previousQuery = val
     nextTick(() => {
-      if (expanded.value) popperRef.value?.update?.()
+      if (expanded.value) popper.value?.update?.()
     })
     states.hoveringIndex = -1
     if (props.multiple && props.filterable) {
       nextTick(() => {
-        const length = hiddenInputRef.value.length * 15 + 20
+        const length = inputRef.value.value.length * 15 + 20
         states.inputLength = props.collapseTags ? Math.min(50, length) : length
         managePlaceholder()
         resetInputHeight()
@@ -349,20 +349,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.collapseTags && !props.filterable) return
     nextTick(() => {
       if (!inputRef.value) return
-      const inputChildNodes = inputRef.value.$el.childNodes
-      const input = [].filter.call(inputChildNodes, item => item.tagName === 'INPUT')[0]
-      const _tags = tagsRef.value
-      const sizeInMap = states.initialInputHeight || 40
-      input.style.height = selectedIndices.value.length === 0
-        ? sizeInMap + 'px'
-        : Math.max(
-          _tags ? (_tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)) : 0,
-          sizeInMap) + 'px'
+      const selection = selectionRef.value
+      // const inputChildNodes = selectionRef.value.childNodes
+      // const input = [].filter.call(inputChildNodes, item => item.tagName === 'INPUT')[0]
+      // const sizeInMap = states.initialInputHeight || 40
+      // input.style.height = selectedIndices.value.length === 0
+      //   ? sizeInMap + 'px'
+      //   : Math.max(
+      //     selection ? (selection.clientHeight + (selection.clientHeight > sizeInMap ? 6 : 0)) : 0,
+      //     sizeInMap) + 'px'
 
-      states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
-
+      // states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
+      selectRef.value.height = selection.offsetHeight
       if (expanded.value && emptyText.value !== false) {
-        popperRef.value?.update?.()
+        popper.value?.update?.()
       }
     })
   }
@@ -383,7 +383,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const handleResize = () => {
     resetInputWidth()
-    popperRef.value?.update?.()
+    popper.value?.update?.()
     if (props.multiple) resetInputHeight()
   }
 
@@ -411,6 +411,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.inputLength = 20
       }
       if (props.filterable) inputRef.value.focus()
+      resetInputHeight()
     } else {
       selectedIndex.value = index
       emit(UPDATE_MODEL_EVENT, option.value)
@@ -548,6 +549,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const onInput = () => {
     states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+    if (props.multiple) {
+      resetInputHeight()
+    }
     debouncedOnInputChange()
   }
 
@@ -607,12 +611,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     // refs items exports
     calculatorRef,
     controlRef,
-    hiddenInputRef,
     inputRef,
     menuRef,
-    popperRef,
+    popper,
     selectRef,
-    tagsRef,
+    selectionRef,
+
+    popperRef,
 
     // methods exports
     debouncedOnInputChange,

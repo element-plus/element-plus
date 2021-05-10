@@ -1,12 +1,13 @@
 <template>
   <div
     ref="selectRef"
-    class="el-select-v2"
+    v-click-outside:[popperRef]="() => expanded = false"
     :class="[selectSize ? 'el-select-v2--' + selectSize : '']"
+    class="el-select-v2"
     @click.stop="toggleMenu"
   >
     <el-popper
-      ref="popperRef"
+      ref="popper"
       v-model:visible="expanded"
       placement="bottom-start"
       :append-to-body="popperAppendToBody"
@@ -20,11 +21,11 @@
       :gpu-acceleration="false"
     >
       <template #trigger>
-        <div class="el-select-v2__wrapper">
+        <div class="el-select-v2__wrapper" ref="selectionRef">
           <div v-if="$slots.prefix">
             <slot name="prefix" />
           </div>
-          <div v-if="multiple" class="el-select-v2__tags">
+          <div v-if="multiple" class="el-select-v2__selection">
             <template v-if="collapseTags && modelValue.length > 0">
               <div class="el-select-v2__selected-item">
                 <el-tag
