@@ -424,6 +424,12 @@ export default defineComponent({
       }
       maxDate.value = maxDate_
       minDate.value = minDate_
+      rightDate.value = rightDate.value && maxDate_
+        ? rightDate.value.hour(maxDate_.hour()).minute(maxDate_.minute()).second(maxDate_.second())
+        : rightDate.value
+      leftDate.value = leftDate.value && minDate_
+        ? leftDate.value.hour(minDate_.hour()).minute(minDate_.minute()).second(minDate_.second())
+        : leftDate.value
 
       if (!close || showTime.value) return
       handleConfirm()
@@ -601,7 +607,10 @@ export default defineComponent({
             ? maxDate.value.add(1, 'month')
             : maxDate.value
         } else {
-          rightDate.value = leftDate.value.add(1, 'month')
+          const rightValue = leftDate.value.add(1, 'month')
+          rightDate.value = maxDate.value
+            ? rightValue.hour(maxDate.value.hour()).minute(maxDate.value.minute()).second(maxDate.value.second())
+            : rightValue
         }
       } else {
         const defaultArr = getDefaultValue()
