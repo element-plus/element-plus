@@ -21,9 +21,13 @@
       :gpu-acceleration="false"
     >
       <template #trigger>
-        <div class="el-select-v2__wrapper" ref="selectionRef">
+        <div
+          ref="selectionRef"
+          class="el-select-v2__wrapper"
+          :class="{'is-focused': expanded}"
+        >
           <div v-if="$slots.prefix">
-            <slot name="prefix" />
+            <slot name="prefix"></slot>
           </div>
           <div v-if="multiple" class="el-select-v2__selection">
             <template v-if="collapseTags && modelValue.length > 0">
@@ -53,31 +57,37 @@
             </template>
 
             <template v-else>
-              <div v-for="selected in modelValue" class="el-select__selected-item">
+              <div
+                v-for="(selected, idx) in modelValue"
+                :key="idx"
+                class="el-select__selected-item"
+              >
                 <el-tag
-                  :closable="!selectDisabled && !selected.disabled"
                   :key="getValueKey(selected)"
+                  :closable="!selectDisabled && !selected.disabled"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
                   @close="deleteTag($event, selected)"
-                >{{ getLabel(selected) }}</el-tag>
+                >
+                  {{ getLabel(selected) }}
+                </el-tag>
               </div>
             </template>
             <div
+              v-if="filterable"
               class="el-select-v2__selected-item el-select-v2__input-wrapper"
               :style="inputWrapperStyle"
             >
               <input
-                class="el-select-v2__combobox-input"
+                :id="id"
                 ref="inputRef"
                 v-model="states.inputValue"
+                class="el-select-v2__combobox-input"
                 :autocomplete="autocomplete"
                 :aria-expanded="expanded"
                 :aria-labelledby="label"
                 :disabled="disabled"
-                :id="id"
-                :readonly="filterable"
                 :name="name"
                 :unselectable="expanded ? 'on' : undefined"
                 aria-autocomplete="list"
@@ -86,31 +96,31 @@
                 role="combobox"
                 spellcheck="false"
                 type="text"
+                @click.stop.prevent=""
                 @blur="handleBlur"
                 @focus="handleFocus"
                 @input="onInput"
               >
               <span
+                ref="calculatorRef"
                 aria-hidden="true"
                 class="el-select-v2__input-calculator"
-                ref="calculatorRef"
                 v-text="states.inputValue"
               >
               </span>
             </div>
           </div>
           <template v-else>
-            <span>
+            <span v-if="filterable">
               <input
-                class="el-select-v2__combobox-input"
-                v-model="states.inputValue"
+                :id="id"
                 ref="inputRef"
+                v-model="states.inputValue"
+                class="el-select-v2__combobox-input"
                 :autocomplete="autocomplete"
                 :aria-expanded="expanded"
                 :aria-labelledby="label"
                 :disabled="disabled"
-                :id="id"
-                :readonly="filterable"
                 :name="name"
                 :unselectable="expanded ? 'on' : undefined"
                 aria-autocomplete="list"
@@ -119,6 +129,7 @@
                 role="combobox"
                 spellcheck="false"
                 type="text"
+                @click.stop.prevent=""
                 @blur="handleBlur"
                 @focus="handleFocus"
                 @input="onInput"
@@ -132,7 +143,7 @@
             {{ placeholder }}
           </span>
           <div v-if="$slots.suffix">
-            <slot name="suffix" />
+            <slot name="suffix"></slot>
           </div>
           <!-- <div ref="controlRef" :aria-expanded="expanded">
             <el-input
@@ -325,7 +336,6 @@ import {
   provide,
   computed,
 } from 'vue'
-import ElInput from '@element-plus/input'
 import ElTag from '@element-plus/tag'
 import ElPopper from '@element-plus/popper'
 
@@ -343,7 +353,6 @@ import { SelectProps } from './defaults'
 export default defineComponent({
   name: 'ElSelect',
   components: {
-    ElInput,
     ElSelectMenu,
     // ElTag,
     ElPopper,

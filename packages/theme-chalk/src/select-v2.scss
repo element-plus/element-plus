@@ -28,6 +28,10 @@
       border-color: $--color-text-placeholder;
     }
 
+    @include when(focused) {
+      border-color: $--color-primary;
+    }
+
     .#{$namespace}-select-v2__input-wrapper {
       box-sizing: border-box;
       position: relative;

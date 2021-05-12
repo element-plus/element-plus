@@ -118,7 +118,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
 
-  const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !expanded.value))
+  // const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !expanded.value))
 
   const inputWrapperStyle = computed(() => {
 
@@ -126,8 +126,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       width: `${
         // 7 represents the margin-left value
         states.calculatedWidth === 0
-        ? MINIMUM_INPUT_WIDTH
-        : Math.ceil(states.calculatedWidth) + MINIMUM_INPUT_WIDTH
+          ? MINIMUM_INPUT_WIDTH
+          : Math.ceil(states.calculatedWidth) + MINIMUM_INPUT_WIDTH
       }px`,
     } as CSSProperties
   })
@@ -135,8 +135,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const shouldShowPlaceholder = computed(() => {
     return states.inputValue.length === 0
       && isArray(props.modelValue)
-        ? props.modelValue.length === 0
-        : !props.modelValue
+      ? props.modelValue.length === 0
+      : !props.modelValue
   })
 
   const popperRef = computed(() => popper.value?.popperRef)
@@ -410,7 +410,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         handleQueryChange('')
         states.inputLength = 20
       }
-      if (props.filterable) inputRef.value.focus()
+      if (props.filterable) {
+        inputRef.value.focus()
+        states.inputValue = ''
+      }
+
+
       resetInputHeight()
     } else {
       selectedIndex.value = index
@@ -440,7 +445,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const deleteTag = (event, tag) => {
-    const index = selectedIndices.value.indexOf(tag)
+    const index = (props.modelValue as Array<any>).indexOf(tag)
+
     if (index > -1 && !selectDisabled.value) {
       const value = [
         ...(props.modelValue as Array<unknown>).slice(0, index),
@@ -565,6 +571,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const optionsRef = toRef(props, 'options')
   const queryRef = toRef(states, 'query')
 
+  watch(expanded, val => {
+    // console.log(props.filterable)
+    // if (val && props.filterable) {
+    //   console.log(inputRef.value)
+    //   inputRef.value.focus?.()
+    // }
+  })
   watch([optionsRef, queryRef], ([options, query]) => {
 
     const isValidOption = (o: Option): boolean => {
@@ -600,7 +613,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     filteredOptions,
     iconClass,
     inputWrapperStyle,
-    readonly,
+    // readonly,
     shouldShowPlaceholder,
     selectDisabled,
     selectedIndices,
@@ -622,6 +635,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     // methods exports
     debouncedOnInputChange,
     debouncedQueryChange,
+    deleteTag,
     getLabel,
     getValueKey,
     handleBlur,
