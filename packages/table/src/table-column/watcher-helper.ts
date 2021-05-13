@@ -1,9 +1,12 @@
 import { watch, getCurrentInstance, ComputedRef } from 'vue'
 import { hasOwn } from '@vue/shared'
-import { TableColumnCtx, TableColumn } from '../table.type'
+import { TableColumnCtx, TableColumn } from './defaults'
 
-function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
-  const instance = (getCurrentInstance() as unknown) as TableColumn
+function useWatcher<T>(
+  owner: ComputedRef<any>,
+  props_: Partial<TableColumnCtx<T>>,
+) {
+  const instance = getCurrentInstance() as TableColumn<T>
   const registerComplexWatchers = () => {
     const props = ['fixed']
     const aliases = {
@@ -33,7 +36,6 @@ function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
   const registerNormalWatchers = () => {
     const props = [
       'label',
-      'property',
       'filters',
       'filterMultiple',
       'sortable',
@@ -43,11 +45,10 @@ function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
       'labelClassName',
       'showOverflowTooltip',
     ]
-    // 一些属性具有别名
     const aliases = {
-      prop: 'property',
-      realAlign: 'align',
-      realHeaderAlign: 'headerAlign',
+      property: 'prop',
+      align: 'realAlign',
+      headerAlign: 'realHeaderAlign',
     }
     const allAliases = props.reduce((prev, cur) => {
       prev[cur] = cur
@@ -59,7 +60,7 @@ function useWatcher(owner: ComputedRef<any>, props_: TableColumnCtx) {
         watch(
           () => props_[columnKey],
           newVal => {
-            instance.columnConfig.value[columnKey] = newVal
+            instance.columnConfig.value[key] = newVal
           },
         )
       }

@@ -1,9 +1,9 @@
 import { computed, getCurrentInstance } from 'vue'
-import { Table } from '../table.type'
+import { Table } from '../table/defaults'
 
-function useMapState() {
+function useMapState<T>() {
   const instance = getCurrentInstance()
-  const table = instance.parent as Table
+  const table = instance.parent as Table<T>
   const store = table.store
   const leftFixedLeafCount = computed(() => {
     return store.states.fixedLeafColumnsLength.value
