@@ -1,10 +1,11 @@
 import { getCurrentInstance } from 'vue'
-import { TableBodyProps } from './table-body'
-import { Table, AnyObject, TableColumnCtx } from '../table.type'
+import { TableColumnCtx } from '../table-column/defaults'
+import { Table } from '../table/defaults'
+import { TableBodyProps } from './defaults'
 
-function useStyles (props: TableBodyProps) {
+function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()
-  const parent = instance.parent as Table
+  const parent = instance.parent as Table<T>
   const isColumnHidden = index => {
     if (props.fixed === 'left') {
       return index >= props.store.states.fixedLeafColumnsLength.value
@@ -23,7 +24,7 @@ function useStyles (props: TableBodyProps) {
       )
     }
   }
-  const getRowStyle = (row: AnyObject, rowIndex: number) => {
+  const getRowStyle = (row: T, rowIndex: number) => {
     const rowStyle = parent.props.rowStyle
     if (typeof rowStyle === 'function') {
       return rowStyle.call(null, {
@@ -34,7 +35,7 @@ function useStyles (props: TableBodyProps) {
     return rowStyle || null
   }
 
-  const getRowClass = (row: AnyObject, rowIndex: number) => {
+  const getRowClass = (row: T, rowIndex: number) => {
     const classes = ['el-table__row']
     if (
       parent.props.highlightCurrentRow &&
@@ -68,8 +69,8 @@ function useStyles (props: TableBodyProps) {
   const getCellStyle = (
     rowIndex: number,
     columnIndex: number,
-    row: AnyObject,
-    column: TableColumnCtx,
+    row: T,
+    column: TableColumnCtx<T>,
   ) => {
     const cellStyle = parent.props.cellStyle
     if (typeof cellStyle === 'function') {
@@ -86,8 +87,8 @@ function useStyles (props: TableBodyProps) {
   const getCellClass = (
     rowIndex: number,
     columnIndex: number,
-    row: AnyObject,
-    column: TableColumnCtx,
+    row: T,
+    column: TableColumnCtx<T>,
   ) => {
     const classes = [column.id, column.align, column.className]
 
@@ -112,8 +113,8 @@ function useStyles (props: TableBodyProps) {
     return classes.join(' ')
   }
   const getSpan = (
-    row: AnyObject,
-    column: TableColumnCtx,
+    row: T,
+    column: TableColumnCtx<T>,
     rowIndex: number,
     columnIndex: number,
   ) => {
@@ -138,17 +139,19 @@ function useStyles (props: TableBodyProps) {
     return { rowspan, colspan }
   }
   const getColspanRealWidth = (
-    columns: TableColumnCtx[],
+    columns: TableColumnCtx<T>[],
     colspan: number,
     index: number,
-  ) => {
+  ): number => {
     if (colspan < 1) {
       return columns[index].realWidth
     }
     const widthArr = columns
       .map(({ realWidth, width }) => realWidth || width)
       .slice(index, index + colspan)
-    return widthArr.reduce((acc, width) => acc + width, -1)
+    return Number(
+      widthArr.reduce((acc, width) => Number(acc) + Number(width), -1),
+    )
   }
 
   return {

@@ -1,16 +1,17 @@
 import { walkTreeNode, getRowIdentity } from '../util'
 import { ref, computed, watch, getCurrentInstance, unref } from 'vue'
-import { WatcherPropsData, Table, fn } from '../table.type'
+import { WatcherPropsData } from './index'
+import { Table, TableProps } from '../table/defaults'
 
-function useTree(watcherData: WatcherPropsData) {
-  const expandRowKeys = ref([])
-  const treeData = ref({})
+function useTree<T>(watcherData: WatcherPropsData<T>) {
+  const expandRowKeys = ref<string[]>([])
+  const treeData = ref<unknown>({})
   const indent = ref(16)
   const lazy = ref(false)
   const lazyTreeNodeMap = ref({})
   const lazyColumnIdentifier = ref('hasChildren')
   const childrenColumnName = ref('children')
-  const instance = getCurrentInstance() as Table
+  const instance = getCurrentInstance() as Table<T>
   const normalizedData = computed(() => {
     if (!watcherData.rowKey.value) return {}
     const data = watcherData.data.value || []
@@ -125,12 +126,12 @@ function useTree(watcherData: WatcherPropsData) {
   watch(() => normalizedData.value, updateTreeData)
   watch(() => normalizedLazyNode.value, updateTreeData)
 
-  const updateTreeExpandKeys = value => {
+  const updateTreeExpandKeys = (value: string[]) => {
     expandRowKeys.value = value
     updateTreeData()
   }
 
-  const toggleTreeExpansion = (row, expanded) => {
+  const toggleTreeExpansion = (row: T, expanded?: boolean) => {
     instance.store.assertRowKey()
 
     const rowKey = watcherData.rowKey.value
@@ -159,11 +160,11 @@ function useTree(watcherData: WatcherPropsData) {
     }
   }
 
-  const loadData = (row, key, treeNode) => {
-    const { load } = instance.props
+  const loadData = (row: T, key: string, treeNode) => {
+    const { load } = (instance.props as unknown) as TableProps<T>
     if (load && !treeData.value[key].loaded) {
       treeData.value[key].loading = true
-      ;(load as fn)(row, treeNode, data => {
+      load(row, treeNode, data => {
         if (!Array.isArray(data)) {
           throw new Error('[ElTable] data must be an array')
         }

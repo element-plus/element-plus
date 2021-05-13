@@ -28,7 +28,7 @@ export function toObject<T>(arr: Array<T>): Record<string, T> {
   return res
 }
 
-export const getValueByPath = (obj: any, paths = ''): unknown => {
+export const getValueByPath = (obj, paths = ''): unknown => {
   let ret: unknown = obj
   paths.split('.').map(path => {
     ret = ret?.[path]
@@ -189,10 +189,10 @@ export const arrayFindIndex = function <T = any>(
   return arr.findIndex(pred)
 }
 
-export const arrayFind = function <T = any>(
+export const arrayFind = function <T>(
   arr: Array<T>,
   pred: (args: T) => boolean,
-): any {
+): T {
   return arr.find(pred)
 }
 
