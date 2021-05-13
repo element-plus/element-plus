@@ -61,6 +61,7 @@ describe('Result.vue', () => {
       },
     })
     expect(wrapper.find('.el-result__icon').exists()).toBe(true)
+    expect(wrapper.find('.el-result__icon').text()).toBe(AXIOM)
   })
 
   test('should render title slots', () => {
@@ -70,6 +71,7 @@ describe('Result.vue', () => {
       },
     })
     expect(wrapper.find('.el-result__title').exists()).toBe(true)
+    expect(wrapper.find('.el-result__title').text()).toBe(AXIOM)
   })
 
   test('should render sub-title slots', () => {
@@ -79,6 +81,7 @@ describe('Result.vue', () => {
       },
     })
     expect(wrapper.find('.el-result__subtitle').exists()).toBe(true)
+    expect(wrapper.find('.el-result__subtitle').text()).toBe(AXIOM)
   })
 
   test('should render extra slots', () => {
@@ -88,5 +91,6 @@ describe('Result.vue', () => {
       },
     })
     expect(wrapper.find('.el-result__extra').exists()).toBe(true)
+    expect(wrapper.find('.el-result__extra').text()).toBe(AXIOM)
   })
 })
