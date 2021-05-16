@@ -8,6 +8,8 @@
 @import 'option-group';
 @import 'scrollbar';
 
+$--input-inline-start: 7px !default;
+
 @include b(select-v2) {
   display: inline-block;
   position: relative;
@@ -36,7 +38,7 @@
       box-sizing: border-box;
       position: relative;
       padding-bottom: 2px;
-      margin-inline-start: 7px;
+      margin-inline-start: $--input-inline-start;
       padding-top: 2px;
       max-width: 100%;
       overflow: hidden;
@@ -253,6 +255,15 @@
   @include e(selected-item) {
     line-height: inherit;
     height: inherit;
+  }
+
+  @include e(placeholder) {
+    position: absolute;
+    top: 1px;
+    margin-inline-start: $--input-inline-start;
+    @include when(transparent) {
+      opacity: 0.3;
+    }
   }
 
   .#{$namespace}-tag__close {

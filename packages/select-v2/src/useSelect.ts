@@ -1,4 +1,13 @@
-import { computed, watch, ref, reactive, nextTick, toRef, inject, CSSProperties } from 'vue'
+import {
+  computed,
+  watch,
+  ref,
+  reactive,
+  nextTick,
+  toRef,
+  inject,
+  onMounted,
+} from 'vue'
 import {
   isArray,
   isFunction,
@@ -25,11 +34,11 @@ import { SelectProps } from './defaults'
 import { flattenOptions } from './util'
 
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, CSSProperties } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import type { OptionType, Option } from './select.types'
 
-const DEFAULT_INPUT_PLACEHOLDER = ' '
+const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 4
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
@@ -118,6 +127,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
 
+  const popperSize = computed(() => {
+    return selectRef.value?.getBoundingClientRect?.()?.width || 200
+  })
   // const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !expanded.value))
 
   const inputWrapperStyle = computed(() => {
@@ -133,10 +145,19 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const shouldShowPlaceholder = computed(() => {
-    return states.inputValue.length === 0
-      && isArray(props.modelValue)
-      ? props.modelValue.length === 0
-      : !props.modelValue
+    if (isArray(props.modelValue)) {
+      return props.modelValue.length === 0
+    }
+
+    // when it's not multiple mode, we only determine this flag based on filterable and expanded
+    // when filterable flag is true, which means we have input box on the screen
+    return props.filterable ? states.inputValue.length === 0 : true
+  })
+
+  const currentPlaceholder = computed(() => {
+    return isArray(props.multiple)
+      ? props.placeholder
+      : props.modelValue || props.placeholder
   })
 
   const popperRef = computed(() => popper.value?.popperRef)
@@ -488,6 +509,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const handleBlur = (event: Event) => {
+    if (props.filterable) {
+      if (props.allowCreate) {
+        // create new item to the list
+      }
+      // reset input value when blurred
+      states.inputValue = ''
+    }
     // https://github.com/ElemeFE/element/pull/10822
     nextTick(() => {
       if (states.isSilentBlur) {
@@ -577,6 +605,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     //   console.log(inputRef.value)
     //   inputRef.value.focus?.()
     // }
+    if (val) {
+      popper.value?.update?.()
+    }
   })
   watch([optionsRef, queryRef], ([options, query]) => {
 
@@ -604,15 +635,22 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   }, { immediate: true })
 
+  onMounted(() => {
+    // attach resize event here.
+  })
+
+
   return {
     // data exports
     collapseTagSize,
+    currentPlaceholder,
     expanded,
     emptyText,
     debounce,
     filteredOptions,
     iconClass,
     inputWrapperStyle,
+    popperSize,
     // readonly,
     shouldShowPlaceholder,
     selectDisabled,

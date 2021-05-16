@@ -111,7 +111,10 @@
             </div>
           </div>
           <template v-else>
-            <span v-if="filterable">
+            <div
+              v-if="filterable"
+              class="el-select-v2__selected-item el-select-v2__input-wrapper"
+            >
               <input
                 :id="id"
                 ref="inputRef"
@@ -134,175 +137,34 @@
                 @focus="handleFocus"
                 @input="onInput"
               >
-            </span>
-            <span class="el-select-v2__selected-item" :title="modelValue">
-              {{ modelValue }}
+            </div>
+            <span
+              aria-hidden="true"
+              ref="calculatorRef"
+              class="el-select-v2__selected-item el-select-v2__input-calculator"
+              v-text="states.inputValue"
+            >
             </span>
           </template>
-          <span v-if="shouldShowPlaceholder" class="el-select-v2__placeholder">
-            {{ placeholder }}
+          <span
+            v-if="shouldShowPlaceholder"
+            :class="{
+              'el-select-v2__placeholder': true,
+              'is-transparent': expanded,
+            }"
+          >
+            {{ currentPlaceholder }}
           </span>
           <div v-if="$slots.suffix">
             <slot name="suffix"></slot>
           </div>
-          <!-- <div ref="controlRef" :aria-expanded="expanded">
-            <el-input
-              ref="inputRef"
-              :id="id"
-              v-model="states.selectedLabel"
-              type="text"
-              :placeholder="states.currentPlaceholder"
-              :name="name"
-              :autocomplete="autocomplete"
-              :size="selectSize"
-              :disabled="selectDisabled"
-              :readonly="readonly"
-              :validate-event="false"
-              :class="{ 'is-focus': expanded }"
-              :tabindex="(multiple && filterable) ? '-1' : null"
-              @focus="handleFocus"
-              @blur="handleBlur"
-              @input="debouncedOnInputChange"
-              @paste="debouncedOnInputChange"
-              @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
-              @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
-              @keydown.enter.stop.prevent="expanded = !expanded"
-              @keydown.esc.stop.prevent="expanded = false"
-              @keydown.tab="expanded = false"
-              @mouseenter="states.inputHovering = true"
-              @mouseleave="states.inputHovering = false"
-            />
-          </div> -->
         </div>
-
-        <!-- <div class="select-trigger">
-          <div
-            v-if="multiple"
-            ref="tags"
-            class="el-select__tags"
-            :style="{ maxWidth: inputWidth - 32 + 'px', width: '100%' }"
-          >
-            <span v-if="collapseTags && selected.length">
-              <el-tag
-                :closable="!selectDisabled && !selected[0].isDisabled"
-                :size="collapseTagSize"
-                :hit="selected[0].hitState"
-                type="info"
-                disable-transitions
-                @close="deleteTag($event, selected[0])"
-              >
-                <span
-                  class="el-select__tags-text"
-                  :style="{ maxWidth: inputWidth - 123 + 'px' }"
-                >{{ selected[0].currentLabel }}</span>
-              </el-tag>
-              <el-tag
-                v-if="selected.length > 1"
-                :closable="false"
-                :size="collapseTagSize"
-                type="info"
-                disable-transitions
-              >
-                <span class="el-select__tags-text">+ {{ selected.length - 1 }}</span>
-              </el-tag>
-            </span>
-            <transition v-if="!collapseTags" @after-leave="resetInputHeight">
-              <span
-                :style="{ marginLeft: prefixWidth && selected.length ? `${prefixWidth}px` : null }"
-              >
-                <el-tag
-                  v-for="item in selected"
-                  :key="getValueKey(item)"
-                  :closable="!selectDisabled && !item.isDisabled"
-                  :size="collapseTagSize"
-                  :hit="item.hitState"
-                  type="info"
-                  disable-transitions
-                  @close="deleteTag($event, item)"
-                >
-                  <span
-                    class="el-select__tags-text"
-                    :style="{ maxWidth: inputWidth - 75 + 'px' }"
-                  >{{ item.currentLabel }}</span>
-                </el-tag>
-              </span>
-            </transition>
-            <input
-              v-if="filterable"
-              ref="input"
-              v-model="query"
-              type="text"
-              class="el-select__input"
-              :class="[selectSize ? `is-${selectSize}` : '']"
-              :disabled="selectDisabled"
-              :autocomplete="autocomplete"
-              :style="{ marginLeft: prefixWidth && !selected.length || tagInMultiLine ? `${prefixWidth}px` : null, flexGrow: '1', width: `${inputLength / (inputWidth - 32)}%`, maxWidth: `${inputWidth - 42}px` }"
-              @focus="handleFocus"
-              @blur="handleBlur"
-              @keyup="managePlaceholder"
-              @keydown="resetInputState"
-              @keydown.down.prevent="navigateOptions('next')"
-              @keydown.up.prevent="navigateOptions('prev')"
-              @keydown.esc.stop.prevent="visible = false"
-              @keydown.enter.stop.prevent="selectOption"
-              @keydown.delete="deletePrevTag"
-              @keydown.tab="visible = false"
-              @compositionstart="handleComposition"
-              @compositionupdate="handleComposition"
-              @compositionend="handleComposition"
-              @input="debouncedQueryChange"
-            >
-          </div>
-          <el-input
-            :id="id"
-            ref="reference"
-            v-model="selectedLabel"
-            type="text"
-            :placeholder="currentPlaceholder"
-            :name="name"
-            :autocomplete="autocomplete"
-            :size="selectSize"
-            :disabled="selectDisabled"
-            :readonly="readonly"
-            :validate-event="false"
-            :class="{ 'is-focus': visible }"
-            :tabindex="(multiple && filterable) ? '-1' : null"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @input="debouncedOnInputChange"
-            @paste="debouncedOnInputChange"
-            @keydown.down.stop.prevent="navigateOptions('next')"
-            @keydown.up.stop.prevent="navigateOptions('prev')"
-            @keydown.enter.stop.prevent="selectOption"
-            @keydown.esc.stop.prevent="visible = false"
-            @keydown.tab="visible = false"
-            @mouseenter="inputHovering = true"
-            @mouseleave="inputHovering = false"
-          >
-            <template v-if="$slots.prefix" #prefix>
-              <div style="height: 100%;display: flex;justify-content: center;align-items: center">
-                <slot name="prefix"></slot>
-              </div>
-            </template>
-            <template #suffix>
-              <i
-                v-show="!showClose"
-                :class="['el-select__caret', 'el-input__icon', 'el-icon-' + iconClass]"
-              ></i>
-              <i
-                v-if="showClose"
-                :class="`el-select__caret el-input__icon ${clearIcon}`"
-                @click="handleClearClick"
-              ></i>
-            </template>
-          </el-input>
-        </div>-->
       </template>
       <template #default>
         <el-select-menu
           ref="menuRef"
           :data="filteredOptions"
-          :width="200"
+          :width="popperSize"
           :hovering-index="states.hoveringIndex"
         >
           <template #default="scope">
