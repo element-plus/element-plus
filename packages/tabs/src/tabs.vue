@@ -7,8 +7,10 @@ type RefElement = Nullable<HTMLElement>
 
 type BeforeLeave = (newTabName: string, oldTabName: string) => void | Promise<void> | boolean
 
+type TabType = 'card' | 'border-card' | ''
+
 export interface IETabsProps {
-  type: string
+  type: TabType
   activeName: string
   closable: boolean
   addable: boolean
@@ -49,7 +51,7 @@ export default defineComponent({
   components: { TabNav },
   props: {
     type: {
-      type: String,
+      type: String as PropType<TabType>,
       default: '',
     },
     activeName: {
