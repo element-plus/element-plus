@@ -8,6 +8,7 @@ type RefElement = Nullable<HTMLElement>
 type BeforeLeave = (newTabName: string, oldTabName: string) => void | Promise<void> | boolean
 
 type TabType = 'card' | 'border-card' | ''
+type TabPosition = 'top' | 'right' | 'bottom' | 'left'
 
 export interface IETabsProps {
   type: TabType
@@ -16,7 +17,7 @@ export interface IETabsProps {
   addable: boolean
   modelValue: string
   editable: boolean
-  tabPosition: string
+  tabPosition: TabPosition
   beforeLeave: BeforeLeave
   stretch: boolean
 }
@@ -66,7 +67,7 @@ export default defineComponent({
     },
     editable: Boolean,
     tabPosition: {
-      type: String,
+      type: String as PropType<TabPosition>,
       default: 'top',
     },
     beforeLeave: {
