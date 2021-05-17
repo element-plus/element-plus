@@ -14,6 +14,7 @@ $--input-inline-start: 7px !default;
   display: inline-block;
   position: relative;
 
+  $selector: &;
   @include e(wrapper) {
     box-sizing: border-box;
     cursor: text;
@@ -34,7 +35,7 @@ $--input-inline-start: 7px !default;
       border-color: $--color-primary;
     }
 
-    .#{$namespace}-select-v2__input-wrapper {
+    #{$selector}__input-wrapper {
       box-sizing: border-box;
       position: relative;
       padding-bottom: 2px;
@@ -44,12 +45,12 @@ $--input-inline-start: 7px !default;
       overflow: hidden;
     }
 
-    &, .#{$namespace}-select-v2__input-wrapper {
+    &, #{$selector}__input-wrapper {
       line-height: $--input-height;
       // height: $--input-height;
     }
 
-    .#{$namespace}-select-v2__input-wrapper input {
+    #{$selector}__input-wrapper input {
       line-height: $--input-medium-height;
       height: $--input-medium-height;
 
@@ -80,13 +81,13 @@ $--input-inline-start: 7px !default;
 
   @include m(mini) {
     @include e(wrapper) {
-      &, .#{$namespace}-select-v2__input-wrapper {
+      &, #{$selector}__input-wrapper {
         // since there were no 24px predefined, we can only hand write here.
         line-height: $--input-mini-height;
         // height: $--input-mini-height;
       }
 
-      .#{$namespace}-select-v2__input-wrapper input {
+      #{$selector}__input-wrapper input {
         line-height: 24px;
         height: 24px;
       }
@@ -95,12 +96,12 @@ $--input-inline-start: 7px !default;
 
   @include m(small) {
     @include e(wrapper) {
-      &, .#{$namespace}-select-v2__input-wrapper {
+      &, #{$selector}__input-wrapper {
         line-height: $--input-small-height;
         // height: $--input-small-height;
       }
 
-      .#{$namespace}-select-v2__input-wrapper input {
+      #{$selector}__input-wrapper input {
         line-height: $--input-mini-height;
         height: $--input-mini-height;
       }
@@ -109,24 +110,24 @@ $--input-inline-start: 7px !default;
 
   @include m(medium) {
     @include e(wrapper) {
-      &, .#{$namespace}-select-v2__input-wrapper {
+      &, #{$selector}__input-wrapper {
         line-height: $--input-medium-height;
         // height: $--input-medium-height;
       }
 
-      .#{$namespace}-select-v2__input-wrapper input {
+      #{$selector}__input-wrapper input {
         line-height: $--input-small-height;
         height: $--input-small-height;
       }
     }
   }
 
-  .#{$namespace}-select-v2__selection > span {
+  #{$selector}__selection > span {
     display: inline-block;
   }
 
   &:hover {
-    .#{$namespace}-select-v2__combobox-input {
+    #{$selector}__combobox-input {
       border-color: $--select-border-color-hover;
     }
   }
@@ -138,7 +139,7 @@ $--input-inline-start: 7px !default;
     vertical-align: bottom;
   }
 
-  .#{$namespace}-select-v2__combobox-input {
+  #{$selector}__combobox-input {
     padding-right: 35px;
     display: block;
 
@@ -147,34 +148,7 @@ $--input-inline-start: 7px !default;
     }
   }
 
-  .#{$namespace}-input {
-    display: block;
-
-    & .#{$namespace}-select-v2__caret {
-      color: $--select-input-color;
-      font-size: $--select-input-font-size;
-      transition: transform 0.3s;
-      transform: rotateZ(180deg);
-      cursor: pointer;
-
-      @include when(reverse) {
-        transform: rotateZ(0deg);
-      }
-
-      @include when(show-close) {
-        font-size: $--select-font-size;
-        text-align: center;
-        transform: rotateZ(180deg);
-        border-radius: $--border-radius-circle;
-        color: $--select-input-color;
-        transition: $--color-transition-base;
-
-        &:hover {
-          color: $--select-close-hover-color;
-        }
-      }
-    }
-
+  #{selector}__input-wrapper {
     &.is-disabled {
       & .#{$namespace}-input__inner {
         cursor: not-allowed;
@@ -220,6 +194,39 @@ $--input-inline-start: 7px !default;
     }
   }
 
+  @include e(suffix) {
+    position: absolute;
+    right: 5px;
+    height: 40px;
+    top: 1px;
+  }
+
+
+  @include e(caret) {
+    color: $--select-input-color;
+    font-size: $--select-input-font-size;
+    transition: transform 0.3s;
+    transform: rotateZ(180deg);
+    cursor: pointer;
+
+    @include when(reverse) {
+      transform: rotateZ(0deg);
+    }
+
+    @include when(show-close) {
+      font-size: $--select-font-size;
+      text-align: center;
+      transform: rotateZ(180deg);
+      border-radius: $--border-radius-circle;
+      color: $--select-input-color;
+      transition: $--color-transition-base;
+
+      &:hover {
+        color: $--select-close-hover-color;
+      }
+    }
+  }
+
   @include e(selection) {
     white-space: normal;
     z-index: $--index-normal;
@@ -261,6 +268,7 @@ $--input-inline-start: 7px !default;
     position: absolute;
     top: 1px;
     margin-inline-start: $--input-inline-start;
+    width: calc(100% - 52px);
     @include when(transparent) {
       opacity: 0.3;
     }

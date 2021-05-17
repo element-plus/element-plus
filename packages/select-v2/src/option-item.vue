@@ -4,7 +4,7 @@
     :style="style"
     :class="{
       'el-select-dropdown__option-item': true,
-      'selected': selected,
+      'is-selected': selected,
       'is-disabled': disabled,
       'hover': hovering
     }"

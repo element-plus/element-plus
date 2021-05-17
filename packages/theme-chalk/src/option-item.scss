@@ -24,6 +24,20 @@
         background-color: $--color-white;
       }
     }
+
+    @include when(selected) {
+      background-color: $--select-option-hover-background;
+      font-weight: 700;
+
+      &:not(.is-multiple) {
+        color: $--select-option-selected-font-color;
+      }
+    }
+
+    &.hover,
+    &:hover {
+      background-color: $--select-option-hover-background;
+    }
   }
 
   @include when(multiple) {
@@ -43,11 +57,6 @@
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
-      }
-
-      &.hover,
-      &:hover {
-        background-color: $--select-option-hover-background;
       }
 
     }

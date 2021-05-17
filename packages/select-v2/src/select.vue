@@ -24,7 +24,7 @@
         <div
           ref="selectionRef"
           class="el-select-v2__wrapper"
-          :class="{'is-focused': expanded}"
+          :class="{'is-focused': states.isComposing}"
         >
           <div v-if="$slots.prefix">
             <slot name="prefix"></slot>
@@ -96,10 +96,11 @@
                 role="combobox"
                 spellcheck="false"
                 type="text"
-                @click.stop.prevent=""
+                @click.stop.prevent="handleInputBoxClick"
                 @blur="handleBlur"
                 @focus="handleFocus"
                 @input="onInput"
+                @keydown.esc.stop.prevent="expanded = false"
               >
               <span
                 ref="calculatorRef"
@@ -132,10 +133,11 @@
                 role="combobox"
                 spellcheck="false"
                 type="text"
-                @click.stop.prevent=""
+                @click.stop.prevent="handleInputBoxClick"
                 @blur="handleBlur"
                 @focus="handleFocus"
                 @input="onInput"
+                @keydown.esc.stop.prevent="handleEsc"
               >
             </div>
             <span
@@ -150,14 +152,19 @@
             v-if="shouldShowPlaceholder"
             :class="{
               'el-select-v2__placeholder': true,
-              'is-transparent': expanded,
+              'is-transparent': states.isComposing,
             }"
           >
             {{ currentPlaceholder }}
           </span>
-          <div v-if="$slots.suffix">
-            <slot name="suffix"></slot>
-          </div>
+          <span class="el-select-v2__suffix">
+            <i v-show="!showClearBtn" :class="['el-select-v2__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
+            <i
+              v-if="showClearBtn"
+              :class="`el-select-v2__caret el-input__icon ${clearIcon}`"
+              @click="handleClear"
+            ></i>
+          </span>
         </div>
       </template>
       <template #default>
@@ -189,14 +196,9 @@
 
 <script lang="ts">
 import {
-  toRefs,
   defineComponent,
   onMounted,
-  onBeforeUnmount,
-  nextTick,
-  reactive,
   provide,
-  computed,
 } from 'vue'
 import ElTag from '@element-plus/tag'
 import ElPopper from '@element-plus/popper'

@@ -60,6 +60,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     inputHovering: false,
     isOnComposition: false,
     isSilentBlur: false,
+    isComposing: false,
     inputLength: 20,
     inputWidth: 240,
     initialInputHeight: 0,
@@ -494,10 +495,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     emit('clear')
   }
 
+  const handleInputBoxClick = () => {
+    console.log(222)
+    if (states.inputValue.length === 0 && expanded.value) {
+      expanded.value = false
+    }
+  }
+
   const handleFocus = event => {
+
+    console.log(333)
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
         expanded.value = true
+        states.isComposing = true
         // if (props.filterable) {
         //   states.menuVisibleOnFocus = true
         // }
@@ -524,7 +535,28 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         emit('blur', event)
       }
     })
+    states.isComposing = false
     states.softFocus = false
+  }
+
+  // keyboard handlers
+  const handleEsc = () => {
+    if (states.inputValue.length > 0) {
+      states.inputValue = ''
+    } else {
+      expanded.value = false
+    }
+  }
+
+  const handleClear = () => {
+    let clearVal: string | any[]
+    if (isArray(props.modelValue)) {
+      clearVal = []
+    } else {
+      clearVal = ''
+    }
+    emit('change', clearVal)
+    emit(UPDATE_MODEL_EVENT, clearVal)
   }
 
   const onKeyboardNavigate = (direction: 'forward' | 'backward') => {
@@ -605,6 +637,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     //   console.log(inputRef.value)
     //   inputRef.value.focus?.()
     // }
+    console.log(val)
     if (val) {
       popper.value?.update?.()
     }
@@ -678,6 +711,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     getValueKey,
     handleBlur,
     handleFocus,
+    handleEsc,
+    handleClear,
+    handleInputBoxClick,
     toggleMenu,
     onInput,
     onKeyboardNavigate,
