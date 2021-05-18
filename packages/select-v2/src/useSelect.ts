@@ -57,7 +57,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     createdSelected: false,
     currentPlaceholder: '',
     hoveringIndex: -1,
-    inputHovering: false,
+    comboBoxHovering: false,
     isOnComposition: false,
     isSilentBlur: false,
     isComposing: false,
@@ -98,7 +98,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const criteria =
       props.clearable &&
       !selectDisabled.value &&
-      states.inputHovering &&
+      states.comboBoxHovering &&
       hasValue
     return criteria
   })
@@ -147,7 +147,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
-      return props.modelValue.length === 0
+      return props.modelValue.length === 0 && !states.inputValue
     }
 
     // when it's not multiple mode, we only determine this flag based on filterable and expanded
@@ -156,13 +156,19 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const currentPlaceholder = computed(() => {
-    return isArray(props.multiple)
+    return props.multiple
       ? props.placeholder
       : props.modelValue || props.placeholder
   })
 
+  // this obtains the actual popper DOM element.
   const popperRef = computed(() => popper.value?.popperRef)
+
   // methods
+  const focusAndUpdatePopup = () => {
+    inputRef.value.focus?.()
+    popper.value.update?.()
+  }
   const toggleMenu = () => {
     if (props.automaticDropdown) return
     if (!selectDisabled.value) {
@@ -195,7 +201,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       nextTick(() => {
         const length = inputRef.value.value.length * 15 + 20
         states.inputLength = props.collapseTags ? Math.min(50, length) : length
-        managePlaceholder()
         resetInputHeight()
       })
     }
@@ -244,10 +249,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const managePlaceholder = () => {
-    if (states.currentPlaceholder !== '') {
-      states.currentPlaceholder = inputRef.value.value ? '' : states.cachedPlaceholder
-    }
+  const update = (val: any) => {
+    emit(UPDATE_MODEL_EVENT, val)
+    emitChange(val)
   }
 
   const checkDefaultFirstOption = () => {
@@ -425,24 +429,21 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       } else if (props.multipleLimit <= 0 || selectedOptions.length < props.multipleLimit) {
         selectedOptions = [...selectedOptions, option.value]
       }
-      emit(UPDATE_MODEL_EVENT, selectedOptions)
-      emitChange(selectedOptions)
+      update(selectedOptions)
       if (option.created) {
         states.query = ''
         handleQueryChange('')
         states.inputLength = 20
       }
       if (props.filterable) {
-        inputRef.value.focus()
+        inputRef.value.focus?.()
         states.inputValue = ''
       }
-
-
+      states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
       resetInputHeight()
     } else {
       selectedIndex.value = index
-      emit(UPDATE_MODEL_EVENT, option.value)
-      emitChange(option.value)
+      update(option.value)
       expanded.value = false
     }
     states.isSilentBlur = byClick
@@ -453,18 +454,17 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     })
   }
 
-  const deletePrevTag = e => {
-    if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
-      const value = (props.modelValue as Array<unknown>).slice()
-      value.pop()
-      emit(UPDATE_MODEL_EVENT, value)
-      emitChange(value)
-    }
+  // const deletePrevTag = e => {
+  //   if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
+  //     const value = (props.modelValue as Array<unknown>).slice()
+  //     value.pop()
+  //     update(value)
+  //   }
 
-    if (e.target.value.length === 1 && (props.modelValue as Array<unknown>).length === 0) {
-      states.currentPlaceholder = states.cachedPlaceholder
-    }
-  }
+  //   if (e.target.value.length === 1 && (props.modelValue as Array<unknown>).length === 0) {
+  //     states.currentPlaceholder = states.cachedPlaceholder
+  //   }
+  // }
 
   const deleteTag = (event, tag) => {
     const index = (props.modelValue as Array<any>).indexOf(tag)
@@ -474,9 +474,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         ...(props.modelValue as Array<unknown>).slice(0, index),
         ...(props.modelValue as Array<unknown>).slice(index + 1),
       ]
-      emit(UPDATE_MODEL_EVENT, value)
-      emitChange(value)
+      update(value)
       emit('remove-tag', tag.value)
+      states.softFocus = true
+      nextTick(focusAndUpdatePopup)
     }
     event.stopPropagation()
   }
@@ -489,26 +490,22 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         // if (item) value.push(item.value)
       }
     }
-    emit(UPDATE_MODEL_EVENT, value)
-    emitChange(value)
+    update(value)
     expanded.value = false
     emit('clear')
   }
 
   const handleInputBoxClick = () => {
-    console.log(222)
     if (states.inputValue.length === 0 && expanded.value) {
       expanded.value = false
     }
   }
 
-  const handleFocus = event => {
-
-    console.log(333)
+  const handleFocus = (event: FocusEvent) => {
+    states.isComposing = true
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
         expanded.value = true
-        states.isComposing = true
         // if (props.filterable) {
         //   states.menuVisibleOnFocus = true
         // }
@@ -548,15 +545,27 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const handleClear = () => {
-    let clearVal: string | any[]
-    if (isArray(props.modelValue)) {
-      clearVal = []
-    } else {
-      clearVal = ''
+  const handleDel = (e: KeyboardEvent) => {
+    if (states.inputValue.length === 0) {
+      e.preventDefault()
+      const selected = (props.modelValue as Array<any>).slice()
+      selected.pop()
+      update(selected)
     }
-    emit('change', clearVal)
-    emit(UPDATE_MODEL_EVENT, clearVal)
+  }
+
+  const handleClear = () => {
+    let emptyValue: string | any[]
+    if (isArray(props.modelValue)) {
+      emptyValue = []
+    } else {
+      emptyValue = ''
+    }
+
+    states.softFocus = true
+    expanded.value = false
+    update(emptyValue)
+    nextTick(focusAndUpdatePopup)
   }
 
   const onKeyboardNavigate = (direction: 'forward' | 'backward') => {
@@ -614,11 +623,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const onInput = () => {
+    if (states.inputValue.length > 0 && !expanded.value) {
+      expanded.value = true
+    }
+
     states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
     if (props.multiple) {
       resetInputHeight()
     }
     debouncedOnInputChange()
+  }
+
+  const onCompositionUpdate = (e: CompositionEvent) => {
+    states.inputValue += e.data
+    onInput()
   }
 
   const handleMenuEnter = () => {
@@ -632,12 +650,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const queryRef = toRef(states, 'query')
 
   watch(expanded, val => {
+    console.log(val)
     // console.log(props.filterable)
     // if (val && props.filterable) {
     //   console.log(inputRef.value)
     //   inputRef.value.focus?.()
     // }
-    console.log(val)
     if (val) {
       popper.value?.update?.()
     }
@@ -710,11 +728,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     getLabel,
     getValueKey,
     handleBlur,
+    handleClear,
+    handleDel,
     handleFocus,
     handleEsc,
-    handleClear,
     handleInputBoxClick,
     toggleMenu,
+    onCompositionUpdate,
     onInput,
     onKeyboardNavigate,
     onKeyboardSelect,

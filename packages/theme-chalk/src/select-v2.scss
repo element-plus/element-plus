@@ -35,6 +35,12 @@ $--input-inline-start: 7px !default;
       border-color: $--color-primary;
     }
 
+    @include when(hovering) {
+      &:not(.is-focused) {
+        border-color: $--color-text-placeholder;
+      }
+    }
+
     #{$selector}__input-wrapper {
       box-sizing: border-box;
       position: relative;

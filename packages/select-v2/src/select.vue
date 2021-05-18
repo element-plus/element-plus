@@ -5,6 +5,8 @@
     :class="[selectSize ? 'el-select-v2--' + selectSize : '']"
     class="el-select-v2"
     @click.stop="toggleMenu"
+    @mouseenter="states.comboBoxHovering = true"
+    @mouseleave="states.comboBoxHovering = false"
   >
     <el-popper
       ref="popper"
@@ -24,7 +26,10 @@
         <div
           ref="selectionRef"
           class="el-select-v2__wrapper"
-          :class="{'is-focused': states.isComposing}"
+          :class="{
+            'is-focused': states.isComposing,
+            'is-hovering': states.comboBoxHovering
+          }"
         >
           <div v-if="$slots.prefix">
             <slot name="prefix"></slot>
@@ -100,7 +105,10 @@
                 @blur="handleBlur"
                 @focus="handleFocus"
                 @input="onInput"
+                @compositionupdate="onCompositionUpdate"
+                @compositionend="onInput"
                 @keydown.esc.stop.prevent="expanded = false"
+                @keydown.delete.stop="handleDel"
               >
               <span
                 ref="calculatorRef"
@@ -137,6 +145,8 @@
                 @blur="handleBlur"
                 @focus="handleFocus"
                 @input="onInput"
+                @compositionupdate="onCompositionUpdate"
+                @compositionend="onInput"
                 @keydown.esc.stop.prevent="handleEsc"
               >
             </div>
@@ -152,7 +162,7 @@
             v-if="shouldShowPlaceholder"
             :class="{
               'el-select-v2__placeholder': true,
-              'is-transparent': states.isComposing,
+              'is-transparent': states.isComposing || (placeholder && !modelValue),
             }"
           >
             {{ currentPlaceholder }}
@@ -162,7 +172,7 @@
             <i
               v-if="showClearBtn"
               :class="`el-select-v2__caret el-input__icon ${clearIcon}`"
-              @click="handleClear"
+              @click.prevent.stop="handleClear"
             ></i>
           </span>
         </div>
