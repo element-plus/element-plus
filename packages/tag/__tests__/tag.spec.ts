@@ -40,7 +40,7 @@ describe('Tag.vue', () => {
     expect(vm.$el.classList.contains('is-hit')).toEqual(true)
   })
 
-  test('closeable', async () => {
+  test('closable', async () => {
     const wrapper = mount(Tag, {
       props: {
         closable: true,

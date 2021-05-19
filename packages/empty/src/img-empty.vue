@@ -7,7 +7,7 @@
   >
     <defs>
       <linearGradient
-        id="linearGradient-1"
+        :id="`linearGradient-1-${id}`"
         x1="38.8503086%"
         y1="0%"
         x2="61.1496914%"
@@ -17,7 +17,7 @@
         <stop stop-color="#EEEFF3" offset="100%" />
       </linearGradient>
       <linearGradient
-        id="linearGradient-2"
+        :id="`linearGradient-2-${id}`"
         x1="0%"
         y1="9.5%"
         x2="100%"
@@ -27,7 +27,7 @@
         <stop stop-color="#E9EBEF" offset="100%" />
       </linearGradient>
       <rect
-        id="path-3"
+        :id="`path-3-${id}`"
         x="0"
         y="0"
         width="17"
@@ -54,7 +54,10 @@
             transform="translate(27.500000, 51.500000) scale(1, -1) translate(-27.500000, -51.500000) "
             points="13 58 53 58 42 45 2 45"
           />
-          <g id="Group-Copy" transform="translate(34.500000, 31.500000) scale(-1, 1) rotate(-25.000000) translate(-34.500000, -31.500000) translate(7.000000, 10.000000)">
+          <g
+            id="Group-Copy"
+            transform="translate(34.500000, 31.500000) scale(-1, 1) rotate(-25.000000) translate(-34.500000, -31.500000) translate(7.000000, 10.000000)"
+          >
             <polygon
               id="Rectangle-Copy-10"
               fill="#E5E7E9"
@@ -64,7 +67,7 @@
             <polygon id="Rectangle-Copy-11" fill="#EDEEF2" points="-3.69149156e-15 7 38 7 38 43 -3.69149156e-15 43" />
             <rect
               id="Rectangle-Copy-12"
-              fill="url(#linearGradient-1)"
+              :fill="`url(#linearGradient-1-${id})`"
               transform="translate(46.500000, 25.000000) scale(-1, 1) translate(-46.500000, -25.000000) "
               x="38"
               y="7"
@@ -80,26 +83,26 @@
           </g>
           <rect
             id="Rectangle-Copy-15"
-            fill="url(#linearGradient-2)"
+            :fill="`url(#linearGradient-2-${id})`"
             x="13"
             y="45"
             width="40"
             height="36"
           />
           <g id="Rectangle-Copy-17" transform="translate(53.000000, 45.000000)">
-            <mask id="mask-4" fill="white">
-              <use xlink:href="#path-3" />
+            <mask :id="`mask-4-${id}`" fill="white">
+              <use :xlink:href="`#path-3-${id}`" />
             </mask>
             <use
               id="Mask"
               fill="#E0E3E9"
               transform="translate(8.500000, 18.000000) scale(-1, 1) translate(-8.500000, -18.000000) "
-              xlink:href="#path-3"
+              :xlink:href="`#path-3-${id}`"
             />
             <polygon
               id="Rectangle-Copy"
               fill="#D5D7DE"
-              mask="url(#mask-4)"
+              :mask="`url(#mask-4-${id})`"
               transform="translate(12.000000, 9.000000) scale(-1, 1) translate(-12.000000, -9.000000) "
               points="7 0 24 0 20 18 -1.70530257e-13 16"
             />
@@ -119,7 +122,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+let id = 0
 export default defineComponent({
   name: 'ImgEmpty',
+  setup() {
+    return {
+      id: ++id,
+    }
+  },
 })
 </script>

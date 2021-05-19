@@ -7,6 +7,13 @@ import isServer from './isServer'
 import type { AnyFunction } from './types'
 import { warn } from './error'
 
+// type polyfill for compat isIE method
+declare global {
+  interface Document {
+    documentMode?: any
+  }
+}
+
 export const SCOPE = 'Util'
 
 export type PartialCSSStyleDeclaration = Partial<Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>>
@@ -21,7 +28,7 @@ export function toObject<T>(arr: Array<T>): Record<string, T> {
   return res
 }
 
-export const getValueByPath = (obj: any, paths = ''): unknown => {
+export const getValueByPath = (obj, paths = ''): unknown => {
   let ret: unknown = obj
   paths.split('.').map(path => {
     ret = ret?.[path]
@@ -83,7 +90,7 @@ export const coerceTruthyValueToArray = arr => {
 }
 
 export const isIE = function (): boolean {
-  return !isServer && !isNaN(Number(document.DOCUMENT_NODE))
+  return !isServer && !isNaN(Number(document.documentMode))
 }
 
 export const isEdge = function (): boolean {
@@ -182,10 +189,10 @@ export const arrayFindIndex = function <T = any>(
   return arr.findIndex(pred)
 }
 
-export const arrayFind = function <T = any>(
+export const arrayFind = function <T>(
   arr: Array<T>,
   pred: (args: T) => boolean,
-): any {
+): T {
   return arr.find(pred)
 }
 

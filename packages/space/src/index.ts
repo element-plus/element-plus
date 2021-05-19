@@ -34,6 +34,7 @@ export default defineComponent({
       itemStyle,
       spacer,
       prefixCls,
+      direction,
     } = ctx
 
     const children = renderSlot($slots, 'default', { key: 0 }, () => [])
@@ -103,11 +104,11 @@ export default defineComponent({
                 // when the spacer inherit the width from the
                 // parent, this span's width was not set, so space
                 // might disappear
-                { style: [itemStyle, 'width: 100%'], key: idx },
+                { style: [itemStyle, direction === 'vertical' ? 'width: 100%' : null], key: idx },
                 [
-                  // if spacer is already a valid vnode, then append it to the current
-                  // span element.
-                  // otherwise, treat it as string.
+                // if spacer is already a valid vnode, then append it to the current
+                // span element.
+                // otherwise, treat it as string.
                   isVNode(spacer)
                     ? spacer
                     : createTextVNode(spacer as string, PatchFlags.TEXT),

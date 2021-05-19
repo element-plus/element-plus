@@ -6,6 +6,9 @@ import {
   nextTick,
   ref,
   h,
+  ComponentInternalInstance,
+  Ref,
+  PropType,
 } from 'vue'
 import ElCheckbox from '@element-plus/checkbox'
 import FilterPanel from '../filter-panel.vue'
@@ -14,8 +17,21 @@ import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
 import { hColgroup } from '../h-helper'
-import { Table, TableHeader } from '../table.type'
-import { TableHeaderProps } from './table-header'
+import { DefaultRow, Sort, Table } from '../table/defaults'
+import { Store } from '../store'
+export interface TableHeader extends ComponentInternalInstance {
+  state: {
+    onColumnsChange
+    onScrollableChange
+  }
+  filterPanels: Ref<unknown>
+}
+export interface TableHeaderProps<T> {
+  fixed: string
+  store: Store<T>
+  border: boolean
+  defaultSort: Sort
+}
 
 export default defineComponent({
   name: 'ElTableHeader',
@@ -29,12 +45,12 @@ export default defineComponent({
     },
     store: {
       required: true,
-      type: Object,
+      type: Object as PropType<TableHeaderProps<DefaultRow>['store']>,
     },
     border: Boolean,
     defaultSort: {
-      type: Object,
-      default() {
+      type: Object as PropType<TableHeaderProps<DefaultRow>['defaultSort']>,
+      default: () => {
         return {
           prop: '',
           order: '',
@@ -42,9 +58,9 @@ export default defineComponent({
       },
     },
   },
-  setup(props: TableHeaderProps, { emit }) {
+  setup(props, { emit }) {
     const instance = getCurrentInstance() as TableHeader
-    const parent = instance.parent as Table
+    const parent = instance.parent as Table<unknown>
     const storeData = parent.store.states
     const filterPanels = ref({})
     const {
@@ -70,14 +86,16 @@ export default defineComponent({
       handleMouseOut,
       handleSortClick,
       handleFilterClick,
-    } = useEvent(props, emit)
+    } = useEvent(props as TableHeaderProps<unknown>, emit)
     const {
       getHeaderRowStyle,
       getHeaderRowClass,
       getHeaderCellStyle,
       getHeaderCellClass,
-    } = useStyle(props)
-    const { isGroup, toggleAllSelection, columnRows } = useUtils(props)
+    } = useStyle(props as TableHeaderProps<unknown>)
+    const { isGroup, toggleAllSelection, columnRows } = useUtils(
+      props as TableHeaderProps<unknown>,
+    )
 
     instance.state = {
       onColumnsChange,
@@ -155,7 +173,7 @@ export default defineComponent({
                     onContextmenu: $event =>
                       this.handleHeaderContextMenu($event, column),
                     onMousedown: $event => this.handleMouseDown($event, column),
-                    onMouseMove: $event => this.handleMouseMove($event, column),
+                    onMousemove: $event => this.handleMouseMove($event, column),
                     onMouseout: this.handleMouseOut,
                   },
                   [

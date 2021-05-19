@@ -233,7 +233,7 @@ Description includes a message with more detailed information.
 | show-icon | If a type icon is displayed | boolean | — | false |
 | effect | Choose theme  | string | light/dark | light |
 
-### Slot
+### Slots
 
 | Name | Description |
 |------|--------|

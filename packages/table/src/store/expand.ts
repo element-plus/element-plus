@@ -1,11 +1,12 @@
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, Ref } from 'vue'
+import { Table } from '../table/defaults'
 import { toggleRowStatus, getKeysMap, getRowIdentity } from '../util'
-import { WatcherPropsData, Table } from '../table.type'
+import { WatcherPropsData } from './index'
 
-function useExpand(watcherData: WatcherPropsData) {
-  const instance = getCurrentInstance() as Table
+function useExpand<T>(watcherData: WatcherPropsData<T>) {
+  const instance = getCurrentInstance() as Table<T>
   const defaultExpandAll = ref(false)
-  const expandRows = ref([])
+  const expandRows: Ref<T[]> = ref([])
   const updateExpandRows = () => {
     const data = watcherData.data.value || []
     const rowKey = watcherData.rowKey.value
@@ -14,7 +15,7 @@ function useExpand(watcherData: WatcherPropsData) {
     } else if (rowKey) {
       // TODO：这里的代码可以优化
       const expandRowsMap = getKeysMap(expandRows.value, rowKey)
-      expandRows.value = data.reduce((prev, row) => {
+      expandRows.value = data.reduce((prev: T[], row: T) => {
         const rowId = getRowIdentity(row, rowKey)
         const rowInfo = expandRowsMap[rowId]
         if (rowInfo) {
@@ -27,7 +28,7 @@ function useExpand(watcherData: WatcherPropsData) {
     }
   }
 
-  const toggleRowExpansion = (row, expanded: boolean | undefined) => {
+  const toggleRowExpansion = (row: T, expanded?: boolean) => {
     const changed = toggleRowStatus(expandRows.value, row, expanded)
     if (changed) {
       instance.emit('expand-change', row, expandRows.value.slice())
@@ -41,7 +42,7 @@ function useExpand(watcherData: WatcherPropsData) {
     const data = watcherData.data.value || []
     const rowKey = watcherData.rowKey.value
     const keysMap = getKeysMap(data, rowKey)
-    expandRows.value = rowKeys.reduce((prev: string[], cur: string) => {
+    expandRows.value = rowKeys.reduce((prev: T[], cur: string) => {
       const info = keysMap[cur]
       if (info) {
         prev.push(info.row)
@@ -50,7 +51,7 @@ function useExpand(watcherData: WatcherPropsData) {
     }, [])
   }
 
-  const isRowExpanded = (row): boolean => {
+  const isRowExpanded = (row: T): boolean => {
     const rowKey = watcherData.rowKey.value
     if (rowKey) {
       const expandMap = getKeysMap(expandRows.value, rowKey)

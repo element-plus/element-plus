@@ -8,7 +8,7 @@
     "gen": "bash ./scripts/gc.sh",
     "bootstrap": "yarn --frozen-lockfile && npx lerna bootstrap && yarn gen:version",
     "gen:version": "node build/gen-version.js",
-    "build": "yarn bootstrap && yarn clean:lib && yarn build:esm-bundle && yarn build:lib && yarn build:lib-full && yarn build:esm && yarn build:utils && yarn build:locale && yarn build:locale-umd && yarn build:theme",
+    "build": "yarn bootstrap && yarn clean:lib && yarn build:esm-bundle && yarn build:lib && yarn build:lib-full && yarn build:esm && yarn build:utils && yarn build:locale && yarn build:locale-umd && yarn build:theme && yarn build:helper",
     "clean:lib": "rimraf lib && rimraf es",
     "build:lib": "cross-env LIBMODE=core webpack --config ./build/webpack.config.js",
     "build:lib-full": "cross-env LIBMODE=full webpack --config ./build/webpack.config.js",
@@ -19,6 +19,7 @@
     "build:locale": "cross-env BABEL_ENV=utils babel packages/locale --extensions .ts --out-dir lib/locale",
     "build:locale-umd": "node ./build/build-locale.js",
     "build:theme": "rimraf packages/theme-chalk/lib && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk && rimraf packages/theme-chalk/lib",
+    "build:helper": "node build/build-helper.js",
     "lint": "eslint ./packages --ext .vue,.js,.ts",
     "lint-fix": "eslint --fix ./packages --ext .vue,.js,.ts",
     "website-build": "rimraf website-dist && cross-env NODE_ENV=production webpack --config ./website/webpack.config.js",
@@ -28,7 +29,7 @@
     "fast-build": "sh ./scripts/build.sh"
   },
   "peerDependencies": {
-    "vue": "^3.0.5"
+    "vue": "^3.0.9"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
@@ -47,7 +48,7 @@
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
     "@vue/babel-plugin-jsx": "^1.0.0",
-    "@vue/compiler-sfc": "^3.0.5",
+    "@vue/compiler-sfc": "^3.0.9",
     "@vue/component-compiler-utils": "^3.2.0",
     "algoliasearch": "^4.4.0",
     "babel-jest": "^26.3.0",
@@ -57,6 +58,7 @@
     "babel-preset-vue": "^2.0.2",
     "chalk": "^4.1.0",
     "clipboard-copy": "^4.0.1",
+    "components-helper": "^1.0.2",
     "cp-cli": "^2.0.0",
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
@@ -94,7 +96,7 @@
     "ts-loader": "^8.0.3",
     "typescript": "^4.0.2",
     "url-loader": "^4.1.0",
-    "vue": "^3.0.5",
+    "vue": "^3.0.9",
     "vue-jest": "5.0.0-alpha.5",
     "vue-loader": "^16.1.2",
     "vue-router": "^4.0.2",
@@ -131,6 +133,7 @@
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.4",
+    "@types/lodash": "^4.14.161",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
     "lodash": "^4.17.20",
@@ -141,15 +144,18 @@
   "files": [
     "lib",
     "es",
-    "packages",
-    "vetur"
+    "packages"
   ],
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
   "typings": "lib/index.d.ts",
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
-  "vetur": { "tags": "./vetur/tags.json", "attributes": "./vetur/attributes.json" },
+  "vetur": {
+    "tags": "lib/tags.json",
+    "attributes": "lib/attributes.json"
+  },
+  "web-types": "lib/web-types.json",
   "browserslist": [
     "> 1%",
     "last 2 versions",

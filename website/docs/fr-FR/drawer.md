@@ -290,6 +290,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 :::
 
+
 ### Drawer Attributes
 
 | Parameter| Description | Type      | Acceptable Values                           | Defaults  |

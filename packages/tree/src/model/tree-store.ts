@@ -1,3 +1,4 @@
+import { hasOwn } from '@vue/shared'
 import Node from './node'
 import { getNodeKey } from './util'
 import {
@@ -35,7 +36,7 @@ export default class TreeStore {
     this.currentNodeKey = null
 
     for (const option in options) {
-      if (options.hasOwnProperty(option)) {
+      if (hasOwn(options, option)) {
         this[option] = options[option]
       }
     }
@@ -237,7 +238,7 @@ export default class TreeStore {
     const allNodes: Node[] = []
     const nodesMap = this.nodesMap
     for (const nodeKey in nodesMap) {
-      if (nodesMap.hasOwnProperty(nodeKey)) {
+      if (hasOwn(nodesMap, nodeKey)) {
         allNodes.push(nodesMap[nodeKey])
       }
     }
@@ -354,13 +355,16 @@ export default class TreeStore {
     this.currentNode.isCurrent = true
   }
 
-  setUserCurrentNode(node: Node): void {
+  setUserCurrentNode(node: Node, shouldAutoExpandParent = true): void {
     const key = node[this.key]
     const currNode = this.nodesMap[key]
     this.setCurrentNode(currNode)
+    if (shouldAutoExpandParent && this.currentNode.level > 1) {
+      this.currentNode.parent.expand(null, true)
+    }
   }
 
-  setCurrentNodeKey(key: TreeKey): void {
+  setCurrentNodeKey(key: TreeKey, shouldAutoExpandParent = true): void {
     if (key === null || key === undefined) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null
@@ -369,6 +373,9 @@ export default class TreeStore {
     const node = this.getNode(key)
     if (node) {
       this.setCurrentNode(node)
+      if (shouldAutoExpandParent && this.currentNode.level > 1) {
+        this.currentNode.parent.expand(null, true)
+      }
     }
   }
 }

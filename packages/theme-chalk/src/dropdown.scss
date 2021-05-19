@@ -1,6 +1,7 @@
 @import "mixins/mixins";
 @import "common/var";
 @import "button";
+@import 'popper';
 
 @include b(dropdown) {
   display: inline-block;
@@ -137,9 +138,8 @@
     }
 
     @include when(disabled) {
-      cursor: default;
+      cursor: not-allowed;
       color: $--font-color-disabled-base;
-      pointer-events: none;
     }
   }
 

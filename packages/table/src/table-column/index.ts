@@ -7,88 +7,27 @@ import {
   getCurrentInstance,
   h,
   onBeforeUnmount,
+  Fragment,
 } from 'vue'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
 import ElCheckbox from '@element-plus/checkbox'
-import { TableColumnCtx, TableColumn } from '../table.type'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
+import defaultProps, { TableColumn, TableColumnCtx } from './defaults'
+import { DefaultRow } from '../table/defaults'
 
 let columnIdSeed = 1
+
 export default defineComponent({
   name: 'ElTableColumn',
   components: {
     ElCheckbox,
   },
-  props: {
-    type: {
-      type: String,
-      default: 'default',
-    },
-    label: String,
-    className: String,
-    labelClassName: String,
-    property: String,
-    prop: String,
-    width: {
-      type: [Object, Number, String],
-      default: () => {
-        return {}
-      },
-    },
-    minWidth: {
-      type: [Object, Number, String],
-      default: () => {
-        return {}
-      },
-    },
-    renderHeader: Function,
-    sortable: {
-      type: [Boolean, String],
-      default: false,
-    },
-    sortMethod: Function,
-    sortBy: [String, Function, Array],
-    resizable: {
-      type: Boolean,
-      default: true,
-    },
-    columnKey: String,
-    align: String,
-    headerAlign: String,
-    showTooltipWhenOverflow: Boolean,
-    showOverflowTooltip: Boolean,
-    fixed: [Boolean, String],
-    formatter: Function,
-    selectable: Function,
-    reserveSelection: Boolean,
-    filterMethod: Function,
-    filteredValue: Array,
-    filters: Array,
-    filterPlacement: String,
-    filterMultiple: {
-      type: Boolean,
-      default: true,
-    },
-    index: [Number, Function],
-    sortOrders: {
-      type: Array,
-      default() {
-        return ['ascending', 'descending', null]
-      },
-      validator(val: unknown[]) {
-        return val.every(
-          (order: string) =>
-            ['ascending', 'descending', null].indexOf(order) > -1,
-        )
-      },
-    },
-  },
-  setup(prop, { slots }) {
-    const instance = getCurrentInstance() as TableColumn
-    const columnConfig = ref<Partial<TableColumnCtx>>({})
-    const props = (prop as unknown) as TableColumnCtx
+  props: defaultProps,
+  setup(props, { slots }) {
+    const instance = getCurrentInstance() as TableColumn<DefaultRow>
+    const columnConfig = ref<Partial<TableColumnCtx<DefaultRow>>>({})
     const owner = computed(() => {
       let parent = instance.parent as any
       while (parent && !parent.tableId) {
@@ -112,12 +51,11 @@ export default defineComponent({
       getPropsData,
       getColumnElIndex,
       realAlign,
-    } = useRender(props, slots, owner)
+    } = useRender((props as unknown) as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
     columnId.value =
       (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++
-
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
@@ -187,14 +125,16 @@ export default defineComponent({
       const children = isSubColumn.value
         ? parent.vnode.el.children
         : parent.refs.hiddenColumns?.children
-      const getColumnIndex = () => getColumnElIndex(children || [], instance.vnode.el)
+      const getColumnIndex = () =>
+        getColumnElIndex(children || [], instance.vnode.el)
       columnConfig.value.getColumnIndex = getColumnIndex
       const columnIndex = getColumnIndex()
-      columnIndex > -1 && owner.value.store.commit(
-        'insertColumn',
-        columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null,
-      )
+      columnIndex > -1 &&
+        owner.value.store.commit(
+          'insertColumn',
+          columnConfig.value,
+          isSubColumn.value ? parent.columnConfig.value : null,
+        )
     })
     onBeforeUnmount(() => {
       owner.value.store.commit(
@@ -210,19 +150,31 @@ export default defineComponent({
     return
   },
   render() {
+    let children = []
     try {
-      return h(
-        'div',
-        this.$slots.default?.({
-          store: {},
-          _self: {},
-          column: {},
-          row: {},
-          $index: -1,
-        }),
-      )
+      const renderDefault = this.$slots.default?.({
+        row: {},
+        column: {},
+        $index: -1,
+      })
+      if (renderDefault instanceof Array) {
+        for (const childNode of renderDefault) {
+          if (
+            childNode.type?.name === 'ElTableColumn' ||
+            childNode.shapeFlag !== 36
+          ) {
+            children.push(childNode)
+          } else if (
+            childNode.type === Fragment &&
+            childNode.children instanceof Array
+          ) {
+            renderDefault.push(...childNode.children)
+          }
+        }
+      }
     } catch {
-      return h('div')
+      children = []
     }
+    return h('div', children)
   },
 })

@@ -22,10 +22,11 @@
       background-color: $--border-color-base;
     }
 
-    .#{$namespace}-icon-back {
+    @include e(icon) {
       font-size: 18px;
       margin-right: 6px;
-      align-self: center;
+      display: flex;
+      align-items: center;
     }
 
     @include e(title) {

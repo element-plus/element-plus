@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, ref, provide } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { DEFAULT_FORMATS_TIME } from './common/constant'
@@ -20,12 +20,23 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
+    const commonPicker = ref(null)
     const type = props.isRange ? 'timerange' : 'time'
     const panel = props.isRange ? TimeRangePanel : TimePickPanel
+    const refProps = {
+      ...props,
+      focus: () => {
+        commonPicker.value?.handleFocus()
+      },
+    }
+
+    provide('ElPopperOptions', props.popperOptions)
+    ctx.expose(refProps)
     return () => h(Picker, {
       format: DEFAULT_FORMATS_TIME,
       ...props, // allow format to be overwrite
       type,
+      ref: commonPicker,
       'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
     },
     {

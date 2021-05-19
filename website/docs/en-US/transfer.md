@@ -1,4 +1,4 @@
-
+## Transfer
 
 ### Customizable
 
@@ -170,7 +170,7 @@ export default defineComponent({
 | left-default-checked | key array of initially checked data items of the left list | array | — | [ ] |
 | right-default-checked | key array of initially checked data items of the right list | array | — | [ ] |
 
-### Slot
+### Slots
 | Name | Description |
 |------|--------|
 | left-footer | content of left list footer |

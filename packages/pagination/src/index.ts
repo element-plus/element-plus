@@ -4,7 +4,6 @@ import {
   ref,
   computed,
   watch,
-  nextTick,
   provide,
 } from 'vue'
 import { IPagination } from './pagination'
@@ -119,20 +118,21 @@ export default defineComponent({
     const internalCurrentPage = ref(getValidCurrentPage(props.currentPage))
 
     function emitChange() {
-      nextTick(() => {
-        if (
-          internalCurrentPage.value !== lastEmittedPage.value ||
-          userChangePageSize.value
-        ) {
-          lastEmittedPage.value = internalCurrentPage.value
-          userChangePageSize.value = false
-        }
-      })
+      if (
+        internalCurrentPage.value !== lastEmittedPage.value ||
+        userChangePageSize.value
+      ) {
+        lastEmittedPage.value = internalCurrentPage.value
+        userChangePageSize.value = false
+        emit('update:currentPage', internalCurrentPage.value)
+        emit('current-change', internalCurrentPage.value)
+      }
     }
 
     function handleCurrentChange(val: number) {
       internalCurrentPage.value = getValidCurrentPage(val)
       userChangePageSize.value = true
+      emitChange()
     }
 
     function handleSizesChange(val: number) {
@@ -146,7 +146,7 @@ export default defineComponent({
       if (props.disabled) return
       const newVal = internalCurrentPage.value - 1
       internalCurrentPage.value = getValidCurrentPage(newVal)
-      emit('prev-click', internalCurrentPage)
+      emit('prev-click', internalCurrentPage.value)
       emitChange()
     }
 
@@ -162,39 +162,24 @@ export default defineComponent({
       if (typeof value === 'string') {
         value = parseInt(value, 10)
       }
+
       let resetValue: number | undefined
-      const havePageCount = typeof internalPageCount.value === 'number'
 
-      if (!havePageCount) {
-        if (isNaN(value) || value < 1) resetValue = 1
-      } else {
-        if (value < 1) {
-          resetValue = 1
-        } else if (value > internalPageCount.value) {
-          resetValue = internalPageCount.value
-        }
+      if (isNaN(value) || value < 1) {
+        resetValue = 1
+      } else if (internalPageCount.value < value){
+        resetValue = internalPageCount.value
       }
 
-      if (resetValue === undefined && isNaN(value)) {
-        resetValue = 1
-      } else if (resetValue === 0) {
-        resetValue = 1
-      }
-
-      return resetValue === undefined ? value : resetValue
+      return resetValue ?? value
     }
 
-    watch(() => getValidCurrentPage(props.currentPage), val => {
-      internalCurrentPage.value = val
+    watch(() => props.currentPage, val => {
+      internalCurrentPage.value = getValidCurrentPage(val)
     })
 
     watch(() => props.pageSize, val => {
       internalPageSize.value = getValidPageSize(val)
-    })
-
-    watch(internalCurrentPage, val => {
-      emit('update:currentPage', val)
-      emit('current-change', val)
     })
 
     watch(
@@ -205,9 +190,8 @@ export default defineComponent({
           internalCurrentPage.value = 1
         } else if (oldPage > val) {
           internalCurrentPage.value = val === 0 ? 1 : val
-          userChangePageSize.value && emitChange()
+          emitChange()
         }
-        userChangePageSize.value = false
       },
     )
 
@@ -238,11 +222,7 @@ export default defineComponent({
     const layout = this.layout
 
     if (!layout) return null
-    if (
-      this.hideOnSinglePage &&
-      (!this.internalPageCount || this.internalPageCount === 1)
-    )
-      return null
+    if (this.hideOnSinglePage && this.internalPageCount <= 1) return null
 
     const rootNode = h('div', {
       class: [
@@ -254,8 +234,8 @@ export default defineComponent({
       ],
     })
     const rootChildren = []
-    const rightWrapperRoot = h('div', { class: 'el-pagination__rightwrapper' })
     const rightWrapperChildren = []
+    const rightWrapperRoot = h('div', { class: 'el-pagination__rightwrapper' }, rightWrapperChildren)
     const TEMPLATE_MAP = {
       prev: h(Prev, {
         disabled: this.disabled,
@@ -304,7 +284,7 @@ export default defineComponent({
       }
     })
 
-    if (haveRightWrapper) {
+    if (haveRightWrapper && rightWrapperChildren.length > 0) {
       rootChildren.unshift(rightWrapperRoot)
     }
 

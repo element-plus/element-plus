@@ -103,7 +103,7 @@ $--box-shadow-dark: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .12) !de
 $--box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default;
 /* Svg
 --------------- */
-$--svg-monochrome-grey: #DCDDE0;
+$--svg-monochrome-grey: #DCDDE0 !default;
 
 /* Fill
 -------------------------- */
@@ -491,7 +491,7 @@ $--cascader-menu-shadow: $--box-shadow-light !default;
 $--cascader-node-background-hover: $--background-color-base !default;
 $--cascader-node-color-disabled: $--color-text-placeholder !default;
 $--cascader-color-empty: $--color-text-placeholder !default;
-$--cascader-tag-background: #f0f2f5;
+$--cascader-tag-background: #f0f2f5 !default;
 
 /* Group
 -------------------------- */
@@ -974,8 +974,8 @@ $--avatar-medium-size: 36px !default;
 /// size|1|Avatar Size|3
 $--avatar-small-size: 28px !default;
 
-$--skeleton-color: #f2f2f2;
-$--skeleton-to-color: #e6e6e6;
+$--skeleton-color: #f2f2f2 !default;
+$--skeleton-to-color: #e6e6e6 !default;
 
 /* Empty
 -------------------------- */
@@ -983,6 +983,26 @@ $--empty-padding: 40px 0 !default;
 $--empty-image-width: 160px !default;
 $--empty-description-margin-top: 20px !default;
 $--empty-bottom-margin-top: 20px !default;
+
+/* Descriptions
+-------------------------- */
+$--descriptions-header-margin-bottom: 20px !default;
+$--descriptions-title-font-size: 16px !default;
+$--descriptions-table-border: 1px solid $--border-color-lighter !default;
+$--descriptions-item-bordered-label-background: #fafafa !default;
+
+/* Result
+-------------------------- */
+$--result-padding: 40px 30px !default;
+$--result-icon-font-size: 64px !default;
+$--result-title-font-size: 20px !default;
+$--result-title-margin-top: 20px !default;
+$--result-subtitle-margin-top: 10px !default;
+$--result-extra-margin-top: 30px !default;
+$--result-info-color: $--color-info !default;
+$--result-success-color: $--color-success !default;
+$--result-warning-color: $--color-warning !default;
+$--result-danger-color: $--color-danger !default;
 
 /* Break-point
 --------------------------*/
@@ -992,23 +1012,23 @@ $--lg: 1200px !default;
 $--xl: 1920px !default;
 
 $--breakpoints: (
-  'xs' : (max-width: $--sm - 1),
-  'sm' : (min-width: $--sm),
-  'md' : (min-width: $--md),
-  'lg' : (min-width: $--lg),
-  'xl' : (min-width: $--xl)
-);
+  'xs' : "(max-width: #{$--sm})",
+  'sm' : "(min-width: #{$--sm})",
+  'md' : "(min-width: #{$--md})",
+  'lg' : "(min-width: #{$--lg})",
+  'xl' : "(min-width: #{$--xl})"
+) !default;
 
 $--breakpoints-spec: (
-  'xs-only' : (max-width: $--sm - 1),
-  'sm-and-up' : (min-width: $--sm),
-  'sm-only': (min-width: #{$--sm}) and (max-width: #{$--md - 1}),
-  'sm-and-down': (max-width: $--md - 1),
-  'md-and-up' : (min-width: $--md),
-  'md-only': (min-width: #{$--md}) and (max-width: #{$--lg - 1}),
-  'md-and-down': (max-width: $--lg - 1),
-  'lg-and-up' : (min-width: $--lg),
-  'lg-only': (min-width: #{$--lg}) and (max-width: #{$--xl - 1}),
-  'lg-and-down': (max-width: $--xl - 1),
-  'xl-only' : (min-width: $--xl),
-);
+  'xs-only' : "(max-width: #{$--sm})",
+  'sm-and-up' : "(min-width: #{$--sm})",
+  'sm-only': "(min-width: #{$--sm}) and (max-width: #{$--md})",
+  'sm-and-down': "(max-width: #{$--md})",
+  'md-and-up' : "(min-width: #{$--md})",
+  'md-only': "(min-width: #{$--md}) and (max-width: #{$--lg})",
+  'md-and-down': "(max-width: #{$--lg})",
+  'lg-and-up' : "(min-width: #{$--lg})",
+  'lg-only': "(min-width: #{$--lg}) and (max-width: #{$--xl})",
+  'lg-and-down': "(max-width: #{$--xl})",
+  'xl-only' : "(min-width: #{$--xl})",
+) !default;

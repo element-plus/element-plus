@@ -1,6 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import Select from '../src/select.vue'
+import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
 
 jest.useFakeTimers()
@@ -23,6 +25,7 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) => mount({
   components: {
     'el-select': Select,
     'el-option': Option,
+    'el-group-option': Group,
   },
   template,
   data,
@@ -113,6 +116,7 @@ describe('Select', () => {
   afterEach(() => {
     document.body.innerHTML = ''
   })
+
   test('create', async () => {
     const wrapper = _mount(`<el-select v-model="value"></el-select>`, () => ({ value: '' }))
     expect(wrapper.classes()).toContain('el-select')
@@ -162,6 +166,37 @@ describe('Select', () => {
     }))
     await wrapper.vm.$nextTick()
     expect(wrapper.find('.el-input__inner').element.value).toBe('双皮奶')
+  })
+
+  test('sync set value and options', async () => {
+    const wrapper = _mount(`
+    <el-select v-model="value">
+      <el-option
+        v-for="item in options"
+        :label="item.label"
+        :key="item.value"
+        :value="item.value">
+      </el-option>
+    </el-select>
+  `,
+    () => ({
+      options: [{
+        value: '选项1',
+        label: '黄金糕',
+      }, {
+        value: '选项2',
+        label: '双皮奶',
+      }],
+      value: '选项2',
+    }))
+    const vm = wrapper.vm as any
+    vm.options = [{
+      value: '选项1',
+      label: '黄金糕',
+    }]
+    vm.value = '选项1'
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.el-input__inner').element.value).toBe('黄金糕')
   })
 
   test('single select', async () => {
@@ -519,6 +554,29 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalled()
   })
 
+  test('event:focus & blur for multile & filterable select', async () => {
+    const handleFocus = jest.fn()
+    const handleBlur = jest.fn()
+    const wrapper = _mount(`
+    <el-select
+      @focus="handleFocus"
+      @blur="handleBlur"
+      multiple
+      filterable
+    />`, () => ({
+      handleFocus,
+      handleBlur,
+    }))
+    const select = wrapper.findComponent(({ name: 'ElSelect' }))
+    const input = select.find('input')
+
+    expect(input.exists()).toBe(true)
+    await input.trigger('focus')
+    expect(handleFocus).toHaveBeenCalled()
+    await input.trigger('blur')
+    expect(handleBlur).toHaveBeenCalled()
+  })
+
   test('should not open popper when automatic-dropdown not set', async () => {
     const wrapper = getSelectVm()
     const select = wrapper.findComponent({ name: 'ElSelect' })
@@ -747,5 +805,260 @@ describe('Select', () => {
     expect(select.selected.length === 2).toBeTruthy()
     expect(select.selected[0].currentLabel !== '').toBeTruthy()
     expect(select.selected[1].currentLabel !== '').toBeTruthy()
+  })
+
+  test('disabled group', async () => {
+    const wrapper = _mount(`
+    <el-select v-model="value">
+      <el-group-option
+        v-for="group in options"
+        :key="group.label"
+        :label="group.label"
+        :disabled="group.disabled">
+        <el-option
+          v-for="item in group.options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-group-option>
+    </el-select>`,
+    () => ({
+      options: [
+        {
+          label: 'Popular cities',
+          options: [
+            { value: 'Shanghai', label: 'Shanghai' },
+            { value: 'Beijing', label: 'Beijing' },
+          ],
+        },
+        {
+          label: 'City name',
+          options: [
+            { value: 'Chengdu',label: 'Chengdu' },
+            { value: 'Shenzhen', label: 'Shenzhen' },
+            { value: 'Guangzhou',label: 'Guangzhou' },
+            { value: 'Dalian',label: 'Dalian' },
+          ],
+        },
+      ],
+      value: '',
+    }))
+
+    const vm = wrapper.vm as any
+    wrapper.find('.select-trigger').trigger('click')
+    await nextTick()
+    vm.options[1].disabled = true
+    await nextTick()
+    const options = getOptions()
+    expect(options[0].className).not.toContain('is-disabled')
+    expect(options[2].className).toContain('is-disabled')
+    options[0].click()
+    await nextTick()
+    expect(vm.value).toBe('Shanghai')
+    options[2].click()
+    await nextTick()
+    expect(vm.value).toBe('Shanghai')
+  })
+
+  test('tag of disabled option is not closable', async () => {
+    const wrapper = _mount(`
+    <el-select v-model="vendors" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
+    <el-option
+      v-for="(vendor, index) in options"
+      :key="index"
+      :value="index + 1"
+      :label="vendor.name"
+      :disabled="vendor.isDisabled"
+    >
+    </el-option>
+  </el-select>`, () => ({
+      vendors: [2, 3, 4],
+      isCollapsed: false,
+      isClearable: false,
+      options: [
+        { name: 'Test 1', isDisabled: false },
+        { name: 'Test 2', isDisabled: true },
+        { name: 'Test 3', isDisabled: false },
+        { name: 'Test 4', isDisabled: true },
+      ],
+    }))
+    const vm = wrapper.vm as any
+    await vm.$nextTick()
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    expect(wrapper.findAll('.el-tag').length).toBe(3)
+    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    expect(tagCloseIcons.length).toBe(1)
+    await tagCloseIcons[0].trigger('click')
+    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+
+    //test if is clearable
+    vm.isClearable = true
+    vm.vendors = [2, 3, 4]
+    await vm.$nextTick()
+    selectVm.inputHovering = true
+    await selectVm.$nextTick()
+    const iconClear = wrapper.find('.el-input__icon.el-icon-circle-close')
+    expect(wrapper.findAll('.el-tag').length).toBe(3)
+    await iconClear.trigger('click')
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+
+    // test for collapse select
+    vm.vendors = [1, 2, 4]
+    vm.isCollapsed = true
+    vm.isClearable = false
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    await wrapper.find('.el-tag__close').trigger('click')
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+
+    // test for collapse select if is clearable
+    vm.vendors = [1, 2, 4]
+    vm.isCollapsed = true
+    vm.isClearable = true
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag__close').length).toBe(1)
+    await wrapper.find('.el-tag__close').trigger('click')
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+  })
+
+  test('modelValue should be deep reactive in multiple mode', async () => {
+    const wrapper = _mount(`
+    <el-select v-model="modelValue" multiple>
+      <el-option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :label="option.label"
+      >
+      </el-option>
+    </el-select>`, () => ({
+      modelValue: [1],
+      options: [
+        { label: 'Test 1', value: 1 },
+        { label: 'Test 2', value: 2 },
+        { label: 'Test 3', value: 3 },
+        { label: 'Test 4', value: 4 },
+      ],
+    }))
+    const vm = wrapper.vm as any
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+
+    vm.modelValue.splice(0, 1)
+
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(0)
+  })
+
+  test('should reset placeholder after clear when both multiple and filterable are true', async () => {
+    const placeholder = 'placeholder'
+    const wrapper = _mount(`
+    <el-select v-model="modelValue" multiple filterable placeholder=${placeholder}>
+      <el-option label="1" value="1" />
+    </el-select>`, () => ({
+      modelValue: ['1'],
+    }))
+    const vm = wrapper.vm as any
+    await vm.$nextTick()
+
+    const innerInput = wrapper.find('.el-input__inner')
+    const innerInputEl = innerInput.element as HTMLInputElement
+    expect(innerInputEl.placeholder).toBe('')
+
+    const tagCloseIcon = wrapper.find('.el-tag__close')
+    await tagCloseIcon.trigger('click')
+    expect(innerInputEl.placeholder).toBe(placeholder)
+
+    const selectInput = wrapper.find('.el-select__input')
+    const selectInputEl = selectInput.element as HTMLInputElement
+    selectInputEl.value = 'a'
+    selectInput.trigger('input')
+    await vm.$nextTick()
+    expect(innerInputEl.placeholder).toBe('')
+
+    selectInput.trigger('keydown', {
+      key: EVENT_CODE.backspace,
+    })
+    await vm.$nextTick()
+    expect(innerInputEl.placeholder).toBe(placeholder)
+  })
+
+  describe('should show all options when open select dropdown', () => {
+    async function testShowOptions({ filterable, multiple }: SelectProps = {}) {
+      const wrapper = getSelectVm({ filterable, multiple })
+      const options = wrapper.findAllComponents({ name: 'ElOption' })
+
+      await wrapper.find('.select-trigger').trigger('click')
+      expect(options.every(option => option.vm.visible)).toBe(true)
+
+      await options[1].trigger('click')
+      await wrapper.find('.select-trigger').trigger('click')
+      expect(options.every(option => option.vm.visible)).toBe(true)
+    }
+
+    test('both filterable and multiple are false', async () => {
+      await testShowOptions()
+    })
+
+    test('filterable is true and multiple is false', async () => {
+      await testShowOptions({ filterable: true })
+    })
+
+    test('filterable is false and multiple is true', async () => {
+      await testShowOptions({ multiple: true })
+    })
+
+    test('both filterable and multiple are true', async () => {
+      await testShowOptions({ filterable: true, multiple: true })
+    })
+  })
+
+  describe('after search', () => {
+    async function testAfterSearch({ multiple, filterMethod, remote, remoteMethod }: SelectProps) {
+      const wrapper = getSelectVm({ filterable: true, multiple, filterMethod, remote, remoteMethod })
+      const method = remote ? remoteMethod : filterMethod
+      const firstInputLetter = 'a'
+      const secondInputLetter = 'aa'
+
+      const vm = wrapper.vm as any
+      await vm.$nextTick()
+
+      const input = wrapper.find(multiple ? '.el-select__input' : '.el-input__inner')
+      const inputEl = input.element as HTMLInputElement
+      await input.trigger('click')
+      inputEl.value = firstInputLetter
+      await input.trigger('input')
+      expect(method).toBeCalled()
+      expect(method.mock.calls[0][0]).toBe(firstInputLetter)
+
+      inputEl.value = secondInputLetter
+      await input.trigger('input')
+      expect(method).toBeCalledTimes(2)
+      expect(method.mock.calls[1][0]).toBe(secondInputLetter)
+    }
+
+    test('should call filter method', async () => {
+      const filterMethod = jest.fn()
+      await testAfterSearch({ filterMethod })
+    })
+
+    test('should call filter method in multiple mode', async () => {
+      const filterMethod = jest.fn()
+      await testAfterSearch({ multiple: true, filterMethod })
+    })
+
+    test('should call remote method', async () => {
+      const remoteMethod = jest.fn()
+      await testAfterSearch({ remote: true, remoteMethod })
+    })
+
+    test('should call remote method in multiple mode', async () => {
+      const remoteMethod = jest.fn()
+      await testAfterSearch({ multiple: true, remote: true, remoteMethod })
+    })
   })
 })

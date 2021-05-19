@@ -185,7 +185,7 @@ export default defineComponent({
 | show-after     | retraso de la apariencia, en milisegundos | number  | —                                        | 0                                        |
 | hide-after     | retraso en el cierre, en milisegundos | number  | —                                        | 0                                        |
 | auto-close     | tiempo a esperar en milisegundos para esconder el Tooltip | number  | —                                        | 0                                        |
-| tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Popover |   number           |      —      |  0    |
+| tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) de Popover |   number           |      —      |  —    |
 
 ### Slot
 | Nombre    | Descripción                          |

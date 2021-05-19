@@ -45,7 +45,7 @@ export default defineComponent({
 
   props: {
     label: {
-      type: [Boolean, String, Number],
+      type: [String, Number, Boolean],
       default: '',
     },
     disabled: Boolean,

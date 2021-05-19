@@ -2,19 +2,19 @@ import { getCurrentInstance, ref, h } from 'vue'
 import { getStyle, hasClass } from '@element-plus/utils/dom'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
 import debounce from 'lodash/debounce'
-import { TableBodyProps } from './table-body'
-import { Table, AnyObject, TableColumnCtx } from '../table.type'
+import { TableColumnCtx } from '../table-column/defaults'
+import { Table } from '../table/defaults'
+import { TableBodyProps } from './defaults'
 
-function useEvents(props: TableBodyProps) {
+function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()
-  const parent = instance.parent as Table
-  const tooltipVisible = ref(false)
+  const parent = instance.parent as Table<T>
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
-  const handleEvent = (event: Event, row: AnyObject, name: string) => {
+  const handleEvent = (event: Event, row: T, name: string) => {
     const table = parent
     const cell = getCell(event)
-    let column: TableColumnCtx
+    let column: TableColumnCtx<T>
     if (cell) {
       column = getColumnByCell(
         {
@@ -28,14 +28,14 @@ function useEvents(props: TableBodyProps) {
     }
     table.emit(`row-${name}`, row, column, event)
   }
-  const handleDoubleClick = (event: Event, row: AnyObject) => {
+  const handleDoubleClick = (event: Event, row: T) => {
     handleEvent(event, row, 'dblclick')
   }
-  const handleClick = (event: Event, row: AnyObject) => {
+  const handleClick = (event: Event, row: T) => {
     props.store.commit('setCurrentRow', row)
     handleEvent(event, row, 'click')
   }
-  const handleContextMenu = (event: Event, row: AnyObject) => {
+  const handleContextMenu = (event: Event, row: T) => {
     handleEvent(event, row, 'contextmenu')
   }
   const handleMouseEnter = debounce(function(index: number) {
@@ -44,7 +44,10 @@ function useEvents(props: TableBodyProps) {
   const handleMouseLeave = debounce(function() {
     props.store.commit('setHoverRow', null)
   }, 30)
-  const handleCellMouseEnter = (event: MouseEvent, row: AnyObject) => {
+  const handleCellMouseEnter = (
+    event: MouseEvent,
+    row: T & { tooltipEffect: string; },
+  ) => {
     const table = parent
     const cell = getCell(event)
 
@@ -85,14 +88,18 @@ function useEvents(props: TableBodyProps) {
       rangeWidth + padding > cellChild.offsetWidth ||
       cellChild.scrollWidth > cellChild.offsetWidth
     ) {
-      createTablePopper(cell, cell.innerText || cell.textContent, {
-        placement: 'top',
-        strategy: 'fixed',
-      })
+      createTablePopper(
+        cell,
+        cell.innerText || cell.textContent,
+        {
+          placement: 'top',
+          strategy: 'fixed',
+        },
+        row.tooltipEffect,
+      )
     }
   }
   const handleCellMouseLeave = event => {
-    tooltipVisible.value = false
     const cell = getCell(event)
     if (!cell) return
 
@@ -114,7 +121,6 @@ function useEvents(props: TableBodyProps) {
     handleMouseLeave,
     handleCellMouseEnter,
     handleCellMouseLeave,
-    tooltipVisible,
     tooltipContent,
     tooltipTrigger,
   }

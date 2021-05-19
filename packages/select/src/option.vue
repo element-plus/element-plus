@@ -34,7 +34,7 @@ export default defineComponent({
   props: {
     value: {
       required: true,
-      type: [String, Number, Object],
+      type: [String, Number, Boolean, Object],
     },
     label: [String, Number],
     created: Boolean,
@@ -67,21 +67,20 @@ export default defineComponent({
     } = toRefs(states)
 
     const vm = getCurrentInstance().proxy
-    select.onOptionCreate(vm)
+    select.onOptionCreate(vm as unknown as SelectOptionProxy)
 
     onBeforeUnmount(() => {
       const { selected } = select
       let selectedOptions = select.props.multiple ? selected : [selected]
-      let index = select.cachedOptions.indexOf(vm)
-      let selectedIndex = selectedOptions.findIndex(item => {
+      const doesExist = select.cachedOptions.has(props.value)
+      const doesSelected = selectedOptions.some(item => {
         return item.value === (vm as unknown as SelectOptionProxy).value
       })
-
       // if option is not selected, remove it from cache
-      if (index > -1 && selectedIndex < 0) {
-        select.cachedOptions.splice(index, 1)
+      if (doesExist && !doesSelected) {
+        select.cachedOptions.delete(props.value)
       }
-      select.onOptionDestroy(select.options.map(item => item.value).indexOf(props.value))
+      select.onOptionDestroy(props.value)
     })
 
     function selectOptionClick() {

@@ -1,9 +1,10 @@
+import { hasOwn } from '@vue/shared'
 import { PopperInstance, IPopperOptions } from '@element-plus/popper'
 import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
 import { createPopper } from '@popperjs/core'
-import { AnyObject, TableColumnCtx } from './table.type'
 import PopupManager from '@element-plus/utils/popup-manager'
+import { TableColumnCtx } from './table-column/defaults'
 
 export const getCell = function(event: Event): HTMLElement {
   let cell = event.target as HTMLElement
@@ -18,11 +19,17 @@ export const getCell = function(event: Event): HTMLElement {
   return null
 }
 
-const isObject = function(obj) {
+const isObject = function(obj: unknown): boolean {
   return obj !== null && typeof obj === 'object'
 }
 
-export const orderBy = function(array, sortKey, reverse, sortMethod, sortBy) {
+export const orderBy = function<T>(
+  array: T[],
+  sortKey: string,
+  reverse: string | number,
+  sortMethod,
+  sortBy: string | (string | ((a: T, b: T, array?: T[]) => number))[],
+) {
   if (
     !sortKey &&
     !sortMethod &&
@@ -83,17 +90,17 @@ export const orderBy = function(array, sortKey, reverse, sortMethod, sortBy) {
         // make stable https://en.wikipedia.org/wiki/Sorting_algorithm#Stability
         order = a.index - b.index
       }
-      return order * reverse
+      return order * +reverse
     })
     .map(item => item.value)
 }
 
-export const getColumnById = function(
+export const getColumnById = function<T>(
   table: {
-    columns: TableColumnCtx[]
+    columns: TableColumnCtx<T>[]
   },
   columnId: string,
-): null | TableColumnCtx {
+): null | TableColumnCtx<T> {
   let column = null
   table.columns.forEach(function(item) {
     if (item.id === columnId) {
@@ -103,12 +110,12 @@ export const getColumnById = function(
   return column
 }
 
-export const getColumnByKey = function(
+export const getColumnByKey = function<T>(
   table: {
-    columns: TableColumnCtx[]
+    columns: TableColumnCtx<T>[]
   },
   columnKey: string,
-): TableColumnCtx {
+): TableColumnCtx<T> {
   let column = null
   for (let i = 0; i < table.columns.length; i++) {
     const item = table.columns[i]
@@ -120,12 +127,12 @@ export const getColumnByKey = function(
   return column
 }
 
-export const getColumnByCell = function(
+export const getColumnByCell = function<T>(
   table: {
-    columns: TableColumnCtx[]
+    columns: TableColumnCtx<T>[]
   },
   cell: HTMLElement,
-): null | TableColumnCtx {
+): null | TableColumnCtx<T> {
   const matches = (cell.className || '').match(/el-table_[^\s]+/gm)
   if (matches) {
     return getColumnById(table, matches[0])
@@ -133,39 +140,35 @@ export const getColumnByCell = function(
   return null
 }
 
-export const getRowIdentity = (
-  row: AnyObject,
-  rowKey: string | ((row: AnyObject) => any),
+export const getRowIdentity = <T>(
+  row: T,
+  rowKey: string | ((row: T) => any),
 ): string => {
   if (!row) throw new Error('row is required when get row identity')
   if (typeof rowKey === 'string') {
     if (rowKey.indexOf('.') < 0) {
-      return row[rowKey]
+      return row[rowKey] + ''
     }
     const key = rowKey.split('.')
     let current = row
     for (let i = 0; i < key.length; i++) {
       current = current[key[i]]
     }
-    return (current as unknown) as string
+    return current + ''
   } else if (typeof rowKey === 'function') {
     return rowKey.call(null, row)
   }
 }
 
-export const getKeysMap = function(
-  array: AnyObject[],
+export const getKeysMap = function<T>(
+  array: T[],
   rowKey: string,
-): AnyObject {
+): Record<string, { row: T; index: number; }> {
   const arrayMap = {}
   ;(array || []).forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index }
   })
   return arrayMap
-}
-
-function hasOwn(obj: AnyObject, key: string): boolean {
-  return Object.prototype.hasOwnProperty.call(obj, key)
 }
 
 export function mergeOptions<T, K>(defaults: T, config: K): T & K {
@@ -175,7 +178,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
     options[key] = defaults[key]
   }
   for (key in config) {
-    if (hasOwn(config, key)) {
+    if (hasOwn((config as unknown) as Indexable<any>, key)) {
       const value = config[key]
       if (typeof value !== 'undefined') {
         options[key] = value
@@ -185,14 +188,14 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   return options
 }
 
-export function parseWidth(width: number | string): number | string {
+export function parseWidth(width: number | string): number {
   if (width !== undefined) {
     width = parseInt(width as string, 10)
     if (isNaN(width)) {
       width = null
     }
   }
-  return width
+  return +width
 }
 
 export function parseMinWidth(minWidth): number {
@@ -230,9 +233,9 @@ export function compose(...funcs) {
   return funcs.reduce((a, b) => (...args) => a(b(...args)))
 }
 
-export function toggleRowStatus(
-  statusArr: AnyObject[],
-  row: AnyObject,
+export function toggleRowStatus<T>(
+  statusArr: T[],
+  row: T,
   newVal: boolean,
 ): boolean {
   let changed = false
@@ -304,10 +307,12 @@ export function createTablePopper(
   trigger: HTMLElement,
   popperContent: string,
   popperOptions: Partial<IPopperOptions>,
+  tooltipEffect: string,
 ) {
   function renderContent(): HTMLDivElement {
+    const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
-    content.className = 'el-tooltip__popper is-dark'
+    content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
     content.innerHTML = popperContent
     content.style.zIndex = String(PopupManager.nextZIndex())
     document.body.appendChild(content)
@@ -327,9 +332,9 @@ export function createTablePopper(
       popperInstance && popperInstance.destroy()
       content && document.body.removeChild(content)
       off(trigger, 'mouseenter', showPopper)
+      off(trigger, 'mouseleave', removePopper)
     } catch {}
   }
-  off(trigger, 'mouseleave', removePopper)
   let popperInstance: Nullable<PopperInstance> = null
   const content = renderContent()
   const arrow = renderArrow()
@@ -355,4 +360,5 @@ export function createTablePopper(
   })
   on(trigger, 'mouseenter', showPopper)
   on(trigger, 'mouseleave', removePopper)
+  return popperInstance
 }

@@ -1,67 +1,55 @@
 import { addClass, removeClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
-import { defineComponent, getCurrentInstance, h, PropType, watch, onUnmounted } from 'vue'
+import {
+  defineComponent,
+  getCurrentInstance,
+  h,
+  watch,
+  onUnmounted,
+  onUpdated,
+} from 'vue'
 import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
-import { Store, Table } from '../table.type'
 import useRender from './render-helper'
-import { TableBodyProps } from './table-body'
 import { removePopper } from '../util'
+import { DefaultRow, Table } from '../table/defaults'
+import defaultProps from './defaults'
+
 export default defineComponent({
   name: 'ElTableBody',
-  props: {
-    store: {
-      required: true,
-      type: Object as PropType<Store>,
-    },
-    stripe: Boolean,
-    context: {
-      default: () => ({}),
-      type: Object,
-    },
-    rowClassName: [String, Function],
-    rowStyle: [Object, Function],
-    fixed: {
-      type: String,
-      default: '',
-    },
-    highlight: Boolean,
-  },
+  props: defaultProps,
   setup(props) {
     const instance = getCurrentInstance()
-    const parent = instance.parent as Table
+    const parent = instance.parent as Table<DefaultRow>
 
-    const {
-      wrappedRowRender,
-      tooltipVisible,
-      tooltipContent,
-      tooltipTrigger,
-    } = useRender(props as TableBodyProps)
+    const { wrappedRowRender, tooltipContent, tooltipTrigger } = useRender(
+      props,
+    )
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent)
 
-    watch(
-      props.store.states.hoverRow,
-      (newVal: number | null, oldVal: number | null) => {
-        if (!props.store.states.isComplex.value || isServer) return
-        let raf = window.requestAnimationFrame
-        if (!raf) {
-          raf = fn => window.setTimeout(fn, 16)
+    watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
+      if (!props.store.states.isComplex.value || isServer) return
+      let raf = window.requestAnimationFrame
+      if (!raf) {
+        raf = fn => window.setTimeout(fn, 16)
+      }
+      raf(() => {
+        const rows = instance.vnode.el.querySelectorAll('.el-table__row')
+        const oldRow = rows[oldVal]
+        const newRow = rows[newVal]
+        if (oldRow) {
+          removeClass(oldRow, 'hover-row')
         }
-        raf(() => {
-          const rows = instance.vnode.el.querySelectorAll('.el-table__row')
-          const oldRow = rows[oldVal]
-          const newRow = rows[newVal]
-          if (oldRow) {
-            removeClass(oldRow, 'hover-row')
-          }
-          if (newRow) {
-            addClass(newRow, 'hover-row')
-          }
-        })
-      },
-    )
+        if (newRow) {
+          addClass(newRow, 'hover-row')
+        }
+      })
+    })
 
     onUnmounted(() => {
+      removePopper?.()
+    })
+    onUpdated(() => {
       removePopper?.()
     })
 
@@ -69,7 +57,6 @@ export default defineComponent({
       onColumnsChange,
       onScrollableChange,
       wrappedRowRender,
-      tooltipVisible,
       tooltipContent,
       tooltipTrigger,
     }

@@ -608,7 +608,7 @@ export default defineComponent ({
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 | ----| ----| ----| ---- | ----- |
 |type| インプットタイプ | string | text, textarea and other [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
-|value / v-model| バインディング値 | string / number| — | — |
+|modelValue / v-model| バインディング値 | string / number| — | — |
 |maxlength| ネイティブインプットの `maxlength` と同じ | number| — | — |
 |minlength| ネイティブインプットの `minlength` と同じ | number | — | — |
 |show-word-limit | `type` が 'text' または 'textarea' の場合に単語数を表示するかどうかを指定する | boolean    |  —  | false |

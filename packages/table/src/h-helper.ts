@@ -1,5 +1,5 @@
 import { h } from 'vue'
-import { TableColumnCtx } from './table.type'
+import { TableColumnCtx } from './table-column/defaults'
 
 export function hGutter() {
   return h('col', {
@@ -7,7 +7,7 @@ export function hGutter() {
   })
 }
 
-export function hColgroup(columns: TableColumnCtx[], hasGutter = false) {
+export function hColgroup<T>(columns: TableColumnCtx<T>[], hasGutter = false) {
   return h('colgroup', {}, [
     ...columns.map(column =>
       h('col', {

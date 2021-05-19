@@ -16,8 +16,8 @@ interface IRenderPopperProps {
   popperRef?: Ref<HTMLElement>
   pure?: boolean
   visibility: boolean
-  onMouseEnter: () => void
-  onMouseLeave: () => void
+  onMouseenter: () => void
+  onMouseleave: () => void
   onAfterEnter?: () => void
   onAfterLeave?: () => void
   onBeforeEnter?: () => void
@@ -38,8 +38,8 @@ export default function renderPopper(
     pure,
     popperId,
     visibility,
-    onMouseEnter,
-    onMouseLeave,
+    onMouseenter,
+    onMouseleave,
     onAfterEnter,
     onAfterLeave,
     onBeforeEnter,
@@ -82,11 +82,11 @@ export default function renderPopper(
             id: popperId,
             ref: popperRef ?? 'popperRef',
             role: 'tooltip',
-            onMouseEnter,
-            onMouseLeave,
+            onMouseenter,
+            onMouseleave,
             onClick: stop,
-            onMouseDown: mouseUpAndDown,
-            onMouseUp: mouseUpAndDown,
+            onMousedown: mouseUpAndDown,
+            onMouseup: mouseUpAndDown,
           },
           children,
           PatchFlags.CLASS | PatchFlags.STYLE | PatchFlags.PROPS | PatchFlags.HYDRATE_EVENTS,
@@ -94,8 +94,8 @@ export default function renderPopper(
             'aria-hidden',
             'onMouseenter',
             'onMouseleave',
-            'onMouseDown',
-            'onMouseUp',
+            'onMousedown',
+            'onMouseup',
             'onClick',
             'id',
           ],

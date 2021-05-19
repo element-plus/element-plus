@@ -308,6 +308,45 @@ describe('CascaderPanel.vue', () => {
     expect(wrapper.vm.value).toBe('beijing')
   })
 
+  test('emit value only, issue 1531', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          v-model="value"
+          :options="options"
+          :props="props"
+        />
+      `,
+      data() {
+        return {
+          options: [
+            {
+              value: 0,
+              label: 'label one',
+            },
+            {
+              value: 1,
+              label: 'label two',
+            },
+          ],
+          props: { emitPath: false },
+          value: null,
+        }
+      },
+    })
+
+    await nextTick()
+
+    const shNode = wrapper.findAll(MENU)[0].find(NODE)
+    expect(shNode.classes('is-active')).toBe(false)
+
+    await wrapper.findAll(NODE)[0].trigger('click')
+    expect(wrapper.vm.value).toBe(0)
+
+    await wrapper.findAll(NODE)[1].trigger('click')
+    expect(wrapper.vm.value).toBe(1)
+  })
+
   test('multiple mode', async () => {
     const wrapper = _mount({
       template: `
@@ -537,6 +576,57 @@ describe('CascaderPanel.vue', () => {
 
     expect(wrapper.findAll(MENU).length).toBe(2)
     expect(wrapper.find(`.is-active`).text()).toBe('option2')
+  })
+
+  test('no loaded nodes should not be checked', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          :props="props"
+        />
+      `,
+      data() {
+        return {
+          props: {
+            multiple: true,
+            lazy: true,
+            lazyLoad (node, resolve) {
+              const { level } = node
+              setTimeout(() => {
+                const nodes = Array.from({ length: level + 1 })
+                  .map(() => {
+                    ++id
+                    return {
+                      value: id,
+                      label: `option${id}`,
+                      leaf: id === 3,
+                    }
+                  })
+                resolve(nodes)
+              }, 1000)
+            },
+          },
+        }
+      },
+    })
+    jest.runAllTimers()
+    await nextTick()
+    const firstMenu = wrapper.findAll(MENU)[0]
+    const firstOption = wrapper.find(NODE)
+    await firstOption.trigger('click')
+    jest.runAllTimers()
+    await nextTick()
+
+    await firstMenu.find(CHECKBOX).find('input').trigger('click')
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    expect(secondMenu.exists()).toBe(true)
+    expect(firstMenu.find(CHECKBOX).classes('is-checked')).toBe(false)
+    expect(firstMenu.find(CHECKBOX).classes('is-indeterminate')).toBe(true)
+    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-checked')).toBe(false)
+    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-indeterminate')).toBe(false)
+    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-checked')).toBe(true)
+    expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(false)
   })
 
   test('getCheckedNodes and clearCheckedNodes', () => {
