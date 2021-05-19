@@ -12,20 +12,21 @@ Switch es utilizado para realizar cambios entre dos estados opuestos.
 </el-switch>
 
 <script>
-  import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
-  export default defineComponent({
-    setup() {
-      const value1 = ref(true);
-      const value2 = ref(true);
+export default defineComponent({
+  setup() {
+    const value1 = ref(true);
+    const value2 = ref(true);
 
-      return {
-        value1,
-        value2,
-      };
-    },
-  });
+    return {
+      value1,
+      value2,
+    };
+  },
+});
 </script>
+
 ```
 
 :::
@@ -52,20 +53,21 @@ Switch es utilizado para realizar cambios entre dos estados opuestos.
 </el-switch>
 
 <script>
-  import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
-  export default defineComponent({
-    setup() {
-      const value1 = ref(true);
-      const value2 = ref(true);
+export default defineComponent({
+  setup() {
+    const value1 = ref(true);
+    const value2 = ref(true);
 
-      return {
-        value1,
-        value2,
-      };
-    },
-  });
+    return {
+      value1,
+      value2,
+    };
+  },
+});
 </script>
+
 ```
 
 :::
@@ -87,18 +89,19 @@ Switch es utilizado para realizar cambios entre dos estados opuestos.
 </el-tooltip>
 
 <script>
-  import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
-  export default defineComponent({
-    setup() {
-      const value = ref('100');
+export default defineComponent({
+  setup() {
+    const value = ref('100');
 
-      return {
-        value,
-      };
-    },
-  });
+    return {
+      value,
+    };
+  },
+});
 </script>
+
 ```
 
 :::
@@ -112,17 +115,18 @@ Switch es utilizado para realizar cambios entre dos estados opuestos.
 <el-switch v-model="value2" disabled> </el-switch>
 
 <script>
-  import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
-  export default defineComponent({
-    setup() {
-      return {
-        value1: ref(true),
-        value2: ref(false),
-      };
-    },
-  });
+export default defineComponent({
+  setup() {
+    return {
+      value1: ref(true),
+      value2: ref(false),
+    };
+  },
+});
 </script>
+
 ```
 
 :::
@@ -135,17 +139,18 @@ Switch es utilizado para realizar cambios entre dos estados opuestos.
 <el-switch v-model="value1" loading> </el-switch>
 <el-switch v-model="value2" loading> </el-switch>
 <script>
-  import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
-  export default defineComponent({
-    setup() {
-      return {
-        value1: true,
-        value2: false,
-      }
-    },
-  }
+export default defineComponent({
+  setup() {
+    return {
+      value1: ref(true),
+      value2: ref(false),
+    };
+  },
+});
 </script>
+
 ```
 
 :::
