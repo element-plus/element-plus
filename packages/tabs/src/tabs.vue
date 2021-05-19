@@ -7,7 +7,7 @@ type RefElement = Nullable<HTMLElement>
 
 type BeforeLeave = (newTabName: string, oldTabName: string) => void | Promise<void> | boolean
 
-type ITabType = 'card' | 'border-card' | ''
+export type ITabType = 'card' | 'border-card' | ''
 type ITabPosition = 'top' | 'right' | 'bottom' | 'left'
 
 export interface IETabsProps {
