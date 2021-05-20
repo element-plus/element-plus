@@ -153,19 +153,19 @@ export default defineComponent({
     }
 
     const setCurrentName = value => {
-      if(currentName.value !== value && props.beforeLeave) {
-        const before = props.beforeLeave(value, currentName.value)
-        if(before && (before as Promise<void>).then) {
-          (before as Promise<void>).then(() => {
-            changeCurrentName(value)
-            nav$.value && nav$.value.removeFocus()
-          }, () => {
-            // ignore promise rejection in `before-leave` hook
-          })
-        } else if(before !== false) {
+      // should do nothing.
+      if (currentName.value === value) return
+
+      const beforeLeave = props.beforeLeave
+      const before = beforeLeave && beforeLeave(value, currentName.value)
+      if(before && (before as Promise<void>).then) {
+        (before as Promise<void>).then(() => {
           changeCurrentName(value)
-        }
-      } else {
+          nav$.value && nav$.value.removeFocus()
+        }, () => {
+          // ignore promise rejection in `before-leave` hook
+        })
+      } else if(before !== false) {
         changeCurrentName(value)
       }
     }
