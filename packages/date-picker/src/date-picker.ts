@@ -49,7 +49,7 @@ export default defineComponent({
     const commonPicker = ref(null)
     // since props always have all defined keys on it, {format, ...props} will always overwrite format
     // pick props.format or provide default value here before spreading
-    const format = props.format ?? DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE
+    const format = props.format ?? (DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE)
     const refProps = {
       ...props,
       focus: () => {
