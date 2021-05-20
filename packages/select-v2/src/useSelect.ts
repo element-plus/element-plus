@@ -24,9 +24,6 @@ import { t } from '@element-plus/locale'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
 import {
   getValueByPath,
-  isIE,
-  isEdge,
-  isUndefined,
   useGlobalConfig,
 } from '@element-plus/utils/util'
 
@@ -74,7 +71,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // data refs
   const selectedIndices = ref<Array<number>>([])
   const selectedIndex = ref(-1)
-  const filteredOptions = ref([])
 
   // DOM & Component refs
   const controlRef = ref(null)
@@ -122,6 +118,34 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
     }
     return null
+  })
+
+  const filteredOptions = computed(() => {
+
+    const isValidOption = (o: Option): boolean => {
+      // fill the conditions here.
+      const query = states.inputValue
+      // when query was given, we should test on the label see whether the label contains the given query
+      const containsQueryString = query ? o.label.includes(query) : true
+      return containsQueryString
+    }
+
+    return flattenOptions((props.options as OptionType[]).concat(states.createdOptions).map(v => {
+      if (isArray(v.options)) {
+        const filtered = v.options.filter(isValidOption)
+        if (filtered.length > 0) {
+          return {
+            ...v,
+            options: filtered,
+          }
+        }
+      } else {
+        if (isValidOption(v as Option)) {
+          return v
+        }
+      }
+      return null
+    }).filter(v => v !== null))
   })
 
   const selectSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
@@ -175,11 +199,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // if (states.menuVisibleOnFocus) {
       //   states.menuVisibleOnFocus = false
       // } else {
-      expanded.value = !expanded.value
-      // }
-      if (expanded.value) {
+        // if (expanded.value) {
+          //   expanded.value = false
+          // }
+        expanded.value = !expanded.value
+        states.softFocus = true
         inputRef.value?.focus?.()
-      }
+      // }
     }
   }
 
@@ -516,24 +542,25 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const handleBlur = (event: Event) => {
+  const handleBlur = () => {
     if (props.filterable) {
       if (props.allowCreate) {
         // create new item to the list
       }
-      // reset input value when blurred
-      states.inputValue = ''
     }
+    states.isComposing = false
+    states.softFocus = false
+      // reset input value when blurred
     // https://github.com/ElemeFE/element/pull/10822
     nextTick(() => {
+      inputRef.value.blur?.()
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
-        emit('blur', event)
+        emit('blur')
       }
     })
-    states.isComposing = false
-    states.softFocus = false
+
   }
 
   // keyboard handlers
@@ -610,7 +637,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
       emit(UPDATE_MODEL_EVENT, filteredOptions.value[newIndex])
       emitChange(filteredOptions.value[newIndex])
-
     }
   }
 
@@ -643,48 +669,35 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     // nextTick(() => scrollToOption(selected.value))
   }
 
+  const handleClickOutside = () => {
+    expanded.value = false
+    nextTick(handleBlur)
+  }
+
   // in order to track these individually, we need to turn them into refs instead of watching the entire
   // reactive object which could cause perf penalty when unnecessary field gets changed the watch method will
   // be invoked.
-  const optionsRef = toRef(props, 'options')
-  const queryRef = toRef(states, 'query')
 
   watch(expanded, val => {
-    console.log(val)
-    // console.log(props.filterable)
-    // if (val && props.filterable) {
-    //   console.log(inputRef.value)
-    //   inputRef.value.focus?.()
-    // }
+
     if (val) {
-      popper.value?.update?.()
+      popper.value.update?.()
+      // the purpose of this function is to differ the blur event trigger mechanism
+    } else {
+      nextTick(() => {
+        states.inputValue = ''
+      })
     }
   })
+
+  const optionsRef = toRef(props, 'options')
+  const queryRef = toRef(states, 'inputValue')
+
   watch([optionsRef, queryRef], ([options, query]) => {
 
-    const isValidOption = (o: Option): boolean => {
-      // fill the conditions here.
-      return true
-    }
 
-    filteredOptions.value = flattenOptions((options as OptionType[]).concat(states.createdOptions).map(v => {
-      if (isArray(v.options)) {
-        const filtered = v.options.filter(isValidOption)
-        if (filtered.length > 0) {
-          return {
-            ...v,
-            options: filtered,
-          }
-        }
-      } else {
-        if (isValidOption(v as Option)) {
-          return v
-        }
-      }
-      return null
-    }).filter(v => v !== null))
 
-  }, { immediate: true })
+  }, { immediate: true, flush: 'pre' })
 
   onMounted(() => {
     // attach resize event here.
@@ -729,9 +742,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     getValueKey,
     handleBlur,
     handleClear,
+    handleClickOutside,
     handleDel,
-    handleFocus,
     handleEsc,
+    handleFocus,
     handleInputBoxClick,
     toggleMenu,
     onCompositionUpdate,

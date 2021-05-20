@@ -135,7 +135,10 @@ export default defineComponent({
 
     if (data.length === 0) {
       return h('div', {
-        class: '',
+        class: 'el-select-dropdown',
+        style: {
+          width: `${width}px`,
+        },
       }, $slots.empty?.())
     }
 

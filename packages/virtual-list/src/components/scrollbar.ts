@@ -44,6 +44,16 @@ const ScrollBar = defineComponent({
     }))
 
     const thumbSize = computed(() => {
+
+      if (props.ratio >= 100) {
+        return Number.POSITIVE_INFINITY
+      }
+
+
+      if (props.ratio >= 50) {
+        return props.ratio * props.clientSize / 100
+      }
+
       const SCROLLBAR_MAX_SIZE = props.clientSize / 3
       return Math.min(
         Math.max(props.ratio * props.clientSize, SCROLLBAR_MIN_SIZE),
@@ -54,6 +64,13 @@ const ScrollBar = defineComponent({
     // const sizeRange = computed(() => props.size - thumbSize.value)
 
     const thumbStyle = computed<CSSProperties>(() => {
+
+      if (!Number.isFinite(thumbSize.value)) {
+        return {
+          display: 'none',
+        }
+      }
+
       const thumb = `${thumbSize.value}px`
 
       const style: CSSProperties = renderThumbStyle({
@@ -65,7 +82,7 @@ const ScrollBar = defineComponent({
       return style
     })
 
-    const totalSteps = computed(() => (props.clientSize - thumbSize.value - 4))
+    const totalSteps = computed(() => Math.floor((props.clientSize - thumbSize.value - 4)))
 
     const attachEvents = () => {
 
@@ -154,6 +171,7 @@ const ScrollBar = defineComponent({
       // using the current position - prev position to
 
       const distance = offset - thumbClickPosition
+      console.log(totalSteps.value)
       // get how many steps in total.
       // gap of 2 on top, 2 on bottom, in total 4.
       // using totalSteps ÷ totalSize getting each step's size * distance to get the new

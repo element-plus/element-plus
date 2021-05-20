@@ -1,7 +1,7 @@
 <template>
   <div
     ref="selectRef"
-    v-click-outside:[popperRef]="() => expanded = false"
+    v-click-outside:[popperRef]="handleClickOutside"
     :class="[selectSize ? 'el-select-v2--' + selectSize : '']"
     class="el-select-v2"
     @click.stop="toggleMenu"
@@ -102,12 +102,11 @@
                 spellcheck="false"
                 type="text"
                 @click.stop.prevent="handleInputBoxClick"
-                @blur="handleBlur"
                 @focus="handleFocus"
                 @input="onInput"
                 @compositionupdate="onCompositionUpdate"
                 @compositionend="onInput"
-                @keydown.esc.stop.prevent="expanded = false"
+                @keydown.esc.stop.prevent="handleEsc"
                 @keydown.delete.stop="handleDel"
               >
               <span
@@ -142,7 +141,6 @@
                 spellcheck="false"
                 type="text"
                 @click.stop.prevent="handleInputBoxClick"
-                @blur="handleBlur"
                 @focus="handleFocus"
                 @input="onInput"
                 @compositionupdate="onCompositionUpdate"
@@ -189,7 +187,7 @@
           </template>
           <template #empty>
             <slot name="empty">
-              <p class="el-select-v2-dropdown__empty">{{ emptyText }}</p>
+              <p class="el-select-v2__empty">{{ emptyText }}</p>
             </slot>
           </template>
           <!-- <template

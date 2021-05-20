@@ -77,6 +77,14 @@ $--input-inline-start: 7px !default;
     }
   }
 
+  @include e(empty) {
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+  }
+
   @include e(popper) {
     @include picker-popper(
       $--select-dropdown-background,
@@ -204,9 +212,9 @@ $--input-inline-start: 7px !default;
     position: absolute;
     right: 5px;
     height: 40px;
-    top: 1px;
+    top: 50%;
+    margin-top: -20px;
   }
-
 
   @include e(caret) {
     color: $--select-input-color;
@@ -245,6 +253,7 @@ $--input-inline-start: 7px !default;
       border-color: transparent;
       margin: 2px 0 2px 6px;
       background-color: #f0f2f5;
+      vertical-align: middle;
     }
   }
 
