@@ -1,3 +1,4 @@
+import { hasOwn } from '@vue/shared'
 import type {
   ElUploadProgressEvent,
   ElUploadRequestOptions,
@@ -82,7 +83,7 @@ export default function upload(option: ElUploadRequestOptions) {
   const headers = option.headers || {}
 
   for (const item in headers) {
-    if (headers.hasOwnProperty(item) && headers[item] !== null) {
+    if (hasOwn(headers, item) && headers[item] !== null) {
       xhr.setRequestHeader(item, headers[item])
     }
   }

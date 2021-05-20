@@ -160,7 +160,7 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 | error | Same as native error | (e: Error) |
 
 ### Image Slots
-| Slot Name | Description |
+| Name | Description |
 |---------|-------------|
 | placeholder | Triggers when image load |
 | error | Triggers when image load failed |
@@ -173,6 +173,7 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 | initial-index | The initial preview image index, less than or equal to the length of `url-list` | number | int | 0 |
 | infinite | Whether preview is infinite | boolean | true / false | true |
 | hide-on-click-modal | Whether user can emit close event when clicking backdrop | boolean | true / false | false |
+| append-to-body     | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true` | boolean   | — | false |
 
 ### ImageViewer Events
 | Event name      | Description    | Callback parameter      |

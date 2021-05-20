@@ -1,7 +1,11 @@
 <template>
   <div class="el-page-header">
     <div class="el-page-header__left" @click="handleClick">
-      <i class="el-icon-back"></i>
+      <div v-if="icon || $slots.icon" class="el-page-header__icon">
+        <slot name="icon">
+          <i :class="icon"></i>
+        </slot>
+      </div>
       <div class="el-page-header__title">
         <slot name="title">{{ title }}</slot>
       </div>
@@ -11,13 +15,17 @@
     </div>
   </div>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import { t } from '@element-plus/locale'
 
 export default defineComponent({
   name: 'ElPageHeader',
   props: {
+    icon: {
+      type: String,
+      default: 'el-icon-back',
+    },
     title: {
       type: String,
       default: () => t('el.pageHeader.title'),

@@ -402,7 +402,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | end-placeholder | placeholder for the end date in range mode | string | — | — |
 | type | type of the picker | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
 | format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | YYYY-MM-DD |
-| align | alignment | left/center/right | left |
+| align | alignment | — | left/center/right | left |
 | popper-class | custom class name for DatePicker's dropdown | string | — | — |
 | range-separator | range separator | string | — | '-' |
 | default-value | optional, default date of the calendar | Date | anything accepted by `new Date()` | — |

@@ -56,7 +56,7 @@ export default defineComponent({
       let mapValues = Array.from(map.values()).reverse()
       let mapKeys = Array.from(map.keys()).reverse()
       resizeObserver = new ResizeObserver(() => {
-        Array.from(h3).map(item => {
+        Array.from(h3).forEach(item => {
           const text = item.childNodes[1].textContent.trim()
           map.set(text, item.offsetTop)
         })

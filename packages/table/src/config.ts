@@ -1,7 +1,9 @@
 import { getPropByPath } from '@element-plus/utils/util'
 import ElCheckbox from '@element-plus/checkbox'
 import { h } from 'vue'
-import { Store, TreeNode, AnyObject, TableColumnCtx } from './table.type'
+import { TableColumnCtx } from './table-column/defaults'
+import { Store } from './store/index'
+import { TreeNode } from './table/defaults'
 
 export const cellStarts = {
   default: {
@@ -31,8 +33,7 @@ export const cellStarts = {
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader: function({ store: store_ }) {
-      const store = store_ as Store
+    renderHeader: function<T>({ store }: { store: Store<T>; }) {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
@@ -45,22 +46,22 @@ export const cellForced = {
         modelValue: store.states.isAllSelected.value,
       })
     },
-    renderCell: function({
+    renderCell: function<T>({
       row,
       column,
       store,
       $index,
     }: {
-      row: AnyObject
-      column: TableColumnCtx
-      store: Store
+      row: T
+      column: TableColumnCtx<T>
+      store: Store<T>
       $index: string
     }) {
       return h(ElCheckbox, {
         disabled: column.selectable
           ? !column.selectable.call(null, row, $index)
           : false,
-        onInput: () => {
+        onChange: () => {
           store.commit('rowSelectedChanged', row)
         },
         onClick: (event: Event) => event.stopPropagation(),
@@ -71,16 +72,15 @@ export const cellForced = {
     resizable: false,
   },
   index: {
-    renderHeader: function({ column: column_ }) {
-      const column = column_ as TableColumnCtx
+    renderHeader: function<T>({ column }: { column: TableColumnCtx<T>; }) {
       return column.label || '#'
     },
-    renderCell: function({
+    renderCell: function<T>({
       column,
       $index,
     }: {
-      column: TableColumnCtx
-      $index: string
+      column: TableColumnCtx<T>
+      $index: number
     }) {
       let i = $index + 1
       const index = column.index
@@ -95,18 +95,15 @@ export const cellForced = {
     sortable: false,
   },
   expand: {
-    renderHeader: function({ column: column_ }) {
-      const column = column_ as TableColumnCtx
+    renderHeader: function<T>({ column }: { column: TableColumnCtx<T>; }) {
       return column.label || ''
     },
-    renderCell: function({ row: row_, store: store_ }) {
-      const store = store_ as Store
-      const row = row_ as AnyObject
+    renderCell: function<T>({ row, store }: { row: T; store: Store<T>; }) {
       const classes = ['el-table__expand-icon']
       if (store.states.expandRows.value.indexOf(row) > -1) {
         classes.push('el-table__expand-icon--expanded')
       }
-      const callback = function(e) {
+      const callback = function(e: Event) {
         e.stopPropagation()
         store.toggleRowExpansion(row)
       }
@@ -129,31 +126,32 @@ export const cellForced = {
   },
 }
 
-export function defaultRenderCell({
+export function defaultRenderCell<T>({
   row,
   column,
   $index,
 }: {
-  row: AnyObject
-  column: TableColumnCtx
-  $index: string
+  row: T
+  column: TableColumnCtx<T>
+  $index: number
 }) {
   const property = column.property
   const value = property && getPropByPath(row, property, false).v
   if (column && column.formatter) {
     return column.formatter(row, column, value, $index)
   }
-  return value
+  return value?.toString?.() || ''
 }
 
-export function treeCellPrefix({
-  row: row_,
-  treeNode: treeNode_,
-  store: store_,
+export function treeCellPrefix<T>({
+  row,
+  treeNode,
+  store,
+}: {
+  row: T
+  treeNode: TreeNode
+  store: Store<T>
 }) {
-  const row = row_ as AnyObject
-  const store = store_ as Store
-  const treeNode = treeNode_ as TreeNode
   if (!treeNode) return null
   const ele = []
   const callback = function(e) {

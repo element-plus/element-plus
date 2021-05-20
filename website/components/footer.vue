@@ -5,19 +5,15 @@
         <h4>{{ langConfig.links }}</h4>
         <a href="https://github.com/element-plus/element-plus" class="footer-main-link" target="_blank">{{ langConfig.repo }}</a>
         <a href="https://github.com/element-plus/element-plus/releases" class="footer-main-link" target="_blank">{{ langConfig.changelog }}</a>
-        <a href="https://github.com/element-plus/element-plus/blob/dev/FAQ.md" class="footer-main-link" target="_blank">{{ langConfig.faq }}</a>
         <a href="https://github.com/element-plus/element-plus-starter" class="footer-main-link" target="_blank">{{ langConfig.starter }}</a>
         <a :href="'/#/' + lang + '/component/custom-theme'" class="footer-main-link" target="_blank">{{ langConfig.theme }}</a>
-        <a href="https://github.com/elemefe/element-react" class="footer-main-link" target="_blank">Element-React</a>
-        <a href="https://github.com/ElemeFE/element-angular" class="footer-main-link" target="_blank">Element-Angular</a>
       </div>
       <div class="footer-main">
         <h4>{{ langConfig.community }}</h4>
         <a :href="gitterLink" class="footer-main-link" target="_blank">{{ langConfig.gitter }}</a>
-        <a href="https://github.com/ElemeFE/element/issues" class="footer-main-link" target="_blank">{{ langConfig.feedback }}</a>
-        <a :href="`https://github.com/ElemeFE/element/blob/master/.github/CONTRIBUTING.${ lang }.md`" class="footer-main-link" target="_blank">{{ langConfig.contribution }}</a>
-        <a href="https://segmentfault.com/t/element-ui" class="footer-main-link" target="_blank">SegmentFault</a>
-        <a href="https://github.com/ElementUI/awesome-element" class="footer-main-link" target="_blank">Awesome Element</a>
+        <a href="https://github.com/element-plus/element-plus/issues" class="footer-main-link" target="_blank">{{ langConfig.feedback }}</a>
+        <a :href="`https://github.com/element-plus/element-plus/blob/dev/.github/CONTRIBUTING.${ lang }.md`" class="footer-main-link" target="_blank">{{ langConfig.contribution }}</a>
+        <a href="https://segmentfault.com/t/element-plus" class="footer-main-link" target="_blank">SegmentFault</a>
       </div>
       <div class="footer-social">
         <p class="footer-social-title">Element Team</p>

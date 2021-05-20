@@ -148,10 +148,10 @@ Simple step bars, where `align-center`, `description`, `direction` and `space` w
 |---------- |-------- |---------- |-------------  |-------- |
 | title | step title | string | — | — |
 | description | step description | string | — | — |
-| icon | step icon | step icon's class name. Icons can be passed via named slot as well | string | — |
-| status | current status. It will be automatically set by Steps if not configured. | wait / process / finish / error / success | - |
+| icon | step icon's class name. Icons can be passed via named slot as well | string | — | — |
+| status | current status. It will be automatically set by Steps if not configured. | string | wait / process / finish / error / success | — |
 
-### Step Slot
+### Step Slots
 | Name | Description |
 |----|----|
 | icon | custom icon |

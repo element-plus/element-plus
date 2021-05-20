@@ -305,3 +305,10 @@ Only card type Tabs support addable & closeable.
 | name      | identifier corresponding to the name of Tabs, representing the alias of the tab-pane | string | — | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '1' |
 | closable  | whether Tab is closable | boolean   | — |  false  |
 | lazy  | whether Tab is lazily rendered   | boolean   | — |  false  |
+
+### Tab-pane Slots
+
+| Name | Description |
+|------|--------|
+| - | Tab-pane's content |
+| label | Tab-pane's label |

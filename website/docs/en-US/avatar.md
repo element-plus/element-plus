@@ -1,4 +1,4 @@
-## Avatar avatar
+## Avatar
 
 Avatars can be used to represent people or objects. It supports images, Icons, or characters.
 
@@ -18,7 +18,7 @@ use `shape` and `size` prop to set avatar's shape and size
           <el-avatar :size="size" :src="circleUrl"></el-avatar>
         </div>
       </div>
-    </el-col>  
+    </el-col>
     <el-col :span="12">
       <div class="sub-title">square</div>
       <div class="demo-basic--circle">
@@ -27,7 +27,7 @@ use `shape` and `size` prop to set avatar's shape and size
           <el-avatar shape="square" :size="size" :src="squareUrl"></el-avatar>
         </div>
       </div>
-    </el-col> 
+    </el-col>
   </el-row>
 </template>
 <script>
@@ -139,7 +139,8 @@ Set how the image fit its container for an image avatar, same as [object-fit](ht
 | ------ | ------------------ | -------- |
 | error  | handler when img load error, return false to prevent default fallback behavior |(e: Event)  |
 
-### Slot
+### Slots
 
-| Slot Name | Description | 
+| Name | Description |
+| ------ | ------------------ |
 | default  | customize avatar content |

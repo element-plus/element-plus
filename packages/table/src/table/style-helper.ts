@@ -1,27 +1,24 @@
-import { onMounted, onUnmounted, computed, ref, watchEffect, watch } from 'vue'
+import { onMounted, onUnmounted, computed, ref, watchEffect, watch, unref } from 'vue'
 import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
+import type { ResizableElement } from '@element-plus/utils/resize-event'
 import throttle from 'lodash/throttle'
 import { parseHeight } from '../util'
-import {
-  TableProps,
-  Table,
-  AnyObject,
-  TableLayout,
-  Store,
-  TableColumnCtx,
-} from '../table.type'
+import type TableLayout from '../table-layout'
 import { useGlobalConfig } from '@element-plus/utils/util'
+import { Table, TableProps } from './defaults'
+import { Store } from '../store/index'
+import { TableColumnCtx } from '../table-column/defaults'
 
-function useStyle (
-  props: TableProps,
-  layout: TableLayout,
-  store: Store,
-  table: Table,
+function useStyle<T>(
+  props: TableProps<T>,
+  layout: TableLayout<T>,
+  store: Store<T>,
+  table: Table<T>,
 ) {
-  const $ElEMENT = useGlobalConfig()
+  const $ELEMENT = useGlobalConfig()
   const isHidden = ref(false)
   const renderExpanded = ref(null)
   const resizeProxyVisible = ref(false)
@@ -35,22 +32,25 @@ function useStyle (
   const isGroup = ref(false)
 
   watchEffect(() => {
-    layout.setHeight(props.height as string)
+    layout.setHeight(props.height)
   })
   watchEffect(() => {
-    layout.setMaxHeight(props.maxHeight as string)
+    layout.setMaxHeight(props.maxHeight)
   })
-  watchEffect(() => {
-    if (!store.states.rowKey.value) return
-    store.setCurrentRowKey(props.currentRowKey)
+  watch(() => [props.currentRowKey, store.states.rowKey], ([currentRowKey, rowKey]) => {
+    if (!unref(rowKey)) return
+    store.setCurrentRowKey(currentRowKey + '')
+  }, {
+    immediate: true,
   })
   watch(
     () => props.data,
-    () => {
-      table.store.commit('setData', props.data)
+    data => {
+      table.store.commit('setData', data)
     },
     {
       immediate: true,
+      deep: true,
     },
   )
   watchEffect(() => {
@@ -67,7 +67,7 @@ function useStyle (
   const handleHeaderFooterMousewheel = (event, data) => {
     const { pixelX, pixelY } = data
     if (Math.abs(pixelX) >= Math.abs(pixelY)) {
-      (table.refs.bodyWrapper as AnyObject).scrollLeft += data.pixelX / 5
+      table.refs.bodyWrapper.scrollLeft += data.pixelX / 5
     }
   }
 
@@ -100,7 +100,7 @@ function useStyle (
     }
 
     // init filters
-    store.states.columns.value.forEach((column: TableColumnCtx) => {
+    store.states.columns.value.forEach((column: TableColumnCtx<T>) => {
       if (column.filteredValue && column.filteredValue.length) {
         table.store.commit('filterChange', {
           column,
@@ -152,13 +152,12 @@ function useStyle (
   }, 10)
 
   const bindEvents = () => {
+    window.addEventListener('resize', doLayout)
     table.refs.bodyWrapper.addEventListener('scroll', syncPostion, {
       passive: true,
     })
     if (props.fit) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      addResizeListener(table.vnode.el, resizeListener)
+      addResizeListener(table.vnode.el as ResizableElement, resizeListener)
     }
   }
   onUnmounted(() => {
@@ -166,10 +165,9 @@ function useStyle (
   })
   const unbindEvents = () => {
     table.refs.bodyWrapper?.removeEventListener('scroll', syncPostion, true)
+    window.removeEventListener('resize', doLayout)
     if (props.fit) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      removeResizeListener(table.vnode.el, resizeListener)
+      removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
     }
   }
   const resizeListener = () => {
@@ -197,7 +195,7 @@ function useStyle (
     }
   }
   const tableSize = computed(() => {
-    return props.size || $ElEMENT.size
+    return props.size || $ELEMENT.size
   })
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
@@ -242,7 +240,7 @@ function useStyle (
    * fix layout
    */
   const handleFixedMousewheel = (event, data) => {
-    const bodyWrapper = table.refs.bodyWrapper as AnyObject
+    const bodyWrapper = table.refs.bodyWrapper
     if (Math.abs(data.spinY) > 0) {
       const currentScrollTop = bodyWrapper.scrollTop
       if (data.pixelY < 0 && currentScrollTop !== 0) {

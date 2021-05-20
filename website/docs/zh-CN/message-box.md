@@ -325,3 +325,4 @@ import { ElMessageBox } from 'element-plus';
 | inputErrorMessage | 校验未通过时的提示文本 | string | — | 输入的数据不合法! |
 | center | 是否居中布局 | boolean | — | false |
 | roundButton | 是否使用圆角按钮 | boolean | — | false |
+| buttonSize | 自定义确认按钮及取消按钮的大小 | string | mini / small / medium / large | small |

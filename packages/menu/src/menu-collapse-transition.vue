@@ -16,9 +16,10 @@ export default defineComponent({
           el.style.opacity = 0.2
         },
 
-        enter(el) {
+        enter(el, done) {
           addClass(el, 'el-opacity-transition')
           el.style.opacity = 1
+          done()
         },
 
         afterEnter(el) {

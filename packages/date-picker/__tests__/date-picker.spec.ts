@@ -134,6 +134,7 @@ describe('DatePicker', () => {
     expect(focusHandler).toHaveBeenCalledTimes(1);
     (document.querySelector('td.available') as HTMLElement).click()
     await nextTick()
+    await nextTick() // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1)
     expect(blurHandler).toHaveBeenCalledTimes(1)
     expect(onChangeValue.getTime()).toBe(new Date(2016, 9, 1).getTime())
@@ -175,6 +176,21 @@ describe('DatePicker', () => {
     input.trigger('focus')
     await nextTick()
     expect(document.querySelector('.disabled')).not.toBeNull()
+  })
+
+  it('ref focus', async () => {
+    _mount(`<el-date-picker
+        v-model="value"
+        ref="input"
+      />`, () => ({ value: '' }), {
+      mounted() {
+        this.$refs.input.focus()
+      },
+    })
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
   })
 })
 
@@ -475,6 +491,30 @@ describe('DateRangePicker', () => {
     expect(vm.value[0].getTime() < vm.value[1].getTime()).toBeTruthy()
   })
 
+  it('reset selection', async () => {
+    const wrapper = _mount(`<el-date-picker
+      type='daterange'
+      v-model="value"
+    />`, () => ({ value: '' }))
+
+    const inputs = wrapper.findAll('input')
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
+    const panels = document.querySelectorAll('.el-date-range-picker__content');
+    (panels[1].querySelector('td.available') as HTMLElement).click()
+    await nextTick();
+    (panels[0].querySelector('td.available') as HTMLElement).click()
+    await nextTick();
+
+    (wrapper.vm as any).value = ''
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
+    const inRangeDate = document.querySelectorAll('.in-range')
+    expect(inRangeDate.length).toBe(0)
+  })
+
   it('range, start-date and end-date', async () => {
     _mount(`<el-date-picker
       type='daterange'
@@ -674,6 +714,33 @@ describe('MonthRange', () => {
     const endDate = document.querySelectorAll('.end-date')
     expect(startDate.length).toBe(1)
     expect(endDate.length).toBe(1)
+  })
+
+  it('should accept popper options and pass down', async () => {
+    const ElPopperOptions = {
+      strategy: 'fixed',
+    }
+    const wrapper = _mount(
+      `<el-date-picker
+        type='monthrange'
+        v-model="value"
+        :popper-options="options"
+        unlink-panels
+      />`, () => ({ value: [new Date(2016, 6), new Date(2016, 12)], options: ElPopperOptions }),
+      {
+        provide() {
+          return {
+            ElPopperOptions,
+          }
+        },
+      },
+    )
+
+    await nextTick()
+
+    expect((
+      (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions),
+    ).toEqual(ElPopperOptions)
   })
 })
 

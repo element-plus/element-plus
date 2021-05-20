@@ -4,7 +4,6 @@ import {
   ref,
   computed,
   watch,
-  nextTick,
   provide,
 } from 'vue'
 import { IPagination } from './pagination'
@@ -163,26 +162,16 @@ export default defineComponent({
       if (typeof value === 'string') {
         value = parseInt(value, 10)
       }
+
       let resetValue: number | undefined
-      const havePageCount = typeof internalPageCount.value === 'number'
 
-      if (!havePageCount) {
-        if (isNaN(value) || value < 1) resetValue = 1
-      } else {
-        if (value < 1) {
-          resetValue = 1
-        } else if (value > internalPageCount.value) {
-          resetValue = internalPageCount.value
-        }
+      if (isNaN(value) || value < 1) {
+        resetValue = 1
+      } else if (internalPageCount.value < value){
+        resetValue = internalPageCount.value
       }
 
-      if (resetValue === undefined && isNaN(value)) {
-        resetValue = 1
-      } else if (resetValue === 0) {
-        resetValue = 1
-      }
-
-      return resetValue === undefined ? value : resetValue
+      return resetValue ?? value
     }
 
     watch(() => props.currentPage, val => {
@@ -233,11 +222,7 @@ export default defineComponent({
     const layout = this.layout
 
     if (!layout) return null
-    if (
-      this.hideOnSinglePage &&
-      (!this.internalPageCount || this.internalPageCount === 1)
-    )
-      return null
+    if (this.hideOnSinglePage && this.internalPageCount <= 1) return null
 
     const rootNode = h('div', {
       class: [

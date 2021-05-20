@@ -172,7 +172,7 @@ popoverの中には、他のコンポーネントを入れ子にすることが�
 | show-after | ミリ秒単位の出現の遅延 | number | — | 0 |
 | hide-after | ミリ秒単位の消えるの遅延 | number | — | 0 |
 | auto-close | ツールチップを非表示にするタイムアウト（ミリ秒単位） | number | — | 0 |
-|  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) のpopover | number | — | 0 |
+|  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) のpopover | number | — | — |
 
 ### スロット
 | Name | Description |

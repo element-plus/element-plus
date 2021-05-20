@@ -334,7 +334,13 @@ Besides default size, Dropdown component provides three additional sizes for you
 | command | triggers when a dropdown item is clicked | the command dispatched from the dropdown item |
 | visible-change | triggers when the dropdown appears/disappears | true when it appears, and false otherwise |
 
-### Dropdown Menu Item Attributes
+### Dropdown-Menu Slots
+
+| Name | Description |
+|------|--------|
+| — | content of Dropdown Menu |
+
+### Dropdown-Item Attributes
 | Attribute     | Description          | Type      | Accepted Values       | Default  |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | command       | a command to be dispatched to Dropdown's `command` callback | string/number/object  |          —             |    —     |

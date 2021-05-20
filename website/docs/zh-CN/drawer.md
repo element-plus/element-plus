@@ -262,7 +262,6 @@ Drawer 的内容是懒渲染的，即在第一次被打开之前，传入的默�
 Drawer 提供一个 `destroyOnClose` API, 用来在关闭 Drawer 时销毁子组件内容, 例如清理表单内的状态, 在必要时可以将该属性设置为 **true** 用来保证初始状态的一致性
 
 :::
-
 ### Drawer Attributes
 Drawer has almost identical attributes as Dialog.
 

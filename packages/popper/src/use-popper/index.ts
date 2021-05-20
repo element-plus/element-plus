@@ -24,7 +24,7 @@ import type {
 export type ElementType = ComponentPublicInstance | HTMLElement
 export type EmitType = 'update:visible' | 'after-enter' | 'after-leave' | 'before-enter' | 'before-leave'
 
-interface IEvents {
+export interface PopperEvents {
   onClick?: (e: Event) => void
   onMouseenter?: (e: Event) => void
   onMouseleave?: (e: Event) => void
@@ -173,7 +173,7 @@ export default function(
     popperInstance = null
   }
 
-  const events = {} as IEvents
+  const events = {} as PopperEvents
 
   function update() {
     if (!$(visibility)) {
@@ -235,7 +235,7 @@ export default function(
       }
     }
 
-    const triggerEventsMap: Partial<Record<TriggerType, (keyof IEvents)[]>> = {
+    const triggerEventsMap: Partial<Record<TriggerType, (keyof PopperEvents)[]>> = {
       click: ['onClick'],
       hover: ['onMouseenter', 'onMouseleave'],
       focus: ['onFocus', 'onBlur'],
@@ -248,7 +248,7 @@ export default function(
     }
 
     if (isArray(props.trigger)) {
-      Object.values(props.trigger).map(mapEvents)
+      Object.values(props.trigger).forEach(mapEvents)
     } else {
       mapEvents(props.trigger as TriggerType)
     }

@@ -378,6 +378,8 @@ export default defineComponent({
       contentStyle,
       validateMessage,
       labelFor,
+      resetField,
+      clearValidate,
     }
   },
 })

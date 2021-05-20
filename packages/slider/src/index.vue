@@ -26,7 +26,7 @@
     <div
       ref="slider"
       class="el-slider__runway"
-      :class="{ 'show-input': showInput, 'disabled': sliderDisabled }"
+      :class="{ 'show-input': showInput && !range, 'disabled': sliderDisabled }"
       :style="runwayStyle"
       @click="onSliderClick"
     >
@@ -93,7 +93,7 @@ import {
   toRefs,
   watch,
 } from 'vue'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
 import ElInputNumber from '@element-plus/input-number'
@@ -186,13 +186,13 @@ export default defineComponent({
     marks: Object,
   },
 
-  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT],
+  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT],
 
   setup(props, { emit }) {
     const initData = reactive({
-      firstValue: null,
-      secondValue: null,
-      oldValue: null,
+      firstValue: 0,
+      secondValue: 0,
+      oldValue: 0,
       dragging: false,
       sliderSize: 1,
     })
@@ -282,6 +282,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
 
   const _emit = (val: number | number[]) => {
     emit(UPDATE_MODEL_EVENT, val)
+    emit(INPUT_EVENT, val)
   }
 
   const valueChanged = () => {
@@ -330,6 +331,8 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
       }
     }
   }
+
+  setValues()
 
   watch(() => initData.dragging, val => {
     if (!val) {

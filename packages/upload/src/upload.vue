@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { NOOP } from '@vue/shared'
+import { NOOP, hasOwn } from '@vue/shared'
 
 import ajax from './ajax'
 import UploadDragger from './upload-dragger.vue'
@@ -186,7 +186,7 @@ export default defineComponent({
                 })
               }
               for (const p in rawFile) {
-                if (rawFile.hasOwnProperty(p)) {
+                if (hasOwn(rawFile, p)) {
                   processedFile[p] = rawFile[p]
                 }
               }

@@ -152,6 +152,8 @@ imgのネイティブ機能の他に、遅延ロード、カスタムプレー�
 | src | image source、ネイティブと同じ | string | — | - |
 | scroll-container | 遅延ロード時にスクロールリスナーを追加するコンテナ | string / HTMLElement | — | The nearest parent container whose overflow property is auto or scroll |
 | z-index | セットイメージプレビュー z-index | Number | — | 2000 |
+| append-to-body     | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true` | boolean   | — | false |
+
 
 ### Image イベント
 | Event Name | Description | Parameters |

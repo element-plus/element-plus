@@ -35,6 +35,8 @@ app.mount('#app')
 
 #### 按需引入
 
+**Vue CLI**
+  
 借助 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import)，我们可以只引入需要的组件，以达到减小项目体积的目的。
 
 首先，安装 babel-plugin-import:
@@ -51,6 +53,12 @@ $ yarn add babel-plugin-import -D
 
 然后，将 babel.config.js 修改为：
 
+- 引入 `.scss` 样式
+
+:::warning
+请确保已经安装了 `sass` 和 `sass-loader` 依赖并将 `element-plus/packages/theme-chalk/src/base.scss` 文件在入口文件中引入
+:::
+
 ```js
 module.exports = {
   plugins: [
@@ -59,14 +67,108 @@ module.exports = {
       {
         libraryName: 'element-plus',
         customStyleName: (name) => {
-          // 由于 customStyleName 在配置中被声明的原因，`style: true` 会被直接忽略掉，
-          // 如果你需要使用 scss 源文件，把文件结尾的扩展名从 `.css` 替换成 `.scss` 就可以了
+          name = name.slice(3)
+          return `element-plus/packages/theme-chalk/src/${name}.scss`;
+        },
+      },
+    ],
+  ],
+};
+```
+
+- 引入 `.css` 样式
+
+```js
+module.exports = {
+  plugins: [
+    [
+      "import",
+      {
+        libraryName: 'element-plus',
+        customStyleName: (name) => {
           return `element-plus/lib/theme-chalk/${name}.css`;
         },
       },
     ],
   ],
 };
+```
+  
+**Vite**
+  
+首先，安装 [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import):
+
+```bash
+$ npm install vite-plugin-style-import -D
+```
+
+或者
+
+```bash
+$ yarn add vite-plugin-style-import -D
+```
+
+然后，将 vite.config.js 修改为：
+
+- 引入 `.scss` 样式
+
+:::warning
+请确保已经安装了 `sass` 依赖并将 `element-plus/packages/theme-chalk/src/base.scss` 文件在入口文件中引入
+:::
+
+```js
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import styleImport from 'vite-plugin-style-import'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    styleImport({
+      libs: [{
+        libraryName: 'element-plus',
+        esModule: true,
+        ensureStyleFile: true,
+        resolveStyle: (name) => {
+          name = name.slice(3)
+          return `element-plus/packages/theme-chalk/src/${name}.scss`;
+        },
+        resolveComponent: (name) => {
+          return `element-plus/lib/${name}`;
+        },
+      }]
+    })
+  ]
+})
+```
+
+- 引入 `.css` 样式
+
+```js
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import styleImport from 'vite-plugin-style-import'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    styleImport({
+      libs: [
+        {
+          libraryName: 'element-plus',
+          esModule: true,
+          ensureStyleFile: true,
+          resolveStyle: (name) => {
+            return `element-plus/lib/theme-chalk/${name}.css`;
+          },
+          resolveComponent: (name) => {
+            return `element-plus/lib/${name}`;
+          },
+        }
+      ]
+    })
+  ]
+})
 ```
 
 接下来，如果你只希望引入部分组件，比如 Button 和 Select，那么需要在 main.js 中写入以下内容：
@@ -75,6 +177,8 @@ module.exports = {
 import { createApp } from 'vue'
 import { ElButton, ElSelect } from 'element-plus';
 import App from './App.vue';
+// 如果要使用.scss样式文件，则需要引入base.scss文件
+// import 'element-plus/packages/theme-chalk/src/base.scss'
 
 const app = createApp(App)
 app.component(ElButton.name, ElButton);
@@ -93,6 +197,9 @@ app.mount('#app')
 ```javascript
 import { createApp } from 'vue'
 import App from './App.vue';
+// 如果要使用.scss样式文件，则需要引入base.scss文件
+// import 'element-plus/packages/theme-chalk/src/base.scss'
+
 import {
   ElAlert,
   ElAside,
@@ -281,7 +388,7 @@ plugins.forEach(plugin => {
 
 ### 全局配置
 
-在引入 Element Plus 时，可以传入一个全局配置对象。该对象目前支持 `size` 与 `zIndex` 字段。`size` 用于改变组件的默认尺寸，`zIndex` 设置弹框的初始 z-index（默认值：2000）。按照引入 Element Plus 的方式，具体操作如下：
+在引入 Element Plus 时，可以传入一个全局配置对象。该对象目前支持 `size` 与 `zIndex` 字段。`size` 用于改变组件的默认尺寸，`zIndex` 设置弹框的初始 z-index（默认值：2000）。按需引入 Element Plus 的方式，具体操作如下：
 
 完整引入 Element：
 
@@ -300,6 +407,8 @@ app.use(ElementPlus, { size: 'small', zIndex: 3000 });
 import { createApp } from 'vue'
 import { ElButton } from 'element-plus';
 import App from './App.vue';
+// 如果要使用.scss样式文件，则需要引入base.scss文件
+// import 'element-plus/packages/theme-chalk/src/base.scss'
 
 const app = createApp(App)
 app.config.globalProperties.$ELEMENT = option
@@ -319,4 +428,3 @@ app.use(ElButton);
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
   <iframe src="https://glitch.com/embed/#!/embed/nuxt-with-element?path=nuxt.config.js&previewSize=0&attributionHidden=true" alt="nuxt-with-element on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
-

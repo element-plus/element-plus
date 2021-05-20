@@ -178,11 +178,11 @@ Lorsqu'il n'y a qu'une seule page, il est possible de cacher la pagination avec 
 |--------------------|----------------------------------------------------------|-------------------|-------------|--------|
 | small | Si la pagination doit être petite. | boolean |      —       | false |
 | background | Si les boutons doivent avoir une couleur de fond. | boolean | — | false |
-| page-size | Nombre d'entrées sur chaque page, supporte le modificateur .sync. | number |      —       | 10 |
+| page-size | Nombre d'entrées sur chaque page, supporte v-model two-way binding. | number |      —       | 10 |
 | total | Nombre total d'entrées. | number | — | — |
 | page-count | Nombre de pages. Réglez `total` ou `page-count` et le nombre de pages sera affiché; si vous avez besoin de `page-sizes`, `total` est requis. | number | — | — |
 | pager-count | Nombre de sélecteurs de pages. Pagination se réduit lorsque le nombre de pages dépasse cette valeur. | number | Nombre impair entre 5 et 21. | 7 |
-| current-page | Le numéro de page courant, supporte le modificateur .sync. | number | — | 1 |
+| current-page | Le numéro de page courant, supporte v-model two-way binding. | number | — | 1 |
 | layout | L'ensemble des éléments de la pagination, séparés par des virgules. | string | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total'  |
 | page-sizes | Options pour la taille des pages. | number[] | — |  [10, 20, 30, 40, 50, 100] |
 | popper-class | Classe du menu de sélection de la taille des pages. | string | — | — |

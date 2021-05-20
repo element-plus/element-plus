@@ -19,16 +19,18 @@
       :class="{ 'el-image__inner--center': alignCenter, 'el-image__preview': preview }"
       @click="clickHandler"
     >
-    <template v-if="preview">
-      <image-viewer
-        v-if="showViewer"
-        :z-index="zIndex"
-        :initial-index="imageIndex"
-        :url-list="previewSrcList"
-        :hide-on-click-modal="hideOnClickModal"
-        @close="closeViewer"
-      />
-    </template>
+    <teleport to="body" :disabled="!appendToBody">
+      <template v-if="preview">
+        <image-viewer
+          v-if="showViewer"
+          :z-index="zIndex"
+          :initial-index="imageIndex"
+          :url-list="previewSrcList"
+          :hide-on-click-modal="hideOnClickModal"
+          @close="closeViewer"
+        />
+      </template>
+    </teleport>
   </div>
 </template>
 
@@ -64,6 +66,10 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: {
+    appendToBody: {
+      type: Boolean,
+      default: false,
+    },
     hideOnClickModal: {
       type: Boolean,
       default: false,
@@ -185,6 +191,8 @@ export default defineComponent({
       // so it can behave consistently
       Object.keys(attributes)
         .forEach(key => {
+          // avoid onload to be overwritten
+          if (key.toLowerCase() === 'onload') return
           const value = attributes[key]
           img.setAttribute(key, value)
         })

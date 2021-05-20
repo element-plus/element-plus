@@ -1,6 +1,6 @@
 <template>
   <el-select
-    v-model="value"
+    :model-value="value"
     :disabled="!editable"
     :clearable="clearable"
     :clear-icon="clearIcon"
@@ -8,12 +8,8 @@
     :placeholder="placeholder"
     default-first-option
     filterable
-    @change="
-      (value) => {
-        $emit('change', value)
-        $emit('update:modelValue', value)
-      }
-    "
+    @update:model-value="(event) => $emit('update:modelValue', event)"
+    @change="(event) => $emit('change', event)"
     @blur="(event) => $emit('blur', event)"
     @focus="(event) => $emit('focus', event)"
   >
@@ -31,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, computed } from 'vue'
 import ElSelect from '@element-plus/select'
 import ElOption from '@element-plus/option'
 interface Time {
@@ -143,9 +139,8 @@ export default defineComponent({
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
-    // data
-    const value = ref(props.modelValue)
     // computed
+    const value = computed(() => props.modelValue)
     const items = computed(() => {
       const result = []
       if (props.start && props.end && props.step) {

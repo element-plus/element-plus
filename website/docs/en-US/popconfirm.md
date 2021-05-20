@@ -1,4 +1,4 @@
-## Popconfirm 
+## Popconfirm
 
 A simple confirmation dialog of an element click action.
 
@@ -52,7 +52,7 @@ You can customise Popconfirm like:
 |  iconColor              | Icon color | String | — | #f90 |
 |  hideIcon              | is hide Icon | Boolean | — | false |
 
-### Slot
+### Slots
 | Name | Description |
 |--- | ---|
 | reference | HTML element that triggers Popconfirm |

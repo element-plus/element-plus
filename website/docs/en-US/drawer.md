@@ -261,12 +261,14 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 :::
 
+
+
 ### Drawer Attributes
 
-| Parameter| Description | Type      | Acceptable Values                           | Defaults  |
+| Attribute | Description | Type      | Acceptable Values                           | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | append-to-body | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**| boolean   | — | false |
-| before-close | If set, closing procedure will be halted | function(done), done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure | — | — |
+| before-close | If set, closing procedure will be halted | function(done) (done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure) | — | — |
 | close-on-press-escape | Indicates whether Drawer can be closed by pressing ESC | boolean | — | true |
 | custom-class | Extra class names for Drawer | string | — | — |
 | destroy-on-close | Indicates whether children should be destroyed after Drawer closed | boolean | - | false |
@@ -278,7 +280,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | model-value / v-model | Should Drawer be displayed | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
 
-### Drawer Slot
+### Drawer Slots
 
 | Name | Description |
 |------|--------|

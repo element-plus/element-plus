@@ -8,6 +8,7 @@
     trigger="click"
     v-bind="$attrs"
     :popper-class="`el-picker__popper ${popperClass}`"
+    :popper-options="elPopperOptions"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
@@ -18,7 +19,7 @@
     <template #trigger>
       <el-input
         v-if="!isRangeInput"
-        v-clickoutside="onClickOutside"
+        v-clickoutside:[popperPaneRef]="onClickOutside"
         :model-value="displayValue"
         :name="name"
         :size="pickerSize"
@@ -53,7 +54,7 @@
       </el-input>
       <div
         v-else
-        v-clickoutside="onClickOutside"
+        v-clickoutside:[popperPaneRef]="onClickOutside"
         class="el-date-editor el-range-editor el-input__inner"
         :class="[
           'el-date-editor--' + type,
@@ -124,6 +125,7 @@ import {
   defineComponent,
   ref,
   computed,
+  nextTick,
   inject,
   watch,
   provide,
@@ -135,8 +137,9 @@ import ElPopper from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import { defaultProps } from './props'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
+import type { Options } from '@popperjs/core'
 
 interface PickerOptions {
   isValidValue: any
@@ -191,6 +194,7 @@ export default defineComponent({
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
     const refPopper = ref(null)
     const pickerVisible = ref(false)
@@ -200,6 +204,9 @@ export default defineComponent({
     watch(pickerVisible, val => {
       if (!val) {
         userInput.value = null
+        nextTick(() => {
+          emitChange(props.modelValue)
+        })
         ctx.emit('blur')
         blurInput()
         props.validateEvent && elFormItem.formItemMitt?.emit('el.form.blur')
@@ -207,7 +214,7 @@ export default defineComponent({
         valueOnOpen.value = props.modelValue
       }
     })
-    const emitChange = (val, isClear) => {
+    const emitChange = (val, isClear?: boolean) => {
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
@@ -248,7 +255,6 @@ export default defineComponent({
       }
       userInput.value = null
       emitInput(result)
-      emitChange(result)
     }
     const handleFocus = e => {
       if (props.readonly || pickerDisabled.value) return
@@ -347,6 +353,11 @@ export default defineComponent({
     const pickerSize = computed(() => {
       return props.size || elFormItem.size || ELEMENT.size
     })
+
+    const popperPaneRef = computed(() => {
+      return refPopper.value?.popperRef
+    })
+
     const onClickOutside = () => {
       if (!pickerVisible.value) return
       pickerVisible.value = false
@@ -488,6 +499,9 @@ export default defineComponent({
       props,
     })
     return {
+      // injected popper options
+      elPopperOptions,
+
       isDatesPicker,
       handleEndChange,
       handleStartChange,
@@ -496,6 +510,7 @@ export default defineComponent({
       onUserInput,
       handleChange,
       handleKeydown,
+      popperPaneRef,
       onClickOutside,
       pickerSize,
       isRangeInput,
