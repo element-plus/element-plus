@@ -47,9 +47,6 @@ export default defineComponent({
   setup(props, ctx) {
     provide('ElPopperOptions', props.popperOptions)
     const commonPicker = ref(null)
-    // since props always have all defined keys on it, {format, ...props} will always overwrite format
-    // pick props.format or provide default value here before spreading
-    const format = props.format ?? (DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE)
     const refProps = {
       ...props,
       focus: () => {
@@ -57,15 +54,20 @@ export default defineComponent({
       },
     }
     ctx.expose(refProps)
-    return () => h(CommonPicker, {
-      ...props,
-      format,
-      type: props.type,
-      ref: commonPicker,
-      'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
-    },
-    {
-      default: scopedProps => h(getPanel(props.type), scopedProps),
-    })
+    return () => {
+      // since props always have all defined keys on it, {format, ...props} will always overwrite format
+      // pick props.format or provide default value here before spreading
+      const format = props.format ?? (DEFAULT_FORMATS_DATEPICKER[props.type] || DEFAULT_FORMATS_DATE)
+      return h(CommonPicker, {
+        ...props,
+        format,
+        type: props.type,
+        ref: commonPicker,
+        'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
+      },
+      {
+        default: scopedProps => h(getPanel(props.type), scopedProps),
+      })
+    }
   },
 })
