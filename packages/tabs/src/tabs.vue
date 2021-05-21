@@ -1,5 +1,6 @@
 <script lang='ts'>
 import { h, defineComponent, ref, onMounted, onUpdated, provide, watch, nextTick, getCurrentInstance, ComputedRef, PropType, Ref, ComponentInternalInstance, VNode, Component, Fragment } from 'vue'
+import { isPromise } from '@vue/shared'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TabNav from './tab-nav.vue'
 
@@ -158,14 +159,14 @@ export default defineComponent({
 
       const beforeLeave = props.beforeLeave
       const before = beforeLeave && beforeLeave(value, currentName.value)
-      if(before && (before as Promise<void>).then) {
+      if (before && isPromise(before)) {
         (before as Promise<void>).then(() => {
           changeCurrentName(value)
-          nav$.value && nav$.value.removeFocus()
+          nav$.value.removeFocus?.()
         }, () => {
           // ignore promise rejection in `before-leave` hook
         })
-      } else if(before !== false) {
+      } else if (before !== false) {
         changeCurrentName(value)
       }
     }
