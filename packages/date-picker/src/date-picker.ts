@@ -1,4 +1,4 @@
-import { defineComponent, h, PropType, ref } from 'vue'
+import { defineComponent, h, provide, ref } from 'vue'
 import dayjs from 'dayjs'
 import { CommonPicker, DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER, defaultProps } from '@element-plus/time-picker'
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
@@ -13,6 +13,7 @@ import dayOfYear from 'dayjs/plugin/dayOfYear'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 
+import type { PropType } from 'vue'
 import type { IDatePickerType } from './date-picker.type'
 
 
