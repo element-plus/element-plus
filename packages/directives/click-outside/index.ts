@@ -71,7 +71,7 @@ function createDocumentHandler(
     ) {
       return
     }
-    binding.value(mousedown)
+    binding.value(mouseup, mousedown)
   }
 }
 
