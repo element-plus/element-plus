@@ -5,7 +5,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import TabBar from './tab-bar.vue'
 import { NOOP, capitalize } from '@vue/shared'
-import { RootTabs, Pane } from './tabs.vue'
+import { RootTabs, Pane, ITabType } from './tabs.vue'
 
 type RefElement = Nullable<HTMLElement>
 
@@ -38,7 +38,7 @@ export default defineComponent({
       default: NOOP,
     },
     type: {
-      type: String,
+      type: String as PropType<ITabType>,
       default: '',
     },
     stretch: Boolean,

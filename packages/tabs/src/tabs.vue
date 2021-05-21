@@ -5,14 +5,17 @@ import TabNav from './tab-nav.vue'
 
 type BeforeLeave = (newTabName: string, oldTabName: string) => void | Promise<void> | boolean
 
+export type ITabType = 'card' | 'border-card' | ''
+type ITabPosition = 'top' | 'right' | 'bottom' | 'left'
+
 export interface IETabsProps {
-  type: string
+  type: ITabType
   activeName: string
   closable: boolean
   addable: boolean
   modelValue: string
   editable: boolean
-  tabPosition: string
+  tabPosition: ITabPosition
   beforeLeave: BeforeLeave
   stretch: boolean
 }
@@ -47,7 +50,7 @@ export default defineComponent({
   components: { TabNav },
   props: {
     type: {
-      type: String,
+      type: String as PropType<ITabType>,
       default: '',
     },
     activeName: {
@@ -62,7 +65,7 @@ export default defineComponent({
     },
     editable: Boolean,
     tabPosition: {
-      type: String,
+      type: String as PropType<ITabPosition>,
       default: 'top',
     },
     beforeLeave: {
