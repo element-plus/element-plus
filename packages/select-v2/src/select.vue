@@ -11,16 +11,18 @@
     <el-popper
       ref="popper"
       v-model:visible="expanded"
-      placement="bottom-start"
       :append-to-body="popperAppendToBody"
       :popper-class="`el-select-v2__popper ${popperClass}`"
-      manual-mode
-      effect="light"
-      pure
-      trigger="click"
-      transition="el-zoom-in-top"
-      :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
+      :stop-popper-mouse-event="false"
+      effect="light"
+      manual-mode
+      placement="bottom-start"
+      pure
+      transition="el-zoom-in-top"
+      trigger="click"
+      @before-enter="states.inputValue = states.displayInputValue"
+      @after-leave="states.inputValue = states.displayInputValue"
     >
       <template #trigger>
         <div
@@ -87,7 +89,8 @@
               <input
                 :id="id"
                 ref="inputRef"
-                v-model="states.inputValue"
+                v-model-text="states.displayInputValue"
+                @update:modelValue="onUpdateInputValue"
                 class="el-select-v2__combobox-input"
                 :autocomplete="autocomplete"
                 :aria-expanded="expanded"
@@ -113,7 +116,7 @@
                 ref="calculatorRef"
                 aria-hidden="true"
                 class="el-select-v2__input-calculator"
-                v-text="states.inputValue"
+                v-text="states.displayInputValue"
               >
               </span>
             </div>
@@ -126,7 +129,8 @@
               <input
                 :id="id"
                 ref="inputRef"
-                v-model="states.inputValue"
+                v-model-text="states.displayInputValue"
+                @update:modelValue="onUpdateInputValue"
                 class="el-select-v2__combobox-input"
                 :autocomplete="autocomplete"
                 :aria-expanded="expanded"
@@ -152,7 +156,7 @@
               aria-hidden="true"
               ref="calculatorRef"
               class="el-select-v2__selected-item el-select-v2__input-calculator"
-              v-text="states.inputValue"
+              v-text="states.displayInputValue"
             >
             </span>
           </template>
@@ -207,6 +211,7 @@ import {
   defineComponent,
   onMounted,
   provide,
+  vModelText,
 } from 'vue'
 import ElTag from '@element-plus/tag'
 import ElPopper from '@element-plus/popper'
@@ -229,7 +234,7 @@ export default defineComponent({
     // ElTag,
     ElPopper,
   },
-  directives: { ClickOutside },
+  directives: { ClickOutside, ModelText: vModelText },
   props: SelectProps,
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
 

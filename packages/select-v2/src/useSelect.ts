@@ -47,6 +47,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const states = reactive({
     inputValue: DEFAULT_INPUT_PLACEHOLDER,
+    displayInputValue: DEFAULT_INPUT_PLACEHOLDER,
     calculatedWidth: 0,
     cachedPlaceholder: '',
     createdOptions: [] as Option[],
@@ -121,7 +122,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const filteredOptions = computed(() => {
-
     const isValidOption = (o: Option): boolean => {
       // fill the conditions here.
       const query = states.inputValue
@@ -171,12 +171,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const shouldShowPlaceholder = computed(() => {
     if (isArray(props.modelValue)) {
-      return props.modelValue.length === 0 && !states.inputValue
+      return props.modelValue.length === 0 && !states.displayInputValue
     }
 
     // when it's not multiple mode, we only determine this flag based on filterable and expanded
     // when filterable flag is true, which means we have input box on the screen
-    return props.filterable ? states.inputValue.length === 0 : true
+    return props.filterable ? states.displayInputValue.length === 0 : true
   })
 
   const currentPlaceholder = computed(() => {
@@ -257,7 +257,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const onInputChange = () => {
-    if (props.filterable && states.query !== states.selectedLabel) {
+    if (props.filterable && states.inputValue !== states.selectedLabel) {
       states.query = states.selectedLabel
       handleQueryChange(states.query)
     }
@@ -463,7 +463,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
       if (props.filterable) {
         inputRef.value.focus?.()
-        states.inputValue = ''
+        onUpdateInputValue('')
       }
       states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
       resetInputHeight()
@@ -522,7 +522,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const handleInputBoxClick = () => {
-    if (states.inputValue.length === 0 && expanded.value) {
+    if (states.displayInputValue.length === 0 && expanded.value) {
       expanded.value = false
     }
   }
@@ -548,6 +548,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         // create new item to the list
       }
     }
+
+    states.displayInputValue = ''
     states.isComposing = false
     states.softFocus = false
       // reset input value when blurred
@@ -565,15 +567,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // keyboard handlers
   const handleEsc = () => {
-    if (states.inputValue.length > 0) {
-      states.inputValue = ''
+    if (states.displayInputValue.length > 0) {
+      onUpdateInputValue('')
     } else {
       expanded.value = false
     }
   }
 
   const handleDel = (e: KeyboardEvent) => {
-    if (states.inputValue.length === 0) {
+    if (states.displayInputValue.length === 0) {
       e.preventDefault()
       const selected = (props.modelValue as Array<any>).slice()
       selected.pop()
@@ -593,6 +595,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     expanded.value = false
     update(emptyValue)
     nextTick(focusAndUpdatePopup)
+  }
+
+  const onUpdateInputValue = (val: string) => {
+    states.displayInputValue = val
+    states.inputValue = val
   }
 
   const onKeyboardNavigate = (direction: 'forward' | 'backward') => {
@@ -649,7 +656,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const onInput = () => {
-    if (states.inputValue.length > 0 && !expanded.value) {
+    if (states.displayInputValue.length > 0 && !expanded.value) {
       expanded.value = true
     }
 
@@ -661,7 +668,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const onCompositionUpdate = (e: CompositionEvent) => {
-    states.inputValue += e.data
+    onUpdateInputValue(states.displayInputValue += e.data)
     onInput()
   }
 
@@ -671,7 +678,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const handleClickOutside = () => {
     expanded.value = false
-    nextTick(handleBlur)
+    handleBlur()
   }
 
   // in order to track these individually, we need to turn them into refs instead of watching the entire
@@ -684,20 +691,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       popper.value.update?.()
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
-      nextTick(() => {
-        states.inputValue = ''
-      })
+      states.displayInputValue = ''
     }
   })
-
-  const optionsRef = toRef(props, 'options')
-  const queryRef = toRef(states, 'inputValue')
-
-  watch([optionsRef, queryRef], ([options, query]) => {
-
-
-
-  }, { immediate: true, flush: 'pre' })
 
   onMounted(() => {
     // attach resize event here.
@@ -753,6 +749,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     onKeyboardNavigate,
     onKeyboardSelect,
     onSelect,
+    onUpdateInputValue,
   }
 }
 
