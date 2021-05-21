@@ -47,7 +47,7 @@ export default defineComponent({
   setup() {
     const rootTabs = inject<RootTabs>('rootTabs')
     if (!rootTabs) {
-      throwError('[ElTabNav]', `ElTabNav must use with ElTabs`)
+      throwError('[ElTabNav]', `ElTabNav must be nested inside ElTabs`)
     }
 
     const scrollable = ref<boolean | Scrollable>(false)
