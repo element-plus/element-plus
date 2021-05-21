@@ -160,7 +160,7 @@ export default defineComponent({
       const beforeLeave = props.beforeLeave
       const before = beforeLeave && beforeLeave(value, currentName.value)
       if (before && isPromise(before)) {
-        (before as Promise<void>).then(() => {
+        before.then(() => {
           changeCurrentName(value)
           nav$.value.removeFocus?.()
         }, () => {
