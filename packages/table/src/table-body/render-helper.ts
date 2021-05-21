@@ -3,12 +3,13 @@ import useEvents from './events-helper'
 import useStyles from './styles-helper'
 import { arrayFindIndex } from '@element-plus/utils/util'
 import { getRowIdentity } from '../util'
-import { TableBodyProps } from './table-body'
-import { RenderRowData, AnyObject, Table } from '../table.type'
+import { TableBodyProps } from './defaults'
+import { RenderRowData, Table, TreeNode } from '../table/defaults'
+import { TableProps } from '../table/defaults'
 
-function useRender(props: TableBodyProps) {
+function useRender<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()
-  const parent = instance.parent as Table
+  const parent = instance.parent as Table<T>
   const {
     handleDoubleClick,
     handleClick,
@@ -34,14 +35,14 @@ function useRender(props: TableBodyProps) {
       ({ type }) => type === 'default',
     )
   })
-  const getKeyOfRow = (row: AnyObject, index: number) => {
-    const rowKey = parent.props.rowKey as string
+  const getKeyOfRow = (row: T, index: number) => {
+    const rowKey = (parent.props as Partial<TableProps<T>>).rowKey
     if (rowKey) {
       return getRowIdentity(row, rowKey)
     }
     return index
   }
-  const rowRender = (row, $index, treeRowData) => {
+  const rowRender = (row: T, $index: number, treeRowData?: TreeNode) => {
     const { tooltipEffect, store } = props
     const { indent, columns } = store.states
     const rowClasses = getRowClass(row, $index)
@@ -78,7 +79,7 @@ function useRender(props: TableBodyProps) {
           colspan,
           cellIndex,
         )
-        const data: RenderRowData = {
+        const data: RenderRowData<T> = {
           store: props.store,
           _self: props.context || parent,
           column: columnData,
@@ -110,7 +111,8 @@ function useRender(props: TableBodyProps) {
             key,
             rowspan,
             colspan,
-            onMouseenter: $event => handleCellMouseEnter($event, { ...row, tooltipEffect }),
+            onMouseenter: $event =>
+              handleCellMouseEnter($event, { ...row, tooltipEffect }),
             onMouseleave: handleCellMouseLeave,
           },
           [column.renderCell(data)],
@@ -118,7 +120,7 @@ function useRender(props: TableBodyProps) {
       }),
     )
   }
-  const wrappedRowRender = (row, $index) => {
+  const wrappedRowRender = (row: T, $index: number) => {
     const store = props.store as any
     const { isRowExpanded, assertRowKey } = store
     const {

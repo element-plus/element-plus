@@ -1,12 +1,13 @@
 import { arrayFind } from '@element-plus/utils/util'
 import { getRowIdentity } from '../util'
-import { ref, getCurrentInstance, unref } from 'vue'
-import { WatcherPropsData, Table, AnyObject } from '../table.type'
+import { ref, getCurrentInstance, unref, Ref } from 'vue'
+import { WatcherPropsData } from './index'
+import { Table } from '../table/defaults'
 
-function useCurrent(watcherData: WatcherPropsData) {
-  const instance = getCurrentInstance() as Table
-  const _currentRowKey = ref(null)
-  const currentRow = ref(null)
+function useCurrent<T>(watcherData: WatcherPropsData<T>) {
+  const instance = getCurrentInstance() as Table<T>
+  const _currentRowKey = ref<string>(null)
+  const currentRow: Ref<T> = ref(null)
 
   const setCurrentRowKey = (key: string) => {
     instance.store.assertRowKey()
@@ -30,7 +31,7 @@ function useCurrent(watcherData: WatcherPropsData) {
     currentRow.value = _currentRow
   }
 
-  const updateCurrentRow = (_currentRow: AnyObject) => {
+  const updateCurrentRow = (_currentRow: T) => {
     const oldCurrentRow = currentRow.value
     if (_currentRow && _currentRow !== oldCurrentRow) {
       currentRow.value = _currentRow
@@ -48,7 +49,6 @@ function useCurrent(watcherData: WatcherPropsData) {
     // data 为 null 时，解构时的默认值会被忽略
     const data = watcherData.data.value || []
     const oldCurrentRow = currentRow.value
-
     // 当 currentRow 不在 data 中时尝试更新数据
     if (data.indexOf(oldCurrentRow) === -1 && oldCurrentRow) {
       if (rowKey) {
