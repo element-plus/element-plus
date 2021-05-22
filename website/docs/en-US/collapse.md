@@ -115,7 +115,7 @@ Besides using the `title` attribute, you can customize panel title with named sl
 ### Collapse Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | currently active panel | string (accordion mode) / array (non-accordion mode) | — | — |
+| modelValue / v-model | currently active panel | string (accordion mode) / array (non-accordion mode) | — | — |
 | accordion | whether to activate accordion mode | boolean | — | false |
 
 ### Collapse Events
