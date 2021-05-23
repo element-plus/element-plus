@@ -172,7 +172,7 @@ Utilice el atributo `size` para establecer tamaños adicionales con `medium`, `s
 
 | Atributo          | Descripción                              | Tipo    | Valores aceptados | Por defecto |
 | ----------------- | ---------------------------------------- | ------- | ----------------- | ----------- |
-| modelValue / v-model | valor vinculado                          | number / undefined  | —                 | 0           |
+| model-value / v-model | valor vinculado                          | number / undefined  | —                 | 0           |
 | min               | el valor mínimo permitido                | number  | —                 | `-Infinity`  |
 | max               | el valor maximo permitido                | number  | —                 | `Infinity`  |
 | step              | incremento (salto)                       | number  | —                 | 1           |

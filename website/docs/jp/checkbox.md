@@ -241,7 +241,7 @@ checkboxを無効にした状態。
 ### Checkbox属性
 | Attribute      | Description         | Type    | Options                         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
-| modelValue / v-model | バインディング値 | string / number / boolean | — | — |
+| model-value / v-model | バインディング値 | string / number / boolean | — | — |
 | label     | `checkbox-group` の中で使われる場合のcheckboxの値   | string / number / boolean   |       —        |     —    |
 | true-label | checkboxがチェックされている場合は、checkboxの値   | string / number    |       —        |     —    |
 | false-label | checkboxがチェックされていない場合のcheckboxの値   | string / number    |      —         |     —    |
@@ -260,7 +260,7 @@ checkboxを無効にした状態。
 ### Checkboxグループの属性
 | Attribute      | Description         | Type    | Options                         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
-| modelValue / v-model | バインディング値 | array | — | — |
+| model-value / v-model | バインディング値 | array | — | — |
 |size | checkboxのボタンや枠線の大きさ | string | medium / small / mini | — |
 | disabled  | ネスティングcheckboxを無効にするかどうか | boolean   | — | false   |
 | min     | checkboxの最小チェック数   | number    |       —        |     —    |
