@@ -62,11 +62,14 @@ const createList = ({
       // by user
       const windowRef = ref<HTMLElement>(null)
       const innerRef = ref<HTMLElement>(null)
+      const scrollbarRef = ref(null)
+
       const states = ref({
         isScrolling: false,
         scrollDir: 'forward',
         scrollOffset: isNumber(props.initScrollOffset) ? props.initScrollOffset : 0,
         updateRequested: false,
+        isScrollbarDragging: false,
       })
 
       // computed
@@ -139,13 +142,13 @@ const createList = ({
 
       // methods
       const {
-        hasReachedEdge,
         onWheel,
       } = useWheel({
         atStartEdge: computed(() => states.value.scrollOffset <= 0),
         atEndEdge: computed(() => states.value.scrollOffset >= estimatedTotalSize.value),
         layout: computed(() => props.layout),
       }, offset => {
+        scrollbarRef.value.onMouseUp?.()
         scrollTo(
           Math.min(
             states.value.scrollOffset + offset,
@@ -240,7 +243,8 @@ const createList = ({
       }
 
       const onScrollbarScroll = (distanceToGo: number, totalSteps: number) => {
-        const offset = estimatedTotalSize.value / totalSteps * distanceToGo
+
+        const offset = (estimatedTotalSize.value - (clientSize.value as number)) / totalSteps * distanceToGo
         scrollTo(
           Math.min(
             estimatedTotalSize.value - (clientSize.value as number),
@@ -390,6 +394,7 @@ const createList = ({
         innerRef,
         innerStyle,
         itemsToRender,
+        scrollbarRef,
         states,
         getItemStyle,
         onScroll,
@@ -461,11 +466,12 @@ const createList = ({
       } : children)]
 
       const scrollbar = h(Scrollbar, {
+        ref: 'scrollbarRef',
         clientSize,
         layout,
         onScroll: onScrollbarScroll,
         ratio: (clientSize * 100) / this.estimatedTotalSize,
-        scrollFrom: states.scrollOffset / this.estimatedTotalSize,
+        scrollFrom: states.scrollOffset / (this.estimatedTotalSize - clientSize),
         total,
         visible: true,
       })

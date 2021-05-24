@@ -49,15 +49,16 @@ const ScrollBar = defineComponent({
         return Number.POSITIVE_INFINITY
       }
 
-
       if (props.ratio >= 50) {
         return props.ratio * props.clientSize / 100
       }
 
       const SCROLLBAR_MAX_SIZE = props.clientSize / 3
-      return Math.min(
-        Math.max(props.ratio * props.clientSize, SCROLLBAR_MIN_SIZE),
-        SCROLLBAR_MAX_SIZE,
+      return Math.floor(
+        Math.min(
+          Math.max(props.ratio * props.clientSize, SCROLLBAR_MIN_SIZE),
+          SCROLLBAR_MAX_SIZE,
+        ),
       )
     })
 
@@ -171,7 +172,6 @@ const ScrollBar = defineComponent({
       // using the current position - prev position to
 
       const distance = offset - thumbClickPosition
-      console.log(totalSteps.value)
       // get how many steps in total.
       // gap of 2 on top, 2 on bottom, in total 4.
       // using totalSteps ÷ totalSize getting each step's size * distance to get the new
@@ -193,7 +193,8 @@ const ScrollBar = defineComponent({
 
     watch(() => props.scrollFrom, v => {
       // this is simply mapping the current scrollbar offset
-      state.traveled = v * totalSteps.value
+      if (state.isDragging) return
+      state.traveled = Math.ceil(v * props.clientSize / (props.clientSize / totalSteps.value ))
     })
 
     onMounted(() => {
@@ -216,6 +217,7 @@ const ScrollBar = defineComponent({
       thumbStyle,
 
       onThumbMouseDown,
+      onMouseUp,
     }
   },
   template: `

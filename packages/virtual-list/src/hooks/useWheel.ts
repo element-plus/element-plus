@@ -53,8 +53,6 @@ const useWheel = ({
 
     offset += newOffset
 
-    if (hasReachedEdge(offset)) return
-
     if (!isFF) {
       e.preventDefault()
     }

@@ -549,7 +549,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
     }
 
-    states.displayInputValue = ''
     states.isComposing = false
     states.softFocus = false
       // reset input value when blurred
