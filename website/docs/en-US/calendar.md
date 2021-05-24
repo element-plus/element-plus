@@ -58,7 +58,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 ### Attributes
 | Attribute       | Description        | Type      | Accepted Values       | Default  |
 |-----------------|------------------- |---------- |---------------------- |--------- |
-| value / v-model | binding value      | Date | —            | —        |
+| model-value / v-model | binding value      | Date | —            | —        |
 | range           | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | [Date]Array  | —  | —  |
 
 ### dateCell scoped slot 参数
