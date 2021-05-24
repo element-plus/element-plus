@@ -102,13 +102,14 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             }
           }
         }
-        const key = `${$index},${cellIndex}`
+        const baseKey = `${$index},${cellIndex}`
+        const patchKey = columnData.columnKey || columnData.rawColumnKey || ''
         return h(
           'td',
           {
             style: getCellStyle($index, cellIndex, row, column),
             class: getCellClass($index, cellIndex, row, column),
-            key,
+            key: `${patchKey}${baseKey}`,
             rowspan,
             colspan,
             onMouseenter: $event =>

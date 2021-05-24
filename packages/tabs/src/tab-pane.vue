@@ -57,7 +57,7 @@ export default defineComponent({
     })
 
     const shouldBeRender = computed(() => {
-      return (!props.lazy || loaded.value) || active.value
+      return !props.lazy || loaded.value || active.value
     })
 
     const instance = getCurrentInstance()

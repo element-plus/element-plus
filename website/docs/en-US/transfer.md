@@ -156,7 +156,7 @@ export default defineComponent({
 ### Attributes
 | Attribute | Description | Type  | Accepted Values | Default |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | binding value | array | — | — |
+| model-value / v-model | binding value | array | — | — |
 | data | data source | array[{ key, label, disabled }] | — | [ ] |
 | filterable | whether Transfer is filterable | boolean | — | false |
 | filter-placeholder | placeholder for the filter input | string | — | Enter keyword |

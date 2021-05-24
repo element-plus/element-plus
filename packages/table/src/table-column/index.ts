@@ -80,6 +80,8 @@ export default defineComponent({
         sortable: sortable,
         // index 列
         index: props.index,
+        // <el-table-column key="xxx" />
+        rawColumnKey: instance.vnode.key,
       }
 
       const basicProps = [
