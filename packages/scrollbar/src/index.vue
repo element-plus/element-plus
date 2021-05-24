@@ -28,7 +28,7 @@
 <script lang="ts">
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { addUnit, isArray, isString, toObject } from '@element-plus/utils/util'
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
+import { computed, CSSProperties, defineComponent, nextTick, onBeforeUnmount, onMounted, PropType, provide, ref } from 'vue'
 import Bar from './bar.vue'
 
 export default defineComponent({
@@ -48,7 +48,7 @@ export default defineComponent({
       default: false,
     },
     wrapStyle: {
-      type: [String, Array],
+      type: [String, Array] as PropType<string | CSSProperties[]>,
       default: '',
     },
     wrapClass: {

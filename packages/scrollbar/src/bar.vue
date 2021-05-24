@@ -40,7 +40,7 @@ export default defineComponent({
     const visible = ref(false)
     let onselectstartStore = null
 
-    const clickThumbHandler = e => {
+    const clickThumbHandler = (e: MouseEvent) => {
       // prevent click event of middle and right button
       e.stopPropagation()
       if (e.ctrlKey || [1, 2].includes(e.button)) {
