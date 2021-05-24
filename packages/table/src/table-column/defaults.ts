@@ -30,6 +30,7 @@ interface TableColumnCtx<T> {
   sortBy: string | ((row: T, index: number) => string) | string[]
   resizable: boolean
   columnKey: string
+  rawColumnKey: string
   align: string
   headerAlign: string
   showTooltipWhenOverflow: boolean

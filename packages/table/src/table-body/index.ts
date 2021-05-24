@@ -7,6 +7,7 @@ import {
   watch,
   onUnmounted,
   onUpdated,
+  VNode,
 } from 'vue'
 import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
@@ -74,8 +75,13 @@ export default defineComponent({
       [
         hColgroup(this.store.states.columns.value),
         h('tbody', {}, [
-          data.reduce((acc, row) => {
-            return acc.concat(this.wrappedRowRender(row, acc.length))
+          data.reduce((acc: VNode[], row) => {
+            return acc.concat(
+              this.wrappedRowRender(
+                row,
+                acc.filter(item => typeof item.key === 'number').length,
+              ),
+            )
           }, []),
         ]),
       ],

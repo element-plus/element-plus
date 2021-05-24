@@ -250,7 +250,7 @@ export default defineComponent({
 ### Atributos
 | Atriburo              | Descripcion                              | Tipo                            | Valores aceptados | Por defecto                              |
 | --------------------- | ---------------------------------------- | ------------------------------- | ----------------- | ---------------------------------------- |
-| value / v-model        | valor enlazado                           | array                           | —                 | —                                        |
+| model-value / v-model        | valor enlazado                           | array                           | —                 | —                                        |
 | data                  | Origen de datos                          | array[{ key, label, disabled }] | —                 | [ ]                                      |
 | filterable            | Si se puede filtrar                      | boolean                         | —                 | false                                    |
 | filter-placeholder    | Placeholder para el input del filtro     | string                          | —                 | Enter keyword                            |

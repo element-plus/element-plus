@@ -202,7 +202,6 @@ Solo las pestañas de tipo tarjeta soportan adición y cierre.
               }
             });
           }
-
           state.editableTabsValue = activeName;
           state.editableTabs = tabs.filter((tab) => tab.name !== targetName);
         }
@@ -294,6 +293,7 @@ Solo las pestañas de tipo tarjeta soportan adición y cierre.
       };
     },
   });
+
 </script>
 ```
 :::
@@ -301,7 +301,7 @@ Solo las pestañas de tipo tarjeta soportan adición y cierre.
 ### Atributos de Pestañas
 | Atributo       | Descripción                          | Tipo    | Valores aceptados     | Por defecto                 |
 | -------------- | ------------------------------------ | ------- | --------------------- | --------------------------- |
-| value / v-model | valor enlazado, nombre de la pestaña seleccionada    | string  | —                     | nombre de la primer pestaña |
+| model-value / v-model | valor enlazado, nombre de la pestaña seleccionada    | string  | —                     | nombre de la primer pestaña |
 | type           | tipo de Pestaña                      | string  | card/border-card      | —                           |
 | closable       | si la Pestaña es cerrable            | boolean | —                     | false                       |
 | addable        | si la Pestaña es añadible            | boolean | —                     | false                       |

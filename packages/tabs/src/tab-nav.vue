@@ -3,9 +3,10 @@ import { h, defineComponent, ref, inject, computed, onUpdated, onMounted, onBefo
 import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
+import throwError from '@element-plus/utils/error'
 import TabBar from './tab-bar.vue'
 import { NOOP, capitalize } from '@vue/shared'
-import { RootTabs, Pane } from './tabs.vue'
+import { RootTabs, Pane, ITabType } from './tabs.vue'
 
 type RefElement = Nullable<HTMLElement>
 
@@ -38,7 +39,7 @@ export default defineComponent({
       default: NOOP,
     },
     type: {
-      type: String,
+      type: String as PropType<ITabType>,
       default: '',
     },
     stretch: Boolean,
@@ -46,7 +47,7 @@ export default defineComponent({
   setup() {
     const rootTabs = inject<RootTabs>('rootTabs')
     if (!rootTabs) {
-      throw new Error(`ElTabNav must use with ElTabs`)
+      throwError('[ElTabNav]', `ElTabNav must be nested inside ElTabs`)
     }
 
     const scrollable = ref<boolean | Scrollable>(false)

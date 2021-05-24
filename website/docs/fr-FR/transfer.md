@@ -253,7 +253,7 @@ export default defineComponent({
 
 | Attribut | Description | Type  | Valeurs acceptées | Défaut |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | La valeur liée. | array | — | — |
+| model-value / v-model | La valeur liée. | array | — | — |
 | data | Données principales. | array[{ key, label, disabled }] | — | [ ] |
 | filterable | Si Transfer est filtrable. | boolean | — | false |
 | filter-placeholder | Placeholder du champ de filtrage. | string | — | Enter keyword |

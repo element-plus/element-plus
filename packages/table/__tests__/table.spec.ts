@@ -2313,5 +2313,46 @@ describe('Table.vue', () => {
         'el-table__expand-icon--expanded',
       )
     })
+
+    it('v-if on el-table-column should patch correctly', async done => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <div>
+            <button @click="hideName">hide name column</button>
+            <el-table :data="testData">
+              <el-table-column key="name" label="片名" v-if="showName">
+                <template #default="{ row }"><span class="name">{{ row.name }}</span></template>
+              </el-table-column>
+              <el-table-column key="release" label="发行日期" >
+                <template #default="{ row }"><span class="release">{{ row.release }}</span></template>
+              </el-table-column>
+            </el-table>
+          </div>
+        `,
+        data() {
+          return {
+            testData: getTestData() as any,
+            showName: true,
+          }
+        },
+        methods: {
+          hideName() {
+            this.showName = false
+          },
+        },
+      })
+      await nextTick()
+      const firstCellSpanBeforeHide = wrapper.find('.el-table__body tr td span')
+      expect(firstCellSpanBeforeHide.classes().includes('name')).toBeTruthy()
+      wrapper.find('button').trigger('click')
+      await nextTick()
+      const firstCellSpanAfterHide = wrapper.find('.el-table__body tr td span')
+      expect(firstCellSpanAfterHide.classes().includes('release')).toBeTruthy()
+      done()
+    })
   })
 })
