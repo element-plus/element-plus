@@ -530,7 +530,7 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | La valeur liée. | string / number / boolean / object | — | — |
+| model-value / v-model | La valeur liée. | string / number / boolean / object | — | — |
 | multiple | Si la sélection multiple est activée. | boolean | — | false |
 | disabled | Si le sélecteur est désactivé. | boolean | — | false |
 | value-key | Identifiant unique pour la valeur, requis quand la valeur est un objet. | string | — | value |

@@ -153,6 +153,7 @@ En plus des propriétés natives de img, ce composant supporte le lazy loading, 
 | src | Source de l'image, identique au natif. | string | — | - |
 | scroll-container | Le conteneur auquel ajouter le listener du scroll en mode lazy loading. | string / HTMLElement | — | Le conteneur parent le plus proche avec la propriété overflow à auto ou scroll. |
 | z-index | set image preview z-index | Number | — | 2000 |
+| append-to-body     | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true` | boolean   | — | false |
 
 ### Image Évènements
 | Nom | Description | Paramètres |

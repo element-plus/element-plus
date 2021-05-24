@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import { hasOwn } from '@vue/shared'
 import { markNodeData, NODE_KEY } from './util'
 import TreeStore from './tree-store'
 
@@ -104,7 +105,7 @@ export default class Node {
     this.canFocus = false
 
     for (const name in options) {
-      if (options.hasOwnProperty(name)) {
+      if (hasOwn(options, name)) {
         this[name] = options[name]
       }
     }

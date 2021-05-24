@@ -154,6 +154,7 @@ Además de las características nativas de img, soporte de carga perezosa, marca
 | src | origen de la imagen, igual que en nativo | string | — | - |
 | scroll-container | El contenedor para añadir el scroll listener cuando se utiliza lazy load | string / HTMLElement | — | El contenedor padre más cercano cuya propiedad de desbordamiento es auto o scroll |
 | z-index | establecer el z-index de la vista previa de la imagen | Number | — | 2000 |
+| append-to-body     | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true` | boolean   | — | false |
 
 ### Image Eventos
 | Nombre del evento | Descripción | Parámetros |

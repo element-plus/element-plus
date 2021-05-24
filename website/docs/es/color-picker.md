@@ -108,7 +108,7 @@ ColorPicker es un selector de color que soporta varios formatos de color.
 ### Atributos
 | Atributo       | Descripción                              | Tipo    | Valores aceptados     | Por defecto                              |
 | -------------- | ---------------------------------------- | ------- | --------------------- | ---------------------------------------- |
-| value / v-model | valor enlazado                           | string  | —                     | —                                        |
+| model-value / v-model | valor enlazado                           | string  | —                     | —                                        |
 | disabled       | especifica si se deshabilita el ColorPicker | boolean | —                     | false                                    |
 | size           | tamaño del ColorPicker                   | string  | —                     | medium / small / mini                    |
 | show-alpha     | especifica si se muestra el control deslizante para el valor alpha | boolean | —                     | false                                    |

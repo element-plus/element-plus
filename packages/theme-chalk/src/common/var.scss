@@ -103,7 +103,7 @@ $--box-shadow-dark: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .12) !de
 $--box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default;
 /* Svg
 --------------- */
-$--svg-monochrome-grey: #DCDDE0;
+$--svg-monochrome-grey: #DCDDE0 !default;
 
 /* Fill
 -------------------------- */
@@ -491,7 +491,7 @@ $--cascader-menu-shadow: $--box-shadow-light !default;
 $--cascader-node-background-hover: $--background-color-base !default;
 $--cascader-node-color-disabled: $--color-text-placeholder !default;
 $--cascader-color-empty: $--color-text-placeholder !default;
-$--cascader-tag-background: #f0f2f5;
+$--cascader-tag-background: #f0f2f5 !default;
 
 /* Group
 -------------------------- */
@@ -974,8 +974,8 @@ $--avatar-medium-size: 36px !default;
 /// size|1|Avatar Size|3
 $--avatar-small-size: 28px !default;
 
-$--skeleton-color: #f2f2f2;
-$--skeleton-to-color: #e6e6e6;
+$--skeleton-color: #f2f2f2 !default;
+$--skeleton-to-color: #e6e6e6 !default;
 
 /* Empty
 -------------------------- */
@@ -1017,7 +1017,7 @@ $--breakpoints: (
   'md' : "(min-width: #{$--md})",
   'lg' : "(min-width: #{$--lg})",
   'xl' : "(min-width: #{$--xl})"
-);
+) !default;
 
 $--breakpoints-spec: (
   'xs-only' : "(max-width: #{$--sm})",
@@ -1031,4 +1031,4 @@ $--breakpoints-spec: (
   'lg-only': "(min-width: #{$--lg}) and (max-width: #{$--xl})",
   'lg-and-down': "(max-width: #{$--xl})",
   'xl-only' : "(min-width: #{$--xl})",
-);
+) !default;

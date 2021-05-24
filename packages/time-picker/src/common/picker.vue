@@ -8,6 +8,7 @@
     trigger="click"
     v-bind="$attrs"
     :popper-class="`el-picker__popper ${popperClass}`"
+    :popper-options="elPopperOptions"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
@@ -136,8 +137,9 @@ import ElPopper from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import { defaultProps } from './props'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
+import type { Options } from '@popperjs/core'
 
 interface PickerOptions {
   isValidValue: any
@@ -192,6 +194,7 @@ export default defineComponent({
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
     const refPopper = ref(null)
     const pickerVisible = ref(false)
@@ -496,6 +499,9 @@ export default defineComponent({
       props,
     })
     return {
+      // injected popper options
+      elPopperOptions,
+
       isDatesPicker,
       handleEndChange,
       handleStartChange,

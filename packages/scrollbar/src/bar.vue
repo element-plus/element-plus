@@ -36,6 +36,7 @@ export default defineComponent({
     const bar = computed(() => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'])
     const barStore = ref({})
     const cursorDown = ref(null)
+    const cursorLeave = ref(null)
     const visible = ref(false)
     let onselectstartStore = null
 
@@ -83,6 +84,9 @@ export default defineComponent({
       barStore.value[bar.value.axis] = 0
       off(document, 'mousemove', mouseMoveDocumentHandler)
       document.onselectstart = onselectstartStore
+      if (cursorLeave.value) {
+        visible.value = false
+      }
     }
 
     const thumbStyle = computed(() => renderThumbStyle({
@@ -91,23 +95,25 @@ export default defineComponent({
       bar: bar.value,
     }))
 
-    const showBar = () => {
+    const mouseMoveScrollbarHandler = () => {
+      cursorLeave.value = false
       visible.value = !!props.size
     }
 
-    const hideBar = () => {
-      visible.value = false
+    const mouseLeaveScrollbarHandler = () => {
+      cursorLeave.value = true
+      visible.value = cursorDown.value
     }
 
     onMounted(() => {
-      on(scrollbar.value, 'mousemove', showBar)
-      on(scrollbar.value, 'mouseleave', hideBar)
+      on(scrollbar.value, 'mousemove', mouseMoveScrollbarHandler)
+      on(scrollbar.value, 'mouseleave', mouseLeaveScrollbarHandler)
     })
 
     onBeforeUnmount(() => {
       off(document, 'mouseup', mouseUpDocumentHandler)
-      off(scrollbar.value, 'mousemove', showBar)
-      off(scrollbar.value, 'mouseleave', hideBar)
+      off(scrollbar.value, 'mousemove', mouseMoveScrollbarHandler)
+      off(scrollbar.value, 'mouseleave', mouseLeaveScrollbarHandler)
     })
 
     return {

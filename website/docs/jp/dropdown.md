@@ -312,6 +312,7 @@ dropdownリストを起動するには、ボタンを使用します。
 | size          | メニューのサイズ(分割ボタンでも動作)  | string  | medium / small / mini  |    —     |
 | max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | ボタングループの表示の有無 | boolean         |     —       | false   |
+| disabled     | 無効にするかどうか | boolean | — | false |
 | placement    | ポップメニューの配置 | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
 | trigger       | トリガーのきっかけ     | string  |    hover/click/contextmenu  |  hover |
 | hide-on-click | メニューアイテムをクリックした後にメニューを非表示にするかどうか     | boolean          | — | true |

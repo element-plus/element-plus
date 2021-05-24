@@ -1,8 +1,8 @@
 ## PageHeader
 
-Si la ruta de la página es simple, se recomienda utilizar  PageHeader en lugar de Breadcrumb.
+If path of the page is simple, it is recommended to use PageHeader instead of the Breadcrumb.
 
-### Básico
+### Basic usage
 
 :::demo
 ```html
@@ -21,19 +21,29 @@ Si la ruta de la página es simple, se recomienda utilizar  PageHeader en lugar 
 ```
 :::
 
-### Atributos
-| Atributos | Descripción | Tipo   | Valores aceptados | Por defecto |
-|---------- |-------------- |---------- |------------------------------ | ------ |
-| title     | titulo principal | string    |  —                            | Back   |
-| content   | contenido   | string    |  —                            | —      |
+### Custom icon
 
-### Eventos
-| Nombre evento | Descripción | Parámetros |
+:::demo
+```html
+<el-page-header icon="el-icon-arrow-left" content="detail"></el-page-header>
+```
+:::
+
+### Attributes
+| Attribute | Description   | Type      | Accepted Values               | Default |
+|---------- |-------------- |---------- |------------------------------ | ------ |
+| icon     |  icon    | string    |  —                            | el-icon-back   |
+| title     | main title    | string    |  —                            | Back   |
+| content   | content       | string    |  —                            | —      |
+
+### Events
+| Event Name | Description   | Parameters |
 |----------- |-------------- |----------- |
-| back       | se activa cuando se hace clic en el lado derecho | — |
+| back       | triggers when right side is clicked | — |
 
 ### Slots
-| Nombre del slot | Descripción |
-| --------------- | ----------- |
-| title           | titulo      |
-| content         | contenido   |
+| Name      | Description            |
+|---------- | ---------------------- |
+| icon     | custom icon          |
+| title     | title content          |
+| content   | content                |
