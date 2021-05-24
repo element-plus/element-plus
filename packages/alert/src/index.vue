@@ -8,10 +8,10 @@
     >
       <i v-if="showIcon" class="el-alert__icon" :class="[ iconClass, isBigIcon ]"></i>
       <div class="el-alert__content">
-        <span v-if="!!title || $slots.title" class="el-alert__title" :class="[ isBoldTitle ]">
+        <span v-if="title || $slots.title" class="el-alert__title" :class="[ isBoldTitle ]">
           <slot name="title">{{ title }}</slot>
         </span>
-        <p v-if="$slots.default || !!description" class="el-alert__description">
+        <p v-if="$slots.default || description" class="el-alert__description">
           <slot>
             {{ description }}
           </slot>
