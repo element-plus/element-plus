@@ -37,6 +37,10 @@ const _mount = () => mount(Component, {
 
 describe('Directives.vue', () => {
   beforeEach(() => {
+    // clear the previously assigned event object
+    mousedownObject = null
+    mouseupObject = null
+
     handler.mockClear()
   })
   test('render test', () => {
@@ -55,11 +59,12 @@ describe('Directives.vue', () => {
 
     const mousedown = document.createEvent('MouseEvents')
     mousedown.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-
     document.dispatchEvent(mousedown)
+
     const mouseup = document.createEvent('MouseEvents')
     mouseup.initMouseEvent('mouseup', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
     document.dispatchEvent(mouseup)
+
     // here is the different part
     // we test the existence of the local variable.
     expect(mousedownObject).toBeDefined()
