@@ -321,3 +321,87 @@ describe('click pager', () => {
 
 })
 
+test('repeat click next & change current page', async () => {
+  const onCurrentChange = jest.fn()
+  const wrapper = mount({
+    components: {
+      [Pagination.name]: Pagination,
+    },
+    template: `
+      <el-pagination
+        :total="total"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        @current-change="onCurrentChange"
+        v-model:currentPage="currentPage"
+      />
+    },
+    `,
+    methods: {
+      onCurrentChange,
+    },
+    data() {
+      return {
+        currentPage: 1,
+        total: 400,
+        pageSize: 100,
+      }
+    },
+  })
+
+  await nextTick()
+
+  expect(wrapper.vm.currentPage).toBe(1)
+  wrapper.find('.btn-next').trigger('click')
+  await nextTick()
+  expect(wrapper.vm.currentPage).toBe(2)
+  wrapper.vm.currentPage = 1
+  await nextTick()
+  expect(wrapper.vm.currentPage).toBe(1)
+  wrapper.find('.btn-next').trigger('click')
+  await nextTick()
+  expect(wrapper.vm.currentPage).toBe(2)
+})
+
+test('repeat click prev & change current page', async () => {
+  const onCurrentChange = jest.fn()
+  const wrapper = mount({
+    components: {
+      [Pagination.name]: Pagination,
+    },
+    template: `
+      <el-pagination
+        :total="total"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        @current-change="onCurrentChange"
+        v-model:currentPage="currentPage"
+      />
+    },
+    `,
+    methods: {
+      onCurrentChange,
+    },
+    data() {
+      return {
+        currentPage: 2,
+        total: 400,
+        pageSize: 100,
+      }
+    },
+  })
+
+  await nextTick()
+
+  expect(wrapper.vm.currentPage).toBe(2)
+  wrapper.find('.btn-prev').trigger('click')
+  await nextTick()
+  expect(wrapper.vm.currentPage).toBe(1)
+  wrapper.vm.currentPage = 2
+  await nextTick()
+  expect(wrapper.vm.currentPage).toBe(2)
+  wrapper.find('.btn-prev').trigger('click')
+  await nextTick()
+  expect(wrapper.vm.currentPage).toBe(1)
+})
+
