@@ -46,6 +46,7 @@ export default defineComponent({
       if (e.ctrlKey || [1, 2].includes(e.button)) {
         return
       }
+      window.getSelection().removeAllRanges()
       startDrag(e)
       barStore.value[bar.value.axis] = (e.currentTarget[bar.value.offset] - (e[bar.value.client] - e.currentTarget.getBoundingClientRect()[bar.value.direction]))
     }
