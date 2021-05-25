@@ -17,7 +17,7 @@ $--input-inline-start: 7px !default;
   $selector: &;
   @include e(wrapper) {
     box-sizing: border-box;
-    cursor: text;
+    cursor: pointer;
 
     padding-left: 15px;
     padding-right: 30px;
@@ -29,6 +29,10 @@ $--input-inline-start: 7px !default;
 
     &:hover {
       border-color: $--color-text-placeholder;
+    }
+
+    @include when(filterable) {
+      cursor: text;
     }
 
     @include when(focused) {
@@ -277,6 +281,7 @@ $--input-inline-start: 7px !default;
   @include e(selected-item) {
     line-height: inherit;
     height: inherit;
+    user-select: none;
   }
 
   @include e(placeholder) {

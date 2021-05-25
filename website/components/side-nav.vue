@@ -59,11 +59,22 @@
                 :key="keey"
                 class="nav-item"
               >
+                <el-badge v-if="navItem.beta" value="Beta">
+                  <router-link
+                    class=""
+                    active-class="active"
+                    :to="base + navItem.path"
+                    exact
+                    v-text="navItem.title || navItem.name"
+                  />
+                </el-badge>
                 <router-link
+                  v-else
+                  class=""
                   active-class="active"
                   :to="base + navItem.path"
                   exact
-                  v-text="navItem.title"
+                  v-text="navItem.title || navItem.name"
                 />
               </li>
             </ul>

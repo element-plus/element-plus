@@ -30,7 +30,8 @@
           class="el-select-v2__wrapper"
           :class="{
             'is-focused': states.isComposing,
-            'is-hovering': states.comboBoxHovering
+            'is-hovering': states.comboBoxHovering,
+            'is-filterable': filterable,
           }"
         >
           <div v-if="$slots.prefix">
@@ -90,20 +91,20 @@
                 :id="id"
                 ref="inputRef"
                 v-model-text="states.displayInputValue"
-                @update:modelValue="onUpdateInputValue"
-                class="el-select-v2__combobox-input"
                 :autocomplete="autocomplete"
-                :aria-expanded="expanded"
-                :aria-labelledby="label"
-                :disabled="disabled"
-                :name="name"
-                :unselectable="expanded ? 'on' : undefined"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 autocapitalize="off"
+                :aria-expanded="expanded"
+                :aria-labelledby="label"
+                class="el-select-v2__combobox-input"
+                :disabled="disabled"
                 role="combobox"
                 spellcheck="false"
                 type="text"
+                :name="name"
+                :unselectable="expanded ? 'on' : undefined"
+                @update:modelValue="onUpdateInputValue"
                 @click.stop.prevent="handleInputBoxClick"
                 @focus="handleFocus"
                 @input="onInput"
@@ -130,20 +131,20 @@
                 :id="id"
                 ref="inputRef"
                 v-model-text="states.displayInputValue"
-                @update:modelValue="onUpdateInputValue"
-                class="el-select-v2__combobox-input"
-                :autocomplete="autocomplete"
-                :aria-expanded="expanded"
-                :aria-labelledby="label"
-                :disabled="disabled"
-                :name="name"
-                :unselectable="expanded ? 'on' : undefined"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
+                :aria-labelledby="label"
+                :aria-expanded="expanded"
                 autocapitalize="off"
+                :autocomplete="autocomplete"
+                class="el-select-v2__combobox-input"
+                :disabled="disabled"
+                :name="name"
                 role="combobox"
                 spellcheck="false"
                 type="text"
+                :unselectable="expanded ? 'on' : undefined"
+                @update:modelValue="onUpdateInputValue"
                 @click.stop.prevent="handleInputBoxClick"
                 @focus="handleFocus"
                 @input="onInput"
@@ -153,8 +154,8 @@
               >
             </div>
             <span
-              aria-hidden="true"
               ref="calculatorRef"
+              aria-hidden="true"
               class="el-select-v2__selected-item el-select-v2__input-calculator"
               v-text="states.displayInputValue"
             >
@@ -194,12 +195,6 @@
               <p class="el-select-v2__empty">{{ emptyText }}</p>
             </slot>
           </template>
-          <!-- <template
-            v-if="emptyText && (!allowCreate || loading || (allowCreate && options.size === 0))"
-          >
-            <slot name="empty">
-            </slot>
-          </template>-->
         </el-select-menu>
       </template>
     </el-popper>
@@ -209,29 +204,25 @@
 <script lang="ts">
 import {
   defineComponent,
-  onMounted,
   provide,
+  toRefs,
+  reactive,
   vModelText,
 } from 'vue'
 import ElTag from '@element-plus/tag'
 import ElPopper from '@element-plus/popper'
-
 import ElSelectMenu from './select-dropdown.vue'
 import { ClickOutside } from '@element-plus/directives'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import { t } from '@element-plus/locale'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import { useSelectStates } from '@element-plus/select/src/useSelect'
 import useSelect from './useSelect'
 import { selectKey } from './token'
-import { useFocus } from '@element-plus/hooks'
 import { SelectProps } from './defaults'
 
 export default defineComponent({
-  name: 'ElSelect',
+  name: 'ElSelectV2',
   components: {
     ElSelectMenu,
-    // ElTag,
+    ElTag,
     ElPopper,
   },
   directives: { ClickOutside, ModelText: vModelText },
@@ -239,167 +230,16 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
 
   setup(props, { emit }) {
-    // const states = useSelectStates(props)
     const API = useSelect(props, emit)
-
-    // const { focus } = useFocus(reference)
-
-    // const {
-    //   inputWidth,
-    //   selected,
-    //   inputLength,
-    //   filteredOptionsCount,
-    //   visible,
-    //   softFocus,
-    //   selectedLabel,
-    //   hoverIndex,
-    //   query,
-    //   inputHovering,
-    //   currentPlaceholder,
-    //   menuVisibleOnFocus,
-    //   isOnComposition,
-    //   isSilentBlur,
-    //   options,
-    //   cachedOptions,
-    //   optionsCount,
-    //   prefixWidth,
-    //   tagInMultiLine,
-    // } = toRefs(states)
     provide(selectKey, {
-      props,
-      ...API,
+      props: reactive({
+        ...toRefs(props),
+        height: API.popupHeight,
+      }),
+      onSelect: API.onSelect,
+      onKeyboardNavigate: API.onKeyboardNavigate,
+      onKeyboardSelect: API.onKeyboardSelect,
     })
-
-    // provide(selectKey, reactive({
-    //   props,
-    //   options,
-    //   optionsArray,
-    //   cachedOptions,
-    //   optionsCount,
-    //   filteredOptionsCount,
-    //   hoverIndex,
-    //   handleOptionSelect,
-    //   selectEmitter: states.selectEmitter,
-    //   onOptionCreate,
-    //   onOptionDestroy,
-    //   selectWrapper,
-    //   selected,
-    //   setSelected,
-    // }))
-
-    onMounted(() => {
-
-      // states.cachedPlaceHolder = currentPlaceholder.value = (props.placeholder || t('el.select.placeholder'))
-      // if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
-      //   currentPlaceholder.value = ''
-      // }
-      // addResizeListener(selectWrapper.value as any, handleResize)
-      // if (reference.value && reference.value.$el) {
-      //   const sizeMap = {
-      //     medium: 36,
-      //     small: 32,
-      //     mini: 28,
-      //   }
-      //   const input = reference.value.input
-      //   states.initialInputHeight = input.getBoundingClientRect().height || sizeMap[selectSize.value]
-      // }
-      // if (props.remote && props.multiple) {
-      //   resetInputHeight()
-      // }
-      // nextTick(() => {
-      //   if (reference.value.$el) {
-      //     inputWidth.value = reference.value.$el.getBoundingClientRect().width
-      //   }
-      //   if (ctx.slots.prefix) {
-      //     const inputChildNodes = reference.value.$el.childNodes
-      //     const input = [].filter.call(inputChildNodes, item => item.tagName === 'INPUT')[0]
-      //     const prefix = reference.value.$el.querySelector('.el-input__prefix')
-      //     prefixWidth.value = Math.max(prefix.getBoundingClientRect().width + 5, 30)
-      //     if (states.prefixWidth) {
-      //       input.style.paddingLeft = `${Math.max(states.prefixWidth, 30)}px`
-      //     }
-      //   }
-      // })
-      // setSelected()
-    })
-
-
-
-    // onBeforeUnmount(() => {
-    //   removeResizeListener(selectWrapper.value as any, handleResize)
-    // })
-
-    // if (props.multiple && !Array.isArray(props.modelValue)) {
-    //   ctx.emit(UPDATE_MODEL_EVENT, [])
-    // }
-    // if (!props.multiple && Array.isArray(props.modelValue)) {
-    //   ctx.emit(UPDATE_MODEL_EVENT, '')
-    // }
-
-    // const popperPaneRef = computed(() => {
-    //   return popper.value?.popperRef
-    // })
-
-    // return {
-    //   tagInMultiLine,
-    //   prefixWidth,
-    //   selectSize,
-    //   readonly,
-    //   handleResize,
-    //   collapseTagSize,
-    //   debouncedOnInputChange,
-    //   debouncedQueryChange,
-    //   deletePrevTag,
-    //   deleteTag,
-    //   deleteSelected,
-    //   handleOptionSelect,
-    //   scrollToOption,
-    //   inputWidth,
-    //   selected,
-    //   inputLength,
-    //   filteredOptionsCount,
-    //   visible,
-    //   softFocus,
-    //   selectedLabel,
-    //   hoverIndex,
-    //   query,
-    //   inputHovering,
-    //   currentPlaceholder,
-    //   menuVisibleOnFocus,
-    //   isOnComposition,
-    //   isSilentBlur,
-    //   options,
-    //   resetInputHeight,
-    //   managePlaceholder,
-    //   showClose,
-    //   selectDisabled,
-    //   iconClass,
-    //   showNewOption,
-    //   emptyText,
-    //   toggleLastOptionHitState,
-    //   resetInputState,
-    //   handleComposition,
-    //   handleMenuEnter,
-    //   handleFocus,
-    //   blur,
-    //   handleBlur,
-    //   handleClearClick,
-    //   handleClose,
-    //   toggleMenu,
-    //   selectOption,
-    //   getValueKey,
-    //   navigateOptions,
-    //   dropMenuVisible,
-    //   focus,
-
-    //   reference,
-    //   input,
-    //   popper,
-    //   popperPaneRef,
-    //   tags,
-    //   selectWrapper,
-    //   scrollbar,
-    // }
 
     return API
   },

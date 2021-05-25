@@ -1,15 +1,17 @@
 import { SelectProps } from './defaults'
 
 import type { ExtractPropTypes, InjectionKey } from 'vue'
-import { Option } from './select.types'
+import type { Option } from './select.types'
 export interface SelectGroupContext {
   options: []
 }
 
 export interface SelectContext {
   props: ExtractPropTypes<typeof SelectProps>
-  selected: number[]
-  onSelect: (option: Option, byClick: boolean) => void
+  expanded: boolean
+  onSelect: (option: Option<any>, index: number, byClick?: boolean) => void
+  onKeyboardNavigate: (direction: 'forward' | 'backward') => void
+  onKeyboardSelect: () => void
 }
 
 

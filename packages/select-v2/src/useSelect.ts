@@ -4,9 +4,9 @@ import {
   ref,
   reactive,
   nextTick,
-  toRef,
   inject,
   onMounted,
+  onBeforeMount,
 } from 'vue'
 import {
   isArray,
@@ -18,6 +18,7 @@ import {
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
 
+import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { isKorean } from '@element-plus/utils/isDef'
 import { t } from '@element-plus/locale'
@@ -86,6 +87,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const expanded = ref(false)
 
   const selectDisabled = computed(() => props.disabled || elForm.disabled)
+
+  const popupHeight = computed(() => {
+    const totalHeight = filteredOptions.value.length * 34
+    return totalHeight > props.height ? props.height : totalHeight
+  })
 
   const showClearBtn = computed(() => {
     const hasValue = props.multiple
@@ -182,7 +188,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const currentPlaceholder = computed(() => {
     return props.multiple
       ? props.placeholder
-      : props.modelValue || props.placeholder
+      : states.selectedLabel || props.placeholder
   })
 
   // this obtains the actual popper DOM element.
@@ -199,12 +205,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // if (states.menuVisibleOnFocus) {
       //   states.menuVisibleOnFocus = false
       // } else {
-        // if (expanded.value) {
-          //   expanded.value = false
-          // }
-        expanded.value = !expanded.value
-        states.softFocus = true
-        inputRef.value?.focus?.()
+      // if (expanded.value) {
+      //   expanded.value = false
+      // }
+      expanded.value = !expanded.value
+      states.softFocus = true
+      inputRef.value?.focus?.()
       // }
     }
   }
@@ -280,94 +286,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     emitChange(val)
   }
 
-  const checkDefaultFirstOption = () => {
-    // states.hoveringIndex = -1
-    // // highlight the created option
-    // let hasCreated = false
-    // for (let i = states.options.size - 1; i >= 0; i--) {
-    //   if (optionsArray.value[i].created) {
-    //     hasCreated = true
-    //     states.hoveringIndex = i
-    //     break
-    //   }
-    // }
-    // if (hasCreated) return
-    // for (let i = 0; i !== states.options.size; ++i) {
-    //   const option = optionsArray.value[i]
-    //   if (states.query) {
-    //     // highlight first options that passes the filter
-    //     if (!option.disabled && !option.groupDisabled && option.visible) {
-    //       states.hoveringIndex = i
-    //       break
-    //     }
-    //   } else {
-    //     // highlight currently selected option
-    //     if (option.itemSelected) {
-    //       states.hoveringIndex = i
-    //       break
-    //     }
-    //   }
-    // }
-  }
-
-  const setSelected = () => {
-    if (!props.multiple) {
-      const option = getOption(props.modelValue)
-      if (option.props?.created) {
-        states.createdLabel = option.value
-        states.createdSelected = true
-      } else {
-        states.createdSelected = false
-      }
-      states.selectedLabel = option.currentLabel
-      selectedIndices.value = [option]
-      if (props.filterable) states.query = states.selectedLabel
-      return
-    }
-    const result = []
-    if (Array.isArray(props.modelValue)) {
-      props.modelValue.forEach(value => {
-        result.push(getOption(value))
-      })
-    }
-    // selected.value = result
-    nextTick(() => {
-      resetInputHeight()
-    })
-  }
-
-  const getOption = value => {
-    let option
-    const isObjectValue = toRawType(value).toLowerCase() === 'object'
-    const isNull = toRawType(value).toLowerCase() === 'null'
-    const isUndefined = toRawType(value).toLowerCase() === 'undefined'
-
-    for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
-      const cachedOption = cachedOptionsArray.value[i]
-      const isEqualValue = isObjectValue
-        ? getValueByPath(cachedOption.value, props.valueKey) === getValueByPath(value, props.valueKey)
-        : cachedOption.value === value
-      if (isEqualValue) {
-        option = {
-          value,
-          label: cachedOption.currentLabel,
-          isDisabled: cachedOption.isDisabled,
-        }
-        break
-      }
-    }
-    if (option) return option
-    const label = (!isObjectValue && !isNull && !isUndefined) ? value : ''
-    const newOption = {
-      value,
-      label: label,
-    }
-    if (props.multiple) {
-      (newOption as any).hitState = false
-    }
-    return newOption
-  }
-
   const getValueIndex = (arr = [], value: unknown) => {
     if (!isObject(value)) return arr.indexOf(value)
 
@@ -402,35 +320,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     nextTick(() => {
       if (!inputRef.value) return
       const selection = selectionRef.value
-      // const inputChildNodes = selectionRef.value.childNodes
-      // const input = [].filter.call(inputChildNodes, item => item.tagName === 'INPUT')[0]
-      // const sizeInMap = states.initialInputHeight || 40
-      // input.style.height = selectedIndices.value.length === 0
-      //   ? sizeInMap + 'px'
-      //   : Math.max(
-      //     selection ? (selection.clientHeight + (selection.clientHeight > sizeInMap ? 6 : 0)) : 0,
-      //     sizeInMap) + 'px'
 
-      // states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
       selectRef.value.height = selection.offsetHeight
       if (expanded.value && emptyText.value !== false) {
         popper.value?.update?.()
       }
     })
-  }
-
-  const resetHoverIndex = () => {
-    setTimeout(() => {
-      if (!props.multiple) {
-        states.hoveringIndex = filteredOptions.value.indexOf(selectedIndices.value[0])
-      } else {
-        if (selectedIndices.value.length > 0) {
-          states.hoveringIndex = Math.min.apply(null, selectedIndices.value.map(item => filteredOptions.value.indexOf(item)))
-        } else {
-          states.hoveringIndex = -1
-        }
-      }
-    }, 300)
   }
 
   const handleResize = () => {
@@ -440,7 +335,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const resetInputWidth = () => {
-    states.inputWidth = inputRef.value?.$el.getBoundingClientRect().width
+    if (inputRef.value) {
+      states.inputWidth = inputRef.value.getBoundingClientRect().width
+    }
   }
 
   const onSelect = (option: Option, index: number, byClick = true) => {
@@ -469,9 +366,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       resetInputHeight()
     } else {
       selectedIndex.value = index
+      states.selectedLabel = option.label
       update(option.value)
       expanded.value = false
     }
+    states.isComposing = false
     states.isSilentBlur = byClick
     // setSoftFocus()
     if (expanded.value) return
@@ -479,18 +378,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // scrollToOption(option)
     })
   }
-
-  // const deletePrevTag = e => {
-  //   if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
-  //     const value = (props.modelValue as Array<unknown>).slice()
-  //     value.pop()
-  //     update(value)
-  //   }
-
-  //   if (e.target.value.length === 1 && (props.modelValue as Array<unknown>).length === 0) {
-  //     states.currentPlaceholder = states.cachedPlaceholder
-  //   }
-  // }
 
   const deleteTag = (event, tag) => {
     const index = (props.modelValue as Array<any>).indexOf(tag)
@@ -506,19 +393,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       nextTick(focusAndUpdatePopup)
     }
     event.stopPropagation()
-  }
-
-  const deleteSelected = event => {
-    event.stopPropagation()
-    const value = props.multiple ? [] : ''
-    if (!isString(value)) {
-      for (const item of selectedIndices.value) {
-        // if (item) value.push(item.value)
-      }
-    }
-    update(value)
-    expanded.value = false
-    emit('clear')
   }
 
   const handleInputBoxClick = () => {
@@ -551,14 +425,16 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     states.isComposing = false
     states.softFocus = false
-      // reset input value when blurred
+    // reset input value when blurred
     // https://github.com/ElemeFE/element/pull/10822
     nextTick(() => {
-      inputRef.value.blur?.()
+      inputRef.value?.blur?.()
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
-        emit('blur')
+        if (states.isComposing) {
+          emit('blur')
+        }
       }
     })
 
@@ -591,6 +467,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
 
     states.softFocus = true
+    states.selectedLabel = ''
     expanded.value = false
     update(emptyValue)
     nextTick(focusAndUpdatePopup)
@@ -671,10 +548,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     onInput()
   }
 
-  const handleMenuEnter = () => {
-    // nextTick(() => scrollToOption(selected.value))
-  }
-
   const handleClickOutside = () => {
     expanded.value = false
     handleBlur()
@@ -695,7 +568,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   onMounted(() => {
-    // attach resize event here.
+    addResizeListener(selectRef.value, handleResize)
+  })
+
+  onBeforeMount(() => {
+    removeResizeListener(selectRef.value, handleResize)
   })
 
 
@@ -705,6 +582,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     currentPlaceholder,
     expanded,
     emptyText,
+    popupHeight,
     debounce,
     filteredOptions,
     iconClass,

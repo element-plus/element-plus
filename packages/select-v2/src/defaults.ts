@@ -26,7 +26,7 @@ export const SelectProps = {
   filterMethod: Function,
   height: {
     type: Number,
-    default: 272, // 8 items by default
+    default: 170, // 5 items by default
   },
   itemHeight: {
     type: Number,

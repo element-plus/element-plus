@@ -105,6 +105,11 @@
               "title": "Select 选择器"
             },
             {
+              "path": "/select-v2",
+              "title": "Select-V2 虚拟列表选择器",
+              "beta": true
+            },
+            {
               "path": "/cascader",
               "title": "Cascader 级联选择器"
             },
@@ -429,6 +434,11 @@
             {
               "path": "/select",
               "title": "Select"
+            },
+            {
+              "path": "/select-v2",
+              "title": "Virtualized Select",
+              "beta": true
             },
             {
               "path": "/cascader",
@@ -757,6 +767,11 @@
               "title": "Select"
             },
             {
+              "path": "/select-v2",
+              "title": "Virtualized Select",
+              "beta": true
+            },
+            {
               "path": "/cascader",
               "title": "Cascader"
             },
@@ -1083,6 +1098,11 @@
               "title": "Select"
             },
             {
+              "path": "/select-v2",
+              "title": "Virtualized Select",
+              "beta": true
+            },
+            {
               "path": "/cascader",
               "title": "Cascader"
             },
@@ -1407,6 +1427,11 @@
             {
               "path": "/select",
               "title": "Select"
+            },
+            {
+              "path": "/select-v2",
+              "title": "Virtualized Select",
+              "beta": true
             },
             {
               "path": "/cascader",

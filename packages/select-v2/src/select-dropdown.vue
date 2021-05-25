@@ -2,8 +2,6 @@
 import {
   defineComponent,
   computed,
-  onMounted,
-  onBeforeUnmount,
   inject,
   ref,
   renderSlot,
@@ -188,9 +186,6 @@ export default defineComponent({
         height,
         width,
         total: data.length,
-        onClick: () => {
-          console.log(1)
-        },
         onKeydown: [
           _cache[1] || (_cache[1] = withKeys(
             withModifiers(() => onKeyboardNavigate('forward'), ['stop', 'prevent']),
