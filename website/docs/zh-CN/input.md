@@ -1007,7 +1007,7 @@ export default defineComponent ({
 | placeholder   | 输入框占位文本   | string          | — | — |
 | disabled      | 禁用            | boolean         | — | false   |
 | value-key | 输入建议对象中用于显示的键名 | string | — | value |
-| value         | 必填值，输入绑定值   | string  | — | — |
+| model-value / v-model | 必填值，输入绑定值   | string  | — | — |
 | debounce      | 获取输入建议的去抖延时 | number         | — | 300 |
 | placement     | 菜单弹出位置 | string         | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
 | fetch-suggestions | 返回输入建议的方法，仅当你的输入建议数据 resolve 时，通过调用 callback(data:[]) 来返回它  | Function(queryString, callback)  | — | — |
