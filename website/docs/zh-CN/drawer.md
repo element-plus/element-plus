@@ -279,7 +279,7 @@ Drawer has almost identical attributes as Dialog.
 | title     | Drawer 的标题，也可通过具名 slot （见下表）传入 | string    | — | — |
 | model-value / v-model | 是否显示 Drawer | boolean | — | false |
 | withHeader | 控制是否显示 header 栏, 默认为 true, 当此项为 false 时, title attribute 和 title slot 均不生效 | boolean | - | true |
-
+| modal-class | 遮罩层的自定义类名 | string | - | - |
 ### Drawer Slot
 
 | name | 说明 |

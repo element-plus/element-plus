@@ -115,7 +115,7 @@ Además de usar el atributo `title`, se puede personalizar el título del panel 
 ### Atributos de Collapse
 | Atributo  | Descripción                           | Tipo                                     | Valores aceptados | Por defecto |
 | --------- | ------------------------------------- | ---------------------------------------- | ----------------- | ----------- |
-| value / v-model     | panel activo                          | string (modo acordeón) / array (No modo acordeón) | —                 | —           |
+| model-value / v-model     | panel activo                          | string (modo acordeón) / array (No modo acordeón) | —                 | —           |
 | accordion | especifica si activa el modo acordeón | boolean                                  | —                 | false       |
 
 ### Eventos de Collapse

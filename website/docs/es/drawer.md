@@ -279,6 +279,7 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 | title | El título del Drawer, también se puede establecer por slot con nombre, las descripciones detalladas se pueden encontrar en el formulario de slot. | string | — | — |
 | model-value / v-model | Si se muestra el Drawer | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
+| modal-class | Nombre extra de clase para capa de sombra | string | - | - |
 
 ### Drawer Slot's
 

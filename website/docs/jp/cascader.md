@@ -1910,7 +1910,7 @@ cascaderノードの内容をカスタマイズすることができます。
 ### Cascader 属性
 | Attribute | Description | Type  | Accepted Values | Default |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | バインディング値 | - | — | — |
+| model-value / v-model | バインディング値 | - | — | — |
 | options | オプションのデータ、`Props`によって `value` と `label` のキーをカスタマイズすることができます。| array | — | — |
 | props | 構成オプションについては、次の表を参照してください。 | object | — | — |
 | size | インプットサイズ | string | medium / small / mini | — |
@@ -1950,7 +1950,7 @@ cascaderノードの内容をカスタマイズすることができます。
 ### CascaderPanelの属性
 | Attribute | Description | Type  | Accepted Values | Default |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | バインディング値 | - | — | — |
+| model-value / v-model | バインディング値 | - | — | — |
 | options | オプションのデータは、`Props`によって `value` と `label` のキーをカスタマイズすることができます。 | array | — | — |
 | props | 構成オプションについては、Propsの表を参照してください。 | object | — | — |
 

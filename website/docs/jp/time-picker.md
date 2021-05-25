@@ -106,7 +106,7 @@
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | date | - | - |
+| model-value / v-model | バインディング値 | date | - | - |
 | readonly | タイムピッカーが読み取り専用かどうか | boolean | — | false |
 | disabled | タイムピッカーが無効になっているかどうか | boolean | — | false |
 | editable | 入力が編集可能かどうか | boolean | — | true |

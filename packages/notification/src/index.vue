@@ -105,6 +105,7 @@ export default defineComponent({
     const positionStyle = computed(() => {
       return {
         [verticalProperty.value]: `${props.offset}px`,
+        'z-index':  props.zIndex,
       }
     })
 

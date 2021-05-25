@@ -1,18 +1,19 @@
 import { getCurrentInstance, ref } from 'vue'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
-import { TableColumnCtx, Table } from '../table.type'
-import { TableHeaderProps } from './table-header'
+import { TableHeaderProps } from './index'
+import { TableColumnCtx } from '../table-column/defaults'
+import { Table } from '../table/defaults'
 
-function useEvent(props: TableHeaderProps, emit) {
+function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const instance = getCurrentInstance()
-  const parent = instance.parent as Table
+  const parent = instance.parent as Table<T>
   const handleFilterClick = (event: Event) => {
     event.stopPropagation()
     return
   }
 
-  const handleHeaderClick = (event: Event, column: TableColumnCtx) => {
+  const handleHeaderClick = (event: Event, column: TableColumnCtx<T>) => {
     if (!column.filters && column.sortable) {
       handleSortClick(event, column, false)
     } else if (column.filterable && !column.sortable) {
@@ -21,13 +22,13 @@ function useEvent(props: TableHeaderProps, emit) {
     parent.emit('header-click', column, event)
   }
 
-  const handleHeaderContextMenu = (event: Event, column: TableColumnCtx) => {
+  const handleHeaderContextMenu = (event: Event, column: TableColumnCtx<T>) => {
     parent.emit('header-contextmenu', column, event)
   }
   const draggingColumn = ref(null)
   const dragging = ref(false)
   const dragState = ref({})
-  const handleMouseDown = (event: MouseEvent, column: TableColumnCtx) => {
+  const handleMouseDown = (event: MouseEvent, column: TableColumnCtx<T>) => {
     if (isServer) return
     if (column.children && column.children.length > 0) return
     /* istanbul ignore if */
@@ -53,10 +54,10 @@ function useEvent(props: TableHeaderProps, emit) {
       const resizeProxy = table.refs.resizeProxy as HTMLElement
       resizeProxy.style.left = (dragState.value as any).startLeft + 'px'
 
-      document.onselectstart = function () {
+      document.onselectstart = function() {
         return false
       }
-      document.ondragstart = function () {
+      document.ondragstart = function() {
         return false
       }
 
@@ -95,7 +96,7 @@ function useEvent(props: TableHeaderProps, emit) {
         document.onselectstart = null
         document.ondragstart = null
 
-        setTimeout(function () {
+        setTimeout(function() {
           removeClass(columnEl, 'noclick')
         }, 0)
       }
@@ -105,7 +106,7 @@ function useEvent(props: TableHeaderProps, emit) {
     }
   }
 
-  const handleMouseMove = (event: MouseEvent, column: TableColumnCtx) => {
+  const handleMouseMove = (event: MouseEvent, column: TableColumnCtx<T>) => {
     if (column.children && column.children.length > 0) return
     let target = event.target as HTMLElement
     while (target && target.tagName !== 'TH') {
@@ -145,7 +146,7 @@ function useEvent(props: TableHeaderProps, emit) {
   }
   const handleSortClick = (
     event: Event,
-    column: TableColumnCtx,
+    column: TableColumnCtx<T>,
     givenOrder: string | boolean,
   ) => {
     event.stopPropagation()

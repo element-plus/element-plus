@@ -132,7 +132,7 @@ import { defineComponent, ref } from 'vue'
 ### Attributes
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | 绑定值 | number | — | 0 |
+| model-value / v-model | 绑定值 | number | — | 0 |
 | max | 最大分值 | number | — | 5 |
 | disabled | 是否为只读 | boolean | — | false |
 | allow-half | 是否允许半选 | boolean | — | false |

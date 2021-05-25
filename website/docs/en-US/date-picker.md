@@ -391,7 +391,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | binding value | date(DatePicker) / array(DateRangePicker) | — | — |
+| model-value / v-model | binding value | date(DatePicker) / array(DateRangePicker) | — | — |
 | readonly | whether DatePicker is read only | boolean | — | false |
 | disabled | whether DatePicker is disabled | boolean | — | false |
 | size | size of Input | string | large/medium/small/mini  | large |
