@@ -670,7 +670,7 @@ export default defineComponent ({
 | disabled | Si l'autocomplétion est déactivée. | boolean | — | false|
 | value-key | Nom de la clé de l'objet suggestion pour l'affichage. | string | — | value |
 | icon | Nom de l'icône. | string | — | — |
-| value | Variable liée. | string | — | — |
+| model-value / v-model | Variable liée. | string | — | — |
 | debounce | Délai d'attente après écriture, en millisecondes. | number | — | 300 |
 | placement | Emplacement du menu popup. | string | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
 | fetch-suggestions | La méthode pour rechercher les suggestions. Lorsqu'elles sont prêtes, appelle `callback(data:[])` pour les renvoyer à l'autocomplétion. | Function(queryString, callback) | — | — |

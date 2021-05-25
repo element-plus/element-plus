@@ -670,7 +670,7 @@ Attribute | Description | Type | Options | Default
 |disabled | オートコンプリートを無効にしているかどうか  | boolean | — | false|
 | value-key | 表示用インプットサジェスチョンオブジェクトのキー名 | string | — | value |
 |icon | アイコン名 | string | — | — |
-|value | バインディング値 | string | — | — |
+| model-value / v-model | バインディング値 | string | — | — |
 | debounce | タイプ時のデバウンス遅延（ミリ秒単位） | number | — | 300 |
 | placement | ポップアップメニューの配置 | string | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
 |fetch-suggestions | インプットサジェスチョンを取得するためのメソッドです。サジェスチョンの準備ができたら、`callback(data:[])` を呼び出してオートコンプリートに返す。 | Function(queryString, callback) | — | — |
