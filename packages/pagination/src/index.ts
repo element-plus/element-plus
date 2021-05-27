@@ -176,6 +176,7 @@ export default defineComponent({
 
     watch(() => props.currentPage, val => {
       internalCurrentPage.value = getValidCurrentPage(val)
+      lastEmittedPage.value = internalCurrentPage.value
     })
 
     watch(() => props.pageSize, val => {
