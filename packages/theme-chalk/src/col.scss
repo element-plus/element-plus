@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import './common/var.scss';
 @import './mixins/mixins.scss';
 
@@ -20,22 +22,22 @@
 
 @for $i from 0 through 24 {
   .#{$namespace}-col-#{$i} {
-    max-width: (1 / 24 * $i * 100) * 1%;
-    flex: 0 0 (1 / 24 * $i * 100) * 1%;
+    max-width: (math.div(1, 24) * $i * 100) * 1%;
+    flex: 0 0 (math.div(1, 24) * $i * 100) * 1%;
   }
 
   .#{$namespace}-col-offset-#{$i} {
-    margin-left: (1 / 24 * $i * 100) * 1%;
+    margin-left: (math.div(1, 24) * $i * 100) * 1%;
   }
 
   .#{$namespace}-col-pull-#{$i} {
     position: relative;
-    right: (1 / 24 * $i * 100) * 1%;
+    right: (math.div(1, 24) * $i * 100) * 1%;
   }
 
   .#{$namespace}-col-push-#{$i} {
     position: relative;
-    left: (1 / 24 * $i * 100) * 1%;
+    left: (math.div(1, 24) * $i * 100) * 1%;
   }
 }
 
@@ -51,22 +53,22 @@
       @if $i != 0 {
         display: block;
       }
-      max-width: (1 / 24 * $i * 100) * 1%;
-      flex: 0 0 (1 / 24 * $i * 100) * 1%;
+      max-width: (math.div(1, 24) * $i * 100) * 1%;
+      flex: 0 0 (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-xs-offset-#{$i} {
-      margin-left: (1 / 24 * $i * 100) * 1%;
+      margin-left: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-xs-pull-#{$i} {
       position: relative;
-      right: (1 / 24 * $i * 100) * 1%;
+      right: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-xs-push-#{$i} {
       position: relative;
-      left: (1 / 24 * $i * 100) * 1%;
+      left: (math.div(1, 24) * $i * 100) * 1%;
     }
   }
 }
@@ -83,22 +85,22 @@
       @if $i != 0 {
         display: block;
       }
-      max-width: (1 / 24 * $i * 100) * 1%;
-      flex: 0 0 (1 / 24 * $i * 100) * 1%;
+      max-width: (math.div(1, 24) * $i * 100) * 1%;
+      flex: 0 0 (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-sm-offset-#{$i} {
-      margin-left: (1 / 24 * $i * 100) * 1%;
+      margin-left: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-sm-pull-#{$i} {
       position: relative;
-      right: (1 / 24 * $i * 100) * 1%;
+      right: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-sm-push-#{$i} {
       position: relative;
-      left: (1 / 24 * $i * 100) * 1%;
+      left: (math.div(1, 24) * $i * 100) * 1%;
     }
   }
 }
@@ -115,22 +117,22 @@
       @if $i != 0 {
         display: block;
       }
-      max-width: (1 / 24 * $i * 100) * 1%;
-      flex: 0 0 (1 / 24 * $i * 100) * 1%;
+      max-width: (math.div(1, 24) * $i * 100) * 1%;
+      flex: 0 0 (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-md-offset-#{$i} {
-      margin-left: (1 / 24 * $i * 100) * 1%;
+      margin-left: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-md-pull-#{$i} {
       position: relative;
-      right: (1 / 24 * $i * 100) * 1%;
+      right: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-md-push-#{$i} {
       position: relative;
-      left: (1 / 24 * $i * 100) * 1%;
+      left: (math.div(1, 24) * $i * 100) * 1%;
     }
   }
 }
@@ -147,22 +149,22 @@
       @if $i != 0 {
         display: block;
       }
-      max-width: (1 / 24 * $i * 100) * 1%;
-      flex: 0 0 (1 / 24 * $i * 100) * 1%;
+      max-width: (math.div(1, 24) * $i * 100) * 1%;
+      flex: 0 0 (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-lg-offset-#{$i} {
-      margin-left: (1 / 24 * $i * 100) * 1%;
+      margin-left: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-lg-pull-#{$i} {
       position: relative;
-      right: (1 / 24 * $i * 100) * 1%;
+      right: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-lg-push-#{$i} {
       position: relative;
-      left: (1 / 24 * $i * 100) * 1%;
+      left: (math.div(1, 24) * $i * 100) * 1%;
     }
   }
 }
@@ -179,22 +181,22 @@
       @if $i != 0 {
         display: block;
       }
-      max-width: (1 / 24 * $i * 100) * 1%;
-      flex: 0 0 (1 / 24 * $i * 100) * 1%;
+      max-width: (math.div(1, 24) * $i * 100) * 1%;
+      flex: 0 0 (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-xl-offset-#{$i} {
-      margin-left: (1 / 24 * $i * 100) * 1%;
+      margin-left: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-xl-pull-#{$i} {
       position: relative;
-      right: (1 / 24 * $i * 100) * 1%;
+      right: (math.div(1, 24) * $i * 100) * 1%;
     }
 
     .#{$namespace}-col-xl-push-#{$i} {
       position: relative;
-      left: (1 / 24 * $i * 100) * 1%;
+      left: (math.div(1, 24) * $i * 100) * 1%;
     }
   }
 }
