@@ -185,7 +185,7 @@
 |  effect   |  ツールチップのテーマ  | string   | dark/light  | dark  |
 |  content  | コンテンツを表示、`slot#content` で上書きすることができます。 | String   | — | — |
 |  placement | ツールチップの位置   | string    |  top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end |  bottom |
-|  value / v-model | ツールチップの可視性 | boolean           | — |  false |
+|  model-value / v-model | ツールチップの可視性 | boolean           | — |  false |
 |  disabled       |  ツールチップが無効になっているかどうか  | boolean    | — |  false |
 |  offset        |  ツールチップのオフセット   | number    | — |  0 |
 |  transition     |  アニメーション名 | string             | — | el-fade-in-linear |
