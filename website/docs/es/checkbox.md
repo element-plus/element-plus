@@ -6,7 +6,7 @@ Un grupo de opciones para manejar múltiples elecciones.
 
 Checkbox puede ser usado para alternar entre dos estados.
 
-:::demo Define `v-model`(enlaza la variable) en `el-checkbox`. El valor por defecto es un `Boolean` para un `checkbox`, y se convierte en `true` cuando este es seleccionado. El contenido dentro del tag `el-checkbox` se convierte en la descripción al costado del botón del checkbox. 
+:::demo Define `v-model`(enlaza la variable) en `el-checkbox`. El valor por defecto es un `Boolean` para un `checkbox`, y se convierte en `true` cuando este es seleccionado. El contenido dentro del tag `el-checkbox` se convierte en la descripción al costado del botón del checkbox.
 
 ```html
 <template>
@@ -127,7 +127,7 @@ Las propiedades `min` y `max` pueden limitar la cantidad de elementos selecciona
 
 ```html
 <template>
-  <el-checkbox-group 
+  <el-checkbox-group
     v-model="checkedCities"
     :min="1"
     :max="2">
@@ -241,7 +241,7 @@ Checkbox con estilo tipo Botón.
 ### Atributos de Checkbox
 | Atributo      | Descripción                              | Tipo                      | Valores aceptados     | Por defecto |
 | ------------- | ---------------------------------------- | ------------------------- | --------------------- | ----------- |
-| value / v-model | valor enlazado | string / number / boolean | — | — |
+| model-value / v-model | valor enlazado | string / number / boolean | — | — |
 | label         | valor del Checkbox si es usado dentro de un tag `checkbox-group` | string / number / boolean | —                     | —           |
 | true-label    | valor del Checkbox si está marcado       | string / number           | —                     | —           |
 | false-label   | valor del Checkbox si no está marcado    | string / number           | —                     | —           |
@@ -260,7 +260,7 @@ Checkbox con estilo tipo Botón.
 ### Atributos de Checkbox-group
 | Atributo   | Descripción                              | Tipo    | Valores aceptados     | Por Defecto |
 | ---------- | ---------------------------------------- | ------- | --------------------- | ----------- |
-| value / v-model | valor enlazado | array | — | — |
+| model-value / v-model | valor enlazado | array | — | — |
 | size       | tamaño de los checkboxes de tipo botón o los checkboxes con border | string  | medium / small / mini | —           |
 | disabled   | especifica si los checkboxes anidados están deshabilitados | boolean | —                     | false       |
 | min        | cantidad mínima de checkboxes que deben ser marcados | number  | —                     | —           |

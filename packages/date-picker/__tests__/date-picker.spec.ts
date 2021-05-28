@@ -715,5 +715,32 @@ describe('MonthRange', () => {
     expect(startDate.length).toBe(1)
     expect(endDate.length).toBe(1)
   })
+
+  it('should accept popper options and pass down', async () => {
+    const ElPopperOptions = {
+      strategy: 'fixed',
+    }
+    const wrapper = _mount(
+      `<el-date-picker
+        type='monthrange'
+        v-model="value"
+        :popper-options="options"
+        unlink-panels
+      />`, () => ({ value: [new Date(2016, 6), new Date(2016, 12)], options: ElPopperOptions }),
+      {
+        provide() {
+          return {
+            ElPopperOptions,
+          }
+        },
+      },
+    )
+
+    await nextTick()
+
+    expect((
+      (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions),
+    ).toEqual(ElPopperOptions)
+  })
 })
 

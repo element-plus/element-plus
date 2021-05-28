@@ -48,7 +48,7 @@ export default defineComponent({
       if (!content) return
       const h3 = content.querySelectorAll('h3')
       anchors.value = Array.from(h3).map(item => {
-        const text = item.childNodes[1].textContent.trim()
+        const text = item.childNodes[1] && item.childNodes[1].textContent.trim()
         map.set(text, item.offsetTop)
         return text
       })
@@ -57,7 +57,7 @@ export default defineComponent({
       let mapKeys = Array.from(map.keys()).reverse()
       resizeObserver = new ResizeObserver(() => {
         Array.from(h3).forEach(item => {
-          const text = item.childNodes[1].textContent.trim()
+          const text = item.childNodes[1] && item.childNodes[1].textContent.trim()
           map.set(text, item.offsetTop)
         })
         mapValues = Array.from(map.values()).reverse()

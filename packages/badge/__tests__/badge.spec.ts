@@ -23,7 +23,7 @@ describe('Badge', () => {
       props: { isDot: true },
       slots: { default: AXIOM },
     })
-    expect(wrapper.find('.el-badge__content.is-fixed').exists()).toBe(true)
+    expect(wrapper.find('.el-badge__content.is-dot').exists()).toBe(true)
   })
 
   test('max', async () => {

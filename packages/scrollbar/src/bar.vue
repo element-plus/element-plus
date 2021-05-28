@@ -40,12 +40,13 @@ export default defineComponent({
     const visible = ref(false)
     let onselectstartStore = null
 
-    const clickThumbHandler = e => {
+    const clickThumbHandler = (e: MouseEvent) => {
       // prevent click event of middle and right button
       e.stopPropagation()
       if (e.ctrlKey || [1, 2].includes(e.button)) {
         return
       }
+      window.getSelection().removeAllRanges()
       startDrag(e)
       barStore.value[bar.value.axis] = (e.currentTarget[bar.value.offset] - (e[bar.value.client] - e.currentTarget.getBoundingClientRect()[bar.value.direction]))
     }

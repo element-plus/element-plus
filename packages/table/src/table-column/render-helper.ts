@@ -8,10 +8,14 @@ import {
 } from 'vue'
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
-import { TableColumn, TableColumnCtx } from '../table.type'
+import { TableColumnCtx, TableColumn } from './defaults'
 
-function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
-  const instance = (getCurrentInstance() as unknown) as TableColumn
+function useRender<T>(
+  props: TableColumnCtx<T>,
+  slots,
+  owner: ComputedRef<any>,
+) {
+  const instance = getCurrentInstance() as TableColumn<T>
   const columnId = ref('')
   const isSubColumn = ref(false)
   const realAlign = ref<string>()
@@ -29,16 +33,16 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
     realHeaderAlign.value
   })
   const columnOrTableParent = computed(() => {
-    let parent = (instance.vnode as any).vParent || (instance.parent as any)
+    let parent: any = instance.vnode.vParent || instance.parent
     while (parent && !parent.tableId && !parent.columnId) {
-      parent = (parent.vnode as any).vParent || (parent.parent as any)
+      parent = parent.vnode.vParent || parent.parent
     }
     return parent
   })
 
   const realWidth = ref(parseWidth(props.width))
   const realMinWidth = ref(parseMinWidth(props.minWidth))
-  const setColumnWidth = column => {
+  const setColumnWidth = (column: TableColumnCtx<T>) => {
     if (realWidth.value) column.width = realWidth.value
     if (realMinWidth.value) {
       column.minWidth = realMinWidth.value
@@ -46,11 +50,12 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
     if (!column.minWidth) {
       column.minWidth = 80
     }
-    column.realWidth =
-      column.width === undefined ? column.minWidth : column.width
+    column.realWidth = Number(
+      column.width === undefined ? column.minWidth : column.width,
+    )
     return column
   }
-  const setColumnForcedProps = column => {
+  const setColumnForcedProps = (column: TableColumnCtx<T>) => {
     // 对于特定类型的 column，某些属性不允许设置
     const type = column.type
     const source = cellForced[type] || {}
@@ -63,19 +68,19 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
     return column
   }
 
-  const checkSubColumn = children => {
+  const checkSubColumn = (children: TableColumn<T> | TableColumn<T>[]) => {
     if (children instanceof Array) {
       children.forEach(child => check(child))
     } else {
       check(children)
     }
-    function check(item) {
+    function check(item: TableColumn<T>) {
       if (item?.type?.name === 'ElTableColumn') {
         item.vParent = instance
       }
     }
   }
-  const setColumnRenders = column => {
+  const setColumnRenders = (column: TableColumnCtx<T>) => {
     // renderHeader 属性不推荐使用。
     if (props.renderHeader) {
       console.warn(
@@ -123,7 +128,8 @@ function useRender(props: TableColumnCtx, slots, owner: ComputedRef<any>) {
         if (column.showOverflowTooltip) {
           props.class += ' el-tooltip'
           props.style = {
-            width: (data.column.realWidth || data.column.width) - 1 + 'px',
+            width:
+              (data.column.realWidth || Number(data.column.width)) - 1 + 'px',
           }
         }
         checkSubColumn(children)

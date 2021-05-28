@@ -214,7 +214,7 @@
 ## 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | number | — | 0 |
+| model-value / v-model | バインディング値 | number | — | 0 |
 | min | 最小値 | number | — | 0 |
 | max | 最大値 | number | — | 100 |
 | disabled | スライダーが無効になっているかどうか | boolean | — | false |

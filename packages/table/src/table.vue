@@ -16,8 +16,10 @@
           (store.states.data.value || []).length < 100,
       },
       tableSize ? `el-table--${tableSize}` : '',
+      className,
+      'el-table',
     ]"
-    class="el-table"
+    :style="style"
     @mouseleave="handleMouseLeave()"
   >
     <div ref="hiddenColumns" class="hidden-columns">
@@ -254,7 +256,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, getCurrentInstance } from 'vue'
 import { createStore } from './store/helper'
 import { t } from '@element-plus/locale'
@@ -266,7 +268,8 @@ import TableFooter from './table-footer/index'
 import debounce from 'lodash/debounce'
 import useUtils from './table/utils-helper'
 import useStyle from './table/style-helper'
-import { TableProps, Table } from './table.type'
+import { Table } from './table/defaults'
+import defaultProps from './table/defaults'
 
 let tableIdSeed = 1
 export default defineComponent({
@@ -279,67 +282,7 @@ export default defineComponent({
     TableBody,
     TableFooter,
   },
-  props: {
-    data: {
-      type: Array,
-      default: function () {
-        return []
-      },
-    },
-    size: String,
-    width: [String, Number],
-    height: [String, Number],
-    maxHeight: [String, Number],
-    fit: {
-      type: Boolean,
-      default: true,
-    },
-    stripe: Boolean,
-    border: Boolean,
-    rowKey: [String, Function],
-    showHeader: {
-      type: Boolean,
-      default: true,
-    },
-    showSummary: Boolean,
-    sumText: String,
-    summaryMethod: Function,
-    rowClassName: [String, Function],
-    rowStyle: [Object, Function],
-    cellClassName: [String, Function],
-    cellStyle: [Object, Function],
-    headerRowClassName: [String, Function],
-    headerRowStyle: [Object, Function],
-    headerCellClassName: [String, Function],
-    headerCellStyle: [Object, Function],
-    highlightCurrentRow: Boolean,
-    currentRowKey: [String, Number],
-    emptyText: String,
-    expandRowKeys: Array,
-    defaultExpandAll: Boolean,
-    defaultSort: Object,
-    tooltipEffect: String,
-    spanMethod: Function,
-    selectOnIndeterminate: {
-      type: Boolean,
-      default: true,
-    },
-    indent: {
-      type: Number,
-      default: 16,
-    },
-    treeProps: {
-      type: Object,
-      default() {
-        return {
-          hasChildren: 'hasChildren',
-          children: 'children',
-        }
-      },
-    },
-    lazy: Boolean,
-    load: Function,
-  },
+  props: defaultProps,
   emits: [
     'select',
     'select-all',
@@ -359,21 +302,12 @@ export default defineComponent({
     'header-dragend',
     'expand-change',
   ],
-  setup(props: TableProps) {
-    let table = getCurrentInstance() as Table
-    const store = createStore(table, {
-      rowKey: props.rowKey,
-      defaultExpandAll: props.defaultExpandAll,
-      selectOnIndeterminate: props.selectOnIndeterminate,
-      // TreeTable 的相关配置
-      indent: props.indent,
-      lazy: props.lazy,
-      lazyColumnIdentifier: props.treeProps.hasChildren || 'hasChildren',
-      childrenColumnName: props.treeProps.children || 'children',
-      data: props.data,
-    })
+  setup(props) {
+    type Row = typeof props.data[number]
+    let table = getCurrentInstance() as Table<Row>
+    const store = createStore<Row>(table, props)
     table.store = store
-    const layout = new TableLayout({
+    const layout = new TableLayout<Row>({
       store: table.store,
       table,
       fit: props.fit,
@@ -382,8 +316,8 @@ export default defineComponent({
     table.layout = layout
 
     /**
-       * open functions
-       */
+     * open functions
+     */
     const {
       setCurrentRow,
       toggleRowSelection,
@@ -393,7 +327,7 @@ export default defineComponent({
       toggleRowExpansion,
       clearSort,
       sort,
-    } = useUtils(store)
+    } = useUtils<Row>(store)
     const {
       isHidden,
       renderExpanded,
@@ -411,9 +345,9 @@ export default defineComponent({
       bodyWidth,
       resizeState,
       doLayout,
-    } = useStyle(props, layout, store, table)
+    } = useStyle<Row>(props, layout, store, table)
 
-    const debouncedUpdateLayout = debounce(() => doLayout(), 50)
+    const debouncedUpdateLayout = debounce(doLayout, 50)
 
     const tableId = 'el-table_' + tableIdSeed++
     table.tableId = tableId

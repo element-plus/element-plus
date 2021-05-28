@@ -389,7 +389,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | date(DatePicker) / array(DateRangePicker) | — | — |
+| model-value / v-model | バインディング値 | date(DatePicker) / array(DateRangePicker) | — | — |
 | readonly | date-pickerが読み取り専用かどうか | boolean | — | false |
 | disabled | date-pickerが無効かどうか | boolean | — | false |
 | size | インプットサイズ | string | large/small/mini | — |

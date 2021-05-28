@@ -191,7 +191,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
 ### Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | 绑定值 | date(DateTimePicker) / array(DateTimeRangePicker) | — | — |
+| model-value / v-model | 绑定值 | date(DateTimePicker) / array(DateTimeRangePicker) | — | — |
 | readonly | 完全只读 | boolean | — | false |
 | disabled | 禁用 | boolean | — | false |
 | editable | 文本框可输入 | boolean | — | true |

@@ -1,12 +1,16 @@
 import { getCurrentInstance } from 'vue'
-import { TableColumnCtx, AnyObject, Table } from '../table.type'
-import { TableHeaderProps } from './table-header'
+import { TableColumnCtx } from '../table-column/defaults'
+import { Table } from '../table/defaults'
+import { TableHeaderProps } from './index'
 
-function useStyle(props: TableHeaderProps) {
+function useStyle<T>(props: TableHeaderProps<T>) {
   const instance = getCurrentInstance()
-  const parent = instance.parent as Table
+  const parent = instance.parent as Table<T>
   const storeData = parent.store.states
-  const isCellHidden = (index: number, columns: TableColumnCtx[]): boolean => {
+  const isCellHidden = (
+    index: number,
+    columns: TableColumnCtx<T>[],
+  ): boolean => {
     let start = 0
     for (let i = 0; i < index; i++) {
       start += columns[i].colSpan
@@ -53,8 +57,8 @@ function useStyle(props: TableHeaderProps) {
   const getHeaderCellStyle = (
     rowIndex: number,
     columnIndex: number,
-    row: AnyObject,
-    column: TableColumnCtx,
+    row: T,
+    column: TableColumnCtx<T>,
   ) => {
     const headerCellStyle = parent.props.headerCellStyle
     if (typeof headerCellStyle === 'function') {
@@ -71,8 +75,8 @@ function useStyle(props: TableHeaderProps) {
   const getHeaderCellClass = (
     rowIndex: number,
     columnIndex: number,
-    row: AnyObject,
-    column: TableColumnCtx,
+    row: T,
+    column: TableColumnCtx<T>,
   ) => {
     const classes = [
       column.id,
@@ -83,7 +87,7 @@ function useStyle(props: TableHeaderProps) {
     ]
     if (
       rowIndex === 0 &&
-      isCellHidden(columnIndex, (row as unknown) as TableColumnCtx[])
+      isCellHidden(columnIndex, (row as unknown) as TableColumnCtx<T>[])
     ) {
       classes.push('is-hidden')
     }

@@ -22,17 +22,6 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 
-interface IBadgeProps {
-  value: string | number
-  max: number
-  isDot: boolean
-  hidden: boolean
-  type: string
-}
-
-interface IBadgeSetups {
-  content: number | string
-}
 export default defineComponent({
   name: 'ElBadge',
   props: {

@@ -10,6 +10,18 @@ export const isValidWidthUnit = (val: string | number): boolean =>{
   }
 }
 
-
 export const isValidComponentSize = (val: string) =>
   ['', 'large', 'medium', 'small', 'mini'].includes(val)
+
+export const isValidDatePickType = (val: string) =>
+  [
+    'year',
+    'month',
+    'date',
+    'dates',
+    'week',
+    'datetime',
+    'datetimerange',
+    'daterange',
+    'monthrange',
+  ].includes(val)

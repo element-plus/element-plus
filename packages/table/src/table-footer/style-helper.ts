@@ -1,10 +1,12 @@
 import { computed, getCurrentInstance } from 'vue'
-import { Table, TableFooter, TableColumnCtx } from '../table.type'
+import { TableColumnCtx } from '../table-column/defaults'
+import { Table } from '../table/defaults'
 import useMapState from './mapState-helper'
+import { TableFooter } from './index'
 
-function useStyle(props: TableFooter) {
+function useStyle<T>(props: TableFooter<T>) {
   const instance = getCurrentInstance()
-  const table = instance.parent as Table
+  const table = instance.parent as Table<T>
   const store = table.store
 
   const {
@@ -14,15 +16,15 @@ function useStyle(props: TableFooter) {
     leftFixedCount,
     rightFixedCount,
     columns,
-  } = useMapState()
+  } = useMapState<T>()
 
   const hasGutter = computed(() => {
     return !props.fixed && table.layout.gutterWidth
   })
   const isCellHidden = (
     index: number,
-    columns: TableColumnCtx[],
-    column: TableColumnCtx,
+    columns: TableColumnCtx<T>[],
+    column: TableColumnCtx<T>,
   ) => {
     if (props.fixed || props.fixed === 'left') {
       return index >= leftFixedLeafCount.value
@@ -42,7 +44,7 @@ function useStyle(props: TableFooter) {
       )
     }
   }
-  const getRowClasses = (column: TableColumnCtx, cellIndex: number) => {
+  const getRowClasses = (column: TableColumnCtx<T>, cellIndex: number) => {
     const classes = [column.id, column.align, column.labelClassName]
     if (column.className) {
       classes.push(column.className)
