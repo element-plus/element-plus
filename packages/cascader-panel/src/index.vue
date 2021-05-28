@@ -159,7 +159,7 @@ export default defineComponent({
       !multiple && oldNode?.doCheck(false)
       node.doCheck(checked)
       calculateCheckedValue()
-      emitClose && !multiple && !checkStrictly && emit('close')
+      emitClose && !multiple && emit('close')
     }
 
     const getFlattedNodes = (leafOnly: boolean) => {
