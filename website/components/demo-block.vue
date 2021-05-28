@@ -28,9 +28,20 @@
       <transition name="text-slide">
         <span v-show="hovering">{{ controlText }}</span>
       </transition>
+      <div class="control-button-container control-button-container-left">
+        <el-button
+          v-show="isExpanded && hasSetup"
+          size="small"
+          type="text"
+          class="control-button"
+          @click.stop="onSwitchSyntax"
+        >
+          {{ showSetup? langConfig['switch-button-option-text'] : langConfig['switch-button-setup-text'] }}
+        </el-button>
+      </div>
       <div class="control-button-container">
         <el-button
-          v-show="hovering || isExpanded"
+          v-show="isExpanded"
           ref="copyButton"
           size="small"
           type="text"
@@ -42,7 +53,7 @@
         <el-tooltip effect="dark" :content="langConfig['tooltip-text']" placement="right">
           <transition name="text-slide">
             <el-button
-              v-show="hovering || isExpanded"
+              v-show="isExpanded"
               size="small"
               type="text"
               class="control-button  run-online-button"
@@ -61,14 +72,19 @@ import { nextTick } from 'vue'
 import hljs from 'highlight.js'
 import clipboardCopy from 'clipboard-copy'
 import compoLang from '../i18n/component.json'
-import { stripScript, stripStyle, stripTemplate } from '../util'
+import { stripScript, stripStyle, stripTemplate, stripSetup, removeSetup } from '../util'
 const version = '1.0.0' // element version
 const stripTemplateAndRemoveTemplate = code => {
-  const result = stripTemplate(code)
+  const result = removeSetup(stripTemplate(code))
   if (result.indexOf('<template>') === 0) {
     return result.replace(/^<template>/, '').replace(/<\/template>$/,'')
   }
   return result
+}
+const sanitizeHTML = str => {
+  var temp = document.createElement('div')
+  temp.textContent = str
+  return temp.innerHTML
 }
 export default {
   data() {
@@ -82,6 +98,8 @@ export default {
       isExpanded: false,
       fixedControl: false,
       scrollParent: null,
+      showSetup: false,
+      hasSetup: false,
     }
   },
 
@@ -117,6 +135,10 @@ export default {
       }
       return this.$el.getElementsByClassName('highlight')[0].clientHeight
     },
+
+    displayDemoCode () {
+      return this.showSetup ? this.codepen.setup : this.codepen.script
+    },
   },
 
   watch: {
@@ -151,31 +173,51 @@ export default {
         this.codepen.html = stripTemplateAndRemoveTemplate(code)
         this.codepen.script = stripScript(code)
         this.codepen.style = stripStyle(code)
+        this.codepen.setup = stripSetup(code)
+        if (this.codepen.setup) {
+          this.hasSetup = true
+        }
       }
     }
-  },
-
-  mounted() {
-    nextTick(() => {
-      let highlight = this.$el.getElementsByClassName('highlight')[0]
-      if (this.$el.getElementsByClassName('description').length === 0) {
-        highlight.style.width = '100%'
-        highlight.borderRight = 'none'
-      }
-
-      try {
-        hljs.highlightBlock(highlight.querySelector('code'))
-      } catch (error) {
-        console.log(error)
-      }
-    })
   },
 
   beforeUnmount() {
     this.removeScrollHandler()
   },
 
+  mounted () {
+    this.prettyCode()
+  },
+
   methods: {
+    prettyCode () {
+      nextTick(() => {
+        const highlight = this.$el.querySelector('.highlight')
+        const hlcode = highlight.querySelector('pre code')
+        hlcode.innerHTML = sanitizeHTML(`<template>${this.codepen.html}</template>
+
+<script>
+  ${this.displayDemoCode}
+${'</sc' + 'ript>'}
+`)
+
+        nextTick(() => {
+          if (this.$el.getElementsByClassName('description').length === 0) {
+            highlight.style.width = '100%'
+            highlight.borderRight = 'none'
+          }
+          try {
+            hljs.highlightBlock(hlcode)
+          } catch (error) {
+            console.log(error)
+          }
+        })
+      })
+    },
+    onSwitchSyntax () {
+      this.showSetup = !this.showSetup
+      this.prettyCode()
+    },
     copy() {
       const res = clipboardCopy(`
 <template>
@@ -385,6 +427,12 @@ ${this.codepen.style}
         right: 0;
         padding-left: 5px;
         padding-right: 25px;
+      }
+
+      .control-button-container-left {
+        left: 0;
+        width: 100px;
+        padding-left: 25px;
       }
 
       .control-button {
