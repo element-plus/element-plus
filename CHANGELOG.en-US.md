@@ -1,5 +1,62 @@
 ## Changelog
 
+
+### 1.0.2-beta.45
+
+*2021-05-28*
+
+#### Features
+- Feat VClickOutside: Expose mousedown and mouseup event object (#2038)
+#### Bugfixes
+- Fix Website: 'textContent' of undefined and text wrapping (#1973)
+- Fix DatePicker: attribute 'type' add ts declare (#1979)
+- Fix Table: fix sorting error #1919 (#1983)
+- Fix Table: fix v-if patch bug on el-table-column (#1988)
+- Fix Badge: should test is-dot class existed. (#1992)
+- Fix Dropdown: add additional css in dropdown (#1998)
+- Fix Notification: fix notification component zIndex prop can not work (#2021)
+- Fix Tabs: update the setCurrentName function. (#2030)
+- Fix DateTimePicker: respect format props and default value (#2034)
+- Fix Locale: japanese translations (#2050)
+- Fix Pagination: fix bug #2025 (#2062)
+- Fix Website: algolia search wrong search parameter (#2065)
+- Fix ScrollBar: perf behavior of bar click (#2066)
+- Fix DateTimePicker: allow clearable to control both of the clear button (#2072)
+#### Chore
+- Chore Tag: add specific type declaration (#1939)
+- Chore Docs: drawer.md add modal-class attribute (#1974)
+- Chore Transfer: remove useless button style (#1975)
+- Chore Badge: Remove unused type declarations (#1991)
+- Chore Table: refactored the type definition of table (#1997)
+- Chore Result: it should verify that text is inserted in the slot (#2000)
+- Chore Website: webpackChunkName of jp doc map. (#2007)
+- Chore Docs: added dropdown disabled attribute for all languages (#2013)
+- Chore Tabs: remove unused code (#2019)
+- Chore Tabs: add tabs type's definition (#2020)
+- Chore TabNav: use same throw error utils function. (#2022)
+- Chore add button click type's definition (#2026)
+- Chore Tab: remove meaningless parentheses (#2033)
+- Chore Docs: update the 'value' property to 'ModelValue' (#2044)
+- Chore ScrollBar: add scrollbar type's definition (#2057)
+- Chore Style: remove useless style (#2058)
+- Chore Project: bump sass from 1.26.10 to 1.34.0 (#2060)
+- Chore Docs: value -> model-value in vue 3 (#2067)
+
+
+### 1.0.2-beta.44
+
+*2021-05-11*
+
+#### Bug fixes
+- Hot fix for #1980 (#1981)
+
+
+### 1.0.2-beta.43
+
+*2021-05-10*
+
+#### Bug fixes
+- Fix DateTimePicker positioning issue (#1980, #1981)
 ### 1.0.2-beta.42
 
 *2021-05-09*
