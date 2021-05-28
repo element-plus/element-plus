@@ -362,7 +362,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         inputRef.value.focus?.()
         onUpdateInputValue('')
       }
-      states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+      if (props.filterable) {
+        states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+      }
       resetInputHeight()
     } else {
       selectedIndex.value = index

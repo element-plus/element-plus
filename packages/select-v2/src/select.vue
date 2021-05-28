@@ -83,7 +83,6 @@
               </div>
             </template>
             <div
-              v-if="filterable"
               class="el-select-v2__selected-item el-select-v2__input-wrapper"
               :style="inputWrapperStyle"
             >
@@ -100,6 +99,7 @@
                 class="el-select-v2__combobox-input"
                 :disabled="disabled"
                 role="combobox"
+                :readonly="!filterable"
                 spellcheck="false"
                 type="text"
                 :name="name"
@@ -114,6 +114,7 @@
                 @keydown.delete.stop="handleDel"
               >
               <span
+                v-if="filterable"
                 ref="calculatorRef"
                 aria-hidden="true"
                 class="el-select-v2__input-calculator"
@@ -124,7 +125,6 @@
           </div>
           <template v-else>
             <div
-              v-if="filterable"
               class="el-select-v2__selected-item el-select-v2__input-wrapper"
             >
               <input
@@ -141,19 +141,21 @@
                 :disabled="disabled"
                 :name="name"
                 role="combobox"
+                :readonly="!filterable"
                 spellcheck="false"
                 type="text"
                 :unselectable="expanded ? 'on' : undefined"
-                @update:modelValue="onUpdateInputValue"
                 @click.stop.prevent="handleInputBoxClick"
+                @compositionend="onInput"
+                @compositionupdate="onCompositionUpdate"
                 @focus="handleFocus"
                 @input="onInput"
-                @compositionupdate="onCompositionUpdate"
-                @compositionend="onInput"
                 @keydown.esc.stop.prevent="handleEsc"
+                @update:modelValue="onUpdateInputValue"
               >
             </div>
             <span
+              v-if="filterable"
               ref="calculatorRef"
               aria-hidden="true"
               class="el-select-v2__selected-item el-select-v2__input-calculator"

@@ -294,10 +294,6 @@ $--input-inline-start: 7px !default;
     }
   }
 
-  .#{$namespace}-tag__close {
-    margin-top: -2px;
-  }
-
   .#{$namespace}-select__selection .#{$namespace}-tag {
     box-sizing: border-box;
     border-color: transparent;

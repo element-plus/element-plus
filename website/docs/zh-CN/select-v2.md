@@ -18,30 +18,18 @@
     :options="options"
     placeholder="请选择"
     style="width: 200px;"
-    filterable
   />
 </template>
 
 <script>
+  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
   export default {
     data() {
       return {
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
+        options: Array.from({ length: 1000 }).map((_, idx) => ({
+          value: `选项${idx + 1}`,
+          label: `${initials[idx % 10]}${idx}`
+        })),
         value: ''
       }
     }
@@ -49,6 +37,38 @@
 </script>
 
 ```
+:::
 
 
+### 多选
+
+:::demo 最基础的多选选择器
+
+```html
+<template>
+  <el-select-v2
+    v-model="value"
+    :options="options"
+    placeholder="请选择"
+    style="width: 200px;"
+    multiple
+  />
+</template>
+
+<script>
+  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+  export default {
+    data() {
+      return {
+        options: Array.from({ length: 1000 }).map((_, idx) => ({
+          value: `选项${idx + 1}`,
+          label: `${initials[idx % 10]}${idx}`
+        })),
+        value: []
+      }
+    }
+  }
+</script>
+
+```
 :::
