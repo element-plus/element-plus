@@ -22,6 +22,18 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { ref } from 'vue'
+
+  export default {
+    setup() {
+      const radio = ref('1');
+      return { radio }
+    }
+  }
+</setup>
+-->
 ```
 :::
 

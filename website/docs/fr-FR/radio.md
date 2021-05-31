@@ -22,6 +22,18 @@ Radio ne devrait pas avoir trop d'options. Dans ce cas utilisez plutôt Select.
     }
   }
 </script>
+<!--
+<setup>
+  import { ref } from 'vue'
+
+  export default {
+    setup() {
+      const radio = ref('1');
+      return { radio }
+    }
+  }
+</setup>
+-->
 ```
 :::
 
