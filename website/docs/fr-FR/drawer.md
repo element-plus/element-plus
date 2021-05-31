@@ -278,6 +278,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | title | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form | string | — | — |
 | model-value / v-model | Should Drawer be displayed | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
+| modal-class | Extra class names for shadowing layer | string | - | - 
 
 ### Drawer Slot
 

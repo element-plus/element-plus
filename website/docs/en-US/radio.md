@@ -14,16 +14,26 @@ Radio should not have too many options. Otherwise, use the Select component inst
 </template>
 
 <script>
-  import { ref } from 'vue'
   export default {
-    setup() {
-      const radio = ref('1')
+    data () {
       return {
-        radio
-      }
+        radio: '1'
+      };
     }
   }
 </script>
+<!--
+<setup>
+  import { ref } from 'vue'
+
+  export default {
+    setup() {
+      const radio = ref('1');
+      return { radio }
+    }
+  }
+</setup>
+-->
 ```
 :::
 
@@ -177,7 +187,7 @@ Radio with button styles.
 
  Attribute      | Description          | Type      | Accepted Values       | Default
 ---- | ---- | ---- | ---- | ----
-value / v-model | binding value | string / number / boolean | — | —
+model-value / v-model | binding value | string / number / boolean | — | —
 label | the value of Radio | string / number / boolean | — | —
 disabled | whether Radio is disabled | boolean | — | false
 border  | whether to add a border around Radio  | boolean   | — | false
@@ -194,7 +204,7 @@ name | native 'name' attribute | string    |      —         |     —
 
  Attribute      | Description          | Type      | Accepted Values       | Default
 ---- | ---- | ---- | ---- | ----
-value / v-model | binding value | string / number / boolean | — | —
+model-value / v-model | binding value | string / number / boolean | — | —
 size | the size of radio buttons or bordered radios | string | medium / small / mini | —
 disabled  | whether the nesting radios are disabled | boolean   | — | false
 text-color | font color when button is active | string   | — | #ffffff   |

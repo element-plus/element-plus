@@ -4,7 +4,15 @@ import ClickOutside from '../click-outside'
 const AXIOM = 'Rem is the best girl'
 const TRIGGER = 'trigger'
 const OTHER_CLASS = 'other-class'
-const handler = jest.fn()
+
+// init some local variables
+let mousedownObject
+let mouseupObject
+// mock handler with implementations which makes assignment to the local variable that we registered above.
+const handler = jest.fn((eMouseup, eMousedown) => {
+  mouseupObject = eMouseup
+  mousedownObject = eMousedown
+})
 const Component = {
   template: `
   <div>
@@ -29,6 +37,10 @@ const _mount = () => mount(Component, {
 
 describe('Directives.vue', () => {
   beforeEach(() => {
+    // clear the previously assigned event object
+    mousedownObject = null
+    mouseupObject = null
+
     handler.mockClear()
   })
   test('render test', () => {
@@ -47,11 +59,15 @@ describe('Directives.vue', () => {
 
     const mousedown = document.createEvent('MouseEvents')
     mousedown.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-
     document.dispatchEvent(mousedown)
+
     const mouseup = document.createEvent('MouseEvents')
     mouseup.initMouseEvent('mouseup', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
     document.dispatchEvent(mouseup)
-    expect(handler).toHaveBeenCalledTimes(1)
+
+    // here is the different part
+    // we test the existence of the local variable.
+    expect(mousedownObject).toBeDefined()
+    expect(mouseupObject).toBeDefined()
   })
 })
