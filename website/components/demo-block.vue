@@ -128,14 +128,6 @@ export default {
       return this.$el.getElementsByClassName('meta')[0]
     },
 
-    codeAreaHeight() {
-      if (this.$el.getElementsByClassName('description').length > 0) {
-        return this.$el.getElementsByClassName('description')[0].clientHeight +
-            this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
-      }
-      return this.$el.getElementsByClassName('highlight')[0].clientHeight
-    },
-
     displayDemoCode () {
       return this.showSetup ? this.codepen.setup : this.codepen.script
     },
@@ -143,7 +135,7 @@ export default {
 
   watch: {
     isExpanded(val) {
-      this.codeArea.style.height = val ? `${ this.codeAreaHeight + 1 }px` : '0'
+      this.setCodeAreaHeight()
       if (!val) {
         this.fixedControl = false
         this.$refs.control.style.left = '0'
@@ -190,6 +182,16 @@ export default {
   },
 
   methods: {
+    getCodeAreaHeight() {
+      if (this.$el.getElementsByClassName('description').length > 0) {
+        return this.$el.getElementsByClassName('description')[0].clientHeight +
+            this.$el.getElementsByClassName('highlight')[0].clientHeight + 20
+      }
+      return this.$el.getElementsByClassName('highlight')[0].clientHeight
+    },
+    setCodeAreaHeight () {
+      this.codeArea.style.height = this.isExpanded ? `${ this.getCodeAreaHeight() + 1 }px` : '0'
+    },
     prettyCode () {
       nextTick(() => {
         const highlight = this.$el.querySelector('.highlight')
@@ -217,6 +219,7 @@ ${'</sc' + 'ript>'}
     onSwitchSyntax () {
       this.showSetup = !this.showSetup
       this.prettyCode()
+      this.$nextTick(this.setCodeAreaHeight)
     },
     copy() {
       const res = clipboardCopy(`

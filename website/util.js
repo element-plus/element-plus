@@ -18,14 +18,16 @@ export function stripTemplate(content) {
     .trim()
 }
 
+const setupCommentGlobalRegx = /<!--[\r?\n|\r]?(<setup>[\s\S]+)-->/g
 export function removeSetup (content) {
   return content
-    .replace(/<!--([\s\S]+)-->/g, '')
+    .replace(setupCommentGlobalRegx, '')
     .trim()
 }
 
+const setupCommentRegx = /<!--[\r?\n|\r]?(<setup>[\s\S]+)-->/
 export function stripSetup(content) {
-  const result = content.match(/<!--([\s\S]+)-->/)
+  const result = content.match(setupCommentRegx)
   const comment = result && result[1] ? result[1].trim() : ''
   if (!comment) return comment
   const result2 = comment.match(/<(setup)>([\s\S]+)<\/\1>/)
