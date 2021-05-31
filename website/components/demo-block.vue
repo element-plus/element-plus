@@ -435,7 +435,7 @@ ${this.codepen.style}
       .control-button-container-left {
         left: 0;
         width: 100px;
-        padding-left: 25px;
+        padding-left: 14px; // 14 + 10 = 24px .hljs code padding left 24
       }
 
       .control-button {
