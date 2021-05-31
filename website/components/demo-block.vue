@@ -36,7 +36,7 @@
           class="control-button"
           @click.stop="onSwitchSyntax"
         >
-          {{ showSetup? langConfig['switch-button-option-text'] : langConfig['switch-button-setup-text'] }}
+          {{ showSetup ? langConfig['switch-button-option-text'] : langConfig['switch-button-setup-text'] }}
         </el-button>
       </div>
       <div class="control-button-container">
@@ -82,7 +82,7 @@ const stripTemplateAndRemoveTemplate = code => {
   return result
 }
 const sanitizeHTML = str => {
-  var temp = document.createElement('div')
+  const temp = document.createElement('div')
   temp.textContent = str
   return temp.innerHTML
 }
