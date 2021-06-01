@@ -333,6 +333,17 @@ Attention à la capitalisation !
       format="YYYY/MM/DD">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">Utilise value-format</span>
+    <div class="demonstration">Value：{{ value2 }}</div>
+    <el-date-picker
+      v-model="value2"
+      type="date"
+      placeholder="Sélectionnez une date"
+      format="YYYY/MM/DD"
+      value-format="YYYY-MM-DD">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -409,6 +420,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | range-separator | Séparateur de plage de dates. | string | — | '-' |
 | default-value | Date par défaut du calendrier, optionnelle. | Date | Tout ce qui est accepté par `new Date()` | — |
 | default-time | optional, the time value to use when selecting date range | Date[] | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | — |
+| value-format | Format de la variable stockée, optionnel. Si non spécifié, la valeur sera un objet Date. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date). | — |
 | name | Identique au `name` de l'input natif | string | — | — |
 | unlink-panels | Rend indépendants les deux panneaux de plage de dates. | boolean | — | false |
 | prefix-icon | Icône de préfixe. | string | — | el-icon-date |

@@ -13,6 +13,9 @@ export const defaultProps = {
   format: {
     type: String,
   },
+  valueFormat: {
+    type: String as PropType<string>,
+  },
   type: {
     type: String,
     default: '',
