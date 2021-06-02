@@ -210,7 +210,7 @@ export default defineComponent({
       type: String,
     },
     tabindex: {
-      type: String,
+      type: Number,
     },
     validateEvent: {
       type: Boolean,
