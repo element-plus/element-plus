@@ -91,7 +91,7 @@ export default defineComponent({
       if (props.target) {
         el.value = document.querySelector(props.target)
         if (!el.value) {
-         throwError(scope, `target is not existed: ${props.target}`)
+          throwError(scope, `target is not existed: ${props.target}`)
         }
         container.value = el.value
       }
