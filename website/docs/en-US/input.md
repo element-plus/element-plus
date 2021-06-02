@@ -631,7 +631,7 @@ export default defineComponent ({
 |autofocus | same as `autofocus` in native input | boolean | — | false |
 |form | same as `form` in native input | string | — | — |
 | label | label text | string | — | — |
-| tabindex | input tabindex | string | - | - |
+| tabindex | input tabindex | string / number | - | - |
 | validate-event | whether to trigger form validation | boolean | - | true |
 
 ### Input slots

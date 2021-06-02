@@ -103,7 +103,7 @@ export default defineComponent({
       default: 150,
     },
     tabindex: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     effect: {
