@@ -144,7 +144,7 @@ export default defineComponent({
     })
 
     const isLast = computed(() => {
-      return index.value === 0
+      return index.value === props.urlList.length - 1
     })
 
     const currentImg = computed(() => {

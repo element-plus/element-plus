@@ -20,6 +20,18 @@ El elemento Radio no debe tener muchas opciones. De otra manera, utilice el comp
     }
   }
 </script>
+<!--
+<setup>
+  import { ref } from 'vue'
+
+  export default {
+    setup() {
+      const radio = ref('1');
+      return { radio }
+    }
+  }
+</setup>
+-->
 ```
 :::
 

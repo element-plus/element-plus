@@ -30,6 +30,7 @@ import { addResizeListener, removeResizeListener } from '@element-plus/utils/res
 import { addUnit, isArray, isString, toObject } from '@element-plus/utils/util'
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import Bar from './bar.vue'
+import type { CSSProperties, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElScrollbar',
@@ -48,7 +49,7 @@ export default defineComponent({
       default: false,
     },
     wrapStyle: {
-      type: [String, Array],
+      type: [String, Array] as PropType<string | CSSProperties[]>,
       default: '',
     },
     wrapClass: {
