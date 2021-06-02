@@ -66,9 +66,9 @@
 
             <template v-else>
               <div
-                v-for="(selected, idx) in modelValue"
+                v-for="(selected, idx) in states.cachedOptions"
                 :key="idx"
-                class="el-select__selected-item"
+                class="el-select-v2__selected-item"
               >
                 <el-tag
                   :key="getValueKey(selected)"
@@ -167,7 +167,12 @@
             v-if="shouldShowPlaceholder"
             :class="{
               'el-select-v2__placeholder': true,
-              'is-transparent': states.isComposing || (placeholder && !modelValue),
+              'is-transparent': states.isComposing
+                || (
+                  placeholder && multiple
+                    ? modelValue.length === 0
+                    : !modelValue
+                ),
             }"
           >
             {{ currentPlaceholder }}

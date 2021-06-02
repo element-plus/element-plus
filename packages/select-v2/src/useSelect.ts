@@ -12,8 +12,7 @@ import {
   isArray,
   isFunction,
   isObject,
-  isString,
-  toRawType,
+
 } from '@vue/shared'
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
@@ -51,6 +50,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     displayInputValue: DEFAULT_INPUT_PLACEHOLDER,
     calculatedWidth: 0,
     cachedPlaceholder: '',
+    cachedOptions: [] as Option[],
     createdOptions: [] as Option[],
     createdLabel: '',
     createdSelected: false,
@@ -71,7 +71,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   // data refs
-  const selectedIndices = ref<Array<number>>([])
   const selectedIndex = ref(-1)
 
   // DOM & Component refs
@@ -156,7 +155,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const selectSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
 
-  const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
+  const collapseTagSize = computed(() => selectSize.value)
 
   const popperSize = computed(() => {
     return selectRef.value?.getBoundingClientRect?.()?.width || 200
@@ -199,6 +198,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     inputRef.value.focus?.()
     popper.value.update?.()
   }
+
   const toggleMenu = () => {
     if (props.automaticDropdown) return
     if (!selectDisabled.value) {
@@ -251,16 +251,16 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const handleComposition = event => {
-    const text = event.target.value
-    if (event.type === 'compositionend') {
-      states.isOnComposition = false
-      nextTick(() => handleQueryChange(text))
-    } else {
-      const lastCharacter = text[text.length - 1] || ''
-      states.isOnComposition = !isKorean(lastCharacter)
-    }
-  }
+  // const handleComposition = event => {
+  //   const text = event.target.value
+  //   if (event.type === 'compositionend') {
+  //     states.isOnComposition = false
+  //     nextTick(() => handleQueryChange(text))
+  //   } else {
+  //     const lastCharacter = text[text.length - 1] || ''
+  //     states.isOnComposition = !isKorean(lastCharacter)
+  //   }
+  // }
 
   const onInputChange = () => {
     if (props.filterable && states.inputValue !== states.selectedLabel) {
@@ -340,17 +340,21 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const onSelect = (option: Option, index: number, byClick = true) => {
+  const onSelect = (option: Option, idx: number, byClick = true) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
+
       const index = getValueIndex(selectedOptions, option.value)
       if (index > -1) {
         selectedOptions = [
           ...selectedOptions.slice(0, index),
           ...selectedOptions.slice(index + 1),
         ]
+        states.cachedOptions.splice(index, 1)
+
       } else if (props.multipleLimit <= 0 || selectedOptions.length < props.multipleLimit) {
         selectedOptions = [...selectedOptions, option.value]
+        states.cachedOptions.push(option)
       }
       update(selectedOptions)
       if (option.created) {
@@ -367,7 +371,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
       resetInputHeight()
     } else {
-      selectedIndex.value = index
+      selectedIndex.value = idx
       states.selectedLabel = option.label
       update(option.value)
       expanded.value = false
@@ -381,14 +385,16 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     })
   }
 
-  const deleteTag = (event, tag) => {
-    const index = (props.modelValue as Array<any>).indexOf(tag)
+  const deleteTag = (event: MouseEvent, tag: Option) => {
+
+    const index = (props.modelValue as Array<any>).indexOf(tag.value)
 
     if (index > -1 && !selectDisabled.value) {
       const value = [
         ...(props.modelValue as Array<unknown>).slice(0, index),
         ...(props.modelValue as Array<unknown>).slice(index + 1),
       ]
+      states.cachedOptions.splice(index, 1)
       update(value)
       emit('remove-tag', tag.value)
       states.softFocus = true
@@ -427,10 +433,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     states.isComposing = false
     states.softFocus = false
+
     // reset input value when blurred
     // https://github.com/ElemeFE/element/pull/10822
     nextTick(() => {
       inputRef.value?.blur?.()
+      if (calculatorRef.value) {
+        states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+      }
+
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
@@ -456,6 +467,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       e.preventDefault()
       const selected = (props.modelValue as Array<any>).slice()
       selected.pop()
+      states.cachedOptions.pop()
       update(selected)
     }
   }
@@ -570,13 +582,31 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   onMounted(() => {
+    if (props.multiple) {
+      if ((props.modelValue as Array<any>).length > 0) {
+        (props.modelValue as Array<any>).map(selected => {
+          const item = props.options.find(option => option.value === selected)
+          if (item) {
+            states.cachedOptions.push(item as Option)
+          }
+        })
+      }
+    } else {
+      if (props.modelValue) {
+        const selectedItem = props.options.find(o => o.value === props.modelValue)
+
+        if (selectedItem) {
+          states.selectedLabel = selectedItem.label
+        }
+      }
+    }
+
     addResizeListener(selectRef.value, handleResize)
   })
 
   onBeforeMount(() => {
     removeResizeListener(selectRef.value, handleResize)
   })
-
 
   return {
     // data exports
@@ -593,7 +623,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     // readonly,
     shouldShowPlaceholder,
     selectDisabled,
-    selectedIndices,
     selectSize,
     showClearBtn,
     states,

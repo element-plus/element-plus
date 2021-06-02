@@ -72,3 +72,37 @@
 
 ```
 :::
+
+### 可筛选的多选
+
+:::demo 当选项过多时，可通过匹配筛选
+
+```html
+<template>
+  <el-select-v2
+    v-model="value"
+    filterable
+    :options="options"
+    placeholder="请选择"
+    style="width: 200px;"
+    multiple
+  />
+</template>
+
+<script>
+  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+  export default {
+    data() {
+      return {
+        options: Array.from({ length: 1000 }).map((_, idx) => ({
+          value: `选项${idx + 1}`,
+          label: `${initials[idx % 10]}${idx}`
+        })),
+        value: [],
+      }
+    }
+  }
+</script>
+
+```
+:::

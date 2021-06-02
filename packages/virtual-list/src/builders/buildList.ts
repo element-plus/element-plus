@@ -2,7 +2,6 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  reactive,
   ref,
   nextTick,
   onMounted,
