@@ -633,6 +633,7 @@ export default defineComponent ({
 | label | label text | string | — | — |
 | tabindex | input tabindex | string / number | - | - |
 | validate-event | whether to trigger form validation | boolean | - | true |
+| input-style | the style of the input element or textarea element | object | - | {} |
 
 ### Input slots
 

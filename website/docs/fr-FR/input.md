@@ -632,6 +632,7 @@ export default defineComponent ({
 | label | Texte du label. | string | — | — |
 | tabindex | tabindex de l'input. | string / number | - | - |
 | validate-event | Si la validation doit avoir lieu. | boolean | - | true |
+| input-style | the style of the input element or textarea element | object | - | {} |
 
 ### Slots de l'Input
 

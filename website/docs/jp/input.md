@@ -684,6 +684,7 @@ Attribute | Description | Type | Options | Default
 | hide-loading | リモート検索で読み込みアイコンを非表示にするかどうか | boolean | — | false |
 | popper-append-to-body | ドロップダウンをボディに追加するかどうかを指定します。ドロップダウンの位置が間違っている場合は、このプロップをfalseに設定してみてください。 | boolean | - | false |
 | highlight-first-item | リモート検索サジェスチョンの最初の項目をデフォルトで強調表示するかどうか | boolean | — | false |
+| input-style | the style of the input element or textarea element | object | - | {} |
 
 ### オートコンプリートスロット
 
