@@ -433,7 +433,7 @@ export default defineComponent({
 
       if (tagWrapperEl) {
         const { offsetHeight } = tagWrapperEl
-        const height = Math.max(offsetHeight + 6, inputInitialHeight) + 'px'
+        const height = presentTags.value.length > 0 ? Math.max(offsetHeight + 6, inputInitialHeight) + 'px' : `${inputInitialHeight}px`
         inputInner.style.height = height
         updatePopperPosition()
       }

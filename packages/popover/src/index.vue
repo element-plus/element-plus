@@ -45,7 +45,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    tabindex: Number,
+    tabindex: [String, Number],
   },
   emits,
   setup(props, ctx) {

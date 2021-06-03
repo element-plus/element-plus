@@ -1,6 +1,26 @@
 ## Changelog
 
 
+### 1.0.2-beta.46
+
+#### Features
+- Feat website: demo Composition API (#2099)
+- Feat Input: add input-style prop (#2117) 
+
+#### Bugfixes
+- Fix Col: should hidden when span is zero (#1769)
+- Fix Table: hot reload (#2077) (#2097)
+- Fix Popper: in dialog isn't enough space to position problem (#2102)
+- Fix ImageViewer: isLast attribute calculation error issue (#1902) (#2125)
+- Fix Popper: tabindex prop type (#2130)
+- Fix Locale: week translations for hr locale (#2134)
+- Fix Cascader: size issue when filterable and multiple are enabled (#2123)
+
+#### Chore
+- Chore Website: update radio VCA doc (#2111)
+- Chore Project: esbuild for single component build (#2112)
+- Chore Website: use built-in throwError function. (#2131) 
+
 ### 1.0.2-beta.45
 
 *2021-05-28*

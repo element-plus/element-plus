@@ -14,16 +14,26 @@ Radio should not have too many options. Otherwise, use the Select component inst
 </template>
 
 <script>
-  import { ref } from 'vue'
   export default {
-    setup() {
-      const radio = ref('1')
+    data () {
       return {
-        radio
-      }
+        radio: '1'
+      };
     }
   }
 </script>
+<!--
+<setup>
+  import { ref } from 'vue'
+
+  export default {
+    setup() {
+      const radio = ref('1');
+      return { radio }
+    }
+  }
+</setup>
+-->
 ```
 :::
 
