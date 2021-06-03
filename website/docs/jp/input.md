@@ -631,7 +631,7 @@ export default defineComponent ({
 |autofocus | ネイティブインプットの `autofocus` と同じ | boolean | — | false |
 |form | ネイティブインプットの `form` と同じ | string | — | — |
 | label | ラベルインデックス | string | — | — |
-| tabindex | インプットタビインデックス | string | - | - |
+| tabindex | インプットタビインデックス | string / number | - | - |
 | validate-event | フォームバリデーションをトリガするかどうか | boolean | - | true |
 
 ### インプットスロット
