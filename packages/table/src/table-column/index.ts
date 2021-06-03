@@ -12,84 +12,22 @@ import {
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
 import ElCheckbox from '@element-plus/checkbox'
-import { TableColumnCtx, TableColumn } from '../table.type'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
+import defaultProps, { TableColumn, TableColumnCtx } from './defaults'
+import { DefaultRow } from '../table/defaults'
 
 let columnIdSeed = 1
+
 export default defineComponent({
   name: 'ElTableColumn',
   components: {
     ElCheckbox,
   },
-  props: {
-    type: {
-      type: String,
-      default: 'default',
-    },
-    label: String,
-    className: String,
-    labelClassName: String,
-    property: String,
-    prop: String,
-    width: {
-      type: [Object, Number, String],
-      default: () => {
-        return {}
-      },
-    },
-    minWidth: {
-      type: [Object, Number, String],
-      default: () => {
-        return {}
-      },
-    },
-    renderHeader: Function,
-    sortable: {
-      type: [Boolean, String],
-      default: false,
-    },
-    sortMethod: Function,
-    sortBy: [String, Function, Array],
-    resizable: {
-      type: Boolean,
-      default: true,
-    },
-    columnKey: String,
-    align: String,
-    headerAlign: String,
-    showTooltipWhenOverflow: Boolean,
-    showOverflowTooltip: Boolean,
-    fixed: [Boolean, String],
-    formatter: Function,
-    selectable: Function,
-    reserveSelection: Boolean,
-    filterMethod: Function,
-    filteredValue: Array,
-    filters: Array,
-    filterPlacement: String,
-    filterMultiple: {
-      type: Boolean,
-      default: true,
-    },
-    index: [Number, Function],
-    sortOrders: {
-      type: Array,
-      default () {
-        return ['ascending', 'descending', null]
-      },
-      validator (val: unknown[]) {
-        return val.every(
-          (order: string) =>
-            ['ascending', 'descending', null].indexOf(order) > -1,
-        )
-      },
-    },
-  },
-  setup (prop, { slots }) {
-    const instance = getCurrentInstance() as TableColumn
-    const columnConfig = ref<Partial<TableColumnCtx>>({})
-    const props = (prop as unknown) as TableColumnCtx
+  props: defaultProps,
+  setup(props, { slots }) {
+    const instance = getCurrentInstance() as TableColumn<DefaultRow>
+    const columnConfig = ref<Partial<TableColumnCtx<DefaultRow>>>({})
     const owner = computed(() => {
       let parent = instance.parent as any
       while (parent && !parent.tableId) {
@@ -113,7 +51,7 @@ export default defineComponent({
       getPropsData,
       getColumnElIndex,
       realAlign,
-    } = useRender(props, slots, owner)
+    } = useRender((props as unknown) as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
     columnId.value =
@@ -142,6 +80,8 @@ export default defineComponent({
         sortable: sortable,
         // index 列
         index: props.index,
+        // <el-table-column key="xxx" />
+        rawColumnKey: instance.vnode.key,
       }
 
       const basicProps = [
@@ -211,15 +151,25 @@ export default defineComponent({
     instance.columnConfig = columnConfig
     return
   },
-  render () {
+  render() {
     let children = []
     try {
-      const renderDefault = this.$slots.default?.({ row: {}, column: {}, $index: -1 })
+      const renderDefault = this.$slots.default?.({
+        row: {},
+        column: {},
+        $index: -1,
+      })
       if (renderDefault instanceof Array) {
         for (const childNode of renderDefault) {
-          if (childNode.type?.name === 'ElTableColumn' || childNode.shapeFlag !== 36) {
+          if (
+            childNode.type?.name === 'ElTableColumn' ||
+            childNode.shapeFlag !== 36
+          ) {
             children.push(childNode)
-          } else if (childNode.type === Fragment && childNode.children instanceof Array) {
+          } else if (
+            childNode.type === Fragment &&
+            childNode.children instanceof Array
+          ) {
             renderDefault.push(...childNode.children)
           }
         }

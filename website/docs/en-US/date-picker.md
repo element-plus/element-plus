@@ -333,6 +333,17 @@ Pay attention to capitalization
       format="YYYY/MM/DD">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">Use value-format</span>
+    <div class="demonstration">Value：{{ value2 }}</div>
+    <el-date-picker
+      v-model="value2"
+      type="date"
+      placeholder="Pick a Date"
+      format="YYYY/MM/DD"
+      value-format="YYYY-MM-DD">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -340,6 +351,7 @@ Pay attention to capitalization
     data() {
       return {
         value1: '',
+        value2: ''
       };
     }
   };
@@ -391,7 +403,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | binding value | date(DatePicker) / array(DateRangePicker) | — | — |
+| model-value / v-model | binding value | date(DatePicker) / array(DateRangePicker) | — | — |
 | readonly | whether DatePicker is read only | boolean | — | false |
 | disabled | whether DatePicker is disabled | boolean | — | false |
 | size | size of Input | string | large/medium/small/mini  | large |
@@ -407,6 +419,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | range-separator | range separator | string | — | '-' |
 | default-value | optional, default date of the calendar | Date | anything accepted by `new Date()` | — |
 | default-time | optional, the time value to use when selecting date range | Date[] | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | — |
+| value-format | optional, format of binding value. If not specified, the binding value will be a Date object | string | see [date formats](#/en-US/component/date-picker#date-formats) | — |
 | name | same as `name` in native input | string | — | — |
 | unlink-panels | unlink two date-panels in range-picker | boolean | — | false |
 | prefix-icon | Custom prefix icon class | string | — | el-icon-date |

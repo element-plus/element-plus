@@ -3,19 +3,15 @@ import { hasOwn } from '@vue/shared'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
-import {
-  AnyObject,
-  Table,
-  Store,
-  TableHeader,
-  TableColumnCtx,
-} from './table.type'
-
-class TableLayout {
+import { TableColumnCtx } from './table-column/defaults'
+import { TableHeader } from './table-header/index'
+import { Table } from './table/defaults'
+import { Store } from './store/index'
+class TableLayout<T> {
   observers: TableHeader[]
-  table: Table
-  store: Store
-  columns: TableColumnCtx[]
+  table: Table<T>
+  store: Store<T>
+  columns: TableColumnCtx<T>[]
   fit: boolean
   showHeader: boolean
 
@@ -33,7 +29,7 @@ class TableLayout {
   bodyHeight: Ref<null | number> // Table Height - Table Header Height
   fixedBodyHeight: Ref<null | number> // Table Height - Table Header Height - Scroll Bar Height
   gutterWidth: number
-  constructor (options: AnyObject) {
+  constructor(options: Record<string, any>) {
     this.observers = []
     this.table = null
     this.store = null
@@ -71,7 +67,7 @@ class TableLayout {
     }
   }
 
-  updateScrollY () {
+  updateScrollY() {
     const height = this.height.value
     /**
      * When the height is not initialized, it is null.
@@ -99,7 +95,7 @@ class TableLayout {
     return false
   }
 
-  setHeight (value: string | number, prop = 'height') {
+  setHeight(value: string | number, prop = 'height') {
     if (isServer) return
     const el = this.table.vnode.el
     value = parseHeight(value)
@@ -117,11 +113,11 @@ class TableLayout {
     }
   }
 
-  setMaxHeight (value: string | number) {
+  setMaxHeight(value: string | number) {
     this.setHeight(value, 'max-height')
   }
 
-  getFlattenColumns (): TableColumnCtx[] {
+  getFlattenColumns(): TableColumnCtx<T>[] {
     const flattenColumns = []
     const columns = this.table.store.states.columns.value
     columns.forEach(column => {
@@ -136,25 +132,16 @@ class TableLayout {
     return flattenColumns
   }
 
-  updateElsHeight () {
+  updateElsHeight() {
     if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
-    const {
-      headerWrapper: headerWrapper_,
-      appendWrapper: appendWrapper_,
-      footerWrapper: footerWrapper_,
-    } = this.table.refs
-    const appendWrapper = appendWrapper_ as HTMLElement
-    const headerWrapper = headerWrapper_ as HTMLElement
-    const footerWrapper = footerWrapper_ as HTMLElement
+    const { headerWrapper, appendWrapper, footerWrapper } = this.table.refs
     this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
-
     if (this.showHeader && !headerWrapper) return
 
-    // fix issue (https://github.com/ElemeFE/element/pull/16956)
-    const headerTrElm = headerWrapper
+    const headerTrElm: HTMLElement = headerWrapper
       ? headerWrapper.querySelector('.el-table__header tr')
       : null
-    const noneHeader = this.headerDisplayNone(headerTrElm as HTMLElement)
+    const noneHeader = this.headerDisplayNone(headerTrElm)
 
     const headerHeight = (this.headerHeight.value = !this.showHeader
       ? 0
@@ -188,7 +175,7 @@ class TableLayout {
     this.notifyObservers('scrollable')
   }
 
-  headerDisplayNone (elm: HTMLElement) {
+  headerDisplayNone(elm: HTMLElement) {
     if (!elm) return true
     let headerChild = elm
     while (headerChild.tagName !== 'DIV') {
@@ -200,7 +187,7 @@ class TableLayout {
     return false
   }
 
-  updateColumnsWidth () {
+  updateColumnsWidth() {
     if (isServer) return
     const fit = this.fit
     const bodyWidth = this.table.vnode.el.clientWidth
@@ -217,7 +204,7 @@ class TableLayout {
     })
     if (flexColumns.length > 0 && fit) {
       flattenColumns.forEach(column => {
-        bodyMinWidth += column.width || column.minWidth || 80
+        bodyMinWidth += Number(column.width || column.minWidth || 80)
       })
 
       const scrollYWidth = this.scrollY.value ? this.gutterWidth : 0
@@ -230,10 +217,10 @@ class TableLayout {
 
         if (flexColumns.length === 1) {
           flexColumns[0].realWidth =
-            (flexColumns[0].minWidth || 80) + totalFlexWidth
+            Number(flexColumns[0].minWidth || 80) + totalFlexWidth
         } else {
           const allColumnsWidth = flexColumns.reduce(
-            (prev, column) => prev + (column.minWidth || 80),
+            (prev, column) => prev + Number(column.minWidth || 80),
             0,
           )
           const flexWidthPerPixel = totalFlexWidth / allColumnsWidth
@@ -242,20 +229,22 @@ class TableLayout {
           flexColumns.forEach((column, index) => {
             if (index === 0) return
             const flexWidth = Math.floor(
-              (column.minWidth || 80) * flexWidthPerPixel,
+              Number(column.minWidth || 80) * flexWidthPerPixel,
             )
             noneFirstWidth += flexWidth
-            column.realWidth = (column.minWidth || 80) + flexWidth
+            column.realWidth = Number(column.minWidth || 80) + flexWidth
           })
 
           flexColumns[0].realWidth =
-            (flexColumns[0].minWidth || 80) + totalFlexWidth - noneFirstWidth
+            Number(flexColumns[0].minWidth || 80) +
+            totalFlexWidth -
+            noneFirstWidth
         }
       } else {
         // HAVE HORIZONTAL SCROLL BAR
         this.scrollX.value = true
-        flexColumns.forEach(function (column) {
-          column.realWidth = column.minWidth
+        flexColumns.forEach(function(column) {
+          column.realWidth = Number(column.minWidth)
         })
       }
 
@@ -266,7 +255,7 @@ class TableLayout {
         if (!column.width && !column.minWidth) {
           column.realWidth = 80
         } else {
-          column.realWidth = column.width || column.minWidth
+          column.realWidth = Number(column.width || column.minWidth)
         }
         bodyMinWidth += column.realWidth
       })
@@ -279,8 +268,8 @@ class TableLayout {
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0
-      fixedColumns.forEach(function (column) {
-        fixedWidth += column.realWidth || column.width
+      fixedColumns.forEach(function(column) {
+        fixedWidth += Number(column.realWidth || column.width)
       })
 
       this.fixedWidth.value = fixedWidth
@@ -289,8 +278,8 @@ class TableLayout {
     const rightFixedColumns = this.store.states.rightFixedColumns.value
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0
-      rightFixedColumns.forEach(function (column) {
-        rightFixedWidth += column.realWidth || column.width
+      rightFixedColumns.forEach(function(column) {
+        rightFixedWidth += Number(column.realWidth || column.width)
       })
 
       this.rightFixedWidth.value = rightFixedWidth
@@ -298,18 +287,18 @@ class TableLayout {
     this.notifyObservers('columns')
   }
 
-  addObserver (observer: TableHeader) {
+  addObserver(observer: TableHeader) {
     this.observers.push(observer)
   }
 
-  removeObserver (observer: TableHeader) {
+  removeObserver(observer: TableHeader) {
     const index = this.observers.indexOf(observer)
     if (index !== -1) {
       this.observers.splice(index, 1)
     }
   }
 
-  notifyObservers (event: string) {
+  notifyObservers(event: string) {
     const observers = this.observers
     observers.forEach(observer => {
       switch (event) {

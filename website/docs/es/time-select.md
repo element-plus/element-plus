@@ -68,7 +68,7 @@ Si se escoge el tiempo de inicio al principio, el tiempo de finalización cambia
 ### Atributos
 | Atributo          | Descripción                              | Tipo                                     | Valores aceptados                        | Por defecto          |
 | ----------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | -------------------- |
-| value / v-model    | valor enlazado                           | string    | -                                        | -                    |
+| model-value / v-model    | valor enlazado                           | string    | -                                        | -                    |
 | editable          | si el input puede ser editado            | boolean                                  | —                                        | true                 |
 | clearable         | si mostrar el botón de borrado           | boolean                                  | —                                        | true                 |
 | size              | tamaño del input                         | string                                   | medium / small / mini                    | —                    |

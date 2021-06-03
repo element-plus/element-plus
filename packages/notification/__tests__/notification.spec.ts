@@ -5,6 +5,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import Notification from '../src/index.vue'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
+import PopupManager from '@element-plus/utils/popup-manager'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -38,7 +39,7 @@ describe('Notification.vue', () => {
       expect(vm.visible).toBe(true)
       expect(vm.typeClass).toBe('')
       expect(vm.horizontalClass).toBe('right')
-      expect(vm.positionStyle).toEqual({ top: '0px' })
+      expect(vm.positionStyle).toEqual({ top: '0px','z-index': 0 })
     })
 
     test('should be able to render VNode', () => {
@@ -79,6 +80,21 @@ describe('Notification.vue', () => {
       })
 
       expect(HTMLWrapper.find(`.${tagClass}`).exists()).toBe(false)
+    })
+
+    test('should be able to render z-index style with zIndex flag', () => {
+      const zIndex = PopupManager.nextZIndex()
+      const wrapper = _mount({
+        props:{
+          zIndex: zIndex,
+        },
+      })
+
+      const vm = wrapper.vm as ComponentPublicInstance<{
+        positionStyle: Record<string, string>
+      }>
+
+      expect(vm.positionStyle).toEqual({ top: '0px','z-index': zIndex })
     })
   })
 

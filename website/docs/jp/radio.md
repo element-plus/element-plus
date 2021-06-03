@@ -22,6 +22,18 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { ref } from 'vue'
+
+  export default {
+    setup() {
+      const radio = ref('1');
+      return { radio }
+    }
+  }
+</setup>
+-->
 ```
 :::
 
@@ -175,7 +187,7 @@
 
  Attribute      | Description          | Type      | Accepted Values       | Default
 ---- | ---- | ---- | ---- | ----
-value / v-model | バインド値 | string / number / boolean | — | —
+model-value / v-model | バインド値 | string / number / boolean | — | —
 label | ラジオの値 | string / number / boolean | — | —
 disabled | ラジオが無効になっているかどうか | boolean | — | false
 border  | ラジオの周りにボーダーを追加するかどうか  | boolean   | — | false
@@ -192,7 +204,7 @@ name | ネイティブ 'name' 属性 | string    |      —         |     —
 
  Attribute      | Description          | Type      | Accepted Values       | Default
 ---- | ---- | ---- | ---- | ----
-value / v-model | バインディング値 | string / number / boolean | — | —
+model-value / v-model | バインディング値 | string / number / boolean | — | —
 size | ラジオボタンのボーダーもしくはラジオボタンの大きさ | string | medium / small / mini | —
 disabled  | ネストしたラジオが無効になっているかどうか | boolean   | — | false
 text-color | ボタンがアクティブなときのフォント色 | string   | — | #ffffff   |

@@ -1,10 +1,10 @@
-import { Store, AnyObject } from '../table.type'
+import { Store } from '../store/index'
 
-function useUtils (store: Store) {
-  const setCurrentRow = (row: AnyObject) => {
+function useUtils<T>(store: Store<T>) {
+  const setCurrentRow = (row: T) => {
     store.commit('setCurrentRow', row)
   }
-  const toggleRowSelection = (row, selected) => {
+  const toggleRowSelection = (row: T, selected: boolean) => {
     store.toggleRowSelection(row, selected, false)
     store.updateAllSelected()
   }
@@ -17,13 +17,13 @@ function useUtils (store: Store) {
   const toggleAllSelection = () => {
     store.commit('toggleAllSelection')
   }
-  const toggleRowExpansion = (row, expanded) => {
+  const toggleRowExpansion = (row: T, expanded: boolean) => {
     store.toggleRowExpansionAdapter(row, expanded)
   }
   const clearSort = () => {
     store.clearSort()
   }
-  const sort = (prop, order) => {
+  const sort = (prop: string, order: string) => {
     store.commit('sort', { prop, order })
   }
 

@@ -39,8 +39,8 @@ export default defineComponent({
       default: true,
     },
     tabindex: {
-      type: Number,
-      default: 0,
+      type: [String, Number],
+      default: '0',
     },
   },
   emits: [UPDATE_MODEL_EVENT],

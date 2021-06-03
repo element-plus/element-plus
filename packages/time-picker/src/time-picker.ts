@@ -1,4 +1,4 @@
-import { defineComponent, h, ref } from 'vue'
+import { defineComponent, h, ref, provide } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { DEFAULT_FORMATS_TIME } from './common/constant'
@@ -29,6 +29,8 @@ export default defineComponent({
         commonPicker.value?.handleFocus()
       },
     }
+
+    provide('ElPopperOptions', props.popperOptions)
     ctx.expose(refProps)
     return () => h(Picker, {
       format: DEFAULT_FORMATS_TIME,

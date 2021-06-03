@@ -23,6 +23,18 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { ref } from 'vue'
+
+  export default {
+    setup() {
+      const radio = ref('1');
+      return { radio }
+    }
+  }
+</setup>
+-->
 ```
 :::
 
@@ -177,7 +189,7 @@
 ### Radio Attributes
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | 绑定值 | string / number / boolean | — | — |
+| model-value / v-model | 绑定值 | string / number / boolean | — | — |
 | label     | Radio 的 value   | string / number / boolean    |       —        |      —   |
 | disabled  | 是否禁用    | boolean   | — | false   |
 | border  | 是否显示边框  | boolean   | — | false   |
@@ -192,7 +204,7 @@
 ### Radio-group Attributes
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | 绑定值 | string / number / boolean | — | — |
+| model-value / v-model | 绑定值 | string / number / boolean | — | — |
 | size     | 单选框组尺寸，仅对按钮形式的 Radio 或带有边框的 Radio 有效   | string  | medium / small / mini |    —     |
 | disabled  | 是否禁用    | boolean   | — | false   |
 | text-color  | 按钮形式的 Radio 激活时的文本颜色    | string   | — | #ffffff   |

@@ -1,65 +1,58 @@
-/**
- * @deprecated use node api build
- */
-// import vue from 'rollup-plugin-vue'
-import typescript from 'rollup-plugin-typescript2'
+import vue from 'rollup-plugin-vue'
 import css from 'rollup-plugin-css-only'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-// import commonjs from '@rollup/plugin-commonjs'
-// import { terser } from 'rollup-plugin-terser'
+import esbuild from 'rollup-plugin-esbuild'
 import path from 'path'
 import { getPackagesSync } from '@lerna/project'
 import pkg from '../package.json'
+
+const noElPrefixFile = /(utils|directives|hooks|locale)/
+const getOutFile = (name, dir='lib') => {
+  const compName = name.split('@element-plus/')[1]
+  if(noElPrefixFile.test(name)) {
+    return `${dir}/${compName}/index.js`
+  }
+  return `${dir}/el-${compName}/index.js`
+}
+
 const deps = Object.keys(pkg.dependencies)
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const vue = require('./plugin.js')
 const inputs = getPackagesSync()
   .map(pkg => pkg.name)
   .filter(name =>
     name.includes('@element-plus') &&
-    !name.includes('transition') &&
     !name.includes('utils'),
   )
 
 export default inputs.map(name => ({
   input: path.resolve(__dirname, `../packages/${name.split('@element-plus/')[1]}/index.ts`),
-  output: {
+  output: [{
     format: 'es',
-    file: `lib/${name.split('@element-plus/')[1]}/index.js`,
+    file: getOutFile(name, 'es'),
     paths(id) {
       if (/^@element-plus/.test(id)) {
-        return id.replace('@element-plus', '..')
+        if (noElPrefixFile.test(id)) return id.replace('@element-plus', '..')
+        return id.replace('@element-plus/', '../el-')
       }
     },
-  },
+  },{
+    format: 'cjs',
+    file: getOutFile(name, 'lib'),
+    exports: 'named',
+    paths(id) {
+      if (/^@element-plus/.test(id)) {
+        if (noElPrefixFile.test(id)) return id.replace('@element-plus', '..')
+        return id.replace('@element-plus/', '../el-')
+      }
+    },
+  }],
   plugins: [
-    // terser({
-    //   module: true,
-    //   compress: {
-    //     ecma: 2015,
-    //     pure_getters: true,
-    //   },
-    // }),
-    nodeResolve(),
-    // commonjs(),
-    typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-        },
-        'exclude': [
-          'node_modules',
-          '__tests__',
-        ],
-      },
-      abortOnError: false,
-      clean: true,
-    }),
     css(),
     vue({
       target: 'browser',
       css: false,
     }),
+    nodeResolve(),
+    esbuild(),
   ],
   external(id) {
     return /^vue/.test(id)

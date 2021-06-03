@@ -137,7 +137,7 @@ import { defineComponent, ref } from 'vue'
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | バインディング値 | number | — | 0 |
+| model-value / v-model | バインディング値 | number | — | 0 |
 | max | 最大レーティングスコア | number | — | 5 |
 | disabled | レートが読み取り専用かどうか | boolean | — | false |
 | allow-half | ピッキングハーフスタートが許可されているか | boolean | — | false |

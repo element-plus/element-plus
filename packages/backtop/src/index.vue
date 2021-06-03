@@ -21,6 +21,7 @@ import { defineComponent, ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import throttle from 'lodash/throttle'
 import { on, off } from '@element-plus/utils/dom'
 import { easeInOutCubic } from '@element-plus/utils/animation'
+import throwError from '@element-plus/utils/error'
 
 interface IElBacktopProps {
   visibilityHeight: number
@@ -56,6 +57,7 @@ export default defineComponent({
     const visible = ref(false)
     const styleBottom = computed(() => `${props.bottom}px`)
     const styleRight = computed(() => `${props.right}px`)
+    const scope = 'ElBackTop'
 
     const scrollToTop = () => {
       const beginTime = Date.now()
@@ -88,7 +90,7 @@ export default defineComponent({
       if (props.target) {
         el.value = document.querySelector(props.target)
         if (!el.value) {
-          throw new Error(`target is not existed: ${props.target}`)
+          throwError(scope, `target is not existed: ${props.target}`)
         }
         container.value = el.value
       }

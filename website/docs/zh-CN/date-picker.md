@@ -331,6 +331,17 @@
       format="YYYY 年 MM 月 DD 日">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">使用value-format</span>
+    <div class="demonstration">值：{{ value2 }}</div>
+    <el-date-picker
+      v-model="value2"
+      type="date"
+      placeholder="选择日期"
+      format="YYYY 年 MM 月 DD 日"
+      value-format="YYYY/MM/DD">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -391,7 +402,7 @@
 ### Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | 绑定值 | date(DatePicker) / array(DateRangePicker) | — | — |
+| model-value / v-model | 绑定值 | date(DatePicker) / array(DateRangePicker) | — | — |
 | readonly | 完全只读 | boolean | — | false |
 | disabled | 禁用 | boolean | — | false |
 | editable | 文本框可输入 | boolean | — | true |
@@ -407,6 +418,7 @@
 | range-separator | 选择范围时的分隔符 | string | — | '-' |
 | default-value | 可选，选择器打开时默认显示的时间 | Date | 可被`new Date()`解析 | — |
 | default-time | 范围选择时选中日期所使用的当日内具体时刻 | Date[] | 数组，长度为 2，第一项指定开始日期的时刻，第二项指定结束日期的时刻，不指定会使用时刻 `00:00:00` | — |
+| value-format | 可选，绑定值的格式。不指定则绑定值为 Date 对象 | string | 见[日期格式](#/zh-CN/component/date-picker#ri-qi-ge-shi) | — |
 | name | 原生属性 | string | — | — |
 | unlink-panels | 在范围选择器里取消两个日期面板之间的联动 | boolean | — | false |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-date |

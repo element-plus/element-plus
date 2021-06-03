@@ -35,6 +35,7 @@
         :tabindex="tabindex"
         :aria-label="label"
         :placeholder="placeholder"
+        :style="inputStyle"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -88,7 +89,7 @@
       :disabled="inputDisabled"
       :readonly="readonly"
       :autocomplete="autocomplete"
-      :style="textareaStyle"
+      :style="computedTextareaStyle"
       :aria-label="label"
       :placeholder="placeholder"
       @compositionstart="handleCompositionStart"
@@ -210,11 +211,15 @@ export default defineComponent({
       type: String,
     },
     tabindex: {
-      type: String,
+      type: [Number, String],
     },
     validateEvent: {
       type: Boolean,
       default: true,
+    },
+    inputStyle: {
+      type: Object,
+      default: () => ({}),
     },
   },
 
@@ -235,14 +240,14 @@ export default defineComponent({
     const hovering = ref(false)
     const isComposing = ref(false)
     const passwordVisible = ref(false)
-    const _textareaCalcStyle = shallowRef({})
+    const _textareaCalcStyle = shallowRef(props.inputStyle)
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
     const inputSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
     const needStatusIcon = computed(() => elForm.statusIcon)
     const validateState = computed(() => elFormItem.validateState || '')
     const validateIcon = computed(() => VALIDATE_STATE_MAP[validateState.value])
-    const textareaStyle = computed(() => ({
+    const computedTextareaStyle = computed(() => ({
       ..._textareaCalcStyle.value,
       resize: props.resize,
     }))
@@ -286,9 +291,13 @@ export default defineComponent({
       if (autosize) {
         const minRows = isObject(autosize) ? autosize.minRows : void 0
         const maxRows = isObject(autosize) ? autosize.maxRows : void 0
-        _textareaCalcStyle.value = calcTextareaHeight(textarea.value, minRows, maxRows)
+        _textareaCalcStyle.value = {
+          ...props.inputStyle,
+          ...calcTextareaHeight(textarea.value, minRows, maxRows),
+        }
       } else {
         _textareaCalcStyle.value = {
+          ...props.inputStyle,
           minHeight: calcTextareaHeight(textarea.value).minHeight,
         }
       }
@@ -465,7 +474,7 @@ export default defineComponent({
       inputSize,
       validateState,
       validateIcon,
-      textareaStyle,
+      computedTextareaStyle,
       resizeTextarea,
       inputDisabled,
       showClear,

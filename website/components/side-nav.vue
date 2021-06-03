@@ -10,7 +10,11 @@
         <a>{{ lang === 'zh-CN' ? '赞助商' : 'Sponsors' }}</a>
         <ul class="pure-menu-list sub-nav">
           <li class="nav-item">
-            <a class="sponsor" href="https://bit.dev/?from=element-ui" target="_blank">
+            <a
+              class="sponsor"
+              href="https://bit.dev/?from=element-ui"
+              target="_blank"
+            >
               <img src="~examples/assets/images/bit.svg" alt="bit">
             </a>
           </li>
@@ -247,10 +251,9 @@ export default defineComponent({
     .nav-item {
       a {
         display: block;
-        height: 40px;
-        color: #444;
-        line-height: 40px;
-        font-size: 14px;
+        position: relative;
+        transition: 0.15s ease-out;
+        font-weight: bold;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;

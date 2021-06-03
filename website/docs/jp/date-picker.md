@@ -329,6 +329,17 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
       format="yyyy/MM/dd">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">Use value-format</span>
+    <div class="demonstration">Value：{{ value2 }}</div>
+    <el-date-picker
+      v-model="value2"
+      type="date"
+      placeholder="Pick a Date"
+      format="YYYY/MM/DD"
+      value-format="YYYY-MM-DD">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -389,7 +400,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | date(DatePicker) / array(DateRangePicker) | — | — |
+| model-value / v-model | バインディング値 | date(DatePicker) / array(DateRangePicker) | — | — |
 | readonly | date-pickerが読み取り専用かどうか | boolean | — | false |
 | disabled | date-pickerが無効かどうか | boolean | — | false |
 | size | インプットサイズ | string | large/small/mini | — |
@@ -405,6 +416,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | range-separator | 範囲セパレータ | string | — | '-' |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date | anything accepted by `new Date()` | — |
 | default-time | optional, the time value to use when selecting date range | Date[] | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | — |
+| value-format | optional, format of binding value. If not specified, the binding value will be a Date object | string | see [date formats](#/en-US/component/date-picker#date-formats) | — |
 | name | ネイティブ入力の `name` と同じ  | string | — | — |
 | unlink-panels | 範囲ピッカーで2つのデータパネルのリンクを解除する | boolean | — | false |
 | prefix-icon | カスタムプレフィックスアイコン | string | — | el-icon-date |

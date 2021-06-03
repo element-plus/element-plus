@@ -607,7 +607,7 @@ export default defineComponent ({
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 | ----| ----| ----| ---- | ----- |
 | type| Type de l'input. | string | text, textarea et autres [types d'input natifs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
-| modelValue / v-model | Variable liée. | string / number | — | — |
+| model-value / v-model | Variable liée. | string / number | — | — |
 | maxlength| Identique à `maxlength` dans l'input natif. | number| — | — |
 | minlength| Identique à `minlength` dans l'input natif. | number | — | — |
 | show-word-limit | Affiche le nombre de caractères restant， ne marche que lorsque `type` est 'text' ou 'textarea'. | boolean    |  —  | false |
@@ -630,8 +630,9 @@ export default defineComponent ({
 | autofocus | Identique à `autofocus` dans l'input natif. | boolean | — | false |
 | form | Identique à `form` dans l'input natif. | string | — | — |
 | label | Texte du label. | string | — | — |
-| tabindex | tabindex de l'input. | string | - | - |
+| tabindex | tabindex de l'input. | string / number | - | - |
 | validate-event | Si la validation doit avoir lieu. | boolean | - | true |
+| input-style | the style of the input element or textarea element | object | - | {} |
 
 ### Slots de l'Input
 
@@ -670,7 +671,7 @@ export default defineComponent ({
 | disabled | Si l'autocomplétion est déactivée. | boolean | — | false|
 | value-key | Nom de la clé de l'objet suggestion pour l'affichage. | string | — | value |
 | icon | Nom de l'icône. | string | — | — |
-| value | Variable liée. | string | — | — |
+| model-value / v-model | Variable liée. | string | — | — |
 | debounce | Délai d'attente après écriture, en millisecondes. | number | — | 300 |
 | placement | Emplacement du menu popup. | string | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
 | fetch-suggestions | La méthode pour rechercher les suggestions. Lorsqu'elles sont prêtes, appelle `callback(data:[])` pour les renvoyer à l'autocomplétion. | Function(queryString, callback) | — | — |

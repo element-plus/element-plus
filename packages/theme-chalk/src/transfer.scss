@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "mixins/mixins";
 @import "mixins/utils";
 @import "common/var";
@@ -16,18 +18,6 @@
   }
 
   @include e(button) {
-    @include when(disabled) {
-      border: $--border-base;
-      background-color: $--background-color-base;
-      color: $--color-text-placeholder;
-
-      &:hover {
-        border: $--border-base;
-        background-color: $--background-color-base;
-        color: $--color-text-placeholder;
-      }
-    }
-
     &:first-child {
       margin-bottom: 10px;
     }
@@ -126,7 +116,7 @@
       font-size: 12px;
       display: inline-block;
       box-sizing: border-box;
-      border-radius: #{$--transfer-filter-height / 2};
+      border-radius: #{math.div($--transfer-filter-height, 2)};
       padding-right: 10px;
       padding-left: 30px;
     }

@@ -262,6 +262,7 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 
 :::
 
+
 ### Drawer属性
 
 | Parameter| Description | Type      | Acceptable Values                           | Defaults  |
@@ -278,7 +279,7 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 | title | Drawerのタイトルは、スロットの名前を指定して設定することもできます。 | string | — | — |
 | model-value / v-model | Drawerを表示する場合は、 | boolean | — | false |
 | withHeader | デフォルトは true で、withHeader が false に設定されている場合は `title attribute` と `title slot` の両方が動作しません。 | boolean | - | true |
-
+| modal-class | シャドウレイヤーの追加クラス名 | string | — | — |
 ### Drawerスロット
 
 | Name | Description |

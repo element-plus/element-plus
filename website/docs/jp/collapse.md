@@ -115,7 +115,7 @@
 ### Collapse属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | カレントアクティブパネル | string (accordion mode) / array (non-accordion mode) | — | — |
+| model-value / v-model | カレントアクティブパネル | string (accordion mode) / array (non-accordion mode) | — | — |
 | accordion | アコーディオンモードにするかどうか | boolean | — | false |
 
 ### Collapseイベント

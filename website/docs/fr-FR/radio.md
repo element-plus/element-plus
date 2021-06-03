@@ -22,6 +22,18 @@ Radio ne devrait pas avoir trop d'options. Dans ce cas utilisez plutôt Select.
     }
   }
 </script>
+<!--
+<setup>
+  import { ref } from 'vue'
+
+  export default {
+    setup() {
+      const radio = ref('1');
+      return { radio }
+    }
+  }
+</setup>
+-->
 ```
 :::
 
@@ -175,7 +187,7 @@ Des radios affichés comme des boutons standards.
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut |
 | ---- | ---- | ---- | ---- | ---- |
-| value / v-model | La valeur liée. | string / number / boolean | — | — |
+| model-value / v-model | La valeur liée. | string / number / boolean | — | — |
 | label | La valeur du radio. | string / number / boolean | — | — |
 | disabled | Si le radio est désactivé. | boolean | — | false |
 | border  | Si une bordure doit être affichée autour du radio. | boolean   | — | false |
@@ -192,7 +204,7 @@ Des radios affichés comme des boutons standards.
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut
 | ---- | ---- | ---- | ---- | ---- |
-| value / v-model | La valeur liée. | string / number / boolean | — | — |
+| model-value / v-model | La valeur liée. | string / number / boolean | — | — |
 | size | Taille des radios. | string | medium / small / mini | —
 | disabled  | Si les radios sont désactivés. | boolean   | — | false
 | text-color | Couleur du texte quand le bouton est actif. | string | — | #ffffff   |

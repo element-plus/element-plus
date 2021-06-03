@@ -1,4 +1,6 @@
 /* Element Chalk Variables */
+@use "sass:math";
+
 @import "../mixins/config";
 
 // Special comment for theme configurator
@@ -66,10 +68,6 @@ $--border-color-lighter: #EBEEF5 !default;
 /// color|1|Border Color|3
 $--border-color-extra-light: #F2F6FC !default;
 
-// Variants
-
-$--heading-padding: 20px 0 !default;
-
 // Background
 /// color|1|Background Color|4
 $--background-color-base: #F5F7FA !default;
@@ -91,14 +89,10 @@ $--border-radius-base: 4px !default;
 $--border-radius-small: 2px !default;
 /// borderRadius|1|Radius|0
 $--border-radius-circle: 100% !default;
-/// borderRadius|1|Radius|0
-$--border-radius-zero: 0 !default;
 
 // Box-shadow
 /// boxShadow|1|Shadow|1
 $--box-shadow-base: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) !default;
-// boxShadow|1|Shadow|1
-$--box-shadow-dark: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .12) !default;
 /// boxShadow|1|Shadow|1
 $--box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default;
 /* Svg
@@ -127,16 +121,9 @@ $--font-size-small: 13px !default;
 $--font-size-extra-small: 12px !default;
 /// fontWeight|1|Font Weight|1
 $--font-weight-primary: 500 !default;
-/// fontWeight|1|Font Weight|1
-$--font-weight-secondary: 100 !default;
 /// fontLineHeight|1|Line Height|2
 $--font-line-height-primary: 24px !default;
-/// fontLineHeight|1|Line Height|2
-$--font-line-height-secondary: 16px !default;
 $--font-color-disabled-base: #bbb !default;
-/* Size
--------------------------- */
-$--size-base: 14px !default;
 
 /* z-index
 -------------------------- */
@@ -149,11 +136,6 @@ $--index-popper: 2000 !default;
 $--disabled-fill-base: $--background-color-base !default;
 $--disabled-color-base: $--color-text-placeholder !default;
 $--disabled-border-base: $--border-color-light !default;
-
-/* Icon
--------------------------- */
-$--icon-color: #666 !default;
-$--icon-color-base: $--color-info !default;
 
 /* Checkbox
 -------------------------- */
@@ -236,8 +218,6 @@ $--radio-input-background-color: $--color-white !default;
 $--radio-input-border: $--border-base !default;
 /// color||Color|0
 $--radio-input-border-color: $--border-color-base !default;
-/// color||Color|0
-$--radio-icon-color: $--color-white !default;
 
 $--radio-disabled-input-border-color: $--disabled-border-base !default;
 $--radio-disabled-input-fill: $--disabled-fill-base !default;
@@ -251,8 +231,6 @@ $--radio-disabled-checked-icon-color: $--color-text-placeholder !default;
 $--radio-checked-font-color: $--color-primary !default;
 /// color||Color|0
 $--radio-checked-input-border-color: $--color-primary !default;
-/// color||Color|0
-$--radio-checked-input-background-color: $--color-white !default;
 /// color||Color|0
 $--radio-checked-icon-color: $--color-primary !default;
 
@@ -273,8 +251,6 @@ $--radio-bordered-mini-input-height: 12px !default;
 $--radio-bordered-mini-input-width: 12px !default;
 $--radio-bordered-mini-height: 28px !default;
 
-/// fontSize||Font|1
-$--radio-button-font-size: $--font-size-base !default;
 /// color||Color|0
 $--radio-button-checked-background-color: $--color-primary !default;
 /// color||Color|0
@@ -300,13 +276,11 @@ $--select-input-font-size: 14px !default;
 
 $--select-option-color: $--color-text-regular !default;
 $--select-option-disabled-color: $--color-text-placeholder !default;
-$--select-option-disabled-background: $--color-white !default;
 /// height||Other|4
 $--select-option-height: 34px !default;
 $--select-option-hover-background: $--background-color-base !default;
 /// color||Color|0
 $--select-option-selected-font-color: $--color-primary !default;
-$--select-option-selected-hover: $--background-color-base !default;
 
 $--select-group-color: $--color-info !default;
 $--select-group-height: 30px !default;
@@ -371,7 +345,6 @@ $--messagebox-danger-color: $--color-danger !default;
 
 /* Message
 -------------------------- */
-$--message-shadow: $--box-shadow-base !default;
 $--message-min-width: 380px !default;
 $--message-background-color: #edf2fc !default;
 $--message-padding: 15px 15px 15px 20px !default;
@@ -431,29 +404,22 @@ $--notification-danger-icon-color: $--color-danger !default;
 -------------------------- */
 /// color||Color|0
 $--input-font-color: $--color-text-regular !default;
-/// width||Other|4
-$--input-width: 140px !default;
 
 $--input-border: $--border-base !default;
 $--input-border-color: $--border-color-base !default;
 /// borderRadius||Border|2
 $--input-border-radius: $--border-radius-base !default;
-$--input-border-color-hover: $--border-color-hover !default;
 /// color||Color|0
 $--input-background-color: $--color-white !default;
-$--input-fill-disabled: $--disabled-fill-base !default;
-$--input-color-disabled: $--font-color-disabled-base !default;
 /// color||Color|0
 $--input-icon-color: $--color-text-placeholder !default;
 /// color||Color|0
 $--input-placeholder-color: $--color-text-placeholder !default;
-$--input-max-width: 314px !default;
 
 $--input-hover-border: $--border-color-hover !default;
 $--input-clear-hover-color: $--color-text-secondary !default;
 
 $--input-focus-border: $--color-primary !default;
-$--input-focus-fill: $--color-white !default;
 
 $--input-disabled-fill: $--disabled-fill-base !default;
 $--input-disabled-border: $--disabled-border-base !default;
@@ -492,28 +458,6 @@ $--cascader-node-background-hover: $--background-color-base !default;
 $--cascader-node-color-disabled: $--color-text-placeholder !default;
 $--cascader-color-empty: $--color-text-placeholder !default;
 $--cascader-tag-background: #f0f2f5 !default;
-
-/* Group
--------------------------- */
-$--group-option-flex: 0 0 (1/5) * 100% !default;
-$--group-option-offset-bottom: 12px !default;
-$--group-option-fill-hover: rgba($--color-black, 0.06) !default;
-$--group-title-color: $--color-black !default;
-$--group-title-font-size: $--font-size-base !default;
-$--group-title-width: 66px !default;
-
-/* Tab
--------------------------- */
-$--tab-font-size: $--font-size-base !default;
-$--tab-border-line: 1px solid #e4e4e4 !default;
-$--tab-header-color-active: $--color-text-secondary !default;
-$--tab-header-color-hover: $--color-text-regular !default;
-$--tab-header-color: $--color-text-regular !default;
-$--tab-header-fill-active: rgba($--color-black, 0.06) !default;
-$--tab-header-fill-hover: rgba($--color-black, 0.06) !default;
-$--tab-vertical-header-width: 90px !default;
-$--tab-vertical-header-count-color: $--color-white !default;
-$--tab-vertical-header-count-fill: $--color-text-secondary !default;
 
 /* Button
 -------------------------- */
@@ -601,10 +545,6 @@ $--button-hover-tint-percent: 20% !default;
 $--button-active-shade-percent: 10% !default;
 
 
-/* cascader
--------------------------- */
-$--cascader-height: 200px !default;
-
 /* Switch
 -------------------------- */
 /// color||Color|0
@@ -614,7 +554,7 @@ $--switch-off-color: $--border-color-base !default;
 /// fontSize||Font|1
 $--switch-font-size: $--font-size-base !default;
 $--switch-core-border-radius: 10px !default;
-// height||Other|4 TODO: width 代码写死的40px 所以下面这三个属性都没意义
+// height||Other|4
 $--switch-width: 40px !default;
 // height||Other|4
 $--switch-height: 20px !default;
@@ -687,7 +627,6 @@ $--popover-background-color: $--color-white !default;
 $--popover-font-size: $--font-size-base !default;
 /// color||Color|0
 $--popover-border-color: $--border-color-lighter !default;
-$--popover-arrow-size: 6px !default;
 /// padding||Spacing|3
 $--popover-padding: 12px !default;
 $--popover-padding-large: 18px 20px !default;
@@ -695,6 +634,7 @@ $--popover-padding-large: 18px 20px !default;
 $--popover-title-font-size: 16px !default;
 /// color||Color|0
 $--popover-title-font-color: $--color-text-primary !default;
+$--popover-border-radius: 4px !default;
 
 /* Tooltip
 -------------------------- */
@@ -769,7 +709,6 @@ $--card-padding: 20px !default;
 $--slider-main-background-color: $--color-primary !default;
 /// color||Color|0
 $--slider-runway-background-color: $--border-color-light !default;
-$--slider-button-hover-color: mix($--color-primary, black, 97%) !default;
 $--slider-stop-background-color: $--color-white !default;
 $--slider-disable-color: $--color-text-placeholder !default;
 $--slider-margin: 16px 0 !default;
@@ -780,12 +719,6 @@ $--slider-height: 6px !default;
 $--slider-button-size: 20px !default;
 $--slider-button-wrapper-size: 36px !default;
 $--slider-button-wrapper-offset: -15px !default;
-
-/* Steps
---------------------------*/
-$--steps-border-color: $--disabled-border-base !default;
-$--steps-border-radius: 4px !default;
-$--steps-padding: 20px !default;
 
 /* Menu
 --------------------------*/
@@ -826,7 +759,6 @@ $--datepicker-inrange-hover-background-color: $--border-color-extra-light !defau
 $--datepicker-active-color: $--color-primary !default;
 /// color||Color|0
 $--datepicker-hover-font-color: $--color-primary !default;
-$--datepicker-cell-hover-color: #fff !default;
 
 /* Loading
 --------------------------*/

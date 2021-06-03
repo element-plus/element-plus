@@ -6,8 +6,7 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import { clearTimer, isNumber } from '@element-plus/utils/util'
 import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
 
-import type { Ref, CSSProperties } from 'vue'
-import type { SetupContext } from '@vue/runtime-core'
+import type { Ref, CSSProperties, SetupContext } from 'vue'
 import type { UseDialogProps } from './dialog'
 
 export const CLOSE_EVENT = 'close'
