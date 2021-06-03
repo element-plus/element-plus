@@ -20,7 +20,6 @@ const inputs = getPackagesSync()
   .map(pkg => pkg.name)
   .filter(name =>
     name.includes('@element-plus') &&
-    !name.includes('transition') &&
     !name.includes('utils'),
   )
 
@@ -38,6 +37,7 @@ export default inputs.map(name => ({
   },{
     format: 'cjs',
     file: getOutFile(name, 'lib'),
+    exports: 'named',
     paths(id) {
       if (/^@element-plus/.test(id)) {
         if (noElPrefixFile.test(id)) return id.replace('@element-plus', '..')

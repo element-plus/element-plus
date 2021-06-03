@@ -16,7 +16,9 @@ yarn build:lib-full
 
 # -P2 stands for 2 maximum parallel, with
 # node .build/build.js command
-find './packages' -type d -maxdepth 1 ! -name '*util*' ! -name '__mocks__' ! -name 'locale' ! -name 'theme*' -print0 | xargs -I {} -P2 -0 node ./build/build.comps.js {}
+# find './packages' -type d -maxdepth 1 ! -name '*util*' ! -name '__mocks__' ! -name 'locale' ! -name 'theme*' -print0 | xargs -I {} -P2 -0 node ./build/build.comps.js {}
+
+yarn build:components
 
 find ./packages/utils -type f ! -name '*.test.ts' ! -name 'package.json' -print0 \
 | xargs -P2 -0 -I {} node ./build/build-util.js {}
