@@ -242,6 +242,10 @@ export default defineComponent({
       position: relative;
       transition: 0.15s ease-out;
       font-weight: bold;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: normal;
 
       &.active {
         color: #409eff;
@@ -251,9 +255,10 @@ export default defineComponent({
     .nav-item {
       a {
         display: block;
-        position: relative;
-        transition: 0.15s ease-out;
-        font-weight: bold;
+        height: 40px;
+        color: #444;
+        line-height: 40px;
+        font-size: 14px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
