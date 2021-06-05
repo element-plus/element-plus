@@ -2288,6 +2288,14 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
+"@rollup/pluginutils@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-4.1.0.tgz#0dcc61c780e39257554feb7f77207dceca13c838"
+  integrity sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==
+  dependencies:
+    estree-walker "^2.0.1"
+    picomatch "^2.2.2"
+
 "@sinonjs/commons@^1", "@sinonjs/commons@^1.6.0", "@sinonjs/commons@^1.7.0", "@sinonjs/commons@^1.7.2":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.1.tgz#e7df00f98a203324f6dc7cc606cad9d4a8ab2217"
@@ -5612,6 +5620,11 @@ es6-weak-map@^2.0.1:
     es6-iterator "^2.0.3"
     es6-symbol "^3.1.1"
 
+esbuild@^0.12.5:
+  version "0.12.5"
+  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.12.5.tgz#36076a6bc1966ba2741981d30512e95e8aaff495"
+  integrity sha512-vcuP53pA5XiwUU4FnlXM+2PnVjTfHGthM7uP1gtp+9yfheGvFFbq/KyuESThmtoHPUrfZH5JpxGVJIFDVD1Egw==
+
 escalade@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.0.2.tgz#6a580d70edb87880f22b4c91d0d56078df6962c4"
@@ -8248,6 +8261,11 @@ jest@^26.6.3:
     import-local "^3.0.2"
     jest-cli "^26.6.3"
 
+joycon@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/joycon/-/joycon-3.0.1.tgz#9074c9b08ccf37a6726ff74a18485f85efcaddaf"
+  integrity sha512-SJcJNBg32dGgxhPtM0wQqxqV0ax9k/9TaUskGDSJkSFSQOEWWvQ3zzWdGQRIUry2j1zA5+ReH13t0Mf3StuVZA==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -8349,6 +8367,11 @@ json5@^1.0.1:
   resolved "https://registry.yarnpkg.com/json5/-/json5-1.0.1.tgz#779fb0018604fa854eacbf6252180d83543e3dbe"
   dependencies:
     minimist "^1.2.0"
+
+jsonc-parser@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/jsonc-parser/-/jsonc-parser-3.0.0.tgz#abdd785701c7e7eaca8a9ec8cf070ca51a745a22"
+  integrity sha512-fQzRfAbIBnR0IQvftw9FJveWiHp72Fg20giDrHz6TdfB12UH/uue0D3hm57UB5KgAVuniLMCaS8P1IMj9NR7cA==
 
 jsonfile@^4.0.0:
   version "4.0.0"
@@ -11488,6 +11511,15 @@ rollup-plugin-css-only@^2.1.0:
     "@rollup/pluginutils" "^3.0.0"
     fs-extra "^9.0.0"
 
+rollup-plugin-esbuild@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/rollup-plugin-esbuild/-/rollup-plugin-esbuild-4.2.3.tgz#3d719e58e7a5f84515fe52a58d35bc97a9e7e12c"
+  integrity sha512-GWyDUPv79Iw4uQdizD7ch7yA+wiB9W4Ye01RmO/kuF3yjybluJT5rbmLAnyv3kWmOF8suOjf+TvvBCXEj6qSAw==
+  dependencies:
+    "@rollup/pluginutils" "^4.1.0"
+    joycon "^3.0.1"
+    jsonc-parser "^3.0.0"
+
 rollup-plugin-terser@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/rollup-plugin-terser/-/rollup-plugin-terser-7.0.2.tgz#e8fbba4869981b2dc35ae7e8a502d5c6c04d324d"
@@ -11507,10 +11539,10 @@ rollup-plugin-typescript2@^0.27.3:
     resolve "1.17.0"
     tslib "2.0.1"
 
-rollup-plugin-vue@^6.0.0-beta.11:
-  version "6.0.0-beta.11"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-vue/-/rollup-plugin-vue-6.0.0-beta.11.tgz#fdbc6b7484a361ef8c5e8009cef4a6bd45435013"
-  integrity sha512-osqLkFc7N76TOI0CeW0BOujlMFsMIoytyTRVUivaeYSMponNfk1iSuqyoeciUB3EjFqyL/dTTFPi+7rhaAm73w==
+rollup-plugin-vue@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npmjs.org/rollup-plugin-vue/-/rollup-plugin-vue-6.0.0.tgz#e379e93e5ae9a8648522f698be2e452e8672aaf2"
+  integrity sha512-oVvUd84d5u73M2HYM3XsMDLtZRIA/tw2U0dmHlXU2UWP5JARYHzh/U9vcxaN/x/9MrepY7VH3pHFeOhrWpxs/Q==
   dependencies:
     debug "^4.1.1"
     hash-sum "^2.0.0"

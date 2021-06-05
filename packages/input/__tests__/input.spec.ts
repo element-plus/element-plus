@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { sleep, defineGetter } from '@element-plus/test-utils'
 import Input from '../src/index.vue'
@@ -147,13 +147,13 @@ describe('Input.vue', () => {
   //   const limitSizeInput = wrapper.vm.$refs.limitSize
   //   const limitlessSizeInput = wrapper.vm.$refs.limitlessSize
   //   await sleep()
-  //   expect(limitSizeInput.textareaStyle.height).toEqual('117px')
-  //   expect(limitlessSizeInput.textareaStyle.height).toEqual('201px')
+  //   expect(limitSizeInput.computedTextareaStyle.height).toEqual('117px')
+  //   expect(limitlessSizeInput.computedTextareaStyle.height).toEqual('201px')
 
   //   wrapper.vm.textareaValue = ''
   //   await sleep()
-  //   expect(limitSizeInput.textareaStyle.height).toEqual('75px')
-  //   expect(limitlessSizeInput.textareaStyle.height).toEqual('33px')
+  //   expect(limitSizeInput.computedTextareaStyle.height).toEqual('75px')
+  //   expect(limitlessSizeInput.computedTextareaStyle.height).toEqual('33px')
   // })
 
   test('sets value on textarea / input type change', async () => {
@@ -284,12 +284,12 @@ describe('Input.vue', () => {
         },
       })
       const ref = wrapper.vm.$refs.textarea
-      const originMinHeight  = ref.textareaStyle.minHeight
+      const originMinHeight  = ref.computedTextareaStyle.minHeight
 
       ref.autosize.minRows = 5
       ref.resizeTextarea()
       // Atfer this textarea min-height (style)  will change
-      const nowMinHeight = ref.textareaStyle.minHeight
+      const nowMinHeight = ref.computedTextareaStyle.minHeight
       expect(originMinHeight).not.toEqual(nowMinHeight)
     })
   })
@@ -443,6 +443,28 @@ describe('Input.vue', () => {
 
     await wrapper.find('input').trigger('keyup')
     expect(handleKeyup).toBeCalledTimes(1)
+  })
+
+  test('input-style', async () => {
+    const wrapper = _mount({
+      template: `
+          <el-input
+            placeholder="请输入内容"
+            :input-style="{color: 'red'}"
+          />
+          <el-input
+            placeholder="请输入内容"
+            :input-style="{color: 'red'}"
+            type="textarea"
+          />
+        `,
+    })
+
+    const input = wrapper.find('input')
+    const textarea = wrapper.find('textarea')
+    await nextTick()
+    expect(input.element.style.color === 'red').toBeTruthy()
+    expect(textarea.element.style.color === 'red').toBeTruthy()
   })
 
   describe('Textarea Events', () => {

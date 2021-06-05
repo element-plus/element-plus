@@ -630,8 +630,9 @@ export default defineComponent ({
 | autofocus | Identique à `autofocus` dans l'input natif. | boolean | — | false |
 | form | Identique à `form` dans l'input natif. | string | — | — |
 | label | Texte du label. | string | — | — |
-| tabindex | tabindex de l'input. | string | - | - |
+| tabindex | tabindex de l'input. | string / number | - | - |
 | validate-event | Si la validation doit avoir lieu. | boolean | - | true |
+| input-style | the style of the input element or textarea element | object | - | {} |
 
 ### Slots de l'Input
 
