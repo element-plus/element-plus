@@ -51,6 +51,34 @@ Callout a temporary drawer, from multiple direction
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const drawer = ref(false);
+      const direction = ref('rtl');
+      const handleClose = (done) => {
+        proxy
+          .$confirm('Are you sure you want to close this?')
+          .then((_) => {
+            done();
+          })
+          .catch((_) => {});
+      };
+      return {
+        drawer,
+        direction,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -81,6 +109,21 @@ When you no longer need a title, you can remove title from drawer.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        drawer: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -196,6 +239,89 @@ export default {
   }
 }
 </script>
+<!--
+<setup>
+
+import {defineComponent, reactive, toRefs, getCurrentInstance, } from 'vue'; 
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const state = reactive({
+        table: false,
+        dialog: false,
+        loading: false,
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-03',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+        ],
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: '',
+        },
+        formLabelWidth: '80px',
+        timer: null,
+      });
+
+      const handleClose = (done) => {
+        if (state.loading) {
+          return;
+        }
+        proxy
+          .$confirm('Do you want to submit?')
+          .then((_) => {
+            state.loading = true;
+            state.timer = setTimeout(() => {
+              done();
+              // 动画关闭需要一定的时间
+              setTimeout(() => {
+                state.loading = false;
+              }, 400);
+            }, 2000);
+          })
+          .catch((_) => {});
+      };
+
+      const cancelForm = () => {
+        state.loading = false;
+        state.dialog = false;
+        clearTimeout(state.timer);
+      };
+
+      return {
+        ...toRefs(state),
+        handleClose,
+        cancelForm,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -245,6 +371,34 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const drawer = ref(false);
+      const innerDrawer = ref(false);
+      const handleClose = (done) => {
+        proxy
+          .$confirm('You still have unsaved data, proceed?')
+          .then((_) => {
+            done();
+          })
+          .catch((_) => {});
+      };
+      return {
+        drawer,
+        innerDrawer,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 
 ```
 :::
