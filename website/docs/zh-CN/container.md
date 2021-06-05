@@ -220,6 +220,29 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const item = {
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄',
+      };
+
+      const tableData = ref(Array(20).fill(item));
+
+      return {
+        tableData,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
