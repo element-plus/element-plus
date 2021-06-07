@@ -163,7 +163,7 @@ export default defineComponent({
           {
             ...scoped,
             selected,
-            disabled: itemDisabled,
+            disabled: item.disabled || itemDisabled,
             hovering: isItemHovering(index),
             item,
             onSelect,
@@ -207,9 +207,9 @@ export default defineComponent({
           _cache[5] || (_cache[5] = withKeys(() => (select.expanded = false),
             ['tab'],
           )),
-          _cache[6] || (_cache[6] = () => {
-            console.log(11)
-          }),
+          // _cache[6] || (_cache[6] = () => {
+          //   console.log(11)
+          // }),
         ],
         ...listProps,
       },

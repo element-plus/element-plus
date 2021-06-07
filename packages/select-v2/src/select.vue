@@ -41,16 +41,16 @@
             <template v-if="collapseTags && modelValue.length > 0">
               <div class="el-select-v2__selected-item">
                 <el-tag
-                  :closable="!selectDisabled && !modelValue[0].disable"
+                  :closable="!selectDisabled && !states.cachedOptions[0].disable"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
-                  @close="deleteTag($event, modelValue[0])"
+                  @close="deleteTag($event, states.cachedOptions[0])"
                 >
                   <span
                     class="el-select-v2__tags-text"
                     :style="{ maxWidth: inputWidth - 123 + 'px' }"
-                  >{{ modelValue[0].currentLabel }}</span>
+                  >{{ states.cachedOptions[0].label }}</span>
                 </el-tag>
                 <el-tag
                   v-if="modelValue.length > 1"

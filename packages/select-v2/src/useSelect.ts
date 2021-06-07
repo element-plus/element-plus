@@ -481,7 +481,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
 
     states.softFocus = true
-    states.selectedLabel = ''
+    if (props.multiple) {
+      states.cachedOptions = []
+    } else {
+      states.selectedLabel = ''
+    }
     expanded.value = false
     update(emptyValue)
     nextTick(focusAndUpdatePopup)

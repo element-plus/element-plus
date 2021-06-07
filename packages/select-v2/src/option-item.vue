@@ -41,7 +41,9 @@ export default defineComponent({
         emit('hover', props.index)
       },
       selectOptionClick: () => {
-        emit('select', props.item, props.index)
+        if (!props.disabled) {
+          emit('select', props.item, props.index)
+        }
       },
     }
   },
