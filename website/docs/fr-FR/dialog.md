@@ -6,7 +6,7 @@ Informe les utilisateurs tout en préservant l'état de la page.
 
 Le Dialog ouvre un modal personnalisable.
 
-:::demo Configurez l'attribut `visible` avec un `Boolean`, un modal apparaîtra quand la valeur sera à `true`. Le Dialog possède deux parties: `body` et `footer`, ce-dernier nécessitant un `slot` appelé `footer`. L'attribut optionnel `title` (vide par défaut) définit le titre. Cet exemple montre également comment `before-close` peut être utilisé.
+:::demo Configurez l'attribut `model-value / v-model` avec un `Boolean`, un modal apparaîtra quand la valeur sera à `true`. Le Dialog possède deux parties: `body` et `footer`, ce-dernier nécessitant un `slot` appelé `footer`. L'attribut optionnel `title` (vide par défaut) définit le titre. Cet exemple montre également comment `before-close` peut être utilisé.
 
 ```html
 <el-button type="text" @click="dialogVisible = true">Cliquez pour ouvrir le modal</el-button>
