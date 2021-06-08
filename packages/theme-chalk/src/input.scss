@@ -221,7 +221,7 @@
       padding-right: 30px;
     }
 
-    @include m(passwordClear) {
+    @include m(password-clear) {
       .#{$namespace}-input__inner {
         padding-right: 55px;
       }

@@ -11,7 +11,7 @@
         'el-input-group--prepend': $slots.prepend,
         'el-input--prefix': $slots.prefix || prefixIcon,
         'el-input--suffix': $slots.suffix || suffixIcon || clearable || showPassword,
-        'el-input--suffix--passwordClear': clearable && showPassword
+        'el-input--suffix--password-clear': clearable && showPassword
       },
       $attrs.class
     ]"
