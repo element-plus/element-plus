@@ -267,6 +267,7 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 
 | Parámetros | Descripción | Tipo   | Valores aceptados           | Por defecto |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
+| model-value / v-model | Si se muestra el Drawer | boolean | — | false |
 | append-to-body | Los controles deberían insertar Drawer en el elemento DocumentBody, los Drawer anidados deben asignar este parámetro a **true** | boolean   | — | false |
 | before-close | Si está configurado, el procedimiento de cierre se detendrá. | function(done), done es un tipo de función que acepta un booleano como parámetro, una llamada hecha con true o sin parámetro abortará el procedimiento de cierre. | — | — |
 | close-on-press-escape | Indica si el Drawer puede cerrarse pulsando ESC | boolean | — | true |
@@ -277,7 +278,6 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 | show-close | Se mostrará el botón de cerrar en la parte superior derecha del Drawer | boolean | — | true |
 | size | Tamaño del Drawer. Si el Drawer está en modo horizontal, afecta a la propiedad width, de lo contrario afecta a la propiedad height, cuando el tamaño es tipo `number`, describe el tamaño por unidad de píxeles; cuando el tamaño es tipo `string`, se debe usar con notación `x%`, de lo contrario se interpretará como unidad de píxeles. | number / string | - | '30%' |
 | title | El título del Drawer, también se puede establecer por slot con nombre, las descripciones detalladas se pueden encontrar en el formulario de slot. | string | — | — |
-| model-value / v-model | Si se muestra el Drawer | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
 | modal-class | Nombre extra de clase para capa de sombra | string | - | - |
 
