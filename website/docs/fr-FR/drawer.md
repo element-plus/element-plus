@@ -266,6 +266,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 | Parameter| Description | Type      | Acceptable Values                           | Defaults  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
+| model-value / v-model | Should Drawer be displayed | boolean | — | false |
 | append-to-body | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**| boolean   | — | false |
 | before-close | If set, closing procedure will be halted | function(done), done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure | — | — |
 | close-on-press-escape | Indicates whether Drawer can be closed by pressing ESC | boolean | — | true |
@@ -276,9 +277,8 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 | show-close | Should show close button at the top right of Drawer | boolean | — | true |
 | size | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | number / string | - | '30%' |
 | title | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form | string | — | — |
-| model-value / v-model | Should Drawer be displayed | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
-| modal-class | Extra class names for shadowing layer | string | - | - 
+| modal-class | Extra class names for shadowing layer | string | - | -
 
 ### Drawer Slot
 
