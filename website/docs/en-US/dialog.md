@@ -6,7 +6,7 @@ Informs users while preserving the current page state.
 
 Dialog pops up a dialog box, and it's quite customizable.
 
-:::demo Set the `visible` attribute with a `Boolean`, and Dialog shows when it is `true`. The Dialog has two parts: `body` and `footer`, and the latter requires a `slot` named `footer`. The optional `title` attribute (empty by default) is for defining a title. Finally, this example demonstrates how `before-close` is used.
+:::demo Set `v-model` with a `Boolean`, and Dialog shows when it is `true`. The Dialog has two parts: `body` and `footer`, and the latter requires a `slot` named `footer`. The optional `title` attribute (empty by default) is for defining a title. Finally, this example demonstrates how `before-close` is used.
 
 ```html
 <el-button type="text" @click="dialogVisible = true">click to open the Dialog</el-button>

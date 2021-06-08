@@ -4,7 +4,7 @@
 
 dialog はdialogボックスをポップアップ表示します。
 
-:::demo `visible` 属性に `Boolean` を設定し、それが `true` のときにdialogを表示します。dialogは `body` と `footer` の2つの部分からなり、後者は `footer` という名前の `スロット` を必要とします。オプションの `title` 属性 (デフォルトでは空) はタイトルを定義するためのものです。最後に、この例では `before-close` がどのように使われるかを示します。
+:::demo `v-model` 属性に `Boolean` を設定し、それが `true` のときにdialogを表示します。dialogは `body` と `footer` の2つの部分からなり、後者は `footer` という名前の `スロット` を必要とします。オプションの `title` 属性 (デフォルトでは空) はタイトルを定義するためのものです。最後に、この例では `before-close` がどのように使われるかを示します。
 
 ```html
 <el-button type="text" @click="dialogVisible = true">click to open the Dialog</el-button>
