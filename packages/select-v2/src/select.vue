@@ -15,6 +15,7 @@
       :popper-class="`el-select-v2__popper ${popperClass}`"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
+      :popper-options="popperOptions"
       effect="light"
       manual-mode
       placement="bottom-start"
@@ -32,6 +33,7 @@
             'is-focused': states.isComposing,
             'is-hovering': states.comboBoxHovering,
             'is-filterable': filterable,
+            'is-disabled': disabled,
           }"
         >
           <div v-if="$slots.prefix">

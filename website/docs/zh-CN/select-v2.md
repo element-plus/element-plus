@@ -145,9 +145,9 @@
 
 :::
 
-### 禁用选项
+### 禁用状态
 
-当某些选项被禁用时
+您可以选择禁用 Select 或者 Select 的 Option
 :::demo
 
 ```html
@@ -157,7 +157,16 @@
     filterable
     :options="options"
     placeholder="请选择"
-    style="width: 200px;"
+    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    multiple
+  />
+  <el-select-v2
+    disabled
+    v-model="value"
+    filterable
+    :options="options"
+    placeholder="请选择"
+    style="width: 200px; vertical-align: middle;"
     multiple
   />
 </template>
@@ -241,7 +250,7 @@
     multiple
   >
     <template #default="{item}">
-      <span>{{ item.label }}</span>
+      <span style="margin-right: 8px;">{{ item.label }}</span>
       <span style="color: #8492a6; font-size: 13px">
         {{ item.value }}
       </span>
@@ -318,8 +327,12 @@ WIP (该功能还在施工中👷‍♀️)
 
 WIP (该功能还在施工中👷‍♀️)
 
+### 键盘操作
+
+WIP (该功能还在施工中👷‍♀️)
+
 :::tip
-有一些 API 暂时还没有被实现（相较于当前的 select 而言），因为还需要更多设计以及一些遗留 API 的改动，所以当前仅支持一些最简单的展示功能，远程搜索的功能可以使用 `v-loading` 搭配 select 使用。
+有一些 API 暂时还没有被实现（相较于当前的 select 而言），因为还需要更多设计以及一些遗留 API 的改动，所以当前仅支持一些最简单的展示功能。
 :::
 
 ### SelectV2 Attributes
@@ -340,7 +353,9 @@ WIP (该功能还在施工中👷‍♀️)
 | no-data-text | 选项为空时显示的文字，也可以使用`#empty`设置 | string | — | 无数据 |
 | popper-class | Select 下拉框的类名 | string | — | — |
 | popper-append-to-body | 是否将弹出框插入至 body 元素。在弹出框的定位出现问题时，可将该属性设置为 false | boolean | - | false |
+| popper-options | 用户定制化 popper 的行为, 更多请查看文档[popper.js](https://popper.js.org/documentation.html) | object | - | - |
 | automatic-dropdown | 对于不可搜索的 Select，是否在输入框获得焦点后自动弹出选项菜单 | boolean | - | false |
+| clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
 
 <span style="display: none;">
 <!-- | no-match-text | 搜索条件无匹配时显示的文字，也可以使用`#empty`设置 | string | — | 无匹配数据 | -->
@@ -368,7 +383,7 @@ WIP (该功能还在施工中👷‍♀️)
 ### SelectV2 Slots
 |   name  | 说明     |
 |---------|---------|
-|    —    | Option 组件列表 |
+| default | Option 模板 |
 | empty | 无选项时的列表 |
 
 <!-- | prefix  | Select 组件头部内容 | -->

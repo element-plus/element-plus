@@ -62,6 +62,10 @@ export const SelectProps = {
     type: String,
     default: '',
   },
+  popperOptions: {
+    type: Object,
+    default: () => ({}),
+  },
   remote: Boolean,
   size: {
     type: String as PropType<ComponentSize>,

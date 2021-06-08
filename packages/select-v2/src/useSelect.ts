@@ -12,14 +12,13 @@ import {
   isArray,
   isFunction,
   isObject,
-
 } from '@vue/shared'
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
 
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import { isKorean } from '@element-plus/utils/isDef'
+
 import { t } from '@element-plus/locale'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
 import {
@@ -275,7 +274,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleQueryChange(e.target.value)
   }, debounce.value)
 
-  const emitChange = val => {
+  const emitChange = (val: any | any[]) => {
     if (!isEqual(props.modelValue, val)) {
       emit(CHANGE_EVENT, val)
     }
@@ -488,6 +487,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
     expanded.value = false
     update(emptyValue)
+    emit('clear')
     nextTick(focusAndUpdatePopup)
   }
 
@@ -576,7 +576,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // be invoked.
 
   watch(expanded, val => {
-
+    emit('visible-change', val)
     if (val) {
       popper.value.update?.()
       // the purpose of this function is to differ the blur event trigger mechanism
