@@ -220,6 +220,12 @@
     .#{$namespace}-input__inner {
       padding-right: 30px;
     }
+
+    @include m(password-clear) {
+      .#{$namespace}-input__inner {
+        padding-right: 55px;
+      }
+    }
   }
 
   @include m(prefix) {
