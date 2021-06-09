@@ -4,11 +4,11 @@
     align-items: baseline;
 
     &:last-child {
-      margin-bottom: 0;
+      margin-bottom: 17px;
     }
   }
-  .#{$namespace}-button + .#{$namespace}-button {
-    margin-left: 10px;
+  .#{$namespace}-button  {
+    margin: 5px 7px;
   }
   .#{$namespace}-button-group {
     .#{$namespace}-button + .#{$namespace}-button {
