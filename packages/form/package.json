@@ -1,15 +1,15 @@
 {
   "name": "@element-plus/form",
-  "version": "0.0.0",
+  "version": "1.0.2-beta.46",
   "main": "dist/index.js",
   "license": "MIT",
-  "peerDependencies": {
+  "devDependencies": {
+    "@vue/test-utils": "^2.0.0-beta.0",
     "vue": "^3.0.9"
   },
-  "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.0"
-  },
   "dependencies": {
-    "async-validator": "^3.4.0"
+    "async-validator": "^3.4.0",
+    "@element-plus/utils": "1.0.2-beta.46",
+    "mitt": "^2.1.0"
   }
 }

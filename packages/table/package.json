@@ -1,12 +1,20 @@
 {
   "name": "@element-plus/table",
-  "version": "0.0.0",
+  "version": "1.0.2-beta.46",
   "main": "dist/index.js",
   "license": "MIT",
-  "peerDependencies": {
+  "devDependencies": {
+    "@vue/test-utils": "^2.0.0-beta.3",
     "vue": "^3.0.9"
   },
-  "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3"
+  "dependencies": {
+    "@element-plus/utils": "1.0.2-beta.46",
+    "@element-plus/checkbox": "1.0.2-beta.46",
+    "@element-plus/popper": "1.0.2-beta.46",
+    "@element-plus/locale": "1.0.2-beta.46",
+    "@element-plus/checkbox-group": "1.0.2-beta.46",
+    "@element-plus/scrollbar": "1.0.2-beta.46",
+    "@element-plus/directives": "1.0.2-beta.46",
+    "@popperjs/core": "^2.4.4"
   }
 }

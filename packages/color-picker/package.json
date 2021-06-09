@@ -1,12 +1,19 @@
 {
   "name": "@element-plus/color-picker",
-  "version": "0.0.0",
+  "version": "1.0.2-beta.46",
   "main": "dist/index.js",
   "license": "MIT",
-  "peerDependencies": {
+  "devDependencies": {
+    "@vue/test-utils": "^2.0.0-beta.0",
     "vue": "^3.0.9"
   },
-  "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.0"
+  "dependencies": {
+    "@element-plus/utils": "1.0.2-beta.46",
+    "@element-plus/directives": "1.0.2-beta.46",
+    "@element-plus/popper": "1.0.2-beta.46",
+    "@element-plus/button": "1.0.2-beta.46",
+    "@element-plus/input": "1.0.2-beta.46",
+    "@element-plus/locale": "1.0.2-beta.46",
+    "@element-plus/form": "1.0.2-beta.46"
   }
 }

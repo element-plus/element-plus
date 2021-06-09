@@ -1,12 +1,19 @@
 {
   "name": "@element-plus/date-picker",
-  "version": "0.0.0",
+  "version": "1.0.2-beta.46",
   "main": "dist/index.js",
   "license": "MIT",
-  "peerDependencies": {
+  "devDependencies": {
+    "@vue/test-utils": "^2.0.0-beta.3",
     "vue": "^3.0.9"
   },
-  "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3"
+  "dependencies": {
+    "@element-plus/locale": "1.0.2-beta.46",
+    "@element-plus/utils": "1.0.2-beta.46",
+    "dayjs": "1.x",
+    "@element-plus/time-picker": "1.0.2-beta.46",
+    "@element-plus/input": "1.0.2-beta.46",
+    "@element-plus/directives": "1.0.2-beta.46",
+    "@element-plus/button": "1.0.2-beta.46"
   }
 }

@@ -1,13 +1,11 @@
 {
   "name": "@element-plus/badge",
-  "version": "0.0.0",
+  "version": "1.0.2-beta.46",
   "main": "dist/index.js",
   "license": "MIT",
-  "peerDependencies": {
-    "vue": "^3.0.9"
-  },
   "devDependencies": {
     "@element-plus/button": "^0.0.0",
-    "@vue/test-utils": "^2.0.0-beta.3"
+    "@vue/test-utils": "^2.0.0-beta.3",
+    "vue": "^3.0.9"
   }
 }
