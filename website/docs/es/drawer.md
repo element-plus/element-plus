@@ -55,16 +55,17 @@ Llamada de un drawer temporal, desde varias direcciones
 <!--
 <setup>
 
-  import { defineComponent, ref, getCurrentInstance } from 'vue';
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
 
   export default defineComponent({
     setup() {
-      const { proxy } = getCurrentInstance();
+      
       const drawer = ref(false);
       const direction = ref('rtl');
       const handleClose = (done) => {
-        proxy
-          .$confirm('Are you sure you want to close this?')
+        ElMessageBox
+          .confirm('Are you sure you want to close this?')
           .then((_) => {
             done();
           })
@@ -243,11 +244,12 @@ export default {
 <!--
 <setup>
 
-import {defineComponent, reactive, toRefs, getCurrentInstance, } from 'vue'; 
+import {defineComponent, reactive, toRefs } from 'vue'; 
+import { ElMessageBox } from 'element-plus'; 
 
   export default defineComponent({
     setup() {
-      const { proxy } = getCurrentInstance();
+      
       const state = reactive({
         table: false,
         dialog: false,
@@ -292,8 +294,8 @@ import {defineComponent, reactive, toRefs, getCurrentInstance, } from 'vue';
         if (state.loading) {
           return;
         }
-        proxy
-          .$confirm('Do you want to submit?')
+        ElMessageBox
+          .confirm('Do you want to submit?')
           .then((_) => {
             state.loading = true;
             state.timer = setTimeout(() => {
@@ -375,16 +377,17 @@ También puede tener varias capas de `Drawer` al igual que con `Dialog`.
 <!--
 <setup>
 
-  import { defineComponent, ref, getCurrentInstance } from 'vue';
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
 
   export default defineComponent({
     setup() {
-      const { proxy } = getCurrentInstance();
+      
       const drawer = ref(false);
       const innerDrawer = ref(false);
       const handleClose = (done) => {
-        proxy
-          .$confirm('You still have unsaved data, proceed?')
+        ElMessageBox
+          .confirm('You still have unsaved data, proceed?')
           .then((_) => {
             done();
           })

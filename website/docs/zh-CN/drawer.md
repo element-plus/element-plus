@@ -54,16 +54,16 @@
 <!--
 <setup>
 
-  import { defineComponent, ref, getCurrentInstance } from 'vue';
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
 
   export default defineComponent({
     setup() {
-      const { proxy } = getCurrentInstance();
       const drawer = ref(false);
       const direction = ref('rtl');
       const handleClose = (done) => {
-        proxy
-          .$confirm('确认关闭')
+        ElMessageBox
+          .confirm('确认关闭')
           .then((_) => {
             done();
           })
@@ -243,11 +243,10 @@ export default {
 <!--
 <setup>
 
-  import { defineComponent, reactive, toRefs, getCurrentInstance, } from 'vue';
-
+  import { defineComponent, reactive, toRefs } from 'vue';
+  import { ElMessageBox } from 'element-plus';
   export default defineComponent({
     setup() {
-      const { proxy } = getCurrentInstance();
       const state = reactive({
         table: false,
         dialog: false,
@@ -292,8 +291,8 @@ export default {
         if (state.loading) {
           return;
         }
-        proxy
-          .$confirm('确定要提交表单吗？')
+        ElMessageBox
+          .confirm('确定要提交表单吗？')
           .then((_) => {
             state.loading = true;
             state.timer = setTimeout(() => {
@@ -376,16 +375,15 @@ export default {
 <!--
 <setup>
 
-  import { defineComponent, ref, getCurrentInstance } from 'vue';
-
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
   export default defineComponent({
     setup() {
-      const { proxy } = getCurrentInstance();
       const drawer = ref(false);
       const innerDrawer = ref(false);
       const handleClose = (done) => {
-        proxy
-          .$confirm('还有未保存的工作哦确定关闭吗？')
+        ElMessageBox
+          .confirm('还有未保存的工作哦确定关闭吗？')
           .then((_) => {
             done();
           })
