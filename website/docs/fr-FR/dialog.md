@@ -46,15 +46,16 @@ Le Dialog ouvre un modal personnalisable.
 <!--
 <setup>
 
-  import { defineComponent, ref, getCurrentInstance } from 'vue';
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
 
   export default defineComponent({
     setup() {
       const dialogVisible = ref(false);
-      const { proxy } = getCurrentInstance();
+      
       const handleClose = (done) => {
-        proxy
-          .$confirm('Voulez-vous vraiment quitter ?')
+        pElMessageBox
+          .confirm('Voulez-vous vraiment quitter ?')
           .then((_) => {
             done();
           })

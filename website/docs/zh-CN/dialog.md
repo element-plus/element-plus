@@ -45,15 +45,16 @@ Dialog 弹出一个对话框，适合需要定制性更大的场景。
 <!--
 <setup>
 
-  import { defineComponent, ref, getCurrentInstance } from 'vue';
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
 
   export default defineComponent({
     setup() {
       const dialogVisible = ref(false);
-      const { proxy } = getCurrentInstance();
+      
       const handleClose = (done) => {
-        proxy
-          .$confirm('确认关闭？')
+        pElMessageBox
+          .confirm('确认关闭？')
           .then((_) => {
             done();
           })

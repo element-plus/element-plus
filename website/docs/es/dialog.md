@@ -47,15 +47,16 @@ Dialog abre una caja de diálogo, y es bastante personalizable.
 <!--
 <setup>
 
-  import { defineComponent, ref, getCurrentInstance } from 'vue';
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
 
   export default defineComponent({
     setup() {
       const dialogVisible = ref(false);
-      const { proxy } = getCurrentInstance();
+      
       const handleClose = (done) => {
-        proxy
-          .$confirm('Are you sure to close this dialog?')
+        pElMessageBox
+          .confirm('Are you sure to close this dialog?')
           .then((_) => {
             done();
           })
