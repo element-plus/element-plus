@@ -59,6 +59,41 @@ Displays animation in a container (such as a table) while loading data.
     }
   };
 </script>
+<!--
+<setup>
+
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      tableData: [
+        {
+          date: '2016-05-02',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-04',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-01',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+      ],
+      loading: true,
+    });
+    return {
+      ...toRefs(state),
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -115,6 +150,41 @@ You can customize loading text, loading spinner and background color.
     }
   };
 </script>
+<!--
+<setup>
+
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      tableData: [
+        {
+          date: '2016-05-02',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-04',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-01',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+      ],
+      loading: true,
+    });
+    return {
+      ...toRefs(state),
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -167,6 +237,44 @@ Show a full screen animation while loading data.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref, getCurrentInstance } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const { proxy } = getCurrentInstance();
+      const fullscreenLoading = ref(false);
+      const openFullScreen1 = () => {
+        fullscreenLoading.value = true;
+        setTimeout(() => {
+          fullscreenLoading.value = false;
+        }, 2000);
+      };
+
+      const openFullScreen2 = () => {
+        const loading = proxy.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)',
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 2000);
+      };
+
+      return {
+        fullscreenLoading,
+        openFullScreen1,
+        openFullScreen2,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
