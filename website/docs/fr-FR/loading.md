@@ -240,11 +240,11 @@ Affichez une animation en plein écran quand vous charger des données.
 <!--
 <setup>
 
-  import { defineComponent, ref, getCurrentInstance } from 'vue';
+  import { defineComponent, ref } from 'vue';
+  import { ElLoading } from 'element-plus';
 
   export default defineComponent({
     setup() {
-      const { proxy } = getCurrentInstance();
       const fullscreenLoading = ref(false);
       const openFullScreen1 = () => {
         fullscreenLoading.value = true;
@@ -254,7 +254,7 @@ Affichez une animation en plein écran quand vous charger des données.
       };
 
       const openFullScreen2 = () => {
-        const loading = proxy.$loading({
+        const loading = ElLoading.service({
           lock: true,
           text: 'Loading',
           spinner: 'el-icon-loading',
