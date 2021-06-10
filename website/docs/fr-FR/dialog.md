@@ -54,7 +54,7 @@ Le Dialog ouvre un modal personnalisable.
       const dialogVisible = ref(false);
       
       const handleClose = (done) => {
-        pElMessageBox
+        ElMessageBox
           .confirm('Voulez-vous vraiment quitter ?')
           .then((_) => {
             done();

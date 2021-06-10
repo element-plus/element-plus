@@ -53,7 +53,7 @@ Dialog 弹出一个对话框，适合需要定制性更大的场景。
       const dialogVisible = ref(false);
       
       const handleClose = (done) => {
-        pElMessageBox
+        ElMessageBox
           .confirm('确认关闭？')
           .then((_) => {
             done();

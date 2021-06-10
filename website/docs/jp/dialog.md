@@ -52,7 +52,7 @@ dialog はdialogボックスをポップアップ表示します。
       const dialogVisible = ref(false);
       
       const handleClose = (done) => {
-        pElMessageBox
+        ElMessageBox
           .confirm('Are you sure to close this dialog?')
           .then((_) => {
             done();
