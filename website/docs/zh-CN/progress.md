@@ -23,6 +23,7 @@
   };
 </script>
 ```
+
 :::
 
 ### 百分比内显
@@ -37,6 +38,7 @@
 <el-progress :text-inside="true" :stroke-width="22" :percentage="80" status="warning"></el-progress>
 <el-progress :text-inside="true" :stroke-width="20" :percentage="50" status="exception"></el-progress>
 ```
+
 :::
 
 ### 自定义颜色
@@ -51,6 +53,8 @@
 <el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
 
 <el-progress :percentage="percentage" :color="customColors"></el-progress>
+
+<el-progress :percentage="percentage2" :color="customColors"></el-progress>
 <div>
   <el-button-group>
     <el-button icon="el-icon-minus" @click="decrease"></el-button>
@@ -63,6 +67,7 @@
     data() {
       return {
         percentage: 20,
+        percentage2: 0,
         customColor: '#409eff',
         customColors: [
           {color: '#f56c6c', percentage: 20},
@@ -95,10 +100,16 @@
           this.percentage = 0;
         }
       }
+    },
+    mounted() {
+      setInterval(() => {
+        this.percentage2 = (this.percentage2 % 100) + 10
+      }, 500)
     }
   }
 </script>
 ```
+
 :::
 
 ### 环形进度条
@@ -114,6 +125,7 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 <el-progress type="circle" :percentage="70" status="warning"></el-progress>
 <el-progress type="circle" :percentage="50" status="exception"></el-progress>
 ```
+
 :::
 
 ### 仪表盘形进度条
@@ -121,8 +133,8 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
 :::demo 通过 `type` 属性来指定使用仪表盘形进度条。
 
 ```html
-
 <el-progress type="dashboard" :percentage="percentage" :color="colors"></el-progress>
+<el-progress type="dashboard" :percentage="percentage2" :color="colors"></el-progress>
 <div>
   <el-button-group>
     <el-button icon="el-icon-minus" @click="decrease"></el-button>
@@ -135,6 +147,7 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
     data() {
       return {
         percentage: 10,
+        percentage2: 0,
         colors: [
           {color: '#f56c6c', percentage: 20},
           {color: '#e6a23c', percentage: 40},
@@ -157,10 +170,16 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
           this.percentage = 0;
         }
       }
+    },
+    mounted() {
+      setInterval(() => {
+        this.percentage2 = (this.percentage2 % 100) + 10
+      }, 500)
     }
   }
 </script>
 ```
+
 :::
 
 ### 自定义内容
@@ -184,6 +203,7 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
   </template>
 </el-progress>
 ```
+
 :::
 
 ### 动画进度条
@@ -207,25 +227,28 @@ Progress 组件可通过 `type` 属性来指定使用环形进度条，在环形
   };
 </script>
 ```
+
 :::
 
 ### Attributes
-| 参数          | 说明            | 类型            | 可选值                 | 默认值   |
-|-------------  |---------------- |---------------- |---------------------- |-------- |
-| **percentage** | **百分比（必填）**   | number         |     0-100          |     0    |
-| type          | 进度条类型           | string         | line/circle/dashboard | line |
-| stroke-width  | 进度条的宽度，单位 px | number          | — | 6 |
-| text-inside  | 进度条显示文字内置在进度条内（只在 type=line 时可用） | boolean | — | false |
-| status  | 进度条当前状态 | string | success/exception/warning | — |
-| indeterminate  | 是否为动画进度条 | boolean | - | false |
-| duration  | 控制动画进度条速度 | number | - | 3 |
-| color  | 进度条背景色（会覆盖 status 状态颜色） | string/function/array | — | '' |
-| width  | 环形进度条画布宽度（只在 type 为 circle 或 dashboard 时可用） | number |  | 126 |
-| show-text  | 是否显示进度条文字内容 | boolean | — | true |
-| stroke-linecap  | circle/dashboard 类型路径两端的形状 | string | butt/round/square | round |
-| format  | 指定进度条文字内容 | function(percentage) | — | — |
+
+| 参数           | 说明                                                          | 类型                  | 可选值                    | 默认值 |
+| -------------- | ------------------------------------------------------------- | --------------------- | ------------------------- | ------ |
+| **percentage** | **百分比（必填）**                                            | number                | 0-100                     | 0      |
+| type           | 进度条类型                                                    | string                | line/circle/dashboard     | line   |
+| stroke-width   | 进度条的宽度，单位 px                                         | number                | —                         | 6      |
+| text-inside    | 进度条显示文字内置在进度条内（只在 type=line 时可用）         | boolean               | —                         | false  |
+| status         | 进度条当前状态                                                | string                | success/exception/warning | —      |
+| indeterminate  | 是否为动画进度条                                              | boolean               | -                         | false  |
+| duration       | 控制动画进度条速度                                            | number                | -                         | 3      |
+| color          | 进度条背景色（会覆盖 status 状态颜色）                        | string/function/array | —                         | ''     |
+| width          | 环形进度条画布宽度（只在 type 为 circle 或 dashboard 时可用） | number                |                           | 126    |
+| show-text      | 是否显示进度条文字内容                                        | boolean               | —                         | true   |
+| stroke-linecap | circle/dashboard 类型路径两端的形状                           | string                | butt/round/square         | round  |
+| format         | 指定进度条文字内容                                            | function(percentage)  | —                         | —      |
 
 ### Slot
-| name | 说明 |
-|------|--------|
+
+| name    | 说明                              |
+| ------- | --------------------------------- |
 | default | 自定义内容，参数为 { percentage } |
