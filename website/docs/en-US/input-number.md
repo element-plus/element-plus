@@ -19,11 +19,31 @@ Input numerical values with a customizable range.
     },
     methods: {
       handleChange(value) {
-        console.log(value)
+        console.log(value);
       }
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      const handleChange = (value) => {
+        console.log(value);
+      };
+      return {
+        num,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -44,6 +64,22 @@ Input numerical values with a customizable range.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -66,6 +102,22 @@ Allows you to define incremental steps.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(5);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -86,6 +138,22 @@ Allows you to define incremental steps.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(2);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -106,6 +174,22 @@ Allows you to define incremental steps.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 
 :::
@@ -139,6 +223,28 @@ Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num1 = ref(1);
+      const num2 = ref(2);
+      const num3 = ref(3);
+      const num4 = ref(4);
+      return {
+        num1,
+        num2,
+        num3,
+        num4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -163,6 +269,26 @@ Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      const handleChange = (value) => {
+        console.log(value);
+      };
+      return {
+        num,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

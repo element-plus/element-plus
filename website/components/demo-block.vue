@@ -77,7 +77,8 @@ const version = '1.0.0' // element version
 const stripTemplateAndRemoveTemplate = code => {
   const result = removeSetup(stripTemplate(code))
   if (result.indexOf('<template>') === 0) {
-    return result.replace(/^<template>/, '').replace(/<\/template>$/,'')
+    const html = result.replace(/^<template>/, '').replace(/<\/template>$/,'')
+    return html.replace(/^[\r?\n|\r]/, '').replace(/[\r?\n|\r]$/, '').trim()
   }
   return result
 }
@@ -196,12 +197,15 @@ export default {
       nextTick(() => {
         const highlight = this.$el.querySelector('.highlight')
         const hlcode = highlight.querySelector('pre code')
-        hlcode.innerHTML = sanitizeHTML(`<template>${this.codepen.html}</template>
-
-<script>
+        const innerScript = `<script>
   ${this.displayDemoCode}
 ${'</sc' + 'ript>'}
-`)
+`
+        hlcode.innerHTML = sanitizeHTML(`<template>
+  ${this.codepen.html}
+</template>
+
+${this.displayDemoCode ? innerScript : ''}`)
 
         nextTick(() => {
           if (this.$el.getElementsByClassName('description').length === 0) {
