@@ -1,17 +1,17 @@
 <script lang="ts">
-import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives, Teleport, createVNode } from 'vue'
+import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives, Teleport, h } from 'vue'
 import ElPopper from '@element-plus/popper'
 import { defaultProps, Effect } from '@element-plus/popper'
 import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
 import { ClickOutside } from '@element-plus/directives'
 import { warn } from '@element-plus/utils/error'
-import { renderBlock, renderIf, PatchFlags } from '@element-plus/utils/vnode'
+import { renderIf, PatchFlags } from '@element-plus/utils/vnode'
 import usePopover, { SHOW_EVENT, HIDE_EVENT } from './usePopover'
 
 import type { PropType } from 'vue'
 import type { TriggerType } from '@element-plus/popper'
 
-const emits = ['update:visible', 'after-enter', 'after-leave', SHOW_EVENT, HIDE_EVENT ]
+const emits = ['update:visible', 'after-enter', 'after-leave', SHOW_EVENT, HIDE_EVENT]
 const NAME = 'ElPopover'
 
 const _hoist = { key: 0, class: 'el-popover__title', role: 'title' }
@@ -116,14 +116,14 @@ export default defineComponent({
       ...events,
     }) : createCommentVNode('v-if', true)
 
-    return renderBlock(Fragment, null, [
+    return h(Fragment, null, [
       this.trigger === 'click'
         ? withDirectives(_trigger, [[ClickOutside, this.hide]])
         : _trigger,
-      createVNode(Teleport as any, {
+      h(Teleport as any, {
         disabled: !this.appendToBody,
         to: 'body',
-      }, [popover], PatchFlags.PROPS, ['disabled']),
+      }, [popover]),
     ])
   },
 })

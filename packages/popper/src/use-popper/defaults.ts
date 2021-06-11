@@ -39,7 +39,7 @@ export type IPopperOptions = {
 }
 
 export const DEFAULT_TRIGGER = 'hover'
-const DEFAULT_FALLBACK_PLACEMENTS = ['auto']
+const DEFAULT_FALLBACK_PLACEMENTS = []
 
 export default {
   // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px

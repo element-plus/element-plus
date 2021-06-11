@@ -32,15 +32,22 @@ export default defineComponent({
 
     provide('ElPopperOptions', props.popperOptions)
     ctx.expose(refProps)
-    return () => h(Picker, {
-      format: DEFAULT_FORMATS_TIME,
-      ...props, // allow format to be overwrite
-      type,
-      ref: commonPicker,
-      'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
-    },
-    {
-      default: scopedProps => h(panel, scopedProps),
-    })
+    console.log(props)
+    return () => {
+      const format = props.format ?? DEFAULT_FORMATS_TIME
+      return h(
+        Picker,
+        {
+          ...props, // allow format to be overwrite
+          format,
+          type,
+          ref: commonPicker,
+          'onUpdate:modelValue': value => ctx.emit('update:modelValue', value),
+        },
+        {
+          default: scopedProps => h(panel, scopedProps),
+        },
+      )
+    }
   },
 })
