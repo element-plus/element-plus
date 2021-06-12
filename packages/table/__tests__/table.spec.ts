@@ -446,7 +446,7 @@ describe('Table.vue', () => {
       const wrapper = createTable('cell-mouse-enter')
       await nextTick()
       const cell = wrapper.findAll('.el-table__body .cell')[2] // first row
-      triggerEvent(cell.element.parentNode, 'mouseenter')
+      triggerEvent(cell.element.parentElement, 'mouseenter')
       expect(wrapper.vm.result.length).toEqual(4) // row, column, cell, event
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
@@ -459,8 +459,8 @@ describe('Table.vue', () => {
       const cell = wrapper.findAll('.el-table__body .cell')[7] // second row
       const cell2 = wrapper.findAll('.el-table__body .cell')[2] // first row
 
-      triggerEvent(cell2.element.parentNode, 'mouseenter')
-      triggerEvent(cell.element.parentNode, 'mouseleave')
+      triggerEvent(cell2.element.parentElement, 'mouseenter')
+      triggerEvent(cell.element.parentElement, 'mouseleave')
       expect(wrapper.vm.result.length).toEqual(4) // row, column, cell, event
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
@@ -472,7 +472,7 @@ describe('Table.vue', () => {
       await nextTick()
       const cell = wrapper.findAll('.el-table__body .cell')[2] // first row
 
-      triggerEvent(cell.element.parentNode.parentNode, 'click')
+      triggerEvent(cell.element.parentElement.parentElement, 'click')
       expect(wrapper.vm.result.length).toEqual(3) // row, event, column
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
@@ -484,7 +484,7 @@ describe('Table.vue', () => {
       await nextTick()
       const cell = wrapper.findAll('.el-table__body .cell')[2] // first row
 
-      triggerEvent(cell.element.parentNode.parentNode, 'dblclick')
+      triggerEvent(cell.element.parentElement.parentElement, 'dblclick')
       expect(wrapper.vm.result.length).toEqual(3) // row, event, column
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
@@ -682,7 +682,6 @@ describe('Table.vue', () => {
 
       wrapper.unmount()
     })
-    // TODO
     it('sort', async () => {
       const wrapper = mount({
         components: {
