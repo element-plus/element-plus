@@ -5,72 +5,9 @@ import ElTableColumn from '../src/table-column/index'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElCheckbox from '@element-plus/checkbox'
 
+import { mount, triggerEvent, toArray, getTestData } from './table-test-common'
+
 const testDataArr = []
-const toArray = function(obj) {
-  return [].slice.call(obj)
-}
-
-const mount = (opt: any) =>
-  _mount<any>(opt, {
-    attachTo: 'body',
-  })
-
-const triggerEvent = function(elm, name, ...opts) {
-  let eventName
-
-  if (/^mouse|click/.test(name)) {
-    eventName = 'MouseEvents'
-  } else if (/^key/.test(name)) {
-    eventName = 'KeyboardEvent'
-  } else {
-    eventName = 'HTMLEvents'
-  }
-  const evt = document.createEvent(eventName)
-
-  evt.initEvent(name, ...opts)
-  elm.dispatchEvent ? elm.dispatchEvent(evt) : elm.fireEvent('on' + name, evt)
-
-  return elm
-}
-const getTestData = function() {
-  return [
-    {
-      id: 1,
-      name: 'Toy Story',
-      release: '1995-11-22',
-      director: 'John Lasseter',
-      runtime: 80,
-    },
-    {
-      id: 2,
-      name: "A Bug's Life",
-      release: '1998-11-25',
-      director: 'John Lasseter',
-      runtime: 95,
-    },
-    {
-      id: 3,
-      name: 'Toy Story 2',
-      release: '1999-11-24',
-      director: 'John Lasseter',
-      runtime: 92,
-    },
-    {
-      id: 4,
-      name: 'Monsters, Inc.',
-      release: '2001-11-2',
-      director: 'Peter Docter',
-      runtime: 92,
-    },
-    {
-      id: 5,
-      name: 'Finding Nemo',
-      release: '2003-5-30',
-      director: 'Andrew Stanton',
-      runtime: 100,
-    },
-  ]
-}
 
 getTestData().forEach(cur => {
   Object.keys(cur).forEach(prop => {
