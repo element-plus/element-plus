@@ -32,7 +32,6 @@ export default defineComponent({
 
     provide('ElPopperOptions', props.popperOptions)
     ctx.expose(refProps)
-    console.log(props)
     return () => {
       const format = props.format ?? DEFAULT_FORMATS_TIME
       return h(
