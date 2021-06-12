@@ -4,7 +4,6 @@ import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElCheckbox from '@element-plus/checkbox'
-import sinon from 'sinon'
 
 const testDataArr = []
 const toArray = function(obj) {
@@ -2184,7 +2183,7 @@ describe('Table.vue', () => {
     })
 
     it('tree-props & default-expand-all & expand-change', async () => {
-      const spy = sinon.spy()
+      const spy = jest.fn()
       wrapper = mount({
         components: {
           ElTable,
@@ -2247,8 +2246,8 @@ describe('Table.vue', () => {
         expandIcon.classes().includes('el-table__expand-icon--expanded'),
       ).toBeTruthy()
       expect(wrapper.findAll('.el-table__row').length).toEqual(8)
-      expect(spy.args[0][0]).toBeInstanceOf(Object)
-      expect(spy.args[0][1]).toBeTruthy()
+      expect(spy.mock.calls[0][0]).toBeInstanceOf(Object)
+      expect(spy.mock.calls[0][1]).toBeTruthy()
     })
 
     it('expand-row-keys & toggleRowExpansion', async () => {
