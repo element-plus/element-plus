@@ -19,9 +19,6 @@ describe('Table.vue', () => {
         <el-table-column prop="runtime" label="时长（分）" />
       </el-table>
       `,
-      created() {
-        this.testData = getTestData()
-      },
     })
     it('head', async () => {
       await nextTick()
@@ -114,9 +111,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime" label="时长（分）" />
           </el-table>
         `,
-            created() {
-              this.testData = getTestData()
-            },
           },
           opts,
         ),
@@ -233,11 +227,8 @@ describe('Table.vue', () => {
           <el-table-column prop="runtime" label="时长（分）" />
         </el-table>
       `,
-        created() {
-          this.testData = getTestData()
-        },
         data() {
-          return { currentRowKey: null }
+          return { currentRowKey: null, testData: getTestData() }
         },
       })
       await nextTick()
@@ -276,11 +267,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime" label="时长（分）" />
           </el-table>
         `,
-
-        created() {
-          this.testData = getTestData()
-        },
-
         methods: {
           filterMethod(value, row) {
             return value === row.director
@@ -479,10 +465,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime"/>
           </el-table>
         `,
-
-        created() {
-          this.testData = getTestData()
-        },
       })
 
       await nextTick()
@@ -503,10 +485,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime"/>
           </el-table>
         `,
-
-        created() {
-          this.testData = getTestData()
-        },
       })
 
       await nextTick()
@@ -525,10 +503,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime"/>
           </el-table>
         `,
-
-        created() {
-          this.testData = getTestData()
-        },
 
         methods: {
           getSummary(param) {
@@ -643,9 +617,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime"/>
           </el-table>
         `,
-        data() {
-          return { testData: getTestData() }
-        },
       })
 
       const vm = wrapper.vm
@@ -689,9 +660,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime" sortable />
           </el-table>
         `,
-        data() {
-          return { testData: getTestData() }
-        },
       })
       const vm = wrapper.vm
       await nextTick()
@@ -736,9 +704,6 @@ describe('Table.vue', () => {
           <button class="clear" @click="clear">clear</button>
         </div>
         `,
-        data() {
-          return { testData: getTestData() }
-        },
         methods: {
           clear() {
             this.$refs.table.setCurrentRow()
@@ -770,11 +735,6 @@ describe('Table.vue', () => {
           <el-table-column prop="runtime" label="时长（分）" />
         </el-table>
       `,
-      data() {
-        return {
-          testData: getTestData(),
-        }
-      },
     })
     await nextTick()
     const tr = wrapper.find('.el-table__body-wrapper tbody tr')
@@ -799,10 +759,6 @@ describe('Table.vue', () => {
           <el-table-column prop="runtime" label="时长（分）" sortable />
         </el-table>
       `,
-
-      created() {
-        this.testData = getTestData()
-      },
     })
     const vm = wrapper.vm
     await nextTick()
@@ -838,11 +794,6 @@ describe('Table.vue', () => {
           <el-table-column prop="runtime" label="时长（分）" sortable />
         </el-table>
       `,
-      data() {
-        return {
-          testData: getTestData(),
-        }
-      },
     })
     const vm = wrapper.vm
     await nextTick()
@@ -877,11 +828,6 @@ describe('Table.vue', () => {
           <el-table-column prop="runtime" label="时长（分）" sortable />
         </el-table>
       `,
-      data() {
-        return {
-          testData: getTestData(),
-        }
-      },
     })
     const vm = wrapper.vm
     await nextTick()
@@ -918,43 +864,6 @@ describe('Table.vue', () => {
   })
 
   it('set rowKey and using index', async () => {
-    const data = [
-      {
-        id: '1',
-        name: 'Toy Story',
-        release: '1995-11-22',
-        director: 'John Lasseter',
-        runtime: 80,
-      },
-      {
-        id: '2',
-        name: "A Bug's Life",
-        release: '1998-11-25',
-        director: 'John Lasseter',
-        runtime: 95,
-      },
-      {
-        id: '3',
-        name: 'Toy Story 2',
-        release: '1999-11-24',
-        director: 'John Lasseter',
-        runtime: 92,
-      },
-      {
-        id: '4',
-        name: 'Monsters, Inc.',
-        release: '2001-11-2',
-        director: 'Peter Docter',
-        runtime: 92,
-      },
-      {
-        id: '5',
-        name: 'Finding Nemo',
-        release: '2003-5-30',
-        director: 'Andrew Stanton',
-        runtime: 100,
-      },
-    ]
     const wrapper = mount({
       template: `
         <el-table :data="testData" row-key="release" highlight-current-row >
@@ -965,11 +874,6 @@ describe('Table.vue', () => {
           <el-table-column prop="runtime" label="时长（分）" sortable />
         </el-table>
       `,
-      data() {
-        return {
-          testData: data,
-        }
-      },
     })
     await nextTick()
     const rows = wrapper.findAll('.el-table__row')
@@ -992,6 +896,9 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime" label="时长（分）" />
           </el-table>
         `,
+        created() {
+          // override default
+        },
         data() {
           const testData = getTestData() as any
           testData[1].children = [
@@ -1156,6 +1063,9 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime" label="时长（分）" />
           </el-table>
         `,
+        created() {
+          // override default
+        },
         data() {
           const testData = getTestData() as any
           testData[testData.length - 1].children = [
@@ -1222,7 +1132,7 @@ describe('Table.vue', () => {
         `,
         data() {
           return {
-            testData: getTestData() as any,
+            testData: getTestData(),
             showName: true,
           }
         },

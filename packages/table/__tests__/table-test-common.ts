@@ -8,6 +8,9 @@ export const mount = (opt: any) =>
       ElTable,
       ElTableColumn,
     },
+    data() {
+      return { testData: getTestData() }
+    },
     ...opt,
   }, {
     attachTo: 'body',

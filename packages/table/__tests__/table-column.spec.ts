@@ -24,10 +24,6 @@ describe('table column', () => {
             <el-table-column prop="runtime" ${props4 || ''} />
           </el-table>
         `,
-
-            created() {
-              this.testData = getTestData()
-            },
           },
           opts,
         ),
@@ -201,13 +197,8 @@ describe('table column', () => {
               <el-table-column prop="runtime" label="runtime" />
             </el-table>
           `,
-
-          created() {
-            this.testData = getTestData()
-          },
-
           data() {
-            return { selected: [] }
+            return { selected: [], testData: getTestData() }
           },
 
           methods: {
@@ -546,7 +537,6 @@ describe('table column', () => {
             <el-table-column prop="runtime"/>
           </el-table>
         `,
-
         created() {
           this.testData = null
         },
@@ -647,11 +637,8 @@ describe('table column', () => {
         data() {
           return {
             label: 'name',
+            testData: getTestData(),
           }
-        },
-
-        created() {
-          this.testData = getTestData()
         },
       })
 
@@ -677,11 +664,8 @@ describe('table column', () => {
         data() {
           return {
             align: 'left',
+            testData: getTestData(),
           }
-        },
-
-        created() {
-          this.testData = getTestData()
         },
       })
 
@@ -707,11 +691,8 @@ describe('table column', () => {
           return {
             align: 'left',
             headerAlign: null,
+            testData: getTestData(),
           }
-        },
-
-        created() {
-          this.testData = getTestData()
         },
       })
       await nextTick()
@@ -761,11 +742,8 @@ describe('table column', () => {
         data() {
           return {
             width: 100,
+            testData: getTestData(),
           }
-        },
-
-        created() {
-          this.testData = getTestData()
         },
       })
 
@@ -792,11 +770,8 @@ describe('table column', () => {
         data() {
           return {
             width: 100,
+            testData: getTestData(),
           }
-        },
-
-        created() {
-          this.testData = getTestData()
         },
       })
 
@@ -826,11 +801,8 @@ describe('table column', () => {
         data() {
           return {
             fixed: false,
+            testData: getTestData(),
           }
-        },
-
-        created() {
-          this.testData = getTestData()
         },
       })
 
@@ -858,11 +830,8 @@ describe('table column', () => {
         data() {
           return {
             prop: 'name',
+            testData: getTestData(),
           }
-        },
-
-        created() {
-          this.testData = getTestData()
         },
       })
 
