@@ -120,21 +120,21 @@ describe('Table.vue', () => {
     it('height', async () => {
       const wrapper = createTable('height="134"')
       await nextTick()
-      expect(wrapper.attributes('style')).toContain('height: 134px')
+      expect(wrapper.style.height).toContain('134px')
       wrapper.unmount()
     })
 
     it('height as string', async () => {
       const wrapper = createTable('height="100px"')
       await nextTick()
-      expect(wrapper.attributes('style')).toContain('height: 100px')
+      expect(wrapper.style.height).toContain('100px')
       wrapper.unmount()
     })
 
     it('maxHeight', async () => {
       const wrapper = createTable('max-height="134"')
       await nextTick()
-      expect(wrapper.attributes('style')).toContain('max-height: 134px')
+      expect(wrapper.style.maxHeight).toContain('134px')
       wrapper.unmount()
     })
 
@@ -189,8 +189,8 @@ describe('Table.vue', () => {
     it('tableRowStyle[Object]', async () => {
       const wrapper = createTable(':row-style="{ height: \'60px\' }"', {})
       await nextTick()
-      expect(wrapper.find('.el-table__body tr').attributes('style')).toContain(
-        'height: 60px',
+      expect(wrapper.find('.el-table__body tr').style.height).toContain(
+        '60px',
       )
       wrapper.unmount()
     })
@@ -212,8 +212,8 @@ describe('Table.vue', () => {
       const child1 = wrapper.find('.el-table__body tr:nth-child(1)')
       const child2 = wrapper.find('.el-table__body tr:nth-child(2)')
       expect(child1.attributes('style')).toBeUndefined()
-      expect(child2.attributes('style')).toContain('height: 60px')
-      expect(child2.attributes('style')).toContain('display: none')
+      expect(child2.style.height).toContain('60px')
+      expect(child2.style.display).toContain('none')
       wrapper.unmount()
     })
 
@@ -829,15 +829,14 @@ describe('Table.vue', () => {
         </el-table>
       `,
     })
-    const vm = wrapper.vm
     await nextTick()
-    const rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
-    triggerEvent(rows[1], 'click', true, false)
+    const rows = wrapper.findAll('.el-table__body-wrapper tbody tr')
+    rows[1].trigger('click')
     await nextTick()
-    expect(rows[1].classList).toContain('current-row')
-    triggerEvent(rows[3], 'click', true, false)
+    expect(rows[1].classes()).toContain('current-row')
+    rows[3].trigger('click')
     await nextTick()
-    expect(rows[3].classList).toContain('current-row')
+    expect(rows[3].classes()).toContain('current-row')
     wrapper.unmount()
   })
 
@@ -859,7 +858,7 @@ describe('Table.vue', () => {
     })
     await nextTick()
     const emptyBlockEl = wrapper.find('.el-table__empty-block')
-    expect(emptyBlockEl.attributes('style')).toContain('height: 100%')
+    expect(emptyBlockEl.style.height).toContain('100%')
     wrapper.unmount()
   })
 
@@ -896,9 +895,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime" label="时长（分）" />
           </el-table>
         `,
-        created() {
-          // override default
-        },
         data() {
           const testData = getTestData() as any
           testData[1].children = [
@@ -926,7 +922,7 @@ describe('Table.vue', () => {
       const childRows = wrapper.findAll('.el-table__row--level-1')
       expect(childRows.length).toEqual(2)
       childRows.forEach(item => {
-        expect(item.attributes('style')).toContain('display: none')
+        expect(item.style.display).toContain('none')
       })
       wrapper.find('.el-table__expand-icon').trigger('click')
 
@@ -1063,9 +1059,6 @@ describe('Table.vue', () => {
             <el-table-column prop="runtime" label="时长（分）" />
           </el-table>
         `,
-        created() {
-          // override default
-        },
         data() {
           const testData = getTestData() as any
           testData[testData.length - 1].children = [
