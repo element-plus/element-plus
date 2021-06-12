@@ -4,8 +4,9 @@ import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElCheckbox from '@element-plus/checkbox'
+import { triggerEvent } from '@element-plus/test-utils'
 
-import { mount, triggerEvent, getTestData } from './table-test-common'
+import { mount, getTestData } from './table-test-common'
 
 const testDataArr = []
 

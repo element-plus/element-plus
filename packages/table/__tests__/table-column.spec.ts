@@ -1,7 +1,8 @@
 import {  nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
-import { mount, triggerEvent, getTestData } from './table-test-common'
+import { triggerEvent } from '@element-plus/test-utils'
+import { mount, getTestData } from './table-test-common'
 
 describe('table column', () => {
 
