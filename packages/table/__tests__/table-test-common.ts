@@ -62,10 +62,6 @@ export function getTestData() {
   ]
 }
 
-export function toArray(obj) {
-  return [].slice.call(obj)
-}
-
 // https://stackoverflow.com/a/59864054/2198656
 describe('test util does not need jest testing', () => {
   it.skip('too lazy to change jest match config', () => {

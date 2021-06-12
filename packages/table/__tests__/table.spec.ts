@@ -5,7 +5,7 @@ import ElTableColumn from '../src/table-column/index'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElCheckbox from '@element-plus/checkbox'
 
-import { mount, triggerEvent, toArray, getTestData } from './table-test-common'
+import { mount, triggerEvent, getTestData } from './table-test-common'
 
 const testDataArr = []
 
@@ -51,7 +51,7 @@ describe('Table.vue', () => {
     })
     it('head', async done => {
       await nextTick()
-      const ths = toArray(wrapper.findAll('thead th'))
+      const ths = wrapper.findAll('thead th')
       equalArray(
         ths.map(node => node.text()).filter(o => o),
         ['片名', '发行日期', '导演', '时长（分）'],
@@ -65,7 +65,7 @@ describe('Table.vue', () => {
       ).toEqual(getTestData().length)
     })
     it('row data', () => {
-      const cells = toArray(wrapper.findAll('td .cell')).map(node =>
+      const cells = wrapper.findAll('td .cell').map(node =>
         node.text(),
       )
       equalArray(cells, testDataArr)
@@ -553,7 +553,7 @@ describe('Table.vue', () => {
       await nextTick()
       const footer = wrapper.find('.el-table__footer')
       expect(footer).not.toBeUndefined()
-      const cells = toArray(footer.findAll('.cell'))
+      const cells = footer.findAll('.cell')
       expect(cells[cells.length - 1].text()).toEqual('459')
       wrapper.unmount()
       done()
@@ -580,7 +580,7 @@ describe('Table.vue', () => {
       })
 
       await nextTick()
-      const cells = toArray(wrapper.findAll('.el-table__footer .cell'))
+      const cells = wrapper.findAll('.el-table__footer .cell')
       expect(cells[0].text()).toEqual('Time')
       wrapper.unmount()
       done()
@@ -629,7 +629,7 @@ describe('Table.vue', () => {
       })
 
       await nextTick()
-      const cells = toArray(wrapper.findAll('.el-table__footer .cell'))
+      const cells = wrapper.findAll('.el-table__footer .cell')
       expect(cells[1].text()).toEqual('9996')
       wrapper.unmount()
       done()
@@ -740,7 +740,7 @@ describe('Table.vue', () => {
         '.el-table__body-wrapper tbody tr td:last-child',
       )
       equalArray(
-        toArray(lastCells).map(node => node.text()),
+        lastCells.map(node => node.text()),
         ['80', '95', '92', '92', '100'],
       )
       await nextTick()
@@ -750,7 +750,7 @@ describe('Table.vue', () => {
       vm.$refs.table.sort('runtime', 'ascending')
       await nextTick()
       equalArray(
-        toArray(lastCells).map(node => node.text()),
+        lastCells.map(node => node.text()),
         ['-100', '-95', '-92', '-92', '-80'],
       )
       wrapper.unmount()

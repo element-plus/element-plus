@@ -1,7 +1,7 @@
 import {  nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
-import { mount, triggerEvent, toArray, getTestData } from './table-test-common'
+import { mount, triggerEvent, getTestData } from './table-test-common'
 
 describe('table column', () => {
 
@@ -42,7 +42,7 @@ describe('table column', () => {
     it('label', async done => {
       const wrapper = createTable('label="啊哈哈哈"', 'label="啊啦啦啦"')
       await nextTick()
-      const ths = toArray(wrapper.findAll('thead th'))
+      const ths = wrapper.findAll('thead th')
         .map(node => node.text())
         .filter(o => o)
 
@@ -54,7 +54,7 @@ describe('table column', () => {
     it('width', async done => {
       const wrapper = createTable('width="123px"', ':width="102"', 'width="39"')
       await nextTick()
-      const ths = toArray(wrapper.findAll('.el-table__header-wrapper col'))
+      const ths = wrapper.findAll('.el-table__header-wrapper col')
         .map(node => node.attributes('width'))
         .filter(o => o)
       expect(ths).toContain('123')
@@ -72,15 +72,12 @@ describe('table column', () => {
       )
       await nextTick()
       expect(
-        toArray(
-          wrapper.findAll('.el-table__fixed th:not(.is-hidden)'),
-        ).map(node => node.text()),
+        wrapper.findAll('.el-table__fixed th:not(.is-hidden)').map(node => node.text()),
       ).toEqual(['test1', 'test3'])
 
       expect(
-        toArray(
-          wrapper.findAll('.el-table__fixed-right th:not(.is-hidden)'),
-        ).map(node => node.text()),
+        wrapper.findAll('.el-table__fixed-right th:not(.is-hidden)')
+          .map(node => node.text()),
       ).toEqual(['test2'])
       expect(
         wrapper.find('.el-table__body-wrapper').attributes('style'),
@@ -116,9 +113,8 @@ describe('table column', () => {
       })
 
       await nextTick()
-      const cells = toArray(
-        wrapper.findAll('.el-table__body-wrapper tbody tr td:first-child'),
-      )
+      const cells =
+        wrapper.findAll('.el-table__body-wrapper tbody tr td:first-child')
       expect(cells.map(n => n.text())).toEqual(
         getTestData().map(o => `[${o.name}]`),
       )
@@ -284,10 +280,8 @@ describe('table column', () => {
         it('render', async done => {
           await nextTick()
           expect(
-            toArray(
-              wrapper.findAll(
-                '.el-table__body-wrapper tbody tr td:first-child',
-              ),
+            wrapper.findAll(
+              '.el-table__body-wrapper tbody tr td:first-child',
             ).map(node => node.text()),
           ).toEqual(['1', '2', '3', '4', '5'])
           wrapper.unmount()
@@ -373,7 +367,7 @@ describe('table column', () => {
         const lastCells = wrapper.findAll(
           '.el-table__body-wrapper tbody tr td:last-child',
         )
-        expect(toArray(lastCells).map(node => node.text())).toEqual([
+        expect(lastCells.map(node => node.text())).toEqual([
           '100',
           '95',
           '92',
@@ -414,7 +408,7 @@ describe('table column', () => {
         const lastCells = wrapper.findAll(
           '.el-table__body-wrapper tbody tr td:last-child',
         )
-        expect(toArray(lastCells).map(node => node.text())).toEqual([
+        expect(lastCells.map(node => node.text())).toEqual([
           '100',
           '95',
           '92',
@@ -442,7 +436,7 @@ describe('table column', () => {
         const lastCells = wrapper.findAll(
           '.el-table__body-wrapper tbody tr td:last-child',
         )
-        expect(toArray(lastCells).map(node => node.text())).toEqual([
+        expect(lastCells.map(node => node.text())).toEqual([
           '100',
           '95',
           '92',
@@ -470,7 +464,7 @@ describe('table column', () => {
         const lastCells = wrapper.findAll(
           '.el-table__body-wrapper tbody tr td:last-child',
         )
-        expect(toArray(lastCells).map(node => node.text())).toEqual([
+        expect(lastCells.map(node => node.text())).toEqual([
           '80',
           '92',
           '92',
@@ -493,7 +487,7 @@ describe('table column', () => {
         const lastCells = wrapper.findAll(
           '.el-table__body-wrapper tbody tr td:last-child',
         )
-        expect(toArray(lastCells).map(node => node.text())).toEqual([
+        expect(lastCells.map(node => node.text())).toEqual([
           '80',
           '92',
           '92',
@@ -511,7 +505,7 @@ describe('table column', () => {
         const lastCells = wrapper.findAll(
           '.el-table__body-wrapper tbody tr td:last-child',
         )
-        expect(toArray(lastCells).map(node => node.text())).toEqual([
+        expect(lastCells.map(node => node.text())).toEqual([
           '100',
           '95',
           '92',
