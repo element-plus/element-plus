@@ -276,7 +276,6 @@ export default defineComponent({
     }
 
     const formatToString = value => {
-      console.log(value, props.format)
       if (!value) return null
       if (Array.isArray(value)) {
         return value.map(_=> _.format(props.format))
