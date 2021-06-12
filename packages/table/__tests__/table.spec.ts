@@ -2071,69 +2071,121 @@ describe('Table.vue', () => {
     wrapper.unmount()
   })
 
-  it('set rowKey and using index', async () => {
-    const data = [
-      {
-        id: '1',
-        name: 'Toy Story',
-        release: '1995-11-22',
-        director: 'John Lasseter',
-        runtime: 80,
-      },
-      {
-        id: '2',
-        name: "A Bug's Life",
-        release: '1998-11-25',
-        director: 'John Lasseter',
-        runtime: 95,
-      },
-      {
-        id: '3',
-        name: 'Toy Story 2',
-        release: '1999-11-24',
-        director: 'John Lasseter',
-        runtime: 92,
-      },
-      {
-        id: '4',
-        name: 'Monsters, Inc.',
-        release: '2001-11-2',
-        director: 'Peter Docter',
-        runtime: 92,
-      },
-      {
-        id: '5',
-        name: 'Finding Nemo',
-        release: '2003-5-30',
-        director: 'Andrew Stanton',
-        runtime: 100,
-      },
-    ]
-    const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
-      template: `
-        <el-table :data="testData" row-key="release" highlight-current-row >
-          <el-table-column type="index" />
-          <el-table-column prop="name" label="片名" />
-          <el-table-column prop="release" label="发行日期" />
-          <el-table-column prop="director" label="导演" />
-          <el-table-column prop="runtime" label="时长（分）" sortable />
-        </el-table>
-      `,
-      data() {
-        return {
-          testData: data,
-        }
-      },
+  describe('rowKey & index', () => {
+    const getData = () => {
+      return [
+        {
+          id: '1',
+          name: 'Toy Story',
+          release: '1995-11-22',
+          director: 'John Lasseter',
+          runtime: 80,
+        },
+        {
+          id: '2',
+          name: "A Bug's Life",
+          release: '1998-11-25',
+          director: 'John Lasseter',
+          runtime: 95,
+        },
+        {
+          id: '3',
+          name: 'Toy Story 2',
+          release: '1999-11-24',
+          director: 'John Lasseter',
+          runtime: 92,
+        },
+        {
+          id: '4',
+          name: 'Monsters, Inc.',
+          release: '2001-11-2',
+          director: 'Peter Docter',
+          runtime: 92,
+        },
+        {
+          id: '5',
+          name: 'Finding Nemo',
+          release: '2003-5-30',
+          director: 'Andrew Stanton',
+          runtime: 100,
+        },
+      ]
+    }
+    it('set rowKey and using index', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" row-key="release" highlight-current-row >
+            <el-table-column type="index" />
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" sortable />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getData(),
+          }
+        },
+      })
+      await nextTick()
+      const rows = wrapper.findAll('.el-table__row')
+      rows.forEach((row, index) => {
+        const cell = row.find('td')
+        expect(cell.text()).toMatch(`${index + 1}`)
+      })
     })
-    await nextTick()
-    const rows = wrapper.findAll('.el-table__row')
-    rows.forEach((row, index) => {
-      const cell = row.find('td')
-      expect(cell.text()).toMatch(`${index + 1}`)
+    it('with expand row', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" row-key="release" highlight-current-row >
+            <el-table-column type="index" />
+            <el-table-column type="expand">
+              <template #default="props">
+                <span class="index">{{ props.$index }}</span>
+                <span class="director">{{ props.row.director }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" sortable />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getData(),
+          }
+        },
+      })
+      await nextTick()
+      const rows = wrapper.findAll('.el-table__row')
+      rows.forEach((row, index) => {
+        const cell = row.find('td')
+        expect(cell.text()).toMatch(`${index + 1}`)
+      })
+      !(async () => {
+        let index = 0
+        for (const row of rows) {
+          const expandCell = row.findAll('td')[1]
+          const triggerIcon = expandCell.find('.el-table__expand-icon')
+          triggerIcon.trigger('click')
+          await nextTick()
+          const cell = row.find('td')
+          expect(cell.text()).toMatch(`${index + 1}`)
+          index++
+          triggerIcon.trigger('click')
+          await nextTick()
+        }
+      })()
     })
   })
 
