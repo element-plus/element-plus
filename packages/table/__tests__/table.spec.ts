@@ -49,14 +49,13 @@ describe('Table.vue', () => {
         this.testData = getTestData()
       },
     })
-    it('head', async done => {
+    it('head', async () => {
       await nextTick()
       const ths = wrapper.findAll('thead th')
       equalArray(
         ths.map(node => node.text()).filter(o => o),
         ['片名', '发行日期', '导演', '时长（分）'],
       )
-      done()
     })
 
     it('row length', () => {
@@ -150,63 +149,56 @@ describe('Table.vue', () => {
       )
     }
 
-    it('height', async done => {
+    it('height', async () => {
       const wrapper = createTable('height="134"')
       await nextTick()
       expect(wrapper.attributes('style')).toContain('height: 134px')
       wrapper.unmount()
-      done()
     })
 
-    it('height as string', async done => {
+    it('height as string', async () => {
       const wrapper = createTable('height="100px"')
       await nextTick()
       expect(wrapper.attributes('style')).toContain('height: 100px')
       wrapper.unmount()
-      done()
     })
 
-    it('maxHeight', async done => {
+    it('maxHeight', async () => {
       const wrapper = createTable('max-height="134"')
       await nextTick()
       expect(wrapper.attributes('style')).toContain('max-height: 134px')
       wrapper.unmount()
-      done()
     })
 
-    it('stripe', async done => {
+    it('stripe', async () => {
       const wrapper = createTable('stripe')
       await nextTick()
       expect(wrapper.classes()).toContain('el-table--striped')
       wrapper.unmount()
-      done()
     })
 
-    it('border', async done => {
+    it('border', async () => {
       const wrapper = createTable('border')
       await nextTick()
       expect(wrapper.classes()).toContain('el-table--border')
       wrapper.unmount()
-      done()
     })
 
-    it('fit', async done => {
+    it('fit', async () => {
       const wrapper = createTable(':fit="false"')
       await nextTick()
       expect(wrapper.classes()).not.toContain('el-table--fit')
       wrapper.unmount()
-      done()
     })
 
-    it('show-header', async done => {
+    it('show-header', async () => {
       const wrapper = createTable(':show-header="false"')
       await nextTick()
       expect(wrapper.findAll('.el-table__header-wrapper').length).toEqual(0)
       wrapper.unmount()
-      done()
     })
 
-    it('tableRowClassName', async done => {
+    it('tableRowClassName', async () => {
       const wrapper = createTable(':row-class-name="tableRowClassName"', {
         methods: {
           tableRowClassName({ rowIndex }) {
@@ -224,20 +216,18 @@ describe('Table.vue', () => {
       expect(wrapper.findAll('.info-row').length).toEqual(1)
       expect(wrapper.findAll('.positive-row').length).toEqual(1)
       wrapper.unmount()
-      done()
     })
 
-    it('tableRowStyle[Object]', async done => {
+    it('tableRowStyle[Object]', async () => {
       const wrapper = createTable(':row-style="{ height: \'60px\' }"', {})
       await nextTick()
       expect(wrapper.find('.el-table__body tr').attributes('style')).toContain(
         'height: 60px',
       )
       wrapper.unmount()
-      done()
     })
 
-    it('tableRowStyle[Function]', async done => {
+    it('tableRowStyle[Function]', async () => {
       const wrapper = createTable(':row-style="tableRowStyle"', {
         methods: {
           tableRowStyle({ rowIndex }) {
@@ -257,10 +247,9 @@ describe('Table.vue', () => {
       expect(child2.attributes('style')).toContain('height: 60px')
       expect(child2.attributes('style')).toContain('display: none')
       wrapper.unmount()
-      done()
     })
 
-    it('current-row-key', async done => {
+    it('current-row-key', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -293,13 +282,12 @@ describe('Table.vue', () => {
       expect(tr.classes()).not.toContain('current-row')
       expect(rows[1].classes()).toContain('current-row')
       wrapper.unmount()
-      done()
     })
   })
   describe('filter', () => {
     let wrapper: VueWrapper<ComponentPublicInstance>
 
-    beforeEach(async done => {
+    beforeEach(async () => {
       wrapper = mount({
         components: {
           ElTable,
@@ -337,7 +325,6 @@ describe('Table.vue', () => {
         },
       })
       await nextTick()
-      done()
     })
 
     afterEach(() => wrapper.unmount())
@@ -348,17 +335,16 @@ describe('Table.vue', () => {
       ).not.toBeUndefined()
     })
 
-    it('click dropdown', async done => {
+    it('click dropdown', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
       btn.trigger('click')
       await nextTick()
       const filter = document.body.querySelector('.el-table-filter')
       expect(filter).not.toBeUndefined()
       filter.parentNode.removeChild(filter)
-      done()
     })
 
-    it('click filter', async done => {
+    it('click filter', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
 
       btn.trigger('click')
@@ -384,10 +370,9 @@ describe('Table.vue', () => {
         wrapper.findAll('.el-table__body-wrapper tbody tr').length,
       ).toEqual(3)
       filter.parentNode.removeChild(filter)
-      done()
     })
 
-    it('click reset', async done => {
+    it('click reset', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
       btn.trigger('click')
       await nextTick()
@@ -412,7 +397,6 @@ describe('Table.vue', () => {
       ).toContain('is-disabled')
       filter.parentNode.removeChild(filter)
       wrapper.unmount()
-      done()
     })
   })
 
@@ -445,7 +429,7 @@ describe('Table.vue', () => {
       })
     }
 
-    it('select', async done => {
+    it('select', async () => {
       const wrapper = createTable('select')
       await nextTick()
       wrapper.findAll('.el-checkbox')[1].trigger('click')
@@ -453,19 +437,17 @@ describe('Table.vue', () => {
       expect(wrapper.vm.result[1]).toHaveProperty('name')
       expect(wrapper.vm.result[1]['name']).toEqual(getTestData()[0].name)
       wrapper.unmount()
-      done()
     })
 
-    it('selection-change', async done => {
+    it('selection-change', async () => {
       const wrapper = createTable('selection-change')
       await nextTick()
       wrapper.findAll('.el-checkbox')[1].trigger('click')
       expect(wrapper.vm.result.length).toEqual(1)
       wrapper.unmount()
-      done()
     })
 
-    it('cell-mouse-enter', async done => {
+    it('cell-mouse-enter', async () => {
       const wrapper = createTable('cell-mouse-enter')
       await nextTick()
       const cell = wrapper.findAll('.el-table__body .cell')[2] // first row
@@ -474,10 +456,9 @@ describe('Table.vue', () => {
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
       wrapper.unmount()
-      done()
     })
 
-    it('cell-mouse-leave', async done => {
+    it('cell-mouse-leave', async () => {
       const wrapper = createTable('cell-mouse-leave')
       await nextTick()
       const cell = wrapper.findAll('.el-table__body .cell')[7] // second row
@@ -489,10 +470,9 @@ describe('Table.vue', () => {
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
       wrapper.unmount()
-      done()
     })
 
-    it('row-click', async done => {
+    it('row-click', async () => {
       const wrapper = createTable('row-click')
       await nextTick()
       const cell = wrapper.findAll('.el-table__body .cell')[2] // first row
@@ -502,10 +482,9 @@ describe('Table.vue', () => {
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
       wrapper.unmount()
-      done()
     })
 
-    it('row-dblclick', async done => {
+    it('row-dblclick', async () => {
       const wrapper = createTable('row-dblclick')
       await nextTick()
       const cell = wrapper.findAll('.el-table__body .cell')[2] // first row
@@ -515,10 +494,9 @@ describe('Table.vue', () => {
       expect(wrapper.vm.result[0]).toHaveProperty('name')
       expect(wrapper.vm.result[0]['name']).toEqual(getTestData()[0].name)
       wrapper.unmount()
-      done()
     })
 
-    it('header-click', async done => {
+    it('header-click', async () => {
       const wrapper = createTable('header-click')
       await nextTick()
       const cell = wrapper.findAll('.el-table__header th')[1] // header[prop='name']
@@ -526,11 +504,10 @@ describe('Table.vue', () => {
       expect(wrapper.vm.result.length).toEqual(2) // column, event
       expect(wrapper.vm.result[0]['name']).toBeUndefined()
       wrapper.unmount()
-      done()
     })
   })
   describe('summary row', () => {
-    it('should render', async done => {
+    it('should render', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -556,10 +533,9 @@ describe('Table.vue', () => {
       const cells = footer.findAll('.cell')
       expect(cells[cells.length - 1].text()).toEqual('459')
       wrapper.unmount()
-      done()
     })
 
-    it('custom sum text', async done => {
+    it('custom sum text', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -583,10 +559,9 @@ describe('Table.vue', () => {
       const cells = wrapper.findAll('.el-table__footer .cell')
       expect(cells[0].text()).toEqual('Time')
       wrapper.unmount()
-      done()
     })
 
-    it('custom summary method', async done => {
+    it('custom summary method', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -632,7 +607,6 @@ describe('Table.vue', () => {
       const cells = wrapper.findAll('.el-table__footer .cell')
       expect(cells[1].text()).toEqual('9996')
       wrapper.unmount()
-      done()
     })
   })
   describe('methods', () => {
@@ -683,7 +657,7 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
-    it('toggleAllSelection', async done => {
+    it('toggleAllSelection', async () => {
       const wrapper = createTable('selection-change')
       const vm = wrapper.vm
       vm.$refs.table.toggleAllSelection()
@@ -694,7 +668,6 @@ describe('Table.vue', () => {
       await nextTick()
       expect(vm.selection.length).toEqual(0)
       wrapper.unmount()
-      done()
     })
 
     it('clearSelection', () => {
@@ -715,7 +688,7 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
     // TODO
-    it('sort', async done => {
+    it('sort', async () => {
       const wrapper = mount({
         components: {
           ElTableColumn,
@@ -754,7 +727,6 @@ describe('Table.vue', () => {
         ['-100', '-95', '-92', '-92', '-80'],
       )
       wrapper.unmount()
-      done()
     })
 
     it('sort correct change icon', async () => {
@@ -886,7 +858,7 @@ describe('Table.vue', () => {
     wrapper.unmount()
   })
 
-  it('highlight-current-row', async done => {
+  it('highlight-current-row', async () => {
     const wrapper = mount({
       components: {
         ElTable,
@@ -927,10 +899,9 @@ describe('Table.vue', () => {
     expect(rows[1].classList).not.toContain('current-row')
     expect(rows[3].classList).toContain('current-row')
     wrapper.unmount()
-    done()
   })
 
-  it('keep highlight row when data change', async done => {
+  it('keep highlight row when data change', async () => {
     const wrapper = mount({
       components: {
         ElTable,
@@ -971,10 +942,9 @@ describe('Table.vue', () => {
     rows = vm.$el.querySelectorAll('.el-table__body-wrapper tbody tr')
     expect(rows[3].classList).toContain('current-row')
     wrapper.unmount()
-    done()
   })
 
-  it('keep highlight row after sort', async done => {
+  it('keep highlight row after sort', async () => {
     const wrapper = mount({
       components: {
         ElTable,
@@ -1004,7 +974,6 @@ describe('Table.vue', () => {
     await nextTick()
     expect(rows[3].classList).toContain('current-row')
     wrapper.unmount()
-    done()
   })
 
   it('table append is visible in viewport if height is 100%', async () => {
@@ -1341,7 +1310,7 @@ describe('Table.vue', () => {
       )
     })
 
-    it('v-if on el-table-column should patch correctly', async done => {
+    it('v-if on el-table-column should patch correctly', async () => {
       wrapper = mount({
         components: {
           ElTable,
@@ -1379,7 +1348,6 @@ describe('Table.vue', () => {
       await nextTick()
       const firstCellSpanAfterHide = wrapper.find('.el-table__body tr td span')
       expect(firstCellSpanAfterHide.classes().includes('release')).toBeTruthy()
-      done()
     })
   })
 })

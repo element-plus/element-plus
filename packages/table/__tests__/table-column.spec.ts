@@ -40,7 +40,7 @@ describe('table column', () => {
       )
     }
 
-    it('label', async done => {
+    it('label', async () => {
       const wrapper = createTable('label="啊哈哈哈"', 'label="啊啦啦啦"')
       await nextTick()
       const ths = wrapper.findAll('thead th')
@@ -49,10 +49,9 @@ describe('table column', () => {
 
       expect(ths).toEqual(['啊哈哈哈', '啊啦啦啦'])
       wrapper.unmount()
-      done()
     })
 
-    it('width', async done => {
+    it('width', async () => {
       const wrapper = createTable('width="123px"', ':width="102"', 'width="39"')
       await nextTick()
       const ths = wrapper.findAll('.el-table__header-wrapper col')
@@ -62,10 +61,9 @@ describe('table column', () => {
       expect(ths).toContain('102')
       expect(ths).toContain('39')
       wrapper.unmount()
-      done()
     })
 
-    it('fixed', async done => {
+    it('fixed', async () => {
       const wrapper = createTable(
         'fixed label="test1"',
         'fixed="right" label="test2"',
@@ -84,10 +82,9 @@ describe('table column', () => {
         wrapper.find('.el-table__body-wrapper').attributes('style'),
       ).toBeFalsy()
       wrapper.unmount()
-      done()
     })
 
-    it('resizable', async done => {
+    it('resizable', async () => {
       const wrapper = createTable(
         'resizable',
         ':resizable="false"',
@@ -101,10 +98,9 @@ describe('table column', () => {
       triggerEvent(firstCol.element, 'mousemove')
       triggerEvent(firstCol.element, 'mousedown')
       wrapper.unmount()
-      done()
     })
 
-    it('formatter', async done => {
+    it('formatter', async () => {
       const wrapper = createTable(':formatter="renderCell"', '', '', '', {
         methods: {
           renderCell(row) {
@@ -120,27 +116,24 @@ describe('table column', () => {
         getTestData().map(o => `[${o.name}]`),
       )
       wrapper.unmount()
-      done()
     })
 
-    it('show-overflow-tooltip', async done => {
+    it('show-overflow-tooltip', async () => {
       const wrapper = createTable('show-overflow-tooltip')
       await nextTick()
       expect(wrapper.findAll('.el-tooltip').length).toEqual(5)
       wrapper.unmount()
-      done()
     })
 
-    it('show-tooltip-when-overflow', async done => {
+    it('show-tooltip-when-overflow', async () => {
       // old version prop name
       const wrapper = createTable('show-tooltip-when-overflow')
       await nextTick()
       expect(wrapper.findAll('.el-tooltip').length).toEqual(5)
       wrapper.unmount()
-      done()
     })
 
-    it('align', async done => {
+    it('align', async () => {
       const wrapper = createTable(
         'align="left"',
         'align="right"',
@@ -152,10 +145,9 @@ describe('table column', () => {
       expect(wrapper.findAll('.is-right').length).toEqual(len)
       expect(wrapper.findAll('.is-center').length).toEqual(len)
       wrapper.unmount()
-      done()
     })
 
-    it('class-name', async done => {
+    it('class-name', async () => {
       const wrapper = createTable(
         'class-name="column-1"',
         'class-name="column-2 column-class-a"',
@@ -167,10 +159,9 @@ describe('table column', () => {
       expect(wrapper.findAll('.column-2').length).toEqual(len)
       expect(wrapper.findAll('.column-class-a').length).toEqual(len * 2)
       wrapper.unmount()
-      done()
     })
 
-    it('selectable === false & check selectAll status', async done => {
+    it('selectable === false & check selectAll status', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -206,7 +197,6 @@ describe('table column', () => {
       await nextTick()
       expect(wrapper.vm.selected.length).toEqual(0)
       wrapper.unmount()
-      done()
     })
 
     describe('type', () => {
@@ -245,23 +235,21 @@ describe('table column', () => {
       describe('= selection', () => {
         const wrapper = createTable('selection')
 
-        it('render', async done => {
+        it('render', async () => {
           await nextTick()
           expect(wrapper.findAll('.el-checkbox').length).toEqual(
             getTestData().length + 1,
           )
-          done()
         })
 
-        it('select all', async done => {
+        it('select all', async () => {
           wrapper.find('.el-checkbox').trigger('click')
           await nextTick()
           expect(wrapper.vm.selected.length).toEqual(5)
           wrapper.unmount()
-          done()
         })
 
-        it('select one', async done => {
+        it('select one', async () => {
           const wrapper2 = createTable('selection')
 
           await nextTick()
@@ -271,14 +259,13 @@ describe('table column', () => {
           expect(wrapper2.vm.selected.length).toEqual(1)
           expect(wrapper2.vm.selected[0].name).toEqual(getTestData()[0].name)
           wrapper2.unmount()
-          done()
         })
       })
 
       describe('= index', () => {
         const wrapper = createTable('index')
 
-        it('render', async done => {
+        it('render', async () => {
           await nextTick()
           expect(
             wrapper.findAll(
@@ -286,7 +273,6 @@ describe('table column', () => {
             ).map(node => node.text()),
           ).toEqual(['1', '2', '3', '4', '5'])
           wrapper.unmount()
-          done()
         })
       })
 
@@ -330,28 +316,26 @@ describe('table column', () => {
           })
         }
 
-        it('works', async done => {
+        it('works', async () => {
           const wrapper = createInstance()
           await nextTick()
           expect(wrapper.findAll('td.el-table__expand-column').length).toEqual(
             5,
           )
           wrapper.unmount()
-          done()
         })
       })
     })
 
     describe('sortable', () => {
-      it('render', async done => {
+      it('render', async () => {
         const wrapper = createTable('', '', '', 'sortable')
         await nextTick()
         expect(wrapper.findAll('.caret-wrapper').length).toEqual(1)
         wrapper.unmount()
-        done()
       })
 
-      it('sortable orders', async done => {
+      it('sortable orders', async () => {
         const wrapper = createTable(
           '',
           '',
@@ -376,10 +360,9 @@ describe('table column', () => {
           '80',
         ])
         wrapper.unmount()
-        done()
       })
 
-      it('sortable method', async done => {
+      it('sortable method', async () => {
         const wrapper = createTable(
           'sortable :sort-method="sortMethod"',
           '',
@@ -417,10 +400,9 @@ describe('table column', () => {
           '80',
         ])
         wrapper.unmount()
-        done()
       })
 
-      it('sortable by method', async done => {
+      it('sortable by method', async () => {
         const wrapper = createTable('sortable :sort-by="sortBy"', '', '', '', {
           methods: {
             sortBy(a) {
@@ -445,10 +427,9 @@ describe('table column', () => {
           '80',
         ])
         wrapper.unmount()
-        done()
       })
 
-      it('sortable by property', async done => {
+      it('sortable by property', async () => {
         const wrapper = createTable(
           'sortable sort-by="runtime"',
           '',
@@ -473,14 +454,13 @@ describe('table column', () => {
           '100',
         ])
         wrapper.unmount()
-        done()
       })
     })
 
     describe('click sortable column', () => {
       const wrapper = createTable('', '', '', 'sortable')
 
-      it('ascending', async done => {
+      it('ascending', async () => {
         const elm = wrapper.find('.caret-wrapper')
 
         elm.trigger('click')
@@ -495,10 +475,9 @@ describe('table column', () => {
           '95',
           '100',
         ])
-        done()
       })
 
-      it('descending', async done => {
+      it('descending', async () => {
         const elm = wrapper.find('.caret-wrapper')
 
         elm.trigger('click')
@@ -514,11 +493,10 @@ describe('table column', () => {
           '80',
         ])
         wrapper.unmount()
-        done()
       })
     })
 
-    it('change column configuration', async done => {
+    it('change column configuration', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -574,12 +552,11 @@ describe('table column', () => {
       delBut.trigger('click')
       await nextTick()
       expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
-      done()
     })
   })
 
   describe('multi level column', () => {
-    it('should works', async done => {
+    it('should works', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -612,10 +589,9 @@ describe('table column', () => {
       expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual('2')
       expect(trs[0].find('th:nth-child(2)').attributes('colspan')).toEqual('2')
       wrapper.unmount()
-      done()
     })
 
-    it('should works', async done => {
+    it('should works', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -656,10 +632,9 @@ describe('table column', () => {
       expect(trs[1].find('th:nth-child(2)').attributes('rowspan')).toEqual('2')
 
       wrapper.unmount()
-      done()
     })
 
-    it('should work in one column', async done => {
+    it('should work in one column', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -689,12 +664,11 @@ describe('table column', () => {
       expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual('1')
       expect(trs[0].find('th:first-child').attributes('colspan')).toEqual('1')
       wrapper.unmount()
-      done()
     })
   })
 
   describe('dynamic column attribtes', () => {
-    it('label', async done => {
+    it('label', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -727,11 +701,10 @@ describe('table column', () => {
           'NAME',
         )
         wrapper.unmount()
-        done()
       })
     })
 
-    it('align', async done => {
+    it('align', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -762,10 +735,9 @@ describe('table column', () => {
           wrapper.findAll('.el-table__body td.is-right').length > 0,
         ).toBeTruthy()
         wrapper.unmount()
-        done()
       })
     })
-    it('header-align', async done => {
+    it('header-align', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -822,10 +794,9 @@ describe('table column', () => {
         wrapper.findAll('.el-table__header th.is-right').length,
       ).toBeGreaterThanOrEqual(0)
       wrapper.unmount()
-      done()
     })
 
-    it('width', async done => {
+    it('width', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -858,10 +829,9 @@ describe('table column', () => {
         '200',
       )
       wrapper.unmount()
-      done()
     })
 
-    it('min-width', async done => {
+    it('min-width', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -894,10 +864,9 @@ describe('table column', () => {
         '200',
       )
       wrapper.unmount()
-      done()
     })
 
-    it('fixed', async done => {
+    it('fixed', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -931,10 +900,9 @@ describe('table column', () => {
         Object.keys(wrapper.find('.el-table__fixed')).length,
       ).toBeGreaterThan(0)
       wrapper.unmount()
-      done()
     })
 
-    it('prop', async done => {
+    it('prop', async () => {
       const wrapper = mount({
         components: {
           ElTable,
@@ -974,7 +942,6 @@ describe('table column', () => {
         .text()
       expect(firstColumnContent).toEqual(secondColumnContent)
       wrapper.unmount()
-      done()
     })
   })
 })
