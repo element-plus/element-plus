@@ -2,16 +2,15 @@ import { addResizeListener, removeResizeListener } from '@element-plus/utils/res
 
 import type { ObjectDirective } from 'vue'
 
-function handleResize(el, binding) {
-  el && binding.value?.()
-}
-
 const Resize: ObjectDirective = {
   beforeMount(el, binding) {
-    addResizeListener(el, handleResize.bind(null, el, binding))
+    el._handleResize = () => {
+      el && binding.value?.()
+    }
+    addResizeListener(el, el._handleResize)
   },
   beforeUnmount(el) {
-    removeResizeListener(el, handleResize)
+    removeResizeListener(el, el._handleResize)
   },
 }
 
