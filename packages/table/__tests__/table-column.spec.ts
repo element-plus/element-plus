@@ -131,14 +131,14 @@ describe('table column', () => {
       done()
     })
 
-    // it('show-tooltip-when-overflow', async (done) => {
-    //   // old version prop name
-    //   const wrapper = createTable('show-tooltip-when-overflow')
-    //   await nextTick()
-    //   expect(wrapper.findAll('.el-tooltip').length).toEqual(5)
-    //   wrapper.unmount()
-    //   done()
-    // })
+    it('show-tooltip-when-overflow', async done => {
+      // old version prop name
+      const wrapper = createTable('show-tooltip-when-overflow')
+      await nextTick()
+      expect(wrapper.findAll('.el-tooltip').length).toEqual(5)
+      wrapper.unmount()
+      done()
+    })
 
     it('align', async done => {
       const wrapper = createTable(
@@ -614,50 +614,50 @@ describe('table column', () => {
       wrapper.unmount()
       done()
     })
-    // TODO
-    // it('should works', async done => {
-    //   const wrapper = mount({
-    //     components: {
-    //       ElTable,
-    //       ElTableColumn,
-    //     },
-    //     template: `
-    //       <el-table :data="testData">
-    //         <el-table-column prop="name" />
-    //         <el-table-column label="group">
-    //           <el-table-column label="group's group">
-    //             <el-table-column prop="release" />
-    //             <el-table-column prop="runtime"/>
-    //           </el-table-column>
-    //           <el-table-column prop="director" />
-    //         </el-table-column>
-    //         <el-table-column prop="runtime"/>
-    //       </el-table>
-    //     `,
 
-    //     created() {
-    //       this.testData = null
-    //     },
-    //   })
+    it('should works', async done => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData">
+            <el-table-column prop="name" />
+            <el-table-column label="group">
+              <el-table-column label="group's group">
+                <el-table-column prop="release" />
+                <el-table-column prop="runtime"/>
+              </el-table-column>
+              <el-table-column prop="director" />
+            </el-table-column>
+            <el-table-column prop="runtime"/>
+          </el-table>
+        `,
 
-    //   await nextTick()
-    //   const trs = wrapper.findAll('.el-table__header tr')
-    //   expect(trs.length).toEqual(3)
-    //   const firstRowHeader = trs[0].findAll('th .cell').length
-    //   const secondRowHeader = trs[1].findAll('th .cell').length
-    //   const thirdRowHeader = trs[2].findAll('th .cell').length
-    //   expect(firstRowHeader).toEqual(3)
-    //   expect(secondRowHeader).toEqual(2)
-    //   expect(thirdRowHeader).toEqual(2)
+        created() {
+          this.testData = null
+        },
+      })
 
-    //   expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual('3')
-    //   expect(trs[0].find('th:nth-child(2)').attributes('colspan')).toEqual('3')
-    //   expect(trs[1].find('th:first-child').attributes('colspan')).toEqual('2')
-    //   expect(trs[1].find('th:nth-child(2)').attributes('rowspan')).toEqual('2')
+      await nextTick()
+      const trs = wrapper.findAll('.el-table__header tr')
+      expect(trs.length).toEqual(3)
+      const firstRowHeader = trs[0].findAll('th .cell').length
+      const secondRowHeader = trs[1].findAll('th .cell').length
+      const thirdRowHeader = trs[2].findAll('th .cell').length
+      expect(firstRowHeader).toEqual(3)
+      expect(secondRowHeader).toEqual(2)
+      expect(thirdRowHeader).toEqual(2)
 
-    //   wrapper.unmount()
-    //   done()
-    // })
+      expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual('3')
+      expect(trs[0].find('th:nth-child(2)').attributes('colspan')).toEqual('3')
+      expect(trs[1].find('th:first-child').attributes('colspan')).toEqual('2')
+      expect(trs[1].find('th:nth-child(2)').attributes('rowspan')).toEqual('2')
+
+      wrapper.unmount()
+      done()
+    })
 
     it('should work in one column', async done => {
       const wrapper = mount({
