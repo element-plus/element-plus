@@ -4,17 +4,8 @@ import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElCheckbox from '@element-plus/checkbox'
-import { triggerEvent } from '@element-plus/test-utils'
+import { triggerEvent, sleep } from '@element-plus/test-utils'
 import { mount, getTestData } from './table-test-common'
-
-
-async function sleep(time: number) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(undefined)
-    }, time)
-  })
-}
 
 describe('Table.vue', () => {
   describe('rendering data is correct', () => {
@@ -841,11 +832,11 @@ describe('Table.vue', () => {
     const tr = wrapper.find('.el-table__body-wrapper tbody tr')
     tr.trigger('mouseenter')
 
-    await sleep(50)
+    await sleep(50) // sleep due to debouncing
     expect(tr.classes()).toContain('hover-row')
     tr.trigger('mouseleave')
 
-    await sleep(50)
+    await sleep(50) // sleep due to debouncing
     expect(tr.classes()).not.toContain('hover-row')
     wrapper.unmount()
   })
