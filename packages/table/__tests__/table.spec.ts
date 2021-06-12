@@ -7,13 +7,6 @@ import ElCheckbox from '@element-plus/checkbox'
 import { triggerEvent } from '@element-plus/test-utils'
 import { mount, getTestData } from './table-test-common'
 
-const testDataArr = []
-
-getTestData().forEach(cur => {
-  Object.keys(cur).forEach(prop => {
-    testDataArr.push(cur[prop].toString())
-  })
-})
 
 async function sleep(time: number) {
   return new Promise(resolve => {
@@ -62,6 +55,9 @@ describe('Table.vue', () => {
       const cells = wrapper.findAll('td .cell').map(node =>
         node.text(),
       )
+      const testDataArr = getTestData().flatMap(cur => {
+        return Object.values(cur).map(String)
+      })
       expect(cells).toEqual(testDataArr)
       wrapper.unmount()
     })
