@@ -10,10 +10,6 @@ import { mount, getTestData } from './table-test-common'
 describe('Table.vue', () => {
   describe('rendering data is correct', () => {
     const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
       template: `
       <el-table :data="testData">
         <el-table-column prop="id" />
@@ -110,10 +106,6 @@ describe('Table.vue', () => {
       return mount(
         Object.assign(
           {
-            components: {
-              ElTable,
-              ElTableColumn,
-            },
             template: `
           <el-table :data="testData" ${props}>
             <el-table-column prop="name" label="片名" />
@@ -233,10 +225,6 @@ describe('Table.vue', () => {
 
     it('current-row-key', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
         <el-table :data="testData" row-key="id" highlight-current-row :current-row-key="currentRowKey">
           <el-table-column prop="name" label="片名" />
@@ -271,10 +259,6 @@ describe('Table.vue', () => {
 
     beforeEach(async () => {
       wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table ref="table" :data="testData" @filter-change="handleFilterChange">
             <el-table-column prop="name" label="片名" />
@@ -385,10 +369,6 @@ describe('Table.vue', () => {
   describe('events', () => {
     const createTable = function(prop = '') {
       return mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData" @${prop}="handleEvent">
             <el-table-column type="selection" />
@@ -491,10 +471,6 @@ describe('Table.vue', () => {
   describe('summary row', () => {
     it('should render', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData" show-summary>
             <el-table-column prop="name" />
@@ -519,10 +495,6 @@ describe('Table.vue', () => {
 
     it('custom sum text', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData" show-summary sum-text="Time">
             <el-table-column prop="name" />
@@ -545,10 +517,6 @@ describe('Table.vue', () => {
 
     it('custom summary method', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData" show-summary :summary-method="getSummary">
             <el-table-column prop="name" />
@@ -594,10 +562,6 @@ describe('Table.vue', () => {
   describe('methods', () => {
     const createTable = function(prop = '') {
       return mount({
-        components: {
-          ElTableColumn,
-          ElTable,
-        },
         template: `
           <el-table ref="table" :data="testData" @${prop}="handleEvent">
             <el-table-column type="selection" />
@@ -671,10 +635,6 @@ describe('Table.vue', () => {
     })
     it('sort', async () => {
       const wrapper = mount({
-        components: {
-          ElTableColumn,
-          ElTable,
-        },
         template: `
           <el-table ref="table" :data="testData" :default-sort = "{prop: 'runtime', order: 'ascending'}">
             <el-table-column prop="name" />
@@ -721,10 +681,6 @@ describe('Table.vue', () => {
       }
 
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table ref="table" :data="testData" >
             <el-table-column prop="name" sortable />
@@ -769,10 +725,6 @@ describe('Table.vue', () => {
 
     it('setCurrentRow', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
         <div>
           <el-table ref="table" :data="testData" highlight-current-row>
@@ -810,10 +762,6 @@ describe('Table.vue', () => {
 
   it('hover', async () => {
     const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
       template: `
         <el-table :data="testData">
           <el-table-column prop="name" label="片名" fixed />
@@ -843,10 +791,6 @@ describe('Table.vue', () => {
 
   it('highlight-current-row', async () => {
     const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
       template: `
         <el-table :data="testData" highlight-current-row>
           <el-table-column prop="name" label="片名" />
@@ -886,10 +830,6 @@ describe('Table.vue', () => {
 
   it('keep highlight row when data change', async () => {
     const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
       template: `
         <el-table :data="testData" highlight-current-row row-key="release">
           <el-table-column prop="name" label="片名" />
@@ -929,10 +869,6 @@ describe('Table.vue', () => {
 
   it('keep highlight row after sort', async () => {
     const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
       template: `
         <el-table :data="testData" row-key="release" highlight-current-row >
           <el-table-column prop="name" label="片名" />
@@ -961,10 +897,6 @@ describe('Table.vue', () => {
 
   it('table append is visible in viewport if height is 100%', async () => {
     const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
       template: `
       <el-table :data="[]" height="100%">
         <el-table-column prop="name" label="片名" />
@@ -1024,10 +956,6 @@ describe('Table.vue', () => {
       },
     ]
     const wrapper = mount({
-      components: {
-        ElTable,
-        ElTableColumn,
-      },
       template: `
         <el-table :data="testData" row-key="release" highlight-current-row >
           <el-table-column type="index" />
@@ -1056,10 +984,6 @@ describe('Table.vue', () => {
     afterEach(() => wrapper?.unmount())
     it('render tree structual data', async () => {
       wrapper = mount({
-        components: {
-          ElTableColumn,
-          ElTable,
-        },
         template: `
           <el-table :data="testData" row-key="release">
             <el-table-column prop="name" label="片名" />
@@ -1107,10 +1031,6 @@ describe('Table.vue', () => {
 
     it('load substree row data', async () => {
       wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData" row-key="release" lazy :load="load">
             <el-table-column prop="name" label="片名" />
@@ -1165,10 +1085,6 @@ describe('Table.vue', () => {
     it('tree-props & default-expand-all & expand-change', async () => {
       const spy = jest.fn()
       wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table
             :data="testData" lazy default-expand-all row-key="release" :tree-props="{children: 'childrenTest', hasChildren: 'hasChildrenTest'}"
@@ -1232,10 +1148,6 @@ describe('Table.vue', () => {
 
     it('expand-row-keys & toggleRowExpansion', async () => {
       wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData" row-key="release" lazy :load="load" :expand-row-keys="['2003-5-30']" ref="table">
             <el-table-column prop="name" label="片名" />
@@ -1295,10 +1207,6 @@ describe('Table.vue', () => {
 
     it('v-if on el-table-column should patch correctly', async () => {
       wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <div>
             <button @click="hideName">hide name column</button>

@@ -1,7 +1,15 @@
 import { mount as _mount } from '@vue/test-utils'
+import ElTable from '../src/table.vue'
+import ElTableColumn from '../src/table-column/index'
 
 export const mount = (opt: any) =>
-  _mount<any>(opt, {
+  _mount<any>({
+    components: {
+      ElTable,
+      ElTableColumn,
+    },
+    ...opt,
+  }, {
     attachTo: 'body',
   })
 

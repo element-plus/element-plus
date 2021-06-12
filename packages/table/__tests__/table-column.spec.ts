@@ -1,6 +1,4 @@
 import {  nextTick } from 'vue'
-import ElTable from '../src/table.vue'
-import ElTableColumn from '../src/table-column/index'
 import { triggerEvent } from '@element-plus/test-utils'
 import { mount, getTestData } from './table-test-common'
 
@@ -18,10 +16,6 @@ describe('table column', () => {
       return mount(
         Object.assign(
           {
-            components: {
-              ElTable,
-              ElTableColumn,
-            },
             template: `
           <el-table :data="testData" ${tableProps || ''}>
             <el-table-column prop="name" ${props1 || ''} />
@@ -163,10 +157,6 @@ describe('table column', () => {
 
     it('selectable === false & check selectAll status', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData" @selection-change="change">
             <el-table-column type="selection" :selectable="filterSelect" />
@@ -202,10 +192,6 @@ describe('table column', () => {
     describe('type', () => {
       const createTable = function(type) {
         return mount({
-          components: {
-            ElTable,
-            ElTableColumn,
-          },
           template: `
             <el-table :data="testData" @selection-change="change">
               <el-table-column type="${type}" />
@@ -280,10 +266,6 @@ describe('table column', () => {
         const createInstance = function(extra?) {
           extra = extra || ''
           return mount({
-            components: {
-              ElTableColumn,
-              ElTable,
-            },
             template: `
             <el-table row-key="id" :data="testData" @expand-change="handleExpand" ${extra}>
               <el-table-column type="expand">
@@ -498,10 +480,6 @@ describe('table column', () => {
 
     it('change column configuration', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <template>
             <button
@@ -558,10 +536,6 @@ describe('table column', () => {
   describe('multi level column', () => {
     it('should works', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData">
             <el-table-column prop="name" />
@@ -593,10 +567,6 @@ describe('table column', () => {
 
     it('should works', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData">
             <el-table-column prop="name" />
@@ -636,10 +606,6 @@ describe('table column', () => {
 
     it('should work in one column', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData">
             <el-table-column label="group">
@@ -670,10 +636,6 @@ describe('table column', () => {
   describe('dynamic column attribtes', () => {
     it('label', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData">
             <el-table-column prop="name" :label="label"/>
@@ -706,10 +668,6 @@ describe('table column', () => {
 
     it('align', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData">
             <el-table-column prop="name" :align="align"/>
@@ -739,10 +697,6 @@ describe('table column', () => {
     })
     it('header-align', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData">
             <el-table-column prop="name" :align="align" :header-align="headerAlign"/>
@@ -798,10 +752,6 @@ describe('table column', () => {
 
     it('width', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData" :fit="false">
             <el-table-column prop="name" :width="width"/>
@@ -833,10 +783,6 @@ describe('table column', () => {
 
     it('min-width', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData" :fit="false">
             <el-table-column prop="name" :min-width="width"/>
@@ -868,10 +814,6 @@ describe('table column', () => {
 
     it('fixed', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData">
             <el-table-column :fixed="fixed" />
@@ -904,10 +846,6 @@ describe('table column', () => {
 
     it('prop', async () => {
       const wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
         template: `
           <el-table :data="testData">
             <el-table-column :prop="prop" />
