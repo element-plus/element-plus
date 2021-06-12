@@ -34,7 +34,7 @@ export const useCheckboxGroup = () => {
 }
 
 const useModel = (props: ICheckboxProps) => {
-  let selfModel = ref(false)
+  const selfModel = ref(false)
   const { emit } = getCurrentInstance()
   const { isGroup, checkboxGroup } = useCheckboxGroup()
   const isLimitExceeded = ref(false)
