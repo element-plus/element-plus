@@ -15,12 +15,6 @@ getTestData().forEach(cur => {
   })
 })
 
-function equalArray(list: unknown[], arr: unknown[]) {
-  arr.forEach(item => {
-    expect(list).toContain(item)
-  })
-}
-
 async function sleep(time: number) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -52,8 +46,9 @@ describe('Table.vue', () => {
     it('head', async () => {
       await nextTick()
       const ths = wrapper.findAll('thead th')
-      equalArray(
+      expect(
         ths.map(node => node.text()).filter(o => o),
+      ).toEqual(
         ['片名', '发行日期', '导演', '时长（分）'],
       )
     })
@@ -67,7 +62,7 @@ describe('Table.vue', () => {
       const cells = wrapper.findAll('td .cell').map(node =>
         node.text(),
       )
-      equalArray(cells, testDataArr)
+      expect(cells).toEqual(testDataArr)
       wrapper.unmount()
     })
   })
@@ -712,8 +707,9 @@ describe('Table.vue', () => {
       const lastCells = wrapper.findAll(
         '.el-table__body-wrapper tbody tr td:last-child',
       )
-      equalArray(
+      expect(
         lastCells.map(node => node.text()),
+      ).toEqual(
         ['80', '95', '92', '92', '100'],
       )
       await nextTick()
@@ -722,8 +718,9 @@ describe('Table.vue', () => {
       )
       vm.$refs.table.sort('runtime', 'ascending')
       await nextTick()
-      equalArray(
+      expect(
         lastCells.map(node => node.text()),
+      ).toEqual(
         ['-100', '-95', '-92', '-92', '-80'],
       )
       wrapper.unmount()
