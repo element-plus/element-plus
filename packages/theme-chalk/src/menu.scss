@@ -38,7 +38,7 @@
 }
 
 @include b(menu) {
-  border-right: solid 1px #e6e6e6;
+  border-right: solid 1px $--menu-border-color;
   list-style: none;
   position: relative;
   margin: 0;
@@ -46,7 +46,7 @@
   background-color: $--menu-background-color;
   @include utils-clearfix;
   &.#{$namespace}-menu--horizontal {
-    border-bottom: solid 1px #e6e6e6;
+    border-bottom: solid 1px $--menu-border-color;
   }
 
   @include m(horizontal) {
