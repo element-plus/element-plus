@@ -23,6 +23,26 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      const handleChange = (value) => {
+        console.log(value);
+      };
+      return {
+        num,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -43,6 +63,22 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -65,6 +101,22 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(5);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -85,6 +137,22 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(2);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -105,6 +173,22 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      return {
+        num,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 
 :::
@@ -138,6 +222,28 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num1 = ref(1);
+      const num2 = ref(2);
+      const num3 = ref(3);
+      const num4 = ref(4);
+      return {
+        num1,
+        num2,
+        num3,
+        num4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -162,6 +268,26 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const num = ref(1);
+      const handleChange = (value) => {
+        console.log(value);
+      };
+      return {
+        num,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

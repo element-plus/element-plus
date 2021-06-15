@@ -41,6 +41,27 @@ avatorの形状とサイズを設定するために `shape` と `size` プロッ
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+        squareUrl: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
+        sizeList: ['large', 'medium', 'small'],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 
 ```
 :::
@@ -89,6 +110,19 @@ avatorの形状とサイズを設定するために `shape` と `size` プロッ
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent } from 'vue'
+  export default defineComponent({
+    setup() {
+      const errorHandler = () => true;
+      return {
+        errorHandler,
+      };
+    },
+  });
+</setup>
+-->
 
 ```
 :::
@@ -117,6 +151,25 @@ avatorの形状とサイズを設定するために `shape` と `size` プロッ
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
+        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+</setup>
+-->
 
 ```
 :::

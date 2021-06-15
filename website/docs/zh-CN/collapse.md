@@ -41,6 +41,26 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeNames = ref(['1']);
+      const handleChange = (val) => {
+        console.log(val);
+      };
+      return {
+        activeNames,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -78,6 +98,23 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeName = ref('1');
+
+      return {
+        activeName,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

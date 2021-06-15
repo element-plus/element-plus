@@ -162,7 +162,7 @@ tooltip 内不支持 disabled form 元素，参考[MDN](https://developer.mozill
 ### Attributes
 | 参数               | 说明                                                     | 类型              | 可选值      | 默认值 |
 |--------------------|----------------------------------------------------------|-------------------|-------------|--------|
-|  append-to-body | 决定 popper 是否传送到 document.body 下 | Boolean | - | false |
+|  append-to-body | 决定 popper 是否传送到 document.body 下 | Boolean | - | true |
 |  effect        |  默认提供的主题  | String            | dark/light | dark  |
 |  content        |  显示的内容，也可以通过 `slot#content` 传入 DOM  | String            | — | — |
 |  placement        |  Tooltip 的出现位置  | String           |  top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end |  bottom |

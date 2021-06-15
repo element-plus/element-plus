@@ -122,7 +122,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     )
   }
   const wrappedRowRender = (row: T, $index: number) => {
-    const store = props.store as any
+    const store = props.store
     const { isRowExpanded, assertRowKey } = store
     const {
       treeData,

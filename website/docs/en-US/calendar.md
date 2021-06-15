@@ -18,6 +18,23 @@ Display date.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value = ref(new Date());
+
+      return {
+        value,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

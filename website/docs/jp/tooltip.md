@@ -181,7 +181,7 @@
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |----------------|---------|-----------|-------------|--------|
-| append-to-body | dialog自身をボディに追加するかどうかを指定します。入れ子になったdialogは、この属性を `true` に設定しなければなりません。 | boolean   | — | false |
+| append-to-body | dialog自身をボディに追加するかどうかを指定します。入れ子になったdialogは、この属性を `true` に設定しなければなりません。 | boolean   | — | true |
 |  effect   |  ツールチップのテーマ  | string   | dark/light  | dark  |
 |  content  | コンテンツを表示、`slot#content` で上書きすることができます。 | String   | — | — |
 |  placement | ツールチップの位置   | string    |  top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end |  bottom |

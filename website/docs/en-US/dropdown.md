@@ -90,6 +90,24 @@ Use the button to trigger the dropdown list.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = () => {
+        alert('button click');
+      };
+      return {
+        handleClick,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -245,6 +263,26 @@ Clicking each dropdown item fires an event whose parameter is assigned by each i
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const handleCommand = (command) => {
+        ElMessage(`click on item ${command}`);
+      };
+      return {
+        handleCommand,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

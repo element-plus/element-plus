@@ -182,7 +182,7 @@ Les éléments de formulaire désactivés ne sont pas supportés par Tooltip, pl
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |----------------|---------|-----------|-------------|--------|
-| append-to-body     | S'il faut ajouter le Dialog au body. Un Dialog imbriqué doit avoir cet attribut à `true`. | boolean   | — | false |
+| append-to-body     | S'il faut ajouter le Dialog au body. Un Dialog imbriqué doit avoir cet attribut à `true`. | boolean   | — | true |
 | effect | Thème du Tooltip.  | string   | dark/light  | dark  |
 | content | Contenu à afficher, écrasé par `slot#content`. | String   | — | — |
 | placement | Position du Tooltip. | string |  top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end |  bottom |
