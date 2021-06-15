@@ -49,6 +49,7 @@ You can use `color` attr to set the progress bar color. it accepts color string,
 <el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
 
 <el-progress :percentage="percentage" :color="customColors"></el-progress>
+<el-progress :percentage="percentage2" :color="customColors"></el-progress>
 <div>
   <el-button-group>
     <el-button icon="el-icon-minus" @click="decrease"></el-button>
@@ -125,6 +126,7 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
 
 ```html
 <el-progress type="dashboard" :percentage="percentage" :color="colors"></el-progress>
+<el-progress type="dashboard" :percentage="percentage2" :color="colors"></el-progress>
 <div>
   <el-button-group>
     <el-button icon="el-icon-minus" @click="decrease"></el-button>

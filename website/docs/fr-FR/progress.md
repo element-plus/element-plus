@@ -49,6 +49,7 @@ Vous pouvez utiliser l'attribut `color` pour définir la couleur de la barre de 
 <el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
 
 <el-progress :percentage="percentage" :color="customColors"></el-progress>
+<el-progress :percentage="percentage2" :color="customColors"></el-progress>
 <div>
   <el-button-group>
     <el-button icon="el-icon-minus" @click="decrease"></el-button>
@@ -125,6 +126,7 @@ Vous pouvez également spécifier l'attribut `type` de `dashboard` pour utiliser
 
 ```html
 <el-progress type="dashboard" :percentage="percentage" :color="colors"></el-progress>
+<el-progress type="dashboard" :percentage="percentage2" :color="colors"></el-progress>
 <div>
   <el-button-group>
     <el-button icon="el-icon-minus" @click="decrease"></el-button>
