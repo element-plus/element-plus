@@ -116,7 +116,7 @@ export default defineComponent({
     },
     texts: {
       type: Array as PropType<string[]>,
-      default: () => ['Extremely bad','Disappointed','Fair','Satisfied','Surprise'],
+      default: () => ['Extremely bad', 'Disappointed', 'Fair', 'Satisfied', 'Surprise'],
     },
     scoreTemplate: {
       type: String,
@@ -157,6 +157,7 @@ export default defineComponent({
       const matchedValue = map[matchedKeys[0]]
       return isObject(matchedValue) ? matchedValue.value : (matchedValue || '')
     }
+
     const valueDecimal = computed(() => props.modelValue * 100 - Math.floor(props.modelValue) * 100)
     const colorMap = computed(() => isArray(props.colors)
       ? {
@@ -169,7 +170,7 @@ export default defineComponent({
     const decimalStyle = computed(() => {
       let width = ''
       if (rateDisabled.value) {
-        width = `${ valueDecimal.value }%`
+        width = `${valueDecimal.value}%`
       } else if (props.allowHalf) {
         width = '50%'
       }
@@ -229,10 +230,14 @@ export default defineComponent({
       }
       if (props.allowHalf && pointerAtLeftHalf.value) {
         emit('update:modelValue', currentValue.value)
-        emit('change', currentValue.value)
+        if (props.modelValue !== currentValue.value) {
+          emit('change', currentValue.value)
+        }
       } else {
         emit('update:modelValue', value)
-        emit('change', value)
+        if (props.modelValue !== value) {
+          emit('change', value)
+        }
       }
     }
 
@@ -267,6 +272,7 @@ export default defineComponent({
     }
 
     const hoverIndex = ref(-1)
+
     function setCurrentValue(value: number, event: MouseEvent) {
       if (rateDisabled.value) {
         return

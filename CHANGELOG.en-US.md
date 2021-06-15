@@ -1,7 +1,48 @@
 ## Changelog
 
+### 1.0.2-beta.47
+
+*2021-06-11*
+
+### Features
+- Feat Popover: add himBH-popover-border-radius variable (#2094) (#2095)
+- Feat SelectV2: integrate-virtual-list-with-select (#1906)
+
+### Bugfixes
+- Fix DatePicker: date picker support value-format (#2120)
+- Fix Input: style use show-password and clearable (#2168) (#2169)
+- Fix Rate: update change event trigger condition (#2181) 
+- Fix PopConfirm: import missing popover.scss (#2207)
+- Fix Project: upgrade to vue 3.1.1 and with bug fix (#2220)
+### Chore
+- Chore docs: side-nav refactor with Vue3 (#1943) 
+- Chore docs: update doc template (#2142)
+- Chore docs: Collapse code for composition (#2152)
+- Chore docs: Checkbox code for composition (#2153)
+- Chore docs: Cascader code for composition (#2154)
+- Chore docs: Card code for composition (#2155)
+- Chore docs: Calendar code for composition (#2156)
+- Chore docs: Image code for composition (#2157)
+- Chore docs: Avatar code for composition (#2158)
+- Chore docs: ColorPicker code for composition (#2160) 
+- Chore docs: Container code for composition (#2161)
+- Chore docs: DatePicker code for composition (#2162)
+- Chore docs: DateTimePicker code for composition (#2163)
+- Chore docs: Dialog code for composition (#2164)
+- Chore docs: Drawer code for composition (#2165)
+- Chore docs:
+- Chore docs: drawer put v-model to the first (#2174)
+- Chore docs: update Dialog doc (#2175)
+- Chore docs: update dialog (#2176)
+- Chore docs: tooltip appendToBody default value is true (#2184)
+- Chore docs: InfiniteScroll code for composition (#2193)
+- Chore docs: Dropdown code for composition (#2194)
+- Chore docs: InputNumber code for composition (#2195)
+- Chore docs: Loading code for composition (#2196)
+
 ### 1.0.2-beta.46
 
+*2021-06-04*
 #### Features
 - Feat website: demo Composition API (#2099)
 - Feat Input: add input-style prop (#2117) 
