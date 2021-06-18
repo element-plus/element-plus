@@ -66,6 +66,28 @@ Top bar NavMenu can be used in a variety of scenarios.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeIndex = ref('1');
+      const activeIndex2 = ref('1');
+      const handleSelect = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        activeIndex,
+        activeIndex2,
+        handleSelect,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -169,6 +191,28 @@ Vertical NavMenu with sub-menus.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      const handleClose = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        handleOpen,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -239,6 +283,30 @@ Vertical NavMenu could be collapsed.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const isCollapse = ref(true);
+      const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      const handleClose = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        isCollapse,
+        handleOpen,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
