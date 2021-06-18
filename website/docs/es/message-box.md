@@ -33,6 +33,35 @@ Alert interrumpe las operaciones realizadas hasta que el usuario confirme la ale
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElMessageBox.alert('This is a message', 'Title', {
+          confirmButtonText: 'OK',
+          callback: (action) => {
+            this.$message({
+              type: 'info',
+              message: `action: ${action}`,
+            });
+          },
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -71,6 +100,43 @@ Confirm es utilizado para preguntar al usuario y recibir una confirmación.
     }
   }
 </script>
+<!--
+<setup>
+
+import { defineComponent } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { ElMessage } from 'element-plus';
+
+export default defineComponent({
+  setup() {
+    
+
+    const open = () => {
+      ElMessageBox.confirm('proxy will permanently delete the file. Continue?', 'Warning', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+      }).then(() => {
+        ElMessage({
+          type: 'success',
+          message: 'Delete completed',
+        });
+      }).catch(() => {
+        ElMessage({
+          type: 'info',
+          message: 'Delete canceled',
+        });
+      });
+    };
+
+    return {
+      open,
+    };
+  },
+});
+
+</setup>
+-->
 ```
 
 :::
@@ -110,6 +176,45 @@ Prompt es utilizado cuando se requiere entrada de información del usuario.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElMessageBox.prompt('Please input your e-mail', 'Tip', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+          inputErrorMessage: 'Invalid Email',
+        })
+          .then(({ value }) => {
+            ElMessage({
+              type: 'success',
+              message: `Your email is:${value}`,
+            });
+          })
+          .catch(() => {
+            ElMessage({
+              type: 'info',
+              message: 'Input canceled',
+            });
+          });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -163,6 +268,56 @@ Puede ser personalizado para mostrar diversos contenidos.
     }
   }
 </script>
+<!--
+<setup>
+
+import { defineComponent, h } from 'vue';
+import { ElMessage } from 'element-plus';
+
+export default defineComponent({
+  setup() {
+    
+
+    const open = () => {
+      ElMessageBox({
+        title: 'Message',
+        message: h('p', null, [
+          h('span', null, 'Message can be '),
+          h('i', { style: 'color: teal' }, 'VNode'),
+        ]),
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = 'Loading...';
+            setTimeout(() => {
+              done();
+              setTimeout(() => {
+                instance.confirmButtonLoading = false;
+              }, 300);
+            }, 3000);
+          } else {
+            done();
+          }
+        },
+      }).then((action) => {
+        ElMessage({
+          type: 'info',
+          message: `action: ${action}`,
+        });
+      });
+    };
+
+    return {
+      open,
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -194,6 +349,29 @@ El contenido de MessageBox puede ser `VNode`, permitiéndonos pasar componentes 
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElMessageBox.alert('<strong>proxy is <i>HTML</i> string</strong>', 'HTML String', {
+          dangerouslyUseHTMLString: true,
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -240,6 +418,46 @@ En algunos casos, hacer clic en el botón Cancelar y en el botón Cerrar puede t
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElMessageBox.confirm('You have unsaved changes, save and proceed?', 'Confirm', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: 'Save',
+          cancelButtonText: 'Discard Changes',
+        })
+          .then(() => {
+            ElMessage({
+              type: 'info',
+              message: 'Changes saved. Proceeding to a new route.',
+            });
+          })
+          .catch((action) => {
+            ElMessage({
+              type: 'info',
+              message: action === 'cancel'
+                ? 'Changes discarded. Proceeding to a new route.'
+                : 'Stay in the current route',
+            });
+          });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -277,6 +495,43 @@ El contenido del componente MessageBox puede ser centrado.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElMessageBox.confirm('proxy will permanently delete the file. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+          center: true,
+        }).then(() => {
+          ElMessage({
+            type: 'success',
+            message: 'Delete completed',
+          });
+        }).catch(() => {
+          ElMessage({
+            type: 'info',
+            message: 'Delete canceled',
+          });
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
