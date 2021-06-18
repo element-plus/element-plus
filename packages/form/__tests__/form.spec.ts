@@ -48,7 +48,6 @@ describe('Form', () => {
       },
     })
     expect(findStyle(wrapper, '.el-form-item__label').width).toBe('80px')
-    expect(findStyle(wrapper, '.el-form-item__content').marginLeft).toBe('80px')
   })
 
   /*
