@@ -9,6 +9,7 @@
     v-bind="$attrs"
     :popper-class="`el-picker__popper ${popperClass}`"
     :popper-options="elPopperOptions"
+    :fallback-placements="['bottom', 'top', 'right', 'left']"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"

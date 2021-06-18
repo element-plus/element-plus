@@ -16,6 +16,7 @@
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
       :popper-options="popperOptions"
+      :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       effect="light"
       manual-mode
       placement="bottom-start"

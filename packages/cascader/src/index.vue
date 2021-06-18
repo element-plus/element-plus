@@ -6,6 +6,7 @@
     placement="bottom-start"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
+    :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
     :stop-popper-mouse-event="false"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
@@ -173,7 +174,8 @@ const popperOptions = {
       enabled: true,
       phase: 'main',
       fn: ({ state }) => {
-        const { modifiersData, elements } = state
+        const { modifiersData, elements, placement } = state
+        if (['right', 'left'].includes(placement)) return
         const { reference, arrow } = elements
         modifiersData.arrow.x = modifiersData.arrow.x- (reference.clientWidth - arrow.clientWidth) / 2 + 35
       },

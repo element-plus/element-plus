@@ -273,7 +273,7 @@ Al hacer clic en cada elemento desplegable se detona un evento cuyo parámetro e
 
   export default defineComponent({
     setup() {
-      
+
       const handleCommand = (command) => {
         ElMessage(`click on item ${command}`);
       };
@@ -353,7 +353,7 @@ Además del tamaño predeterminado, el componente Dropdown proporciona tres tama
 | max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button  | si se visualiza un grupo de botones      | boolean | —                                        | false       |
 | disabled      | Ya sea para deshabilitar | boolean | — | false |
-| placement     | colocación del menú                      | string  | top/top-start/top-end/bottom/bottom-start/bottom-end | bottom-end  |
+| placement     | colocación del menú                      | string  | top/top-start/top-end/bottom/bottom-start/bottom-end | bottom  |
 | trigger       | cómo detonar                             | string  | hover/click/contextmenu                              | hover       |
 | hide-on-click | si se oculta el menú después de hacer clic en el elemento | boolean | —                                        | true        |
 | show-timeout  | Tiempo de retardo antes de mostrar un dropdown (solamente trabaja cuando se dispara `hover`) | number  | —                                        | 250         |
