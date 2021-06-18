@@ -29,7 +29,7 @@
   }
 
   @include e(wrap) {
-    height: 204px;
+    max-height: 204px;
   }
 
   @include e(list) {
