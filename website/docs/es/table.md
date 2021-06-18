@@ -569,7 +569,7 @@ Cuando los datos se modifican dinámicamente, es posible que necesite que la tab
       width="120">
       <template #default="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.prevent="deleteRow(scope.$index, tableData)"
           type="text"
           size="small">
           Eliminar
