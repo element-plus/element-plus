@@ -141,8 +141,7 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
       :shortcuts="shortcuts"
       range-separator="To"
       start-placeholder="Start date"
-      end-placeholder="End date"
-      align="right">
+      end-placeholder="End date">
     </el-date-picker>
   </div>
 </template>
@@ -254,7 +253,6 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
     <el-date-picker
       v-model="value2"
       type="datetimerange"
-      align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
       :default-time="defaultTime2">
@@ -322,7 +320,6 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 | time-arrow-control | whether to pick time using arrow buttons | boolean | — | false |
 | type | type of the picker | string | year/month/date/datetime/ week/datetimerange/daterange | date |
 | format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | YYYY-MM-DD HH:mm:ss |
-| align | alignment | left/center/right | left |
 | popper-class | custom class name for DateTimePicker's dropdown | string | — | — |
 | range-separator | range separator | string | - | '-' |
 | default-value | optional, default date of the calendar | Date | anything accepted by `new Date()` | — |
