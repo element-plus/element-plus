@@ -16,7 +16,6 @@
 }
 
 @include b(cascader-menu) {
-  height: unset !important;
   min-width: 180px;
   box-sizing: border-box;
   color: $--cascader-menu-font-color;
@@ -31,7 +30,10 @@
   }
 
   @include e(wrap) {
-    max-height: 204px;
+    // Raise the priority
+    &.el-scrollbar__wrap {
+      height: 204px;
+    }
   }
 
   @include e(list) {
