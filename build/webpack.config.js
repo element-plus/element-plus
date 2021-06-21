@@ -2,68 +2,67 @@
 const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+    // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const libMode = process.env.LIBMODE
 const isFullMode = libMode === 'full'
-let externals = [
-  {
+let externals = [{
     vue: {
-      root: 'Vue',
-      commonjs: 'vue',
-      commonjs2: 'vue',
+        root: 'Vue',
+        commonjs: 'vue',
+        commonjs2: 'vue',
+        amd: 'vue',
     },
-  },
-]
+}, ]
 const plugins = [
-  new VueLoaderPlugin(),
-  // new BundleAnalyzerPlugin(),
+    new VueLoaderPlugin(),
+    // new BundleAnalyzerPlugin(),
 ]
 
 const entry = path.resolve(__dirname, '../packages/element-plus/index.ts')
 
 if (!isFullMode) {
-  externals.push({
-    '@popperjs/core': '@popperjs/core',
-    'async-validator': 'async-validator',
-    'mitt': 'mitt',
-    'normalize-wheel': 'normalize-wheel',
-    'resize-observer-polyfill': 'resize-observer-polyfill',
-  },
-  /^dayjs.*/,
-  /^lodash.*/)
+    externals.push({
+            '@popperjs/core': '@popperjs/core',
+            'async-validator': 'async-validator',
+            mitt: 'mitt',
+            'normalize-wheel': 'normalize-wheel',
+            'resize-observer-polyfill': 'resize-observer-polyfill',
+        },
+        /^dayjs.*/,
+        /^lodash.*/,
+    )
 }
 
 const config = {
-  mode: 'production',
-  entry,
-  output: {
-    path: path.resolve(__dirname, '../lib'),
-    publicPath: '/',
-    filename: isFullMode ? 'index.full.js' : 'index.js',
-    libraryTarget: 'umd',
-    library: 'ElementPlus',
-    umdNamedDefine: true,
-    globalObject: 'typeof self !== \'undefined\' ? self : this',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        use: 'vue-loader',
-      },
-      {
-        test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json'],
-  },
-  externals,
-  plugins,
+    mode: 'production',
+    entry,
+    output: {
+        path: path.resolve(__dirname, '../lib'),
+        publicPath: '/',
+        filename: isFullMode ? 'index.full.js' : 'index.js',
+        libraryTarget: 'umd',
+        library: 'ElementPlus',
+        umdNamedDefine: true,
+        globalObject: "typeof self !== 'undefined' ? self : this",
+    },
+    module: {
+        rules: [{
+                test: /\.vue$/,
+                use: 'vue-loader',
+            },
+            {
+                test: /\.(ts|js)x?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+            },
+        ],
+    },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.json'],
+    },
+    externals,
+    plugins,
 }
 
 module.exports = config
