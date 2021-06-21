@@ -523,6 +523,8 @@ export default defineComponent({
 
       if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
         maxDate.value = minDate.value
+        rightDate.value = maxDate.value
+        rightDate.value = rightDate.value.add(1, 'month')
       }
     }
 
@@ -539,6 +541,7 @@ export default defineComponent({
 
       if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
         minDate.value = maxDate.value
+        leftDate.value = minDate.value
       }
     }
 
