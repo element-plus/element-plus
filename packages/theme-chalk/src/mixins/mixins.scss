@@ -104,7 +104,7 @@
   $selector: &;
   $currentSelector: "";
   @each $unit in $modifier {
-    $currentSelector: #{$currentSelector + & + $modifier-separator + $unit + ","};
+    $currentSelector: #{$currentSelector + $selector + $modifier-separator + $unit + ","};
   }
 
   @at-root {
