@@ -219,7 +219,6 @@ Se soporta la selección de un rango de fechas.
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       unlink-panels
       range-separator="To"
       start-placeholder="Start date"
@@ -340,7 +339,6 @@ Se admite la selección de un intervalo de un mes.
     <el-date-picker
       v-model="value2"
       type="monthrange"
-      align="right"
       unlink-panels
       range-separator="To"
       start-placeholder="Start month"
@@ -449,7 +447,6 @@ Si el tipo es `daterange`, `default-value` establece el calendario del lado izqu
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
       :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
@@ -618,7 +615,6 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | end-placeholder   | placeholder para la fecha final en modo rango | string            | —                                        | —                    |
 | type              | tipo de picker                           | string            | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date                 |
 | format            | formato en que se muestra el valor en el input | string            | ver [date formats](#/es/component/date-picker#date-formats) | yyyy-MM-dd           |
-| align             | alineación                               | left/center/right | left                                     |                      |
 | popper-class      | nombre de clase personalizada para el dropdown de DatePicker | string            | —                                        | —                    |
 | range-separator   | separador de rangos                      | string            | —                                        | '-'                  |
 | default-value     | opcional, valor por defecto para el calendario | Date              | cualquiera aceptado por `new Date()`     | —                    |

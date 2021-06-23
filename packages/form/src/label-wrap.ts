@@ -1,24 +1,7 @@
-import {
-  defineComponent,
-  h,
-  inject,
-  ref,
-  watch,
-  onMounted,
-  onUpdated,
-  onBeforeUnmount,
-  nextTick,
-  Fragment,
-} from 'vue'
+import { defineComponent, Fragment, h, inject, nextTick, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
 
-import {
-  elFormKey, elFormItemKey,
-} from './token'
-import {
-  addResizeListener,
-  removeResizeListener,
-  ResizableElement,
-} from '@element-plus/utils/resize-event'
+import { elFormItemKey, elFormKey } from './token'
+import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
 
 export default defineComponent({
   name: 'ElLabelWrap',
@@ -75,28 +58,9 @@ export default defineComponent({
 
     function render() {
       if (!slots) return null
-      if (props.isAutoWidth) {
-        const autoLabelWidth = elForm.autoLabelWidth
-        const style = {} as CSSStyleDeclaration
-        if (autoLabelWidth && autoLabelWidth !== 'auto') {
-          const marginLeft = parseInt(autoLabelWidth, 10) - computedWidth.value
-          if (marginLeft) {
-            style.marginLeft = marginLeft + 'px'
-          }
-        }
-        return h(
-          'div',
-          {
-            ref: el,
-            class: ['el-form-item__label-wrap'],
-            style,
-          },
-          slots.default?.(),
-        )
-      } else {
-        return h(Fragment, { ref: el }, slots.default?.())
-      }
+      return h(Fragment, { ref: el }, slots.default?.())
     }
+
     return render
   },
 })

@@ -12,7 +12,7 @@
     <div class="el-descriptions__body">
       <table :class="[{'is-bordered': border}, descriptionsSize ? `el-descriptions--${descriptionsSize}` : '']">
         <tbody>
-          <template v-for="(row, index) in rows" :key="index">
+          <template v-for="(row, index) in getRows()" :key="index">
             <el-descriptions-row :row="row" />
           </template>
         </tbody>
@@ -96,7 +96,7 @@ export default defineComponent({
       return node
     }
 
-    const rows = computed(() => {
+    const getRows = () => {
       const children = flattedChildren(slots.default?.()).filter(node => node?.type?.name === 'ElDescriptionsItem')
       const rows = []
       let temp = []
@@ -123,11 +123,11 @@ export default defineComponent({
       })
 
       return rows
-    })
+    }
 
     return {
       descriptionsSize,
-      rows,
+      getRows,
     }
   },
 })

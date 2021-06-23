@@ -569,7 +569,7 @@ Quand les données changent dynamiquement, vous pouvez avoir besoin d'une hauteu
       width="120">
       <template #default="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.prevent="deleteRow(scope.$index, tableData)"
           type="text"
           size="small">
           Supprimer

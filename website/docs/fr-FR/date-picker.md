@@ -216,7 +216,6 @@ Vous pouvez sélectionner une plage de dates.
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       unlink-panels
       range-separator="à"
       start-placeholder="Date de début"
@@ -337,7 +336,6 @@ Vous pouvez sélectionner une plage de mois.
     <el-date-picker
       v-model="value2"
       type="monthrange"
-      align="right"
       unlink-panels
       range-separator="à"
       start-placeholder="Mois de début"
@@ -446,7 +444,6 @@ Si le type est `daterange`, `default-value` configure la panneau de gauche.
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
       :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
@@ -615,7 +612,6 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | end-placeholder | Le placeholder pour la date de fin en mode plage de dates. | string | — | — |
 | type | Type du picker. | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
 | format | Format d'affichage dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date). | YYYY-MM-DD |
-| align | Alignement. | left/center/right | left |
 | popper-class | Nom de classe pour le menu déroulant du DatePicker. | string | — | — |
 | range-separator | Séparateur de plage de dates. | string | — | '-' |
 | default-value | Date par défaut du calendrier, optionnelle. | Date | Tout ce qui est accepté par `new Date()` | — |
