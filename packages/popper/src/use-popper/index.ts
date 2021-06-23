@@ -14,12 +14,12 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import usePopperOptions from './popper-options'
 
 import type { ComponentPublicInstance, SetupContext, Ref } from 'vue'
-import type { RefElement } from '@element-plus/types'
 import type {
   IPopperOptions,
   TriggerType,
   PopperInstance,
-} from '../../../internal/props/use-popper-props'
+  RefElement,
+} from './defaults'
 
 export type ElementType = ComponentPublicInstance | HTMLElement
 export type EmitType = 'update:visible' | 'after-enter' | 'after-leave' | 'before-enter' | 'before-leave'
@@ -294,3 +294,5 @@ export default function(
     visibility,
   }
 }
+
+export * from './defaults'
