@@ -1,5 +1,5 @@
 
-import { DEFAULT_TRIGGER, DEFAULT_FALLBACK_PLACEMENTS } from '@element-plus/constants/popper.constants'
+import { DEFAULT_TRIGGER, DEFAULT_FALLBACK_PLACEMENTS } from '../../constants/popper.constants'
 
 import type { PropType, ExtractPropTypes } from 'vue'
 import type { Placement, PositioningStrategy, Instance as PopperInstance, Options } from '@popperjs/core'

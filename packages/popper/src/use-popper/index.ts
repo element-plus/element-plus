@@ -19,7 +19,7 @@ import type {
   IPopperOptions,
   TriggerType,
   PopperInstance,
-} from '@element-plus/internal/props/use-popper-props'
+} from '../../../internal/props/use-popper-props'
 
 export type ElementType = ComponentPublicInstance | HTMLElement
 export type EmitType = 'update:visible' | 'after-enter' | 'after-leave' | 'before-enter' | 'before-leave'
