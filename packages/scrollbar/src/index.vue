@@ -29,7 +29,7 @@
 <script lang="ts">
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { addUnit, isArray, isString, toObject } from '@element-plus/utils/util'
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref, onUpdated } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import Bar from './bar.vue'
 import type { CSSProperties, PropType } from 'vue'
 
@@ -109,7 +109,6 @@ export default defineComponent({
 
     const update = () => {
       if (!wrap.value) return
-      console.log(111111111111)
       const heightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
       const widthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
 
