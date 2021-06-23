@@ -3,6 +3,7 @@
     ref="triggerVnode"
     v-model:visible="visible"
     :placement="placement"
+    :fallback-placements="['bottom', 'top', 'right', 'left']"
     :effect="effect"
     pure
     :manual-mode="true"

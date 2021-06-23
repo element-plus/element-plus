@@ -330,4 +330,12 @@ describe('check-button', () => {
     expect(wrapper.vm.checked).toBe(true)
     expect(wrapper.vm.checklist).toEqual(['a'])
   })
+
+  test('checked', () => {
+    const wrapper = _mount(
+      `<el-checkbox checked />`,
+      () => ({}))
+    expect(wrapper.find('.el-checkbox').classes().toString()).toMatch('is-checked')
+  })
+
 })

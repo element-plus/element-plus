@@ -272,7 +272,7 @@ Le paramètre de cet évènement peut être assigné à chaque élément de la l
 
   export default defineComponent({
     setup() {
-      
+
       const handleCommand = (command) => {
         ElMessage(`click on item ${command}`);
       };
@@ -353,7 +353,7 @@ En plus de la taille par défaut, le composant Dropdown propose trois autres tai
 | max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | Si le bouton est séparé en deux. | boolean         |     —       | false   |
 | disabled     | Désactiver ou non | boolean | — | false |
-| placement    | Emplacement du menu déroulant | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
+| placement    | Emplacement du menu déroulant | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom |
 | trigger       | Comment déclencher l'ouverture du menu.     | string  |    hover/click/contextmenu  |  hover |
 | hide-on-click | Si le menu doit disparaître après avoir cliqué sur un élément.     | boolean          | — | true |
 | show-timeout | Délai avant d'afficher le menu (ne marche que si `trigger` est `hover`) | number | — | 250 |

@@ -48,6 +48,7 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 <el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
 
 <el-progress :percentage="percentage" :color="customColors"></el-progress>
+<el-progress :percentage="percentage2" :color="customColors"></el-progress>
 <div>
   <el-button-group>
     <el-button icon="el-icon-minus" @click="decrease"></el-button>
@@ -60,6 +61,7 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
     data() {
       return {
         percentage: 20,
+        percentage2: 0,
         customColor: '#409eff',
         customColors: [
           {color: '#f56c6c', percentage: 20},
@@ -92,6 +94,11 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
           this.percentage = 0;
         }
       }
+    },
+    mounted() {
+      setInterval(() => {
+        this.percentage2 = (this.percentage2 % 100) + 10
+      }, 500)
     }
   }
 </script>
@@ -116,6 +123,7 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 
 ```html
 <el-progress type="dashboard" :percentage="percentage" :color="colors"></el-progress>
+<el-progress type="dashboard" :percentage="percentage2" :color="colors"></el-progress>
 
 <div>
   <el-button-group>
@@ -129,6 +137,7 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
     data() {
       return {
         percentage: 10,
+        percentage2: 0,
         colors: [
           {color: '#f56c6c', percentage: 20},
           {color: '#e6a23c', percentage: 40},
@@ -151,6 +160,11 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
           this.percentage = 0;
         }
       }
+    },
+    mounted() {
+      setInterval(() => {
+        this.percentage2 = (this.percentage2 % 100) + 10
+      }, 500)
     }
   }
 </script>
@@ -204,22 +218,22 @@ Puede utilizar el atributo `color` para establecer el color de la barra de progr
 :::
 
 ### Atributos
-| Atributo     | Descripción                              | Tipo    | Valores aceptado  | Por defecto |
-| ------------ | ---------------------------------------- | ------- | ----------------- | ----------- |
-| percentage   | porcentaje, requerido                    | number  | 0-100             | 0           |
-| type         | tipo de barra de progreso                | string  | line/circle/dashboard  | line   |
-| stroke-width | ancho de la barra de progreso            | number  | —                 | 6           |
-| text-inside  | mostrar el porcentaje dentro de la barra de progreso, solo funciona cuando `type` es 'line' | boolean | —                 | false       |
-| status       | estado actual de la barra de progreso    | string  | success/exception/warning | —   |
-| indeterminate  | set indeterminate progress | boolean | - | false |
-| duration  | control the animation duration of indeterminate progress  | number | - | 3 |
-| color        | color de fondo de la barra de progreso. Sobreescribe la propiedad `status` | string/function/array | — | '' |
-| width        | ancho del canvas que contiene la barra de progreso circula | number  | —                 | 126         |
-| show-text    | mostrar porcentaje                       | boolean | —                 | true        |
-| stroke-linecap  | circle/dashboard type shape at the end path | string | butt/round/square | round |
-| format  | personalizar el formato de texto estableciendo format  | function(percentage) | — | — |
+| Atributo       | Descripción                                                                                 | Tipo                  | Valores aceptado          | Por defecto |
+| -------------- | ------------------------------------------------------------------------------------------- | --------------------- | ------------------------- | ----------- |
+| percentage     | porcentaje, requerido                                                                       | number                | 0-100                     | 0           |
+| type           | tipo de barra de progreso                                                                   | string                | line/circle/dashboard     | line        |
+| stroke-width   | ancho de la barra de progreso                                                               | number                | —                         | 6           |
+| text-inside    | mostrar el porcentaje dentro de la barra de progreso, solo funciona cuando `type` es 'line' | boolean               | —                         | false       |
+| status         | estado actual de la barra de progreso                                                       | string                | success/exception/warning | —           |
+| indeterminate  | set indeterminate progress                                                                  | boolean               | -                         | false       |
+| duration       | control the animation duration of indeterminate progress                                    | number                | -                         | 3           |
+| color          | color de fondo de la barra de progreso. Sobreescribe la propiedad `status`                  | string/function/array | —                         | ''          |
+| width          | ancho del canvas que contiene la barra de progreso circula                                  | number                | —                         | 126         |
+| show-text      | mostrar porcentaje                                                                          | boolean               | —                         | true        |
+| stroke-linecap | circle/dashboard type shape at the end path                                                 | string                | butt/round/square         | round       |
+| format         | personalizar el formato de texto estableciendo format                                       | function(percentage)  | —                         | —           |
 
 ### Slot
-| name | Description |
-|------|--------|
+| name    | Description                                     |
+| ------- | ----------------------------------------------- |
 | default | Customized content, parameter is { percentage } |

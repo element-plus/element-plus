@@ -5,6 +5,7 @@
     effect="light"
     popper-class="el-popover"
     append-to-body
+    :fallback-placements="['bottom' ,'top', 'right', 'left']"
   >
     <div class="el-popconfirm">
       <p class="el-popconfirm__main">

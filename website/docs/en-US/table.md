@@ -569,7 +569,7 @@ When the the data is dynamically changed, you might want the table to have a max
       width="120">
       <template #default="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.prevent="deleteRow(scope.$index, tableData)"
           type="text"
           size="small">
           Remove

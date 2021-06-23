@@ -1,21 +1,47 @@
 ## Changelog
 
+### 1.0.2-beta.49
+
+*2021-06-23*
+
+### Bug fixes
+
+- Fix col different size style (#2237)
+- Refactor extract common props for props (#2300)
+- Fix Descriptions not re-rendered when slots is updated (#2275)
+- Fix table index error issue (#1919)
+- Fix form use flex layout
+- Fix checkbox selfModel use ref
+- Fix cascader style
+- Fix cascader add fallback-placements in some components (#2267)
+- Rename message-box some var --msgbox to --messagebox (#2241)
+- Fix menu add ms-menu-border-color (#2240)
+- Fix Checkbox checked optional cannot control state issue (#2046)
+- Refactor table test cases (#2232)
+- Fix ElTable index calculation issue (#2143)
+- Fix table test (#2229)
+- Fix date-picker default-time does not work when type is datetime (#2177)
+
 ### 1.0.2-beta.47
 
 *2021-06-11*
 
 ### Features
+
 - Feat Popover: add himBH-popover-border-radius variable (#2094) (#2095)
 - Feat SelectV2: integrate-virtual-list-with-select (#1906)
 
-### Bugfixes
+### Bug fixes
+
 - Fix DatePicker: date picker support value-format (#2120)
 - Fix Input: style use show-password and clearable (#2168) (#2169)
-- Fix Rate: update change event trigger condition (#2181) 
+- Fix Rate: update change event trigger condition (#2181)
 - Fix PopConfirm: import missing popover.scss (#2207)
 - Fix Project: upgrade to vue 3.1.1 and with bug fix (#2220)
+
 ### Chore
-- Chore docs: side-nav refactor with Vue3 (#1943) 
+
+- Chore docs: side-nav refactor with Vue3 (#1943)
 - Chore docs: update doc template (#2142)
 - Chore docs: Collapse code for composition (#2152)
 - Chore docs: Checkbox code for composition (#2153)
@@ -24,7 +50,7 @@
 - Chore docs: Calendar code for composition (#2156)
 - Chore docs: Image code for composition (#2157)
 - Chore docs: Avatar code for composition (#2158)
-- Chore docs: ColorPicker code for composition (#2160) 
+- Chore docs: ColorPicker code for composition (#2160)
 - Chore docs: Container code for composition (#2161)
 - Chore docs: DatePicker code for composition (#2162)
 - Chore docs: DateTimePicker code for composition (#2163)
@@ -43,9 +69,11 @@
 ### 1.0.2-beta.46
 
 *2021-06-04*
+
 #### Features
+
 - Feat website: demo Composition API (#2099)
-- Feat Input: add input-style prop (#2117) 
+- Feat Input: add input-style prop (#2117)
 
 #### Bugfixes
 - Fix Col: should hidden when span is zero (#1769)
@@ -60,7 +88,7 @@
 - Chore Website: update radio VCA doc (#2111)
 - Chore Project: esbuild for single component build (#2112)
 - Chore Website: use built-in throwError function. (#2131)
- 
+
 ### 1.0.2-beta.45
 
 *2021-05-28*
@@ -139,6 +167,7 @@
 - Chore Project: replace unreasonable code (#1963)
 - Chore website: update ad (#1968)
 - Chore ThemeChalk: add missing `!default` modifiers for global variables (#1969)
+
 
 
 ### 1.0.2-beta.41

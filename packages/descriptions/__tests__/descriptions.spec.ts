@@ -95,4 +95,27 @@ describe('Descriptions.vue', () => {
 
     expect(wrapper.findAll('td')[1].element.getAttribute('colSpan')).toEqual('2')
   })
+
+  test('re-rendered when slots is updated', async () => {
+    const CHANGE_VALUE = 'company'
+    const wrapper = _mount(`
+      <el-descriptions v-for="(remark,index) in remarks" :key="index" :title="remark">
+        <el-descriptions-item label="remark">
+          <el-tag size="small">{{remark}}</el-tag>
+        </el-descriptions-item>
+      </el-descriptions>
+      <button @click="onClick">click</button>
+    `, () => {
+      return {
+        remarks: ['school', 'hospital'],
+      }
+    }, {
+      onClick () {
+        this.remarks[0] = CHANGE_VALUE
+      },
+    })
+    wrapper.find('button').trigger('click')
+    await nextTick()
+    expect(wrapper.find('el-tag').text()).toBe(CHANGE_VALUE)
+  })
 })

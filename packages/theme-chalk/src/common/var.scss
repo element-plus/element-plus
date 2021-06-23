@@ -323,8 +323,8 @@ $--alert-icon-large-size: 28px !default;
 -------------------------- */
 /// color||Color|0
 $--messagebox-title-color: $--color-text-primary !default;
-$--msgbox-width: 420px !default;
-$--msgbox-border-radius: 4px !default;
+$--messagebox-width: 420px !default;
+$--messagebox-border-radius: 4px !default;
 /// fontSize||Font|1
 $--messagebox-font-size: $--font-size-large !default;
 /// fontSize||Font|1
@@ -333,7 +333,7 @@ $--messagebox-content-font-size: $--font-size-base !default;
 $--messagebox-content-color: $--color-text-regular !default;
 /// fontSize||Font|1
 $--messagebox-error-font-size: 12px !default;
-$--msgbox-padding-primary: 15px !default;
+$--messagebox-padding-primary: 15px !default;
 /// color||Color|0
 $--messagebox-success-color: $--color-success !default;
 /// color||Color|0
@@ -729,6 +729,7 @@ $--menu-item-font-color: $--color-text-primary !default;
 /// color||Color|0
 $--menu-background-color: $--color-white !default;
 $--menu-item-hover-fill: $--color-primary-light-9 !default;
+$--menu-border-color: #e6e6e6 !default;
 
 /* Rate
 --------------------------*/

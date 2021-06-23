@@ -79,7 +79,7 @@ export default defineComponent({
             return acc.concat(
               this.wrappedRowRender(
                 row,
-                acc.filter(item => typeof item.key === 'number').length,
+                acc.length,
               ),
             )
           }, []),

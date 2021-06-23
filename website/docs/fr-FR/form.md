@@ -83,7 +83,7 @@ Il peut contenir toutes sortes de champs tels que `input`, `select`, `radio` et 
 [W3C](https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2) stipule que
 > <i>Lorsqu'il n'y a qu'un seul champ de type texte dans un formulaire, le navigateur devrait accepter la pression de la touche Entrée sur ce champ comme méthode de soumission du formulaire</i>
 
-Pour éviter ce comportement, vous pouvez ajouter `@submit.native.prevent` dans `<el-form>`.
+Pour éviter ce comportement, vous pouvez ajouter `@submit.prevent` dans `<el-form>`.
   :::
 
 ### Formulaire horizontal
