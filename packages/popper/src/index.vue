@@ -14,9 +14,9 @@ import {
 } from 'vue'
 
 import throwError from '@element-plus/utils/error'
+import defaultProps from '@element-plus/internal/props/use-popper-props'
 
 import usePopper from './use-popper/index'
-import defaultProps from '../../internal/props/use-popper-props'
 
 import { renderPopper, renderTrigger, renderArrow } from './renderers'
 import { ClickOutside } from '@element-plus/directives'

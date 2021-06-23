@@ -5,7 +5,7 @@ import PopupManager from '@element-plus/utils/popup-manager'
 
 import type { SetupContext } from 'vue'
 import type { EmitType } from '@element-plus/popper/src/use-popper'
-import type { IPopperOptions } from '../../internal/props/use-popper-props'
+import type { IPopperOptions } from '@element-plus/internal/props/use-popper-props'
 
 export interface IUsePopover extends IPopperOptions {
   width: number | string

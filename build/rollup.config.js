@@ -20,7 +20,7 @@ const inputs = getPackagesSync()
   .map(pkg => pkg.name)
   .filter(name =>
     name.includes('@element-plus') &&
-    !name.includes('utils') && !name.includes('internal'),
+    !name.includes('utils'),
   )
 
 export default inputs.map(name => ({
