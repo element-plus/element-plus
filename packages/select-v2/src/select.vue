@@ -42,27 +42,41 @@
           </div>
           <div v-if="multiple" class="el-select-v2__selection">
             <template v-if="collapseTags && modelValue.length > 0">
-              <div class="el-select-v2__selected-item">
+              <div
+                v-for="(selected, idx) in states.cachedOptions.length > collapseCounts
+                  ? states.cachedOptions.slice(0, collapseCounts)
+                  : states.cachedOptions"
+                :key="idx"
+                class="el-select-v2__selected-item"
+              >
                 <el-tag
-                  :closable="!selectDisabled && !states.cachedOptions[0].disable"
+                  :key="getValueKey(selected)"
+                  :closable="
+                    !selected && !selected.disable
+                  "
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
-                  @close="deleteTag($event, states.cachedOptions[0])"
+                  @close="deleteTag($event, selected)"
                 >
-                  <span
-                    class="el-select-v2__tags-text"
-                    :style="{ maxWidth: inputWidth - 123 + 'px' }"
-                  >{{ states.cachedOptions[0].label }}</span>
+                  <span class="el-select-v2__tags-text">
+                    {{ getLabel(selected) }}
+                  </span>
                 </el-tag>
+              </div>
+              <div
+                v-if="modelValue.length > collapseCounts"
+                class="el-select-v2__selected-item"
+              >
                 <el-tag
-                  v-if="modelValue.length > 1"
                   :closable="false"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
                 >
-                  <span class="el-select-v2__tags-text">+ {{ modelValue.length - 1 }}</span>
+                  <span class="el-select-v2__tags-text">
+                    + {{ modelValue.length - collapseCounts }}
+                  </span>
                 </el-tag>
               </div>
             </template>
@@ -170,18 +184,24 @@
             v-if="shouldShowPlaceholder"
             :class="{
               'el-select-v2__placeholder': true,
-              'is-transparent': states.isComposing
-                || (
-                  placeholder && multiple
-                    ? modelValue.length === 0
-                    : !modelValue
-                ),
+              'is-transparent':
+                states.isComposing ||
+                (placeholder && multiple
+                  ? modelValue.length === 0
+                  : !modelValue),
             }"
           >
             {{ currentPlaceholder }}
           </span>
           <span class="el-select-v2__suffix">
-            <i v-show="!showClearBtn" :class="['el-select-v2__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
+            <i
+              v-show="!showClearBtn"
+              :class="[
+                'el-select-v2__caret',
+                'el-input__icon',
+                'el-icon-' + iconClass,
+              ]"
+            ></i>
             <i
               v-if="showClearBtn"
               :class="`el-select-v2__caret el-input__icon ${clearIcon}`"
@@ -212,13 +232,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  provide,
-  toRefs,
-  reactive,
-  vModelText,
-} from 'vue'
+import { defineComponent, provide, toRefs, reactive, vModelText } from 'vue'
 import ElTag from '@element-plus/tag'
 import ElPopper from '@element-plus/popper'
 import ElSelectMenu from './select-dropdown.vue'
@@ -237,7 +251,15 @@ export default defineComponent({
   },
   directives: { ClickOutside, ModelText: vModelText },
   props: SelectProps,
-  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
+  emits: [
+    UPDATE_MODEL_EVENT,
+    CHANGE_EVENT,
+    'remove-tag',
+    'clear',
+    'visible-change',
+    'focus',
+    'blur',
+  ],
 
   setup(props, { emit }) {
     const API = useSelect(props, emit)

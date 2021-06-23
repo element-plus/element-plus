@@ -201,6 +201,7 @@
     v-model="value2"
     multiple
     collapse-tags
+    :collapse-counts="3"
     style="margin-left: 20px;"
     placeholder="请选择">
     <el-option
@@ -230,7 +231,7 @@
           label: '龙须面'
         }, {
           value: '选项5',
-          label: '北京烤鸭'
+          label: '北京烤鸭真的非常好吃啊'
         }],
         value1: [],
         value2: []
@@ -529,6 +530,7 @@
 | size | 输入框尺寸 | string | medium/small/mini | — |
 | clearable | 是否可以清空选项 | boolean | — | false |
 | collapse-tags | 多选时是否将选中值按文字的形式展示 | boolean | — | false |
+| collapse-counts | 多选时若选中值按文字的形式展示，最多展示多少个，剩余的以+n方式代替 | number | — | 1 |
 | multiple-limit | 多选时用户最多可以选择的项目数，为 0 则不限制 | number | — | 0 |
 | name | select input 的 name 属性 | string | — | — |
 | autocomplete | select input 的 autocomplete 属性 | string | — | off |
