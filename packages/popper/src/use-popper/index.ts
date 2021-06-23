@@ -1,6 +1,5 @@
-import { computed, ref, reactive, watch, CSSProperties } from 'vue'
+import { computed, ref, reactive, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
-
 import {
   generateId,
   isBool,
@@ -13,13 +12,10 @@ import PopupManager from '@element-plus/utils/popup-manager'
 
 import usePopperOptions from './popper-options'
 
-import type { ComponentPublicInstance, SetupContext, Ref } from 'vue'
-import type {
-  IPopperOptions,
-  TriggerType,
-  PopperInstance,
-  RefElement,
-} from './defaults'
+import type { CSSProperties, ComponentPublicInstance, SetupContext, Ref } from 'vue'
+import type { Instance as PopperInstance } from '@popperjs/core'
+import type { RefElement } from '@element-plus/utils/types'
+import type { TriggerType, IPopperOptions } from '@element-plus/hooks/use-teleport/props'
 
 export type ElementType = ComponentPublicInstance | HTMLElement
 export type EmitType = 'update:visible' | 'after-enter' | 'after-leave' | 'before-enter' | 'before-leave'
@@ -34,6 +30,7 @@ export interface PopperEvents {
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
+
 export default function(
   props: IPopperOptions,
   { emit }: SetupContext<EmitType[]>,
