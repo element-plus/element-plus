@@ -19,7 +19,7 @@
 :::demo 当元素宽度大于滚动条宽度时，会显示横向滚动条。
 
 ```html
-<el-scrollbar>
+<el-scrollbar scrollDirection="horizontal">
   <div class="flex-content">
     <p class="item" v-for="item in 50">{{ item }}</p>
   </div>
@@ -63,13 +63,54 @@
 ```
 
 :::
+### 最大宽度
+
+:::demo 当元素高度超过最大高度，才会显示滚动条。
+
+```html
+<template>
+  <div>
+    <el-button @click="add">添加元素</el-button>
+    <el-button @click="delete">删除元素</el-button>
+  </div>
+  <el-scrollbar max-width="400px" scrollDirection="horizontal">
+    <div class="flex-content">
+      <p class="item"  v-for="item in count">{{ item }}</p>
+    </div>
+  </el-scrollbar>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        count: 3,
+      }
+    },
+    methods: {
+      add() {
+        this.count++
+      },
+      delete() {
+        if (this.count > 0) {
+          this.count--
+        }
+      }
+    }
+  }
+</script>
+```
+:::
 
 ### Scrollbar Attributes
 
 | 参数          | 说明            | 类型            | 可选值                 | 默认值   |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
+| scrollDirection          | 滚动方向         | string  |          'horizontal'             |    'vertical'     |
 | height          | 滚动条高度         | string / number  |          —             |    —     |
 | max-height          | 滚动条最大高度         | string / number  |          —             |    —     |
+| width          | 滚动条长度         | string / number  |          —             |    —     |
+| max-width          | 滚动条最大长度         | string / number  |          —             |    —     |
 | native          | 是否使用原生滚动条样式         | boolean  |          —             |    false     |
 | wrap-style    | 包裹容器的自定义样式  | string | — |    —  |
 | wrap-class  | 包裹容器的自定义类名    | string  |    —  |  — |

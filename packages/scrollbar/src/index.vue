@@ -1,5 +1,5 @@
 <template>
-  <div ref="scrollbar" class="el-scrollbar">
+  <div ref="scrollbar" class="el-scrollbar" :style="{maxWidth: maxWidth ? maxWidth : ''}">
     <div
       ref="wrap"
       :class="[
@@ -12,11 +12,12 @@
     >
       <component
         :is="tag"
-        ref="resize"
         :class="['el-scrollbar__view', viewClass]"
         :style="viewStyle"
       >
-        <slot></slot>
+        <template ref="resize" :style="{display: scrollDirection !== 'vertical' ? 'inline-block' : 'block'}">
+          <slot></slot>
+        </template>
       </component>
     </div>
     <template v-if="!native">
@@ -28,7 +29,7 @@
 <script lang="ts">
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { addUnit, isArray, isString, toObject } from '@element-plus/utils/util'
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref, onUpdated } from 'vue'
 import Bar from './bar.vue'
 import type { CSSProperties, PropType } from 'vue'
 
@@ -36,6 +37,10 @@ export default defineComponent({
   name: 'ElScrollbar',
   components: { Bar },
   props: {
+    scrollDirection: {
+      type: String,
+      default: 'vertical',
+    },
     height: {
       type: [String, Number],
       default: '',
@@ -43,6 +48,14 @@ export default defineComponent({
     maxHeight: {
       type: [String, Number],
       default: '',
+    },
+    width: {
+      type: [String, Number],
+      default: '',
+    },
+    maxWidth: {
+      type: [String, Number],
+      default: '100%',
     },
     native: {
       type: Boolean,
@@ -96,7 +109,7 @@ export default defineComponent({
 
     const update = () => {
       if (!wrap.value) return
-
+      console.log(111111111111)
       const heightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
       const widthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
 
@@ -110,9 +123,13 @@ export default defineComponent({
         style = toObject(style)
         style.height = addUnit(props.height)
         style.maxHeight = addUnit(props.maxHeight)
+        style.width = addUnit(props.width)
+        style.maxWidth = addUnit(props.maxWidth || '100%')
       } else if (isString(style)) {
         style += addUnit(props.height) ? `height: ${addUnit(props.height)};` : ''
         style += addUnit(props.maxHeight) ? `max-height: ${addUnit(props.maxHeight)};` : ''
+        style += addUnit(props.width) ? `width: ${addUnit(props.width)};` : ''
+        style += addUnit(props.maxWidth) ? `max-width: ${addUnit(props.maxWidth)};` : ''
       }
       return style
     })
@@ -133,7 +150,6 @@ export default defineComponent({
         removeEventListener('resize', update)
       }
     })
-
     return {
       moveX,
       moveY,
