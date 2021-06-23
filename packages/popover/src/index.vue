@@ -1,15 +1,17 @@
 <script lang="ts">
 import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives, Teleport, h } from 'vue'
 import ElPopper from '@element-plus/popper'
-import { defaultProps, Effect } from '@element-plus/popper'
 import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
 import { ClickOutside } from '@element-plus/directives'
 import { warn } from '@element-plus/utils/error'
+import defaultProps from '@element-plus/internal/props/use-popper-props'
+import { LIGHT_EFFECT } from '@element-plus/constants/popper.constants'
 import { renderIf, PatchFlags } from '@element-plus/utils/vnode'
+
 import usePopover, { SHOW_EVENT, HIDE_EVENT } from './usePopover'
 
 import type { PropType } from 'vue'
-import type { TriggerType } from '@element-plus/popper'
+import type { TriggerType } from '@element-plus/internal/props/use-popper-props'
 
 const emits = ['update:visible', 'after-enter', 'after-leave', SHOW_EVENT, HIDE_EVENT]
 const NAME = 'ElPopover'
@@ -89,7 +91,7 @@ export default defineComponent({
     ].join(' ')
 
     let popover = renderPopper({
-      effect: Effect.LIGHT,
+      effect: LIGHT_EFFECT,
       name: transition,
       popperClass: kls,
       popperStyle: popperStyle,
