@@ -3,7 +3,7 @@ import { NOOP } from '@vue/shared'
 import { stop } from '@element-plus/utils/dom'
 
 import type { VNode, Ref } from 'vue'
-import type { Effect } from '@element-plus/internal/props/use-popper-props'
+import type { Effect } from '../../../internal/props/use-popper-props'
 
 interface IRenderPopperProps {
   effect: Effect
