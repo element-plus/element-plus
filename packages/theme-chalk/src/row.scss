@@ -4,6 +4,7 @@
 
 @include b(row) {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
   position: relative;
   box-sizing: border-box;
