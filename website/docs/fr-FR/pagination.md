@@ -141,6 +141,33 @@ Vous pouvez ajouter plus de modules suivant vos besoins.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleSizeChange = (val) => {
+        console.log(`${val} items per page`);
+      };
+      const handleCurrentChange = (val) => {
+        console.log(`current page: ${val}`);
+      };
+
+      return {
+        currentPage1: ref(5),
+        currentPage2: ref(5),
+        currentPage3: ref(5),
+        currentPage4: ref(4),
+        handleSizeChange,
+        handleCurrentChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -169,6 +196,21 @@ Lorsqu'il n'y a qu'une seule page, il est possible de cacher la pagination avec 
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
