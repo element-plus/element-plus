@@ -66,7 +66,7 @@
   v-model="inputValue"
   ref="saveTagInput"
   size="mini"
-  @keyup.enter.native="handleInputConfirm"
+  @keyup.enter="handleInputConfirm"
   @blur="handleInputConfirm"
 >
 </el-input>

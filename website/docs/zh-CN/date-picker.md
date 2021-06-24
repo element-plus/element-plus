@@ -22,7 +22,6 @@
     <span class="demonstration">带快捷选项</span>
     <el-date-picker
       v-model="value2"
-      align="right"
       type="date"
       placeholder="选择日期"
       :disabled-date="disabledDate"
@@ -214,7 +213,6 @@
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       unlink-panels
       range-separator="至"
       start-placeholder="开始日期"
@@ -335,7 +333,6 @@ import { defineComponent, reactive, toRefs } from 'vue';
     <el-date-picker
       v-model="value2"
       type="monthrange"
-      align="right"
       unlink-panels
       range-separator="至"
       start-placeholder="开始月份"
@@ -444,7 +441,6 @@ import { defineComponent, reactive, toRefs } from 'vue';
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
       :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
@@ -628,7 +624,6 @@ import { defineComponent, ref } from 'vue';
 | end-placeholder | 范围选择时结束日期的占位内容 | string | — | — |
 | type | 显示类型 | string | year/month/date/dates/ week/datetime/datetimerange/ daterange/monthrange | date |
 | format | 显示在输入框中的格式 | string | 见[日期格式](#/zh-CN/component/date-picker#ri-qi-ge-shi) | YYYY-MM-DD |
-| align | 对齐方式 | string | left, center, right | left |
 | popper-class | DatePicker 下拉框的类名 | string | — | — |
 | range-separator | 选择范围时的分隔符 | string | — | '-' |
 | default-value | 可选，选择器打开时默认显示的时间 | Date | 可被`new Date()`解析 | — |

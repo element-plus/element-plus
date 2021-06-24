@@ -566,7 +566,7 @@
       width="120">
       <template #default="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.prevent="deleteRow(scope.$index, tableData)"
           type="text"
           size="small">
           移除

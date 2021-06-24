@@ -85,7 +85,7 @@ Incluye todo tipo de entradas, tales como `input`, `select`, `radio` y `checkbox
 
 > <i>Cuando sólo hay un campo de entrada de texto de una sola línea en un formulario, el agente usuario debe aceptar <b>Enter</b> en ese campo como una solicitud para enviar el formulario.</i>
 
-Para prevenir este comportamiento, puede agregar `@submit.native.prevent` on `<el-form>`.
+Para prevenir este comportamiento, puede agregar `@submit.prevent` on `<el-form>`.
 :::
 
 ### Formulario inline

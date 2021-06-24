@@ -141,11 +141,8 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         return tr
       }
       // 使用二维数组，避免修改 $index
-      /**
-       * TIP: One dimensional array is used temporarily to avoid rendering flicker.
-       * The case of $index being modified has not been found by testing
-       */
-      return [
+      // Use a two dimensional array avoid modifying $index
+      return [[
         tr,
         h(
           'tr',
@@ -163,7 +160,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             ),
           ],
         ),
-      ]
+      ]]
     } else if (Object.keys(treeData.value).length) {
       assertRowKey()
       // TreeTable 时，rowKey 必须由用户设定，不使用 getKeyOfRow 计算

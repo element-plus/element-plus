@@ -215,7 +215,6 @@
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       unlink-panels
       range-separator="To"
       start-placeholder="Start date"
@@ -335,7 +334,6 @@
     <el-date-picker
       v-model="value2"
       type="monthrange"
-      align="right"
       unlink-panels
       range-separator="To"
       start-placeholder="Start month"
@@ -443,7 +441,6 @@
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
       default-value="2010-10-01">
@@ -611,7 +608,6 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | end-placeholder | 範囲終了日のプレースホルダ | string | — | — |
 | type | ピッカーのタイプ | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
 | format | 入力ボックスの表示値のフォーマット | string | see [date formats](#/jp/component/date-picker#date-formats) | YYYY-MM-DD |
-| align | アライメント | left/center/right | left |
 | popper-class | date-pickerのドロップダウン用カスタムクラス名 | string | — | — |
 | range-separator | 範囲セパレータ | string | — | '-' |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date | anything accepted by `new Date()` | — |
