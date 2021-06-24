@@ -1,5 +1,13 @@
 ## Changelog
 
+### 1.0.2-beta.52
+
+*2021-06-24*
+
+### Bug fixes
+
+- Fix virtual-list module resolve issue (#2316)
+
 ### 1.0.2-beta.49
 
 *2021-06-23*
