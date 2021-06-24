@@ -294,7 +294,7 @@ export default defineComponent({
     }))
 
     watch(
-      [ config, () => props.options ],
+      () => props.options,
       initStore,
       { deep: true, immediate: true },
     )
