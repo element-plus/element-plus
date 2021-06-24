@@ -15,7 +15,9 @@ import usePopperOptions from './popper-options'
 import type { CSSProperties, ComponentPublicInstance, SetupContext, Ref } from 'vue'
 import type { Instance as PopperInstance } from '@popperjs/core'
 import type { RefElement } from '@element-plus/utils/types'
-import type { TriggerType, IPopperOptions } from '@element-plus/hooks/use-teleport/props'
+// Did this on purpose since the current resolution is quite annoying
+import type { TriggerType, IPopperOptions } from '../../../hooks/use-teleport/props'
+
 
 export type ElementType = ComponentPublicInstance | HTMLElement
 export type EmitType = 'update:visible' | 'after-enter' | 'after-leave' | 'before-enter' | 'before-leave'

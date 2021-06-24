@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import buildModifiers from './build-modifiers'
 
 import type { Ref } from 'vue'
-import type { IPopperOptions } from '@element-plus/hooks/use-teleport/props'
+import type { IPopperOptions } from '../../../hooks/use-teleport/props'
 interface IUsePopperState {
   arrow: Ref<HTMLElement>
 }
