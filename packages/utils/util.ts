@@ -250,6 +250,6 @@ export function addUnit(value: string | number) {
  */
 export function isEqualWithFunction (obj: any, other: any) {
   return isEqualWith(obj, other, (objVal, otherVal) => {
-    return isFunction(objVal) && isFunction(otherVal) ? `${objVal}` === `${otherVal}`  : undefined
+    return isFunction(objVal) && isFunction(otherVal) ? `${objVal}` === `${otherVal}` : undefined
   })
 }
