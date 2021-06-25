@@ -180,7 +180,6 @@ const components = [
   ElPageHeader,
   ElPagination,
   ElPopconfirm,
-  ElPopover,
   ElPopper,
   ElProgress,
   ElRadio,
@@ -223,6 +222,7 @@ const plugins = [
   ElMessage,
   ElMessageBox,
   ElNotification,
+  ElPopover,
 ]
 
 const install = (app: App, opt: InstallOptions): void => {
