@@ -112,7 +112,7 @@ export default defineComponent({
       return WEEKS_CONSTANT.concat(WEEKS_CONSTANT).slice(firstDayOfWeek, firstDayOfWeek + 7)
     })
 
-    const rows = computed(() =>  {
+    const rows = computed(() => {
       // TODO: refactory rows / getCellClasses
       const startOfMonth = props.date.startOf('month')
       const startOfMonthDay = startOfMonth.day() || 7 // day of first day

@@ -21,7 +21,7 @@ const FOCUS_HANDLER = (e: KeyboardEvent) => {
   if (focusableElement.length > 0 && e.code === EVENT_CODE.tab) {
     if (focusableElement.length === 1) {
       e.preventDefault()
-      if (document.activeElement  !== focusableElement[0]) {
+      if (document.activeElement !== focusableElement[0]) {
         focusableElement[0].focus()
       }
       return

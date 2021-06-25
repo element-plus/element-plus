@@ -53,7 +53,7 @@ export declare interface TreeStoreOptions {
     filterNodeMethod: FilterNodeMethodFunction
 }
 export declare interface TreeOptionProps {
-    children:  string
+    children: string
     label: string
     disabled: string
     isLeaf?: boolean

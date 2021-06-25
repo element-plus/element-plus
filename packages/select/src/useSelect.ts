@@ -550,7 +550,7 @@ export const useSelect = (props, states: States, ctx) => {
     if(targetOption?.value){
       const options = optionsArray.value.filter(item => item.value === targetOption.value)
       if (options.length > 0) {
-        target =  options[0].$el
+        target = options[0].$el
       }
     }
 
