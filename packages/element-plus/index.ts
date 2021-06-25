@@ -103,7 +103,7 @@ import { setConfig } from '@element-plus/utils/config'
 import isServer from '@element-plus/utils/isServer'
 import dayjs from 'dayjs'
 
-type DWindow =  Window & typeof globalThis & {
+type DWindow = Window & typeof globalThis & {
   dayjs?: typeof dayjs
 }
 

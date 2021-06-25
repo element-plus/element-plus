@@ -186,7 +186,7 @@ const parser = function(date: Date | string, format: string): Dayjs {
   return day.isValid() ? day : undefined
 }
 
-const formatter = function(date: Date,  format: string) {
+const formatter = function(date: Date, format: string) {
   return isEmpty(format) ? date : dayjs(date).format(format)
 }
 
