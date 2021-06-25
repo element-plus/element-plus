@@ -137,6 +137,33 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleSizeChange = (val) => {
+        console.log(`${val} items per page`);
+      };
+      const handleCurrentChange = (val) => {
+        console.log(`current page: ${val}`);
+      };
+
+      return {
+        currentPage1: ref(5),
+        currentPage2: ref(5),
+        currentPage3: ref(5),
+        currentPage4: ref(4),
+        handleSizeChange,
+        handleCurrentChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -165,6 +192,21 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
