@@ -789,7 +789,7 @@ Puede arrastrar y soltar nodos de Tree añadiendo un atributo `draggable` .
 | props                 | Opciones de configuración                | object                            | —                 | —           |
 | render-after-expand   | si se mostrarán los nodos hijo sólo después de que se desglose por primera vez un nodo padre | boolean                           | —                 | true        |
 | load                  | Método para cargar los datos de subárboles | function(node, resolve)           | —                 | —           |
-| render-content        | Función de renderizado para los nodos    | Function(h, { node, data, store } | —                 | —           |
+| render-content        | Función de renderizado para los nodos    | Function(h, { node, data, store }) | —                 | —           |
 | highlight-current     | Si el nodo actual está resaltado         | boolean                           | —                 | false       |
 | default-expand-all    | Expandir todos los nodos por defecto     | boolean                           | —                 | false       |
 | expand-on-click-node  | Si expandir o contraer un nodo al pincharlo, si es false solo se hará al pinchar en la flecha | boolean | — | true |
