@@ -1,7 +1,9 @@
 import type { Ref } from 'vue'
 import { getCurrentInstance } from 'vue'
 
-import { camelize, capitalize, extend, hasOwn, hyphenate, isArray, isObject, isString, looseEqual, toRawType } from '@vue/shared'
+import { camelize, capitalize, extend, hasOwn, hyphenate, isArray, isObject, isString, isFunction, looseEqual, toRawType } from '@vue/shared'
+
+import isEqualWith from 'lodash/isEqualWith'
 
 import isServer from './isServer'
 import type { AnyFunction } from './types'
@@ -235,4 +237,19 @@ export function addUnit(value: string | number) {
     warn(SCOPE, 'binding value must be a string or number')
   }
   return ''
+}
+
+/**
+ * Enhance `lodash.isEqual` for it always return false even two functions have completely same statements.
+ * @param obj The value to compare
+ * @param other The other value to compare
+ * @returns Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *  lodash.isEqual(() => 1, () => 1)      // false
+ *  isEqualWith(() => 1, () => 1)         // true
+ */
+export function isEqualWithFunction (obj: any, other: any) {
+  return isEqualWith(obj, other, (objVal, otherVal) => {
+    return isFunction(objVal) && isFunction(otherVal) ? `${objVal}` === `${otherVal}` : undefined
+  })
 }

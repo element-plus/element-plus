@@ -1,5 +1,20 @@
 ## Changelog
 
+### 1.0.2-beta.53
+
+*2021-06-25*
+
+### Bug fixes
+
+- Fix messageBox should close when press enter (#2308)
+- Fix scrollbar update when slot changed (#2322)
+- Fix can not binding multiple click-outside directives on a component (#2327)
+- Fix v-popover can't work (#2341)
+- Fix cascader-panel should not re-init when props's value not change
+- Fix input-number fix border color when disabled and hover over buttons (#2334)
+- Fix @use "sass:math" repeat reference (#2336)
+- Fix cascader-panel default value doesn't work in lazy mode (#2338)
+
 ### 1.0.2-beta.52
 
 *2021-06-24*

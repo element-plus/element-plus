@@ -40,10 +40,10 @@ export default defineComponent({
 
     const state = reactive({
       fixed: false,
-      height: 0,  // height of root
-      width: 0,  // width of root
+      height: 0, // height of root
+      width: 0, // width of root
       scrollTop: 0, // scrollTop of documentElement
-      clientHeight: 0,  // clientHeight of documentElement
+      clientHeight: 0, // clientHeight of documentElement
       transform: 0,
     })
 

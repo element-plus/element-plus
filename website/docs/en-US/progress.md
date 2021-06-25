@@ -21,6 +21,22 @@ Progress is used to show the progress of current operation, and inform the user 
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const format = (percentage) => (percentage === 100 ? 'Full' : `${percentage}%`);
+      return {
+        format,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -103,6 +119,55 @@ You can use `color` attr to set the progress bar color. it accepts color string,
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        percentage: 20,
+        customColor: '#409eff',
+        customColors: [
+          { color: '#f56c6c', percentage: 20 },
+          { color: '#e6a23c', percentage: 40 },
+          { color: '#5cb87a', percentage: 60 },
+          { color: '#1989fa', percentage: 80 },
+          { color: '#6f7ad3', percentage: 100 },
+        ],
+      });
+      const customColorMethod = (percentage) => {
+        if (percentage < 30) {
+          return '#909399';
+        } if (percentage < 70) {
+          return '#e6a23c';
+        }
+        return '#67c23a';
+      };
+      const increase = () => {
+        state.percentage += 10;
+        if (state.percentage > 100) {
+          state.percentage = 100;
+        }
+      };
+      const decrease = () => {
+        state.percentage -= 10;
+        if (state.percentage < 0) {
+          state.percentage = 0;
+        }
+      };
+      return {
+        ...toRefs(state),
+        customColorMethod,
+        increase,
+        decrease,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -170,6 +235,51 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs, onMounted } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        percentage: 10,
+        percentage2: 0,
+        colors: [
+          { color: '#f56c6c', percentage: 20 },
+          { color: '#e6a23c', percentage: 40 },
+          { color: '#5cb87a', percentage: 60 },
+          { color: '#1989fa', percentage: 80 },
+          { color: '#6f7ad3', percentage: 100 },
+        ],
+      });
+      const increase = () => {
+        state.percentage += 10;
+        if (state.percentage > 100) {
+          state.percentage = 100;
+        }
+      };
+      const decrease = () => {
+        state.percentage -= 10;
+        if (state.percentage < 0) {
+          state.percentage = 0;
+        }
+      };
+      onMounted(() => {
+        setInterval(() => {
+          state.percentage2 = (state.percentage2 % 100) + 10
+        }, 500)
+      });
+      return {
+        ...toRefs(state),
+        increase,
+        decrease,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -216,6 +326,22 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const format = (percentage) => (percentage === 100 ? 'Full' : `${percentage}%`);
+      return {
+        format,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
