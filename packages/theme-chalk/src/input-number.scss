@@ -36,7 +36,7 @@
     &:hover {
       color: $--color-primary;
 
-      &:not(.is-disabled) ~ .#{$namespace}-input .#{$namespace}-input__inner:not(.is-disabled) {
+      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__inner {
         border-color: $--input-focus-border;
       }
     }
