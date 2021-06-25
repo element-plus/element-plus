@@ -180,7 +180,6 @@ const components = [
   ElPageHeader,
   ElPagination,
   ElPopconfirm,
-  ElPopover,
   ElPopper,
   ElProgress,
   ElRadio,
