@@ -28,7 +28,7 @@
 <script lang="ts">
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { addUnit, isArray, isString, toObject } from '@element-plus/utils/util'
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue'
 import Bar from './bar.vue'
 import type { CSSProperties, PropType } from 'vue'
 
@@ -71,7 +71,7 @@ export default defineComponent({
     },
   },
   emits: ['scroll'],
-  setup(props, { emit }) {
+  setup(props, { slots, emit }) {
     const sizeWidth = ref('0')
     const sizeHeight = ref('0')
     const moveX = ref(0)
@@ -115,6 +115,10 @@ export default defineComponent({
         style += addUnit(props.maxHeight) ? `max-height: ${addUnit(props.maxHeight)};` : ''
       }
       return style
+    })
+
+    watch(() => slots.default?.(), () => {
+      nextTick(update)
     })
 
     onMounted(() => {
