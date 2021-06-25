@@ -223,6 +223,7 @@ const plugins = [
   ElMessage,
   ElMessageBox,
   ElNotification,
+  ElPopover,
 ]
 
 const install = (app: App, opt: InstallOptions): void => {
