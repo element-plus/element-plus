@@ -2,6 +2,12 @@
 
 通过基础的 24 分栏，迅速简便地创建布局。
 
+:::tip
+组件默认采用了 flex 布局，无需手动设置 `type="flex"`。
+
+请注意父容器避免使用 `inline` 相关样式，会导致组件宽度不能撑满。
+:::
+
 ### 基础布局
 
 使用单一分栏创建基础的栅格布局。
@@ -214,31 +220,31 @@
 
 ### 对齐方式
 
-通过 `flex` 布局来对分栏进行灵活的对齐。
+默认使用 `flex` 布局来对分栏进行灵活的对齐。
 
-:::demo 将 `type` 属性赋值为 'flex'，可以启用 flex 布局，并可通过 `justify` 属性来指定 start, center, end, space-between, space-around 其中的值来定义子元素的排版方式。
+:::demo 可通过 `justify` 属性来指定 start, center, end, space-between, space-around 其中的值来定义子元素的排版方式。
 ```html
-<el-row type="flex" class="row-bg">
+<el-row class="row-bg">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="center">
+<el-row class="row-bg" justify="center">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="end">
+<el-row class="row-bg" justify="end">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="space-between">
+<el-row class="row-bg" justify="space-between">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="space-around">
+<el-row class="row-bg" justify="space-around">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
@@ -334,7 +340,6 @@ import 'element-plus/lib/theme-chalk/display.css';
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | gutter | 栅格间隔 | number | — | 0 |
-| type | 布局模式，可选 flex，现代浏览器下有效 | string | — | — |
 | justify | flex 布局下的水平排列方式 | string | start/end/center/space-around/space-between | start |
 | align | flex 布局下的垂直排列方式 | string | top/middle/bottom | top |
 | tag | 自定义元素标签 | string | * | div |

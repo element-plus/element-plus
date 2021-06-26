@@ -2,6 +2,10 @@
 
 フォームは `input`, `radio`, `select`, `checkbox` などから構成されています。フォームを使うと、データを収集したり、検証したり、送信したりすることができます。
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### 基本フォーム
 
 これには、`input`, `select`, `radio`, `checkbox` などのあらゆる種類の入力項目が含まれます。
