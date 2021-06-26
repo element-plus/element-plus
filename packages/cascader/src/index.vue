@@ -174,10 +174,9 @@ const popperOptions = {
       enabled: true,
       phase: 'main',
       fn: ({ state }) => {
-        const { modifiersData, elements, placement } = state
+        const { modifiersData, placement } = state
         if (['right', 'left'].includes(placement)) return
-        const { reference, arrow } = elements
-        modifiersData.arrow.x = modifiersData.arrow.x- (reference.clientWidth - arrow.clientWidth) / 2 + 35
+        modifiersData.arrow.x = 35
       },
       requires: ['arrow'],
     },
