@@ -2,6 +2,10 @@
 
 Form consiste en `input`, `radio`, `select`, `checkbox`, etcétera. Con el formulario, usted puede recopilar, verificar y enviar datos.
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### Form básico
 
 Incluye todo tipo de entradas, tales como `input`, `select`, `radio` y `checkbox`.

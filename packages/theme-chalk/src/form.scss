@@ -38,7 +38,6 @@
 @include b(form-item) {
   display: flex;
   margin-bottom: 22px;
-  @include utils-clearfix;
 
   & .#{$namespace}-form-item {
     margin-bottom: 0;
@@ -99,7 +98,6 @@
     line-height: 40px;
     position: relative;
     font-size: 14px;
-    @include utils-clearfix;
 
     .#{$namespace}-input-group {
       vertical-align: top;

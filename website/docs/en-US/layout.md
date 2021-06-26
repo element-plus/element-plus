@@ -2,6 +2,12 @@
 
 Quickly and easily create layouts with the basic 24-column.
 
+:::tip
+The component uses flex layout by default, no need to set `type="flex"` manually.
+
+Please note that the parent container should avoid using `inline` related styles, which will cause the component to not fill up its width.
+:::
+
 ### Basic layout
 
 Create basic grid layout using columns.
@@ -215,31 +221,31 @@ You can specify column offsets.
 
 ### Alignment
 
-Use the flex layout to make flexible alignment of columns.
+Default use the flex layout to make flexible alignment of columns.
 
-:::demo You can enable flex layout by setting `type` attribute to 'flex', and define the layout of child elements by setting `justify` attribute with start, center, end, space-between or space-around.
+:::demo You can define the layout of child elements by setting `justify` attribute with start, center, end, space-between or space-around.
 ```html
-<el-row type="flex" class="row-bg">
+<el-row class="row-bg">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="center">
+<el-row class="row-bg" justify="center">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="end">
+<el-row class="row-bg" justify="end">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="space-between">
+<el-row class="row-bg" justify="space-between">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="space-around">
+<el-row class="row-bg" justify="space-around">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
@@ -335,7 +341,6 @@ The classes are:
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | gutter | grid spacing | number | — | 0 |
-| type | layout mode, you can use flex, works in modern browsers | string | — | — |
 | justify | horizontal alignment of flex layout | string | start/end/center/space-around/space-between | start |
 | align | vertical alignment of flex layout | string | top/middle/bottom | top |
 | tag | custom element tag | string | * | div |
