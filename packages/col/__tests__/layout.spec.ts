@@ -116,12 +116,6 @@ describe('Row', () => {
     expect(rowElm.style.marginLeft).toEqual('-10px')
     expect(rowElm.style.marginRight).toEqual('-10px')
   })
-  test('type', () => {
-    const wrapper = mount(Row, {
-      props: { type: 'flex' },
-    })
-    expect(wrapper.classes()).toContain('el-row--flex')
-  })
   test('justify', () => {
     const wrapper = mount(Row, {
       props: { justify: 'end' },
