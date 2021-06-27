@@ -165,10 +165,10 @@
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | label          | 标签文本         | string  |          —             |    —     |
 | span          | 列的数量         | number  |          —             |    1     |
-| width          | 列的宽度，不同行相同列的宽度按最大值设定         | string/number  |          —             |    —     |
-| min-width          | 列的最小宽度，与 `width` 的区别是 `width` 是固定的，`min-width` 会把剩余宽度按比例分配给设置了 `min-width` 的列         | string/number  |          —             |    —     |
-| align          | 列的内容对齐方式         | string  |          left/center/right             |    left     |
-| label-align          | 列的标签对齐方式，若不设置该项，则使用内容的对齐方式         | string  |          left/center/right             |    left     |
+| width          | 列的宽度，不同行相同列的宽度按最大值设定         | string / number  |          —             |    —     |
+| min-width          | 列的最小宽度，与 `width` 的区别是 `width` 是固定的，`min-width` 会把剩余宽度按比例分配给设置了 `min-width` 的列         | string / number  |          —             |    —     |
+| align          | 列的内容对齐方式         | string  |          left / center / right             |    left     |
+| label-align          | 列的标签对齐方式，若不设置该项，则使用内容的对齐方式         | string  |          left / center / right             |    left     |
 | class-name          | 列的内容自定义类名         | string  |          —             |    —     |
 | label-class-name          | 列的标签自定义类名         | string  |          —             |    —     |
 
