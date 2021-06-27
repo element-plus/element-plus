@@ -25,7 +25,7 @@ export default defineComponent({
     },
     labelAlign: {
       type: String,
-      default: 'left',
+      default: '',
     },
     className: {
       type: String,

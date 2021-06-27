@@ -168,7 +168,7 @@ Display multiple fields in list form.
 | width          | column width, the width of the same column in different rows is set by the max value         | string / number  |          —             |    —     |
 | min-width          | column minimum width, columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion         | string / number  |          —             |    —     |
 | align          | column content alignment         | string  |          left / center / right             |    left     |
-| label-align          | column label alignment, if omitted, the value of the above `align` attribute will be applied         | string  |          left / center / right             |    left     |
+| label-align          | column label alignment, if omitted, the value of the above `align` attribute will be applied         | string  |          left / center / right             |    —     |
 | class-name          | column content custom class name         | string  |          —             |    —     |
 | label-class-name          | column label custom class name         | string  |          —             |    —     |
 

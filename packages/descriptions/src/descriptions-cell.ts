@@ -23,7 +23,7 @@ export default defineComponent({
         span: props.cell?.props?.span || 1,
         width: props.cell?.props?.width || '',
         minWidth: props.cell?.props?.['min-width'] || props.cell?.props?.minWidth || '',
-        align: props.cell?.props?.align || '',
+        align: props.cell?.props?.align || 'left',
         labelAlign: props.cell?.props?.['label-align'] || props.cell?.props?.labelAlign || '',
         className: props.cell?.props?.['class-name'] || props.cell?.props?.className || '',
         labelClassName: props.cell?.props?.['label-class-name'] || props.cell?.props?.labelClassName || '',
