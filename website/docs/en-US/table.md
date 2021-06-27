@@ -1893,8 +1893,8 @@ You can customize row index in `type=index` columns.
 | label | column label | string | — | — |
 | column-key | column's key. If you need to use the filter-change event, you need this attribute to identify which column is being filtered | string | — | — |
 | prop |  field name. You can also use its alias: `property` | string | — | — |
-| width | column width | string | — | — |
-| min-width | column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion | string | — | — |
+| width | column width | string/number | — | — |
+| min-width | column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion | string/number | — | — |
 | fixed | whether column is fixed at left/right. Will be fixed at left if `true` | string/boolean | true/left/right | — |
 | render-header | render function for table header of this column | Function({ column, $index }) | — | — |
 | sortable | whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table | boolean / string | true / false / custom | false |

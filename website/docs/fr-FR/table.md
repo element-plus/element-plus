@@ -1904,8 +1904,8 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 | label | Label de la colonne. | string | — | — |
 | column-key | La clé de la colonne. Si vous avez besoin d'utiliser l'évènement filter-change, vous aurez besoin de cet attribut pour savoir quelle colonne est filtrée. | string | string | — | — |
 | prop | Nom du champ de l'objet de données. Alias: `property`. | string | — | — |
-| width | Largeur de la colonne. | string | — | — |
-| min-width | Largeur minimale de la colonne. Les colonnes avec `width` ont une largeur fixe, alors que celles avec `min-width` ont une largeur proportionnellement distribuée. | string | — | — |
+| width | Largeur de la colonne. | string/number | — | — |
+| min-width | Largeur minimale de la colonne. Les colonnes avec `width` ont une largeur fixe, alors que celles avec `min-width` ont une largeur proportionnellement distribuée. | string/number | — | — |
 | fixed | Si la colonne est fixée à droite ou à gauche. Fixée à gauche si `true`. | string/boolean | true/left/right | — |
 | render-header | Fonction de rendu pour le header de cette colonne. | Function({ column, $index }) | — | — |
 | sortable | Si la colonne peut être triée. Tri dynamique possible en mettant à 'custom' et en écoutant l'évènement `sort-change` de Table. | boolean, string | true, false, custom | false |

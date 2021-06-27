@@ -1898,8 +1898,8 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | label                 | etiqueta de la columna                   | string                            | —                             | —           |
 | column-key            | clave de la columna. Si necesita utilizar el evento `filter-change`, necesita el atributo para identificar cual columna está siendo filtrada | string                            | string                        | —           |
 | prop                  | nombre del campo. También puede usar su alias: `property` | string                            | —                             | —           |
-| width                 | ancho de la columna                      | string                            | —                             | —           |
-| min-width             | ancho mínimo de la columna. Columnas con `width` tienen un ancho fijo, mientras que las columnas con `min-width` tienen un ancho que se distribuye en proporción. | string                            | —                             | —           |
+| width                 | ancho de la columna                      | string/number                            | —                             | —           |
+| min-width             | ancho mínimo de la columna. Columnas con `width` tienen un ancho fijo, mientras que las columnas con `min-width` tienen un ancho que se distribuye en proporción. | string/number                            | —                             | —           |
 | fixed                 | especifica si la columna se fija a la izquierda o a la derecha. Se fijará a la izquierda si es `true` | string/boolean                    | true/left/right               | —           |
 | render-header         | Función de renderizado para la cabecera de la tabla de esta columna | Function({ column, $index })   | —                             | —           |
 | sortable              | especifica que columna puede ser ordenado. El ordenamiento remoto puede ser hecho configurando el atributo `custom` y escucha al evento de tabla `sort-change` | boolean, string                   | true, false, custom           | false       |

@@ -24,7 +24,6 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, provide } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import DescriptionsItem from '@element-plus/descriptions-item'
 import DescriptionsRow from './descriptions-row.vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { elDescriptionsKey } from './descriptions.type'
@@ -32,7 +31,6 @@ import { elDescriptionsKey } from './descriptions.type'
 export default defineComponent({
   name: 'ElDescriptions',
   components: {
-    [DescriptionsItem.name]: DescriptionsItem,
     [DescriptionsRow.name]: DescriptionsRow,
   },
   props: {

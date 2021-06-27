@@ -28,9 +28,18 @@
       width: 100%;
 
       th, td {
+        box-sizing: border-box;
         text-align: left;
         font-weight: normal;
         line-height: 1.5;
+
+        @include when(center) {
+          text-align: center;
+        }
+
+        @include when(right) {
+          text-align: right;
+        }
       }
     }
   }
