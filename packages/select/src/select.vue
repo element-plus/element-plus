@@ -30,18 +30,18 @@
             class="el-select__tags"
             :style="{ 'max-width': inputWidth - 32 + 'px', width: '100%' }"
           >
-            <transition @after-leave="resetInputHeight">
+            <transition
+              v-if="collapseTags && selected.length"
+              @after-leave="resetInputHeight"
+            >
               <span
-                v-if="collapseTags && selected.length"
                 :style="{
                   marginLeft:
                     prefixWidth && selected.length ? `${prefixWidth}px` : null,
                 }"
               >
                 <el-tag
-                  v-for="item in selected.length > collapseCounts
-                    ? selected.slice(0, collapseCounts)
-                    : selected"
+                  v-for="item in noCollapsedSelects"
                   :key="getValueKey(item)"
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
@@ -69,8 +69,9 @@
                   </span>
                 </el-tag>
               </span>
+            </transition>
+            <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
-                v-else
                 :style="{
                   marginLeft:
                     prefixWidth && selected.length ? `${prefixWidth}px` : null,
@@ -450,6 +451,16 @@ export default defineComponent({
       return popper.value?.popperRef
     })
 
+    // selecteds not collapsed
+    const noCollapsedSelects = computed(() => {
+      const selecteds = selected.value
+      if (props.multiple && selecteds.length && selecteds.length > props.collapseCounts) {
+        return selecteds.slice(0, props.collapseCounts)
+      } else {
+        return selecteds
+      }
+    })
+
     return {
       tagInMultiLine,
       prefixWidth,
@@ -506,6 +517,7 @@ export default defineComponent({
       input,
       popper,
       popperPaneRef,
+      noCollapsedSelects,
       tags,
       selectWrapper,
       scrollbar,

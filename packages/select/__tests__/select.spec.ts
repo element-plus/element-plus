@@ -6,6 +6,7 @@ import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
 
 jest.useFakeTimers()
+
 interface SelectProps {
   filterMethod?: any
   remoteMethod?: any
@@ -15,6 +16,7 @@ interface SelectProps {
   allowCreate?: boolean
   remote?: boolean
   collapseTags?: boolean
+  collapseCounts?: number
   automaticDropdown?: boolean
   multipleLimit?: number
   popperClass?: string
@@ -44,6 +46,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     configs[config] = configs[config] || false
   })
   configs.multipleLimit = configs.multipleLimit || 0
+  configs.collapseCounts = configs.collapseCounts || 1
   if (!options) {
     options = [{
       value: '选项1',
@@ -78,6 +81,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :clearable="clearable"
       :filterable="filterable"
       :collapse-tags="collapseTags"
+      :collapse-counts="collapseCounts"
       :allow-create="allowCreate"
       :filterMethod="filterMethod"
       :remote="remote"
@@ -99,6 +103,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     clearable: configs.clearable,
     filterable: configs.filterable,
     collapseTags: configs.collapseTags,
+    collapseCounts: configs.collapseCounts,
     allowCreate: configs.allowCreate,
     popperClass: configs.popperClass,
     automaticDropdown: configs.automaticDropdown,
@@ -470,6 +475,50 @@ describe('Select', () => {
     const tagWrapperDom = tagWrappers[0].element
     expect(parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123).toBe(true)
     mockInputWidth.mockRestore()
+  })
+
+  test('multiple select with collapseTags', async () => {
+    const wrapper = _mount(`
+    <el-select v-model="value" multiple :collapse-tags="isCollapsed" :collapse-counts="collapseCounts" placeholder="Select Business Unit">
+    <el-option
+      v-for="(item, index) in options"
+      :key="index"
+      :value="index + 1"
+      :label="item.name"
+    >
+    </el-option>
+  </el-select>`, () => ({
+      value: [1],
+      isCollapsed: true,
+      collapseCounts: 1,
+      options: [
+        { name: 'Test 1' },
+        { name: 'Test 2' },
+        { name: 'Test 3' },
+        { name: 'Test 4' },
+        { name: 'Test 5' },
+      ],
+    }))
+    const vm = wrapper.vm as any
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+
+    vm.value = [1, 2]
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+
+    vm.value = [1, 2, 3, 4, 5]
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+
+    vm.value = [1, 2, 3, 4]
+    vm.collapseCounts = 2
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(3)
+
+    vm.collapseCounts = 3
+    await vm.$nextTick()
+    expect(wrapper.findAll('.el-tag').length).toBe(4)
   })
 
   test('multiple remove-tag', async () => {
@@ -862,17 +911,17 @@ describe('Select', () => {
 
   test('tag of disabled option is not closable', async () => {
     const wrapper = _mount(`
-    <el-select v-model="vendors" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
+    <el-select v-model="value" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
     <el-option
-      v-for="(vendor, index) in options"
+      v-for="(item, index) in options"
       :key="index"
       :value="index + 1"
-      :label="vendor.name"
-      :disabled="vendor.isDisabled"
+      :label="item.name"
+      :disabled="item.isDisabled"
     >
     </el-option>
   </el-select>`, () => ({
-      vendors: [2, 3, 4],
+      value: [2, 3, 4],
       isCollapsed: false,
       isClearable: false,
       options: [
@@ -894,7 +943,7 @@ describe('Select', () => {
 
     //test if is clearable
     vm.isClearable = true
-    vm.vendors = [2, 3, 4]
+    vm.value = [2, 3, 4]
     await vm.$nextTick()
     selectVm.inputHovering = true
     await selectVm.$nextTick()
@@ -904,7 +953,7 @@ describe('Select', () => {
     expect(wrapper.findAll('.el-tag').length).toBe(2)
 
     // test for collapse select
-    vm.vendors = [1, 2, 4]
+    vm.value = [1, 2, 4]
     vm.isCollapsed = true
     vm.isClearable = false
     await vm.$nextTick()
@@ -914,7 +963,7 @@ describe('Select', () => {
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
 
     // test for collapse select if is clearable
-    vm.vendors = [1, 2, 4]
+    vm.value = [1, 2, 4]
     vm.isCollapsed = true
     vm.isClearable = true
     await vm.$nextTick()

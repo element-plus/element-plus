@@ -51,7 +51,7 @@
 :::demo 在`el-option`中，设定`disabled`值为 true，即可禁用该选项
 ```html
 <template>
-  <el-select v-model="value" placeholder="请选择">
+  <el-select v-model="value" multiple :clearable="false" placeholder="请选择">
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -67,23 +67,23 @@
     data() {
       return {
         options: [{
-          value: '选项1',
-          label: '黄金糕'
+          value: '黄金糕',
+          label: '黄金糕',
+          disabled: false
         }, {
-          value: '选项2',
+          value: '双皮奶',
           label: '双皮奶',
           disabled: true
         }, {
-          value: '选项3',
-          label: '蚵仔煎'
+          value: '蚵仔煎',
+          label: '蚵仔煎',
+          disabled: false
         }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
+          value: '龙须面',
+          label: '龙须面',
+          disabled: true
         }],
-        value: ''
+        value: []
       }
     }
   }
@@ -201,7 +201,7 @@
     v-model="value2"
     multiple
     collapse-tags
-    :collapse-counts="3"
+    :collapse-counts="1"
     style="margin-left: 20px;"
     placeholder="请选择">
     <el-option
