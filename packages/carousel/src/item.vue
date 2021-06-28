@@ -99,7 +99,7 @@ export default defineComponent({
     }
 
     function calcCardTranslate(index, activeIndex) {
-      const parentWidth = injectCarouselScope.offsetWidth.value
+      const parentWidth = injectCarouselScope.root.value?.offsetWidth || 0
       if (data.inStage) {
         return (
           (parentWidth * ((2 - CARD_SCALE) * (index - activeIndex) + 1)) / 4
@@ -112,8 +112,12 @@ export default defineComponent({
     }
 
     function calcTranslate(index, activeIndex, isVertical) {
-      const distance =
-        injectCarouselScope[isVertical ? 'offsetHeight' : 'offsetWidth'].value
+      let distance: number
+      if (isVertical) {
+        distance = injectCarouselScope.root.value?.offsetHeight || 0
+      } else {
+        distance = injectCarouselScope.root.value?.offsetWidth || 0
+      }
       return distance * (index - activeIndex)
     }
 
@@ -122,6 +126,7 @@ export default defineComponent({
       activeIndex: number,
       oldIndex: number,
     ) => {
+      debugger
       const parentType = injectCarouselScope.type
       const length = injectCarouselScope.items.value.length
       if (parentType !== 'card' && oldIndex !== undefined) {
