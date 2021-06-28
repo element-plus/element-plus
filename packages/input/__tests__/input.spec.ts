@@ -284,7 +284,7 @@ describe('Input.vue', () => {
         },
       })
       const ref = wrapper.vm.$refs.textarea
-      const originMinHeight  = ref.computedTextareaStyle.minHeight
+      const originMinHeight = ref.computedTextareaStyle.minHeight
 
       ref.autosize.minRows = 5
       ref.resizeTextarea()

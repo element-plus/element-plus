@@ -2,6 +2,10 @@
 
 Form consists of `input`, `radio`, `select`, `checkbox` and so on. With form, you can collect, verify and submit data.
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### Basic form
 
 It includes all kinds of input items, such as `input`, `select`, `radio` and `checkbox`.
@@ -83,7 +87,7 @@ It includes all kinds of input items, such as `input`, `select`, `radio` and `ch
 [W3C](https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2) regulates that
 > <i>When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form.</i>
 
-To prevent this behavior, you can add `@submit.native.prevent` on `<el-form>`.
+To prevent this behavior, you can add `@submit.prevent` on `<el-form>`.
   :::
 
 ### Inline form

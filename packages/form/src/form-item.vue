@@ -42,31 +42,16 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  provide,
-  inject,
-  ref,
-  watch,
-  computed,
-  nextTick,
-  onMounted,
-  onBeforeUnmount,
-  getCurrentInstance,
-  toRefs,
-  reactive,
-} from 'vue'
+import type { PropType } from 'vue'
+import { computed, defineComponent, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
 import { NOOP } from '@vue/shared'
-import AsyncValidator from 'async-validator'
-import { RuleItem } from 'async-validator'
+import AsyncValidator, { RuleItem } from 'async-validator'
 import LabelWrap from './label-wrap'
 import { getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import mitt from 'mitt'
-import { elFormKey, elFormItemKey, elFormEvents } from './token'
-
-import type { PropType } from 'vue'
 import type { ElFormContext, ValidateFieldCallback } from './token'
+import { elFormEvents, elFormItemKey, elFormKey } from './token'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -99,7 +84,7 @@ export default defineComponent({
       validator: isValidComponentSize,
     },
   },
-  setup(props) {
+  setup(props, { slots }) {
     const formItemMitt = mitt()
     const $ELEMENT = useGlobalConfig()
 
@@ -161,13 +146,7 @@ export default defineComponent({
       }
       const labelWidth = props.labelWidth || elForm.labelWidth
       const ret: Partial<CSSStyleDeclaration> = {}
-      if (labelWidth === 'auto') {
-        if (props.labelWidth === 'auto') {
-          ret.marginLeft = computedLabelWidth.value
-        } else if (elForm.labelWidth === 'auto') {
-          ret.marginLeft = elForm.autoLabelWidth
-        }
-      } else {
+      if (!props.label && !slots.label) {
         ret.marginLeft = labelWidth
       }
       return ret

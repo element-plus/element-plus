@@ -793,7 +793,7 @@ Vous pouvez déplacer les noeuds par drag'n drop en ajoutant l'attribut `draggab
 | props                 | Options de configuration, voir table suivante. | object                      | —               | —       |
 | render-after-expand   | Si les noeuds enfants doivent être générés seulement après la première ouverture du parent. | boolean | — | true |
 | load                  | Méthode pour charger les noeuds enfants, uniquement en mode `lazy`.  | function(node, resolve)     | —               | —       |
-| render-content        | Fonction de rendu pour les noeuds.            | Function(h, { node, data, store }        | —               | —       |
+| render-content        | Fonction de rendu pour les noeuds.            | Function(h, { node, data, store })        | —               | —       |
 | highlight-current     | Si le noeud courant est mis en valeur.      | boolean                     | —               | false   |
 | default-expand-all    | Si tous les noeuds sont ouverts par défaut.   | boolean                     | —               | false   |
 | expand-on-click-node  | Si l'ouverture se fait aussi en cliquant sur le noeud. Si `false`, l'ouverture ne se fera qu'en cliquant sur l'icône. | boolean | — | true |

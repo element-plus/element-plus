@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import InputNumber from '../src/index.vue'
-import { ref, nextTick } from  'vue'
+import { ref, nextTick } from 'vue'
 
 const mouseup = new Event('mouseup')
 const _mount = options => mount({

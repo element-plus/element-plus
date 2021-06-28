@@ -25,7 +25,6 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
       v-model="value2"
       type="datetime"
       placeholder="选择日期时间"
-      align="right"
       :shortcuts="shortcuts">
     </el-date-picker>
   </div>
@@ -140,8 +139,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
       :shortcuts="shortcuts"
       range-separator="至"
       start-placeholder="开始日期"
-      end-placeholder="结束日期"
-      align="right">
+      end-placeholder="结束日期">
     </el-date-picker>
   </div>
 </template>
@@ -253,7 +251,6 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
     <el-date-picker
       v-model="value2"
       type="datetimerange"
-      align="right"
       start-placeholder="开始日期"
       end-placeholder="结束日期"
       :default-time="defaultTime2">
@@ -321,7 +318,6 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
 | time-arrow-control | 是否使用箭头进行时间选择 | boolean | — | false |
 | type | 显示类型 | string | year/month/date/week/ datetime/datetimerange/daterange | date |
 | format | 显示在输入框中的格式 | string | 见[日期格式](#/zh-CN/component/date-picker#ri-qi-ge-shi) | YYYY-MM-DD HH:mm:ss |
-| align | 对齐方式 | string | left, center, right | left |
 | popper-class | DateTimePicker 下拉框的类名 | string | — | — |
 | range-separator | 选择范围时的分隔符 | string | - | '-' |
 | default-value | 可选，选择器打开时默认显示的时间 | Date | 可被`new Date()`解析 | — |

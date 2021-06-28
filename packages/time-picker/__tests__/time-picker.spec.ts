@@ -92,8 +92,8 @@ describe('TimePicker', () => {
     const minutesEl = list[1]
     const secondsEl = list[2]
     const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
-    const minuteEl = minutesEl.querySelectorAll('.el-time-spinner__item')[36]  as any
-    const secondEl = secondsEl.querySelectorAll('.el-time-spinner__item')[20]  as any
+    const minuteEl = minutesEl.querySelectorAll('.el-time-spinner__item')[36] as any
+    const secondEl = secondsEl.querySelectorAll('.el-time-spinner__item')[20] as any
     // click hour, minute, second one at a time.
     hourEl.click()
     await nextTick()

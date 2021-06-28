@@ -34,6 +34,37 @@ Se muestra en la parte superior de la pagina y desaparece después de 3 segundos
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, h } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElMessage('this is a message.');
+      };
+
+      const openVn = () => {
+        ElMessage({
+          message: h('p', null, [
+            h('span', null, 'Message can be '),
+            h('i', { style: 'color: teal' }, 'VNode'),
+          ]),
+        });
+      };
+
+      return {
+        open,
+        openVn,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -76,6 +107,44 @@ Utilizados para mostrar retroalimentación de Success, Warning, Message y Error 
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElMessage('this is a message.');
+      };
+      const open2 = () => {
+        ElMessage({
+          message: 'Congrats, this is a success message.',
+          type: 'success',
+        });
+      };
+      const open3 = () => {
+        ElMessage({
+          message: 'Warning, this is a warning message.',
+          type: 'warning',
+        });
+      };
+      const open4 = () => {
+        ElMessage.error('Oops, this is a error message.');
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -128,6 +197,53 @@ Un botón para cerrar que puede ser agregado.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElMessage({
+          showClose: true,
+          message: 'This is a message.',
+        });
+      };
+      const open2 = () => {
+        ElMessage({
+          showClose: true,
+          message: 'Congrats, this is a success message.',
+          type: 'success',
+        });
+      };
+      const open3 = () => {
+        ElMessage({
+          showClose: true,
+          message: 'Warning, this is a warning message.',
+          type: 'warning',
+        });
+      };
+      const open4 = () => {
+        ElMessage({
+          showClose: true,
+          message: 'Oops, this is a error message.',
+          type: 'error',
+        });
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -153,6 +269,29 @@ Utiliza el atributo `center` para centrar el texto.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const openCenter = () => {
+        ElMessage({
+          showClose: true,
+          message: 'Centered text',
+        });
+      };
+      return {
+        openCenter,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -178,6 +317,29 @@ Utiliza el atributo `center` para centrar el texto.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const openCenter = () => {
+        ElMessage({
+          dangerouslyUseHTMLString: true,
+          message: '<strong>This is <i>HTML</i> string</strong>',
+        });
+      };
+      return {
+        openCenter,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

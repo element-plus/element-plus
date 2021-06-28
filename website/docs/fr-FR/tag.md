@@ -66,7 +66,7 @@ Vous pouvez utiliser l'évènement `close` pour ajouter et supprimer des tags dy
   v-model="inputValue"
   ref="saveTagInput"
   size="mini"
-  @keyup.enter.native="handleInputConfirm"
+  @keyup.enter="handleInputConfirm"
   @blur="handleInputConfirm"
 >
 </el-input>

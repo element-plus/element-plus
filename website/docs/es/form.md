@@ -2,6 +2,10 @@
 
 Form consiste en `input`, `radio`, `select`, `checkbox`, etcétera. Con el formulario, usted puede recopilar, verificar y enviar datos.
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### Form básico
 
 Incluye todo tipo de entradas, tales como `input`, `select`, `radio` y `checkbox`.
@@ -85,7 +89,7 @@ Incluye todo tipo de entradas, tales como `input`, `select`, `radio` y `checkbox
 
 > <i>Cuando sólo hay un campo de entrada de texto de una sola línea en un formulario, el agente usuario debe aceptar <b>Enter</b> en ese campo como una solicitud para enviar el formulario.</i>
 
-Para prevenir este comportamiento, puede agregar `@submit.native.prevent` on `<el-form>`.
+Para prevenir este comportamiento, puede agregar `@submit.prevent` on `<el-form>`.
 :::
 
 ### Formulario inline
