@@ -2,6 +2,10 @@
 
 Un formulaire est constitué des éléments `input`, `radio`, `select`, `checkbox`, etc. Il sert principalement à collecter, vérifier et soumettre des données.
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### Formulaire de base
 
 Il peut contenir toutes sortes de champs tels que `input`, `select`, `radio` et `checkbox`.
