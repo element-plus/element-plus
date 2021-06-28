@@ -89,7 +89,6 @@ The basic multi-select selector with tags
     style="width: 200px;"
     multiple
     collapse-tags
-    :collapse-counts="2"
   />
 </template>
 
@@ -346,7 +345,6 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 | size | input box size | string | medium/small/mini | — |
 | clearable | whether select can be cleared | boolean | — | false |
 | collapse-tags | whether to collapse tags to a text when multiple selecting | boolean | — | false |
-| collapse-counts | maximum number of selected options to display when collapse-tags has been set to true | number | — | 1 |
 | multiple-limit | maximum number of options user can select when multiple is true. No limit when set to 0 | number | — | 0 |
 | name | the name attribute of select input | string | — | — |
 | autocomplete | select input 的 autocomplete 属性 | string | — | off |
@@ -383,7 +381,7 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 | focus | triggers when Input focuses | (event: Event) |
 
 ### SelectV2 Slots
-|   name  | 说明     |
+|   name  | 说明     |
 |---------|---------|
 |  default | Option renderer |
 | empty | 无Option时的列表 |

@@ -16,10 +16,6 @@ export const SelectProps = {
     default: 'el-icon-circle-close',
   },
   collapseTags: Boolean,
-  collapseCounts: {
-    type: Number,
-    default: 1,
-  },
   defaultFirstOption: Boolean,
   disabled: Boolean,
   estimatedOptionHeight: {

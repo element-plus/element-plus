@@ -89,7 +89,6 @@
     style="width: 200px;"
     multiple
     collapse-tags
-    :collapse-counts="2"
   />
 </template>
 
@@ -346,7 +345,6 @@ WIP (该功能还在施工中👷‍♀️)
 | size | 输入框尺寸 | string | medium/small/mini | — |
 | clearable | 是否可以清空选项 | boolean | — | false |
 | collapse-tags | 多选时是否将选中值按文字的形式展示 | boolean | — | false |
-| collapse-counts | 多选时若选中值按文字的形式展示，最多展示多少个，剩余的以+n方式代替 | number | — | 1 |
 | multiple-limit | 多选时用户最多可以选择的项目数，为 0 则不限制 | number | — | 0 |
 | name | select input 的 name 属性 | string | — | — |
 | autocomplete | select input 的 autocomplete 属性 | string | — | off |
@@ -383,7 +381,7 @@ WIP (该功能还在施工中👷‍♀️)
 | focus | 当 input 获得焦点时触发 | (event: Event) |
 
 ### SelectV2 Slots
-|   name  | 说明     |
+|   name  | 说明     |
 |---------|---------|
 | default | Option 模板 |
 | empty | 无选项时的列表 |

@@ -6,7 +6,6 @@ import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
 
 jest.useFakeTimers()
-
 interface SelectProps {
   filterMethod?: any
   remoteMethod?: any

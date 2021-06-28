@@ -52,8 +52,10 @@
                 >
                   <span
                     class="el-select__tags-text"
-                    :style="{ 'max-width': inputWidth - 75 + 'px' }"
-                  >{{ item.currentLabel }}</span>
+                    :style="{ 'max-width': inputWidth - 123 + 'px' }"
+                  >
+                    {{ item.currentLabel }}
+                  </span>
                 </el-tag>
                 <el-tag
                   v-if="selected.length > collapseCounts"
@@ -87,7 +89,9 @@
                   <span
                     class="el-select__tags-text"
                     :style="{ 'max-width': inputWidth - 75 + 'px' }"
-                  >{{ item.currentLabel }}</span>
+                  >
+                    {{ item.currentLabel }}
+                  </span>
                 </el-tag>
               </span>
             </transition>
