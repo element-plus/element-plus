@@ -1,6 +1,7 @@
-import { computed, defineComponent, h, inject } from 'vue'
+import { defineComponent, h, inject, VNode } from 'vue'
 import { elDescriptionsKey, IDescriptionsInject, IDescriptionsItemInject } from './descriptions.type'
 import { addUnit } from '@element-plus/utils/util'
+import { getNormalizedProps } from '@element-plus/utils/vnode'
 
 export default defineComponent({
   name: 'ElDescriptionsCell',
@@ -15,76 +16,53 @@ export default defineComponent({
       type: String,
     },
   },
-  setup(props) {
+  setup() {
     const descriptions = inject(elDescriptionsKey, {} as IDescriptionsInject)
-    const item = computed(() => {
-      return {
-        label: props.cell?.props?.label || '',
-        span: props.cell?.props?.span || 1,
-        width: props.cell?.props?.width || '',
-        minWidth: props.cell?.props?.['min-width'] || props.cell?.props?.minWidth || '',
-        align: props.cell?.props?.align || 'left',
-        labelAlign: props.cell?.props?.['label-align'] || props.cell?.props?.labelAlign || '',
-        className: props.cell?.props?.['class-name'] || props.cell?.props?.className || '',
-        labelClassName: props.cell?.props?.['label-class-name'] || props.cell?.props?.labelClassName || '',
-      } as IDescriptionsItemInject
-    })
-
-    const label = computed(() => props.cell?.children?.label?.() || item.value.label)
-    const content = computed(() => props.cell?.children?.default?.())
-    const span = computed(() => item.value.span)
-    const align = computed(() => item.value.align ? `is-${item.value.align}` : '')
-    const labelAlign = computed(() => item.value.labelAlign ? `is-${item.value.labelAlign}` : '' || align.value)
-    const className = computed(() => item.value.className)
-    const labelClassName = computed(() => item.value.labelClassName)
-    const style = computed(() => {
-      const width = addUnit(item.value.width || '')
-      const minWidth = addUnit(item.value.minWidth || '')
-
-      return {
-        width,
-        minWidth,
-      }
-    })
 
     return {
       descriptions,
-      label,
-      content,
-      span,
-      align,
-      labelAlign,
-      className,
-      labelClassName,
-      style,
     }
   },
   render() {
+    const item = getNormalizedProps(this.cell as VNode) as IDescriptionsItemInject
+
+    const label = this.cell?.children?.label?.() || item.label
+    const content = this.cell?.children?.default?.()
+    const span = item.span
+    const align = item.align ? `is-${item.align}` : ''
+    const labelAlign = item.labelAlign ? `is-${item.labelAlign}` : '' || align
+    const className = item.className
+    const labelClassName = item.labelClassName
+    const style = {
+      width: addUnit(item.width),
+      minWidth: addUnit(item.minWidth),
+    }
+
     switch (this.type) {
       case 'label':
         return h(this.tag, {
-          style: this.style,
-          class: ['el-descriptions__label', { 'is-bordered-label': this.descriptions.border }, this.labelAlign, this.labelClassName],
-          colSpan: this.descriptions.direction === 'vertical' ? this.span : 1,
-        }, this.label)
+          style: style,
+          class: ['el-descriptions__label', { 'is-bordered-label': this.descriptions.border }, labelAlign, labelClassName],
+          colSpan: this.descriptions.direction === 'vertical' ? span : 1,
+        }, label)
       case 'content':
         return h(this.tag, {
-          style: this.style,
-          class: ['el-descriptions__content', this.align, this.className],
-          colSpan: this.descriptions.direction === 'vertical' ? this.span : this.span * 2 - 1,
-        }, this.content)
+          style: style,
+          class: ['el-descriptions__content', align, className],
+          colSpan: this.descriptions.direction === 'vertical' ? span : span * 2 - 1,
+        }, content)
       default:
         return h('td', {
-          style: this.style,
-          class: [this.align],
-          colSpan: this.span,
+          style: style,
+          class: [align],
+          colSpan: span,
         }, [
           h('span', {
-            class: ['el-descriptions__label', this.labelClassName],
-          }, this.label),
+            class: ['el-descriptions__label', labelClassName],
+          }, label),
           h('span', {
-            class: ['el-descriptions__content', this.className],
-          }, this.content)])
+            class: ['el-descriptions__content', className],
+          }, content)])
     }
   },
 })

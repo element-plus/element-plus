@@ -5,7 +5,7 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      default: '',
+      default: '1',
     },
     span: {
       type: Number,
