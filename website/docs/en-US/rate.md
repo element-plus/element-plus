@@ -137,7 +137,7 @@ Read-only Rate is for displaying rating score. Half star is supported.
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | binding value | number | — | 0 |
+| model-value / v-model | binding value | number | — | 0 |
 | max | max rating score | number | — | 5 |
 | disabled | whether Rate is read-only | boolean | — | false |
 | allow-half | whether picking half start is allowed | boolean | — | false |
@@ -152,7 +152,7 @@ Read-only Rate is for displaying rating score. Half star is supported.
 | show-text | whether to display texts | boolean | — | false |
 | show-score | whether to display current score. show-score and show-text cannot be true at the same time | boolean | — | false |
 | text-color | color of texts | string | — | #1F2D3D |
-| texts | text array | array | — | ['极差', '失望', '一般', '满意', '惊喜'] |
+| texts | text array | array | — | ['Extremely bad','Disappointed','Fair','Satisfied','Surprise'] |
 | score-template | score template | string | — | {value} |
 
 ### Events

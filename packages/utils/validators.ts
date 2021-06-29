@@ -1,4 +1,4 @@
-import { isNumber } from '@element-plus/utils/util'
+import { isNumber } from './util'
 
 export const isValidWidthUnit = (val: string | number): boolean =>{
   if(isNumber(val)){
@@ -8,9 +8,20 @@ export const isValidWidthUnit = (val: string | number): boolean =>{
       (val as string).endsWith(unit),
     )
   }
-  return false
 }
-
 
 export const isValidComponentSize = (val: string) =>
   ['', 'large', 'medium', 'small', 'mini'].includes(val)
+
+export const isValidDatePickType = (val: string) =>
+  [
+    'year',
+    'month',
+    'date',
+    'dates',
+    'week',
+    'datetime',
+    'datetimerange',
+    'daterange',
+    'monthrange',
+  ].includes(val)

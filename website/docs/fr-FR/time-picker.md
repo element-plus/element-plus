@@ -107,7 +107,7 @@ Vous pouvez également définir un intervalle libre.
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | La valeur liée. | Date | - | - |
+| model-value / v-model | La valeur liée. | Date | - | - |
 | readonly | Si TimePicker est en lecture seule. | boolean | — | false |
 | disabled | Si TimePicker est désactivé. | boolean | — | false |
 | editable | Si le champ d'input est éditable. | boolean | — | true |
@@ -121,6 +121,7 @@ Vous pouvez également définir un intervalle libre.
 | align | Alignement. | left / center / right | left |
 | popper-class | Classe du menu du TimePicker. | string | — | — |
 | range-separator | Séparateur d'intervalle. | string | - | '-' |
+| format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | HH:mm:ss |
 | default-value | Optionnel, date d'aujourd'hui par défaut. | `Date` pour le TimePicker, `string` pour le TimeSelect | Toute valeur acceptée par `new Date()` pour le TimePicker, une valeur sélectionnable pour TimeSelect. | — |
 | name | Attribut `name` natif de l'input. | string | — | — |
 | prefix-icon | Classe de l'icône de préfixe. | string | — | el-icon-time |

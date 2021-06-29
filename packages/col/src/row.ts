@@ -11,10 +11,6 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
-    type: {
-      type: String,
-      default: '',
-    },
     justify: {
       type: String,
       default: 'start',
@@ -50,7 +46,6 @@ export default defineComponent({
             'el-row',
             props.justify !== 'start' ? `is-justify-${props.justify}` : '',
             props.align !== 'top' ? `is-align-${props.align}` : '',
-            props.type === 'flex' ? 'el-row--flex' : '',
           ],
           style: style.value,
         },

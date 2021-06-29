@@ -26,6 +26,26 @@ Add `v-infinite-scroll` to the list to automatically execute loading method when
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const count = ref(0);
+      const load = () => {
+        count.value += 2;
+      };
+      return {
+        count,
+        load,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -73,14 +93,45 @@ Add `v-infinite-scroll` to the list to automatically execute loading method when
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref, computed } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const count = ref(10);
+      const loading = ref(false);
+      const noMore = computed(() => count.value >= 20);
+      const disabled = computed(() => loading.value || noMore.value);
+      const load = () => {
+        loading.value = true;
+        setTimeout(() => {
+          count.value += 2;
+          loading.value = false;
+        }, 2000);
+      };
+      return {
+        count,
+        loading,
+        noMore,
+        disabled,
+        load,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
 
-### Attributes
+### Directives
 
-| Attribute | Description | Type  | Accepted values | Default   |
+| Name | Description | Type  | Accepted values | Default   |
 | -------------- | ------------------------------ | --------- | ------------------------------------ | ------- |
+| v-infinite-scroll | Load more data while reach bottom of the page | function      | - | - |
 | infinite-scroll-disabled | is disabled           | boolean      | - |false |
 | infinite-scroll-delay   | throttle delay (ms)   | number       |   - |200   |
 | infinite-scroll-distance| trigger distance (px) | number   |- |0 |

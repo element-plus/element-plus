@@ -26,10 +26,8 @@ const defaultOpts = {
       abortOnError: false,
     }),
   ],
-  external(id) {
-    return /^vue/.test(id)
-      || /^@vue/.test(id)
-      || deps.some(k => new RegExp('^' + k).test(id))
+  external() {
+    return true
   },
 }
 

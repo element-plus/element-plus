@@ -10,6 +10,7 @@ interface IUsePopperProps {
   offset: number
   placement: Placement
   gpuAcceleration: boolean
+  fallbackPlacements: Array<Placement>
 }
 
 interface IUsePopperState {
@@ -27,6 +28,7 @@ export default function usePopperOptions(props: IUsePopperProps, state: IUsePopp
         arrowOffset: props.arrowOffset,
         offset: props.offset,
         gpuAcceleration: props.gpuAcceleration,
+        fallbackPlacements: props.fallbackPlacements,
       }, props.popperOptions?.modifiers),
     }
   })

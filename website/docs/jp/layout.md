@@ -2,6 +2,12 @@
 
 24カラムを基本レイアウトで、簡単、素早く作れます。
 
+:::tip
+The component uses flex layout by default, no need to set `type="flex"` manually.
+
+Please note that the parent container should avoid using `inline` related styles, which will cause the component to not fill up its width.
+:::
+
 ### ベーシックレイアウト
 
 カラムを用いて、ベーシックグリッドレイアウトを作ります。
@@ -215,31 +221,31 @@
 
 ### 配置
 
-フレックスレイアウトを使用して、列の配置を柔軟に行うことができます。
+Default use the flex layout to make flexible alignment of columns.
 
-:::demo `type` 属性に `flex` を設定することでフレックスレイアウトを有効にし、`justify` 属性に start, center, end, space-between, space-around を設定することで子要素のレイアウトを定義することができます。
+:::demo You can define the layout of child elements by setting `justify` attribute with start, center, end, space-between or space-around.
 ```html
-<el-row type="flex" class="row-bg">
+<el-row class="row-bg">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="center">
+<el-row class="row-bg" justify="center">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="end">
+<el-row class="row-bg" justify="end">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="space-between">
+<el-row class="row-bg" justify="space-between">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="space-around">
+<el-row class="row-bg" justify="space-around">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
@@ -335,7 +341,6 @@ import 'element-plus/lib/theme-chalk/display.css';
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | gutter | グリッド間隔 | number | — | 0 |
-| type | レイアウトモード、フレックスを使用することができます、モダンなブラウザで動作します。 | string | — | — |
 | justify | フレックスレイアウトの水平配置 | string | start/end/center/space-around/space-between | start |
 | align | フレックスレイアウトの垂直配置 | string | top/middle/bottom | top |
 | tag | カスタムエレメントタグ | string | * | div |

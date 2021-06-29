@@ -1,0 +1,32 @@
+@import "mixins/mixins";
+@import "common/var";
+@import "./popper";
+
+@include b(select-dropdown) {
+  z-index: #{$--index-top + 1};
+  border-radius: $--border-radius-base;
+  box-sizing: border-box;
+
+  .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list{
+    padding: 0;
+  }
+}
+
+@include b(select-dropdown__empty) {
+  padding: $--select-dropdown-empty-padding;
+  margin: 0;
+  text-align: center;
+  color: $--select-dropdown-empty-color;
+  font-size: $--select-font-size;
+}
+
+@include b(select-dropdown__wrap) {
+  max-height: $--select-dropdown-max-height;
+}
+
+@include b(select-dropdown__list) {
+  list-style: none;
+  margin: $--select-dropdown-padding;
+  padding: 0;
+  box-sizing: border-box;
+}

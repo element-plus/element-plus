@@ -107,7 +107,7 @@
 ### Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | 绑定值 | date | — | — |
+| model-value / v-model | 绑定值 | date | — | — |
 | readonly | 完全只读 | boolean | — | false |
 | disabled | 禁用 | boolean | — | false |
 | editable | 文本框可输入 | boolean | — | true |
@@ -121,7 +121,7 @@
 | align | 对齐方式 | string | left / center / right | left |
 | popper-class | TimePicker 下拉框的类名 | string | — | — |
 | range-separator | 选择范围时的分隔符 | string | - | '-' |
-| string | 见[日期格式](#/zh-CN/component/date-picker#ri-qi-ge-shi) | — |
+| format | 显示在输入框中的格式 | string | 见[日期格式](#/zh-CN/component/date-picker#ri-qi-ge-shi) | HH:mm:ss |
 | default-value | 可选，选择器打开时默认显示的时间 | Date(TimePicker) / string(TimeSelect) | 可被`new Date()`解析(TimePicker) / 可选值(TimeSelect) | — |
 | name | 原生属性 | string | — | — |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-time |

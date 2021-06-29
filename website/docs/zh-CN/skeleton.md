@@ -170,6 +170,7 @@ ElementPlus 提供的排版模式有时候并不满足要求，当您想要用�
         <el-card
           :body-style="{ padding: '0px', marginBottom: '1px' }"
           v-for="item in lists"
+          :key="item.name"
         >
           <img :src="item.imgUrl" class="image multi-content" />
           <div style="padding: 14px;">

@@ -527,7 +527,7 @@
 ### 属性の選択
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | string / number / boolean / object | — | — |
+| model-value / v-model | バインディング値 | string / number / boolean / object | — | — |
 | multiple | 複数セレクトが有効かどうか | boolean | — | false |
 | disabled | セレクトが無効になっているかどうか | boolean | — | false |
 | value-key | 値がオブジェクトの場合に必要な、値の一意の ID キー名 | string | — | value |

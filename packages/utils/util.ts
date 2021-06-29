@@ -1,11 +1,20 @@
 import type { Ref } from 'vue'
 import { getCurrentInstance } from 'vue'
 
-import { camelize, capitalize, extend, hasOwn, hyphenate, isArray, isObject, isString, looseEqual, toRawType } from '@vue/shared'
+import { camelize, capitalize, extend, hasOwn, hyphenate, isArray, isObject, isString, isFunction, looseEqual, toRawType } from '@vue/shared'
+
+import isEqualWith from 'lodash/isEqualWith'
 
 import isServer from './isServer'
 import type { AnyFunction } from './types'
 import { warn } from './error'
+
+// type polyfill for compat isIE method
+declare global {
+  interface Document {
+    documentMode?: any
+  }
+}
 
 export const SCOPE = 'Util'
 
@@ -21,7 +30,7 @@ export function toObject<T>(arr: Array<T>): Record<string, T> {
   return res
 }
 
-export const getValueByPath = (obj: any, paths = ''): unknown => {
+export const getValueByPath = (obj, paths = ''): unknown => {
   let ret: unknown = obj
   paths.split('.').map(path => {
     ret = ret?.[path]
@@ -83,7 +92,7 @@ export const coerceTruthyValueToArray = arr => {
 }
 
 export const isIE = function (): boolean {
-  return !isServer && !isNaN(Number(document.DOCUMENT_NODE))
+  return !isServer && !isNaN(Number(document.documentMode))
 }
 
 export const isEdge = function (): boolean {
@@ -182,10 +191,10 @@ export const arrayFindIndex = function <T = any>(
   return arr.findIndex(pred)
 }
 
-export const arrayFind = function <T = any>(
+export const arrayFind = function <T>(
   arr: Array<T>,
   pred: (args: T) => boolean,
-): any {
+): T {
   return arr.find(pred)
 }
 
@@ -228,4 +237,19 @@ export function addUnit(value: string | number) {
     warn(SCOPE, 'binding value must be a string or number')
   }
   return ''
+}
+
+/**
+ * Enhance `lodash.isEqual` for it always return false even two functions have completely same statements.
+ * @param obj The value to compare
+ * @param other The other value to compare
+ * @returns Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *  lodash.isEqual(() => 1, () => 1)      // false
+ *  isEqualWith(() => 1, () => 1)         // true
+ */
+export function isEqualWithFunction (obj: any, other: any) {
+  return isEqualWith(obj, other, (objVal, otherVal) => {
+    return isFunction(objVal) && isFunction(otherVal) ? `${objVal}` === `${otherVal}` : undefined
+  })
 }

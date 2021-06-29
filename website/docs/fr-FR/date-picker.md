@@ -62,6 +62,51 @@ L'unité de base du DatePicker est le jour.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: 'Today',
+            value: new Date(),
+          },
+          {
+            text: 'Yesterday',
+            value: (() => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              return date;
+            })(),
+          },
+          {
+            text: 'A week ago',
+            value: (() => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              return date;
+            })(),
+          },
+        ],
+        value1: '',
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -122,6 +167,28 @@ Vous pouvez sélectionner une semaine, un mois, une année ou plusieurs dates en
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        value1: '',
+        value2: '',
+        value3: '',
+        value4: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 
 :::
@@ -149,7 +216,6 @@ Vous pouvez sélectionner une plage de dates.
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       unlink-panels
       range-separator="à"
       start-placeholder="Date de début"
@@ -195,6 +261,55 @@ Vous pouvez sélectionner une plage de dates.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: 'Last week',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              return [start, end];
+            })(),
+          },
+          {
+            text: 'Last month',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              return [start, end];
+            })(),
+          },
+          {
+            text: 'Last 3 months',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              return [start, end];
+            })(),
+          },
+        ],
+        value1: '',
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 
 :::
@@ -221,7 +336,6 @@ Vous pouvez sélectionner une plage de mois.
     <el-date-picker
       v-model="value2"
       type="monthrange"
-      align="right"
       unlink-panels
       range-separator="à"
       start-placeholder="Mois de début"
@@ -261,6 +375,49 @@ Vous pouvez sélectionner une plage de mois.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: 'This month',
+            value: [new Date(), new Date()],
+          },
+          {
+            text: 'This year',
+            value: (() => {
+              const end = new Date();
+              const start = new Date(new Date().getFullYear(), 0);
+              return [start, end];
+            })(),
+          },
+          {
+            text: 'Last 6 months',
+            value: (() => {
+              const end = new Date();
+              const start = new Date();
+              start.setMonth(start.getMonth() - 6);
+              return [start, end];
+            })(),
+          },
+        ],
+        value1: '',
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -287,7 +444,6 @@ Si le type est `daterange`, `default-value` configure la panneau de gauche.
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
       :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
@@ -305,6 +461,25 @@ Si le type est `daterange`, `default-value` configure la panneau de gauche.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref('');
+      const value2 = ref('');
+
+      return {
+        value1,
+        value2,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -331,6 +506,17 @@ Attention à la capitalisation !
       type="date"
       placeholder="Sélectionnez une date"
       format="YYYY/MM/DD">
+    </el-date-picker>
+  </div>
+  <div class="block">
+    <span class="demonstration">Utilise value-format</span>
+    <div class="demonstration">Value：{{ value2 }}</div>
+    <el-date-picker
+      v-model="value2"
+      type="date"
+      placeholder="Sélectionnez une date"
+      format="YYYY/MM/DD"
+      value-format="YYYY-MM-DD">
     </el-date-picker>
   </div>
 </template>
@@ -381,6 +567,28 @@ Lorsque vous choisissez une plage de dates, vous pouvez assigner l'horaire de d�
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value = ref('');
+      const defaultTime = ref([
+        new Date(2000, 1, 1, 0, 0, 0),
+        new Date(2000, 2, 1, 23, 59, 59),
+      ]); // '00:00:00', '23:59:59'
+
+      return {
+        value,
+        defaultTime,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -393,7 +601,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 ### Attributs
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | La valeur liée. | date(DatePicker) / array(DateRangePicker) | — | — |
+| model-value / v-model | La valeur liée. | date(DatePicker) / array(DateRangePicker) | — | — |
 | readonly | Si le DatePicker est en lecture seule. | boolean | — | false |
 | disabled | Si le DatePicker est désactivé. | boolean | — | false |
 | size | Taille du champs. | string | large/medium/small/mini  | large |
@@ -404,11 +612,11 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | end-placeholder | Le placeholder pour la date de fin en mode plage de dates. | string | — | — |
 | type | Type du picker. | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
 | format | Format d'affichage dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date). | YYYY-MM-DD |
-| align | Alignement. | left/center/right | left |
 | popper-class | Nom de classe pour le menu déroulant du DatePicker. | string | — | — |
 | range-separator | Séparateur de plage de dates. | string | — | '-' |
 | default-value | Date par défaut du calendrier, optionnelle. | Date | Tout ce qui est accepté par `new Date()` | — |
 | default-time | optional, the time value to use when selecting date range | Date[] | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | — |
+| value-format | Format de la variable stockée, optionnel. Si non spécifié, la valeur sera un objet Date. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date). | — |
 | name | Identique au `name` de l'input natif | string | — | — |
 | unlink-panels | Rend indépendants les deux panneaux de plage de dates. | boolean | — | false |
 | prefix-icon | Icône de préfixe. | string | — | el-icon-date |

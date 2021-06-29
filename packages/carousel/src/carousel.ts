@@ -39,9 +39,8 @@ export interface CarouselItem extends UnionCarouselItemData {
 }
 
 export interface InjectCarouselScope {
+  root: Ref<HTMLElement>
   direction: string
-  offsetWidth: Ref<number>
-  offsetHeight: Ref<number>
   type: string
   items: Ref<UnwrapRef<CarouselItem[]>>
   loop: boolean

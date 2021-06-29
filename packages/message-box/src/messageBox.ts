@@ -1,4 +1,5 @@
-import { h, render } from 'vue'
+import { h, watch, render } from 'vue'
+import { hasOwn } from '@vue/shared'
 import MessageBoxConstructor from './index.vue'
 import isServer from '@element-plus/utils/isServer'
 import { isVNode, isString } from '@element-plus/utils/util'
@@ -55,7 +56,7 @@ const showMessage = (options: any) => {
     const currentMsg = messageInstance.get(vm)
     let resolve: Action | { value: string; action: Action; }
     if (options.showInput) {
-      resolve = { value: vm.state.inputValue, action }
+      resolve = { value: vm.inputValue, action }
     } else {
       resolve = action
     }
@@ -81,14 +82,26 @@ const showMessage = (options: any) => {
   // get component instance like v2.
   const vm = instance.proxy as ComponentPublicInstance<{
     visible: boolean
-    state: MessageBoxState
     doClose: () => void
-  }>
+  } & MessageBoxState>
 
-  if (isVNode(options.message)) {
-    // Override slots since message is vnode type.
-    instance.slots.default = () => [options.message]
+  for (const prop in options) {
+    if (hasOwn(options, prop) && !hasOwn(vm.$props, prop)) {
+      vm[prop as string] = options[prop]
+    }
   }
+
+  watch(() => vm.message, (newVal, oldVal) => {
+    if (isVNode(newVal)) {
+      // Override slots since message is vnode type.
+      instance.slots.default = () => [newVal]
+    } else if(isVNode(oldVal) && !isVNode(newVal)){
+      delete instance.slots.default
+    }
+  }, {
+    immediate: true,
+  })
+
   // change visibility after everything is settled
   vm.visible = true
   return vm
@@ -137,11 +150,14 @@ MessageBox.alert = (
       {
         title: title,
         message: message,
-        type: 'alert',
+        type: '',
         closeOnPressEscape: false,
         closeOnClickModal: false,
       },
       options,
+      {
+        boxType: 'alert',
+      },
     ),
   )
 }
@@ -162,10 +178,13 @@ MessageBox.confirm = (
       {
         title: title,
         message: message,
-        type: 'confirm',
+        type: '',
         showCancelButton: true,
       },
       options,
+      {
+        boxType: 'confirm',
+      },
     ),
   )
 }
@@ -188,9 +207,12 @@ MessageBox.prompt = (
         message: message,
         showCancelButton: true,
         showInput: true,
-        type: 'prompt',
+        type: '',
       },
       options,
+      {
+        boxType: 'prompt',
+      },
     ),
   )
 }

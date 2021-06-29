@@ -59,6 +59,41 @@ Displays animation in a container (such as a table) while loading data.
     }
   };
 </script>
+<!--
+<setup>
+
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      tableData: [
+        {
+          date: '2016-05-02',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-04',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-01',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+      ],
+      loading: true,
+    });
+    return {
+      ...toRefs(state),
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -115,6 +150,41 @@ You can customize loading text, loading spinner and background color.
     }
   };
 </script>
+<!--
+<setup>
+
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      tableData: [
+        {
+          date: '2016-05-02',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-04',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-01',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+      ],
+      loading: true,
+    });
+    return {
+      ...toRefs(state),
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -167,6 +237,44 @@ Show a full screen animation while loading data.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+  import { ElLoading } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      const fullscreenLoading = ref(false);
+      const openFullScreen1 = () => {
+        fullscreenLoading.value = true;
+        setTimeout(() => {
+          fullscreenLoading.value = false;
+        }, 2000);
+      };
+
+      const openFullScreen2 = () => {
+        const loading = ElLoading.service({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)',
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 2000);
+      };
+
+      return {
+        fullscreenLoading,
+        openFullScreen1,
+        openFullScreen2,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -207,3 +315,12 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 | spinner | class name of the custom spinner | string | — | — |
 | background | background color of the mask | string | — | — |
 | customClass | custom class name for Loading | string | — | — |
+
+### Directives
+
+| Name | Description | Type  |
+| -------------- | ---------------- | --------- |
+| v-loading | show animation while loading data | boolean |
+| element-loading-text | loading text that displays under the spinner | string |
+| element-loading-spinner | class name of the custom spinner | string |
+| element-loading-background | background color of the mask | string |

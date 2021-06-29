@@ -26,7 +26,6 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
   })
 
   emitter.on('tree-node-drag-start', ({ event, treeNode }: DragOptions) => {
-    console.log(event, treeNode)
     if (typeof props.allowDrag === 'function' && !props.allowDrag(treeNode.node)) {
       event.preventDefault()
       return false

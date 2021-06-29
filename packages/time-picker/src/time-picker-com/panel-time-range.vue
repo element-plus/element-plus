@@ -79,7 +79,7 @@ import union from 'lodash/union'
 import { t } from '@element-plus/locale'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'
-import { getAvaliableArrs } from './useTimePicker'
+import { getAvaliableArrs, useOldValue } from './useTimePicker'
 
 const makeSelectRange = (start, end) => {
   const result = []
@@ -109,7 +109,7 @@ export default defineComponent({
   setup(props, ctx) {
     const minDate = computed(() => props.parsedValue[0])
     const maxDate = computed(() => props.parsedValue[1])
-    const oldValue = ref(props.parsedValue)
+    const oldValue = useOldValue(props)
     const handleCancel = () => {
       ctx.emit('pick', oldValue.value, null)
     }

@@ -2,6 +2,10 @@
 
 フォームは `input`, `radio`, `select`, `checkbox` などから構成されています。フォームを使うと、データを収集したり、検証したり、送信したりすることができます。
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### 基本フォーム
 
 これには、`input`, `select`, `radio`, `checkbox` などのあらゆる種類の入力項目が含まれます。
@@ -83,7 +87,7 @@
 [W3C](https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2) は規制しているのは
 > <i>フォーム内に1つの単一行テキスト入力フィールドしかない場合、ユーザエージェントは、そのフィールドでのEnterをフォームの送信要求として受け入れるべきである。</i>
 
-この動作を防ぐには、`<el-form>` に `@submit.native.prevent` を追加します。
+この動作を防ぐには、`<el-form>` に `@submit.prevent` を追加します。
   :::
 
 ### インラインフォーム

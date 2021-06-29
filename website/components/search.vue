@@ -114,11 +114,7 @@ export default {
 
     querySearch(query, cb) {
       if (!query) return
-      this.index.search({ query, hitsPerPage: 6 }, (err, res) => {
-        if (err) {
-          console.error(err)
-          return
-        }
+      this.index.search(query, { hitsPerPage: 6 }).then(res => {
         if (res.hits.length > 0) {
           this.isEmpty = false
           cb(res.hits.map(hit => {
@@ -143,6 +139,9 @@ export default {
           this.isEmpty = true
           cb([{ isEmpty: true }])
         }
+      }).catch(err => {
+        console.error(err)
+        return
       })
     },
 

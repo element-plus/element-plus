@@ -181,6 +181,7 @@
     </div>
     <div v-if="showTime" class="el-picker-panel__footer">
       <el-button
+        v-if="clearable"
         size="mini"
         type="text"
         class="el-picker-panel__link-btn"
@@ -202,25 +203,17 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  ref,
-  PropType,
-  inject,
-  watch,
-} from 'vue'
+import { computed, defineComponent, inject, PropType, ref, watch } from 'vue'
 import { t } from '@element-plus/locale'
-import {
-  extractDateFormat,
-  extractTimeFormat,
-} from '@element-plus/time-picker'
-import { TimePickPanel } from '@element-plus/time-picker'
+import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
 import { ClickOutside } from '@element-plus/directives'
+import { isValidDatePickType } from '@element-plus/utils/validators'
 import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import ElInput from '@element-plus/input'
 import ElButton from '@element-plus/button'
+
+import type { IDatePickerType } from '../date-picker.type'
 
 export default defineComponent({
 
@@ -228,14 +221,15 @@ export default defineComponent({
 
   components: { TimePickPanel, DateTable, ElInput, ElButton },
 
-  props:{
+  props: {
     unlinkPanels: Boolean,
     parsedValue: {
       type: Array as PropType<Dayjs[]>,
     },
     type: {
-      type: String,
+      type: String as PropType<IDatePickerType>,
       required: true,
+      validator: isValidDatePickType,
     },
   },
 
@@ -257,11 +251,11 @@ export default defineComponent({
     })
 
     const leftLabel = computed(() => {
-      return leftDate.value.year() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${ leftDate.value.month() + 1 }`)
+      return leftDate.value.year() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${leftDate.value.month() + 1}`)
     })
 
     const rightLabel = computed(() => {
-      return rightDate.value.year() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${ rightDate.value.month() + 1 }`)
+      return rightDate.value.year() + ' ' + t('el.datepicker.year') + ' ' + t(`el.datepicker.month${rightDate.value.month() + 1}`)
     })
 
     const leftYear = computed(() => {
@@ -374,8 +368,8 @@ export default defineComponent({
 
     const isValidValue = value => {
       return Array.isArray(value) &&
-          value && value[0] && value[1] &&
-          value[0].valueOf() <= value[1].valueOf()
+        value[0] && value[1] &&
+        value[0].valueOf() <= value[1].valueOf()
     }
 
     const rangeState = ref({
@@ -456,7 +450,7 @@ export default defineComponent({
 
       if (parsedValueD.isValid()) {
         if (disabledDate &&
-            disabledDate(parsedValueD.toDate())) {
+          disabledDate(parsedValueD.toDate())) {
           return
         }
         if (type === 'min') {
@@ -549,19 +543,17 @@ export default defineComponent({
     }
 
     const handleClear = () => {
-      minDate.value = null
-      maxDate.value = null
       leftDate.value = getDefaultValue()[0]
       rightDate.value = leftDate.value.add(1, 'month')
       ctx.emit('pick', null)
     }
 
     const formatToString = value => {
-      return Array.isArray(value) ? value.map(_=> _.format(format)) : value.format(format)
+      return Array.isArray(value) ? value.map(_ => _.format(format)) : value.format(format)
     }
 
     const parseUserInput = value => {
-      return Array.isArray(value) ? value.map(_=> dayjs(_, format)) : dayjs(value, format)
+      return Array.isArray(value) ? value.map(_ => dayjs(_, format)) : dayjs(value, format)
     }
 
     const getDefaultValue = () => {
@@ -587,7 +579,7 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['handleClear', handleClear])
 
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue, arrowControl } = pickerBase.props
+    const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue, arrowControl, clearable } = pickerBase.props
 
     watch(() => props.parsedValue, newVal => {
       if (newVal && newVal.length === 2) {
@@ -607,6 +599,8 @@ export default defineComponent({
         }
       } else {
         const defaultArr = getDefaultValue()
+        minDate.value = null
+        maxDate.value = null
         leftDate.value = defaultArr[0]
         rightDate.value = defaultArr[1]
       }
@@ -659,6 +653,7 @@ export default defineComponent({
       handleClear,
       handleConfirm,
       timeFormat,
+      clearable,
     }
   },
 })

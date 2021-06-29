@@ -6,9 +6,11 @@ import {
   computed,
   getCurrentInstance,
 } from 'vue'
-import { TableLayout, TableHeader, Table } from './table.type'
+import { TableHeader } from './table-header/index'
+import type TableLayout from './table-layout'
+import { Table } from './table/defaults'
 
-function useLayoutObserver(root: Table) {
+function useLayoutObserver<T>(root: Table<T>) {
   const instance = getCurrentInstance() as TableHeader
   onBeforeMount(() => {
     tableLayout.value.addObserver(instance)
@@ -25,14 +27,14 @@ function useLayoutObserver(root: Table) {
     tableLayout.value.removeObserver(instance)
   })
   const tableLayout = computed(() => {
-    const layout = root.layout as TableLayout
+    const layout = root.layout as TableLayout<T>
     if (!layout) {
       throw new Error('Can not find table layout.')
     }
     return layout
   })
-  const onColumnsChange = (layout: TableLayout) => {
-    const cols = root.vnode.el?.querySelectorAll('colgroup > col')
+  const onColumnsChange = (layout: TableLayout<T>) => {
+    const cols = root.vnode.el?.querySelectorAll('colgroup > col') || []
     if (!cols.length) return
     const flattenColumns = layout.getFlattenColumns()
     const columnsMap = {}
@@ -49,7 +51,7 @@ function useLayoutObserver(root: Table) {
     }
   }
 
-  const onScrollableChange = (layout: TableLayout) => {
+  const onScrollableChange = (layout: TableLayout<T>) => {
     const cols = root.vnode.el.querySelectorAll('colgroup > col[name=gutter]')
     for (let i = 0, j = cols.length; i < j; i++) {
       const col = cols[i]

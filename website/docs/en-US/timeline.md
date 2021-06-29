@@ -121,7 +121,12 @@ Timestamp can be placed on top of content when content is too high.
 ```
 :::
 
-### Timeline-item Attributes
+### Timeline Slots
+| Name | Description |
+|------|--------|
+| — | Custom content for timeline |
+
+### Timeline-Item Attributes
 | Attribute      | Description    | Type      | Accepted Values | Default   |
 |---------- |-------- |---------- |-------------  |-------- |
 | timestamp     | timestamp content | string  | - | — |
@@ -132,8 +137,8 @@ Timestamp can be placed on top of content when content is too high.
 | size | node size | string | normal / large | normal |
 | icon | icon class name | string | — | - |
 
-### Timeline-Item Slot
-| name | Description |
+### Timeline-Item Slots
+| Name | Description |
 |------|--------|
 | — | Custom content for timeline item |
 | dot | Custom defined node |

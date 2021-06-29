@@ -1,4 +1,4 @@
-
+## Transfer
 
 ### Customizable
 
@@ -147,7 +147,7 @@ By default, Transfer looks for `key`, `label` and `disabled` in a data item. If 
 ### Attributes
 | Attribute | Description | Type  | Accepted Values | Default |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | binding value | array | — | — |
+| model-value / v-model | binding value | array | — | — |
 | data | data source | array[{ key, label, disabled }] | — | [ ] |
 | filterable | whether Transfer is filterable | boolean | — | false |
 | filter-placeholder | placeholder for the filter input | string | — | Enter keyword |
@@ -161,7 +161,7 @@ By default, Transfer looks for `key`, `label` and `disabled` in a data item. If 
 | left-default-checked | key array of initially checked data items of the left list | array | — | [ ] |
 | right-default-checked | key array of initially checked data items of the right list | array | — | [ ] |
 
-### Slot
+### Slots
 | Name | Description |
 |------|--------|
 | left-footer | content of left list footer |

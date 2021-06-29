@@ -90,6 +90,24 @@ Use the button to trigger the dropdown list.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = () => {
+        alert('button click');
+      };
+      return {
+        handleClick,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -245,6 +263,26 @@ Clicking each dropdown item fires an event whose parameter is assigned by each i
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+
+      const handleCommand = (command) => {
+        ElMessage(`click on item ${command}`);
+      };
+      return {
+        handleCommand,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -313,7 +351,8 @@ Besides default size, Dropdown component provides three additional sizes for you
 | size          | menu size, also works on the split button  | string  | medium / small / mini  |    —     |
 | max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | whether a button group is displayed | boolean         |     —       | false   |
-| placement    | placement of pop menu | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
+| disabled     | Whether to disable | boolean | — | false |
+| placement    | placement of pop menu | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom |
 | trigger       | how to trigger     | string  |    hover/click/contextmenu  |  hover |
 | hide-on-click | whether to hide menu after clicking menu-item     | boolean          | — | true |
 | show-timeout | Delay time before show a dropdown (only works when trigger is `hover`) | number | — | 250 |
@@ -334,7 +373,13 @@ Besides default size, Dropdown component provides three additional sizes for you
 | command | triggers when a dropdown item is clicked | the command dispatched from the dropdown item |
 | visible-change | triggers when the dropdown appears/disappears | true when it appears, and false otherwise |
 
-### Dropdown Menu Item Attributes
+### Dropdown-Menu Slots
+
+| Name | Description |
+|------|--------|
+| — | content of Dropdown Menu |
+
+### Dropdown-Item Attributes
 | Attribute     | Description          | Type      | Accepted Values       | Default  |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | command       | a command to be dispatched to Dropdown's `command` callback | string/number/object  |          —             |    —     |

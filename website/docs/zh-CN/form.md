@@ -2,6 +2,10 @@
 
 由输入框、选择器、单选框、多选框等控件组成，用以收集、校验、提交数据
 
+:::tip
+组件升级采用了 flex 布局，以替代旧版本的 float 布局。
+:::
+
 ### 典型表单
 
 包括各种表单项，比如输入框、选择器、开关、单选框、多选框等。
@@ -82,7 +86,7 @@
 W3C 标准中有如下[规定](https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2)：
 > <i>When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form.</i>
 
-即：当一个 form 元素中只有一个输入框时，在该输入框中按下回车应提交该表单。如果希望阻止这一默认行为，可以在 `<el-form>` 标签上添加 `@submit.native.prevent`。
+即：当一个 form 元素中只有一个输入框时，在该输入框中按下回车应提交该表单。如果希望阻止这一默认行为，可以在 `<el-form>` 标签上添加 `@submit.prevent`。
 :::
 
 ### 行内表单

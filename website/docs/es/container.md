@@ -212,6 +212,30 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
     }
   };
 </script>
+
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const item = {
+        date: '2016-05-02',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+      };
+
+      const tableData = ref(Array(20).fill(item));
+
+      return {
+        tableData,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

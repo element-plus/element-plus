@@ -22,6 +22,22 @@ Checkbox can be used alone to switch between two states.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked = ref(true);
+      return {
+        checked,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -46,6 +62,23 @@ Disabled state for checkbox.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked1 = ref(false);
+      const checked2 = ref(true);
+      return {
+        checked1,
+        checked2,
+      };
+    },
+  });
+</setup>
+-->
 ```
 :::
 
@@ -75,6 +108,23 @@ It is used for multiple checkboxes which are bound in one group, and indicates w
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checkList = ref(['selected and disabled','Option A']);
+      return {
+        checkList,
+      };
+    },
+  });
+
+</setup>
+-->
+
 ```
 :::
 
@@ -116,6 +166,40 @@ The `indeterminate` property can help you to achieve a 'check all' effect.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        checkAll: false,
+        checkedCities: ['Shanghai', 'Beijing'],
+        cities: cityOptions,
+        isIndeterminate: true,
+      });
+      const handleCheckAllChange = (val) => {
+        state.checkedCities = val ? cityOptions : [];
+        state.isIndeterminate = false;
+      };
+      const handleCheckedCitiesChange = (value) => {
+        const checkedCount = value.length;
+        state.checkAll = checkedCount === state.cities.length;
+        state.isIndeterminate = checkedCount > 0 && checkedCount < state.cities.length;
+      };
+      return {
+        ...toRefs(state),
+        handleCheckAllChange,
+        handleCheckedCitiesChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -127,7 +211,7 @@ The `min` and `max` properties can help you to limit the number of checked items
 
 ```html
 <template>
-  <el-checkbox-group 
+  <el-checkbox-group
     v-model="checkedCities"
     :min="1"
     :max="2">
@@ -145,6 +229,28 @@ The `min` and `max` properties can help you to limit the number of checked items
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        checkedCities: ['Shanghai', 'Beijing'],
+        cities: cityOptions,
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -191,6 +297,31 @@ Checkbox with button styles.
     }
   }
 </script>
+<!--
+<setup>
+
+import { defineComponent, reactive, toRefs } from 'vue';
+
+const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      checkboxGroup1: ['Shanghai'],
+      checkboxGroup2: ['Shanghai'],
+      checkboxGroup3: ['Shanghai'],
+      checkboxGroup4: ['Shanghai'],
+      cities: cityOptions,
+    });
+
+    return {
+      ...toRefs(state),
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -235,13 +366,37 @@ Checkbox with button styles.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        checked1: true,
+        checked2: false,
+        checked3: false,
+        checked4: true,
+        checkboxGroup1: [],
+        checkboxGroup2: [],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
 ### Checkbox Attributes
-| Attribute      | Description         | Type    | Options                         | Default|
+| Attribute      | Description         | Type    | Accepted Values                    | Default|
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | binding value | string / number / boolean | — | — |
+| model-value / v-model | binding value | string / number / boolean | — | — |
 | label     | value of the Checkbox when used inside a `checkbox-group`   | string / number / boolean   |       —        |     —    |
 | true-label | value of the Checkbox if it's checked   | string / number    |       —        |     —    |
 | false-label | value of the Checkbox if it's not checked   | string / number    |      —         |     —    |
@@ -258,9 +413,9 @@ Checkbox with button styles.
 | change  | triggers when the binding value changes | the updated value |
 
 ### Checkbox-group Attributes
-| Attribute      | Description         | Type    | Options                         | Default|
+| Attribute      | Description         | Type    | Accepted Values         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | binding value | array | — | — |
+| model-value / v-model | binding value | array | — | — |
 |size | size of checkbox buttons or bordered checkboxes | string | medium / small / mini | — |
 | disabled  | whether the nesting checkboxes are disabled | boolean   | — | false   |
 | min     | minimum number of checkbox checked   | number    |       —        |     —    |
@@ -274,7 +429,7 @@ Checkbox with button styles.
 | change  | triggers when the binding value changes | the updated value |
 
 ### Checkbox-button Attributes
-| Attribute      | Description         | Type    | Options                         | Default|
+| Attribute      | Description         | Type    | Accepted Values        | Default|
 |---------- |-------- |---------- |-------------  |-------- |
 | label     | value of the checkbox when used inside a `checkbox-group` | string / number / boolean  |       —        |     —    |
 | true-label | value of the checkbox if it's checked | string / number | — |     —    |

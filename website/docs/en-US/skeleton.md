@@ -1,6 +1,6 @@
 ## Skeleton
 
-When loading data, and you need a rich experience for visual and interactions for your end users, you can choose `skeleton`. 
+When loading data, and you need a rich experience for visual and interactions for your end users, you can choose `skeleton`.
 
 ### Basic usage
 
@@ -39,7 +39,7 @@ We have provided a switch flag indicating whether showing the loading animation,
 
 :::
 
-### Customized Template 
+### Customized Template
 ElementPlus only provides the most common template, sometimes that could be a problem, so you have a slot named `template` to do that work.
 
 Also we have provided different types skeleton unit that you can choose, for more detailed info, please scroll down to the bottom of this page to see the API description. Also, when building your own customized skeleton structure, you should be structuring them as closer to the real DOM as possible, which avoiding the DOM bouncing caused by the height difference.
@@ -136,7 +136,7 @@ export default defineComponent({
 
 ### Rendering a list of data
 
-Most of the time, skeleton is used as indicators of rendering a list of data which haven't been fetched from server yet, then we need to create a list of skeleton out of no where to make it look like it is loading, with `count` attribute, you can control how many these templates you need to render to the browser. 
+Most of the time, skeleton is used as indicators of rendering a list of data which haven't been fetched from server yet, then we need to create a list of skeleton out of no where to make it look like it is loading, with `count` attribute, you can control how many these templates you need to render to the browser.
 
 
 :::tip
@@ -169,6 +169,7 @@ We do not recommend rendering lots of fake UI to the browser, it will still caus
         <el-card
           :body-style="{ padding: '0px', marginBottom: '1px' }"
           v-for="item in lists"
+          :key="item.name"
         >
           <img :src="item.imgUrl" class="image multi-content" />
           <div style="padding: 14px;">
@@ -296,9 +297,9 @@ export default defineComponent({
 
 ### Skeleton Attributes
 
-| Attribute    | Description  | Type    | Acceptable Value | Default Value |
+| Attribute    | Description  | Type    | Acceptable Value | Default |
 | ------- | ---------------- | ------- | ------------ | ------ |
-| animated | whether showing the animation | boolean | true / false | false | 
+| animated | whether showing the animation | boolean | true / false | false |
 | count   | how many fake items to render to the DOM | number | integer | 1 |
 | loading | whether showing the real DOM | boolean | true / false | false  |
 | rows    | numbers of the row, only useful when no template slot were given | number  | integer  | 3      |
@@ -306,7 +307,7 @@ export default defineComponent({
 
 
 ### Skeleton Item Attributes
-| Attribute    | Description             | Type    | Acceptable Value       | Default Value  |
+| Attribute    | Description             | Type    | Acceptable Value       | Default  |
 | ------- | ---------------- | ------- | ------------ | ------ |
 | variant | The current rendering skeleton type | Enum(string) | p / text / h1 / h3 / text / caption / button / image / circle / rect | text |
 

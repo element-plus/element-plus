@@ -66,6 +66,28 @@ Top bar NavMenu can be used in a variety of scenarios.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeIndex = ref('1');
+      const activeIndex2 = ref('1');
+      const handleSelect = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        activeIndex,
+        activeIndex2,
+        handleSelect,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -169,6 +191,28 @@ Vertical NavMenu with sub-menus.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      const handleClose = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        handleOpen,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -239,10 +283,34 @@ Vertical NavMenu could be collapsed.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const isCollapse = ref(true);
+      const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      const handleClose = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        isCollapse,
+        handleOpen,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
-### Menu Attribute
+### Menu Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
 | mode     | menu display mode   | string  |   horizontal / vertical   | vertical |
@@ -275,7 +343,7 @@ Vertical NavMenu could be collapsed.
 |---------- |-------- |---------- |
 | click  | callback function when menu-item is clicked | el: menu-item instance  |
 
-### SubMenu Attribute
+### Submenu Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
 | index     | unique identification   | string  | — | — |
@@ -285,14 +353,14 @@ Vertical NavMenu could be collapsed.
 | disabled | whether the sub-menu is disabled | boolean | — | false |
 | popper-append-to-body | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop | boolean | - | level one Submenu: true / other Submenus: false |
 
-### Menu-Item Attribute
+### Menu-Item Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
 | index     | unique identification   | string/null  | — | null |
 | route     | Vue Router object   | object | — | — |
 | disabled | whether disabled | boolean | — | false |
 
-### Menu-Group Attribute
+### Menu-Item-Group Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
 | title     | group title   | string  | — | — |

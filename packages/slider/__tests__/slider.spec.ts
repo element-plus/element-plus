@@ -40,8 +40,8 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div>
-        <slider v-model="value">
-        </slider>
+          <slider v-model="value">
+          </slider>
         </div>
       `,
       components: { Slider },
@@ -62,8 +62,8 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div>
-        <slider ref="slider" v-model="value" :show-tooltip="false">
-        </slider>
+          <slider ref="slider" v-model="value" :show-tooltip="false">
+          </slider>
         </div>
       `,
       components: { Slider },
@@ -82,8 +82,8 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div>
-        <slider ref="slider" v-model="value" :format-tooltip="formatTooltip">
-        </slider>
+          <slider ref="slider" v-model="value" :format-tooltip="formatTooltip">
+          </slider>
         </div>
       `,
       components: { Slider },
@@ -108,7 +108,7 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div style="width: 200px;">
-        <slider v-model="value" :vertical="vertical"></slider>
+          <slider v-model="value" :vertical="vertical"></slider>
         </div>
       `,
       components: { Slider },
@@ -163,7 +163,7 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div>
-        <slider v-model="value"></slider>
+          <slider v-model="value"></slider>
         </div>
       `,
       components: { Slider },
@@ -190,7 +190,7 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div style="width: 200px;">
-        <slider v-model="value" :min="0" :max="1" :step="0.1"></slider>
+          <slider v-model="value" :min="0" :max="1" :step="0.1"></slider>
         </div>
       `,
       components: { Slider },
@@ -227,7 +227,7 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div>
-        <slider v-model="value"></slider>
+          <slider v-model="value"></slider>
         </div>
       `,
       components: { Slider },
@@ -251,8 +251,8 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div style="width: 200px">
-        <slider v-model="value" @change="onChange">
-        </slider>
+          <slider v-model="value" @change="onChange">
+          </slider>
         </div>
       `,
       components: { Slider },
@@ -291,11 +291,53 @@ describe('Slider', () => {
     }, 10)
   })
 
+  it('input event', async done => {
+    const wrapper = mount({
+      template: `
+        <div style="width: 200px">
+          <slider v-model="value" @input="onInput">
+          </slider>
+        </div>
+      `,
+      components: { Slider },
+      data() {
+        return {
+          data: 0,
+          value: 0,
+        }
+      },
+      methods: {
+        onInput(val) {
+          this.data = val
+        },
+      },
+    })
+    const slider: any = wrapper.findComponent({ name: 'ElSlider' })
+    const mockRectLeft = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'getBoundingClientRect')
+      .mockImplementation(() => {
+        return {
+          left: 0,
+        } as DOMRect
+      })
+    const mockClientWidth = jest
+      .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth', 'get')
+      .mockImplementation(() => 200)
+    await nextTick()
+    expect(wrapper.vm.data).toBe(0)
+    slider.vm.onSliderClick({ clientX: 100 })
+    await nextTick()
+    expect(wrapper.vm.data === 50).toBeTruthy()
+    mockRectLeft.mockRestore()
+    mockClientWidth.mockRestore()
+    done()
+  })
+
   it('disabled', done => {
     const wrapper = mount({
       template: `
         <div>
-        <slider v-model="value" disabled></slider>
+          <slider v-model="value" disabled></slider>
         </div>
       `,
       components: { Slider },
@@ -327,7 +369,7 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div>
-        <slider v-model="value" show-input></slider>
+          <slider v-model="value" show-input></slider>
         </div>
       `,
       components: { Slider },
@@ -361,7 +403,7 @@ describe('Slider', () => {
     const wrapper = mount({
       template: `
         <div>
-        <slider vertical v-model="value" height="200px"></slider>
+          <slider vertical v-model="value" height="200px"></slider>
         </div>
       `,
       components: { Slider },
@@ -418,7 +460,7 @@ describe('Slider', () => {
       const wrapper = mount({
         template: `
           <div>
-          <slider v-model="value" range></slider>
+            <slider v-model="value" range></slider>
           </div>
         `,
         components: { Slider },
@@ -436,8 +478,8 @@ describe('Slider', () => {
       const wrapper = mount({
         template: `
           <div>
-          <slider v-model="value" range :min="50">
-          </slider>
+            <slider v-model="value" range :min="50">
+            </slider>
           </div>
         `,
         components: { Slider },
@@ -465,7 +507,7 @@ describe('Slider', () => {
       const wrapper = mount({
         template: `
           <div style="width: 200px;">
-          <slider range v-model="value"></slider>
+            <slider range v-model="value"></slider>
           </div>
         `,
         components: { Slider },
@@ -506,8 +548,8 @@ describe('Slider', () => {
       const wrapper = mount({
         template: `
           <div>
-          <slider v-model="value" range :min="min" :max="max">
-          </slider>
+            <slider v-model="value" range :min="min" :max="max">
+            </slider>
           </div>
         `,
         components: { Slider },
@@ -537,12 +579,12 @@ describe('Slider', () => {
       const wrapper = mount({
         template: `
           <div>
-          <slider
-            v-model="value"
-            range
-            :step="10"
-            show-stops
-          ></slider>
+            <slider
+              v-model="value"
+              range
+              :step="10"
+              show-stops
+            ></slider>
           </div>
         `,
         components: { Slider },
@@ -563,14 +605,14 @@ describe('Slider', () => {
       const wrapper = mount({
         template: `
           <div>
-          <slider
-            v-model="value"
-            range
-            :step="10"
-            :marks="marks"
-            :min="20"
-            show-stops
-          ></slider>
+            <slider
+              v-model="value"
+              range
+              :step="10"
+              :marks="marks"
+              :min="20"
+              show-stops
+            ></slider>
           </div>
         `,
         components: { Slider },

@@ -68,6 +68,21 @@ Similar to Tooltip, Popover is also built with `Vue-popper`. So for some duplica
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        visible: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -118,6 +133,45 @@ Other components can be nested in popover. Following is an example of nested tab
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'Jack',
+            address: 'New York City',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Jack',
+            address: 'New York City',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Jack',
+            address: 'New York City',
+          },
+          {
+            date: '2016-05-03',
+            name: 'Jack',
+            address: 'New York City',
+          },
+        ],
+      });
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -146,11 +200,26 @@ Of course, you can nest other operations. It's more light-weight than using a di
   export default {
     data() {
       return {
-        visible: false,
+        visible: false
       };
     }
-  }
+  };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        visible: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -160,7 +229,7 @@ Of course, you can nest other operations. It's more light-weight than using a di
 | trigger | how the popover is triggered | string  | click/focus/hover/manual |    click    |
 |  title              | popover title | string | — | — |
 |  content        |  popover content, can be replaced with a default `slot`    | string            | — | — |
-|  width        |  popover width  | string, number            | — | Min width 150px |
+|  width        |  popover width  | string / number            | — | Min width 150px |
 |  placement        |  popover placement  | string | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end |  bottom |
 |  disabled       |  whether Popover is disabled  | boolean    | — |  false |
 |  visible / v-model:visible  |  whether popover is visible  | Boolean           | — |  false |
@@ -174,7 +243,7 @@ Of course, you can nest other operations. It's more light-weight than using a di
 | auto-close | timeout in milliseconds to hide tooltip | number | — | 0 |
 |  tabindex          | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover | number | — | — |
 
-### Slot
+### Slots
 | Name | Description |
 | --- | --- |
 | — | text content of popover |

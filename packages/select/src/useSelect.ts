@@ -53,6 +53,8 @@ export function useSelectStates(props) {
     isOnComposition: false,
     isSilentBlur: false,
     selectEmitter,
+    prefixWidth: null,
+    tagInMultiLine: false,
   })
 }
 
@@ -206,11 +208,10 @@ export const useSelect = (props, states: States, ctx) => {
             states.selectedLabel = ''
           }
         }
+        handleQueryChange(states.query)
         if (!props.multiple && !props.remote) {
           states.selectEmitter.emit('elOptionQueryChange', '')
           states.selectEmitter.emit('elOptionGroupQueryChange')
-        } else {
-          handleQueryChange(states.query)
         }
       }
     }
@@ -264,6 +265,9 @@ export const useSelect = (props, states: States, ctx) => {
         : Math.max(
           _tags ? (_tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)) : 0,
           sizeInMap) + 'px'
+
+      states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
+
       if (states.visible && emptyText.value !== false) {
         popper.value?.update?.()
       }
@@ -546,7 +550,7 @@ export const useSelect = (props, states: States, ctx) => {
     if(targetOption?.value){
       const options = optionsArray.value.filter(item => item.value === targetOption.value)
       if (options.length > 0) {
-        target =  options[0].$el
+        target = options[0].$el
       }
     }
 

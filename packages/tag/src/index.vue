@@ -40,7 +40,7 @@ export default defineComponent({
   props: {
     closable: Boolean,
     type: {
-      type: String,
+      type: String as PropType<'success' | 'info' | 'warning' | 'danger' | ''>,
       default: '',
     },
     hit: Boolean,

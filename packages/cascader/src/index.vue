@@ -6,6 +6,7 @@
     placement="bottom-start"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
+    :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
     :stop-popper-mouse-event="false"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
@@ -173,9 +174,9 @@ const popperOptions = {
       enabled: true,
       phase: 'main',
       fn: ({ state }) => {
-        const { modifiersData, elements } = state
-        const { reference, arrow } = elements
-        modifiersData.arrow.x = modifiersData.arrow.x- (reference.clientWidth - arrow.clientWidth) / 2 + 35
+        const { modifiersData, placement } = state
+        if (['right', 'left'].includes(placement)) return
+        modifiersData.arrow.x = 35
       },
       requires: ['arrow'],
     },
@@ -433,7 +434,7 @@ export default defineComponent({
 
       if (tagWrapperEl) {
         const { offsetHeight } = tagWrapperEl
-        const height = Math.max(offsetHeight + 6, inputInitialHeight) + 'px'
+        const height = presentTags.value.length > 0 ? Math.max(offsetHeight + 6, inputInitialHeight) + 'px' : `${inputInitialHeight}px`
         inputInner.style.height = height
         updatePopperPosition()
       }

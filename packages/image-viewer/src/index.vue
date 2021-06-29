@@ -51,7 +51,7 @@
           v-show="i === index"
           ref="img"
           :key="url"
-          :src="currentImg"
+          :src="url"
           :style="imgStyle"
           class="el-image-viewer__img"
           @load="handleImgLoad"
@@ -144,7 +144,7 @@ export default defineComponent({
     })
 
     const isLast = computed(() => {
-      return index.value === 0
+      return index.value === props.urlList.length - 1
     })
 
     const currentImg = computed(() => {

@@ -35,6 +35,8 @@ app.mount('#app')
 
 #### オンデマンド
 
+**Vue CLI**
+
 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import) を用いて、 必要な分のコンポーネントをインポートし、プロジェクトをより小さくすることが出来ます。
 
 はじめに、babel-plugin-importをインストール:
@@ -45,6 +47,12 @@ npm install babel-plugin-import -D
 
 つぎに babel.config.js を編集します:
 
+- import `.scss` style
+
+:::warning
+Please make sure that `sass` and `sass-loader` dependencies have been installed and import `element-plus/packages/theme-chalk/src/base.scss` in the entry file.
+:::
+
 ```js
 module.exports = {
   plugins: [
@@ -53,8 +61,25 @@ module.exports = {
       {
         libraryName: 'element-plus',
         customStyleName: (name) => {
-          // `customStyleName` が存在するため、`style: true` は有効になりません。
-          // そのため、`.scss` のソースファイルを使いたい場合は、拡張子を `.css` から `.scss` に置き換えるだけです。
+          name = name.slice(3)
+          return `element-plus/packages/theme-chalk/src/${name}.scss`;
+        },
+      },
+    ],
+  ],
+};
+```
+
+- import `.css` style
+
+```js
+module.exports = {
+  plugins: [
+    [
+      "import",
+      {
+        libraryName: 'element-plus',
+        customStyleName: (name) => {
           return `element-plus/lib/theme-chalk/${name}.css`;
         },
       },
@@ -63,12 +88,91 @@ module.exports = {
 };
 ```
 
+**Vite**
+  
+Firstly，install [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import):
+
+```bash
+$ npm install vite-plugin-style-import -D
+```
+
+or if you use `Yarn` as package manager
+
+```bash
+$ yarn add vite-plugin-style-import -D
+```
+
+Then edit vite.config.js:
+
+- import `.scss` style
+
+:::warning
+Please make sure that the `sass` dependency have been installed and import `element-plus/packages/theme-chalk/src/base.scss` in the entry file.
+:::
+
+```js
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import styleImport from 'vite-plugin-style-import'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    styleImport({
+      libs: [{
+        libraryName: 'element-plus',
+        esModule: true,
+        ensureStyleFile: true,
+        resolveStyle: (name) => {
+          name = name.slice(3)
+          return `element-plus/packages/theme-chalk/src/${name}.scss`;
+        },
+        resolveComponent: (name) => {
+          return `element-plus/lib/${name}`;
+        },
+      }]
+    })
+  ]
+})
+```
+
+- import `.css` style
+
+```js
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import styleImport from 'vite-plugin-style-import'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    styleImport({
+      libs: [
+        {
+          libraryName: 'element-plus',
+          esModule: true,
+          ensureStyleFile: true,
+          resolveStyle: (name) => {
+            return `element-plus/lib/theme-chalk/${name}.css`;
+          },
+          resolveComponent: (name) => {
+            return `element-plus/lib/${name}`;
+          },
+        }
+      ]
+    })
+  ]
+})
+```
+
 次に、ボタンとセレクトが必要な場合、main.jsを編集します:
 
 ```javascript
 import { createApp } from 'vue'
 import { ElButton, ElSelect } from 'element-plus';
 import App from './App.vue';
+// If you want to use the .scss style file, you need to import the base.scss file
+// import 'element-plus/packages/theme-chalk/src/base.scss'
 
 const app = createApp(App)
 app.component(ElButton.name, ElButton);
@@ -87,6 +191,9 @@ app.mount('#app')
 ```javascript
 import { createApp } from 'vue'
 import App from './App.vue';
+// If you want to use the .scss style file, you need to import the base.scss file
+// import 'element-plus/packages/theme-chalk/src/base.scss'
+
 import {
   ElAlert,
   ElAside,
@@ -294,6 +401,8 @@ Element Plusを部分的にインポート：
 import { createApp } from 'vue'
 import { ElButton } from 'element-plus';
 import App from './App.vue';
+// If you want to use the .scss style file, you need to import the base.scss file
+// import 'element-plus/packages/theme-chalk/src/base.scss'
 
 const app = createApp(App)
 app.config.globalProperties.$ELEMENT = option

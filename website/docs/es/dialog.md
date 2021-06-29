@@ -6,8 +6,7 @@ Informar a usuarios preservando el estado de la página actual.
 
 Dialog abre una caja de diálogo, y es bastante personalizable.
 
-:::demo Establezca el atributo `visible` con un booleano, y el Dialog se muestra cuando es `true`. El diálogo tiene dos partes: `body` y `footer`,  este último requiere un slot llamado `footer`. El atributo `title` es opcional (vacío por defecto) y sirve para definir un título. Por último, este ejemplo muestra cómo se utiliza `before-close`.
-
+:::demo Establezca el `model-value / v-model` con un booleano, y el Dialog se muestra cuando es `true`. El diálogo tiene dos partes: `body` y `footer`,  este último requiere un slot llamado `footer`. El atributo `title` es opcional (vacío por defecto) y sirve para definir un título. Por último, este ejemplo muestra cómo se utiliza `before-close`.
 
 ```html
 <el-button type="text" @click="dialogVisible = true">click to open the Dialog</el-button>
@@ -44,6 +43,33 @@ Dialog abre una caja de diálogo, y es bastante personalizable.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      const dialogVisible = ref(false);
+      
+      const handleClose = (done) => {
+        ElMessageBox
+          .confirm('Are you sure to close this dialog?')
+          .then((_) => {
+            done();
+          })
+          .catch((_) => {});
+      };
+      return {
+        dialogVisible,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -132,6 +158,59 @@ El contenido del Diálogo puede ser cualquier cosa, incluso una tabla o un formu
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-04',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-01',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+          {
+            date: '2016-05-03',
+            name: 'John Smith',
+            address: 'No.1518,  Jinshajiang Road, Putuo District',
+          },
+        ],
+        dialogTableVisible: false,
+        dialogFormVisible: false,
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: '',
+        },
+        formLabelWidth: '120px',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -170,6 +249,22 @@ Si un diálogo está anidado en otro diálogo, se requiere append-to-body.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        outerVisible: ref(false),
+        innerVisible: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -204,6 +299,21 @@ El contenido de Diálogo se puede centrar.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        centerDialogVisible: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -247,6 +357,21 @@ When this is feature is enabled, the content under default slot will be destroye
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        centerDialogVisible: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 
 ```
 

@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import { sleep } from '@element-plus/test-utils'
+import { rAF } from '@element-plus/test-utils/tick'
 
 import Menu from '../src/menu.vue'
 import MenuGroup from '../src/menuItemGroup.vue'
@@ -411,13 +412,16 @@ describe('other', () => {
         },
       },
     )
+    await rAF()
     const instance = wrapper.vm as any
-    instance.active = '2'
     instance.menus = [
       { name: '1', description: 'happy' },
       { name: '2', description: 'new' },
       { name: '3', description: 'year' },
     ]
+    await nextTick()
+    instance.active = '2'
+
     await nextTick()
     expect(
       instance.$el.querySelector('.el-menu-item.is-active').innerHTML,

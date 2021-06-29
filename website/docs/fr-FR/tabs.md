@@ -281,7 +281,7 @@ Seuls les onglets de type carte supportent l'ajout et la suppression.
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | La valeur liée, nom de l'onglet sélectionné. | string   |  —  | Nom du premier onglet. |
+| model-value / v-model | La valeur liée, nom de l'onglet sélectionné. | string   |  —  | Nom du premier onglet. |
 | type     | Type de l'onglet. | string   | card/border-card  |     —    |
 | closable  | Si des onglets peuvent être supprimés. | boolean   | — |  false  |
 | addable  | Si des onglets peuvent être ajoutés. | boolean   | — |  false  |
