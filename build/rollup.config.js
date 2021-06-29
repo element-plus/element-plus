@@ -7,9 +7,9 @@ import { getPackagesSync } from '@lerna/project'
 import pkg from '../package.json'
 
 const noElPrefixFile = /(utils|directives|hooks|locale)/
-const getOutFile = (name, dir='lib') => {
+const getOutFile = (name, dir = 'lib') => {
   const compName = name.split('@element-plus/')[1]
-  if(noElPrefixFile.test(name)) {
+  if (noElPrefixFile.test(name)) {
     return `${dir}/${compName}/index.js`
   }
   return `${dir}/el-${compName}/index.js`
@@ -34,7 +34,7 @@ export default inputs.map(name => ({
         return id.replace('@element-plus/', '../el-')
       }
     },
-  },{
+  }, {
     format: 'cjs',
     file: getOutFile(name, 'lib'),
     exports: 'named',
