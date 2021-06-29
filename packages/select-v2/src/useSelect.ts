@@ -192,6 +192,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // this obtains the actual popper DOM element.
   const popperRef = computed(() => popper.value?.popperRef)
 
+  // the index with current value in options
+  const indexRef = computed<number>(() => {
+    if (props.multiple) {
+      if ((props.modelValue as Array<any>).length > 0) {
+        return props.options.findIndex(o => o.value === props.modelValue[0])
+      }
+    } else {
+      if (props.modelValue) {
+        return props.options.findIndex(o => o.value === props.modelValue)
+      }
+    }
+    return -1
+  })
+
   // methods
   const focusAndUpdatePopup = () => {
     inputRef.value.focus?.()
@@ -571,23 +585,23 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleBlur()
   }
 
-  // in order to track these individually, we need to turn them into refs instead of watching the entire
-  // reactive object which could cause perf penalty when unnecessary field gets changed the watch method will
-  // be invoked.
+  const handleMenuEnter = () => {
+    states.inputValue = states.displayInputValue
+    nextTick(() => {
+      if (~indexRef.value) {
+        scrollToItem(indexRef.value)
+      }
+    })
+  }
 
-  watch(expanded, val => {
-    emit('visible-change', val)
-    if (val) {
-      popper.value.update?.()
-      // the purpose of this function is to differ the blur event trigger mechanism
-    } else {
-      states.displayInputValue = ''
-    }
-  })
+  const scrollToItem = (index: number) => {
+    menuRef.value.scrollToItem(index)
+  }
 
-  onMounted(() => {
+  const initStates = () => {
     if (props.multiple) {
       if ((props.modelValue as Array<any>).length > 0) {
+        states.cachedOptions.length = 0;
         (props.modelValue as Array<any>).map(selected => {
           const item = props.options.find(option => option.value === selected)
           if (item) {
@@ -604,7 +618,32 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         }
       }
     }
+  }
 
+  // in order to track these individually, we need to turn them into refs instead of watching the entire
+  // reactive object which could cause perf penalty when unnecessary field gets changed the watch method will
+  // be invoked.
+
+  watch(expanded, val => {
+    emit('visible-change', val)
+    if (val) {
+      popper.value.update?.()
+      // the purpose of this function is to differ the blur event trigger mechanism
+    } else {
+      states.displayInputValue = ''
+    }
+  })
+
+  watch(() => props.modelValue, () => {
+    initStates()
+  })
+
+  watch(() => props.options, () => {
+    initStates()
+  })
+
+  onMounted(() => {
+    initStates()
     addResizeListener(selectRef.value, handleResize)
   })
 
@@ -655,6 +694,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleEsc,
     handleFocus,
     handleInputBoxClick,
+    handleMenuEnter,
     toggleMenu,
     onCompositionUpdate,
     onInput,
