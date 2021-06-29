@@ -154,9 +154,13 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
   .algolia-search {
     width: 450px !important;
+
+    .el-autocomplete-suggestion {
+      width: 450px !important;
+    }
 
     &.is-empty {
       .el-autocomplete-suggestion__list {
