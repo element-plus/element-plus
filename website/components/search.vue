@@ -108,7 +108,7 @@ export default {
 
   methods: {
     initIndex() {
-      const client = algoliasearch('4C63BTGP6S', '0729c3c7f4dc8db7395ad0b19c0748d2')
+      const client = algoliasearch('7DCTSU0WBW', '463385cf36ad2e81aff21afea1c0409c')
       this.index = client.initIndex(`element-${ this.lang ? this.langs[this.lang].index : 'zh' }`)
     },
 
