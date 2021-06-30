@@ -31,6 +31,23 @@ Usado para la calificación
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value1: ref(null),
+        value2: ref(null),
+        colors: ref(['#99A9BF', '#F7BA2A', '#FF9900']), // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -44,15 +61,29 @@ Usado para la calificación
 
 
 <script>
-import { defineComponent, ref } from 'vue'
   export default {
-    setup() {
+    data() {
       return {
-        value: ref(null)
+        value: null
       }
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(null),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -78,6 +109,21 @@ Usa texto para indicar la puntuación
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(null),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -105,6 +151,22 @@ Puede utilizar iconos para diferenciar cada componente.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(null),
+        iconClasses: ref(['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3']) // same as { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' }
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -132,6 +194,21 @@ La calificación de solo lectura es para mostrar la puntuación. Soporta media e
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(3.7),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
