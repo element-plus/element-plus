@@ -944,4 +944,141 @@ describe('table column', () => {
       wrapper.unmount()
     })
   })
+
+  describe('tree table', () => {
+
+    const getTableData = () => {
+      return [{
+        id: 1,
+        date: '2016-05-02',
+        name: 'Wangxiaohu',
+        address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+        index: 1,
+      }, {
+        id: 2,
+        date: '2016-05-04',
+        name: 'Wangxiaohu',
+        address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+        index: 2,
+      }, {
+        id: 3,
+        date: '2016-05-01',
+        name: 'Wangxiaohu',
+        address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+        index: 3,
+        children: [{
+          id: 31,
+          date: '2016-05-01',
+          name: 'Wangxiaohu',
+          address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+          index: 4,
+          children: [
+            {
+              id: 311,
+              date: '2016-05-01',
+              name: 'Wangxiaohu',
+              address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+              index: 5,
+            },
+            {
+              id: 312,
+              date: '2016-05-01',
+              name: 'Wangxiaohu',
+              address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+              index: 6,
+            },
+            {
+              id: 313,
+              date: '2016-05-01',
+              name: 'Wangxiaohu',
+              address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+              index: 7,
+              disabled: true,
+            },
+          ],
+        }, {
+          id: 32,
+          date: '2016-05-01',
+          name: 'Wangxiaohu',
+          address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+          index: 8,
+        }],
+      }, {
+        id: 4,
+        date: '2016-05-03',
+        name: 'Wangxiaohu',
+        address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+        index: 9,
+      }]
+    }
+
+    const createTable = function(methods) {
+      return mount(
+        Object.assign(
+          {
+            components: {
+              ElTable,
+              ElTableColumn,
+            },
+            template: `
+              <el-table
+                ref="table"
+                :data="testData"
+                row-key="id"
+                border
+                default-expand-all
+                :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+              >
+                <el-table-column type="index"></el-table-column>
+                <el-table-column type="selection" :selectable="selectable"></el-table-column>
+                <el-table-column prop="id" label="id"></el-table-column>
+                <el-table-column
+                  prop="date"
+                  label="Date"
+                  sortable
+                  width="180">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="Name"
+                  sortable
+                  width="180">
+                </el-table-column>
+                <el-table-column
+                  prop="address"
+                  label="Address">
+                </el-table-column>
+              </el-table>
+          `,
+            methods: {
+              selectable(row) {
+                return !row.disabled
+              },
+              ...methods,
+            },
+            data() {
+              return {
+                testData: getTableData(),
+              }
+            },
+          },
+        ),
+      )
+    }
+
+    it('selectable index parameter should be correct', async() => {
+      const result = []
+      const wrapper = createTable({
+        selectable(row, index) {
+          result.push((row.index - 1) === index)
+          return !row.disabled
+        },
+      })
+      await nextTick()
+      wrapper.vm.$refs.table.toggleAllSelection()
+      expect(result.every(item => item)).toBeTruthy()
+      wrapper.unmount()
+    })
+
+  })
 })
