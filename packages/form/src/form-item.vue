@@ -47,7 +47,7 @@ import { computed, defineComponent, getCurrentInstance, inject, nextTick, onBefo
 import { NOOP } from '@vue/shared'
 import AsyncValidator, { RuleItem } from 'async-validator'
 import LabelWrap from './label-wrap'
-import { getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
+import { addUnit, getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import mitt from 'mitt'
 import type { ElFormContext, ValidateFieldCallback } from './token'
@@ -61,7 +61,7 @@ export default defineComponent({
   },
   props: {
     label: String,
-    labelWidth: String,
+    labelWidth: [String, Number],
     prop: String,
     required: {
       type: Boolean,
@@ -129,7 +129,7 @@ export default defineComponent({
     const labelFor = computed(() => props.for || props.prop)
     const labelStyle = computed(() => {
       if (elForm.labelPosition === 'top') return {}
-      const labelWidth = props.labelWidth || elForm.labelWidth
+      const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
       if (labelWidth) {
         return {
           width: labelWidth,
@@ -144,7 +144,7 @@ export default defineComponent({
       if (!props.label && !props.labelWidth && isNested.value) {
         return {}
       }
-      const labelWidth = props.labelWidth || elForm.labelWidth
+      const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
       const ret: Partial<CSSStyleDeclaration> = {}
       if (!props.label && !slots.label) {
         ret.marginLeft = labelWidth

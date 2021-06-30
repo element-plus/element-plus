@@ -11,15 +11,9 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent, provide, watch, ref,
-  computed, reactive, toRefs, PropType,
-} from 'vue'
+import { computed, defineComponent, PropType, provide, reactive, ref, toRefs, watch } from 'vue'
 import mitt from 'mitt'
-import {
-  elFormKey, ElFormItemContext as FormItemCtx,
-  elFormEvents, ValidateFieldCallback,
-} from './token'
+import { elFormEvents, ElFormItemContext as FormItemCtx, elFormKey, ValidateFieldCallback } from './token'
 import { FieldErrorList } from 'async-validator'
 
 function useFormLabelWidth() {
@@ -51,6 +45,7 @@ function useFormLabelWidth() {
     const index = getLabelWidthIndex(val)
     index > -1 && potentialLabelWidthArr.value.splice(index, 1)
   }
+
   return {
     autoLabelWidth,
     registerLabelWidth,
@@ -68,7 +63,7 @@ export default defineComponent({
     model: Object,
     rules: Object,
     labelPosition: String,
-    labelWidth: String,
+    labelWidth: [String, Number],
     labelSuffix: {
       type: String,
       default: '',
@@ -158,7 +153,7 @@ export default defineComponent({
       // if no callback, return promise
       if (typeof callback !== 'function') {
         promise = new Promise((resolve, reject) => {
-          callback = function(valid, invalidFields) {
+          callback = function (valid, invalidFields) {
             if (valid) {
               resolve(true)
             } else {
@@ -188,7 +183,7 @@ export default defineComponent({
       return promise
     }
 
-    const validateField = (props: string|string[], cb: ValidateFieldCallback) => {
+    const validateField = (props: string | string[], cb: ValidateFieldCallback) => {
       props = [].concat(props)
       const fds = fields.filter(field => props.indexOf(field.prop) !== -1)
       if (!fields.length) {

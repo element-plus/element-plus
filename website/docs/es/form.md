@@ -611,7 +611,7 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 | rules                   | Reglas de validación                     | object  | —                     | —           |
 | inline                  | Si el form es inline                     | boolean | —                     | false       |
 | label-position          | Posición de la etiqueta          | string  | left / right / top    | right       |
-| label-width             | anchura de la etiqueta, por ejemplo, "50px". Todos sus elementos de formulario hijo directo heredarán este valor. El valor `auto` está soportado. | string | — | — |
+| label-width             | anchura de la etiqueta, por ejemplo, "50px". Todos sus elementos de formulario hijo directo heredarán este valor. El valor `auto` está soportado. | string / number | — | — |
 | label-suffix            | sufijo de la etiqueta                    | string  | —                     | —           |
 | hide-required-asterisk       | si los campos obligatorios deben tener un asterisco rojo (estrella) al lado de sus etiquetas | boolean | — | false |
 | show-message            | si mostrar o no el mensaje de error      | boolean | —                     | true        |
@@ -643,7 +643,7 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 | -------------- | ------------------------------------------------------------ | ------- | ------------------------------------------- | ----------- |
 | prop           | un clave del modelo. En el uso del método `validate` y `resetFields`, el atributo es obligatorio. | string  | Clave del modelo que se ha pasado a  `form` |             |
 | label          | etiqueta                                                     | string  | —                                           | —           |
-| label-width    | ancho de la etiqueta, Ejemplo: '50px'. El valor `auto` esta soportado | string  | —                                           | —           |
+| label-width    | ancho de la etiqueta, Ejemplo: '50px'. El valor `auto` esta soportado | string / number  | —                                           | —           |
 | required       | si el campo es obligatorio o no, estará determinado por las reglas de validación si se omite. | boolean | —                                           | false       |
 | rules          | reglas de validación del form                                | object  | —                                           | —           |
 | error          | mensaje de error de campo, establezca su valor y el campo validará el error y mostrará este mensaje inmediatamente. | string  | —                                           | —           |
