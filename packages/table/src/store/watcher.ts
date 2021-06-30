@@ -71,6 +71,17 @@ function useWatcher<T>() {
   const sortOrder = ref(null)
   const hoverRow = ref(null)
 
+  const {
+    updateTreeExpandKeys,
+    toggleTreeExpansion,
+    loadOrToggle,
+    states: treeStates,
+    getChildren,
+  } = useTree({
+    data,
+    rowKey,
+  })
+
   watch(data, () => instance.state && scheduleLayout(false), {
     deep: true,
   })
@@ -136,6 +147,49 @@ function useWatcher<T>() {
     return selection.value.indexOf(row) > -1
   }
 
+  const isIndeterminate = (row, $index) => {
+    const children = getChildren(row)
+    if (children) {
+      const availableCount = getAvailableCount(row, $index)
+      let childSelected = false
+      let offset = 1
+      children.forEach((child, i) => {
+        if (isIndeterminate(child, $index + i + offset)) {
+          childSelected = true
+        }
+        // gets the number of all child nodes
+        offset += getChildNodeCounts(child)
+      })
+      const selectedCount = children.filter(r => isSelected(r)).length
+      return (!isSelected(row) && selectedCount > 0 && selectedCount < availableCount) || childSelected
+    }
+    return false
+  }
+
+  const getAvailableCount = (row, $index) => {
+    const children = getChildren(row)
+    if (children) {
+      let availableCount = children.length
+      let childSelected = false
+      if (selectable.value) {
+        let offset = 1
+        children.forEach((row, i) => {
+          const isDisabled = !selectable.value.call(null, row, $index + i + offset)
+          if (isDisabled) {
+            availableCount--
+          }
+          if (isIndeterminate(row, $index + i + offset)) {
+            childSelected = true
+          }
+          // gets the number of all child nodes
+          offset += getChildNodeCounts(row)
+        })
+      }
+      return availableCount
+    }
+    return -1
+  }
+
   const clearSelection = () => {
     isAllSelected.value = false
     const oldSelection = selection.value
@@ -172,15 +226,52 @@ function useWatcher<T>() {
     row: T,
     selected = undefined,
     emitChange = true,
+    index: number,
   ) => {
     const changed = toggleRowStatus(selection.value, row, selected)
     if (changed) {
+      toggleChildrenSelection(row, isSelected(row), index)
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
       if (emitChange) {
         instance.emit('select', newSelection, row)
       }
       instance.emit('selection-change', newSelection)
+    }
+  }
+
+  const getParentRow = (row: T) => {
+    const rowKey = instance.store.states.rowKey.value
+    const key = getRowIdentity(row, rowKey)
+    const {
+      treeData,
+      data,
+    } = instance.store.states
+    const parentKeys = Object.keys(treeData.value)
+    for (let i = 0; i < parentKeys.length; ++i) {
+      const children = treeData.value[parentKeys[i]].children
+      if (children && ~children.indexOf(key)) {
+        const row = getParentNodeByRowKey(data.value, parentKeys[i])
+        if (row) return row
+      }
+    }
+  }
+
+  const getParentNodeByRowKey = (data: T[], key: any) => {
+    const rowKey = instance.store.states.rowKey.value
+    for (let i = 0; i < data.length; ++i) {
+      const row = data[i]
+      const id = row[rowKey]
+      if (id && id.toString() === key.toString()) {
+        return row
+      }
+      const children = getChildren(row)
+      if (children) {
+        const row = getParentNodeByRowKey(children, key)
+        if (row) {
+          return row
+        }
+      }
     }
   }
 
@@ -193,10 +284,12 @@ function useWatcher<T>() {
     isAllSelected.value = value
 
     let selectionChanged = false
+    let childrenCount = 0
     data.value.forEach((row, index) => {
+      const rowIndex = index + childrenCount
       if (selectable.value) {
         if (
-          selectable.value.call(null, row, index) &&
+          selectable.value.call(null, row, rowIndex) &&
           toggleRowStatus(selection.value, row, value)
         ) {
           selectionChanged = true
@@ -206,6 +299,11 @@ function useWatcher<T>() {
           selectionChanged = true
         }
       }
+      const count = toggleChildrenSelection(row, value, rowIndex)
+      if (count > 0) {
+        selectionChanged = true
+      }
+      childrenCount += count
     })
 
     if (selectionChanged) {
@@ -215,6 +313,81 @@ function useWatcher<T>() {
       )
     }
     instance.emit('select-all', selection.value)
+  }
+
+  const toggleChildrenSelection = (row: T, selected: boolean, $index: number): number => {
+    const children = getChildren(row)
+    let changed = false
+    let length = 0
+    if (children) {
+      length += children.length
+      let offset = 1
+      children.forEach((r, i) => {
+        if (selectable.value) {
+          if (
+            selectable.value.call(null, r, $index + i + offset) &&
+            toggleRowStatus(selection.value, r, selected)
+          ) {
+            changed = true
+          }
+        } else {
+          if (toggleRowStatus(selection.value, r, selected)) {
+            changed = true
+          }
+        }
+        const childrenLength = toggleChildrenSelection(r, selected, $index + i + offset)
+        if (childrenLength > 0) {
+          changed = true
+          length += childrenLength
+          offset += childrenLength
+        }
+      })
+    }
+    toggleParentRowSelection(row, $index)
+    return length
+  }
+
+  const toggleParentRowSelection = (row: T, $index: number) => {
+    // 处理父节点
+    const parentRow = getParentRow(row)
+    const rowKey = instance.store.states.rowKey.value
+    if (rowKey && parentRow) {
+      const children = getChildren(parentRow)
+      let childIndex = children.findIndex(child => child[rowKey] === row[rowKey])
+      // 加上中间同级节点的子节点数量
+      if (childIndex !== 0) {
+        for (let i = 0; i < childIndex; ++i) {
+          childIndex += getChildNodeCounts(children[i])
+        }
+      }
+      const parentIndex = $index - childIndex - 1
+      const availableCount = getAvailableCount(parentRow, parentIndex)
+      const selectedCount = getChildren(parentRow).filter(r => isSelected(r)).length
+      if (selectedCount === 0) {
+        toggleRowStatus(selection.value, parentRow, false)
+      } else if (selectedCount === availableCount) {
+        toggleRowStatus(selection.value, parentRow, true)
+      }
+      if (isSelected(parentRow) && selectedCount > 0 && selectedCount < availableCount) {
+        toggleRowStatus(selection.value, parentRow, false)
+      }
+      toggleParentRowSelection(parentRow, parentIndex)
+    }
+  }
+
+  const getChildNodeCounts = (row: T): number => {
+    const children = getChildren(row)
+    let count = 0
+    if (children) {
+      count += children.length
+      children.forEach((r, i) => {
+        const childrenLength = getChildNodeCounts(r)
+        if (childrenLength > 0) {
+          count += childrenLength
+        }
+      })
+    }
+    return count
   }
 
   const updateSelectionByRowKey = () => {
@@ -248,10 +421,11 @@ function useWatcher<T>() {
     }
     let isAllSelected_ = true
     let selectedCount = 0
+    let offset = 0
     for (let i = 0, j = (data.value || []).length; i < j; i++) {
       const item = data.value[i]
       const isRowSelectable =
-        selectable.value && selectable.value.call(null, item, i)
+        selectable.value && selectable.value.call(null, item, i + offset)
       if (!isSelected(item)) {
         if (!selectable.value || isRowSelectable) {
           isAllSelected_ = false
@@ -260,6 +434,7 @@ function useWatcher<T>() {
       } else {
         selectedCount++
       }
+      offset += getChildNodeCounts(item)
     }
 
     if (selectedCount === 0) isAllSelected_ = false
@@ -403,15 +578,7 @@ function useWatcher<T>() {
     data,
     rowKey,
   })
-  const {
-    updateTreeExpandKeys,
-    toggleTreeExpansion,
-    loadOrToggle,
-    states: treeStates,
-  } = useTree({
-    data,
-    rowKey,
-  })
+
   const {
     updateCurrentRowData,
     updateCurrentRow,
@@ -443,6 +610,7 @@ function useWatcher<T>() {
     updateColumns,
     scheduleLayout,
     isSelected,
+    isIndeterminate,
     clearSelection,
     cleanSelection,
     toggleRowSelection,

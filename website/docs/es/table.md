@@ -1349,9 +1349,11 @@ Cuando el contenido de la fila es demasiado largo y busca no mostrar la barra de
     row-key="id"
     border
     default-expand-all>
+    <el-table-column type="selection">
+    </el-table-column>
     <el-table-column
       prop="date"
-      label="日期"
+      label="date"
       sortable
       width="180">
     </el-table-column>
@@ -1371,6 +1373,8 @@ Cuando el contenido de la fila es demasiado largo y busca no mostrar la barra de
     lazy
     :load="load"
     :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+    <el-table-column type="selection">
+    </el-table-column>
     <el-table-column
       prop="date"
       label="date"
@@ -1403,7 +1407,24 @@ Cuando el contenido de la fila es demasiado largo y busca no mostrar la barra de
           children: [{
               id: 31,
               date: '2016-05-01',
-              name: 'wangxiaohu'
+              name: 'wangxiaohu',
+              children: [
+                {
+                  id: 311,
+                  date: '2016-05-01',
+                  name: 'wangxiaohu',
+                },
+                {
+                  id: 312,
+                  date: '2016-05-01',
+                  name: 'wangxiaohu',
+                },
+                {
+                  id: 313,
+                  date: '2016-05-01',
+                  name: 'wangxiaohu',
+                }
+              ]
             }, {
               id: 32,
               date: '2016-05-01',

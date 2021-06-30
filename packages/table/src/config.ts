@@ -62,8 +62,9 @@ export const cellForced = {
           ? !column.selectable.call(null, row, $index)
           : false,
         onChange: () => {
-          store.commit('rowSelectedChanged', row)
+          store.commit('rowSelectedChanged', row, $index)
         },
+        indeterminate: store.isIndeterminate(row, $index),
         onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.isSelected(row),
       })

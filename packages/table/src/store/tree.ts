@@ -171,11 +171,37 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         treeData.value[key].loading = false
         treeData.value[key].loaded = true
         treeData.value[key].expanded = true
+        // If the parent node is checked, the loaded child node will be checked automatically
+        const store = instance.store
+        if (store?.isSelected(row)) {
+          data.forEach($row => {
+            store.commit('rowSelectedChanged', $row)
+          })
+        }
         if (data.length) {
           lazyTreeNodeMap.value[key] = data
         }
         instance.emit('expand-change', row, true)
       })
+    }
+  }
+
+  const isParentTreeNode = row => {
+    const rowKey = watcherData.rowKey.value
+    return rowKey && row && Array.isArray(row[childrenColumnName.value])
+  }
+
+  const isLazyTreeNode = row => {
+    const rowKey = watcherData.rowKey.value
+    return rowKey && row && !row[childrenColumnName.value] && row[lazyColumnIdentifier.value]
+  }
+
+  const getChildren = row => {
+    const rowKey = watcherData.rowKey.value
+    if (isParentTreeNode(row)) {
+      return row[childrenColumnName.value]
+    } else if (isLazyTreeNode(row)) {
+      return lazyTreeNodeMap.value[row[rowKey]]
     }
   }
 
@@ -186,6 +212,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     updateTreeExpandKeys,
     updateTreeData,
     normalize,
+    getChildren,
     states: {
       expandRowKeys,
       treeData,

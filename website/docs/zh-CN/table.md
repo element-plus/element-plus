@@ -1293,6 +1293,8 @@
     border
     default-expand-all
     :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+    <el-table-column type="selection">
+    </el-table-column>
     <el-table-column
       prop="date"
       label="日期"
@@ -1319,6 +1321,8 @@
     lazy
     :load="load"
     :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+    <el-table-column type="selection">
+    </el-table-column>
     <el-table-column
       prop="date"
       label="日期"
@@ -1359,7 +1363,27 @@
               id: 31,
               date: '2016-05-01',
               name: '王小虎',
-              address: '上海市普陀区金沙江路 1519 弄'
+              address: '上海市普陀区金沙江路 1519 弄',
+              children: [
+                {
+                  id: 311,
+                  date: '2016-05-01',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1519 弄',
+                },
+                {
+                  id: 312,
+                  date: '2016-05-01',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1519 弄',
+                },
+                {
+                  id: 313,
+                  date: '2016-05-01',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1519 弄',
+                }
+              ]
             }, {
               id: 32,
               date: '2016-05-01',

@@ -1071,6 +1071,172 @@ describe('Table.vue', () => {
   })
 
   describe('tree', () => {
+
+    const createTable = function(prop, lazy = false) {
+      return mount(
+        Object.assign(
+          {
+            components: {
+              ElTable,
+              ElTableColumn,
+            },
+            template: `
+              <el-table
+                :data="testData"
+                row-key="id"
+                border
+                default-expand-all
+                :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+                @${prop}="handleEvent"
+                :lazy="lazy"
+                :load="load"
+              >
+                <el-table-column type="index"></el-table-column>
+                <el-table-column type="selection" :selectable="selectable"></el-table-column>
+                <el-table-column prop="id" label="id"></el-table-column>
+                <el-table-column
+                  prop="date"
+                  label="日期"
+                  sortable
+                  width="180">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="姓名"
+                  sortable
+                  width="180">
+                </el-table-column>
+                <el-table-column
+                  prop="address"
+                  label="地址">
+                </el-table-column>
+              </el-table>
+          `,
+            methods: {
+              handleEvent(args) {
+                this.result = args
+              },
+              selectable(row) {
+                return !row.disabled
+              },
+              load(tree, treeNode, resolve) {
+                setTimeout(() => {
+                  resolve([
+                    {
+                      id: 31,
+                      date: '2016-05-01',
+                      name: '王小虎',
+                      address: '上海市普陀区金沙江路 1519 弄',
+                      index: 4,
+                    }, {
+                      id: 32,
+                      date: '2016-05-01',
+                      name: '王小虎',
+                      address: '上海市普陀区金沙江路 1519 弄',
+                      index: 5,
+                    },
+                  ])
+                }, 100)
+              },
+            },
+            data() {
+              return {
+                lazy,
+                result: [],
+                testData: !lazy ? [{
+                  id: 1,
+                  date: '2016-05-02',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1518 弄',
+                  index: 1,
+                }, {
+                  id: 2,
+                  date: '2016-05-04',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1517 弄',
+                  index: 2,
+                }, {
+                  id: 3,
+                  date: '2016-05-01',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1519 弄',
+                  index: 3,
+                  children: [{
+                    id: 31,
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄',
+                    index: 4,
+                    children: [
+                      {
+                        id: 311,
+                        date: '2016-05-01',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1519 弄',
+                        index: 5,
+                      },
+                      {
+                        id: 312,
+                        date: '2016-05-01',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1519 弄',
+                        index: 6,
+                      },
+                      {
+                        id: 312,
+                        date: '2016-05-01',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1519 弄',
+                        index: 7,
+                        disabled: true,
+                      },
+                    ],
+                  }, {
+                    id: 32,
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄',
+                    index: 8,
+                  }],
+                }, {
+                  id: 4,
+                  date: '2016-05-03',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1516 弄',
+                  index: 9,
+                }] : [{
+                  id: 1,
+                  date: '2016-05-02',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1518 弄',
+                  index: 1,
+                }, {
+                  id: 2,
+                  date: '2016-05-04',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1517 弄',
+                  index: 2,
+                }, {
+                  id: 3,
+                  date: '2016-05-01',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1519 弄',
+                  hasChildren: true,
+                  index: 3,
+                }, {
+                  id: 4,
+                  date: '2016-05-03',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1516 弄',
+                  index: 6,
+                }],
+              }
+            },
+          },
+        ),
+      )
+    }
+
     let wrapper: VueWrapper<ComponentPublicInstance>
     afterEach(() => wrapper?.unmount())
     it('render tree structual data', async () => {
@@ -1350,6 +1516,46 @@ describe('Table.vue', () => {
       await nextTick()
       const firstCellSpanAfterHide = wrapper.find('.el-table__body tr td span')
       expect(firstCellSpanAfterHide.classes().includes('release')).toBeTruthy()
+    })
+
+    it('selection', async () => {
+      const wrapper = createTable('selection-change')
+      await nextTick()
+      const parentNode = wrapper.find('.el-table__row--level-0')
+      await parentNode.find('.el-checkbox').trigger('click')
+      expect(wrapper.vm.result.length).toEqual(5)
+      await wrapper.findAll('.el-table__row--level-2')[1].find('.el-checkbox').trigger('click')
+      expect(wrapper.vm.result.length).toEqual(2)
+      expect(wrapper.find('.el-table__row--level-0').find('.is-indeterminate')).toBeTruthy()
+      expect(wrapper.find('.el-table__row--level-1').find('.is-indeterminate')).toBeTruthy()
+      expect(wrapper.find('.el-table__header').find('.is-indeterminate')).toBeTruthy()
+      wrapper.unmount()
+    })
+
+    it('lazyLoad selection', async () => {
+      const wrapper = createTable('selection-change', true)
+      await nextTick()
+      await wrapper.find('.el-table__expand-icon').trigger('click')
+      await sleep(250)
+      expect(wrapper.find('.el-table__row--level-1').exists()).toBeTruthy()
+      await wrapper.find('.el-table__row--level-1').find('.el-checkbox').trigger('click')
+      expect(wrapper.findAll('.is-indeterminate').length).toEqual(2)
+      await wrapper.findAll('.el-table__row--level-1')[1].find('.el-checkbox').trigger('click')
+      expect(wrapper.findAll('.is-indeterminate').length).toEqual(1)
+      expect(wrapper.vm.result.length).toEqual(3)
+      wrapper.unmount()
+    })
+
+    it('lazyLoad auto selected', async () => {
+      const wrapper = createTable('selection-change', true)
+      await nextTick()
+      const parentNode = wrapper.find('.el-table__row--level-0')
+      await parentNode.find('.el-checkbox').trigger('click')
+      expect(wrapper.vm.result.length).toEqual(1)
+      await wrapper.find('.el-table__expand-icon').trigger('click')
+      await sleep(250)
+      expect(wrapper.vm.result.length).toEqual(3)
+      wrapper.unmount()
     })
   })
 })

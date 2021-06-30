@@ -1350,9 +1350,11 @@ Lorsque le contenu d'une ligne est trop long et que vous ne souhaitez pas affich
     row-key="id"
     border
     default-expand-all>
+    <el-table-column type="selection">
+    </el-table-column>
     <el-table-column
       prop="date"
-      label="date"
+      label="Date"
       sortable
       width="180">
     </el-table-column>
@@ -1372,6 +1374,8 @@ Lorsque le contenu d'une ligne est trop long et que vous ne souhaitez pas affich
     lazy
     :load="load"
     :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+    <el-table-column type="selection">
+    </el-table-column>
     <el-table-column
       prop="date"
       label="Date"
@@ -1404,7 +1408,24 @@ Lorsque le contenu d'une ligne est trop long et que vous ne souhaitez pas affich
           children: [{
               id: 31,
               date: '2016-05-01',
-              name: 'wangxiaohu'
+              name: 'wangxiaohu',
+              children: [
+                {
+                  id: 311,
+                  date: '2016-05-01',
+                  name: 'wangxiaohu',
+                },
+                {
+                  id: 312,
+                  date: '2016-05-01',
+                  name: 'wangxiaohu',
+                },
+                {
+                  id: 313,
+                  date: '2016-05-01',
+                  name: 'wangxiaohu',
+                }
+              ]
             }, {
               id: 32,
               date: '2016-05-01',

@@ -1347,9 +1347,11 @@ When the row content is too long and you do not want to display the horizontal s
     row-key="id"
     border
     default-expand-all>
+    <el-table-column type="selection">
+    </el-table-column>
     <el-table-column
       prop="date"
-      label="date"
+      label="Date"
       sortable
       width="180">
     </el-table-column>
@@ -1369,6 +1371,8 @@ When the row content is too long and you do not want to display the horizontal s
     lazy
     :load="load"
     :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+    <el-table-column type="selection">
+    </el-table-column>
     <el-table-column
       prop="date"
       label="Date"
@@ -1401,7 +1405,24 @@ When the row content is too long and you do not want to display the horizontal s
           children: [{
               id: 31,
               date: '2016-05-01',
-              name: 'wangxiaohu'
+              name: 'wangxiaohu',
+              children: [
+                {
+                  id: 311,
+                  date: '2016-05-01',
+                  name: 'wangxiaohu',
+                },
+                {
+                  id: 312,
+                  date: '2016-05-01',
+                  name: 'wangxiaohu',
+                },
+                {
+                  id: 313,
+                  date: '2016-05-01',
+                  name: 'wangxiaohu',
+                }
+              ]
             }, {
               id: 32,
               date: '2016-05-01',

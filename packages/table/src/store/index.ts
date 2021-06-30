@@ -172,8 +172,8 @@ function useStore<T>() {
       instance.store.toggleAllSelection()
     },
 
-    rowSelectedChanged(_states, row: T) {
-      instance.store.toggleRowSelection(row)
+    rowSelectedChanged(_states, row: T, index: number) {
+      instance.store.toggleRowSelection(row, undefined, true, index)
       instance.store.updateAllSelected()
     },
 
