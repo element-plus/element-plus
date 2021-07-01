@@ -43,13 +43,26 @@
 
 <script lang="ts">
 import type { PropType } from 'vue'
-import { computed, defineComponent, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
 import { NOOP } from '@vue/shared'
-import AsyncValidator, { RuleItem } from 'async-validator'
-import LabelWrap from './label-wrap'
 import { addUnit, getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import AsyncValidator, { RuleItem } from 'async-validator'
 import mitt from 'mitt'
+import LabelWrap from './label-wrap'
 import type { ElFormContext, ValidateFieldCallback } from './token'
 import { elFormEvents, elFormItemKey, elFormKey } from './token'
 
