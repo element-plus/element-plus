@@ -1,7 +1,10 @@
-import { defineComponent, h, inject, VNode } from 'vue'
-import { elDescriptionsKey, IDescriptionsInject, IDescriptionsItemInject } from './descriptions.type'
+import { defineComponent, h, inject } from 'vue'
 import { addUnit } from '@element-plus/utils/util'
 import { getNormalizedProps } from '@element-plus/utils/vnode'
+import { elDescriptionsKey } from './descriptions.type'
+
+import type { VNode } from 'vue'
+import type { IDescriptionsInject, IDescriptionsItemInject } from './descriptions.type'
 
 export default defineComponent({
   name: 'ElDescriptionsCell',
