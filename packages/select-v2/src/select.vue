@@ -23,7 +23,7 @@
       pure
       transition="el-zoom-in-top"
       trigger="click"
-      @before-enter="states.inputValue = states.displayInputValue"
+      @before-enter="handleMenuEnter"
       @after-leave="states.inputValue = states.displayInputValue"
     >
       <template #trigger>
