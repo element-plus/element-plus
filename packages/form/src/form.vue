@@ -21,6 +21,7 @@ import {
   elFormEvents, ValidateFieldCallback,
 } from './token'
 import { FieldErrorList } from 'async-validator'
+import type { FormRulesMap } from './form.type'
 
 function useFormLabelWidth() {
   const potentialLabelWidthArr = ref([])
@@ -66,7 +67,7 @@ export default defineComponent({
   name: 'ElForm',
   props: {
     model: Object,
-    rules: Object,
+    rules: Object as PropType<FormRulesMap>,
     labelPosition: String,
     labelWidth: String,
     labelSuffix: {

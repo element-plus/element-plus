@@ -2,6 +2,10 @@
 
 Un formulaire est constitué des éléments `input`, `radio`, `select`, `checkbox`, etc. Il sert principalement à collecter, vérifier et soumettre des données.
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### Formulaire de base
 
 Il peut contenir toutes sortes de champs tels que `input`, `select`, `radio` et `checkbox`.
@@ -625,11 +629,16 @@ Tout les composants d'un formulaire héritent leur attribut `size` de ce formula
 | label | Le label. | string | — | — |
 | label-width | Largeur du label, e.g. '50px'. La largeur `auto` est supportée. | string | — | — |
 | required | Si le champ est requis ou non. Si omis, sera déterminé par les règles de validation. | boolean |  — | false |
-| rules | Règles de validation du formulaire. | object | — | — |
+| rules | Règles de validation du formulaire, voir table suivante, plus d'informations ici:  [async-validator](https://github.com/yiminghe/async-validator)  | object / array | — | — |
 | error | Message d'erreur du champ. S'il est modifié, le champ l'affichera immédiatement. | string | — | — |
 | show-message  | Si le message d'erreur doit apparaître. | boolean | — | true |
 | inline-message  | Si le message d'erreur doit être en ligne avec le champ. | boolean | — | false |
 | size  | Contrôle la taille du FormItem. | string | medium / small / mini | - |
+
+### Rules
+| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | how the validator is triggered | string | blur / change   | —    |
 
 ### Slot de Form-Item
 | Nom | Description |

@@ -46,7 +46,7 @@ export interface IUseHandlersProps {
   listType: ListType
   fileList: UploadFile[]
   beforeUpload?: FileHandler
-  beforeRemove?:  FileHandler<Promise<any> | boolean>
+  beforeRemove?: FileHandler<Promise<any> | boolean>
   onRemove?: FileHandler
   onChange?: FileHandler
   onPreview?: () => void

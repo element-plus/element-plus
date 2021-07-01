@@ -13,7 +13,7 @@ import {
 } from '../defaults'
 
 import type { ExtractPropTypes } from 'vue'
-import type { Alignment, GridCache, ListItem, ItemSize  } from '../types'
+import type { Alignment, GridCache, ListItem, ItemSize } from '../types'
 
 const { max, min, floor } = Math
 const SCOPE = 'ElDynamicSizeGrid'

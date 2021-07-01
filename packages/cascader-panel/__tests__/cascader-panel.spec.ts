@@ -560,7 +560,7 @@ describe('CascaderPanel.vue', () => {
     expect(wrapper.vm.value).toEqual([1, 2])
   })
 
-  test('lazy load with default value', async () => {
+  test('lazy load with default primitive value', async () => {
     const wrapper = mount(CascaderPanel, {
       props: {
         props: {
@@ -568,6 +568,35 @@ describe('CascaderPanel.vue', () => {
           lazyLoad,
         },
         modelValue: [1, 2],
+      },
+    })
+
+    jest.runAllTimers()
+    await nextTick()
+
+    expect(wrapper.findAll(MENU).length).toBe(2)
+    expect(wrapper.find(`.is-active`).text()).toBe('option2')
+  })
+
+  test('lazy load with default object value', async () => {
+    const wrapper = mount(CascaderPanel, {
+      props: {
+        props: {
+          lazy: true,
+          lazyLoad(node, resolve) {
+            const { level } = node
+            setTimeout(() => {
+              const nodes = Array.from({ length: level + 1 })
+                .map(() => ({
+                  value: { id: ++id },
+                  label: `option${id}`,
+                  leaf: level >= 1,
+                }))
+              resolve(nodes)
+            }, 1000)
+          },
+        },
+        modelValue: [{ id: 1 }, { id: 2 }],
       },
     })
 
@@ -657,4 +686,40 @@ describe('CascaderPanel.vue', () => {
     await wrapper.setProps({ options: NORMAL_OPTIONS })
     expect(vm.getCheckedNodes(true).length).toBe(1)
   })
+
+  test('should not re-init when props\'s reference change but value not change', async () => {
+    const mockLazyLoad = jest.fn()
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          v-model="value"
+          :props="props"
+        />
+      `,
+      data() {
+        return {
+          value: [],
+          props: {
+            lazy: true,
+            lazyLoad: mockLazyLoad,
+          },
+        }
+      },
+    })
+
+    await nextTick()
+    expect(mockLazyLoad).toBeCalled()
+
+    const sameMockLazyLoad = jest.fn()
+    wrapper.vm.props.lazyLoad = sameMockLazyLoad
+    await nextTick()
+    expect(sameMockLazyLoad).not.toBeCalled()
+
+    // should re-init when props's value change
+    const differentMockLazyLoad = jest.fn(lazyLoad)
+    wrapper.vm.props.lazyLoad = differentMockLazyLoad
+    await nextTick()
+    expect(differentMockLazyLoad).toBeCalled()
+  })
+
 })

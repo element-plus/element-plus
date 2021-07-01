@@ -438,7 +438,7 @@ export default class Node {
     }
   }
 
-  getChildren(forceInit = false): TreeNodeData | TreeNodeData[]  { // this is data
+  getChildren(forceInit = false): TreeNodeData | TreeNodeData[] { // this is data
     if (this.level === 0) return this.data
     const data = this.data
     if (!data) return null

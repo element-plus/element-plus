@@ -197,7 +197,7 @@ export default defineComponent({
   setup(props, ctx) {
     const innerDate = ref(dayjs())
 
-    const month = computed(() =>  {
+    const month = computed(() => {
       return innerDate.value.month()
     })
 
@@ -426,7 +426,7 @@ export default defineComponent({
     const handleVisibleDateChange = value => {
       const newDate = dayjs(value, dateFormat.value)
       if (newDate.isValid()) {
-        if (disabledDate  && disabledDate(newDate.toDate())) {
+        if (disabledDate && disabledDate(newDate.toDate())) {
           return
         }
         innerDate.value = newDate.hour(innerDate.value.hour()).minute(innerDate.value.minute()).second(innerDate.value.second())

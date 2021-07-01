@@ -36,6 +36,7 @@ import {
   coerceTruthyValueToArray,
   deduplicate,
   isEmpty,
+  isEqualWithFunction,
 } from '@element-plus/utils/util'
 import { CommonProps, useCascaderConfig } from './config'
 import {
@@ -295,7 +296,11 @@ export default defineComponent({
 
     watch(
       [ config, () => props.options ],
-      initStore,
+      ([newConfig, newOptions], [oldConfig, oldOptions]) => {
+        if (isEqualWithFunction(newConfig, oldConfig) && isEqual(newOptions, oldOptions)) return
+
+        initStore()
+      },
       { deep: true, immediate: true },
     )
 
