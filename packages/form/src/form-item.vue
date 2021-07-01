@@ -42,16 +42,17 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
 import { computed, defineComponent, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
 import { NOOP } from '@vue/shared'
-import AsyncValidator, { RuleItem } from 'async-validator'
+import AsyncValidator from 'async-validator'
 import LabelWrap from './label-wrap'
 import { getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import mitt from 'mitt'
-import type { ElFormContext, ValidateFieldCallback } from './token'
 import { elFormEvents, elFormItemKey, elFormKey } from './token'
+import type { PropType } from 'vue'
+import type { ElFormContext, ValidateFieldCallback } from './token'
+import type { FormItemRule } from './form.type'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -67,7 +68,7 @@ export default defineComponent({
       type: Boolean,
       default: undefined,
     },
-    rules: [Object, Array] as PropType<RuleItem | RuleItem[]>,
+    rules: [Object, Array] as PropType<FormItemRule | FormItemRule[]>,
     error: String,
     validateStatus: String,
     for: String,

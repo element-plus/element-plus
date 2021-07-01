@@ -645,11 +645,16 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 | label          | etiqueta                                                     | string  | —                                           | —           |
 | label-width    | ancho de la etiqueta, Ejemplo: '50px'. El valor `auto` esta soportado | string  | —                                           | —           |
 | required       | si el campo es obligatorio o no, estará determinado por las reglas de validación si se omite. | boolean | —                                           | false       |
-| rules          | reglas de validación del form                                | object  | —                                           | —           |
+| rules          | reglas de validación del form, ver más información en [async-validator](https://github.com/yiminghe/async-validator)  | object / array  | —                                           | —           |
 | error          | mensaje de error de campo, establezca su valor y el campo validará el error y mostrará este mensaje inmediatamente. | string  | —                                           | —           |
 | show-message   | si mostrar o no el mensaje de error                          | boolean | —                                           | true        |
 | inline-message | mensaje de validación estilo inline                          | boolean | —                                           | false       |
 | size           | Tamaño de los componentes en este form item                  | string  | medium / small / mini                       | -           |
+
+### Rules
+| Atributo       | Descripción  | Tipo    | Valores aceptados | Por defecto |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | how the validator is triggered | string | blur / change   | —    |
 
 ### Form-Item Slot
 
