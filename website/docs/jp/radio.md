@@ -79,7 +79,7 @@
 
 相互に関連し、排他的なオプションから一つのボタンを選択するのに適しています。
 
-:::demo `el-radio-group` と `el-radio` を組み合わせてラジオグループを表示する。el-radio-group` 要素の `v-model` を変数にバインドし、ラベルの値を `el-radio` に設定する。また、現在の値をパラメータとした `change` イベントも提供する。
+:::demo `el-radio-group` と `el-radio` を組み合わせてラジオグループを表示する。`el-radio-group` 要素の `v-model` を変数にバインドし、ラベルの値を `el-radio` に設定する。また、現在の値をパラメータとした `change` イベントも提供する。
 
 ```html
 <el-radio-group v-model="radio">

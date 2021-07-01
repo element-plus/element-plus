@@ -15,6 +15,7 @@ import { computed, defineComponent, provide, reactive, ref, toRefs, watch } from
 import mitt from 'mitt'
 import { elFormEvents, elFormKey } from './token'
 import { FieldErrorList } from 'async-validator'
+import type { FormRulesMap } from './form.type'
 
 import type { PropType } from 'vue'
 import type { ElFormItemContext as FormItemCtx, ValidateFieldCallback } from './token'
@@ -64,7 +65,7 @@ export default defineComponent({
   name: 'ElForm',
   props: {
     model: Object,
-    rules: Object,
+    rules: Object as PropType<FormRulesMap>,
     labelPosition: String,
     labelWidth: [String, Number],
     labelSuffix: {
