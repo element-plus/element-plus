@@ -11,11 +11,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, provide, reactive, ref, toRefs, watch } from 'vue'
+import { computed, defineComponent, provide, reactive, ref, toRefs, watch } from 'vue'
 import mitt from 'mitt'
 import { elFormEvents, elFormKey } from './token'
 import { FieldErrorList } from 'async-validator'
 
+import type { PropType } from 'vue'
 import type { ElFormItemContext as FormItemCtx, ValidateFieldCallback } from './token'
 
 function useFormLabelWidth() {
