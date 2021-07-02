@@ -56,7 +56,7 @@
         }"
       />
       <div
-        v-if="!data || data.length === 0"
+        v-if="isEmpty"
         ref="emptyBlock"
         :style="emptyBlockStyle"
         class="el-table__empty-block"
@@ -75,7 +75,7 @@
     </div>
     <div
       v-if="showSummary"
-      v-show="data && data.length > 0"
+      v-show="!isEmpty"
       ref="footerWrapper"
       v-mousewheel="handleHeaderFooterMousewheel"
       class="el-table__footer-wrapper"
@@ -149,7 +149,7 @@
       </div>
       <div
         v-if="showSummary"
-        v-show="data && data.length > 0"
+        v-show="!isEmpty"
         ref="fixedFooterWrapper"
         class="el-table__fixed-footer-wrapper"
       >
@@ -223,7 +223,7 @@
       </div>
       <div
         v-if="showSummary"
-        v-show="data && data.length > 0"
+        v-show="!isEmpty"
         ref="rightFixedFooterWrapper"
         class="el-table__fixed-footer-wrapper"
       >
@@ -257,7 +257,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance } from 'vue'
+import { defineComponent, getCurrentInstance, computed } from 'vue'
 import { createStore } from './store/helper'
 import { t } from '@element-plus/locale'
 import { Mousewheel } from '@element-plus/directives'
@@ -315,6 +315,8 @@ export default defineComponent({
     })
     table.layout = layout
 
+    const isEmpty = computed(() => (store.states.data.value || []).length === 0)
+
     /**
      * open functions
      */
@@ -365,6 +367,7 @@ export default defineComponent({
       tableId,
       tableSize,
       isHidden,
+      isEmpty,
       renderExpanded,
       resizeProxyVisible,
       resizeState,
