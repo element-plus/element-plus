@@ -12,3 +12,7 @@ export default (scope: string, m: string) => {
 export function warn(scope: string, m: string) {
   console.warn(new ElementPlusError(`[${scope}] ${m}`))
 }
+
+export function breaking(scope: string, m: string) {
+  console.error(new ElementPlusError(`[${scope}] ${m}`))
+}

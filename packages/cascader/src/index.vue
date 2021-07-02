@@ -1,7 +1,7 @@
 <template>
   <el-popper
     ref="popper"
-    v-model:visible="popperVisible"
+    v-model="popperVisible"
     manual-mode
     placement="bottom-start"
     :popper-class="`el-cascader__dropdown ${popperClass}`"

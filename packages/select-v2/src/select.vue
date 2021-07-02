@@ -10,7 +10,7 @@
   >
     <el-popper
       ref="popper"
-      v-model:visible="expanded"
+      v-model="expanded"
       :append-to-body="popperAppendToBody"
       :popper-class="`el-select-v2__popper ${popperClass}`"
       :gpu-acceleration="false"

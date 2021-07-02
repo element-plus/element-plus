@@ -1,7 +1,7 @@
 <template>
   <el-popper
     ref="popper"
-    v-model:visible="suggestionVisible"
+    v-model="suggestionVisible"
     :placement="placement"
     :popper-class="`el-autocomplete__popper ${popperClass}`"
     :append-to-body="popperAppendToBody"

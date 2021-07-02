@@ -1,7 +1,7 @@
 <template>
   <el-popper
     ref="tooltip"
-    v-model:visible="tooltipVisible"
+    v-model="tooltipVisible"
     :offset="0"
     :placement="placement"
     :show-arrow="false"
