@@ -1861,6 +1861,7 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | cell-mouse-leave   | se dispara cuando se desplaza fuera de una celda | row, column, cell, event          |
 | cell-click         | se dispara cuando se hace clic en una celda | row, column, cell, event          |
 | cell-dblclick      | se dispara cuando se hace doble clic en una celda | row, column, cell, event          |
+| cell-contextmenu   | se dispara cuando el usuario hace clic derecho en una celda | row, column, cell, event |
 | row-click          | se dispara cuando se hace clic en una fila | row, column, event                |
 | row-contextmenu    | se dispara cuando el usuario hace clic derecho en una fila | row, column, event                        |
 | row-dblclick       | se dispara cuando se hace doble clic en una fila | row, column, event                        |
