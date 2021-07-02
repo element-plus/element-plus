@@ -598,7 +598,7 @@ The component has been upgraded with a flex layout to replace the old float layo
 | rules | フォームのバリデーションルール | object | — | — |
 | inline | フォームがインラインであるかどうか | boolean | — | false |
 | label-position | ラベルの位置。’left'、’right’ もしくは`label-width`が設定されている場合は propも必要です。 | string | left / right / top | right |
-| label-width    | ラベルの幅、例えば  '50px'。直接の子フォーム項目はすべてこの値を継承します。Width `auto` がサポートされています。        | string | — | — |
+| label-width    | ラベルの幅、例えば  '50px'。直接の子フォーム項目はすべてこの値を継承します。Width `auto` がサポートされています。        | string / number | — | — |
 | label-suffix | ラベルの接尾辞 | string | — | — |
 | hide-required-asterisk | 必須フィールドのラベルの横に赤いアスタリスク（星）を付けるかどうか | boolean | — | false |
 | show-message  | エラーメッセージを表示するかどうか | boolean | — | true |
@@ -628,7 +628,7 @@ The component has been upgraded with a flex layout to replace the old float layo
 | ---- | ----| ---- | ---- | ---- |
 | prop | `model` のキーです。validateメソッドとresetFieldsメソッドを利用する際には、この属性が必須です。 | string | keys of model that passed to `form` |
 | label | ラベル | string | — | — |
-| label-width | ラベルの幅。Width `auto` がサポートされています。 | string | — | — |
+| label-width | ラベルの幅。Width `auto` がサポートされています。 | string / number | — | — |
 | required | フィールドが必須かどうか、省略された場合はバリデーションルールによって決定されます。 | boolean |  — | false |
 | rules | フォームのバリデーションルール | object / array | — | — |
 | error | フィールドのエラーメッセージ、値を設定すると、フィールドはエラーを検証し、このメッセージをすぐに表示します。 | string | — | — |
