@@ -289,6 +289,7 @@ export default defineComponent({
     'selection-change',
     'cell-mouse-enter',
     'cell-mouse-leave',
+    'cell-contextmenu',
     'cell-click',
     'cell-dblclick',
     'row-click',

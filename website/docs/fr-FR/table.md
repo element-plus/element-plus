@@ -1864,6 +1864,7 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 | cell-mouse-leave | Se déclenche quand la souris sort d'une cellule. | row, column, cell, event |
 | cell-click | Se déclenche quand l'utilisateur clique sur une cellule. | row, column, cell, event |
 | cell-dblclick | Se déclenche quand l'utilisateur double-clique sur une cellule. | row, column, cell, event |
+| cell-contextmenu | Se déclenche quand l'utilisateur fait un clic droit sur une cellule. | row, column, cell, event |
 | row-click | Se déclenche quand l'utilisateur clique sur une ligne. | row, column, event |
 | row-contextmenu | Se déclenche quand l'utilisateur fait un clic droit sur une ligne. | row, column, event |
 | row-dblclick | Se déclenche quand l'utilisateur double-clique sur une ligne. | row, column, event |
