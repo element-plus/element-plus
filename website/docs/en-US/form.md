@@ -2,6 +2,10 @@
 
 Form consists of `input`, `radio`, `select`, `checkbox` and so on. With form, you can collect, verify and submit data.
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### Basic form
 
 It includes all kinds of input items, such as `input`, `select`, `radio` and `checkbox`.
@@ -625,11 +629,16 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | label | label | string | — | — |
 | label-width | width of label, e.g. '50px'. Width `auto` is supported. | string | — | — |
 | required | whether the field is required or not, will be determined by validation rules if omitted | boolean |  — | false |
-| rules | validation rules of form | object | — | — |
+| rules | validation rules of form, see the following table, more advanced usage at [async-validator](https://github.com/yiminghe/async-validator) | object / array | — | — |
 | error | field error message, set its value and the field will validate error and show this message immediately | string | — | — |
 | show-message  | whether to show the error message | boolean | — | true |
 | inline-message  | inline style validate message | boolean | — | false |
 | size  | control the size of components in this form-item | string | medium / small / mini | - |
+
+### Rules
+| Attribute       | Description                | Type     | Accepted Values  | Default  |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | how the validator is triggered | string | blur / change   | —    |
 
 ### Form-Item Slots
 | Name | Description |

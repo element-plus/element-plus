@@ -2,6 +2,10 @@
 
 フォームは `input`, `radio`, `select`, `checkbox` などから構成されています。フォームを使うと、データを収集したり、検証したり、送信したりすることができます。
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### 基本フォーム
 
 これには、`input`, `select`, `radio`, `checkbox` などのあらゆる種類の入力項目が含まれます。
@@ -626,11 +630,16 @@
 | label | ラベル | string | — | — |
 | label-width | ラベルの幅。Width `auto` がサポートされています。 | string | — | — |
 | required | フィールドが必須かどうか、省略された場合はバリデーションルールによって決定されます。 | boolean |  — | false |
-| rules | フォームのバリデーションルール | object | — | — |
+| rules | フォームのバリデーションルール | object / array | — | — |
 | error | フィールドのエラーメッセージ、値を設定すると、フィールドはエラーを検証し、このメッセージをすぐに表示します。 | string | — | — |
 | show-message  | エラーメッセージを表示するかどうか | boolean | — | true |
 | inline-message  | インラインスタイルバリデートメッセージ | boolean | — | false |
 | size  | フォームアイテムのコンポーネントのサイズを制御します。 | string | medium / small / mini | - |
+
+### Rules
+| Attribute       | Description                | Type     | Accepted Values  | Default  |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | how the validator is triggered | string | blur / change   | —    |
 
 ### フォームアイテムスロット
 | Name | Description |

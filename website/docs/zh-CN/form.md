@@ -2,6 +2,10 @@
 
 由输入框、选择器、单选框、多选框等控件组成，用以收集、校验、提交数据
 
+:::tip
+组件升级采用了 flex 布局，以替代旧版本的 float 布局。
+:::
+
 ### 典型表单
 
 包括各种表单项，比如输入框、选择器、开关、单选框、多选框等。
@@ -620,11 +624,16 @@ W3C 标准中有如下[规定](https://www.w3.org/MarkUp/html-spec/html-spec_8.h
 | label | 标签文本 | string | — | — |
 | label-width | 表单域标签的的宽度，例如 '50px'。支持 `auto`。 | string |       —       | — |
 | required | 是否必填，如不设置，则会根据校验规则自动生成 | boolean | — | false |
-| rules    | 表单验证规则 | object | — | — |
+| rules    | 表单验证规则, 具体配置见下表, 更多内容参考[async-validator](https://github.com/yiminghe/async-validator) | object / array | — | — |
 | error    | 表单域验证错误信息, 设置该值会使表单验证状态变为`error`，并显示该错误信息 | string | — | — |
 | show-message  | 是否显示校验错误信息 | boolean | — | true |
 | inline-message  | 以行内形式展示校验信息 | boolean | — | false |
 | size  | 用于控制该表单域下组件的尺寸 | string | medium / small / mini | - |
+
+### Rules
+| 参数       | 说明                | 类型     | 可选值  | 默认值  |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | 验证触发方式 | string | blur / change   | —    |
 
 ### Form-Item Slot
 | name | 说明 |

@@ -23,6 +23,11 @@ jobs:
       - name: Build Website
         run: yarn website-build
 
+      - name: Build Indices
+        run: yarn build:indices
+        env:
+          ALGOLIA_KEY: ${{secrets.ALGOLIA_KEY}}
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
@@ -37,4 +42,3 @@ jobs:
         env:
           TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
         run: curl "$TRIGGERSYNCURL"
-
