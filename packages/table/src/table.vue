@@ -302,7 +302,6 @@ export default defineComponent({
     'current-change',
     'header-dragend',
     'expand-change',
-    'cell-contextmenu',
   ],
   setup(props) {
     type Row = typeof props.data[number]
