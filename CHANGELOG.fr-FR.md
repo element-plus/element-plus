@@ -1,5 +1,21 @@
 ## Changelog
 
+### 1.0.2-beta.54
+
+*2021-07-02*
+
+### Bug fixes
+
+- Fix select_v2 asynchronous binding issue (#2368)
+- Fix add resize directive (#2167)
+- Fix checkbox label auto convert to bool when label is empty (#2287)
+- Fix update peerDependencies vue version (#2352)
+- Fix virtual-list template string to render function (#2388)
+- Fix  code space (#2376)
+- Fix cascader arrow position (#2356)
+- Fix carousel not working when using v-show (#2361)
+- Revert fix scrollbar update when slot changed (#2322)
+
 ### 1.0.2-beta.53
 
 *2021-06-25*
