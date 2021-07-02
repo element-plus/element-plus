@@ -1,7 +1,7 @@
 <template>
   <el-popper
     ref="triggerVnode"
-    v-model:visible="visible"
+    v-model="visible"
     :placement="placement"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :effect="effect"

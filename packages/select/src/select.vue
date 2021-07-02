@@ -8,7 +8,7 @@
   >
     <el-popper
       ref="popper"
-      v-model:visible="dropMenuVisible"
+      v-model="dropMenuVisible"
       placement="bottom-start"
       :append-to-body="popperAppendToBody"
       :popper-class="`el-select__popper ${popperClass}`"

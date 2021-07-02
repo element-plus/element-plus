@@ -1,7 +1,7 @@
 <template>
   <el-popper
     ref="popper"
-    v-model:visible="showPicker"
+    v-model="showPicker"
     effect="light"
     manual-mode
     trigger="click"

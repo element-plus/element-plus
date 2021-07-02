@@ -1,20 +1,20 @@
-import { withDirectives, Transition, vShow, withCtx, h } from 'vue'
+import { Transition, h } from 'vue'
 import { NOOP } from '@vue/shared'
 import { stop } from '@element-plus/utils/dom'
 
-import type { VNode, Ref } from 'vue'
-import type { Effect } from '../use-popper/defaults'
+import type { VNode, Ref, CSSProperties } from 'vue'
+import type { Effect } from '../../../hooks/use-teleport/props'
 
 interface IRenderPopperProps {
   effect: Effect
   name: string
   stopPopperMouseEvent: boolean
   popperClass: string
-  popperStyle?: Partial<CSSStyleDeclaration>
+  popperStyle?: CSSProperties
   popperId: string
-  popperRef?: Ref<HTMLElement>
+  popperRef?: Ref<HTMLElement> | ((val: HTMLElement) => void)
   pure?: boolean
-  visibility: boolean
+  visible: boolean
   onMouseenter: () => void
   onMouseleave: () => void
   onAfterEnter?: () => void
@@ -36,7 +36,7 @@ export default function renderPopper(
     popperRef,
     pure,
     popperId,
-    visibility,
+    visible,
     onMouseenter,
     onMouseleave,
     onAfterEnter,
@@ -61,36 +61,34 @@ export default function renderPopper(
    */
 
   const mouseUpAndDown = stopPopperMouseEvent ? stop : NOOP
+
   return h(
     Transition,
     {
+      // appear: true,
       name,
-      'onAfterEnter': onAfterEnter,
-      'onAfterLeave': onAfterLeave,
-      'onBeforeEnter': onBeforeEnter,
-      'onBeforeLeave': onBeforeLeave,
+      onAfterEnter,
+      onAfterLeave,
+      onBeforeEnter,
+      onBeforeLeave,
     },
     {
-      default: withCtx(() => [withDirectives(
-        h(
-          'div',
-          {
-            'aria-hidden': String(!visibility),
-            class: kls,
-            style: popperStyle ?? {},
-            id: popperId,
-            ref: popperRef ?? 'popperRef',
-            role: 'tooltip',
-            onMouseenter,
-            onMouseleave,
-            onClick: stop,
-            onMousedown: mouseUpAndDown,
-            onMouseup: mouseUpAndDown,
-          },
-          children,
-        ),
-        [[vShow, visibility]],
-      )]),
+      default: () => visible ? h('div',
+        {
+          'aria-hidden': String(!visible),
+          class: kls,
+          style: popperStyle ?? {},
+          id: popperId,
+          ref: popperRef ?? 'popperRef',
+          role: 'tooltip',
+          onMouseenter,
+          onMouseleave,
+          onClick: stop,
+          onMousedown: mouseUpAndDown,
+          onMouseup: mouseUpAndDown,
+        },
+        children,
+      ) : null,
     },
   )
 }

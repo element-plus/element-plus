@@ -1,6 +1,6 @@
 <template>
   <el-popper
-    v-model:visible="visible"
+    v-model="visible"
     trigger="click"
     effect="light"
     popper-class="el-popover"
