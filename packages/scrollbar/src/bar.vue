@@ -52,7 +52,7 @@ export default defineComponent({
     }
 
     const clickTrackHandler = (e: MouseEvent) => {
-      const offset = Math.abs(e.target.getBoundingClientRect()[bar.value.direction] - e[bar.value.client])
+      const offset = Math.abs((e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] - e[bar.value.client])
       const thumbHalf = (thumb.value[bar.value.offset] / 2)
       const thumbPositionPercentage = ((offset - thumbHalf) * 100 / instance.value[bar.value.offset])
 
