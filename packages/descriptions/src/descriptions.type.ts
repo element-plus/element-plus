@@ -11,7 +11,22 @@ interface IDescriptionsInject {
 
 const elDescriptionsKey: InjectionKey<IDescriptionsInject> = 'elDescriptions' as any
 
+interface IDescriptionsItemInject {
+  label: string
+  span: number
+  width: string | number
+  minWidth: string | number
+  align: string
+  labelAlign: string
+  className: string
+  labelClassName: string
+}
+
+const elDescriptionsItemKey: InjectionKey<IDescriptionsItemInject> = 'elDescriptionsItem' as any
+
 export {
   IDescriptionsInject,
   elDescriptionsKey,
+  IDescriptionsItemInject,
+  elDescriptionsItemKey,
 }
