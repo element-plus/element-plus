@@ -178,13 +178,10 @@ describe('use-model-toggle', () => {
     await wrapper.find('.show').trigger('click')
 
     expect(wrapper.text()).toContain(AXIOM)
-
+    expect(onHide).toHaveBeenCalledTimes(0)
     router.test = '/test/changed'
     await nextTick()
-
-    console.log(wrapper.vm.$route)
-
-
+    expect(onHide).toHaveBeenCalledTimes(1)
   })
 
 })
