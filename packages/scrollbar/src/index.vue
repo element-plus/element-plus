@@ -106,17 +106,21 @@ export default defineComponent({
       }
     }
 
-    const setScrollTop = value => {
+    const setScrollTop = (value: string) => {
       if (!isNumber(value)) {
-        warn(SCOPE, 'value must be a number')
+        if (process.env.NODE_ENV !== 'production') {
+          warn(SCOPE, 'value must be a number')
+        }
         return
       }
       wrap.value.scrollTop = value
     }
 
-    const setScrollLeft = value => {
+    const setScrollLeft = (value: string) => {
       if (!isNumber(value)) {
-        warn(SCOPE, 'value must be a number')
+        if (process.env.NODE_ENV !== 'production') {
+          warn(SCOPE, 'value must be a number')
+        }
         return
       }
       wrap.value.scrollLeft = value
