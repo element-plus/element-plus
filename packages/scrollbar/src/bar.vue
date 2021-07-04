@@ -48,18 +48,18 @@ export default defineComponent({
       }
       window.getSelection().removeAllRanges()
       startDrag(e)
-      barStore.value[bar.value.axis] = (e.currentTarget[bar.value.offset] - (e[bar.value.client] - e.currentTarget.getBoundingClientRect()[bar.value.direction]))
+      barStore.value[bar.value.axis] = (e.currentTarget[bar.value.offset] - (e[bar.value.client] - (e.currentTarget as HTMLElement).getBoundingClientRect()[bar.value.direction]))
     }
 
-    const clickTrackHandler = e => {
-      const offset = Math.abs(e.target.getBoundingClientRect()[bar.value.direction] - e[bar.value.client])
+    const clickTrackHandler = (e: MouseEvent) => {
+      const offset = Math.abs((e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] - e[bar.value.client])
       const thumbHalf = (thumb.value[bar.value.offset] / 2)
       const thumbPositionPercentage = ((offset - thumbHalf) * 100 / instance.value[bar.value.offset])
 
       wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
     }
 
-    const startDrag = e => {
+    const startDrag = (e: MouseEvent) => {
       e.stopImmediatePropagation()
       cursorDown.value = true
       on(document, 'mousemove', mouseMoveDocumentHandler)
@@ -68,7 +68,7 @@ export default defineComponent({
       document.onselectstart = () => false
     }
 
-    const mouseMoveDocumentHandler = e => {
+    const mouseMoveDocumentHandler = (e: MouseEvent) => {
       if (cursorDown.value === false) return
       const prevPage = barStore.value[bar.value.axis]
 

@@ -1,4 +1,4 @@
-import {  nextTick } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
 import { triggerEvent } from '@element-plus/test-utils'
@@ -664,6 +664,109 @@ describe('table column', () => {
       expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual('1')
       expect(trs[0].find('th:first-child').attributes('colspan')).toEqual('1')
       wrapper.unmount()
+    })
+
+    it('el-table-column should callback itself', async() => {
+      const TableColumn = defineComponent({
+        name: 'TableColumn',
+        components: {
+          ElTableColumn,
+        },
+        props: {
+          item: Object,
+        },
+        template: `
+          <el-table-column :prop="item.prop" :label="item.label">
+            <template v-if="item.children" #default>
+              <table-column v-for="c in item.children" :key="c.prop" :item="c"/>
+            </template>
+          </el-table-column>
+        `,
+      })
+      const App = {
+        template: `
+          <el-table :data="data">
+            <table-column v-for="item in column" :key="item.prop" :item="item"/>
+          </el-table>
+        `,
+        components: {
+          ElTable,
+          ElTableColumn,
+          TableColumn,
+        },
+        setup() {
+          const column = [
+            { label: '日期', prop: 'date' },
+            {
+              label: '用户',
+              prop: 'user',
+              children: [
+                { label: '姓名', prop: 'name' },
+                { label: '地址', prop: 'address' },
+              ],
+            },
+          ]
+          const data = [
+            {
+              date: '2016-05-03',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-02',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-04',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-01',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+          ]
+          return {
+            column,
+            data,
+          }
+        },
+      }
+      const wrapper = mount(App)
+      await nextTick()
+      expect(wrapper.find('.el-table__header-wrapper').text()).toMatch('姓名')
+      expect(wrapper.find('.el-table__header-wrapper').text()).toMatch('地址')
+    })
+
+    it('should not rendered other components in hidden-columns', async () => {
+      const Comp = defineComponent({
+        template: `
+          <div class="other-component"></div>
+        `,
+      })
+      const wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+          Comp,
+        },
+        template: `
+          <el-table :data="testData">
+            <el-table-column prop="name">
+              <comp></comp>
+            </el-table-column>
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestData(),
+          }
+        },
+      })
+      await nextTick()
+      expect(wrapper.find('.hidden-columns').find('.other-component').exists()).toBeFalsy()
     })
   })
 

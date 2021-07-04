@@ -111,7 +111,7 @@ describe('Color-picker', () => {
         color: '#0F0',
       }),
     )
-    await  wrapper.find('.el-color-picker__trigger').trigger('click')
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
     const clearBtn = document.querySelector<HTMLElement>('.el-color-dropdown__link-btn')
     clearBtn.click()
     expect(wrapper.vm.color).toEqual(null)

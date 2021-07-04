@@ -98,7 +98,7 @@ export default defineComponent({
     const rootMenuEmitter = mitt()
     const router = instance.appContext.config.globalProperties.$router
 
-    const hoverBackground = useMenuColor(props.backgroundColor)
+    const hoverBackground = useMenuColor(props)
 
     // computed
     const isMenuPopup = computed(() => {

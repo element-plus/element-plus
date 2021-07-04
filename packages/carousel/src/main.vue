@@ -141,8 +141,6 @@ export default defineComponent({
     // refs
     const root = ref(null)
     const items = ref<CarouselItem[]>([])
-    const offsetWidth = ref(0)
-    const offsetHeight = ref(0)
 
     // computed
     const arrowDisplay = computed(
@@ -345,10 +343,6 @@ export default defineComponent({
     onMounted(() => {
       nextTick(() => {
         addResizeListener(root.value, resetItemPosition)
-        if (root.value) {
-          offsetWidth.value = root.value.offsetWidth
-          offsetHeight.value = root.value.offsetHeight
-        }
         if (
           props.initialIndex < items.value.length &&
           props.initialIndex >= 0
@@ -366,9 +360,8 @@ export default defineComponent({
 
     // provide
     provide<InjectCarouselScope>('injectCarouselScope', {
+      root,
       direction: props.direction,
-      offsetWidth,
-      offsetHeight,
       type: props.type,
       items,
       loop: props.loop,

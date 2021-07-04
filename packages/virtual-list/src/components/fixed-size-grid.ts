@@ -50,9 +50,9 @@ const FixedSizeGrid = createGrid({
     const minOffset = Math.max(
       0,
       columnIndex * (columnWidth as number) -
-        width +
-        scrollBarWidth +
-        (columnWidth as number),
+      width +
+      scrollBarWidth +
+      (columnWidth as number),
     )
 
     if (alignment === 'smart') {
@@ -105,9 +105,9 @@ const FixedSizeGrid = createGrid({
     const minOffset = Math.max(
       0,
       rowIndex * (rowHeight as number) -
-        height +
-        scrollBarWidth +
-        (rowHeight as number),
+      height +
+      scrollBarWidth +
+      (rowHeight as number),
     )
 
     if (align === SMART_ALIGNMENT) {
@@ -206,20 +206,18 @@ const FixedSizeGrid = createGrid({
 
   validateProps: ({ columnWidth, rowHeight }) => {
     if (process.env.NODE_ENV !== 'production') {
-      if (process.env.NODE_ENV !== 'production') {
-        if (!isNumber(columnWidth)) {
-          throwError(SCOPE, `
-            "columnWidth" must be passed as number,
-              instead ${typeof columnWidth} was given.
-          `)
-        }
+      if (!isNumber(columnWidth)) {
+        throwError(SCOPE, `
+          "columnWidth" must be passed as number,
+            instead ${typeof columnWidth} was given.
+        `)
+      }
 
-        if (!isNumber(rowHeight)) {
-          throwError(SCOPE, `
-            "columnWidth" must be passed as number,
-              instead ${typeof rowHeight} was given.
-          `)
-        }
+      if (!isNumber(rowHeight)) {
+        throwError(SCOPE, `
+          "columnWidth" must be passed as number,
+            instead ${typeof rowHeight} was given.
+        `)
       }
     }
   },
