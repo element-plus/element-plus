@@ -1,7 +1,7 @@
 <template>
   <transition name="el-scrollbar-fade">
     <div
-      v-show="visible"
+      v-show="always || visible"
       ref="instance"
       :class="['el-scrollbar__bar', 'is-' + bar.key]"
       @mousedown="clickTrackHandler"
@@ -27,6 +27,7 @@ export default defineComponent({
     vertical: Boolean,
     size: String,
     move: Number,
+    always: Boolean,
   },
   setup(props) {
     const instance = ref(null)

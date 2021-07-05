@@ -20,17 +20,23 @@
       </component>
     </div>
     <template v-if="!native">
-      <bar :move="moveX" :size="sizeWidth" />
-      <bar vertical :move="moveY" :size="sizeHeight" />
+      <bar :move="moveX" :size="sizeWidth" :always="always" />
+      <bar
+        :move="moveY"
+        :size="sizeHeight"
+        vertical
+        :always="always"
+      />
     </template>
   </div>
 </template>
 <script lang="ts">
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import { addUnit, isArray, isString, toObject } from '@element-plus/utils/util'
+import { addUnit, isArray, isNumber, isString, toObject } from '@element-plus/utils/util'
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import Bar from './bar.vue'
 import type { CSSProperties, PropType } from 'vue'
+import { warn } from '@element-plus/utils/error'
 
 export default defineComponent({
   name: 'ElScrollbar',
@@ -69,6 +75,10 @@ export default defineComponent({
       type: String,
       default: 'div',
     },
+    always: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['scroll'],
   setup(props, { emit }) {
@@ -79,6 +89,8 @@ export default defineComponent({
     const scrollbar = ref(null)
     const wrap = ref(null)
     const resize = ref(null)
+
+    const SCOPE = 'ElScrollbar'
 
     provide('scrollbar', scrollbar)
     provide('scrollbar-wrap', wrap)
@@ -92,6 +104,26 @@ export default defineComponent({
           scrollTop: moveY.value,
         })
       }
+    }
+
+    const setScrollTop = (value: string) => {
+      if (!isNumber(value)) {
+        if (process.env.NODE_ENV !== 'production') {
+          warn(SCOPE, 'value must be a number')
+        }
+        return
+      }
+      wrap.value.scrollTop = value
+    }
+
+    const setScrollLeft = (value: string) => {
+      if (!isNumber(value)) {
+        if (process.env.NODE_ENV !== 'production') {
+          warn(SCOPE, 'value must be a number')
+        }
+        return
+      }
+      wrap.value.scrollLeft = value
     }
 
     const update = () => {
@@ -145,6 +177,8 @@ export default defineComponent({
       resize,
       update,
       handleScroll,
+      setScrollTop,
+      setScrollLeft,
     }
   },
 })
