@@ -1,4 +1,3 @@
-import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import useTimeout from '../use-timeout'
 
@@ -19,8 +18,6 @@ const _mount = (cb: () => void) => {
 }
 
 jest.useFakeTimers()
-
-
 
 describe('use-timeout', () => {
 
