@@ -485,7 +485,7 @@ Si le type est `daterange`, `default-value` configure la panneau de gauche.
 
 ### Formats de date
 
-Utilisez `format` pour contrôler l'affichage de la date dans le champ.
+Utilisez `format` pour contrôler l'affichage de la date dans le champ. Utilisez `value-format` pour contrôler le format de la variable stockée.
 
 Par défaut, le composant accepte et émet un objet `Date`.
 
@@ -519,6 +519,17 @@ Attention à la capitalisation !
       value-format="YYYY-MM-DD">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">Timestamp</span>
+    <div class="demonstration">Value：{{ value3 }}</div>
+    <el-date-picker
+      v-model="value3"
+      type="date"
+      placeholder="Sélectionnez une date"
+      format="YYYY/MM/DD"
+      value-format="x">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -532,6 +543,27 @@ Attention à la capitalisation !
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref('');
+      const value2 = ref('');
+      const value3 = ref('');
+
+      return {
+        value1,
+        value2,
+        value3,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
