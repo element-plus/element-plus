@@ -1,4 +1,4 @@
-import { InjectionKey, PropType } from 'vue'
+import type { PropType } from 'vue'
 
 interface IDescriptionsInject {
   border: boolean
@@ -8,8 +8,6 @@ interface IDescriptionsInject {
   title: string
   extra: string
 }
-
-const elDescriptionsKey: InjectionKey<IDescriptionsInject> = 'elDescriptions' as any
 
 interface IDescriptionsItemInject {
   label: string
@@ -22,11 +20,7 @@ interface IDescriptionsItemInject {
   labelClassName: string
 }
 
-const elDescriptionsItemKey: InjectionKey<IDescriptionsItemInject> = 'elDescriptionsItem' as any
-
 export {
   IDescriptionsInject,
-  elDescriptionsKey,
   IDescriptionsItemInject,
-  elDescriptionsItemKey,
 }
