@@ -482,7 +482,7 @@ import { defineComponent, reactive, toRefs } from 'vue';
 
 ###  日期格式
 
-使用`format`指定输入框的格式。
+使用`format`指定输入框的格式。使用`value-format`指定绑定值的格式。
 
 默认情况下，组件接受并返回`Date`对象。
 
@@ -516,6 +516,17 @@ import { defineComponent, reactive, toRefs } from 'vue';
       value-format="YYYY/MM/DD">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">时间戳</span>
+    <div class="demonstration">值：{{ value3 }}</div>
+    <el-date-picker
+      v-model="value3"
+      type="date"
+      placeholder="选择日期"
+      format="YYYY 年 MM 月 DD 日"
+      value-format="x">``
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -524,6 +535,7 @@ import { defineComponent, reactive, toRefs } from 'vue';
       return {
         value1: '',
         value2: '',
+        value3: ''
       };
     }
   };
@@ -538,6 +550,7 @@ import { defineComponent, ref } from 'vue';
       return {
         value1: ref(''),
         value2: ref(''),
+        value3: ref('')
       };
     },
   });

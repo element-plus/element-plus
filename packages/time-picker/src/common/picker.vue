@@ -292,7 +292,7 @@ export default defineComponent({
         if (Array.isArray(props.modelValue)) {
           result = props.modelValue.map(_=> parser(_, props.valueFormat))
         } else {
-          result = parser(props.modelValue as Date, props.valueFormat)
+          result = parser(props.modelValue, props.valueFormat)
         }
       }
 
