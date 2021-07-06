@@ -93,6 +93,8 @@ import ElDescriptions from '@element-plus/descriptions'
 import ElDescriptionsItem from '@element-plus/descriptions-item'
 import ElResult from '@element-plus/result'
 import ElSelectV2 from '@element-plus/select-v2'
+import ElAnchor from '@element-plus/anchor'
+import ElAnchorLink from '@element-plus/anchor-link'
 
 import { use, i18n } from '@element-plus/locale'
 // if you encountered problems alike "Can't resolve './version'"
@@ -126,6 +128,8 @@ const defaultInstallOpt: InstallOptions = {
 }
 
 const components = [
+  ElAnchorLink,
+  ElAnchor,
   ElAffix,
   ElAlert,
   ElAside,
