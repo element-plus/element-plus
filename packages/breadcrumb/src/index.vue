@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, provide, ref, onMounted } from 'vue'
-import { IBreadcrumbProps } from './breadcrumb'
+import type { IBreadcrumbProps } from './breadcrumb'
 
 export default defineComponent({
   name: 'ElBreadcrumb',
