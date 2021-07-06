@@ -46,9 +46,6 @@ export default defineComponent({
     srcSet: String,
     fit: {
       type: String,
-      validator(this: never, val: string) {
-        return ['fill', 'contain', 'cover', 'none', 'scale-down'].includes(val)
-      },
       default: 'cover',
     },
   },
