@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const cp = require('child_process')
-const { getPackagesSync } =  require('@lerna/project')
+const { getPackagesSync } = require('@lerna/project')
 const ora = require('ora')
 const chalk = require('chalk')
 

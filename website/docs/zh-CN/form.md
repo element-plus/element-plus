@@ -591,8 +591,8 @@ W3C 标准中有如下[规定](https://www.w3.org/MarkUp/html-spec/html-spec_8.h
 | model   | 表单数据对象 | object      |                  —                |  — |
 | rules    | 表单验证规则 | object | — | — |
 | inline    | 行内表单模式 | boolean | — | false |
-| label-position | 表单域标签的位置，如果值为 left 或者 right 时，则需要设置 `label-width` | string |  right/left/top            | right |
-| label-width | 表单域标签的宽度，例如 '50px'。作为 Form 直接子元素的 form-item 会继承该值。支持 `auto`。 | string | — | — |
+| label-position | 表单域标签的位置，如果值为 left 或者 right 时，则需要设置 `label-width` | string |  right / left / top            | right |
+| label-width | 表单域标签的宽度，例如 '50px'。作为 Form 直接子元素的 form-item 会继承该值。支持 `auto`。 | string / number | — | — |
 | label-suffix | 表单域标签的后缀 | string | — | — |
 | hide-required-asterisk | 是否显示必填字段的标签旁边的红色星号 | boolean | — | false |
 | show-message  | 是否显示校验错误信息 | boolean | — | true |
@@ -622,13 +622,18 @@ W3C 标准中有如下[规定](https://www.w3.org/MarkUp/html-spec/html-spec_8.h
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | prop    | 表单域 model 字段，在使用 validate、resetFields 方法的情况下，该属性是必填的 | string    | 传入 Form 组件的 `model` 中的字段 | — |
 | label | 标签文本 | string | — | — |
-| label-width | 表单域标签的的宽度，例如 '50px'。支持 `auto`。 | string |       —       | — |
+| label-width | 表单域标签的的宽度，例如 '50px'。支持 `auto`。 | string / number |       —       | — |
 | required | 是否必填，如不设置，则会根据校验规则自动生成 | boolean | — | false |
-| rules    | 表单验证规则 | object | — | — |
+| rules    | 表单验证规则, 具体配置见下表, 更多内容参考[async-validator](https://github.com/yiminghe/async-validator) | object / array | — | — |
 | error    | 表单域验证错误信息, 设置该值会使表单验证状态变为`error`，并显示该错误信息 | string | — | — |
 | show-message  | 是否显示校验错误信息 | boolean | — | true |
 | inline-message  | 以行内形式展示校验信息 | boolean | — | false |
 | size  | 用于控制该表单域下组件的尺寸 | string | medium / small / mini | - |
+
+### Rules
+| 参数       | 说明                | 类型     | 可选值  | 默认值  |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | 验证触发方式 | string | blur / change   | —    |
 
 ### Form-Item Slot
 | name | 说明 |

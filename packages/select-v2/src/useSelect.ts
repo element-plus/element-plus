@@ -192,6 +192,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // this obtains the actual popper DOM element.
   const popperRef = computed(() => popper.value?.popperRef)
 
+  // the index with current value in options
+  const indexRef = computed<number>(() => {
+    if (props.multiple) {
+      if ((props.modelValue as Array<any>).length > 0) {
+        return filteredOptions.value.findIndex(o => o.value === props.modelValue[0])
+      }
+    } else {
+      if (props.modelValue) {
+        return filteredOptions.value.findIndex(o => o.value === props.modelValue)
+      }
+    }
+    return -1
+  })
+
   // methods
   const focusAndUpdatePopup = () => {
     inputRef.value.focus?.()
@@ -571,6 +585,41 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleBlur()
   }
 
+  const handleMenuEnter = () => {
+    states.inputValue = states.displayInputValue
+    nextTick(() => {
+      if (~indexRef.value) {
+        scrollToItem(indexRef.value)
+      }
+    })
+  }
+
+  const scrollToItem = (index: number) => {
+    menuRef.value.scrollToItem(index)
+  }
+
+  const initStates = () => {
+    if (props.multiple) {
+      if ((props.modelValue as Array<any>).length > 0) {
+        states.cachedOptions.length = 0;
+        (props.modelValue as Array<any>).map(selected => {
+          const item = filteredOptions.value.find(option => option.value === selected)
+          if (item) {
+            states.cachedOptions.push(item as Option)
+          }
+        })
+      }
+    } else {
+      if (props.modelValue) {
+        const selectedItem = filteredOptions.value.find(o => o.value === props.modelValue)
+
+        if (selectedItem) {
+          states.selectedLabel = selectedItem.label
+        }
+      }
+    }
+  }
+
   // in order to track these individually, we need to turn them into refs instead of watching the entire
   // reactive object which could cause perf penalty when unnecessary field gets changed the watch method will
   // be invoked.
@@ -585,26 +634,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   })
 
+  watch([() => props.modelValue, () => props.options], () => {
+    initStates()
+  })
+
   onMounted(() => {
-    if (props.multiple) {
-      if ((props.modelValue as Array<any>).length > 0) {
-        (props.modelValue as Array<any>).map(selected => {
-          const item = props.options.find(option => option.value === selected)
-          if (item) {
-            states.cachedOptions.push(item as Option)
-          }
-        })
-      }
-    } else {
-      if (props.modelValue) {
-        const selectedItem = props.options.find(o => o.value === props.modelValue)
-
-        if (selectedItem) {
-          states.selectedLabel = selectedItem.label
-        }
-      }
-    }
-
+    initStates()
     addResizeListener(selectRef.value, handleResize)
   })
 
@@ -655,6 +690,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleEsc,
     handleFocus,
     handleInputBoxClick,
+    handleMenuEnter,
     toggleMenu,
     onCompositionUpdate,
     onInput,

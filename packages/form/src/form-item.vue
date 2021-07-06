@@ -42,16 +42,18 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
-import { computed, defineComponent, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
 import { NOOP } from '@vue/shared'
-import AsyncValidator, { RuleItem } from 'async-validator'
-import LabelWrap from './label-wrap'
-import { getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
+import { addUnit, getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
+import { computed, defineComponent, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
+import AsyncValidator from 'async-validator'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import mitt from 'mitt'
-import type { ElFormContext, ValidateFieldCallback } from './token'
+import LabelWrap from './label-wrap'
 import { elFormEvents, elFormItemKey, elFormKey } from './token'
+
+import type { PropType } from 'vue'
+import type { ElFormContext, ValidateFieldCallback } from './token'
+import type { FormItemRule } from './form.type'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -61,13 +63,13 @@ export default defineComponent({
   },
   props: {
     label: String,
-    labelWidth: String,
+    labelWidth: [String, Number],
     prop: String,
     required: {
       type: Boolean,
       default: undefined,
     },
-    rules: [Object, Array] as PropType<RuleItem | RuleItem[]>,
+    rules: [Object, Array] as PropType<FormItemRule | FormItemRule[]>,
     error: String,
     validateStatus: String,
     for: String,
@@ -129,7 +131,7 @@ export default defineComponent({
     const labelFor = computed(() => props.for || props.prop)
     const labelStyle = computed(() => {
       if (elForm.labelPosition === 'top') return {}
-      const labelWidth = props.labelWidth || elForm.labelWidth
+      const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
       if (labelWidth) {
         return {
           width: labelWidth,
@@ -144,7 +146,7 @@ export default defineComponent({
       if (!props.label && !props.labelWidth && isNested.value) {
         return {}
       }
-      const labelWidth = props.labelWidth || elForm.labelWidth
+      const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
       const ret: Partial<CSSStyleDeclaration> = {}
       if (!props.label && !slots.label) {
         ret.marginLeft = labelWidth

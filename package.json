@@ -21,6 +21,7 @@
     "build:locale-umd": "node ./build/build-locale.js",
     "build:theme": "rimraf packages/theme-chalk/lib && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk && rimraf packages/theme-chalk/lib",
     "build:helper": "node build/build-helper.js",
+    "build:indices": "node build/build-indices.js",
     "lint": "eslint ./packages --ext .vue,.js,.ts",
     "lint-fix": "eslint --fix ./packages --ext .vue,.js,.ts",
     "website-build": "rimraf website-dist && cross-env NODE_ENV=production webpack --config ./website/webpack.config.js",
@@ -30,7 +31,7 @@
     "fast-build": "sh ./scripts/build.sh"
   },
   "peerDependencies": {
-    "vue": "3.1.1"
+    "vue": "3.1.x"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
@@ -90,7 +91,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.27.3",
     "rollup-plugin-vue": "^6.0.0",
-    "sass": "^1.34.0",
+    "sass": "^1.35.1",
     "sass-loader": "^10.0.1",
     "style-loader": "^1.2.1",
     "throttle-debounce": "2.3.0",

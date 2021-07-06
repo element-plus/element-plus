@@ -1,7 +1,8 @@
-import { computed, defineComponent, ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue'
+import { computed, defineComponent, ref, reactive, onMounted, onBeforeUnmount, watch, h, withModifiers } from 'vue'
 import { on, off } from '@element-plus/utils/dom'
 import { rAF, cAF } from '@element-plus/utils/raf'
 import isServer from '@element-plus/utils/isServer'
+import { NOOP } from '@vue/shared'
 
 import { DefaultScrollBarProps, ScrollbarSizeKey, ScrollbarDirKey, SCROLLBAR_MIN_SIZE } from '../defaults'
 import { renderThumbStyle } from '../utils'
@@ -209,34 +210,21 @@ const ScrollBar = defineComponent({
       detachEvents()
     })
 
-    return {
-      state,
-      trackRef,
-      trackStyle,
-      thumbRef,
-      thumbStyle,
-
-      onThumbMouseDown,
-      onMouseUp,
+    return () => {
+      return h('div', {
+        role: 'presentation',
+        ref: trackRef,
+        class: 'el-virtual-scrollbar',
+        style: trackStyle.value,
+        onMousedown: withModifiers(NOOP, ['stop', 'prevent']),
+      }, h('div', {
+        ref: thumbRef,
+        class: 'el-scrollbar__thumb',
+        style: thumbStyle.value,
+        onMousedown: onThumbMouseDown,
+      }, null))
     }
   },
-  template: `
-    <div
-      role="presentation"
-      ref="trackRef"
-      class="el-virtual-scrollbar"
-      :style="trackStyle"
-      @mousedown.stop.prevent=""
-    >
-      <div
-        ref="thumbRef"
-        class="el-scrollbar__thumb"
-        :style="thumbStyle"
-        @mousedown="onThumbMouseDown"
-      >
-      </div>
-    </div>
-  `,
 })
 
 export default ScrollBar

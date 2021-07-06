@@ -5,8 +5,6 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const rollup = require('rollup')
 const typescript = require('rollup-plugin-typescript2')
 
-const deps = Object.keys(pkg.dependencies)
-
 const root = path.resolve(__dirname, '..');
 const file = process.argv[2];
 const defaultOpts = {

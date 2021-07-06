@@ -597,7 +597,7 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | rules | validation rules of form | object | — | — |
 | inline | whether the form is inline | boolean | — | false |
 | label-position | position of label. If set to 'left' or 'right', `label-width` prop is also required | string | left / right / top | right |
-| label-width    | width of label, e.g. '50px'. All its direct child form items will inherit this value. Width `auto` is supported.        | string | — | — |
+| label-width    | width of label, e.g. '50px'. All its direct child form items will inherit this value. Width `auto` is supported.        | string / number | — | — |
 | label-suffix | suffix of the label | string | — | — |
 | hide-required-asterisk | whether required fields should have a red asterisk (star) beside their labels | boolean | — | false |
 | show-message  | whether to show the error message | boolean | — | true |
@@ -627,13 +627,18 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | ---- | ----| ---- | ---- | ---- |
 | prop | a key of `model`. In the use of validate and resetFields method, the attribute is required | string | keys of model that passed to `form` |
 | label | label | string | — | — |
-| label-width | width of label, e.g. '50px'. Width `auto` is supported. | string | — | — |
+| label-width | width of label, e.g. '50px'. Width `auto` is supported. | string / number | — | — |
 | required | whether the field is required or not, will be determined by validation rules if omitted | boolean |  — | false |
-| rules | validation rules of form | object | — | — |
+| rules | validation rules of form, see the following table, more advanced usage at [async-validator](https://github.com/yiminghe/async-validator) | object / array | — | — |
 | error | field error message, set its value and the field will validate error and show this message immediately | string | — | — |
 | show-message  | whether to show the error message | boolean | — | true |
 | inline-message  | inline style validate message | boolean | — | false |
 | size  | control the size of components in this form-item | string | medium / small / mini | - |
+
+### Rules
+| Attribute       | Description                | Type     | Accepted Values  | Default  |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | how the validator is triggered | string | blur / change   | —    |
 
 ### Form-Item Slots
 | Name | Description |
