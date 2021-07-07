@@ -1,7 +1,6 @@
 import { PropType } from 'vue'
 import { DefaultRow } from '../table/defaults'
-import { VNode } from '@vue/runtime-core'
-import { ComponentInternalInstance, Ref } from 'vue'
+import { ComponentInternalInstance, Ref, VNode } from 'vue'
 import { Table } from '../table/defaults'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number; }
@@ -30,6 +29,7 @@ interface TableColumnCtx<T> {
   sortBy: string | ((row: T, index: number) => string) | string[]
   resizable: boolean
   columnKey: string
+  rawColumnKey: string
   align: string
   headerAlign: string
   showTooltipWhenOverflow: boolean

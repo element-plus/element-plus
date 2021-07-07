@@ -41,6 +41,26 @@ Vous pouvez agrandir plusieurs panneaux.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeNames = ref(['1']);
+      const handleChange = (val) => {
+        console.log(val);
+      };
+      return {
+        activeNames,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -78,6 +98,23 @@ En mode accordéon, un seul panneau peut être ouvert à la fois.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeName = ref('1');
+
+      return {
+        activeName,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -115,7 +152,7 @@ En plus de l'utilisation de l'attribut `title`, vous pouvez configurer les titre
 ### Attributs de Collapse
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | Le panneau actuellement activé. | string (en mode accordéon) / array (en mode normal) | — | — |
+| model-value / v-model | Le panneau actuellement activé. | string (en mode accordéon) / array (en mode normal) | — | — |
 | accordion | Active le mode accordéon. | boolean | — | false |
 
 ### Évènements de Collapse

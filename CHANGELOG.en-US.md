@@ -1,5 +1,189 @@
 ## Changelog
 
+### 1.0.2-beta.54
+
+*2021-07-02*
+
+### Bug fixes
+
+- Fix select_v2 asynchronous binding issue (#2368)
+- Fix add resize directive (#2167)
+- Fix checkbox label auto convert to bool when label is empty (#2287)
+- Fix update peerDependencies vue version (#2352)
+- Fix virtual-list template string to render function (#2388)
+- Fix  code space (#2376)
+- Fix cascader arrow position (#2356)
+- Fix carousel not working when using v-show (#2361)
+- Revert fix scrollbar update when slot changed (#2322)
+
+### 1.0.2-beta.53
+
+*2021-06-25*
+
+### Bug fixes
+
+- Fix messageBox should close when press enter (#2308)
+- Fix scrollbar update when slot changed (#2322)
+- Fix can not binding multiple click-outside directives on a component (#2327)
+- Fix v-popover can't work (#2341)
+- Fix cascader-panel should not re-init when props's value not change
+- Fix input-number fix border color when disabled and hover over buttons (#2334)
+- Fix @use "sass:math" repeat reference (#2336)
+- Fix cascader-panel default value doesn't work in lazy mode (#2338)
+
+### 1.0.2-beta.52
+
+*2021-06-24*
+
+### Bug fixes
+
+- Fix virtual-list module resolve issue (#2316)
+
+### 1.0.2-beta.49
+
+*2021-06-23*
+
+### Bug fixes
+
+- Fix col different size style (#2237)
+- Refactor extract common props for props (#2300)
+- Fix Descriptions not re-rendered when slots is updated (#2275)
+- Fix table index error issue (#1919)
+- Fix form use flex layout
+- Fix checkbox selfModel use ref
+- Fix cascader style
+- Fix cascader add fallback-placements in some components (#2267)
+- Rename message-box some var --msgbox to --messagebox (#2241)
+- Fix menu add ms-menu-border-color (#2240)
+- Fix Checkbox checked optional cannot control state issue (#2046)
+- Refactor table test cases (#2232)
+- Fix ElTable index calculation issue (#2143)
+- Fix table test (#2229)
+- Fix date-picker default-time does not work when type is datetime (#2177)
+
+### 1.0.2-beta.47
+
+*2021-06-11*
+
+### Features
+
+- Feat Popover: add himBH-popover-border-radius variable (#2094) (#2095)
+- Feat SelectV2: integrate-virtual-list-with-select (#1906)
+
+### Bug fixes
+
+- Fix DatePicker: date picker support value-format (#2120)
+- Fix Input: style use show-password and clearable (#2168) (#2169)
+- Fix Rate: update change event trigger condition (#2181)
+- Fix PopConfirm: import missing popover.scss (#2207)
+- Fix Project: upgrade to vue 3.1.1 and with bug fix (#2220)
+
+### Chore
+
+- Chore docs: side-nav refactor with Vue3 (#1943)
+- Chore docs: update doc template (#2142)
+- Chore docs: Collapse code for composition (#2152)
+- Chore docs: Checkbox code for composition (#2153)
+- Chore docs: Cascader code for composition (#2154)
+- Chore docs: Card code for composition (#2155)
+- Chore docs: Calendar code for composition (#2156)
+- Chore docs: Image code for composition (#2157)
+- Chore docs: Avatar code for composition (#2158)
+- Chore docs: ColorPicker code for composition (#2160)
+- Chore docs: Container code for composition (#2161)
+- Chore docs: DatePicker code for composition (#2162)
+- Chore docs: DateTimePicker code for composition (#2163)
+- Chore docs: Dialog code for composition (#2164)
+- Chore docs: Drawer code for composition (#2165)
+- Chore docs:
+- Chore docs: drawer put v-model to the first (#2174)
+- Chore docs: update Dialog doc (#2175)
+- Chore docs: update dialog (#2176)
+- Chore docs: tooltip appendToBody default value is true (#2184)
+- Chore docs: InfiniteScroll code for composition (#2193)
+- Chore docs: Dropdown code for composition (#2194)
+- Chore docs: InputNumber code for composition (#2195)
+- Chore docs: Loading code for composition (#2196)
+
+### 1.0.2-beta.46
+
+*2021-06-04*
+
+#### Features
+
+- Feat website: demo Composition API (#2099)
+- Feat Input: add input-style prop (#2117)
+
+#### Bugfixes
+- Fix Col: should hidden when span is zero (#1769)
+- Fix Table: hot reload (#2077) (#2097)
+- Fix Popper: in dialog isn't enough space to position problem (#2102)
+- Fix ImageViewer: isLast attribute calculation error issue (#1902) (#2125)
+- Fix Popper: tabindex prop type (#2130)
+- Fix Locale: week translations for hr locale (#2134)
+- Fix Cascader: size issue when filterable and multiple are enabled (#2123)
+
+#### Chore
+- Chore Website: update radio VCA doc (#2111)
+- Chore Project: esbuild for single component build (#2112)
+- Chore Website: use built-in throwError function. (#2131)
+
+### 1.0.2-beta.45
+
+*2021-05-28*
+
+#### Features
+- Feat VClickOutside: Expose mousedown and mouseup event object (#2038)
+#### Bugfixes
+- Fix Website: 'textContent' of undefined and text wrapping (#1973)
+- Fix DatePicker: attribute 'type' add ts declare (#1979)
+- Fix Table: fix sorting error #1919 (#1983)
+- Fix Table: fix v-if patch bug on el-table-column (#1988)
+- Fix Badge: should test is-dot class existed. (#1992)
+- Fix Dropdown: add additional css in dropdown (#1998)
+- Fix Notification: fix notification component zIndex prop can not work (#2021)
+- Fix Tabs: update the setCurrentName function. (#2030)
+- Fix DateTimePicker: respect format props and default value (#2034)
+- Fix Locale: japanese translations (#2050)
+- Fix Pagination: fix bug #2025 (#2062)
+- Fix Website: algolia search wrong search parameter (#2065)
+- Fix ScrollBar: perf behavior of bar click (#2066)
+- Fix DateTimePicker: allow clearable to control both of the clear button (#2072)
+#### Chore
+- Chore Tag: add specific type declaration (#1939)
+- Chore Docs: drawer.md add modal-class attribute (#1974)
+- Chore Transfer: remove useless button style (#1975)
+- Chore Badge: Remove unused type declarations (#1991)
+- Chore Table: refactored the type definition of table (#1997)
+- Chore Result: it should verify that text is inserted in the slot (#2000)
+- Chore Website: webpackChunkName of jp doc map. (#2007)
+- Chore Docs: added dropdown disabled attribute for all languages (#2013)
+- Chore Tabs: remove unused code (#2019)
+- Chore Tabs: add tabs type's definition (#2020)
+- Chore TabNav: use same throw error utils function. (#2022)
+- Chore add button click type's definition (#2026)
+- Chore Tab: remove meaningless parentheses (#2033)
+- Chore Docs: update the 'value' property to 'ModelValue' (#2044)
+- Chore ScrollBar: add scrollbar type's definition (#2057)
+- Chore Style: remove useless style (#2058)
+- Chore Project: bump sass from 1.26.10 to 1.34.0 (#2060)
+- Chore Docs: value -> model-value in vue 3 (#2067)
+
+
+### 1.0.2-beta.44
+
+*2021-05-11*
+
+#### Bug fixes
+- Hot fix for #1980 (#1981)
+
+
+### 1.0.2-beta.43
+
+*2021-05-10*
+
+#### Bug fixes
+- Fix DateTimePicker positioning issue (#1980, #1981)
 ### 1.0.2-beta.42
 
 *2021-05-09*

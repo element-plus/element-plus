@@ -1,10 +1,8 @@
-import { openBlock, createBlock, Comment } from 'vue'
-import { PatchFlags } from '@element-plus/utils/vnode'
+import { Comment, h } from 'vue'
 
 export default function renderArrow(showArrow: boolean) {
   return showArrow
-    ? (openBlock(),
-    createBlock(
+    ? h(
       'div',
       {
         ref: 'arrowRef',
@@ -12,7 +10,6 @@ export default function renderArrow(showArrow: boolean) {
         'data-popper-arrow': '',
       },
       null,
-      PatchFlags.NEED_PATCH,
-    ))
-    : (openBlock(), createBlock(Comment, null, ''))
+    )
+    : h(Comment, null, '')
 }

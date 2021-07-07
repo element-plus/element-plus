@@ -1,0 +1,321 @@
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
+@import 'select-dropdown-v2';
+@import 'input';
+@import 'tag';
+@import 'option-item';
+@import 'option-group';
+@import 'scrollbar';
+
+$--input-inline-start: 7px !default;
+
+@include b(select-v2) {
+  display: inline-block;
+  position: relative;
+
+  $selector: &;
+  @include e(wrapper) {
+    box-sizing: border-box;
+    cursor: pointer;
+
+    padding-left: 15px;
+    padding-right: 30px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border: 1px solid $--border-color-base;
+    border-radius: $--border-radius-base;
+    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+    &:hover {
+      border-color: $--color-text-placeholder;
+    }
+
+    @include when(filterable) {
+      cursor: text;
+    }
+
+    @include when(focused) {
+      border-color: $--color-primary;
+    }
+
+    @include when(hovering) {
+      &:not(.is-focused) {
+        border-color: $--color-text-placeholder;
+      }
+    }
+
+    @include when(disabled) {
+      cursor: not-allowed;
+
+      background-color: $--background-color-base;
+      color: $--color-text-placeholder;
+      border-color: $--select-disabled-border;
+
+      &:hover {
+        border-color: $--select-disabled-border;
+      }
+
+      &.is-focus {
+        border-color: $--select-input-focus-border-color;
+      }
+
+      .is-transparent {
+        opacity: 1;
+        user-select: none;
+      }
+    }
+
+    #{$selector}__input-wrapper {
+      box-sizing: border-box;
+      position: relative;
+      padding-bottom: 2px;
+      margin-inline-start: $--input-inline-start;
+      padding-top: 2px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    &,
+    #{$selector}__input-wrapper {
+      line-height: $--input-height;
+      // height: $--input-height;
+    }
+
+    #{$selector}__input-wrapper input {
+      line-height: $--input-medium-height;
+      height: $--input-medium-height;
+
+      min-width: 4px;
+      width: 100%;
+
+      background-color: transparent;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: 0 0;
+      border: none;
+
+      margin: 0;
+      outline: none;
+      padding: 0;
+    }
+  }
+
+  @include e(empty) {
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+  }
+
+  @include e(popper) {
+    @include picker-popper(
+      $--select-dropdown-background,
+      $--select-dropdown-border,
+      $--select-dropdown-shadow
+    );
+  }
+
+  @include m(mini) {
+    @include e(wrapper) {
+      &,
+      #{$selector}__input-wrapper {
+        // since there were no 24px predefined, we can only hand write here.
+        line-height: $--input-mini-height;
+        // height: $--input-mini-height;
+      }
+
+      #{$selector}__input-wrapper input {
+        line-height: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  @include m(small) {
+    @include e(wrapper) {
+      &,
+      #{$selector}__input-wrapper {
+        line-height: $--input-small-height;
+        // height: $--input-small-height;
+      }
+
+      #{$selector}__input-wrapper input {
+        line-height: $--input-mini-height;
+        height: $--input-mini-height;
+      }
+    }
+  }
+
+  @include m(medium) {
+    @include e(wrapper) {
+      &,
+      #{$selector}__input-wrapper {
+        line-height: $--input-medium-height;
+        // height: $--input-medium-height;
+      }
+
+      #{$selector}__input-wrapper input {
+        line-height: $--input-small-height;
+        height: $--input-small-height;
+      }
+    }
+  }
+
+  #{$selector}__selection > span {
+    display: inline-block;
+  }
+
+  &:hover {
+    #{$selector}__combobox-input {
+      border-color: $--select-border-color-hover;
+    }
+  }
+
+  .#{$namespace}-select__selection-text {
+    text-overflow: ellipsis;
+    display: inline-block;
+    overflow-x: hidden;
+    vertical-align: bottom;
+  }
+
+  #{$selector}__combobox-input {
+    padding-right: 35px;
+    display: block;
+
+    &:focus {
+      border-color: $--select-input-focus-border-color;
+    }
+  }
+
+  @include e(input) {
+    border: none;
+    outline: none;
+    padding: 0;
+    margin-left: 15px;
+    color: $--select-multiple-input-color;
+    font-size: $--select-font-size;
+    appearance: none;
+    height: 28px;
+
+    @include when(mini) {
+      height: 14px;
+    }
+  }
+
+  @include e(close) {
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    z-index: $--index-top;
+    right: 25px;
+    color: $--select-input-color;
+    line-height: 18px;
+    font-size: $--select-input-font-size;
+
+    &:hover {
+      color: $--select-close-hover-color;
+    }
+  }
+
+  @include e(suffix) {
+    position: absolute;
+    right: 5px;
+    height: 40px;
+    top: 50%;
+    margin-top: -20px;
+  }
+
+  @include e(caret) {
+    color: $--select-input-color;
+    font-size: $--select-input-font-size;
+    transition: transform 0.3s;
+    transform: rotateZ(180deg);
+    cursor: pointer;
+
+    @include when(reverse) {
+      transform: rotateZ(0deg);
+    }
+
+    @include when(show-close) {
+      font-size: $--select-font-size;
+      text-align: center;
+      transform: rotateZ(180deg);
+      border-radius: $--border-radius-circle;
+      color: $--select-input-color;
+      transition: $--color-transition-base;
+
+      &:hover {
+        color: $--select-close-hover-color;
+      }
+    }
+  }
+
+  @include e(selection) {
+    white-space: normal;
+    z-index: $--index-normal;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  @include e(wrapper) {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: $--border-radius-base;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+
+  @include e(input-calculator) {
+    left: 0;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    white-space: pre;
+    z-index: 999;
+  }
+
+  @include e(selected-item) {
+    line-height: inherit;
+    height: inherit;
+    user-select: none;
+    // using this to keep the item centered in both vertically and horizontally
+    display: flex;
+  }
+
+  @include e(placeholder) {
+    position: absolute;
+    top: 1px;
+    margin-inline-start: $--input-inline-start;
+    width: calc(100% - 52px);
+    @include when(transparent) {
+      opacity: 0.3;
+    }
+  }
+
+  .#{$namespace}-select-v2__selection .#{$namespace}-tag {
+    box-sizing: border-box;
+    border-color: transparent;
+    margin: 2px 0 2px 6px;
+    background-color: #f0f2f5;
+
+    .#{$namespace}-icon-close {
+      background-color: $--color-text-placeholder;
+      right: -7px;
+      top: 0;
+      color: $--color-white;
+
+      &:hover {
+        background-color: $--color-text-secondary;
+      }
+
+      &::before {
+        display: block;
+        transform: translate(0, 0.5px);
+      }
+    }
+  }
+}

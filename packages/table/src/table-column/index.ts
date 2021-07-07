@@ -80,6 +80,8 @@ export default defineComponent({
         sortable: sortable,
         // index 列
         index: props.index,
+        // <el-table-column key="xxx" />
+        rawColumnKey: instance.vnode.key,
       }
 
       const basicProps = [
@@ -159,16 +161,13 @@ export default defineComponent({
       })
       if (renderDefault instanceof Array) {
         for (const childNode of renderDefault) {
-          if (
-            childNode.type?.name === 'ElTableColumn' ||
-            childNode.shapeFlag !== 36
-          ) {
+          if (childNode.type?.name === 'ElTableColumn') {
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&
             childNode.children instanceof Array
           ) {
-            renderDefault.push(...childNode.children)
+            children.push(...childNode.children)
           }
         }
       }

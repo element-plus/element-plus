@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import { nextTick } from 'vue'
 import DatePicker from '../src/date-picker'
+import Input from '@element-plus/input'
 
 const _mount = (template: string, data = () => ({}), otherObj?) => mount({
   components: {
@@ -192,6 +193,48 @@ describe('DatePicker', () => {
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
   })
+
+  describe('value-format', () => {
+    it('with literal string', async () => {
+      const day = dayjs()
+      const format = 'YYYY-MM-DD'
+      const valueFormat = '[Element-Plus] DD/MM YYYY'
+      const value = day.format(valueFormat)
+      const wrapper = _mount(`
+        <el-date-picker
+          ref="compo"
+          v-model="value"
+          type="date"
+          format="${format}"
+          value-format="${valueFormat}" />
+        <button @click="changeValue">click</button>
+      `, () => {
+        return {
+          value,
+        }
+      }, {
+        methods: {
+          changeValue () {
+            this.value = '[Element-Plus] 31/05 2021'
+          },
+        },
+      })
+      const vm = wrapper.vm as any
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      input.trigger('focus')
+      await nextTick()
+      {
+        (document.querySelector('td.available') as HTMLElement).click()
+      }
+      await nextTick()
+      expect(vm.value).toBe(dayjs(`[Element-Plus] 01/${('0' + (day.month() + 1)).slice(-2)} ${day.year()}`, valueFormat).format(valueFormat))
+      wrapper.find('button').trigger('click')
+      await nextTick()
+      expect(wrapper.findComponent(Input).vm.modelValue).toBe('2021-05-31')
+    })
+
+  })
 })
 
 describe('DatePicker Navigation', () => {
@@ -299,6 +342,29 @@ describe('MonthPicker', () => {
     const vm = wrapper.vm as any
     expect(vm.value.getMonth()).toBe(0)
   })
+
+  it('value-format', async () => {
+    const valueFormat = '[Element-Plus] YYYY.MM'
+    const wrapper = _mount(`
+      <el-date-picker
+        type="month"
+        v-model="value"
+        value-format="${valueFormat}"
+      ></el-date-picker>
+    `, () => ({ value: dayjs(new Date(2020, 7, 1)).format(valueFormat) }))
+    await nextTick()
+    expect(wrapper.findComponent(Input).vm.modelValue).toBe('2020-08')
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    {
+      (document.querySelector('.el-month-table a.cell') as HTMLElement).click()
+    }
+    await nextTick()
+    expect(wrapper.findComponent(Input).vm.modelValue).toBe('2020-01')
+    expect((wrapper.vm as any).value).toBe(dayjs(new Date(2020, 0, 1)).format(valueFormat))
+  })
 })
 
 describe('YearPicker', () => {
@@ -332,6 +398,27 @@ describe('YearPicker', () => {
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.getFullYear()).toBe(2030)
+  })
+
+  it('value-format', async () => {
+    const valueFormat = '[Element-Plus] YYYY'
+    const wrapper = _mount(`
+      <el-date-picker
+        type="year"
+        v-model="value"
+        value-format="${valueFormat}"
+      ></el-date-picker>
+    `, () => ({ value: dayjs(new Date(2005, 7, 1)).format(valueFormat) }))
+    await nextTick()
+    expect(wrapper.findComponent(Input).vm.modelValue).toBe('2005')
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const cell = (document.querySelector('.el-year-table a.cell') as HTMLElement)
+    cell.click()
+    await nextTick()
+    expect((wrapper.vm as any).value).toBe(dayjs(new Date(Number.parseInt(cell.innerHTML.trim()), 0, 1)).format(valueFormat))
   })
 })
 
@@ -594,6 +681,34 @@ describe('DateRangePicker', () => {
     const endDate = document.querySelectorAll('.end-date')
     expect(startDate.length).toBe(1)
     expect(endDate.length).toBe(1)
+  })
+
+  it('value-format', async () => {
+    const valueFormat = 'DD/MM YYYY'
+    const wrapper = _mount( `
+      <el-date-picker
+        v-model="value"
+        type="daterange"
+        format="YYYY-MM-DD"
+        value-format="${valueFormat}"
+    />`, () => ({ value: [
+      dayjs(new Date(2021, 4, 2)).format(valueFormat),
+      dayjs(new Date(2021, 4, 12)).format(valueFormat),
+    ] }))
+    await nextTick()
+    const [startInput, endInput] = wrapper.findAll('input')
+    expect(startInput.element.value).toBe('2021-05-02')
+    expect(endInput.element.value).toBe('2021-05-12')
+    startInput.trigger('blur')
+    startInput.trigger('focus')
+    await nextTick()
+    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    expect(panels.length).toBe(2);
+    (panels[0].querySelector('td.available') as HTMLElement).click()
+    await nextTick();
+    (panels[1].querySelector('td.available') as HTMLElement).click()
+    await nextTick()
+    expect((wrapper.vm as any).value.toString()).toBe([ '01/05 2021', '01/06 2021' ].toString())
   })
 })
 

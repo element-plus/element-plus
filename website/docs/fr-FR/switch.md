@@ -196,7 +196,7 @@ Switch est utilisé pour choisir entre deux états opposés.
 
 | Attribut            | Description                                                                                                                             | Type                      | Valeurs acceptées | Défaut  |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----------------- | ------- |
-| value / v-model     | Valeur liée. Elle doit être équivalente à `active-value` ou `inactive-value`, par défaut elle est de type `boolean`.                    | boolean / string / number | —                 | —       |
+| model-value / v-model     | Valeur liée. Elle doit être équivalente à `active-value` ou `inactive-value`, par défaut elle est de type `boolean`.                    | boolean / string / number | —                 | —       |
 | disabled            | Si le switch est désactivé.                                                                                                             | boolean                   | —                 | false   |
 | loading             | whether Switch is in loading state                                                                                                      | boolean                   | —                 | false   |
 | width               | Largeur du switch.                                                                                                                      | number                    | —                 | 40      |

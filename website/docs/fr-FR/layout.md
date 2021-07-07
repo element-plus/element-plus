@@ -2,6 +2,12 @@
 
 Vous pouvez créer une mise en page facilement et rapidement grâce à une base de 24 colonnes.
 
+:::tip
+The component uses flex layout by default, no need to set `type="flex"` manually.
+
+Please note that the parent container should avoid using `inline` related styles, which will cause the component to not fill up its width.
+:::
+
 ### Mise en page basique
 
 Créez une grille de mise en page basique grâce aux colonnes.
@@ -215,31 +221,31 @@ Vous pouvez spécifier un décalage pour les colonnes.
 
 ### Alignement
 
-Utilisez la mise en page flex pour rendre l'alignement des colonnes flexible.
+Default use the flex layout to make flexible alignment of columns.
 
-:::demo Vous pouvez activer la mise en page flex en réglant l'attribut `type` à 'flex', puis en configurant la disposition des éléments enfants avec l'attribut `justify` définit à 'start', 'center', 'end', 'space-between' ou 'space-around'.
+:::demo You can define the layout of child elements by setting `justify` attribute with start, center, end, space-between or space-around.
 ```html
-<el-row type="flex" class="row-bg">
+<el-row class="row-bg">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="center">
+<el-row class="row-bg" justify="center">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="end">
+<el-row class="row-bg" justify="end">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="space-between">
+<el-row class="row-bg" justify="space-between">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
 </el-row>
-<el-row type="flex" class="row-bg" justify="space-around">
+<el-row class="row-bg" justify="space-around">
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
@@ -336,7 +342,6 @@ Ces classes sont:
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | gutter | Espacement de la grille. | number | — | 0 |
-| type | Mode de mise en page. Vous pouvez utiliser flex, qui fonctionne sur les navigateurs modernes. | string | — | — |
 | justify | Alignement horizontal pour le mise en page flex. | string | start/end/center/space-around/space-between | start |
 | align | Alignement vertical pour la mise en page flex. | string | top/middle/bottom | top |
 | tag | Élément de tag personnalisé. | string | * | div |

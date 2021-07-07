@@ -22,6 +22,22 @@ Checkbox peut être utilisé seul pour switcher entre deux états.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked = ref(true);
+      return {
+        checked,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -46,6 +62,23 @@ La checkbox peut être désactivée.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked1 = ref(false);
+      const checked2 = ref(true);
+      return {
+        checked1,
+        checked2,
+      };
+    },
+  });
+</setup>
+-->
 ```
 :::
 
@@ -75,6 +108,22 @@ Utile pour grouper des checkbox, indiquant si une option est sélectionnée en v
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checkList = ref(['selected and disabled','Option A']);
+      return {
+        checkList,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -116,6 +165,40 @@ La propriété `indeterminate` permet de réaliser un effet "Sélectionner tout"
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        checkAll: false,
+        checkedCities: ['Shanghai', 'Beijing'],
+        cities: cityOptions,
+        isIndeterminate: true,
+      });
+      const handleCheckAllChange = (val) => {
+        state.checkedCities = val ? cityOptions : [];
+        state.isIndeterminate = false;
+      };
+      const handleCheckedCitiesChange = (value) => {
+        const checkedCount = value.length;
+        state.checkAll = checkedCount === state.cities.length;
+        state.isIndeterminate = checkedCount > 0 && checkedCount < state.cities.length;
+      };
+      return {
+        ...toRefs(state),
+        handleCheckAllChange,
+        handleCheckedCitiesChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -145,6 +228,28 @@ Les propriétés `min` et `max` permettent de limiter la quantité d'éléments 
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        checkedCities: ['Shanghai', 'Beijing'],
+        cities: cityOptions,
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -191,6 +296,31 @@ Des checkbox avec une apparence de bouton.
     }
   }
 </script>
+<!--
+<setup>
+
+import { defineComponent, reactive, toRefs } from 'vue';
+
+const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      checkboxGroup1: ['Shanghai'],
+      checkboxGroup2: ['Shanghai'],
+      checkboxGroup3: ['Shanghai'],
+      checkboxGroup4: ['Shanghai'],
+      cities: cityOptions,
+    });
+
+    return {
+      ...toRefs(state),
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -235,13 +365,37 @@ Des checkbox avec une apparence de bouton.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        checked1: true,
+        checked2: false,
+        checked3: false,
+        checked4: true,
+        checkboxGroup1: [],
+        checkboxGroup2: [],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
 ### Attributs Checkbox
 | Attribut      | Description         | Type    | Options                         | Défaut|
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | La valeur liée. | string / number / boolean | — | — |
+| model-value / v-model | La valeur liée. | string / number / boolean | — | — |
 | label     | Valeur de la checkbox quand utilisée dans un `checkbox-group`.   | string / number / boolean   |       —        |     —    |
 | true-label | Valeur de la checkbox si cochée.   | string / number    |       —        |     —    |
 | false-label | Valeur de la checkbox si non cochée.   | string / number    |      —         |     —    |
@@ -260,7 +414,7 @@ Des checkbox avec une apparence de bouton.
 ### Attributs Checkbox-group
 | Attribut      | Description         | Type    | Options                         | Défaut|
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | La valeur liée. | array | — | — |
+| model-value / v-model | La valeur liée. | array | — | — |
 |size | Taille des checkbox-boutons ou des checkbox avec bordure. | string | medium / small / mini | — |
 | disabled  | Si les checkbox imbriquées sont désactivées. | boolean   | — | false   |
 | min     | Nombre minimum de checkbox cochées.   | number    |       —        |     —    |

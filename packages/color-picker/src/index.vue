@@ -6,6 +6,7 @@
     manual-mode
     trigger="click"
     :show-arrow="false"
+    :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"

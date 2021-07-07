@@ -69,7 +69,7 @@ Vous pouvez définir un intervalle de temps. Si l'horaire de début est sélecti
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | La valeur liée. | string | - | - |
+| model-value / v-model | La valeur liée. | string | - | - |
 | editable | Si le champ d'input est éditable. | boolean | — | true |
 | clearable | Si un bouton d'effacement doit être affiché. | boolean | — | true |
 | size | Taille du champ. | string | medium / small / mini | — |

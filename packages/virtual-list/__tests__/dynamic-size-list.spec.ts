@@ -87,7 +87,7 @@ describe('<dynamic-size-list />', () => {
   describe('scroll functionality', () => {
     it('should update inner container\'s height after scroll dispatched', async () => {
       const wrapper = mount()
-      const listRef = wrapper.vm.$refs.listRef  as ListRef
+      const listRef = wrapper.vm.$refs.listRef as ListRef
       await nextTick()
       const estimatedTotalSize = Number.parseInt(listRef.innerRef.style.height)
       // when the size is all 26, then there should be 7 items 4 visible + 3 cache
@@ -134,7 +134,7 @@ describe('<dynamic-size-list />', () => {
         },
       })
 
-      const listRef = wrapper.vm.$refs.listRef  as ListRef
+      const listRef = wrapper.vm.$refs.listRef as ListRef
       await nextTick()
       const estimatedTotalSize = Number.parseInt(listRef.innerRef.style.width)
       // when the size is all 26, then there should be 7 items 2 visible + 3 cache
@@ -177,7 +177,7 @@ describe('<dynamic-size-list />', () => {
     it('should scrollToItem correctly', async () => {
       const wrapper = mount()
 
-      const listRef = wrapper.vm.$refs.listRef  as ListRef
+      const listRef = wrapper.vm.$refs.listRef as ListRef
       // auto alignment
       listRef.scrollToItem(10)
       await nextTick()

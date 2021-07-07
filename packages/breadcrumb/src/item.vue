@@ -26,22 +26,14 @@ import {
   onMounted,
   getCurrentInstance,
 } from 'vue'
-
-interface IBreadcrumbInject {
-  separator: string
-  separatorClass: string
-}
-
-interface IBreadcrumbItemProps {
-  to: string | Record<string, unknown>
-  replace: boolean
-}
+import type { IBreadcrumbProps } from './breadcrumb'
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElBreadcrumbItem',
   props: {
     to: {
-      type: [String, Object],
+      type: [String, Object] as PropType<string | Record<string, unknown>>,
       default: '',
     },
     replace: {
@@ -49,9 +41,9 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props: IBreadcrumbItemProps) {
+  setup(props) {
     const link = ref(null)
-    const parent: IBreadcrumbInject = inject('breadcrumb')
+    const parent = inject<IBreadcrumbProps>('breadcrumb')
     const instance = getCurrentInstance()
     const router = instance.appContext.config.globalProperties.$router
 

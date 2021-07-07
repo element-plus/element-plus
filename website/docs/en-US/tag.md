@@ -66,7 +66,7 @@ You can use the `close` event to add and remove tag dynamically.
   v-model="inputValue"
   ref="saveTagInput"
   size="mini"
-  @keyup.enter.native="handleInputConfirm"
+  @keyup.enter="handleInputConfirm"
   @blur="handleInputConfirm"
 >
 </el-input>

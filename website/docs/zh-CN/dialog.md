@@ -5,7 +5,7 @@
 
 Dialog 弹出一个对话框，适合需要定制性更大的场景。
 
-:::demo 需要设置`visible`属性，它接收`Boolean`，当为`true`时显示 Dialog。Dialog 分为两个部分：`body`和`footer`，`footer`需要具名为`footer`的`slot`。`title`属性用于定义标题，它是可选的，默认值为空。最后，本例还展示了`before-close`的用法。
+:::demo 需要设置 `model-value / v-model` 属性，它接收 `Boolean`，当为 `true` 时显示 Dialog。Dialog 分为两个部分：`body` 和 `footer`，`footer` 需要具名为 `footer` 的 `slot`。`title` 属性用于定义标题，它是可选的，默认值为空。最后，本例还展示了 `before-close` 的用法。
 
 ```html
 <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
@@ -42,6 +42,35 @@ Dialog 弹出一个对话框，适合需要定制性更大的场景。
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      const dialogVisible = ref(false);
+      
+      const handleClose = (done) => {
+        ElMessageBox
+          .confirm('确认关闭？')
+          .then((_) => {
+            done();
+          })
+          .catch((_) => {
+            // catch
+          });
+      };
+      return {
+        dialogVisible,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -126,6 +155,59 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+          {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          },
+        ],
+        dialogTableVisible: false,
+        dialogFormVisible: false,
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: '',
+        },
+        formLabelWidth: '120px',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -162,6 +244,22 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        outerVisible: ref(false),
+        innerVisible: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -198,6 +296,21 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        centerDialogVisible: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -239,6 +352,21 @@ Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默�
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        centerDialogVisible: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 
 ```
 

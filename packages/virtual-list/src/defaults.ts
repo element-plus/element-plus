@@ -126,3 +126,29 @@ export const DefaultGridProps = {
   totalColumn: DefaultListProps.total,
   totalRow: DefaultListProps.total,
 }
+
+export const DefaultScrollBarProps = {
+  layout: DefaultListProps.layout,
+  total: Number,
+  ratio: Number,
+  clientSize: Number,
+  scrollFrom: Number,
+  visible: Boolean,
+}
+
+export const PageKey = {
+  [HORIZONTAL]: 'pageX',
+  [VERTICAL]: 'pageY',
+}
+
+export const ScrollbarSizeKey = {
+  [HORIZONTAL]: 'height',
+  [VERTICAL]: 'width',
+}
+
+export const ScrollbarDirKey = {
+  [HORIZONTAL]: 'left',
+  [VERTICAL]: 'top',
+}
+
+export const SCROLLBAR_MIN_SIZE = 20

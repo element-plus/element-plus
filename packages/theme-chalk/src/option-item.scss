@@ -1,0 +1,64 @@
+@import 'mixins/mixins';
+@import 'common/var';
+
+@include b(select-dropdown) {
+  @include e(option-item) {
+    font-size: $--select-font-size;
+    // 20 as the padding of option item, 12 as the size of ✓ icon size
+    padding: 0 #{20 + 12}px 0 20px;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $--select-option-color;
+    height: $--select-option-height;
+    line-height: $--select-option-height;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    @include when(disabled) {
+      color: $--select-option-disabled-color;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: $--color-white;
+      }
+    }
+
+    @include when(selected) {
+      background-color: $--select-option-hover-background;
+      font-weight: 700;
+
+      &:not(.is-multiple) {
+        color: $--select-option-selected-font-color;
+      }
+    }
+
+    &.hover,
+    &:hover {
+      background-color: $--select-option-hover-background;
+    }
+  }
+
+  @include when(multiple) {
+    .el-select-dropdown__option-item {
+      &.is-selected{
+        color: $--select-option-selected-font-color;
+        background-color: $--select-dropdown-background;
+        font-weight: bold;
+        &::after {
+          position: absolute;
+          right: 20px;
+          top: 0;
+          font-family: 'element-icons';
+          content: '\e6da';
+          font-size: 12px;
+          font-weight: bold;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+      }
+
+    }
+  }
+}

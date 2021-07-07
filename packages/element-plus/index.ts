@@ -92,6 +92,7 @@ import ElCheckTag from '@element-plus/check-tag'
 import ElDescriptions from '@element-plus/descriptions'
 import ElDescriptionsItem from '@element-plus/descriptions-item'
 import ElResult from '@element-plus/result'
+import ElSelectV2 from '@element-plus/select-v2'
 
 import { use, i18n } from '@element-plus/locale'
 // if you encountered problems alike "Can't resolve './version'"
@@ -102,7 +103,7 @@ import { setConfig } from '@element-plus/utils/config'
 import isServer from '@element-plus/utils/isServer'
 import dayjs from 'dayjs'
 
-type DWindow =  Window & typeof globalThis & {
+type DWindow = Window & typeof globalThis & {
   dayjs?: typeof dayjs
 }
 
@@ -179,7 +180,6 @@ const components = [
   ElPageHeader,
   ElPagination,
   ElPopconfirm,
-  ElPopover,
   ElPopper,
   ElProgress,
   ElRadio,
@@ -213,6 +213,7 @@ const components = [
   ElDescriptions,
   ElDescriptionsItem,
   ElResult,
+  ElSelectV2,
 ]
 
 const plugins = [
@@ -221,6 +222,7 @@ const plugins = [
   ElMessage,
   ElMessageBox,
   ElNotification,
+  ElPopover,
 ]
 
 const install = (app: App, opt: InstallOptions): void => {
@@ -335,6 +337,7 @@ export {
   ElDescriptions,
   ElDescriptionsItem,
   ElResult,
+  ElSelectV2,
   version,
   install,
   locale,

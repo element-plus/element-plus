@@ -41,6 +41,26 @@ You can expand multiple panels
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeNames = ref(['1']);
+      const handleChange = (val) => {
+        console.log(val);
+      };
+      return {
+        activeNames,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -78,6 +98,23 @@ In accordion mode, only one panel can be expanded at once
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeName = ref('1');
+
+      return {
+        activeName,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -115,7 +152,7 @@ Besides using the `title` attribute, you can customize panel title with named sl
 ### Collapse Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | currently active panel | string (accordion mode) / array (non-accordion mode) | — | — |
+| model-value / v-model | currently active panel | string (accordion mode) / array (non-accordion mode) | — | — |
 | accordion | whether to activate accordion mode | boolean | — | false |
 
 ### Collapse Events

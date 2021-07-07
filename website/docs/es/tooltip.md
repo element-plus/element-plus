@@ -181,11 +181,11 @@ Es necesario envolver los elementos de forma deshabilitados en un elemento conte
 ### Atributos
 | Atributo       | Descripción                              | Tipo    | Valores aceptados                        | Por defecto                              |
 | -------------- | ---------------------------------------- | ------- | ---------------------------------------- | ---------------------------------------- |
-| append-to-body | Si adjuntar el cuadro de diálogo al cuerpo | boolean                                          | —                 |   false              |
+| append-to-body | Si adjuntar el cuadro de diálogo al cuerpo | boolean                                          | —                 |   true              |
 | effect         | tema del Tooltip                         | string  | dark/light                               | dark                                     |
 | content        | contenido a mostrar, puede ser sobre-escrito por `slot#content` | string  | —                                        | —                                        |
 | placement      | posición del Tooltip                     | string  | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom                                   |
-| value / v-model | visibilidad del Tooltip                  | boolean | —                                        | false                                    |
+| model-value / v-model | visibilidad del Tooltip                  | boolean | —                                        | false                                    |
 | disabled       | saber si el Tooltip se encuentra deshabilitado | boolean | —                                        | false                                    |
 | offset         | offset del Tooltip                       | number  | —                                        | 0                                        |
 | transition     | nombre de animación                      | string  | —                                        | el-fade-in-linear                        |

@@ -41,6 +41,26 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeNames = ref(['1']);
+      const handleChange = (val) => {
+        console.log(val);
+      };
+      return {
+        activeNames,
+        handleChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -78,6 +98,23 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeName = ref('1');
+
+      return {
+        activeName,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -115,7 +152,7 @@
 ### Collapse属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | カレントアクティブパネル | string (accordion mode) / array (non-accordion mode) | — | — |
+| model-value / v-model | カレントアクティブパネル | string (accordion mode) / array (non-accordion mode) | — | — |
 | accordion | アコーディオンモードにするかどうか | boolean | — | false |
 
 ### Collapseイベント

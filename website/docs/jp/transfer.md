@@ -227,7 +227,7 @@
 
 | Attribute | Description | Type  | Accepted Values | Default |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | バインディング値 | array | — | — |
+| model-value / v-model | バインディング値 | array | — | — |
 | data | データソース | array[{ key, label, disabled }] | — | [ ] |
 | filterable | 転送がフィルタリング可能かどうか | boolean | — | false |
 | filter-placeholder | フィルタ入力のプレースホルダ | string | — | Enter keyword |
