@@ -28,7 +28,7 @@
         <button
           type="button"
           class="el-time-panel__btn confirm"
-          @click="handleConfirm"
+          @click="handleConfirm()"
         >
           {{ t('el.datepicker.confirm') }}
         </button>
