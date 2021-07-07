@@ -53,7 +53,7 @@ export default defineComponent({
             : name,
         )
       } else {
-        let _activeNames = activeNames.value.slice(0)
+        const _activeNames = activeNames.value.slice(0)
         const index = _activeNames.indexOf(name)
 
         if (index > -1) {
