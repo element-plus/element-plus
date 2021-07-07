@@ -926,10 +926,17 @@ describe('table column', () => {
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '100',
       )
+
       wrapper.vm.width = 200
       await nextTick()
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '200',
+      )
+
+      wrapper.vm.width = '300px'
+      await nextTick()
+      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+        '300',
       )
       wrapper.unmount()
     })
@@ -961,10 +968,17 @@ describe('table column', () => {
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '100',
       )
+
       wrapper.vm.width = 200
       await nextTick()
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '200',
+      )
+
+      wrapper.vm.width = '300px'
+      await nextTick()
+      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+        '300',
       )
       wrapper.unmount()
     })
