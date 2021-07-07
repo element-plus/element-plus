@@ -139,6 +139,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
 import { defaultProps } from './props'
+import isEqual from 'lodash/isEqual'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import type { Options } from '@popperjs/core'
 
@@ -297,7 +298,11 @@ export default defineComponent({
       }
 
       if (pickerOptions.value.getRangeAvaliableTime) {
-        result = pickerOptions.value.getRangeAvaliableTime(result)
+        const availableResult = pickerOptions.value.getRangeAvaliableTime(result)
+        if (!isEqual(availableResult, result)) {
+          result = availableResult
+          emitInput(Array.isArray(result) ? result.map(_=> _.toDate()) : result.toDate())
+        }
       }
       if (Array.isArray(result) && result.some(_ => !_)) {
         result = []
