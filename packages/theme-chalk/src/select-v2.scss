@@ -209,7 +209,7 @@ $--input-inline-start: 7px !default;
     cursor: pointer;
     position: absolute;
     top: 8px;
-    z-index: $--index-top;
+    z-index: var(--el-index-top);
     right: 25px;
     color: $--select-input-color;
     line-height: 18px;
@@ -255,7 +255,7 @@ $--input-inline-start: 7px !default;
 
   @include e(selection) {
     white-space: normal;
-    z-index: $--index-normal;
+    z-index: var(--el-index-normal);
     display: flex;
     align-items: center;
     flex-wrap: wrap;

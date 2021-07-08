@@ -1,5 +1,5 @@
 // CSS3 var
-@import "common/var";
+@import 'common/var';
 
 :root {
   --el-color-primary: #{$--color-primary};
@@ -52,7 +52,8 @@
   --el-border-width-base: #{$--border-width-base};
   --el-border-style-base: #{$--border-style-base};
   --el-border-color-hover: var(--el-color-text-placeholder);
-  --el-border-base: var(--el-border-width-base) var(--el-border-style-base) var(--el-border-color-base);
+  --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
+    var(--el-border-color-base);
   --el-border-radius-base: #{$--border-radius-base};
   --el-border-radius-small: #{$--border-radius-small};
   --el-border-radius-circle: #{$--border-radius-circle};
@@ -66,4 +67,25 @@
 
   // Fill
   --el-fill-base: var(--el-color-white);
+
+  // Typography
+  --el-font-size-extra-large: #{$--font-size-extra-large};
+  --el-font-size-large: #{$--font-size-large};
+  --el-font-size-medium: #{$--font-size-medium};
+  --el-font-size-base: #{$--font-size-base};
+  --el-font-size-small: #{$--font-size-small};
+  --el-font-size-extra-small: #{$--font-size-extra-small};
+  --el-font-weight-primary: #{$--font-weight-primary};
+  --el-line-height-primary: #{$--font-line-height-primary};
+  --el-font-color-disabled-base: #bbb;
+
+  // z-index
+  --el-index-normal: 1;
+  --el-index-top: 1000;
+  --el-index-popper: 2000;
+
+  // Disable base
+  --el-disabled-fill-base: var(--el-background-color-base);
+  --el-disabled-color-base: var(--el-color-text-placeholder);
+  --el-disabled-border-base: var(--el-border-color-light);
 }

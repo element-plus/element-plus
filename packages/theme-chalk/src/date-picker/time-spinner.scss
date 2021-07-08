@@ -41,7 +41,7 @@
     position: absolute;
     left: 0;
     width: 100%;
-    z-index: $--index-normal;
+    z-index: var(--el-index-normal);
     text-align: center;
     height: 30px;
     line-height: 30px;
