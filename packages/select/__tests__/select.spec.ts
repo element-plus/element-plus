@@ -4,6 +4,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
+import { sleep } from '@element-plus/test-utils'
 
 jest.useFakeTimers()
 
@@ -313,11 +314,20 @@ describe('Select', () => {
       vm.navigateOptions('next')
     }
     vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
     await vm.$nextTick()
-    expect(vm.hoverIndex).toBe(0)
+    expect(vm.hoverIndex).toBe(3)
     vm.selectOption()
     await vm.$nextTick()
-    expect((wrapper.vm as any).value).toBe('选项1')
+    expect((wrapper.vm as any).value).toBe('选项4')
+    vm.toggleMenu()
+    const timer = sleep(300)
+    jest.runAllTimers()
+    await timer
+    vm.toggleMenu()
+    await vm.$nextTick
+    expect(vm.hoverIndex).toBe(3)
   })
 
   test('clearable', async () => {
