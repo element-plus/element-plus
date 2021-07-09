@@ -130,24 +130,23 @@ export default defineComponent({
 
     const labelFor = computed(() => props.for || props.prop)
     const labelStyle = computed(() => {
-      if (elForm.labelPosition === 'top') return {}
+      const ret: Partial<CSSStyleDeclaration> = {}
+      if (elForm.labelPosition === 'top') return ret
       const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
       if (labelWidth) {
-        return {
-          width: labelWidth,
-        }
+        ret.width = labelWidth
       }
-      return {}
+      return ret
     })
     const contentStyle = computed(() => {
+      const ret: Partial<CSSStyleDeclaration> = {}
       if (elForm.labelPosition === 'top' || elForm.inline) {
-        return {}
+        return ret
       }
       if (!props.label && !props.labelWidth && isNested.value) {
-        return {}
+        return ret
       }
       const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
-      const ret: Partial<CSSStyleDeclaration> = {}
       if (!props.label && !slots.label) {
         ret.marginLeft = labelWidth
       }
