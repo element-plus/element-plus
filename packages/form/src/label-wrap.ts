@@ -58,7 +58,27 @@ export default defineComponent({
 
     function render() {
       if (!slots) return null
-      return h(Fragment, { ref: el }, slots.default?.())
+      if (props.isAutoWidth) {
+        const autoLabelWidth = elForm.autoLabelWidth
+        const style = {} as CSSStyleDeclaration
+        if (autoLabelWidth && autoLabelWidth !== 'auto') {
+          const marginLeft = parseInt(autoLabelWidth, 10) - computedWidth.value
+          if (marginLeft) {
+            style.marginLeft = marginLeft + 'px'
+          }
+        }
+        return h(
+          'div',
+          {
+            ref: el,
+            class: ['el-form-item__label-wrap'],
+            style,
+          },
+          slots.default?.(),
+        )
+      } else {
+        return h(Fragment, { ref: el }, slots.default?.())
+      }
     }
 
     return render
