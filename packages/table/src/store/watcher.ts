@@ -193,10 +193,13 @@ function useWatcher<T>() {
     isAllSelected.value = value
 
     let selectionChanged = false
+    let childrenCount = 0
+    const rowKey = instance?.store?.states?.rowKey.value
     data.value.forEach((row, index) => {
+      const rowIndex = index + childrenCount
       if (selectable.value) {
         if (
-          selectable.value.call(null, row, index) &&
+          selectable.value.call(null, row, rowIndex) &&
           toggleRowStatus(selection.value, row, value)
         ) {
           selectionChanged = true
@@ -206,6 +209,7 @@ function useWatcher<T>() {
           selectionChanged = true
         }
       }
+      childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
     })
 
     if (selectionChanged) {
@@ -248,10 +252,13 @@ function useWatcher<T>() {
     }
     let isAllSelected_ = true
     let selectedCount = 0
+    let childrenCount = 0
     for (let i = 0, j = (data.value || []).length; i < j; i++) {
+      const keyProp = instance?.store?.states?.rowKey.value
+      const rowIndex = i + childrenCount
       const item = data.value[i]
       const isRowSelectable =
-        selectable.value && selectable.value.call(null, item, i)
+        selectable.value && selectable.value.call(null, item, rowIndex)
       if (!isSelected(item)) {
         if (!selectable.value || isRowSelectable) {
           isAllSelected_ = false
@@ -260,10 +267,28 @@ function useWatcher<T>() {
       } else {
         selectedCount++
       }
+      childrenCount += getChildrenCount(getRowIdentity(item, keyProp))
     }
 
     if (selectedCount === 0) isAllSelected_ = false
     isAllSelected.value = isAllSelected_
+  }
+
+  // gets the number of all child nodes by rowKey
+  const getChildrenCount = (rowKey: string) => {
+    if (!instance || !instance.store) return 0
+    const {
+      treeData,
+    } = instance.store.states
+    let count = 0
+    const children = treeData.value[rowKey]?.children
+    if (children) {
+      count += children.length
+      children.forEach(childKey => {
+        count += getChildrenCount(childKey)
+      })
+    }
+    return count
   }
 
   // 过滤与排序

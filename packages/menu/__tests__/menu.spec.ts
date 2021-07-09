@@ -150,6 +150,30 @@ describe('menu', () => {
     const instance = elSubmenu.vm as any
     expect(instance.opened).toBeTruthy()
   })
+  test('hover-background-color', async () => {
+    const wrapper = _mount(
+      `<el-menu ref="menu" default-active="2"
+        :background-color="background"
+        text-color="#000"
+        active-text-color="#0f0">
+        <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
+        <el-menu-item index="2" ref="item2">订单管理</el-menu-item>
+      </el-menu>`,
+      {
+        data() {
+          return {
+            background: '#008C74',
+          }
+        },
+      },
+    )
+    await nextTick()
+    const vm = (wrapper.vm as any)
+    expect(vm.$refs.menu.hoverBackground).toEqual('rgb(0, 112, 93)')
+    vm.background = '#F00'
+    await nextTick()
+    expect(vm.$refs.menu.hoverBackground).toEqual('rgb(204, 0, 0)')
+  })
 })
 
 describe('default active', () => {

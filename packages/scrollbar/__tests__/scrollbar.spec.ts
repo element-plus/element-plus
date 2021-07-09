@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { defineGetter, makeScroll } from '@element-plus/test-utils'
 import Scrollbar from '../src/index.vue'
@@ -109,5 +110,50 @@ describe('ScrollBar', () => {
     `)
 
     expect(wrapper.find('.el-scrollbar__wrap').attributes('style')).toContain('max-height: 200px;')
+  })
+
+  test('should render always props', async () => {
+    const outerHeight = 200
+    const innerHeight = 500
+    const wrapper = _mount(`
+      <el-scrollbar height="${outerHeight}px" always>
+        <div style="height: ${innerHeight}px;"></div>
+      </el-scrollbar>
+    `)
+
+    expect(wrapper.find('.el-scrollbar__bar').attributes('style')).toBeFalsy()
+  })
+
+  test('set scrollTop & scrollLeft', async () => {
+    const outerHeight = 200
+    const innerHeight = 500
+    const outerWidth = 200
+    const innerWidth = 500
+    const wrapper = _mount(`
+      <el-scrollbar ref="scrollbar" style="height: ${outerHeight}px; width: ${outerWidth}px;">
+        <div style="height: ${innerHeight}px; width: ${innerWidth}px;"></div>
+      </el-scrollbar>
+    `)
+
+    const scrollbar = wrapper.vm.$refs.scrollbar as any
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    const clientHeightRestore = defineGetter(scrollDom, 'clientHeight', outerHeight)
+    const scrollHeightRestore = defineGetter(scrollDom, 'scrollHeight', innerHeight)
+    const clientWidthRestore = defineGetter(scrollDom, 'clientWidth', outerWidth)
+    const scrollWidthRestore = defineGetter(scrollDom, 'scrollWidth', innerWidth)
+
+    scrollbar.setScrollTop(100)
+    await nextTick()
+    scrollbar.setScrollLeft(100)
+    await nextTick()
+
+    expect(wrapper.find('.is-vertical div').attributes('style')).toContain('height: 40%; transform: translateY(0%); webkit-transform: translateY(0%);')
+    expect(wrapper.find('.is-horizontal div').attributes('style')).toContain('width: 40%; transform: translateX(0%); webkit-transform: translateX(0%);')
+
+    clientHeightRestore()
+    scrollHeightRestore()
+    clientWidthRestore()
+    scrollWidthRestore()
   })
 })
