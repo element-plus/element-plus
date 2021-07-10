@@ -63,7 +63,10 @@ export default defineComponent({
   },
   props: {
     label: String,
-    labelWidth: [String, Number],
+    labelWidth: {
+      type: [String, Number],
+      default: '',
+    },
     prop: String,
     required: {
       type: Boolean,
