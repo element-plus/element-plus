@@ -76,7 +76,7 @@ export default {
       pagesize: '条/页',
       total: '共 {total} 条',
       pageClassifier: '页',
-      docRefer: '你使用了一些弃用的用法，请参考 el-pagination 的官方文档',
+      deprecationWarning: '你使用了一些已被废弃的用法，请参考 el-pagination 的官方文档',
     },
     messagebox: {
       title: '提示',

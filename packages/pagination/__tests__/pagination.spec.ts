@@ -1,9 +1,6 @@
 import { mount, VueWrapper } from '@vue/test-utils'
-import { triggerEvent } from '@element-plus/test-utils'
 import Pagination from '../src/index'
-import { nextTick, ref, h, defineComponent } from 'vue'
-
-const TIME_OUT = 100
+import { nextTick, ref, h } from 'vue'
 
 const assertElementsExistence = (wrapper: VueWrapper<any>, selectors: string[], existence: boolean) => {
   selectors.forEach(selector => {
@@ -14,24 +11,21 @@ const assertElementsExistence = (wrapper: VueWrapper<any>, selectors: string[], 
 const assertCurrent = (wrapper, page) => {
   expect(wrapper.find('.el-pager li.active.number').text()).toBe(String(page))
 }
-const assertTotal = (wrapper, total) => {
+const assertPages = (wrapper, total) => {
   expect(wrapper.find('.el-pagination .el-pager li:last-child').text()).toBe(String(total))
 }
 
 describe('Pagination', () => {
   describe('test invalid usages', () => {
-    let warned = false
-    let cacheWarn = console.warn
+    const cacheWarn = console.warn
     beforeEach(() => {
-      warned = false
-      cacheWarn = console.warn
-      console.warn = () => warned = true
+      console.warn = jest.fn()
     })
     afterEach(() => {
       console.warn = cacheWarn
     })
     test('both absence of total & pageCount is invalid', async () => {
-      expect(warned).toBe(false)
+      expect(console.warn).not.toHaveBeenCalled()
       const total = ref(undefined)
       const wrapper = mount({
         setup() {
@@ -41,14 +35,13 @@ describe('Pagination', () => {
         },
       })
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
-      expect(warned).toBe(true)
+      expect(console.warn).toHaveBeenCalled()
       total.value = 100
       await nextTick()
       expect(wrapper.find('.el-pagination').exists()).toBe(true)
-      console.warn = cacheWarn
     })
     test('current-page defined while absence of current-page listener is invalid', () => {
-      expect(warned).toBe(false)
+      expect(console.warn).not.toHaveBeenCalled()
       const wrapper = mount({
         setup() {
           return () => {
@@ -60,10 +53,10 @@ describe('Pagination', () => {
         },
       })
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
-      expect(warned).toBe(true)
+      expect(console.warn).toHaveBeenCalled()
     })
     test('layout with `sizes` restrictions(page-count)', () => {
-      expect(warned).toBe(false)
+      expect(console.warn).not.toHaveBeenCalled()
       const wrapper = mount({
         setup() {
           return () => {
@@ -75,10 +68,10 @@ describe('Pagination', () => {
         },
       })
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
-      expect(warned).toBe(true)
+      expect(console.warn).toHaveBeenCalled()
     })
     test('layout with `sizes` restrictions(page-size)', () => {
-      expect(warned).toBe(false)
+      expect(console.warn).not.toHaveBeenCalled()
       const wrapper = mount({
         setup() {
           return () => {
@@ -90,7 +83,7 @@ describe('Pagination', () => {
         },
       })
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
-      expect(warned).toBe(true)
+      expect(console.warn).toHaveBeenCalled()
     })
   })
 
@@ -110,7 +103,7 @@ describe('Pagination', () => {
       await nextTick()
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
     })
-    const layoutSelectorCombines = [
+    const layoutSelectorPairs = [
       ['sizes', '.el-pagination__sizes'],
       ['prev', 'button.btn-prev'],
       ['pager', 'ul.el-pager'],
@@ -118,12 +111,12 @@ describe('Pagination', () => {
       ['jumper', '.el-pagination__jump'],
       ['total', '.el-pagination__total'],
     ]
-    layoutSelectorCombines.forEach(([layout], idx) => {
+    layoutSelectorPairs.forEach(([layout], idx) => {
       test(`layout with only '${layout}'`, async () => {
         layoutRef.value = layout
         await nextTick()
-        for(let i = 0; i < layoutSelectorCombines.length; i++) {
-          expect(wrapper.find(layoutSelectorCombines[i][1]).exists()).toBe(i === idx)
+        for(let i = 0; i < layoutSelectorPairs.length; i++) {
+          expect(wrapper.find(layoutSelectorPairs[i][1]).exists()).toBe(i === idx)
         }
       })
     })
@@ -236,13 +229,14 @@ describe('Pagination', () => {
           }
         },
       })
-      assertTotal(wrapper, 10/* 100/10 */)
+      // total pages = Math.ceil(total / pageSize)
+      assertPages(wrapper, 10)
       pageSize.value = 20
       await nextTick()
-      assertTotal(wrapper, 5/* 100/20 */)
+      assertPages(wrapper, 5)
       pageSize.value = 55
       await nextTick()
-      assertTotal(wrapper, 2/* Math.ceil(100/55) */)
+      assertPages(wrapper, 2)
     })
     test('test currentPage change', async () => {
       const pageSize = ref(10)
@@ -285,17 +279,17 @@ describe('Pagination', () => {
           }
         },
       })
-      assertTotal(wrapper, 10)
+      assertPages(wrapper, 10)
       pageCount.value = 20
       await nextTick()
-      assertTotal(wrapper, 20)
+      assertPages(wrapper, 20)
       await wrapper.find('.el-pager li:last-child').trigger('click')
       assertCurrent(wrapper, 20)
       pageCount.value = 5
       await nextTick()
       // side effect, if currentPage is greater than pageCount
       // currentPage should change accordingly
-      assertTotal(wrapper, 5)
+      assertPages(wrapper, 5)
       assertCurrent(wrapper, 5)
     })
 

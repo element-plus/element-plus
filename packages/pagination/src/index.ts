@@ -307,7 +307,7 @@ export default defineComponent({
 
       return h('div', {
         role: 'pagination',
-        ['aria-label']: 'pagination',
+        'aria-label': 'pagination',
         class: [
           'el-pagination',
           {
