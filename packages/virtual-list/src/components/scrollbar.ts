@@ -4,7 +4,7 @@ import { rAF, cAF } from '@element-plus/utils/raf'
 import isServer from '@element-plus/utils/isServer'
 import { NOOP } from '@vue/shared'
 
-import { DefaultScrollBarProps, ScrollbarSizeKey, ScrollbarDirKey, SCROLLBAR_MIN_SIZE, HORIZONTAL } from '../defaults'
+import { DefaultScrollBarProps, SCROLLBAR_MIN_SIZE, HORIZONTAL } from '../defaults'
 import { renderThumbStyle } from '../utils'
 import { BAR_MAP } from '../../../scrollbar/src/util'
 
