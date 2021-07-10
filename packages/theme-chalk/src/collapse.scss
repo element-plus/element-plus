@@ -9,7 +9,7 @@
 @include b(collapse-item) {
   @include when(disabled) {
     .#{$namespace}-collapse-item__header {
-      color: $--font-color-disabled-base;
+      color: var(--el-font-color-disabled-base);
       cursor: not-allowed;
     }
   }

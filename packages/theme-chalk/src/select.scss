@@ -122,7 +122,7 @@
     cursor: pointer;
     position: absolute;
     top: 8px;
-    z-index: $--index-top;
+    z-index: var(--el-index-top);
     right: 25px;
     color: $--select-input-color;
     line-height: 18px;
@@ -137,7 +137,7 @@
     position: absolute;
     line-height: normal;
     white-space: normal;
-    z-index: $--index-normal;
+    z-index: var(--el-index-normal);
     top: 50%;
     transform: translateY(-50%);
     display: flex;

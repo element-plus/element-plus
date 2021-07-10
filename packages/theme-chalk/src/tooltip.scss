@@ -10,7 +10,7 @@
     position: absolute;
     border-radius: 4px;
     padding: $--tooltip-padding;
-    z-index: $--index-popper;
+    z-index: var(--el-index-popper);
     font-size: $--tooltip-font-size;
     line-height: 1.2;
     min-width: 10px;
