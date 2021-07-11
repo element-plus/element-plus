@@ -54,6 +54,7 @@ import { elFormEvents, elFormItemKey, elFormKey } from './token'
 import type { PropType } from 'vue'
 import type { ElFormContext, ValidateFieldCallback } from './token'
 import type { FormItemRule } from './form.type'
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElFormItem',
@@ -130,7 +131,7 @@ export default defineComponent({
 
     const labelFor = computed(() => props.for || props.prop)
     const labelStyle = computed(() => {
-      const ret: Partial<CSSStyleDeclaration> = {}
+      const ret: CSSProperties = {}
       if (elForm.labelPosition === 'top') return ret
       const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
       if (labelWidth) {
@@ -139,7 +140,7 @@ export default defineComponent({
       return ret
     })
     const contentStyle = computed(() => {
-      const ret: Partial<CSSStyleDeclaration> = {}
+      const ret: CSSProperties = {}
       if (elForm.labelPosition === 'top' || elForm.inline) {
         return ret
       }
