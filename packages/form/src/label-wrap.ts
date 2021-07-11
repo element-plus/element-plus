@@ -62,9 +62,10 @@ export default defineComponent({
         const autoLabelWidth = elForm.autoLabelWidth
         const style = {} as CSSStyleDeclaration
         if (autoLabelWidth && autoLabelWidth !== 'auto') {
-          const marginLeft = parseInt(autoLabelWidth, 10) - computedWidth.value
-          if (marginLeft) {
-            style.marginLeft = marginLeft + 'px'
+          const marginWidth = parseInt(autoLabelWidth, 10) - computedWidth.value
+          const marginPositon = elForm.labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+          if (marginWidth) {
+            style[marginPositon] = marginWidth + 'px'
           }
         }
         return h(
