@@ -101,7 +101,7 @@ export default defineComponent({
 
 ローディングテキスト、ローディングスピナー、背景色をカスタマイズすることができます。
 
-:::demo `v-loading` がバインドされている要素に `element-loading-text` 属性を追加すると、その値がスピナの下に表示されるようになります。同様に、`element-loading-spinner` と `element-loading-background` は、ローディングスピナのクラス名と背景色をカスタマイズするためのものです。
+:::demo `v-loading` がバインドされている要素に `element-loading-text` 属性を追加すると、その値がスピナの下に表示されるようになります。同様に、 `element-loading-spinner`、` element-loading-background`、および `element-loading-svg`属性は、それぞれアイコンクラス名、背景色の値、および読み込みアイコンを設定するために使用されます。
 ```html
 <template>
   <el-table
@@ -126,7 +126,35 @@ export default defineComponent({
       label="Address">
     </el-table-column>
   </el-table>
+  <el-table
+    v-loading="loading"
+    :element-loading-svg="svg"
+    class="custom-loading-svg"
+    element-loading-svg-view-box="-10, -10, 50, 50"
+    :data="tableData"
+    style="width: 100%">
+    <el-table-column
+      prop="date"
+      label="Date"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="Name"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="Address">
+    </el-table-column>
+  </el-table>
 </template>
+
+<style>
+  .custom-loading-svg .el-loading-mask > .el-loading-spinner > .circular {
+    animation: none;
+  }
+</style>
 
 <script>
   export default {
@@ -145,7 +173,17 @@ export default defineComponent({
           name: 'John Smith',
           address: 'No.1518,  Jinshajiang Road, Putuo District'
         }],
-        loading: true
+        loading: true,
+        svg: `
+          <path class="path" d="
+            M 30 15
+            L 28 17
+            M 25.61 25.61
+            A 15 15, 0, 0, 1, 15 30
+            A 15 15, 0, 1, 1, 27.99 7.5
+            L 15 15
+          " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+        `,
       };
     }
   };
@@ -176,6 +214,16 @@ export default defineComponent({
         },
       ],
       loading: true,
+      svg: `
+        <path class="path" d="
+          M 30 15
+          L 28 17
+          M 25.61 25.61
+          A 15 15, 0, 0, 1, 15 30
+          A 15 15, 0, 1, 1, 27.99 7.5
+          L 15 15
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+      `,
     });
     return {
       ...toRefs(state),
@@ -186,6 +234,10 @@ export default defineComponent({
 </setup>
 -->
 ```
+:::
+
+:::warning
+`element-loading-svg`属性は受信HTMLフラグメントをサポートしますが、[XSS攻撃](https://en.wikipedia.org/wiki/Cross-site_scripting)を引き起こしやすいため、Webサイトで任意のHTMLを動的にレンダリングすることは非常に危険です。）。 `element-loading-svg`のコンテンツが信頼できるものであることを確認してください。**ユーザーが送信したコンテンツを` element-loading-svg`属性に割り当てないでください。
 :::
 
 ### 全画面読み込み
