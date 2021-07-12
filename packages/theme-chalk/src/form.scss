@@ -84,6 +84,12 @@
     }
   }
 
+  @include e(label-wrap) {
+    .#{$namespace}-form-item__label {
+      display: inline-block;
+    }
+  }
+
   @include e(label) {
     flex: 0 0 auto;
     text-align: right;
