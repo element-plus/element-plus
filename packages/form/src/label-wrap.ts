@@ -3,6 +3,8 @@ import { defineComponent, Fragment, h, inject, nextTick, onBeforeUnmount, onMoun
 import { elFormItemKey, elFormKey } from './token'
 import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
 
+import type { CSSProperties } from 'vue'
+
 export default defineComponent({
   name: 'ElLabelWrap',
   props: {
@@ -58,7 +60,28 @@ export default defineComponent({
 
     function render() {
       if (!slots) return null
-      return h(Fragment, { ref: el }, slots.default?.())
+      if (props.isAutoWidth) {
+        const autoLabelWidth = elForm.autoLabelWidth
+        const style = {} as CSSProperties
+        if (autoLabelWidth && autoLabelWidth !== 'auto') {
+          const marginWidth = parseInt(autoLabelWidth, 10) - computedWidth.value
+          const marginPositon = elForm.labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+          if (marginWidth) {
+            style[marginPositon] = marginWidth + 'px'
+          }
+        }
+        return h(
+          'div',
+          {
+            ref: el,
+            class: ['el-form-item__label-wrap'],
+            style,
+          },
+          slots.default?.(),
+        )
+      } else {
+        return h(Fragment, { ref: el }, slots.default?.())
+      }
     }
 
     return render
