@@ -166,3 +166,9 @@
 | name      | 唯一标志符      | string/number | —     | —    |
 | title     | 面板标题        | string        | —     | —    |
 | disabled  | 是否禁用        | boolean       | —     | —    |
+
+### Collapse Item Slot
+| 参数 | 说明 |
+|--- | ---|
+| — | Collapse Item 的正文内容 |
+| title | Collapse Item 的标题区内容 |
