@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import "mixins/mixins";
 @import "common/var";
 
@@ -40,8 +42,8 @@
   }
 
   @include m(success) {
-    background-color: $--color-success-lighter;
-    border-color: $--color-success-light;
+    background-color: map.get($--colors, 'success', 'lighter');
+    border-color: map.get($--colors, 'success', 'light');
 
     .#{$namespace}-message__content {
       color: $--message-success-font-color;
@@ -49,8 +51,8 @@
   }
 
   @include m(warning) {
-    background-color: $--color-warning-lighter;
-    border-color: $--color-warning-light;
+    background-color: map.get($--colors, 'warning', 'lighter');
+    border-color: map.get($--colors, 'warning', 'light');
 
     .#{$namespace}-message__content {
       color: $--message-warning-font-color;
@@ -58,8 +60,8 @@
   }
 
   @include m(error) {
-    background-color: $--color-danger-lighter;
-    border-color: $--color-danger-light;
+    background-color: map.get($--colors, 'danger', 'lighter');
+    border-color: map.get($--colors, 'danger', 'light');
 
     .#{$namespace}-message__content {
       color: $--message-danger-font-color;

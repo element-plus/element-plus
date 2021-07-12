@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import "mixins/mixins";
 @import "mixins/utils";
 @import "common/var";
@@ -87,7 +89,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
   }
 
   .btn-next {
-    padding-left: 12px;    
+    padding-left: 12px;
   }
 
   .#{$namespace}-pager li.disabled {
@@ -187,7 +189,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
     line-height: 18px;
     padding: 0 2px;
     height: $--pagination-button-height;
-      
+
     text-align: center;
     margin: 0 2px;
     box-sizing: border-box;
@@ -213,7 +215,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
     .btn-next,
     .#{$namespace}-pager li {
       margin: 0 5px;
-      background-color: $--color-info-lighter;
+      background-color: map.get($--colors, 'info', 'lighter');
       color: $--color-text-regular;
       min-width: 30px;
       border-radius: 2px;

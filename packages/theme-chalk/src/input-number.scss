@@ -73,26 +73,23 @@
   }
 
   @each $size in (medium, small, mini) {
-    line-height: #{map.get($--input-height, $size) - 2};
+    @include m($size) {
+      width: map.get($--input-number-width, $size);
+      line-height: #{map.get($--input-height, $size) - 2};
 
-    @include e((increase, decrease)) {
-      width: map.get($--input-height, $size);
-      font-size: map.get($--input-font-size, $size);
+      @include e((increase, decrease)) {
+        width: map.get($--input-height, $size);
+        font-size: map.get($--input-font-size, $size);
+      }
+
+      .#{$namespace}-input__inner {
+        padding-left: #{map.get($--input-height, $size) + 7};
+        padding-right: #{map.get($--input-height, $size) + 7};
+      }
     }
-
-    .#{$namespace}-input__inner {
-      padding-left: #{map.get($--input-height, $size) + 7};
-      padding-right: #{map.get($--input-height, $size) + 7};
-    }
-  }
-
-  @include m(medium) {
-    width: 200px;
   }
 
   @include m(small) {
-    width: 130px;
-
     @include e((increase, decrease)) {
       [class*=#{$namespace}-icon] {
         transform: scale(.9);
@@ -101,8 +98,6 @@
   }
 
   @include m(mini) {
-    width: 130px;
-
     @include e((increase, decrease)) {
       [class*=#{$namespace}-icon] {
         transform: scale(.8);

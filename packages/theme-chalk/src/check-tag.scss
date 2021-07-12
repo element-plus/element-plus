@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import "mixins/mixins";
 @import "common/var";
 
@@ -18,9 +20,9 @@
 
   @include when(checked) {
     background-color: #DEEDFC;
-    color: $--color-primary-light-1;
+    color: map.get($--colors, 'primary', 'light-1');
     &:hover {
-      background-color: $--color-primary-light-7;
+      background-color: map.get($--colors, 'primary', 'light-7');
     }
   }
 }
