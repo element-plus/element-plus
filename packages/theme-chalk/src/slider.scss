@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import "mixins/mixins";
 @import "mixins/utils";
 @import "input-number";
@@ -187,7 +189,7 @@
       transform: translateY(50%);
     }
     &.#{$namespace}-slider--with-input {
-      padding-bottom: #{$--input-medium-height + 22px};
+      padding-bottom: #{map.get($--input-height, 'medium') + 22px};
       .#{$namespace}-slider__input {
         overflow: visible;
         float: none;
@@ -203,7 +205,7 @@
         .#{$namespace}-input-number__decrease,
         .#{$namespace}-input-number__increase
         {
-          top: $--input-small-height;
+          top: map.get($--input-height, 'small');
           margin-top: -1px;
           border: $--input-border;
           line-height: 20px;

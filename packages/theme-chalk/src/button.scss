@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@use "sass:map";
 @import "common/var";
 @import "mixins/button";
 @import "mixins/mixins";
@@ -7,7 +8,7 @@
 @include b(button) {
   display: inline-block;
   line-height: 1;
-  min-height: $--input-height;
+  min-height: map.get($--input-height, 'default');
   white-space: nowrap;
   cursor: pointer;
   background: $--button-default-background-color;
@@ -26,7 +27,7 @@
     margin-left: 10px;
   }
 
-  @include button-size($--button-padding-vertical, $--button-padding-horizontal, $--button-font-size, $--button-border-radius);
+  @include button-size(map.get($--button-padding-vertical, 'default'), map.get($--button-padding-horizontal, 'default'), map.get($--button-font-size, 'default'), map.get($--button-border-radius, 'default'));
 
   &:hover,
   &:focus {
@@ -120,7 +121,7 @@
   }
   @include when(circle) {
     border-radius: 50%;
-    padding: $--button-padding-vertical;
+    padding: map.get($--button-padding-vertical, 'default');
   }
   @include m(primary) {
     @include button-variant($--button-primary-font-color, $--button-primary-background-color, $--button-primary-border-color);
@@ -137,30 +138,18 @@
   @include m(info) {
     @include button-variant($--button-info-font-color, $--button-info-background-color, $--button-info-border-color);
   }
-  @include m(medium) {
-    min-height: $--input-medium-height;
 
-    @include button-size($--button-medium-padding-vertical, $--button-medium-padding-horizontal, $--button-medium-font-size, $--button-medium-border-radius);
-    @include when(circle) {
-      padding: $--button-medium-padding-vertical;
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      min-height: map.get($--input-height, $size);
+
+      @include button-size(map.get($--button-padding-vertical, $size), map.get($--button-padding-horizontal, $size), map.get($--button-font-size, $size), map.get($--button-border-radius, $size));
+      @include when(circle) {
+        padding: map.get($--button-padding-horizontal, $size);
+      }
     }
   }
-  @include m(small) {
-    min-height: $--input-small-height;
 
-    @include button-size($--button-small-padding-vertical, $--button-small-padding-horizontal, $--button-small-font-size, $--button-small-border-radius);
-    @include when(circle) {
-      padding: $--button-small-padding-vertical;
-    }
-  }
-  @include m(mini) {
-    min-height: $--input-mini-height;
-
-    @include button-size($--button-mini-padding-vertical, $--button-mini-padding-horizontal, $--button-mini-font-size, $--button-mini-border-radius);
-    @include when(circle) {
-      padding: $--button-mini-padding-vertical;
-    }
-  }
   @include m(text) {
     border-color: transparent;
     color: $--color-primary;
@@ -208,10 +197,10 @@
       border-bottom-left-radius: 0;
     }
     &:first-child:last-child {
-      border-top-right-radius: $--button-border-radius;
-      border-bottom-right-radius: $--button-border-radius;
-      border-top-left-radius: $--button-border-radius;
-      border-bottom-left-radius: $--button-border-radius;
+      border-top-right-radius: map.get($--button-border-radius, 'default');
+      border-bottom-right-radius: map.get($--button-border-radius, 'default');
+      border-top-left-radius: map.get($--button-border-radius, 'default');
+      border-bottom-left-radius: map.get($--button-border-radius, 'default');
 
       &.is-round {
         border-radius: 20px;

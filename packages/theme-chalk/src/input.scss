@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import "mixins/mixins";
 @import "common/var";
 
@@ -76,12 +78,12 @@
   font-size: $--font-size-base;
   display: inline-block;
   width: 100%;
-  line-height: $--input-height;
+  line-height: map.get($--input-height, 'default');
   @include scroll-bar;
 
   & .#{$namespace}-input__clear {
     color: $--input-icon-color;
-    font-size: $--input-font-size;
+    font-size: map.get($--input-font-size, 'default');
     cursor: pointer;
     transition: $--color-transition-base;
 
@@ -115,8 +117,8 @@
     color: $--input-font-color;
     display: inline-block;
     font-size: inherit;
-    height: $--input-height;
-    line-height: $--input-height;
+    height: map.get($--input-height, 'default');
+    line-height: map.get($--input-height, 'default');
     outline: none;
     padding: 0 15px;
     transition: $--border-transition-base;
@@ -165,7 +167,7 @@
     width: 25px;
     text-align: center;
     transition: all .3s;
-    line-height: $--input-height;
+    line-height: map.get($--input-height, 'default');
 
     &:after {
       content: '';
@@ -234,43 +236,19 @@
     }
   }
 
-  @include m(medium) {
-    font-size: $--input-medium-font-size;
-    line-height: $--input-medium-height;
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      font-size: map.get($--input-font-size, $size);
+      line-height: map.get($--input-height, $size);
 
-    @include e(inner) {
-      height: $--input-medium-height;
-      line-height: $--input-medium-height;
-    }
+      @include e(inner) {
+        height: map.get($--input-height, $size);
+        line-height: map.get($--input-height, $size);
+      }
 
-    .#{$namespace}-input__icon {
-      line-height: $--input-medium-height;
-    }
-  }
-  @include m(small) {
-    font-size: $--input-small-font-size;
-    line-height: $--input-small-height;
-
-    @include e(inner) {
-      height: $--input-small-height;
-      line-height: $--input-small-height;
-    }
-
-    .#{$namespace}-input__icon {
-      line-height: $--input-small-height;
-    }
-  }
-  @include m(mini) {
-    font-size: $--input-mini-font-size;
-    line-height: $--input-mini-height;
-
-    @include e(inner) {
-      height: $--input-mini-height;
-      line-height: $--input-mini-height;
-    }
-
-    .#{$namespace}-input__icon {
-      line-height: $--input-mini-height;
+      .#{$namespace}-input__icon {
+        line-height: map.get($--input-height, $size);
+      }
     }
   }
 }

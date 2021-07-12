@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import "../mixins/mixins";
 @import "../common/var";
 @import "../common/transition";
@@ -121,69 +123,25 @@
     }
   }
 
-  @include m(medium) {
-    line-height: $--input-medium-height;
+  @each $size in (medium, small, mini) {
+    line-height: map.get($--input-height, $size);
 
     &.#{$namespace}-input__inner {
-      height: $--input-medium-height;
+      height: map.get($--input-height, $size);
     }
 
     .#{$namespace}-range-separator {
-      line-height: 28px;
-      font-size: $--input-medium-font-size;
+      line-height: map.get($--input-line-height, $size);
+      font-size: map.get($--input-font-size, $size);
     }
 
     .#{$namespace}-range-input {
-      font-size: $--input-medium-font-size;
+      font-size: map.get($--input-font-size, $size);
     }
 
     .#{$namespace}-range__icon,
     .#{$namespace}-range__close-icon {
-      line-height: 28px;
-    }
-  }
-
-  @include m(small) {
-    line-height: $--input-small-height;
-
-    &.#{$namespace}-input__inner {
-      height: $--input-small-height;
-    }
-
-    .#{$namespace}-range-separator {
-      line-height: 24px;
-      font-size: $--input-small-font-size;
-    }
-
-    .#{$namespace}-range-input {
-      font-size: $--input-small-font-size;
-    }
-
-    .#{$namespace}-range__icon,
-    .#{$namespace}-range__close-icon {
-      line-height: 24px;
-    }
-  }
-
-  @include m(mini) {
-    line-height: $--input-mini-height;
-
-    &.#{$namespace}-input__inner {
-      height: $--input-mini-height;
-    }
-
-    .#{$namespace}-range-separator {
-      line-height: 20px;
-      font-size: $--input-mini-font-size;
-    }
-
-    .#{$namespace}-range-input {
-      font-size: $--input-mini-font-size;
-    }
-
-    .#{$namespace}-range__icon,
-    .#{$namespace}-range__close-icon {
-      line-height: 20px;
+      line-height: map.get($--input-line-height, $size);
     }
   }
 
