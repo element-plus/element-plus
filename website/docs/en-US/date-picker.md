@@ -485,7 +485,7 @@ If type is `daterange`, `default-value` sets the left side calendar.
 :::
 
 ###  Date Formats
-Use `format` to control displayed text's format in the input box.
+Use `format` to control displayed text's format in the input box. Use `value-format` to control binding value's format.
 
 By default, the component accepts and emits a `Date` object.
 
@@ -519,6 +519,17 @@ Pay attention to capitalization
       value-format="YYYY-MM-DD">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">Timestamp</span>
+    <div class="demonstration">Value：{{ value3 }}</div>
+    <el-date-picker
+      v-model="value3"
+      type="date"
+      placeholder="Pick a Date"
+      format="YYYY/MM/DD"
+      value-format="x">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -526,7 +537,8 @@ Pay attention to capitalization
     data() {
       return {
         value1: '',
-        value2: ''
+        value2: '',
+        value3: ''
       };
     }
   };
@@ -540,10 +552,12 @@ Pay attention to capitalization
     setup() {
       const value1 = ref('');
       const value2 = ref('');
+      const value3 = ref('');
 
       return {
         value1,
         value2,
+        value3,
       };
     },
   });

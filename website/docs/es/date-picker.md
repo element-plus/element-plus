@@ -487,7 +487,7 @@ Si el tipo es `daterange`, `default-value` establece el calendario del lado izqu
 :::
 
 ###  Formatos de Date
-Utilice `format` para controlar el formato del texto visualizado en el input.
+Utilice `format` para controlar el formato del texto visualizado en el input. Utilice `value-format` para controlar el formato del valor vinculado.
 
 Por defecto, el componente acepta y emite un objeto Date.
 
@@ -521,6 +521,17 @@ Preste atención a la capitalización
       value-format="YYYY-MM-DD">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">Timestamp</span>
+    <div class="demonstration">Value：{{ value3 }}</div>
+    <el-date-picker
+      v-model="value3"
+      type="date"
+      placeholder="Pick a Date"
+      format="YYYY/MM/DD"
+      value-format="x">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -534,6 +545,27 @@ Preste atención a la capitalización
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref('');
+      const value2 = ref('');
+      const value3 = ref('');
+
+      return {
+        value1,
+        value2,
+        value3,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

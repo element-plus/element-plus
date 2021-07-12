@@ -170,7 +170,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: $--index-normal;
+    z-index: var(--el-index-normal);
     @include utils-vertical-center;
 
     .#{$namespace}-checkbox {

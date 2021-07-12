@@ -52,7 +52,7 @@
       width: 100%;
       height: 2px;
       background-color: $--border-color-light;
-      z-index: $--index-normal;
+      z-index: var(--el-index-normal);
     }
 
     @include when(scrollable) {
@@ -81,7 +81,7 @@
     position: relative;
     transition: transform .3s;
     float: left;
-    z-index: #{$--index-normal + 1};
+    z-index: calc(var(--el-index-normal) + 1);
 
     @include when(stretch) {
       min-width: 100%;

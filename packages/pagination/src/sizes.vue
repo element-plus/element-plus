@@ -69,7 +69,7 @@ export default defineComponent({
     function handleChange(val: number) {
       if (val !== innerPageSize.value) {
         innerPageSize.value = val
-        pagination?.handleSizesChange(Number(val))
+        pagination?.handleSizeChange(Number(val))
       }
     }
 
