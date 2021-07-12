@@ -231,7 +231,7 @@ export default defineComponent({
 :::
 
 :::warning
-Aunque el atributo `element-loading-svg` admite fragmentos HTML entrantes, es muy peligroso representar dinámicamente HTML arbitrario en el sitio web porque es fácil causar [ataque XSS](https://en.wikipedia.org/wiki/ Cross-site_scripting). Asegúrese de que el contenido de `element-loading-svg` sea confiable. ** Nunca ** asigne contenido enviado por el usuario al atributo` element-loading-svg`.
+Aunque el atributo `element-loading-svg` admite fragmentos HTML entrantes, es muy peligroso representar dinámicamente HTML arbitrario en el sitio web porque es fácil causar [ataque XSS](https://en.wikipedia.org/wiki/Cross-site_scripting). Asegúrese de que el contenido de `element-loading-svg` sea confiable. ** Nunca ** asigne contenido enviado por el usuario al atributo` element-loading-svg`.
 :::
 
 ### Cargando a pantalla completa

@@ -231,7 +231,7 @@ export default defineComponent({
 :::
 
 :::warning
-Bien que l'attribut `element-loading-svg` prenne en charge les fragments HTML entrants, il est très dangereux de rendre dynamiquement du HTML arbitraire sur le site Web car il est facile de provoquer une [attaque XSS](https://en.wikipedia.org/wiki/ Cross-site_scripting). Veuillez vous assurer que le contenu de `element-loading-svg` est digne de confiance. **Ne jamais** affecter le contenu soumis par l'utilisateur à l'attribut `element-loading-svg`.
+Bien que l'attribut `element-loading-svg` prenne en charge les fragments HTML entrants, il est très dangereux de rendre dynamiquement du HTML arbitraire sur le site Web car il est facile de provoquer une [attaque XSS](https://en.wikipedia.org/wiki/Cross-site_scripting). Veuillez vous assurer que le contenu de `element-loading-svg` est digne de confiance. **Ne jamais** affecter le contenu soumis par l'utilisateur à l'attribut `element-loading-svg`.
 :::
 
 ### Chargement plein écran

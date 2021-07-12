@@ -237,7 +237,7 @@ export default defineComponent({
 :::
 
 :::warning
-`element-loading-svg`属性は受信HTMLフラグメントをサポートしますが、[XSS攻撃](https://en.wikipedia.org/wiki/)を引き起こしやすいため、Webサイトで任意のHTMLを動的にレンダリングすることは非常に危険です。 Cross-site_scripting）。 `element-loading-svg`のコンテンツが信頼できるものであることを確認してください。**ユーザーが送信したコンテンツを` element-loading-svg`属性に割り当てないでください。
+`element-loading-svg`属性は受信HTMLフラグメントをサポートしますが、[XSS攻撃](https://en.wikipedia.org/wiki/Cross-site_scripting)を引き起こしやすいため、Webサイトで任意のHTMLを動的にレンダリングすることは非常に危険です。）。 `element-loading-svg`のコンテンツが信頼できるものであることを確認してください。**ユーザーが送信したコンテンツを` element-loading-svg`属性に割り当てないでください。
 :::
 
 ### 全画面読み込み
