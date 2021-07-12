@@ -128,6 +128,7 @@
   <el-table
     v-loading="loading"
     :element-loading-svg="svg"
+    class="custom-loading-svg"
     element-loading-svg-view-box="-10, -10, 50, 50"
     :data="tableData"
     style="width: 100%">
@@ -147,6 +148,12 @@
     </el-table-column>
   </el-table>
 </template>
+
+<style>
+  .custom-loading-svg .el-loading-mask > .el-loading-spinner > .circular {
+    animation: none;
+  }
+</style>
 
 <script>
   export default {
