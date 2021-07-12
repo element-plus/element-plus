@@ -235,6 +235,10 @@
 ```
 :::
 
+:::warning
+`element-loading-svg` 属性虽然支持传入 HTML 片段，但是在网站上动态渲染任意 HTML 是非常危险的，因为容易导致 [XSS 攻击](https://en.wikipedia.org/wiki/Cross-site_scripting)。请确保 `element-loading-svg` 的内容是可信的，**永远不要**将用户提交的内容赋值给 `element-loading-svg` 属性。
+:::
+
 ### 整页加载
 
 页面数据加载时显示。
