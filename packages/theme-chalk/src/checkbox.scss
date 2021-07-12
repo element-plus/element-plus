@@ -1,7 +1,9 @@
-@import "common/var";
-@import "mixins/mixins";
-@import "mixins/_button";
-@import "mixins/utils";
+@use "sass:map";
+
+@import 'common/var';
+@import 'mixins/mixins';
+@import 'mixins/_button';
+@import 'mixins/utils';
 
 :root {
   --el-checkbox-font-size: 14px;
@@ -13,12 +15,18 @@
   --el-checkbox-background-color: var(--el-color-white);
   --el-checkbox-input-border: var(--el-border-base);
 
+  --el-checkbox-medium-line-height: 17px;
+  --el-checkbox-small-line-height: 15px;
+  --el-checkbox-mini-line-height: 12px;
+
   --el-checkbox-disabled-border-color: var(--el-border-color-base);
   --el-checkbox-disabled-input-fill: #edf2fc;
   --el-checkbox-disabled-icon-color: var(--el-color-text-placeholder);
 
   --el-checkbox-disabled-checked-input-fill: var(--el-border-color-extra-light);
-  --el-checkbox-disabled-checked-input-border-color: var(--el-border-color-base);
+  --el-checkbox-disabled-checked-input-border-color: var(
+    --el-border-color-base
+  );
   --el-checkbox-disabled-checked-icon-color: var(--el-color-text-placeholder);
 
   --el-checkbox-checked-font-color: var(--el-color-primary);
@@ -79,56 +87,28 @@
       margin-left: 10px;
     }
 
-    &.#{$namespace}-checkbox--medium {
-      padding: var(--el-checkbox-bordered-medium-padding);
-      border-radius: $--button-medium-border-radius;
-      height: var(--el-checkbox-bordered-medium-height);
 
-      .#{$namespace}-checkbox__label {
-        line-height: 17px;
-        font-size: $--button-medium-font-size;
-      }
+    @each $size in (medium, small, mini) {
+      &.#{$namespace}-checkbox--#{size} {
+        padding: var(--el-checkbox-bordered-#{$size}-padding);
+        border-radius: map.get($--button-border-radius, $size);
+        height: var(--el-checkbox-bordered-#{$size}-height);
 
-      .#{$namespace}-checkbox__inner {
-        height: var(--el-checkbox-bordered-medium-input-height);
-        width: var(--el-checkbox-bordered-medium-input-width);
-      }
-    }
+        .#{$namespace}-checkbox__label {
+          line-height: var(--el-checkox-#{size}-line-height);
+          font-size: map.get($--button-font-size, $size);
+        }
 
-    &.#{$namespace}-checkbox--small {
-      padding: var(--el-checkbox-bordered-small-padding);
-      border-radius: $--button-small-border-radius;
-      height: var(--el-checkbox-bordered-small-height);
-
-      .#{$namespace}-checkbox__label {
-        line-height: 15px;
-        font-size: $--button-small-font-size;
-      }
-
-      .#{$namespace}-checkbox__inner {
-        height: var(--el-checkbox-bordered-small-input-height);
-        width: var(--el-checkbox-bordered-small-input-width);
-
-        &::after {
-          height: 6px;
-          width: 2px;
+        .#{$namespace}-checkbox__inner {
+          height: var(--el-checkbox-bordered-#{size}-input-height);
+          width: var(--el-checkbox-bordered-#{size}-input-width);
         }
       }
     }
 
-    &.#{$namespace}-checkbox--mini {
-      padding: var(--el-checkbox-bordered-mini-padding);
-      border-radius: $--button-mini-border-radius;
-      height: var(--el-checkbox-bordered-mini-height);
 
-      .#{$namespace}-checkbox__label {
-        line-height: 12px;
-        font-size: $--button-mini-font-size;
-      }
-
+    &.#{$namespace}-checkbox--small, &.#{$namespace}-checkbox--mini {
       .#{$namespace}-checkbox__inner {
-        height: var(--el-checkbox-bordered-mini-input-height);
-        width: var(--el-checkbox-bordered-mini-input-width);
         &::after {
           height: 6px;
           width: 2px;
@@ -205,7 +185,8 @@
         color: var(--el-checkbox-checked-font-color);
       }
     }
-    @include when(focus) { /*focus时 视觉上区分*/
+    @include when(focus) {
+      /*focus时 视觉上区分*/
       .#{$namespace}-checkbox__inner {
         border-color: var(--el-checkbox-input-border-color-hover);
       }
@@ -243,8 +224,8 @@
     height: var(--el-checkbox-input-height);
     background-color: var(--el-checkbox-background-color);
     z-index: var(--el-index-normal);
-    transition: border-color .25s cubic-bezier(.71,-.46,.29,1.46),
-    background-color .25s cubic-bezier(.71,-.46,.29,1.46);
+    transition: border-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46),
+      background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
 
     &:hover {
       border-color: var(--el-checkbox-input-border-color-hover);
@@ -252,7 +233,7 @@
 
     &::after {
       box-sizing: content-box;
-      content: "";
+      content: '';
       border: 1px solid var(--el-checkbox-checked-icon-color);
       border-left: 0;
       border-top: 0;
@@ -262,7 +243,7 @@
       top: 1px;
       transform: rotate(45deg) scaleY(0);
       width: 3px;
-      transition: transform .15s ease-in .05s;
+      transition: transform 0.15s ease-in 0.05s;
       transform-origin: center;
     }
   }
@@ -313,13 +294,13 @@
     transition: $--all-transition;
     @include utils-user-select(none);
 
-    @include button-size($--button-padding-vertical, $--button-padding-horizontal, $--button-font-size, 0);
+    @include button-size(map.get($--button-padding-vertical, 'default'), map.get($--button-padding-horizontal, 'default'), map.get($--button-font-size, 'default'), 0);
 
     &:hover {
       color: var(--el-color-primary);
     }
 
-    & [class*="#{$namespace}-icon-"] {
+    & [class*='#{$namespace}-icon-'] {
       line-height: 0.9;
 
       & + span {
@@ -382,19 +363,16 @@
     }
   }
 
-  @include m(medium) {
-    .#{$namespace}-checkbox-button__inner {
-      @include button-size($--button-medium-padding-vertical, $--button-medium-padding-horizontal, $--button-medium-font-size, 0);
-    }
-  }
-  @include m(small) {
-    .#{$namespace}-checkbox-button__inner {
-      @include button-size($--button-small-padding-vertical, $--button-small-padding-horizontal, $--button-small-font-size, 0);
-    }
-  }
-  @include m(mini) {
-    .#{$namespace}-checkbox-button__inner {
-      @include button-size($--button-mini-padding-vertical, $--button-mini-padding-horizontal, $--button-mini-font-size, 0);
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      .#{$namespace}-checkbox-button__inner {
+        @include button-size(
+          map.get($--button-padding-vertical, $size),
+          map.get($--button-padding-horizontal, $size),
+          map.get($--button-font-size, $size),
+          0
+        );
+      }
     }
   }
 }

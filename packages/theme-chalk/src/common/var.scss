@@ -1,5 +1,6 @@
 /* Element Chalk Variables */
 @use "sass:math";
+@use "sass:map";
 
 @import "../mixins/config";
 
@@ -171,20 +172,31 @@ $--radio-checked-icon-color: $--color-primary !default;
 
 $--radio-input-border-color-hover: $--color-primary !default;
 
-$--radio-bordered-height: 40px !default;
-$--radio-bordered-padding: 12px 20px 0 10px !default;
-$--radio-bordered-medium-padding: 10px 20px 0 10px !default;
-$--radio-bordered-small-padding: 8px 15px 0 10px !default;
-$--radio-bordered-mini-padding: 6px 15px 0 10px !default;
-$--radio-bordered-medium-input-height: 14px !default;
-$--radio-bordered-medium-input-width: 14px !default;
-$--radio-bordered-medium-height: 36px !default;
-$--radio-bordered-small-input-height: 12px !default;
-$--radio-bordered-small-input-width: 12px !default;
-$--radio-bordered-small-height: 32px !default;
-$--radio-bordered-mini-input-height: 12px !default;
-$--radio-bordered-mini-input-width: 12px !default;
-$--radio-bordered-mini-height: 28px !default;
+$--radio-bordered-padding: (
+  'default': 12px 20px 0 10px,
+  'medium': 10px 20px 0 10px,
+  'small': 8px 15px 0 10px,
+  'mini': 6px 15px 0 10px,
+);
+
+$--radio-bordered-input-height: (
+  'medium': 14px,
+  'small': 12px,
+  'mini': 12px
+);
+
+$--radio-bordered-input-width: (
+  'medium': 14px,
+  'small': 12px,
+  'mini': 12px
+);
+
+$--radio-bordered-height: (
+  'default': 40px,
+  'medium': 36px,
+  'small': 32px,
+  'mini': 28px
+);
 
 /// color||Color|0
 $--radio-button-checked-background-color: $--color-primary !default;
@@ -361,22 +373,25 @@ $--input-disabled-border: $--disabled-border-base !default;
 $--input-disabled-color: $--disabled-color-base !default;
 $--input-disabled-placeholder-color: $--color-text-placeholder !default;
 
-/// fontSize||Font|1
-$--input-font-size: $--font-size-base !default;
-/// height||Other|4
-$--input-height: 40px !default;
-/// fontSize||Font|1
-$--input-medium-font-size: 14px !default;
-/// height||Other|4
-$--input-medium-height: 36px !default;
-/// fontSize||Font|1
-$--input-small-font-size: 13px !default;
-/// height||Other|4
-$--input-small-height: 32px !default;
-/// fontSize||Font|1
-$--input-mini-font-size: 12px !default;
-/// height||Other|4
-$--input-mini-height: 28px !default;
+$--input-font-size: (
+  'default': $--font-size-base,
+  'medium': 14px,
+  'small': 13px,
+  'mini': 12px,
+);
+
+$--input-height: (
+  'default': 40px,
+  'medium': 36px,
+  'small': 32px,
+  'mini': 28px
+);
+
+$--input-line-height: (
+  'medium': 28px,
+  'small': 24px,
+  'mini': 20px
+);
 
 /* Cascader
 -------------------------- */
@@ -396,40 +411,36 @@ $--cascader-tag-background: #f0f2f5 !default;
 
 /* Button
 -------------------------- */
-/// fontSize||Font|1
-$--button-font-size: $--font-size-base !default;
 /// fontWeight||Font|1
 $--button-font-weight: $--font-weight-primary !default;
-/// borderRadius||Border|2
-$--button-border-radius: $--border-radius-base !default;
-/// padding||Spacing|3
-$--button-padding-vertical: 12px !default;
-/// padding||Spacing|3
-$--button-padding-horizontal: 20px !default;
 
-/// fontSize||Font|1
-$--button-medium-font-size: $--font-size-base !default;
-/// borderRadius||Border|2
-$--button-medium-border-radius: $--border-radius-base !default;
-/// padding||Spacing|3
-$--button-medium-padding-vertical: 10px !default;
-/// padding||Spacing|3
-$--button-medium-padding-horizontal: 20px !default;
+$--button-font-size: (
+  'default': $--font-size-base,
+  'medium': $--font-size-base,
+  'small': 12px,
+  'mini': 12px,
+);
 
-/// fontSize||Font|1
-$--button-small-font-size: 12px !default;
-$--button-small-border-radius: #{$--border-radius-base - 1} !default;
-/// padding||Spacing|3
-$--button-small-padding-vertical: 9px !default;
-/// padding||Spacing|3
-$--button-small-padding-horizontal: 15px !default;
-/// fontSize||Font|1
-$--button-mini-font-size: 12px !default;
-$--button-mini-border-radius: #{$--border-radius-base - 1} !default;
-/// padding||Spacing|3
-$--button-mini-padding-vertical: 7px !default;
-/// padding||Spacing|3
-$--button-mini-padding-horizontal: 15px !default;
+$--button-border-radius: (
+  'default': $--border-radius-base,
+  'medium': $--border-radius-base,
+  'small': #{$--border-radius-base - 1},
+  'mini': #{$--border-radius-base - 1}
+);
+
+$--button-padding-vertical: (
+  'default': 12px,
+  'medium': 10px,
+  'small': 9px,
+  'mini': 7px
+);
+
+$--button-padding-horizontal: (
+  'default': 20px,
+  'medium': 20px,
+  'small': 15px,
+  'mini': 15px
+);
 
 /// color||Color|0
 $--button-default-font-color: $--color-text-regular !default;

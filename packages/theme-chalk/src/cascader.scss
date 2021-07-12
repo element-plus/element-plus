@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import "mixins/mixins";
 @import "common/var";
 @import "./input";
@@ -9,7 +11,7 @@
   display: inline-block;
   position: relative;
   font-size: $--font-size-base;
-  line-height: $--input-height;
+  line-height: map.get($--input-height, 'default');
   outline: none;
 
   &:not(.is-disabled):hover {
@@ -50,19 +52,11 @@
     }
   }
 
-  @include m(medium) {
-    font-size: $--input-medium-font-size;
-    line-height: $--input-medium-height;
-  }
-
-  @include m(small) {
-    font-size: $--input-small-font-size;
-    line-height: $--input-small-height;
-  }
-
-  @include m(mini) {
-    font-size: $--input-mini-font-size;
-    line-height: $--input-mini-height;
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      font-size: map.get($--input-font-size, $size);
+      line-height: map.get($--input-height, $size);
+    }
   }
 
   @include when(disabled) {

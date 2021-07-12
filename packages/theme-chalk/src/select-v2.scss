@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'mixins/utils';
 @import 'common/var';
@@ -78,13 +80,13 @@ $--input-inline-start: 7px !default;
 
     &,
     #{$selector}__input-wrapper {
-      line-height: $--input-height;
+      line-height: map.get($--input-height, 'default');
       // height: $--input-height;
     }
 
     #{$selector}__input-wrapper input {
-      line-height: $--input-medium-height;
-      height: $--input-medium-height;
+      line-height: map.get($--input-height, 'medium');
+      height: map.get($--input-height, 'medium');
 
       min-width: 4px;
       width: 100%;
@@ -118,48 +120,18 @@ $--input-inline-start: 7px !default;
     );
   }
 
-  @include m(mini) {
-    @include e(wrapper) {
-      &,
-      #{$selector}__input-wrapper {
-        // since there were no 24px predefined, we can only hand write here.
-        line-height: $--input-mini-height;
-        // height: $--input-mini-height;
-      }
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      @include e(wrapper) {
+        &,
+        #{$selector}__input-wrapper {
+          line-height: map.get($--input-height, $size);
+        }
 
-      #{$selector}__input-wrapper input {
-        line-height: 24px;
-        height: 24px;
-      }
-    }
-  }
-
-  @include m(small) {
-    @include e(wrapper) {
-      &,
-      #{$selector}__input-wrapper {
-        line-height: $--input-small-height;
-        // height: $--input-small-height;
-      }
-
-      #{$selector}__input-wrapper input {
-        line-height: $--input-mini-height;
-        height: $--input-mini-height;
-      }
-    }
-  }
-
-  @include m(medium) {
-    @include e(wrapper) {
-      &,
-      #{$selector}__input-wrapper {
-        line-height: $--input-medium-height;
-        // height: $--input-medium-height;
-      }
-
-      #{$selector}__input-wrapper input {
-        line-height: $--input-small-height;
-        height: $--input-small-height;
+        #{$selector}__input-wrapper input {
+          line-height: map.get($--input-height, $size) - 4px;
+          height: map.get($--input-height, $size) - 4px;
+        }
       }
     }
   }
