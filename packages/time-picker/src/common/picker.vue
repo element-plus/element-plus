@@ -147,7 +147,7 @@ interface PickerOptions {
   handleKeydown: any
   parseUserInput: any
   formatToString: any
-  getRangeAvaliableTime: any
+  getRangeAvailableTime: any
   getDefaultValue: any
   panelReady: boolean
   handleClear: any
@@ -273,9 +273,14 @@ export default defineComponent({
       emitInput(result)
     }
     const handleFocus = e => {
-      if (props.readonly || pickerDisabled.value) return
+      if (props.readonly || pickerDisabled.value || pickerVisible.value) return
       pickerVisible.value = true
       ctx.emit('focus', e)
+    }
+
+    const handleBlur = () => {
+      pickerVisible.value = false
+      blurInput()
     }
 
     const pickerDisabled = computed(() => {
@@ -296,8 +301,8 @@ export default defineComponent({
         }
       }
 
-      if (pickerOptions.value.getRangeAvaliableTime) {
-        result = pickerOptions.value.getRangeAvaliableTime(result)
+      if (pickerOptions.value.getRangeAvailableTime) {
+        result = pickerOptions.value.getRangeAvailableTime(result)
       }
       if (Array.isArray(result) && result.some(_ => !_)) {
         result = []
@@ -540,6 +545,7 @@ export default defineComponent({
       triggerClass,
       onPick,
       handleFocus,
+      handleBlur,
       pickerVisible,
       pickerActualVisible,
       displayValue,

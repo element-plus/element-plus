@@ -79,7 +79,7 @@ import union from 'lodash/union'
 import { t } from '@element-plus/locale'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'
-import { getAvaliableArrs, useOldValue } from './useTimePicker'
+import { getAvailableArrs, useOldValue } from './useTimePicker'
 
 const makeSelectRange = (start, end) => {
   const result = []
@@ -138,12 +138,12 @@ export default defineComponent({
 
     const isValidValue = _date => {
       const parsedDate = _date.map(_=> dayjs(_))
-      const result = getRangeAvaliableTime(parsedDate)
+      const result = getRangeAvailableTime(parsedDate)
       return parsedDate[0].isSame(result[0]) && parsedDate[1].isSame(result[1])
     }
 
     const handleChange = (_minDate, _maxDate) => {
-      // todo getRangeAvaliableTime(_date).millisecond(0)
+      // todo getRangeAvailableTime(_date).millisecond(0)
       ctx.emit('pick', [_minDate, _maxDate], true)
     }
     const btnConfirmDisabled = computed(() => {
@@ -169,9 +169,9 @@ export default defineComponent({
       const next = (index + step + list.length) % list.length
       const half = list.length / 2
       if (next < half) {
-        timePickeOptions['start_emitSelectRange'](mapping[next])
+        timePickerOptions['start_emitSelectRange'](mapping[next])
       } else {
-        timePickeOptions['end_emitSelectRange'](mapping[next - half])
+        timePickerOptions['end_emitSelectRange'](mapping[next - half])
       }
     }
 
@@ -188,7 +188,7 @@ export default defineComponent({
       if (code === EVENT_CODE.up || code === EVENT_CODE.down) {
         const step = (code === EVENT_CODE.up) ? -1 : 1
         const role = selectionRange.value[0] < offset.value ? 'start' : 'end'
-        timePickeOptions[`${role}_scrollDown`](step)
+        timePickerOptions[`${role}_scrollDown`](step)
         event.preventDefault()
         return
       }
@@ -228,39 +228,39 @@ export default defineComponent({
       return union(defaultDisable, nextDisable)
     }
 
-    const getRangeAvaliableTime = (dates: Array<Dayjs>) => {
-      return dates.map((_, index) => getRangeAvaliableTimeEach(dates[0], dates[1], index === 0 ? 'start' : 'end'))
+    const getRangeAvailableTime = (dates: Array<Dayjs>) => {
+      return dates.map((_, index) => getRangeAvailableTimeEach(dates[0], dates[1], index === 0 ? 'start' : 'end'))
     }
 
     const {
-      getAvaliableHours,
-      getAvaliableMinutes,
-      getAvaliableSeconds,
-    } = getAvaliableArrs(disabledHours_, disabledMinutes_, disabledSeconds_)
+      getAvailableHours,
+      getAvailableMinutes,
+      getAvailableSeconds,
+    } = getAvailableArrs(disabledHours_, disabledMinutes_, disabledSeconds_)
 
-    const getRangeAvaliableTimeEach = (startDate: Dayjs, endDate: Dayjs, role) => {
-      const avaliableMap = {
-        hour: getAvaliableHours,
-        minute: getAvaliableMinutes,
-        second: getAvaliableSeconds,
+    const getRangeAvailableTimeEach = (startDate: Dayjs, endDate: Dayjs, role) => {
+      const availableMap = {
+        hour: getAvailableHours,
+        minute: getAvailableMinutes,
+        second: getAvailableSeconds,
       }
       const isStart = role === 'start'
       let result = isStart ? startDate : endDate
       const compareDate = isStart ? endDate : startDate;
       ['hour', 'minute', 'second'].forEach(_ => {
-        if (avaliableMap[_]) {
-          let avaliableArr
-          const method = avaliableMap[_]
+        if (availableMap[_]) {
+          let availableArr
+          const method = availableMap[_]
           if (_ === 'minute') {
-            avaliableArr = method(result.hour(), role, compareDate)
+            availableArr = method(result.hour(), role, compareDate)
           } else if (_ === 'second') {
-            avaliableArr = method(result.hour(), result.minute(), role, compareDate)
+            availableArr = method(result.hour(), result.minute(), role, compareDate)
           } else {
-            avaliableArr = method(role, compareDate)
+            availableArr = method(role, compareDate)
           }
-          if (avaliableArr && avaliableArr.length && !avaliableArr.includes(result[_]())) {
-            const pos = isStart ? 0 : avaliableArr.length - 1
-            result = result[_](avaliableArr[pos])
+          if (availableArr && availableArr.length && !availableArr.includes(result[_]())) {
+            const pos = isStart ? 0 : availableArr.length - 1
+            result = result[_](availableArr[pos])
           }
         }
       })
@@ -298,11 +298,11 @@ export default defineComponent({
     ctx.emit('set-picker-option',['isValidValue', isValidValue])
     ctx.emit('set-picker-option',['handleKeydown', handleKeydown])
     ctx.emit('set-picker-option',['getDefaultValue', getDefaultValue])
-    ctx.emit('set-picker-option',['getRangeAvaliableTime', getRangeAvaliableTime])
+    ctx.emit('set-picker-option',['getRangeAvailableTime', getRangeAvailableTime])
 
-    const timePickeOptions = {} as any
+    const timePickerOptions = {} as any
     const onSetOption = e => {
-      timePickeOptions[e[0]] = e[1]
+      timePickerOptions[e[0]] = e[1]
     }
 
     const pickerBase = inject('EP_PICKER_BASE') as any

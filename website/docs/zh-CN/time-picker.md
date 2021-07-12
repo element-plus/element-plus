@@ -120,15 +120,15 @@
 | arrow-control | 是否使用箭头进行时间选择 | boolean | — | false |
 | align | 对齐方式 | string | left / center / right | left |
 | popper-class | TimePicker 下拉框的类名 | string | — | — |
-| range-separator | 选择范围时的分隔符 | string | - | '-' |
+| range-separator | 选择范围时的分隔符 | string | — | '-' |
 | format | 显示在输入框中的格式 | string | 见[日期格式](#/zh-CN/component/date-picker#ri-qi-ge-shi) | HH:mm:ss |
 | default-value | 可选，选择器打开时默认显示的时间 | Date(TimePicker) / string(TimeSelect) | 可被`new Date()`解析(TimePicker) / 可选值(TimeSelect) | — |
 | name | 原生属性 | string | — | — |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-time |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
-| disabledHours | 禁止选择部分小时选项 | function | — | - |
-| disabledMinutes | 禁止选择部分分钟选项 | function(selectedHour) | — | - |
-| disabledSeconds | 禁止选择部分秒选项 | function(selectedHour, selectedMinute) | — | - |
+| disabled-hours | 禁止选择部分小时选项 | function | — | — |
+| disabled-minutes | 禁止选择部分分钟选项 | function(selectedHour) | — | — |
+| disabled-seconds | 禁止选择部分秒选项 | function(selectedHour, selectedMinute) | — | — |
 
 ### Events
 | 事件名 | 说明 | 参数 |
@@ -140,4 +140,5 @@
 ### Methods
 | 方法名 | 说明 | 参数 |
 | ---- | ---- | ---- |
-| focus | 使 input 获取焦点 | - |
+| focus | 使 input 获取焦点 | — |
+| blur | 使 input 失去焦点 | — |

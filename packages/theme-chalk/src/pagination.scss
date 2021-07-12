@@ -278,7 +278,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
     cursor: pointer;
     box-sizing: border-box;
     text-align: center;
-    margin: 0;
+    margin: 1px;
 
     &.btn-quicknext,
     &.btn-quickprev {
@@ -300,6 +300,10 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
 
     &.active + li {
       border-left: 0;
+    }
+
+    &:focus-visible {
+      outline: 1px solid $--pagination-hover-color;
     }
 
     &:hover {

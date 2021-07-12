@@ -1,0 +1,91 @@
+// CSS3 var
+@import 'common/var';
+
+:root {
+  --el-color-primary: #{$--color-primary};
+  --el-color-white: #{$--color-white};
+  --el-color-black: #{$--color-black};
+
+  --el-color-primary-light-1: #{$--color-primary-light-1};
+  --el-color-primary-light-2: #{$--color-primary-light-2};
+  --el-color-primary-light-3: #{$--color-primary-light-3};
+  --el-color-primary-light-4: #{$--color-primary-light-4};
+  --el-color-primary-light-5: #{$--color-primary-light-5};
+  --el-color-primary-light-6: #{$--color-primary-light-6};
+  --el-color-primary-light-7: #{$--color-primary-light-7};
+  --el-color-primary-light-8: #{$--color-primary-light-8};
+  --el-color-primary-light-9: #{$--color-primary-light-9};
+
+  --el-color-success: #{$--color-success};
+  --el-color-warning: #{$--color-warning};
+  --el-color-danger: #{$--color-danger};
+  --el-color-info: #{$--color-info};
+
+  --el-color-success-light: #{$--color-success-light};
+  --el-color-warning-light: #{$--color-warning-light};
+  --el-color-danger-light: #{$--color-danger-light};
+  --el-color-info-light: #{$--color-info-light};
+
+  --el-color-success-lighter: #{$--color-success-light};
+  --el-color-warning-lighter: #{$--color-warning-light};
+  --el-color-danger-lighter: #{$--color-danger-light};
+  --el-color-info-lighter: #{$--color-info-light};
+
+  --el-color-text-primary: #{$--color-text-primary};
+  --el-color-text-regular: #{$--color-text-regular};
+  --el-color-text-secondary: #{$--color-text-secondary};
+  --el-color-text-placeholder: #{$--color-text-placeholder};
+
+  --el-border-color-base: #{$--border-color-base};
+  --el-border-color-light: #{$--border-color-light};
+  --el-border-color-lighter: #{$--border-color-lighter};
+  --el-border-color-extra-light: #{$--border-color-extra-light};
+
+  // Background
+  --el-background-color-base: #{$--background-color-base};
+
+  // Link
+  --el-link-color: var(--el-color-primary-light-2);
+  --el-link-hover-color: var(--el-color-primary);
+
+  // Border
+  --el-border-width-base: #{$--border-width-base};
+  --el-border-style-base: #{$--border-style-base};
+  --el-border-color-hover: var(--el-color-text-placeholder);
+  --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
+    var(--el-border-color-base);
+  --el-border-radius-base: #{$--border-radius-base};
+  --el-border-radius-small: #{$--border-radius-small};
+  --el-border-radius-circle: #{$--border-radius-circle};
+
+  // Box-shadow
+  --el-box-shadow-base: #{$--box-shadow-base};
+  --el-box-shadow-light: #{$--box-shadow-light};
+
+  // Svg
+  --el-svg-monochrome-grey: #{$--svg-monochrome-grey};
+
+  // Fill
+  --el-fill-base: var(--el-color-white);
+
+  // Typography
+  --el-font-size-extra-large: #{$--font-size-extra-large};
+  --el-font-size-large: #{$--font-size-large};
+  --el-font-size-medium: #{$--font-size-medium};
+  --el-font-size-base: #{$--font-size-base};
+  --el-font-size-small: #{$--font-size-small};
+  --el-font-size-extra-small: #{$--font-size-extra-small};
+  --el-font-weight-primary: #{$--font-weight-primary};
+  --el-line-height-primary: #{$--font-line-height-primary};
+  --el-font-color-disabled-base: #bbb;
+
+  // z-index
+  --el-index-normal: 1;
+  --el-index-top: 1000;
+  --el-index-popper: 2000;
+
+  // Disable base
+  --el-disabled-fill-base: var(--el-background-color-base);
+  --el-disabled-color-base: var(--el-color-text-placeholder);
+  --el-disabled-border-base: var(--el-border-color-light);
+}

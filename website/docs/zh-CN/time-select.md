@@ -93,5 +93,5 @@
 ### Methods
 | 方法名 | 说明 | 参数 |
 | ---- | ---- | ---- |
-| focus | 使 input 获取焦点 | - |
-| blur | 去掉 input 获取焦点 | - |
+| focus | 使 input 获取焦点 | — |
+| blur | 使 input 失去焦点 | — |

@@ -67,7 +67,10 @@ export default defineComponent({
     model: Object,
     rules: Object as PropType<FormRulesMap>,
     labelPosition: String,
-    labelWidth: [String, Number],
+    labelWidth: {
+      type: [String, Number],
+      default: '',
+    },
     labelSuffix: {
       type: String,
       default: '',

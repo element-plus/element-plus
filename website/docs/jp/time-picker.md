@@ -106,7 +106,7 @@
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| model-value / v-model | バインディング値 | date | - | - |
+| model-value / v-model | バインディング値 | date | — | — |
 | readonly | タイムピッカーが読み取り専用かどうか | boolean | — | false |
 | disabled | タイムピッカーが無効になっているかどうか | boolean | — | false |
 | editable | 入力が編集可能かどうか | boolean | — | true |
@@ -119,15 +119,15 @@
 | arrow-control | 矢印ボタンを使って時間を選択するかどうか| boolean | — | false |
 | align | 整列 | left / center / right | left |
 | popper-class | タイムピッカーのドロップダウンのカスタムクラス名 | string | — | — |
-| range-separator | 範囲セパレータ | string | - | '-' |
+| range-separator | 範囲セパレータ | string | — | '-' |
 | format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | HH:mm:ss |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date for TimePicker, string for TimeSelect | anything accepted by `new Date()` for TimePicker, selectable value for TimeSelect | — |
 | name | ネイティブ入力の `name` と同じ | string | — | — |
 | prefix-icon | カスタムプレフィックスアイコンクラス | string | — | el-icon-time |
 | clear-icon | カスタムクリアアイコンクラス | string | — | el-icon-circle-close |
-| disabledHours | To specify the array of hours that cannot be selected | function | — | - |
-| disabledMinutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | - |
-| disabledSeconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | - |
+| disabled-hours | To specify the array of hours that cannot be selected | function | — | — |
+| disabled-minutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | — |
+| disabled-seconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | — |
 
 
 ### イベント
@@ -140,4 +140,5 @@
 ### 方法
 | Method | Description | Parameters |
 | ---- | ---- | ---- |
-| focus | インプットコンポーネントにフォーカス | - |
+| focus | インプットコンポーネントにフォーカス | — |
+| blur | blur the Input component | — |

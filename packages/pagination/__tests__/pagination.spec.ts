@@ -1,407 +1,371 @@
-import { mount } from '@vue/test-utils'
-import { sleep } from '@element-plus/test-utils'
+import { mount, VueWrapper } from '@vue/test-utils'
 import Pagination from '../src/index'
 import { nextTick, ref, h } from 'vue'
 
-const TIME_OUT = 100
+const assertElementsExistence = (wrapper: VueWrapper<any>, selectors: string[], existence: boolean) => {
+  selectors.forEach(selector => {
+    expect(wrapper.find(selector).exists()).toBe(existence)
+  })
+}
 
-describe('Pagination.vue', () => {
-  test('layout', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        layout: 'prev, pager, next',
-      },
+const assertCurrent = (wrapper, page) => {
+  expect(wrapper.find('.el-pager li.active.number').text()).toBe(String(page))
+}
+const assertPages = (wrapper, total) => {
+  expect(wrapper.find('.el-pagination .el-pager li:last-child').text()).toBe(String(total))
+}
+
+describe('Pagination', () => {
+  describe('test invalid usages', () => {
+    const cacheWarn = console.warn
+    beforeEach(() => {
+      console.warn = jest.fn()
     })
-    expect(wrapper.find('button.btn-prev').exists()).toBe(true)
-    expect(wrapper.find('ul.el-pager').exists()).toBe(true)
-    expect(wrapper.find('button.btn-next').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__jump').exists()).toBe(false)
-    expect(wrapper.find('.el-pagination__rightwrapper').exists()).toBe(false)
-    expect(wrapper.find('.el-pagination__total').exists()).toBe(false)
+    afterEach(() => {
+      console.warn = cacheWarn
+    })
+    test('both absence of total & pageCount is invalid', async () => {
+      expect(console.warn).not.toHaveBeenCalled()
+      const total = ref(undefined)
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, { total: total.value })
+          }
+        },
+      })
+      expect(wrapper.find('.el-pagination').exists()).toBe(false)
+      expect(console.warn).toHaveBeenCalled()
+      total.value = 100
+      await nextTick()
+      expect(wrapper.find('.el-pagination').exists()).toBe(true)
+    })
+    test('current-page defined while absence of current-page listener is invalid', () => {
+      expect(console.warn).not.toHaveBeenCalled()
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 100,
+              currentPage: 1,
+            })
+          }
+        },
+      })
+      expect(wrapper.find('.el-pagination').exists()).toBe(false)
+      expect(console.warn).toHaveBeenCalled()
+    })
+    test('layout with `sizes` restrictions(page-count)', () => {
+      expect(console.warn).not.toHaveBeenCalled()
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              layout: 'sizes, pager',
+              pageCount: 10,
+            })
+          }
+        },
+      })
+      expect(wrapper.find('.el-pagination').exists()).toBe(false)
+      expect(console.warn).toHaveBeenCalled()
+    })
+    test('layout with `sizes` restrictions(page-size)', () => {
+      expect(console.warn).not.toHaveBeenCalled()
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              layout: 'sizes, pager',
+              pageSize: 10,
+            })
+          }
+        },
+      })
+      expect(wrapper.find('.el-pagination').exists()).toBe(false)
+      expect(console.warn).toHaveBeenCalled()
+    })
   })
 
-  test('change layout value', async () => {
-    const layout = ref('prev, pager, next')
-
-    const Comp = {
+  describe('test layout & layout reactive change', () => {
+    const layoutRef = ref('')
+    const wrapper = mount({
       setup() {
         return () => {
           return h(Pagination, {
-            class: 'pagination-wrapper',
-            layout: layout.value,
+            total: 100,
+            layout: layoutRef.value,
           })
         }
       },
-    }
-    const wrapper = mount(Comp)
-
-    expect(wrapper.find('button.btn-prev').exists()).toBe(true)
-    expect(wrapper.find('ul.el-pager').exists()).toBe(true)
-    expect(wrapper.find('button.btn-next').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper').exists()).toBe(false)
-
-    layout.value = 'prev, pager, next, ->'
-    await nextTick()
-    expect(wrapper.find('button.btn-prev').exists()).toBe(true)
-    expect(wrapper.find('ul.el-pager').exists()).toBe(true)
-    expect(wrapper.find('button.btn-next').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper').exists()).toBe(false)
-
-    layout.value = 'prev, pager, next, ->, jumper'
-    await nextTick()
-    expect(wrapper.find('button.btn-prev').exists()).toBe(true)
-    expect(wrapper.find('ul.el-pager').exists()).toBe(true)
-    expect(wrapper.find('button.btn-next').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper .el-pagination__jump').exists()).toBe(true)
-
-    layout.value = 'prev, pager, next, ->, jumper, sizes'
-    await nextTick()
-    expect(wrapper.find('button.btn-prev').exists()).toBe(true)
-    expect(wrapper.find('ul.el-pager').exists()).toBe(true)
-    expect(wrapper.find('button.btn-next').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper .el-pagination__jump').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper .el-pagination__sizes').exists()).toBe(true)
-
-    layout.value = 'prev, pager, next, ->, jumper, sizes, total'
-    await nextTick()
-    expect(wrapper.find('button.btn-prev').exists()).toBe(true)
-    expect(wrapper.find('ul.el-pager').exists()).toBe(true)
-    expect(wrapper.find('button.btn-next').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper .el-pagination__jump').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper .el-pagination__sizes').exists()).toBe(true)
-    expect(wrapper.find('.el-pagination__rightwrapper .el-pagination__total').exists()).toBe(true)
-  })
-
-  test('slot', () => {
-    const TestComponent = {
-      template: `
-        <el-pagination
-          layout="slot, prev, pager, next"
-          :page-size="25"
-          :total="100">
-          <span class="slot-test">slot test</span>
-        </el-pagination>
-      `,
-      components: {
-        'el-pagination': Pagination,
-      },
-    }
-    const wrapper = mount(TestComponent)
-    expect(wrapper.find('.slot-test').exists()).toBe(true)
-  })
-
-  test('small', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        small: true,
-      },
     })
-    expect(wrapper.vm.$el.classList.contains('el-pagination--small')).toBe(true)
-  })
-
-  test('pageSize', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        pageSize: 25,
-        total: 100,
-      },
+    test('layout empty', async () => {
+      await nextTick()
+      expect(wrapper.find('.el-pagination').exists()).toBe(false)
     })
-    expect(wrapper.findAll('li.number').length).toBe(4)
-  })
-
-  test('pageSize: NaN', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        pageSize: NaN,
-        total: 100,
-      },
-    })
-    expect(wrapper.findAll('li.number').length).toBe(7)
-  })
-
-  test('pageCount', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        pageSize: 25,
-        pagerCount: 5,
-        pageCount: 50,
-      },
-    })
-    expect(wrapper.findAll('li.number').length).toBe(5)
-  })
-
-  test('pagerCount', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        pageSize: 25,
-        total: 1000,
-        pagerCount: 21,
-      },
-    })
-    expect(wrapper.findAll('li.number').length).toBe(21)
-  })
-
-  test('will work without total & page-count', async () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        pageSize: 25,
-        currentPage: 2,
-      },
-    })
-    wrapper.find('.btn-prev').trigger('click')
-    await sleep(TIME_OUT)
-    expect(wrapper.vm.internalCurrentPage).toEqual(1)
-    wrapper.find('.btn-prev').trigger('click')
-    expect(wrapper.vm.internalCurrentPage).toEqual(1)
-  })
-
-  test('currentPage', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        pageSize: 20,
-        total: 200,
-        currentPage: 3,
-      },
-    })
-    expect(wrapper.find('li.number.active').text()).toEqual('3')
-  })
-
-  test('currentPage: NaN', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        pageSize: 20,
-        total: 200,
-        currentPage: NaN,
-      },
-    })
-    expect(wrapper.find('li.number.active').text()).toEqual('1')
-    expect(wrapper.vm.$el.querySelectorAll('li.number').length).toBe(7)
-  })
-
-  test('layout is empty', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        layout: '',
-      },
-    })
-    expect(wrapper.vm.$el.textContent).toEqual('')
-  })
-})
-
-describe('click pager', () => {
-  test('click ul', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        total: 1000,
-      },
-    })
-    wrapper.find('.el-pager').trigger('click')
-    expect(wrapper.vm.internalCurrentPage).toEqual(1)
-  })
-
-  test('click li', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        total: 1000,
-      },
-    })
-    wrapper.findAll('.el-pager li.number')[1].trigger('click')
-    expect(wrapper.vm.internalCurrentPage).toEqual(2)
-  })
-
-  test('click next icon-more', () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        total: 1000,
-      },
-    })
-    wrapper.find('.btn-quicknext.more').trigger('click')
-    expect(wrapper.vm.internalCurrentPage).toEqual(6)
-  })
-
-  test('click prev icon-more', async () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        total: 1000,
-      },
-    })
-    wrapper.find('.btn-quicknext.more').trigger('click')
-    await sleep(TIME_OUT)
-    expect(wrapper.find('.btn-quickprev.more').exists()).toBe(true)
-    wrapper.find('.btn-quickprev.more').trigger('click')
-    expect(wrapper.vm.internalCurrentPage).toEqual(1)
-  })
-
-  test('click last page', async () => {
-    const wrapper = mount(Pagination, {
-      props: {
-        total: 1000,
-      },
-    })
-    const nodes = wrapper.findAll('li.number')
-    nodes[nodes.length - 1].trigger('click')
-    await sleep(TIME_OUT)
-    expect(wrapper.find('.btn-quickprev.more').exists()).toBe(true)
-    expect(wrapper.find('.btn-quicknext.more').exists()).toBe(false)
-  })
-
-  test('should emit change size evt and update pageSize', async () => {
-    const onSizeChange = jest.fn()
-    const wrapper = mount({
-      components: {
-        'el-pagination': Pagination,
-      },
-      template: `
-        <el-pagination
-          popper-class="select-dropdown-klass"
-          @size-change="onSizeChange"
-          v-model:page-size="pageSize"
-         :total="1000"
-         :page-sizes="[100, 200, 300]"
-         layout="sizes, pager"
-        />
-      `,
-      methods: {
-        onSizeChange,
-      },
-      data(){
-        return {
-          pageSize: 200,
+    const layoutSelectorPairs = [
+      ['sizes', '.el-pagination__sizes'],
+      ['prev', 'button.btn-prev'],
+      ['pager', 'ul.el-pager'],
+      ['next', 'button.btn-next'],
+      ['jumper', '.el-pagination__jump'],
+      ['total', '.el-pagination__total'],
+    ]
+    layoutSelectorPairs.forEach(([layout], idx) => {
+      test(`layout with only '${layout}'`, async () => {
+        layoutRef.value = layout
+        await nextTick()
+        for(let i = 0; i < layoutSelectorPairs.length; i++) {
+          expect(wrapper.find(layoutSelectorPairs[i][1]).exists()).toBe(i === idx)
         }
-      },
+      })
     })
 
-    const items = document.querySelector('.select-dropdown-klass').querySelectorAll('.el-select-dropdown__item:not(.selected)');
-    (items[0] as HTMLOptionElement)?.click()
-    expect(onSizeChange).toHaveBeenCalled()
-    expect(wrapper.vm.pageSize).toBe(100)
-    expect(wrapper.findComponent(Pagination).emitted()).toHaveProperty('size-change')
-  })
-
-
-  test('should handle total size change', async () => {
-    const onCurrentChange = jest.fn()
-    const wrapper = mount({
-      components: {
-        [Pagination.name]: Pagination,
-      },
-      template: `
-        <el-pagination
-          :total="total"
-          :page-size="pageSize"
-          @current-change="onCurrentChange"
-          v-model:currentPage="currentPage"
-        />
-      },
-      `,
-      methods: {
-        onCurrentChange,
-      },
-      data() {
-        return {
-          currentPage: 3,
-          total: 1000,
-          pageSize: 100,
-        }
-      },
+    test(`layout with '->, total'`, async () => {
+      layoutRef.value = '->, total'
+      await nextTick()
+      assertElementsExistence(wrapper, ['.el-pagination__total', '.el-pagination__rightwrapper'], true)
     })
 
-    await nextTick()
+    test('layout with default layout prop', () => {
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 100,
+            })
+          }
+        },
+      })
+      assertElementsExistence(wrapper, [
+        '.el-pagination__rightwrapper',
+        'button.btn-prev',
+        'ul.el-pager',
+        'button.btn-next',
+        '.el-pagination__jump',
+      ], true)
+    })
 
-    expect(wrapper.vm.currentPage).toBe(3)
-
-    wrapper.vm.total = 100
-    await nextTick()
-    expect(wrapper.vm.currentPage).toBe(1)
-    expect(onCurrentChange).toHaveBeenCalledWith(1)
-  })
-
-})
-
-test('repeat click next & change current page', async () => {
-  const onCurrentChange = jest.fn()
-  const wrapper = mount({
-    components: {
-      [Pagination.name]: Pagination,
-    },
-    template: `
-      <el-pagination
-        :total="total"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        @current-change="onCurrentChange"
-        v-model:currentPage="currentPage"
-      />
-    },
-    `,
-    methods: {
-      onCurrentChange,
-    },
-    data() {
-      return {
-        currentPage: 1,
-        total: 400,
-        pageSize: 100,
+    test('test layout with slot', () => {
+      const TestComponent = {
+        template: `
+          <el-pagination
+            layout="slot, prev, pager, next"
+            :page-size="25"
+            :total="100">
+            <span class="slot-test">slot test</span>
+          </el-pagination>
+        `,
+        components: {
+          'el-pagination': Pagination,
+        },
       }
-    },
+      const wrapper = mount(TestComponent)
+      expect(wrapper.find('.slot-test').exists()).toBe(true)
+    })
+
+    test('test small layout', () => {
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 100,
+              small: true,
+            })
+          }
+        },
+      })
+      expect(wrapper.vm.$el.classList.contains('el-pagination--small')).toBe(true)
+    })
+
+    test('test with background', async () => {
+      const withBackground = ref(true)
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 100,
+              background: withBackground.value,
+            })
+          }
+        },
+      })
+      expect(wrapper.find('.is-background').exists()).toBe(true)
+      withBackground.value = false
+      await nextTick()
+      expect(wrapper.find('.is-background').exists()).toBe(false)
+    })
+
+    test('test hide-on-single-page prop', async () => {
+      const hideOnSinglePage = ref(false)
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 10, // deivded by default page-size(10), there will be only one page
+              hideOnSinglePage: hideOnSinglePage.value,
+            })
+          }
+        },
+      })
+      expect(wrapper.find('.el-pagination').exists()).toBe(true)
+      hideOnSinglePage.value = true
+      await nextTick()
+      expect(wrapper.find('.el-pagination').exists()).toBe(false)
+    })
   })
 
-  await nextTick()
+  describe('test pageSize & currentPage reactive change', () => {
+    test(`test pageSize change`, async () => {
+      const pageSize = ref(10)
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              layout: 'pager',
+              total: 100,
+              pageSize: pageSize.value,
+            })
+          }
+        },
+      })
+      // total pages = Math.ceil(total / pageSize)
+      assertPages(wrapper, 10)
+      pageSize.value = 20
+      await nextTick()
+      assertPages(wrapper, 5)
+      pageSize.value = 55
+      await nextTick()
+      assertPages(wrapper, 2)
+    })
+    test('test currentPage change', async () => {
+      const pageSize = ref(10)
+      const defaultCurrentPage = ref(2)
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              layout: 'prev, pager, next',
+              total: 100,
+              pageSize: pageSize.value,
+              defaultCurrentPage: defaultCurrentPage.value,
+            })
+          }
+        },
+      })
+      assertCurrent(wrapper, 2)
+      defaultCurrentPage.value = 1
+      assertCurrent(wrapper, 2) // still 2
+      await wrapper.find('.el-pager li:last-child').trigger('click')
+      assertCurrent(wrapper, 10)
+      await wrapper.find('button.btn-prev').trigger('click')
+      assertCurrent(wrapper, 9)
+      await wrapper.find('button.btn-next').trigger('click')
+      assertCurrent(wrapper, 10)
+      pageSize.value = 50
+      await nextTick()
+      assertCurrent(wrapper, 2)
+    })
 
-  expect(wrapper.vm.currentPage).toBe(1)
-  wrapper.find('.btn-next').trigger('click')
-  await nextTick()
-  expect(wrapper.vm.currentPage).toBe(2)
-  wrapper.vm.currentPage = 1
-  await nextTick()
-  expect(wrapper.vm.currentPage).toBe(1)
-  wrapper.find('.btn-next').trigger('click')
-  await nextTick()
-  expect(wrapper.vm.currentPage).toBe(2)
-})
+    test('test pageCount change and side effect', async () => {
+      const pageCount = ref(10)
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              layout: 'prev, pager, next',
+              pageCount: pageCount.value,
+            })
+          }
+        },
+      })
+      assertPages(wrapper, 10)
+      pageCount.value = 20
+      await nextTick()
+      assertPages(wrapper, 20)
+      await wrapper.find('.el-pager li:last-child').trigger('click')
+      assertCurrent(wrapper, 20)
+      pageCount.value = 5
+      await nextTick()
+      // side effect, if currentPage is greater than pageCount
+      // currentPage should change accordingly
+      assertPages(wrapper, 5)
+      assertCurrent(wrapper, 5)
+    })
 
-test('repeat click prev & change current page', async () => {
-  const onCurrentChange = jest.fn()
-  const wrapper = mount({
-    components: {
-      [Pagination.name]: Pagination,
-    },
-    template: `
-      <el-pagination
-        :total="total"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        @current-change="onCurrentChange"
-        v-model:currentPage="currentPage"
-      />
-    },
-    `,
-    methods: {
-      onCurrentChange,
-    },
-    data() {
-      return {
-        currentPage: 2,
-        total: 400,
-        pageSize: 100,
-      }
-    },
+    test('test listener work', async () => {
+      const pageSizeWatcher = jest.fn()
+      const currentPageWatcher = jest.fn()
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 100,
+              layout: 'prev, pager, next, sizes',
+              ['onUpdate:currentPage']: currentPageWatcher,
+              ['onUpdate:pageSize']: pageSizeWatcher,
+            })
+          }
+        },
+      })
+      await wrapper.find('.el-pager li:last-child').trigger('click')
+      assertCurrent(wrapper, 10 /* Math.ceil(100/10) */)
+      expect(currentPageWatcher).toHaveBeenCalled()
+      await wrapper.find('.el-select').trigger('click')
+      await wrapper.getComponent('.el-select-dropdown').find('li:nth-child(2)').trigger('click')
+      expect(pageSizeWatcher).toHaveBeenCalled()
+      assertCurrent(wrapper, 5/* Math.ceil(100/20) */)
+    })
   })
 
-  await nextTick()
+  describe('test a11y supports', () => {
+    test('test a11y attributes', async () => {
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 100,
+            })
+          }
+        },
+      })
+      expect(wrapper.find('.el-pagination').attributes('aria-label')).toBe('pagination')
+      expect(wrapper.find('.el-pagination').attributes('role')).toBe('pagination')
+      expect(wrapper.find('.el-pagination .btn-prev').attributes('aria-disabled')).toBe('true')
+      expect(wrapper.find('.el-pagination .btn-next').attributes('aria-disabled')).toBe('false')
+      expect(wrapper.find('.el-pager li:first-child').attributes('aria-current')).toBe('true')
+      expect(wrapper.find('.el-pager li:last-child').attributes('aria-current')).toBe('false')
+      await wrapper.find('.el-pager li:last-child').trigger('click')
+      expect(wrapper.find('.el-pagination .btn-prev').attributes('aria-disabled')).toBe('false')
+      expect(wrapper.find('.el-pagination .btn-next').attributes('aria-disabled')).toBe('true')
+      expect(wrapper.find('.el-pager li:first-child').attributes('aria-current')).toBe('false')
+      expect(wrapper.find('.el-pager li:last-child').attributes('aria-current')).toBe('true')
+    })
 
-  expect(wrapper.vm.currentPage).toBe(2)
-  wrapper.find('.btn-prev').trigger('click')
-  await nextTick()
-  expect(wrapper.vm.currentPage).toBe(1)
-  wrapper.vm.currentPage = 2
-  await nextTick()
-  expect(wrapper.vm.currentPage).toBe(2)
-  wrapper.find('.btn-prev').trigger('click')
-  await nextTick()
-  expect(wrapper.vm.currentPage).toBe(1)
+    test('test tabindex interactive', async () => {
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 100,
+            })
+          }
+        },
+      })
+      await wrapper.find('.el-pager li:nth-child(2)').trigger('click')
+      assertCurrent(wrapper, 2)
+      await wrapper.find('.el-pager li:nth-child(3)').trigger('click', {
+        key: 'Enter',
+      })
+      assertCurrent(wrapper, 3)
+      // TODO getComputedStyle is not implemented in jsdom, so I duno how to assert style of psuedo-class
+      /*
+       * await wrapper.find('.el-pager li:nth-child(3)').trigger('keyup', {
+       *   key: 'Tab',
+       * })
+       * const style = window.getComputedStyle(wrapper.find('.el-pager li:nth-child(4)').element, ':focus-visible')
+       * expect(style.outline).toBeTruthy()
+       */
+    })
+  })
 })
-
