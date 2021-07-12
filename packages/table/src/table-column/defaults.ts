@@ -12,6 +12,8 @@ type Filters = {
 
 type FilterMethods<T> = (value, row: T, column: TableColumnCtx<T>) => void
 
+type ValueOf<T> = T[keyof T]
+
 interface TableColumnCtx<T> {
   id: string
   realWidth: number
@@ -72,7 +74,7 @@ interface TableColumn<T> extends ComponentInternalInstance {
   columnConfig: Ref<Partial<TableColumnCtx<T>>>
 }
 
-export type { Filters, FilterMethods, TableColumnCtx, TableColumn }
+export type { Filters, FilterMethods, TableColumnCtx, TableColumn, ValueOf }
 
 export default {
   type: {

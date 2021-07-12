@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import Option from '@element-plus/option'
 import TimeSelect from '../src/time-select.vue'
+import { sleep } from '@element-plus/test-utils'
 
 const _mount = (template: string, data, otherObj?) =>
   mount(
@@ -48,7 +49,7 @@ describe('TimeSelect', () => {
   })
 
   it('set minTime', async () => {
-    const wrapper = _mount(`<el-time-select minTime='14:30' />`, () => ({}))
+    const wrapper = _mount(`<el-time-select minTime="14:30" />`, () => ({}))
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -59,7 +60,7 @@ describe('TimeSelect', () => {
   })
 
   it('set maxTime', async () => {
-    const wrapper = _mount(`<el-time-select maxTime='14:30' />`, () => ({}))
+    const wrapper = _mount(`<el-time-select maxTime="14:30" />`, () => ({}))
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -106,5 +107,31 @@ describe('TimeSelect', () => {
     await nextTick()
     expect(vm.value).toBe('11:00')
     expect(input.element.value).toBe('11:00')
+  })
+
+  it('ref focus', async () => {
+    _mount(`<el-time-select ref="input" />`, () => ({}), {
+      mounted() {
+        this.$refs.input.focus()
+      },
+    })
+    await sleep(50)
+    const popperEl = document.querySelector('.el-select__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+  })
+
+  it('ref blur', async () => {
+    _mount(`<el-time-select ref="input" />`, () => ({}), {
+      async mounted() {
+        this.$refs.input.focus()
+        await nextTick()
+        this.$refs.input.blur()
+      },
+    })
+    await sleep(50)
+    const popperEl = document.querySelector('.el-select__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('true')
   })
 })

@@ -3,7 +3,7 @@
 @import "./popper";
 
 @include b(select-dropdown) {
-  z-index: #{$--index-top + 1};
+  z-index: calc(var(--el-index-top) + 1);
   border-radius: $--border-radius-base;
   box-sizing: border-box;
 

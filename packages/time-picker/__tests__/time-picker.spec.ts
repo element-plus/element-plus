@@ -308,6 +308,22 @@ describe('TimePicker', () => {
     expect(attr).toEqual('false')
   })
 
+  it('ref blur', async () => {
+    _mount(`<el-time-picker
+        v-model="value"
+        ref="input"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }), {
+      mounted() {
+        this.$refs.input.focus()
+        this.$refs.input.blur()
+      },
+    })
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('true')
+  })
+
   it('model value should sync when disabled-hours was updated', async () => {
     const wrapper = _mount(`
        <el-time-picker

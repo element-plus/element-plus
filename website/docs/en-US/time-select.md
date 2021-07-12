@@ -69,7 +69,7 @@ If start time is picked at first, then the end time will change accordingly.
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| model-value / v-model | binding value | string | - | - |
+| model-value / v-model | binding value | string | — | — |
 | editable | whether the input is editable | boolean | — | true |
 | clearable | whether to show clear button | boolean | — | true |
 | size | size of Input | string | medium / small / mini | — |
@@ -94,5 +94,5 @@ If start time is picked at first, then the end time will change accordingly.
 ### Methods
 | Method | Description | Parameters |
 | ---- | ---- | ---- |
-| focus | focus the Input component | - |
-| blur | blur the Input component | - |
+| focus | focus the Input component | — |
+| blur | blur the Input component | — |

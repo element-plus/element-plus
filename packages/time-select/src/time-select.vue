@@ -1,5 +1,6 @@
 <template>
   <el-select
+    ref="select"
     :model-value="value"
     :disabled="!editable"
     :clearable="clearable"
@@ -27,13 +28,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/select'
 import ElOption from '@element-plus/option'
+
 interface Time {
   hours: number
   minutes: number
 }
+
 const parseTime = (time: string): null | Time => {
   const values = (time || '').split(':')
   if (values.length >= 2) {
@@ -79,7 +82,6 @@ const nextTime = (time: string, step: string): string => {
 
 export default defineComponent({
   name: 'ElTimeSelect',
-
   components: { ElSelect, ElOption },
   model: {
     prop: 'value',
@@ -140,6 +142,7 @@ export default defineComponent({
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
     // computed
+    const select = ref(null)
     const value = computed(() => props.modelValue)
     const items = computed(() => {
       const result = []
@@ -157,9 +160,19 @@ export default defineComponent({
       }
       return result
     })
+    const blur = () => {
+      select.value?.blur?.()
+    }
+    const focus = () => {
+      select.value?.focus?.()
+    }
+
     return {
+      select,
       value,
       items,
+      blur,
+      focus,
     }
   },
 })

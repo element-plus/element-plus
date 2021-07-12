@@ -10,7 +10,7 @@
   >
     <li
       v-for="file in files"
-      :key="file"
+      :key="file.uid || file"
       :class="['el-upload-list__item', 'is-' + file.status, focusing ? 'focusing' : '']"
       tabindex="0"
       @keydown.delete="!disabled && handleRemove($event, file)"
