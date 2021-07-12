@@ -106,7 +106,7 @@ Es posible escoger un rango de tiempo arbitrario.
 ### Atributos
 | Atributo          | Descripción                              | Tipo                                     | Valores aceptados                        | Por defecto          |
 | ----------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | -------------------- |
-| model-value / v-model    | valor enlazado                           | Date    | -                                        | -                    |
+| model-value / v-model    | valor enlazado                           | Date    | —                                        | —                    |
 | readonly          | si el Time Picker está en modo de sólo lectura | boolean                                  | —                                        | false                |
 | disabled          | si el Time Picker se encuentra deshabilitado | boolean                                  | —                                        | false                |
 | editable          | si el input puede ser editado            | boolean                                  | —                                        | true                 |
@@ -119,15 +119,15 @@ Es posible escoger un rango de tiempo arbitrario.
 | arrow-control     | si es posible escoger el tiempo usando los botones de flecha | boolean                                  | —                                        | false                |
 | align             | alineación                               | left / center / right                    | left                                     |                      |
 | popper-class      | nombre de clase personalizada para el dropdown del Time Picker | string                                   | —                                        | —                    |
-| range-separator   | separador de rango                       | string                                   | -                                        | '-'                  |
+| range-separator   | separador de rango                       | string                                   | —                                        | '-'                  |
 | format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | HH:mm:ss |
 | default-value     | opcional, fecha por defecto del calendario | Fecha para Selector de Tiempo, string para el Seleccionador de Tiempo | cualquier cosa aceptada por `new Date()` para el Selector de Tiempo,  Selector de Tiempo, valor seleccionable para el Seleccionador de Tiempo | —                    |
 | name              | como `name` en input nativo              | string                                   | —                                        | —                    |
 | prefix-icon       | Clase personalizada para el icono de prefijado | string                                   | —                                        | el-icon-time         |
 | clear-icon        | Clase personalizada para el icono `clear` | string                                   | —                                        | el-icon-circle-close |
-| disabledHours | To specify the array of hours that cannot be selected | function | — | - |
-| disabledMinutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | - |
-| disabledSeconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | - |
+| disabled-hours | To specify the array of hours that cannot be selected | function | — | — |
+| disabled-minutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | — |
+| disabled-seconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | — |
 
 
 ### Eventos
@@ -141,3 +141,4 @@ Es posible escoger un rango de tiempo arbitrario.
 | Metodo | Descripción                | Parameteros |
 | ------ | -------------------------- | ----------- |
 | focus  | coloca el foco en el input | —           |
+| blur | blur the Input component | — |

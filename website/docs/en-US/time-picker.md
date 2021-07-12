@@ -106,7 +106,7 @@ Can pick an arbitrary time range.
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| model-value / v-model | binding value | Date | - | - |
+| model-value / v-model | binding value | Date | — | — |
 | readonly | whether TimePicker is read only | boolean | — | false |
 | disabled | whether TimePicker is disabled | boolean | — | false |
 | editable | whether the input is editable | boolean | — | true |
@@ -119,15 +119,15 @@ Can pick an arbitrary time range.
 | arrow-control | whether to pick time using arrow buttons | boolean | — | false |
 | align | alignment | left / center / right | left |
 | popper-class | custom class name for TimePicker's dropdown | string | — | — |
-| range-separator | range separator | string | - | '-' |
+| range-separator | range separator | string | — | '-' |
 | format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | HH:mm:ss |
 | default-value | optional, default date of the calendar | Date for TimePicker, string for TimeSelect | anything accepted by `new Date()` for TimePicker, selectable value for TimeSelect | — |
 | name | same as `name` in native input | string | — | — |
 | prefix-icon | Custom prefix icon class | string | — | el-icon-time |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
-| disabledHours | To specify the array of hours that cannot be selected | function | — | - |
-| disabledMinutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | - |
-| disabledSeconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | - |
+| disabledHours | To specify the array of hours that cannot be selected | function | — | — |
+| disabledMinutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | — |
+| disabledSeconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | — |
 
 ### Events
 | Event Name | Description | Parameters |
@@ -139,4 +139,5 @@ Can pick an arbitrary time range.
 ### Methods
 | Method | Description | Parameters |
 | ---- | ---- | ---- |
-| focus | focus the Input component | - |
+| focus | focus the Input component | — |
+| blur | blur the Input component | — |
