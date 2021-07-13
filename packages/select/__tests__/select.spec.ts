@@ -112,6 +112,110 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
   }))
 }
 
+const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
+  ['multiple', 'clearable', 'filterable', 'allowCreate', 'remote', 'collapseTags', 'automaticDropdown'].forEach(config => {
+    configs[config] = configs[config] || false
+  })
+  configs.multipleLimit = configs.multipleLimit || 0
+  if (!options) {
+    options = [{
+      label: 'Australia',
+      options: [{
+        value: 'Sydney',
+        label: 'Sydney',
+      }, {
+        value: 'Melbourne',
+        label: 'Melbourne',
+      }],
+    }, {
+      label: 'China',
+      options: [{
+        value: 'Shanghai',
+        label: 'Shanghai',
+      }, {
+        value: 'Shenzhen',
+        label: 'Shenzhen',
+      }, {
+        value: 'Guangzhou',
+        label: 'Guangzhou',
+      }, {
+        value: 'Dalian',
+        label: 'Dalian',
+      }],
+    }, {
+      label: 'India',
+      options: [{
+        value: 'Mumbai',
+        label: 'Mumbai',
+      }, {
+        value: 'Delhi',
+        label: 'Delhi',
+      }, {
+        value: 'Bangalore',
+        label: 'Bangalore',
+      }],
+    }, {
+      label: 'Indonesia',
+      options: [{
+        value: 'Bandung',
+        label: 'Bandung',
+      }, {
+        value: 'Jakarta',
+        label: 'Jakarta',
+      }],
+    }]
+  }
+
+  return _mount(`
+    <el-select
+      ref="select"
+      v-model="value"
+      :multiple="multiple"
+      :multiple-limit="multipleLimit"
+      :popper-class="popperClass"
+      :clearable="clearable"
+      :filterable="filterable"
+      :collapse-tags="collapseTags"
+      :allow-create="allowCreate"
+      :filterMethod="filterMethod"
+      :remote="remote"
+      :loading="loading"
+      :remoteMethod="remoteMethod"
+      :automatic-dropdown="automaticDropdown">
+      <el-group-option
+        v-for="group in options"
+        :key="group.label"
+        :label="group.label">
+        <el-option
+          v-for="item in group.options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"/>
+      </el-group-option>
+    </el-select>
+  <script>
+import ElOptionGroup from './option-group'
+export default {
+components: { ElOptionGroup }
+ }
+</script>`, () => ({
+    options,
+    multiple: configs.multiple,
+    multipleLimit: configs.multipleLimit,
+    clearable: configs.clearable,
+    filterable: configs.filterable,
+    collapseTags: configs.collapseTags,
+    allowCreate: configs.allowCreate,
+    popperClass: configs.popperClass,
+    automaticDropdown: configs.automaticDropdown,
+    loading: false,
+    filterMethod: configs.filterMethod,
+    remote: configs.remote,
+    remoteMethod: configs.remoteMethod,
+    value: configs.multiple ? [] : '',
+  }))
+}
+
 describe('Select', () => {
 
   afterEach(() => {
@@ -1024,6 +1128,20 @@ describe('Select', () => {
 
     test('both filterable and multiple are true', async () => {
       await testShowOptions({ filterable: true, multiple: true })
+    })
+
+    test('filterable is true with grouping', async () => {
+      const wrapper = getGroupSelectVm({ filterable: true })
+      await wrapper.find('.select-trigger').trigger('click')
+      const vm = wrapper.findComponent(Select).vm
+      const event = { target: { value: 'sh' } }
+      vm.debouncedQueryChange(event)
+      await nextTick
+      const groups = wrapper.findAllComponents(Group)
+      expect(groups.filter(group => {
+        const vm = group.vm as any
+        return vm.visible
+      }).length).toBe(1)
     })
   })
 
