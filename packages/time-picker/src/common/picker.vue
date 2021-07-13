@@ -132,6 +132,7 @@ import {
   provide,
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
+import isEqual from 'lodash/isEqual'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '@element-plus/input'
 import ElPopper from '@element-plus/popper'
@@ -302,7 +303,11 @@ export default defineComponent({
       }
 
       if (pickerOptions.value.getRangeAvailableTime) {
-        result = pickerOptions.value.getRangeAvailableTime(result)
+        const availableResult = pickerOptions.value.getRangeAvailableTime(result)
+        if (!isEqual(availableResult, result)) {
+          result = availableResult
+          emitInput(Array.isArray(result) ? result.map(_=> _.toDate()) : result.toDate())
+        }
       }
       if (Array.isArray(result) && result.some(_ => !_)) {
         result = []

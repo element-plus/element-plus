@@ -32,8 +32,8 @@
   &:hover,
   &:focus {
     color: $--color-primary;
-    border-color: $--color-primary-light-7;
-    background-color: $--color-primary-light-9;
+    border-color: map.get($--colors, 'primary', 'light-7');
+    background-color: map.get($--colors, 'primary', 'light-9');
   }
 
   &:active {

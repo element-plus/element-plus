@@ -19,39 +19,77 @@ $--color-transition-base: color .2s cubic-bezier(.645, .045, .355, 1) !default;
 
 /* Color
 -------------------------- */
-/// color|1|Brand Color|0
-$--color-primary: #409EFF !default;
-/// color|1|Background Color|4
-$--color-white: #FFFFFF !default;
-/// color|1|Background Color|4
-$--color-black: #000000 !default;
-$--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
-$--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
-$--color-primary-light-3: mix($--color-white, $--color-primary, 30%) !default; /* 79bbff */
-$--color-primary-light-4: mix($--color-white, $--color-primary, 40%) !default; /* 8cc5ff */
-$--color-primary-light-5: mix($--color-white, $--color-primary, 50%) !default; /* a0cfff */
-$--color-primary-light-6: mix($--color-white, $--color-primary, 60%) !default; /* b3d8ff */
-$--color-primary-light-7: mix($--color-white, $--color-primary, 70%) !default; /* c6e2ff */
-$--color-primary-light-8: mix($--color-white, $--color-primary, 80%) !default; /* d9ecff */
-$--color-primary-light-9: mix($--color-white, $--color-primary, 90%) !default; /* ecf5ff */
-/// color|1|Functional Color|1
-$--color-success: #67C23A !default;
-/// color|1|Functional Color|1
-$--color-warning: #E6A23C !default;
-/// color|1|Functional Color|1
-$--color-danger: #F56C6C !default;
-/// color|1|Functional Color|1
-$--color-info: #909399 !default;
+$--colors: () !default;
+$--colors: map.deep-merge(
+  (
+    'white': #FFFFFF,
+    'black': #000000,
+    'primary': (
+      'base': #409EFF
+    ),
+    'success': (
+      'base': #67C23A
+    ),
+    'warning': (
+      'base': #E6A23C
+    ),
+    'danger': (
+      'base': #F56C6C
+    ),
+    'info': (
+      'base': #909399
+    )
+  ),
+  $--colors
+);
 
-$--color-success-light: mix($--color-white, $--color-success, 80%) !default;
-$--color-warning-light: mix($--color-white, $--color-warning, 80%) !default;
-$--color-danger-light: mix($--color-white, $--color-danger, 80%) !default;
-$--color-info-light: mix($--color-white, $--color-info, 80%) !default;
+$--color-white: map.get($--colors, 'white');
+$--color-black: map.get($--colors, 'black');
+$--color-primary: map.get($--colors, 'primary', 'base');
+$--color-success: map.get($--colors, 'success', 'base');
+$--color-warning: map.get($--colors, 'warning', 'base');
+$--color-danger: map.get($--colors, 'danger', 'base');
+$--color-info: map.get($--colors, 'info', 'base');
 
-$--color-success-lighter: mix($--color-white, $--color-success, 90%) !default;
-$--color-warning-lighter: mix($--color-white, $--color-warning, 90%) !default;
-$--color-danger-lighter: mix($--color-white, $--color-danger, 90%) !default;
-$--color-info-lighter: mix($--color-white, $--color-info, 90%) !default;
+// https://sass-lang.com/documentation/values/maps#immutability
+@mixin set-color-primary-light($color, $number) {
+  $--colors: map.deep-merge($--colors, (
+    'primary': (
+      'light-#{$number}': mix($--color-white, $color, math.percentage(math.div($number, 10)))
+    )
+  )) !global;
+}
+
+// $--color-primary-light-i
+// 10% 53a8ff
+// 20% 66b1ff
+// 30% 79bbff
+// 40% 8cc5ff
+// 50% a0cfff
+// 60% b3d8ff
+// 70% c6e2ff
+// 80% d9ecff
+// 90% ecf5ff
+@for $i from 1 through 9 {
+  @include set-color-primary-light(map.get($--colors, 'primary', 'base'), $i);
+}
+
+// generate
+// $--colors.success.light: mix($--color-white, $--color-success, 80%) !default;
+// $--colors.success.lighter: mix($--color-white, $--color-success, 90%) !default;
+@mixin set-color-type-light($type) {
+  $--colors: map.deep-merge($--colors, (
+    $type: (
+      'light': mix($--color-white, map.get($--colors, $type, 'base'), 80%),
+      'lighter': mix($--color-white, map.get($--colors, $type, 'base'), 90%),
+    )
+  )) !global;
+}
+
+@each $type in (success, warning, danger, info) {
+  @include set-color-type-light($type);
+}
+
 /// color|1|Font Color|2
 $--color-text-primary: #303133 !default;
 /// color|1|Font Color|2
@@ -75,7 +113,7 @@ $--background-color-base: #F5F7FA !default;
 
 /* Link
 -------------------------- */
-$--link-color: $--color-primary-light-2 !default;
+$--link-color: map.get($--colors, 'primary', 'light-2') !default;
 $--link-hover-color: $--color-primary !default;
 
 /* Border
@@ -256,10 +294,10 @@ $--alert-close-font-size: 12px !default;
 /// fontSize||Font|1
 $--alert-close-customed-font-size: 13px !default;
 
-$--alert-success-color: $--color-success-lighter !default;
-$--alert-info-color: $--color-info-lighter !default;
-$--alert-warning-color: $--color-warning-lighter !default;
-$--alert-danger-color: $--color-danger-lighter !default;
+$--alert-success-color: map.get($--colors, 'success', 'lighter') !default;
+$--alert-info-color: map.get($--colors, 'info', 'lighter') !default;
+$--alert-warning-color: map.get($--colors, 'warning', 'lighter') !default;
+$--alert-danger-color: map.get($--colors, 'danger', 'lighter') !default;
 
 /// height||Other|4
 $--alert-icon-size: 16px !default;
@@ -391,6 +429,12 @@ $--input-line-height: (
   'medium': 28px,
   'small': 24px,
   'mini': 20px
+);
+
+$--input-number-width: (
+  'medium': 200px,
+  'small': 130px,
+  'mini': 130px
 );
 
 /* Cascader
@@ -531,7 +575,7 @@ $--table-font-color: $--color-text-regular !default;
 $--table-header-font-color: $--color-text-secondary !default;
 /// color||Color|0
 $--table-row-hover-background-color: $--background-color-base !default;
-$--table-current-row-background-color: $--color-primary-light-9 !default;
+$--table-current-row-background-color: map.get($--colors, 'primary', 'light-9') !default;
 /// color||Color|0
 $--table-header-background-color: $--color-white !default;
 $--table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, .12) !default;
@@ -625,7 +669,7 @@ $--tree-expand-icon-color: $--color-text-placeholder !default;
 /* Dropdown
 -------------------------- */
 $--dropdown-menu-box-shadow: $--box-shadow-light !default;
-$--dropdown-menuItem-hover-fill: $--color-primary-light-9 !default;
+$--dropdown-menuItem-hover-fill: map.get($--colors, 'primary', 'light-9') !default;
 $--dropdown-menuItem-hover-color: $--link-color !default;
 $--dropdown-menu-index: 10 !default;
 
@@ -674,7 +718,7 @@ $--menu-item-font-size: $--font-size-base !default;
 $--menu-item-font-color: $--color-text-primary !default;
 /// color||Color|0
 $--menu-background-color: $--color-white !default;
-$--menu-item-hover-fill: $--color-primary-light-9 !default;
+$--menu-item-hover-fill: map.get($--colors, 'primary', 'light-9') !default;
 $--menu-border-color: #e6e6e6 !default;
 
 /* Rate
