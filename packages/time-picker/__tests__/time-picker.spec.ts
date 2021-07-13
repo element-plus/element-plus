@@ -323,6 +323,39 @@ describe('TimePicker', () => {
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
   })
+
+  it('model value should sync when disabled-hours was updated', async () => {
+    const wrapper = _mount(`
+       <el-time-picker
+        v-model="value"
+        :disabled-hours="disabledHours"
+        value-format="YYYY-MM-DD HH:mm:ss"
+      />
+    `, () => ({
+      value: '2000-01-01 00:00:00',
+      minHour: '8',
+    }), {
+      computed: {
+        disabledHours() {
+          return () => {
+            return Array(24)
+              .fill(null)
+              .map((_, i) => i)
+              .filter(h => h < parseInt(this.minHour, 10))
+          }
+        },
+      },
+    })
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toEqual('2000-01-01 08:00:00')
+    vm.minHour = '9'
+    await nextTick()
+    expect(vm.value).toEqual('2000-01-01 09:00:00')
+    vm.minHour = '8'
+    await nextTick()
+    expect(vm.value).toEqual('2000-01-01 09:00:00')
+  })
 })
 
 describe('TimePicker(range)', () => {
