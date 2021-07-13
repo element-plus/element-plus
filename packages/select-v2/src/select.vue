@@ -52,7 +52,7 @@
                 >
                   <span
                     class="el-select-v2__tags-text"
-                    :style="{ maxWidth: inputWidth - 123 + 'px' }"
+                    :style="{ maxWidth: states.inputWidth - 123 + 'px' }"
                   >{{ states.cachedOptions[0].label }}</span>
                 </el-tag>
                 <el-tag
