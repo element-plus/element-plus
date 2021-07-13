@@ -205,24 +205,21 @@ export default defineComponent({
       }
 
       if (props.router && router && hasIndex) {
-        routeToItem(item, error => {
-          activeIndex.value = oldActiveIndex
-          if (error) {
-            // vue-router 3.1.0+ push/replace cause NavigationDuplicated error
-            // https://github.com/ElemeFE/element/issues/17044
-            if (error.name === 'NavigationDuplicated') return
-            console.error(error)
-          }
-        })
-      }
-    }
+        let route = item.route || item.index
+        router?.push(route)
+          .then(navigationResult => {
+            //vue-router NavigationFailureType duplicated
+            const DUPLICATE_ROUTE = 16
+            if (navigationResult && navigationResult.type !== DUPLICATE_ROUTE) {
+              activeIndex.value = oldActiveIndex
+              throw navigationResult
+            }
+          })
+          .catch(error => {
+            activeIndex.value = oldActiveIndex
+            throw error
+          })
 
-    const routeToItem = (item, onError) => {
-      let route = item.route || item.index
-      try {
-        router?.push(route, () => null, onError)
-      } catch (e) {
-        console.error(e)
       }
     }
 
