@@ -1,8 +1,17 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
-@mixin genTheme($backgroundColorWeight, $borderColorWeight, $fontColorWeight, $hoverColorWeight) {
-  background-color: mix($--tag-primary-color, $--color-white, $backgroundColorWeight);
+@mixin genTheme(
+  $backgroundColorWeight,
+  $borderColorWeight,
+  $fontColorWeight,
+  $hoverColorWeight
+) {
+  background-color: mix(
+    $--tag-primary-color,
+    $--color-white,
+    $backgroundColorWeight
+  );
   border-color: mix($--tag-primary-color, $--color-white, $borderColorWeight);
   color: mix($--tag-primary-color, $--color-white, $fontColorWeight);
 
@@ -14,12 +23,20 @@
     color: mix($--tag-primary-color, $--color-white, $fontColorWeight);
     &:hover {
       color: $--color-white;
-      background-color: mix($--tag-primary-color, $--color-white, $hoverColorWeight);
+      background-color: mix(
+        $--tag-primary-color,
+        $--color-white,
+        $hoverColorWeight
+      );
     }
   }
 
   &.#{$namespace}-tag--info {
-    background-color: mix($--tag-info-color, $--color-white, $backgroundColorWeight);
+    background-color: mix(
+      $--tag-info-color,
+      $--color-white,
+      $backgroundColorWeight
+    );
     border-color: mix($--tag-info-color, $--color-white, $borderColorWeight);
     color: mix($--tag-info-color, $--color-white, $fontColorWeight);
 
@@ -31,13 +48,21 @@
       color: mix($--tag-info-color, $--color-white, $fontColorWeight);
       &:hover {
         color: $--color-white;
-        background-color: mix($--tag-info-color, $--color-white, $hoverColorWeight);
+        background-color: mix(
+          $--tag-info-color,
+          $--color-white,
+          $hoverColorWeight
+        );
       }
     }
   }
 
   &.#{$namespace}-tag--success {
-    background-color: mix($--tag-success-color, $--color-white, $backgroundColorWeight);
+    background-color: mix(
+      $--tag-success-color,
+      $--color-white,
+      $backgroundColorWeight
+    );
     border-color: mix($--tag-success-color, $--color-white, $borderColorWeight);
     color: mix($--tag-success-color, $--color-white, $fontColorWeight);
 
@@ -49,13 +74,21 @@
       color: mix($--tag-success-color, $--color-white, $fontColorWeight);
       &:hover {
         color: $--color-white;
-        background-color: mix($--tag-success-color, $--color-white, $hoverColorWeight);
+        background-color: mix(
+          $--tag-success-color,
+          $--color-white,
+          $hoverColorWeight
+        );
       }
     }
   }
 
   &.#{$namespace}-tag--warning {
-    background-color: mix($--tag-warning-color, $--color-white, $backgroundColorWeight);
+    background-color: mix(
+      $--tag-warning-color,
+      $--color-white,
+      $backgroundColorWeight
+    );
     border-color: mix($--tag-warning-color, $--color-white, $borderColorWeight);
     color: mix($--tag-warning-color, $--color-white, $fontColorWeight);
 
@@ -67,13 +100,21 @@
       color: mix($--tag-warning-color, $--color-white, $fontColorWeight);
       &:hover {
         color: $--color-white;
-        background-color: mix($--tag-warning-color, $--color-white, $hoverColorWeight);
+        background-color: mix(
+          $--tag-warning-color,
+          $--color-white,
+          $hoverColorWeight
+        );
       }
     }
   }
 
   &.#{$namespace}-tag--danger {
-    background-color: mix($--tag-danger-color, $--color-white, $backgroundColorWeight);
+    background-color: mix(
+      $--tag-danger-color,
+      $--color-white,
+      $backgroundColorWeight
+    );
     border-color: mix($--tag-danger-color, $--color-white, $borderColorWeight);
     color: mix($--tag-danger-color, $--color-white, $fontColorWeight);
 
@@ -85,7 +126,11 @@
       color: mix($--tag-danger-color, $--color-white, $fontColorWeight);
       &:hover {
         color: $--color-white;
-        background-color: mix($--tag-danger-color, $--color-white, $hoverColorWeight);
+        background-color: mix(
+          $--tag-danger-color,
+          $--color-white,
+          $hoverColorWeight
+        );
       }
     }
   }
@@ -136,7 +181,7 @@
     line-height: 26px;
 
     .#{$namespace}-icon-close {
-      transform: scale(.8);
+      transform: scale(0.8);
     }
   }
 
@@ -146,7 +191,7 @@
     line-height: 22px;
 
     .#{$namespace}-icon-close {
-      transform: scale(.8);
+      transform: scale(0.8);
     }
   }
 
@@ -157,7 +202,7 @@
 
     .#{$namespace}-icon-close {
       margin-left: -3px;
-      transform: scale(.7);
+      transform: scale(0.7);
     }
   }
 }

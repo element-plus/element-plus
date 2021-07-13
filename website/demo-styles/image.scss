@@ -1,6 +1,12 @@
 @keyframes dot {
-  0% { width: 0; margin-right: 1em; }
-  100% { width: 1em; margin-right: 0; }
+  0% {
+    width: 0;
+    margin-right: 1em;
+  }
+  100% {
+    width: 1em;
+    margin-right: 0;
+  }
 }
 
 .demo-image {
@@ -25,7 +31,8 @@
   }
 }
 
-.demo-image__placeholder, .demo-image__error {
+.demo-image__placeholder,
+.demo-image__error {
   @extend .demo-image;
 
   .block {

@@ -13,23 +13,22 @@
     margin: 10px;
     color: lighten(#1989fa, 20%);
     & + .list-item {
-      margin-top: 10px
+      margin-top: 10px;
     }
-  } 
+  }
 }
 
 .infinite-list-wrapper {
   height: 300px;
   text-align: center;
 
-  .list{
+  .list {
     padding: 0;
     margin: 0;
     list-style: none;
   }
-    
 
-  .list-item{
+  .list-item {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,10 +36,7 @@
     background: #fff6f6;
     color: #ff8484;
     & + .list-item {
-      margin-top: 10px
+      margin-top: 10px;
     }
   }
 }
-   
-
- 

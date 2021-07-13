@@ -1,7 +1,7 @@
 @use "sass:map";
 
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(textarea) {
   position: relative;
@@ -145,7 +145,7 @@
     top: 0;
     text-align: center;
     color: $--input-icon-color;
-    transition: all .3s;
+    transition: all 0.3s;
     pointer-events: none;
   }
 
@@ -160,13 +160,13 @@
     top: 0;
     text-align: center;
     color: $--input-icon-color;
-    transition: all .3s;
+    transition: all 0.3s;
   }
 
   @include e(icon) {
     width: 25px;
     text-align: center;
-    transition: all .3s;
+    transition: all 0.3s;
     line-height: map.get($--input-height, 'default');
 
     &:after {
@@ -258,7 +258,7 @@
   display: inline-table;
   width: 100%;
   border-collapse: separate;
-  border-spacing:0;
+  border-spacing: 0;
 
   > .#{$namespace}-input__inner {
     vertical-align: middle;
@@ -320,7 +320,9 @@
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-    .#{$namespace}-select .#{$namespace}-input.is-focus .#{$namespace}-input__inner {
+    .#{$namespace}-select
+      .#{$namespace}-input.is-focus
+      .#{$namespace}-input__inner {
       border-color: transparent;
     }
   }
@@ -330,7 +332,9 @@
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
-    .#{$namespace}-select .#{$namespace}-input.is-focus .#{$namespace}-input__inner {
+    .#{$namespace}-select
+      .#{$namespace}-input.is-focus
+      .#{$namespace}-input__inner {
       border-color: transparent;
     }
   }

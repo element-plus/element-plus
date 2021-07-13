@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(switch) {
   display: inline-flex;
@@ -17,7 +17,7 @@
   }
 
   @include e(label) {
-    transition: .2s;
+    transition: 0.2s;
     height: $--switch-height;
     display: inline-block;
     font-size: $--switch-font-size;
@@ -63,15 +63,15 @@
     box-sizing: border-box;
     background: $--switch-off-color;
     cursor: pointer;
-    transition: border-color .3s, background-color .3s;
+    transition: border-color 0.3s, background-color 0.3s;
     vertical-align: middle;
 
-    .#{$namespace}-switch__action{
+    .#{$namespace}-switch__action {
       position: absolute;
       top: 1px;
       left: 1px;
       border-radius: $--border-radius-circle;
-      transition: all .3s;
+      transition: all 0.3s;
       width: $--switch-button-size;
       height: $--switch-button-size;
       background-color: $--color-white;
@@ -86,10 +86,10 @@
     .#{$namespace}-switch__core {
       border-color: $--switch-on-color;
       background-color: $--switch-on-color;
-      .#{$namespace}-switch__action{
+      .#{$namespace}-switch__action {
         left: 100%;
         margin-left: -$--switch-button-size - 1px;
-        color:$--switch-on-color ;
+        color: $--switch-on-color;
       }
     }
   }

@@ -1,6 +1,6 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
 
 @include b(form) {
   @include m(label-left) {
@@ -140,7 +140,8 @@
   @include when(error) {
     & .#{$namespace}-input__inner,
     & .#{$namespace}-textarea__inner {
-      &, &:focus {
+      &,
+      &:focus {
         border-color: $--color-danger;
       }
     }

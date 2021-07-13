@@ -1,6 +1,6 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
 
 @include b(progress) {
   position: relative;
@@ -39,7 +39,6 @@
       }
     }
   }
-
 
   @include m(without-text) {
     .#{$namespace}-progress__text {
@@ -89,7 +88,6 @@
       color: $--color-danger;
     }
   }
-
 }
 
 @include b(progress-bar) {

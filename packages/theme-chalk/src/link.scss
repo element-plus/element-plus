@@ -1,12 +1,13 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 $typeMap: (
-  primary: $--link-primary-font-color, 
-  danger: $--link-danger-font-color, 
-  success: $--link-success-font-color, 
-  warning: $--link-warning-font-color, 
-  info: $--link-info-font-color);
+  primary: $--link-primary-font-color,
+  danger: $--link-danger-font-color,
+  success: $--link-success-font-color,
+  warning: $--link-warning-font-color,
+  info: $--link-info-font-color,
+);
 
 @include b(link) {
   display: inline-flex;
@@ -24,37 +25,36 @@ $typeMap: (
 
   @include when(underline) {
     &:hover:after {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       right: 0;
       height: 0;
       bottom: 0;
-      border-bottom: 1px solid $--link-default-active-color
+      border-bottom: 1px solid $--link-default-active-color;
     }
   }
 
   @include when(disabled) {
     cursor: not-allowed;
-  } 
+  }
 
-  & [class*="#{$namespace}-icon-"] {
+  & [class*='#{$namespace}-icon-'] {
     & + span {
       margin-left: 5px;
     }
   }
-    
-    
-  &.#{$namespace}-link--default  {
+
+  &.#{$namespace}-link--default {
     color: $--link-default-font-color;
     &:hover {
-      color: $--link-default-active-color
+      color: $--link-default-active-color;
     }
     &:after {
-      border-color: $--link-default-active-color
+      border-color: $--link-default-active-color;
     }
     @include when(disabled) {
-      color: $--link-disabled-font-color
+      color: $--link-disabled-font-color;
     }
   }
 
@@ -62,20 +62,19 @@ $typeMap: (
     &.#{$namespace}-link--#{$type} {
       color: $primaryColor;
       &:hover {
-        color: mix($primaryColor, $--color-white, 80%)
+        color: mix($primaryColor, $--color-white, 80%);
       }
       &:after {
-        border-color: $primaryColor
+        border-color: $primaryColor;
       }
       @include when(disabled) {
-        color: mix($primaryColor, $--color-white, 50%)
+        color: mix($primaryColor, $--color-white, 50%);
       }
       @include when(underline) {
         &:hover:after {
-          border-color: $primaryColor
+          border-color: $primaryColor;
         }
       }
     }
   }
-    
 }

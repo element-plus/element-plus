@@ -42,7 +42,7 @@
 
   @include when(multiple) {
     .el-select-dropdown__option-item {
-      &.is-selected{
+      &.is-selected {
         color: $--select-option-selected-font-color;
         background-color: $--select-dropdown-background;
         font-weight: bold;
@@ -58,7 +58,6 @@
           -moz-osx-font-smoothing: grayscale;
         }
       }
-
     }
   }
 }

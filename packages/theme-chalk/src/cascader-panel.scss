@@ -1,8 +1,8 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "./checkbox";
-@import "./radio";
-@import "./scrollbar";
+@import 'mixins/mixins';
+@import 'common/var';
+@import './checkbox';
+@import './radio';
+@import './scrollbar';
 
 @include b(cascader-panel) {
   display: flex;
@@ -87,7 +87,8 @@
   &:not(.is-disabled) {
     cursor: pointer;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background: $--cascader-node-background-hover;
     }
   }

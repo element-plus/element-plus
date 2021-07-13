@@ -1,9 +1,9 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
-@import "./input.scss";
-@import "./scrollbar.scss";
-@import "./popper";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
+@import './input.scss';
+@import './scrollbar.scss';
+@import './popper';
 
 @include b(autocomplete) {
   position: relative;
@@ -13,7 +13,7 @@
     @include picker-popper(
       $--color-white,
       1px solid $--border-color-light,
-      $--box-shadow-light,
+      $--box-shadow-light
     );
   }
 }

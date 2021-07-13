@@ -276,7 +276,9 @@
   }
 }
 
-.horizontal-collapse-transition .#{$namespace}-submenu__title .#{$namespace}-submenu__icon-arrow {
+.horizontal-collapse-transition
+  .#{$namespace}-submenu__title
+  .#{$namespace}-submenu__icon-arrow {
   transition: 0.2s;
   opacity: 0;
 }

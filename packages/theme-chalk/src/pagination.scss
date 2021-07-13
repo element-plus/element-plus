@@ -1,9 +1,9 @@
 @use "sass:map";
 
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
-@import "select";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
+@import 'select';
 
 $--pagination-height-extra-small: 22px !default;
 $--pagination-line-height-extra-small: $--pagination-height-extra-small !default;
@@ -15,7 +15,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
   font-weight: bold;
   @include utils-clearfix;
 
-  span:not([class*=suffix]),
+  span:not([class*='suffix']),
   button {
     display: inline-block;
     font-size: $--pagination-font-size;
@@ -35,7 +35,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
   // pagesize 的下拉 icon
   .#{$namespace}-input__suffix {
     right: 0;
-    transform: scale(.8);
+    transform: scale(0.8);
   }
 
   .#{$namespace}-select .#{$namespace}-input {
@@ -120,7 +120,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
       line-height: $--pagination-line-height-extra-small;
     }
 
-    span:not([class*=suffix]),
+    span:not([class*='suffix']),
     button {
       height: $--pagination-height-extra-small;
       line-height: $--pagination-line-height-extra-small;
@@ -225,7 +225,8 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
       }
     }
 
-    .btn-prev, .btn-next {
+    .btn-prev,
+    .btn-next {
       padding: 0;
 
       &:disabled {

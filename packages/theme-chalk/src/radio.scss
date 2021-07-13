@@ -1,9 +1,9 @@
 @use "sass:map";
 
-@import "mixins/mixins";
-@import "mixins/utils";
+@import 'mixins/mixins';
+@import 'mixins/utils';
 @import 'mixins/button';
-@import "common/var";
+@import 'common/var';
 
 @include b(radio) {
   color: $--radio-font-color;
@@ -139,12 +139,12 @@
       height: 4px;
       border-radius: $--radio-input-border-radius;
       background-color: $--color-white;
-      content: "";
+      content: '';
       position: absolute;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%) scale(0);
-      transition: transform .15s ease-in;
+      transition: transform 0.15s ease-in;
     }
   }
 
@@ -160,7 +160,8 @@
     margin: 0;
   }
 
-  &:focus:not(.is-focus):not(:active):not(.is-disabled) { /*获得焦点时 样式提醒*/
+  &:focus:not(.is-focus):not(:active):not(.is-disabled) {
+    /*获得焦点时 样式提醒*/
     .#{$namespace}-radio__inner {
       box-shadow: 0 0 2px 2px $--radio-input-border-color-hover;
     }
