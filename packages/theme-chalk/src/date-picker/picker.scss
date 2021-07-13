@@ -124,24 +124,26 @@
   }
 
   @each $size in (medium, small, mini) {
-    line-height: map.get($--input-height, $size);
+    @include m($size) {
+      line-height: map.get($--input-height, $size);
 
-    &.#{$namespace}-input__inner {
-      height: map.get($--input-height, $size);
-    }
+      &.#{$namespace}-input__inner {
+        height: map.get($--input-height, $size);
+      }
 
-    .#{$namespace}-range-separator {
-      line-height: map.get($--input-line-height, $size);
-      font-size: map.get($--input-font-size, $size);
-    }
+      .#{$namespace}-range-separator {
+        line-height: map.get($--input-line-height, $size);
+        font-size: map.get($--input-font-size, $size);
+      }
 
-    .#{$namespace}-range-input {
-      font-size: map.get($--input-font-size, $size);
-    }
+      .#{$namespace}-range-input {
+        font-size: map.get($--input-font-size, $size);
+      }
 
-    .#{$namespace}-range__icon,
-    .#{$namespace}-range__close-icon {
-      line-height: map.get($--input-line-height, $size);
+      .#{$namespace}-range__icon,
+      .#{$namespace}-range__close-icon {
+        line-height: map.get($--input-line-height, $size);
+      }
     }
   }
 
