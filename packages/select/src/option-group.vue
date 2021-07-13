@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, inject, ref, reactive, toRefs } from 'vue'
+import { defineComponent, provide, inject, ref, reactive, toRefs, PropType } from 'vue'
 import { selectGroupKey, selectKey, selectEvents } from './token'
 
 export default defineComponent({
@@ -22,6 +22,9 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false,
+    },
+    groupOption: {
+      type: Object as PropType<any[]>,
     },
   },
 
@@ -38,7 +41,9 @@ export default defineComponent({
     const select = inject(selectKey)
 
     const queryChange = () => {
-      visible.value = select?.optionsArray?.some(option => option.visible === true)
+      let ownChildren = select?.optionsArray?.filter(element => element.$parent.label === props.label)
+
+      visible.value = ownChildren.some(option => option.visible === true)
     }
     select.selectEmitter.on(selectEvents.groupQueryChange, queryChange)
 
