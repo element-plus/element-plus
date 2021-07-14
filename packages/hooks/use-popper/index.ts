@@ -30,7 +30,7 @@ import useTeleport from '../use-teleport'
 import useTimeout from '../use-timeout'
 import { useModelToggle } from '../use-model-toggle'
 import { useTransitionFallthrough } from '../use-transition-fallthrough'
-import { usePopperOptions } from './use-popper-options'
+import { defaultPopperOptions, defaultModifiers } from './use-popper-options'
 import { useTargetEvents, DEFAULT_TRIGGER } from './use-target-events'
 
 import type {
@@ -41,9 +41,7 @@ import type {
 } from 'vue'
 import type {
   Instance as PopperInstance,
-  Options,
-  Placement,
-  PositioningStrategy,
+  StrictModifiers,
 } from '@popperjs/core'
 import type { RefElement } from '@element-plus/utils/types'
 import type { Trigger } from './use-target-events'
@@ -56,49 +54,16 @@ type ElementType = ComponentPublicInstance | HTMLElement
 export const DARK_EFFECT = 'dark'
 export const LIGHT_EFFECT = 'light'
 
-const DEFAULT_FALLBACK_PLACEMENTS = []
-
-
-export const popperConfigs = {
+export const usePopperProps = {
+  // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
+  // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
   appendToBody: {
     type: Boolean,
     default: true,
   },
   arrowOffset: {
     type: Number,
-    default: 5,
   },
-  fallbackPlacements: {
-    type: Array as PropType<Placement[]>,
-    default: () => DEFAULT_FALLBACK_PLACEMENTS,
-  },
-  gpuAcceleration: {
-    type: Boolean,
-    default: true,
-  },
-  offset: {
-    type: Number,
-    default: 12,
-  },
-  placement: {
-    type: String as PropType<Placement>,
-    default: 'bottom' as Placement,
-  },
-  // Once this option were given, the entire popper is under the users' control, top priority
-  popperOptions: {
-    type: Object as PropType<Options>,
-    default: () => null,
-  },
-  strategy: {
-    type: String as PropType<PositioningStrategy>,
-    default: 'fixed' as PositioningStrategy,
-  },
-}
-
-export const usePopperProps = {
-  ...popperConfigs,
-  // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
-  // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
   autoClose: {
     type: Number,
     default: 0,
@@ -144,6 +109,7 @@ export const usePopperProps = {
     type: Boolean,
     default: false,
   },
+  popperOptions: defaultPopperOptions,
   showArrow: {
     type: Boolean,
     default: true,
@@ -176,7 +142,6 @@ export const usePopper = () => {
   const triggerRef = ref<ElementType>(null)
   const popperRef = ref<RefElement>(null)
 
-  const popperOptions = usePopperOptions(arrowRef)
   const popperStyle = ref<CSSProperties>({ zIndex: PopupManager.nextZIndex() })
   const visible = ref(false)
   const isManual = computed(() => props.manualMode || props.trigger === 'manual')
@@ -274,8 +239,31 @@ export const usePopper = () => {
     const $el = isHTMLElement(unwrappedTrigger)
       ? unwrappedTrigger
       : (unwrappedTrigger as ComponentPublicInstance).$el
-    popperInstance = createPopper($el, popperRef.value, popperOptions.value)
+
+    popperInstance = createPopper($el, popperRef.value, buildPopperOptions())
     popperInstance.update()
+  }
+
+  function buildPopperOptions() {
+    const modifiers = [
+      ...defaultModifiers,
+      ...props.popperOptions.modifiers,
+    ]
+
+    if (props.showArrow) {
+      modifiers.push({
+        name: 'arrow',
+        options: {
+          padding: props.arrowOffset || 5,
+          element: arrowRef.value,
+        },
+      } as StrictModifiers)
+    }
+
+    return {
+      ...props.popperOptions,
+      modifiers,
+    }
   }
 
   const {
