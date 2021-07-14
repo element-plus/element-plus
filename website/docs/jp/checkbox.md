@@ -412,7 +412,7 @@ export default defineComponent({
 | Attribute      | Description         | Type    | Options                         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
 | model-value / v-model | バインディング値 | string / number / boolean | — | — |
-| label     | `checkbox-group` の中で使われる場合のcheckboxの値   | string / number / boolean   |       —        |     —    |
+| label     | `checkbox-group` の中で使われる場合のcheckboxの値   | string / number / boolean / object   |       —        |     —    |
 | true-label | checkboxがチェックされている場合は、checkboxの値   | string / number    |       —        |     —    |
 | false-label | checkboxがチェックされていない場合のcheckboxの値   | string / number    |      —         |     —    |
 | disabled  | checkboxを無効にするかどうか   | boolean   |  — | false   |
@@ -446,7 +446,7 @@ export default defineComponent({
 ### Checkboxボタンの属性
 | Attribute      | Description         | Type    | Options                         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
-| label     | `checkbox-group` の中で使われる場合のcheckboxの値 | string / number / boolean  |       —        |     —    |
+| label     | `checkbox-group` の中で使われる場合のcheckboxの値 | string / number / boolean / object  |       —        |     —    |
 | true-label | チェックされている場合の、checkboxの値 | string / number | — |     —    |
 | false-label | チェックされていない場合の、checkboxの値 | string / number    |      —         |     —    |
 | disabled  | checkboxを無効にするかどうか | boolean   |  — | false   |
