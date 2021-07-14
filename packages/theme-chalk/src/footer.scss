@@ -1,8 +1,13 @@
 @import 'mixins/mixins';
 @import 'common/var';
 
+:root {
+  --el-footer-height: 60px;
+}
+
 @include b(footer) {
   padding: $--footer-padding;
   box-sizing: border-box;
   flex-shrink: 0;
+  height: var(--el-footer-height);
 }
