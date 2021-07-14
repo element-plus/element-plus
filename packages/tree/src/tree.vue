@@ -15,6 +15,7 @@
       :key="getNodeKey(child)"
       :node="child"
       :props="props"
+      :accordion="accordion"
       :render-after-expand="renderAfterExpand"
       :show-checkbox="showCheckbox"
       :render-content="renderContent"
