@@ -644,7 +644,7 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | Name | Description |
 |------|--------|
 | — | content of Form Item |
-| label | content of label |
+| label | content of label. The scope parameter is { label } |
 
 ### Form-Item Scoped Slot
 |      Name     | Description |
