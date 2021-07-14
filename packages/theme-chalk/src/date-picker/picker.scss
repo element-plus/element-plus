@@ -1,15 +1,15 @@
 @use "sass:map";
 
-@import "../mixins/mixins";
-@import "../common/var";
-@import "../common/transition";
+@import '../mixins/mixins';
+@import '../common/var';
+@import '../common/transition';
 
 @include b(picker) {
   @include e(popper) {
     @include picker-popper(
       $--color-white,
       1px solid $--datepicker-border-color,
-      $--box-shadow-light,
+      $--box-shadow-light
     );
   }
 }
@@ -153,7 +153,8 @@
     color: $--input-disabled-color;
     cursor: not-allowed;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       border-color: $--input-disabled-border;
     }
 

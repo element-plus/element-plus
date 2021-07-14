@@ -1,10 +1,10 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "button";
-@import "button-group";
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'button';
+@import 'button-group';
 
 @include b(calendar) {
-  background-color:#fff;
+  background-color: #fff;
 
   @include e(header) {
     display: flex;

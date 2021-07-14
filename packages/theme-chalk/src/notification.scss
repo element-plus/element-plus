@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(notification) {
   display: flex;
@@ -11,7 +11,8 @@
   position: fixed;
   background-color: $--color-white;
   box-shadow: $--notification-shadow;
-  transition: opacity .3s, transform .3s, left .3s, right .3s, top 0.4s, bottom .3s;
+  transition: opacity 0.3s, transform 0.3s, left 0.3s, right 0.3s, top 0.4s,
+    bottom 0.3s;
   overflow-wrap: anywhere;
   overflow: hidden;
   z-index: 9999;

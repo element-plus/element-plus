@@ -2,6 +2,10 @@
   border: none;
 }
 
-.demo-loading .custom-loading-svg .el-loading-mask > .el-loading-spinner > .circular {
+.demo-loading
+  .custom-loading-svg
+  .el-loading-mask
+  > .el-loading-spinner
+  > .circular {
   animation: none;
 }

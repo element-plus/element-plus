@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(page-header) {
   display: flex;
@@ -12,7 +12,7 @@
     position: relative;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       width: 1px;
       height: 16px;

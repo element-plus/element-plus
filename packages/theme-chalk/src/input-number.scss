@@ -1,9 +1,9 @@
 @use "sass:math";
 @use "sass:map";
 
-@import "mixins/mixins";
-@import "common/var";
-@import "input";
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'input';
 
 @include b(input-number) {
   position: relative;
@@ -91,16 +91,16 @@
 
   @include m(small) {
     @include e((increase, decrease)) {
-      [class*=#{$namespace}-icon] {
-        transform: scale(.9);
+      [class*='#{$namespace}-icon'] {
+        transform: scale(0.9);
       }
     }
   }
 
   @include m(mini) {
     @include e((increase, decrease)) {
-      [class*=#{$namespace}-icon] {
-        transform: scale(.8);
+      [class*='#{$namespace}-icon'] {
+        transform: scale(0.8);
       }
     }
   }
@@ -122,8 +122,8 @@
       height: auto;
       line-height: #{math.div(map.get($--input-height, 'default') - 2, 2)};
 
-      [class*=#{$namespace}-icon] {
-        transform: scale(.8);
+      [class*='#{$namespace}-icon'] {
+        transform: scale(0.8);
       }
     }
 
@@ -143,8 +143,9 @@
     }
 
     @each $size in (medium, small, mini) {
-      &[class*=#{size}] {
-        [class*=increase], [class*=decrease] {
+      &[class*='#{size}'] {
+        [class*='increase'],
+        [class*='decrease'] {
           line-height: #{math.div(map.get($--input-height, $size) - 2, 2)};
         }
       }

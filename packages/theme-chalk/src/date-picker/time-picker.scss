@@ -1,4 +1,4 @@
-@import "../common/var";
+@import '../common/var';
 
 @include b(time-panel) {
   border-radius: 2px;
@@ -14,8 +14,9 @@
     position: relative;
     overflow: hidden;
 
-    &::after, &::before {
-      content: "";
+    &::after,
+    &::before {
+      content: '';
       top: 50%;
       position: absolute;
       margin-top: -15px;

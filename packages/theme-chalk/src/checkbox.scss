@@ -87,7 +87,6 @@
       margin-left: 10px;
     }
 
-
     @each $size in (medium, small, mini) {
       &.#{$namespace}-checkbox--#{size} {
         padding: var(--el-checkbox-bordered-#{$size}-padding);
@@ -106,8 +105,8 @@
       }
     }
 
-
-    &.#{$namespace}-checkbox--small, &.#{$namespace}-checkbox--mini {
+    &.#{$namespace}-checkbox--small,
+    &.#{$namespace}-checkbox--mini {
       .#{$namespace}-checkbox__inner {
         &::after {
           height: 6px;
@@ -294,7 +293,12 @@
     transition: $--all-transition;
     @include utils-user-select(none);
 
-    @include button-size(map.get($--button-padding-vertical, 'default'), map.get($--button-padding-horizontal, 'default'), map.get($--button-font-size, 'default'), 0);
+    @include button-size(
+      map.get($--button-padding-vertical, 'default'),
+      map.get($--button-padding-horizontal, 'default'),
+      map.get($--button-font-size, 'default'),
+      0
+    );
 
     &:hover {
       color: var(--el-color-primary);

@@ -1,4 +1,4 @@
-@import "../common/var";
+@import '../common/var';
 
 @include b(date-range-picker) {
   width: 646px;
@@ -25,11 +25,11 @@
     text-align: center;
     height: 28px;
 
-    [class*=arrow-left] {
+    [class*='arrow-left'] {
       float: left;
     }
 
-    [class*=arrow-right] {
+    [class*='arrow-right'] {
       float: right;
     }
 
@@ -51,7 +51,6 @@
       border-right: 1px solid $--datepicker-inner-border-color;
     }
     .#{$namespace}-date-range-picker__header {
-
       div {
         margin-left: 50px;
         margin-right: 50px;

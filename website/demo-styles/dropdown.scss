@@ -1,6 +1,5 @@
 .demo-block {
   .#{$namespace}-dropdown {
-
     & + .#{$namespace}-dropdown {
       margin-left: 15px;
     }

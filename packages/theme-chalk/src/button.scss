@@ -1,9 +1,9 @@
 @charset "UTF-8";
 @use "sass:map";
-@import "common/var";
-@import "mixins/button";
-@import "mixins/mixins";
-@import "mixins/utils";
+@import 'common/var';
+@import 'mixins/button';
+@import 'mixins/mixins';
+@import 'mixins/utils';
 
 @include b(button) {
   display: inline-block;
@@ -20,14 +20,19 @@
   box-sizing: border-box;
   outline: none;
   margin: 0;
-  transition: .1s;
+  transition: 0.1s;
   font-weight: $--button-font-weight;
   @include utils-user-select(none);
   & + & {
     margin-left: 10px;
   }
 
-  @include button-size(map.get($--button-padding-vertical, 'default'), map.get($--button-padding-horizontal, 'default'), map.get($--button-font-size, 'default'), map.get($--button-border-radius, 'default'));
+  @include button-size(
+    map.get($--button-padding-vertical, 'default'),
+    map.get($--button-padding-horizontal, 'default'),
+    map.get($--button-font-size, 'default'),
+    map.get($--button-border-radius, 'default')
+  );
 
   &:hover,
   &:focus {
@@ -37,8 +42,16 @@
   }
 
   &:active {
-    color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
-    border-color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
+    color: mix(
+      $--color-black,
+      $--color-primary,
+      $--button-active-shade-percent
+    );
+    border-color: mix(
+      $--color-black,
+      $--color-primary,
+      $--button-active-shade-percent
+    );
     outline: none;
   }
 
@@ -46,7 +59,7 @@
     border: 0;
   }
 
-  & [class*="#{$namespace}-icon-"] {
+  & [class*='#{$namespace}-icon-'] {
     & + span {
       margin-left: 5px;
     }
@@ -62,15 +75,31 @@
 
     &:active {
       background: $--color-white;
-      border-color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
-      color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
+      border-color: mix(
+        $--color-black,
+        $--color-primary,
+        $--button-active-shade-percent
+      );
+      color: mix(
+        $--color-black,
+        $--color-primary,
+        $--button-active-shade-percent
+      );
       outline: none;
     }
   }
 
   @include when(active) {
-    color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
-    border-color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
+    color: mix(
+      $--color-black,
+      $--color-primary,
+      $--button-active-shade-percent
+    );
+    border-color: mix(
+      $--color-black,
+      $--color-primary,
+      $--button-active-shade-percent
+    );
   }
 
   @include when(disabled) {
@@ -112,7 +141,7 @@
       right: -1px;
       bottom: -1px;
       border-radius: inherit;
-      background-color: rgba(255,255,255,.35);
+      background-color: rgba(255, 255, 255, 0.35);
     }
   }
   @include when(round) {
@@ -124,26 +153,51 @@
     padding: map.get($--button-padding-vertical, 'default');
   }
   @include m(primary) {
-    @include button-variant($--button-primary-font-color, $--button-primary-background-color, $--button-primary-border-color);
+    @include button-variant(
+      $--button-primary-font-color,
+      $--button-primary-background-color,
+      $--button-primary-border-color
+    );
   }
   @include m(success) {
-    @include button-variant($--button-success-font-color, $--button-success-background-color, $--button-success-border-color);
+    @include button-variant(
+      $--button-success-font-color,
+      $--button-success-background-color,
+      $--button-success-border-color
+    );
   }
   @include m(warning) {
-    @include button-variant($--button-warning-font-color, $--button-warning-background-color, $--button-warning-border-color);
+    @include button-variant(
+      $--button-warning-font-color,
+      $--button-warning-background-color,
+      $--button-warning-border-color
+    );
   }
   @include m(danger) {
-    @include button-variant($--button-danger-font-color, $--button-danger-background-color, $--button-danger-border-color);
+    @include button-variant(
+      $--button-danger-font-color,
+      $--button-danger-background-color,
+      $--button-danger-border-color
+    );
   }
   @include m(info) {
-    @include button-variant($--button-info-font-color, $--button-info-background-color, $--button-info-border-color);
+    @include button-variant(
+      $--button-info-font-color,
+      $--button-info-background-color,
+      $--button-info-border-color
+    );
   }
 
   @each $size in (medium, small, mini) {
     @include m($size) {
       min-height: map.get($--input-height, $size);
 
-      @include button-size(map.get($--button-padding-vertical, $size), map.get($--button-padding-horizontal, $size), map.get($--button-font-size, $size), map.get($--button-border-radius, $size));
+      @include button-size(
+        map.get($--button-padding-vertical, $size),
+        map.get($--button-padding-horizontal, $size),
+        map.get($--button-font-size, $size),
+        map.get($--button-border-radius, $size)
+      );
       @include when(circle) {
         padding: map.get($--button-padding-horizontal, $size);
       }
@@ -159,12 +213,20 @@
 
     &:hover,
     &:focus {
-      color: mix($--color-white, $--color-primary, $--button-hover-tint-percent);
+      color: mix(
+        $--color-white,
+        $--color-primary,
+        $--button-hover-tint-percent
+      );
       border-color: transparent;
       background-color: transparent;
     }
     &:active {
-      color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
+      color: mix(
+        $--color-black,
+        $--color-primary,
+        $--button-active-shade-percent
+      );
       border-color: transparent;
       background-color: transparent;
     }

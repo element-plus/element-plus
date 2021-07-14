@@ -1,5 +1,5 @@
-@import "common/var";
-@import "mixins/mixins";
+@import 'common/var';
+@import 'mixins/mixins';
 
 @include b(divider) {
   background-color: $--border-color-base;
@@ -34,12 +34,12 @@
       transform: translateY(-50%);
     }
 
-    @include when(center)  {
+    @include when(center) {
       left: 50%;
       transform: translateX(-50%) translateY(-50%);
     }
 
-    @include when(right)  {
+    @include when(right) {
       right: 20px;
       transform: translateY(-50%);
     }
