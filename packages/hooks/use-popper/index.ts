@@ -58,22 +58,48 @@ export const LIGHT_EFFECT = 'light'
 
 const DEFAULT_FALLBACK_PLACEMENTS = []
 
-export const usePopperProps = {
-  // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
-  // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
-  arrowOffset: {
-    type: Number,
-    default: 5,
-  },
+
+export const popperConfigs = {
   appendToBody: {
     type: Boolean,
     default: true,
   },
-  autoClose: {
+  arrowOffset: {
     type: Number,
-    default: 0,
+    default: 5,
   },
-  boundariesPadding: {
+  fallbackPlacements: {
+    type: Array as PropType<Placement[]>,
+    default: () => DEFAULT_FALLBACK_PLACEMENTS,
+  },
+  gpuAcceleration: {
+    type: Boolean,
+    default: true,
+  },
+  offset: {
+    type: Number,
+    default: 12,
+  },
+  placement: {
+    type: String as PropType<Placement>,
+    default: 'bottom' as Placement,
+  },
+  // Once this option were given, the entire popper is under the users' control, top priority
+  popperOptions: {
+    type: Object as PropType<Options>,
+    default: () => null,
+  },
+  strategy: {
+    type: String as PropType<PositioningStrategy>,
+    default: 'fixed' as PositioningStrategy,
+  },
+}
+
+export const usePopperProps = {
+  ...popperConfigs,
+  // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
+  // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
+  autoClose: {
     type: Number,
     default: 0,
   },
@@ -89,10 +115,6 @@ export const usePopperProps = {
   hideAfter: {
     type: Number,
     default: 200,
-  },
-  cutoff: {
-    type: Boolean,
-    default: false,
   },
   disabled: {
     type: Boolean,
@@ -114,14 +136,6 @@ export const usePopperProps = {
     type: Number,
     default: 0,
   },
-  offset: {
-    type: Number,
-    default: 12,
-  },
-  placement: {
-    type: String as PropType<Placement>,
-    default: 'bottom' as Placement,
-  },
   popperClass: {
     type: String,
     default: '',
@@ -130,18 +144,9 @@ export const usePopperProps = {
     type: Boolean,
     default: false,
   },
-  // Once this option were given, the entire popper is under the users' control, top priority
-  popperOptions: {
-    type: Object as PropType<Options>,
-    default: () => null,
-  },
   showArrow: {
     type: Boolean,
     default: true,
-  },
-  strategy: {
-    type: String as PropType<PositioningStrategy>,
-    default: 'fixed' as PositioningStrategy,
   },
   transition: {
     type: String,
@@ -158,14 +163,6 @@ export const usePopperProps = {
   stopPopperMouseEvent: {
     type: Boolean,
     default: true,
-  },
-  gpuAcceleration: {
-    type: Boolean,
-    default: true,
-  },
-  fallbackPlacements: {
-    type: Array as PropType<Placement[]>,
-    default: () => DEFAULT_FALLBACK_PLACEMENTS,
   },
 }
 
