@@ -74,7 +74,7 @@
     padding: 0;
     width: 39%;
     text-align: center;
-    font-size: $--font-size-base;
+    font-size: var(--el-font-size-base);
     color: $--color-text-regular;
 
     &::placeholder {

@@ -10,7 +10,7 @@
 @include b(cascader) {
   display: inline-block;
   position: relative;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   line-height: map.get($--input-height, 'default');
   outline: none;
 
@@ -127,7 +127,7 @@
     max-height: 204px;
     margin: 0;
     padding: 6px 0;
-    font-size: $--font-size-base;
+    font-size: var(--el-font-size-base);
     color: $--cascader-menu-font-color;
     text-align: center;
   }

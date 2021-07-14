@@ -9,8 +9,8 @@
   color: $--color-info;
   cursor: pointer;
   display: inline-block;
-  font-size: $--font-size-base;
-  line-height: $--font-size-base;
+  font-size: var(--el-font-size-base);
+  line-height: var(--el-font-size-base);
   padding: 7px 15px;
   transition: $--all-transition;
   font-weight: bold;

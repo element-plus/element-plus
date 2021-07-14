@@ -33,7 +33,7 @@
 
     p {
       margin: 0;
-      font-size: $--font-size-base;
+      font-size: var(--el-font-size-base);
       color: $--color-text-regular;
       line-height: 1.3;
     }
