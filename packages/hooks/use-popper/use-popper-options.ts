@@ -1,15 +1,21 @@
 import { computed, getCurrentInstance } from 'vue'
 
 import type { Ref } from 'vue'
-import type { Options, Placement, StrictModifiers } from '@popperjs/core'
+import type {
+  Options,
+  Placement,
+  StrictModifiers,
+  PositioningStrategy,
+} from '@popperjs/core'
 
 interface IUsePopperProps {
-  popperOptions: Options
   arrowOffset: number
-  offset: number
-  placement: Placement
-  gpuAcceleration: boolean
   fallbackPlacements: Array<Placement>
+  gpuAcceleration: boolean
+  offset: number
+  popperOptions: Options
+  placement: Placement
+  strategy: PositioningStrategy
 }
 
 export const usePopperOptions = (arrowRef: Ref<HTMLElement>) => {
@@ -20,6 +26,7 @@ export const usePopperOptions = (arrowRef: Ref<HTMLElement>) => {
   return computed(() => {
     return {
       placement: props.placement,
+      strategy: props.strategy,
       ...props.popperOptions,
       // Avoiding overriding modifiers.
       modifiers: buildModifiers({
