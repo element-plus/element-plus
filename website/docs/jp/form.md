@@ -645,11 +645,11 @@ The component has been upgraded with a flex layout to replace the old float layo
 | Name | Description |
 |------|--------|
 | — | フォームアイテムの内容 |
-| label | ラベルの内容 |
 
 ### フォームアイテムのスコープスロット
 |      Name     | Description |
 |---------------|-------------|
+| label | Custom content to display on label. The scope parameter is { label } |
 |      error    | Custom content to display validation message. The scope parameter is { error } |
 
 ### フォームアイテムのメソッド
