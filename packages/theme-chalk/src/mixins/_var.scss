@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @mixin set-css-color-primary($i) {
   --el-color-primary-light-#{$i}: #{map.get($--colors, 'primary', 'light-#{$i}')};
 }
