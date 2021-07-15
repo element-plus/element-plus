@@ -31,7 +31,7 @@
 
     &.is-disabled {
       cursor: not-allowed;
-      border-color: $--border-color-lighter;
+      border-color: var(--el-border-color-lighter);
     }
 
     & + .#{$namespace}-radio.is-bordered {
