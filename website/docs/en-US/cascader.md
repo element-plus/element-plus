@@ -4347,6 +4347,7 @@ export default defineComponent({
 | debounce | debounce delay when typing filter keyword, in milliseconds | number | — | 300 |
 | before-filter | hook function before filtering with the value to be filtered as its parameter. If `false` is returned or a `Promise` is returned and then is rejected, filtering will be aborted | function(value) | — | — |
 | popper-class | custom class name for Cascader's dropdown   | string | —  | — |
+| popper-append-to-body| whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | true |
 
 ### Cascader Events
 | Event Name | Description | Parameters |
