@@ -639,11 +639,11 @@ W3C 标准中有如下[规定](https://www.w3.org/MarkUp/html-spec/html-spec_8.h
 | name | 说明 |
 |------|--------|
 | — | Form Item 的内容 |
-| label | 标签文本的内容 |
 
 ### Form-Item Scoped Slot
 |  name  |   说明  |
 |--------|--------|
+| label | Custom content to display on label. The scope parameter is { label } |
 |  error | 自定义表单校验信息的显示方式，参数为 { error } |
 
 ### Form-Item Methods
