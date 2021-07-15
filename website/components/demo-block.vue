@@ -201,11 +201,15 @@ export default {
   ${this.displayDemoCode}
 ${'</sc' + 'ript>'}
 `
+        const innerStyle = this.codepen.style && this.codepen.style.trim() ? `<style>
+  ${this.codepen.style}
+</style>
+` : ''
         hlcode.innerHTML = sanitizeHTML(`<template>
   ${this.codepen.html}
 </template>
 
-${this.displayDemoCode ? innerScript : ''}`)
+${this.displayDemoCode ? innerScript : ''}${innerStyle}`)
 
         nextTick(() => {
           if (this.$el.getElementsByClassName('description').length === 0) {

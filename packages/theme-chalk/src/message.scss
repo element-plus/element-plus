@@ -9,7 +9,7 @@
   border-radius: $--border-radius-base;
   border-width: $--border-width-base;
   border-style: $--border-style-base;
-  border-color: $--border-color-lighter;
+  border-color: var(--el-border-color-lighter);
   position: fixed;
   left: 50%;
   top: 20px;
