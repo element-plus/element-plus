@@ -12,7 +12,7 @@
   vertical-align: middle;
   background-color: $--color-white;
   border-radius: $--messagebox-border-radius;
-  border: 1px solid $--border-color-lighter;
+  border: 1px solid var(--el-border-color-lighter);
   font-size: $--messagebox-font-size;
   box-shadow: $--box-shadow-light;
   text-align: left;

@@ -1,6 +1,29 @@
 <script>
   import bus from '../../bus';
   import { tintColor } from '../../color.js';
+  import BorderBox from "../../components/demo/color/border-box.vue"
+  const borderColors = [
+    {
+      name: 'Bordure de base',
+      type: 'base',
+      color: '#DCDFE6',
+    },
+    {
+      name: 'Bordure claire',
+      type: 'light',
+      color: '#E4E7ED',
+    },
+    {
+      name: 'Bordure très claire',
+      type: 'lighter',
+      color: '#EBEEF5',
+    },
+    {
+      name: 'Bordure extra claire',
+      type: 'extra-light',
+      color: '#F2F6FC',
+    },
+  ]
   const varMap = {
     'primary': '$--color-primary',
     'success': '$--color-success',
@@ -13,10 +36,6 @@
     'textRegular': '$--color-text-regular',
     'textSecondary': '$--color-text-secondary',
     'textPlaceholder': '$--color-text-placeholder',
-    'borderBase': '$--border-color-base',
-    'borderLight': '$--border-color-light',
-    'borderLighter': '$--border-color-lighter',
-    'borderExtraLight': '$--border-color-extra-light'
   };
   const original = {
     primary: '#409EFF',
@@ -30,12 +49,11 @@
     textRegular: '#606266',
     textSecondary: '#909399',
     textPlaceholder: '#C0C4CC',
-    borderBase: '#DCDFE6',
-    borderLight: '#E4E7ED',
-    borderLighter: '#EBEEF5',
-    borderExtraLight: '#F2F6FC'
   }
   export default {
+    components: {
+      BorderBox
+    },
     mounted() {
       this.setGlobal();
     },
@@ -63,10 +81,7 @@
         textRegular: '',
         textSecondary: '',
         textPlaceholder: '',
-        borderBase: '',
-        borderLight: '',
-        borderLighter: '',
-        borderExtraLight: ''
+        borderColors,
       }
     },
     watch: {
@@ -87,6 +102,7 @@
 </script>
 
 ## Couleur
+
 Element Plus utilise un ensemble de palettes spécifiques afin de fournir un style consistant pour vos produits.
 
 ### Couleur principale
@@ -191,20 +207,7 @@ Les couleurs neutres sont les couleurs du fond, du texte et des bordures. Vous p
     </div>
   </el-col>
   <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box-group">
-      <div class="demo-color-box demo-color-box-other demo-color-box-lite"
-      :style="{ background: borderBase }"
-      >Bordure de base<div class="value">{{borderBase}}</div></div>
-      <div class="demo-color-box demo-color-box-other demo-color-box-lite"
-      :style="{ background: borderLight }"
-      >Bordure claire<div class="value">{{borderLight}}</div></div>
-      <div class="demo-color-box demo-color-box-other demo-color-box-lite"
-      :style="{ background: borderLighter }"
-      >Bordure très claire<div class="value">{{borderLighter}}</div></div>
-      <div class="demo-color-box demo-color-box-other demo-color-box-lite"
-      :style="{ background: borderExtraLight }"
-      >Bordure extra claire<div class="value">{{borderExtraLight}}</div></div>
-    </div>
+    <border-box :border-colors="borderColors" />
   </el-col>
   <el-col :span="6" :xs="{span: 12}">
     <div class="demo-color-box-group">

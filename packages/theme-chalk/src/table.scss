@@ -323,7 +323,7 @@
       bottom: 0;
       width: 100%;
       height: 1px;
-      background-color: $--border-color-lighter;
+      background-color: var(--el-border-color-lighter);
       z-index: 4;
     }
   }

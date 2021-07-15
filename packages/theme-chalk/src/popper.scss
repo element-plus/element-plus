@@ -25,10 +25,10 @@
 
   @include when(light) {
     background: $--color-white;
-    border: 1px solid $--border-color-light;
+    border: 1px solid var(--el-border-color-light);
 
     #{$arrow-selector}::before {
-      border: 1px solid $--border-color-light;
+      border: 1px solid var(--el-border-color-light);
       background: $--color-white;
       right: 0;
     }

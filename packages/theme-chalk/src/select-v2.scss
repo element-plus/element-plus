@@ -25,7 +25,7 @@ $--input-inline-start: 7px !default;
     padding-right: 30px;
     padding-top: 1px;
     padding-bottom: 1px;
-    border: 1px solid $--border-color-base;
+    border: 1px solid var(--el-border-color-base);
     border-radius: $--border-radius-base;
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 

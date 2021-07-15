@@ -22,10 +22,9 @@
   --el-color-text-secondary: #{$--color-text-secondary};
   --el-color-text-placeholder: #{$--color-text-placeholder};
 
-  --el-border-color-base: #{$--border-color-base};
-  --el-border-color-light: #{$--border-color-light};
-  --el-border-color-lighter: #{$--border-color-lighter};
-  --el-border-color-extra-light: #{$--border-color-extra-light};
+  @each $type in (base, light, lighter, extra-light) {
+    @include set-css-var-type('border-color', $type, $--border-color);
+  }
 
   // Background
   --el-background-color-base: #{$--background-color-base};
