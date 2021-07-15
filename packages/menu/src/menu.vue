@@ -192,34 +192,30 @@ export default defineComponent({
     }) => {
       const { index, indexPath } = item
       const hasIndex = item.index !== null
-      const oldActiveIndex = activeIndex.value
-
-      if (hasIndex) {
-        activeIndex.value = item.index
-      }
-
-      ctx.emit('select', index, indexPath.value, item)
+      const emitParams = [index, indexPath.value, item]
 
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
 
-      if (props.router && router && hasIndex) {
-        let route = item.route || item.index
-        router?.push(route)
-          .then(navigationResult => {
-            //vue-router NavigationFailureType duplicated
-            const DUPLICATE_ROUTE = 16
-            if (navigationResult && navigationResult.type !== DUPLICATE_ROUTE) {
-              activeIndex.value = oldActiveIndex
-              throw navigationResult
-            }
-          })
-          .catch(error => {
-            activeIndex.value = oldActiveIndex
-            throw error
-          })
+      if (!hasIndex) {
+        return
+      }
 
+      if (props.router && router) {
+        let route = item.route || item.index
+        const routerResult = router
+          .push(route)
+          .then(navigationResult => {
+            if (!navigationResult) {
+              activeIndex.value = item.index
+            }
+            return navigationResult
+          })
+        ctx.emit('select', ...emitParams.concat(routerResult))
+      } else {
+        activeIndex.value = item.index
+        ctx.emit('select', ...emitParams)
       }
     }
 
