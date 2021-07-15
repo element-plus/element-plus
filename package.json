@@ -139,7 +139,6 @@
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.4",
-    "@types/lodash": "^4.14.161",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
     "lodash": "^4.17.20",
