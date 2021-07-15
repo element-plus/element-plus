@@ -105,7 +105,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
     .#{$namespace}-pager li.btn-quickprev,
     .#{$namespace}-pager li:last-child {
       border-color: transparent;
-      font-size: $--font-size-extra-small;
+      font-size: var(--el-font-size-extra-small);
       line-height: $--pagination-line-height-extra-small;
       height: $--pagination-height-extra-small;
       min-width: 22px;

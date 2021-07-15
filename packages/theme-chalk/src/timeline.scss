@@ -3,7 +3,7 @@
 
 @include b(timeline) {
   margin: 0;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   list-style: none;
 
   & .#{$namespace}-timeline-item:last-child {

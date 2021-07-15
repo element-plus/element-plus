@@ -155,18 +155,20 @@ $--fill-base: $--color-white !default;
 -------------------------- */
 $--font-path: 'fonts' !default;
 $--font-display: 'auto' !default;
-/// fontSize|1|Font Size|0
-$--font-size-extra-large: 20px !default;
-/// fontSize|1|Font Size|0
-$--font-size-large: 18px !default;
-/// fontSize|1|Font Size|0
-$--font-size-medium: 16px !default;
-/// fontSize|1|Font Size|0
-$--font-size-base: 14px !default;
-/// fontSize|1|Font Size|0
-$--font-size-small: 13px !default;
-/// fontSize|1|Font Size|0
-$--font-size-extra-small: 12px !default;
+
+$--font-size: () !default;
+$--font-size: map.merge(
+  (
+    'extra-large': 20px,
+    'large': 18px,
+    'medium': 16px,
+    'base': 14px,
+    'small': 13px,
+    'extra-small': 12px,
+  ),
+  $--font-size
+);
+
 /// fontWeight|1|Font Weight|1
 $--font-weight-primary: 500 !default;
 /// fontLineHeight|1|Line Height|2
@@ -187,7 +189,7 @@ $--disabled-border-base: $--border-color-light !default;
 /* Radio
 -------------------------- */
 /// fontSize||Font|1
-$--radio-font-size: $--font-size-base !default;
+$--radio-font-size: map.get($--font-size, 'base') !default;
 /// fontWeight||Font|1
 $--radio-font-weight: $--font-weight-primary !default;
 /// color||Color|0
@@ -258,7 +260,7 @@ $--radio-button-disabled-checked-fill: $--border-color-extra-light !default;
 $--select-border-color-hover: $--border-color-hover !default;
 $--select-disabled-border: $--disabled-border-base !default;
 /// fontSize||Font|1
-$--select-font-size: $--font-size-base !default;
+$--select-font-size: map.get($--font-size, 'base') !default;
 $--select-close-hover-color: $--color-text-secondary !default;
 
 $--select-input-color: $--color-text-placeholder !default;
@@ -320,9 +322,9 @@ $--messagebox-title-color: $--color-text-primary !default;
 $--messagebox-width: 420px !default;
 $--messagebox-border-radius: 4px !default;
 /// fontSize||Font|1
-$--messagebox-font-size: $--font-size-large !default;
+$--messagebox-font-size: map.get($--font-size, 'large') !default;
 /// fontSize||Font|1
-$--messagebox-content-font-size: $--font-size-base !default;
+$--messagebox-content-font-size: map.get($--font-size, 'base') !default;
 /// color||Color|0
 $--messagebox-content-color: $--color-text-regular !default;
 /// fontSize||Font|1
@@ -372,7 +374,7 @@ $--notification-close-font-size: $--message-close-size !default;
 $--notification-group-margin-left: 13px !default;
 $--notification-group-margin-right: 8px !default;
 /// fontSize||Font|1
-$--notification-content-font-size: $--font-size-base !default;
+$--notification-content-font-size: map.get($--font-size, 'base') !default;
 /// color||Color|0
 $--notification-content-color: $--color-text-regular !default;
 /// fontSize||Font|1
@@ -421,7 +423,7 @@ $--input-disabled-color: $--disabled-color-base !default;
 $--input-disabled-placeholder-color: $--color-text-placeholder !default;
 
 $--input-font-size: (
-  'default': $--font-size-base,
+  'default': map.get($--font-size, 'base'),
   'medium': 14px,
   'small': 13px,
   'mini': 12px,
@@ -453,7 +455,7 @@ $--cascader-menu-font-color: $--color-text-regular !default;
 /// color||Color|0
 $--cascader-menu-selected-font-color: $--color-primary !default;
 $--cascader-menu-fill: $--fill-base !default;
-$--cascader-menu-font-size: $--font-size-base !default;
+$--cascader-menu-font-size: map.get($--font-size, 'base') !default;
 $--cascader-menu-radius: $--border-radius-base !default;
 $--cascader-menu-border: solid 1px $--border-color-light !default;
 $--cascader-menu-shadow: $--box-shadow-light !default;
@@ -468,8 +470,8 @@ $--cascader-tag-background: #f0f2f5 !default;
 $--button-font-weight: $--font-weight-primary !default;
 
 $--button-font-size: (
-  'default': $--font-size-base,
-  'medium': $--font-size-base,
+  'default': map.get($--font-size, 'base'),
+  'medium': map.get($--font-size, 'base'),
   'small': 12px,
   'mini': 12px,
 );
@@ -550,7 +552,7 @@ $--switch-on-color: $--color-primary !default;
 /// color||Color|0
 $--switch-off-color: $--border-color-base !default;
 /// fontSize||Font|1
-$--switch-font-size: $--font-size-base !default;
+$--switch-font-size: map.get($--font-size, 'base') !default;
 $--switch-core-border-radius: 10px !default;
 // height||Other|4
 $--switch-width: 40px !default;
@@ -564,7 +566,7 @@ $--switch-button-size: 16px !default;
 $--dialog-background-color: $--color-white !default;
 $--dialog-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !default;
 /// fontSize||Font|1
-$--dialog-title-font-size: $--font-size-large !default;
+$--dialog-title-font-size: map.get($--font-size, 'large') !default;
 /// fontSize||Font|1
 $--dialog-content-font-size: 14px !default;
 /// fontLineHeight||LineHeight|2
@@ -626,7 +628,7 @@ $--popup-modal-opacity: 0.5 !default;
 /// color||Color|0
 $--popover-background-color: $--color-white !default;
 /// fontSize||Font|1
-$--popover-font-size: $--font-size-base !default;
+$--popover-font-size: map.get($--font-size, 'base') !default;
 /// color||Color|0
 $--popover-border-color: $--border-color-lighter !default;
 /// padding||Spacing|3
@@ -729,7 +731,7 @@ $--slider-button-wrapper-offset: -15px !default;
 /* Menu
 --------------------------*/
 /// fontSize||Font|1
-$--menu-item-font-size: $--font-size-base !default;
+$--menu-item-font-size: map.get($--font-size, 'base') !default;
 /// color||Color|0
 $--menu-item-font-color: $--color-text-primary !default;
 /// color||Color|0
@@ -741,7 +743,7 @@ $--menu-border-color: #e6e6e6 !default;
 --------------------------*/
 $--rate-height: 20px !default;
 /// fontSize||Font|1
-$--rate-font-size: $--font-size-base !default;
+$--rate-font-size: map.get($--font-size, 'base') !default;
 /// height||Other|3
 $--rate-icon-size: 18px !default;
 /// margin||Spacing|2
@@ -853,7 +855,7 @@ $--backtop-hover-background-color: $--border-color-extra-light !default;
 /* Link
 --------------------------*/
 /// fontSize||Font|1
-$--link-font-size: $--font-size-base !default;
+$--link-font-size: map.get($--font-size, 'base') !default;
 /// fontWeight||Font|1
 $--link-font-weight: $--font-weight-primary !default;
 /// color||Color|0
@@ -883,7 +885,7 @@ $--calendar-cell-width: 85px !default;
 /* Form
 -------------------------- */
 /// fontSize||Font|1
-$--form-label-font-size: $--font-size-base !default;
+$--form-label-font-size: map.get($--font-size, 'base') !default;
 
 /* Avatar
 --------------------------*/

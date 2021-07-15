@@ -4,7 +4,7 @@ body {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
     'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   font-weight: 400;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   color: $--color-black;
   -webkit-font-smoothing: antialiased;
 }
@@ -46,15 +46,15 @@ h6 {
 }
 
 h1 {
-  font-size: #{$--font-size-base + 6px};
+  font-size: #{var(--el-font-size-base) + 6px};
 }
 
 h2 {
-  font-size: #{$--font-size-base + 4px};
+  font-size: #{var(--el-font-size-base) + 4px};
 }
 
 h3 {
-  font-size: #{$--font-size-base + 2px};
+  font-size: #{var(--el-font-size-base) + 2px};
 }
 
 h4,
@@ -78,11 +78,11 @@ p {
 
 sup,
 sub {
-  font-size: #{$--font-size-base - 1px};
+  font-size: #{var(--el-font-size-base) - 1px};
 }
 
 small {
-  font-size: #{$--font-size-base - 2px};
+  font-size: #{var(--el-font-size-base) - 2px};
 }
 
 hr {
