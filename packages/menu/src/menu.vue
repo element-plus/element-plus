@@ -192,7 +192,7 @@ export default defineComponent({
     }) => {
       const { index, indexPath } = item
       const hasIndex = item.index !== null
-      const emitParams = ['select', index, indexPath.value, item]
+      const emitParams = [index, indexPath.value, item]
 
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
@@ -212,10 +212,10 @@ export default defineComponent({
             }
             return navigationResult
           })
-        ctx.emit.apply(this, emitParams.concat(routerResult))
+        ctx.emit('select', ...emitParams.concat(routerResult))
       } else {
         activeIndex.value = item.index
-        ctx.emit.apply(this, emitParams)
+        ctx.emit('select', ...emitParams)
       }
     }
 
