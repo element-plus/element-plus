@@ -7,7 +7,7 @@
   display: inline-block;
   position: relative;
   color: $--color-text-regular;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   line-height: 1;
 
   @include e(popper) {
@@ -109,7 +109,7 @@
     line-height: 36px;
     padding: 0 20px;
     margin: 0;
-    font-size: $--font-size-base;
+    font-size: var(--el-font-size-base);
     color: $--color-text-regular;
     cursor: pointer;
     outline: none;

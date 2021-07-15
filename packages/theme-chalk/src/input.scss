@@ -8,7 +8,7 @@
   display: inline-block;
   width: 100%;
   vertical-align: bottom;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
 
   @include e(inner) {
     display: block;
@@ -75,7 +75,7 @@
 
 @include b(input) {
   position: relative;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   display: inline-block;
   width: 100%;
   line-height: map.get($--input-height, 'default');

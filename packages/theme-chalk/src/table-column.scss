@@ -32,7 +32,7 @@
     line-height: 36px;
     padding: 0 10px;
     cursor: pointer;
-    font-size: $--font-size-base;
+    font-size: var(--el-font-size-base);
 
     &:hover {
       background-color: $--dropdown-menuItem-hover-fill;
@@ -58,7 +58,7 @@
       border: none;
       color: $--color-text-regular;
       cursor: pointer;
-      font-size: $--font-size-small;
+      font-size: var(--el-font-size-small);
       padding: 0 3px;
 
       &:hover {

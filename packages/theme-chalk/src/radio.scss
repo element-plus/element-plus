@@ -14,7 +14,7 @@
   display: inline-block;
   white-space: nowrap;
   outline: none;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   margin-right: 30px;
   @include utils-user-select(none);
 

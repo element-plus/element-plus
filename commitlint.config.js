@@ -25,6 +25,7 @@ const scopes = [
   'build',
   'deploy',
   'other',
+  'typography',
 ]
 
 module.exports = {

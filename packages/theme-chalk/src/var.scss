@@ -2,16 +2,7 @@
 
 // CSS3 var
 @import 'common/var';
-
-@mixin set-css-color-primary($i) {
-  --el-color-primary-light-#{$i}: #{map.get($--colors, 'primary', 'light-#{$i}')};
-}
-
-@mixin set-css-color-type($type) {
-  --el-color-#{$type}: #{map.get($--colors, $type, 'base')};
-  --el-color-#{$type}-light: #{map.get($--colors, $type, 'light')};
-  --el-color-#{$type}-lighter: #{map.get($--colors, $type, 'lighter')};
-}
+@import 'mixins/var';
 
 :root {
   --el-color-primary: #{$--color-primary};
@@ -64,12 +55,10 @@
   --el-fill-base: var(--el-color-white);
 
   // Typography
-  --el-font-size-extra-large: #{$--font-size-extra-large};
-  --el-font-size-large: #{$--font-size-large};
-  --el-font-size-medium: #{$--font-size-medium};
-  --el-font-size-base: #{$--font-size-base};
-  --el-font-size-small: #{$--font-size-small};
-  --el-font-size-extra-small: #{$--font-size-extra-small};
+  @each $type in (extra-large, large, medium, base, small, extra-small) {
+    @include set-css-var-type('font-size', $type, $--font-size);
+  }
+
   --el-font-weight-primary: #{$--font-weight-primary};
   --el-line-height-primary: #{$--font-line-height-primary};
   --el-font-color-disabled-base: #bbb;

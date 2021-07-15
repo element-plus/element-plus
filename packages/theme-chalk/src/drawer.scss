@@ -112,7 +112,7 @@ $directions: rtl, ltr, ttb, btt;
   &__close-btn {
     border: none;
     cursor: pointer;
-    font-size: $--font-size-extra-large;
+    font-size: var(--el-font-size-extra-large);
     color: inherit;
     background-color: transparent;
     outline: none;
