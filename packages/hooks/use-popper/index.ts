@@ -54,9 +54,7 @@ type ElementType = ComponentPublicInstance | HTMLElement
 export const DARK_EFFECT = 'dark'
 export const LIGHT_EFFECT = 'light'
 
-export const usePopperProps = {
-  // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
-  // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
+export const usePopperControlProps = {
   appendToBody: {
     type: Boolean,
     default: true,
@@ -64,6 +62,17 @@ export const usePopperProps = {
   arrowOffset: {
     type: Number,
   },
+  popperOptions: defaultPopperOptions,
+  popperClass: {
+    type: String,
+    default: '',
+  },
+}
+
+export const usePopperProps = {
+  ...usePopperControlProps,
+  // the arrow size is an equailateral triangle with 10px side length, the 3rd side length ~ 14.1px
+  // adding a offset to the ceil of 4.1 should be 5 this resolves the problem of arrow overflowing out of popper.
   autoClose: {
     type: Number,
     default: 0,
@@ -72,10 +81,7 @@ export const usePopperProps = {
     type: String,
     default: '',
   },
-  class: {
-    type: String,
-    default: '',
-  },
+  class: String,
   style: Object,
   hideAfter: {
     type: Number,
@@ -101,15 +107,10 @@ export const usePopperProps = {
     type: Number,
     default: 0,
   },
-  popperClass: {
-    type: String,
-    default: '',
-  },
   pure: {
     type: Boolean,
     default: false,
   },
-  popperOptions: defaultPopperOptions,
   showArrow: {
     type: Boolean,
     default: true,
