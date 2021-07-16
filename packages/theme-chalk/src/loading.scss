@@ -52,6 +52,7 @@
   }
 
   .circular {
+    display: inline;
     height: $--loading-spinner-size;
     width: $--loading-spinner-size;
     animation: loading-rotate 2s linear infinite;
