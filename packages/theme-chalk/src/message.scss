@@ -88,7 +88,7 @@
     transform: translateY(-50%);
     cursor: pointer;
     color: $--message-close-icon-color;
-    font-size: $--message-close-size;
+    font-size: var(--el-message-close-size);
 
     &:focus {
       outline-width: 0;
