@@ -4350,6 +4350,7 @@ export default defineComponent({
 | debounce | retraso en milisegundos para el tipeo de los datos de filtro | number | — | 300 |
 | before-filter | hook antes de filtrar con el valor a filtrar como parámetro. Si se devuelve `false` o se devuelve una `Promise` y luego se rechaza, se abortará el filtrado. | function(value) | — | — |
 | popper-class | nombre de clase personalizado para el menú desplegable de Cascader | string | —  | — |
+| popper-append-to-body| si añadir o no el menu popup al body. Si el posicionamiento del popup es incorrecto, puede intentar poner este `prop` en `false`. | boolean | - | true |
 
 ### Eventos de Cascader
 | Nombre del evento | Descripción | Parámetros |

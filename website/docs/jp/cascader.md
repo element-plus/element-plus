@@ -3333,7 +3333,7 @@ cascaderノードの内容をカスタマイズすることができます。
 :::demo `scoped slot`によって、cascaderの内容をカスタマイズすることができます。スコープ内の `node` と `data` にアクセスすることができます。
 ```html
 <el-cascader :options="options">
-  <template slot-scope="{ node, data }">
+  <template #default="{ node, data }">
     <span>{{ data.label }}</span>
     <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
   </template>
@@ -4347,6 +4347,7 @@ export default defineComponent({
 | debounce | フィルタキーワードを入力したときのデバウンスの遅延時間をミリ秒単位で指定します。 | number | — | 300 |
 | before-filter | フック関数を用いてフィルタリングを行う場合、フィルタリングしたい値をパラメータとしてフィルタリングを行う前に `false` を返します。`false` が返されるか、`Promise` が返され、拒否された場合、フィルタリングは中止されます。 | function(value) | — | — |
 | popper-class | cascaderロップダウンのカスタムクラス名   | string | —  | — |
+| popper-append-to-body| ポッパーメニューをボディに追加するかどうか。ポッパーの位置が間違っている場合は、このプロップを false に設定してみてください。 | boolean | - | true |
 
 ### Cascader イベント
 | Event Name | Description | Parameters |

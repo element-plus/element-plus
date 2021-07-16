@@ -3,6 +3,7 @@
     ref="popper"
     v-model:visible="popperVisible"
     manual-mode
+    :append-to-body="popperAppendToBody"
     placement="bottom-start"
     :popper-class="`el-cascader__dropdown ${popperClass}`"
     :popper-options="popperOptions"
@@ -235,6 +236,10 @@ export default defineComponent({
     popperClass: {
       type: String,
       default: '',
+    },
+    popperAppendToBody: {
+      type: Boolean,
+      default: true,
     },
   },
 
