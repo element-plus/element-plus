@@ -189,6 +189,7 @@ $--disabled-border-base: map.get($--border-color, 'light') !default;
 -------------------------- */
 
 // Checkbox
+// refactor with css3 var
 // See packages/theme-chalk/src/checkbox.scss
 
 /* Radio
@@ -301,27 +302,8 @@ $--select-dropdown-border: solid 1px map.get($--border-color, 'light') !default;
 
 /* Alert
 -------------------------- */
-$--alert-padding: 8px 16px !default;
-/// borderRadius||Border|2
-$--alert-border-radius: $--border-radius-base !default;
-/// fontSize||Font|1
-$--alert-title-font-size: 13px !default;
-/// fontSize||Font|1
-$--alert-description-font-size: 12px !default;
-/// fontSize||Font|1
-$--alert-close-font-size: 12px !default;
-/// fontSize||Font|1
-$--alert-close-customed-font-size: 13px !default;
-
-$--alert-success-color: map.get($--colors, 'success', 'lighter') !default;
-$--alert-info-color: map.get($--colors, 'info', 'lighter') !default;
-$--alert-warning-color: map.get($--colors, 'warning', 'lighter') !default;
-$--alert-danger-color: map.get($--colors, 'danger', 'lighter') !default;
-
-/// height||Other|4
-$--alert-icon-size: 16px !default;
-/// height||Other|4
-$--alert-icon-large-size: 28px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/alert.scss
 
 /* MessageBox
 -------------------------- */
