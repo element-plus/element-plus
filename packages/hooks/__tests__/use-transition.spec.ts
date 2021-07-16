@@ -3,8 +3,8 @@ import { mount } from '@vue/test-utils'
 import { getCssVariable } from '@element-plus/test-utils/dom'
 import { useTransition, useTransitionProps } from '../use-transition'
 
-const showTransition = 'show'
-const hideTransition = 'hide'
+const transitionShow = 'show'
+const transitionHide = 'hide'
 
 describe('use-transition', () => {
   const TestComp = defineComponent({
@@ -41,8 +41,8 @@ describe('use-transition', () => {
   beforeEach(() => {
     wrapper = mount(TestComp, {
       props: {
-        transitionShow: showTransition,
-        transitionHide: hideTransition,
+        transitionShow,
+        transitionHide,
       },
     })
   })
@@ -54,7 +54,7 @@ describe('use-transition', () => {
   it('should render correctly', async () => {
 
     expect(wrapper.find('.content').text()).toBe(
-      `el-transition--${hideTransition}`,
+      `el-transition--${transitionHide}`,
     )
     expect(
       getCssVariable(wrapper.find('.content').element, '--el-transition-duration'),
@@ -63,14 +63,14 @@ describe('use-transition', () => {
 
   it('should be able to update transition class', async () => {
     expect(wrapper.find('.content').text()).toBe(
-      `el-transition--${hideTransition}`,
+      `el-transition--${transitionHide}`,
     )
 
     await wrapper.find('.toggle').trigger('click') // this tick indicator gets changed
     await nextTick() // this tick the inner value transitionState gets changed
     await nextTick() // this tick the computed value gets updated
     expect(wrapper.find('.content').text()).toBe(
-      `el-transition--${showTransition}`,
+      `el-transition--${transitionShow}`,
     )
   })
 })
