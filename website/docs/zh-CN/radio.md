@@ -29,8 +29,9 @@
 
   export default defineComponent({
     setup() {
-      const radio = ref('1')
-      return { radio }
+      return {
+        radio: ref('1'),
+      }
     }
   })
 </setup>
@@ -65,7 +66,7 @@
   export default defineComponent({
     setup() {
       return {
-        radio: ref('选中且禁用')
+        radio: ref('选中且禁用'),
       }
     }
   })
@@ -105,7 +106,7 @@
   export default defineComponent({
     setup() {
       return {
-        radio: ref(3)
+        radio: ref(3),
       }
     }
   })
@@ -177,7 +178,7 @@
         radio1: ref('上海'),
         radio2: ref('上海'),
         radio3: ref('上海'),
-        radio4: ref('上海')
+        radio4: ref('上海'),
       }
     }
   })
@@ -235,7 +236,7 @@
         radio1: ref('1'),
         radio2: ref('1'),
         radio3: ref('1'),
-        radio4: ref('1')
+        radio4: ref('1'),
       }
     }
   })

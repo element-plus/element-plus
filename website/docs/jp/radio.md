@@ -28,8 +28,9 @@
 
   export default defineComponent({
     setup() {
-      const radio = ref('1')
-      return { radio }
+      return {
+        radio: ref('1'),
+      }
     }
   })
 </setup>
@@ -64,7 +65,7 @@
   export default defineComponent({
     setup() {
       return {
-        radio: ref('selected and disabled')
+        radio: ref('selected and disabled'),
       }
     }
   })
@@ -102,7 +103,7 @@
   export default defineComponent({
     setup() {
       return {
-        radio: ref(3)
+        radio: ref(3),
       }
     }
   })
@@ -174,7 +175,7 @@
         radio1: ref('New York'),
         radio2: ref('New York'),
         radio3: ref('New York'),
-        radio4: ref('New York')
+        radio4: ref('New York'),
       }
     }
   })
@@ -232,7 +233,7 @@
         radio1: ref('1'),
         radio2: ref('1'),
         radio3: ref('1'),
-        radio4: ref('1')
+        radio4: ref('1'),
       }
     }
   })
