@@ -15,10 +15,10 @@ Radio ne devrait pas avoir trop d'options. Dans ce cas utilisez plutôt Select.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: '1'
-      };
+        radio: '1',
+      }
     }
   }
 </script>
@@ -51,10 +51,10 @@ L'attribut `disabled` désactive le radio.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: 'selected and disabled'
-      };
+        radio: 'selected and disabled',
+      }
     }
   }
 </script>
@@ -89,10 +89,10 @@ Utile pour choisir entre plusieurs groupes d'options mutuellement exclusives.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: 3
-      };
+        radio: 3,
+      }
     }
   }
 </script>
@@ -155,13 +155,13 @@ Des radios affichés comme des boutons standards.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: 'New York',
         radio2: 'New York',
         radio3: 'New York',
-        radio4: 'New York'
-      };
+        radio4: 'New York',
+      }
     }
   }
 </script>
@@ -213,13 +213,13 @@ Des radios affichés comme des boutons standards.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: '1',
         radio2: '1',
         radio3: '1',
-        radio4: '1'
-      };
+        radio4: '1',
+      }
     }
   }
 </script>

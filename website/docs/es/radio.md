@@ -13,10 +13,10 @@ El elemento Radio no debe tener muchas opciones. De otra manera, utilice el comp
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: '1'
-      };
+        radio: '1',
+      }
     }
   }
 </script>
@@ -49,10 +49,10 @@ El atributo `disabled` es utilizado para deshabilitar un Radio.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: 'selected and disabled'
-      };
+        radio: 'selected and disabled',
+      }
     }
   }
 </script>
@@ -87,10 +87,10 @@ Recomendado para seleccionar opciones que se excluyen mutuamente.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: 3
-      };
+        radio: 3,
+      }
     }
   }
 </script>
@@ -153,13 +153,13 @@ Radio con estilo de botón.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: 'New York',
         radio2: 'New York',
         radio3: 'New York',
-        radio4: 'New York'
-      };
+        radio4: 'New York',
+      }
     }
   }
 </script>
@@ -211,13 +211,13 @@ Radio con estilo de botón.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: '1',
         radio2: '1',
         radio3: '1',
-        radio4: '1'
-      };
+        radio4: '1',
+      }
     }
   }
 </script>

@@ -16,10 +16,10 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: '1'
-      };
+        radio: '1',
+      }
     }
   }
 </script>
@@ -52,10 +52,10 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: '选中且禁用'
-      };
+        radio: '选中且禁用',
+      }
     }
   }
 </script>
@@ -92,10 +92,10 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        radio: 3
-      };
+        radio: 3,
+      }
     }
   }
 </script>
@@ -158,13 +158,13 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: '上海',
         radio2: '上海',
         radio3: '上海',
-        radio4: '上海'
-      };
+        radio4: '上海',
+      }
     }
   }
 </script>
@@ -216,13 +216,13 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         radio1: '1',
         radio2: '1',
         radio3: '1',
-        radio4: '1'
-      };
+        radio4: '1',
+      }
     }
   }
 </script>
