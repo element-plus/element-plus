@@ -108,13 +108,17 @@ $--color-text-secondary: #909399 !default;
 /// color|1|Font Color|2
 $--color-text-placeholder: #c0c4cc !default;
 /// color|1|Border Color|3
-$--border-color-base: #dcdfe6 !default;
-/// color|1|Border Color|3
-$--border-color-light: #e4e7ed !default;
-/// color|1|Border Color|3
-$--border-color-lighter: #ebeef5 !default;
-/// color|1|Border Color|3
-$--border-color-extra-light: #f2f6fc !default;
+
+$--border-color: () !default;
+$--border-color: map.merge(
+  (
+    'base': #dcdfe6,
+    'light': #e4e7ed,
+    'lighter': #ebeef5,
+    'extra-light': #f2f6fc,
+  ),
+  $--border-color
+);
 
 // Background
 /// color|1|Background Color|4
@@ -130,7 +134,8 @@ $--link-hover-color: $--color-primary !default;
 $--border-width-base: 1px !default;
 $--border-style-base: solid !default;
 $--border-color-hover: $--color-text-placeholder !default;
-$--border-base: $--border-width-base $--border-style-base $--border-color-base !default;
+$--border-base: $--border-width-base $--border-style-base
+  map.get($--border-color, 'base') !default;
 /// borderRadius|1|Radius|0
 $--border-radius-base: 4px !default;
 /// borderRadius|1|Radius|0
@@ -178,12 +183,13 @@ $--font-line-height-primary: 24px !default;
 -------------------------- */
 $--disabled-fill-base: $--background-color-base !default;
 $--disabled-color-base: $--color-text-placeholder !default;
-$--disabled-border-base: $--border-color-light !default;
+$--disabled-border-base: map.get($--border-color, 'light') !default;
 
 /* Checkbox
 -------------------------- */
 
 // Checkbox
+// refactor with css3 var
 // See packages/theme-chalk/src/checkbox.scss
 
 /* Radio
@@ -202,7 +208,7 @@ $--radio-input-border-radius: $--border-radius-circle !default;
 $--radio-input-background-color: $--color-white !default;
 $--radio-input-border: $--border-base !default;
 /// color||Color|0
-$--radio-input-border-color: $--border-color-base !default;
+$--radio-input-border-color: map.get($--border-color, 'base') !default;
 
 $--radio-disabled-input-border-color: $--disabled-border-base !default;
 $--radio-disabled-input-fill: $--disabled-fill-base !default;
@@ -253,7 +259,10 @@ $--radio-button-checked-background-color: $--color-primary !default;
 $--radio-button-checked-font-color: $--color-white !default;
 /// color||Color|0
 $--radio-button-checked-border-color: $--color-primary !default;
-$--radio-button-disabled-checked-fill: $--border-color-extra-light !default;
+$--radio-button-disabled-checked-fill: map.get(
+  $--border-color,
+  'extra-light'
+) !default;
 
 /* Select
 -------------------------- */
@@ -289,31 +298,12 @@ $--select-dropdown-empty-color: #999 !default;
 $--select-dropdown-max-height: 274px !default;
 $--select-dropdown-padding: 6px 0 !default;
 $--select-dropdown-empty-padding: 10px 0 !default;
-$--select-dropdown-border: solid 1px $--border-color-light !default;
+$--select-dropdown-border: solid 1px map.get($--border-color, 'light') !default;
 
 /* Alert
 -------------------------- */
-$--alert-padding: 8px 16px !default;
-/// borderRadius||Border|2
-$--alert-border-radius: $--border-radius-base !default;
-/// fontSize||Font|1
-$--alert-title-font-size: 13px !default;
-/// fontSize||Font|1
-$--alert-description-font-size: 12px !default;
-/// fontSize||Font|1
-$--alert-close-font-size: 12px !default;
-/// fontSize||Font|1
-$--alert-close-customed-font-size: 13px !default;
-
-$--alert-success-color: map.get($--colors, 'success', 'lighter') !default;
-$--alert-info-color: map.get($--colors, 'info', 'lighter') !default;
-$--alert-warning-color: map.get($--colors, 'warning', 'lighter') !default;
-$--alert-danger-color: map.get($--colors, 'danger', 'lighter') !default;
-
-/// height||Other|4
-$--alert-icon-size: 16px !default;
-/// height||Other|4
-$--alert-icon-large-size: 28px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/alert.scss
 
 /* MessageBox
 -------------------------- */
@@ -368,7 +358,7 @@ $--notification-padding: 14px 26px 14px 13px !default;
 $--notification-radius: 8px !default;
 $--notification-shadow: $--box-shadow-light !default;
 /// color||Color|0
-$--notification-border-color: $--border-color-lighter !default;
+$--notification-border-color: map.get($--border-color, 'lighter') !default;
 $--notification-icon-size: 24px !default;
 $--notification-close-font-size: $--message-close-size !default;
 $--notification-group-margin-left: 13px !default;
@@ -402,7 +392,7 @@ $--notification-danger-icon-color: $--color-danger !default;
 $--input-font-color: $--color-text-regular !default;
 
 $--input-border: $--border-base !default;
-$--input-border-color: $--border-color-base !default;
+$--input-border-color: map.get($--border-color, 'base') !default;
 /// borderRadius||Border|2
 $--input-border-radius: $--border-radius-base !default;
 /// color||Color|0
@@ -457,7 +447,7 @@ $--cascader-menu-selected-font-color: $--color-primary !default;
 $--cascader-menu-fill: $--fill-base !default;
 $--cascader-menu-font-size: map.get($--font-size, 'base') !default;
 $--cascader-menu-radius: $--border-radius-base !default;
-$--cascader-menu-border: solid 1px $--border-color-light !default;
+$--cascader-menu-border: solid 1px map.get($--border-color, 'light') !default;
 $--cascader-menu-shadow: $--box-shadow-light !default;
 $--cascader-node-background-hover: $--background-color-base !default;
 $--cascader-node-color-disabled: $--color-text-placeholder !default;
@@ -502,14 +492,14 @@ $--button-default-font-color: $--color-text-regular !default;
 /// color||Color|0
 $--button-default-background-color: $--color-white !default;
 /// color||Color|0
-$--button-default-border-color: $--border-color-base !default;
+$--button-default-border-color: map.get($--border-color, 'base') !default;
 
 /// color||Color|0
 $--button-disabled-font-color: $--color-text-placeholder !default;
 /// color||Color|0
 $--button-disabled-background-color: $--color-white !default;
 /// color||Color|0
-$--button-disabled-border-color: $--border-color-lighter !default;
+$--button-disabled-border-color: map.get($--border-color, 'lighter') !default;
 
 /// color||Color|0
 $--button-primary-border-color: $--color-primary !default;
@@ -550,7 +540,7 @@ $--button-active-shade-percent: 10% !default;
 /// color||Color|0
 $--switch-on-color: $--color-primary !default;
 /// color||Color|0
-$--switch-off-color: $--border-color-base !default;
+$--switch-off-color: map.get($--border-color, 'base') !default;
 /// fontSize||Font|1
 $--switch-font-size: map.get($--font-size, 'base') !default;
 $--switch-core-border-radius: 10px !default;
@@ -577,7 +567,7 @@ $--dialog-padding-primary: 20px !default;
 /* Table
 -------------------------- */
 /// color||Color|0
-$--table-border-color: $--border-color-lighter !default;
+$--table-border-color: map.get($--border-color, 'lighter') !default;
 $--table-border: 1px solid $--table-border-color !default;
 /// color||Color|0
 $--table-font-color: $--color-text-regular !default;
@@ -630,7 +620,7 @@ $--popover-background-color: $--color-white !default;
 /// fontSize||Font|1
 $--popover-font-size: map.get($--font-size, 'base') !default;
 /// color||Color|0
-$--popover-border-color: $--border-color-lighter !default;
+$--popover-border-color: map.get($--border-color, 'lighter') !default;
 /// padding||Spacing|3
 $--popover-padding: 12px !default;
 $--popover-padding-large: 18px 20px !default;
@@ -706,7 +696,7 @@ $--badge-size: 18px !default;
 /* Card
 --------------------------*/
 /// color||Color|0
-$--card-border-color: $--border-color-lighter !default;
+$--card-border-color: map.get($--border-color, 'lighter') !default;
 $--card-border-radius: 4px !default;
 /// padding||Spacing|3
 $--card-padding: 20px !default;
@@ -716,7 +706,7 @@ $--card-padding: 20px !default;
 /// color||Color|0
 $--slider-main-background-color: $--color-primary !default;
 /// color||Color|0
-$--slider-runway-background-color: $--border-color-light !default;
+$--slider-runway-background-color: map.get($--border-color, 'light') !default;
 $--slider-stop-background-color: $--color-white !default;
 $--slider-disable-color: $--color-text-placeholder !default;
 $--slider-margin: 16px 0 !default;
@@ -761,9 +751,15 @@ $--datepicker-icon-color: $--color-text-primary !default;
 $--datepicker-border-color: $--disabled-border-base !default;
 $--datepicker-inner-border-color: #e4e4e4 !default;
 /// color||Color|0
-$--datepicker-inrange-background-color: $--border-color-extra-light !default;
+$--datepicker-inrange-background-color: map.get(
+  $--border-color,
+  'extra-light'
+) !default;
 /// color||Color|0
-$--datepicker-inrange-hover-background-color: $--border-color-extra-light !default;
+$--datepicker-inrange-hover-background-color: map.get(
+  $--border-color,
+  'extra-light'
+) !default;
 /// color||Color|0
 $--datepicker-active-color: $--color-primary !default;
 /// color||Color|0
@@ -802,7 +798,7 @@ $--carousel-indicator-out-color: $--border-color-hover !default;
 /* Collapse
 --------------------------*/
 /// color||Color|0
-$--collapse-border-color: $--border-color-lighter !default;
+$--collapse-border-color: map.get($--border-color, 'lighter') !default;
 /// height||Other|4
 $--collapse-header-height: 48px !default;
 /// color||Color|0
@@ -820,7 +816,7 @@ $--collapse-content-font-color: $--color-text-primary !default;
 
 /* Transfer
 --------------------------*/
-$--transfer-border-color: $--border-color-lighter !default;
+$--transfer-border-color: map.get($--border-color, 'lighter') !default;
 $--transfer-border-radius: $--border-radius-base !default;
 /// height||Other|4
 $--transfer-panel-width: 200px !default;
@@ -841,7 +837,7 @@ $--transfer-filter-height: 32px !default;
 --------------------------*/
 $--timeline-node-size-normal: 12px !default;
 $--timeline-node-size-large: 14px !default;
-$--timeline-node-color: $--border-color-light !default;
+$--timeline-node-color: map.get($--border-color, 'light') !default;
 
 /* Backtop
 --------------------------*/
@@ -850,7 +846,10 @@ $--backtop-background-color: $--color-white !default;
 /// color||Color|0
 $--backtop-font-color: $--color-primary !default;
 /// color||Color|0
-$--backtop-hover-background-color: $--border-color-extra-light !default;
+$--backtop-hover-background-color: map.get(
+  $--border-color,
+  'extra-light'
+) !default;
 
 /* Link
 --------------------------*/
@@ -920,7 +919,7 @@ $--empty-bottom-margin-top: 20px !default;
 -------------------------- */
 $--descriptions-header-margin-bottom: 20px !default;
 $--descriptions-title-font-size: 16px !default;
-$--descriptions-table-border: 1px solid $--border-color-lighter !default;
+$--descriptions-table-border: 1px solid map.get($--border-color, 'lighter') !default;
 $--descriptions-item-bordered-label-background: #fafafa !default;
 
 /* Result

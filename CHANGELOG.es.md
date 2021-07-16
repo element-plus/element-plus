@@ -4,7 +4,7 @@
 
 *2021-07-09*
 
-### Bug fixes
+#### Bug fixes
 
 - Refactor the type definition of breadcrumb (#2443)
 - Add use-timeout hook (#2439)
@@ -30,7 +30,7 @@
 
 *2021-07-02*
 
-### Bug fixes
+#### Bug fixes
 
 - Fix select_v2 asynchronous binding issue (#2368)
 - Fix add resize directive (#2167)
@@ -46,7 +46,7 @@
 
 *2021-06-25*
 
-### Bug fixes
+#### Bug fixes
 
 - Fix messageBox should close when press enter (#2308)
 - Fix scrollbar update when slot changed (#2322)
@@ -61,7 +61,7 @@
 
 *2021-06-24*
 
-### Bug fixes
+#### Bug fixes
 
 - Fix virtual-list module resolve issue (#2316)
 
@@ -69,7 +69,7 @@
 
 *2021-06-23*
 
-### Bug fixes
+#### Bug fixes
 
 - Fix col different size style (#2237)
 - Refactor extract common props for props (#2300)
@@ -91,12 +91,12 @@
 
 *2021-06-11*
 
-### Features
+#### Features
 
 - Feat Popover: add himBH-popover-border-radius variable (#2094) (#2095)
 - Feat SelectV2: integrate-virtual-list-with-select (#1906)
 
-### Bug fixes
+#### Bug fixes
 
 - Fix DatePicker: date picker support value-format (#2120)
 - Fix Input: style use show-password and clearable (#2168) (#2169)
@@ -104,7 +104,7 @@
 - Fix PopConfirm: import missing popover.scss (#2207)
 - Fix Project: upgrade to vue 3.1.1 and with bug fix (#2220)
 
-### Chore
+#### Chore
 
 - Chore docs: side-nav refactor with Vue3 (#1943)
 - Chore docs: update doc template (#2142)

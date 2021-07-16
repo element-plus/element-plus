@@ -15,7 +15,7 @@
 
     @include picker-popper(
       $--color-white,
-      1px solid $--border-color-light,
+      1px solid var(--el-border-color-light),
       $--dropdown-menu-box-shadow
     );
 
@@ -128,7 +128,7 @@
 
       position: relative;
       margin-top: $divided-offset;
-      border-top: 1px solid $--border-color-lighter;
+      border-top: 1px solid var(--el-border-color-lighter);
 
       &:before {
         content: '';

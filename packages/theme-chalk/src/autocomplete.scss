@@ -12,7 +12,7 @@
   @include e(popper) {
     @include picker-popper(
       $--color-white,
-      1px solid $--border-color-light,
+      1px solid var(--el-border-color-light),
       $--box-shadow-light
     );
   }

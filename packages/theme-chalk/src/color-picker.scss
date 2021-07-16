@@ -396,7 +396,7 @@
     border-radius: $--border-radius-base;
     box-shadow: $--dropdown-menu-box-shadow;
     &.#{$namespace}-popper {
-      border: 1px solid $--border-color-lighter;
+      border: 1px solid var(--el-border-color-lighter);
     }
   }
 }
