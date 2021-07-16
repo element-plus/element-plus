@@ -4313,6 +4313,7 @@ export default defineComponent({
 | debounce | Délai de réponse lors de la saisie du mot clé de filtre, en millisecondes | number | — | 300 |
 | before-filter | Hook fonction avant de filtrer avec la valeur à filtrer en tant que paramètre. Si `false` est renvoyé ou si une `Promise` est renvoyée puis rejetée, le filtrage sera annulé | function(value) | — | — |
 | popper-class | Nom de classe personnalisé pour la liste déroulante de Cascader   | string | —  | — |
+| popper-append-to-body| Si le menu déroulant doit être ajouté au body. Si le positionnement du menu est incorrect, essayez de mettre cette option à `false`. | boolean | - | true |
 
 ### Cascader Events
 | Event Name | Description | Paramètres |
