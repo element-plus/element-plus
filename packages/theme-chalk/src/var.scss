@@ -71,4 +71,8 @@
   --el-disabled-fill-base: var(--el-background-color-base);
   --el-disabled-color-base: var(--el-color-text-placeholder);
   --el-disabled-border-base: var(--el-border-color-light);
+
+  // some var for component, but because they are used in many places, need to be global
+  // message
+  --el-message-close-size: 16px;
 }
