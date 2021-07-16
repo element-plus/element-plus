@@ -1,5 +1,9 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
+
+:root {
+  --el-main-padding: 20px;
+}
 
 @include b(main) {
   // IE11 supports the <main> element partially https://caniuse.com/#search=main
@@ -8,5 +12,5 @@
   flex-basis: auto;
   overflow: auto;
   box-sizing: border-box;
-  padding: $--main-padding;
+  padding: var(--el-main-padding);
 }

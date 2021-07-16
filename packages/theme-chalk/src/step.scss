@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(step) {
   position: relative;
@@ -63,7 +63,7 @@
     font-size: 14px;
     box-sizing: border-box;
     background: $--color-white;
-    transition: .15s ease-out;
+    transition: 0.15s ease-out;
 
     @include when(text) {
       border-radius: 50%;
@@ -84,7 +84,7 @@
     line-height: 1;
     color: inherit;
 
-    &[class*=#{$namespace}-icon]:not(.is-status) {
+    &[class*='#{$namespace}-icon']:not(.is-status) {
       font-size: 25px;
       font-weight: normal;
     }
@@ -106,7 +106,7 @@
     border-width: 1px;
     border-style: solid;
     border-color: inherit;
-    transition: .15s ease-out;
+    transition: 0.15s ease-out;
     box-sizing: border-box;
     width: 0;
     height: 0;
@@ -215,7 +215,6 @@
   }
 
   @include when(center) {
-
     @include e(head) {
       text-align: center;
     }
@@ -253,12 +252,12 @@
     }
 
     @include e(icon-inner) {
-      &[class*=#{$namespace}-icon]:not(.is-status) {
+      &[class*='#{$namespace}-icon']:not(.is-status) {
         font-size: 18px;
       }
 
       &.is-status {
-        transform: scale(.8) translateY(1px);
+        transform: scale(0.8) translateY(1px);
       }
     }
 

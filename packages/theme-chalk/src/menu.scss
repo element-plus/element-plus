@@ -169,7 +169,7 @@
         top: 0;
         left: 100%;
         z-index: 10;
-        border: 1px solid $--border-color-light;
+        border: 1px solid var(--el-border-color-light);
         border-radius: $--border-radius-small;
         box-shadow: $--box-shadow-light;
       }
@@ -276,7 +276,9 @@
   }
 }
 
-.horizontal-collapse-transition .#{$namespace}-submenu__title .#{$namespace}-submenu__icon-arrow {
+.horizontal-collapse-transition
+  .#{$namespace}-submenu__title
+  .#{$namespace}-submenu__icon-arrow {
   transition: 0.2s;
   opacity: 0;
 }

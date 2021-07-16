@@ -336,7 +336,7 @@ NavMenu vertical puede ser colapsado.
 ### Eventos Menu
 | Nombre de evento | Descripción                              | Parámetros                               |
 | ---------------- | ---------------------------------------- | ---------------------------------------- |
-| select           | callback ejecutado cuando el menú es activado | index: índice del menú activado, indexPath: index path del menú activado |
+| select           | callback ejecutado cuando el menú es activado | index: índice del menú activado, indexPath: index path del menú activado, item: el elemento de menú seleccionado, routeResult: resultado devuelto por `vue-router` si `router` está activado |
 | open             | callback ejecutado cuando sub-menu se expande | index: índice del sub-menu expandido, indexPath: index path del sub-menu expandido |
 | close            | callback ejecutado cuando sub-menu colapsa | index: índice del sub-menu colapsado, indexPath: index path del menú colapsado |
 

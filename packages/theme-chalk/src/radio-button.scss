@@ -1,6 +1,8 @@
-@import "mixins/mixins";
-@import "mixins/_button";
-@import "common/var";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'mixins/_button';
+@import 'common/var';
 
 @include b(radio-button) {
   position: relative;
@@ -26,13 +28,18 @@
     cursor: pointer;
     transition: $--all-transition;
 
-    @include button-size($--button-padding-vertical, $--button-padding-horizontal, $--button-font-size, 0);
+    @include button-size(
+      map.get($--button-padding-vertical, 'default'),
+      map.get($--button-padding-horizontal, 'default'),
+      map.get($--button-font-size, 'default'),
+      0
+    );
 
     &:hover {
       color: $--color-primary;
     }
 
-    & [class*="#{$namespace}-icon-"] {
+    & [class*='#{$namespace}-icon-'] {
       line-height: 0.9;
 
       & + span {
@@ -91,23 +98,21 @@
     }
   }
 
-  @include m(medium) {
-    & .#{$namespace}-radio-button__inner {
-      @include button-size($--button-medium-padding-vertical, $--button-medium-padding-horizontal, $--button-medium-font-size, 0);
-    }
-  }
-  @include m(small) {
-    & .#{$namespace}-radio-button__inner {
-      @include button-size($--button-small-padding-vertical, $--button-small-padding-horizontal, $--button-small-font-size, 0);
-    }
-  }
-  @include m(mini) {
-    & .#{$namespace}-radio-button__inner {
-      @include button-size($--button-mini-padding-vertical, $--button-mini-padding-horizontal, $--button-mini-font-size, 0);
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      & .#{$namespace}-radio-button__inner {
+        @include button-size(
+          map.get($--button-padding-vertical, $size),
+          map.get($--button-padding-horizontal, $size),
+          map.get($--button-font-size, $size),
+          0
+        );
+      }
     }
   }
 
-  &:focus:not(.is-focus):not(:active):not(.is-disabled){ /*获得焦点时 样式提醒*/
+  &:focus:not(.is-focus):not(:active):not(.is-disabled) {
+    /*获得焦点时 样式提醒*/
     box-shadow: 0 0 2px 2px $--radio-button-checked-border-color;
   }
 }

@@ -107,7 +107,7 @@ Vous pouvez également définir un intervalle libre.
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| model-value / v-model | La valeur liée. | Date | - | - |
+| model-value / v-model | La valeur liée. | Date | — | — |
 | readonly | Si TimePicker est en lecture seule. | boolean | — | false |
 | disabled | Si TimePicker est désactivé. | boolean | — | false |
 | editable | Si le champ d'input est éditable. | boolean | — | true |
@@ -120,15 +120,15 @@ Vous pouvez également définir un intervalle libre.
 | arrow-control | Si les flèches directionnelles peuvent être utilisées | boolean | — | false |
 | align | Alignement. | left / center / right | left |
 | popper-class | Classe du menu du TimePicker. | string | — | — |
-| range-separator | Séparateur d'intervalle. | string | - | '-' |
+| range-separator | Séparateur d'intervalle. | string | — | '-' |
 | format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | HH:mm:ss |
 | default-value | Optionnel, date d'aujourd'hui par défaut. | `Date` pour le TimePicker, `string` pour le TimeSelect | Toute valeur acceptée par `new Date()` pour le TimePicker, une valeur sélectionnable pour TimeSelect. | — |
 | name | Attribut `name` natif de l'input. | string | — | — |
 | prefix-icon | Classe de l'icône de préfixe. | string | — | el-icon-time |
 | clear-icon | Classe de l'icône d'effacement. | string | — | el-icon-circle-close |
-| disabledHours | To specify the array of hours that cannot be selected | function | — | - |
-| disabledMinutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | - |
-| disabledSeconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | - |
+| disabled-hours | To specify the array of hours that cannot be selected | function | — | — |
+| disabled-minutes | To specify the array of minutes that cannot be selected | function(selectedHour) | — | — |
+| disabled-seconds | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute) | — | — |
 
 ### Évènements
 
@@ -142,4 +142,5 @@ Vous pouvez également définir un intervalle libre.
 
 | Méthode | Description | Paramètres |
 | ---- | ---- | ---- |
-| focus | Met le focus sur le composant. | - |
+| focus | Met le focus sur le composant. | — |
+| blur | blur the Input component | — |

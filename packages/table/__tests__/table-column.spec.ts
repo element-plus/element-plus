@@ -1,4 +1,4 @@
-import { defineComponent, nextTick } from 'vue'
+import { nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
 import { triggerEvent } from '@element-plus/test-utils'
@@ -667,7 +667,7 @@ describe('table column', () => {
     })
 
     it('el-table-column should callback itself', async() => {
-      const TableColumn = defineComponent({
+      const TableColumn = {
         name: 'TableColumn',
         components: {
           ElTableColumn,
@@ -682,7 +682,7 @@ describe('table column', () => {
             </template>
           </el-table-column>
         `,
-      })
+      }
       const App = {
         template: `
           <el-table :data="data">
@@ -741,11 +741,11 @@ describe('table column', () => {
     })
 
     it('should not rendered other components in hidden-columns', async () => {
-      const Comp = defineComponent({
+      const Comp = {
         template: `
           <div class="other-component"></div>
         `,
-      })
+      }
       const wrapper = mount({
         components: {
           ElTableColumn,
@@ -926,10 +926,17 @@ describe('table column', () => {
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '100',
       )
+
       wrapper.vm.width = 200
       await nextTick()
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '200',
+      )
+
+      wrapper.vm.width = '300px'
+      await nextTick()
+      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+        '300',
       )
       wrapper.unmount()
     })
@@ -961,10 +968,17 @@ describe('table column', () => {
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '100',
       )
+
       wrapper.vm.width = 200
       await nextTick()
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '200',
+      )
+
+      wrapper.vm.width = '300px'
+      await nextTick()
+      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+        '300',
       )
       wrapper.unmount()
     })

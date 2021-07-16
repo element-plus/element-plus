@@ -1,7 +1,7 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "common/transition";
-@import "checkbox";
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'common/transition';
+@import 'checkbox';
 
 @include b(tree) {
   position: relative;
@@ -23,7 +23,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     color: $--color-text-secondary;
-    font-size: $--font-size-base;
+    font-size: var(--el-font-size-base);
   }
 
   @include e(drop-indicator) {
@@ -38,7 +38,8 @@
 @include b(tree-node) {
   white-space: nowrap;
   outline: none;
-  &:focus { /* focus */
+  &:focus {
+    /* focus */
     > .#{$namespace}-tree-node__content {
       background-color: $--tree-node-hover-background-color;
     }
@@ -99,12 +100,12 @@
   }
 
   @include e(label) {
-    font-size: $--font-size-base;
+    font-size: var(--el-font-size-base);
   }
 
   @include e(loading-icon) {
     margin-right: 8px;
-    font-size: $--font-size-base;
+    font-size: var(--el-font-size-base);
     color: $--tree-expand-icon-color;
   }
 
@@ -118,6 +119,8 @@
   }
 }
 
-.#{$namespace}-tree--highlight-current .#{$namespace}-tree-node.is-current > .#{$namespace}-tree-node__content {
+.#{$namespace}-tree--highlight-current
+  .#{$namespace}-tree-node.is-current
+  > .#{$namespace}-tree-node__content {
   background-color: mix($--color-white, $--color-primary, 92%);
 }

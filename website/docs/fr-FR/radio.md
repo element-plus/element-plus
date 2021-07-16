@@ -24,14 +24,15 @@ Radio ne devrait pas avoir trop d'options. Dans ce cas utilisez plutôt Select.
 </script>
 <!--
 <setup>
-  import { ref } from 'vue'
+  import { defineComponent, ref } from 'vue'
 
-  export default {
+  export default defineComponent({
     setup() {
-      const radio = ref('1');
-      return { radio }
+      return {
+        radio: ref('1'),
+      }
     }
-  }
+  })
 </setup>
 -->
 ```
@@ -59,17 +60,15 @@ L'attribut `disabled` désactive le radio.
 </script>
 <!--
 <setup>
-
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref } from 'vue'
 
   export default defineComponent({
     setup() {
       return {
         radio: ref('selected and disabled'),
-      };
-    },
-  });
-
+      }
+    }
+  })
 </setup>
 -->
 ```
@@ -99,17 +98,15 @@ Utile pour choisir entre plusieurs groupes d'options mutuellement exclusives.
 </script>
 <!--
 <setup>
-
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref } from 'vue'
 
   export default defineComponent({
     setup() {
       return {
         radio: ref(3),
-      };
-    },
-  });
-
+      }
+    }
+  })
 </setup>
 -->
 ```
@@ -170,8 +167,8 @@ Des radios affichés comme des boutons standards.
 </script>
 <!--
 <setup>
+  import { defineComponent, ref } from 'vue'
 
-  import { defineComponent, ref } from 'vue';
   export default defineComponent({
     setup() {
       return {
@@ -179,10 +176,9 @@ Des radios affichés comme des boutons standards.
         radio2: ref('New York'),
         radio3: ref('New York'),
         radio4: ref('New York'),
-      };
-    },
-  });
-
+      }
+    }
+  })
 </setup>
 -->
 ```
@@ -229,8 +225,7 @@ Des radios affichés comme des boutons standards.
 </script>
 <!--
 <setup>
-
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref } from 'vue'
 
   export default defineComponent({
     setup() {
@@ -239,10 +234,9 @@ Des radios affichés comme des boutons standards.
         radio2: ref('1'),
         radio3: ref('1'),
         radio4: ref('1'),
-      };
-    },
-  });
-
+      }
+    }
+  })
 </setup>
 -->
 ```

@@ -1,5 +1,7 @@
-@import "mixins/mixins";
-@import "common/var";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(message) {
   min-width: $--message-min-width;
@@ -7,13 +9,13 @@
   border-radius: $--border-radius-base;
   border-width: $--border-width-base;
   border-style: $--border-style-base;
-  border-color: $--border-color-lighter;
+  border-color: var(--el-border-color-lighter);
   position: fixed;
   left: 50%;
   top: 20px;
   transform: translateX(-50%);
   background-color: $--message-background-color;
-  transition: opacity 0.3s, transform .4s, top 0.4s;
+  transition: opacity 0.3s, transform 0.4s, top 0.4s;
   overflow: hidden;
   padding: $--message-padding;
   display: flex;
@@ -40,8 +42,8 @@
   }
 
   @include m(success) {
-    background-color: $--color-success-lighter;
-    border-color: $--color-success-light;
+    background-color: map.get($--colors, 'success', 'lighter');
+    border-color: map.get($--colors, 'success', 'light');
 
     .#{$namespace}-message__content {
       color: $--message-success-font-color;
@@ -49,8 +51,8 @@
   }
 
   @include m(warning) {
-    background-color: $--color-warning-lighter;
-    border-color: $--color-warning-light;
+    background-color: map.get($--colors, 'warning', 'lighter');
+    border-color: map.get($--colors, 'warning', 'light');
 
     .#{$namespace}-message__content {
       color: $--message-warning-font-color;
@@ -58,8 +60,8 @@
   }
 
   @include m(error) {
-    background-color: $--color-danger-lighter;
-    border-color: $--color-danger-light;
+    background-color: map.get($--colors, 'danger', 'lighter');
+    border-color: map.get($--colors, 'danger', 'light');
 
     .#{$namespace}-message__content {
       color: $--message-danger-font-color;
@@ -86,7 +88,7 @@
     transform: translateY(-50%);
     cursor: pointer;
     color: $--message-close-icon-color;
-    font-size: $--message-close-size;
+    font-size: var(--el-message-close-size);
 
     &:focus {
       outline-width: 0;

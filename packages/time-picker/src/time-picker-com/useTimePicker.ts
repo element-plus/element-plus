@@ -10,7 +10,7 @@ const makeList = (total, method, methodFunc) => {
   return arr
 }
 
-const makeAvaliableArr = list => {
+const makeAvailableArr = list => {
   return list.map((_, index) => !_ ? index : _).filter(_ => _ !== true)
 }
 
@@ -35,7 +35,7 @@ export const getTimeLists = (disabledHours, disabledMinutes, disabledSeconds) =>
 }
 
 
-export const getAvaliableArrs = (disabledHours, disabledMinutes, disabledSeconds) => {
+export const getAvailableArrs = (disabledHours, disabledMinutes, disabledSeconds) => {
   const {
     getHoursList,
     getMinutesList,
@@ -46,22 +46,22 @@ export const getAvaliableArrs = (disabledHours, disabledMinutes, disabledSeconds
     disabledSeconds,
   )
 
-  const getAvaliableHours = (role, compare?) => {
-    return makeAvaliableArr(getHoursList(role, compare))
+  const getAvailableHours = (role, compare?) => {
+    return makeAvailableArr(getHoursList(role, compare))
   }
 
-  const getAvaliableMinutes = (hour, role, compare?) => {
-    return makeAvaliableArr(getMinutesList(hour, role, compare))
+  const getAvailableMinutes = (hour, role, compare?) => {
+    return makeAvailableArr(getMinutesList(hour, role, compare))
   }
 
-  const getAvaliableSeconds = (hour, minute, role, compare?) => {
-    return makeAvaliableArr(getSecondsList(hour, minute, role, compare))
+  const getAvailableSeconds = (hour, minute, role, compare?) => {
+    return makeAvailableArr(getSecondsList(hour, minute, role, compare))
   }
 
   return {
-    getAvaliableHours,
-    getAvaliableMinutes,
-    getAvaliableSeconds,
+    getAvailableHours,
+    getAvailableMinutes,
+    getAvailableSeconds,
   }
 }
 

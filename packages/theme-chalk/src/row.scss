@@ -1,6 +1,6 @@
-@import "common/var";
-@import "mixins/mixins";
-@import "mixins/utils";
+@import 'common/var';
+@import 'mixins/mixins';
+@import 'mixins/utils';
 
 @include b(row) {
   display: flex;

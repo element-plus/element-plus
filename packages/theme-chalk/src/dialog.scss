@@ -45,7 +45,7 @@
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: $--message-close-size;
+    font-size: var(--el-message-close-size);
 
     .#{$namespace}-dialog__close {
       color: $--color-info;
@@ -107,9 +107,6 @@
     animation: dialog-fade-out 0.3s;
   }
 }
-
-
-
 
 @keyframes dialog-fade-in {
   0% {

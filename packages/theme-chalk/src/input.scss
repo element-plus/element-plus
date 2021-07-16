@@ -1,12 +1,14 @@
-@import "mixins/mixins";
-@import "common/var";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(textarea) {
   position: relative;
   display: inline-block;
   width: 100%;
   vertical-align: bottom;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
 
   @include e(inner) {
     display: block;
@@ -73,15 +75,15 @@
 
 @include b(input) {
   position: relative;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   display: inline-block;
   width: 100%;
-  line-height: $--input-height;
+  line-height: map.get($--input-height, 'default');
   @include scroll-bar;
 
   & .#{$namespace}-input__clear {
     color: $--input-icon-color;
-    font-size: $--input-font-size;
+    font-size: map.get($--input-font-size, 'default');
     cursor: pointer;
     transition: $--color-transition-base;
 
@@ -115,8 +117,8 @@
     color: $--input-font-color;
     display: inline-block;
     font-size: inherit;
-    height: $--input-height;
-    line-height: $--input-height;
+    height: map.get($--input-height, 'default');
+    line-height: map.get($--input-height, 'default');
     outline: none;
     padding: 0 15px;
     transition: $--border-transition-base;
@@ -143,7 +145,7 @@
     top: 0;
     text-align: center;
     color: $--input-icon-color;
-    transition: all .3s;
+    transition: all 0.3s;
     pointer-events: none;
   }
 
@@ -158,14 +160,14 @@
     top: 0;
     text-align: center;
     color: $--input-icon-color;
-    transition: all .3s;
+    transition: all 0.3s;
   }
 
   @include e(icon) {
     width: 25px;
     text-align: center;
-    transition: all .3s;
-    line-height: $--input-height;
+    transition: all 0.3s;
+    line-height: map.get($--input-height, 'default');
 
     &:after {
       content: '';
@@ -234,43 +236,19 @@
     }
   }
 
-  @include m(medium) {
-    font-size: $--input-medium-font-size;
-    line-height: $--input-medium-height;
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      font-size: map.get($--input-font-size, $size);
+      line-height: map.get($--input-height, $size);
 
-    @include e(inner) {
-      height: $--input-medium-height;
-      line-height: $--input-medium-height;
-    }
+      @include e(inner) {
+        height: map.get($--input-height, $size);
+        line-height: map.get($--input-height, $size);
+      }
 
-    .#{$namespace}-input__icon {
-      line-height: $--input-medium-height;
-    }
-  }
-  @include m(small) {
-    font-size: $--input-small-font-size;
-    line-height: $--input-small-height;
-
-    @include e(inner) {
-      height: $--input-small-height;
-      line-height: $--input-small-height;
-    }
-
-    .#{$namespace}-input__icon {
-      line-height: $--input-small-height;
-    }
-  }
-  @include m(mini) {
-    font-size: $--input-mini-font-size;
-    line-height: $--input-mini-height;
-
-    @include e(inner) {
-      height: $--input-mini-height;
-      line-height: $--input-mini-height;
-    }
-
-    .#{$namespace}-input__icon {
-      line-height: $--input-mini-height;
+      .#{$namespace}-input__icon {
+        line-height: map.get($--input-height, $size);
+      }
     }
   }
 }
@@ -280,7 +258,7 @@
   display: inline-table;
   width: 100%;
   border-collapse: separate;
-  border-spacing:0;
+  border-spacing: 0;
 
   > .#{$namespace}-input__inner {
     vertical-align: middle;
@@ -342,7 +320,9 @@
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-    .#{$namespace}-select .#{$namespace}-input.is-focus .#{$namespace}-input__inner {
+    .#{$namespace}-select
+      .#{$namespace}-input.is-focus
+      .#{$namespace}-input__inner {
       border-color: transparent;
     }
   }
@@ -352,7 +332,9 @@
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
-    .#{$namespace}-select .#{$namespace}-input.is-focus .#{$namespace}-input__inner {
+    .#{$namespace}-select
+      .#{$namespace}-input.is-focus
+      .#{$namespace}-input__inner {
       border-color: transparent;
     }
   }

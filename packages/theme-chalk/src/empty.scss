@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(empty) {
   display: flex;
@@ -34,7 +34,7 @@
 
     p {
       margin: 0;
-      font-size: $--font-size-base;
+      font-size: var(--el-font-size-base);
       color: $--color-text-secondary;
     }
   }
