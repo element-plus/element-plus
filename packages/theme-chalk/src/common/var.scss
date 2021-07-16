@@ -336,8 +336,6 @@ $--message-background-color: #edf2fc !default;
 $--message-padding: 15px 15px 15px 20px !default;
 /// color||Color|0
 $--message-close-icon-color: $--color-text-placeholder !default;
-/// height||Other|4
-$--message-close-size: 16px !default;
 /// color||Color|0
 $--message-close-hover-color: $--color-text-secondary !default;
 
@@ -352,39 +350,8 @@ $--message-danger-font-color: $--color-danger !default;
 
 /* Notification
 -------------------------- */
-$--notification-width: 330px !default;
-/// padding||Spacing|3
-$--notification-padding: 14px 26px 14px 13px !default;
-$--notification-radius: 8px !default;
-$--notification-shadow: $--box-shadow-light !default;
-/// color||Color|0
-$--notification-border-color: map.get($--border-color, 'lighter') !default;
-$--notification-icon-size: 24px !default;
-$--notification-close-font-size: $--message-close-size !default;
-$--notification-group-margin-left: 13px !default;
-$--notification-group-margin-right: 8px !default;
-/// fontSize||Font|1
-$--notification-content-font-size: map.get($--font-size, 'base') !default;
-/// color||Color|0
-$--notification-content-color: $--color-text-regular !default;
-/// fontSize||Font|1
-$--notification-title-font-size: 16px !default;
-/// color||Color|0
-$--notification-title-color: $--color-text-primary !default;
-
-/// color||Color|0
-$--notification-close-color: $--color-text-secondary !default;
-/// color||Color|0
-$--notification-close-hover-color: $--color-text-regular !default;
-
-/// color||Color|0
-$--notification-success-icon-color: $--color-success !default;
-/// color||Color|0
-$--notification-info-icon-color: $--color-info !default;
-/// color||Color|0
-$--notification-warning-icon-color: $--color-warning !default;
-/// color||Color|0
-$--notification-danger-icon-color: $--color-danger !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/notification.scss
 
 /* Input
 -------------------------- */

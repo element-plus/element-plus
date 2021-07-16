@@ -52,7 +52,7 @@
     border: none;
     outline: none;
     background: transparent;
-    font-size: $--message-close-size;
+    font-size: var(--el-message-close-size);
     cursor: pointer;
 
     .#{$namespace}-message-box__close {
