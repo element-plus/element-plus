@@ -23,7 +23,7 @@
     background-image: none;
     border: $--input-border;
     border-radius: $--input-border-radius;
-    transition: $--border-transition-base;
+    transition: var(--el-border-transition-base);
 
     &::placeholder {
       color: $--input-placeholder-color;
@@ -85,7 +85,7 @@
     color: $--input-icon-color;
     font-size: map.get($--input-font-size, 'default');
     cursor: pointer;
-    transition: $--color-transition-base;
+    transition: var(--el-color-transition-base)e;
 
     &:hover {
       color: $--input-clear-hover-color;
@@ -121,7 +121,7 @@
     line-height: map.get($--input-height, 'default');
     outline: none;
     padding: 0 15px;
-    transition: $--border-transition-base;
+    transition: var(--el-border-transition-base);
     width: 100%;
 
     &::placeholder {
@@ -145,7 +145,7 @@
     top: 0;
     text-align: center;
     color: $--input-icon-color;
-    transition: all 0.3s;
+    transition: all var(--el-transition-duration);
     pointer-events: none;
   }
 
@@ -160,13 +160,13 @@
     top: 0;
     text-align: center;
     color: $--input-icon-color;
-    transition: all 0.3s;
+    transition: all var(--el-transition-duration);
   }
 
   @include e(icon) {
     width: 25px;
     text-align: center;
-    transition: all 0.3s;
+    transition: all var(--el-transition-duration);
     line-height: map.get($--input-height, 'default');
 
     &:after {

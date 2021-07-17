@@ -17,7 +17,7 @@
   }
 
   @include e(label) {
-    transition: 0.2s;
+    transition: var(--el-fast-transition-duration);
     height: $--switch-height;
     display: inline-block;
     font-size: $--switch-font-size;
@@ -63,7 +63,7 @@
     box-sizing: border-box;
     background: $--switch-off-color;
     cursor: pointer;
-    transition: border-color 0.3s, background-color 0.3s;
+    transition: border-color var(--el-transition-duration), background-color var(--el-transition-duration);
     vertical-align: middle;
 
     .#{$namespace}-switch__action {
@@ -71,7 +71,7 @@
       top: 1px;
       left: 1px;
       border-radius: $--border-radius-circle;
-      transition: all 0.3s;
+      transition: all var(--el-transition-duration);
       width: $--switch-button-size;
       height: $--switch-button-size;
       background-color: $--color-white;

@@ -26,7 +26,7 @@
     margin: 0;
     position: relative;
     cursor: pointer;
-    transition: $--all-transition;
+    transition: var(--el-all-transition);
 
     @include button-size(
       map.get($--button-padding-vertical, 'default'),

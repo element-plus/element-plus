@@ -14,7 +14,7 @@
     height: 2px;
     background-color: $--color-primary;
     z-index: 1;
-    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: transform var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
     list-style: none;
   }
   @include e(new-tab) {
@@ -79,7 +79,7 @@
   @include e(nav) {
     white-space: nowrap;
     position: relative;
-    transition: transform 0.3s;
+    transition: transform var(--el-transition-duration);
     float: left;
     z-index: calc(var(--el-index-normal) + 1);
 
@@ -112,7 +112,7 @@
     & .#{$namespace}-icon-close {
       border-radius: 50%;
       text-align: center;
-      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
       margin-left: 5px;
       &:before {
         transform: scale(0.9);
@@ -176,8 +176,8 @@
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       border-bottom: 1px solid transparent;
       border-left: 1px solid var(--el-border-color-light);
-      transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
-        padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: color var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1),
+        padding var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
       &:first-child {
         border-left: none;
       }
@@ -222,7 +222,7 @@
       content: none;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
-      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
       border: 1px solid transparent;
       margin-top: -1px;
       color: $--color-text-secondary;
@@ -517,22 +517,22 @@
   display: inline-block;
 }
 .slideInRight-enter {
-  animation: slideInRight-enter 0.3s;
+  animation: slideInRight-enter var(--el-transition-duration);
 }
 .slideInRight-leave {
   position: absolute;
   left: 0;
   right: 0;
-  animation: slideInRight-leave 0.3s;
+  animation: slideInRight-leave var(--el-transition-duration);
 }
 .slideInLeft-enter {
-  animation: slideInLeft-enter 0.3s;
+  animation: slideInLeft-enter var(--el-transition-duration);
 }
 .slideInLeft-leave {
   position: absolute;
   left: 0;
   right: 0;
-  animation: slideInLeft-leave 0.3s;
+  animation: slideInLeft-leave var(--el-transition-duration);
 }
 
 @keyframes slideInRight-enter {

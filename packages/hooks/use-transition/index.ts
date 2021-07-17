@@ -5,7 +5,7 @@ import type { ExtractPropTypes, Ref } from 'vue'
 export const useTransitionProps = {
   transitionDuration: {
     type: Number,
-    default: 300,
+    default: 0.3,
   },
   transitionShow: String,
   transitionHide: String,
@@ -29,7 +29,7 @@ export const useTransition = (
       }`
     }),
     transitionStyle: computed(() =>
-      `--el-transition-duration: ${props.transitionDuration}ms`,
+      `--el-transition-duration: ${props.transitionDuration}s`,
     ),
   }
 }

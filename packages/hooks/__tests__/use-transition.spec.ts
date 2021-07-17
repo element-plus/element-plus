@@ -52,13 +52,15 @@ describe('use-transition', () => {
   })
 
   it('should render correctly', async () => {
-
     expect(wrapper.find('.content').text()).toBe(
       `el-transition--${transitionHide}`,
     )
     expect(
-      getCssVariable(wrapper.find('.content').element, '--el-transition-duration'),
-    ).toBe('300ms')
+      getCssVariable(
+        wrapper.find('.content').element,
+        '--el-transition-duration',
+      ),
+    ).toBe('0.3s')
   })
 
   it('should be able to update transition class', async () => {
@@ -72,5 +74,28 @@ describe('use-transition', () => {
     expect(wrapper.find('.content').text()).toBe(
       `el-transition--${transitionShow}`,
     )
+  })
+
+  it('should be able to change the transition duration via props', async () => {
+    expect(wrapper.find('.content').text()).toBe(
+      `el-transition--${transitionHide}`,
+    )
+    expect(
+      getCssVariable(
+        wrapper.find('.content').element,
+        '--el-transition-duration',
+      ),
+    ).toBe('0.3s')
+
+    await wrapper.setProps({
+      transitionDuration: 0.2,
+    })
+
+    expect(
+      getCssVariable(
+        wrapper.find('.content').element,
+        '--el-transition-duration',
+      ),
+    ).toBe('0.2s')
   })
 })

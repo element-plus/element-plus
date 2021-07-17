@@ -27,7 +27,7 @@ $--input-inline-start: 7px !default;
     padding-bottom: 1px;
     border: 1px solid var(--el-border-color-base);
     border-radius: $--border-radius-base;
-    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: border-color var(--el-fast-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
 
     &:hover {
       border-color: $--color-text-placeholder;
@@ -203,7 +203,7 @@ $--input-inline-start: 7px !default;
   @include e(caret) {
     color: $--select-input-color;
     font-size: $--select-input-font-size;
-    transition: transform 0.3s;
+    transition: transform var(--el-transition-duration);
     transform: rotateZ(180deg);
     cursor: pointer;
 
@@ -217,7 +217,7 @@ $--input-inline-start: 7px !default;
       transform: rotateZ(180deg);
       border-radius: $--border-radius-circle;
       color: $--select-input-color;
-      transition: $--color-transition-base;
+      transition: var(--el-color-transition-base)e;
 
       &:hover {
         color: $--select-close-hover-color;
@@ -238,7 +238,7 @@ $--input-inline-start: 7px !default;
     border: 1px solid #d9d9d9;
     border-radius: $--border-radius-base;
     position: relative;
-    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 
   @include e(input-calculator) {

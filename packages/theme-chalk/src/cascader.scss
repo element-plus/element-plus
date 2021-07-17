@@ -33,7 +33,7 @@
     }
 
     .#{$namespace}-icon-arrow-down {
-      transition: transform 0.3s;
+      transition: transform var(--el-transition-duration);
       font-size: 14px;
 
       @include when(reverse) {
