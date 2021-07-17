@@ -82,14 +82,14 @@ export default defineComponent({
       return res
     }
 
-    const filledNode = (node, span, count, isLast = false) => {
+    const filledNode = (node, span, count, length, isLast = false) => {
       if (!node.props) {
         node.props = {}
       }
       if (span > count) {
         node.props.span = count
       }
-      if (isLast) {
+      if (isLast && length > props.column) {
         // set the max span, cause of the last td
         node.props.span = props.column
       }
@@ -106,7 +106,7 @@ export default defineComponent({
         const span = node.props?.span || 1
 
         if (index === children.length - 1) {
-          temp.push(filledNode(node, span, count, true))
+          temp.push(filledNode(node, span, count, children.length, true))
           rows.push(temp)
           return
         }
@@ -115,7 +115,7 @@ export default defineComponent({
           count -= span
           temp.push(node)
         } else {
-          temp.push(filledNode(node, span, count))
+          temp.push(filledNode(node, span, count, children.length))
           rows.push(temp)
           count = props.column
           temp = []
