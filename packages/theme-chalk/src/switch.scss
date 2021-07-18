@@ -17,7 +17,7 @@
   }
 
   @include e(label) {
-    transition: var(--el-fast-transition-duration);
+    transition: var(--el-transition-duration-fast);
     height: $--switch-height;
     display: inline-block;
     font-size: $--switch-font-size;

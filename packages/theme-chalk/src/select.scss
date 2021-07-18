@@ -76,7 +76,7 @@
         transform: rotateZ(180deg);
         border-radius: $--border-radius-circle;
         color: $--select-input-color;
-        transition: var(--el-color-transition-base)e;
+        transition: var(--el-color-transition-base);
 
         &:hover {
           color: $--select-close-hover-color;

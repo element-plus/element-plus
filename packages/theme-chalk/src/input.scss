@@ -85,7 +85,7 @@
     color: $--input-icon-color;
     font-size: map.get($--input-font-size, 'default');
     cursor: pointer;
-    transition: var(--el-color-transition-base)e;
+    transition: var(--el-color-transition-base);
 
     &:hover {
       color: $--input-clear-hover-color;

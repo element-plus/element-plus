@@ -279,6 +279,6 @@
 .horizontal-collapse-transition
   .#{$namespace}-submenu__title
   .#{$namespace}-submenu__icon-arrow {
-  transition: var(--el-fast-transition-duration);
+  transition: var(--el-transition-duration-fast);
   opacity: 0;
 }

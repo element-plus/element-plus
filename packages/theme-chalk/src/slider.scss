@@ -124,7 +124,7 @@
     background-color: $--color-white;
     border-radius: 50%;
     box-sizing: border-box;
-    transition: var(--el-fast-transition-duration);
+    transition: var(--el-transition-duration-fast);
     user-select: none;
 
     &:hover,

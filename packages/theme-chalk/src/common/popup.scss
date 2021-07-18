@@ -2,11 +2,11 @@
 @import '../mixins/mixins';
 
 .v-modal-enter {
-  animation: v-modal-in var(--el-fast-transition-duration) ease;
+  animation: v-modal-in var(--el-transition-duration-fast) ease;
 }
 
 .v-modal-leave {
-  animation: v-modal-out var(--el-fast-transition-duration) ease forwards;
+  animation: v-modal-out var(--el-transition-duration-fast) ease forwards;
 }
 
 @keyframes v-modal-in {

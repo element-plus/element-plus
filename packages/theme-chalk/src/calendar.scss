@@ -44,7 +44,7 @@
     border-bottom: $--calendar-border;
     border-right: $--calendar-border;
     vertical-align: top;
-    transition: background-color var(--el-fast-transition-duration) ease;
+    transition: background-color var(--el-transition-duration-fast) ease;
 
     @include when(selected) {
       background-color: $--calendar-selected-background-color;
