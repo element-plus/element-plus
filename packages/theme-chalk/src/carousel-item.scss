@@ -45,6 +45,6 @@
     left: 0;
     background-color: $--color-white;
     opacity: 0.24;
-    transition: 0.2s;
+    transition: var(--el-transition-duration-fast);
   }
 }

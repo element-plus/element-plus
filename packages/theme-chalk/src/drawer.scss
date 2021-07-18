@@ -53,13 +53,13 @@
 
 @mixin animation-in($direction) {
   &.#{$direction} {
-    animation: #{$direction}-drawer-animation 0.3s linear reverse;
+    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear reverse;
   }
 }
 
 @mixin animation-out($direction) {
   &.#{$direction} {
-    animation: #{$direction}-drawer-animation 0.3s linear;
+    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear;
   }
 }
 
@@ -162,11 +162,11 @@ $directions: rtl, ltr, ttb, btt;
 }
 
 .#{$namespace}-drawer-fade-enter-active {
-  animation: #{$namespace}-drawer-fade-in 0.3s;
+  animation: #{$namespace}-drawer-fade-in var(--el-transition-duration);
   overflow: hidden !important;
 }
 
 .#{$namespace}-drawer-fade-leave-active {
   overflow: hidden !important;
-  animation: #{$namespace}-drawer-fade-in 0.3s reverse;
+  animation: #{$namespace}-drawer-fade-in var(--el-transition-duration) reverse;
 }

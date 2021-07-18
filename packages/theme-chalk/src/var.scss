@@ -4,6 +4,10 @@
 @import 'common/var';
 @import 'mixins/var';
 
+// for better performance do not dynamically change the root variable if you really
+// do not need that, since this could introduce recalculation overhead for rendering.
+// https://lisilinhart.info/posts/css-variables-performance/
+
 :root {
   --el-color-primary: #{$--color-primary};
   --el-color-white: #{$--color-white};

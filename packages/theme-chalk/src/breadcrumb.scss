@@ -28,7 +28,7 @@
       & a {
         font-weight: bold;
         text-decoration: none;
-        transition: $--color-transition-base;
+        transition: var(--el-color-transition-base);
         color: $--color-text-primary;
 
         &:hover {

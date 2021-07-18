@@ -103,11 +103,11 @@
 }
 
 .viewer-fade-enter-active {
-  animation: viewer-fade-in 0.3s;
+  animation: viewer-fade-in var(--el-transition-duration);
 }
 
 .viewer-fade-leave-active {
-  animation: viewer-fade-out 0.3s;
+  animation: viewer-fade-out var(--el-transition-duration);
 }
 
 @keyframes viewer-fade-in {

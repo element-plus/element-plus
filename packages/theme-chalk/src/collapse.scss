@@ -24,11 +24,11 @@
     border-bottom: 1px solid $--collapse-border-color;
     font-size: $--collapse-header-font-size;
     font-weight: 500;
-    transition: border-bottom-color 0.3s;
+    transition: border-bottom-color var(--el-transition-duration);
     outline: none;
     @include e(arrow) {
       margin: 0 8px 0 auto;
-      transition: transform 0.3s;
+      transition: transform var(--el-transition-duration);
       font-weight: 300;
       @include when(active) {
         transform: rotate(90deg);

@@ -46,7 +46,7 @@
     cursor: pointer;
     color: #666;
     font-size: 12px;
-    transition: transform 0.2s ease-in-out;
+    transition: transform var(--el-transition-duration-fast) ease-in-out;
     height: 20px;
 
     @include m(expanded) {

@@ -87,7 +87,7 @@
     font-size: 12px;
 
     transform: rotate(0deg);
-    transition: transform 0.3s ease-in-out;
+    transition: transform var(--el-transition-duration) ease-in-out;
 
     &.expanded {
       transform: rotate(90deg);

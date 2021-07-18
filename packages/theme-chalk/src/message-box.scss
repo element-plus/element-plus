@@ -192,13 +192,13 @@
 
 .fade-in-linear-enter-active {
   .#{$namespace}-message-box {
-    animation: msgbox-fade-in 0.3s;
+    animation: msgbox-fade-in var(--el-transition-duration);
   }
 }
 
 .fade-in-linear-leave-active {
   .#{$namespace}-message-box {
-    animation: msgbox-fade-in 0.3s reverse;
+    animation: msgbox-fade-in var(--el-transition-duration) reverse;
   }
 }
 
