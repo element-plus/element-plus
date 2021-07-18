@@ -27,7 +27,7 @@
     height: $--carousel-arrow-size;
     width: $--carousel-arrow-size;
     cursor: pointer;
-    transition: 0.3s;
+    transition: var(--el-transition-duration);
     border-radius: 50%;
     background-color: $--carousel-arrow-background;
     color: $--color-white;
@@ -149,7 +149,7 @@
     padding: 0;
     margin: 0;
     cursor: pointer;
-    transition: 0.3s;
+    transition: var(--el-transition-duration);
   }
 }
 
