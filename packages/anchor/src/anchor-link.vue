@@ -35,11 +35,10 @@ export default defineComponent({
     } = useInjectAnchor()
     const handleClick = (e: Event) => {
       const { href } = props
-      contextHandleClick(e, { title:'',href })
+      contextHandleClick(e, { href })
       scrollTo(href)
     }
     watch(activeLink, val => {
-      console.log(val)
       active.value = val === props.href
     })
     watch(

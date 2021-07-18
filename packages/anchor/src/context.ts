@@ -6,7 +6,7 @@ export interface AnchorContext {
   unregisterLink: (link: string) => void
   activeLink: Ref<string> // use ref for reactive to calculate active status
   scrollTo: (link: string) => void
-  handleClick: (e: Event, info: { title: any; href: string; }) => void
+  handleClick: (e: Event, info: { href: string; }) => void
 }
 
 export const AnchorContextKey: InjectionKey<AnchorContext> = Symbol('anchorContextKey')

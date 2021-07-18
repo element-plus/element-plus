@@ -1,7 +1,7 @@
 <template>
   <div class="el-anchor">
     <template v-if="affix">
-      <Affix :offset="120" position="top">
+      <Affix v-bind="props">
         <slot></slot>
       </Affix>
     </template>
@@ -54,9 +54,13 @@ export default defineComponent({
       type: Number,
       dafult: 0,
     },
-    bounds: {
+    offset: {
       type: Number,
       dafult: 0,
+    },
+    bounds: {
+      type: Number,
+      dafult: 5,
     },
   },
   emits: ['click', 'change'],
@@ -82,6 +86,8 @@ export default defineComponent({
       }
     }
     const handleScrollTo = (link: string) => {
+      const { offset, targetOffset } = props
+
       setCurrentActiveLink(link)
       const sharpLinkMatch = sharpMatcherRegx.exec(link)
       if (!sharpLinkMatch) { return }
@@ -93,8 +99,9 @@ export default defineComponent({
         const scrollTop = getScroll(el.value)
         const eleOffsetTop = getOffsetTop(targetElement, el.value)
         let y = scrollTop + eleOffsetTop
+        y -= targetOffset !== undefined ? targetOffset : offset || 0
         state.animating = true
-        scrollTo(y,{ callback: () => {
+        scrollTo(y, { callback: () => {
           state.animating = false
         } })
       }
@@ -136,12 +143,13 @@ export default defineComponent({
     const scrollTo = (y: number, options:ScrollToOptions = {}) => {
       const { callback, duration = 500 } = options
       const beginTime = Date.now()
-      let beginValue = y
+      const scrollTop = getScroll(el.value)
+      let beginValue = y - scrollTop
       const frameFunc = () => {
         const progress = (Date.now() - beginTime) / duration
         if (progress < 1) {
           const y = beginValue * easeInOutCubic(progress)
-          el.value.scrollTop = y
+          el.value.scrollTop = scrollTop + y
           rAF(frameFunc)
         } else if (typeof callback === 'function') {
           callback()
@@ -149,7 +157,7 @@ export default defineComponent({
       }
       rAF(frameFunc)
     }
-    const getCurrentAnchor = (offsetTop = 0, bounds = 30) => {
+    const getCurrentAnchor = (offsetTop = 0, bounds = 5) => {
       const linkSections: Array<Section> = []
       state.links.forEach(link => {
         const sharpLinkMatch = sharpMatcherRegx.exec(link.toString())
@@ -183,8 +191,10 @@ export default defineComponent({
       if (state.animating) {
         return
       }
-      const { bounds, targetOffset } = props
-      const currentActiveLink = getCurrentAnchor(targetOffset, bounds)
+      const { bounds, targetOffset, offset } = props
+      const currentActiveLink = getCurrentAnchor(
+        targetOffset !== undefined ? targetOffset : offset || 0,
+        bounds)
       setCurrentActiveLink(currentActiveLink)
     }
     onMounted(() => {
@@ -214,9 +224,9 @@ export default defineComponent({
         emit( 'click', e, info)
       },
     })
-    // init here
+    return {
+      props,
+    }
   },
 })
 </script>
-<style>
-</style>

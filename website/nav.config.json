@@ -241,6 +241,10 @@
               "title": "Affix 固钉"
             },
             {
+              "path": "/anchor",
+              "title": "Anchor 锚点"
+            },
+            {
               "path": "/menu",
               "title": "NavMenu 导航菜单"
             },
@@ -566,6 +570,10 @@
             {
               "path": "/affix",
               "title": "Affix"
+            },
+            {
+              "path": "/anchor",
+              "title": "Anchor"
             },
             {
               "path": "/menu",
@@ -899,6 +907,10 @@
               "title": "Affix"
             },
             {
+              "path": "/anchor",
+              "title": "Anchor"
+            },
+            {
               "path": "/menu",
               "title": "NavMenu"
             },
@@ -1230,6 +1242,10 @@
               "title": "Affix"
             },
             {
+              "path": "/anchor",
+              "title": "Anchor"
+            },
+            {
               "path": "/menu",
               "title": "NavMenu"
             },
@@ -1559,6 +1575,10 @@
             {
               "path": "/affix",
               "title": "Affix"
+            },
+            {
+              "path": "/anchor",
+              "title": "Anchor"
             },
             {
               "path": "/menu",
