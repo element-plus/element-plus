@@ -319,33 +319,9 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const checkDefaultFirstOption = () => {
-    states.hoverIndex = -1
-    // highlight the created option
-    let hasCreated = false
-    for (let i = states.options.size - 1; i >= 0; i--) {
-      if (optionsArray.value[i].created) {
-        hasCreated = true
-        states.hoverIndex = i
-        break
-      }
-    }
-    if (hasCreated) return
-    for (let i = 0; i !== states.options.size; ++i) {
-      const option = optionsArray.value[i]
-      if (states.query) {
-        // highlight first options that passes the filter
-        if (!option.disabled && !option.groupDisabled && option.visible) {
-          states.hoverIndex = i
-          break
-        }
-      } else {
-        // highlight currently selected option
-        if (option.itemSelected) {
-          states.hoverIndex = i
-          break
-        }
-      }
-    }
+    // find and highlight first option
+    const firstOption = optionsArray.value.filter(n => n.visible)[0]
+    states.hoverIndex = getValueIndex(optionsArray.value, firstOption)
   }
 
   const setSelected = () => {

@@ -82,8 +82,8 @@ export function useOption(props, states) {
 
   const queryChange = (query: string) => {
     const regexp = new RegExp(escapeRegexpString(query), 'i')
-    states.visible = regexp.test(currentLabel.value) || props.created
-    if (!states.visible) {
+    states.visible = regexp.test(currentLabel.value)
+    if (!states.visible && !props.created) {
       select.filteredOptionsCount--
     }
   }
