@@ -28,6 +28,8 @@
   transform: translateX(-50%);
   background-color: var(--el-message-background-color);
   transition: opacity 0.3s, transform 0.4s, top 0.4s;
+  background-color: var(--el-message-background-color);
+  transition: opacity var(--el-transition-duration), transform 0.4s, top 0.4s;
   overflow: hidden;
   padding: var(--el-message-padding);
   display: flex;

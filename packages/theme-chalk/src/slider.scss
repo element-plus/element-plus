@@ -124,7 +124,7 @@
     background-color: $--color-white;
     border-radius: 50%;
     box-sizing: border-box;
-    transition: 0.2s;
+    transition: var(--el-transition-duration-fast);
     user-select: none;
 
     &:hover,
@@ -208,7 +208,7 @@
           border: $--input-border;
           line-height: 20px;
           box-sizing: border-box;
-          transition: $--border-transition-base;
+          transition: var(--el-border-transition-base);
         }
         .#{$namespace}-input-number__decrease {
           width: 18px;
