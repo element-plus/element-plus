@@ -90,8 +90,8 @@ export default defineComponent({
         node.props.span = count
       }
       if (isLast) {
-        // set the max span, cause of the last td
-        node.props.span = props.column
+        // set the last span
+        node.props.span = span
       }
       return node
     }
@@ -101,12 +101,19 @@ export default defineComponent({
       const rows = []
       let temp = []
       let count = props.column
+      let totalSpan = 0 // all spans number of item
 
       children.forEach((node, index) => {
-        const span = node.props?.span || 1
+        let span = node.props?.span || 1
+
+        if (index < children.length - 1) {
+          totalSpan += span > count ? count : span
+        }
 
         if (index === children.length - 1) {
-          temp.push(filledNode(node, span, count, true))
+          // calculate the last item span
+          const lastSpan = props.column - totalSpan % props.column
+          temp.push(filledNode(node, lastSpan, count, true))
           rows.push(temp)
           return
         }

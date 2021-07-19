@@ -134,10 +134,12 @@ describe('Descriptions.vue', () => {
         <el-descriptions-item label="1">1</el-descriptions-item>
         <el-descriptions-item label="2" :span="2">2</el-descriptions-item>
         <el-descriptions-item label="3">3</el-descriptions-item>
+        <el-descriptions-item label="4">4</el-descriptions-item>
       </el-descriptions>
     `)
 
     expect(wrapper.findAll('td')[1].element.getAttribute('colSpan')).toEqual('2')
+    expect(wrapper.findAll('td')[3].element.getAttribute('colSpan')).toEqual('2')
   })
 
   test('re-rendered when slots is updated', async () => {
