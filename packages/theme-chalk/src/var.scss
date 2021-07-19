@@ -17,7 +17,7 @@
     @include set-css-color-primary($i);
   }
 
-  @each $type in (success, warning, danger, info) {
+  @each $type in (success, warning, danger, error, info) {
     @include set-css-color-type($type);
   }
 
