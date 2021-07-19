@@ -170,10 +170,6 @@ $--box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default;
 --------------- */
 $--svg-monochrome-grey: #dcdde0 !default;
 
-/* Fill
--------------------------- */
-$--fill-base: $--color-white !default;
-
 /* Typography
 -------------------------- */
 $--font-path: 'fonts' !default;
@@ -392,19 +388,8 @@ $--input-number-width: (
 
 /* Cascader
 -------------------------- */
-/// color||Color|0
-$--cascader-menu-font-color: $--color-text-regular !default;
-/// color||Color|0
-$--cascader-menu-selected-font-color: $--color-primary !default;
-$--cascader-menu-fill: $--fill-base !default;
-$--cascader-menu-font-size: map.get($--font-size, 'base') !default;
-$--cascader-menu-radius: $--border-radius-base !default;
-$--cascader-menu-border: solid 1px map.get($--border-color, 'light') !default;
-$--cascader-menu-shadow: $--box-shadow-light !default;
-$--cascader-node-background-hover: $--background-color-base !default;
-$--cascader-node-color-disabled: $--color-text-placeholder !default;
-$--cascader-color-empty: $--color-text-placeholder !default;
-$--cascader-tag-background: #f0f2f5 !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/cascader.scss
 
 /* Button
 -------------------------- */
