@@ -2,17 +2,17 @@
   <el-select
     ref="select"
     :model-value="value"
-    :disabled="!editable"
+    :disabled="disabled"
     :clearable="clearable"
     :clear-icon="clearIcon"
     :size="size"
     :placeholder="placeholder"
     default-first-option
-    filterable
-    @update:model-value="(event) => $emit('update:modelValue', event)"
-    @change="(event) => $emit('change', event)"
-    @blur="(event) => $emit('blur', event)"
-    @focus="(event) => $emit('focus', event)"
+    :filterable="editable"
+    @update:model-value="event => $emit('update:modelValue', event)"
+    @change="event => $emit('change', event)"
+    @blur="event => $emit('blur', event)"
+    @focus="event => $emit('focus', event)"
   >
     <el-option
       v-for="item in items"
@@ -89,6 +89,10 @@ export default defineComponent({
   },
   props: {
     modelValue: String,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     editable: {
       type: Boolean,
       default: true,
@@ -100,7 +104,8 @@ export default defineComponent({
     size: {
       type: String,
       default: '',
-      validator: (value: string) => !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
+      validator: (value: string) =>
+        !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
     },
     placeholder: {
       type: String,

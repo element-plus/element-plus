@@ -109,6 +109,40 @@ describe('TimeSelect', () => {
     expect(input.element.value).toBe('11:00')
   })
 
+  it('set disabled', async () => {
+    const wrapper = _mount(
+      `<el-time-select v-model="value" :disabled="disabled" />`,
+      () => ({
+        value: '10:00',
+        disabled: false,
+      }),
+    )
+    const vm = wrapper.vm as any
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    expect(select.props().disabled).toBe(false)
+
+    vm.disabled = true
+    await nextTick()
+    expect(select.props().disabled).toBe(true)
+  })
+
+  it('set editable', async () => {
+    const wrapper = _mount(
+      `<el-time-select v-model="value" :editable="editable" />`,
+      () => ({
+        value: '10:00',
+        editable: false,
+      }),
+    )
+    const vm = wrapper.vm as any
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    expect(select.props().filterable).toBe(false)
+
+    vm.editable = true
+    await nextTick()
+    expect(select.props().filterable).toBe(true)
+  })
+
   it('ref focus', async () => {
     _mount(`<el-time-select ref="input" />`, () => ({}), {
       mounted() {
