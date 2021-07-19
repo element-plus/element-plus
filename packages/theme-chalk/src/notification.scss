@@ -19,7 +19,7 @@
   --el-notification-close-color: var(--el-color-text-secondary);
   --el-notification-close-hover-color: var(--el-color-text-regular);
 
-  @each $type in (success, info, warning, danger) {
+  @each $type in (success, info, warning, error) {
     --el-notification-#{$type}-icon-color: var(--el-color-#{$type});
   }
 }
@@ -34,7 +34,9 @@
   position: fixed;
   background-color: var(--el-color-white);
   box-shadow: var(--el-notification-shadow);
-  transition: opacity var(--el-transition-duration), transform var(--el-transition-duration), left var(--el-transition-duration), right var(--el-transition-duration), top 0.4s,
+  transition: opacity var(--el-transition-duration),
+    transform var(--el-transition-duration), left var(--el-transition-duration),
+    right var(--el-transition-duration), top 0.4s,
     bottom var(--el-transition-duration);
   overflow-wrap: anywhere;
   overflow: hidden;
@@ -94,9 +96,6 @@
 
   @each $type in (success, info, warning, error) {
     .#{$namespace}-icon-#{$type} {
-      @if $type == error {
-        $type: danger;
-      }
       color: var(--el-notification-#{$type}-icon-color);
     }
   }

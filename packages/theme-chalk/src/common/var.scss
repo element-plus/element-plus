@@ -14,7 +14,6 @@
 //  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
 
 :root {
-
   --el-transition-duration: 0.3s;
   --el-transition-duration-fast: 0.2s;
   --el-ease-in-out-bezier-function: cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -53,6 +52,9 @@ $--colors: map.deep-merge(
     'danger': (
       'base': #f56c6c,
     ),
+    'error': (
+      'base': #f56c6c,
+    ),
     'info': (
       'base': #909399,
     ),
@@ -66,6 +68,7 @@ $--color-primary: map.get($--colors, 'primary', 'base');
 $--color-success: map.get($--colors, 'success', 'base');
 $--color-warning: map.get($--colors, 'warning', 'base');
 $--color-danger: map.get($--colors, 'danger', 'base');
+$--color-error: map.get($--colors, 'error', 'base');
 $--color-info: map.get($--colors, 'info', 'base');
 
 // https://sass-lang.com/documentation/values/maps#immutability
@@ -110,7 +113,7 @@ $--color-info: map.get($--colors, 'info', 'base');
   ) !global;
 }
 
-@each $type in (success, warning, danger, info) {
+@each $type in (success, warning, danger, error, info) {
   @include set-color-type-light($type);
 }
 
