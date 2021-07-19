@@ -325,27 +325,8 @@ $--select-dropdown-border: solid 1px map.get($--border-color, 'light') !default;
 
 /* MessageBox
 -------------------------- */
-/// color||Color|0
-$--messagebox-title-color: $--color-text-primary !default;
-$--messagebox-width: 420px !default;
-$--messagebox-border-radius: 4px !default;
-/// fontSize||Font|1
-$--messagebox-font-size: map.get($--font-size, 'large') !default;
-/// fontSize||Font|1
-$--messagebox-content-font-size: map.get($--font-size, 'base') !default;
-/// color||Color|0
-$--messagebox-content-color: $--color-text-regular !default;
-/// fontSize||Font|1
-$--messagebox-error-font-size: 12px !default;
-$--messagebox-padding-primary: 15px !default;
-/// color||Color|0
-$--messagebox-success-color: $--color-success !default;
-/// color||Color|0
-$--messagebox-info-color: $--color-info !default;
-/// color||Color|0
-$--messagebox-warning-color: $--color-warning !default;
-/// color||Color|0
-$--messagebox-danger-color: $--color-danger !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/message-box.scss
 
 /* Message
 -------------------------- */
