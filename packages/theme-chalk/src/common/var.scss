@@ -346,22 +346,8 @@ $--messagebox-danger-color: $--color-danger !default;
 
 /* Message
 -------------------------- */
-$--message-min-width: 380px !default;
-$--message-background-color: #edf2fc !default;
-$--message-padding: 15px 15px 15px 20px !default;
-/// color||Color|0
-$--message-close-icon-color: $--color-text-placeholder !default;
-/// color||Color|0
-$--message-close-hover-color: $--color-text-secondary !default;
-
-/// color||Color|0
-$--message-success-font-color: $--color-success !default;
-/// color||Color|0
-$--message-info-font-color: $--color-info !default;
-/// color||Color|0
-$--message-warning-font-color: $--color-warning !default;
-/// color||Color|0
-$--message-danger-font-color: $--color-danger !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/message.scss
 
 /* Notification
 -------------------------- */
