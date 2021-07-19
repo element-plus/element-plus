@@ -30,6 +30,23 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value1: ref(null),
+        value2: ref(null),
+        colors: ref(['#99A9BF', '#F7BA2A', '#FF9900']), // same as { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -43,15 +60,29 @@
 
 
 <script>
-import { defineComponent, ref } from 'vue'
   export default {
-    setup() {
+    data() {
       return {
-        value: ref(null)
+        value: null
       }
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(null),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -77,6 +108,21 @@ import { defineComponent, ref } from 'vue'
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(null),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -104,6 +150,22 @@ import { defineComponent, ref } from 'vue'
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(null),
+        iconClasses: ref(['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3']) // same as { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' }
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -131,13 +193,28 @@ import { defineComponent, ref } from 'vue'
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(3.7),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
 ### 属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
-| value / v-model | バインディング値 | number | — | 0 |
+| model-value / v-model | バインディング値 | number | — | 0 |
 | max | 最大レーティングスコア | number | — | 5 |
 | disabled | レートが読み取り専用かどうか | boolean | — | false |
 | allow-half | ピッキングハーフスタートが許可されているか | boolean | — | false |

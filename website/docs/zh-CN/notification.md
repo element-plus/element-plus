@@ -43,6 +43,42 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, h } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElNotification({
+          title: '标题名称',
+          message: h(
+            'i',
+            { style: 'color: teal' },
+            '这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案',
+          ),
+        });
+      };
+
+      const open2 = () => {
+        ElNotification({
+          title: '提示',
+          message: '这是一条不会自动关闭的消息',
+          duration: 0,
+        });
+      };
+      return {
+        open1,
+        open2,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -110,6 +146,55 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElNotification({
+          title: '成功',
+          message: '这是一条成功的提示消息',
+          type: 'success',
+        });
+      };
+
+      const open2 = () => {
+        ElNotification({
+          title: '警告',
+          message: '这是一条警告的提示消息',
+          type: 'warning',
+        });
+      };
+
+      const open3 = () => {
+        ElNotification({
+          title: '消息',
+          message: '这是一条消息的提示消息',
+        });
+      };
+
+      const open4 = () => {
+        ElNotification({
+          title: '错误',
+          message: '这是一条错误的提示消息',
+        });
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -178,6 +263,56 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElNotification({
+          title: '自定义位置',
+          message: '右上角弹出的消息',
+        });
+      };
+
+      const open2 = () => {
+        ElNotification({
+          title: '自定义位置',
+          message: '右下角弹出的消息',
+          position: 'bottom-right',
+        });
+      };
+
+      const open3 = () => {
+        ElNotification({
+          title: '自定义位置',
+          message: '左下角弹出的消息',
+          position: 'bottom-left',
+        });
+      };
+
+      const open4 = () => {
+        ElNotification({
+          title: '自定义位置',
+          message: '左上角弹出的消息',
+          position: 'top-left',
+        });
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -208,6 +343,31 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElNotification({
+          title: '偏移',
+          message: '这是一条带有偏移的提示消息',
+          offset: 100,
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -237,6 +397,31 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElNotification({
+          title: 'HTML 片段',
+          dangerouslyUseHTMLString: true,
+          message: '<strong>这是 <i>HTML</i> 片段</strong>',
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -271,6 +456,31 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElNotification.success({
+          title: 'Info',
+          message: '这是一条没有关闭按钮的消息',
+          showClose: false,
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

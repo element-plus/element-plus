@@ -22,6 +22,19 @@ Radio ne devrait pas avoir trop d'options. Dans ce cas utilisez plutôt Select.
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref('1'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -45,6 +58,19 @@ L'attribut `disabled` désactive le radio.
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref('selected and disabled'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -70,6 +96,19 @@ Utile pour choisir entre plusieurs groupes d'options mutuellement exclusives.
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref(3),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -126,6 +165,22 @@ Des radios affichés comme des boutons standards.
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio1: ref('New York'),
+        radio2: ref('New York'),
+        radio3: ref('New York'),
+        radio4: ref('New York'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -168,6 +223,22 @@ Des radios affichés comme des boutons standards.
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio1: ref('1'),
+        radio2: ref('1'),
+        radio3: ref('1'),
+        radio4: ref('1'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -175,7 +246,7 @@ Des radios affichés comme des boutons standards.
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut |
 | ---- | ---- | ---- | ---- | ---- |
-| value / v-model | La valeur liée. | string / number / boolean | — | — |
+| model-value / v-model | La valeur liée. | string / number / boolean | — | — |
 | label | La valeur du radio. | string / number / boolean | — | — |
 | disabled | Si le radio est désactivé. | boolean | — | false |
 | border  | Si une bordure doit être affichée autour du radio. | boolean   | — | false |
@@ -192,7 +263,7 @@ Des radios affichés comme des boutons standards.
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut
 | ---- | ---- | ---- | ---- | ---- |
-| value / v-model | La valeur liée. | string / number / boolean | — | — |
+| model-value / v-model | La valeur liée. | string / number / boolean | — | — |
 | size | Taille des radios. | string | medium / small / mini | —
 | disabled  | Si les radios sont désactivés. | boolean   | — | false
 | text-color | Couleur du texte quand le bouton est actif. | string | — | #ffffff   |

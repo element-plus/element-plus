@@ -1,7 +1,17 @@
-import { defineComponent, h } from 'vue'
-import { TableFooter } from '../table.type'
+import { defineComponent, h, PropType } from 'vue'
 import { hGutter, hColgroup } from '../h-helper'
+import { Store } from '../store'
+import { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
 import useStyle from './style-helper'
+
+export interface TableFooter<T> {
+  fixed: string
+  store: Store<T>
+  summaryMethod: SummaryMethod<T>
+  sumText: string
+  border: boolean
+  defaultSort: Sort
+}
 
 export default defineComponent({
   name: 'ElTableFooter',
@@ -13,14 +23,16 @@ export default defineComponent({
     },
     store: {
       required: true,
-      type: Object,
+      type: Object as PropType<TableFooter<DefaultRow>['store']>,
     },
-    summaryMethod: Function,
+    summaryMethod: Function as PropType<
+      TableFooter<DefaultRow>['summaryMethod']
+    >,
     sumText: String,
     border: Boolean,
     defaultSort: {
-      type: Object,
-      default() {
+      type: Object as PropType<TableFooter<DefaultRow>['defaultSort']>,
+      default: () => {
         return {
           prop: '',
           order: '',
@@ -28,12 +40,10 @@ export default defineComponent({
       },
     },
   },
-  setup(props: TableFooter) {
-    const {
-      hasGutter,
-      getRowClasses,
-      columns,
-    } = useStyle(props)
+  setup(props) {
+    const { hasGutter, getRowClasses, columns } = useStyle(
+      props as TableFooter<DefaultRow>,
+    )
     return {
       getRowClasses,
       hasGutter,
@@ -43,14 +53,19 @@ export default defineComponent({
   render() {
     let sums = []
     if (this.summaryMethod) {
-      sums = this.summaryMethod({ columns: this.columns, data: this.store.states.data.value })
+      sums = this.summaryMethod({
+        columns: this.columns,
+        data: this.store.states.data.value,
+      })
     } else {
       this.columns.forEach((column, index) => {
         if (index === 0) {
           sums[index] = this.sumText
           return
         }
-        const values = this.store.states.data.value.map(item => Number(item[column.property]))
+        const values = this.store.states.data.value.map(item =>
+          Number(item[column.property]),
+        )
         const precisions = []
         let notNumber = true
         values.forEach(value => {
@@ -91,11 +106,9 @@ export default defineComponent({
             class: [{ 'has-gutter': this.hasGutter }],
           },
           [
-            h(
-              'tr',
-              {},
-              [
-                ...this.columns.map((column, cellIndex) => h(
+            h('tr', {}, [
+              ...this.columns.map((column, cellIndex) =>
+                h(
                   'td',
                   {
                     key: cellIndex,
@@ -109,15 +122,13 @@ export default defineComponent({
                       {
                         class: ['cell', column.labelClassName],
                       },
-                      [
-                        sums[cellIndex],
-                      ],
+                      [sums[cellIndex]],
                     ),
                   ],
-                )),
-                this.hasGutter && hGutter(),
-              ],
-            ),
+                ),
+              ),
+              this.hasGutter && hGutter(),
+            ]),
           ],
         ),
       ],

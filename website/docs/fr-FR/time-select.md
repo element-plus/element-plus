@@ -69,7 +69,7 @@ Vous pouvez définir un intervalle de temps. Si l'horaire de début est sélecti
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | La valeur liée. | string | — | — |
+| model-value / v-model | La valeur liée. | string | — | — |
 | disabled | Si TimeSelect est désactivé. | boolean | — | false |
 | editable | Si le champ d'input est éditable. | boolean | — | true |
 | clearable | Si un bouton d'effacement doit être affiché. | boolean | — | true |
@@ -97,5 +97,5 @@ Vous pouvez définir un intervalle de temps. Si l'horaire de début est sélecti
 
 | Méthode | Description | Paramètres |
 | ---- | ---- | ---- |
-| focus | Met le focus sur le composant. | - |
-| blur | Enlève le focus sur le composant. | - |
+| focus | Met le focus sur le composant. | — |
+| blur | Enlève le focus sur le composant. | — |

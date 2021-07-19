@@ -1,0 +1,82 @@
+@use "sass:map";
+
+// CSS3 var
+@import 'common/var';
+@import 'mixins/var';
+
+// for better performance do not dynamically change the root variable if you really
+// do not need that, since this could introduce recalculation overhead for rendering.
+// https://lisilinhart.info/posts/css-variables-performance/
+
+:root {
+  --el-color-primary: #{$--color-primary};
+  --el-color-white: #{$--color-white};
+  --el-color-black: #{$--color-black};
+
+  @for $i from 1 through 9 {
+    @include set-css-color-primary($i);
+  }
+
+  @each $type in (success, warning, danger, info) {
+    @include set-css-color-type($type);
+  }
+
+  --el-color-text-primary: #{$--color-text-primary};
+  --el-color-text-regular: #{$--color-text-regular};
+  --el-color-text-secondary: #{$--color-text-secondary};
+  --el-color-text-placeholder: #{$--color-text-placeholder};
+
+  @each $type in (base, light, lighter, extra-light) {
+    @include set-css-var-type('border-color', $type, $--border-color);
+  }
+
+  // Background
+  --el-background-color-base: #{$--background-color-base};
+
+  // Link
+  --el-link-color: var(--el-color-primary-light-2);
+  --el-link-hover-color: var(--el-color-primary);
+
+  // Border
+  --el-border-width-base: #{$--border-width-base};
+  --el-border-style-base: #{$--border-style-base};
+  --el-border-color-hover: var(--el-color-text-placeholder);
+  --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
+    var(--el-border-color-base);
+  --el-border-radius-base: #{$--border-radius-base};
+  --el-border-radius-small: #{$--border-radius-small};
+  --el-border-radius-circle: #{$--border-radius-circle};
+
+  // Box-shadow
+  --el-box-shadow-base: #{$--box-shadow-base};
+  --el-box-shadow-light: #{$--box-shadow-light};
+
+  // Svg
+  --el-svg-monochrome-grey: #{$--svg-monochrome-grey};
+
+  // Fill
+  --el-fill-base: var(--el-color-white);
+
+  // Typography
+  @each $type in (extra-large, large, medium, base, small, extra-small) {
+    @include set-css-var-type('font-size', $type, $--font-size);
+  }
+
+  --el-font-weight-primary: #{$--font-weight-primary};
+  --el-line-height-primary: #{$--font-line-height-primary};
+  --el-font-color-disabled-base: #bbb;
+
+  // z-index
+  --el-index-normal: 1;
+  --el-index-top: 1000;
+  --el-index-popper: 2000;
+
+  // Disable base
+  --el-disabled-fill-base: var(--el-background-color-base);
+  --el-disabled-color-base: var(--el-color-text-placeholder);
+  --el-disabled-border-base: var(--el-border-color-light);
+
+  // some var for component, but because they are used in many places, need to be global
+  // message
+  --el-message-close-size: 16px;
+}

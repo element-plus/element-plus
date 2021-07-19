@@ -1,7 +1,9 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
-@import "select";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
+@import 'select';
 
 $--pagination-height-extra-small: 22px !default;
 $--pagination-line-height-extra-small: $--pagination-height-extra-small !default;
@@ -13,7 +15,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
   font-weight: bold;
   @include utils-clearfix;
 
-  span:not([class*=suffix]),
+  span:not([class*='suffix']),
   button {
     display: inline-block;
     font-size: $--pagination-font-size;
@@ -33,7 +35,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
   // pagesize 的下拉 icon
   .#{$namespace}-input__suffix {
     right: 0;
-    transform: scale(.8);
+    transform: scale(0.8);
   }
 
   .#{$namespace}-select .#{$namespace}-input {
@@ -87,7 +89,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
   }
 
   .btn-next {
-    padding-left: 12px;    
+    padding-left: 12px;
   }
 
   .#{$namespace}-pager li.disabled {
@@ -103,7 +105,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
     .#{$namespace}-pager li.btn-quickprev,
     .#{$namespace}-pager li:last-child {
       border-color: transparent;
-      font-size: $--font-size-extra-small;
+      font-size: var(--el-font-size-extra-small);
       line-height: $--pagination-line-height-extra-small;
       height: $--pagination-height-extra-small;
       min-width: 22px;
@@ -118,7 +120,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
       line-height: $--pagination-line-height-extra-small;
     }
 
-    span:not([class*=suffix]),
+    span:not([class*='suffix']),
     button {
       height: $--pagination-height-extra-small;
       line-height: $--pagination-line-height-extra-small;
@@ -187,7 +189,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
     line-height: 18px;
     padding: 0 2px;
     height: $--pagination-button-height;
-      
+
     text-align: center;
     margin: 0 2px;
     box-sizing: border-box;
@@ -213,7 +215,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
     .btn-next,
     .#{$namespace}-pager li {
       margin: 0 5px;
-      background-color: $--color-info-lighter;
+      background-color: map.get($--colors, 'info', 'lighter');
       color: $--color-text-regular;
       min-width: 30px;
       border-radius: 2px;
@@ -223,7 +225,8 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
       }
     }
 
-    .btn-prev, .btn-next {
+    .btn-prev,
+    .btn-next {
       padding: 0;
 
       &:disabled {
@@ -278,7 +281,7 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
     cursor: pointer;
     box-sizing: border-box;
     text-align: center;
-    margin: 0;
+    margin: 1px;
 
     &.btn-quicknext,
     &.btn-quickprev {
@@ -300,6 +303,10 @@ $--pagination-line-height-extra-small: $--pagination-height-extra-small !default
 
     &.active + li {
       border-left: 0;
+    }
+
+    &:focus-visible {
+      outline: 1px solid $--pagination-hover-color;
     }
 
     &:hover {

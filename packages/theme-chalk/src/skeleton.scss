@@ -1,6 +1,6 @@
 @import 'mixins/mixins';
 @import 'common/var';
-@import "./skeleton-item.scss";
+@import './skeleton-item.scss';
 
 @mixin skeleton-color() {
   background: linear-gradient(

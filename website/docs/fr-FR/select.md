@@ -530,7 +530,7 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | La valeur liée. | string / number / boolean / object | — | — |
+| model-value / v-model | La valeur liée. | string / number / boolean / object | — | — |
 | multiple | Si la sélection multiple est activée. | boolean | — | false |
 | disabled | Si le sélecteur est désactivé. | boolean | — | false |
 | value-key | Identifiant unique pour la valeur, requis quand la valeur est un objet. | string | — | value |
@@ -553,7 +553,7 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 | popper-class | Classe du menu déroulant. | string | — | — |
 | reserve-keyword | Quand `multiple` et `filter` sont activés, s'il faut réserver le mot-clé courant après la sélection d'une option. | boolean | — | false |
 | default-first-option | Sélectionne la première option avec Entrée. Utilisable avec `filterable` ou `remote` | boolean | - | false |
-| popper-append-to-body| Si le menu déroulant doit être ajouté au body. Si le positionnement du menu est incorrect, essayez de mettre cette option à `false`. | boolean | - | false |
+| popper-append-to-body| Si le menu déroulant doit être ajouté au body. Si le positionnement du menu est incorrect, essayez de mettre cette option à `false`. | boolean | - | true |
 | automatic-dropdown | Pour les sélecteurs non filtrables, détermine si le menu apparaît au focus du champ. | boolean | - | false |
 | clear-icon | Classe de l'icône d'effacement. | string | — | el-icon-circle-close |
 

@@ -66,6 +66,28 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeIndex = ref('1');
+      const activeIndex2 = ref('1');
+      const handleSelect = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        activeIndex,
+        activeIndex2,
+        handleSelect,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -169,6 +191,28 @@ Vサブメニューのある縦型ナビメニュー。
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      const handleClose = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        handleOpen,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -239,6 +283,30 @@ Vサブメニューのある縦型ナビメニュー。
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const isCollapse = ref(true);
+      const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      const handleClose = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        isCollapse,
+        handleOpen,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -266,7 +334,7 @@ Vサブメニューのある縦型ナビメニュー。
 ### メニューイベント
 | Event Name | Description | Parameters |
 |---------- |-------- |---------- |
-| select  | メニュー起動時コールバック機能 | index: index of activated menu, indexPath: index path of activated menu  |
+| select  | メニュー起動時コールバック機能 | index: index of activated menu, indexPath: index path of activated menu, item: 選択されたメニュー項目, routeResult: `router` が有効な場合に `vue-router` が返す結果  |
 | open  | サブメニュー展開したときのコールバック関数 | index: index of expanded sub-menu, indexPath: index path of expanded sub-menu |
 | close  | サブメニューを折りたたんだ時のコールバック関数 | index: index of collapsed sub-menu, indexPath: index path of collapsed sub-menu |
 

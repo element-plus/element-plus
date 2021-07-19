@@ -181,6 +181,7 @@
     </div>
     <div v-if="showTime" class="el-picker-panel__footer">
       <el-button
+        v-if="clearable"
         size="mini"
         type="text"
         class="el-picker-panel__link-btn"
@@ -202,25 +203,17 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  ref,
-  PropType,
-  inject,
-  watch,
-} from 'vue'
+import { computed, defineComponent, inject, PropType, ref, watch } from 'vue'
 import { t } from '@element-plus/locale'
-import {
-  extractDateFormat,
-  extractTimeFormat,
-} from '@element-plus/time-picker'
-import { TimePickPanel } from '@element-plus/time-picker'
+import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
 import { ClickOutside } from '@element-plus/directives'
+import { isValidDatePickType } from '@element-plus/utils/validators'
 import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import ElInput from '@element-plus/input'
 import ElButton from '@element-plus/button'
+
+import type { IDatePickerType } from '../date-picker.type'
 
 export default defineComponent({
 
@@ -234,8 +227,9 @@ export default defineComponent({
       type: Array as PropType<Dayjs[]>,
     },
     type: {
-      type: String,
+      type: String as PropType<IDatePickerType>,
       required: true,
+      validator: isValidDatePickType,
     },
   },
 
@@ -585,7 +579,7 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['handleClear', handleClear])
 
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue, arrowControl } = pickerBase.props
+    const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue, arrowControl, clearable } = pickerBase.props
 
     watch(() => props.parsedValue, newVal => {
       if (newVal && newVal.length === 2) {
@@ -659,6 +653,7 @@ export default defineComponent({
       handleClear,
       handleConfirm,
       timeFormat,
+      clearable,
     }
   },
 })

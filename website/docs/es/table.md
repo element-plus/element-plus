@@ -569,7 +569,7 @@ Cuando los datos se modifican dinámicamente, es posible que necesite que la tab
       width="120">
       <template #default="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.prevent="deleteRow(scope.$index, tableData)"
           type="text"
           size="small">
           Eliminar
@@ -1089,7 +1089,7 @@ Filtra la tabla para encontrar la información que necesita.
 
 Personalice la columna de la tabla para que pueda integrarse con otros componentes.
 
-:::demo Tiene acceso a la siguiente información: row, column, $index, store (gestor de estados de la tabla) por [Scoped slots](https://vuejs.org/v2/guide/components.html#Scoped-Slots).
+:::demo Tiene acceso a la siguiente información: row, column, $index, store (gestor de estados de la tabla) por [slots](https://v3.vuejs.org/guide/component-slots.html).
 ```html
 <template>
   <el-table
@@ -1174,7 +1174,7 @@ Personalice la columna de la tabla para que pueda integrarse con otros component
 ### Table con cabecera personalizada
 
 Se puede personalizar el encabezado de la tabla para que se pueda adaptar aún más.
-:::demo Puede personalizar el aspecto del encabezado con header [scoped slots](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots).
+:::demo Puede personalizar el aspecto del encabezado con header [slots](https://v3.vuejs.org/guide/component-slots.html).
 ```html
 <template>
   <el-table
@@ -1250,7 +1250,7 @@ Se puede personalizar el encabezado de la tabla para que se pueda adaptar aún m
 
 Cuando el contenido de la fila es demasiado largo y busca no mostrar la barra de desplazamiento horizontal, puede utilizar la característica de fila expandible.
 
-:::demo Puede activar la fila expandible estableciendo la propiedad `type` a `expand` y Scoped Slots. La plantilla para `el-table-column` se representará como el contenido de la fila expandible, y puede acceder a algunos atributos cuando está usando `Scoped Slots` en plantillas de columna personalizadas.
+:::demo Puede activar la fila expandible estableciendo la propiedad `type` a `expand` y Slots. La plantilla para `el-table-column` se representará como el contenido de la fila expandible, y puede acceder a algunos atributos cuando está usando `Slots` en plantillas de columna personalizadas.
 ```html
 <template>
   <el-table
@@ -1818,38 +1818,38 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | Atributo               | Descripción                              | Tipo                                     | Valores aceptados              | Por defecto                              |
 | ---------------------- | ---------------------------------------- | ---------------------------------------- | ------------------------------ | ---------------------------------------- |
 | data                   | Datos de la tabla                        | array                                    | —                              | —                                        |
-| height                 | Altura de la tabla. Por defecto esta tiene un tamaño `auto`. Si este valor es un número, la altura es medido en pixeles; si este valor es una cadena, la altura es afectada por estilos externos. | string/number                            | —                              | —                                        |
-| max-height             | Table's max-height. The legal value is a number or the height in px.                | string/number                            | —                              | —                                        |
+| height                 | Altura de la tabla. Por defecto esta tiene un tamaño `auto`. Si este valor es un número, la altura es medido en pixeles; si este valor es una cadena, la altura es afectada por estilos externos. | string / number                            | —                              | —                                        |
+| max-height             | Table's max-height. The legal value is a number or the height in px.                | string / number                            | —                              | —                                        |
 | stripe                 | especifica si la tabla será en franjas   | boolean                                  | —                              | false                                    |
 | border                 | especifica si la tabla tiene bordes verticales | boolean                                  | —                              | false                                    |
 | size                   | tamaño de la tabla                       | string                                   | medium / small / mini          | —                                        |
 | fit                    | especifica si el ancho de la columna se adapta automáticamente a su contenedor | boolean                                  | —                              | true                                     |
 | show-header            | especifica si la cabecera de la tabla es visible | boolean                                  | —                              | true                                     |
 | highlight-current-row  | especifica si la fila actual es resaltado | boolean                                  | —                              | false                                    |
-| current-row-key        | clave de la fila actual, un ajuste de propiedad única | string,number                            | —                              | —                                        |
-| row-class-name         | función que devuelve nombres de clases personalizadas para una fila, o una cadena asignando nombres de clases para cada fila | Function({row, rowIndex})/String         | —                              | —                                        |
-| row-style              | función que devuelve el estilo personalizado para una fila, o un objeto asignando estilos personalizado para cada fila | Function({row, rowIndex})/Object         | —                              | —                                        |
-| cell-class-name        | función que devuelve nombres de clases personalizadas para una celda, o una cadena asignando nombres de clases para cada celda | Function({row, column, rowIndex, columnIndex})/String | —                              | —                                        |
-| cell-style             | función que devuelve estilos personalizados para una celda, o un objeto asignado a estilos personalizados para cada celda | Function({row, column, rowIndex, columnIndex})/Object | —                              | —                                        |
-| header-row-class-name  | función que devuelve nombre de clases personalizadas para una fila en la cabecera de la tabla, o una cadena asignando nombres de clases para cada fila en la cabecera de la tabla | Function({row, rowIndex})/String         | —                              | —                                        |
-| header-row-style       | función que devuelve estilos personalizados para una fila en la cabecera de la tabla, o un objeto asignando estilos personalizados para cada fila en la cabecera de la tabla | Function({row, rowIndex})/Object         | —                              | —                                        |
-| header-cell-class-name | función que devuelve nombre de clases personalizadas para una celda en la cabecera de la tabla, o una cadena asignando nombres de clases para cada celda en la cabecera de la tabla | Function({row, column, rowIndex, columnIndex})/String         | —                              | —                                        |
-| header-cell-style      | función que devuelve estilos personalizados para una celda en la cabecera de la tabla, o un objeto asignando estilos personalizados para cada celda en la cabecera de la tabla | Function({row, column, rowIndex, columnIndex})/Object         | —                              | —                                        |
-| row-key | key de los datos de las filas, utilizada para optimizar el renderizado. Requerido si `reserve-selection` está activada o muestra los datos del árbol. Cuando su tipo es String, se admite el acceso multinivel, por ejemplo, `user.info.id`, pero `user.info[0].id` no se admite, en cuyo caso se debe utilizar la función. | Function(row)/String | — | — |
-| empty-text             | Texto mostrado cuando no existen datos. Puede personalizar esta área con `#empty` | String                                   | —                              | No Data                                  |
-| default-expand-all     | especifica si todas las filas se expanden por defecto, solo funciona cuando la tabla tiene una columna `type="expand"` | Boolean                                  | —                              | false                                    |
-| expand-row-keys        | establece las filas expandidas a través de esta propiedad, este valor es la clave de filas expandidas, debería establecer `row-key` antes de usar esta propiedad | Array                                    | —                              |                                          |
-| default-sort           | establece la columna y orden por defecto. La propiedad `prop` es utilizada para establecer la columna de ordenamiento por defecto, la propiedad `order` es utilizada para definir el tipo de orden por defecto | Object                                   | `order`: ascending, descending | if `prop` is set, and `order` is not set, then `order` is default to ascending |
-| tooltip-effect         | propiedad `effect` para efectos en tooltip | String                                   | dark/light                     |                                          |
-| show-summary           | especifica si debe mostrar la fila de resumen | Boolean                                  | —                              | false                                    |
-| sum-text               | texto a mostrar para la primer columna de la fila de resumen | String                                   | —                              | Sum                                      |
-| summary-method         | método personalizado para resumen        | Function({ columns, data })              | —                              | —                                        |
-| span-method            | método que devuelve _rowspan_ y _colspan_ | Function({ row, column, rowIndex, columnIndex }) | —                              | —                                        |
-| select-on-indeterminate | controla el comportamiento del checkbox maestro en tablas de selección múltiple cuando sólo se seleccionan algunas filas (pero no todas). Si es true, todas las filas serán seleccionadas, de lo contrario deseleccionadas.               | Boolean   | — | true |
-| indent                 | indentación horizontal de los datos en formato tree | Number    | — | 16   |
-| lazy                   | si se realiza un lazy loading de los datos | Boolean   | — | —    |
-| load                   | método para cargar las filas de los hijos, solamente funciona cuando `lazy`es true | Function(row, treeNode, resolve) | — | — |
-| tree-props             | configuración para renderizar datos anidados | Object    | — | { hasChildren: 'hasChildren', children: 'children' } |
+| current-row-key        | clave de la fila actual, un ajuste de propiedad única | string / number                            | —                              | —                                        |
+| row-class-name         | función que devuelve nombres de clases personalizadas para una fila, o una cadena asignando nombres de clases para cada fila | function({ row, rowIndex }) / string         | —                              | —                                        |
+| row-style              | función que devuelve el estilo personalizado para una fila, o un objeto asignando estilos personalizado para cada fila | function({ row, rowIndex }) / object         | —                              | —                                        |
+| cell-class-name        | función que devuelve nombres de clases personalizadas para una celda, o una cadena asignando nombres de clases para cada celda | function({ row, column, rowIndex, columnIndex }) / string | —                              | —                                        |
+| cell-style             | función que devuelve estilos personalizados para una celda, o un objeto asignado a estilos personalizados para cada celda | function({ row, column, rowIndex, columnIndex }) / object | —                              | —                                        |
+| header-row-class-name  | función que devuelve nombre de clases personalizadas para una fila en la cabecera de la tabla, o una cadena asignando nombres de clases para cada fila en la cabecera de la tabla | function({ row, rowIndex }) / string         | —                              | —                                        |
+| header-row-style       | función que devuelve estilos personalizados para una fila en la cabecera de la tabla, o un objeto asignando estilos personalizados para cada fila en la cabecera de la tabla | function({ row, rowIndex }) / object         | —                              | —                                        |
+| header-cell-class-name | función que devuelve nombre de clases personalizadas para una celda en la cabecera de la tabla, o una cadena asignando nombres de clases para cada celda en la cabecera de la tabla | function({ row, column, rowIndex, columnIndex }) / string         | —                              | —                                        |
+| header-cell-style      | función que devuelve estilos personalizados para una celda en la cabecera de la tabla, o un objeto asignando estilos personalizados para cada celda en la cabecera de la tabla | function({ row, column, rowIndex, columnIndex }) / object         | —                              | —                                        |
+| row-key | key de los datos de las filas, utilizada para optimizar el renderizado. Requerido si `reserve-selection` está activada o muestra los datos del árbol. Cuando su tipo es String, se admite el acceso multinivel, por ejemplo, `user.info.id`, pero `user.info[0].id` no se admite, en cuyo caso se debe utilizar la función. | function(row) / string | — | — |
+| empty-text             | Texto mostrado cuando no existen datos. Puede personalizar esta área con `#empty` | string                                   | —                              | No Data                                  |
+| default-expand-all     | especifica si todas las filas se expanden por defecto, solo funciona cuando la tabla tiene una columna `type="expand"` | boolean                                  | —                              | false                                    |
+| expand-row-keys        | establece las filas expandidas a través de esta propiedad, este valor es la clave de filas expandidas, debería establecer `row-key` antes de usar esta propiedad | array                                    | —                              |                       —                   |
+| default-sort           | establece la columna y orden por defecto. La propiedad `prop` es utilizada para establecer la columna de ordenamiento por defecto, la propiedad `order` es utilizada para definir el tipo de orden por defecto | object                                   | `order`: ascending / descending | if `prop` is set, and `order` is not set, then `order` is default to ascending |
+| tooltip-effect         | propiedad `effect` para efectos en tooltip | string                                   | dark / light                     |                     dark                     |
+| show-summary           | especifica si debe mostrar la fila de resumen | boolean                                  | —                              | false                                    |
+| sum-text               | texto a mostrar para la primer columna de la fila de resumen | string                                   | —                              | Sum                                      |
+| summary-method         | método personalizado para resumen        | function({ columns, data })              | —                              | —                                        |
+| span-method            | método que devuelve _rowspan_ y _colspan_ | function({ row, column, rowIndex, columnIndex }) | —                              | —                                        |
+| select-on-indeterminate | controla el comportamiento del checkbox maestro en tablas de selección múltiple cuando sólo se seleccionan algunas filas (pero no todas). Si es true, todas las filas serán seleccionadas, de lo contrario deseleccionadas.               | boolean   | — | true |
+| indent                 | indentación horizontal de los datos en formato tree | number    | — | 16   |
+| lazy                   | si se realiza un lazy loading de los datos | boolean   | — | —    |
+| load                   | método para cargar las filas de los hijos, solamente funciona cuando `lazy`es true | function(row, treeNode, resolve) | — | — |
+| tree-props             | configuración para renderizar datos anidados | object    | — | { hasChildren: 'hasChildren', children: 'children' } |
 
 ### Eventos de la tabla
 | Nombre del evento  | Descripción                              | Parámetros                        |
@@ -1861,6 +1861,7 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | cell-mouse-leave   | se dispara cuando se desplaza fuera de una celda | row, column, cell, event          |
 | cell-click         | se dispara cuando se hace clic en una celda | row, column, cell, event          |
 | cell-dblclick      | se dispara cuando se hace doble clic en una celda | row, column, cell, event          |
+| cell-contextmenu   | se dispara cuando el usuario hace clic derecho en una celda | row, column, cell, event |
 | row-click          | se dispara cuando se hace clic en una fila | row, column, event                |
 | row-contextmenu    | se dispara cuando el usuario hace clic derecho en una fila | row, column, event                        |
 | row-dblclick       | se dispara cuando se hace doble clic en una fila | row, column, event                        |
@@ -1877,7 +1878,7 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | ------------------ | ---------------------------------------- | ------------- |
 | clearSelection     | utilizado en selección múltiple de la tabla, limpiar selección | —     |
 | toggleRowSelection | utilizado en selección múltiple de la tabla, alterna si una cierta fila es seleccionada. Con el segundo parámetro, puede directamente establecer si la fila es seleccionada | row, selected |
-| toggleAllSelection | usado en Table de selección múltiple, toggle select all and deselect all | - |
+| toggleAllSelection | usado en Table de selección múltiple, toggle select all and deselect all | — |
 | toggleRowExpansion | utilizado en la Tabla expandible o en la Tabla de árbol, conmutar si se desglosa una determinada línea. Con el segundo parámetro, se puede fijar directamente si esta línea se desglosa o se pliega | row, expanded |
 | setCurrentRow      | utilizado en tabla con selección sencilla, establece una cierta fila seleccionada. Si es llamado sin ningún parámetro, este puede limpiar la selección | row           |
 | clearSort          | limpiar ordenamiento, restaurar datos a orden original | —             |
@@ -1893,35 +1894,35 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 ### Atributos para las columnas de la tabla
 | Atributo              | Descripción                              | Tipo                              | Valores aceptados             | Por defecto |
 | --------------------- | ---------------------------------------- | --------------------------------- | ----------------------------- | ----------- |
-| type                  | tipo de la columna. Si se establece a `selection`, la columna puede mostrar un _checkbox_. Si se establece a `index`, la columna puede mostrar el índice de la fila (iniciando desde 1). Si se establece a `expand`, la columna puede mostrar un ícono para expandir. | string                            | selection/index/expand        | —           |
-| index                 | personalice los índices para cada fila, funciona en columnas con `type=index` | number, Function(index)           | -                             | -           |
+| type                  | tipo de la columna. Si se establece a `selection`, la columna puede mostrar un _checkbox_. Si se establece a `index`, la columna puede mostrar el índice de la fila (iniciando desde 1). Si se establece a `expand`, la columna puede mostrar un ícono para expandir. | string                            | selection / index / expand        | —           |
+| index                 | personalice los índices para cada fila, funciona en columnas con `type=index` | number / function(index)           | —                             | —           |
 | label                 | etiqueta de la columna                   | string                            | —                             | —           |
 | column-key            | clave de la columna. Si necesita utilizar el evento `filter-change`, necesita el atributo para identificar cual columna está siendo filtrada | string                            | string                        | —           |
 | prop                  | nombre del campo. También puede usar su alias: `property` | string                            | —                             | —           |
-| width                 | ancho de la columna                      | string                            | —                             | —           |
-| min-width             | ancho mínimo de la columna. Columnas con `width` tienen un ancho fijo, mientras que las columnas con `min-width` tienen un ancho que se distribuye en proporción. | string                            | —                             | —           |
-| fixed                 | especifica si la columna se fija a la izquierda o a la derecha. Se fijará a la izquierda si es `true` | string/boolean                    | true/left/right               | —           |
+| width                 | ancho de la columna                      | string / number                            | —                             | —           |
+| min-width             | ancho mínimo de la columna. Columnas con `width` tienen un ancho fijo, mientras que las columnas con `min-width` tienen un ancho que se distribuye en proporción. | string / number                            | —                             | —           |
+| fixed                 | especifica si la columna se fija a la izquierda o a la derecha. Se fijará a la izquierda si es `true` | string / boolean                    | true / 'left' / 'right'               | —           |
 | render-header         | Función de renderizado para la cabecera de la tabla de esta columna | Function({ column, $index })   | —                             | —           |
-| sortable              | especifica que columna puede ser ordenado. El ordenamiento remoto puede ser hecho configurando el atributo `custom` y escucha al evento de tabla `sort-change` | boolean, string                   | true, false, custom           | false       |
-| sort-method           | método de ordenamiento, funciona cuando `sortable` está en `true`. Debería devolver un número, al igual que Array.sort | Function(a, b)                    | —                             | —           |
-| sort-by               | especifica por cual propiedad de va a ordenar, funciona cuando `sortable` es `true` y `sort-method` es `undefined`. Si se establece a un arreglo, la columna ordenara secuencialmente por la siguiente propiedad si la anterior es igual | Function(row, index)/String/Array | —                             | —           |
+| sortable              | especifica que columna puede ser ordenado. El ordenamiento remoto puede ser hecho configurando el atributo `custom` y escucha al evento de tabla `sort-change` | boolean / string                   | true, false, 'custom'           | false       |
+| sort-method           | método de ordenamiento, funciona cuando `sortable` está en `true`. Debería devolver un número, al igual que Array.sort | function(a, b)                    | —                             | —           |
+| sort-by               | especifica por cual propiedad de va a ordenar, funciona cuando `sortable` es `true` y `sort-method` es `undefined`. Si se establece a un arreglo, la columna ordenara secuencialmente por la siguiente propiedad si la anterior es igual | function(row, index) / string / array | —                             | —           |
 | sort-orders           | el orden de las estrategias de ordenación utilizadas al ordenar los datos, funciona cuando `sortable` es `true`. Acepta un array, a medida que el usuario hace clic en el encabezado, la columna se ordena en el orden de los elementos del array. | array | los elementos en el arreglo necesitan ser uno de los siguientes: `ascending`, `descending` y `null` (restaura el orden original) | ['ascending', 'descending', null] |
 | resizable             | especifica si el ancho de la columna puede ser redimensionado, funciona cuando `border` de `el-table` está en `true` | boolean                           | —                             | false       |
-| formatter             | función que formatea el contenido de la celda | Function(row, column, cellValue, index)  | —                             | —           |
+| formatter             | función que formatea el contenido de la celda | function(row, column, cellValue, index)  | —                             | —           |
 | show-overflow-tooltip | especifica si el _tooltip_ debe ocultarse o mostrarse al hacer _hover_ en la celda | boolean                           | —                             | false       |
-| align                 | alineación                               | string                            | left/center/right             | left        |
-| header-align          | alineación de la cabecera de la tabla. Si se omite, se aplicará el valor del atributo anterior. | String                            | left/center/right             | —           |
+| align                 | alineación                               | string                            | left / center / right             | left        |
+| header-align          | alineación de la cabecera de la tabla. Si se omite, se aplicará el valor del atributo anterior. | string                            | left / center / right             | —           |
 | class-name            | nombre de clase de la celda en la columna | string                            | —                             | —           |
 | label-class-name      | nombre de clase de la etiqueta de esta columna | string                            | —                             | —           |
-| selectable            | función que determina si una cierta fila puede ser seleccionada, funciona cuando `type` esta en `selection` | Function(row, index)              | —                             | —           |
+| selectable            | función que determina si una cierta fila puede ser seleccionada, funciona cuando `type` esta en `selection` | function(row, index)              | —                             | —           |
 | reserve-selection     | especifica si se reserva la selección después de actualizar los datos, funciona cuando `type` está en `selection`. Note que `row-key` es requerido para que esto funcione | boolean                           | —                             | false       |
-| filters               | un arreglo de opciones para filtrado de datos. Para cada elemento en este arreglo, `text` y `value` son obligatorios | Array[{ text, value }]            | —                             | —           |
-| filter-placement      | colocación para el menú desplegable del filtro | String                            | same as Tooltip's `placement` | —           |
-| filter-multiple       | especifica si el filtrado de datos soporta múltiples opciones | Boolean                           | —                             | true        |
-| filter-method         | método para filtrado de datos. Si `filter-multiple` está habilitado, este método se invocará varias veces para cada fila, y una fila puede mostrar si una de las llamadas devuelve `true` | Function(value, row, column)      | —                             | —           |
-| filtered-value        | el valor del filtro para los datos seleccionados, puede ser útil cuando el encabezado de la tabla se representará con `render-header` | Array                             | —                             | —           |
+| filters               | un arreglo de opciones para filtrado de datos. Para cada elemento en este arreglo, `text` y `value` son obligatorios | array[{ text, value }]            | —                             | —           |
+| filter-placement      | colocación para el menú desplegable del filtro | string                            | same as Tooltip's `placement` | —           |
+| filter-multiple       | especifica si el filtrado de datos soporta múltiples opciones | boolean                           | —                             | true        |
+| filter-method         | método para filtrado de datos. Si `filter-multiple` está habilitado, este método se invocará varias veces para cada fila, y una fila puede mostrar si una de las llamadas devuelve `true` | function(value, row, column)      | —                             | —           |
+| filtered-value        | el valor del filtro para los datos seleccionados, puede ser útil cuando el encabezado de la tabla se representará con `render-header` | array                             | —                             | —           |
 
-### Table-column Scoped Slot
+### Table-column Slot
 | Name | Description |
 |------|--------|
 | — | Contenido personalizado para las columnas de la tabla. El parámetro del scope es { row, column, $index } |

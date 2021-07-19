@@ -6,7 +6,7 @@ export interface IPagination {
   pageCount?: ComputedRef<number>
   disabled?: ComputedRef<boolean>
   changeEvent?: AnyFunction<any>
-  handleSizesChange?: AnyFunction<any>
+  handleSizeChange?: AnyFunction<any>
 }
 
 export interface IPaginationProps {

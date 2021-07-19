@@ -4,6 +4,7 @@ import Header from '../src/header.vue'
 import Main from '../src/main.vue'
 import Aside from '../src/aside.vue'
 import Footer from '../src/footer.vue'
+import { getCssVariable } from '@element-plus/test-utils'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -75,7 +76,7 @@ describe('Header', () => {
       },
     })
     const vm = wrapper.vm
-    expect(vm.$el.style.height).toEqual('100px')
+    expect(getCssVariable(vm.$el, '--el-header-height')).toEqual('100px')
   })
 })
 
@@ -91,8 +92,9 @@ describe('Aside', () => {
         width: '200px',
       },
     })
+
     const vm = wrapper.vm
-    expect(vm.$el.style.width).toEqual('200px')
+    expect(getCssVariable(vm.$el, '--el-aside-width')).toEqual('200px')
   })
 })
 
@@ -116,7 +118,7 @@ describe('Footer', () => {
       },
     })
     const vm = wrapper.vm
-    expect(vm.$el.style.height).toEqual('100px')
+    expect(getCssVariable(vm.$el, '--el-footer-height')).toEqual('100px')
   })
 
 

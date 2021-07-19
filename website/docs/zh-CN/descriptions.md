@@ -126,6 +126,23 @@
 ```
 :::
 
+### 自定义样式
+
+:::demo
+
+```html
+<el-descriptions title="自定义样式列表" :column="3" border>
+  <el-descriptions-item label="用户名" label-align="right" align="center" label-class-name="my-label" class-name="my-content" width="150px">kooriookami</el-descriptions-item>
+  <el-descriptions-item label="手机号" label-align="right" align="center">18100000000</el-descriptions-item>
+  <el-descriptions-item label="居住地" label-align="right" align="center">苏州市</el-descriptions-item>
+  <el-descriptions-item label="备注" label-align="right" align="center">
+    <el-tag size="small">学校</el-tag>
+  </el-descriptions-item>
+  <el-descriptions-item label="联系地址" label-align="right" align="center">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+</el-descriptions>
+```
+:::
+
 ### Descriptions Attributes
 | 参数          | 说明            | 类型            | 可选值                 | 默认值   |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
@@ -148,6 +165,12 @@
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | label          | 标签文本         | string  |          —             |    —     |
 | span          | 列的数量         | number  |          —             |    1     |
+| width          | 列的宽度，不同行相同列的宽度按最大值设定         | string / number  |          —             |    —     |
+| min-width          | 列的最小宽度，与 `width` 的区别是 `width` 是固定的，`min-width` 会把剩余宽度按比例分配给设置了 `min-width` 的列         | string / number  |          —             |    —     |
+| align          | 列的内容对齐方式         | string  |          left / center / right             |    left     |
+| label-align          | 列的标签对齐方式，若不设置该项，则使用内容的对齐方式         | string  |          left / center / right             |    —     |
+| class-name          | 列的内容自定义类名         | string  |          —             |    —     |
+| label-class-name          | 列的标签自定义类名         | string  |          —             |    —     |
 
 ### Descriptions Item Slots
 

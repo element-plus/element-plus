@@ -1,6 +1,25 @@
 <script>
   import bus from '../../bus';
   import { tintColor } from '../../color.js';
+  import BorderBox from "../../components/demo/color/border-box.vue"
+  const borderColors = [
+    {
+      type: 'base',
+      color: '#DCDFE6',
+    },
+    {
+      type: 'light',
+      color: '#E4E7ED',
+    },
+    {
+      type: 'lighter',
+      color: '#EBEEF5',
+    },
+    {
+      type: 'extra-light',
+      color: '#F2F6FC',
+    },
+  ]
   const varMap = {
     'primary': '$--color-primary',
     'success': '$--color-success',
@@ -13,10 +32,6 @@
     'textRegular': '$--color-text-regular',
     'textSecondary': '$--color-text-secondary',
     'textPlaceholder': '$--color-text-placeholder',
-    'borderBase': '$--border-color-base',
-    'borderLight': '$--border-color-light',
-    'borderLighter': '$--border-color-lighter',
-    'borderExtraLight': '$--border-color-extra-light'
   };
   const original = {
     primary: '#409EFF',
@@ -30,12 +45,11 @@
     textRegular: '#606266',
     textSecondary: '#909399',
     textPlaceholder: '#C0C4CC',
-    borderBase: '#DCDFE6',
-    borderLight: '#E4E7ED',
-    borderLighter: '#EBEEF5',
-    borderExtraLight: '#F2F6FC'
   }
   export default {
+    components: {
+      BorderBox
+    },
     mounted() {
       this.setGlobal();
     },
@@ -63,10 +77,7 @@
         textRegular: '',
         textSecondary: '',
         textPlaceholder: '',
-        borderBase: '',
-        borderLight: '',
-        borderLighter: '',
-        borderExtraLight: ''
+        borderColors,
       }
     },
     watch: {
@@ -87,24 +98,26 @@
 </script>
 
 ## カラー
-Element Plusは、特定のパレットセットを用いて色を指定し、プロダクトに一貫した外観と使用感を提供します。
+
+Element Plus は、特定のパレットセットを用いて色を指定し、プロダクトに一貫した外観と使用感を提供します。
 
 ### メインカラー
-Element Plusのメインカラーは明るく親しみやすいブルーです。
+
+Element Plus のメインカラーは明るく親しみやすいブルーです。
 
 <el-row :gutter="12">
   <el-col :span="10" :xs="{span: 12}">
-    <div 
+    <div
       class="demo-color-box"
       :style="{ background: primary }"
     >
       Brand Color<div class="value">#409EFF</div>
-    <div 
+    <div
       class="bg-color-sub"
       :style="{ background: tintColor(primary, 0.9) }"
     >
-    <div 
-      class="bg-blue-sub-item" 
+    <div
+      class="bg-blue-sub-item"
       v-for="(item, key) in Array(8)"
       :key="key"
       :style="{ background: tintColor(primary, (key + 1) / 10) }"
@@ -124,11 +137,11 @@ Element Plusのメインカラーは明るく親しみやすいブルーです�
     <div class="demo-color-box"
     :style="{ background: success }"
     >Success<div class="value">#67C23A</div>
-      <div 
+      <div
         class="bg-color-sub"
       >
-        <div 
-          class="bg-success-sub-item" 
+        <div
+          class="bg-success-sub-item"
           v-for="(item, key) in Array(2)"
           :key="key"
           :style="{ background: tintColor(success, (key + 8) / 10) }"
@@ -141,11 +154,11 @@ Element Plusのメインカラーは明るく親しみやすいブルーです�
     <div class="demo-color-box"
     :style="{ background: warning }"
     >Warning<div class="value">#E6A23C</div>
-      <div 
+      <div
           class="bg-color-sub"
         >
-        <div 
-          class="bg-success-sub-item" 
+        <div
+          class="bg-success-sub-item"
           v-for="(item, key) in Array(2)"
           :key="key"
           :style="{ background: tintColor(warning, (key + 8) / 10) }"
@@ -158,11 +171,11 @@ Element Plusのメインカラーは明るく親しみやすいブルーです�
     <div class="demo-color-box"
     :style="{ background: danger }"
     >Danger<div class="value">#F56C6C</div>
-      <div 
+      <div
           class="bg-color-sub"
         >
-        <div 
-          class="bg-success-sub-item" 
+        <div
+          class="bg-success-sub-item"
           v-for="(item, key) in Array(2)"
           :key="key"
           :style="{ background: tintColor(danger, (key + 8) / 10) }"
@@ -175,11 +188,11 @@ Element Plusのメインカラーは明るく親しみやすいブルーです�
     <div class="demo-color-box"
     :style="{ background: info }"
     >Info<div class="value">#909399</div>
-      <div 
+      <div
           class="bg-color-sub"
         >
-        <div 
-          class="bg-success-sub-item" 
+        <div
+          class="bg-success-sub-item"
           v-for="(item, key) in Array(2)"
           :key="key"
           :style="{ background: tintColor(info, (key + 8) / 10) }"
@@ -213,24 +226,11 @@ Element Plusのメインカラーは明るく親しみやすいブルーです�
     </div>
   </el-col>
   <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box-group">
-      <div class="demo-color-box demo-color-box-other demo-color-box-lite"
-      :style="{ background: borderBase }"
-      >Base Border<div class="value">{{borderBase}}</div></div>
-      <div class="demo-color-box demo-color-box-other demo-color-box-lite"
-      :style="{ background: borderLight }"
-      >Light Border<div class="value">{{borderLight}}</div></div>
-      <div class="demo-color-box demo-color-box-other demo-color-box-lite"
-      :style="{ background: borderLighter }"
-      >Lighter Border<div class="value">{{borderLighter}}</div></div>
-      <div class="demo-color-box demo-color-box-other demo-color-box-lite"
-      :style="{ background: borderExtraLight }"
-      >Extra Light Border<div class="value">{{borderExtraLight}}</div></div>
-    </div>
+    <border-box :border-colors="borderColors" />
   </el-col>
   <el-col :span="6" :xs="{span: 12}">
     <div class="demo-color-box-group">
-      <div 
+      <div
       class="demo-color-box demo-color-box-other"
       :style="{ background: black }"
       >Basic Black<div class="value">{{black}}</div></div>

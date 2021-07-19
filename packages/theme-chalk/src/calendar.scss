@@ -1,10 +1,10 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "button";
-@import "button-group";
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'button';
+@import 'button-group';
 
 @include b(calendar) {
-  background-color:#fff;
+  background-color: #fff;
 
   @include e(header) {
     display: flex;
@@ -44,7 +44,7 @@
     border-bottom: $--calendar-border;
     border-right: $--calendar-border;
     vertical-align: top;
-    transition: background-color 0.2s ease;
+    transition: background-color var(--el-transition-duration-fast) ease;
 
     @include when(selected) {
       background-color: $--calendar-selected-background-color;

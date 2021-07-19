@@ -26,6 +26,26 @@ Ajoutez `v-infinite-scroll` à la liste pour exécuter automatiquement la métho
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const count = ref(0);
+      const load = () => {
+        count.value += 2;
+      };
+      return {
+        count,
+        load,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -73,6 +93,36 @@ Ajoutez `v-infinite-scroll` à la liste pour exécuter automatiquement la métho
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref, computed } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const count = ref(10);
+      const loading = ref(false);
+      const noMore = computed(() => count.value >= 20);
+      const disabled = computed(() => loading.value || noMore.value);
+      const load = () => {
+        loading.value = true;
+        setTimeout(() => {
+          count.value += 2;
+          loading.value = false;
+        }, 2000);
+      };
+      return {
+        count,
+        loading,
+        noMore,
+        disabled,
+        load,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

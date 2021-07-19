@@ -108,17 +108,13 @@ export default {
 
   methods: {
     initIndex() {
-      const client = algoliasearch('4C63BTGP6S', '0729c3c7f4dc8db7395ad0b19c0748d2')
+      const client = algoliasearch('7DCTSU0WBW', '463385cf36ad2e81aff21afea1c0409c')
       this.index = client.initIndex(`element-${ this.lang ? this.langs[this.lang].index : 'zh' }`)
     },
 
     querySearch(query, cb) {
       if (!query) return
-      this.index.search({ query, hitsPerPage: 6 }, (err, res) => {
-        if (err) {
-          console.error(err)
-          return
-        }
+      this.index.search(query, { hitsPerPage: 6 }).then(res => {
         if (res.hits.length > 0) {
           this.isEmpty = false
           cb(res.hits.map(hit => {
@@ -143,6 +139,9 @@ export default {
           this.isEmpty = true
           cb([{ isEmpty: true }])
         }
+      }).catch(err => {
+        console.error(err)
+        return
       })
     },
 
@@ -155,9 +154,13 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
   .algolia-search {
     width: 450px !important;
+
+    .el-autocomplete-suggestion {
+      width: 450px !important;
+    }
 
     &.is-empty {
       .el-autocomplete-suggestion__list {

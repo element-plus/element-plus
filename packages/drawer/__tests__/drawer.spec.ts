@@ -46,8 +46,8 @@ describe('Drawer', () => {
       `
       <el-drawer :title='title' v-model='visible'>
         <span>this is a sentence</span>
-        <el-button @click.native='dialogVisible = false'>cancel</el-button>
-        <el-button type='primary' @click.native='dialogVisible = false'>confirm</el-button>
+        <el-button @click='dialogVisible = false'>cancel</el-button>
+        <el-button type='primary' @click='dialogVisible = false'>confirm</el-button>
       </el-drawer>
       `,
       () => ({

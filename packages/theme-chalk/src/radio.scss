@@ -1,7 +1,9 @@
-@import "mixins/mixins";
-@import "mixins/utils";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'mixins/utils';
 @import 'mixins/button';
-@import "common/var";
+@import 'common/var';
 
 @include b(radio) {
   color: $--radio-font-color;
@@ -12,16 +14,16 @@
   display: inline-block;
   white-space: nowrap;
   outline: none;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   margin-right: 30px;
   @include utils-user-select(none);
 
   @include when(bordered) {
-    padding: $--radio-bordered-padding;
+    padding: map.get($--radio-bordered-padding, 'default');
     border-radius: $--border-radius-base;
     border: $--border-base;
     box-sizing: border-box;
-    height: $--radio-bordered-height;
+    height: map.get($--radio-bordered-height, 'default');
 
     &.is-checked {
       border-color: $--color-primary;
@@ -29,7 +31,7 @@
 
     &.is-disabled {
       cursor: not-allowed;
-      border-color: $--border-color-lighter;
+      border-color: var(--el-border-color-lighter);
     }
 
     & + .#{$namespace}-radio.is-bordered {
@@ -37,45 +39,17 @@
     }
   }
 
-  @include m(medium) {
+  @each $size in (medium, small, mini) {
     &.is-bordered {
-      padding: $--radio-bordered-medium-padding;
-      border-radius: $--button-medium-border-radius;
-      height: $--radio-bordered-medium-height;
+      padding: map.get($--radio-bordered-padding, $size);
+      border-radius: $--border-radius-base;
+      height: map.get($--radio-bordered-height, $size);
       .#{$namespace}-radio__label {
-        font-size: $--button-medium-font-size;
+        font-size: map.get($--button-font-size, $size);
       }
       .#{$namespace}-radio__inner {
-        height: $--radio-bordered-medium-input-height;
-        width: $--radio-bordered-medium-input-width;
-      }
-    }
-  }
-  @include m(small) {
-    &.is-bordered {
-      padding: $--radio-bordered-small-padding;
-      border-radius: $--button-small-border-radius;
-      height: $--radio-bordered-small-height;
-      .#{$namespace}-radio__label {
-        font-size: $--button-small-font-size;
-      }
-      .#{$namespace}-radio__inner {
-        height: $--radio-bordered-small-input-height;
-        width: $--radio-bordered-small-input-width;
-      }
-    }
-  }
-  @include m(mini) {
-    &.is-bordered {
-      padding: $--radio-bordered-mini-padding;
-      border-radius: $--button-mini-border-radius;
-      height: $--radio-bordered-mini-height;
-      .#{$namespace}-radio__label {
-        font-size: $--button-mini-font-size;
-      }
-      .#{$namespace}-radio__inner {
-        height: $--radio-bordered-mini-input-height;
-        width: $--radio-bordered-mini-input-width;
+        height: map.get($--radio-bordered-input-height, $size);
+        width: map.get($--radio-bordered-input-width, $size);
       }
     }
   }
@@ -165,12 +139,12 @@
       height: 4px;
       border-radius: $--radio-input-border-radius;
       background-color: $--color-white;
-      content: "";
+      content: '';
       position: absolute;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%) scale(0);
-      transition: transform .15s ease-in;
+      transition: transform 0.15s ease-in;
     }
   }
 
@@ -186,7 +160,8 @@
     margin: 0;
   }
 
-  &:focus:not(.is-focus):not(:active):not(.is-disabled) { /*获得焦点时 样式提醒*/
+  &:focus:not(.is-focus):not(:active):not(.is-disabled) {
+    /*获得焦点时 样式提醒*/
     .#{$namespace}-radio__inner {
       box-shadow: 0 0 2px 2px $--radio-input-border-color-hover;
     }

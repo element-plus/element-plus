@@ -11,11 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, provide, ref, onMounted } from 'vue'
-
-interface IBreadcrumbProps {
-  separator: string
-  separatorClass: string
-}
+import type { IBreadcrumbProps } from './breadcrumb'
 
 export default defineComponent({
   name: 'ElBreadcrumb',
@@ -29,10 +25,10 @@ export default defineComponent({
       default: '',
     },
   },
-  setup(props: IBreadcrumbProps) {
+  setup(props) {
     const breadcrumb = ref(null)
 
-    provide('breadcrumb', props)
+    provide<IBreadcrumbProps>('breadcrumb', props)
 
     onMounted(() => {
       const items = breadcrumb.value.querySelectorAll('.el-breadcrumb__item')

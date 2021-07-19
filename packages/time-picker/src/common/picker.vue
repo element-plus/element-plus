@@ -8,6 +8,8 @@
     trigger="click"
     v-bind="$attrs"
     :popper-class="`el-picker__popper ${popperClass}`"
+    :popper-options="elPopperOptions"
+    :fallback-placements="['bottom', 'top', 'right', 'left']"
     transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
@@ -129,22 +131,24 @@ import {
   watch,
   provide,
 } from 'vue'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
+import isEqual from 'lodash/isEqual'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '@element-plus/input'
 import ElPopper from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useGlobalConfig } from '@element-plus/utils/util'
+import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import { defaultProps } from './props'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
+import type { Options } from '@popperjs/core'
 
 interface PickerOptions {
   isValidValue: any
   handleKeydown: any
   parseUserInput: any
   formatToString: any
-  getRangeAvaliableTime: any
+  getRangeAvailableTime: any
   getDefaultValue: any
   panelReady: boolean
   handleClear: any
@@ -178,6 +182,15 @@ const valueEquals = function(a, b) {
   return false
 }
 
+const parser = function(date: Date | string, format: string): Dayjs {
+  const day = isEmpty(format) ? dayjs(date) : dayjs(date, format)
+  return day.isValid() ? day : undefined
+}
+
+const formatter = function(date: Date, format: string) {
+  return isEmpty(format) ? date : dayjs(date).format(format)
+}
+
 export default defineComponent({
   name: 'Picker',
   components: {
@@ -192,6 +205,7 @@ export default defineComponent({
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
     const refPopper = ref(null)
     const pickerVisible = ref(false)
@@ -220,7 +234,13 @@ export default defineComponent({
     }
     const emitInput = val => {
       if (!valueEquals(props.modelValue, val)) {
-        ctx.emit('update:modelValue', val)
+        let formatValue
+        if (Array.isArray(val)) {
+          formatValue = val.map(_ => formatter(_, props.valueFormat))
+        } else if(val) {
+          formatValue = formatter(val, props.valueFormat)
+        }
+        ctx.emit('update:modelValue', val ? formatValue : val)
       }
     }
     const refInput = computed(() => {
@@ -254,9 +274,14 @@ export default defineComponent({
       emitInput(result)
     }
     const handleFocus = e => {
-      if (props.readonly || pickerDisabled.value) return
+      if (props.readonly || pickerDisabled.value || pickerVisible.value) return
       pickerVisible.value = true
       ctx.emit('focus', e)
+    }
+
+    const handleBlur = () => {
+      pickerVisible.value = false
+      blurInput()
     }
 
     const pickerDisabled = computed(() => {
@@ -271,14 +296,21 @@ export default defineComponent({
         }
       } else {
         if (Array.isArray(props.modelValue)) {
-          result = props.modelValue.map(_=>dayjs(_))
+          result = props.modelValue.map(_=> parser(_, props.valueFormat))
         } else {
-          result = dayjs(props.modelValue as Date)
+          result = parser(props.modelValue, props.valueFormat)
         }
       }
 
-      if (pickerOptions.value.getRangeAvaliableTime) {
-        result = pickerOptions.value.getRangeAvaliableTime(result)
+      if (pickerOptions.value.getRangeAvailableTime) {
+        const availableResult = pickerOptions.value.getRangeAvailableTime(result)
+        if (!isEqual(availableResult, result)) {
+          result = availableResult
+          emitInput(Array.isArray(result) ? result.map(_=> _.toDate()) : result.toDate())
+        }
+      }
+      if (Array.isArray(result) && result.some(_ => !_)) {
+        result = []
       }
       return result
     })
@@ -496,6 +528,9 @@ export default defineComponent({
       props,
     })
     return {
+      // injected popper options
+      elPopperOptions,
+
       isDatesPicker,
       handleEndChange,
       handleStartChange,
@@ -515,6 +550,7 @@ export default defineComponent({
       triggerClass,
       onPick,
       handleFocus,
+      handleBlur,
       pickerVisible,
       pickerActualVisible,
       displayValue,

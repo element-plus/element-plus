@@ -68,7 +68,7 @@
 ### Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | string | — | — |
+| model-value / v-model | バインディング値 | — | — |
 | disabled | タイムピッカーが無効になっているかどうか | boolean | — | false |
 | editable | 入力が編集可能かどうか | boolean | — | true |
 | clearable | クリアボタンを表示するかどうか | boolean | — | true |
@@ -93,5 +93,5 @@
 ### 方法
 | Method | Description | Parameters |
 | ---- | ---- | ---- |
-| focus | インプットコンポーネントにフォーカス | - |
-| blur | blur the Input component | - |
+| focus | インプットコンポーネントにフォーカス | — |
+| blur | blur the Input component | — |

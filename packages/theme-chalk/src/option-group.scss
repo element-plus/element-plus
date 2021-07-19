@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(select-group) {
   $gap: 20px;
@@ -24,8 +24,18 @@
         right: $gap;
         bottom: 12px;
         height: 1px;
-        background: $--border-color-light;
+        background: var(--el-border-color-light);
       }
+    }
+  }
+
+  @include e(split) {
+    &-dash {
+      position: absolute;
+      left: $gap;
+      right: $gap;
+      height: 1px;
+      background: var(--el-border-color-light);
     }
   }
 

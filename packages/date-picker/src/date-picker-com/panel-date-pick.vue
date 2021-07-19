@@ -151,29 +151,20 @@
 </template>
 
 <script lang="ts">
-import {
-  extractDateFormat,
-  extractTimeFormat,
-  TimePickPanel,
-} from '@element-plus/time-picker'
+import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
 import { t } from '@element-plus/locale'
 import ElInput from '@element-plus/input'
 import { ClickOutside } from '@element-plus/directives'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import ElButton from '@element-plus/button'
+import { isValidDatePickType } from '@element-plus/utils/validators'
 import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
+import { computed, defineComponent, inject, PropType, ref, watch } from 'vue'
 
-import {
-  defineComponent,
-  computed,
-  ref,
-  PropType,
-  watch,
-  inject,
-} from 'vue'
+import type { IDatePickerType } from '../date-picker.type'
 
 // todo
 const timeWithinRange = () => true
@@ -197,15 +188,16 @@ export default defineComponent({
       default: '',
     },
     type: {
-      type: String,
+      type: String as PropType<IDatePickerType>,
       required: true,
+      validator: isValidDatePickType,
     },
   },
   emits: ['pick', 'set-picker-option'],
   setup(props, ctx) {
     const innerDate = ref(dayjs())
 
-    const month = computed(() =>  {
+    const month = computed(() => {
       return innerDate.value.month()
     })
 
@@ -223,11 +215,11 @@ export default defineComponent({
         : true
     }
     const formatEmit = (emitDayjs: Dayjs) => {
-      if (showTime.value) return emitDayjs.millisecond(0)
       if (defaultTime) {
         const defaultTimeD = dayjs(defaultTime)
         return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date())
       }
+      if (showTime.value) return emitDayjs.millisecond(0)
       return emitDayjs.startOf('day')
     }
     const emit = (value, ...args) => {
@@ -434,7 +426,7 @@ export default defineComponent({
     const handleVisibleDateChange = value => {
       const newDate = dayjs(value, dateFormat.value)
       if (newDate.isValid()) {
-        if (disabledDate  && disabledDate(newDate.toDate())) {
+        if (disabledDate && disabledDate(newDate.toDate())) {
           return
         }
         innerDate.value = newDate.hour(innerDate.value.hour()).minute(innerDate.value.minute()).second(innerDate.value.second())

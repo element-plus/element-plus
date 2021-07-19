@@ -1,8 +1,8 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "./checkbox";
-@import "./radio";
-@import "./scrollbar";
+@import 'mixins/mixins';
+@import 'common/var';
+@import './checkbox';
+@import './radio';
+@import './scrollbar';
 
 @include b(cascader-panel) {
   display: flex;
@@ -23,13 +23,17 @@
 
   &:last-child {
     border-right: none;
+
     .#{$namespace}-cascader-node {
       padding-right: 20px;
     }
   }
 
   @include e(wrap) {
-    height: 204px;
+    // Raise the priority
+    &.el-scrollbar__wrap {
+      height: 204px;
+    }
   }
 
   @include e(list) {
@@ -82,7 +86,9 @@
 
   &:not(.is-disabled) {
     cursor: pointer;
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
       background: $--cascader-node-background-hover;
     }
   }

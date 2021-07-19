@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(timeline-item) {
   position: relative;
@@ -20,7 +20,7 @@
 
   @include e(icon) {
     color: $--color-white;
-    font-size: $--font-size-small;
+    font-size: var(--el-font-size-small);
   }
 
   @include e(node) {
@@ -73,7 +73,7 @@
   @include e(timestamp) {
     color: $--color-text-secondary;
     line-height: 1;
-    font-size: $--font-size-small;
+    font-size: var(--el-font-size-small);
 
     @include when(top) {
       margin-bottom: 8px;

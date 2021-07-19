@@ -2,6 +2,7 @@
 @import 'mixins/utils';
 @import 'common/var';
 @import 'common/transition';
+@import 'tooltip';
 
 @mixin menu-item {
   height: 56px;
@@ -12,7 +13,7 @@
   list-style: none;
   cursor: pointer;
   position: relative;
-  transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+  transition: border-color var(--el-transition-duration), background-color var(--el-transition-duration), color var(--el-transition-duration);
   box-sizing: border-box;
   white-space: nowrap;
 
@@ -38,7 +39,7 @@
 }
 
 @include b(menu) {
-  border-right: solid 1px #e6e6e6;
+  border-right: solid 1px $--menu-border-color;
   list-style: none;
   position: relative;
   margin: 0;
@@ -46,7 +47,7 @@
   background-color: $--menu-background-color;
   @include utils-clearfix;
   &.#{$namespace}-menu--horizontal {
-    border-bottom: solid 1px #e6e6e6;
+    border-bottom: solid 1px $--menu-border-color;
   }
 
   @include m(horizontal) {
@@ -168,7 +169,7 @@
         top: 0;
         left: 100%;
         z-index: 10;
-        border: 1px solid $--border-color-light;
+        border: 1px solid var(--el-border-color-light);
         border-radius: $--border-radius-small;
         box-shadow: $--box-shadow-light;
       }
@@ -233,7 +234,7 @@
     top: 50%;
     right: 20px;
     margin-top: -7px;
-    transition: transform 0.3s;
+    transition: transform var(--el-transition-duration);
     font-size: 12px;
   }
   @include when(active) {
@@ -275,7 +276,9 @@
   }
 }
 
-.horizontal-collapse-transition .#{$namespace}-submenu__title .#{$namespace}-submenu__icon-arrow {
-  transition: 0.2s;
+.horizontal-collapse-transition
+  .#{$namespace}-submenu__title
+  .#{$namespace}-submenu__icon-arrow {
+  transition: var(--el-transition-duration-fast);
   opacity: 0;
 }

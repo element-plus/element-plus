@@ -34,7 +34,7 @@ export const useCheckboxGroup = () => {
 }
 
 const useModel = (props: ICheckboxProps) => {
-  let selfModel = false
+  const selfModel = ref(false)
   const { emit } = getCurrentInstance()
   const { isGroup, checkboxGroup } = useCheckboxGroup()
   const isLimitExceeded = ref(false)
@@ -43,7 +43,7 @@ const useModel = (props: ICheckboxProps) => {
     get() {
       return isGroup.value
         ? store.value
-        : props.modelValue ?? selfModel
+        : props.modelValue ?? selfModel.value
     },
 
     set(val: unknown) {
@@ -60,7 +60,7 @@ const useModel = (props: ICheckboxProps) => {
         isLimitExceeded.value === false && checkboxGroup?.changeEvent?.(val)
       } else {
         emit(UPDATE_MODEL_EVENT, val)
-        selfModel = val as boolean
+        selfModel.value = val as boolean
       }
     },
   })

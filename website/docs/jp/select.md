@@ -527,7 +527,7 @@
 ### 属性の選択
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | バインディング値 | string / number / boolean / object | — | — |
+| model-value / v-model | バインディング値 | string / number / boolean / object | — | — |
 | multiple | 複数セレクトが有効かどうか | boolean | — | false |
 | disabled | セレクトが無効になっているかどうか | boolean | — | false |
 | value-key | 値がオブジェクトの場合に必要な、値の一意の ID キー名 | string | — | value |
@@ -550,7 +550,7 @@
 | popper-class | custom class name for Select's dropdown | string | — | — |
 | reserve-keyword | `multiple` と `filter` が真の場合、オプションを選択した後に現在のキーワードを予約するかどうか | boolean | — | false |
 | default-first-option | エンターキーで最初にマッチするオプションを選択する。`filterable` または `remote`と一緒に使う | boolean | - | false |
-| popper-append-to-body| ポッパーメニューをボディに追加するかどうか。ポッパーの位置が間違っている場合は、このプロップを false に設定してみてください。 | boolean | - | false |
+| popper-append-to-body| ポッパーメニューをボディに追加するかどうか。ポッパーの位置が間違っている場合は、このプロップを false に設定してみてください。 | boolean | - | true |
 | automatic-dropdown | ノンフィルターセレクトの場合、このプロップは、入力がフォーカスされたときにオプションメニューがポップアップするかどうかを決定します。 | boolean | - | false |
 
 ### イベントの選択

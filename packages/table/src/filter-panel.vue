@@ -16,10 +16,7 @@
       <div v-if="multiple">
         <div class="el-table-filter__content">
           <el-scrollbar wrap-class="el-table-filter__wrap">
-            <el-checkbox-group
-              v-model="filteredValue"
-              class="el-table-filter__checkbox-group"
-            >
+            <el-checkbox-group v-model="filteredValue" class="el-table-filter__checkbox-group">
               <el-checkbox
                 v-for="filter in filters"
                 :key="filter.value"
@@ -39,9 +36,7 @@
           >
             {{ t('el.table.confirmFilter') }}
           </button>
-          <button type @click="handleReset">
-            {{ t('el.table.resetFilter') }}
-          </button>
+          <button type @click="handleReset">{{ t('el.table.resetFilter') }}</button>
         </div>
       </div>
       <ul v-else class="el-table-filter__list">
@@ -99,8 +94,9 @@ import ElCheckbox from '@element-plus/checkbox'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElScrollbar from '@element-plus/scrollbar'
 import { ClickOutside } from '@element-plus/directives'
-
-import { Store, TableColumnCtx, TableHeader } from './table.type'
+import { TableColumnCtx } from './table-column/defaults'
+import { TableHeader } from './table-header/index'
+import { Store } from './store/index'
 
 export default defineComponent({
   name: 'ElTableFilterPanel',
@@ -117,10 +113,10 @@ export default defineComponent({
       default: 'bottom-start',
     },
     store: {
-      type: Object as PropType<Store>,
+      type: Object as PropType<Store<unknown>>,
     },
     column: {
-      type: Object as PropType<TableColumnCtx>,
+      type: Object as PropType<TableColumnCtx<unknown>>,
     },
     upDataColumn: {
       type: Function,
@@ -190,7 +186,7 @@ export default defineComponent({
       confirmFilter(filteredValue.value)
       hidden()
     }
-    const handleSelect = (_filterValue?: string | string[]) => {
+    const handleSelect = (_filterValue?: string) => {
       filterValue.value = _filterValue
       if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
         confirmFilter(filteredValue.value)

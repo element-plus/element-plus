@@ -216,7 +216,7 @@ Se soporta la selección de un rango de valores.
 ## Atributos
 | Atributo            | Descripción                              | Tipo            | Valores aceptados | Por defecto |
 | ------------------- | ---------------------------------------- | --------------- | ----------------- | ----------- |
-| value / v-model      | valor enlazado                           | number          | —                 | 0           |
+| model-value / v-model      | valor enlazado                           | number          | —                 | 0           |
 | min                 | valor mínimo                       | number          | —                 | 0           |
 | max                 | valor máximo                             | number          | —                 | 100         |
 | disabled            | si el Slider esta deshabitado            | boolean         | —                 | false       |

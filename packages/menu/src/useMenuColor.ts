@@ -1,7 +1,15 @@
-import { ref } from 'vue'
+import { computed } from 'vue'
+import type { IMenuProps } from './menu'
 
-export default function useMenuColor(color = '') {
-  const menuBarColor = ref('')
+export default function useMenuColor(props: IMenuProps) {
+  const menuBarColor = computed(() => {
+    const color = props.backgroundColor
+    if (!color) {
+      return ''
+    } else {
+      return mixColor(color)
+    }
+  })
   function calcColorChannels(c: string) {
     let rawColor = c.replace('#', '')
     if (/^[0-9a-fA-F]{3}$/.test(rawColor)) {
@@ -40,9 +48,5 @@ export default function useMenuColor(color = '') {
     }
     return `rgb(${Math.round(red)}, ${Math.round(green)}, ${Math.round(blue)})`
   }
-  if (!color) {
-    return menuBarColor
-  }
-  menuBarColor.value = mixColor(color)
   return menuBarColor
 }

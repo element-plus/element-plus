@@ -1,9 +1,10 @@
 @import 'common/var';
 
 body {
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   font-weight: 400;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   color: $--color-black;
   -webkit-font-smoothing: antialiased;
 }
@@ -18,11 +19,20 @@ a {
   }
 
   &:active {
-    color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
+    color: mix(
+      $--color-black,
+      $--color-primary,
+      $--button-active-shade-percent
+    );
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: $--color-text-regular;
   font-weight: inherit;
 
@@ -36,18 +46,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: #{$--font-size-base + 6px};
+  font-size: #{var(--el-font-size-base) + 6px};
 }
 
 h2 {
-  font-size: #{$--font-size-base + 4px};
+  font-size: #{var(--el-font-size-base) + 4px};
 }
 
 h3 {
-  font-size: #{$--font-size-base + 2px};
+  font-size: #{var(--el-font-size-base) + 2px};
 }
 
-h4, h5, h6, p {
+h4,
+h5,
+h6,
+p {
   font-size: inherit;
 }
 
@@ -63,12 +76,13 @@ p {
   }
 }
 
-sup, sub {
-  font-size: #{$--font-size-base - 1px};
+sup,
+sub {
+  font-size: #{var(--el-font-size-base) - 1px};
 }
 
 small {
-  font-size: #{$--font-size-base - 2px};
+  font-size: #{var(--el-font-size-base) - 2px};
 }
 
 hr {

@@ -408,11 +408,18 @@ export const useSelect = (props, states: States, ctx) => {
 
   const resetHoverIndex = () => {
     setTimeout(() => {
+      const valueKey = props.valueKey
       if (!props.multiple) {
-        states.hoverIndex = optionsArray.value.indexOf(states.selected)
+        states.hoverIndex = optionsArray.value.findIndex(item => {
+          return getValueByPath(item, valueKey) === getValueByPath(states.selected, valueKey)
+        })
       } else {
         if (states.selected.length > 0) {
-          states.hoverIndex = Math.min.apply(null, states.selected.map(item => optionsArray.value.indexOf(item)))
+          states.hoverIndex = Math.min.apply(null, states.selected.map(selected => {
+            return optionsArray.value.findIndex(item => {
+              return getValueByPath(item, valueKey) === getValueByPath(selected, valueKey)
+            })
+          }))
         } else {
           states.hoverIndex = -1
         }
@@ -550,7 +557,7 @@ export const useSelect = (props, states: States, ctx) => {
     if(targetOption?.value){
       const options = optionsArray.value.filter(item => item.value === targetOption.value)
       if (options.length > 0) {
-        target =  options[0].$el
+        target = options[0].$el
       }
     }
 

@@ -1,4 +1,4 @@
-@import "../common/var";
+@import '../common/var';
 
 @include b(picker-panel) {
   position: relative;
@@ -16,7 +16,7 @@
 
   @include e((body, body-wrapper)) {
     &::after {
-      content: "";
+      content: '';
       display: table;
       clear: both;
     }
@@ -90,7 +90,7 @@
     }
 
     @include when(disabled) {
-      color: $--font-color-disabled-base;
+      color: var(--el-font-color-disabled-base);
 
       &:hover {
         cursor: not-allowed;
@@ -103,7 +103,7 @@
   }
 }
 
-.#{$namespace}-picker-panel *[slot=sidebar],
+.#{$namespace}-picker-panel *[slot='sidebar'],
 .#{$namespace}-picker-panel__sidebar {
   position: absolute;
   top: 0;
@@ -116,7 +116,9 @@
   overflow: auto;
 }
 
-.#{$namespace}-picker-panel *[slot=sidebar] + .#{$namespace}-picker-panel__body,
+.#{$namespace}-picker-panel
+  *[slot='sidebar']
+  + .#{$namespace}-picker-panel__body,
 .#{$namespace}-picker-panel__sidebar + .#{$namespace}-picker-panel__body {
   margin-left: 110px;
 }

@@ -1,4 +1,4 @@
-@import "../common/var";
+@import '../common/var';
 
 @include b(time-spinner) {
   &.has-seconds {
@@ -15,7 +15,8 @@
     vertical-align: top;
     position: relative;
 
-    & .#{$namespace}-scrollbar__wrap:not(.#{$namespace}-scrollbar__wrap--hidden-default) {
+    &
+      .#{$namespace}-scrollbar__wrap:not(.#{$namespace}-scrollbar__wrap--hidden-default) {
       padding-bottom: 15px;
     }
 
@@ -41,7 +42,7 @@
     position: absolute;
     left: 0;
     width: 100%;
-    z-index: $--index-normal;
+    z-index: var(--el-index-normal);
     text-align: center;
     height: 30px;
     line-height: 30px;

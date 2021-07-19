@@ -48,23 +48,23 @@
 
   @include e(text) {
     width: 100%;
-    height: $--font-size-small;
+    height: var(--el-font-size-small);
   }
 
   @include e(caption) {
-    height: $--font-size-extra-small;
+    height: var(--el-font-size-extra-small);
   }
 
   @include e(h1) {
-    height: $--font-size-extra-large;
+    height: var(--el-font-size-extra-large);
   }
 
   @include e(h3) {
-    height: $--font-size-large;
+    height: var(--el-font-size-large);
   }
 
   @include e(h5) {
-    height: $--font-size-medium;
+    height: var(--el-font-size-medium);
   }
 
   @include e(image) {
@@ -80,5 +80,4 @@
       height: 22%;
     }
   }
-
 }

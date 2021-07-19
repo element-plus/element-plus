@@ -107,4 +107,37 @@ describe('Rate.vue', () => {
 
     expect(thirdStar.style.color).toEqual('rgb(255, 153, 0)')
   })
+
+  test('change event', () => {
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-rate v-model="value" @change="handleChange"></el-rate>
+        </div>
+      `,
+      data() {
+        return {
+          value: 4,
+          changeCount: 0,
+        }
+      },
+      methods:{
+        handleChange() {
+          this.changeCount++
+        },
+      },
+      components: {
+        'el-rate': Rate,
+      },
+    })
+    const vm = wrapper.vm
+    const fourthStar = wrapper.findAll('.el-rate__item')[3].element as HTMLElement
+    fourthStar.click()
+    expect(vm.value).toEqual(4)
+    expect(vm.changeCount).toEqual(0)
+    const fifthStar = wrapper.findAll('.el-rate__item')[4].element as HTMLElement
+    fifthStar.click()
+    expect(vm.value).toEqual(5)
+    expect(vm.changeCount).toEqual(1)
+  })
 })

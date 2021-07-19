@@ -59,6 +59,41 @@ Muestra una animación en un contenedor (como en una tabla) mientras se cargan l
     }
   };
 </script>
+<!--
+<setup>
+
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      tableData: [
+        {
+          date: '2016-05-02',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-04',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-01',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+      ],
+      loading: true,
+    });
+    return {
+      ...toRefs(state),
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -66,7 +101,7 @@ Muestra una animación en un contenedor (como en una tabla) mientras se cargan l
 
 Puede personalizar el texto de carga, spinner de carga y color de fondo.
 
-:::demo Agregue el atributo `element-loading-text` al elemento en el que `v-loading` está vinculado, y su valor se mostrará debajo del spinner. Del mismo modo, `element-loading-spinner` y `element-loading-background` son para personalizar el nombre de la clase del spinner y el color de fondo.
+:::demo Agregue el atributo `element-loading-text` al elemento en el que `v-loading` está vinculado, y su valor se mostrará debajo del spinner. De manera similar, los atributos `element-loading-spinner`,` element-loading-background` y `element-loading-svg` se utilizan para establecer el nombre de la clase del icono, el valor del color de fondo y el icono de carga, respectivamente.
 ```html
 <template>
   <el-table
@@ -74,6 +109,28 @@ Puede personalizar el texto de carga, spinner de carga y color de fondo.
     element-loading-text="Loading..."
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
+    :data="tableData"
+    style="width: 100%">
+    <el-table-column
+      prop="date"
+      label="Fecha"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="Nombre"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="Dirección">
+    </el-table-column>
+  </el-table>
+  <el-table
+    v-loading="loading"
+    :element-loading-svg="svg"
+    class="custom-loading-svg"
+    element-loading-svg-view-box="-10, -10, 50, 50"
     :data="tableData"
     style="width: 100%">
     <el-table-column
@@ -110,12 +167,71 @@ Puede personalizar el texto de carga, spinner de carga y color de fondo.
           name: 'John Smith',
           address: 'No.1518,  Jinshajiang Road, Putuo District'
         }],
-        loading: true
+        loading: true,
+        svg: `
+          <path class="path" d="
+            M 30 15
+            L 28 17
+            M 25.61 25.61
+            A 15 15, 0, 0, 1, 15 30
+            A 15 15, 0, 1, 1, 27.99 7.5
+            L 15 15
+          " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+        `,
       };
     }
   };
 </script>
+<!--
+<setup>
+
+import { defineComponent, reactive, toRefs } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      tableData: [
+        {
+          date: '2016-05-02',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-04',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+        {
+          date: '2016-05-01',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District',
+        },
+      ],
+      loading: true,
+      svg: `
+        <path class="path" d="
+          M 30 15
+          L 28 17
+          M 25.61 25.61
+          A 15 15, 0, 0, 1, 15 30
+          A 15 15, 0, 1, 1, 27.99 7.5
+          L 15 15
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+      `,
+    });
+    return {
+      ...toRefs(state),
+    };
+  },
+});
+
+</setup>
+-->
 ```
+:::
+
+:::warning
+Aunque el atributo `element-loading-svg` admite fragmentos HTML entrantes, es muy peligroso representar dinámicamente HTML arbitrario en el sitio web porque es fácil causar [ataque XSS](https://en.wikipedia.org/wiki/Cross-site_scripting). Asegúrese de que el contenido de `element-loading-svg` sea confiable. ** Nunca ** asigne contenido enviado por el usuario al atributo` element-loading-svg`.
 :::
 
 ### Cargando a pantalla completa
@@ -167,6 +283,44 @@ Muestra una animación de pantalla completa mientras se cargan los datos
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+  import { ElLoading } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      const fullscreenLoading = ref(false);
+      const openFullScreen1 = () => {
+        fullscreenLoading.value = true;
+        setTimeout(() => {
+          fullscreenLoading.value = false;
+        }, 2000);
+      };
+
+      const openFullScreen2 = () => {
+        const loading = ElLoading.service({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)',
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 2000);
+      };
+
+      return {
+        fullscreenLoading,
+        openFullScreen1,
+        openFullScreen2,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

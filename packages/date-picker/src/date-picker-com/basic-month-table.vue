@@ -93,7 +93,7 @@ export default defineComponent({
           cell.type = 'normal'
 
           const index = i * 4 + j
-          const calTime =  props.date.startOf('year').month(index)
+          const calTime = props.date.startOf('year').month(index)
 
           const calEndDate = props.rangeState.endDate || props.maxDate
             || props.rangeState.selecting && props.minDate

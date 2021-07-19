@@ -1,10 +1,11 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(select-dropdown) {
   @include e(item) {
     font-size: $--select-font-size;
-    padding: 0 20px;
+    // 20 as the padding of option item, 12 as the size of ✓ icon size
+    padding: 0 #{20 + 12}px 0 20px;
     position: relative;
     white-space: nowrap;
     overflow: hidden;
@@ -24,7 +25,8 @@
       }
     }
 
-    &.hover, &:hover {
+    &.hover,
+    &:hover {
       background-color: $--select-option-hover-background;
     }
 

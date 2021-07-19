@@ -1,4 +1,5 @@
-import { ref, getCurrentInstance, unref, watch } from 'vue'
+import { ref, getCurrentInstance, unref, watch, Ref } from 'vue'
+import { hasOwn } from '@vue/shared'
 import {
   getKeysMap,
   getRowIdentity,
@@ -10,7 +11,9 @@ import {
 import useExpand from './expand'
 import useCurrent from './current'
 import useTree from './tree'
-import { AnyObject, Table } from '../table.type'
+import { TableColumnCtx } from '../table-column/defaults'
+import { Table, TableRefs } from '../table/defaults'
+import { StoreFilter } from './index'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
@@ -39,29 +42,29 @@ const doFlattenColumns = columns => {
   return result
 }
 
-function useWatcher () {
-  const instance = getCurrentInstance() as Table
-  const rowKey = ref(null)
-  const data = ref([])
-  const _data = ref([])
+function useWatcher<T>() {
+  const instance = getCurrentInstance() as Table<T>
+  const rowKey: Ref<string> = ref(null)
+  const data: Ref<T[]> = ref([])
+  const _data: Ref<T[]> = ref([])
   const isComplex = ref(false)
-  const _columns = ref([])
-  const originColumns = ref([])
-  const columns = ref([])
-  const fixedColumns = ref([])
-  const rightFixedColumns = ref([])
-  const leafColumns = ref([])
-  const fixedLeafColumns = ref([])
-  const rightFixedLeafColumns = ref([])
+  const _columns: Ref<TableColumnCtx<T>[]> = ref([])
+  const originColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const columns: Ref<TableColumnCtx<T>[]> = ref([])
+  const fixedColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const rightFixedColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const leafColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const fixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const rightFixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const leafColumnsLength = ref(0)
   const fixedLeafColumnsLength = ref(0)
   const rightFixedLeafColumnsLength = ref(0)
   const isAllSelected = ref(false)
-  const selection = ref([])
+  const selection: Ref<T[]> = ref([])
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
-  const selectable = ref(null)
-  const filters = ref({})
+  const selectable: Ref<(row: T, index: number) => boolean> = ref(null)
+  const filters: Ref<StoreFilter> = ref({})
   const filteredData = ref(null)
   const sortingColumn = ref(null)
   const sortProp = ref(null)
@@ -117,7 +120,7 @@ function useWatcher () {
   }
 
   // 更新 DOM
-  const scheduleLayout = (needUpdateColumns: boolean, immediate = false) => {
+  const scheduleLayout = (needUpdateColumns?: boolean, immediate = false) => {
     if (needUpdateColumns) {
       updateColumns()
     }
@@ -149,7 +152,7 @@ function useWatcher () {
       const selectedMap = getKeysMap(selection.value, rowKey.value)
       const dataMap = getKeysMap(data.value, rowKey.value)
       for (const key in selectedMap) {
-        if (selectedMap.hasOwnProperty(key) && !dataMap[key]) {
+        if (hasOwn(selectedMap, key) && !dataMap[key]) {
           deleted.push(selectedMap[key].row)
         }
       }
@@ -165,7 +168,11 @@ function useWatcher () {
     }
   }
 
-  const toggleRowSelection = (row, selected, emitChange = true) => {
+  const toggleRowSelection = (
+    row: T,
+    selected = undefined,
+    emitChange = true,
+  ) => {
     const changed = toggleRowStatus(selection.value, row, selected)
     if (changed) {
       const newSelection = (selection.value || []).slice()
@@ -186,10 +193,13 @@ function useWatcher () {
     isAllSelected.value = value
 
     let selectionChanged = false
+    let childrenCount = 0
+    const rowKey = instance?.store?.states?.rowKey.value
     data.value.forEach((row, index) => {
+      const rowIndex = index + childrenCount
       if (selectable.value) {
         if (
-          selectable.value.call(null, row, index) &&
+          selectable.value.call(null, row, rowIndex) &&
           toggleRowStatus(selection.value, row, value)
         ) {
           selectionChanged = true
@@ -199,6 +209,7 @@ function useWatcher () {
           selectionChanged = true
         }
       }
+      childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
     })
 
     if (selectionChanged) {
@@ -232,7 +243,7 @@ function useWatcher () {
     if (rowKey.value) {
       selectedMap = getKeysMap(selection.value, rowKey.value)
     }
-    const isSelected = function (row) {
+    const isSelected = function(row) {
       if (selectedMap) {
         return !!selectedMap[getRowIdentity(row, rowKey.value)]
       } else {
@@ -241,10 +252,13 @@ function useWatcher () {
     }
     let isAllSelected_ = true
     let selectedCount = 0
+    let childrenCount = 0
     for (let i = 0, j = (data.value || []).length; i < j; i++) {
+      const keyProp = instance?.store?.states?.rowKey.value
+      const rowIndex = i + childrenCount
       const item = data.value[i]
       const isRowSelectable =
-        selectable.value && selectable.value.call(null, item, i)
+        selectable.value && selectable.value.call(null, item, rowIndex)
       if (!isSelected(item)) {
         if (!selectable.value || isRowSelectable) {
           isAllSelected_ = false
@@ -253,10 +267,28 @@ function useWatcher () {
       } else {
         selectedCount++
       }
+      childrenCount += getChildrenCount(getRowIdentity(item, keyProp))
     }
 
     if (selectedCount === 0) isAllSelected_ = false
     isAllSelected.value = isAllSelected_
+  }
+
+  // gets the number of all child nodes by rowKey
+  const getChildrenCount = (rowKey: string) => {
+    if (!instance || !instance.store) return 0
+    const {
+      treeData,
+    } = instance.store.states
+    let count = 0
+    const children = treeData.value[rowKey]?.children
+    if (children) {
+      count += children.length
+      children.forEach(childKey => {
+        count += getChildrenCount(childKey)
+      })
+    }
+    return count
   }
 
   // 过滤与排序
@@ -313,7 +345,7 @@ function useWatcher () {
   }
 
   // 根据 filters 与 sort 去过滤 data
-  const execQuery = ignore => {
+  const execQuery = (ignore = undefined) => {
     if (!(ignore && ignore.filter)) {
       execFilter()
     }
@@ -325,7 +357,7 @@ function useWatcher () {
       tableHeader,
       fixedTableHeader,
       rightFixedTableHeader,
-    } = instance.refs as AnyObject
+    } = instance.refs as TableRefs
     let panels = {}
     if (tableHeader) panels = Object.assign(panels, tableHeader.filterPanels)
     if (fixedTableHeader)
@@ -415,14 +447,14 @@ function useWatcher () {
     rowKey,
   })
   // 适配层，expand-row-keys 在 Expand 与 TreeTable 中都有使用
-  const setExpandRowKeysAdapter = val => {
+  const setExpandRowKeysAdapter = (val: string[]) => {
     // 这里会触发额外的计算，但为了兼容性，暂时这么做
     setExpandRowKeys(val)
     updateTreeExpandKeys(val)
   }
 
   // 展开行与 TreeTable 都要使用
-  const toggleRowExpansionAdapter = (row, expanded) => {
+  const toggleRowExpansionAdapter = (row: T, expanded: boolean) => {
     const hasExpandColumn = columns.value.some(({ type }) => type === 'expand')
     if (hasExpandColumn) {
       toggleRowExpansion(row, expanded)
@@ -440,6 +472,7 @@ function useWatcher () {
     cleanSelection,
     toggleRowSelection,
     _toggleAllSelection,
+    toggleAllSelection: null,
     updateSelectionByRowKey,
     updateAllSelected,
     updateFilters,

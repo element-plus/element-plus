@@ -98,7 +98,7 @@ export default defineComponent({
     const rootMenuEmitter = mitt()
     const router = instance.appContext.config.globalProperties.$router
 
-    const hoverBackground = useMenuColor(props.backgroundColor)
+    const hoverBackground = useMenuColor(props)
 
     // computed
     const isMenuPopup = computed(() => {
@@ -192,37 +192,30 @@ export default defineComponent({
     }) => {
       const { index, indexPath } = item
       const hasIndex = item.index !== null
-      const oldActiveIndex = activeIndex.value
-
-      if (hasIndex) {
-        activeIndex.value = item.index
-      }
-
-      ctx.emit('select', index, indexPath.value, item)
+      const emitParams = [index, indexPath.value, item]
 
       if (props.mode === 'horizontal' || props.collapse) {
         openedMenus.value = []
       }
 
-      if (props.router && router && hasIndex) {
-        routeToItem(item, error => {
-          activeIndex.value = oldActiveIndex
-          if (error) {
-            // vue-router 3.1.0+ push/replace cause NavigationDuplicated error
-            // https://github.com/ElemeFE/element/issues/17044
-            if (error.name === 'NavigationDuplicated') return
-            console.error(error)
-          }
-        })
+      if (!hasIndex) {
+        return
       }
-    }
 
-    const routeToItem = (item, onError) => {
-      let route = item.route || item.index
-      try {
-        router?.push(route, () => null, onError)
-      } catch (e) {
-        console.error(e)
+      if (props.router && router) {
+        let route = item.route || item.index
+        const routerResult = router
+          .push(route)
+          .then(navigationResult => {
+            if (!navigationResult) {
+              activeIndex.value = item.index
+            }
+            return navigationResult
+          })
+        ctx.emit('select', ...emitParams.concat(routerResult))
+      } else {
+        activeIndex.value = item.index
+        ctx.emit('select', ...emitParams)
       }
     }
 

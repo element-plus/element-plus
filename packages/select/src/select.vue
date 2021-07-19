@@ -12,6 +12,7 @@
       placement="bottom-start"
       :append-to-body="popperAppendToBody"
       :popper-class="`el-select__popper ${popperClass}`"
+      :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       manual-mode
       effect="light"
       pure
