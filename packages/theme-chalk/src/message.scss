@@ -10,7 +10,7 @@
   --el-message-close-icon-color: var(--el-color-text-placeholder);
   --el-message-close-hover-color: var(--el-color-text-secondary);
 
-  @each $type in (success, info, warning, danger) {
+  @each $type in (success, info, warning, error) {
     --el-message-#{$type}-font-color: var(--el-color-#{$type});
   }
 }
@@ -57,10 +57,6 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      @if $type == error {
-        $type: danger;
-      }
-
       background-color: map.get($--colors, $type, 'lighter');
       border-color: map.get($--colors, $type, 'light');
 
@@ -102,9 +98,6 @@
 
   @each $type in (success, info, warning, error) {
     & .#{$namespace}-icon-#{$type} {
-      @if $type == error {
-        $type: danger;
-      }
       color: var(--el-message-#{$type}-font-color);
     }
   }

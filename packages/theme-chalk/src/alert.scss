@@ -14,7 +14,7 @@
   --el-alert-icon-size: 16px;
   --el-alert-icon-large-size: 28px;
 
-  @each $type in (success, info, warning, danger) {
+  @each $type in (success, info, warning, error) {
     --el-alert-#{$type}-color: #{map.get($--colors, $type, 'lighter')};
   }
 }
@@ -54,11 +54,6 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      // compatiable for danger
-      @if $type == error {
-        $type: danger;
-      }
-
       &.is-light {
         background-color: var(--el-alert-#{$type}-color);
         color: var(--el-color-#{$type});
