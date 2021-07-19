@@ -1,9 +1,37 @@
 @charset "UTF-8";
 @use "sass:map";
+
 @import 'common/var';
 @import 'mixins/button';
 @import 'mixins/mixins';
 @import 'mixins/utils';
+
+$--button: () !default;
+
+@each $type in (primary, success, warning, danger, info) {
+  $--button: map.deep-merge(
+    $--button,
+    (
+      'border-color': (
+        $type: map.get($--colors, $type, 'base'),
+      ),
+      'font-color': (
+        $type: map.get($--colors, 'white'),
+      ),
+      'background-color': (
+        $type: map.get($--colors, $type, 'base'),
+      ),
+    )
+  ) !global;
+}
+
+:root {
+  @each $type in (primary, success, warning, danger, info) {
+    --el-button-#{$type}-border-color: var(--el-color-#{$type});
+  }
+
+  --el-button-divide-border-color: #{rgba($--color-white, 0.5)};
+}
 
 @include b(button) {
   display: inline-block;
@@ -11,17 +39,17 @@
   min-height: map.get($--input-height, 'default');
   white-space: nowrap;
   cursor: pointer;
-  background: $--button-default-background-color;
-  border: $--border-base;
-  border-color: $--button-default-border-color;
-  color: $--button-default-font-color;
+  background: var(--el-button-default-background-color);
+  border: var(--el-border-base);
+  border-color: var(--el-button-default-border-color);
+  color: var(--el-button-default-font-color);
   -webkit-appearance: none;
   text-align: center;
   box-sizing: border-box;
   outline: none;
   margin: 0;
   transition: 0.1s;
-  font-weight: $--button-font-weight;
+  font-weight: var(--el-button-font-weight);
   @include utils-user-select(none);
   & + & {
     margin-left: 10px;
@@ -36,7 +64,7 @@
 
   &:hover,
   &:focus {
-    color: $--color-primary;
+    color: var(--el-color-primary);
     border-color: map.get($--colors, 'primary', 'light-7');
     background-color: map.get($--colors, 'primary', 'light-9');
   }
@@ -68,13 +96,13 @@
   @include when(plain) {
     &:hover,
     &:focus {
-      background: $--color-white;
-      border-color: $--color-primary;
-      color: $--color-primary;
+      background: var(--el-color-white);
+      border-color: var(--el-color-primary);
+      color: var(--el-color-primary);
     }
 
     &:active {
-      background: $--color-white;
+      background: var(--el-color-white);
       border-color: mix(
         $--color-black,
         $--color-primary,
@@ -106,11 +134,11 @@
     &,
     &:hover,
     &:focus {
-      color: $--button-disabled-font-color;
+      color: var(--el-button-disabled-font-color);
       cursor: not-allowed;
       background-image: none;
-      background-color: $--button-disabled-background-color;
-      border-color: $--button-disabled-border-color;
+      background-color: var(--el-button-disabled-background-color);
+      border-color: var(--el-button-disabled-border-color);
     }
 
     &.#{$namespace}-button--text {
@@ -121,9 +149,9 @@
       &,
       &:hover,
       &:focus {
-        background-color: $--color-white;
-        border-color: $--button-disabled-border-color;
-        color: $--button-disabled-font-color;
+        background-color: var(--el-color-white);
+        border-color: var(--el-button-disabled-border-color);
+        color: var(--el-button-disabled-font-color);
       }
     }
   }
@@ -152,40 +180,15 @@
     border-radius: 50%;
     padding: map.get($--button-padding-vertical, 'default');
   }
-  @include m(primary) {
-    @include button-variant(
-      $--button-primary-font-color,
-      $--button-primary-background-color,
-      $--button-primary-border-color
-    );
-  }
-  @include m(success) {
-    @include button-variant(
-      $--button-success-font-color,
-      $--button-success-background-color,
-      $--button-success-border-color
-    );
-  }
-  @include m(warning) {
-    @include button-variant(
-      $--button-warning-font-color,
-      $--button-warning-background-color,
-      $--button-warning-border-color
-    );
-  }
-  @include m(danger) {
-    @include button-variant(
-      $--button-danger-font-color,
-      $--button-danger-background-color,
-      $--button-danger-border-color
-    );
-  }
-  @include m(info) {
-    @include button-variant(
-      $--button-info-font-color,
-      $--button-info-background-color,
-      $--button-info-border-color
-    );
+
+  @each $type in (primary, success, warning, danger, info) {
+    @include m($type) {
+      @include button-variant(
+        map.get($--button, 'font-color', $type),
+        map.get($--button, 'background-color', $type),
+        map.get($--button, 'border-color', $type)
+      );
+    }
   }
 
   @each $size in (medium, small, mini) {
@@ -206,7 +209,7 @@
 
   @include m(text) {
     border-color: transparent;
-    color: $--color-primary;
+    color: var(--el-color-primary);
     background: transparent;
     padding-left: 0;
     padding-right: 0;
@@ -294,21 +297,21 @@
     & > .#{$namespace}-button {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-      border-left-color: rgba($--color-white, 0.5);
+      border-left-color: var(--el-button-divide-border-color);
     }
   }
 
   @each $type in (primary, success, warning, danger, info) {
     .#{$namespace}-button--#{$type} {
       &:first-child {
-        border-right-color: rgba($--color-white, 0.5);
+        border-right-color: var(--el-button-divide-border-color);
       }
       &:last-child {
-        border-left-color: rgba($--color-white, 0.5);
+        border-left-color: var(--el-button-divide-border-color);
       }
       &:not(:first-child):not(:last-child) {
-        border-left-color: rgba($--color-white, 0.5);
-        border-right-color: rgba($--color-white, 0.5);
+        border-left-color: var(--el-button-divide-border-color);
+        border-right-color: var(--el-button-divide-border-color);
       }
     }
   }

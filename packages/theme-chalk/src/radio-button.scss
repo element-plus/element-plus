@@ -14,11 +14,11 @@
     line-height: 1;
     white-space: nowrap;
     vertical-align: middle;
-    background: $--button-default-background-color;
+    background: var(--el-button-default-background-color);
     border: $--border-base;
-    font-weight: $--button-font-weight;
+    font-weight: var(--el-button-font-weight);
     border-left: 0;
-    color: $--button-default-font-color;
+    color: var(--el-button-default-font-color);
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
@@ -73,11 +73,11 @@
 
     &:disabled {
       & + .#{$namespace}-radio-button__inner {
-        color: $--button-disabled-font-color;
+        color: var(--el-button-disabled-font-color);
         cursor: not-allowed;
         background-image: none;
-        background-color: $--button-disabled-background-color;
-        border-color: $--button-disabled-border-color;
+        background-color: var(--el-button-disabled-background-color);
+        border-color: var(--el-button-disabled-border-color);
         box-shadow: none;
       }
       &:checked + .#{$namespace}-radio-button__inner {

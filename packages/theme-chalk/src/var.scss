@@ -77,6 +77,16 @@
   --el-disabled-border-base: var(--el-border-color-light);
 
   // some var for component, but because they are used in many places, need to be global
+  // button
+  --el-button-font-weight: var(--el-font-weight-primary);
+
+  --el-button-default-font-color: var(--el-color-text-regular);
+  --el-button-default-background-color: var(--el-color-white);
+  --el-button-default-border-color: var(--el-border-color-base);
+  --el-button-disabled-font-color: var(--el-color-text-placeholder);
+  --el-button-disabled-background-color: var(--el-color-white);
+  --el-button-disabled-border-color: var(--el-border-color-light);
+
   // message
   --el-message-close-size: 16px;
 }
