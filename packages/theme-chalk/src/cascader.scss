@@ -5,6 +5,21 @@
 @import './input';
 @import './popper';
 @import './tag';
+
+:root {
+  --el-cascader-menu-font-color: var(--el-color-text-regular);
+  --el-cascader-menu-selected-font-color: var(--el-color-primary);
+  --el-cascader-menu-fill: var(--el-fill-base);
+  --el-cascader-menu-font-size: var(--el-font-size-base);
+  --el-cascader-menu-radius: var(--el-border-radius-base);
+  --el-cascader-menu-border: solid 1px var(--el-border-color-light);
+  --el-cascader-menu-shadow: var(--el-box-shadow-light);
+  --el-cascader-node-background-hover: var(--el-background-color-base);
+  --el-cascader-node-color-disabled: var(--el-color-text-placeholder);
+  --el-cascader-color-empty: var(--el-color-text-placeholder);
+  --el-cascader-tag-background: #f0f2f5;
+}
+
 @import './cascader-panel';
 
 @include b(cascader) {
@@ -62,18 +77,18 @@
   @include when(disabled) {
     .#{$namespace}-cascader__label {
       z-index: calc(var(--el-index-normal) + 1);
-      color: $--disabled-color-base;
+      color: var(--el-disabled-color-base);
     }
   }
 
   @include e(dropdown) {
-    font-size: $--cascader-menu-font-size;
-    border-radius: $--cascader-menu-radius;
+    font-size: var(--el-cascader-menu-font-size);
+    border-radius: var(--el-cascader-menu-radius);
 
     @include picker-popper(
-      $--cascader-menu-fill,
-      $--cascader-menu-border,
-      $--cascader-menu-shadow
+      var(--el-cascader-menu-fill),
+      var(--el-cascader-menu-border),
+      var(--el-cascader-menu-shadow)
     );
   }
 
@@ -95,7 +110,7 @@
       max-width: 100%;
       margin: 2px 0 2px 6px;
       text-overflow: ellipsis;
-      background: $--cascader-tag-background;
+      background: var(--el-cascader-tag-background);
 
       &:not(.is-hit) {
         border-color: transparent;
@@ -109,18 +124,18 @@
 
       .#{$namespace}-icon-close {
         flex: none;
-        background-color: $--color-text-placeholder;
-        color: $--color-white;
+        background-color: var(--el-color-text-placeholder);
+        color: var(--el-color-white);
 
         &:hover {
-          background-color: $--color-text-secondary;
+          background-color: var(--el-color-text-secondary);
         }
       }
     }
   }
 
   @include e(suggestion-panel) {
-    border-radius: $--cascader-menu-radius;
+    border-radius: var(--el-cascader-menu-radius);
   }
 
   @include e(suggestion-list) {
@@ -128,7 +143,7 @@
     margin: 0;
     padding: 6px 0;
     font-size: var(--el-font-size-base);
-    color: $--cascader-menu-font-color;
+    color: var(--el-cascader-menu-font-color);
     text-align: center;
   }
 
@@ -144,11 +159,11 @@
 
     &:hover,
     &:focus {
-      background: $--cascader-node-background-hover;
+      background: var(--el-cascader-node-background-hover);
     }
 
     &.is-checked {
-      color: $--cascader-menu-selected-font-color;
+      color: var(--el-cascader-menu-selected-font-color);
       font-weight: bold;
     }
 
@@ -159,7 +174,7 @@
 
   @include e(empty-text) {
     margin: 10px 0;
-    color: $--cascader-color-empty;
+    color: var(--el-cascader-color-empty);
   }
 
   @include e(search-input) {
@@ -168,13 +183,13 @@
     min-width: 60px;
     margin: 2px 0 2px 15px;
     padding: 0;
-    color: $--cascader-menu-font-color;
+    color: var(--el-cascader-menu-font-color);
     border: none;
     outline: none;
     box-sizing: border-box;
 
     &::placeholder {
-      color: $--color-text-placeholder;
+      color: var(--el-color-text-placeholder);
     }
   }
 }
