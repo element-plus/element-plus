@@ -318,34 +318,20 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
+  /**
+   * find and highlight first option as default selected
+   * @remark
+   * - if the first option in dropdown list is user-created,
+   *   it would be at the end of the optionsArray
+   *   so find it and set hover.
+   *   (Note that there must be only one user-created option in dropdown list)
+   * - if there's no user-created option in list, just find the first one as usual
+   */
   const checkDefaultFirstOption = () => {
-    states.hoverIndex = -1
-    // highlight the created option
-    let hasCreated = false
-    for (let i = states.options.size - 1; i >= 0; i--) {
-      if (optionsArray.value[i].created) {
-        hasCreated = true
-        states.hoverIndex = i
-        break
-      }
-    }
-    if (hasCreated) return
-    for (let i = 0; i !== states.options.size; ++i) {
-      const option = optionsArray.value[i]
-      if (states.query) {
-        // highlight first options that passes the filter
-        if (!option.disabled && !option.groupDisabled && option.visible) {
-          states.hoverIndex = i
-          break
-        }
-      } else {
-        // highlight currently selected option
-        if (option.itemSelected) {
-          states.hoverIndex = i
-          break
-        }
-      }
-    }
+    const optionsInDropdown = optionsArray.value.filter(n => n.visible)
+    const userCreatedOption = optionsInDropdown.filter(n => n.created)[0]
+    const firstOriginOption = optionsInDropdown[0]
+    states.hoverIndex = getValueIndex(optionsArray.value, userCreatedOption || firstOriginOption)
   }
 
   const setSelected = () => {
