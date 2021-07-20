@@ -9,10 +9,10 @@
 
 @include b(skeleton) {
   @include e(item) {
-    background: $--skeleton-color;
+    background: var(--el-skeleton-color);
     display: inline-block;
     height: 16px;
-    border-radius: $--border-radius-base;
+    border-radius: var(--el-border-radius-base);
     width: 100%;
   }
 
@@ -75,7 +75,7 @@
     border-radius: 0;
 
     svg {
-      fill: $--svg-monochrome-grey;
+      fill: var(--el-svg-monochrome-grey);
       width: 22%;
       height: 22%;
     }
