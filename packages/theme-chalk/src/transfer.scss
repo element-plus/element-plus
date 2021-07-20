@@ -86,7 +86,7 @@
     }
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
 
     &.#{$namespace}-checkbox .#{$namespace}-checkbox__label {

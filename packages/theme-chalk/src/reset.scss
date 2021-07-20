@@ -10,7 +10,7 @@ body {
 }
 
 a {
-  color: $--color-primary;
+  color: var(--el-color-primary);
   text-decoration: none;
 
   &:hover,

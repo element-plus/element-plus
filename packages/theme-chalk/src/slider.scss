@@ -162,7 +162,7 @@
       position: absolute;
       transform: translateX(-50%);
       font-size: 14px;
-      color: $--color-info;
+      color: var(--el-color-info);
       margin-top: 15px;
     }
   }

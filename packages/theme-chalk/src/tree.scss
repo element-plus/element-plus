@@ -31,7 +31,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background-color: $--color-primary;
+    background-color: var(--el-color-primary);
   }
 }
 
@@ -47,7 +47,7 @@
 
   @include when(drop-inner) {
     > .#{$namespace}-tree-node__content .#{$namespace}-tree-node__label {
-      background-color: $--color-primary;
+      background-color: var(--el-color-primary);
       color: #fff;
     }
   }

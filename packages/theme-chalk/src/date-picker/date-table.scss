@@ -67,7 +67,7 @@
     &.today {
       position: relative;
       span {
-        color: $--color-primary;
+        color: var(--el-color-primary);
         font-weight: bold;
       }
       &.start-date span,

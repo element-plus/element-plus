@@ -49,7 +49,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
 
     &.#{$namespace}-icon-arrow-up {

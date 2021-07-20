@@ -37,18 +37,18 @@
     }
 
     @include when(success) {
-      color: $--color-success;
-      border-color: $--color-success;
+      color: var(--el-color-success);
+      border-color: var(--el-color-success);
     }
 
     @include when(error) {
-      color: $--color-danger;
-      border-color: $--color-danger;
+      color: var(--el-color-danger);
+      border-color: var(--el-color-danger);
     }
 
     @include when(finish) {
-      color: $--color-primary;
-      border-color: $--color-primary;
+      color: var(--el-color-primary);
+      border-color: var(--el-color-primary);
     }
   }
 
@@ -131,15 +131,15 @@
     }
 
     @include when(success) {
-      color: $--color-success;
+      color: var(--el-color-success);
     }
 
     @include when(error) {
-      color: $--color-danger;
+      color: var(--el-color-danger);
     }
 
     @include when(finish) {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
   }
 
@@ -159,15 +159,15 @@
     }
 
     @include when(success) {
-      color: $--color-success;
+      color: var(--el-color-success);
     }
 
     @include when(error) {
-      color: $--color-danger;
+      color: var(--el-color-danger);
     }
 
     @include when(finish) {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
   }
 

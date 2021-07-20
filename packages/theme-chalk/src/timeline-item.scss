@@ -43,19 +43,19 @@
     }
 
     @include m(primary) {
-      background-color: $--color-primary;
+      background-color: var(--el-color-primary);
     }
     @include m(success) {
-      background-color: $--color-success;
+      background-color: var(--el-color-success);
     }
     @include m(warning) {
-      background-color: $--color-warning;
+      background-color: var(--el-color-warning);
     }
     @include m(danger) {
-      background-color: $--color-danger;
+      background-color: var(--el-color-danger);
     }
     @include m(info) {
-      background-color: $--color-info;
+      background-color: var(--el-color-info);
     }
   }
 

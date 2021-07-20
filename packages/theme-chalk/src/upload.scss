@@ -44,16 +44,16 @@
     }
 
     &:hover {
-      border-color: $--color-primary;
-      color: $--color-primary;
+      border-color: var(--el-color-primary);
+      color: var(--el-color-primary);
     }
   }
   &:focus {
-    border-color: $--color-primary;
-    color: $--color-primary;
+    border-color: var(--el-color-primary);
+    color: var(--el-color-primary);
 
     .#{$namespace}-upload-dragger {
-      border-color: $--color-primary;
+      border-color: var(--el-color-primary);
     }
   }
 }
@@ -93,18 +93,18 @@
     text-align: center;
 
     em {
-      color: $--color-primary;
+      color: var(--el-color-primary);
       font-style: normal;
     }
   }
 
   &:hover {
-    border-color: $--color-primary;
+    border-color: var(--el-color-primary);
   }
 
   @include when(dragover) {
     background-color: rgba(32, 159, 255, 0.06);
-    border: 2px dashed $--color-primary;
+    border: 2px dashed var(--el-color-primary);
   }
 }
 
@@ -146,7 +146,7 @@
     }
 
     & .#{$namespace}-icon-upload-success {
-      color: $--color-success;
+      color: var(--el-color-success);
     }
 
     .#{$namespace}-icon-close {
@@ -172,7 +172,7 @@
       font-size: 12px;
       cursor: pointer;
       opacity: 1;
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
 
     &:hover {
@@ -265,7 +265,7 @@
     display: none;
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
   }
 

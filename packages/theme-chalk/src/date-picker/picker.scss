@@ -116,10 +116,10 @@
   }
 
   @include when(active) {
-    border-color: $--color-primary;
+    border-color: var(--el-color-primary);
 
     &:hover {
-      border-color: $--color-primary;
+      border-color: var(--el-color-primary);
     }
   }
 

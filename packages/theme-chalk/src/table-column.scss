@@ -40,7 +40,7 @@
     }
 
     @include when(active) {
-      background-color: $--color-primary;
+      background-color: var(--el-color-primary);
       color: $--color-white;
     }
   }
@@ -62,7 +62,7 @@
       padding: 0 3px;
 
       &:hover {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
 
       &:focus {

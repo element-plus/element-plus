@@ -32,7 +32,7 @@
         color: $--color-text-primary;
 
         &:hover {
-          color: $--color-primary;
+          color: var(--el-color-primary);
           cursor: pointer;
         }
       }
