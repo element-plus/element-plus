@@ -5,6 +5,8 @@
 @import 'common/var';
 
 :root {
+  --el-table-border-color: var(--el-border-color-lighter);
+  --el-table-border: 1px solid var(--el-table-border-color);
   --el-table-font-color: var(--el-color-text-regular);
   --el-table-header-font-color: var(--el-color-text-secondary);
   --el-table-row-hover-background-color: var(--el-background-color-base);

@@ -444,23 +444,8 @@ $--dialog-padding-primary: 20px !default;
 
 /* Table
 -------------------------- */
-/// color||Color|0
-$--table-border-color: map.get($--border-color, 'lighter') !default;
-$--table-border: 1px solid $--table-border-color !default;
-/// color||Color|0
-$--table-font-color: $--color-text-regular !default;
-/// color||Color|0
-$--table-header-font-color: $--color-text-secondary !default;
-/// color||Color|0
-$--table-row-hover-background-color: $--background-color-base !default;
-$--table-current-row-background-color: map.get(
-  $--colors,
-  'primary',
-  'light-9'
-) !default;
-/// color||Color|0
-$--table-header-background-color: $--color-white !default;
-$--table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, 0.12) !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/table.scss
 
 /* Pagination
 -------------------------- */
@@ -734,13 +719,11 @@ $--link-warning-font-color: $--color-warning !default;
 $--link-danger-font-color: $--color-danger !default;
 /// color||Color|0
 $--link-info-font-color: $--color-info !default;
+
 /* Calendar
 --------------------------*/
-/// border||Other|4
-$--calendar-border: $--table-border !default;
-/// color||Other|4
-$--calendar-selected-background-color: #f2f8fe !default;
-$--calendar-cell-width: 85px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/calendar.scss
 
 /* Form
 -------------------------- */
