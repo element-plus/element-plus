@@ -393,9 +393,6 @@ $--input-number-width: (
 
 /* Button
 -------------------------- */
-/// fontWeight||Font|1
-$--button-font-weight: $--font-weight-primary !default;
-
 $--button-font-size: (
   'default': map.get($--font-size, 'base'),
   'medium': map.get($--font-size, 'base'),
@@ -424,50 +421,8 @@ $--button-padding-horizontal: (
   'mini': 15px,
 );
 
-/// color||Color|0
-$--button-default-font-color: $--color-text-regular !default;
-/// color||Color|0
-$--button-default-background-color: $--color-white !default;
-/// color||Color|0
+// need mix
 $--button-default-border-color: map.get($--border-color, 'base') !default;
-
-/// color||Color|0
-$--button-disabled-font-color: $--color-text-placeholder !default;
-/// color||Color|0
-$--button-disabled-background-color: $--color-white !default;
-/// color||Color|0
-$--button-disabled-border-color: map.get($--border-color, 'lighter') !default;
-
-/// color||Color|0
-$--button-primary-border-color: $--color-primary !default;
-/// color||Color|0
-$--button-primary-font-color: $--color-white !default;
-/// color||Color|0
-$--button-primary-background-color: $--color-primary !default;
-/// color||Color|0
-$--button-success-border-color: $--color-success !default;
-/// color||Color|0
-$--button-success-font-color: $--color-white !default;
-/// color||Color|0
-$--button-success-background-color: $--color-success !default;
-/// color||Color|0
-$--button-warning-border-color: $--color-warning !default;
-/// color||Color|0
-$--button-warning-font-color: $--color-white !default;
-/// color||Color|0
-$--button-warning-background-color: $--color-warning !default;
-/// color||Color|0
-$--button-danger-border-color: $--color-danger !default;
-/// color||Color|0
-$--button-danger-font-color: $--color-white !default;
-/// color||Color|0
-$--button-danger-background-color: $--color-danger !default;
-/// color||Color|0
-$--button-info-border-color: $--color-info !default;
-/// color||Color|0
-$--button-info-font-color: $--color-white !default;
-/// color||Color|0
-$--button-info-background-color: $--color-info !default;
 
 $--button-hover-tint-percent: 20% !default;
 $--button-active-shade-percent: 10% !default;
