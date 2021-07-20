@@ -6,7 +6,7 @@
 @include b(check-tag) {
   background-color: $--background-color-base;
   border-radius: $--border-radius-base;
-  color: $--color-info;
+  color: var(--el-color-info);
   cursor: pointer;
   display: inline-block;
   font-size: var(--el-font-size-base);

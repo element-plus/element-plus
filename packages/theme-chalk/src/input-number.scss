@@ -35,7 +35,7 @@
     font-size: 13px;
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
 
       & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__inner {
         border-color: $--input-focus-border;

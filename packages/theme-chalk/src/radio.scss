@@ -26,7 +26,7 @@
     height: map.get($--radio-bordered-height, 'default');
 
     &.is-checked {
-      border-color: $--color-primary;
+      border-color: var(--el-color-primary);
     }
 
     &.is-disabled {

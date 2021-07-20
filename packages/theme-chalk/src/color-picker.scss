@@ -25,7 +25,7 @@
     }
 
     &.selected {
-      box-shadow: 0 0 3px 2px $--color-primary;
+      box-shadow: 0 0 3px 2px var(--el-color-primary);
     }
 
     > div {
@@ -237,14 +237,14 @@
       cursor: not-allowed;
     }
     &:hover {
-      color: $--color-primary;
-      border-color: $--color-primary;
+      color: var(--el-color-primary);
+      border-color: var(--el-color-primary);
     }
   }
 
   @include e(link-btn) {
     cursor: pointer;
-    color: $--color-primary;
+    color: var(--el-color-primary);
     text-decoration: none;
     padding: 15px;
     font-size: 12px;

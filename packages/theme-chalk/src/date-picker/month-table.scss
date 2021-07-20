@@ -16,7 +16,7 @@
     }
     &.today {
       .cell {
-        color: $--color-primary;
+        color: var(--el-color-primary);
         font-weight: bold;
       }
       &.start-date .cell,

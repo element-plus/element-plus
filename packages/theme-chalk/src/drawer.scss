@@ -53,7 +53,8 @@
 
 @mixin animation-in($direction) {
   &.#{$direction} {
-    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear reverse;
+    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear
+      reverse;
   }
 }
 
@@ -118,7 +119,7 @@ $directions: rtl, ltr, ttb, btt;
     outline: none;
     &:hover {
       i {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
     }
   }

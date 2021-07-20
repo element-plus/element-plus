@@ -48,13 +48,13 @@
     font-size: var(--el-message-close-size);
 
     .#{$namespace}-dialog__close {
-      color: $--color-info;
+      color: var(--el-color-info);
     }
 
     &:focus,
     &:hover {
       .#{$namespace}-dialog__close {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
     }
   }

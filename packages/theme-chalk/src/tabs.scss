@@ -12,9 +12,10 @@
     bottom: 0;
     left: 0;
     height: 2px;
-    background-color: $--color-primary;
+    background-color: var(--el-color-primary);
     z-index: 1;
-    transition: transform var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: transform var(--el-transition-duration)
+      cubic-bezier(0.645, 0.045, 0.355, 1);
     list-style: none;
   }
   @include e(new-tab) {
@@ -36,7 +37,7 @@
     }
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
   }
   @include e(nav-wrap) {
@@ -112,7 +113,8 @@
     & .#{$namespace}-icon-close {
       border-radius: 50%;
       text-align: center;
-      transition: all var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all var(--el-transition-duration)
+        cubic-bezier(0.645, 0.045, 0.355, 1);
       margin-left: 5px;
       &:before {
         transform: scale(0.9);
@@ -126,11 +128,11 @@
     }
 
     @include when(active) {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
       cursor: pointer;
     }
 
@@ -176,8 +178,10 @@
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       border-bottom: 1px solid transparent;
       border-left: 1px solid var(--el-border-color-light);
-      transition: color var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1),
-        padding var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: color var(--el-transition-duration)
+          cubic-bezier(0.645, 0.045, 0.355, 1),
+        padding var(--el-transition-duration)
+          cubic-bezier(0.645, 0.045, 0.355, 1);
       &:first-child {
         border-left: none;
       }
@@ -222,7 +226,8 @@
       content: none;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
-      transition: all var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all var(--el-transition-duration)
+        cubic-bezier(0.645, 0.045, 0.355, 1);
       border: 1px solid transparent;
       margin-top: -1px;
       color: $--color-text-secondary;
@@ -236,13 +241,13 @@
       }
 
       &.is-active {
-        color: $--color-primary;
+        color: var(--el-color-primary);
         background-color: $--color-white;
         border-right-color: var(--el-border-color-base);
         border-left-color: var(--el-border-color-base);
       }
       &:not(.is-disabled):hover {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
       &.is-disabled {
         color: $--disabled-color-base;
