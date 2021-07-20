@@ -429,19 +429,8 @@ $--button-active-shade-percent: 10% !default;
 
 /* Switch
 -------------------------- */
-/// color||Color|0
-$--switch-on-color: $--color-primary !default;
-/// color||Color|0
-$--switch-off-color: map.get($--border-color, 'base') !default;
-/// fontSize||Font|1
-$--switch-font-size: map.get($--font-size, 'base') !default;
-$--switch-core-border-radius: 10px !default;
-// height||Other|4
-$--switch-width: 40px !default;
-// height||Other|4
-$--switch-height: 20px !default;
-// height||Other|4
-$--switch-button-size: 16px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/switch.scss
 
 /* Dialog
 -------------------------- */
