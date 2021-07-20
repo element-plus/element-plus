@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     padding: 12px 20px;
-    border-bottom: $--table-border;
+    border-bottom: var(--el-table-border);
   }
 
   @include e(title) {
