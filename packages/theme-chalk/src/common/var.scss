@@ -523,25 +523,8 @@ $--table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, 0.12) !default;
 
 /* Pagination
 -------------------------- */
-/// fontSize||Font|1
-$--pagination-font-size: 13px !default;
-/// color||Color|0
-$--pagination-background-color: $--color-white !default;
-/// color||Color|0
-$--pagination-font-color: $--color-text-primary !default;
-$--pagination-border-radius: 3px !default;
-/// color||Color|0
-$--pagination-button-color: $--color-text-primary !default;
-/// height||Other|4
-$--pagination-button-width: 35.5px !default;
-/// height||Other|4
-$--pagination-button-height: 28px !default;
-/// color||Color|0
-$--pagination-button-disabled-color: $--color-text-placeholder !default;
-/// color||Color|0
-$--pagination-button-disabled-background-color: $--color-white !default;
-/// color||Color|0
-$--pagination-hover-color: $--color-primary !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/pagination.scss
 
 /* Popup
 -------------------------- */
