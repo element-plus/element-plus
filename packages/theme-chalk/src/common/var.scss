@@ -166,9 +166,6 @@ $--border-radius-circle: 100% !default;
 $--box-shadow-base: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04) !default;
 /// boxShadow|1|Shadow|1
 $--box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default;
-/* Svg
---------------- */
-$--svg-monochrome-grey: #dcdde0 !default;
 
 /* Typography
 -------------------------- */
@@ -841,9 +838,6 @@ $--avatar-large-size: 40px !default;
 $--avatar-medium-size: 36px !default;
 /// size|1|Avatar Size|3
 $--avatar-small-size: 28px !default;
-
-$--skeleton-color: #f2f2f2 !default;
-$--skeleton-to-color: #e6e6e6 !default;
 
 /* Empty
 -------------------------- */
