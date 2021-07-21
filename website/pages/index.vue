@@ -98,8 +98,8 @@ export default {
     },
   },
   created() {
-    this.throttledHandleScroll = throttle(10, true, index => {
-      this.handleScroll(index)
+    this.throttledHandleScroll = throttle(10, true, () => {
+      this.handleScroll()
     })
   },
   beforeUnmount() {
