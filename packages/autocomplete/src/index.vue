@@ -301,8 +301,7 @@ export default defineComponent({
       const suggestionList = suggestion.querySelectorAll('.el-autocomplete-suggestion__list li')
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
-      const offsetTop = highlightItem.offsetTop
-      const scrollHeight = highlightItem.scrollHeight
+      const { offsetTop, scrollHeight } = highlightItem
 
       if (offsetTop + scrollHeight > (scrollTop + suggestion.clientHeight)) {
         suggestion.scrollTop += scrollHeight
