@@ -99,6 +99,25 @@ export default defineComponent({
 
     const fields: FormItemCtx[] = []
 
+    const copyModel = JSON.parse(JSON.stringify(props.model))
+
+    const updatedModel = Object.create(null)
+
+    for(const key in props.model) {
+      watch(
+        () => props.model[key],
+        newVal => {
+          if (newVal !== copyModel[key]) {
+            updatedModel[key] = newVal
+          } else {
+            if (key in updatedModel) {
+              delete updatedModel[key]
+            }
+          }
+        },
+      )
+    }
+
     watch(
       () => props.rules,
       () => {
@@ -124,6 +143,10 @@ export default defineComponent({
         fields.splice(fields.indexOf(field), 1)
       }
     })
+
+    const getUpdatedFields = () => {
+      return updatedModel
+    }
 
     const resetFields = () => {
       if (!props.model) {
@@ -220,6 +243,7 @@ export default defineComponent({
       resetFields,
       clearValidate,
       validateField,
+      getUpdatedFields,
     }
   },
 })
