@@ -227,7 +227,6 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import useSelect from './useSelect'
 import { selectKey } from './token'
 import { SelectProps } from './defaults'
-
 export default defineComponent({
   name: 'ElSelectV2',
   components: {
@@ -238,7 +237,6 @@ export default defineComponent({
   directives: { ClickOutside, ModelText: vModelText },
   props: SelectProps,
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
-
   setup(props, { emit }) {
     const API = useSelect(props, emit)
     provide(selectKey, {
@@ -250,7 +248,6 @@ export default defineComponent({
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
     })
-
     return API
   },
 })

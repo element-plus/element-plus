@@ -30,30 +30,53 @@
             class="el-select__tags"
             :style="{ 'max-width': inputWidth - 32 + 'px', width: '100%' }"
           >
-            <span v-if="collapseTags && selected.length">
-              <el-tag
-                :closable="!selectDisabled && !selected[0].isDisabled"
-                :size="collapseTagSize"
-                :hit="selected[0].hitState"
-                type="info"
-                disable-transitions
-                @close="deleteTag($event, selected[0])"
+            <transition
+              v-if="collapseTags && selected.length"
+              @after-leave="resetInputHeight"
+            >
+              <span
+                :style="{
+                  marginLeft:
+                    prefixWidth && selected.length ? `${prefixWidth}px` : null,
+                }"
               >
-                <span class="el-select__tags-text" :style="{ 'max-width': inputWidth - 123 + 'px' }">{{ selected[0].currentLabel }}</span>
-              </el-tag>
-              <el-tag
-                v-if="selected.length > 1"
-                :closable="false"
-                :size="collapseTagSize"
-                type="info"
-                disable-transitions
-              >
-                <span class="el-select__tags-text">+ {{ selected.length - 1 }}</span>
-              </el-tag>
-            </span>
-            <!-- <div> -->
+                <el-tag
+                  v-for="item in noCollapsedSelects"
+                  :key="getValueKey(item)"
+                  :closable="!selectDisabled && !item.isDisabled"
+                  :size="collapseTagSize"
+                  :hit="item.hitState"
+                  type="info"
+                  disable-transitions
+                  @close="deleteTag($event, item)"
+                >
+                  <span
+                    class="el-select__tags-text"
+                    :style="{ 'max-width': inputWidth - 123 + 'px' }"
+                  >
+                    {{ item.currentLabel }}
+                  </span>
+                </el-tag>
+                <el-tag
+                  v-if="selected.length > collapseCounts"
+                  :closable="false"
+                  :size="collapseTagSize"
+                  type="info"
+                  disable-transitions
+                >
+                  <span class="el-select__tags-text">
+                    + {{ selected.length - collapseCounts }}
+                  </span>
+                </el-tag>
+              </span>
+            </transition>
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
-              <span :style="{marginLeft: prefixWidth && selected.length ? `${prefixWidth}px` : null}">
+              <span
+                :style="{
+                  marginLeft:
+                    prefixWidth && selected.length ? `${prefixWidth}px` : null,
+                }"
+              >
                 <el-tag
                   v-for="item in selected"
                   :key="getValueKey(item)"
@@ -64,7 +87,12 @@
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >
-                  <span class="el-select__tags-text" :style="{ 'max-width': inputWidth - 75 + 'px' }">{{ item.currentLabel }}</span>
+                  <span
+                    class="el-select__tags-text"
+                    :style="{ 'max-width': inputWidth - 75 + 'px' }"
+                  >
+                    {{ item.currentLabel }}
+                  </span>
                 </el-tag>
               </span>
             </transition>
@@ -75,10 +103,18 @@
               v-model="query"
               type="text"
               class="el-select__input"
-              :class="[selectSize ? `is-${ selectSize }` : '']"
+              :class="[selectSize ? `is-${selectSize}` : '']"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
-              :style="{ marginLeft: prefixWidth && !selected.length || tagInMultiLine ? `${prefixWidth}px` : null, flexGrow: '1', width: `${inputLength / (inputWidth - 32)}%`, maxWidth: `${inputWidth - 42}px` }"
+              :style="{
+                marginLeft:
+                  (prefixWidth && !selected.length) || tagInMultiLine
+                    ? `${prefixWidth}px`
+                    : null,
+                flexGrow: '1',
+                width: `${inputLength / (inputWidth - 32)}%`,
+                maxWidth: `${inputWidth - 42}px`,
+              }"
               @focus="handleFocus"
               @blur="handleBlur"
               @keyup="managePlaceholder"
@@ -108,7 +144,7 @@
             :readonly="readonly"
             :validate-event="false"
             :class="{ 'is-focus': visible }"
-            :tabindex="(multiple && filterable) ? '-1' : null"
+            :tabindex="multiple && filterable ? '-1' : null"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="debouncedOnInputChange"
@@ -122,12 +158,21 @@
             @mouseleave="inputHovering = false"
           >
             <template v-if="$slots.prefix" #prefix>
-              <div style="height: 100%;display: flex;justify-content: center;align-items: center">
+              <div
+                style="height: 100%;display: flex;justify-content: center;align-items: center"
+              >
                 <slot name="prefix"></slot>
               </div>
             </template>
             <template #suffix>
-              <i v-show="!showClose" :class="['el-select__caret', 'el-input__icon', 'el-icon-' + iconClass]"></i>
+              <i
+                v-show="!showClose"
+                :class="[
+                  'el-select__caret',
+                  'el-input__icon',
+                  'el-icon-' + iconClass,
+                ]"
+              ></i>
               <i
                 v-if="showClose"
                 :class="`el-select__caret el-input__icon ${clearIcon}`"
@@ -145,16 +190,19 @@
             tag="ul"
             wrap-class="el-select-dropdown__wrap"
             view-class="el-select-dropdown__list"
-            :class="{ 'is-empty': !allowCreate && query && filteredOptionsCount === 0 }"
+            :class="{
+              'is-empty': !allowCreate && query && filteredOptionsCount === 0,
+            }"
           >
-            <el-option
-              v-if="showNewOption"
-              :value="query"
-              :created="true"
-            />
+            <el-option v-if="showNewOption" :value="query" :created="true" />
             <slot></slot>
           </el-scrollbar>
-          <template v-if="emptyText && (!allowCreate || loading || (allowCreate && options.size === 0 ))">
+          <template
+            v-if="
+              emptyText &&
+                (!allowCreate || loading || (allowCreate && options.size === 0))
+            "
+          >
             <slot v-if="$slots.empty" name="empty"></slot>
             <p v-else class="el-select-dropdown__empty">
               {{ emptyText }}
@@ -249,6 +297,10 @@ export default defineComponent({
       default: 'value',
     },
     collapseTags: Boolean,
+    collapseCounts: {
+      type: Number,
+      default: 1,
+    },
     popperAppendToBody: {
       type: Boolean,
       default: true,
@@ -384,8 +436,6 @@ export default defineComponent({
       setSelected()
     })
 
-
-
     onBeforeUnmount(() => {
       removeResizeListener(selectWrapper.value as any, handleResize)
     })
@@ -399,6 +449,16 @@ export default defineComponent({
 
     const popperPaneRef = computed(() => {
       return popper.value?.popperRef
+    })
+
+    // selecteds not collapsed
+    const noCollapsedSelects = computed(() => {
+      const selecteds = selected.value
+      if (props.multiple && selecteds.length && selecteds.length > props.collapseCounts) {
+        return selecteds.slice(0, props.collapseCounts)
+      } else {
+        return selecteds
+      }
     })
 
     return {
@@ -457,6 +517,7 @@ export default defineComponent({
       input,
       popper,
       popperPaneRef,
+      noCollapsedSelects,
       tags,
       selectWrapper,
       scrollbar,

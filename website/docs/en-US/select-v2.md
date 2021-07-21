@@ -381,7 +381,7 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 | focus | triggers when Input focuses | (event: Event) |
 
 ### SelectV2 Slots
-|   name  | 说明     |
+|   name  | 说明     |
 |---------|---------|
 |  default | Option renderer |
 | empty | 无Option时的列表 |

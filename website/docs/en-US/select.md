@@ -202,6 +202,7 @@ Multiple select uses tags to display selected options.
     v-model="value2"
     multiple
     collapse-tags
+    :collapse-counts="3"
     style="margin-left: 20px;"
     placeholder="Select">
     <el-option
@@ -534,6 +535,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | size | size of Input | string | large/medium/small/mini  | large |
 | clearable | whether select can be cleared | boolean | — | false |
 | collapse-tags | whether to collapse tags to a text when multiple selecting | boolean | — | false |
+| collapse-counts | maximum number of selected options to display when collapse-tags has been set to true | number | — | 1 |
 | multiple-limit | maximum number of options user can select when `multiple` is `true`. No limit when set to 0 | number | — | 0 |
 | name | the name attribute of select input | string | — | — |
 | autocomplete | the autocomplete attribute of select input | string | — | off |
