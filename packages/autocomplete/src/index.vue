@@ -302,12 +302,13 @@ export default defineComponent({
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
       const offsetTop = highlightItem.offsetTop
+      const scrollHeight = highlightItem.scrollHeight
 
-      if (offsetTop + highlightItem.scrollHeight > (scrollTop + suggestion.clientHeight)) {
-        suggestion.scrollTop += highlightItem.scrollHeight
+      if (offsetTop + scrollHeight > (scrollTop + suggestion.clientHeight)) {
+        suggestion.scrollTop += scrollHeight
       }
       if (offsetTop < scrollTop) {
-        suggestion.scrollTop -= highlightItem.scrollHeight
+        suggestion.scrollTop -= scrollHeight
       }
       highlightedIndex.value = index
       inputRef.value.inputOrTextarea.setAttribute('aria-activedescendant', `${id.value}-item-${highlightedIndex.value}`)
