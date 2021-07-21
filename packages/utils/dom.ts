@@ -1,5 +1,5 @@
 import isServer from './isServer'
-import { camelize, isObject } from './util'
+import { camelize, isObject, isUndefined } from './util'
 
 /* istanbul ignore next */
 const trim = function(s: string) {
@@ -11,10 +11,10 @@ export const on = function(
   element: HTMLElement | Document | Window,
   event: string,
   handler: EventListenerOrEventListenerObject,
-  useCapture = false,
+  opts: AddEventListenerOptions | boolean = false,
 ): void {
   if (element && event && handler) {
-    element.addEventListener(event, handler, useCapture)
+    element.addEventListener(event, handler, opts)
   }
 }
 
@@ -23,10 +23,10 @@ export const off = function(
   element: HTMLElement | Document | Window,
   event: string,
   handler: EventListenerOrEventListenerObject,
-  useCapture = false,
+  opts: AddEventListenerOptions | boolean = false,
 ): void {
   if (element && event && handler) {
-    element.removeEventListener(event, handler, useCapture)
+    element.removeEventListener(event, handler, opts)
   }
 }
 
@@ -142,7 +142,10 @@ export function setStyle(
   }
 }
 
-export function removeStyle(element: HTMLElement, style: CSSStyleDeclaration | string) {
+export function removeStyle(
+  element: HTMLElement,
+  style: CSSStyleDeclaration | string,
+) {
   if (!element || !style) return
 
   if (isObject(style)) {
@@ -231,8 +234,76 @@ export const getOffsetTop = (el: HTMLElement) => {
   return offset
 }
 
-export const getOffsetTopDistance = (el: HTMLElement, containerEl: HTMLElement) => {
+export const getOffsetTopDistance = (
+  el: HTMLElement,
+  containerEl: HTMLElement,
+) => {
   return Math.abs(getOffsetTop(el) - getOffsetTop(containerEl))
 }
 
 export const stop = (e: Event) => e.stopPropagation()
+
+export type Events = Array<
+  [HTMLElement, string, string, keyof typeof eventOptionMap]
+>
+
+export type BatchEventContext = {
+  [key: string]: Events | EventListenerOrEventListenerObject
+}
+
+const composeMemberName = (name: string) => `_el_${name}_events`
+
+export const eventOptionMap = {
+  capture: true,
+  passive: {
+    passive: true,
+  },
+  'non-passive': {
+    passive: false,
+  },
+  'passive-capture': {
+    passive: true,
+    capture: true,
+  },
+  'non-passive-capture': {
+    passive: false,
+    capture: true,
+  },
+}
+
+export const batchAddEvts = (
+  ctx: BatchEventContext,
+  target: string,
+  events: Events,
+) => {
+  const name = composeMemberName(target)
+  ctx[name] = isUndefined(ctx[name])
+    ? events
+    : (ctx[name] as Events).concat(events)
+
+  events.forEach(event => {
+    on(
+      event[0],
+      event[1],
+      ctx[event[2]] as EventListenerOrEventListenerObject,
+      eventOptionMap[event[3]],
+    )
+  })
+}
+
+export const clearEvts = (ctx: BatchEventContext, target: string) => {
+  const name = composeMemberName(target)
+
+  if (!isUndefined(ctx[name])) {
+    (ctx[name] as Events).forEach(event => {
+      off(
+        event[0],
+        event[1],
+        ctx[event[2]] as EventListenerOrEventListenerObject,
+        eventOptionMap[event[3]],
+      )
+    })
+
+    ctx[name] = undefined
+  }
+}

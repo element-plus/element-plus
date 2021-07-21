@@ -136,6 +136,7 @@ export {
 export const isBool = (val: unknown) => typeof val === 'boolean'
 export const isNumber = (val: unknown) => typeof val === 'number'
 export const isHTMLElement = (val: unknown) => toRawType(val).startsWith('HTML')
+export const isNull = (val: unknown) => val === null
 
 export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void> {
   let locked = false

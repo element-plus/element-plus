@@ -1,9 +1,19 @@
-import { defineComponent, h, ref, cloneVNode } from 'vue'
+import { defineComponent, h, ref, cloneVNode, registerRuntimeCompiler } from 'vue'
 import ElPopper from '@element-plus/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import throwError from '@element-plus/utils/error'
-import { defaultProps } from '@element-plus/popper'
 import { getFirstValidNode } from '@element-plus/utils/vnode'
+import {
+  usePopperProps,
+  useModelToggleProps,
+} from '@element-plus/hooks'
+
+const mappingAPI = [
+  'manual',
+  'openDelay',
+  'visibleArrow',
+  'tabindex',
+]
 
 /**
  * ElTooltip
@@ -13,21 +23,12 @@ import { getFirstValidNode } from '@element-plus/utils/vnode'
  */
 export default defineComponent({
   name: 'ElTooltip',
-  components: {
-    ElPopper,
-  },
   props: {
-    ...defaultProps,
+    ...usePopperProps,
+    ...useModelToggleProps,
     manual: {
       type: Boolean,
       default: false,
-    },
-    modelValue: {
-      type: Boolean,
-      validator: (val: unknown) => {
-        return typeof val === 'boolean'
-      },
-      default: undefined,
     },
     // This API should be decaprecate since it's confusing with close-delay
     openDelay: {
@@ -44,7 +45,7 @@ export default defineComponent({
     },
   },
   emits: [UPDATE_MODEL_EVENT],
-  setup(props, ctx) {
+  setup(props, { emit, expose, slots }) {
     // when manual mode is true, v-model must be passed down
     if (props.manual && typeof props.modelValue === 'undefined') {
       throwError('[ElTooltip]', 'You need to pass a v-model to el-tooltip when `manual` is true')
@@ -52,63 +53,47 @@ export default defineComponent({
 
     const popper = ref(null)
 
-    const onUpdateVisible = val => {
-      ctx.emit(UPDATE_MODEL_EVENT, val)
+    const onUpdateVisible = (val: boolean) => {
+      emit(UPDATE_MODEL_EVENT, val)
     }
 
     const updatePopper = () => {
       return popper.value.update()
     }
 
-    return {
+    expose({
       popper,
       onUpdateVisible,
       updatePopper,
-    }
-  },
-  render() {
-    const {
-      $slots,
-      content,
-      manual,
-      openDelay,
-      onUpdateVisible,
-      showAfter,
-      visibleArrow,
-      modelValue,
-      tabindex,
-    } = this
+    })
 
-    const throwErrorTip = () => {
-      throwError('[ElTooltip]', 'you need to provide a valid default slot.')
-    }
+    return () => {
+      const mappedProps = Object.keys(props)
+        .filter(key => !mappingAPI.includes(key))
+        .reduce((p, key) => {
+          p[key] = props[key]
+          return p
+        }, {})
 
-    const popper = h(
-      ElPopper,
-      {
-        ...Object.keys(defaultProps).reduce((result, key) => {
-          return { ...result, [key]: this[key] }
-        }, {}),
-        ref: 'popper',
-        manualMode: manual,
-        showAfter: openDelay || showAfter, // this is for mapping API due to we decided to rename the current openDelay API to showAfter for better readability,
-        showArrow: visibleArrow,
-        visible: modelValue,
-        'onUpdate:visible': onUpdateVisible,
-      },
-      {
-        default: () => ($slots.content ? $slots.content() : content),
-        trigger: () => {
-          if ($slots.default) {
-            const firstVnode = getFirstValidNode($slots.default(), 1)
-            if (!firstVnode) throwErrorTip()
-            return cloneVNode(firstVnode, { tabindex }, true)
-          }
-          throwErrorTip()
+      return h(
+        ElPopper,
+        {
+          ...mappedProps,
+          ref: popper,
+          manualMode: props.manual,
+          showAfter: props.openDelay || props.showAfter, // this is for mapping API due to we decided to rename the current openDelay API to showAfter for better readability,
+          showArrow: props.visibleArrow,
         },
-      },
-    )
-
-    return popper
+        {
+          default: () => (slots.content ? slots.content() : props.content),
+          trigger: () => {
+            if (slots.default) {
+              const firstVnode = getFirstValidNode(slots.default(), 1)
+              return cloneVNode(firstVnode, { tabinex: props.tabindex }, true)
+            }
+          },
+        },
+      )
+    }
   },
 })
