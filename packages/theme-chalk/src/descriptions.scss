@@ -4,7 +4,7 @@
 
 @include b(descriptions) {
   box-sizing: border-box;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   color: $--color-text-primary;
 
   @include e(header) {
@@ -27,7 +27,8 @@
       border-collapse: collapse;
       width: 100%;
 
-      th, td {
+      th,
+      td {
         box-sizing: border-box;
         text-align: left;
         font-weight: normal;
@@ -49,27 +50,31 @@
   }
 
   .is-bordered {
-    th, td {
+    th,
+    td {
       border: $--descriptions-table-border;
       padding: 12px 10px;
     }
   }
 
   :not(.is-bordered) {
-    th, td {
+    th,
+    td {
       padding-bottom: 12px;
     }
   }
 
   @include m(medium) {
     &.is-bordered {
-      th, td {
+      th,
+      td {
         padding: 10px;
       }
     }
 
     &:not(.is-bordered) {
-      th, td {
+      th,
+      td {
         padding-bottom: 10px;
       }
     }
@@ -79,13 +84,15 @@
     font-size: 12px;
 
     &.is-bordered {
-      th, td {
+      th,
+      td {
         padding: 8px 10px;
       }
     }
 
     &:not(.is-bordered) {
-      th, td {
+      th,
+      td {
         padding-bottom: 8px;
       }
     }
@@ -95,13 +102,15 @@
     font-size: 12px;
 
     &.is-bordered {
-      th, td {
+      th,
+      td {
         padding: 6px 10px;
       }
     }
 
     &:not(.is-bordered) {
-      th, td {
+      th,
+      td {
         padding-bottom: 6px;
       }
     }

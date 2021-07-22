@@ -78,7 +78,8 @@ export function createLoadingComponent({
     render() {
       const spinner = h('svg', {
         class: 'circular',
-        viewBox: '25 25 50 50',
+        viewBox: this.svgViewBox ? this.svgViewBox : '25 25 50 50',
+        ...(this.svg ? { innerHTML: this.svg } : {}),
       }, [
         h('circle', { class: 'path', cx: '50', cy: '50', r: '20', fill: 'none' }),
       ])

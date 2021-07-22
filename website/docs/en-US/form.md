@@ -644,11 +644,11 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | Name | Description |
 |------|--------|
 | — | content of Form Item |
-| label | content of label |
 
 ### Form-Item Scoped Slot
 |      Name     | Description |
 |---------------|-------------|
+| label | Custom content to display on label. The scope parameter is { label } |
 |      error    | Custom content to display validation message. The scope parameter is { error } |
 
 ### Form-Item Methods

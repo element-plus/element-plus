@@ -50,18 +50,18 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más a
           value: new Date(),
         }, {
           text: 'Yesterday',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24);
             return date
-          })(),
+          },
         }, {
           text: 'A week ago',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -86,19 +86,19 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más a
           },
           {
             text: 'Yesterday',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
               return date;
-            })(),
+            },
           },
           {
             text: 'A week ago',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
               return date;
-            })(),
+            },
           },
         ],
         value1: '',
@@ -153,28 +153,28 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más a
       return {
         shortcuts: [{
           text: 'Last week',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
             return [start, end]
-          })()
+          }
         }, {
           text: 'Last month',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
             return [start, end]
-          })()
+          }
         }, {
           text: 'Last 3 months',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
             return [start, end]
-          })()
+          }
         }],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
         value2: ''
@@ -193,30 +193,30 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más a
         shortcuts: [
           {
             text: 'Last week',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last month',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 3 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
@@ -330,7 +330,7 @@ DateTimePicker se deriva de DatePicker y TimePicker. Por una explicación más a
 | prefix-icon        | Clase personalizada para el icono prefijado | string            | —                                        | el-icon-date         |
 | clear-icon         | Clase personalizada para el icono `clear` | string              | —                                        | el-icon-circle-close |
 | validate-event     | si se debe disparar la validacion | boolean             | -                                        | true                 |
-| shortcuts | un array de objetos para establecer opciones de acceso directo | object[{ text: string, value: Date }] | — | — |
+| shortcuts | un array de objetos para establecer opciones de acceso directo | object[{ text: string, value: date / function }] | — | — |
 | disabledDate   | una función que determina si una fecha está desactivada con esa fecha como parámetro. Debería devolver un booleano | función  | —                 | —           |
 | cellClassName | establecer nombre de clase personalizado | Function(Date) | — | — |
 

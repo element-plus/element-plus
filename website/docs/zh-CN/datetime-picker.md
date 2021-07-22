@@ -48,18 +48,18 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
           value: new Date(),
         }, {
           text: '昨天',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24);
             return date
-          })(),
+          },
         }, {
           text: '一周前',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -84,19 +84,19 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
           },
           {
             text: '昨天',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
               return date;
-            })(),
+            },
           },
           {
             text: '一周前',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
               return date;
-            })(),
+            },
           },
         ],
         value1: '',
@@ -150,28 +150,28 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
       return {
         shortcuts: [{
           text: '最近一周',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
             return [start, end]
-          })()
+          }
         }, {
           text: '最近一个月',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
             return [start, end]
-          })()
+          }
         }, {
           text: '最近三个月',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
             return [start, end]
-          })()
+          }
         }],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
         value2: ''
@@ -190,30 +190,30 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
         shortcuts: [
           {
             text: '最近一周',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               return [start, end];
-            })(),
+            },
           },
           {
             text: '最近一个月',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               return [start, end];
-            })(),
+            },
           },
           {
             text: '最近三个月',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
@@ -326,7 +326,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
 | unlink-panels | 在范围选择器里取消两个日期面板之间的联动 | boolean | — | false |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-date |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
-| shortcuts | 设置快捷选项，需要传入数组对象 | object[{ text: string, value: Date }] | — | — |
+| shortcuts | 设置快捷选项，需要传入数组对象 | object[{ text: string, value: date / function }] | — | — |
 | disabledDate | 设置禁用状态，参数为当前日期，要求返回 Boolean | Function | — | — |
 | cellClassName | 设置日期的 className | Function(Date) | — | — |
 

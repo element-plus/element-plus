@@ -3,6 +3,7 @@ import {
   computed,
   getCurrentInstance,
   watch,
+  onBeforeUnmount,
 } from 'vue'
 import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
 import {
@@ -107,6 +108,10 @@ export function useOption(props, states) {
 
   // Emitter
   select.selectEmitter.on(selectEvents.queryChange, queryChange)
+
+  onBeforeUnmount(() => {
+    select.selectEmitter.off(selectEvents.queryChange, queryChange)
+  })
 
   return {
     select,

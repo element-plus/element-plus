@@ -13,7 +13,9 @@
         class="el-form-item__label"
         :style="labelStyle"
       >
-        <slot name="label">{{ label + elForm.labelSuffix }}</slot>
+        <slot name="label" :label="label + elForm.labelSuffix">
+          {{ label + elForm.labelSuffix }}
+        </slot>
       </label>
     </LabelWrap>
     <div class="el-form-item__content" :style="contentStyle">
@@ -51,7 +53,7 @@ import mitt from 'mitt'
 import LabelWrap from './label-wrap'
 import { elFormEvents, elFormItemKey, elFormKey } from './token'
 
-import type { PropType } from 'vue'
+import type { PropType, CSSProperties } from 'vue'
 import type { ElFormContext, ValidateFieldCallback } from './token'
 import type { FormItemRule } from './form.type'
 
@@ -63,7 +65,10 @@ export default defineComponent({
   },
   props: {
     label: String,
-    labelWidth: [String, Number],
+    labelWidth: {
+      type: [String, Number],
+      default: '',
+    },
     prop: String,
     required: {
       type: Boolean,
@@ -130,24 +135,23 @@ export default defineComponent({
 
     const labelFor = computed(() => props.for || props.prop)
     const labelStyle = computed(() => {
-      if (elForm.labelPosition === 'top') return {}
+      const ret: CSSProperties = {}
+      if (elForm.labelPosition === 'top') return ret
       const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
       if (labelWidth) {
-        return {
-          width: labelWidth,
-        }
+        ret.width = labelWidth
       }
-      return {}
+      return ret
     })
     const contentStyle = computed(() => {
+      const ret: CSSProperties = {}
       if (elForm.labelPosition === 'top' || elForm.inline) {
-        return {}
+        return ret
       }
       if (!props.label && !props.labelWidth && isNested.value) {
-        return {}
+        return ret
       }
       const labelWidth = addUnit(props.labelWidth) || addUnit(elForm.labelWidth)
-      const ret: Partial<CSSStyleDeclaration> = {}
       if (!props.label && !slots.label) {
         ret.marginLeft = labelWidth
       }

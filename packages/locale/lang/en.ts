@@ -76,6 +76,7 @@ export default {
       pagesize: '/page',
       total: 'Total {total}',
       pageClassifier: '',
+      deprecationWarning: 'Deprecated usages detected, please refer to the el-pagination documentation for more details',
     },
     messagebox: {
       title: 'Message',

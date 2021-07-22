@@ -1,13 +1,13 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "./popper";
+@import 'mixins/mixins';
+@import 'common/var';
+@import './popper';
 
 @include b(select-dropdown) {
-  z-index: #{$--index-top + 1};
+  z-index: calc(var(--el-index-top) + 1);
   border-radius: $--border-radius-base;
   box-sizing: border-box;
 
-  .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list{
+  .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list {
     padding: 0;
   }
 }

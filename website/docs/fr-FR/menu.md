@@ -337,7 +337,7 @@ Le menu vertical peut être réduit.
 
 | Nom | Description | Paramètres |
 |---------- |-------- |---------- |
-| select  | Fonction de callback pour quand le menu est activé. | index: index du menu activé, indexPath: index path du menu activé.  |
+| select  | Fonction de callback pour quand le menu est activé. | index: index du menu activé, indexPath: index path du menu activé, item : l'élément de menu sélectionné, routeResult : le résultat retourné par `vue-router` si `router` est activé.  |
 | open  | Fonction de callback pour quand le sous-menu s'agrandit. | index: index of expanded sous-menu, indexPath: index path du sous-menu |
 | close  | Fonction de callback pour quand le sous-menu se réduit. | index: index of collapsed sous-menu, indexPath: index path du sous-menu |
 

@@ -101,7 +101,7 @@ export default defineComponent({
 
 Vous pouvez personnaliser le texte, le spinner et la couleur de fond.
 
-:::demo Ajoutez l'attribut `element-loading-text` à l'élement sur lequel `v-loading` est attaché et sa valeur sera affichée sous le spinner. De la même façon, `element-loading-spinner` et `element-loading-background` permettent de personnaliser le spinner et la couleur de fond.
+:::demo Ajoutez l'attribut `element-loading-text` à l'élement sur lequel `v-loading` est attaché et sa valeur sera affichée sous le spinner. De même, les attributs `element-loading-spinner`, `element-loading-background` et `element-loading-svg` sont utilisés pour définir respectivement le nom de la classe d'icône, la valeur de la couleur d'arrière-plan et l'icône de chargement.
 ```html
 <template>
   <el-table
@@ -109,6 +109,28 @@ Vous pouvez personnaliser le texte, le spinner et la couleur de fond.
     element-loading-text="Loading..."
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
+    :data="tableData"
+    style="width: 100%">
+    <el-table-column
+      prop="date"
+      label="Date"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="Nom"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="Adresse">
+    </el-table-column>
+  </el-table>
+  <el-table
+    v-loading="loading"
+    :element-loading-svg="svg"
+    class="custom-loading-svg"
+    element-loading-svg-view-box="-10, -10, 50, 50"
     :data="tableData"
     style="width: 100%">
     <el-table-column
@@ -145,7 +167,17 @@ Vous pouvez personnaliser le texte, le spinner et la couleur de fond.
           name: 'John Smith',
           address: 'No.1518,  Jinshajiang Road, Putuo District'
         }],
-        loading: true
+        loading: true,
+        svg: `
+          <path class="path" d="
+            M 30 15
+            L 28 17
+            M 25.61 25.61
+            A 15 15, 0, 0, 1, 15 30
+            A 15 15, 0, 1, 1, 27.99 7.5
+            L 15 15
+          " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+        `,
       };
     }
   };
@@ -176,6 +208,16 @@ export default defineComponent({
         },
       ],
       loading: true,
+      svg: `
+        <path class="path" d="
+          M 30 15
+          L 28 17
+          M 25.61 25.61
+          A 15 15, 0, 0, 1, 15 30
+          A 15 15, 0, 1, 1, 27.99 7.5
+          L 15 15
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+      `,
     });
     return {
       ...toRefs(state),
@@ -186,6 +228,10 @@ export default defineComponent({
 </setup>
 -->
 ```
+:::
+
+:::warning
+Bien que l'attribut `element-loading-svg` prenne en charge les fragments HTML entrants, il est très dangereux de rendre dynamiquement du HTML arbitraire sur le site Web car il est facile de provoquer une [attaque XSS](https://en.wikipedia.org/wiki/Cross-site_scripting). Veuillez vous assurer que le contenu de `element-loading-svg` est digne de confiance. **Ne jamais** affecter le contenu soumis par l'utilisateur à l'attribut `element-loading-svg`.
 :::
 
 ### Chargement plein écran

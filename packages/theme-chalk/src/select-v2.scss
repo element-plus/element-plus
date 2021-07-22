@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'mixins/utils';
 @import 'common/var';
@@ -23,9 +25,10 @@ $--input-inline-start: 7px !default;
     padding-right: 30px;
     padding-top: 1px;
     padding-bottom: 1px;
-    border: 1px solid $--border-color-base;
+    border: 1px solid var(--el-border-color-base);
     border-radius: $--border-radius-base;
-    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: border-color var(--el-transition-duration-fast)
+      cubic-bezier(0.645, 0.045, 0.355, 1);
 
     &:hover {
       border-color: $--color-text-placeholder;
@@ -36,7 +39,7 @@ $--input-inline-start: 7px !default;
     }
 
     @include when(focused) {
-      border-color: $--color-primary;
+      border-color: var(--el-color-primary);
     }
 
     @include when(hovering) {
@@ -78,13 +81,13 @@ $--input-inline-start: 7px !default;
 
     &,
     #{$selector}__input-wrapper {
-      line-height: $--input-height;
+      line-height: map.get($--input-height, 'default');
       // height: $--input-height;
     }
 
     #{$selector}__input-wrapper input {
-      line-height: $--input-medium-height;
-      height: $--input-medium-height;
+      line-height: map.get($--input-height, 'medium');
+      height: map.get($--input-height, 'medium');
 
       min-width: 4px;
       width: 100%;
@@ -118,48 +121,18 @@ $--input-inline-start: 7px !default;
     );
   }
 
-  @include m(mini) {
-    @include e(wrapper) {
-      &,
-      #{$selector}__input-wrapper {
-        // since there were no 24px predefined, we can only hand write here.
-        line-height: $--input-mini-height;
-        // height: $--input-mini-height;
-      }
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      @include e(wrapper) {
+        &,
+        #{$selector}__input-wrapper {
+          line-height: map.get($--input-height, $size);
+        }
 
-      #{$selector}__input-wrapper input {
-        line-height: 24px;
-        height: 24px;
-      }
-    }
-  }
-
-  @include m(small) {
-    @include e(wrapper) {
-      &,
-      #{$selector}__input-wrapper {
-        line-height: $--input-small-height;
-        // height: $--input-small-height;
-      }
-
-      #{$selector}__input-wrapper input {
-        line-height: $--input-mini-height;
-        height: $--input-mini-height;
-      }
-    }
-  }
-
-  @include m(medium) {
-    @include e(wrapper) {
-      &,
-      #{$selector}__input-wrapper {
-        line-height: $--input-medium-height;
-        // height: $--input-medium-height;
-      }
-
-      #{$selector}__input-wrapper input {
-        line-height: $--input-small-height;
-        height: $--input-small-height;
+        #{$selector}__input-wrapper input {
+          line-height: map.get($--input-height, $size) - 4px;
+          height: map.get($--input-height, $size) - 4px;
+        }
       }
     }
   }
@@ -209,7 +182,7 @@ $--input-inline-start: 7px !default;
     cursor: pointer;
     position: absolute;
     top: 8px;
-    z-index: $--index-top;
+    z-index: var(--el-index-top);
     right: 25px;
     color: $--select-input-color;
     line-height: 18px;
@@ -231,7 +204,7 @@ $--input-inline-start: 7px !default;
   @include e(caret) {
     color: $--select-input-color;
     font-size: $--select-input-font-size;
-    transition: transform 0.3s;
+    transition: transform var(--el-transition-duration);
     transform: rotateZ(180deg);
     cursor: pointer;
 
@@ -245,7 +218,7 @@ $--input-inline-start: 7px !default;
       transform: rotateZ(180deg);
       border-radius: $--border-radius-circle;
       color: $--select-input-color;
-      transition: $--color-transition-base;
+      transition: var(--el-color-transition-base);
 
       &:hover {
         color: $--select-close-hover-color;
@@ -255,7 +228,7 @@ $--input-inline-start: 7px !default;
 
   @include e(selection) {
     white-space: normal;
-    z-index: $--index-normal;
+    z-index: var(--el-index-normal);
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -266,7 +239,8 @@ $--input-inline-start: 7px !default;
     border: 1px solid #d9d9d9;
     border-radius: $--border-radius-base;
     position: relative;
-    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all var(--el-transition-duration)
+      cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 
   @include e(input-calculator) {

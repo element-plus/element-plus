@@ -75,7 +75,7 @@ export default defineComponent({
       default: () => undefined,
     },
     label: {
-      type: [String, Boolean, Number],
+      type: [String, Boolean, Number, Object],
     },
     indeterminate: Boolean,
     disabled: Boolean,

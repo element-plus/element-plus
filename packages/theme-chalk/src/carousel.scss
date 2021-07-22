@@ -1,7 +1,7 @@
 @use "sass:math";
 
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(carousel) {
   position: relative;
@@ -27,7 +27,7 @@
     height: $--carousel-arrow-size;
     width: $--carousel-arrow-size;
     cursor: pointer;
-    transition: .3s;
+    transition: var(--el-transition-duration);
     border-radius: 50%;
     background-color: $--carousel-arrow-background;
     color: $--color-white;
@@ -60,7 +60,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    z-index: #{$--index-normal + 1};
+    z-index: calc(var(--el-index-normal) + 1);
 
     @include m(horizontal) {
       bottom: 0;
@@ -75,7 +75,8 @@
     }
 
     @include m(outside) {
-      bottom: #{$--carousel-indicator-height + $--carousel-indicator-padding-vertical * 2};
+      bottom: #{$--carousel-indicator-height +
+        $--carousel-indicator-padding-vertical * 2};
       text-align: center;
       position: static;
       transform: none;
@@ -117,11 +118,13 @@
 
     @include m(horizontal) {
       display: inline-block;
-      padding: $--carousel-indicator-padding-vertical $--carousel-indicator-padding-horizontal;
+      padding: $--carousel-indicator-padding-vertical
+        $--carousel-indicator-padding-horizontal;
     }
 
     @include m(vertical) {
-      padding: $--carousel-indicator-padding-horizontal $--carousel-indicator-padding-vertical;
+      padding: $--carousel-indicator-padding-horizontal
+        $--carousel-indicator-padding-vertical;
       .#{$namespace}-carousel__button {
         width: $--carousel-indicator-height;
         height: #{math.div($--carousel-indicator-width, 2)};
@@ -146,7 +149,7 @@
     padding: 0;
     margin: 0;
     cursor: pointer;
-    transition: .3s;
+    transition: var(--el-transition-duration);
   }
 }
 

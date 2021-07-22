@@ -307,6 +307,55 @@ describe('TimePicker', () => {
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
   })
+
+  it('ref blur', async () => {
+    _mount(`<el-time-picker
+        v-model="value"
+        ref="input"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }), {
+      mounted() {
+        this.$refs.input.focus()
+        this.$refs.input.blur()
+      },
+    })
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('true')
+  })
+
+  it('model value should sync when disabled-hours was updated', async () => {
+    const wrapper = _mount(`
+       <el-time-picker
+        v-model="value"
+        :disabled-hours="disabledHours"
+        value-format="YYYY-MM-DD HH:mm:ss"
+      />
+    `, () => ({
+      value: '2000-01-01 00:00:00',
+      minHour: '8',
+    }), {
+      computed: {
+        disabledHours() {
+          return () => {
+            return Array(24)
+              .fill(null)
+              .map((_, i) => i)
+              .filter(h => h < parseInt(this.minHour, 10))
+          }
+        },
+      },
+    })
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toEqual('2000-01-01 08:00:00')
+    vm.minHour = '9'
+    await nextTick()
+    expect(vm.value).toEqual('2000-01-01 09:00:00')
+    vm.minHour = '8'
+    await nextTick()
+    expect(vm.value).toEqual('2000-01-01 09:00:00')
+  })
 })
 
 describe('TimePicker(range)', () => {

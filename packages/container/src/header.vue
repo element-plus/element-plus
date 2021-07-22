@@ -1,5 +1,5 @@
 <template>
-  <header class="el-header" :style="{ height }">
+  <header class="el-header" :style="{ '--el-header-height': height }">
     <slot></slot>
   </header>
 </template>
@@ -11,7 +11,7 @@ export default defineComponent({
   props: {
     height: {
       type: String,
-      default: '60px',
+      default: null,
     },
   },
 })

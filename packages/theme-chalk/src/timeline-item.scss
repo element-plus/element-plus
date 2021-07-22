@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(timeline-item) {
   position: relative;
@@ -20,7 +20,7 @@
 
   @include e(icon) {
     color: $--color-white;
-    font-size: $--font-size-small;
+    font-size: var(--el-font-size-small);
   }
 
   @include e(node) {
@@ -43,19 +43,19 @@
     }
 
     @include m(primary) {
-      background-color: $--color-primary;
+      background-color: var(--el-color-primary);
     }
     @include m(success) {
-      background-color: $--color-success;
+      background-color: var(--el-color-success);
     }
     @include m(warning) {
-      background-color: $--color-warning;
+      background-color: var(--el-color-warning);
     }
     @include m(danger) {
-      background-color: $--color-danger;
+      background-color: var(--el-color-danger);
     }
     @include m(info) {
-      background-color: $--color-info;
+      background-color: var(--el-color-info);
     }
   }
 
@@ -73,7 +73,7 @@
   @include e(timestamp) {
     color: $--color-text-secondary;
     line-height: 1;
-    font-size: $--font-size-small;
+    font-size: var(--el-font-size-small);
 
     @include when(top) {
       margin-bottom: 8px;

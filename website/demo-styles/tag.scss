@@ -27,7 +27,7 @@
       color: #606266;
     }
 
-    &+.tag-group  {
+    & + .tag-group {
       margin-top: 10px;
     }
   }

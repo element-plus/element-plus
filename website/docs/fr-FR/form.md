@@ -644,11 +644,11 @@ Tout les composants d'un formulaire héritent leur attribut `size` de ce formula
 | Nom | Description |
 |------|--------|
 | — | Contenu de Form Item. |
-| label | Contenu du label. |
 
 ### Slot avec portée de Form-Item
 |      Nom     | Description |
 |---------------|-------------|
+| label | Custom content to display on label. The scope parameter is { label } |
 |      error    | Contenu personnalisé pour les messages de validation. Le paramètre du scope est { error }. |
 
 ### Méthodes de Form-Item

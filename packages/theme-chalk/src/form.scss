@@ -1,6 +1,6 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
 
 @include b(form) {
   @include m(label-left) {
@@ -84,6 +84,12 @@
     }
   }
 
+  @include e(label-wrap) {
+    .#{$namespace}-form-item__label {
+      display: inline-block;
+    }
+  }
+
   @include e(label) {
     flex: 0 0 auto;
     text-align: right;
@@ -104,7 +110,7 @@
     }
   }
   @include e(error) {
-    color: $--color-danger;
+    color: var(--el-color-danger);
     font-size: 12px;
     line-height: 1;
     padding-top: 4px;
@@ -125,7 +131,7 @@
     @include pseudo('not(.is-no-asterisk)') {
       & > .#{$namespace}-form-item__label:before {
         content: '*';
-        color: $--color-danger;
+        color: var(--el-color-danger);
         margin-right: 4px;
       }
     }
@@ -134,8 +140,9 @@
   @include when(error) {
     & .#{$namespace}-input__inner,
     & .#{$namespace}-textarea__inner {
-      &, &:focus {
-        border-color: $--color-danger;
+      &,
+      &:focus {
+        border-color: var(--el-color-danger);
       }
     }
     & .#{$namespace}-input-group__append,
@@ -145,7 +152,7 @@
       }
     }
     .#{$namespace}-input__validateIcon {
-      color: $--color-danger;
+      color: var(--el-color-danger);
     }
   }
 
