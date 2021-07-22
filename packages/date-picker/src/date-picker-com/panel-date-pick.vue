@@ -288,8 +288,9 @@ export default defineComponent({
     })
 
     const handleShortcutClick = shortcut => {
-      if (shortcut.value) {
-        emit(dayjs(shortcut.value))
+      const shortcutValue = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
+      if (shortcutValue) {
+        emit(dayjs(shortcutValue))
         return
       }
       if (shortcut.onClick) {
