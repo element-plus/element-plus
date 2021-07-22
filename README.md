@@ -49,6 +49,10 @@ You can find for more details, API, and other docs on [https://element-plus.org]
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
 
+## Breaking change list
+
+You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/issues/162).
+
 ## Bootstrap project
 With command
 ```bash
