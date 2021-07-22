@@ -9,7 +9,7 @@
       'is-hover': data.hover,
       'is-animating': data.animating,
     }"
-    :style="itemStyle"
+    :style="{transition: data.animating ? (data.active ? 'transform .4s ease-in-out' : 'transform .4s ease-in-out .4s') : 'transform 0s ease-in-out',...itemStyle}"
     @click="handleItemClick"
   >
     <div
@@ -123,6 +123,7 @@ export default defineComponent({
     ) => {
       const parentType = injectCarouselScope.type
       const length = injectCarouselScope.items.value.length
+
       if (parentType !== 'card' && oldIndex !== undefined) {
         data.animating = index === activeIndex || index === oldIndex
       }
