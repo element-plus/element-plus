@@ -1,12 +1,12 @@
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
-import Popper from './src/index.vue'
+import Popper from './src/index'
 
 Popper.install = (app: App): void => {
   app.component(Popper.name, Popper)
 }
 
-const _Popper: SFCWithInstall<typeof Popper> = Popper
+const _Popper = Popper as any as SFCWithInstall<typeof Popper>
 
 export default _Popper
 
