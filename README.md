@@ -38,7 +38,7 @@ This project is still under heavy development. Feel free to join us and make you
       </td>
       <td align="center" valign="middle">
         <a href="https://www.renren.io/?from=element-ui" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/82012629/126614247-840e5efa-09c8-4f1c-8067-5d2eda0a9b42.png">
+          <img width="150px" src="https://user-images.githubusercontent.com/82012629/126620778-0d8ab509-018a-45d7-b8de-a5bac2ad519a.png">
         </a>
       </td>
     </tr>
