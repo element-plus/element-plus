@@ -103,7 +103,7 @@ ElementPlus is open source software licensed as
 
 ## Contributors
 
-This project wouldn't exist without the all of our amazing contributors
+This project wouldn't exist without our amazing contributors
 
 <a href="https://github.com/element-plus/element-plus/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />
