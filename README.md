@@ -36,6 +36,11 @@ This project is still under heavy development. Feel free to join us and make you
           <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
       </td>
+      <td align="center" valign="middle">
+        <a href="https://www.renren.io/?from=element-ui" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/82012629/126614247-840e5efa-09c8-4f1c-8067-5d2eda0a9b42.png">
+        </a>
+      </td>
     </tr>
   </tbody>
 </table>
