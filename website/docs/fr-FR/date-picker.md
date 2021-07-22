@@ -43,18 +43,18 @@ L'unité de base du DatePicker est le jour.
           value: new Date(),
         }, {
           text: 'Yesterday',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24)
             return date
-          })(),
+          },
         }, {
           text: 'A week ago',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -80,19 +80,19 @@ L'unité de base du DatePicker est le jour.
           },
           {
             text: 'Yesterday',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
               return date;
-            })(),
+            },
           },
           {
             text: 'A week ago',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
               return date;
-            })(),
+            },
           },
         ],
         value1: '',
@@ -232,28 +232,28 @@ Vous pouvez sélectionner une plage de dates.
       return {
         shortcuts: [{
           text: 'Last week',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last month',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last 3 months',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -272,30 +272,30 @@ Vous pouvez sélectionner une plage de dates.
         shortcuts: [
           {
             text: 'Last week',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last month',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 3 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -355,19 +355,19 @@ Vous pouvez sélectionner une plage de mois.
           value: [new Date(), new Date()],
         }, {
           text: 'This year',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date(new Date().getFullYear(), 0)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last 6 months',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setMonth(start.getMonth() - 6)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -390,20 +390,20 @@ Vous pouvez sélectionner une plage de mois.
           },
           {
             text: 'This year',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date(new Date().getFullYear(), 0);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 6 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 6);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -655,7 +655,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | clear-icon | Icône de reset. | string | — | el-icon-circle-close |
 | validate-event | Si la validation doit être déclenchée. | boolean | - | true |
 | disabledDate | Une fonction qui détermine si une date est désactivée ou pas, avec cette date en paramètre. Doit retourner un booléen. | function | — | — |
-| shortcuts | Un tableau d'objets pour configurer les raccourcis | object[{ text: string, value: Date }] | — | — |
+| shortcuts | Un tableau d'objets pour configurer les raccourcis | object[{ text: string, value: date / function }] | — | — |
 
 ### Raccourcis
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |

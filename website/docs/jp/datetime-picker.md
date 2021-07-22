@@ -49,18 +49,18 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
           value: new Date(),
         }, {
           text: 'Yesterday',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24);
             return date
-          })(),
+          },
         }, {
           text: 'A week ago',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -85,19 +85,19 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
           },
           {
             text: 'Yesterday',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
               return date;
-            })(),
+            },
           },
           {
             text: 'A week ago',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
               return date;
-            })(),
+            },
           },
         ],
         value1: '',
@@ -152,28 +152,28 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
       return {
         shortcuts: [{
           text: 'Last week',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
             return [start, end]
-          })()
+          }
         }, {
           text: 'Last month',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
             return [start, end]
-          })()
+          }
         }, {
           text: 'Last 3 months',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
             return [start, end]
-          })()
+          }
         }],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
         value2: ''
@@ -192,30 +192,30 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
         shortcuts: [
           {
             text: 'Last week',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last month',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 3 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
@@ -328,7 +328,7 @@ DateTimePickerはDatePickerとTimePickerから派生したものです。属性�
 | unlink-panels | レンジピッカーで2つのデータパネルのリンクを解除する | boolean | — | false |
 | prefix-icon | カスタムプレフィックスアイコンクラス | string | — | el-icon-date |
 | clear-icon | カスタムクリアアイコンクラス | string | — | el-icon-circle-close |
-| shortcuts | an object array to set shortcut options | object[{ text: string, value: Date }] | — | — |
+| shortcuts | an object array to set shortcut options | object[{ text: string, value: date / function }] | — | — |
 | disabledDate | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function | — | — |
 | cellClassName | set custom className | Function(Date) | — | — |
 
