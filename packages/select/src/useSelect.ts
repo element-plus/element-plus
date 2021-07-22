@@ -324,11 +324,12 @@ export const useSelect = (props, states: States, ctx) => {
    * - if the first option in dropdown list is user-created,
    *   it would be at the end of the optionsArray
    *   so find it and set hover.
-   *   (Note that there must be only one user-created option in dropdown list)
+   *   (NOTE: there must be only one user-created option in dropdown list with query)
    * - if there's no user-created option in list, just find the first one as usual
+   *   (NOTE: exclude options that are disabled or in disabled-group)
    */
   const checkDefaultFirstOption = () => {
-    const optionsInDropdown = optionsArray.value.filter(n => n.visible)
+    const optionsInDropdown = optionsArray.value.filter(n => n.visible && !n.disabled && !n.groupDisabled)
     const userCreatedOption = optionsInDropdown.filter(n => n.created)[0]
     const firstOriginOption = optionsInDropdown[0]
     states.hoverIndex = getValueIndex(optionsArray.value, userCreatedOption || firstOriginOption)
