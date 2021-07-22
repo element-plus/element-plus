@@ -95,3 +95,19 @@ Example
 # example feat(button):add type 'button' for form usage #1234
 ```
 
+## Licence
+
+ElementPlus is open source software licensed as
+[MIT](https://github.com/element-plus/element-plus/blob/master/LICENSE).
+
+
+## Contributors
+
+This project wouldn't exist without the all of our amazing contributors
+
+<a href="https://github.com/element-plus/element-plus/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />
+</a>
+
+
+
