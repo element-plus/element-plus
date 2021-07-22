@@ -229,7 +229,7 @@ export const useSelect = (props, states: States, ctx) => {
         resetInputHeight()
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
-      if ([].indexOf.call(inputs, document.activeElement) === -1) {
+      if (!props.allowCreate || [].indexOf.call(inputs, document.activeElement) === -1) {
         setSelected()
       }
       if (props.defaultFirstOption && (props.filterable || props.remote) && states.filteredOptionsCount) {
