@@ -554,14 +554,8 @@ $--slider-button-wrapper-offset: -15px !default;
 
 /* Menu
 --------------------------*/
-/// fontSize||Font|1
-$--menu-item-font-size: map.get($--font-size, 'base') !default;
-/// color||Color|0
-$--menu-item-font-color: $--color-text-primary !default;
-/// color||Color|0
-$--menu-background-color: $--color-white !default;
-$--menu-item-hover-fill: map.get($--colors, 'primary', 'light-9') !default;
-$--menu-border-color: #e6e6e6 !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/menu.scss
 
 /* Rate
 --------------------------*/
