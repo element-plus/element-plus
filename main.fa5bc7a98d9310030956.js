@@ -48,7 +48,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US65","64":"DOCS en-US66","65":"DOCS en-US67","66":"DOCS en-US68","67":"DOCS en-US69","68":"DOCS en-US7","69":"DOCS en-US70","70":"DOCS en-US8","71":"DOCS en-US9","72":"DOCS es0","73":"DOCS es1","74":"DOCS es10","75":"DOCS es11","76":"DOCS es12","77":"DOCS es13","78":"DOCS es14","79":"DOCS es15","80":"DOCS es16","81":"DOCS es17","82":"DOCS es18","83":"DOCS es19","84":"DOCS es2","85":"DOCS es20","86":"DOCS es21","87":"DOCS es22","88":"DOCS es23","89":"DOCS es24","90":"DOCS es25","91":"DOCS es26","92":"DOCS es27","93":"DOCS es28","94":"DOCS es29","95":"DOCS es3","96":"DOCS es30","97":"DOCS es31","98":"DOCS es32","99":"DOCS es33","100":"DOCS es34","101":"DOCS es35","102":"DOCS es36","103":"DOCS es37","104":"DOCS es38","105":"DOCS es39","106":"DOCS es4","107":"DOCS es40","108":"DOCS es41","109":"DOCS es42","110":"DOCS es43","111":"DOCS es44","112":"DOCS es45","113":"DOCS es46","114":"DOCS es47","115":"DOCS es48","116":"DOCS es49","117":"DOCS es5","118":"DOCS es50","119":"DOCS es51","120":"DOCS es52","121":"DOCS es53","122":"DOCS es54","123":"DOCS es55","124":"DOCS es56","125":"DOCS es57","126":"DOCS es58","127":"DOCS es59","128":"DOCS es6","129":"DOCS es60","130":"DOCS es61","131":"DOCS es62","132":"DOCS es63","133":"DOCS es64","134":"DOCS es65","135":"DOCS es66","136":"DOCS es67","137":"DOCS es68","138":"DOCS es69","139":"DOCS es7","140":"DOCS es70","141":"DOCS es8","142":"DOCS es9","143":"DOCS fr-FR0","144":"DOCS fr-FR1","145":"DOCS fr-FR10","146":"DOCS fr-FR11","147":"DOCS fr-FR12","148":"DOCS fr-FR13","149":"DOCS fr-FR14","150":"DOCS fr-FR15","151":"DOCS fr-FR16","152":"DOCS fr-FR17","153":"DOCS fr-FR18","154":"DOCS fr-FR19","155":"DOCS fr-FR2","156":"DOCS fr-FR20","157":"DOCS fr-FR21","158":"DOCS fr-FR22","159":"DOCS fr-FR23","160":"DOCS fr-FR24","161":"DOCS fr-FR25","162":"DOCS fr-FR26","163":"DOCS fr-FR27","164":"DOCS fr-FR28","165":"DOCS fr-FR29","166":"DOCS fr-FR3","167":"DOCS fr-FR30","168":"DOCS fr-FR31","169":"DOCS fr-FR32","170":"DOCS fr-FR33","171":"DOCS fr-FR34","172":"DOCS fr-FR35","173":"DOCS fr-FR36","174":"DOCS fr-FR37","175":"DOCS fr-FR38","176":"DOCS fr-FR39","177":"DOCS fr-FR4","178":"DOCS fr-FR40","179":"DOCS fr-FR41","180":"DOCS fr-FR42","181":"DOCS fr-FR43","182":"DOCS fr-FR44","183":"DOCS fr-FR45","184":"DOCS fr-FR46","185":"DOCS fr-FR47","186":"DOCS fr-FR48","187":"DOCS fr-FR49","188":"DOCS fr-FR5","189":"DOCS fr-FR50","190":"DOCS fr-FR51","191":"DOCS fr-FR52","192":"DOCS fr-FR53","193":"DOCS fr-FR54","194":"DOCS fr-FR55","195":"DOCS fr-FR56","196":"DOCS fr-FR57","197":"DOCS fr-FR58","198":"DOCS fr-FR59","199":"DOCS fr-FR6","200":"DOCS fr-FR60","201":"DOCS fr-FR61","202":"DOCS fr-FR62","203":"DOCS fr-FR63","204":"DOCS fr-FR64","205":"DOCS fr-FR65","206":"DOCS fr-FR66","207":"DOCS fr-FR67","208":"DOCS fr-FR68","209":"DOCS fr-FR69","210":"DOCS fr-FR7","211":"DOCS fr-FR70","212":"DOCS fr-FR8","213":"DOCS fr-FR9","214":"DOCS jp0","215":"DOCS jp1","216":"DOCS jp10","217":"DOCS jp11","218":"DOCS jp12","219":"DOCS jp13","220":"DOCS jp14","221":"DOCS jp15","222":"DOCS jp16","223":"DOCS jp17","224":"DOCS jp18","225":"DOCS jp19","226":"DOCS jp2","227":"DOCS jp20","228":"DOCS jp21","229":"DOCS jp22","230":"DOCS jp23","231":"DOCS jp24","232":"DOCS jp25","233":"DOCS jp26","234":"DOCS jp27","235":"DOCS jp28","236":"DOCS jp29","237":"DOCS jp3","238":"DOCS jp30","239":"DOCS jp31","240":"DOCS jp32","241":"DOCS jp33","242":"DOCS jp34","243":"DOCS jp35","244":"DOCS jp36","245":"DOCS jp37","246":"DOCS jp38","247":"DOCS jp39","248":"DOCS jp4","249":"DOCS jp40","250":"DOCS jp41","251":"DOCS jp42","252":"DOCS jp43","253":"DOCS jp44","254":"DOCS jp45","255":"DOCS jp46","256":"DOCS jp47","257":"DOCS jp48","258":"DOCS jp49","259":"DOCS jp5","260":"DOCS jp50","261":"DOCS jp51","262":"DOCS jp52","263":"DOCS jp53","264":"DOCS jp54","265":"DOCS jp55","266":"DOCS jp56","267":"DOCS jp57","268":"DOCS jp58","269":"DOCS jp59","270":"DOCS jp6","271":"DOCS jp60","272":"DOCS jp61","273":"DOCS jp62","274":"DOCS jp63","275":"DOCS jp64","276":"DOCS jp65","277":"DOCS jp66","278":"DOCS jp67","279":"DOCS jp68","280":"DOCS jp69","281":"DOCS jp7","282":"DOCS jp70","283":"DOCS jp8","284":"DOCS jp9","285":"DOCS zh-CN0","286":"DOCS zh-CN1","287":"DOCS zh-CN10","288":"DOCS zh-CN11","289":"DOCS zh-CN12","290":"DOCS zh-CN13","291":"DOCS zh-CN14","292":"DOCS zh-CN15","293":"DOCS zh-CN16","294":"DOCS zh-CN17","295":"DOCS zh-CN18","296":"DOCS zh-CN19","297":"DOCS zh-CN2","298":"DOCS zh-CN20","299":"DOCS zh-CN21","300":"DOCS zh-CN22","301":"DOCS zh-CN23","302":"DOCS zh-CN24","303":"DOCS zh-CN25","304":"DOCS zh-CN26","305":"DOCS zh-CN27","306":"DOCS zh-CN28","307":"DOCS zh-CN29","308":"DOCS zh-CN3","309":"DOCS zh-CN30","310":"DOCS zh-CN31","311":"DOCS zh-CN32","312":"DOCS zh-CN33","313":"DOCS zh-CN34","314":"DOCS zh-CN35","315":"DOCS zh-CN36","316":"DOCS zh-CN37","317":"DOCS zh-CN38","318":"DOCS zh-CN39","319":"DOCS zh-CN4","320":"DOCS zh-CN40","321":"DOCS zh-CN41","322":"DOCS zh-CN42","323":"DOCS zh-CN43","324":"DOCS zh-CN44","325":"DOCS zh-CN45","326":"DOCS zh-CN46","327":"DOCS zh-CN47","328":"DOCS zh-CN48","329":"DOCS zh-CN49","330":"DOCS zh-CN5","331":"DOCS zh-CN50","332":"DOCS zh-CN51","333":"DOCS zh-CN52","334":"DOCS zh-CN53","335":"DOCS zh-CN54","336":"DOCS zh-CN55","337":"DOCS zh-CN56","338":"DOCS zh-CN57","339":"DOCS zh-CN58","340":"DOCS zh-CN59","341":"DOCS zh-CN6","342":"DOCS zh-CN60","343":"DOCS zh-CN61","344":"DOCS zh-CN62","345":"DOCS zh-CN63","346":"DOCS zh-CN64","347":"DOCS zh-CN65","348":"DOCS zh-CN66","349":"DOCS zh-CN67","350":"DOCS zh-CN68","351":"DOCS zh-CN69","352":"DOCS zh-CN7","353":"DOCS zh-CN70","354":"DOCS zh-CN8","355":"DOCS zh-CN9","357":"zh-CN0","358":"zh-CN1","359":"zh-CN2","360":"zh-CN3","361":"zh-CN4","362":"zh-CN5","363":"zh-CN6"}[chunkId]||chunkId) + "." + "635ee325c1daf96a385f" + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US65","64":"DOCS en-US66","65":"DOCS en-US67","66":"DOCS en-US68","67":"DOCS en-US69","68":"DOCS en-US7","69":"DOCS en-US70","70":"DOCS en-US8","71":"DOCS en-US9","72":"DOCS es0","73":"DOCS es1","74":"DOCS es10","75":"DOCS es11","76":"DOCS es12","77":"DOCS es13","78":"DOCS es14","79":"DOCS es15","80":"DOCS es16","81":"DOCS es17","82":"DOCS es18","83":"DOCS es19","84":"DOCS es2","85":"DOCS es20","86":"DOCS es21","87":"DOCS es22","88":"DOCS es23","89":"DOCS es24","90":"DOCS es25","91":"DOCS es26","92":"DOCS es27","93":"DOCS es28","94":"DOCS es29","95":"DOCS es3","96":"DOCS es30","97":"DOCS es31","98":"DOCS es32","99":"DOCS es33","100":"DOCS es34","101":"DOCS es35","102":"DOCS es36","103":"DOCS es37","104":"DOCS es38","105":"DOCS es39","106":"DOCS es4","107":"DOCS es40","108":"DOCS es41","109":"DOCS es42","110":"DOCS es43","111":"DOCS es44","112":"DOCS es45","113":"DOCS es46","114":"DOCS es47","115":"DOCS es48","116":"DOCS es49","117":"DOCS es5","118":"DOCS es50","119":"DOCS es51","120":"DOCS es52","121":"DOCS es53","122":"DOCS es54","123":"DOCS es55","124":"DOCS es56","125":"DOCS es57","126":"DOCS es58","127":"DOCS es59","128":"DOCS es6","129":"DOCS es60","130":"DOCS es61","131":"DOCS es62","132":"DOCS es63","133":"DOCS es64","134":"DOCS es65","135":"DOCS es66","136":"DOCS es67","137":"DOCS es68","138":"DOCS es69","139":"DOCS es7","140":"DOCS es70","141":"DOCS es8","142":"DOCS es9","143":"DOCS fr-FR0","144":"DOCS fr-FR1","145":"DOCS fr-FR10","146":"DOCS fr-FR11","147":"DOCS fr-FR12","148":"DOCS fr-FR13","149":"DOCS fr-FR14","150":"DOCS fr-FR15","151":"DOCS fr-FR16","152":"DOCS fr-FR17","153":"DOCS fr-FR18","154":"DOCS fr-FR19","155":"DOCS fr-FR2","156":"DOCS fr-FR20","157":"DOCS fr-FR21","158":"DOCS fr-FR22","159":"DOCS fr-FR23","160":"DOCS fr-FR24","161":"DOCS fr-FR25","162":"DOCS fr-FR26","163":"DOCS fr-FR27","164":"DOCS fr-FR28","165":"DOCS fr-FR29","166":"DOCS fr-FR3","167":"DOCS fr-FR30","168":"DOCS fr-FR31","169":"DOCS fr-FR32","170":"DOCS fr-FR33","171":"DOCS fr-FR34","172":"DOCS fr-FR35","173":"DOCS fr-FR36","174":"DOCS fr-FR37","175":"DOCS fr-FR38","176":"DOCS fr-FR39","177":"DOCS fr-FR4","178":"DOCS fr-FR40","179":"DOCS fr-FR41","180":"DOCS fr-FR42","181":"DOCS fr-FR43","182":"DOCS fr-FR44","183":"DOCS fr-FR45","184":"DOCS fr-FR46","185":"DOCS fr-FR47","186":"DOCS fr-FR48","187":"DOCS fr-FR49","188":"DOCS fr-FR5","189":"DOCS fr-FR50","190":"DOCS fr-FR51","191":"DOCS fr-FR52","192":"DOCS fr-FR53","193":"DOCS fr-FR54","194":"DOCS fr-FR55","195":"DOCS fr-FR56","196":"DOCS fr-FR57","197":"DOCS fr-FR58","198":"DOCS fr-FR59","199":"DOCS fr-FR6","200":"DOCS fr-FR60","201":"DOCS fr-FR61","202":"DOCS fr-FR62","203":"DOCS fr-FR63","204":"DOCS fr-FR64","205":"DOCS fr-FR65","206":"DOCS fr-FR66","207":"DOCS fr-FR67","208":"DOCS fr-FR68","209":"DOCS fr-FR69","210":"DOCS fr-FR7","211":"DOCS fr-FR70","212":"DOCS fr-FR8","213":"DOCS fr-FR9","214":"DOCS jp0","215":"DOCS jp1","216":"DOCS jp10","217":"DOCS jp11","218":"DOCS jp12","219":"DOCS jp13","220":"DOCS jp14","221":"DOCS jp15","222":"DOCS jp16","223":"DOCS jp17","224":"DOCS jp18","225":"DOCS jp19","226":"DOCS jp2","227":"DOCS jp20","228":"DOCS jp21","229":"DOCS jp22","230":"DOCS jp23","231":"DOCS jp24","232":"DOCS jp25","233":"DOCS jp26","234":"DOCS jp27","235":"DOCS jp28","236":"DOCS jp29","237":"DOCS jp3","238":"DOCS jp30","239":"DOCS jp31","240":"DOCS jp32","241":"DOCS jp33","242":"DOCS jp34","243":"DOCS jp35","244":"DOCS jp36","245":"DOCS jp37","246":"DOCS jp38","247":"DOCS jp39","248":"DOCS jp4","249":"DOCS jp40","250":"DOCS jp41","251":"DOCS jp42","252":"DOCS jp43","253":"DOCS jp44","254":"DOCS jp45","255":"DOCS jp46","256":"DOCS jp47","257":"DOCS jp48","258":"DOCS jp49","259":"DOCS jp5","260":"DOCS jp50","261":"DOCS jp51","262":"DOCS jp52","263":"DOCS jp53","264":"DOCS jp54","265":"DOCS jp55","266":"DOCS jp56","267":"DOCS jp57","268":"DOCS jp58","269":"DOCS jp59","270":"DOCS jp6","271":"DOCS jp60","272":"DOCS jp61","273":"DOCS jp62","274":"DOCS jp63","275":"DOCS jp64","276":"DOCS jp65","277":"DOCS jp66","278":"DOCS jp67","279":"DOCS jp68","280":"DOCS jp69","281":"DOCS jp7","282":"DOCS jp70","283":"DOCS jp8","284":"DOCS jp9","285":"DOCS zh-CN0","286":"DOCS zh-CN1","287":"DOCS zh-CN10","288":"DOCS zh-CN11","289":"DOCS zh-CN12","290":"DOCS zh-CN13","291":"DOCS zh-CN14","292":"DOCS zh-CN15","293":"DOCS zh-CN16","294":"DOCS zh-CN17","295":"DOCS zh-CN18","296":"DOCS zh-CN19","297":"DOCS zh-CN2","298":"DOCS zh-CN20","299":"DOCS zh-CN21","300":"DOCS zh-CN22","301":"DOCS zh-CN23","302":"DOCS zh-CN24","303":"DOCS zh-CN25","304":"DOCS zh-CN26","305":"DOCS zh-CN27","306":"DOCS zh-CN28","307":"DOCS zh-CN29","308":"DOCS zh-CN3","309":"DOCS zh-CN30","310":"DOCS zh-CN31","311":"DOCS zh-CN32","312":"DOCS zh-CN33","313":"DOCS zh-CN34","314":"DOCS zh-CN35","315":"DOCS zh-CN36","316":"DOCS zh-CN37","317":"DOCS zh-CN38","318":"DOCS zh-CN39","319":"DOCS zh-CN4","320":"DOCS zh-CN40","321":"DOCS zh-CN41","322":"DOCS zh-CN42","323":"DOCS zh-CN43","324":"DOCS zh-CN44","325":"DOCS zh-CN45","326":"DOCS zh-CN46","327":"DOCS zh-CN47","328":"DOCS zh-CN48","329":"DOCS zh-CN49","330":"DOCS zh-CN5","331":"DOCS zh-CN50","332":"DOCS zh-CN51","333":"DOCS zh-CN52","334":"DOCS zh-CN53","335":"DOCS zh-CN54","336":"DOCS zh-CN55","337":"DOCS zh-CN56","338":"DOCS zh-CN57","339":"DOCS zh-CN58","340":"DOCS zh-CN59","341":"DOCS zh-CN6","342":"DOCS zh-CN60","343":"DOCS zh-CN61","344":"DOCS zh-CN62","345":"DOCS zh-CN63","346":"DOCS zh-CN64","347":"DOCS zh-CN65","348":"DOCS zh-CN66","349":"DOCS zh-CN67","350":"DOCS zh-CN68","351":"DOCS zh-CN69","352":"DOCS zh-CN7","353":"DOCS zh-CN70","354":"DOCS zh-CN8","355":"DOCS zh-CN9","357":"zh-CN0","358":"zh-CN1","359":"zh-CN2","360":"zh-CN3","361":"zh-CN4","362":"zh-CN5","363":"zh-CN6"}[chunkId]||chunkId) + "." + "fa5bc7a98d9310030956" + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -1648,6 +1648,81 @@ var SCROLLBAR_MIN_SIZE = 20;
 
 /***/ }),
 /* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return i18n; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return t; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return use; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return setLocale; });
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lang_en__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+
+
+var lang = _lang_en__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"];
+var app;
+var i18nHandler = null;
+var i18n = function i18n(fn) {
+  i18nHandler = fn;
+};
+
+function template(str, option) {
+  if (!str || !option) return str;
+  return str.replace(/\{(\w+)\}/g, function (_, key) {
+    return option[key];
+  });
+}
+
+var defaultTranslator = function defaultTranslator() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  var path = args[0],
+      option = args[1];
+  var value;
+  var array = path.split('.');
+  var current;
+
+  if (!app) {
+    current = lang;
+  } else {
+    current = app.config.globalProperties.$ELEMENT.locale;
+  }
+
+  for (var i = 0, j = array.length; i < j; i++) {
+    var property = array[i];
+    value = current[property];
+    if (i === j - 1) return template(value, option);
+    if (!value) return '';
+    current = value;
+  }
+};
+
+var t = function t() {
+  if (i18nHandler) {
+    var translation = i18nHandler.apply(void 0, arguments);
+
+    if (!translation) {
+      return defaultTranslator.apply(void 0, arguments);
+    }
+  }
+
+  return defaultTranslator.apply(void 0, arguments);
+};
+var use = function use(l, _app) {
+  lang = l || lang;
+  app = _app;
+
+  if (lang.name) {
+    dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.locale(lang.name);
+  }
+};
+var setLocale = use;
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports) {
 
 function _defineProperty(obj, key, value) {
@@ -1666,67 +1741,6 @@ function _defineProperty(obj, key, value) {
 }
 
 module.exports = _defineProperty;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return i18n; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return t; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return use; });
-/* harmony import */ var _lang_en__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);
-
-
-var lang = _lang_en__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"];
-var i18nHandler = null;
-var i18n = function i18n(fn) {
-  i18nHandler = fn;
-};
-
-function template(str, option) {
-  if (!str || !option) return str;
-  return str.replace(/\{(\w+)\}/g, function (match, key) {
-    return option[key];
-  });
-}
-
-var t = function t() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  if (i18nHandler) return i18nHandler.apply(void 0, args);
-  var path = args[0],
-      option = args[1];
-  var value;
-  var array = path.split('.');
-  var current = lang;
-
-  for (var i = 0, j = array.length; i < j; i++) {
-    var property = array[i];
-    value = current[property];
-    if (i === j - 1) return template(value, option);
-    if (!value) return '';
-    current = value;
-  }
-
-  return '';
-};
-var use = function use(l) {
-  lang = l || lang;
-
-  if (lang.name) {
-    dayjs__WEBPACK_IMPORTED_MODULE_1___default.a.locale(lang.name);
-  }
-};
-/* unused harmony default export */ var _unused_webpack_default_export = ({
-  use: use,
-  t: t,
-  i18n: i18n
-});
 
 /***/ }),
 /* 8 */
@@ -5810,7 +5824,6 @@ __webpack_require__.d(__webpack_exports__, "ElCascaderPanel", function() { retur
 __webpack_require__.d(__webpack_exports__, "ElCheckbox", function() { return /* reexport */ packages_checkbox; });
 __webpack_require__.d(__webpack_exports__, "ElCheckboxButton", function() { return /* reexport */ packages_checkbox_button; });
 __webpack_require__.d(__webpack_exports__, "ElCheckboxGroup", function() { return /* reexport */ packages_checkbox_group; });
-__webpack_require__.d(__webpack_exports__, "ElCheckTag", function() { return /* reexport */ check_tag; });
 __webpack_require__.d(__webpack_exports__, "ElCol", function() { return /* reexport */ packages_col; });
 __webpack_require__.d(__webpack_exports__, "ElCollapse", function() { return /* reexport */ packages_collapse; });
 __webpack_require__.d(__webpack_exports__, "ElCollapseItem", function() { return /* reexport */ packages_collapse_item; });
@@ -5832,24 +5845,18 @@ __webpack_require__.d(__webpack_exports__, "ElHeader", function() { return /* re
 __webpack_require__.d(__webpack_exports__, "ElIcon", function() { return /* reexport */ packages_icon; });
 __webpack_require__.d(__webpack_exports__, "ElImage", function() { return /* reexport */ packages_image; });
 __webpack_require__.d(__webpack_exports__, "ElImageViewer", function() { return /* reexport */ image_viewer; });
-__webpack_require__.d(__webpack_exports__, "ElInfiniteScroll", function() { return /* reexport */ infinite_scroll; });
 __webpack_require__.d(__webpack_exports__, "ElInput", function() { return /* reexport */ packages_input; });
 __webpack_require__.d(__webpack_exports__, "ElInputNumber", function() { return /* reexport */ input_number; });
 __webpack_require__.d(__webpack_exports__, "ElLink", function() { return /* reexport */ packages_link; });
-__webpack_require__.d(__webpack_exports__, "ElLoading", function() { return /* reexport */ packages_loading; });
 __webpack_require__.d(__webpack_exports__, "ElMain", function() { return /* reexport */ packages_main; });
 __webpack_require__.d(__webpack_exports__, "ElMenu", function() { return /* reexport */ packages_menu; });
 __webpack_require__.d(__webpack_exports__, "ElMenuItem", function() { return /* reexport */ packages_menu_item; });
 __webpack_require__.d(__webpack_exports__, "ElMenuItemGroup", function() { return /* reexport */ menu_item_group; });
-__webpack_require__.d(__webpack_exports__, "ElMessage", function() { return /* reexport */ packages_message; });
-__webpack_require__.d(__webpack_exports__, "ElMessageBox", function() { return /* reexport */ message_box; });
-__webpack_require__.d(__webpack_exports__, "ElNotification", function() { return /* reexport */ notification; });
 __webpack_require__.d(__webpack_exports__, "ElOption", function() { return /* reexport */ packages_option; });
 __webpack_require__.d(__webpack_exports__, "ElOptionGroup", function() { return /* reexport */ packages_option_group; });
 __webpack_require__.d(__webpack_exports__, "ElPageHeader", function() { return /* reexport */ page_header; });
 __webpack_require__.d(__webpack_exports__, "ElPagination", function() { return /* reexport */ packages_pagination; });
 __webpack_require__.d(__webpack_exports__, "ElPopconfirm", function() { return /* reexport */ popconfirm; });
-__webpack_require__.d(__webpack_exports__, "ElPopover", function() { return /* reexport */ packages_popover; });
 __webpack_require__.d(__webpack_exports__, "ElPopper", function() { return /* reexport */ packages_popper; });
 __webpack_require__.d(__webpack_exports__, "ElProgress", function() { return /* reexport */ packages_progress; });
 __webpack_require__.d(__webpack_exports__, "ElRadio", function() { return /* reexport */ packages_radio; });
@@ -5880,13 +5887,138 @@ __webpack_require__.d(__webpack_exports__, "ElUpload", function() { return /* re
 __webpack_require__.d(__webpack_exports__, "ElSpace", function() { return /* reexport */ packages_space; });
 __webpack_require__.d(__webpack_exports__, "ElSkeleton", function() { return /* reexport */ skeleton; });
 __webpack_require__.d(__webpack_exports__, "ElSkeletonItem", function() { return /* reexport */ skeleton_item; });
+__webpack_require__.d(__webpack_exports__, "ElCheckTag", function() { return /* reexport */ check_tag; });
 __webpack_require__.d(__webpack_exports__, "ElDescriptions", function() { return /* reexport */ packages_descriptions; });
 __webpack_require__.d(__webpack_exports__, "ElDescriptionsItem", function() { return /* reexport */ descriptions_item; });
 __webpack_require__.d(__webpack_exports__, "ElResult", function() { return /* reexport */ packages_result; });
 __webpack_require__.d(__webpack_exports__, "ElSelectV2", function() { return /* reexport */ select_v2; });
+__webpack_require__.d(__webpack_exports__, "ElInfiniteScroll", function() { return /* reexport */ infinite_scroll; });
+__webpack_require__.d(__webpack_exports__, "ElLoading", function() { return /* reexport */ packages_loading; });
+__webpack_require__.d(__webpack_exports__, "ElMessage", function() { return /* reexport */ packages_message; });
+__webpack_require__.d(__webpack_exports__, "ElMessageBox", function() { return /* reexport */ message_box; });
+__webpack_require__.d(__webpack_exports__, "ElNotification", function() { return /* reexport */ notification; });
+__webpack_require__.d(__webpack_exports__, "ElPopover", function() { return /* reexport */ packages_popover; });
 __webpack_require__.d(__webpack_exports__, "version", function() { return /* binding */ element_plus_version; });
-__webpack_require__.d(__webpack_exports__, "install", function() { return /* binding */ element_plus_install; });
-__webpack_require__.d(__webpack_exports__, "locale", function() { return /* binding */ element_plus_locale; });
+
+// NAMESPACE OBJECT: ./packages/element-plus/components.ts
+var components_namespaceObject = {};
+__webpack_require__.r(components_namespaceObject);
+__webpack_require__.d(components_namespaceObject, "ElAffix", function() { return affix; });
+__webpack_require__.d(components_namespaceObject, "ElAlert", function() { return packages_alert; });
+__webpack_require__.d(components_namespaceObject, "ElAside", function() { return packages_aside; });
+__webpack_require__.d(components_namespaceObject, "ElAutocomplete", function() { return autocomplete; });
+__webpack_require__.d(components_namespaceObject, "ElAvatar", function() { return avatar; });
+__webpack_require__.d(components_namespaceObject, "ElBacktop", function() { return backtop; });
+__webpack_require__.d(components_namespaceObject, "ElBadge", function() { return badge; });
+__webpack_require__.d(components_namespaceObject, "ElBreadcrumb", function() { return packages_breadcrumb; });
+__webpack_require__.d(components_namespaceObject, "ElBreadcrumbItem", function() { return breadcrumb_item; });
+__webpack_require__.d(components_namespaceObject, "ElButton", function() { return packages_button; });
+__webpack_require__.d(components_namespaceObject, "ElButtonGroup", function() { return packages_button_group; });
+__webpack_require__.d(components_namespaceObject, "ElCalendar", function() { return calendar; });
+__webpack_require__.d(components_namespaceObject, "ElCard", function() { return card; });
+__webpack_require__.d(components_namespaceObject, "ElCarousel", function() { return carousel; });
+__webpack_require__.d(components_namespaceObject, "ElCarouselItem", function() { return carousel_item; });
+__webpack_require__.d(components_namespaceObject, "ElCascader", function() { return cascader; });
+__webpack_require__.d(components_namespaceObject, "ElCascaderPanel", function() { return cascader_panel; });
+__webpack_require__.d(components_namespaceObject, "ElCheckbox", function() { return packages_checkbox; });
+__webpack_require__.d(components_namespaceObject, "ElCheckboxButton", function() { return packages_checkbox_button; });
+__webpack_require__.d(components_namespaceObject, "ElCheckboxGroup", function() { return packages_checkbox_group; });
+__webpack_require__.d(components_namespaceObject, "ElCol", function() { return packages_col; });
+__webpack_require__.d(components_namespaceObject, "ElCollapse", function() { return packages_collapse; });
+__webpack_require__.d(components_namespaceObject, "ElCollapseItem", function() { return packages_collapse_item; });
+__webpack_require__.d(components_namespaceObject, "ElCollapseTransition", function() { return packages_collapse_transition; });
+__webpack_require__.d(components_namespaceObject, "ElColorPicker", function() { return color_picker; });
+__webpack_require__.d(components_namespaceObject, "ElContainer", function() { return packages_container; });
+__webpack_require__.d(components_namespaceObject, "ElDatePicker", function() { return packages_date_picker; });
+__webpack_require__.d(components_namespaceObject, "ElDialog", function() { return dialog; });
+__webpack_require__.d(components_namespaceObject, "ElDivider", function() { return divider; });
+__webpack_require__.d(components_namespaceObject, "ElDrawer", function() { return drawer; });
+__webpack_require__.d(components_namespaceObject, "ElDropdown", function() { return packages_dropdown; });
+__webpack_require__.d(components_namespaceObject, "ElDropdownItem", function() { return packages_dropdown_item; });
+__webpack_require__.d(components_namespaceObject, "ElDropdownMenu", function() { return packages_dropdown_menu; });
+__webpack_require__.d(components_namespaceObject, "ElEmpty", function() { return empty; });
+__webpack_require__.d(components_namespaceObject, "ElFooter", function() { return packages_footer; });
+__webpack_require__.d(components_namespaceObject, "ElForm", function() { return packages_form; });
+__webpack_require__.d(components_namespaceObject, "ElFormItem", function() { return packages_form_item; });
+__webpack_require__.d(components_namespaceObject, "ElHeader", function() { return packages_header; });
+__webpack_require__.d(components_namespaceObject, "ElIcon", function() { return packages_icon; });
+__webpack_require__.d(components_namespaceObject, "ElImage", function() { return packages_image; });
+__webpack_require__.d(components_namespaceObject, "ElImageViewer", function() { return image_viewer; });
+__webpack_require__.d(components_namespaceObject, "ElInput", function() { return packages_input; });
+__webpack_require__.d(components_namespaceObject, "ElInputNumber", function() { return input_number; });
+__webpack_require__.d(components_namespaceObject, "ElLink", function() { return packages_link; });
+__webpack_require__.d(components_namespaceObject, "ElMain", function() { return packages_main; });
+__webpack_require__.d(components_namespaceObject, "ElMenu", function() { return packages_menu; });
+__webpack_require__.d(components_namespaceObject, "ElMenuItem", function() { return packages_menu_item; });
+__webpack_require__.d(components_namespaceObject, "ElMenuItemGroup", function() { return menu_item_group; });
+__webpack_require__.d(components_namespaceObject, "ElOption", function() { return packages_option; });
+__webpack_require__.d(components_namespaceObject, "ElOptionGroup", function() { return packages_option_group; });
+__webpack_require__.d(components_namespaceObject, "ElPageHeader", function() { return page_header; });
+__webpack_require__.d(components_namespaceObject, "ElPagination", function() { return packages_pagination; });
+__webpack_require__.d(components_namespaceObject, "ElPopconfirm", function() { return popconfirm; });
+__webpack_require__.d(components_namespaceObject, "ElPopper", function() { return packages_popper; });
+__webpack_require__.d(components_namespaceObject, "ElProgress", function() { return packages_progress; });
+__webpack_require__.d(components_namespaceObject, "ElRadio", function() { return packages_radio; });
+__webpack_require__.d(components_namespaceObject, "ElRadioButton", function() { return packages_radio_button; });
+__webpack_require__.d(components_namespaceObject, "ElRadioGroup", function() { return packages_radio_group; });
+__webpack_require__.d(components_namespaceObject, "ElRate", function() { return packages_rate; });
+__webpack_require__.d(components_namespaceObject, "ElRow", function() { return packages_row; });
+__webpack_require__.d(components_namespaceObject, "ElScrollbar", function() { return packages_scrollbar; });
+__webpack_require__.d(components_namespaceObject, "ElSelect", function() { return packages_select; });
+__webpack_require__.d(components_namespaceObject, "ElSlider", function() { return packages_slider; });
+__webpack_require__.d(components_namespaceObject, "ElStep", function() { return packages_step; });
+__webpack_require__.d(components_namespaceObject, "ElSteps", function() { return packages_steps; });
+__webpack_require__.d(components_namespaceObject, "ElSubmenu", function() { return packages_submenu; });
+__webpack_require__.d(components_namespaceObject, "ElSwitch", function() { return packages_switch; });
+__webpack_require__.d(components_namespaceObject, "ElTabPane", function() { return packages_tab_pane; });
+__webpack_require__.d(components_namespaceObject, "ElTable", function() { return packages_table; });
+__webpack_require__.d(components_namespaceObject, "ElTableColumn", function() { return packages_table_column; });
+__webpack_require__.d(components_namespaceObject, "ElTabs", function() { return packages_tabs; });
+__webpack_require__.d(components_namespaceObject, "ElTag", function() { return packages_tag; });
+__webpack_require__.d(components_namespaceObject, "ElTimePicker", function() { return packages_time_picker; });
+__webpack_require__.d(components_namespaceObject, "ElTimeSelect", function() { return packages_time_select; });
+__webpack_require__.d(components_namespaceObject, "ElTimeline", function() { return timeline; });
+__webpack_require__.d(components_namespaceObject, "ElTimelineItem", function() { return timeline_item; });
+__webpack_require__.d(components_namespaceObject, "ElTooltip", function() { return packages_tooltip; });
+__webpack_require__.d(components_namespaceObject, "ElTransfer", function() { return transfer; });
+__webpack_require__.d(components_namespaceObject, "ElTree", function() { return packages_tree; });
+__webpack_require__.d(components_namespaceObject, "ElUpload", function() { return packages_upload; });
+__webpack_require__.d(components_namespaceObject, "ElSpace", function() { return packages_space; });
+__webpack_require__.d(components_namespaceObject, "ElSkeleton", function() { return skeleton; });
+__webpack_require__.d(components_namespaceObject, "ElSkeletonItem", function() { return skeleton_item; });
+__webpack_require__.d(components_namespaceObject, "ElCheckTag", function() { return check_tag; });
+__webpack_require__.d(components_namespaceObject, "ElDescriptions", function() { return packages_descriptions; });
+__webpack_require__.d(components_namespaceObject, "ElDescriptionsItem", function() { return descriptions_item; });
+__webpack_require__.d(components_namespaceObject, "ElResult", function() { return packages_result; });
+__webpack_require__.d(components_namespaceObject, "ElSelectV2", function() { return select_v2; });
+
+// NAMESPACE OBJECT: ./packages/element-plus/plugins.ts
+var plugins_namespaceObject = {};
+__webpack_require__.r(plugins_namespaceObject);
+__webpack_require__.d(plugins_namespaceObject, "ElInfiniteScroll", function() { return infinite_scroll; });
+__webpack_require__.d(plugins_namespaceObject, "ElLoading", function() { return packages_loading; });
+__webpack_require__.d(plugins_namespaceObject, "ElMessage", function() { return packages_message; });
+__webpack_require__.d(plugins_namespaceObject, "ElMessageBox", function() { return message_box; });
+__webpack_require__.d(plugins_namespaceObject, "ElNotification", function() { return notification; });
+__webpack_require__.d(plugins_namespaceObject, "ElPopover", function() { return packages_popover; });
+
+// EXTERNAL MODULE: ./packages/locale/index.ts
+var locale = __webpack_require__(6);
+
+// CONCATENATED MODULE: ./packages/utils/config.ts
+var config_$ELEMENT = {};
+
+var setConfig = function setConfig(option) {
+  config_$ELEMENT = option;
+};
+
+var getConfig = function getConfig(key) {
+  return config_$ELEMENT[key];
+};
+
+
+// EXTERNAL MODULE: ./packages/utils/isServer.ts
+var isServer = __webpack_require__(9);
 
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
@@ -5912,9 +6044,6 @@ var utils_dom = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js
 var ResizeObserver_es = __webpack_require__(40);
-
-// EXTERNAL MODULE: ./packages/utils/isServer.ts
-var isServer = __webpack_require__(9);
 
 // CONCATENATED MODULE: ./packages/utils/resize-event.ts
 function _createForOfIteratorHelperLoose(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; return function () { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } it = o[Symbol.iterator](); return it.next.bind(it); }
@@ -9321,18 +9450,6 @@ var vnode_getNormalizedProps = function getNormalizedProps(node) {
   });
   return props;
 };
-// CONCATENATED MODULE: ./packages/utils/config.ts
-var config_$ELEMENT = {};
-
-var setConfig = function setConfig(option) {
-  config_$ELEMENT = option;
-};
-
-var getConfig = function getConfig(key) {
-  return config_$ELEMENT[key];
-};
-
-
 // CONCATENATED MODULE: ./packages/utils/popup-manager.ts
 
 
@@ -13112,9 +13229,6 @@ function srcvue_type_template_id_185c3ca2_render(_ctx, _cache, $props, $setup, $
 }
 // CONCATENATED MODULE: ./packages/calendar/src/index.vue?vue&type=template&id=185c3ca2
 
-// EXTERNAL MODULE: ./packages/locale/index.ts
-var locale = __webpack_require__(7);
-
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/calendar/src/date-table.vue?vue&type=template&id=cfaf6c84
 
 var date_tablevue_type_template_id_cfaf6c84_hoisted_1 = {
@@ -14653,7 +14767,7 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
       transitionName: transitionName,
       arrowControl: arrowControl,
       onSetOption: onSetOption,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       handleConfirm: handleConfirm,
       handleChange: handleChange,
       setSelectionRange: setSelectionRange,
@@ -15044,7 +15158,7 @@ var makeSelectRange = function makeSelectRange(start, end) {
       btnConfirmDisabled: btnConfirmDisabled,
       handleCancel: handleCancel,
       handleConfirm: handleConfirm,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       showSeconds: showSeconds,
       minDate: minDate,
       maxDate: maxDate,
@@ -15379,7 +15493,7 @@ date_tablevue_type_script_lang_ts.render = date_tablevue_type_template_id_cfaf6c
     });
     var i18nDate = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       var pickedMonth = "el.datepicker.month" + date.value.format('M');
-      return date.value.year() + " " + Object(locale["b" /* t */])('el.datepicker.year') + " " + Object(locale["b" /* t */])(pickedMonth);
+      return date.value.year() + " " + Object(locale["c" /* t */])('el.datepicker.year') + " " + Object(locale["c" /* t */])(pickedMonth);
     });
     var realSelectedDay = Object(vue_esm_browser_prod["i" /* computed */])({
       get: function get() {
@@ -15470,7 +15584,7 @@ date_tablevue_type_script_lang_ts.render = date_tablevue_type_template_id_cfaf6c
       validatedRange: validatedRange,
       pickDay: pickDay,
       selectDate: selectDate,
-      t: locale["b" /* t */]
+      t: locale["c" /* t */]
     };
   }
 }));
@@ -17299,7 +17413,7 @@ nodevue_type_script_lang_ts.render = nodevue_type_template_id_35b795da_render
       hoverZone: hoverZone,
       isEmpty: isEmpty,
       menuId: menuId,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       handleExpand: handleExpand,
       handleMouseMove: handleMouseMove,
       clearHoverZone: clearHoverZone
@@ -17316,7 +17430,7 @@ menuvue_type_script_lang_ts.render = menuvue_type_template_id_749031f3_render
 
 /* harmony default export */ var src_menu = (menuvue_type_script_lang_ts);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
-var defineProperty = __webpack_require__(6);
+var defineProperty = __webpack_require__(7);
 var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/createClass.js
@@ -18283,7 +18397,7 @@ var srcvue_type_script_lang_ts_popperOptions = {
     placeholder: {
       type: String,
       default: function _default() {
-        return Object(locale["b" /* t */])('el.cascader.placeholder');
+        return Object(locale["c" /* t */])('el.cascader.placeholder');
       }
     },
     disabled: Boolean,
@@ -18652,7 +18766,7 @@ var srcvue_type_script_lang_ts_popperOptions = {
       multiple: multiple,
       readonly: readonly,
       clearBtnVisible: clearBtnVisible,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       togglePopperVisible: togglePopperVisible,
       hideSuggestionPanel: hideSuggestionPanel,
       deleteTag: deleteTag,
@@ -20707,7 +20821,7 @@ var srcvue_type_script_lang_ts_useOptions = function useOptions() {
       handleTrigger: handleTrigger,
       clear: clear,
       confirmValue: confirmValue,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       hue: hue,
       svPanel: svPanel,
       alpha: alpha,
@@ -21343,7 +21457,7 @@ function basic_date_tablevue_type_template_id_accf0992_render(_ctx, _cache, $pro
 
     return {
       handleMouseMove: handleMouseMove,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       rows: rows,
       isWeekActive: isWeekActive,
       getCellClasses: getCellClasses,
@@ -21602,7 +21716,7 @@ var basic_month_tablevue_type_script_lang_ts_datesInMonth = function datesInMont
       handleMonthTableClick: handleMonthTableClick,
       rows: rows,
       getCellStyle: getCellStyle,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       months: months
     };
   }
@@ -21891,7 +22005,7 @@ var timeWithinRange = function timeWithinRange() {
 
     var currentView = Object(vue_esm_browser_prod["M" /* ref */])('date');
     var yearLabel = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      var yearTranslation = Object(locale["b" /* t */])('el.datepicker.year');
+      var yearTranslation = Object(locale["c" /* t */])('el.datepicker.year');
 
       if (currentView.value === 'year') {
         var startYear = Math.floor(year.value / 10) * 10;
@@ -22217,7 +22331,7 @@ var timeWithinRange = function timeWithinRange() {
       prevMonth_: prevMonth_,
       nextMonth_: nextMonth_,
       innerDate: innerDate,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       yearLabel: yearLabel,
       currentView: currentView,
       month: month,
@@ -22551,10 +22665,10 @@ function panel_date_rangevue_type_template_id_1c512626_render(_ctx, _cache, $pro
       max: null
     });
     var leftLabel = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return leftDate.value.year() + ' ' + Object(locale["b" /* t */])('el.datepicker.year') + ' ' + Object(locale["b" /* t */])("el.datepicker.month" + (leftDate.value.month() + 1));
+      return leftDate.value.year() + ' ' + Object(locale["c" /* t */])('el.datepicker.year') + ' ' + Object(locale["c" /* t */])("el.datepicker.month" + (leftDate.value.month() + 1));
     });
     var rightLabel = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return rightDate.value.year() + ' ' + Object(locale["b" /* t */])('el.datepicker.year') + ' ' + Object(locale["b" /* t */])("el.datepicker.month" + (rightDate.value.month() + 1));
+      return rightDate.value.year() + ' ' + Object(locale["c" /* t */])('el.datepicker.year') + ' ' + Object(locale["c" /* t */])("el.datepicker.month" + (rightDate.value.month() + 1));
     });
     var leftYear = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       return leftDate.value.year();
@@ -22963,7 +23077,7 @@ function panel_date_rangevue_type_template_id_1c512626_render(_ctx, _cache, $pro
       leftDate: leftDate,
       rightDate: rightDate,
       showTime: showTime,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       minVisibleDate: minVisibleDate,
       maxVisibleDate: maxVisibleDate,
       minVisibleTime: minVisibleTime,
@@ -23150,10 +23264,10 @@ function panel_month_rangevue_type_template_id_627d0303_render(_ctx, _cache, $pr
     };
 
     var leftLabel = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return leftDate.value.year() + " " + Object(locale["b" /* t */])('el.datepicker.year');
+      return leftDate.value.year() + " " + Object(locale["c" /* t */])('el.datepicker.year');
     });
     var rightLabel = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return rightDate.value.year() + " " + Object(locale["b" /* t */])('el.datepicker.year');
+      return rightDate.value.year() + " " + Object(locale["c" /* t */])('el.datepicker.year');
     });
     var leftYear = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       return leftDate.value.year();
@@ -23293,7 +23407,7 @@ function panel_month_rangevue_type_template_id_627d0303_render(_ctx, _cache, $pr
       leftPrevYear: leftPrevYear,
       rightNextYear: rightNextYear,
       rightPrevYear: rightPrevYear,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       leftDate: leftDate,
       rightDate: rightDate,
       hasShortcuts: hasShortcuts,
@@ -24957,7 +25071,7 @@ var srcvue_type_script_lang_ts_components;
   },
   setup: function setup(props) {
     var emptyDescription = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return props.description || Object(locale["b" /* t */])('el.table.emptyText');
+      return props.description || Object(locale["c" /* t */])('el.table.emptyText');
     });
     var imageStyle = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       return {
@@ -25944,7 +26058,7 @@ var SWITCH_EVENT = 'switch';
 
     function handleImgError(e) {
       loading.value = false;
-      e.target.alt = Object(locale["b" /* t */])('el.image.error');
+      e.target.alt = Object(locale["c" /* t */])('el.image.error');
     }
 
     function handleMouseDown(e) {
@@ -26376,7 +26490,7 @@ var prevOverflow = '';
       closeViewer: closeViewer,
       container: container,
       handleError: handleError,
-      t: locale["b" /* t */]
+      t: locale["c" /* t */]
     };
   }
 }));
@@ -26398,206 +26512,6 @@ image_src.install = function (app) {
 
 var _Image = image_src;
 /* harmony default export */ var packages_image = (_Image);
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(11);
-var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(14);
-var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator);
-
-// CONCATENATED MODULE: ./packages/infinite-scroll/src/index.ts
-
-
-
-
-
-
-
-
-var src_SCOPE = 'ElInfiniteScroll';
-var CHECK_INTERVAL = 50;
-var DEFAULT_DELAY = 200;
-var DEFAULT_DISTANCE = 0;
-var src_attributes = {
-  delay: {
-    type: Number,
-    default: DEFAULT_DELAY
-  },
-  distance: {
-    type: Number,
-    default: DEFAULT_DISTANCE
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  immediate: {
-    type: Boolean,
-    default: true
-  }
-};
-
-var src_getScrollOptions = function getScrollOptions(el, instance) {
-  return Object(util["l" /* entries */])(src_attributes).reduce(function (acm, _ref) {
-    var _ref2, _instance$attrVal;
-
-    var name = _ref[0],
-        option = _ref[1];
-    var type = option.type,
-        defaultValue = option.default;
-    var attrVal = el.getAttribute("infinite-scroll-" + name);
-    var value = (_ref2 = (_instance$attrVal = instance[attrVal]) != null ? _instance$attrVal : attrVal) != null ? _ref2 : defaultValue;
-    value = value === 'false' ? false : value;
-    value = type(value);
-    acm[name] = Number.isNaN(value) ? defaultValue : value;
-    return acm;
-  }, {});
-};
-
-var destroyObserver = function destroyObserver(el) {
-  var observer = el[src_SCOPE].observer;
-
-  if (observer) {
-    observer.disconnect();
-    delete el[src_SCOPE].observer;
-  }
-};
-
-var src_handleScroll = function handleScroll(el, cb) {
-  var _el$SCOPE = el[src_SCOPE],
-      container = _el$SCOPE.container,
-      containerEl = _el$SCOPE.containerEl,
-      instance = _el$SCOPE.instance,
-      observer = _el$SCOPE.observer,
-      lastScrollTop = _el$SCOPE.lastScrollTop;
-
-  var _getScrollOptions = src_getScrollOptions(el, instance),
-      disabled = _getScrollOptions.disabled,
-      distance = _getScrollOptions.distance;
-
-  var clientHeight = containerEl.clientHeight,
-      scrollHeight = containerEl.scrollHeight,
-      scrollTop = containerEl.scrollTop;
-  var delta = scrollTop - lastScrollTop;
-  el[src_SCOPE].lastScrollTop = scrollTop; // trigger only if full check has done and not disabled and scroll down
-
-  if (observer || disabled || delta < 0) return;
-  var shouldTrigger = false;
-
-  if (container === el) {
-    shouldTrigger = scrollHeight - (clientHeight + scrollTop) <= distance;
-  } else {
-    // get the scrollHeight since el might be visible overflow
-    var clientTop = el.clientTop,
-        height = el.scrollHeight;
-    var offsetTop = Object(utils_dom["b" /* getOffsetTopDistance */])(el, containerEl);
-    shouldTrigger = scrollTop + clientHeight >= offsetTop + clientTop + height - distance;
-  }
-
-  if (shouldTrigger) {
-    cb.call(instance);
-  }
-};
-
-function checkFull(el, cb) {
-  var _el$SCOPE2 = el[src_SCOPE],
-      containerEl = _el$SCOPE2.containerEl,
-      instance = _el$SCOPE2.instance;
-
-  var _getScrollOptions2 = src_getScrollOptions(el, instance),
-      disabled = _getScrollOptions2.disabled;
-
-  if (disabled) return;
-
-  if (containerEl.scrollHeight <= containerEl.clientHeight) {
-    cb.call(instance);
-  } else {
-    destroyObserver(el);
-  }
-}
-
-var InfiniteScroll = {
-  mounted: function mounted(el, binding) {
-    return asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
-      var instance, cb, _getScrollOptions3, delay, immediate, container, containerEl, onScroll, observer;
-
-      return regenerator_default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              instance = binding.instance, cb = binding.value;
-
-              if (!Object(shared_esm_bundler["h" /* isFunction */])(cb)) {
-                Object(error["a" /* default */])(src_SCOPE, '\'v-infinite-scroll\' binding value must be a function');
-              } // ensure parentNode mounted
-
-
-              _context.next = 4;
-              return Object(vue_esm_browser_prod["y" /* nextTick */])();
-
-            case 4:
-              _getScrollOptions3 = src_getScrollOptions(el, instance), delay = _getScrollOptions3.delay, immediate = _getScrollOptions3.immediate;
-              container = Object(utils_dom["c" /* getScrollContainer */])(el, true);
-              containerEl = container === window ? document.documentElement : container;
-              onScroll = throttle_default()(src_handleScroll.bind(null, el, cb), delay);
-
-              if (container) {
-                _context.next = 10;
-                break;
-              }
-
-              return _context.abrupt("return");
-
-            case 10:
-              el[src_SCOPE] = {
-                instance: instance,
-                container: container,
-                containerEl: containerEl,
-                delay: delay,
-                cb: cb,
-                onScroll: onScroll,
-                lastScrollTop: containerEl.scrollTop
-              };
-
-              if (immediate) {
-                observer = new MutationObserver(throttle_default()(checkFull.bind(null, el, cb), CHECK_INTERVAL));
-                el[src_SCOPE].observer = observer;
-                observer.observe(el, {
-                  childList: true,
-                  subtree: true
-                });
-                checkFull(el, cb);
-              }
-
-              container.addEventListener('scroll', onScroll);
-
-            case 13:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }))();
-  },
-  unmounted: function unmounted(el) {
-    var _el$SCOPE3 = el[src_SCOPE],
-        container = _el$SCOPE3.container,
-        onScroll = _el$SCOPE3.onScroll;
-    container == null ? void 0 : container.removeEventListener('scroll', onScroll);
-    destroyObserver(el);
-  }
-};
-/* harmony default export */ var infinite_scroll_src = (InfiniteScroll);
-// CONCATENATED MODULE: ./packages/infinite-scroll/index.ts
-
-var _InfiniteScroll = infinite_scroll_src;
-
-_InfiniteScroll.install = function (app) {
-  app.directive('InfiniteScroll', _InfiniteScroll);
-};
-
-/* harmony default export */ var infinite_scroll = (_InfiniteScroll);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/input-number/src/index.vue?vue&type=template&id=529077b1
 
 function srcvue_type_template_id_529077b1_render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -27027,371 +26941,6 @@ link_src.install = function (app) {
 
 var _Link = link_src;
 /* harmony default export */ var packages_link = (_Link);
-// CONCATENATED MODULE: ./packages/loading/src/createLoadingComponent.ts
-
-
-
-function createLoadingComponent(_ref) {
-  var options = _ref.options,
-      globalLoadingOption = _ref.globalLoadingOption;
-  var vm = null;
-  var afterLeaveTimer = null;
-  var afterLeaveFlag = Object(vue_esm_browser_prod["M" /* ref */])(false);
-  var data = Object(vue_esm_browser_prod["L" /* reactive */])(extends_default()({}, options, {
-    originalPosition: '',
-    originalOverflow: '',
-    visible: false
-  }));
-
-  function setText(text) {
-    data.text = text;
-  }
-
-  function destroySelf() {
-    var target = data.parent;
-
-    if (!target.vLoadingAddClassList) {
-      var loadingNumber = target.getAttribute('loading-number');
-      loadingNumber = Number.parseInt(loadingNumber) - 1;
-
-      if (!loadingNumber) {
-        Object(utils_dom["j" /* removeClass */])(target, 'el-loading-parent--relative');
-        target.removeAttribute('loading-number');
-      } else {
-        target.setAttribute('loading-number', loadingNumber.toString());
-      }
-
-      Object(utils_dom["j" /* removeClass */])(target, 'el-loading-parent--hidden');
-    }
-
-    if (vm.el && vm.el.parentNode) {
-      vm.el.parentNode.removeChild(vm.el);
-    }
-  }
-
-  function close() {
-    var target = data.parent;
-    target.vLoadingAddClassList = null;
-
-    if (data.fullscreen) {
-      globalLoadingOption.fullscreenLoading = undefined;
-    }
-
-    afterLeaveFlag.value = true;
-    clearTimeout(afterLeaveTimer);
-    afterLeaveTimer = window.setTimeout(function () {
-      if (afterLeaveFlag.value) {
-        afterLeaveFlag.value = false;
-        destroySelf();
-      }
-    }, 400);
-    data.visible = false;
-  }
-
-  function handleAfterLeave() {
-    if (!afterLeaveFlag.value) return;
-    afterLeaveFlag.value = false;
-    destroySelf();
-  }
-
-  var componentSetupConfig = extends_default()({}, Object(vue_esm_browser_prod["X" /* toRefs */])(data), {
-    setText: setText,
-    close: close,
-    handleAfterLeave: handleAfterLeave
-  });
-
-  var elLoadingComponent = {
-    name: 'ElLoading',
-    setup: function setup() {
-      return componentSetupConfig;
-    },
-    render: function render() {
-      var _this = this;
-
-      var spinner = Object(vue_esm_browser_prod["t" /* h */])('svg', extends_default()({
-        class: 'circular',
-        viewBox: this.svgViewBox ? this.svgViewBox : '25 25 50 50'
-      }, this.svg ? {
-        innerHTML: this.svg
-      } : {}), [Object(vue_esm_browser_prod["t" /* h */])('circle', {
-        class: 'path',
-        cx: '50',
-        cy: '50',
-        r: '20',
-        fill: 'none'
-      })]);
-      var noSpinner = Object(vue_esm_browser_prod["t" /* h */])('i', {
-        class: this.spinner
-      });
-      var spinnerText = Object(vue_esm_browser_prod["t" /* h */])('p', {
-        class: 'el-loading-text'
-      }, [this.text]);
-      return Object(vue_esm_browser_prod["t" /* h */])(vue_esm_browser_prod["e" /* Transition */], {
-        name: 'el-loading-fade',
-        onAfterLeave: this.handleAfterLeave
-      }, {
-        default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])('div', {
-            style: {
-              backgroundColor: _this.background || ''
-            },
-            class: ['el-loading-mask', _this.customClass, _this.fullscreen ? 'is-fullscreen' : '']
-          }, [Object(vue_esm_browser_prod["t" /* h */])('div', {
-            class: 'el-loading-spinner'
-          }, [!_this.spinner ? spinner : noSpinner, _this.text ? spinnerText : null])]), [[vue_esm_browser_prod["cb" /* vShow */], _this.visible]])];
-        })
-      });
-    }
-  };
-  vm = Object(vue_esm_browser_prod["p" /* createVNode */])(elLoadingComponent);
-  Object(vue_esm_browser_prod["N" /* render */])(vm, document.createElement('div'));
-  return extends_default()({}, componentSetupConfig, {
-    vm: vm,
-
-    get $el() {
-      return vm.el;
-    }
-
-  });
-}
-// CONCATENATED MODULE: ./packages/loading/src/index.ts
-
-
-
-
-
-
-
-
-
-var src_defaults = {
-  parent: null,
-  background: '',
-  svg: null,
-  svgViewBox: null,
-  spinner: false,
-  text: null,
-  fullscreen: true,
-  body: false,
-  lock: false,
-  customClass: ''
-};
-var src_globalLoadingOption = {
-  fullscreenLoading: null
-};
-
-var addStyle = /*#__PURE__*/function () {
-  var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(options, parent, instance) {
-    var maskStyle;
-    return regenerator_default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            maskStyle = {};
-
-            if (!options.fullscreen) {
-              _context.next = 7;
-              break;
-            }
-
-            instance.originalPosition.value = Object(utils_dom["d" /* getStyle */])(document.body, 'position');
-            instance.originalOverflow.value = Object(utils_dom["d" /* getStyle */])(document.body, 'overflow');
-            maskStyle.zIndex = String(popup_manager.nextZIndex());
-            _context.next = 16;
-            break;
-
-          case 7:
-            if (!options.body) {
-              _context.next = 15;
-              break;
-            }
-
-            instance.originalPosition.value = Object(utils_dom["d" /* getStyle */])(document.body, 'position');
-            /**
-             * await dom render when visible is true in init,
-             * because some component's height maybe 0.
-             * e.g. el-table.
-             */
-
-            _context.next = 11;
-            return Object(vue_esm_browser_prod["y" /* nextTick */])();
-
-          case 11:
-            ['top', 'left'].forEach(function (property) {
-              var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
-              maskStyle[property] = options.target.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] - parseInt(Object(utils_dom["d" /* getStyle */])(document.body, "margin-" + property), 10) + 'px';
-            });
-            ['height', 'width'].forEach(function (property) {
-              maskStyle[property] = options.target.getBoundingClientRect()[property] + 'px';
-            });
-            _context.next = 16;
-            break;
-
-          case 15:
-            instance.originalPosition.value = Object(utils_dom["d" /* getStyle */])(parent, 'position');
-
-          case 16:
-            Object.keys(maskStyle).forEach(function (property) {
-              instance.$el.style[property] = maskStyle[property];
-            });
-
-          case 17:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function addStyle(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var src_addClassList = function addClassList(options, parent, instance) {
-  if (instance.originalPosition.value !== 'absolute' && instance.originalPosition.value !== 'fixed') {
-    Object(utils_dom["a" /* addClass */])(parent, 'el-loading-parent--relative');
-  } else {
-    Object(utils_dom["j" /* removeClass */])(parent, 'el-loading-parent--relative');
-  }
-
-  if (options.fullscreen && options.lock) {
-    Object(utils_dom["a" /* addClass */])(parent, 'el-loading-parent--hidden');
-  } else {
-    Object(utils_dom["j" /* removeClass */])(parent, 'el-loading-parent--hidden');
-  }
-};
-
-var src_Loading = function Loading(options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  if (isServer["a" /* default */]) return;
-  options = extends_default()({}, src_defaults, options);
-
-  if (typeof options.target === 'string') {
-    options.target = document.querySelector(options.target);
-  }
-
-  options.target = options.target || document.body;
-
-  if (options.target !== document.body) {
-    options.fullscreen = false;
-  } else {
-    options.body = true;
-  }
-
-  if (options.fullscreen && src_globalLoadingOption.fullscreenLoading) {
-    src_globalLoadingOption.fullscreenLoading.close();
-  }
-
-  var parent = options.body ? document.body : options.target;
-  options.parent = parent;
-  var instance = createLoadingComponent({
-    options: options,
-    globalLoadingOption: src_globalLoadingOption
-  });
-  addStyle(options, parent, instance);
-  src_addClassList(options, parent, instance);
-
-  options.parent.vLoadingAddClassList = function () {
-    src_addClassList(options, parent, instance);
-  };
-  /**
-   * add loading-number to parent.
-   * because if a fullscreen loading is triggered when somewhere
-   * a v-loading.body was triggered before and it's parent is
-   * document.body which with a margin , the fullscreen loading's
-   * destroySelf function will remove 'el-loading-parent--relative',
-   * and then the position of v-loading.body will be error.
-   */
-
-
-  var loadingNumber = parent.getAttribute('loading-number');
-
-  if (!loadingNumber) {
-    loadingNumber = 1;
-  } else {
-    loadingNumber = Number.parseInt(loadingNumber) + 1;
-  }
-
-  parent.setAttribute('loading-number', loadingNumber.toString());
-  parent.appendChild(instance.$el); // after instance render, then modify visible to trigger transition
-
-  Object(vue_esm_browser_prod["y" /* nextTick */])().then(function () {
-    instance.visible.value = Object(shared_esm_bundler["e" /* hasOwn */])(options, 'visible') ? options.visible : true;
-  });
-
-  if (options.fullscreen) {
-    src_globalLoadingOption.fullscreenLoading = instance;
-  }
-
-  return instance;
-};
-
-/* harmony default export */ var loading_src = (src_Loading);
-// CONCATENATED MODULE: ./packages/loading/src/directive.ts
-
-
-var directive_createInstance = function createInstance(el, binding) {
-  var textExr = el.getAttribute('element-loading-text');
-  var spinnerExr = el.getAttribute('element-loading-spinner');
-  var svgExr = el.getAttribute('element-loading-svg');
-  var svgViewBoxExr = el.getAttribute('element-loading-svg-view-box');
-  var backgroundExr = el.getAttribute('element-loading-background');
-  var customClassExr = el.getAttribute('element-loading-custom-class');
-  var vm = binding.instance;
-  el.instance = loading_src({
-    text: vm && vm[textExr] || textExr,
-    svg: vm && vm[svgExr] || svgExr,
-    svgViewBox: vm && vm[svgViewBoxExr] || svgViewBoxExr,
-    spinner: vm && vm[spinnerExr] || spinnerExr,
-    background: vm && vm[backgroundExr] || backgroundExr,
-    customClass: vm && vm[customClassExr] || customClassExr,
-    fullscreen: !!binding.modifiers.fullscreen,
-    target: !!binding.modifiers.fullscreen ? null : el,
-    body: !!binding.modifiers.body,
-    visible: true,
-    lock: !!binding.modifiers.lock
-  });
-};
-
-var vLoading = {
-  mounted: function mounted(el, binding) {
-    if (!!binding.value) {
-      directive_createInstance(el, binding);
-    }
-  },
-  updated: function updated(el, binding) {
-    var instance = el.instance;
-
-    if (binding.oldValue !== binding.value) {
-      if (binding.value) {
-        directive_createInstance(el, binding);
-      } else {
-        instance.close();
-      }
-    }
-  },
-  unmounted: function unmounted(el) {
-    var _el$instance;
-
-    el == null ? void 0 : (_el$instance = el.instance) == null ? void 0 : _el$instance.close();
-  }
-};
-/* harmony default export */ var directive = (vLoading);
-// CONCATENATED MODULE: ./packages/loading/index.ts
-
-
-/* harmony default export */ var packages_loading = ({
-  install: function install(app) {
-    app.directive('loading', directive);
-    app.config.globalProperties.$loading = loading_src;
-  },
-  directive: directive,
-  service: loading_src
-});
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/container/src/main.vue?vue&type=template&id=1672410e
 
 var mainvue_type_template_id_1672410e_hoisted_1 = {
@@ -28529,1358 +28078,6 @@ menuItemGroup.install = function (app) {
 
 var _MenuItemGroup = menuItemGroup;
 /* harmony default export */ var menu_item_group = (_MenuItemGroup);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/message/src/index.vue?vue&type=template&id=bf192b66
-
-var srcvue_type_template_id_bf192b66_hoisted_1 = {
-  key: 0,
-  class: "el-message__content"
-};
-function srcvue_type_template_id_bf192b66_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["e" /* Transition */], {
-    name: "el-message-fade",
-    onBeforeLeave: _ctx.onClose,
-    onAfterLeave: _cache[4] || (_cache[4] = function ($event) {
-      return _ctx.$emit('destroy');
-    })
-  }, {
-    default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
-        id: _ctx.id,
-        class: ['el-message', _ctx.type && !_ctx.iconClass ? "el-message--" + _ctx.type : '', _ctx.center ? 'is-center' : '', _ctx.showClose ? 'is-closable' : '', _ctx.customClass],
-        style: _ctx.customStyle,
-        role: "alert",
-        onMouseenter: _cache[2] || (_cache[2] = function () {
-          return _ctx.clearTimer && _ctx.clearTimer.apply(_ctx, arguments);
-        }),
-        onMouseleave: _cache[3] || (_cache[3] = function () {
-          return _ctx.startTimer && _ctx.startTimer.apply(_ctx, arguments);
-        })
-      }, [_ctx.type || _ctx.iconClass ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("i", {
-        key: 0,
-        class: [_ctx.typeClass, _ctx.iconClass]
-      }, null, 2)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
-        return [!_ctx.dangerouslyUseHTMLString ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", srcvue_type_template_id_bf192b66_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.message), 1)) : (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", {
-          key: 1,
-          class: "el-message__content",
-          innerHTML: _ctx.message
-        }, null, 8, ["innerHTML"]))];
-      }), _ctx.showClose ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", {
-        key: 1,
-        class: "el-message__closeBtn el-icon-close",
-        onClick: _cache[1] || (_cache[1] = Object(vue_esm_browser_prod["ib" /* withModifiers */])(function () {
-          return _ctx.close && _ctx.close.apply(_ctx, arguments);
-        }, ["stop"]))
-      })) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)], 46, ["id"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.visible]])];
-    }),
-    _: 3
-  }, 8, ["onBeforeLeave"]);
-}
-// CONCATENATED MODULE: ./packages/message/src/index.vue?vue&type=template&id=bf192b66
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/message/src/index.vue?vue&type=script&lang=ts
- // MessageVM is an alias of vue.VNode
-
-
-
-var TypeMap = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error'
-};
-/* harmony default export */ var message_srcvue_type_script_lang_ts = (Object(vue_esm_browser_prod["r" /* defineComponent */])({
-  name: 'ElMessage',
-  props: {
-    customClass: {
-      type: String,
-      default: ''
-    },
-    center: {
-      type: Boolean,
-      default: false
-    },
-    dangerouslyUseHTMLString: {
-      type: Boolean,
-      default: false
-    },
-    duration: {
-      type: Number,
-      default: 3000
-    },
-    iconClass: {
-      type: String,
-      default: ''
-    },
-    id: {
-      type: String,
-      default: ''
-    },
-    message: {
-      type: [String, Object],
-      default: ''
-    },
-    onClose: {
-      type: Function,
-      required: true
-    },
-    showClose: {
-      type: Boolean,
-      default: false
-    },
-    type: {
-      type: String,
-      default: 'info'
-    },
-    offset: {
-      type: Number,
-      default: 20
-    },
-    zIndex: {
-      type: Number,
-      default: 0
-    }
-  },
-  emits: ['destroy'],
-  setup: function setup(props) {
-    var typeClass = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      var type = props.type;
-      return type && TypeMap[type] ? "el-message__icon el-icon-" + TypeMap[type] : '';
-    });
-    var customStyle = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return {
-        top: props.offset + "px",
-        zIndex: props.zIndex
-      };
-    });
-    var visible = Object(vue_esm_browser_prod["M" /* ref */])(false);
-    var timer = null;
-
-    function startTimer() {
-      if (props.duration > 0) {
-        timer = setTimeout(function () {
-          if (visible.value) {
-            close();
-          }
-        }, props.duration);
-      }
-    }
-
-    function clearTimer() {
-      clearTimeout(timer);
-      timer = null;
-    }
-
-    function close() {
-      visible.value = false;
-    }
-
-    function keydown(_ref) {
-      var code = _ref.code;
-
-      if (code === EVENT_CODE.esc) {
-        // press esc to close the message
-        if (visible.value) {
-          close();
-        }
-      } else {
-        startTimer(); // resume timer
-      }
-    }
-
-    Object(vue_esm_browser_prod["E" /* onMounted */])(function () {
-      startTimer();
-      visible.value = true;
-      Object(utils_dom["h" /* on */])(document, 'keydown', keydown);
-    });
-    Object(vue_esm_browser_prod["B" /* onBeforeUnmount */])(function () {
-      Object(utils_dom["g" /* off */])(document, 'keydown', keydown);
-    });
-    return {
-      typeClass: typeClass,
-      customStyle: customStyle,
-      visible: visible,
-      close: close,
-      clearTimer: clearTimer,
-      startTimer: startTimer
-    };
-  }
-}));
-// CONCATENATED MODULE: ./packages/message/src/index.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./packages/message/src/index.vue
-
-
-
-message_srcvue_type_script_lang_ts.render = srcvue_type_template_id_bf192b66_render
-
-/* harmony default export */ var message_src = (message_srcvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./packages/message/src/message.ts
-
-
-
-
-
-
-var message_instances = [];
-var seed = 1; // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to
-// reduce code duplication.
-
-var message_Message = function Message(opts) {
-  if (opts === void 0) {
-    opts = {};
-  }
-
-  if (isServer["a" /* default */]) return;
-
-  if (typeof opts === 'string') {
-    opts = {
-      message: opts
-    };
-  }
-
-  var options = opts;
-  var verticalOffset = opts.offset || 20;
-  message_instances.forEach(function (_ref) {
-    var vm = _ref.vm;
-    verticalOffset += (vm.el.offsetHeight || 0) + 16;
-  });
-  verticalOffset += 16;
-  var id = 'message_' + seed++;
-  var userOnClose = options.onClose;
-  options = extends_default()({}, options, {
-    onClose: function onClose() {
-      message_close(id, userOnClose);
-    },
-    offset: verticalOffset,
-    id: id,
-    zIndex: popup_manager.nextZIndex()
-  });
-  var container = document.createElement('div');
-  container.className = "container_" + id;
-  var message = options.message;
-  var vm = Object(vue_esm_browser_prod["p" /* createVNode */])(message_src, options, Object(util["C" /* isVNode */])(options.message) ? {
-    default: function _default() {
-      return message;
-    }
-  } : null); // clean message element preventing mem leak
-
-  vm.props.onDestroy = function () {
-    Object(vue_esm_browser_prod["N" /* render */])(null, container); // since the element is destroy, then the VNode should be collected by GC as well
-    // we do not want cause any mem leak because we have returned vm as a reference to users
-    // so that we manually set it to false.
-  };
-
-  Object(vue_esm_browser_prod["N" /* render */])(vm, container); // instances will remove this item when close function gets called. So we do not need to worry about it.
-
-  message_instances.push({
-    vm: vm
-  });
-  document.body.appendChild(container.firstElementChild);
-  return {
-    // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
-    // for out component, so that all closing steps will not be skipped.
-    close: function close() {
-      return vm.component.proxy.visible = false;
-    }
-  };
-};
-
-function message_close(id, userOnClose) {
-  var idx = message_instances.findIndex(function (_ref2) {
-    var vm = _ref2.vm;
-    var _id = vm.component.props.id;
-    return id === _id;
-  });
-
-  if (idx === -1) {
-    return;
-  }
-
-  var vm = message_instances[idx].vm;
-  if (!vm) return;
-  userOnClose == null ? void 0 : userOnClose(vm);
-  var removedHeight = vm.el.offsetHeight;
-  message_instances.splice(idx, 1); // adjust other instances vertical offset
-
-  var len = message_instances.length;
-  if (len < 1) return;
-
-  for (var i = idx; i < len; i++) {
-    var pos = parseInt(message_instances[i].vm.el.style['top'], 10) - removedHeight - 16;
-    message_instances[i].vm.component.props.offset = pos;
-  }
-}
-function closeAll() {
-  for (var i = message_instances.length - 1; i >= 0; i--) {
-    var instance = message_instances[i].vm.component;
-    instance.ctx.close();
-  }
-}
-['success', 'warning', 'info', 'error'].forEach(function (type) {
-  message_Message[type] = function (options) {
-    if (typeof options === 'string') {
-      options = {
-        message: options,
-        type: type
-      };
-    } else {
-      options.type = type;
-    }
-
-    return message_Message(options);
-  };
-});
-message_Message.closeAll = closeAll;
-/* harmony default export */ var src_message = (message_Message);
-// CONCATENATED MODULE: ./packages/message/index.ts
-
-var _Message = src_message;
-
-_Message.install = function (app) {
-  app.config.globalProperties.$message = _Message;
-};
-
-/* harmony default export */ var packages_message = (_Message);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/message-box/src/index.vue?vue&type=template&id=32bfc5e6
-
-var srcvue_type_template_id_32bfc5e6_hoisted_1 = {
-  key: 0,
-  class: "el-message-box__header"
-};
-var srcvue_type_template_id_32bfc5e6_hoisted_2 = {
-  class: "el-message-box__title"
-};
-
-var srcvue_type_template_id_32bfc5e6_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("i", {
-  class: "el-message-box__close el-icon-close"
-}, null, -1);
-
-var srcvue_type_template_id_32bfc5e6_hoisted_4 = {
-  class: "el-message-box__content"
-};
-var srcvue_type_template_id_32bfc5e6_hoisted_5 = {
-  class: "el-message-box__container"
-};
-var srcvue_type_template_id_32bfc5e6_hoisted_6 = {
-  key: 1,
-  class: "el-message-box__message"
-};
-var srcvue_type_template_id_32bfc5e6_hoisted_7 = {
-  key: 0
-};
-var srcvue_type_template_id_32bfc5e6_hoisted_8 = {
-  class: "el-message-box__input"
-};
-var srcvue_type_template_id_32bfc5e6_hoisted_9 = {
-  class: "el-message-box__btns"
-};
-function srcvue_type_template_id_32bfc5e6_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_el_input = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-input");
-
-  var _component_el_button = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-button");
-
-  var _component_el_overlay = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-overlay");
-
-  var _directive_trap_focus = Object(vue_esm_browser_prod["R" /* resolveDirective */])("trap-focus");
-
-  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["e" /* Transition */], {
-    name: "fade-in-linear",
-    onAfterLeave: _cache[8] || (_cache[8] = function ($event) {
-      return _ctx.$emit('vanish');
-    })
-  }, {
-    default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_overlay, {
-        "z-index": _ctx.zIndex,
-        "overlay-class": ['is-message-box', _ctx.modalClass],
-        mask: _ctx.modal,
-        onClick: Object(vue_esm_browser_prod["ib" /* withModifiers */])(_ctx.handleWrapperClick, ["self"])
-      }, {
-        default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
-          return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
-            ref: "root",
-            "aria-label": _ctx.title || 'dialog',
-            "aria-modal": "true",
-            class: ['el-message-box', _ctx.customClass, {
-              'el-message-box--center': _ctx.center
-            }]
-          }, [_ctx.title !== null && _ctx.title !== undefined ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_32bfc5e6_hoisted_1, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_2, [_ctx.icon && _ctx.center ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", {
-            key: 0,
-            class: ['el-message-box__status', _ctx.icon]
-          }, null, 2)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("span", null, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.title), 1)]), _ctx.showClose ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("button", {
-            key: 0,
-            type: "button",
-            class: "el-message-box__headerbtn",
-            "aria-label": "Close",
-            onClick: _cache[1] || (_cache[1] = function ($event) {
-              return _ctx.handleAction(_ctx.distinguishCancelAndClose ? 'close' : 'cancel');
-            }),
-            onKeydown: _cache[2] || (_cache[2] = Object(vue_esm_browser_prod["hb" /* withKeys */])(Object(vue_esm_browser_prod["ib" /* withModifiers */])(function ($event) {
-              return _ctx.handleAction(_ctx.distinguishCancelAndClose ? 'close' : 'cancel');
-            }, ["prevent"]), ["enter"]))
-          }, [srcvue_type_template_id_32bfc5e6_hoisted_3], 32)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_5, [_ctx.icon && !_ctx.center && _ctx.hasMessage ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", {
-            key: 0,
-            class: ['el-message-box__status', _ctx.icon]
-          }, null, 2)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), _ctx.hasMessage ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_32bfc5e6_hoisted_6, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
-            return [!_ctx.dangerouslyUseHTMLString ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", srcvue_type_template_id_32bfc5e6_hoisted_7, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.message), 1)) : (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", {
-              key: 1,
-              innerHTML: _ctx.message
-            }, null, 8, ["innerHTML"]))];
-          })])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_8, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
-            ref: "inputRef",
-            modelValue: _ctx.inputValue,
-            "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-              return _ctx.inputValue = $event;
-            }),
-            type: _ctx.inputType,
-            placeholder: _ctx.inputPlaceholder,
-            class: {
-              invalid: _ctx.validateError
-            },
-            onKeydown: Object(vue_esm_browser_prod["hb" /* withKeys */])(Object(vue_esm_browser_prod["ib" /* withModifiers */])(_ctx.handleInputEnter, ["prevent"]), ["enter"])
-          }, null, 8, ["modelValue", "type", "placeholder", "class", "onKeydown"]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
-            class: "el-message-box__errormsg",
-            style: {
-              visibility: !!_ctx.editorErrorMessage ? 'visible' : 'hidden'
-            }
-          }, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.editorErrorMessage), 5)], 512), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.showInput]])]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_9, [_ctx.showCancelButton ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(_component_el_button, {
-            key: 0,
-            loading: _ctx.cancelButtonLoading,
-            class: [_ctx.cancelButtonClass],
-            round: _ctx.roundButton,
-            size: _ctx.buttonSize || 'small',
-            onClick: _cache[4] || (_cache[4] = function ($event) {
-              return _ctx.handleAction('cancel');
-            }),
-            onKeydown: _cache[5] || (_cache[5] = Object(vue_esm_browser_prod["hb" /* withKeys */])(Object(vue_esm_browser_prod["ib" /* withModifiers */])(function ($event) {
-              return _ctx.handleAction('cancel');
-            }, ["prevent"]), ["enter"]))
-          }, {
-            default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
-              return [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.cancelButtonText || _ctx.t('el.messagebox.cancel')), 1)];
-            }),
-            _: 1
-          }, 8, ["loading", "class", "round", "size"])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_button, {
-            ref: "confirmRef",
-            loading: _ctx.confirmButtonLoading,
-            class: [_ctx.confirmButtonClasses],
-            round: _ctx.roundButton,
-            disabled: _ctx.confirmButtonDisabled,
-            size: _ctx.buttonSize || 'small',
-            onClick: _cache[6] || (_cache[6] = function ($event) {
-              return _ctx.handleAction('confirm');
-            }),
-            onKeydown: _cache[7] || (_cache[7] = Object(vue_esm_browser_prod["hb" /* withKeys */])(Object(vue_esm_browser_prod["ib" /* withModifiers */])(function ($event) {
-              return _ctx.handleAction('confirm');
-            }, ["prevent"]), ["enter"]))
-          }, {
-            default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
-              return [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.confirmButtonText || _ctx.t('el.messagebox.confirm')), 1)];
-            }),
-            _: 1
-          }, 8, ["loading", "class", "round", "disabled", "size"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.showConfirmButton]])])], 10, ["aria-label"]), [[_directive_trap_focus]])];
-        }),
-        _: 3
-      }, 8, ["z-index", "overlay-class", "mask", "onClick"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.visible]])];
-    }),
-    _: 1
-  });
-}
-// CONCATENATED MODULE: ./packages/message-box/src/index.vue?vue&type=template&id=32bfc5e6
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/message-box/src/index.vue?vue&type=script&lang=ts
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var srcvue_type_script_lang_ts_TypeMap = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error'
-};
-/* harmony default export */ var message_box_srcvue_type_script_lang_ts = (Object(vue_esm_browser_prod["r" /* defineComponent */])({
-  name: 'ElMessageBox',
-  directives: {
-    TrapFocus: trap_focus
-  },
-  components: {
-    ElButton: packages_button,
-    ElInput: packages_input,
-    ElOverlay: overlay_src
-  },
-  inheritAttrs: false,
-  props: {
-    buttonSize: {
-      type: String,
-      validator: isValidComponentSize
-    },
-    modal: {
-      type: Boolean,
-      default: true
-    },
-    lockScroll: {
-      type: Boolean,
-      default: true
-    },
-    showClose: {
-      type: Boolean,
-      default: true
-    },
-    closeOnClickModal: {
-      type: Boolean,
-      default: true
-    },
-    closeOnPressEscape: {
-      type: Boolean,
-      default: true
-    },
-    closeOnHashChange: {
-      type: Boolean,
-      default: true
-    },
-    center: Boolean,
-    roundButton: {
-      default: false,
-      type: Boolean
-    },
-    container: {
-      type: String,
-      // default append to body
-      default: 'body'
-    },
-    boxType: {
-      type: String,
-      default: ''
-    }
-  },
-  emits: ['vanish', 'action'],
-  setup: function setup(props, _ref) {
-    var emit = _ref.emit;
-    // const popup = usePopup(props, doClose)
-    var visible = Object(vue_esm_browser_prod["M" /* ref */])(false); // s represents state
-
-    var state = Object(vue_esm_browser_prod["L" /* reactive */])({
-      beforeClose: null,
-      callback: null,
-      cancelButtonText: '',
-      cancelButtonClass: '',
-      confirmButtonText: '',
-      confirmButtonClass: '',
-      customClass: '',
-      dangerouslyUseHTMLString: false,
-      distinguishCancelAndClose: false,
-      iconClass: '',
-      inputPattern: null,
-      inputPlaceholder: '',
-      inputType: 'text',
-      inputValue: null,
-      inputValidator: null,
-      inputErrorMessage: '',
-      message: null,
-      modalFade: true,
-      modalClass: '',
-      showCancelButton: false,
-      showConfirmButton: true,
-      type: '',
-      title: undefined,
-      showInput: false,
-      action: '',
-      confirmButtonLoading: false,
-      cancelButtonLoading: false,
-      confirmButtonDisabled: false,
-      editorErrorMessage: '',
-      // refer to: https://github.com/ElemeFE/element/commit/2999279ae34ef10c373ca795c87b020ed6753eed
-      // seemed ok for now without this state.
-      // isOnComposition: false, // temporary remove
-      validateError: false,
-      zIndex: popup_manager.nextZIndex()
-    });
-    var icon = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return state.iconClass || (state.type && srcvue_type_script_lang_ts_TypeMap[state.type] ? "el-icon-" + srcvue_type_script_lang_ts_TypeMap[state.type] : '');
-    });
-    var hasMessage = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return !!state.message;
-    });
-    var inputRef = Object(vue_esm_browser_prod["M" /* ref */])(null);
-    var confirmRef = Object(vue_esm_browser_prod["M" /* ref */])(null);
-    var confirmButtonClasses = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return "el-button--primary " + state.confirmButtonClass;
-    });
-    Object(vue_esm_browser_prod["db" /* watch */])(function () {
-      return state.inputValue;
-    }, /*#__PURE__*/function () {
-      var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(val) {
-        return regenerator_default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return Object(vue_esm_browser_prod["y" /* nextTick */])();
-
-              case 2:
-                if (props.boxType === 'prompt' && val !== null) {
-                  validate();
-                }
-
-              case 3:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      return function (_x) {
-        return _ref2.apply(this, arguments);
-      };
-    }(), {
-      immediate: true
-    });
-    Object(vue_esm_browser_prod["db" /* watch */])(function () {
-      return visible.value;
-    }, function (val) {
-      if (val) {
-        if (props.boxType === 'alert' || props.boxType === 'confirm') {
-          Object(vue_esm_browser_prod["y" /* nextTick */])().then(function () {
-            var _confirmRef$value, _confirmRef$value$$el;
-
-            (_confirmRef$value = confirmRef.value) == null ? void 0 : (_confirmRef$value$$el = _confirmRef$value.$el) == null ? void 0 : _confirmRef$value$$el.focus == null ? void 0 : _confirmRef$value$$el.focus();
-          });
-        }
-
-        state.zIndex = popup_manager.nextZIndex();
-      }
-
-      if (props.boxType !== 'prompt') return;
-
-      if (val) {
-        Object(vue_esm_browser_prod["y" /* nextTick */])().then(function () {
-          if (inputRef.value && inputRef.value.$el) {
-            getInputElement().focus();
-          }
-        });
-      } else {
-        state.editorErrorMessage = '';
-        state.validateError = false;
-      }
-    });
-    Object(vue_esm_browser_prod["E" /* onMounted */])( /*#__PURE__*/asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2() {
-      return regenerator_default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return Object(vue_esm_browser_prod["y" /* nextTick */])();
-
-            case 2:
-              if (props.closeOnHashChange) {
-                Object(utils_dom["h" /* on */])(window, 'hashchange', doClose);
-              }
-
-            case 3:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2);
-    })));
-    Object(vue_esm_browser_prod["B" /* onBeforeUnmount */])(function () {
-      if (props.closeOnHashChange) {
-        Object(utils_dom["g" /* off */])(window, 'hashchange', doClose);
-      }
-    });
-
-    function doClose() {
-      if (!visible.value) return;
-      visible.value = false;
-      Object(vue_esm_browser_prod["y" /* nextTick */])(function () {
-        if (state.action) emit('action', state.action);
-      });
-    }
-
-    var handleWrapperClick = function handleWrapperClick() {
-      if (props.closeOnClickModal) {
-        handleAction(state.distinguishCancelAndClose ? 'close' : 'cancel');
-      }
-    };
-
-    var handleInputEnter = function handleInputEnter() {
-      if (state.inputType !== 'textarea') {
-        return handleAction('confirm');
-      }
-    };
-
-    var handleAction = function handleAction(action) {
-      if (props.boxType === 'prompt' && action === 'confirm' && !validate()) {
-        return;
-      }
-
-      state.action = action;
-
-      if (state.beforeClose) {
-        state.beforeClose == null ? void 0 : state.beforeClose(action, state, doClose);
-      } else {
-        doClose();
-      }
-    };
-
-    var validate = function validate() {
-      if (props.boxType === 'prompt') {
-        var inputPattern = state.inputPattern;
-
-        if (inputPattern && !inputPattern.test(state.inputValue || '')) {
-          state.editorErrorMessage = state.inputErrorMessage || Object(locale["b" /* t */])('el.messagebox.error');
-          state.validateError = true;
-          return false;
-        }
-
-        var inputValidator = state.inputValidator;
-
-        if (typeof inputValidator === 'function') {
-          var validateResult = inputValidator(state.inputValue);
-
-          if (validateResult === false) {
-            state.editorErrorMessage = state.inputErrorMessage || Object(locale["b" /* t */])('el.messagebox.error');
-            state.validateError = true;
-            return false;
-          }
-
-          if (typeof validateResult === 'string') {
-            state.editorErrorMessage = validateResult;
-            state.validateError = true;
-            return false;
-          }
-        }
-      }
-
-      state.editorErrorMessage = '';
-      state.validateError = false;
-      return true;
-    };
-
-    var getInputElement = function getInputElement() {
-      var inputRefs = inputRef.value.$refs;
-      return inputRefs.input || inputRefs.textarea;
-    };
-
-    var handleClose = function handleClose() {
-      handleAction('close');
-    }; // when close on press escape is disabled, pressing esc should not callout
-    // any other message box and close any other dialog-ish elements
-    // e.g. Dialog has a close on press esc feature, and when it closes, it calls
-    // props.beforeClose method to make a intermediate state by callout a message box
-    // for some verification or alerting. then if we allow global event liek this
-    // to dispatch, it could callout another message box.
-
-
-    if (props.closeOnPressEscape) {
-      use_modal({
-        handleClose: handleClose
-      }, visible);
-    } else {
-      use_prevent_global(visible, 'keydown', function (e) {
-        return e.code === EVENT_CODE.esc;
-      });
-    } // locks the screen to prevent scroll
-
-
-    if (props.lockScroll) {
-      use_lockscreen(visible);
-    } // restore to prev active element.
-
-
-    use_restore_active(visible);
-    return extends_default()({}, Object(vue_esm_browser_prod["X" /* toRefs */])(state), {
-      visible: visible,
-      hasMessage: hasMessage,
-      icon: icon,
-      confirmButtonClasses: confirmButtonClasses,
-      inputRef: inputRef,
-      confirmRef: confirmRef,
-      doClose: doClose,
-      // for outside usage
-      handleClose: handleClose,
-      // for out side usage
-      handleWrapperClick: handleWrapperClick,
-      handleInputEnter: handleInputEnter,
-      handleAction: handleAction,
-      t: locale["b" /* t */]
-    });
-  }
-}));
-// CONCATENATED MODULE: ./packages/message-box/src/index.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./packages/message-box/src/index.vue
-
-
-
-message_box_srcvue_type_script_lang_ts.render = srcvue_type_template_id_32bfc5e6_render
-
-/* harmony default export */ var message_box_src = (message_box_srcvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./packages/message-box/src/messageBox.ts
-
-
-
-
-
-// component default merge props & data
-var messageInstance = new Map();
-
-var messageBox_initInstance = function initInstance(props, container) {
-  var vnode = Object(vue_esm_browser_prod["t" /* h */])(message_box_src, props);
-  Object(vue_esm_browser_prod["N" /* render */])(vnode, container);
-  document.body.appendChild(container.firstElementChild);
-  return vnode.component;
-};
-
-var genContainer = function genContainer() {
-  return document.createElement('div');
-};
-
-var messageBox_showMessage = function showMessage(options) {
-  var container = genContainer(); // Adding destruct method.
-  // when transition leaves emitting `vanish` evt. so that we can do the clean job.
-
-  options.onVanish = function () {
-    // not sure if this causes mem leak, need proof to verify that.
-    // maybe calling out like 1000 msg-box then close them all.
-    Object(vue_esm_browser_prod["N" /* render */])(null, container);
-    messageInstance.delete(vm); // Remove vm to avoid mem leak.
-    // here we were suppose to call document.body.removeChild(container.firstElementChild)
-    // but render(null, container) did that job for us. so that we do not call that directly
-  };
-
-  options.onAction = function (action) {
-    var currentMsg = messageInstance.get(vm);
-    var resolve;
-
-    if (options.showInput) {
-      resolve = {
-        value: vm.inputValue,
-        action: action
-      };
-    } else {
-      resolve = action;
-    }
-
-    if (options.callback) {
-      options.callback(resolve, instance.proxy);
-    } else {
-      if (action === 'cancel' || action === 'close') {
-        if (options.distinguishCancelAndClose && action !== 'cancel') {
-          currentMsg.reject('close');
-        } else {
-          currentMsg.reject('cancel');
-        }
-      } else {
-        currentMsg.resolve(resolve);
-      }
-    }
-  };
-
-  var instance = messageBox_initInstance(options, container); // This is how we use message box programmably.
-  // Maybe consider releasing a template version?
-  // get component instance like v2.
-
-  var vm = instance.proxy;
-
-  for (var prop in options) {
-    if (Object(shared_esm_bundler["e" /* hasOwn */])(options, prop) && !Object(shared_esm_bundler["e" /* hasOwn */])(vm.$props, prop)) {
-      vm[prop] = options[prop];
-    }
-  }
-
-  Object(vue_esm_browser_prod["db" /* watch */])(function () {
-    return vm.message;
-  }, function (newVal, oldVal) {
-    if (Object(util["C" /* isVNode */])(newVal)) {
-      // Override slots since message is vnode type.
-      instance.slots.default = function () {
-        return [newVal];
-      };
-    } else if (Object(util["C" /* isVNode */])(oldVal) && !Object(util["C" /* isVNode */])(newVal)) {
-      delete instance.slots.default;
-    }
-  }, {
-    immediate: true
-  }); // change visibility after everything is settled
-
-  vm.visible = true;
-  return vm;
-};
-
-function MessageBox(options) {
-  if (isServer["a" /* default */]) return;
-  var callback;
-
-  if (Object(util["A" /* isString */])(options) || Object(util["C" /* isVNode */])(options)) {
-    options = {
-      message: options
-    };
-  } else {
-    callback = options.callback;
-  }
-
-  return new Promise(function (resolve, reject) {
-    var vm = messageBox_showMessage(options); // collect this vm in order to handle upcoming events.
-
-    messageInstance.set(vm, {
-      options: options,
-      callback: callback,
-      resolve: resolve,
-      reject: reject
-    });
-  });
-}
-
-MessageBox.alert = function (message, title, options) {
-  if (typeof title === 'object') {
-    options = title;
-    title = '';
-  } else if (title === undefined) {
-    title = '';
-  }
-
-  return MessageBox(Object.assign({
-    title: title,
-    message: message,
-    type: '',
-    closeOnPressEscape: false,
-    closeOnClickModal: false
-  }, options, {
-    boxType: 'alert'
-  }));
-};
-
-MessageBox.confirm = function (message, title, options) {
-  if (typeof title === 'object') {
-    options = title;
-    title = '';
-  } else if (title === undefined) {
-    title = '';
-  }
-
-  return MessageBox(Object.assign({
-    title: title,
-    message: message,
-    type: '',
-    showCancelButton: true
-  }, options, {
-    boxType: 'confirm'
-  }));
-};
-
-MessageBox.prompt = function (message, title, options) {
-  if (typeof title === 'object') {
-    options = title;
-    title = '';
-  } else if (title === undefined) {
-    title = '';
-  }
-
-  return MessageBox(Object.assign({
-    title: title,
-    message: message,
-    showCancelButton: true,
-    showInput: true,
-    type: ''
-  }, options, {
-    boxType: 'prompt'
-  }));
-};
-
-MessageBox.close = function () {
-  // instance.setupInstall.doClose()
-  // instance.setupInstall.state.visible = false
-  messageInstance.forEach(function (_, vm) {
-    vm.doClose();
-  });
-  messageInstance.clear();
-};
-
-/* harmony default export */ var messageBox = (MessageBox);
-// CONCATENATED MODULE: ./packages/message-box/index.ts
-
-var _MessageBox = messageBox;
-
-_MessageBox.install = function (app) {
-  app.config.globalProperties.$msgbox = _MessageBox;
-  app.config.globalProperties.$messageBox = _MessageBox;
-  app.config.globalProperties.$alert = _MessageBox.alert;
-  app.config.globalProperties.$confirm = _MessageBox.confirm;
-  app.config.globalProperties.$prompt = _MessageBox.prompt;
-};
-
-/* harmony default export */ var message_box = (_MessageBox);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/notification/src/index.vue?vue&type=template&id=a00955a6
-
-var srcvue_type_template_id_a00955a6_hoisted_1 = {
-  key: 0
-};
-function srcvue_type_template_id_a00955a6_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["e" /* Transition */], {
-    name: "el-notification-fade",
-    onBeforeLeave: _ctx.onClose,
-    onAfterLeave: _cache[5] || (_cache[5] = function ($event) {
-      return _ctx.$emit('destroy');
-    })
-  }, {
-    default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
-      return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
-        id: _ctx.id,
-        class: ['el-notification', _ctx.customClass, _ctx.horizontalClass],
-        style: _ctx.positionStyle,
-        role: "alert",
-        onMouseenter: _cache[2] || (_cache[2] = function () {
-          return _ctx.clearTimer && _ctx.clearTimer.apply(_ctx, arguments);
-        }),
-        onMouseleave: _cache[3] || (_cache[3] = function () {
-          return _ctx.startTimer && _ctx.startTimer.apply(_ctx, arguments);
-        }),
-        onClick: _cache[4] || (_cache[4] = function () {
-          return _ctx.onClick && _ctx.onClick.apply(_ctx, arguments);
-        })
-      }, [_ctx.type || _ctx.iconClass ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("i", {
-        key: 0,
-        class: ["el-notification__icon", [_ctx.typeClass, _ctx.iconClass]]
-      }, null, 2)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
-        class: ["el-notification__group", {
-          'is-with-icon': _ctx.typeClass || _ctx.iconClass
-        }]
-      }, [Object(vue_esm_browser_prod["p" /* createVNode */])("h2", {
-        class: "el-notification__title",
-        textContent: Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.title)
-      }, null, 8, ["textContent"]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
-        class: "el-notification__content",
-        style: !!_ctx.title ? null : 'margin: 0'
-      }, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
-        return [!_ctx.dangerouslyUseHTMLString ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", srcvue_type_template_id_a00955a6_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.message), 1)) : (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", {
-          key: 1,
-          innerHTML: _ctx.message
-        }, null, 8, ["innerHTML"]))];
-      })], 4), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.message]]), _ctx.showClose ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", {
-        key: 0,
-        class: "el-notification__closeBtn el-icon-close",
-        onClick: _cache[1] || (_cache[1] = Object(vue_esm_browser_prod["ib" /* withModifiers */])(function () {
-          return _ctx.close && _ctx.close.apply(_ctx, arguments);
-        }, ["stop"]))
-      })) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)], 2)], 46, ["id"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.visible]])];
-    }),
-    _: 3
-  }, 8, ["onBeforeLeave"]);
-}
-// CONCATENATED MODULE: ./packages/notification/src/index.vue?vue&type=template&id=a00955a6
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/notification/src/index.vue?vue&type=script&lang=ts
- // notificationVM is an alias of vue.VNode
-
-
-
-var notification_srcvue_type_script_lang_ts_TypeMap = {
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  error: 'error'
-};
-/* harmony default export */ var notification_srcvue_type_script_lang_ts = (Object(vue_esm_browser_prod["r" /* defineComponent */])({
-  name: 'ElNotification',
-  props: {
-    customClass: {
-      type: String,
-      default: ''
-    },
-    dangerouslyUseHTMLString: {
-      type: Boolean,
-      default: false
-    },
-    duration: {
-      type: Number,
-      default: 4500
-    },
-    iconClass: {
-      type: String,
-      default: ''
-    },
-    id: {
-      type: String,
-      default: ''
-    },
-    message: {
-      type: [String, Object],
-      default: ''
-    },
-    offset: {
-      type: Number,
-      default: 0
-    },
-    onClick: {
-      type: Function,
-      default: function _default() {
-        return void 0;
-      }
-    },
-    onClose: {
-      type: Function,
-      required: true
-    },
-    position: {
-      type: String,
-      default: 'top-right'
-    },
-    showClose: {
-      type: Boolean,
-      default: true
-    },
-    title: {
-      type: String,
-      default: ''
-    },
-    type: {
-      type: String,
-      default: ''
-    },
-    zIndex: {
-      type: Number,
-      default: 0
-    }
-  },
-  emits: ['destroy'],
-  setup: function setup(props) {
-    var visible = Object(vue_esm_browser_prod["M" /* ref */])(false);
-    var timer = null;
-    var typeClass = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      var type = props.type;
-      return type && notification_srcvue_type_script_lang_ts_TypeMap[type] ? "el-icon-" + notification_srcvue_type_script_lang_ts_TypeMap[type] : '';
-    });
-    var horizontalClass = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return props.position.indexOf('right') > 1 ? 'right' : 'left';
-    });
-    var verticalProperty = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return props.position.startsWith('top') ? 'top' : 'bottom';
-    });
-    var positionStyle = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      var _ref;
-
-      return _ref = {}, _ref[verticalProperty.value] = props.offset + "px", _ref['z-index'] = props.zIndex, _ref;
-    });
-
-    function startTimer() {
-      if (props.duration > 0) {
-        timer = setTimeout(function () {
-          if (visible.value) {
-            close();
-          }
-        }, props.duration);
-      }
-    }
-
-    function clearTimer() {
-      clearTimeout(timer);
-      timer = null;
-    }
-
-    function close() {
-      visible.value = false;
-    }
-
-    function onKeydown(_ref2) {
-      var code = _ref2.code;
-
-      if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
-        clearTimer(); // press delete/backspace clear timer
-      } else if (code === EVENT_CODE.esc) {
-        // press esc to close the notification
-        if (visible.value) {
-          close();
-        }
-      } else {
-        startTimer(); // resume timer
-      }
-    } // lifecycle
-
-
-    Object(vue_esm_browser_prod["E" /* onMounted */])(function () {
-      startTimer();
-      visible.value = true;
-      Object(utils_dom["h" /* on */])(document, 'keydown', onKeydown);
-    });
-    Object(vue_esm_browser_prod["B" /* onBeforeUnmount */])(function () {
-      Object(utils_dom["g" /* off */])(document, 'keydown', onKeydown);
-    });
-    return {
-      horizontalClass: horizontalClass,
-      typeClass: typeClass,
-      positionStyle: positionStyle,
-      visible: visible,
-      close: close,
-      clearTimer: clearTimer,
-      startTimer: startTimer
-    };
-  }
-}));
-// CONCATENATED MODULE: ./packages/notification/src/index.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./packages/notification/src/index.vue
-
-
-
-notification_srcvue_type_script_lang_ts.render = srcvue_type_template_id_a00955a6_render
-
-/* harmony default export */ var notification_src = (notification_srcvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./packages/notification/src/notify.ts
-
-
-
-
-
-
-// This should be a queue but considering there were `non-autoclosable` notifications.
-var notifications = {
-  'top-left': [],
-  'top-right': [],
-  'bottom-left': [],
-  'bottom-right': []
-}; // the gap size between each notification
-
-var GAP_SIZE = 16;
-var notify_seed = 1;
-
-var notify_Notification = function Notification(options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  if (isServer["a" /* default */]) return;
-  var position = options.position || 'top-right';
-  var verticalOffset = options.offset || 0;
-  notifications[position].forEach(function (_ref) {
-    var vm = _ref.vm;
-    verticalOffset += (vm.el.offsetHeight || 0) + GAP_SIZE;
-  });
-  verticalOffset += GAP_SIZE;
-  var id = 'notification_' + notify_seed++;
-  var userOnClose = options.onClose;
-  options = extends_default()({}, options, {
-    onClose: function onClose() {
-      notify_close(id, position, userOnClose);
-    },
-    offset: verticalOffset,
-    id: id,
-    zIndex: popup_manager.nextZIndex()
-  });
-  var container = document.createElement('div');
-  var vm = Object(vue_esm_browser_prod["p" /* createVNode */])(notification_src, options, Object(util["C" /* isVNode */])(options.message) ? {
-    default: function _default() {
-      return options.message;
-    }
-  } : null); // clean notification element preventing mem leak
-
-  vm.props.onDestroy = function () {
-    Object(vue_esm_browser_prod["N" /* render */])(null, container);
-  }; // instances will remove this item when close function gets called. So we do not need to worry about it.
-
-
-  Object(vue_esm_browser_prod["N" /* render */])(vm, container);
-  notifications[position].push({
-    vm: vm
-  });
-  document.body.appendChild(container.firstElementChild);
-  return {
-    // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
-    // for out component, so that all closing steps will not be skipped.
-    close: function close() {
-      vm.component.proxy.visible = false;
-    }
-  };
-};
-
-['success', 'warning', 'info', 'error'].forEach(function (type) {
-  var _Object$assign;
-
-  Object.assign(notify_Notification, (_Object$assign = {}, _Object$assign[type] = function (options) {
-    if (options === void 0) {
-      options = {};
-    }
-
-    if (typeof options === 'string' || Object(util["C" /* isVNode */])(options)) {
-      options = {
-        message: options
-      };
-    }
-
-    options.type = type;
-    return notify_Notification(options);
-  }, _Object$assign));
-});
-/**
- * This function gets called when user click `x` button or press `esc` or the time reached its limitation.
- * Emitted by transition@before-leave event so that we can fetch the current notification.offsetHeight, if this was called
- * by @after-leave the DOM element will be removed from the page thus we can no longer fetch the offsetHeight.
- * @param {String} id notification id to be closed
- * @param {Position} position the positioning strategy
- * @param {Function} userOnClose the callback called when close passed by user
- */
-
-function notify_close(id, position, userOnClose) {
-  // maybe we can store the index when inserting the vm to notification list.
-  var orientedNotifications = notifications[position];
-  var idx = orientedNotifications.findIndex(function (_ref2) {
-    var vm = _ref2.vm;
-    return vm.component.props.id === id;
-  });
-  if (idx === -1) return;
-  var vm = orientedNotifications[idx].vm;
-  if (!vm) return; // calling user's on close function before notification gets removed from DOM.
-
-  userOnClose == null ? void 0 : userOnClose(vm); // note that this is called @before-leave, that's why we were able to fetch this property.
-
-  var removedHeight = vm.el.offsetHeight;
-  var verticalPos = position.split('-')[0];
-  orientedNotifications.splice(idx, 1);
-  var len = orientedNotifications.length;
-  if (len < 1) return; // starting from the removing item.
-
-  for (var i = idx; i < len; i++) {
-    // new position equals the current offsetTop minus removed height plus 16px(the gap size between each item)
-    var _orientedNotification = orientedNotifications[i].vm,
-        el = _orientedNotification.el,
-        component = _orientedNotification.component;
-    var pos = parseInt(el.style[verticalPos], 10) - removedHeight - GAP_SIZE;
-    component.props.offset = pos;
-  }
-}
-function notify_closeAll() {
-  // loop through all directions, close them at once.
-  for (var key in notifications) {
-    var orientedNotifications = notifications[key];
-    orientedNotifications.forEach(function (_ref3) {
-      var vm = _ref3.vm;
-      // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
-      vm.component.proxy.visible = false;
-    });
-  }
-}
-/* harmony default export */ var notify = (notify_Notification);
-// CONCATENATED MODULE: ./packages/notification/index.ts
-
-var _Notify = notify;
-
-_Notify.install = function (app) {
-  app.config.globalProperties.$notify = _Notify;
-};
-
-/* harmony default export */ var notification = (_Notify);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/select/src/select.vue?vue&type=template&id=5ee53e10
 
 var selectvue_type_template_id_5ee53e10_hoisted_1 = {
@@ -30495,7 +28692,7 @@ function useSelectStates(props) {
     previousQuery: null,
     inputHovering: false,
     cachedPlaceHolder: '',
-    currentPlaceholder: Object(locale["b" /* t */])('el.select.placeholder'),
+    currentPlaceholder: Object(locale["c" /* t */])('el.select.placeholder'),
     menuVisibleOnFocus: false,
     isOnComposition: false,
     isSilentBlur: false,
@@ -30536,16 +28733,16 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
   });
   var emptyText = Object(vue_esm_browser_prod["i" /* computed */])(function () {
     if (props.loading) {
-      return props.loadingText || Object(locale["b" /* t */])('el.select.loading');
+      return props.loadingText || Object(locale["c" /* t */])('el.select.loading');
     } else {
       if (props.remote && states.query === '' && states.options.size === 0) return false;
 
       if (props.filterable && states.query && states.options.size > 0 && states.filteredOptionsCount === 0) {
-        return props.noMatchText || Object(locale["b" /* t */])('el.select.noMatch');
+        return props.noMatchText || Object(locale["c" /* t */])('el.select.noMatch');
       }
 
       if (states.options.size === 0) {
-        return props.noDataText || Object(locale["b" /* t */])('el.select.noData');
+        return props.noDataText || Object(locale["c" /* t */])('el.select.noData');
       }
     }
 
@@ -31466,7 +29663,7 @@ var useSelect_useSelect = function useSelect(props, states, ctx) {
       setSelected: setSelected
     }));
     Object(vue_esm_browser_prod["E" /* onMounted */])(function () {
-      states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder || Object(locale["b" /* t */])('el.select.placeholder');
+      states.cachedPlaceHolder = currentPlaceholder.value = props.placeholder || Object(locale["c" /* t */])('el.select.placeholder');
 
       if (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) {
         currentPlaceholder.value = '';
@@ -31749,7 +29946,7 @@ function srcvue_type_template_id_ff67914c_render(_ctx, _cache, $props, $setup, $
     title: {
       type: String,
       default: function _default() {
-        return Object(locale["b" /* t */])('el.pageHeader.title');
+        return Object(locale["c" /* t */])('el.pageHeader.title');
       }
     },
     content: {
@@ -32002,7 +30199,7 @@ var usePagination_usePagination = function usePagination() {
     }
 
     return {
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       innerPagesizes: innerPagesizes,
       innerPageSize: innerPageSize,
       handleChange: handleChange
@@ -32073,7 +30270,7 @@ function jumpervue_type_template_id_29339522_render(_ctx, _cache, $props, $setup
     }
 
     return {
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       userInput: userInput,
       pageCount: pageCount,
       disabled: disabled,
@@ -32117,7 +30314,7 @@ function totalvue_type_template_id_683dc098_render(_ctx, _cache, $props, $setup,
   },
   setup: function setup() {
     return {
-      t: locale["b" /* t */]
+      t: locale["c" /* t */]
     };
   }
 }));
@@ -32585,7 +30782,7 @@ var componentName = 'ElPagination';
       var _slots$default;
 
       if (!assertValidUsage.value) {
-        Object(error["b" /* warn */])(componentName, Object(locale["b" /* t */])('el.pagination.docRefer'));
+        Object(error["b" /* warn */])(componentName, Object(locale["c" /* t */])('el.pagination.docRefer'));
         return null;
       }
 
@@ -32790,10 +30987,10 @@ function srcvue_type_template_id_2397aad0_render(_ctx, _cache, $props, $setup, $
     };
 
     var confirmButtonText_ = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return props.confirmButtonText || Object(locale["b" /* t */])('el.popconfirm.confirmButtonText');
+      return props.confirmButtonText || Object(locale["c" /* t */])('el.popconfirm.confirmButtonText');
     });
     var cancelButtonText_ = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return props.cancelButtonText || Object(locale["b" /* t */])('el.popconfirm.cancelButtonText');
+      return props.cancelButtonText || Object(locale["c" /* t */])('el.popconfirm.cancelButtonText');
     });
     return {
       visible: visible,
@@ -32822,192 +31019,6 @@ popconfirm_src.install = function (app) {
 
 var _Popconfirm = popconfirm_src;
 /* harmony default export */ var popconfirm = (_Popconfirm);
-// CONCATENATED MODULE: ./packages/popover/src/usePopover.ts
-
-
-
-
-
-var SHOW_EVENT = 'show';
-var HIDE_EVENT = 'hide';
-function usePopover(props, ctx) {
-  var zIndex = Object(vue_esm_browser_prod["M" /* ref */])(popup_manager.nextZIndex());
-  var width = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-    if (Object(util["A" /* isString */])(props.width)) {
-      return props.width;
-    }
-
-    return props.width + 'px';
-  });
-  var popperStyle = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-    return {
-      width: width.value,
-      zIndex: zIndex.value
-    };
-  });
-  var popperProps = use_popper(props, ctx);
-  Object(vue_esm_browser_prod["db" /* watch */])(popperProps.visibility, function (val) {
-    if (val) {
-      zIndex.value = popup_manager.nextZIndex();
-    }
-
-    ctx.emit(val ? SHOW_EVENT : HIDE_EVENT);
-  });
-  return extends_default()({}, popperProps, {
-    popperStyle: popperStyle
-  });
-}
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/popover/src/index.vue?vue&type=script&lang=ts
-
-
-
-
-
-
-
-
-
-var emits = ['update:visible', 'after-enter', 'after-leave', SHOW_EVENT, HIDE_EVENT];
-var NAME = 'ElPopover';
-var _hoist = {
-  key: 0,
-  class: 'el-popover__title',
-  role: 'title'
-};
-/* harmony default export */ var popover_srcvue_type_script_lang_ts = (Object(vue_esm_browser_prod["r" /* defineComponent */])({
-  name: NAME,
-  components: {
-    ElPopper: packages_popper
-  },
-  props: extends_default()({}, use_popper_defaults, {
-    content: {
-      type: String
-    },
-    trigger: {
-      type: String,
-      default: 'click'
-    },
-    title: {
-      type: String
-    },
-    transition: {
-      type: String,
-      default: 'fade-in-linear'
-    },
-    width: {
-      type: [String, Number],
-      default: 150
-    },
-    appendToBody: {
-      type: Boolean,
-      default: true
-    },
-    tabindex: [String, Number]
-  }),
-  emits: emits,
-  setup: function setup(props, ctx) {
-    if (false) {}
-
-    var states = usePopover(props, ctx);
-    return states;
-  },
-  render: function render() {
-    var _this = this;
-
-    var $slots = this.$slots;
-    var trigger = $slots.reference ? $slots.reference() : null;
-    var title = renderIf(this.title, 'div', _hoist, Object(vue_esm_browser_prod["U" /* toDisplayString */])(this.title), PatchFlags.TEXT);
-    var content = Object(vue_esm_browser_prod["P" /* renderSlot */])($slots, 'default', {}, function () {
-      return [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(_this.content), PatchFlags.TEXT)];
-    });
-    var events = this.events,
-        onAfterEnter = this.onAfterEnter,
-        onAfterLeave = this.onAfterLeave,
-        onPopperMouseEnter = this.onPopperMouseEnter,
-        onPopperMouseLeave = this.onPopperMouseLeave,
-        popperStyle = this.popperStyle,
-        popperId = this.popperId,
-        popperClass = this.popperClass,
-        showArrow = this.showArrow,
-        transition = this.transition,
-        visibility = this.visibility,
-        tabindex = this.tabindex;
-    var kls = [this.content ? 'el-popover--plain' : '', 'el-popover', popperClass].join(' ');
-    var popover = renderPopper({
-      effect: Effect.LIGHT,
-      name: transition,
-      popperClass: kls,
-      popperStyle: popperStyle,
-      popperId: popperId,
-      visibility: visibility,
-      onMouseenter: onPopperMouseEnter,
-      onMouseleave: onPopperMouseLeave,
-      onAfterEnter: onAfterEnter,
-      onAfterLeave: onAfterLeave,
-      stopPopperMouseEvent: false
-    }, [title, content, arrow_renderArrow(showArrow)]); // when user uses popover directively, trigger will be null so that we only
-    // render a popper window for displaying contents
-
-    var _trigger = trigger ? renderTrigger(trigger, extends_default()({
-      ariaDescribedby: popperId,
-      ref: 'triggerRef',
-      tabindex: tabindex
-    }, events)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])('v-if', true);
-
-    return Object(vue_esm_browser_prod["t" /* h */])(vue_esm_browser_prod["b" /* Fragment */], null, [this.trigger === 'click' ? Object(vue_esm_browser_prod["gb" /* withDirectives */])(_trigger, [[click_outside, this.hide]]) : _trigger, Object(vue_esm_browser_prod["t" /* h */])(vue_esm_browser_prod["c" /* Teleport */], {
-      disabled: !this.appendToBody,
-      to: 'body'
-    }, [popover])]);
-  }
-}));
-// CONCATENATED MODULE: ./packages/popover/src/index.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./packages/popover/src/index.vue
-
-
-
-/* harmony default export */ var popover_src = (popover_srcvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./packages/popover/src/directive.ts
-
-
-var directive_attachEvents = function attachEvents(el, binding, vnode) {
-  var _ref = binding.arg || binding.value;
-
-  var popover = vnode.dirs[0].instance.$refs[_ref];
-
-  if (popover) {
-    popover.triggerRef = el;
-    el.setAttribute('tabindex', popover.tabindex); // because v-popover cannot modify the vnode itself due to it has already been
-
-    Object.entries(popover.events).forEach(function (_ref2) {
-      var eventName = _ref2[0],
-          e = _ref2[1];
-      Object(utils_dom["h" /* on */])(el, eventName.toLowerCase().slice(2), e);
-    });
-  }
-};
-
-/* harmony default export */ var src_directive = ({
-  mounted: function mounted(el, binding, vnode) {
-    directive_attachEvents(el, binding, vnode);
-  },
-  updated: function updated(el, binding, vnode) {
-    directive_attachEvents(el, binding, vnode);
-  }
-});
-var VPopover = 'popover';
-// CONCATENATED MODULE: ./packages/popover/index.ts
-
-
-
-popover_src.install = function (app) {
-  app.component(popover_src.name, popover_src);
-  app.directive(VPopover, src_directive);
-};
-
-popover_src.directive = src_directive;
-var _Popover = popover_src;
-/* harmony default export */ var packages_popover = (_Popover);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/progress/src/index.vue?vue&type=template&id=1c2b087b
 
 var srcvue_type_template_id_1c2b087b_hoisted_1 = {
@@ -34118,6 +32129,14 @@ function srcvue_type_template_id_038e2518_render(_ctx, _cache, $props, $setup, $
   }), 128))])], 64)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)], 6)], 10, ["aria-valuemin", "aria-valuemax", "aria-orientation", "aria-disabled"]);
 }
 // CONCATENATED MODULE: ./packages/slider/src/index.vue?vue&type=template&id=038e2518
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
+var regenerator = __webpack_require__(11);
+var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/asyncToGenerator.js
+var asyncToGenerator = __webpack_require__(14);
+var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/slider/src/button.vue?vue&type=template&id=344f1215
 
@@ -38681,7 +36700,7 @@ function filter_panelvue_type_template_id_176e6aa2_render(_ctx, _cache, $props, 
       handleReset: handleReset,
       handleSelect: handleSelect,
       isActive: isActive,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       showFilterPanel: showFilterPanel,
       hideFilterPanel: hideFilterPanel,
       popperPaneRef: popperPaneRef,
@@ -40780,7 +38799,7 @@ var tableIdSeed = 1;
       clearSort: clearSort,
       doLayout: doLayout,
       sort: sort,
-      t: locale["b" /* t */],
+      t: locale["c" /* t */],
       setDragVisible: setDragVisible,
       context: table
     };
@@ -42914,7 +40933,7 @@ var useCheck_useCheck = function useCheck(props, panelState, emit) {
       inputIcon: inputIcon,
       hasFooter: hasFooter,
       clearQuery: clearQuery,
-      t: locale["b" /* t */]
+      t: locale["c" /* t */]
     };
   }
 }));
@@ -43155,13 +41174,13 @@ var srcvue_type_script_lang_ts_CHANGE_EVENT = 'change';
       return props.buttonTexts.length === 2;
     });
     var leftPanelTitle = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return props.titles[0] || Object(locale["b" /* t */])('el.transfer.titles.0');
+      return props.titles[0] || Object(locale["c" /* t */])('el.transfer.titles.0');
     });
     var rightPanelTitle = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return props.titles[1] || Object(locale["b" /* t */])('el.transfer.titles.1');
+      return props.titles[1] || Object(locale["c" /* t */])('el.transfer.titles.1');
     });
     var panelFilterPlaceholder = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return props.filterPlaceholder || Object(locale["b" /* t */])('el.transfer.filterPlaceholder');
+      return props.filterPlaceholder || Object(locale["c" /* t */])('el.transfer.filterPlaceholder');
     });
     Object(vue_esm_browser_prod["db" /* watch */])(function () {
       return props.modelValue;
@@ -45082,7 +43101,7 @@ function useKeydown(_ref, store) {
     emptyText: {
       type: String,
       default: function _default() {
-        return Object(locale["b" /* t */])('el.tree.emptyText');
+        return Object(locale["c" /* t */])('el.tree.emptyText');
       }
     },
     renderAfterExpand: {
@@ -45641,7 +43660,7 @@ function upload_listvue_type_template_id_390d4b6e_render(_ctx, _cache, $props, $
       handleClick: handleClick,
       handleRemove: handleRemove,
       onFileClicked: onFileClicked,
-      t: locale["b" /* t */]
+      t: locale["c" /* t */]
     };
   }
 }));
@@ -47787,7 +45806,7 @@ var buildList = __webpack_require__(46);
 var utils = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./packages/virtual-list/src/defaults.ts
-var virtual_list_src_defaults = __webpack_require__(5);
+var src_defaults = __webpack_require__(5);
 
 // CONCATENATED MODULE: ./packages/virtual-list/src/components/dynamic-size-list.ts
 
@@ -47915,31 +45934,31 @@ var DynamicSizeList = Object(buildList["a" /* default */])({
     var maxOffset = Math.max(0, Math.min(estimatedTotalSize - size, item.offset));
     var minOffset = Math.max(0, item.offset - size + item.size);
 
-    if (alignment === virtual_list_src_defaults["t" /* SMART_ALIGNMENT */]) {
+    if (alignment === src_defaults["t" /* SMART_ALIGNMENT */]) {
       if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
-        alignment = virtual_list_src_defaults["a" /* AUTO_ALIGNMENT */];
+        alignment = src_defaults["a" /* AUTO_ALIGNMENT */];
       } else {
-        alignment = virtual_list_src_defaults["c" /* CENTERED_ALIGNMENT */];
+        alignment = src_defaults["c" /* CENTERED_ALIGNMENT */];
       }
     }
 
     switch (alignment) {
-      case virtual_list_src_defaults["u" /* START_ALIGNMENT */]:
+      case src_defaults["u" /* START_ALIGNMENT */]:
         {
           return maxOffset;
         }
 
-      case virtual_list_src_defaults["h" /* END_ALIGNMENT */]:
+      case src_defaults["h" /* END_ALIGNMENT */]:
         {
           return minOffset;
         }
 
-      case virtual_list_src_defaults["c" /* CENTERED_ALIGNMENT */]:
+      case src_defaults["c" /* CENTERED_ALIGNMENT */]:
         {
           return Math.round(minOffset + (maxOffset - minOffset) / 2);
         }
 
-      case virtual_list_src_defaults["a" /* AUTO_ALIGNMENT */]:
+      case src_defaults["a" /* AUTO_ALIGNMENT */]:
       default:
         {
           if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
@@ -47975,7 +45994,7 @@ var DynamicSizeList = Object(buildList["a" /* default */])({
   },
   initCache: function initCache(_ref4, instance) {
     var _ref4$estimatedItemSi = _ref4.estimatedItemSize,
-        estimatedItemSize = _ref4$estimatedItemSi === void 0 ? virtual_list_src_defaults["d" /* DEFAULT_DYNAMIC_LIST_ITEM_SIZE */] : _ref4$estimatedItemSi;
+        estimatedItemSize = _ref4$estimatedItemSi === void 0 ? src_defaults["d" /* DEFAULT_DYNAMIC_LIST_ITEM_SIZE */] : _ref4$estimatedItemSi;
     var cache = {
       items: {},
       estimatedItemSize: estimatedItemSize,
@@ -48037,8 +46056,8 @@ var buildGrid_createGrid = function createGrid(_ref) {
       validateProps = _ref.validateProps;
   return Object(vue_esm_browser_prod["r" /* defineComponent */])({
     name: name != null ? name : 'ElVirtualList',
-    props: virtual_list_src_defaults["e" /* DefaultGridProps */],
-    emits: [virtual_list_src_defaults["k" /* ITEM_RENDER_EVT */], virtual_list_src_defaults["s" /* SCROLL_EVT */]],
+    props: src_defaults["e" /* DefaultGridProps */],
+    emits: [src_defaults["k" /* ITEM_RENDER_EVT */], src_defaults["s" /* SCROLL_EVT */]],
     setup: function setup(props, _ref2) {
       var emit = _ref2.emit,
           expose = _ref2.expose;
@@ -48057,8 +46076,8 @@ var buildGrid_createGrid = function createGrid(_ref) {
         scrollLeft: Object(util["y" /* isNumber */])(props.initScrollLeft) ? props.initScrollLeft : 0,
         scrollTop: Object(util["y" /* isNumber */])(props.initScrollTop) ? props.initScrollTop : 0,
         updateRequested: false,
-        xAxisScrollDir: virtual_list_src_defaults["i" /* FORWARD */],
-        yAxisScrollDir: virtual_list_src_defaults["i" /* FORWARD */]
+        xAxisScrollDir: src_defaults["i" /* FORWARD */],
+        yAxisScrollDir: src_defaults["i" /* FORWARD */]
       }); // computed
 
       var columnsToRender = Object(vue_esm_browser_prod["i" /* computed */])(function () {
@@ -48077,8 +46096,8 @@ var buildGrid_createGrid = function createGrid(_ref) {
 
         var startIndex = getColumnStartIndexForOffset(props, scrollLeft, Object(util["a" /* $ */])(cache));
         var stopIndex = getColumnStopIndexForStartIndex(props, startIndex, scrollLeft, Object(util["a" /* $ */])(cache));
-        var cacheBackward = !isScrolling || xAxisScrollDir === virtual_list_src_defaults["b" /* BACKWARD */] ? Math.max(1, columnCache) : 1;
-        var cacheForward = !isScrolling || xAxisScrollDir === virtual_list_src_defaults["i" /* FORWARD */] ? Math.max(1, columnCache) : 1;
+        var cacheBackward = !isScrolling || xAxisScrollDir === src_defaults["b" /* BACKWARD */] ? Math.max(1, columnCache) : 1;
+        var cacheForward = !isScrolling || xAxisScrollDir === src_defaults["i" /* FORWARD */] ? Math.max(1, columnCache) : 1;
         return [Math.max(0, startIndex - cacheBackward), Math.max(0, Math.min(totalColumn - 1, stopIndex + cacheForward)), startIndex, stopIndex];
       });
       var rowsToRender = Object(vue_esm_browser_prod["i" /* computed */])(function () {
@@ -48097,8 +46116,8 @@ var buildGrid_createGrid = function createGrid(_ref) {
 
         var startIndex = getRowStartIndexForOffset(props, scrollTop, Object(util["a" /* $ */])(cache));
         var stopIndex = getRowStopIndexForStartIndex(props, startIndex, scrollTop, Object(util["a" /* $ */])(cache));
-        var cacheBackward = !isScrolling || yAxisScrollDir === virtual_list_src_defaults["b" /* BACKWARD */] ? Math.max(1, rowCache) : 1;
-        var cacheForward = !isScrolling || yAxisScrollDir === virtual_list_src_defaults["i" /* FORWARD */] ? Math.max(1, rowCache) : 1;
+        var cacheBackward = !isScrolling || yAxisScrollDir === src_defaults["b" /* BACKWARD */] ? Math.max(1, rowCache) : 1;
+        var cacheForward = !isScrolling || yAxisScrollDir === src_defaults["i" /* FORWARD */] ? Math.max(1, rowCache) : 1;
         return [Math.max(0, startIndex - cacheBackward), Math.max(0, Math.min(totalRow - 1, stopIndex + cacheForward)), startIndex, stopIndex];
       });
       var estimatedTotalHeight = Object(vue_esm_browser_prod["i" /* computed */])(function () {
@@ -48149,7 +46168,7 @@ var buildGrid_createGrid = function createGrid(_ref) {
           // [yAxisInvisibleStart, yAxisInvisibleEnd, yAxisVisibleStart, yAxisVisibleEnd]
 
 
-          emit(virtual_list_src_defaults["k" /* ITEM_RENDER_EVT */], columnCacheStart, columnCacheEnd, rowCacheStart, rowCacheEnd, columnVisibleStart, columnVisibleEnd, rowVisibleStart, rowVisibleEnd);
+          emit(src_defaults["k" /* ITEM_RENDER_EVT */], columnCacheStart, columnCacheEnd, rowCacheStart, rowCacheEnd, columnVisibleStart, columnVisibleEnd, rowVisibleStart, rowVisibleEnd);
         }
 
         var _$5 = Object(util["a" /* $ */])(states),
@@ -48159,7 +46178,7 @@ var buildGrid_createGrid = function createGrid(_ref) {
             xAxisScrollDir = _$5.xAxisScrollDir,
             yAxisScrollDir = _$5.yAxisScrollDir;
 
-        emit(virtual_list_src_defaults["s" /* SCROLL_EVT */], xAxisScrollDir, scrollLeft, yAxisScrollDir, scrollTop, updateRequested);
+        emit(src_defaults["s" /* SCROLL_EVT */], xAxisScrollDir, scrollLeft, yAxisScrollDir, scrollTop, updateRequested);
       };
 
       var onScroll = function onScroll(e) {
@@ -48181,11 +46200,11 @@ var buildGrid_createGrid = function createGrid(_ref) {
 
         if (Object(utils["e" /* isRTL */])(props.direction)) {
           switch (Object(utils["a" /* getRTLOffsetType */])()) {
-            case virtual_list_src_defaults["o" /* RTL_OFFSET_NAG */]:
+            case src_defaults["o" /* RTL_OFFSET_NAG */]:
               _scrollLeft = -scrollLeft;
               break;
 
-            case virtual_list_src_defaults["q" /* RTL_OFFSET_POS_DESC */]:
+            case src_defaults["q" /* RTL_OFFSET_POS_DESC */]:
               _scrollLeft = scrollWidth - clientWidth - scrollLeft;
               break;
           }
@@ -48240,7 +46259,7 @@ var buildGrid_createGrid = function createGrid(_ref) {
         }
 
         if (alignment === void 0) {
-          alignment = virtual_list_src_defaults["a" /* AUTO_ALIGNMENT */];
+          alignment = src_defaults["a" /* AUTO_ALIGNMENT */];
         }
 
         var _states = Object(util["a" /* $ */])(states);
@@ -48337,15 +46356,15 @@ var buildGrid_createGrid = function createGrid(_ref) {
         if (updateRequested && Object(util["a" /* $ */])(windowRef) !== null) {
           var windowElement = Object(util["a" /* $ */])(windowRef);
 
-          if (direction === virtual_list_src_defaults["n" /* RTL */]) {
+          if (direction === src_defaults["n" /* RTL */]) {
             switch (Object(utils["a" /* getRTLOffsetType */])()) {
-              case virtual_list_src_defaults["o" /* RTL_OFFSET_NAG */]:
+              case src_defaults["o" /* RTL_OFFSET_NAG */]:
                 {
                   windowElement.scrollLeft = -scrollLeft;
                   break;
                 }
 
-              case virtual_list_src_defaults["p" /* RTL_OFFSET_POS_ASC */]:
+              case src_defaults["p" /* RTL_OFFSET_POS_ASC */]:
                 {
                   windowElement.scrollLeft = scrollLeft;
                   break;
@@ -48488,20 +46507,20 @@ var FixedSizeGrid = buildGrid({
 
     if (alignment === 'smart') {
       if (scrollLeft >= minOffset - width && scrollLeft <= maxOffset + width) {
-        alignment = virtual_list_src_defaults["a" /* AUTO_ALIGNMENT */];
+        alignment = src_defaults["a" /* AUTO_ALIGNMENT */];
       } else {
-        alignment = virtual_list_src_defaults["c" /* CENTERED_ALIGNMENT */];
+        alignment = src_defaults["c" /* CENTERED_ALIGNMENT */];
       }
     }
 
     switch (alignment) {
-      case virtual_list_src_defaults["u" /* START_ALIGNMENT */]:
+      case src_defaults["u" /* START_ALIGNMENT */]:
         return maxOffset;
 
-      case virtual_list_src_defaults["h" /* END_ALIGNMENT */]:
+      case src_defaults["h" /* END_ALIGNMENT */]:
         return minOffset;
 
-      case virtual_list_src_defaults["c" /* CENTERED_ALIGNMENT */]:
+      case src_defaults["c" /* CENTERED_ALIGNMENT */]:
         var middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
 
         if (middleOffset < Math.ceil(width / 2)) {
@@ -48512,7 +46531,7 @@ var FixedSizeGrid = buildGrid({
           return middleOffset;
         }
 
-      case virtual_list_src_defaults["a" /* AUTO_ALIGNMENT */]:
+      case src_defaults["a" /* AUTO_ALIGNMENT */]:
       default:
         if (scrollLeft >= minOffset && scrollLeft <= maxOffset) {
           return scrollLeft;
@@ -48535,22 +46554,22 @@ var FixedSizeGrid = buildGrid({
     var maxOffset = Math.min(lastRowOffset, rowIndex * rowHeight);
     var minOffset = Math.max(0, rowIndex * rowHeight - height + scrollBarWidth + rowHeight);
 
-    if (align === virtual_list_src_defaults["t" /* SMART_ALIGNMENT */]) {
+    if (align === src_defaults["t" /* SMART_ALIGNMENT */]) {
       if (scrollTop >= minOffset - height && scrollTop <= maxOffset + height) {
-        align = virtual_list_src_defaults["a" /* AUTO_ALIGNMENT */];
+        align = src_defaults["a" /* AUTO_ALIGNMENT */];
       } else {
-        align = virtual_list_src_defaults["c" /* CENTERED_ALIGNMENT */];
+        align = src_defaults["c" /* CENTERED_ALIGNMENT */];
       }
     }
 
     switch (align) {
-      case virtual_list_src_defaults["u" /* START_ALIGNMENT */]:
+      case src_defaults["u" /* START_ALIGNMENT */]:
         return maxOffset;
 
-      case virtual_list_src_defaults["h" /* END_ALIGNMENT */]:
+      case src_defaults["h" /* END_ALIGNMENT */]:
         return minOffset;
 
-      case virtual_list_src_defaults["c" /* CENTERED_ALIGNMENT */]:
+      case src_defaults["c" /* CENTERED_ALIGNMENT */]:
         var middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
 
         if (middleOffset < Math.ceil(height / 2)) {
@@ -48561,7 +46580,7 @@ var FixedSizeGrid = buildGrid({
           return middleOffset;
         }
 
-      case virtual_list_src_defaults["a" /* AUTO_ALIGNMENT */]:
+      case src_defaults["a" /* AUTO_ALIGNMENT */]:
       default:
         if (scrollTop >= minOffset && scrollTop <= maxOffset) {
           return scrollTop;
@@ -48761,31 +46780,31 @@ var dynamic_size_grid_getOffset = function getOffset(props, index, alignment, sc
   var maxOffset = dynamic_size_grid_max(0, dynamic_size_grid_min(estimatedSize - size, item.offset));
   var minOffset = dynamic_size_grid_max(0, item.offset - size + scrollBarWidth + item.size);
 
-  if (alignment === virtual_list_src_defaults["t" /* SMART_ALIGNMENT */]) {
+  if (alignment === src_defaults["t" /* SMART_ALIGNMENT */]) {
     if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
-      alignment = virtual_list_src_defaults["a" /* AUTO_ALIGNMENT */];
+      alignment = src_defaults["a" /* AUTO_ALIGNMENT */];
     } else {
-      alignment = virtual_list_src_defaults["c" /* CENTERED_ALIGNMENT */];
+      alignment = src_defaults["c" /* CENTERED_ALIGNMENT */];
     }
   }
 
   switch (alignment) {
-    case virtual_list_src_defaults["u" /* START_ALIGNMENT */]:
+    case src_defaults["u" /* START_ALIGNMENT */]:
       {
         return maxOffset;
       }
 
-    case virtual_list_src_defaults["h" /* END_ALIGNMENT */]:
+    case src_defaults["h" /* END_ALIGNMENT */]:
       {
         return minOffset;
       }
 
-    case virtual_list_src_defaults["c" /* CENTERED_ALIGNMENT */]:
+    case src_defaults["c" /* CENTERED_ALIGNMENT */]:
       {
         return Math.round(minOffset + (maxOffset - minOffset) / 2);
       }
 
-    case virtual_list_src_defaults["a" /* AUTO_ALIGNMENT */]:
+    case src_defaults["a" /* AUTO_ALIGNMENT */]:
     default:
       {
         if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
@@ -48855,9 +46874,9 @@ var dynamic_size_grid_FixedSizeGrid = buildGrid({
   },
   initCache: function initCache(_ref8) {
     var _ref8$estimatedColumn = _ref8.estimatedColumnWidth,
-        estimatedColumnWidth = _ref8$estimatedColumn === void 0 ? virtual_list_src_defaults["d" /* DEFAULT_DYNAMIC_LIST_ITEM_SIZE */] : _ref8$estimatedColumn,
+        estimatedColumnWidth = _ref8$estimatedColumn === void 0 ? src_defaults["d" /* DEFAULT_DYNAMIC_LIST_ITEM_SIZE */] : _ref8$estimatedColumn,
         _ref8$estimatedRowHei = _ref8.estimatedRowHeight,
-        estimatedRowHeight = _ref8$estimatedRowHei === void 0 ? virtual_list_src_defaults["d" /* DEFAULT_DYNAMIC_LIST_ITEM_SIZE */] : _ref8$estimatedRowHei;
+        estimatedRowHeight = _ref8$estimatedRowHei === void 0 ? src_defaults["d" /* DEFAULT_DYNAMIC_LIST_ITEM_SIZE */] : _ref8$estimatedRowHei;
     var cache = {
       column: {},
       estimatedColumnWidth: estimatedColumnWidth,
@@ -49071,7 +47090,7 @@ var token_selectKey = 'ElSelect';
           disabled = _select$props.disabled,
           multiple = _select$props.multiple,
           multipleLimit = _select$props.multipleLimit;
-      return disabled || !selected && (multiple ? multipleLimit > 0 && modelValue.length < multipleLimit : false);
+      return disabled || !selected && (multiple ? multipleLimit > 0 && modelValue.length >= multipleLimit : false);
     };
 
     var isItemHovering = function isItemHovering(target) {
@@ -49294,16 +47313,16 @@ var src_useSelect_useSelect = function useSelect(props, emit) {
     var options = filteredOptions.value;
 
     if (props.loading) {
-      return props.loadingText || Object(locale["b" /* t */])('el.select.loading');
+      return props.loadingText || Object(locale["c" /* t */])('el.select.loading');
     } else {
       if (props.remote && states.query === '' && options.length === 0) return false;
 
       if (props.filterable && states.query && options.length > 0) {
-        return props.noMatchText || Object(locale["b" /* t */])('el.select.noMatch');
+        return props.noMatchText || Object(locale["c" /* t */])('el.select.noMatch');
       }
 
       if (options.length === 0) {
-        return props.noDataText || Object(locale["b" /* t */])('el.select.noData');
+        return props.noDataText || Object(locale["c" /* t */])('el.select.noData');
       }
     }
 
@@ -49819,7 +47838,11 @@ var src_useSelect_useSelect = function useSelect(props, emit) {
 
         if (selectedItem) {
           states.selectedLabel = selectedItem.label;
+        } else {
+          states.selectedLabel = '';
         }
+      } else {
+        states.selectedLabel = '';
       }
     }
   }; // in order to track these individually, we need to turn them into refs instead of watching the entire
@@ -49842,6 +47865,8 @@ var src_useSelect_useSelect = function useSelect(props, emit) {
     return props.options;
   }], function () {
     initStates();
+  }, {
+    deep: true
   });
   Object(vue_esm_browser_prod["E" /* onMounted */])(function () {
     initStates();
@@ -49892,6 +47917,7 @@ var src_useSelect_useSelect = function useSelect(props, emit) {
     handleInputBoxClick: handleInputBoxClick,
     handleMenuEnter: handleMenuEnter,
     toggleMenu: toggleMenu,
+    scrollTo: scrollToItem,
     onCompositionUpdate: onCompositionUpdate,
     onInput: onInput,
     onKeyboardNavigate: onKeyboardNavigate,
@@ -49903,6 +47929,7 @@ var src_useSelect_useSelect = function useSelect(props, emit) {
 
 /* harmony default export */ var src_useSelect = (src_useSelect_useSelect);
 // CONCATENATED MODULE: ./packages/select-v2/src/defaults.ts
+
 
 var SelectProps = {
   allowCreate: Boolean,
@@ -49954,7 +47981,8 @@ var SelectProps = {
     required: true
   },
   placeholder: {
-    type: String
+    type: String,
+    default: Object(locale["c" /* t */])('el.select.placeholder')
   },
   popperAppendToBody: {
     type: Boolean,
@@ -50035,105 +48063,2206 @@ select_v2_src_select.install = function (app) {
 };
 
 /* harmony default export */ var select_v2 = (select_v2_src_select);
+// CONCATENATED MODULE: ./packages/element-plus/components.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./packages/infinite-scroll/src/index.ts
+
+
+
+
+
+
+
+
+var src_SCOPE = 'ElInfiniteScroll';
+var CHECK_INTERVAL = 50;
+var DEFAULT_DELAY = 200;
+var DEFAULT_DISTANCE = 0;
+var src_attributes = {
+  delay: {
+    type: Number,
+    default: DEFAULT_DELAY
+  },
+  distance: {
+    type: Number,
+    default: DEFAULT_DISTANCE
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  immediate: {
+    type: Boolean,
+    default: true
+  }
+};
+
+var src_getScrollOptions = function getScrollOptions(el, instance) {
+  return Object(util["l" /* entries */])(src_attributes).reduce(function (acm, _ref) {
+    var _ref2, _instance$attrVal;
+
+    var name = _ref[0],
+        option = _ref[1];
+    var type = option.type,
+        defaultValue = option.default;
+    var attrVal = el.getAttribute("infinite-scroll-" + name);
+    var value = (_ref2 = (_instance$attrVal = instance[attrVal]) != null ? _instance$attrVal : attrVal) != null ? _ref2 : defaultValue;
+    value = value === 'false' ? false : value;
+    value = type(value);
+    acm[name] = Number.isNaN(value) ? defaultValue : value;
+    return acm;
+  }, {});
+};
+
+var destroyObserver = function destroyObserver(el) {
+  var observer = el[src_SCOPE].observer;
+
+  if (observer) {
+    observer.disconnect();
+    delete el[src_SCOPE].observer;
+  }
+};
+
+var src_handleScroll = function handleScroll(el, cb) {
+  var _el$SCOPE = el[src_SCOPE],
+      container = _el$SCOPE.container,
+      containerEl = _el$SCOPE.containerEl,
+      instance = _el$SCOPE.instance,
+      observer = _el$SCOPE.observer,
+      lastScrollTop = _el$SCOPE.lastScrollTop;
+
+  var _getScrollOptions = src_getScrollOptions(el, instance),
+      disabled = _getScrollOptions.disabled,
+      distance = _getScrollOptions.distance;
+
+  var clientHeight = containerEl.clientHeight,
+      scrollHeight = containerEl.scrollHeight,
+      scrollTop = containerEl.scrollTop;
+  var delta = scrollTop - lastScrollTop;
+  el[src_SCOPE].lastScrollTop = scrollTop; // trigger only if full check has done and not disabled and scroll down
+
+  if (observer || disabled || delta < 0) return;
+  var shouldTrigger = false;
+
+  if (container === el) {
+    shouldTrigger = scrollHeight - (clientHeight + scrollTop) <= distance;
+  } else {
+    // get the scrollHeight since el might be visible overflow
+    var clientTop = el.clientTop,
+        height = el.scrollHeight;
+    var offsetTop = Object(utils_dom["b" /* getOffsetTopDistance */])(el, containerEl);
+    shouldTrigger = scrollTop + clientHeight >= offsetTop + clientTop + height - distance;
+  }
+
+  if (shouldTrigger) {
+    cb.call(instance);
+  }
+};
+
+function checkFull(el, cb) {
+  var _el$SCOPE2 = el[src_SCOPE],
+      containerEl = _el$SCOPE2.containerEl,
+      instance = _el$SCOPE2.instance;
+
+  var _getScrollOptions2 = src_getScrollOptions(el, instance),
+      disabled = _getScrollOptions2.disabled;
+
+  if (disabled) return;
+
+  if (containerEl.scrollHeight <= containerEl.clientHeight) {
+    cb.call(instance);
+  } else {
+    destroyObserver(el);
+  }
+}
+
+var InfiniteScroll = {
+  mounted: function mounted(el, binding) {
+    return asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+      var instance, cb, _getScrollOptions3, delay, immediate, container, containerEl, onScroll, observer;
+
+      return regenerator_default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              instance = binding.instance, cb = binding.value;
+
+              if (!Object(shared_esm_bundler["h" /* isFunction */])(cb)) {
+                Object(error["a" /* default */])(src_SCOPE, '\'v-infinite-scroll\' binding value must be a function');
+              } // ensure parentNode mounted
+
+
+              _context.next = 4;
+              return Object(vue_esm_browser_prod["y" /* nextTick */])();
+
+            case 4:
+              _getScrollOptions3 = src_getScrollOptions(el, instance), delay = _getScrollOptions3.delay, immediate = _getScrollOptions3.immediate;
+              container = Object(utils_dom["c" /* getScrollContainer */])(el, true);
+              containerEl = container === window ? document.documentElement : container;
+              onScroll = throttle_default()(src_handleScroll.bind(null, el, cb), delay);
+
+              if (container) {
+                _context.next = 10;
+                break;
+              }
+
+              return _context.abrupt("return");
+
+            case 10:
+              el[src_SCOPE] = {
+                instance: instance,
+                container: container,
+                containerEl: containerEl,
+                delay: delay,
+                cb: cb,
+                onScroll: onScroll,
+                lastScrollTop: containerEl.scrollTop
+              };
+
+              if (immediate) {
+                observer = new MutationObserver(throttle_default()(checkFull.bind(null, el, cb), CHECK_INTERVAL));
+                el[src_SCOPE].observer = observer;
+                observer.observe(el, {
+                  childList: true,
+                  subtree: true
+                });
+                checkFull(el, cb);
+              }
+
+              container.addEventListener('scroll', onScroll);
+
+            case 13:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  unmounted: function unmounted(el) {
+    var _el$SCOPE3 = el[src_SCOPE],
+        container = _el$SCOPE3.container,
+        onScroll = _el$SCOPE3.onScroll;
+    container == null ? void 0 : container.removeEventListener('scroll', onScroll);
+    destroyObserver(el);
+  }
+};
+/* harmony default export */ var infinite_scroll_src = (InfiniteScroll);
+// CONCATENATED MODULE: ./packages/infinite-scroll/index.ts
+
+var _InfiniteScroll = infinite_scroll_src;
+
+_InfiniteScroll.install = function (app) {
+  app.directive('InfiniteScroll', _InfiniteScroll);
+};
+
+/* harmony default export */ var infinite_scroll = (_InfiniteScroll);
+// CONCATENATED MODULE: ./packages/loading/src/createLoadingComponent.ts
+
+
+
+function createLoadingComponent(_ref) {
+  var options = _ref.options,
+      globalLoadingOption = _ref.globalLoadingOption;
+  var vm = null;
+  var afterLeaveTimer = null;
+  var afterLeaveFlag = Object(vue_esm_browser_prod["M" /* ref */])(false);
+  var data = Object(vue_esm_browser_prod["L" /* reactive */])(extends_default()({}, options, {
+    originalPosition: '',
+    originalOverflow: '',
+    visible: false
+  }));
+
+  function setText(text) {
+    data.text = text;
+  }
+
+  function destroySelf() {
+    var target = data.parent;
+
+    if (!target.vLoadingAddClassList) {
+      var loadingNumber = target.getAttribute('loading-number');
+      loadingNumber = Number.parseInt(loadingNumber) - 1;
+
+      if (!loadingNumber) {
+        Object(utils_dom["j" /* removeClass */])(target, 'el-loading-parent--relative');
+        target.removeAttribute('loading-number');
+      } else {
+        target.setAttribute('loading-number', loadingNumber.toString());
+      }
+
+      Object(utils_dom["j" /* removeClass */])(target, 'el-loading-parent--hidden');
+    }
+
+    if (vm.el && vm.el.parentNode) {
+      vm.el.parentNode.removeChild(vm.el);
+    }
+  }
+
+  function close() {
+    var target = data.parent;
+    target.vLoadingAddClassList = null;
+
+    if (data.fullscreen) {
+      globalLoadingOption.fullscreenLoading = undefined;
+    }
+
+    afterLeaveFlag.value = true;
+    clearTimeout(afterLeaveTimer);
+    afterLeaveTimer = window.setTimeout(function () {
+      if (afterLeaveFlag.value) {
+        afterLeaveFlag.value = false;
+        destroySelf();
+      }
+    }, 400);
+    data.visible = false;
+  }
+
+  function handleAfterLeave() {
+    if (!afterLeaveFlag.value) return;
+    afterLeaveFlag.value = false;
+    destroySelf();
+  }
+
+  var componentSetupConfig = extends_default()({}, Object(vue_esm_browser_prod["X" /* toRefs */])(data), {
+    setText: setText,
+    close: close,
+    handleAfterLeave: handleAfterLeave
+  });
+
+  var elLoadingComponent = {
+    name: 'ElLoading',
+    setup: function setup() {
+      return componentSetupConfig;
+    },
+    render: function render() {
+      var _this = this;
+
+      var spinner = Object(vue_esm_browser_prod["t" /* h */])('svg', extends_default()({
+        class: 'circular',
+        viewBox: this.svgViewBox ? this.svgViewBox : '25 25 50 50'
+      }, this.svg ? {
+        innerHTML: this.svg
+      } : {}), [Object(vue_esm_browser_prod["t" /* h */])('circle', {
+        class: 'path',
+        cx: '50',
+        cy: '50',
+        r: '20',
+        fill: 'none'
+      })]);
+      var noSpinner = Object(vue_esm_browser_prod["t" /* h */])('i', {
+        class: this.spinner
+      });
+      var spinnerText = Object(vue_esm_browser_prod["t" /* h */])('p', {
+        class: 'el-loading-text'
+      }, [this.text]);
+      return Object(vue_esm_browser_prod["t" /* h */])(vue_esm_browser_prod["e" /* Transition */], {
+        name: 'el-loading-fade',
+        onAfterLeave: this.handleAfterLeave
+      }, {
+        default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
+          return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])('div', {
+            style: {
+              backgroundColor: _this.background || ''
+            },
+            class: ['el-loading-mask', _this.customClass, _this.fullscreen ? 'is-fullscreen' : '']
+          }, [Object(vue_esm_browser_prod["t" /* h */])('div', {
+            class: 'el-loading-spinner'
+          }, [!_this.spinner ? spinner : noSpinner, _this.text ? spinnerText : null])]), [[vue_esm_browser_prod["cb" /* vShow */], _this.visible]])];
+        })
+      });
+    }
+  };
+  vm = Object(vue_esm_browser_prod["p" /* createVNode */])(elLoadingComponent);
+  Object(vue_esm_browser_prod["N" /* render */])(vm, document.createElement('div'));
+  return extends_default()({}, componentSetupConfig, {
+    vm: vm,
+
+    get $el() {
+      return vm.el;
+    }
+
+  });
+}
+// CONCATENATED MODULE: ./packages/loading/src/index.ts
+
+
+
+
+
+
+
+
+
+var loading_src_defaults = {
+  parent: null,
+  background: '',
+  svg: null,
+  svgViewBox: null,
+  spinner: false,
+  text: null,
+  fullscreen: true,
+  body: false,
+  lock: false,
+  customClass: ''
+};
+var src_globalLoadingOption = {
+  fullscreenLoading: null
+};
+
+var addStyle = /*#__PURE__*/function () {
+  var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(options, parent, instance) {
+    var maskStyle;
+    return regenerator_default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            maskStyle = {};
+
+            if (!options.fullscreen) {
+              _context.next = 7;
+              break;
+            }
+
+            instance.originalPosition.value = Object(utils_dom["d" /* getStyle */])(document.body, 'position');
+            instance.originalOverflow.value = Object(utils_dom["d" /* getStyle */])(document.body, 'overflow');
+            maskStyle.zIndex = String(popup_manager.nextZIndex());
+            _context.next = 16;
+            break;
+
+          case 7:
+            if (!options.body) {
+              _context.next = 15;
+              break;
+            }
+
+            instance.originalPosition.value = Object(utils_dom["d" /* getStyle */])(document.body, 'position');
+            /**
+             * await dom render when visible is true in init,
+             * because some component's height maybe 0.
+             * e.g. el-table.
+             */
+
+            _context.next = 11;
+            return Object(vue_esm_browser_prod["y" /* nextTick */])();
+
+          case 11:
+            ['top', 'left'].forEach(function (property) {
+              var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
+              maskStyle[property] = options.target.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] - parseInt(Object(utils_dom["d" /* getStyle */])(document.body, "margin-" + property), 10) + 'px';
+            });
+            ['height', 'width'].forEach(function (property) {
+              maskStyle[property] = options.target.getBoundingClientRect()[property] + 'px';
+            });
+            _context.next = 16;
+            break;
+
+          case 15:
+            instance.originalPosition.value = Object(utils_dom["d" /* getStyle */])(parent, 'position');
+
+          case 16:
+            Object.keys(maskStyle).forEach(function (property) {
+              instance.$el.style[property] = maskStyle[property];
+            });
+
+          case 17:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function addStyle(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+var src_addClassList = function addClassList(options, parent, instance) {
+  if (instance.originalPosition.value !== 'absolute' && instance.originalPosition.value !== 'fixed') {
+    Object(utils_dom["a" /* addClass */])(parent, 'el-loading-parent--relative');
+  } else {
+    Object(utils_dom["j" /* removeClass */])(parent, 'el-loading-parent--relative');
+  }
+
+  if (options.fullscreen && options.lock) {
+    Object(utils_dom["a" /* addClass */])(parent, 'el-loading-parent--hidden');
+  } else {
+    Object(utils_dom["j" /* removeClass */])(parent, 'el-loading-parent--hidden');
+  }
+};
+
+var src_Loading = function Loading(options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  if (isServer["a" /* default */]) return;
+  options = extends_default()({}, loading_src_defaults, options);
+
+  if (typeof options.target === 'string') {
+    options.target = document.querySelector(options.target);
+  }
+
+  options.target = options.target || document.body;
+
+  if (options.target !== document.body) {
+    options.fullscreen = false;
+  } else {
+    options.body = true;
+  }
+
+  if (options.fullscreen && src_globalLoadingOption.fullscreenLoading) {
+    src_globalLoadingOption.fullscreenLoading.close();
+  }
+
+  var parent = options.body ? document.body : options.target;
+  options.parent = parent;
+  var instance = createLoadingComponent({
+    options: options,
+    globalLoadingOption: src_globalLoadingOption
+  });
+  addStyle(options, parent, instance);
+  src_addClassList(options, parent, instance);
+
+  options.parent.vLoadingAddClassList = function () {
+    src_addClassList(options, parent, instance);
+  };
+  /**
+   * add loading-number to parent.
+   * because if a fullscreen loading is triggered when somewhere
+   * a v-loading.body was triggered before and it's parent is
+   * document.body which with a margin , the fullscreen loading's
+   * destroySelf function will remove 'el-loading-parent--relative',
+   * and then the position of v-loading.body will be error.
+   */
+
+
+  var loadingNumber = parent.getAttribute('loading-number');
+
+  if (!loadingNumber) {
+    loadingNumber = 1;
+  } else {
+    loadingNumber = Number.parseInt(loadingNumber) + 1;
+  }
+
+  parent.setAttribute('loading-number', loadingNumber.toString());
+  parent.appendChild(instance.$el); // after instance render, then modify visible to trigger transition
+
+  Object(vue_esm_browser_prod["y" /* nextTick */])().then(function () {
+    instance.visible.value = Object(shared_esm_bundler["e" /* hasOwn */])(options, 'visible') ? options.visible : true;
+  });
+
+  if (options.fullscreen) {
+    src_globalLoadingOption.fullscreenLoading = instance;
+  }
+
+  return instance;
+};
+
+/* harmony default export */ var loading_src = (src_Loading);
+// CONCATENATED MODULE: ./packages/loading/src/directive.ts
+
+
+var directive_createInstance = function createInstance(el, binding) {
+  var textExr = el.getAttribute('element-loading-text');
+  var spinnerExr = el.getAttribute('element-loading-spinner');
+  var svgExr = el.getAttribute('element-loading-svg');
+  var svgViewBoxExr = el.getAttribute('element-loading-svg-view-box');
+  var backgroundExr = el.getAttribute('element-loading-background');
+  var customClassExr = el.getAttribute('element-loading-custom-class');
+  var vm = binding.instance;
+  el.instance = loading_src({
+    text: vm && vm[textExr] || textExr,
+    svg: vm && vm[svgExr] || svgExr,
+    svgViewBox: vm && vm[svgViewBoxExr] || svgViewBoxExr,
+    spinner: vm && vm[spinnerExr] || spinnerExr,
+    background: vm && vm[backgroundExr] || backgroundExr,
+    customClass: vm && vm[customClassExr] || customClassExr,
+    fullscreen: !!binding.modifiers.fullscreen,
+    target: !!binding.modifiers.fullscreen ? null : el,
+    body: !!binding.modifiers.body,
+    visible: true,
+    lock: !!binding.modifiers.lock
+  });
+};
+
+var vLoading = {
+  mounted: function mounted(el, binding) {
+    if (!!binding.value) {
+      directive_createInstance(el, binding);
+    }
+  },
+  updated: function updated(el, binding) {
+    var instance = el.instance;
+
+    if (binding.oldValue !== binding.value) {
+      if (binding.value) {
+        directive_createInstance(el, binding);
+      } else {
+        instance.close();
+      }
+    }
+  },
+  unmounted: function unmounted(el) {
+    var _el$instance;
+
+    el == null ? void 0 : (_el$instance = el.instance) == null ? void 0 : _el$instance.close();
+  }
+};
+/* harmony default export */ var directive = (vLoading);
+// CONCATENATED MODULE: ./packages/loading/index.ts
+
+
+/* harmony default export */ var packages_loading = ({
+  install: function install(app) {
+    app.directive('loading', directive);
+    app.config.globalProperties.$loading = loading_src;
+  },
+  directive: directive,
+  service: loading_src
+});
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/message/src/index.vue?vue&type=template&id=bf192b66
+
+var srcvue_type_template_id_bf192b66_hoisted_1 = {
+  key: 0,
+  class: "el-message__content"
+};
+function srcvue_type_template_id_bf192b66_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["e" /* Transition */], {
+    name: "el-message-fade",
+    onBeforeLeave: _ctx.onClose,
+    onAfterLeave: _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.$emit('destroy');
+    })
+  }, {
+    default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
+      return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+        id: _ctx.id,
+        class: ['el-message', _ctx.type && !_ctx.iconClass ? "el-message--" + _ctx.type : '', _ctx.center ? 'is-center' : '', _ctx.showClose ? 'is-closable' : '', _ctx.customClass],
+        style: _ctx.customStyle,
+        role: "alert",
+        onMouseenter: _cache[2] || (_cache[2] = function () {
+          return _ctx.clearTimer && _ctx.clearTimer.apply(_ctx, arguments);
+        }),
+        onMouseleave: _cache[3] || (_cache[3] = function () {
+          return _ctx.startTimer && _ctx.startTimer.apply(_ctx, arguments);
+        })
+      }, [_ctx.type || _ctx.iconClass ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("i", {
+        key: 0,
+        class: [_ctx.typeClass, _ctx.iconClass]
+      }, null, 2)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
+        return [!_ctx.dangerouslyUseHTMLString ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", srcvue_type_template_id_bf192b66_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.message), 1)) : (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", {
+          key: 1,
+          class: "el-message__content",
+          innerHTML: _ctx.message
+        }, null, 8, ["innerHTML"]))];
+      }), _ctx.showClose ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", {
+        key: 1,
+        class: "el-message__closeBtn el-icon-close",
+        onClick: _cache[1] || (_cache[1] = Object(vue_esm_browser_prod["ib" /* withModifiers */])(function () {
+          return _ctx.close && _ctx.close.apply(_ctx, arguments);
+        }, ["stop"]))
+      })) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)], 46, ["id"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.visible]])];
+    }),
+    _: 3
+  }, 8, ["onBeforeLeave"]);
+}
+// CONCATENATED MODULE: ./packages/message/src/index.vue?vue&type=template&id=bf192b66
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/message/src/index.vue?vue&type=script&lang=ts
+ // MessageVM is an alias of vue.VNode
+
+
+
+var TypeMap = {
+  success: 'success',
+  info: 'info',
+  warning: 'warning',
+  error: 'error'
+};
+/* harmony default export */ var message_srcvue_type_script_lang_ts = (Object(vue_esm_browser_prod["r" /* defineComponent */])({
+  name: 'ElMessage',
+  props: {
+    customClass: {
+      type: String,
+      default: ''
+    },
+    center: {
+      type: Boolean,
+      default: false
+    },
+    dangerouslyUseHTMLString: {
+      type: Boolean,
+      default: false
+    },
+    duration: {
+      type: Number,
+      default: 3000
+    },
+    iconClass: {
+      type: String,
+      default: ''
+    },
+    id: {
+      type: String,
+      default: ''
+    },
+    message: {
+      type: [String, Object],
+      default: ''
+    },
+    onClose: {
+      type: Function,
+      required: true
+    },
+    showClose: {
+      type: Boolean,
+      default: false
+    },
+    type: {
+      type: String,
+      default: 'info'
+    },
+    offset: {
+      type: Number,
+      default: 20
+    },
+    zIndex: {
+      type: Number,
+      default: 0
+    }
+  },
+  emits: ['destroy'],
+  setup: function setup(props) {
+    var typeClass = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+      var type = props.type;
+      return type && TypeMap[type] ? "el-message__icon el-icon-" + TypeMap[type] : '';
+    });
+    var customStyle = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+      return {
+        top: props.offset + "px",
+        zIndex: props.zIndex
+      };
+    });
+    var visible = Object(vue_esm_browser_prod["M" /* ref */])(false);
+    var timer = null;
+
+    function startTimer() {
+      if (props.duration > 0) {
+        timer = setTimeout(function () {
+          if (visible.value) {
+            close();
+          }
+        }, props.duration);
+      }
+    }
+
+    function clearTimer() {
+      clearTimeout(timer);
+      timer = null;
+    }
+
+    function close() {
+      visible.value = false;
+    }
+
+    function keydown(_ref) {
+      var code = _ref.code;
+
+      if (code === EVENT_CODE.esc) {
+        // press esc to close the message
+        if (visible.value) {
+          close();
+        }
+      } else {
+        startTimer(); // resume timer
+      }
+    }
+
+    Object(vue_esm_browser_prod["E" /* onMounted */])(function () {
+      startTimer();
+      visible.value = true;
+      Object(utils_dom["h" /* on */])(document, 'keydown', keydown);
+    });
+    Object(vue_esm_browser_prod["B" /* onBeforeUnmount */])(function () {
+      Object(utils_dom["g" /* off */])(document, 'keydown', keydown);
+    });
+    return {
+      typeClass: typeClass,
+      customStyle: customStyle,
+      visible: visible,
+      close: close,
+      clearTimer: clearTimer,
+      startTimer: startTimer
+    };
+  }
+}));
+// CONCATENATED MODULE: ./packages/message/src/index.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./packages/message/src/index.vue
+
+
+
+message_srcvue_type_script_lang_ts.render = srcvue_type_template_id_bf192b66_render
+
+/* harmony default export */ var message_src = (message_srcvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./packages/message/src/message.ts
+
+
+
+
+
+
+var message_instances = [];
+var seed = 1; // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to
+// reduce code duplication.
+
+var message_Message = function Message(opts) {
+  if (opts === void 0) {
+    opts = {};
+  }
+
+  if (isServer["a" /* default */]) return;
+
+  if (typeof opts === 'string') {
+    opts = {
+      message: opts
+    };
+  }
+
+  var options = opts;
+  var verticalOffset = opts.offset || 20;
+  message_instances.forEach(function (_ref) {
+    var vm = _ref.vm;
+    verticalOffset += (vm.el.offsetHeight || 0) + 16;
+  });
+  verticalOffset += 16;
+  var id = 'message_' + seed++;
+  var userOnClose = options.onClose;
+  options = extends_default()({}, options, {
+    onClose: function onClose() {
+      message_close(id, userOnClose);
+    },
+    offset: verticalOffset,
+    id: id,
+    zIndex: popup_manager.nextZIndex()
+  });
+  var container = document.createElement('div');
+  container.className = "container_" + id;
+  var message = options.message;
+  var vm = Object(vue_esm_browser_prod["p" /* createVNode */])(message_src, options, Object(util["C" /* isVNode */])(options.message) ? {
+    default: function _default() {
+      return message;
+    }
+  } : null); // clean message element preventing mem leak
+
+  vm.props.onDestroy = function () {
+    Object(vue_esm_browser_prod["N" /* render */])(null, container); // since the element is destroy, then the VNode should be collected by GC as well
+    // we do not want cause any mem leak because we have returned vm as a reference to users
+    // so that we manually set it to false.
+  };
+
+  Object(vue_esm_browser_prod["N" /* render */])(vm, container); // instances will remove this item when close function gets called. So we do not need to worry about it.
+
+  message_instances.push({
+    vm: vm
+  });
+  document.body.appendChild(container.firstElementChild);
+  return {
+    // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
+    // for out component, so that all closing steps will not be skipped.
+    close: function close() {
+      return vm.component.proxy.visible = false;
+    }
+  };
+};
+
+function message_close(id, userOnClose) {
+  var idx = message_instances.findIndex(function (_ref2) {
+    var vm = _ref2.vm;
+    var _id = vm.component.props.id;
+    return id === _id;
+  });
+
+  if (idx === -1) {
+    return;
+  }
+
+  var vm = message_instances[idx].vm;
+  if (!vm) return;
+  userOnClose == null ? void 0 : userOnClose(vm);
+  var removedHeight = vm.el.offsetHeight;
+  message_instances.splice(idx, 1); // adjust other instances vertical offset
+
+  var len = message_instances.length;
+  if (len < 1) return;
+
+  for (var i = idx; i < len; i++) {
+    var pos = parseInt(message_instances[i].vm.el.style['top'], 10) - removedHeight - 16;
+    message_instances[i].vm.component.props.offset = pos;
+  }
+}
+function closeAll() {
+  for (var i = message_instances.length - 1; i >= 0; i--) {
+    var instance = message_instances[i].vm.component;
+    instance.ctx.close();
+  }
+}
+['success', 'warning', 'info', 'error'].forEach(function (type) {
+  message_Message[type] = function (options) {
+    if (typeof options === 'string') {
+      options = {
+        message: options,
+        type: type
+      };
+    } else {
+      options.type = type;
+    }
+
+    return message_Message(options);
+  };
+});
+message_Message.closeAll = closeAll;
+/* harmony default export */ var src_message = (message_Message);
+// CONCATENATED MODULE: ./packages/message/index.ts
+
+var _Message = src_message;
+
+_Message.install = function (app) {
+  app.config.globalProperties.$message = _Message;
+};
+
+/* harmony default export */ var packages_message = (_Message);
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/message-box/src/index.vue?vue&type=template&id=32bfc5e6
+
+var srcvue_type_template_id_32bfc5e6_hoisted_1 = {
+  key: 0,
+  class: "el-message-box__header"
+};
+var srcvue_type_template_id_32bfc5e6_hoisted_2 = {
+  class: "el-message-box__title"
+};
+
+var srcvue_type_template_id_32bfc5e6_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("i", {
+  class: "el-message-box__close el-icon-close"
+}, null, -1);
+
+var srcvue_type_template_id_32bfc5e6_hoisted_4 = {
+  class: "el-message-box__content"
+};
+var srcvue_type_template_id_32bfc5e6_hoisted_5 = {
+  class: "el-message-box__container"
+};
+var srcvue_type_template_id_32bfc5e6_hoisted_6 = {
+  key: 1,
+  class: "el-message-box__message"
+};
+var srcvue_type_template_id_32bfc5e6_hoisted_7 = {
+  key: 0
+};
+var srcvue_type_template_id_32bfc5e6_hoisted_8 = {
+  class: "el-message-box__input"
+};
+var srcvue_type_template_id_32bfc5e6_hoisted_9 = {
+  class: "el-message-box__btns"
+};
+function srcvue_type_template_id_32bfc5e6_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_el_input = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-input");
+
+  var _component_el_button = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-button");
+
+  var _component_el_overlay = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-overlay");
+
+  var _directive_trap_focus = Object(vue_esm_browser_prod["R" /* resolveDirective */])("trap-focus");
+
+  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["e" /* Transition */], {
+    name: "fade-in-linear",
+    onAfterLeave: _cache[8] || (_cache[8] = function ($event) {
+      return _ctx.$emit('vanish');
+    })
+  }, {
+    default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
+      return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_overlay, {
+        "z-index": _ctx.zIndex,
+        "overlay-class": ['is-message-box', _ctx.modalClass],
+        mask: _ctx.modal,
+        onClick: Object(vue_esm_browser_prod["ib" /* withModifiers */])(_ctx.handleWrapperClick, ["self"])
+      }, {
+        default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
+          return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+            ref: "root",
+            "aria-label": _ctx.title || 'dialog',
+            "aria-modal": "true",
+            class: ['el-message-box', _ctx.customClass, {
+              'el-message-box--center': _ctx.center
+            }]
+          }, [_ctx.title !== null && _ctx.title !== undefined ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_32bfc5e6_hoisted_1, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_2, [_ctx.icon && _ctx.center ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", {
+            key: 0,
+            class: ['el-message-box__status', _ctx.icon]
+          }, null, 2)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("span", null, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.title), 1)]), _ctx.showClose ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("button", {
+            key: 0,
+            type: "button",
+            class: "el-message-box__headerbtn",
+            "aria-label": "Close",
+            onClick: _cache[1] || (_cache[1] = function ($event) {
+              return _ctx.handleAction(_ctx.distinguishCancelAndClose ? 'close' : 'cancel');
+            }),
+            onKeydown: _cache[2] || (_cache[2] = Object(vue_esm_browser_prod["hb" /* withKeys */])(Object(vue_esm_browser_prod["ib" /* withModifiers */])(function ($event) {
+              return _ctx.handleAction(_ctx.distinguishCancelAndClose ? 'close' : 'cancel');
+            }, ["prevent"]), ["enter"]))
+          }, [srcvue_type_template_id_32bfc5e6_hoisted_3], 32)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_5, [_ctx.icon && !_ctx.center && _ctx.hasMessage ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", {
+            key: 0,
+            class: ['el-message-box__status', _ctx.icon]
+          }, null, 2)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), _ctx.hasMessage ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_32bfc5e6_hoisted_6, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
+            return [!_ctx.dangerouslyUseHTMLString ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", srcvue_type_template_id_32bfc5e6_hoisted_7, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.message), 1)) : (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", {
+              key: 1,
+              innerHTML: _ctx.message
+            }, null, 8, ["innerHTML"]))];
+          })])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_8, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
+            ref: "inputRef",
+            modelValue: _ctx.inputValue,
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+              return _ctx.inputValue = $event;
+            }),
+            type: _ctx.inputType,
+            placeholder: _ctx.inputPlaceholder,
+            class: {
+              invalid: _ctx.validateError
+            },
+            onKeydown: Object(vue_esm_browser_prod["hb" /* withKeys */])(Object(vue_esm_browser_prod["ib" /* withModifiers */])(_ctx.handleInputEnter, ["prevent"]), ["enter"])
+          }, null, 8, ["modelValue", "type", "placeholder", "class", "onKeydown"]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+            class: "el-message-box__errormsg",
+            style: {
+              visibility: !!_ctx.editorErrorMessage ? 'visible' : 'hidden'
+            }
+          }, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.editorErrorMessage), 5)], 512), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.showInput]])]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_32bfc5e6_hoisted_9, [_ctx.showCancelButton ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(_component_el_button, {
+            key: 0,
+            loading: _ctx.cancelButtonLoading,
+            class: [_ctx.cancelButtonClass],
+            round: _ctx.roundButton,
+            size: _ctx.buttonSize || 'small',
+            onClick: _cache[4] || (_cache[4] = function ($event) {
+              return _ctx.handleAction('cancel');
+            }),
+            onKeydown: _cache[5] || (_cache[5] = Object(vue_esm_browser_prod["hb" /* withKeys */])(Object(vue_esm_browser_prod["ib" /* withModifiers */])(function ($event) {
+              return _ctx.handleAction('cancel');
+            }, ["prevent"]), ["enter"]))
+          }, {
+            default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
+              return [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.cancelButtonText || _ctx.t('el.messagebox.cancel')), 1)];
+            }),
+            _: 1
+          }, 8, ["loading", "class", "round", "size"])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_button, {
+            ref: "confirmRef",
+            loading: _ctx.confirmButtonLoading,
+            class: [_ctx.confirmButtonClasses],
+            round: _ctx.roundButton,
+            disabled: _ctx.confirmButtonDisabled,
+            size: _ctx.buttonSize || 'small',
+            onClick: _cache[6] || (_cache[6] = function ($event) {
+              return _ctx.handleAction('confirm');
+            }),
+            onKeydown: _cache[7] || (_cache[7] = Object(vue_esm_browser_prod["hb" /* withKeys */])(Object(vue_esm_browser_prod["ib" /* withModifiers */])(function ($event) {
+              return _ctx.handleAction('confirm');
+            }, ["prevent"]), ["enter"]))
+          }, {
+            default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
+              return [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.confirmButtonText || _ctx.t('el.messagebox.confirm')), 1)];
+            }),
+            _: 1
+          }, 8, ["loading", "class", "round", "disabled", "size"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.showConfirmButton]])])], 10, ["aria-label"]), [[_directive_trap_focus]])];
+        }),
+        _: 3
+      }, 8, ["z-index", "overlay-class", "mask", "onClick"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.visible]])];
+    }),
+    _: 1
+  });
+}
+// CONCATENATED MODULE: ./packages/message-box/src/index.vue?vue&type=template&id=32bfc5e6
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/message-box/src/index.vue?vue&type=script&lang=ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var srcvue_type_script_lang_ts_TypeMap = {
+  success: 'success',
+  info: 'info',
+  warning: 'warning',
+  error: 'error'
+};
+/* harmony default export */ var message_box_srcvue_type_script_lang_ts = (Object(vue_esm_browser_prod["r" /* defineComponent */])({
+  name: 'ElMessageBox',
+  directives: {
+    TrapFocus: trap_focus
+  },
+  components: {
+    ElButton: packages_button,
+    ElInput: packages_input,
+    ElOverlay: overlay_src
+  },
+  inheritAttrs: false,
+  props: {
+    buttonSize: {
+      type: String,
+      validator: isValidComponentSize
+    },
+    modal: {
+      type: Boolean,
+      default: true
+    },
+    lockScroll: {
+      type: Boolean,
+      default: true
+    },
+    showClose: {
+      type: Boolean,
+      default: true
+    },
+    closeOnClickModal: {
+      type: Boolean,
+      default: true
+    },
+    closeOnPressEscape: {
+      type: Boolean,
+      default: true
+    },
+    closeOnHashChange: {
+      type: Boolean,
+      default: true
+    },
+    center: Boolean,
+    roundButton: {
+      default: false,
+      type: Boolean
+    },
+    container: {
+      type: String,
+      // default append to body
+      default: 'body'
+    },
+    boxType: {
+      type: String,
+      default: ''
+    }
+  },
+  emits: ['vanish', 'action'],
+  setup: function setup(props, _ref) {
+    var emit = _ref.emit;
+    // const popup = usePopup(props, doClose)
+    var visible = Object(vue_esm_browser_prod["M" /* ref */])(false); // s represents state
+
+    var state = Object(vue_esm_browser_prod["L" /* reactive */])({
+      beforeClose: null,
+      callback: null,
+      cancelButtonText: '',
+      cancelButtonClass: '',
+      confirmButtonText: '',
+      confirmButtonClass: '',
+      customClass: '',
+      dangerouslyUseHTMLString: false,
+      distinguishCancelAndClose: false,
+      iconClass: '',
+      inputPattern: null,
+      inputPlaceholder: '',
+      inputType: 'text',
+      inputValue: null,
+      inputValidator: null,
+      inputErrorMessage: '',
+      message: null,
+      modalFade: true,
+      modalClass: '',
+      showCancelButton: false,
+      showConfirmButton: true,
+      type: '',
+      title: undefined,
+      showInput: false,
+      action: '',
+      confirmButtonLoading: false,
+      cancelButtonLoading: false,
+      confirmButtonDisabled: false,
+      editorErrorMessage: '',
+      // refer to: https://github.com/ElemeFE/element/commit/2999279ae34ef10c373ca795c87b020ed6753eed
+      // seemed ok for now without this state.
+      // isOnComposition: false, // temporary remove
+      validateError: false,
+      zIndex: popup_manager.nextZIndex()
+    });
+    var icon = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+      return state.iconClass || (state.type && srcvue_type_script_lang_ts_TypeMap[state.type] ? "el-icon-" + srcvue_type_script_lang_ts_TypeMap[state.type] : '');
+    });
+    var hasMessage = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+      return !!state.message;
+    });
+    var inputRef = Object(vue_esm_browser_prod["M" /* ref */])(null);
+    var confirmRef = Object(vue_esm_browser_prod["M" /* ref */])(null);
+    var confirmButtonClasses = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+      return "el-button--primary " + state.confirmButtonClass;
+    });
+    Object(vue_esm_browser_prod["db" /* watch */])(function () {
+      return state.inputValue;
+    }, /*#__PURE__*/function () {
+      var _ref2 = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(val) {
+        return regenerator_default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return Object(vue_esm_browser_prod["y" /* nextTick */])();
+
+              case 2:
+                if (props.boxType === 'prompt' && val !== null) {
+                  validate();
+                }
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref2.apply(this, arguments);
+      };
+    }(), {
+      immediate: true
+    });
+    Object(vue_esm_browser_prod["db" /* watch */])(function () {
+      return visible.value;
+    }, function (val) {
+      if (val) {
+        if (props.boxType === 'alert' || props.boxType === 'confirm') {
+          Object(vue_esm_browser_prod["y" /* nextTick */])().then(function () {
+            var _confirmRef$value, _confirmRef$value$$el;
+
+            (_confirmRef$value = confirmRef.value) == null ? void 0 : (_confirmRef$value$$el = _confirmRef$value.$el) == null ? void 0 : _confirmRef$value$$el.focus == null ? void 0 : _confirmRef$value$$el.focus();
+          });
+        }
+
+        state.zIndex = popup_manager.nextZIndex();
+      }
+
+      if (props.boxType !== 'prompt') return;
+
+      if (val) {
+        Object(vue_esm_browser_prod["y" /* nextTick */])().then(function () {
+          if (inputRef.value && inputRef.value.$el) {
+            getInputElement().focus();
+          }
+        });
+      } else {
+        state.editorErrorMessage = '';
+        state.validateError = false;
+      }
+    });
+    Object(vue_esm_browser_prod["E" /* onMounted */])( /*#__PURE__*/asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2() {
+      return regenerator_default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return Object(vue_esm_browser_prod["y" /* nextTick */])();
+
+            case 2:
+              if (props.closeOnHashChange) {
+                Object(utils_dom["h" /* on */])(window, 'hashchange', doClose);
+              }
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    })));
+    Object(vue_esm_browser_prod["B" /* onBeforeUnmount */])(function () {
+      if (props.closeOnHashChange) {
+        Object(utils_dom["g" /* off */])(window, 'hashchange', doClose);
+      }
+    });
+
+    function doClose() {
+      if (!visible.value) return;
+      visible.value = false;
+      Object(vue_esm_browser_prod["y" /* nextTick */])(function () {
+        if (state.action) emit('action', state.action);
+      });
+    }
+
+    var handleWrapperClick = function handleWrapperClick() {
+      if (props.closeOnClickModal) {
+        handleAction(state.distinguishCancelAndClose ? 'close' : 'cancel');
+      }
+    };
+
+    var handleInputEnter = function handleInputEnter() {
+      if (state.inputType !== 'textarea') {
+        return handleAction('confirm');
+      }
+    };
+
+    var handleAction = function handleAction(action) {
+      if (props.boxType === 'prompt' && action === 'confirm' && !validate()) {
+        return;
+      }
+
+      state.action = action;
+
+      if (state.beforeClose) {
+        state.beforeClose == null ? void 0 : state.beforeClose(action, state, doClose);
+      } else {
+        doClose();
+      }
+    };
+
+    var validate = function validate() {
+      if (props.boxType === 'prompt') {
+        var inputPattern = state.inputPattern;
+
+        if (inputPattern && !inputPattern.test(state.inputValue || '')) {
+          state.editorErrorMessage = state.inputErrorMessage || Object(locale["c" /* t */])('el.messagebox.error');
+          state.validateError = true;
+          return false;
+        }
+
+        var inputValidator = state.inputValidator;
+
+        if (typeof inputValidator === 'function') {
+          var validateResult = inputValidator(state.inputValue);
+
+          if (validateResult === false) {
+            state.editorErrorMessage = state.inputErrorMessage || Object(locale["c" /* t */])('el.messagebox.error');
+            state.validateError = true;
+            return false;
+          }
+
+          if (typeof validateResult === 'string') {
+            state.editorErrorMessage = validateResult;
+            state.validateError = true;
+            return false;
+          }
+        }
+      }
+
+      state.editorErrorMessage = '';
+      state.validateError = false;
+      return true;
+    };
+
+    var getInputElement = function getInputElement() {
+      var inputRefs = inputRef.value.$refs;
+      return inputRefs.input || inputRefs.textarea;
+    };
+
+    var handleClose = function handleClose() {
+      handleAction('close');
+    }; // when close on press escape is disabled, pressing esc should not callout
+    // any other message box and close any other dialog-ish elements
+    // e.g. Dialog has a close on press esc feature, and when it closes, it calls
+    // props.beforeClose method to make a intermediate state by callout a message box
+    // for some verification or alerting. then if we allow global event liek this
+    // to dispatch, it could callout another message box.
+
+
+    if (props.closeOnPressEscape) {
+      use_modal({
+        handleClose: handleClose
+      }, visible);
+    } else {
+      use_prevent_global(visible, 'keydown', function (e) {
+        return e.code === EVENT_CODE.esc;
+      });
+    } // locks the screen to prevent scroll
+
+
+    if (props.lockScroll) {
+      use_lockscreen(visible);
+    } // restore to prev active element.
+
+
+    use_restore_active(visible);
+    return extends_default()({}, Object(vue_esm_browser_prod["X" /* toRefs */])(state), {
+      visible: visible,
+      hasMessage: hasMessage,
+      icon: icon,
+      confirmButtonClasses: confirmButtonClasses,
+      inputRef: inputRef,
+      confirmRef: confirmRef,
+      doClose: doClose,
+      // for outside usage
+      handleClose: handleClose,
+      // for out side usage
+      handleWrapperClick: handleWrapperClick,
+      handleInputEnter: handleInputEnter,
+      handleAction: handleAction,
+      t: locale["c" /* t */]
+    });
+  }
+}));
+// CONCATENATED MODULE: ./packages/message-box/src/index.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./packages/message-box/src/index.vue
+
+
+
+message_box_srcvue_type_script_lang_ts.render = srcvue_type_template_id_32bfc5e6_render
+
+/* harmony default export */ var message_box_src = (message_box_srcvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./packages/message-box/src/messageBox.ts
+
+
+
+
+
+// component default merge props & data
+var messageInstance = new Map();
+
+var messageBox_initInstance = function initInstance(props, container) {
+  var vnode = Object(vue_esm_browser_prod["t" /* h */])(message_box_src, props);
+  Object(vue_esm_browser_prod["N" /* render */])(vnode, container);
+  document.body.appendChild(container.firstElementChild);
+  return vnode.component;
+};
+
+var genContainer = function genContainer() {
+  return document.createElement('div');
+};
+
+var messageBox_showMessage = function showMessage(options) {
+  var container = genContainer(); // Adding destruct method.
+  // when transition leaves emitting `vanish` evt. so that we can do the clean job.
+
+  options.onVanish = function () {
+    // not sure if this causes mem leak, need proof to verify that.
+    // maybe calling out like 1000 msg-box then close them all.
+    Object(vue_esm_browser_prod["N" /* render */])(null, container);
+    messageInstance.delete(vm); // Remove vm to avoid mem leak.
+    // here we were suppose to call document.body.removeChild(container.firstElementChild)
+    // but render(null, container) did that job for us. so that we do not call that directly
+  };
+
+  options.onAction = function (action) {
+    var currentMsg = messageInstance.get(vm);
+    var resolve;
+
+    if (options.showInput) {
+      resolve = {
+        value: vm.inputValue,
+        action: action
+      };
+    } else {
+      resolve = action;
+    }
+
+    if (options.callback) {
+      options.callback(resolve, instance.proxy);
+    } else {
+      if (action === 'cancel' || action === 'close') {
+        if (options.distinguishCancelAndClose && action !== 'cancel') {
+          currentMsg.reject('close');
+        } else {
+          currentMsg.reject('cancel');
+        }
+      } else {
+        currentMsg.resolve(resolve);
+      }
+    }
+  };
+
+  var instance = messageBox_initInstance(options, container); // This is how we use message box programmably.
+  // Maybe consider releasing a template version?
+  // get component instance like v2.
+
+  var vm = instance.proxy;
+
+  for (var prop in options) {
+    if (Object(shared_esm_bundler["e" /* hasOwn */])(options, prop) && !Object(shared_esm_bundler["e" /* hasOwn */])(vm.$props, prop)) {
+      vm[prop] = options[prop];
+    }
+  }
+
+  Object(vue_esm_browser_prod["db" /* watch */])(function () {
+    return vm.message;
+  }, function (newVal, oldVal) {
+    if (Object(util["C" /* isVNode */])(newVal)) {
+      // Override slots since message is vnode type.
+      instance.slots.default = function () {
+        return [newVal];
+      };
+    } else if (Object(util["C" /* isVNode */])(oldVal) && !Object(util["C" /* isVNode */])(newVal)) {
+      delete instance.slots.default;
+    }
+  }, {
+    immediate: true
+  }); // change visibility after everything is settled
+
+  vm.visible = true;
+  return vm;
+};
+
+function MessageBox(options) {
+  if (isServer["a" /* default */]) return;
+  var callback;
+
+  if (Object(util["A" /* isString */])(options) || Object(util["C" /* isVNode */])(options)) {
+    options = {
+      message: options
+    };
+  } else {
+    callback = options.callback;
+  }
+
+  return new Promise(function (resolve, reject) {
+    var vm = messageBox_showMessage(options); // collect this vm in order to handle upcoming events.
+
+    messageInstance.set(vm, {
+      options: options,
+      callback: callback,
+      resolve: resolve,
+      reject: reject
+    });
+  });
+}
+
+MessageBox.alert = function (message, title, options) {
+  if (typeof title === 'object') {
+    options = title;
+    title = '';
+  } else if (title === undefined) {
+    title = '';
+  }
+
+  return MessageBox(Object.assign({
+    title: title,
+    message: message,
+    type: '',
+    closeOnPressEscape: false,
+    closeOnClickModal: false
+  }, options, {
+    boxType: 'alert'
+  }));
+};
+
+MessageBox.confirm = function (message, title, options) {
+  if (typeof title === 'object') {
+    options = title;
+    title = '';
+  } else if (title === undefined) {
+    title = '';
+  }
+
+  return MessageBox(Object.assign({
+    title: title,
+    message: message,
+    type: '',
+    showCancelButton: true
+  }, options, {
+    boxType: 'confirm'
+  }));
+};
+
+MessageBox.prompt = function (message, title, options) {
+  if (typeof title === 'object') {
+    options = title;
+    title = '';
+  } else if (title === undefined) {
+    title = '';
+  }
+
+  return MessageBox(Object.assign({
+    title: title,
+    message: message,
+    showCancelButton: true,
+    showInput: true,
+    type: ''
+  }, options, {
+    boxType: 'prompt'
+  }));
+};
+
+MessageBox.close = function () {
+  // instance.setupInstall.doClose()
+  // instance.setupInstall.state.visible = false
+  messageInstance.forEach(function (_, vm) {
+    vm.doClose();
+  });
+  messageInstance.clear();
+};
+
+/* harmony default export */ var messageBox = (MessageBox);
+// CONCATENATED MODULE: ./packages/message-box/index.ts
+
+var _MessageBox = messageBox;
+
+_MessageBox.install = function (app) {
+  app.config.globalProperties.$msgbox = _MessageBox;
+  app.config.globalProperties.$messageBox = _MessageBox;
+  app.config.globalProperties.$alert = _MessageBox.alert;
+  app.config.globalProperties.$confirm = _MessageBox.confirm;
+  app.config.globalProperties.$prompt = _MessageBox.prompt;
+};
+
+/* harmony default export */ var message_box = (_MessageBox);
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/notification/src/index.vue?vue&type=template&id=a00955a6
+
+var srcvue_type_template_id_a00955a6_hoisted_1 = {
+  key: 0
+};
+function srcvue_type_template_id_a00955a6_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["e" /* Transition */], {
+    name: "el-notification-fade",
+    onBeforeLeave: _ctx.onClose,
+    onAfterLeave: _cache[5] || (_cache[5] = function ($event) {
+      return _ctx.$emit('destroy');
+    })
+  }, {
+    default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
+      return [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+        id: _ctx.id,
+        class: ['el-notification', _ctx.customClass, _ctx.horizontalClass],
+        style: _ctx.positionStyle,
+        role: "alert",
+        onMouseenter: _cache[2] || (_cache[2] = function () {
+          return _ctx.clearTimer && _ctx.clearTimer.apply(_ctx, arguments);
+        }),
+        onMouseleave: _cache[3] || (_cache[3] = function () {
+          return _ctx.startTimer && _ctx.startTimer.apply(_ctx, arguments);
+        }),
+        onClick: _cache[4] || (_cache[4] = function () {
+          return _ctx.onClick && _ctx.onClick.apply(_ctx, arguments);
+        })
+      }, [_ctx.type || _ctx.iconClass ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("i", {
+        key: 0,
+        class: ["el-notification__icon", [_ctx.typeClass, _ctx.iconClass]]
+      }, null, 2)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+        class: ["el-notification__group", {
+          'is-with-icon': _ctx.typeClass || _ctx.iconClass
+        }]
+      }, [Object(vue_esm_browser_prod["p" /* createVNode */])("h2", {
+        class: "el-notification__title",
+        textContent: Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.title)
+      }, null, 8, ["textContent"]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+        class: "el-notification__content",
+        style: !!_ctx.title ? null : 'margin: 0'
+      }, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "default", {}, function () {
+        return [!_ctx.dangerouslyUseHTMLString ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", srcvue_type_template_id_a00955a6_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.message), 1)) : (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("p", {
+          key: 1,
+          innerHTML: _ctx.message
+        }, null, 8, ["innerHTML"]))];
+      })], 4), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.message]]), _ctx.showClose ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", {
+        key: 0,
+        class: "el-notification__closeBtn el-icon-close",
+        onClick: _cache[1] || (_cache[1] = Object(vue_esm_browser_prod["ib" /* withModifiers */])(function () {
+          return _ctx.close && _ctx.close.apply(_ctx, arguments);
+        }, ["stop"]))
+      })) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)], 2)], 46, ["id"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.visible]])];
+    }),
+    _: 3
+  }, 8, ["onBeforeLeave"]);
+}
+// CONCATENATED MODULE: ./packages/notification/src/index.vue?vue&type=template&id=a00955a6
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/notification/src/index.vue?vue&type=script&lang=ts
+ // notificationVM is an alias of vue.VNode
+
+
+
+var notification_srcvue_type_script_lang_ts_TypeMap = {
+  success: 'success',
+  info: 'info',
+  warning: 'warning',
+  error: 'error'
+};
+/* harmony default export */ var notification_srcvue_type_script_lang_ts = (Object(vue_esm_browser_prod["r" /* defineComponent */])({
+  name: 'ElNotification',
+  props: {
+    customClass: {
+      type: String,
+      default: ''
+    },
+    dangerouslyUseHTMLString: {
+      type: Boolean,
+      default: false
+    },
+    duration: {
+      type: Number,
+      default: 4500
+    },
+    iconClass: {
+      type: String,
+      default: ''
+    },
+    id: {
+      type: String,
+      default: ''
+    },
+    message: {
+      type: [String, Object],
+      default: ''
+    },
+    offset: {
+      type: Number,
+      default: 0
+    },
+    onClick: {
+      type: Function,
+      default: function _default() {
+        return void 0;
+      }
+    },
+    onClose: {
+      type: Function,
+      required: true
+    },
+    position: {
+      type: String,
+      default: 'top-right'
+    },
+    showClose: {
+      type: Boolean,
+      default: true
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    type: {
+      type: String,
+      default: ''
+    },
+    zIndex: {
+      type: Number,
+      default: 0
+    }
+  },
+  emits: ['destroy'],
+  setup: function setup(props) {
+    var visible = Object(vue_esm_browser_prod["M" /* ref */])(false);
+    var timer = null;
+    var typeClass = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+      var type = props.type;
+      return type && notification_srcvue_type_script_lang_ts_TypeMap[type] ? "el-icon-" + notification_srcvue_type_script_lang_ts_TypeMap[type] : '';
+    });
+    var horizontalClass = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+      return props.position.indexOf('right') > 1 ? 'right' : 'left';
+    });
+    var verticalProperty = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+      return props.position.startsWith('top') ? 'top' : 'bottom';
+    });
+    var positionStyle = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+      var _ref;
+
+      return _ref = {}, _ref[verticalProperty.value] = props.offset + "px", _ref['z-index'] = props.zIndex, _ref;
+    });
+
+    function startTimer() {
+      if (props.duration > 0) {
+        timer = setTimeout(function () {
+          if (visible.value) {
+            close();
+          }
+        }, props.duration);
+      }
+    }
+
+    function clearTimer() {
+      clearTimeout(timer);
+      timer = null;
+    }
+
+    function close() {
+      visible.value = false;
+    }
+
+    function onKeydown(_ref2) {
+      var code = _ref2.code;
+
+      if (code === EVENT_CODE.delete || code === EVENT_CODE.backspace) {
+        clearTimer(); // press delete/backspace clear timer
+      } else if (code === EVENT_CODE.esc) {
+        // press esc to close the notification
+        if (visible.value) {
+          close();
+        }
+      } else {
+        startTimer(); // resume timer
+      }
+    } // lifecycle
+
+
+    Object(vue_esm_browser_prod["E" /* onMounted */])(function () {
+      startTimer();
+      visible.value = true;
+      Object(utils_dom["h" /* on */])(document, 'keydown', onKeydown);
+    });
+    Object(vue_esm_browser_prod["B" /* onBeforeUnmount */])(function () {
+      Object(utils_dom["g" /* off */])(document, 'keydown', onKeydown);
+    });
+    return {
+      horizontalClass: horizontalClass,
+      typeClass: typeClass,
+      positionStyle: positionStyle,
+      visible: visible,
+      close: close,
+      clearTimer: clearTimer,
+      startTimer: startTimer
+    };
+  }
+}));
+// CONCATENATED MODULE: ./packages/notification/src/index.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./packages/notification/src/index.vue
+
+
+
+notification_srcvue_type_script_lang_ts.render = srcvue_type_template_id_a00955a6_render
+
+/* harmony default export */ var notification_src = (notification_srcvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./packages/notification/src/notify.ts
+
+
+
+
+
+
+// This should be a queue but considering there were `non-autoclosable` notifications.
+var notifications = {
+  'top-left': [],
+  'top-right': [],
+  'bottom-left': [],
+  'bottom-right': []
+}; // the gap size between each notification
+
+var GAP_SIZE = 16;
+var notify_seed = 1;
+
+var notify_Notification = function Notification(options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  if (isServer["a" /* default */]) return;
+  var position = options.position || 'top-right';
+  var verticalOffset = options.offset || 0;
+  notifications[position].forEach(function (_ref) {
+    var vm = _ref.vm;
+    verticalOffset += (vm.el.offsetHeight || 0) + GAP_SIZE;
+  });
+  verticalOffset += GAP_SIZE;
+  var id = 'notification_' + notify_seed++;
+  var userOnClose = options.onClose;
+  options = extends_default()({}, options, {
+    onClose: function onClose() {
+      notify_close(id, position, userOnClose);
+    },
+    offset: verticalOffset,
+    id: id,
+    zIndex: popup_manager.nextZIndex()
+  });
+  var container = document.createElement('div');
+  var vm = Object(vue_esm_browser_prod["p" /* createVNode */])(notification_src, options, Object(util["C" /* isVNode */])(options.message) ? {
+    default: function _default() {
+      return options.message;
+    }
+  } : null); // clean notification element preventing mem leak
+
+  vm.props.onDestroy = function () {
+    Object(vue_esm_browser_prod["N" /* render */])(null, container);
+  }; // instances will remove this item when close function gets called. So we do not need to worry about it.
+
+
+  Object(vue_esm_browser_prod["N" /* render */])(vm, container);
+  notifications[position].push({
+    vm: vm
+  });
+  document.body.appendChild(container.firstElementChild);
+  return {
+    // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
+    // for out component, so that all closing steps will not be skipped.
+    close: function close() {
+      vm.component.proxy.visible = false;
+    }
+  };
+};
+
+['success', 'warning', 'info', 'error'].forEach(function (type) {
+  var _Object$assign;
+
+  Object.assign(notify_Notification, (_Object$assign = {}, _Object$assign[type] = function (options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    if (typeof options === 'string' || Object(util["C" /* isVNode */])(options)) {
+      options = {
+        message: options
+      };
+    }
+
+    options.type = type;
+    return notify_Notification(options);
+  }, _Object$assign));
+});
+/**
+ * This function gets called when user click `x` button or press `esc` or the time reached its limitation.
+ * Emitted by transition@before-leave event so that we can fetch the current notification.offsetHeight, if this was called
+ * by @after-leave the DOM element will be removed from the page thus we can no longer fetch the offsetHeight.
+ * @param {String} id notification id to be closed
+ * @param {Position} position the positioning strategy
+ * @param {Function} userOnClose the callback called when close passed by user
+ */
+
+function notify_close(id, position, userOnClose) {
+  // maybe we can store the index when inserting the vm to notification list.
+  var orientedNotifications = notifications[position];
+  var idx = orientedNotifications.findIndex(function (_ref2) {
+    var vm = _ref2.vm;
+    return vm.component.props.id === id;
+  });
+  if (idx === -1) return;
+  var vm = orientedNotifications[idx].vm;
+  if (!vm) return; // calling user's on close function before notification gets removed from DOM.
+
+  userOnClose == null ? void 0 : userOnClose(vm); // note that this is called @before-leave, that's why we were able to fetch this property.
+
+  var removedHeight = vm.el.offsetHeight;
+  var verticalPos = position.split('-')[0];
+  orientedNotifications.splice(idx, 1);
+  var len = orientedNotifications.length;
+  if (len < 1) return; // starting from the removing item.
+
+  for (var i = idx; i < len; i++) {
+    // new position equals the current offsetTop minus removed height plus 16px(the gap size between each item)
+    var _orientedNotification = orientedNotifications[i].vm,
+        el = _orientedNotification.el,
+        component = _orientedNotification.component;
+    var pos = parseInt(el.style[verticalPos], 10) - removedHeight - GAP_SIZE;
+    component.props.offset = pos;
+  }
+}
+function notify_closeAll() {
+  // loop through all directions, close them at once.
+  for (var key in notifications) {
+    var orientedNotifications = notifications[key];
+    orientedNotifications.forEach(function (_ref3) {
+      var vm = _ref3.vm;
+      // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
+      vm.component.proxy.visible = false;
+    });
+  }
+}
+/* harmony default export */ var notify = (notify_Notification);
+// CONCATENATED MODULE: ./packages/notification/index.ts
+
+var _Notify = notify;
+
+_Notify.install = function (app) {
+  app.config.globalProperties.$notify = _Notify;
+};
+
+/* harmony default export */ var notification = (_Notify);
+// CONCATENATED MODULE: ./packages/popover/src/usePopover.ts
+
+
+
+
+
+var SHOW_EVENT = 'show';
+var HIDE_EVENT = 'hide';
+function usePopover(props, ctx) {
+  var zIndex = Object(vue_esm_browser_prod["M" /* ref */])(popup_manager.nextZIndex());
+  var width = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+    if (Object(util["A" /* isString */])(props.width)) {
+      return props.width;
+    }
+
+    return props.width + 'px';
+  });
+  var popperStyle = Object(vue_esm_browser_prod["i" /* computed */])(function () {
+    return {
+      width: width.value,
+      zIndex: zIndex.value
+    };
+  });
+  var popperProps = use_popper(props, ctx);
+  Object(vue_esm_browser_prod["db" /* watch */])(popperProps.visibility, function (val) {
+    if (val) {
+      zIndex.value = popup_manager.nextZIndex();
+    }
+
+    ctx.emit(val ? SHOW_EVENT : HIDE_EVENT);
+  });
+  return extends_default()({}, popperProps, {
+    popperStyle: popperStyle
+  });
+}
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/popover/src/index.vue?vue&type=script&lang=ts
+
+
+
+
+
+
+
+
+
+var emits = ['update:visible', 'after-enter', 'after-leave', SHOW_EVENT, HIDE_EVENT];
+var NAME = 'ElPopover';
+var _hoist = {
+  key: 0,
+  class: 'el-popover__title',
+  role: 'title'
+};
+/* harmony default export */ var popover_srcvue_type_script_lang_ts = (Object(vue_esm_browser_prod["r" /* defineComponent */])({
+  name: NAME,
+  components: {
+    ElPopper: packages_popper
+  },
+  props: extends_default()({}, use_popper_defaults, {
+    content: {
+      type: String
+    },
+    trigger: {
+      type: String,
+      default: 'click'
+    },
+    title: {
+      type: String
+    },
+    transition: {
+      type: String,
+      default: 'fade-in-linear'
+    },
+    width: {
+      type: [String, Number],
+      default: 150
+    },
+    appendToBody: {
+      type: Boolean,
+      default: true
+    },
+    tabindex: [String, Number]
+  }),
+  emits: emits,
+  setup: function setup(props, ctx) {
+    if (false) {}
+
+    var states = usePopover(props, ctx);
+    return states;
+  },
+  render: function render() {
+    var _this = this;
+
+    var $slots = this.$slots;
+    var trigger = $slots.reference ? $slots.reference() : null;
+    var title = renderIf(this.title, 'div', _hoist, Object(vue_esm_browser_prod["U" /* toDisplayString */])(this.title), PatchFlags.TEXT);
+    var content = Object(vue_esm_browser_prod["P" /* renderSlot */])($slots, 'default', {}, function () {
+      return [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(_this.content), PatchFlags.TEXT)];
+    });
+    var events = this.events,
+        onAfterEnter = this.onAfterEnter,
+        onAfterLeave = this.onAfterLeave,
+        onPopperMouseEnter = this.onPopperMouseEnter,
+        onPopperMouseLeave = this.onPopperMouseLeave,
+        popperStyle = this.popperStyle,
+        popperId = this.popperId,
+        popperClass = this.popperClass,
+        showArrow = this.showArrow,
+        transition = this.transition,
+        visibility = this.visibility,
+        tabindex = this.tabindex;
+    var kls = [this.content ? 'el-popover--plain' : '', 'el-popover', popperClass].join(' ');
+    var popover = renderPopper({
+      effect: Effect.LIGHT,
+      name: transition,
+      popperClass: kls,
+      popperStyle: popperStyle,
+      popperId: popperId,
+      visibility: visibility,
+      onMouseenter: onPopperMouseEnter,
+      onMouseleave: onPopperMouseLeave,
+      onAfterEnter: onAfterEnter,
+      onAfterLeave: onAfterLeave,
+      stopPopperMouseEvent: false
+    }, [title, content, arrow_renderArrow(showArrow)]); // when user uses popover directively, trigger will be null so that we only
+    // render a popper window for displaying contents
+
+    var _trigger = trigger ? renderTrigger(trigger, extends_default()({
+      ariaDescribedby: popperId,
+      ref: 'triggerRef',
+      tabindex: tabindex
+    }, events)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])('v-if', true);
+
+    return Object(vue_esm_browser_prod["t" /* h */])(vue_esm_browser_prod["b" /* Fragment */], null, [this.trigger === 'click' ? Object(vue_esm_browser_prod["gb" /* withDirectives */])(_trigger, [[click_outside, this.hide]]) : _trigger, Object(vue_esm_browser_prod["t" /* h */])(vue_esm_browser_prod["c" /* Teleport */], {
+      disabled: !this.appendToBody,
+      to: 'body'
+    }, [popover])]);
+  }
+}));
+// CONCATENATED MODULE: ./packages/popover/src/index.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./packages/popover/src/index.vue
+
+
+
+/* harmony default export */ var popover_src = (popover_srcvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./packages/popover/src/directive.ts
+
+
+var directive_attachEvents = function attachEvents(el, binding, vnode) {
+  var _ref = binding.arg || binding.value;
+
+  var popover = vnode.dirs[0].instance.$refs[_ref];
+
+  if (popover) {
+    popover.triggerRef = el;
+    el.setAttribute('tabindex', popover.tabindex); // because v-popover cannot modify the vnode itself due to it has already been
+
+    Object.entries(popover.events).forEach(function (_ref2) {
+      var eventName = _ref2[0],
+          e = _ref2[1];
+      Object(utils_dom["h" /* on */])(el, eventName.toLowerCase().slice(2), e);
+    });
+  }
+};
+
+/* harmony default export */ var src_directive = ({
+  mounted: function mounted(el, binding, vnode) {
+    directive_attachEvents(el, binding, vnode);
+  },
+  updated: function updated(el, binding, vnode) {
+    directive_attachEvents(el, binding, vnode);
+  }
+});
+var VPopover = 'popover';
+// CONCATENATED MODULE: ./packages/popover/index.ts
+
+
+
+popover_src.install = function (app) {
+  app.component(popover_src.name, popover_src);
+  app.directive(VPopover, src_directive);
+};
+
+popover_src.directive = src_directive;
+var _Popover = popover_src;
+/* harmony default export */ var packages_popover = (_Popover);
+// CONCATENATED MODULE: ./packages/element-plus/plugins.ts
+
+
+
+
+
+
 // CONCATENATED MODULE: ./packages/element-plus/version.ts
 var version = '0.0.0-development';
 // CONCATENATED MODULE: ./packages/element-plus/index.ts
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  // if you encountered problems alike "Can't resolve './version'"
 // please run `yarn bootstrap` first
+
+
 
 
 
@@ -50151,17 +50280,14 @@ if (!isServer["a" /* default */]) {
 
 var element_plus_version = version; // version_ to fix tsc issue
 
-var element_plus_locale = locale["c" /* use */];
 var defaultInstallOpt = {
   size: '',
   zIndex: 2000
 };
-var element_plus_components = [affix, packages_alert, packages_aside, autocomplete, avatar, backtop, badge, packages_breadcrumb, breadcrumb_item, packages_button, packages_button_group, calendar, card, carousel, carousel_item, cascader, cascader_panel, packages_checkbox, packages_checkbox_button, packages_checkbox_group, check_tag, packages_col, packages_collapse, packages_collapse_item, packages_collapse_transition, color_picker, packages_container, packages_date_picker, dialog, divider, drawer, packages_dropdown, packages_dropdown_item, packages_dropdown_menu, empty, packages_footer, packages_form, packages_form_item, packages_header, packages_icon, packages_image, image_viewer, packages_input, input_number, packages_link, packages_main, packages_menu, packages_menu_item, menu_item_group, packages_option, packages_option_group, page_header, packages_pagination, popconfirm, packages_popper, packages_progress, packages_radio, packages_radio_button, packages_radio_group, packages_rate, packages_row, packages_scrollbar, packages_select, packages_slider, packages_step, packages_steps, packages_submenu, packages_switch, packages_tab_pane, packages_table, packages_table_column, packages_tabs, packages_tag, packages_time_picker, packages_time_select, timeline, timeline_item, packages_tooltip, transfer, packages_tree, packages_upload, packages_space, skeleton, skeleton_item, packages_descriptions, descriptions_item, packages_result, select_v2];
-var plugins = [infinite_scroll, packages_loading, packages_message, message_box, notification, packages_popover];
 
 var element_plus_install = function install(app, opt) {
   var option = Object.assign(defaultInstallOpt, opt);
-  element_plus_locale(option.locale);
+  Object(locale["b" /* setLocale */])(option.locale, app);
 
   if (option.i18n) {
     Object(locale["a" /* i18n */])(option.i18n);
@@ -50169,11 +50295,11 @@ var element_plus_install = function install(app, opt) {
 
   app.config.globalProperties.$ELEMENT = option;
   setConfig(option);
-  element_plus_components.forEach(function (component) {
-    app.component(component.name, component);
+  Object.keys(components_namespaceObject).forEach(function (c) {
+    app.use(components_namespaceObject[c]);
   });
-  plugins.forEach(function (plugin) {
-    app.use(plugin);
+  Object.keys(plugins_namespaceObject).forEach(function (plugin) {
+    app.use(plugins_namespaceObject[plugin]);
   });
 };
 
@@ -107895,11 +108021,11 @@ var dayjs_min_default = /*#__PURE__*/__webpack_require__.n(dayjs_min);
 // EXTERNAL MODULE: ./node_modules/dayjs/locale/zh-cn.js
 var zh_cn = __webpack_require__(338);
 
-// EXTERNAL MODULE: ./packages/element-plus/index.ts + 933 modules
+// EXTERNAL MODULE: ./packages/element-plus/index.ts + 935 modules
 var element_plus = __webpack_require__(25);
 
 // EXTERNAL MODULE: ./packages/locale/index.ts
-var locale = __webpack_require__(7);
+var locale = __webpack_require__(6);
 
 // CONCATENATED MODULE: ./packages/locale/lang/zh-cn.ts
 /* harmony default export */ var lang_zh_cn = ({
@@ -108415,23 +108541,23 @@ var appvue_type_script_lang_js_lang = location.hash.replace('#', '').split('/')[
 var appvue_type_script_lang_js_localize = function localize(lang) {
   switch (lang) {
     case Language.CN:
-      Object(locale["c" /* use */])(lang_zh_cn);
+      Object(locale["d" /* use */])(lang_zh_cn);
       break;
 
     case Language.ES:
-      Object(locale["c" /* use */])(es);
+      Object(locale["d" /* use */])(es);
       break;
 
     case Language.FR:
-      Object(locale["c" /* use */])(fr);
+      Object(locale["d" /* use */])(fr);
       break;
 
     case Language.JP:
-      Object(locale["c" /* use */])(ja);
+      Object(locale["d" /* use */])(ja);
       break;
 
     default:
-      Object(locale["c" /* use */])(en["a" /* default */]);
+      Object(locale["d" /* use */])(en["a" /* default */]);
   }
 };
 
