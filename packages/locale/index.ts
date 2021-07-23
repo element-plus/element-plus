@@ -34,8 +34,8 @@ const defaultTranslator = (...args: any[]) => {
   let value
   const array = path.split('.')
   let current: Record<string, unknown>
-  if (!app) {
-    current = lang
+  if (app.config.globalProperties?.$ELEMENT?.lang) {
+    current = app.config.globalProperties.$ELEMENT.lang
   } else {
     current = app.config.globalProperties.$ELEMENT.locale
   }
