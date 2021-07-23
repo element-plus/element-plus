@@ -650,22 +650,8 @@ $--collapse-content-font-color: $--color-text-primary !default;
 
 /* Transfer
 --------------------------*/
-$--transfer-border-color: map.get($--border-color, 'lighter') !default;
-$--transfer-border-radius: $--border-radius-base !default;
-/// height||Other|4
-$--transfer-panel-width: 200px !default;
-/// height||Other|4
-$--transfer-panel-header-height: 40px !default;
-/// color||Color|0
-$--transfer-panel-header-background-color: $--background-color-base !default;
-/// height||Other|4
-$--transfer-panel-footer-height: 40px !default;
-/// height||Other|4
-$--transfer-panel-body-height: 246px !default;
-/// height||Other|4
-$--transfer-item-height: 30px !default;
-/// height||Other|4
-$--transfer-filter-height: 32px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/transfer.scss
 
 /* Timeline
 --------------------------*/
