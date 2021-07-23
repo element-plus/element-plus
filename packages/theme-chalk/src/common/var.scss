@@ -662,10 +662,8 @@ $--form-label-font-size: map.get($--font-size, 'base') !default;
 
 /* Empty
 -------------------------- */
-$--empty-padding: 40px 0 !default;
-$--empty-image-width: 160px !default;
-$--empty-description-margin-top: 20px !default;
-$--empty-bottom-margin-top: 20px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/empty.scss
 
 /* Descriptions
 -------------------------- */
