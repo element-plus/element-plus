@@ -37,7 +37,9 @@ const defaultInstallOpt: InstallOptions = {
 
 const install = (app: App, opt: InstallOptions): void => {
   const option = Object.assign(defaultInstallOpt, opt)
-  setLocale(option.locale, app)
+  // currently this is not reactive, we need to update this function
+  // to make it reactive.
+  setLocale(option.locale)
   if (option.i18n) {
     i18n(option.i18n)
   }
