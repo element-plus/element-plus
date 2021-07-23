@@ -185,11 +185,6 @@ $--font-size: map.merge(
   $--font-size
 );
 
-/// fontWeight|1|Font Weight|1
-$--font-weight-primary: 500 !default;
-/// fontLineHeight|1|Line Height|2
-$--font-line-height-primary: 24px !default;
-
 /* Disable base
 -------------------------- */
 $--disabled-fill-base: $--background-color-base !default;
@@ -207,8 +202,6 @@ $--disabled-border-base: map.get($--border-color, 'light') !default;
 -------------------------- */
 /// fontSize||Font|1
 $--radio-font-size: map.get($--font-size, 'base') !default;
-/// fontWeight||Font|1
-$--radio-font-weight: $--font-weight-primary !default;
 /// color||Color|0
 $--radio-font-color: $--color-text-regular !default;
 $--radio-input-height: 14px !default;
@@ -431,16 +424,8 @@ $--button-active-shade-percent: 10% !default;
 
 /* Dialog
 -------------------------- */
-$--dialog-background-color: $--color-white !default;
-$--dialog-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !default;
-/// fontSize||Font|1
-$--dialog-title-font-size: map.get($--font-size, 'large') !default;
-/// fontSize||Font|1
-$--dialog-content-font-size: 14px !default;
-/// fontLineHeight||LineHeight|2
-$--dialog-font-line-height: $--font-line-height-primary !default;
-/// padding||Spacing|3
-$--dialog-padding-primary: 20px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/dialog.scss
 
 /* Table
 -------------------------- */

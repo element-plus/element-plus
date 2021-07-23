@@ -5,9 +5,13 @@
 @import 'mixins/button';
 @import 'common/var';
 
+:root {
+  --el-radio-font-weight: var(--el-font-weight-primary);
+}
+
 @include b(radio) {
   color: $--radio-font-color;
-  font-weight: $--radio-font-weight;
+  font-weight: var(--el-radio-font-weight);
   line-height: 1;
   position: relative;
   cursor: pointer;
