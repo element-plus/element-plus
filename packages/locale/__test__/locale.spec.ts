@@ -15,5 +15,6 @@ describe('Locale', () => {
     use(zhCn)
     expect(t('el.popconfirm.confirmButtonText')).toBe('确定')
     use(en)
+    expect(t('el.popconfirm.confirmButtonText')).toBe('Yes')
   })
 })

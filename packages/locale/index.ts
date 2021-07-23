@@ -1,8 +1,6 @@
 import dayjs from 'dayjs'
 import defaultLang from './lang/en'
 
-import type { App } from 'vue'
-
 export type TranslatePair = {
   [key: string]: string | string[] | TranslatePair
 }
@@ -13,7 +11,6 @@ export type Language = {
 }
 
 let lang: Language = defaultLang as Language
-let app: App
 
 let i18nHandler: null | ((...args: any[]) => string) = null
 
@@ -33,12 +30,7 @@ const defaultTranslator = (...args: any[]) => {
   const [path, option] = args
   let value
   const array = path.split('.')
-  let current: Record<string, unknown>
-  if (!app) {
-    current = lang
-  } else {
-    current = app.config.globalProperties.$ELEMENT.locale
-  }
+  let current = lang
   for (let i = 0, j = array.length; i < j; i++) {
     const property = array[i]
     value = current[property]
@@ -58,9 +50,8 @@ export const t = (...args: any[]): string => {
   return defaultTranslator(...args)
 }
 
-export const use = (l: Language, _app: App): void => {
+export const use = (l: Language): void => {
   lang = l || lang
-  app = _app
   if (lang.name) {
     dayjs.locale(lang.name)
   }
