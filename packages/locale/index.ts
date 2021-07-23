@@ -34,10 +34,10 @@ const defaultTranslator = (...args: any[]) => {
   let value
   const array = path.split('.')
   let current: Record<string, unknown>
-  if (app.config.globalProperties?.$ELEMENT?.lang) {
-    current = app.config.globalProperties.$ELEMENT.lang
+  if (app.config.globalProperties.$ELEMENT) {
+    current = app.config.globalProperties.$ELEMENT.lang || defaultLang
   } else {
-    current = app.config.globalProperties.$ELEMENT.locale
+    current = lang || defaultLang
   }
   for (let i = 0, j = array.length; i < j; i++) {
     const property = array[i]
