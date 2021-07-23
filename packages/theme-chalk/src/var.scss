@@ -62,8 +62,8 @@
     @include set-css-var-type('font-size', $type, $--font-size);
   }
 
-  --el-font-weight-primary: #{$--font-weight-primary};
-  --el-line-height-primary: #{$--font-line-height-primary};
+  --el-font-weight-primary: 500;
+  --el-font-line-height-primary: 24px;
   --el-font-color-disabled-base: #bbb;
 
   // z-index
