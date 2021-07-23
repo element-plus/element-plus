@@ -55,9 +55,16 @@ const install = (app: App, opt: InstallOptions): void => {
   })
 }
 
-export { version }
+const locale = setLocale
+
+export {
+  version,
+  install,
+  locale,
+}
 
 export default {
   version,
   install,
+  locale,
 }
