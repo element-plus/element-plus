@@ -4,11 +4,19 @@
 @import 'common/transition';
 @import 'tooltip';
 
+:root {
+  --el-menu-item-font-size: var(--el-font-size-base);
+  --el-menu-item-font-color: var(--el-color-text-primary);
+  --el-menu-background-color: var(--el-color-white);
+  --el-menu-item-hover-fill: var(--el-color-primary-light-9);
+  --el-menu-border-color: #e6e6e6;
+}
+
 @mixin menu-item {
   height: 56px;
   line-height: 56px;
-  font-size: $--menu-item-font-size;
-  color: $--menu-item-font-color;
+  font-size: var(--el-menu-item-font-size);
+  color: var(--el-menu-item-font-color);
   padding: 0 20px;
   list-style: none;
   cursor: pointer;
@@ -30,7 +38,7 @@
   &:hover,
   &:focus {
     outline: none;
-    background-color: $--menu-item-hover-fill;
+    background-color: var(--el-menu-item-hover-fill);
   }
 
   @include when(disabled) {
@@ -41,15 +49,15 @@
 }
 
 @include b(menu) {
-  border-right: solid 1px $--menu-border-color;
+  border-right: solid 1px var(--el-menu-border-color);
   list-style: none;
   position: relative;
   margin: 0;
   padding-left: 0;
-  background-color: $--menu-background-color;
+  background-color: var(--el-menu-background-color);
   @include utils-clearfix;
   &.#{$namespace}-menu--horizontal {
-    border-bottom: solid 1px $--menu-border-color;
+    border-bottom: solid 1px var(--el-menu-border-color);
   }
 
   @include m(horizontal) {
@@ -219,7 +227,7 @@
     @include menu-item;
 
     &:hover {
-      background-color: $--menu-item-hover-fill;
+      background-color: var(--el-menu-item-hover-fill);
     }
   }
   & .#{$namespace}-menu {
