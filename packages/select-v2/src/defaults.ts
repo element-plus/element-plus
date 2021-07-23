@@ -2,6 +2,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { PropType } from 'vue'
 import type { OptionType } from './select.types'
+import { t } from '@element-plus/locale'
 
 export const SelectProps = {
   allowCreate: Boolean,
@@ -53,6 +54,7 @@ export const SelectProps = {
   },
   placeholder: {
     type: String,
+    default: t('el.select.placeholder'),
   },
   popperAppendToBody: {
     type: Boolean,

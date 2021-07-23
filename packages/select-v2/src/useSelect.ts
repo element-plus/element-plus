@@ -612,10 +612,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     } else {
       if (props.modelValue) {
         const selectedItem = filteredOptions.value.find(o => o.value === props.modelValue)
-
         if (selectedItem) {
           states.selectedLabel = selectedItem.label
+        } else {
+          states.selectedLabel = ''
         }
+      } else {
+        states.selectedLabel = ''
       }
     }
   }
@@ -636,6 +639,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   watch([() => props.modelValue, () => props.options], () => {
     initStates()
+  }, {
+    deep: true,
   })
 
   onMounted(() => {
@@ -692,6 +697,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleInputBoxClick,
     handleMenuEnter,
     toggleMenu,
+    scrollTo: scrollToItem,
     onCompositionUpdate,
     onInput,
     onKeyboardNavigate,
