@@ -35,9 +35,9 @@ const defaultTranslator = (...args: any[]) => {
   const array = path.split('.')
   let current: Record<string, unknown>
   if (app.config.globalProperties.$ELEMENT) {
-    current = app.config.globalProperties.$ELEMENT.lang || lang
+    current = app.config.globalProperties.$ELEMENT.locale || lang
   } else {
-    current = lang || defaultLang
+    current = lang
   }
   for (let i = 0, j = array.length; i < j; i++) {
     const property = array[i]
