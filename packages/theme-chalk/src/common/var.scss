@@ -714,10 +714,8 @@ $--empty-bottom-margin-top: 20px !default;
 
 /* Descriptions
 -------------------------- */
-$--descriptions-header-margin-bottom: 20px !default;
-$--descriptions-title-font-size: 16px !default;
-$--descriptions-table-border: 1px solid map.get($--border-color, 'lighter') !default;
-$--descriptions-item-bordered-label-background: #fafafa !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/descriptions.scss
 
 /* Result
 -------------------------- */
