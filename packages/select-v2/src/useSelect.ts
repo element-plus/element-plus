@@ -221,8 +221,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // if (expanded.value) {
       //   expanded.value = false
       // }
+      if (states.isComposing) states.softFocus = true
       expanded.value = !expanded.value
-      states.softFocus = true
       inputRef.value?.focus?.()
       // }
     }
@@ -388,14 +388,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       states.selectedLabel = option.label
       update(option.value)
       expanded.value = false
+      states.isComposing = false
+      states.isSilentBlur = byClick
     }
-    states.isComposing = false
-    states.isSilentBlur = byClick
-    // setSoftFocus()
-    if (expanded.value) return
-    nextTick(() => {
-      // scrollToOption(option)
-    })
   }
 
   const deleteTag = (event: MouseEvent, tag: Option) => {
@@ -423,15 +418,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const handleFocus = (event: FocusEvent) => {
+    const focused = states.isComposing
     states.isComposing = true
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
         expanded.value = true
-        // if (props.filterable) {
-        //   states.menuVisibleOnFocus = true
-        // }
       }
-      emit('focus', event)
+      // If already in the focus state, shouldn't trigger event
+      if (!focused) emit('focus', event)
     } else {
       states.softFocus = false
     }
@@ -444,7 +438,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
     }
 
-    states.isComposing = false
     states.softFocus = false
 
     // reset input value when blurred
@@ -454,7 +447,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if (calculatorRef.value) {
         states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
       }
-
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
@@ -462,6 +454,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           emit('blur')
         }
       }
+      states.isComposing = false
     })
 
   }
