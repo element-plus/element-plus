@@ -181,6 +181,7 @@
     </div>
     <div v-if="showTime" class="el-picker-panel__footer">
       <el-button
+        v-if="clearable"
         size="mini"
         type="text"
         class="el-picker-panel__link-btn"
@@ -429,8 +430,9 @@ export default defineComponent({
     }
 
     const handleShortcutClick = shortcut => {
-      if (shortcut.value) {
-        ctx.emit('pick', [dayjs(shortcut.value[0]), dayjs(shortcut.value[1])])
+      const shortcutValues = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
+      if (shortcutValues) {
+        ctx.emit('pick', [dayjs(shortcutValues[0]), dayjs(shortcutValues[1])])
         return
       }
       if (shortcut.onClick) {
@@ -514,7 +516,6 @@ export default defineComponent({
     }
 
 
-
     const handleMinTimePick = (value, visible, first) => {
       if (timeUserInput.value.min) return
       if (value) {
@@ -584,7 +585,16 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['handleClear', handleClear])
 
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { shortcuts, disabledDate, cellClassName, format, defaultTime, defaultValue, arrowControl } = pickerBase.props
+    const {
+      shortcuts,
+      disabledDate,
+      cellClassName,
+      format,
+      defaultTime,
+      defaultValue,
+      arrowControl,
+      clearable,
+    } = pickerBase.props
 
     watch(() => props.parsedValue, newVal => {
       if (newVal && newVal.length === 2) {
@@ -661,6 +671,7 @@ export default defineComponent({
       handleClear,
       handleConfirm,
       timeFormat,
+      clearable,
     }
   },
 })

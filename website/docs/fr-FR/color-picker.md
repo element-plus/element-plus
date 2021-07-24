@@ -25,6 +25,24 @@ ColorPicker est un sélecteur de couleur qui supporte plusieurs formats.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const color1 = ref('#409EFF');
+      const color2 = ref(null);
+      return {
+        color1,
+        color2,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -43,6 +61,22 @@ ColorPicker est un sélecteur de couleur qui supporte plusieurs formats.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const color = ref('rgba(19, 206, 102, 0.8)');
+      return {
+        color,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -81,6 +115,39 @@ ColorPicker est un sélecteur de couleur qui supporte plusieurs formats.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const color = ref('rgba(255, 69, 0, 0.68)');
+      const predefineColors = ref([
+        '#ff4500',
+        '#ff8c00',
+        '#ffd700',
+        '#90ee90',
+        '#00ced1',
+        '#1e90ff',
+        '#c71585',
+        'rgba(255, 69, 0, 0.68)',
+        'rgb(255, 120, 0)',
+        'hsv(51, 100, 98)',
+        'hsva(120, 40, 94, 0.5)',
+        'hsl(181, 100%, 37%)',
+        'hsla(209, 100%, 56%, 0.73)',
+        '#c7158577',
+      ]);
+      return {
+        color,
+        predefineColors,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -102,6 +169,23 @@ ColorPicker est un sélecteur de couleur qui supporte plusieurs formats.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const color = ref('409EFF');
+
+      return {
+        color,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

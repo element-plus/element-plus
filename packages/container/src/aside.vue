@@ -1,5 +1,5 @@
 <template>
-  <aside class="el-aside" :style="{ width }">
+  <aside class="el-aside" :style="{ '--el-aside-width': width }">
     <slot></slot>
   </aside>
 </template>
@@ -11,7 +11,7 @@ export default defineComponent({
   props: {
     width: {
       type: String,
-      default: '300px',
+      default: null,
     },
   },
 })

@@ -1,12 +1,14 @@
-@import "mixins/mixins";
-@import "common/var";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(textarea) {
   position: relative;
   display: inline-block;
   width: 100%;
   vertical-align: bottom;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
 
   @include e(inner) {
     display: block;
@@ -21,7 +23,7 @@
     background-image: none;
     border: $--input-border;
     border-radius: $--input-border-radius;
-    transition: $--border-transition-base;
+    transition: var(--el-border-transition-base);
 
     &::placeholder {
       color: $--input-placeholder-color;
@@ -38,7 +40,7 @@
   }
 
   & .#{$namespace}-input__count {
-    color: $--color-info;
+    color: var(--el-color-info);
     background: $--color-white;
     position: absolute;
     font-size: 12px;
@@ -62,28 +64,28 @@
 
   @include when(exceed) {
     .#{$namespace}-textarea__inner {
-      border-color: $--color-danger;
+      border-color: var(--el-color-danger);
     }
 
     .#{$namespace}-input__count {
-      color: $--color-danger;
+      color: var(--el-color-danger);
     }
   }
 }
 
 @include b(input) {
   position: relative;
-  font-size: $--font-size-base;
+  font-size: var(--el-font-size-base);
   display: inline-block;
   width: 100%;
-  line-height: $--input-height;
+  line-height: map.get($--input-height, 'default');
   @include scroll-bar;
 
   & .#{$namespace}-input__clear {
     color: $--input-icon-color;
-    font-size: $--input-font-size;
+    font-size: map.get($--input-font-size, 'default');
     cursor: pointer;
-    transition: $--color-transition-base;
+    transition: var(--el-color-transition-base);
 
     &:hover {
       color: $--input-clear-hover-color;
@@ -94,7 +96,7 @@
     height: 100%;
     display: inline-flex;
     align-items: center;
-    color: $--color-info;
+    color: var(--el-color-info);
     font-size: 12px;
 
     .#{$namespace}-input__count-inner {
@@ -115,11 +117,11 @@
     color: $--input-font-color;
     display: inline-block;
     font-size: inherit;
-    height: $--input-height;
-    line-height: $--input-height;
+    height: map.get($--input-height, 'default');
+    line-height: map.get($--input-height, 'default');
     outline: none;
     padding: 0 15px;
-    transition: $--border-transition-base;
+    transition: var(--el-border-transition-base);
     width: 100%;
 
     &::placeholder {
@@ -143,7 +145,7 @@
     top: 0;
     text-align: center;
     color: $--input-icon-color;
-    transition: all .3s;
+    transition: all var(--el-transition-duration);
     pointer-events: none;
   }
 
@@ -158,14 +160,14 @@
     top: 0;
     text-align: center;
     color: $--input-icon-color;
-    transition: all .3s;
+    transition: all var(--el-transition-duration);
   }
 
   @include e(icon) {
     width: 25px;
     text-align: center;
-    transition: all .3s;
-    line-height: $--input-height;
+    transition: all var(--el-transition-duration);
+    line-height: map.get($--input-height, 'default');
 
     &:after {
       content: '';
@@ -206,12 +208,12 @@
 
   @include when(exceed) {
     .#{$namespace}-input__inner {
-      border-color: $--color-danger;
+      border-color: var(--el-color-danger);
     }
 
     .#{$namespace}-input__suffix {
       .#{$namespace}-input__count {
-        color: $--color-danger;
+        color: var(--el-color-danger);
       }
     }
   }
@@ -219,6 +221,12 @@
   @include m(suffix) {
     .#{$namespace}-input__inner {
       padding-right: 30px;
+    }
+
+    @include m(password-clear) {
+      .#{$namespace}-input__inner {
+        padding-right: 55px;
+      }
     }
   }
 
@@ -228,43 +236,19 @@
     }
   }
 
-  @include m(medium) {
-    font-size: $--input-medium-font-size;
-    line-height: $--input-medium-height;
+  @each $size in (medium, small, mini) {
+    @include m($size) {
+      font-size: map.get($--input-font-size, $size);
+      line-height: map.get($--input-height, $size);
 
-    @include e(inner) {
-      height: $--input-medium-height;
-      line-height: $--input-medium-height;
-    }
+      @include e(inner) {
+        height: map.get($--input-height, $size);
+        line-height: map.get($--input-height, $size);
+      }
 
-    .#{$namespace}-input__icon {
-      line-height: $--input-medium-height;
-    }
-  }
-  @include m(small) {
-    font-size: $--input-small-font-size;
-    line-height: $--input-small-height;
-
-    @include e(inner) {
-      height: $--input-small-height;
-      line-height: $--input-small-height;
-    }
-
-    .#{$namespace}-input__icon {
-      line-height: $--input-small-height;
-    }
-  }
-  @include m(mini) {
-    font-size: $--input-mini-font-size;
-    line-height: $--input-mini-height;
-
-    @include e(inner) {
-      height: $--input-mini-height;
-      line-height: $--input-mini-height;
-    }
-
-    .#{$namespace}-input__icon {
-      line-height: $--input-mini-height;
+      .#{$namespace}-input__icon {
+        line-height: map.get($--input-height, $size);
+      }
     }
   }
 }
@@ -274,7 +258,7 @@
   display: inline-table;
   width: 100%;
   border-collapse: separate;
-  border-spacing:0;
+  border-spacing: 0;
 
   > .#{$namespace}-input__inner {
     vertical-align: middle;
@@ -283,7 +267,7 @@
 
   @include e((append, prepend)) {
     background-color: $--background-color-base;
-    color: $--color-info;
+    color: var(--el-color-info);
     vertical-align: middle;
     display: table-cell;
     position: relative;
@@ -336,7 +320,9 @@
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-    .#{$namespace}-select .#{$namespace}-input.is-focus .#{$namespace}-input__inner {
+    .#{$namespace}-select
+      .#{$namespace}-input.is-focus
+      .#{$namespace}-input__inner {
       border-color: transparent;
     }
   }
@@ -346,7 +332,9 @@
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
-    .#{$namespace}-select .#{$namespace}-input.is-focus .#{$namespace}-input__inner {
+    .#{$namespace}-select
+      .#{$namespace}-input.is-focus
+      .#{$namespace}-input__inner {
       border-color: transparent;
     }
   }

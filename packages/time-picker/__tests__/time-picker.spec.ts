@@ -92,8 +92,8 @@ describe('TimePicker', () => {
     const minutesEl = list[1]
     const secondsEl = list[2]
     const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
-    const minuteEl = minutesEl.querySelectorAll('.el-time-spinner__item')[36]  as any
-    const secondEl = secondsEl.querySelectorAll('.el-time-spinner__item')[20]  as any
+    const minuteEl = minutesEl.querySelectorAll('.el-time-spinner__item')[36] as any
+    const secondEl = secondsEl.querySelectorAll('.el-time-spinner__item')[20] as any
     // click hour, minute, second one at a time.
     hourEl.click()
     await nextTick()
@@ -306,6 +306,55 @@ describe('TimePicker', () => {
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
+  })
+
+  it('ref blur', async () => {
+    _mount(`<el-time-picker
+        v-model="value"
+        ref="input"
+      />`, () => ({ value: new Date(2016, 9, 10, 18, 40) }), {
+      mounted() {
+        this.$refs.input.focus()
+        this.$refs.input.blur()
+      },
+    })
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('true')
+  })
+
+  it('model value should sync when disabled-hours was updated', async () => {
+    const wrapper = _mount(`
+       <el-time-picker
+        v-model="value"
+        :disabled-hours="disabledHours"
+        value-format="YYYY-MM-DD HH:mm:ss"
+      />
+    `, () => ({
+      value: '2000-01-01 00:00:00',
+      minHour: '8',
+    }), {
+      computed: {
+        disabledHours() {
+          return () => {
+            return Array(24)
+              .fill(null)
+              .map((_, i) => i)
+              .filter(h => h < parseInt(this.minHour, 10))
+          }
+        },
+      },
+    })
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toEqual('2000-01-01 08:00:00')
+    vm.minHour = '9'
+    await nextTick()
+    expect(vm.value).toEqual('2000-01-01 09:00:00')
+    vm.minHour = '8'
+    await nextTick()
+    expect(vm.value).toEqual('2000-01-01 09:00:00')
   })
 })
 

@@ -631,7 +631,7 @@ export default defineComponent ({
 |autofocus | ネイティブインプットの `autofocus` と同じ | boolean | — | false |
 |form | ネイティブインプットの `form` と同じ | string | — | — |
 | label | ラベルインデックス | string | — | — |
-| tabindex | インプットタビインデックス | string | - | - |
+| tabindex | インプットタビインデックス | string / number | - | - |
 | validate-event | フォームバリデーションをトリガするかどうか | boolean | - | true |
 
 ### インプットスロット
@@ -670,7 +670,7 @@ Attribute | Description | Type | Options | Default
 |disabled | オートコンプリートを無効にしているかどうか  | boolean | — | false|
 | value-key | 表示用インプットサジェスチョンオブジェクトのキー名 | string | — | value |
 |icon | アイコン名 | string | — | — |
-|value | バインディング値 | string | — | — |
+| model-value / v-model | バインディング値 | string | — | — |
 | debounce | タイプ時のデバウンス遅延（ミリ秒単位） | number | — | 300 |
 | placement | ポップアップメニューの配置 | string | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
 |fetch-suggestions | インプットサジェスチョンを取得するためのメソッドです。サジェスチョンの準備ができたら、`callback(data:[])` を呼び出してオートコンプリートに返す。 | Function(queryString, callback) | — | — |
@@ -684,6 +684,7 @@ Attribute | Description | Type | Options | Default
 | hide-loading | リモート検索で読み込みアイコンを非表示にするかどうか | boolean | — | false |
 | popper-append-to-body | ドロップダウンをボディに追加するかどうかを指定します。ドロップダウンの位置が間違っている場合は、このプロップをfalseに設定してみてください。 | boolean | - | false |
 | highlight-first-item | リモート検索サジェスチョンの最初の項目をデフォルトで強調表示するかどうか | boolean | — | false |
+| input-style | the style of the input element or textarea element | object | - | {} |
 
 ### オートコンプリートスロット
 

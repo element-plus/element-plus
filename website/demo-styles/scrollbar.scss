@@ -7,7 +7,7 @@
     margin: 10px;
     text-align: center;
     border-radius: 4px;
-    background: #ECF5FF;
+    background: #ecf5ff;
     color: #409eff;
   }
 
@@ -24,12 +24,16 @@
       margin: 10px;
       text-align: center;
       border-radius: 4px;
-      background: #FEF0F0;
-      color: #F56C6C;
+      background: #fef0f0;
+      color: #f56c6c;
     }
   }
 
-  .el-button{
+  .el-button {
     margin-bottom: 20px;
+  }
+
+  .el-slider {
+    margin-top: 20px;
   }
 }

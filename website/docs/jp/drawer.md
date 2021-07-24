@@ -52,6 +52,35 @@ Since v-model is natively supported for all components, `visible.sync` has been 
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const drawer = ref(false);
+      const direction = ref('rtl');
+      const handleClose = (done) => {
+        ElMessageBox
+          .confirm('Are you sure you want to close this?')
+          .then((_) => {
+            done();
+          })
+          .catch((_) => {});
+      };
+      return {
+        drawer,
+        direction,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -82,6 +111,21 @@ Since v-model is natively supported for all components, `visible.sync` has been 
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        drawer: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -197,6 +241,90 @@ export default {
   }
 }
 </script>
+<!--
+<setup>
+
+import {defineComponent, reactive, toRefs } from 'vue'; 
+import { ElMessageBox } from 'element-plus'; 
+
+  export default defineComponent({
+    setup() {
+      
+      const state = reactive({
+        table: false,
+        dialog: false,
+        loading: false,
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-03',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+        ],
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: '',
+        },
+        formLabelWidth: '80px',
+        timer: null,
+      });
+
+      const handleClose = (done) => {
+        if (state.loading) {
+          return;
+        }
+        ElMessageBox
+          .confirm('Do you want to submit?')
+          .then((_) => {
+            state.loading = true;
+            state.timer = setTimeout(() => {
+              done();
+              // 动画关闭需要一定的时间
+              setTimeout(() => {
+                state.loading = false;
+              }, 400);
+            }, 2000);
+          })
+          .catch((_) => {});
+      };
+
+      const cancelForm = () => {
+        state.loading = false;
+        state.dialog = false;
+        clearTimeout(state.timer);
+      };
+
+      return {
+        ...toRefs(state),
+        handleClose,
+        cancelForm,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -246,6 +374,35 @@ export default {
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const drawer = ref(false);
+      const innerDrawer = ref(false);
+      const handleClose = (done) => {
+        ElMessageBox
+          .confirm('You still have unsaved data, proceed?')
+          .then((_) => {
+            done();
+          })
+          .catch((_) => {});
+      };
+      return {
+        drawer,
+        innerDrawer,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 
 ```
 :::
@@ -267,6 +424,7 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 
 | Parameter| Description | Type      | Acceptable Values                           | Defaults  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
+| model-value / v-model | Drawerを表示する場合は、 | boolean | — | false |
 | append-to-body | DrawerがDocumentBody要素に挿入されている場合のコントロールは、ネストされたDrawerはこのパラメータを**true**に割り当てなければなりません。| boolean   | — | false |
 | before-close | 設定されている場合は、終了処理を停止します。 | function(done), done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure | — | — |
 | close-on-press-escape | ESC を押してDrawerを閉じることができるかどうかを示す。 | boolean | — | true |
@@ -277,7 +435,6 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 | show-close | Drawerの右上に閉じるボタンを表示するようにした | boolean | — | true |
 | size | Drawerのサイズ, ドローワが水平モードの場合は幅プロパティ, そうでない場合は高さプロパティ, サイズが `number` 型の場合はピクセル単位でサイズを記述します; サイズが `string` 型の場合は `x%` 記法を用います, それ以外の場合はピクセル単位で解釈されます | number / string | - | '30%' |
 | title | Drawerのタイトルは、スロットの名前を指定して設定することもできます。 | string | — | — |
-| model-value / v-model | Drawerを表示する場合は、 | boolean | — | false |
 | withHeader | デフォルトは true で、withHeader が false に設定されている場合は `title attribute` と `title slot` の両方が動作しません。 | boolean | - | true |
 | modal-class | シャドウレイヤーの追加クラス名 | string | — | — |
 ### Drawerスロット

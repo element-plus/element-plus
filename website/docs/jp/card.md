@@ -124,6 +124,23 @@ export default {
   }
 }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const currentDate = ref(new Date());
+
+      return {
+        currentDate,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

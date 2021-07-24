@@ -188,7 +188,7 @@ export default class TreeStore {
     delete this.nodesMap[node.key]
   }
 
-  getCheckedNodes(leafOnly = false, includeHalfChecked = false): TreeNodeData[]  {
+  getCheckedNodes(leafOnly = false, includeHalfChecked = false): TreeNodeData[] {
     const checkedNodes: TreeNodeData[] = []
     const traverse = function(node: TreeStore | Node) {
       const childNodes = (node as TreeStore).root ? (node as TreeStore).root.childNodes : (node as Node).childNodes

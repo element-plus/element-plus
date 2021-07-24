@@ -197,7 +197,7 @@ export default defineComponent({
   setup(props, ctx) {
     const innerDate = ref(dayjs())
 
-    const month = computed(() =>  {
+    const month = computed(() => {
       return innerDate.value.month()
     })
 
@@ -215,11 +215,11 @@ export default defineComponent({
         : true
     }
     const formatEmit = (emitDayjs: Dayjs) => {
-      if (showTime.value) return emitDayjs.millisecond(0)
       if (defaultTime) {
         const defaultTimeD = dayjs(defaultTime)
         return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date())
       }
+      if (showTime.value) return emitDayjs.millisecond(0)
       return emitDayjs.startOf('day')
     }
     const emit = (value, ...args) => {
@@ -288,8 +288,9 @@ export default defineComponent({
     })
 
     const handleShortcutClick = shortcut => {
-      if (shortcut.value) {
-        emit(dayjs(shortcut.value))
+      const shortcutValue = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
+      if (shortcutValue) {
+        emit(dayjs(shortcutValue))
         return
       }
       if (shortcut.onClick) {
@@ -426,7 +427,7 @@ export default defineComponent({
     const handleVisibleDateChange = value => {
       const newDate = dayjs(value, dateFormat.value)
       if (newDate.isValid()) {
-        if (disabledDate  && disabledDate(newDate.toDate())) {
+        if (disabledDate && disabledDate(newDate.toDate())) {
           return
         }
         innerDate.value = newDate.hour(innerDate.value.hour()).minute(innerDate.value.minute()).second(innerDate.value.second())

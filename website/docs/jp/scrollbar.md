@@ -7,6 +7,7 @@ Used to replace the browser's native scrollbar.
 :::demo Use `height` property to set the height of the scrollbar, or if not set, it adapts according to the parent container height.
 
 ```html
+
 <el-scrollbar height="400px">
   <p class="item" v-for="item in 20">{{ item }}</p>
 </el-scrollbar>
@@ -19,6 +20,7 @@ Used to replace the browser's native scrollbar.
 :::demo When the element width is greater than the scrollbar width, the horizontal scrollbar is displayed.
 
 ```html
+
 <el-scrollbar>
   <div class="flex-content">
     <p class="item" v-for="item in 50">{{ item }}</p>
@@ -33,6 +35,7 @@ Used to replace the browser's native scrollbar.
 :::demo The scrollbar is displayed only when the element height exceeds the max height.
 
 ```html
+
 <template>
   <el-button @click="add">Add Item</el-button>
   <el-button @click="delete">Delete Item</el-button>
@@ -64,6 +67,47 @@ Used to replace the browser's native scrollbar.
 
 :::
 
+### Manual scroll
+
+:::demo Use `setScrollTop` and `setScrollLeft` methods can control scrollbar manually.
+
+```html
+
+<template>
+  <el-scrollbar ref="scrollbar" height="400px" always>
+    <div ref="inner">
+      <p class="item" v-for="item in 20">{{ item }}</p>
+    </div>
+  </el-scrollbar>
+
+  <el-slider v-model="value" @input="inputSlider" :max="max" :format-tooltip="formatTooltip"></el-slider>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        max: 0,
+        value: 0
+      }
+    },
+    mounted() {
+      this.max = this.$refs.inner.clientHeight - 380
+    },
+    methods: {
+      inputSlider(value) {
+        this.$refs.scrollbar.setScrollTop(value)
+      },
+      formatTooltip(value) {
+        return `${value} px`
+      }
+    }
+  }
+</script>
+```
+
+:::
+
 ### Scrollbar Attributes
 
 | Attribute       | Description        | Type        | Accepted Values        | Default   |
@@ -77,9 +121,18 @@ Used to replace the browser's native scrollbar.
 | view-class  | class of view    | string  |    —  |  — |
 | noresize  | do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance    | boolean  |    —  |  false |
 | tag  | element tag of the view    | string  |    —  |  div |
+| always  | always show scrollbar    | boolean  |    —  |  false |
 
-### Events
+### Scrollbar Events
 
 | Event Name | Description | Parameters |
 |---------- |-------- |---------- |
 | scroll | triggers when scrolling | distance of scrolling { scrollLeft, scrollTop }|
+
+### Scrollbar Methods
+
+| Method | Description | Parameters |
+| ---- | ---- | ---- |
+| setScrollTop | Set distance to scroll top | (scrollTop: number) |
+| setScrollLeft | Set distance to scroll left | (scrollLeft: number) |
+| update | update scrollbar state manually | — |

@@ -12,7 +12,7 @@
     <div class="el-descriptions__body">
       <table :class="[{'is-bordered': border}, descriptionsSize ? `el-descriptions--${descriptionsSize}` : '']">
         <tbody>
-          <template v-for="(row, index) in rows" :key="index">
+          <template v-for="(row, index) in getRows()" :key="index">
             <el-descriptions-row :row="row" />
           </template>
         </tbody>
@@ -22,17 +22,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, provide } from 'vue'
+import { computed, defineComponent, provide } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import DescriptionsItem from '@element-plus/descriptions-item'
 import DescriptionsRow from './descriptions-row.vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
-import { elDescriptionsKey } from './descriptions.type'
+import { elDescriptionsKey } from './token'
+
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElDescriptions',
   components: {
-    [DescriptionsItem.name]: DescriptionsItem,
     [DescriptionsRow.name]: DescriptionsRow,
   },
   props: {
@@ -90,23 +90,30 @@ export default defineComponent({
         node.props.span = count
       }
       if (isLast) {
-        // set the max span, cause of the last td
-        node.props.span = props.column
+        // set the last span
+        node.props.span = span
       }
       return node
     }
 
-    const rows = computed(() => {
+    const getRows = () => {
       const children = flattedChildren(slots.default?.()).filter(node => node?.type?.name === 'ElDescriptionsItem')
       const rows = []
       let temp = []
       let count = props.column
+      let totalSpan = 0 // all spans number of item
 
       children.forEach((node, index) => {
-        const span = node.props?.span || 1
+        let span = node.props?.span || 1
+
+        if (index < children.length - 1) {
+          totalSpan += span > count ? count : span
+        }
 
         if (index === children.length - 1) {
-          temp.push(filledNode(node, span, count, true))
+          // calculate the last item span
+          const lastSpan = props.column - totalSpan % props.column
+          temp.push(filledNode(node, lastSpan, count, true))
           rows.push(temp)
           return
         }
@@ -123,11 +130,11 @@ export default defineComponent({
       })
 
       return rows
-    })
+    }
 
     return {
       descriptionsSize,
-      rows,
+      getRows,
     }
   },
 })

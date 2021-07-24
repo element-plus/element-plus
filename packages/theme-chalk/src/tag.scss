@@ -1,91 +1,109 @@
-@import "mixins/mixins";
-@import "common/var";
+@use "sass:map";
 
-@mixin genTheme($backgroundColorWeight, $borderColorWeight, $fontColorWeight, $hoverColorWeight) {
-  background-color: mix($--tag-primary-color, $--color-white, $backgroundColorWeight);
-  border-color: mix($--tag-primary-color, $--color-white, $borderColorWeight);
-  color: mix($--tag-primary-color, $--color-white, $fontColorWeight);
+@import 'mixins/mixins';
+@import 'common/var';
+
+$types: (primary, success, warning, info, danger);
+
+$--tag-color: () !default;
+
+@each $type in $types {
+  $--tag-color: map.merge(
+    $--tag-color,
+    (
+      $type: map.get($--colors, $type, 'base'),
+    )
+  ) !global;
+}
+
+:root {
+  @each $type in $types {
+    --el-tag-#{$type}-color: var(--el-color-#{$type});
+  }
+
+  --el-tag-font-size: 12px;
+  --el-tag-border-radius: 4px;
+  --el-tag-padding: 0 10px;
+}
+
+@mixin genTheme(
+  $backgroundColorWeight,
+  $borderColorWeight,
+  $fontColorWeight,
+  $hoverColorWeight
+) {
+  background-color: mix(
+    map.get($--tag-color, 'primary'),
+    $--color-white,
+    $backgroundColorWeight
+  );
+  border-color: mix(
+    map.get($--tag-color, 'primary'),
+    $--color-white,
+    $borderColorWeight
+  );
+  color: mix(
+    map.get($--tag-color, 'primary'),
+    $--color-white,
+    $fontColorWeight
+  );
 
   @include when(hit) {
-    border-color: $--tag-primary-color;
+    border-color: map.get($--tag-color, 'primary');
   }
 
   .#{$namespace}-tag__close {
-    color: mix($--tag-primary-color, $--color-white, $fontColorWeight);
+    color: mix(
+      map.get($--tag-color, 'primary'),
+      $--color-white,
+      $fontColorWeight
+    );
     &:hover {
       color: $--color-white;
-      background-color: mix($--tag-primary-color, $--color-white, $hoverColorWeight);
+      background-color: mix(
+        map.get($--tag-color, 'primary'),
+        $--color-white,
+        $hoverColorWeight
+      );
     }
   }
 
-  &.#{$namespace}-tag--info {
-    background-color: mix($--tag-info-color, $--color-white, $backgroundColorWeight);
-    border-color: mix($--tag-info-color, $--color-white, $borderColorWeight);
-    color: mix($--tag-info-color, $--color-white, $fontColorWeight);
+  @each $type in $types {
+    &.#{$namespace}-tag--#{$type} {
+      background-color: mix(
+        map.get($--tag-color, $type),
+        $--color-white,
+        $backgroundColorWeight
+      );
+      border-color: mix(
+        map.get($--tag-color, $type),
+        $--color-white,
+        $borderColorWeight
+      );
+      color: mix(
+        map.get($--tag-color, $type),
+        $--color-white,
+        $fontColorWeight
+      );
 
-    @include when(hit) {
-      border-color: $--tag-info-color;
-    }
-
-    .#{$namespace}-tag__close {
-      color: mix($--tag-info-color, $--color-white, $fontColorWeight);
-      &:hover {
-        color: $--color-white;
-        background-color: mix($--tag-info-color, $--color-white, $hoverColorWeight);
+      @include when(hit) {
+        border-color: map.get($--tag-color, $type);
       }
-    }
-  }
 
-  &.#{$namespace}-tag--success {
-    background-color: mix($--tag-success-color, $--color-white, $backgroundColorWeight);
-    border-color: mix($--tag-success-color, $--color-white, $borderColorWeight);
-    color: mix($--tag-success-color, $--color-white, $fontColorWeight);
-
-    @include when(hit) {
-      border-color: $--tag-success-color;
-    }
-
-    .#{$namespace}-tag__close {
-      color: mix($--tag-success-color, $--color-white, $fontColorWeight);
-      &:hover {
-        color: $--color-white;
-        background-color: mix($--tag-success-color, $--color-white, $hoverColorWeight);
-      }
-    }
-  }
-
-  &.#{$namespace}-tag--warning {
-    background-color: mix($--tag-warning-color, $--color-white, $backgroundColorWeight);
-    border-color: mix($--tag-warning-color, $--color-white, $borderColorWeight);
-    color: mix($--tag-warning-color, $--color-white, $fontColorWeight);
-
-    @include when(hit) {
-      border-color: $--tag-warning-color;
-    }
-
-    .#{$namespace}-tag__close {
-      color: mix($--tag-warning-color, $--color-white, $fontColorWeight);
-      &:hover {
-        color: $--color-white;
-        background-color: mix($--tag-warning-color, $--color-white, $hoverColorWeight);
-      }
-    }
-  }
-
-  &.#{$namespace}-tag--danger {
-    background-color: mix($--tag-danger-color, $--color-white, $backgroundColorWeight);
-    border-color: mix($--tag-danger-color, $--color-white, $borderColorWeight);
-    color: mix($--tag-danger-color, $--color-white, $fontColorWeight);
-
-    @include when(hit) {
-      border-color: $--tag-danger-color;
-    }
-
-    .#{$namespace}-tag__close {
-      color: mix($--tag-danger-color, $--color-white, $fontColorWeight);
-      &:hover {
-        color: $--color-white;
-        background-color: mix($--tag-danger-color, $--color-white, $hoverColorWeight);
+      .#{$namespace}-tag__close {
+        color: mix(
+          map.get($--tag-color, $type),
+          $--color-white,
+          $fontColorWeight
+        );
+        &:hover {
+          color: $--color-white;
+          background-color: mix(
+            map.get($--tag-color, $type),
+            $--color-white,
+            $hoverColorWeight
+          );
+        }
       }
     }
   }
@@ -95,13 +113,13 @@
   @include genTheme(10%, 20%, 100%, 100%);
   display: inline-block;
   height: 32px;
-  padding: $--tag-padding;
+  padding: var(--el-tag-padding);
   line-height: 30px;
-  font-size: $--tag-font-size;
-  color: $--tag-primary-color;
+  font-size: var(--el-tag-font-size);
+  color: map.get($--tag-color, 'primary');
   border-width: 1px;
   border-style: solid;
-  border-radius: $--tag-border-radius;
+  border-radius: var(--el-tag-border-radius);
   box-sizing: border-box;
   white-space: nowrap;
 
@@ -136,7 +154,7 @@
     line-height: 26px;
 
     .#{$namespace}-icon-close {
-      transform: scale(.8);
+      transform: scale(0.8);
     }
   }
 
@@ -146,7 +164,7 @@
     line-height: 22px;
 
     .#{$namespace}-icon-close {
-      transform: scale(.8);
+      transform: scale(0.8);
     }
   }
 
@@ -157,7 +175,7 @@
 
     .#{$namespace}-icon-close {
       margin-left: -3px;
-      transform: scale(.7);
+      transform: scale(0.7);
     }
   }
 }

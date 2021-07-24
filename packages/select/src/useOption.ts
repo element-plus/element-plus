@@ -3,6 +3,7 @@ import {
   computed,
   getCurrentInstance,
   watch,
+  onBeforeUnmount,
 } from 'vue'
 import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
 import {
@@ -80,10 +81,16 @@ export function useOption(props, states) {
   }
 
   const queryChange = (query: string) => {
-    const regexp = new RegExp(escapeRegexpString(query), 'i')
-    states.visible = regexp.test(currentLabel.value) || props.created
-    if (!states.visible) {
-      select.filteredOptionsCount--
+    // not in filtering, just show original options only
+    if (!query) {
+      states.visible = !props.created
+    } else {
+      // in filtering, do filter by RegExp
+      const regexp = new RegExp(escapeRegexpString(query), 'i')
+      states.visible = regexp.test(currentLabel.value)
+      if (!states.visible && !props.created) {
+        select.filteredOptionsCount--
+      }
     }
   }
 
@@ -107,6 +114,10 @@ export function useOption(props, states) {
 
   // Emitter
   select.selectEmitter.on(selectEvents.queryChange, queryChange)
+
+  onBeforeUnmount(() => {
+    select.selectEmitter.off(selectEvents.queryChange, queryChange)
+  })
 
   return {
     select,

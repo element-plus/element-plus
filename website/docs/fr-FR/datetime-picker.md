@@ -49,18 +49,18 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
           value: new Date(),
         }, {
           text: 'Hier',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24);
             return date
-          })(),
+          },
         }, {
           text: 'Il y a une semaine',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -70,6 +70,50 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: "Aujourd'hui",
+            value: new Date(),
+          },
+          {
+            text: 'Hier',
+            value: () => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              return date;
+            },
+          },
+          {
+            text: 'Il y a une semaine',
+            value: () => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              return date;
+            },
+          },
+        ],
+        value1: '',
+        value2: '',
+        value3: '',
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0), // '12:00:00'
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -97,8 +141,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
       :shortcuts="shortcuts"
       range-separator="à"
       start-placeholder="Date de début"
-      end-placeholder="Date de fin"
-      align="right">
+      end-placeholder="Date de fin">
     </el-date-picker>
   </div>
 </template>
@@ -109,28 +152,28 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
       return {
         shortcuts: [{
           text: 'La semaine passée',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
             return [start, end]
-          })()
+          }
         }, {
           text: 'Le mois dernier',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
             return [start, end]
-          })()
+          }
         }, {
           text: 'Les 2 derniers mois',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
             return [start, end]
-          })()
+          }
         }],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
         value2: ''
@@ -138,6 +181,55 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: 'La semaine passée',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              return [start, end];
+            },
+          },
+          {
+            text: 'Le mois dernier',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              return [start, end];
+            },
+          },
+          {
+            text: 'Les 2 derniers mois',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              return [start, end];
+            },
+          },
+        ],
+        value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -161,7 +253,6 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
     <el-date-picker
       v-model="value2"
       type="datetimerange"
-      align="right"
       start-placeholder="Date de début"
       end-placeholder="Date de fin"
       :default-time="defaultTime2">
@@ -186,6 +277,31 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        value1: '',
+        value2: '',
+        defaultTime1: [new Date(2000, 1, 1, 12, 0, 0)], // '12:00:00'
+        defaultTime2: [
+          new Date(2000, 1, 1, 12, 0, 0),
+          new Date(2000, 2, 1, 8, 0, 0),
+        ], // '12:00:00', '08:00:00'
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -204,7 +320,6 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 | time-arrow-control | Si l'horaire peut être sélectionné en utilisant les flèches de direction. | boolean | — | false |
 | type | Type du picker. | string | year/month/date/datetime/ week/datetimerange/daterange | date |
 | format | Format d'affichage de la date dans le champ. | string | Voir [formats de date](#/fr-FR/component/date-picker#formats-de-date) | YYYY-MM-DD HH:mm:ss |
-| align | Alignements. | left/center/right | left |
 | popper-class | Nom de classe pour le menu déroulant du DateTimePicker. | string | — | — |
 | range-separator | Séparateur de plage. | string | - | '-' |
 | default-value | Date par défaut du calendrier, optionnelle. | Date | N'importe quelle valeur acceptée par `new Date()` | — |
@@ -213,7 +328,7 @@ DateTimePicker est dérivé de DatePicker et TimePicker. Pour plus d'information
 | unlink-panels | Rend indépendants les deux panneaux de plage de dates | boolean | — | false |
 | prefix-icon | Icône de préfixe. | string | — | el-icon-date |
 | clear-icon | Icône de reset | string | — | el-icon-circle-close |
-| shortcuts | Un tableau d'objets pour configurer les raccourcis | object[{ text: string, value: Date }] | — | — |
+| shortcuts | Un tableau d'objets pour configurer les raccourcis | object[{ text: string, value: date / function }] | — | — |
 | disabledDate | Une fonction déterminant si une date est désactivée avec cette date en paramètre. Retourne un Boolean | function | — | — |
 | cellClassName | set custom className | Function(Date) | — | — |
 

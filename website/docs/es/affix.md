@@ -53,3 +53,8 @@ The affix component provides two fixed positions: `top` and `bottom`.
 |---------- |-------- |---------- |
 | change | 	triggers when fixed state changed | (value: boolean) |
 | scroll | 	triggers when scrolling | scroll top and fixed state |
+
+### Methods
+| Method | Description | Parameters |
+|------|--------|-------|
+| update | update affix state manually | — |

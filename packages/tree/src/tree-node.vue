@@ -103,6 +103,7 @@ export default defineComponent({
       type: Object as PropType<TreeOptionProps>,
       default: () => ({}),
     },
+    accordion: Boolean,
     renderContent: Function,
     renderAfterExpand: Boolean,
     showCheckbox: {

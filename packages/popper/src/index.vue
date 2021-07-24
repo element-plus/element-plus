@@ -1,6 +1,5 @@
 <script lang="ts">
 import {
-  createVNode,
   defineComponent,
   Fragment,
   Teleport,
@@ -11,10 +10,10 @@ import {
   renderSlot,
   toDisplayString,
   withDirectives,
+  h,
 } from 'vue'
 
 import throwError from '@element-plus/utils/error'
-import { PatchFlags, renderBlock } from '@element-plus/utils/vnode'
 
 import usePopper from './use-popper/index'
 import defaultProps from './use-popper/defaults'
@@ -102,7 +101,7 @@ export default defineComponent({
     const _t = $slots.trigger?.()
 
     const triggerProps = {
-      ariaDescribedby: popperId,
+      'aria-describedby': popperId,
       class: kls,
       style,
       ref: 'triggerRef',
@@ -113,17 +112,15 @@ export default defineComponent({
       ? renderTrigger(_t, triggerProps)
       : withDirectives(renderTrigger(_t, triggerProps), [[ClickOutside, hide]])
 
-    return renderBlock(Fragment, null, [
+    return h(Fragment, null, [
       trigger,
-      createVNode(
+      h(
         Teleport as any, // Vue did not support createVNode for Teleport
         {
           to: 'body',
           disabled: !appendToBody,
         },
         [popper],
-        PatchFlags.PROPS,
-        ['disabled'],
       ),
     ])
   },

@@ -42,18 +42,18 @@
           value: new Date(),
         }, {
           text: 'Yesterday',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24)
             return date
-          })(),
+          },
         }, {
           text: 'A week ago',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -61,6 +61,51 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: 'Today',
+            value: new Date(),
+          },
+          {
+            text: 'Yesterday',
+            value: () => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              return date;
+            },
+          },
+          {
+            text: 'A week ago',
+            value: () => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              return date;
+            },
+          },
+        ],
+        value1: '',
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -121,6 +166,28 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        value1: '',
+        value2: '',
+        value3: '',
+        value4: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 
 :::
@@ -148,7 +215,6 @@
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       unlink-panels
       range-separator="To"
       start-placeholder="Start date"
@@ -164,28 +230,28 @@
       return {
         shortcuts: [{
           text: 'Last week',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last month',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last 3 months',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -193,6 +259,55 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: 'Last week',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              return [start, end];
+            },
+          },
+          {
+            text: 'Last month',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              return [start, end];
+            },
+          },
+          {
+            text: 'Last 3 months',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              return [start, end];
+            },
+          },
+        ],
+        value1: '',
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 
 :::
@@ -219,7 +334,6 @@
     <el-date-picker
       v-model="value2"
       type="monthrange"
-      align="right"
       unlink-panels
       range-separator="To"
       start-placeholder="Start month"
@@ -238,19 +352,19 @@
           value: [new Date(), new Date()],
         }, {
           text: 'This year',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date(new Date().getFullYear(), 0)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last 6 months',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setMonth(start.getMonth() - 6)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -258,6 +372,49 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: 'This month',
+            value: [new Date(), new Date()],
+          },
+          {
+            text: 'This year',
+            value: () => {
+              const end = new Date();
+              const start = new Date(new Date().getFullYear(), 0);
+              return [start, end];
+            },
+          },
+          {
+            text: 'Last 6 months',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setMonth(start.getMonth() - 6);
+              return [start, end];
+            },
+          },
+        ],
+        value1: '',
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -284,7 +441,6 @@
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
       default-value="2010-10-01">
@@ -302,11 +458,30 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref('');
+      const value2 = ref('');
+
+      return {
+        value1,
+        value2,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
 ###  日付のフォーマット
-入力ボックスに表示されるテキストの書式を制御するには `format` を用いる。
+入力ボックスに表示されるテキストの書式を制御するには `format` を用いる。Use `value-format` to control binding value's format.
 
 デフォルトでは、コンポーネントは `Date` オブジェクトを受け入れて出力します。
 
@@ -329,6 +504,28 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
       format="yyyy/MM/dd">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">Use value-format</span>
+    <div class="demonstration">Value：{{ value2 }}</div>
+    <el-date-picker
+      v-model="value2"
+      type="date"
+      placeholder="Pick a Date"
+      format="YYYY/MM/DD"
+      value-format="YYYY-MM-DD">
+    </el-date-picker>
+  </div>
+  <div class="block">
+    <span class="demonstration">Timestamp</span>
+    <div class="demonstration">Value：{{ value3 }}</div>
+    <el-date-picker
+      v-model="value3"
+      type="date"
+      placeholder="Pick a Date"
+      format="YYYY/MM/DD"
+      value-format="x">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -342,6 +539,27 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value1 = ref('');
+      const value2 = ref('');
+      const value3 = ref('');
+
+      return {
+        value1,
+        value2,
+        value3,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -377,6 +595,28 @@ Check the list [here](https://day.js.org/docs/en/display/format#list-of-all-avai
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value = ref('');
+      const defaultTime = ref([
+        new Date(2000, 1, 1, 0, 0, 0),
+        new Date(2000, 2, 1, 23, 59, 59),
+      ]); // '00:00:00', '23:59:59'
+
+      return {
+        value,
+        defaultTime,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -400,17 +640,17 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | end-placeholder | 範囲終了日のプレースホルダ | string | — | — |
 | type | ピッカーのタイプ | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
 | format | 入力ボックスの表示値のフォーマット | string | see [date formats](#/jp/component/date-picker#date-formats) | YYYY-MM-DD |
-| align | アライメント | left/center/right | left |
 | popper-class | date-pickerのドロップダウン用カスタムクラス名 | string | — | — |
 | range-separator | 範囲セパレータ | string | — | '-' |
 | default-value | オプション、カレンダーのデフォルトの日付 | Date | anything accepted by `new Date()` | — |
 | default-time | optional, the time value to use when selecting date range | Date[] | Array with length 2, each item is a Date. The first item for the start date and then second item for the end date | — |
+| value-format | optional, format of binding value. If not specified, the binding value will be a Date object | string | see [date formats](#/en-US/component/date-picker#date-formats) | — |
 | name | ネイティブ入力の `name` と同じ  | string | — | — |
 | unlink-panels | 範囲ピッカーで2つのデータパネルのリンクを解除する | boolean | — | false |
 | prefix-icon | カスタムプレフィックスアイコン | string | — | el-icon-date |
 | clear-icon | カスタムクリアアイコンクラス | string | — | el-icon-circle-close |
 | validate-event | フォームバリデーションをトリガするかどうか | boolean | - | true |
-| shortcuts | an object array to set shortcut options | object[{ text: string, value: Date }] | — | — |
+| shortcuts | an object array to set shortcut options | object[{ text: string, value: date / function }] | — | — |
 | disabledDate | 日付をパラメータとして、その日付が無効化されているかどうかを判断する関数です。ブーリアンを返す必要があります。 | function | — | — |
 
 

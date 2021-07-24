@@ -22,6 +22,38 @@ checkbox単独で使用して2つの状態を切り替えることができま�
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked = ref(true);
+      return {
+        checked,
+      };
+    },
+  });
+
+</setup>
+-->
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked = ref(true);
+      return {
+        checked,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -46,6 +78,23 @@ checkboxを無効にした状態。
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checked1 = ref(false);
+      const checked2 = ref(true);
+      return {
+        checked1,
+        checked2,
+      };
+    },
+  });
+</setup>
+-->
 ```
 :::
 
@@ -75,6 +124,22 @@ checkboxを無効にした状態。
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const checkList = ref(['selected and disabled','Option A']);
+      return {
+        checkList,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -116,6 +181,40 @@ checkboxを無効にした状態。
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        checkAll: false,
+        checkedCities: ['Shanghai', 'Beijing'],
+        cities: cityOptions,
+        isIndeterminate: true,
+      });
+      const handleCheckAllChange = (val) => {
+        state.checkedCities = val ? cityOptions : [];
+        state.isIndeterminate = false;
+      };
+      const handleCheckedCitiesChange = (value) => {
+        const checkedCount = value.length;
+        state.checkAll = checkedCount === state.cities.length;
+        state.isIndeterminate = checkedCount > 0 && checkedCount < state.cities.length;
+      };
+      return {
+        ...toRefs(state),
+        handleCheckAllChange,
+        handleCheckedCitiesChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -145,6 +244,28 @@ checkboxを無効にした状態。
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        checkedCities: ['Shanghai', 'Beijing'],
+        cities: cityOptions,
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -191,6 +312,31 @@ checkboxを無効にした状態。
     }
   }
 </script>
+<!--
+<setup>
+
+import { defineComponent, reactive, toRefs } from 'vue';
+
+const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      checkboxGroup1: ['Shanghai'],
+      checkboxGroup2: ['Shanghai'],
+      checkboxGroup3: ['Shanghai'],
+      checkboxGroup4: ['Shanghai'],
+      cities: cityOptions,
+    });
+
+    return {
+      ...toRefs(state),
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -235,6 +381,30 @@ checkboxを無効にした状態。
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        checked1: true,
+        checked2: false,
+        checked3: false,
+        checked4: true,
+        checkboxGroup1: [],
+        checkboxGroup2: [],
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -242,7 +412,7 @@ checkboxを無効にした状態。
 | Attribute      | Description         | Type    | Options                         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
 | model-value / v-model | バインディング値 | string / number / boolean | — | — |
-| label     | `checkbox-group` の中で使われる場合のcheckboxの値   | string / number / boolean   |       —        |     —    |
+| label     | `checkbox-group` の中で使われる場合のcheckboxの値   | string / number / boolean / object   |       —        |     —    |
 | true-label | checkboxがチェックされている場合は、checkboxの値   | string / number    |       —        |     —    |
 | false-label | checkboxがチェックされていない場合のcheckboxの値   | string / number    |      —         |     —    |
 | disabled  | checkboxを無効にするかどうか   | boolean   |  — | false   |
@@ -276,7 +446,7 @@ checkboxを無効にした状態。
 ### Checkboxボタンの属性
 | Attribute      | Description         | Type    | Options                         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
-| label     | `checkbox-group` の中で使われる場合のcheckboxの値 | string / number / boolean  |       —        |     —    |
+| label     | `checkbox-group` の中で使われる場合のcheckboxの値 | string / number / boolean / object  |       —        |     —    |
 | true-label | チェックされている場合の、checkboxの値 | string / number | — |     —    |
 | false-label | チェックされていない場合の、checkboxの値 | string / number    |      —         |     —    |
 | disabled  | checkboxを無効にするかどうか | boolean   |  — | false   |

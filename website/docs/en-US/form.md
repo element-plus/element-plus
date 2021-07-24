@@ -2,6 +2,10 @@
 
 Form consists of `input`, `radio`, `select`, `checkbox` and so on. With form, you can collect, verify and submit data.
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### Basic form
 
 It includes all kinds of input items, such as `input`, `select`, `radio` and `checkbox`.
@@ -83,7 +87,7 @@ It includes all kinds of input items, such as `input`, `select`, `radio` and `ch
 [W3C](https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2) regulates that
 > <i>When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form.</i>
 
-To prevent this behavior, you can add `@submit.native.prevent` on `<el-form>`.
+To prevent this behavior, you can add `@submit.prevent` on `<el-form>`.
   :::
 
 ### Inline form
@@ -593,7 +597,7 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | rules | validation rules of form | object | — | — |
 | inline | whether the form is inline | boolean | — | false |
 | label-position | position of label. If set to 'left' or 'right', `label-width` prop is also required | string | left / right / top | right |
-| label-width    | width of label, e.g. '50px'. All its direct child form items will inherit this value. Width `auto` is supported.        | string | — | — |
+| label-width    | width of label, e.g. '50px'. All its direct child form items will inherit this value. Width `auto` is supported.        | string / number | — | — |
 | label-suffix | suffix of the label | string | — | — |
 | hide-required-asterisk | whether required fields should have a red asterisk (star) beside their labels | boolean | — | false |
 | show-message  | whether to show the error message | boolean | — | true |
@@ -623,23 +627,28 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 | ---- | ----| ---- | ---- | ---- |
 | prop | a key of `model`. In the use of validate and resetFields method, the attribute is required | string | keys of model that passed to `form` |
 | label | label | string | — | — |
-| label-width | width of label, e.g. '50px'. Width `auto` is supported. | string | — | — |
+| label-width | width of label, e.g. '50px'. Width `auto` is supported. | string / number | — | — |
 | required | whether the field is required or not, will be determined by validation rules if omitted | boolean |  — | false |
-| rules | validation rules of form | object | — | — |
+| rules | validation rules of form, see the following table, more advanced usage at [async-validator](https://github.com/yiminghe/async-validator) | object / array | — | — |
 | error | field error message, set its value and the field will validate error and show this message immediately | string | — | — |
 | show-message  | whether to show the error message | boolean | — | true |
 | inline-message  | inline style validate message | boolean | — | false |
 | size  | control the size of components in this form-item | string | medium / small / mini | - |
 
+### Rules
+| Attribute       | Description                | Type     | Accepted Values  | Default  |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | how the validator is triggered | string | blur / change   | —    |
+
 ### Form-Item Slots
 | Name | Description |
 |------|--------|
 | — | content of Form Item |
-| label | content of label |
 
 ### Form-Item Scoped Slot
 |      Name     | Description |
 |---------------|-------------|
+| label | Custom content to display on label. The scope parameter is { label } |
 |      error    | Custom content to display validation message. The scope parameter is { error } |
 
 ### Form-Item Methods

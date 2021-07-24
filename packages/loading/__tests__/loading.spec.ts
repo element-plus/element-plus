@@ -177,6 +177,23 @@ describe('Loading', () => {
     expect(wrapper.find('.loading-custom-class').exists()).toBeTruthy()
   })
 
+  test('customSvg directive', async () => {
+    const wrapper = mount({
+      directives: {
+        loading: vLoading,
+      },
+      template: `<div v-loading="loading" :element-loading-svg="svg"></div>`,
+      data() {
+        return {
+          loading: true,
+          svg: `<path class="custom-path" d="M 30 15"/>`,
+        }
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.custom-path').attributes().d).toEqual('M 30 15')
+  })
+
   test('create service', async () => {
     loadingInstance = Loading()
     expect(document.querySelector('.el-loading-mask')).toBeTruthy()

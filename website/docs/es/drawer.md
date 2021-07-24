@@ -52,6 +52,35 @@ Llamada de un drawer temporal, desde varias direcciones
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const drawer = ref(false);
+      const direction = ref('rtl');
+      const handleClose = (done) => {
+        ElMessageBox
+          .confirm('Are you sure you want to close this?')
+          .then((_) => {
+            done();
+          })
+          .catch((_) => {});
+      };
+      return {
+        drawer,
+        direction,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -82,6 +111,21 @@ When you no longer need a title, you can remove title from drawer.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        drawer: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -197,6 +241,90 @@ export default {
   }
 }
 </script>
+<!--
+<setup>
+
+import {defineComponent, reactive, toRefs } from 'vue'; 
+import { ElMessageBox } from 'element-plus'; 
+
+  export default defineComponent({
+    setup() {
+      
+      const state = reactive({
+        table: false,
+        dialog: false,
+        loading: false,
+        gridData: [
+          {
+            date: '2016-05-02',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-04',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-01',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+          {
+            date: '2016-05-03',
+            name: 'Peter Parker',
+            address: 'Queens, New York City',
+          },
+        ],
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: '',
+        },
+        formLabelWidth: '80px',
+        timer: null,
+      });
+
+      const handleClose = (done) => {
+        if (state.loading) {
+          return;
+        }
+        ElMessageBox
+          .confirm('Do you want to submit?')
+          .then((_) => {
+            state.loading = true;
+            state.timer = setTimeout(() => {
+              done();
+              // 动画关闭需要一定的时间
+              setTimeout(() => {
+                state.loading = false;
+              }, 400);
+            }, 2000);
+          })
+          .catch((_) => {});
+      };
+
+      const cancelForm = () => {
+        state.loading = false;
+        state.dialog = false;
+        clearTimeout(state.timer);
+      };
+
+      return {
+        ...toRefs(state),
+        handleClose,
+        cancelForm,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -246,6 +374,35 @@ También puede tener varias capas de `Drawer` al igual que con `Dialog`.
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+  import { ElMessageBox } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const drawer = ref(false);
+      const innerDrawer = ref(false);
+      const handleClose = (done) => {
+        ElMessageBox
+          .confirm('You still have unsaved data, proceed?')
+          .then((_) => {
+            done();
+          })
+          .catch((_) => {});
+      };
+      return {
+        drawer,
+        innerDrawer,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 
 ```
 :::
@@ -267,6 +424,7 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 
 | Parámetros | Descripción | Tipo   | Valores aceptados           | Por defecto |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
+| model-value / v-model | Si se muestra el Drawer | boolean | — | false |
 | append-to-body | Los controles deberían insertar Drawer en el elemento DocumentBody, los Drawer anidados deben asignar este parámetro a **true** | boolean   | — | false |
 | before-close | Si está configurado, el procedimiento de cierre se detendrá. | function(done), done es un tipo de función que acepta un booleano como parámetro, una llamada hecha con true o sin parámetro abortará el procedimiento de cierre. | — | — |
 | close-on-press-escape | Indica si el Drawer puede cerrarse pulsando ESC | boolean | — | true |
@@ -277,7 +435,6 @@ El Drawer proporciona una API llamada "destroyOnClose", que es una variable de b
 | show-close | Se mostrará el botón de cerrar en la parte superior derecha del Drawer | boolean | — | true |
 | size | Tamaño del Drawer. Si el Drawer está en modo horizontal, afecta a la propiedad width, de lo contrario afecta a la propiedad height, cuando el tamaño es tipo `number`, describe el tamaño por unidad de píxeles; cuando el tamaño es tipo `string`, se debe usar con notación `x%`, de lo contrario se interpretará como unidad de píxeles. | number / string | - | '30%' |
 | title | El título del Drawer, también se puede establecer por slot con nombre, las descripciones detalladas se pueden encontrar en el formulario de slot. | string | — | — |
-| model-value / v-model | Si se muestra el Drawer | boolean | — | false |
 | withHeader | Flag that controls the header section's existance, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work | boolean | - | true |
 | modal-class | Nombre extra de clase para capa de sombra | string | - | - |
 

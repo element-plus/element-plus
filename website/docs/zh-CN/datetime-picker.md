@@ -25,7 +25,6 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
       v-model="value2"
       type="datetime"
       placeholder="选择日期时间"
-      align="right"
       :shortcuts="shortcuts">
     </el-date-picker>
   </div>
@@ -49,18 +48,18 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
           value: new Date(),
         }, {
           text: '昨天',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24);
             return date
-          })(),
+          },
         }, {
           text: '一周前',
-          value: (() => {
+          value: () => {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -70,6 +69,50 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: '今天',
+            value: new Date(),
+          },
+          {
+            text: '昨天',
+            value: () => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              return date;
+            },
+          },
+          {
+            text: '一周前',
+            value: () => {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              return date;
+            },
+          },
+        ],
+        value1: '',
+        value2: '',
+        value3: '',
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0), // '12:00:00'
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -96,8 +139,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
       :shortcuts="shortcuts"
       range-separator="至"
       start-placeholder="开始日期"
-      end-placeholder="结束日期"
-      align="right">
+      end-placeholder="结束日期">
     </el-date-picker>
   </div>
 </template>
@@ -108,28 +150,28 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
       return {
         shortcuts: [{
           text: '最近一周',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
             return [start, end]
-          })()
+          }
         }, {
           text: '最近一个月',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
             return [start, end]
-          })()
+          }
         }, {
           text: '最近三个月',
-          value: (() => {
+          value: () => {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
             return [start, end]
-          })()
+          }
         }],
         value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
         value2: ''
@@ -137,6 +179,55 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        shortcuts: [
+          {
+            text: '最近一周',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              return [start, end];
+            },
+          },
+          {
+            text: '最近一个月',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              return [start, end];
+            },
+          },
+          {
+            text: '最近三个月',
+            value: () => {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              return [start, end];
+            },
+          },
+        ],
+        value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
+        value2: '',
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -160,7 +251,6 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
     <el-date-picker
       v-model="value2"
       type="datetimerange"
-      align="right"
       start-placeholder="开始日期"
       end-placeholder="结束日期"
       :default-time="defaultTime2">
@@ -185,6 +275,31 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        value1: '',
+        value2: '',
+        defaultTime1: [new Date(2000, 1, 1, 12, 0, 0)], // '12:00:00'
+        defaultTime2: [
+          new Date(2000, 1, 1, 12, 0, 0),
+          new Date(2000, 2, 1, 8, 0, 0),
+        ], // '12:00:00', '08:00:00'
+      });
+
+      return {
+        ...toRefs(state),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -203,7 +318,6 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
 | time-arrow-control | 是否使用箭头进行时间选择 | boolean | — | false |
 | type | 显示类型 | string | year/month/date/week/ datetime/datetimerange/daterange | date |
 | format | 显示在输入框中的格式 | string | 见[日期格式](#/zh-CN/component/date-picker#ri-qi-ge-shi) | YYYY-MM-DD HH:mm:ss |
-| align | 对齐方式 | string | left, center, right | left |
 | popper-class | DateTimePicker 下拉框的类名 | string | — | — |
 | range-separator | 选择范围时的分隔符 | string | - | '-' |
 | default-value | 可选，选择器打开时默认显示的时间 | Date | 可被`new Date()`解析 | — |
@@ -212,7 +326,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
 | unlink-panels | 在范围选择器里取消两个日期面板之间的联动 | boolean | — | false |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-date |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
-| shortcuts | 设置快捷选项，需要传入数组对象 | object[{ text: string, value: Date }] | — | — |
+| shortcuts | 设置快捷选项，需要传入数组对象 | object[{ text: string, value: date / function }] | — | — |
 | disabledDate | 设置禁用状态，参数为当前日期，要求返回 Boolean | Function | — | — |
 | cellClassName | 设置日期的 className | Function(Date) | — | — |
 

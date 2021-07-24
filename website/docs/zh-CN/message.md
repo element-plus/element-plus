@@ -35,6 +35,31 @@
     }
   })
 </script>
+<!--
+<setup>
+
+  import { defineComponent, h } from 'vue'
+  import { ElMessage } from 'element-plus'
+  export default defineComponent ({
+    setup() {
+      return {
+        open() {
+          ElMessage('只是一条消息提示')
+        },
+        openVn() {
+          ElMessage({
+            message: h('p', null, [
+              h('span', null, '内容可以是 '),
+              h('i', { style: 'color: teal' }, 'VNode')
+            ])
+          });
+        }
+      }
+    }
+  })
+
+</setup>
+-->
 ```
 :::
 
@@ -79,6 +104,38 @@
     }
   })
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue'
+  import { ElMessage } from 'element-plus'
+  export default defineComponent({
+    setup() {
+      return {
+        open1() {
+          ElMessage.success({
+            message: '恭喜你，这是一条成功消息',
+            type: 'success'
+          });
+        },
+        open2() {
+          ElMessage.warning({
+            message: '警告哦，这是一条警告消息',
+            type: 'warning'
+          });
+        },
+        open3() {
+          ElMessage('这是一条消息提示');
+        },
+        open4() {
+          ElMessage.error('错了哦，这是一条错误消息');
+        }
+      }
+    }
+  })
+
+</setup>
+-->
 ```
 :::
 
@@ -136,6 +193,51 @@
     }
   })
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue'
+  import { ElMessage } from 'element-plus'
+
+  export default defineComponent({
+    setup() {
+      return {
+        open1() {
+          ElMessage({
+            showClose: true,
+            message: '这是一条消息提示'
+          });
+        },
+
+        open2() {
+          ElMessage({
+            showClose: true,
+            message: '恭喜你，这是一条成功消息',
+            type: 'success'
+          });
+        },
+
+        open3() {
+          ElMessage({
+            showClose: true,
+            message: '警告哦，这是一条警告消息',
+            type: 'warning'
+          });
+        },
+
+        open4() {
+          ElMessage({
+            showClose: true,
+            message: '错了哦，这是一条错误消息',
+            type: 'error'
+          });
+        }
+      }
+    }
+  })
+
+</setup>
+-->
 ```
 :::
 
@@ -165,6 +267,26 @@
     }
   })
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue'
+  import { ElMessage } from 'element-plus'
+  export default defineComponent({
+    setup() {
+      return {
+        openCenter() {
+          ElMessage({
+            message: '居中的文字',
+            center: true
+          });
+        }
+      }
+    }
+  })
+
+</setup>
+-->
 ```
 :::
 
@@ -194,6 +316,26 @@
     }
   })
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue'
+  import { ElMessage } from 'element-plus'
+  export default defineComponent({
+    setup() {
+      return {
+        openHTML() {
+          ElMessage({
+            dangerouslyUseHTMLString: true,
+            message: '<strong>这是 <i>HTML</i> 片段</strong>'
+          });
+        }
+      }
+    }
+  })
+
+</setup>
+-->
 ```
 :::
 

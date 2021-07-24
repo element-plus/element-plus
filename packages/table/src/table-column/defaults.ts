@@ -1,7 +1,6 @@
 import { PropType } from 'vue'
 import { DefaultRow } from '../table/defaults'
-import { VNode } from '@vue/runtime-core'
-import { ComponentInternalInstance, Ref } from 'vue'
+import { ComponentInternalInstance, Ref, VNode } from 'vue'
 import { Table } from '../table/defaults'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number; }
@@ -12,6 +11,8 @@ type Filters = {
 }[]
 
 type FilterMethods<T> = (value, row: T, column: TableColumnCtx<T>) => void
+
+type ValueOf<T> = T[keyof T]
 
 interface TableColumnCtx<T> {
   id: string
@@ -73,7 +74,7 @@ interface TableColumn<T> extends ComponentInternalInstance {
   columnConfig: Ref<Partial<TableColumnCtx<T>>>
 }
 
-export type { Filters, FilterMethods, TableColumnCtx, TableColumn }
+export type { Filters, FilterMethods, TableColumnCtx, TableColumn, ValueOf }
 
 export default {
   type: {

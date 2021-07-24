@@ -137,6 +137,33 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleSizeChange = (val) => {
+        console.log(`每页 ${val} 条`);
+      };
+      const handleCurrentChange = (val) => {
+        console.log(`当前页: ${val}`);
+      };
+
+      return {
+        currentPage1: ref(5),
+        currentPage2: ref(5),
+        currentPage3: ref(5),
+        currentPage4: ref(4),
+        handleSizeChange,
+        handleCurrentChange,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -165,6 +192,21 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      return {
+        value: ref(false),
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -174,10 +216,12 @@
 | small | 是否使用小型分页样式 | boolean | — | false |
 | background | 是否为分页按钮添加背景色 | boolean | — | false |
 | page-size | 每页显示条目个数，支持 v-model 双向绑定 | number | — | 10 |
+| default-page-size | 每页显示条目数的初始值；| number | - | - |
 | total | 总条目数 | number | — | — |
 | page-count | 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；如果要支持 page-sizes 的更改，则需要使用 total 属性 | Number | — | — |
 | pager-count | 页码按钮的数量，当总页数超过该值时会折叠 | number | 大于等于 5 且小于等于 21 的奇数 | 7 |
 | current-page | 当前页数，支持 v-model 双向绑定 | number | — | 1 |
+| default-current-page | 当前页数的初始值 | number | - | - |
 | layout | 组件布局，子组件名用逗号分隔| String | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total'  |
 | page-sizes | 每页显示个数选择器的选项设置 | number[] | — |  [10, 20, 30, 40, 50, 100] |
 | popper-class | 每页显示个数选择器的下拉框类名 | string | — | — |
@@ -186,6 +230,13 @@
 | disabled | 是否禁用 | boolean | — | false |
 | hide-on-single-page | 只有一页时是否隐藏 | boolean | — | - |
 
+:::warning
+我们现在会检查一些不合理的用法，如果发现分页器未显示，可以核对是否违反以下情形：
+- `total` 和 `page-count` 必须传一个，不然组件无法判断总页数；优先使用 `page-count`;
+- 如果传入了 `current-page` 必须监听 `current-page` 变更的事件（`onUpdate:currentPage`）；否则分页切换不起作用；
+- 如果传入了 `page-size`，且布局包含 `page-size` 选择器（即 `layout` 包含 `sizes`），必须监听 `page-size` 变更的事件（`onUpdate:pageSize`），否则 `page-size` 切换不起作用；
+:::
+
 ### Events
 | 事件名称 | 说明 | 回调参数 |
 |---------|--------|---------|
@@ -193,6 +244,10 @@
 | current-change | currentPage 改变时会触发 | 当前页 |
 | prev-click | 用户点击上一页按钮改变当前页后触发 | 当前页 |
 | next-click | 用户点击下一页按钮改变当前页后触发 | 当前页 |
+
+:::warning
+以上事件不推荐使用；如果要监听 current-page 和 page-size 的改变，使用 v-model 双向绑定是个更好的选择。
+:::
 
 ### Slot
 | name | 说明 |

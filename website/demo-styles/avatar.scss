@@ -1,9 +1,9 @@
 .demo-avatar {
-
   &.demo-basic {
     text-align: center;
 
-    .demo-basic--circle, .demo-basic--square {
+    .demo-basic--circle,
+    .demo-basic--square {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -15,7 +15,6 @@
         border-right: 1px solid rgba(224, 230, 237, 0.5);
       }
     }
-
   }
 
   .sub-title {
@@ -25,19 +24,19 @@
   }
 
   .#{$namespace}-col:not(:last-child) {
-    border-right: 1px solid rgba(224,230,237,.5);
+    border-right: 1px solid rgba(224, 230, 237, 0.5);
   }
 
   .demo-type {
     display: flex;
 
-    >div {
+    > div {
       flex: 1;
       text-align: center;
     }
 
-    >div:not(:last-child) {
-      border-right: 1px solid rgba(224,230,237,.5);
+    > div:not(:last-child) {
+      border-right: 1px solid rgba(224, 230, 237, 0.5);
     }
   }
 

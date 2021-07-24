@@ -1,15 +1,17 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'popper';
 
 @include b(tooltip) {
-  &:focus:not(.focusing), &:focus:hover {
+  &:focus:not(.focusing),
+  &:focus:hover {
     outline-width: 0;
   }
   @include e(popper) {
     position: absolute;
     border-radius: 4px;
     padding: $--tooltip-padding;
-    z-index: $--index-popper;
+    z-index: var(--el-index-popper);
     font-size: $--tooltip-font-size;
     line-height: 1.2;
     min-width: 10px;
@@ -30,15 +32,15 @@
     }
 
     .popper__arrow::after {
-      content: " ";
+      content: ' ';
       border-width: 5px;
     }
 
-    &[x-placement^="top"] {
+    &[x-placement^='top'] {
       margin-bottom: #{$--tooltip-arrow-size + 6px};
     }
 
-    &[x-placement^="top"] .popper__arrow {
+    &[x-placement^='top'] .popper__arrow {
       bottom: -$--tooltip-arrow-size;
       border-top-color: $--tooltip-border-color;
       border-bottom-width: 0;
@@ -51,11 +53,11 @@
       }
     }
 
-    &[x-placement^="bottom"] {
+    &[x-placement^='bottom'] {
       margin-top: #{$--tooltip-arrow-size + 6px};
     }
 
-    &[x-placement^="bottom"] .popper__arrow {
+    &[x-placement^='bottom'] .popper__arrow {
       top: -$--tooltip-arrow-size;
       border-top-width: 0;
       border-bottom-color: $--tooltip-border-color;
@@ -68,11 +70,11 @@
       }
     }
 
-    &[x-placement^="right"] {
+    &[x-placement^='right'] {
       margin-left: #{$--tooltip-arrow-size + 6px};
     }
 
-    &[x-placement^="right"] .popper__arrow {
+    &[x-placement^='right'] .popper__arrow {
       left: -$--tooltip-arrow-size;
       border-right-color: $--tooltip-border-color;
       border-left-width: 0;
@@ -85,11 +87,11 @@
       }
     }
 
-    &[x-placement^="left"] {
+    &[x-placement^='left'] {
       margin-right: #{$--tooltip-arrow-size + 6px};
     }
 
-    &[x-placement^="left"] .popper__arrow {
+    &[x-placement^='left'] .popper__arrow {
       right: -$--tooltip-arrow-size;
       border-right-width: 0;
       border-left-color: $--tooltip-border-color;
@@ -112,25 +114,25 @@
       background: $--tooltip-color;
       border: 1px solid $--tooltip-fill;
 
-      &[x-placement^="top"] .popper__arrow {
+      &[x-placement^='top'] .popper__arrow {
         border-top-color: $--tooltip-fill;
         &::after {
           border-top-color: $--tooltip-color;
         }
       }
-      &[x-placement^="bottom"] .popper__arrow {
+      &[x-placement^='bottom'] .popper__arrow {
         border-bottom-color: $--tooltip-fill;
         &::after {
           border-bottom-color: $--tooltip-color;
         }
       }
-      &[x-placement^="left"] .popper__arrow {
+      &[x-placement^='left'] .popper__arrow {
         border-left-color: $--tooltip-fill;
         &::after {
           border-left-color: $--tooltip-color;
         }
       }
-      &[x-placement^="right"] .popper__arrow {
+      &[x-placement^='right'] .popper__arrow {
         border-right-color: $--tooltip-fill;
         &::after {
           border-right-color: $--tooltip-color;

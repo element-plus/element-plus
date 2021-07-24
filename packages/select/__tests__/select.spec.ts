@@ -4,6 +4,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
+import { sleep } from '@element-plus/test-utils'
 
 jest.useFakeTimers()
 
@@ -19,6 +20,7 @@ interface SelectProps {
   automaticDropdown?: boolean
   multipleLimit?: number
   popperClass?: string
+  defaultFirstOption?: boolean
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) => mount({
@@ -41,7 +43,7 @@ function getOptions(): HTMLElement[] {
 }
 
 const getSelectVm = (configs: SelectProps = {}, options?) => {
-  ['multiple', 'clearable', 'filterable', 'allowCreate', 'remote', 'collapseTags', 'automaticDropdown'].forEach(config => {
+  ['multiple', 'clearable', 'defaultFirstOption', 'filterable', 'allowCreate', 'remote', 'collapseTags', 'automaticDropdown'].forEach(config => {
     configs[config] = configs[config] || false
   })
   configs.multipleLimit = configs.multipleLimit || 0
@@ -77,6 +79,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :multiple-limit="multipleLimit"
       :popper-class="popperClass"
       :clearable="clearable"
+      :default-first-option="defaultFirstOption"
       :filterable="filterable"
       :collapse-tags="collapseTags"
       :allow-create="allowCreate"
@@ -94,6 +97,111 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       </el-option>
     </el-select>
   `, () => ({
+    options,
+    multiple: configs.multiple,
+    multipleLimit: configs.multipleLimit,
+    clearable: configs.clearable,
+    defaultFirstOption: configs.defaultFirstOption,
+    filterable: configs.filterable,
+    collapseTags: configs.collapseTags,
+    allowCreate: configs.allowCreate,
+    popperClass: configs.popperClass,
+    automaticDropdown: configs.automaticDropdown,
+    loading: false,
+    filterMethod: configs.filterMethod,
+    remote: configs.remote,
+    remoteMethod: configs.remoteMethod,
+    value: configs.multiple ? [] : '',
+  }))
+}
+
+const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
+  ['multiple', 'clearable', 'filterable', 'allowCreate', 'remote', 'collapseTags', 'automaticDropdown'].forEach(config => {
+    configs[config] = configs[config] || false
+  })
+  configs.multipleLimit = configs.multipleLimit || 0
+  if (!options) {
+    options = [{
+      label: 'Australia',
+      options: [{
+        value: 'Sydney',
+        label: 'Sydney',
+      }, {
+        value: 'Melbourne',
+        label: 'Melbourne',
+      }],
+    }, {
+      label: 'China',
+      options: [{
+        value: 'Shanghai',
+        label: 'Shanghai',
+      }, {
+        value: 'Shenzhen',
+        label: 'Shenzhen',
+      }, {
+        value: 'Guangzhou',
+        label: 'Guangzhou',
+      }, {
+        value: 'Dalian',
+        label: 'Dalian',
+      }],
+    }, {
+      label: 'India',
+      options: [{
+        value: 'Mumbai',
+        label: 'Mumbai',
+      }, {
+        value: 'Delhi',
+        label: 'Delhi',
+      }, {
+        value: 'Bangalore',
+        label: 'Bangalore',
+      }],
+    }, {
+      label: 'Indonesia',
+      options: [{
+        value: 'Bandung',
+        label: 'Bandung',
+      }, {
+        value: 'Jakarta',
+        label: 'Jakarta',
+      }],
+    }]
+  }
+
+  return _mount(`
+    <el-select
+      ref="select"
+      v-model="value"
+      :multiple="multiple"
+      :multiple-limit="multipleLimit"
+      :popper-class="popperClass"
+      :clearable="clearable"
+      :filterable="filterable"
+      :collapse-tags="collapseTags"
+      :allow-create="allowCreate"
+      :filterMethod="filterMethod"
+      :remote="remote"
+      :loading="loading"
+      :remoteMethod="remoteMethod"
+      :automatic-dropdown="automaticDropdown">
+      <el-group-option
+        v-for="group in options"
+        :key="group.label"
+        :label="group.label">
+        <el-option
+          v-for="item in group.options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"/>
+      </el-group-option>
+    </el-select>
+  <script>
+import ElOptionGroup from './option-group'
+export default {
+components: { ElOptionGroup }
+ }
+</script>`, () => ({
     options,
     multiple: configs.multiple,
     multipleLimit: configs.multipleLimit,
@@ -313,11 +421,20 @@ describe('Select', () => {
       vm.navigateOptions('next')
     }
     vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
+    vm.navigateOptions('prev')
     await vm.$nextTick()
-    expect(vm.hoverIndex).toBe(0)
+    expect(vm.hoverIndex).toBe(3)
     vm.selectOption()
     await vm.$nextTick()
-    expect((wrapper.vm as any).value).toBe('选项1')
+    expect((wrapper.vm as any).value).toBe('选项4')
+    vm.toggleMenu()
+    const timer = sleep(300)
+    jest.runAllTimers()
+    await timer
+    vm.toggleMenu()
+    await vm.$nextTick
+    expect(vm.hoverIndex).toBe(3)
   })
 
   test('clearable', async () => {
@@ -333,6 +450,51 @@ describe('Select', () => {
     expect(iconClear.exists()).toBe(true)
     await iconClear.trigger('click')
     expect(vm.value).toBe('')
+  })
+
+  test('check default first option', async () => {
+    const wrapper = getSelectVm({
+      filterable: true,
+      defaultFirstOption: true,
+    })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    input.element.focus()
+
+    expect(selectVm.hoverIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.hoverIndex).toBe(1)
+  })
+
+  test('check default first option when the very first option is disabled', async () => {
+    const demoOptions = [{
+      value: 'HTML',
+      label: 'HTML',
+      disabled: true,
+    }, {
+      value: 'CSS',
+      label: 'CSS',
+      disabled: false,
+    }, {
+      value: 'JavaScript',
+      label: 'JavaScript',
+      disabled: false,
+    }]
+    const wrapper = getSelectVm({
+      filterable: true,
+      defaultFirstOption: true,
+    }, demoOptions)
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    input.element.focus()
+
+    expect(selectVm.hoverIndex).toBe(1) // index 0 was skipped
+    selectVm.navigateOptions('next')
+    expect(selectVm.hoverIndex).toBe(2)
+    selectVm.navigateOptions('next')
+    expect(selectVm.hoverIndex).toBe(1) // index 0 was skipped
   })
 
   test('allow create', async () => {
@@ -1014,6 +1176,20 @@ describe('Select', () => {
 
     test('both filterable and multiple are true', async () => {
       await testShowOptions({ filterable: true, multiple: true })
+    })
+
+    test('filterable is true with grouping', async () => {
+      const wrapper = getGroupSelectVm({ filterable: true })
+      await wrapper.find('.select-trigger').trigger('click')
+      const vm = wrapper.findComponent(Select).vm
+      const event = { target: { value: 'sh' } }
+      vm.debouncedQueryChange(event)
+      await nextTick
+      const groups = wrapper.findAllComponents(Group)
+      expect(groups.filter(group => {
+        const vm = group.vm as any
+        return vm.visible
+      }).length).toBe(1)
     })
   })
 

@@ -1,6 +1,5 @@
-import defaultLang from './lang/en'
 import dayjs from 'dayjs'
-
+import defaultLang from './lang/en'
 
 export type TranslatePair = {
   [key: string]: string | string[] | TranslatePair
@@ -22,14 +21,12 @@ export const i18n = (fn: (...args: any[]) => string) => {
 function template(str: string, option) {
   if(!str || !option) return str
 
-  return str.replace(/\{(\w+)\}/g, (match, key) => {
+  return str.replace(/\{(\w+)\}/g, (_, key) => {
     return option[key]
   })
 }
 
-export const t = (...args: any[]): string => {
-  if (i18nHandler) return i18nHandler(...args)
-
+const defaultTranslator = (...args: any[]) => {
   const [path, option] = args
   let value
   const array = path.split('.')
@@ -41,7 +38,16 @@ export const t = (...args: any[]): string => {
     if (!value) return ''
     current = value
   }
-  return ''
+}
+
+export const t = (...args: any[]): string => {
+  if (i18nHandler) {
+    const translation = i18nHandler(...args)
+    if (!translation) {
+      return defaultTranslator(...args)
+    }
+  }
+  return defaultTranslator(...args)
 }
 
 export const use = (l: Language): void => {
@@ -51,4 +57,4 @@ export const use = (l: Language): void => {
   }
 }
 
-export default { use, t, i18n }
+export const setLocale = use

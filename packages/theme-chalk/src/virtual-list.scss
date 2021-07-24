@@ -1,27 +1,9 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
+@import './scrollbar.scss';
 
 @include b(vl) {
-  @include e(viewport) {
-    overflow: auto;
-  }
-
-  @include e(content) {
-    overflow: hidden;
-    will-change: transform;
+  @include e(wrapper) {
     position: relative;
-  }
-
-  @include e(item-container) {
-    will-change: transform; 
-    display: flex;
-
-    &[data-direction="v"] {
-      flex-direction: column;
-    }
-
-    &[data-direction="h"] {
-      flex-direction: row;
-    }
   }
 }

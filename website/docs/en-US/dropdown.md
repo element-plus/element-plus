@@ -90,6 +90,24 @@ Use the button to trigger the dropdown list.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleClick = () => {
+        alert('button click');
+      };
+      return {
+        handleClick,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -245,6 +263,26 @@ Clicking each dropdown item fires an event whose parameter is assigned by each i
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElMessage } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+
+      const handleCommand = (command) => {
+        ElMessage(`click on item ${command}`);
+      };
+      return {
+        handleCommand,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -314,7 +352,7 @@ Besides default size, Dropdown component provides three additional sizes for you
 | max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | whether a button group is displayed | boolean         |     —       | false   |
 | disabled     | Whether to disable | boolean | — | false |
-| placement    | placement of pop menu | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
+| placement    | placement of pop menu | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom |
 | trigger       | how to trigger     | string  |    hover/click/contextmenu  |  hover |
 | hide-on-click | whether to hide menu after clicking menu-item     | boolean          | — | true |
 | show-timeout | Delay time before show a dropdown (only works when trigger is `hover`) | number | — | 250 |

@@ -30,7 +30,9 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
 import DescriptionsCell from './descriptions-cell'
-import { elDescriptionsKey, IDescriptionsInject } from './descriptions.type'
+import { elDescriptionsKey } from './token'
+
+import type { IDescriptionsInject } from './descriptions.type'
 
 export default defineComponent({
   name: 'ElDescriptionsRow',

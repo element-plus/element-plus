@@ -1,10 +1,14 @@
-import { Fragment, Text, Comment, createBlock, openBlock, createCommentVNode } from 'vue'
+import { Fragment, Text, Comment, createBlock, openBlock, createCommentVNode, isVNode, camelize } from 'vue'
 
 import type { VNode, VNodeTypes, VNodeChild } from 'vue'
+import { hasOwn } from '@vue/shared'
+import { warn } from './error'
 
 type Children = VNodeTypes[] | VNodeTypes
 
 const TEMPLATE = 'template'
+
+export const SCOPE = 'VNode'
 
 export enum PatchFlags {
   TEXT = 1,
@@ -86,4 +90,31 @@ export function renderBlock(
   patchProps?: string[],
 ) {
   return (openBlock(), createBlock(node, props, children, patchFlag, patchProps))
+}
+
+/**
+ * todo
+ * get normalized props from VNode
+ * @param node
+ */
+export const getNormalizedProps = (node: VNode) => {
+  if (!isVNode(node)) {
+    warn(SCOPE, 'value must be a VNode')
+    return
+  }
+  const raw = node.props || {}
+  const type = node.type?.props || {}
+  const props = {}
+
+  Object.keys(type).forEach(key => {
+    if (hasOwn(type[key], 'default')) {
+      props[key] = type[key].default
+    }
+  })
+
+  Object.keys(raw).forEach(key => {
+    props[camelize(key)] = raw[key]
+  })
+
+  return props
 }

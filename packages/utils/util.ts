@@ -1,11 +1,11 @@
-import type { Ref } from 'vue'
 import { getCurrentInstance } from 'vue'
-
-import { camelize, capitalize, extend, hasOwn, hyphenate, isArray, isObject, isString, looseEqual, toRawType } from '@vue/shared'
-
+import { camelize, capitalize, extend, hasOwn, hyphenate, isArray, isObject, isString, isFunction, looseEqual, toRawType } from '@vue/shared'
+import isEqualWith from 'lodash/isEqualWith'
 import isServer from './isServer'
-import type { AnyFunction } from './types'
 import { warn } from './error'
+
+import type { ComponentPublicInstance, Ref } from 'vue'
+import type { AnyFunction } from './types'
 
 // type polyfill for compat isIE method
 declare global {
@@ -236,3 +236,31 @@ export function addUnit(value: string | number) {
   }
   return ''
 }
+
+/**
+ * Enhance `lodash.isEqual` for it always return false even two functions have completely same statements.
+ * @param obj The value to compare
+ * @param other The other value to compare
+ * @returns Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *  lodash.isEqual(() => 1, () => 1)      // false
+ *  isEqualWith(() => 1, () => 1)         // true
+ */
+export function isEqualWithFunction (obj: any, other: any) {
+  return isEqualWith(obj, other, (objVal, otherVal) => {
+    return isFunction(objVal) && isFunction(otherVal) ? `${objVal}` === `${otherVal}` : undefined
+  })
+}
+
+/**
+ * Generate function for attach ref for the h renderer
+ * @param ref Ref<HTMLElement | ComponentPublicInstance>
+ * @returns (val: T) => void
+ */
+
+export const refAttacher =
+  <T extends (HTMLElement | ComponentPublicInstance)>(ref: Ref<T>) => {
+    return (val: T) => {
+      ref.value = val
+    }
+  }

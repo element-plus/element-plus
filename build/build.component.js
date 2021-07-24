@@ -1,7 +1,7 @@
 /* eslint-disable */
 const pkg = require('../package.json')
 const path = require('path')
-const { getPackages } =  require('@lerna/project')
+const { getPackages } = require('@lerna/project')
 const css = require('rollup-plugin-css-only')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const vue = require('rollup-plugin-vue')
@@ -55,7 +55,7 @@ const runBuild = async () => {
     }
     const getOutFile = () => {
       const compName = name.split('@element-plus/')[1]
-      if(noElPrefixFile.test(name)) {
+      if (noElPrefixFile.test(name)) {
         return `lib/${compName}/index.js`
       }
       return `lib/el-${compName}/index.js`

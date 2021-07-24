@@ -1,6 +1,7 @@
 import { watch, getCurrentInstance, ComputedRef } from 'vue'
 import { hasOwn } from '@vue/shared'
-import { TableColumnCtx, TableColumn } from './defaults'
+import type { TableColumnCtx, TableColumn, ValueOf } from './defaults'
+import { parseMinWidth, parseWidth } from '../util'
 
 function useWatcher<T>(
   owner: ComputedRef<any>,
@@ -24,8 +25,15 @@ function useWatcher<T>(
         watch(
           () => props_[columnKey],
           newVal => {
-            instance.columnConfig.value[columnKey] = newVal
-            instance.columnConfig.value[key] = newVal
+            let value: ValueOf<TableColumnCtx<T>> = newVal
+            if (columnKey === 'width' && key === 'realWidth') {
+              value = parseWidth(newVal)
+            }
+            if (columnKey === 'minWidth' && key === 'realMinWidth') {
+              value = parseMinWidth(newVal)
+            }
+            instance.columnConfig.value[columnKey as any] = value
+            instance.columnConfig.value[key] = value
             const updateColumns = columnKey === 'fixed'
             owner.value.store.scheduleLayout(updateColumns)
           },
