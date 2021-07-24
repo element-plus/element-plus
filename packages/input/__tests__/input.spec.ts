@@ -45,7 +45,7 @@ describe('Input.vue', () => {
     expect(nativeInput.placeholder).toBe('请输入内容')
     expect(nativeInput.value).toBe('input')
     expect(nativeInput.minLength).toBe(3)
-    expect(nativeInput.maxLength).toBe(5)
+    // expect(nativeInput.maxLength).toBe(5)  // The maxlength attribute is no longer a native attribute
 
     vm.input = 'text'
     await sleep()
@@ -66,6 +66,61 @@ describe('Input.vue', () => {
     })
     const inputElm = wrapper.find('input')
     expect(inputElm.element.disabled).not.toBeNull()
+  })
+
+  describe('test emoji',()=>{
+    test('el-input should minimize value between emoji length and maxLength', async () => {
+      const wrapper = _mount({
+        template: `<el-input class="test-exceed" maxlength="4" show-word-limit v-model="inputVal" />`,
+        setup() {
+          const inputVal = ref('12🌚')
+          return { inputVal }
+        },
+      })
+      const vm = wrapper.vm
+      const inputElm = wrapper.find('input')
+      const nativeInput = inputElm.element
+      expect(nativeInput.value).toBe('12🌚')
+
+      const elCount = wrapper.find('.el-input__count-inner')
+      expect(elCount.exists()).toBe(true)
+      expect(elCount.text()).toBe('3/4')
+
+      vm.inputVal = '1👌3😄'
+      await sleep()
+      expect(nativeInput.value).toBe('1👌3😄')
+      expect(elCount.text()).toBe('4/4')
+
+      vm.inputVal = '哈哈1👌3😄'
+      await sleep()
+      expect(nativeInput.value).toBe('哈哈1👌3😄')
+      expect(elCount.text()).toBe('6/4')
+      expect(vm.$el.classList.contains('is-exceed')).toBe(true)
+    })
+
+    test('textarea should minimize value between emoji length and maxLength', async () => {
+      const wrapper = _mount({
+        template: `<el-input type="textarea"  maxlength="4" show-word-limit v-model="inputVal" />`,
+        setup() {
+          const inputVal = ref('啊好😄')
+          return { inputVal }
+        },
+      })
+      const vm = wrapper.vm
+      const inputElm = wrapper.find('textarea')
+      const nativeInput = inputElm.element
+      expect(nativeInput.value).toBe('啊好😄')
+
+      const elCount = wrapper.find('.el-input__count')
+      expect(elCount.exists()).toBe(true)
+      expect(elCount.text()).toBe('3/4')
+
+      vm.inputVal = '哈哈1👌3😄'
+      await sleep()
+      expect(nativeInput.value).toBe('哈哈1👌3😄')
+      expect(elCount.text()).toBe('6/4')
+      expect(vm.$el.classList.contains('is-exceed')).toBe(true)
+    })
   })
 
   test('suffixIcon', () => {

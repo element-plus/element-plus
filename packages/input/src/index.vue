@@ -222,6 +222,9 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
+    maxlength: {
+      type: [Number,String],
+    },
   },
 
   emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'focus', 'blur', 'clear',
@@ -253,8 +256,8 @@ export default defineComponent({
       resize: props.resize,
     }))
     const inputDisabled = computed(() => props.disabled || elForm.disabled)
+    const upperLimit = computed(() => props.maxlength)
     const nativeInputValue = computed(() => (props.modelValue === null || props.modelValue === undefined) ? '' : String(props.modelValue))
-    const upperLimit = computed(() => ctx.attrs.maxlength)
     const showClear = computed(() => {
       return props.clearable &&
         !inputDisabled.value &&
@@ -270,14 +273,14 @@ export default defineComponent({
     })
     const isWordLimitVisible = computed(() => {
       return props.showWordLimit &&
-        ctx.attrs.maxlength &&
+        props.maxlength &&
         (props.type === 'text' || props.type === 'textarea') &&
         !inputDisabled.value &&
         !props.readonly &&
         !props.showPassword
     })
     const textLength = computed(() => {
-      return typeof props.modelValue === 'number' ? String(props.modelValue).length : (props.modelValue || '').length
+      return Array.from(nativeInputValue.value).length
     })
     const inputExceed = computed(() => {
       // show exceed style if length of initial value greater then maxlength
@@ -332,7 +335,7 @@ export default defineComponent({
     }
 
     const handleInput = event => {
-      const { value } = event.target
+      let { value } = event.target
 
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
@@ -340,7 +343,14 @@ export default defineComponent({
 
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
-      if (value === nativeInputValue.value) return
+      if (value === nativeInputValue.value ) return
+
+      // if set maxlength
+      if(upperLimit.value){
+        const sliceIndex = inputExceed.value ? textLength.value : upperLimit.value
+        //  Convert value to an array for get a right lenght
+        value = Array.from(value).slice(0, Number(sliceIndex)).join('')
+      }
 
       ctx.emit(UPDATE_MODEL_EVENT, value)
       ctx.emit('input', value)
