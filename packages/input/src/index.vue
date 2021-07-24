@@ -70,7 +70,7 @@
           <i v-if="showPwdVisible" class="el-input__icon el-icon-view el-input__clear" @click="handlePasswordVisible"></i>
           <span v-if="isWordLimitVisible" class="el-input__count">
             <span class="el-input__count-inner">
-              {{ textLength }}/{{ upperLimit }}
+              {{ textLength }}/{{ maxlength }}
             </span>
           </span>
         </span>
@@ -103,7 +103,7 @@
       @keydown="handleKeydown"
     >
     </textarea>
-    <span v-if="isWordLimitVisible && type === 'textarea'" class="el-input__count">{{ textLength }}/{{ upperLimit }}</span>
+    <span v-if="isWordLimitVisible && type === 'textarea'" class="el-input__count">{{ textLength }}/{{ maxlength }}</span>
   </div>
 </template>
 
@@ -256,7 +256,6 @@ export default defineComponent({
       resize: props.resize,
     }))
     const inputDisabled = computed(() => props.disabled || elForm.disabled)
-    const upperLimit = computed(() => props.maxlength)
     const nativeInputValue = computed(() => (props.modelValue === null || props.modelValue === undefined) ? '' : String(props.modelValue))
     const showClear = computed(() => {
       return props.clearable &&
@@ -284,7 +283,7 @@ export default defineComponent({
     })
     const inputExceed = computed(() => {
       // show exceed style if length of initial value greater then maxlength
-      return isWordLimitVisible.value && (textLength.value > upperLimit.value)
+      return isWordLimitVisible.value && (textLength.value > props.maxlength)
     })
 
     const resizeTextarea = () => {
@@ -346,8 +345,8 @@ export default defineComponent({
       if (value === nativeInputValue.value ) return
 
       // if set maxlength
-      if(upperLimit.value){
-        const sliceIndex = inputExceed.value ? textLength.value : upperLimit.value
+      if (props.maxlength) {
+        const sliceIndex = inputExceed.value ? textLength.value : props.maxlength
         //  Convert value to an array for get a right lenght
         value = Array.from(value).slice(0, Number(sliceIndex)).join('')
       }
@@ -491,7 +490,6 @@ export default defineComponent({
       showClear,
       showPwdVisible,
       isWordLimitVisible,
-      upperLimit,
       textLength,
       hovering,
       inputExceed,
