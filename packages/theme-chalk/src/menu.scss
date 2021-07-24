@@ -38,6 +38,9 @@
   &:hover,
   &:focus {
     outline: none;
+  }
+
+  &:hover {
     background-color: var(--el-menu-item-hover-fill);
   }
 
@@ -86,6 +89,9 @@
       &:focus,
       &:hover {
         outline: none;
+      }
+
+      &:hover {
         .#{$namespace}-submenu__title {
           color: var(--el-color-text-primary);
         }
@@ -188,6 +194,10 @@
         > .#{$namespace}-submenu__title .#{$namespace}-submenu__icon-arrow {
           transform: none;
         }
+      }
+
+      &.is-active i {
+        color: var(--el-color-primary);
       }
     }
   }
