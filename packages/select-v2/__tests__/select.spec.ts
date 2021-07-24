@@ -26,6 +26,7 @@ interface SelectProps {
   disabled?: boolean
   clearable?: boolean
   multiple?: boolean
+  filterable?: boolean
   multipleLimit?: number
   [key: string]: any
 }
@@ -34,6 +35,8 @@ interface SelectEvents {
   onChange?: (value?: string) => void
   onVisibleChange?: (visible?: boolean) => void
   onRemoveTag?: (tag?: string) => void
+  onFocus?: (event?: FocusEvent) => void
+  onBlur?: (event?) => void
   [key: string]: (...args) => any
 }
 
@@ -48,10 +51,13 @@ const createSelect = (options: {
         :disabled="disabled"
         :clearable="clearable"
         :multiple="multiple"
+        :filterable="filterable"
         :multiple-limit="multipleLimit"
         @change="onChange"
         @visible-change="onVisibleChange"
         @remove-tah="onRemoveTag"
+        @focus="onFocus"
+        @blur="onBlur"
         v-model="value"></el-select>
     `, {
     data () {
@@ -62,6 +68,7 @@ const createSelect = (options: {
         disabled: false,
         clearable: false,
         multiple: false,
+        filterable: false,
         multipleLimit: 0,
         ...options.data && options.data(),
       }
@@ -70,6 +77,8 @@ const createSelect = (options: {
       onChange: NOOP,
       onVisibleChange: NOOP,
       onRemoveTag: NOOP,
+      onFocus: NOOP,
+      onBlur: NOOP,
       ...options.methods,
     },
   })
@@ -379,6 +388,71 @@ describe('Select', () => {
       options[3].click()
       await nextTick
       expect(vm.value.length).toBe(2)
+    })
+  })
+
+  describe('event', () => {
+
+    it('focus & blur', async () => {
+      const onFocus = jest.fn()
+      const onBlur = jest.fn()
+      const wrapper = createSelect({
+        methods: {
+          onFocus,
+          onBlur,
+        },
+      })
+      const input = wrapper.find('input')
+      const select = wrapper.findComponent(Select)
+      await input.trigger('focus')
+      // Simulate focus state to trigger menu multiple times
+      select.vm.toggleMenu()
+      await nextTick
+      select.vm.toggleMenu()
+      await nextTick
+      // Simulate click the outside
+      select.vm.handleClickOutside()
+      await nextTick
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenCalled()
+    })
+
+    it('focus & blur for multiple & filterable select', async () => {
+      const onFocus = jest.fn()
+      const onBlur = jest.fn()
+      const wrapper = createSelect({
+        data() {
+          return {
+            multiple: true,
+            filterable: true,
+            value: [],
+          }
+        },
+        methods: {
+          onFocus,
+          onBlur,
+        },
+      })
+      const input = wrapper.find('input')
+      const select = wrapper.findComponent(Select)
+      await input.trigger('focus')
+      // Simulate focus state to trigger menu multiple times
+      select.vm.toggleMenu()
+      await nextTick
+      select.vm.toggleMenu()
+      await nextTick
+      // Select multiple items in multiple mode without triggering focus
+      const options = getOptions()
+      options[1].click()
+      await nextTick
+      options[2].click()
+      await nextTick
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      // Simulate click the outside
+      select.vm.handleClickOutside()
+      await nextTick
+      await nextTick
+      expect(onBlur).toHaveBeenCalled()
     })
   })
 })
