@@ -18,8 +18,10 @@ export const i18n = (fn: (...args: any[]) => string) => {
   i18nHandler = fn
 }
 
+export const restoreHandler = () => i18nHandler = defaultTranslator
+
 function template(str: string, option) {
-  if(!str || !option) return str
+  if (!str || !option) return str
 
   return str.replace(/\{(\w+)\}/g, (_, key) => {
     return option[key]
@@ -43,9 +45,7 @@ const defaultTranslator = (...args: any[]) => {
 export const t = (...args: any[]): string => {
   if (i18nHandler) {
     const translation = i18nHandler(...args)
-    if (!translation) {
-      return defaultTranslator(...args)
-    }
+    return translation || defaultTranslator(...args)
   }
   return defaultTranslator(...args)
 }
