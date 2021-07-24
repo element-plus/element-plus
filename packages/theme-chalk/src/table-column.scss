@@ -56,7 +56,7 @@
     button {
       background: transparent;
       border: none;
-      color: $--color-text-regular;
+      color: var(--el-color-text-regular);
       cursor: pointer;
       font-size: var(--el-font-size-small);
       padding: 0 3px;

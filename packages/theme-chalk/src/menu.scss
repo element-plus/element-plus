@@ -32,7 +32,7 @@
   }
 
   i {
-    color: $--color-text-secondary;
+    color: var(--el-color-text-secondary);
   }
 
   &:hover,
@@ -68,7 +68,7 @@
       line-height: 60px;
       margin: 0;
       border-bottom: 2px solid transparent;
-      color: $--color-text-secondary;
+      color: var(--el-color-text-secondary);
 
       a,
       a:hover {
@@ -87,14 +87,14 @@
       &:hover {
         outline: none;
         .#{$namespace}-submenu__title {
-          color: $--color-text-primary;
+          color: var(--el-color-text-primary);
         }
       }
 
       &.is-active {
         .#{$namespace}-submenu__title {
           border-bottom: 2px solid var(--el-color-primary);
-          color: $--color-text-primary;
+          color: var(--el-color-text-primary);
         }
       }
 
@@ -102,7 +102,7 @@
         height: 60px;
         line-height: 60px;
         border-bottom: 2px solid transparent;
-        color: $--color-text-secondary;
+        color: var(--el-color-text-secondary);
 
         &:hover {
           background-color: #fff;
@@ -123,21 +123,21 @@
         height: 36px;
         line-height: 36px;
         padding: 0 10px;
-        color: $--color-text-secondary;
+        color: var(--el-color-text-secondary);
       }
       & .#{$namespace}-menu-item.is-active,
       & .#{$namespace}-submenu.is-active > .#{$namespace}-submenu__title {
-        color: $--color-text-primary;
+        color: var(--el-color-text-primary);
       }
     }
     & .#{$namespace}-menu-item:not(.is-disabled):hover,
     & .#{$namespace}-menu-item:not(.is-disabled):focus {
       outline: none;
-      color: $--color-text-primary;
+      color: var(--el-color-text-primary);
     }
     & > .#{$namespace}-menu-item.is-active {
       border-bottom: 2px solid var(--el-color-primary);
-      color: $--color-text-primary;
+      color: var(--el-color-text-primary);
     }
   }
   @include m(collapse) {
@@ -282,7 +282,7 @@
     padding: 7px 0 7px 20px;
     line-height: normal;
     font-size: 12px;
-    color: $--color-text-secondary;
+    color: var(--el-color-text-secondary);
   }
 }
 

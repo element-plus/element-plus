@@ -13,19 +13,24 @@
   --el-color-white: #{$--color-white};
   --el-color-black: #{$--color-black};
 
+  // --el-color-primary-light-#{$i}
   @for $i from 1 through 9 {
     @include set-css-color-primary($i);
   }
 
+  // --el-color-#{$type}
+  // --el-color-#{$type}-light
+  // --el-color-#{$type}-lighter
   @each $type in (success, warning, danger, error, info) {
     @include set-css-color-type($type);
   }
 
-  --el-color-text-primary: #{$--color-text-primary};
-  --el-color-text-regular: #{$--color-text-regular};
-  --el-color-text-secondary: #{$--color-text-secondary};
-  --el-color-text-placeholder: #{$--color-text-placeholder};
+  // --el-color-text-#{$type}
+  @each $type in (primary, regular, secondary, placeholder) {
+    @include set-css-var-type('color-text', $type, $--color-text);
+  }
 
+  // --el-border-color-#{$type}
   @each $type in (base, light, lighter, extra-light) {
     @include set-css-var-type('border-color', $type, $--border-color);
   }
