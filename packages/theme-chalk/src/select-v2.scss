@@ -27,9 +27,10 @@ $--input-inline-start: 7px !default;
     padding-bottom: 1px;
     border: 1px solid var(--el-border-color-base);
     border-radius: $--border-radius-base;
-    transition: border-color var(--el-transition-duration-fast) var(--el-ease-in-out-bezier-function);
+    transition: border-color var(--el-transition-duration-fast)
+      var(--el-ease-in-out-bezier-function);
     &:hover {
-      border-color: var(--el-color-text-placeholder)
+      border-color: var(--el-color-text-placeholder);
     }
 
     @include when(filterable) {
@@ -110,9 +111,9 @@ $--input-inline-start: 7px !default;
 
   @include e(popper) {
     @include picker-popper(
-        $--select-dropdown-background,
-        $--select-dropdown-border,
-        $--select-dropdown-shadow
+      $--select-dropdown-background,
+      $--select-dropdown-border,
+      $--select-dropdown-shadow
     );
   }
 
@@ -235,7 +236,8 @@ $--input-inline-start: 7px !default;
     border: 1px solid #d9d9d9;
     border-radius: $--border-radius-base;
     position: relative;
-    transition: all var(--el-transition-duration) var(--el-ease-in-out-bezier-function);
+    transition: all var(--el-transition-duration)
+      var(--el-ease-in-out-bezier-function);
   }
 
   @include e(input-calculator) {
@@ -281,7 +283,7 @@ $--input-inline-start: 7px !default;
       color: $--color-white;
 
       &:hover {
-        background-color: $--color-text-secondary;
+        background-color: var(--el-color-text-secondary);
       }
 
       &::before {

@@ -67,11 +67,11 @@
   }
 
   @include e(content) {
-    color: $--color-text-primary;
+    color: var(--el-color-text-primary);
   }
 
   @include e(timestamp) {
-    color: $--color-text-secondary;
+    color: var(--el-color-text-secondary);
     line-height: 1;
     font-size: var(--el-font-size-small);
 

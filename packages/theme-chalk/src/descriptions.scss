@@ -27,7 +27,7 @@
   }
 
   @include e(body) {
-    color: $--color-text-regular;
+    color: var(--el-color-text-regular);
     background-color: $--color-white;
 
     table {

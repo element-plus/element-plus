@@ -1,13 +1,13 @@
 <template>
   <div class="demo-color-box-group">
     <div
-      v-for="(border, i) in borderColors"
+      v-for="(text, i) in textColors"
       :key="i"
-      class="demo-color-box demo-color-box-other demo-color-box-lite"
-      :style="{ background: `var(--el-border-color-${border.type})` }"
+      class="demo-color-box demo-color-box-other"
+      :style="{ background: `var(--el-color-text-${text.type})` }"
     >
-      {{ border.name || formatType(border.type) + ' Border' }}
-      <div class="value">{{ getColorValue(border.type).toUpperCase() }}</div>
+      {{ text.name || formatType(text.type) + ' Text' }}
+      <div class="value">{{ getColorValue(text.type).toUpperCase() }}</div>
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ import { formatType } from '../../../util'
 
 export default {
   props: {
-    borderColors: {
+    textColors: {
       type: Array,
       default() {
         return []
@@ -28,7 +28,7 @@ export default {
     formatType,
     getColorValue(type) {
       return getComputedStyle(document.documentElement).getPropertyValue(
-        `--el-border-color-${type}`,
+        `--el-color-text-${type}`,
       )
     },
   },

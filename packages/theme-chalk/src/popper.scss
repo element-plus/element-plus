@@ -16,9 +16,9 @@
 
   @include when(dark) {
     color: $--color-white;
-    background: $--color-text-primary;
+    background: var(--el-color-text-primary);
     #{$arrow-selector}::before {
-      background: $--color-text-primary;
+      background: var(--el-color-text-primary);
       right: 0;
     }
   }
@@ -51,7 +51,7 @@
       z-index: -1;
       content: ' ';
       transform: rotate(45deg);
-      background: $--color-text-primary;
+      background: var(--el-color-text-primary);
       box-sizing: border-box;
     }
   }

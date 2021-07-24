@@ -3,27 +3,43 @@
   import { tintColor } from '../../color.js';
   import BorderBox from "../../components/demo/color/border-box.vue"
   import ColorBox from "../../components/demo/color/color-box.vue"
+  import TextBox from "../../components/demo/color/text-box.vue"
   const borderColors = [
     {
       name: 'Borde base',
       type: 'base',
-      color: '#DCDFE6',
     },
     {
       name: 'Borde ligero',
       type: 'light',
-      color: '#E4E7ED',
     },
     {
       name: 'Borde claro',
       type: 'lighter',
-      color: '#EBEEF5',
     },
     {
       name: 'Borde extra claro',
       type: 'extra-light',
-      color: '#F2F6FC',
     },
+  ]
+
+  const textColors = [
+    {
+      name: 'Texto primario',
+      type: 'primary',
+    },
+    {
+      name: 'Texto regular',
+      type: 'regular',
+    },
+    {
+      name: 'Texto secundario',
+      type: 'secondary',
+    },
+    {
+      name: 'Texto de placeholder',
+      type: 'placeholder',
+    }
   ]
 
   const varMap = {
@@ -56,6 +72,7 @@
     components: {
       BorderBox,
       ColorBox,
+      TextBox,
     },
     mounted() {
       this.setGlobal();
@@ -80,11 +97,8 @@
         info: '',
         white: '',
         black: '',
-        textPrimary: '',
-        textRegular: '',
-        textSecondary: '',
-        textPlaceholder: '',
         borderColors,
+        textColors,
       }
     },
     watch: {
@@ -147,21 +161,7 @@ Los colores neutrales son para texto, fondos y bordes. Puede usar diferentes col
 
 <el-row :gutter="12">
   <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box-group">
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textPrimary }"
-      >Texto primario<div class="value">{{textPrimary}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textRegular }"
-      >
-      Texto regular<div class="value">{{textRegular}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textSecondary }"
-      >Texto secundario<div class="value">{{textSecondary}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textPlaceholder }"
-      >Texto de placeholder<div class="value">{{textPlaceholder}}</div></div>
-    </div>
+    <text-box :text-colors="textColors" />
   </el-col>
   <el-col :span="6" :xs="{span: 12}">
     <border-box :border-colors="borderColors" />
