@@ -4,14 +4,14 @@
   position: relative;
   color: var(--el-color-text-regular);
   background: $--color-white;
-  border-radius: $--border-radius-base;
+  border-radius: var(--el-border-radius-base);
   line-height: 30px;
 
   .#{$namespace}-time-panel {
     margin: 5px 0;
     border: solid 1px $--datepicker-border-color;
     background-color: $--color-white;
-    box-shadow: $--box-shadow-light;
+    box-shadow: var(--el-box-shadow-light);
   }
 
   @include e((body, body-wrapper)) {

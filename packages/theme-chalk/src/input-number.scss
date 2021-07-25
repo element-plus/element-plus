@@ -50,13 +50,13 @@
 
   @include e(increase) {
     right: 1px;
-    border-radius: 0 $--border-radius-base $--border-radius-base 0;
+    border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;
     border-left: $--border-base;
   }
 
   @include e(decrease) {
     left: 1px;
-    border-radius: $--border-radius-base 0 0 $--border-radius-base;
+    border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);
     border-right: $--border-base;
   }
 
@@ -128,7 +128,7 @@
     }
 
     @include e(increase) {
-      border-radius: 0 $--border-radius-base 0 0;
+      border-radius: 0 var(--el-border-radius-base) 0 0;
       border-bottom: $--border-base;
     }
 
@@ -139,7 +139,7 @@
       left: auto;
       border-right: none;
       border-left: $--border-base;
-      border-radius: 0 0 $--border-radius-base 0;
+      border-radius: 0 0 var(--el-border-radius-base) 0;
     }
 
     @each $size in (medium, small, mini) {

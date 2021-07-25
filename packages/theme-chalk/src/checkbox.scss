@@ -350,7 +350,8 @@
   &:first-child {
     .#{$namespace}-checkbox-button__inner {
       border-left: $--border-base;
-      border-radius: $--border-radius-base 0 0 $--border-radius-base;
+      border-radius: var(--el-border-radius-base) 0 0
+        var(--el-border-radius-base);
       box-shadow: none !important;
     }
   }
@@ -363,7 +364,8 @@
 
   &:last-child {
     .#{$namespace}-checkbox-button__inner {
-      border-radius: 0 $--border-radius-base $--border-radius-base 0;
+      border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base)
+        0;
     }
   }
 

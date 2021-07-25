@@ -24,7 +24,7 @@
 
   @include when(bordered) {
     padding: map.get($--radio-bordered-padding, 'default');
-    border-radius: $--border-radius-base;
+    border-radius: var(--el-border-radius-base);
     border: $--border-base;
     box-sizing: border-box;
     height: map.get($--radio-bordered-height, 'default');
@@ -46,7 +46,7 @@
   @each $size in (medium, small, mini) {
     &.is-bordered {
       padding: map.get($--radio-bordered-padding, $size);
-      border-radius: $--border-radius-base;
+      border-radius: var(--el-border-radius-base);
       height: map.get($--radio-bordered-height, $size);
       .#{$namespace}-radio__label {
         font-size: map.get($--button-font-size, $size);

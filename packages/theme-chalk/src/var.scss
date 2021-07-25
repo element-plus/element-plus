@@ -48,13 +48,17 @@
   --el-border-color-hover: var(--el-color-text-placeholder);
   --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
     var(--el-border-color-base);
-  --el-border-radius-base: #{$--border-radius-base};
-  --el-border-radius-small: #{$--border-radius-small};
-  --el-border-radius-circle: #{$--border-radius-circle};
+
+  // --el-border-radius-#{$type}
+  @each $type in (base, small, round, circle) {
+    @include set-css-var-type('border-radius', $type, $--border-radius);
+  }
 
   // Box-shadow
-  --el-box-shadow-base: #{$--box-shadow-base};
-  --el-box-shadow-light: #{$--box-shadow-light};
+  // --el-box-shadow-#{$type}
+  @each $type in (base, light) {
+    @include set-css-var-type('box-shadow', $type, $--box-shadow);
+  }
 
   // Svg
   --el-svg-monochrome-grey: #dcdde0;

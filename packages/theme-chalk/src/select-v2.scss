@@ -26,7 +26,7 @@ $--input-inline-start: 7px !default;
     padding-top: 1px;
     padding-bottom: 1px;
     border: 1px solid var(--el-border-color-base);
-    border-radius: $--border-radius-base;
+    border-radius: var(--el-border-radius-base);
     transition: border-color var(--el-transition-duration-fast)
       var(--el-ease-in-out-bezier-function);
     &:hover {
@@ -213,7 +213,7 @@ $--input-inline-start: 7px !default;
       font-size: $--select-font-size;
       text-align: center;
       transform: rotateZ(180deg);
-      border-radius: $--border-radius-circle;
+      border-radius: var(--el-border-radius-circle);
       color: $--select-input-color;
       transition: var(--el-color-transition-base);
 
@@ -234,7 +234,7 @@ $--input-inline-start: 7px !default;
   @include e(wrapper) {
     background-color: #fff;
     border: 1px solid #d9d9d9;
-    border-radius: $--border-radius-base;
+    border-radius: var(--el-border-radius-base);
     position: relative;
     transition: all var(--el-transition-duration)
       var(--el-ease-in-out-bezier-function);
