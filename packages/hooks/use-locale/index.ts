@@ -1,11 +1,9 @@
 import {
+  computed,
   getCurrentInstance,
   inject,
   provide,
-  reactive,
   ref,
-  toRefs,
-  watch,
 } from 'vue'
 import English from '@element-plus/locale/lang/en'
 
@@ -56,20 +54,13 @@ export const useLocale = () => {
     return props.i18n?.(...args) || _translator(...args)
   }
 
-  const localeContext = reactive({
-    ...props,
-    lang: props.locale.name,
-  })
+  const locale = computed(() => props.locale || English)
+  const lang = computed(() => locale.value.name)
 
   provide(LocaleInjectionKey, {
-    ...toRefs(localeContext),
+    locale,
+    lang,
     t,
-  })
-
-  watch(() => props.locale, locale => {
-    // dayjs.locale(locale.name)
-    localeContext.locale = locale
-    localeContext.lang = locale.name
   })
 }
 
