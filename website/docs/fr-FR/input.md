@@ -608,7 +608,7 @@ export default defineComponent ({
 | ----| ----| ----| ---- | ----- |
 | type| Type de l'input. | string | text, textarea et autres [types d'input natifs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
 | model-value / v-model | Variable liée. | string / number | — | — |
-| maxlength| La longueur maximale. | number| — | — |
+| maxlength| La longueur maximale. | string / number | — | — |
 | minlength| Identique à `minlength` dans l'input natif. | number | — | — |
 | show-word-limit | Affiche le nombre de caractères restant， ne marche que lorsque `type` est 'text' ou 'textarea'. | boolean    |  —  | false |
 | placeholder| Placeholder de l' Input. | string | — | — |

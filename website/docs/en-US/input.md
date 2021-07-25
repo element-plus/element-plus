@@ -609,7 +609,7 @@ export default defineComponent ({
 | ----| ----| ----| ---- | ----- |
 |type| type of input | string | text, textarea and other [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
 |modelValue / v-model| binding value | string / number| — | — |
-|maxlength| the max length | number| — | — |
+|maxlength| the max length | string / number| — | — |
 |minlength| same as `minlength` in native input | number | — | — |
 |show-word-limit | whether show word count，only works when `type` is 'text' or 'textarea' | boolean    |  —  | false |
 |placeholder| placeholder of Input| string | — | — |
