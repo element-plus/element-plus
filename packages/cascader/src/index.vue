@@ -275,7 +275,7 @@ export default defineComponent({
     const suggestions: Ref<CascaderNode[]> = ref([])
 
     const isDisabled = computed(() => props.disabled || elForm.disabled)
-    const inputPlaceholder = computed(() => locale.t('el.cascader.placeholder'))
+    const inputPlaceholder = computed(() => props.placeholder || locale.t('el.cascader.placeholder'))
     const realSize: ComputedRef<string> = computed(() => props.size || elFormItem.size || $ELEMENT.size)
     const tagSize = computed(() => ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small')
     const multiple = computed(() => !!props.props.multiple)
