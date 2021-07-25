@@ -1,5 +1,51 @@
 ## Changelog
 
+### 1.0.2-beta.59
+*2021-07-26*
+
+#### Breaking change
+- feat(locale): i18n implementation (#2670)
+#### Bug fixes
+
+- fix(locale): missing install & locale issue (#2647)
+- fix(select): should not stop at invisible options by up and down (#2585) …
+- fix(style): ondemand style lost (#2648)
+- fix(select-v2): adjust the trigger conditions of focus and blur (#2650)
+- fix(style): remove bg-color of menu items at ':focus'
+- fix(input): input maxlength calculate the correct length (#2654)
+
+#### Chore
+- chore: update i18n demo (#2672)
+
+#### Refactors
+
+- refactor(result): migrate css var (#2637)
+- refactor(carousel): migrate css var (#2638)
+- refactor(transfer): migrate css var (#2639)
+- refactor(dialog): migrate css var (#2641)
+- refactor(menu): migrate css var (#2642)
+- refactor(descriptions): migrate css var (#2643)
+- refactor(empty): migrate css var (#2644)
+- refactor(color): migrate all color-text var & simplify color docs (#2656)
+- refactor(border): migrate css var & simplify docs (#2663)
+- refactor(collapse): migrate css var (#2661)
+- refactor: i18n implementation (#2670)
+- refactor(locale): i18n migration website code (#2671)
+
+### 1.0.2-beta.58
+
+*2021-07-24*
+
+#### Bug fixes
+- Hotfix for setLocale
+
+### 1.0.2-beta.57
+
+*2021-07-23*
+
+#### Bug fixes
+- Hotfix for setLocale
+
 ### 1.0.2-beta.56
 
 *2021-07-23*
