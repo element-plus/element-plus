@@ -204,7 +204,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, PropType, ref, watch } from 'vue'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
 import { ClickOutside } from '@element-plus/directives'
 import { isValidDatePickType } from '@element-plus/utils/validators'
@@ -236,6 +236,7 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option'],
 
   setup(props, ctx) {
+    const { t } = useLocaleInject()
     const leftDate = ref(dayjs())
     const rightDate = ref(dayjs().add(1, 'month'))
     const minDate = ref(null)
