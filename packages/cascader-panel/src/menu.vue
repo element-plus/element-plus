@@ -23,7 +23,7 @@
       v-if="isEmpty"
       class="el-cascader-menu__empty-text"
     >
-      {{ t('el.cascader.noData') }}
+      {{ locale.t('el.cascader.noData') }}
     </div>
     <svg
       v-else-if="panel.isHoverMenu"
@@ -40,7 +40,7 @@ import {
 } from 'vue'
 import ElScrollbar from '@element-plus/scrollbar'
 import ElCascaderNode from './node.vue'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
 import {
   CascaderNode,
@@ -70,6 +70,7 @@ export default defineComponent({
 
   setup (props) {
     const instance = getCurrentInstance()
+    const locale = useLocaleInject()
     const id = generateId()
     let activeNode: Nullable<HTMLElement> = null
     let hoverTimer: Nullable<TimeoutHandle> = null
@@ -124,7 +125,7 @@ export default defineComponent({
       hoverZone,
       isEmpty,
       menuId,
-      t,
+      locale,
       handleExpand,
       handleMouseMove,
       clearHoverZone,

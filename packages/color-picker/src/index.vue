@@ -47,7 +47,7 @@
             class="el-color-dropdown__link-btn"
             @click="clear"
           >
-            {{ t('el.colorpicker.clear') }}
+            {{ locale.t('el.colorpicker.clear') }}
           </el-button>
           <el-button
             plain
@@ -55,7 +55,7 @@
             class="el-color-dropdown__btn"
             @click="confirmValue"
           >
-            {{ t('el.colorpicker.confirm') }}
+            {{ locale.t('el.colorpicker.confirm') }}
           </el-button>
         </div>
       </div>
@@ -99,7 +99,7 @@ import Predefine from './components/predefine.vue'
 import ElPopper from '@element-plus/popper'
 import ElButton from '@element-plus/button'
 import ElInput from '@element-plus/input'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
@@ -146,6 +146,7 @@ export default defineComponent({
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
     const ELEMENT = useGlobalConfig()
+    const locale = useLocaleInject()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
@@ -300,7 +301,7 @@ export default defineComponent({
       handleTrigger,
       clear,
       confirmValue,
-      t,
+      locale,
       hue,
       svPanel,
       alpha,

@@ -8,18 +8,18 @@
             size="mini"
             @click="selectDate('prev-month')"
           >
-            {{ t('el.datepicker.prevMonth') }}
+            {{ locale.t('el.datepicker.prevMonth') }}
           </el-button>
           <el-button size="mini" @click="selectDate('today')">
             {{
-              t('el.datepicker.today')
+              locale.t('el.datepicker.today')
             }}
           </el-button>
           <el-button
             size="mini"
             @click="selectDate('next-month')"
           >
-            {{ t('el.datepicker.nextMonth') }}
+            {{ locale.t('el.datepicker.nextMonth') }}
           </el-button>
         </el-button-group>
       </div>
@@ -54,9 +54,9 @@
 </template>
 
 <script lang="ts">
-import { t } from '@element-plus/locale'
 import ElButton from '@element-plus/button'
 import ElButtonGroup from '@element-plus/button-group'
+import { useLocaleInject } from '@element-plus/hooks'
 import DateTable from './date-table.vue'
 import {
   ref,
@@ -66,6 +66,8 @@ import {
   defineComponent,
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
+
+type DateType = 'prev-month' | 'today' | 'next-month'
 
 export default defineComponent({
   name: 'ElCalendar',
@@ -98,6 +100,7 @@ export default defineComponent({
 
   emits: ['input', 'update:modelValue'],
   setup(props, ctx) {
+    const locale = useLocaleInject()
     const selectedDay = ref(null)
     const now = dayjs()
 
@@ -114,7 +117,7 @@ export default defineComponent({
 
     const i18nDate = computed(() => {
       const pickedMonth = `el.datepicker.month${date.value.format('M')}`
-      return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
+      return `${date.value.year()} ${locale.t('el.datepicker.year')} ${locale.t(pickedMonth)}`
     })
 
     const realSelectedDay = computed({
@@ -192,7 +195,7 @@ export default defineComponent({
       realSelectedDay.value = day
     }
 
-    const selectDate = type => {
+    const selectDate = (type: DateType) => {
       let day: Dayjs
       if (type === 'prev-month') {
         day = prevMonthDayjs.value
@@ -215,7 +218,7 @@ export default defineComponent({
       validatedRange,
       pickDay,
       selectDate,
-      t,
+      locale,
     }
   },
 })

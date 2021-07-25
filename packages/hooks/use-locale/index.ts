@@ -1,4 +1,4 @@
-import { getCurrentInstance, provide, reactive, watch } from 'vue'
+import { getCurrentInstance, provide, inject, reactive, watch } from 'vue'
 import English from '@element-plus/locale/lang/en'
 
 import type { InjectionKey, PropType } from 'vue'
@@ -81,3 +81,11 @@ function translatorGenerator(
 }
 
 export const defaultTranslator = translatorGenerator(English)
+
+export const useLocaleInject = () => {
+  return inject(LocaleInjectionKey, {
+    lang: English.name,
+    locale: English,
+    t: defaultTranslator,
+  })
+}
