@@ -9,7 +9,7 @@
     @include picker-popper(
       $--color-white,
       1px solid $--datepicker-border-color,
-      $--box-shadow-light
+      var(--el-box-shadow-light)
     );
   }
 }

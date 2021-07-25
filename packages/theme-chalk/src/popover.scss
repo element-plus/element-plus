@@ -14,7 +14,7 @@
     line-height: 1.4;
     text-align: justify;
     font-size: $--popover-font-size;
-    box-shadow: $--box-shadow-light;
+    box-shadow: var(--el-box-shadow-light);
     word-break: break-all;
 
     @include m(plain) {

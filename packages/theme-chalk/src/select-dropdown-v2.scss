@@ -4,7 +4,7 @@
 
 @include b(select-dropdown) {
   z-index: calc(var(--el-index-top) + 1);
-  border-radius: $--border-radius-base;
+  border-radius: var(--el-border-radius-base);
   box-sizing: border-box;
 
   .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list {

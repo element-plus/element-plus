@@ -101,7 +101,7 @@
   margin: 0;
   background-color: $--color-white;
   border: none;
-  border-radius: $--border-radius-base;
+  border-radius: var(--el-border-radius-base);
   box-shadow: none;
 
   @include e(item) {
