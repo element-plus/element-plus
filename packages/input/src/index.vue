@@ -223,7 +223,7 @@ export default defineComponent({
       default: () => ({}),
     },
     maxlength: {
-      type: [Number,String],
+      type: [Number, String],
     },
   },
 
@@ -283,7 +283,7 @@ export default defineComponent({
     })
     const inputExceed = computed(() => {
       // show exceed style if length of initial value greater then maxlength
-      return isWordLimitVisible.value && (textLength.value > props.maxlength)
+      return isWordLimitVisible.value && (textLength.value > Number(props.maxlength))
     })
 
     const resizeTextarea = () => {
