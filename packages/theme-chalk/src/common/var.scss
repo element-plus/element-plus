@@ -601,22 +601,8 @@ $--scrollbar-hover-background-color: rgba(
 
 /* Collapse
 --------------------------*/
-/// color||Color|0
-$--collapse-border-color: map.get($--border-color, 'lighter') !default;
-/// height||Other|4
-$--collapse-header-height: 48px !default;
-/// color||Color|0
-$--collapse-header-background-color: $--color-white !default;
-/// color||Color|0
-$--collapse-header-font-color: var(--el-color-text-primary) !default;
-/// fontSize||Font|1
-$--collapse-header-font-size: 13px !default;
-/// color||Color|0
-$--collapse-content-background-color: $--color-white !default;
-/// fontSize||Font|1
-$--collapse-content-font-size: 13px !default;
-/// color||Color|0
-$--collapse-content-font-color: var(--el-color-text-primary) !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/collapse.scss
 
 /* Transfer
 --------------------------*/
