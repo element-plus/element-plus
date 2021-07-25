@@ -124,7 +124,7 @@
           </li>
         </template>
         <slot v-else name="empty">
-          <li class="el-cascader__empty-text">{{ locale.t('el.cascader.noMatch') }}</li>
+          <li class="el-cascader__empty-text">{{ t('el.cascader.noMatch') }}</li>
         </slot>
       </el-scrollbar>
     </template>
@@ -256,7 +256,7 @@ export default defineComponent({
     let inputInitialHeight = 0
     let pressDeleteCount = 0
 
-    const locale = useLocaleInject()
+    const { t } = useLocaleInject()
     const $ELEMENT = useGlobalConfig()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -275,7 +275,7 @@ export default defineComponent({
     const suggestions: Ref<CascaderNode[]> = ref([])
 
     const isDisabled = computed(() => props.disabled || elForm.disabled)
-    const inputPlaceholder = computed(() => props.placeholder || locale.t('el.cascader.placeholder'))
+    const inputPlaceholder = computed(() => props.placeholder || t('el.cascader.placeholder'))
     const realSize: ComputedRef<string> = computed(() => props.size || elFormItem.size || $ELEMENT.size)
     const tagSize = computed(() => ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small')
     const multiple = computed(() => !!props.props.multiple)
@@ -573,7 +573,7 @@ export default defineComponent({
       multiple,
       readonly,
       clearBtnVisible,
-      locale,
+      t,
       togglePopperVisible,
       hideSuggestionPanel,
       deleteTag,

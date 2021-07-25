@@ -9,9 +9,9 @@ import type { Language } from '@element-plus/locale'
 
 const TestComp = {
   setup() {
-    const locale = inject(LocaleInjectionKey)
+    const { t } = inject(LocaleInjectionKey)
     return () => {
-      return h('div', locale.t('el.popconfirm.confirmButtonText'))
+      return h('div', t('el.popconfirm.confirmButtonText'))
     }
   },
 }

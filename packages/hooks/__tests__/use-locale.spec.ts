@@ -6,9 +6,9 @@ import { useLocale, useLocaleProps, LocaleInjectionKey } from '../use-locale'
 
 const TestComp = {
   setup() {
-    const locale = inject(LocaleInjectionKey)
+    const { t } = inject(LocaleInjectionKey)
     return () => {
-      return h('div', { class: 'locale-manifest' }, locale.t('el.popconfirm.confirmButtonText'))
+      return h('div', { class: 'locale-manifest' }, t('el.popconfirm.confirmButtonText'))
     }
   },
 }

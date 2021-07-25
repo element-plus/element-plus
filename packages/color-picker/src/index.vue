@@ -47,7 +47,7 @@
             class="el-color-dropdown__link-btn"
             @click="clear"
           >
-            {{ locale.t('el.colorpicker.clear') }}
+            {{ t('el.colorpicker.clear') }}
           </el-button>
           <el-button
             plain
@@ -55,7 +55,7 @@
             class="el-color-dropdown__btn"
             @click="confirmValue"
           >
-            {{ locale.t('el.colorpicker.confirm') }}
+            {{ t('el.colorpicker.confirm') }}
           </el-button>
         </div>
       </div>
@@ -146,7 +146,7 @@ export default defineComponent({
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
     const ELEMENT = useGlobalConfig()
-    const locale = useLocaleInject()
+    const { t } = useLocaleInject()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
@@ -301,7 +301,7 @@ export default defineComponent({
       handleTrigger,
       clear,
       confirmValue,
-      locale,
+      t,
       hue,
       svPanel,
       alpha,

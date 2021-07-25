@@ -8,18 +8,18 @@
             size="mini"
             @click="selectDate('prev-month')"
           >
-            {{ locale.t('el.datepicker.prevMonth') }}
+            {{ t('el.datepicker.prevMonth') }}
           </el-button>
           <el-button size="mini" @click="selectDate('today')">
             {{
-              locale.t('el.datepicker.today')
+              t('el.datepicker.today')
             }}
           </el-button>
           <el-button
             size="mini"
             @click="selectDate('next-month')"
           >
-            {{ locale.t('el.datepicker.nextMonth') }}
+            {{ t('el.datepicker.nextMonth') }}
           </el-button>
         </el-button-group>
       </div>
@@ -100,7 +100,7 @@ export default defineComponent({
 
   emits: ['input', 'update:modelValue'],
   setup(props, ctx) {
-    const locale = useLocaleInject()
+    const { t } = useLocaleInject()
     const selectedDay = ref(null)
     const now = dayjs()
 
@@ -117,7 +117,7 @@ export default defineComponent({
 
     const i18nDate = computed(() => {
       const pickedMonth = `el.datepicker.month${date.value.format('M')}`
-      return `${date.value.year()} ${locale.t('el.datepicker.year')} ${locale.t(pickedMonth)}`
+      return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
     })
 
     const realSelectedDay = computed({
@@ -218,7 +218,7 @@ export default defineComponent({
       validatedRange,
       pickDay,
       selectDate,
-      locale,
+      t,
     }
   },
 })
