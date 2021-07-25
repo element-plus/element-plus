@@ -46,7 +46,7 @@ import {
   PropType,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import TimeSpinner from './basic-time-spinner.vue'
 import dayjs, { Dayjs } from 'dayjs'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
@@ -77,6 +77,7 @@ export default defineComponent({
   emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
+    const { t } = useLocaleInject()
     // data
     const selectionRange = ref([0, 2])
     const oldValue = useOldValue(props)
