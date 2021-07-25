@@ -16,7 +16,7 @@
 import { hasClass } from '@element-plus/utils/dom'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 import { rangeArr } from '@element-plus/time-picker'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import dayjs, { Dayjs } from 'dayjs'
 
 import {
@@ -66,6 +66,7 @@ export default defineComponent({
   emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
+    const { t } = useLocaleInject()
     const months = ref(props.date.locale('en').localeData().monthsShort().map(_=>_.toLowerCase()))
     const tableRows = ref([ [], [], [] ])
     const lastRow = ref(null)
