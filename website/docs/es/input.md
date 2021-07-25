@@ -582,7 +582,7 @@ export default defineComponent({
 
 ### Limitar el tamaño
 
-:::demo `maxlength` y `minlength` son atributos de la entrada nativa, declaran un límite en el número de caracteres que un usuario puede introducir. La configuración de la pro `maxlength` para un tipo de entrada de texto o de área de texto puede limitar la longitud del valor de entrada y le permite mostrar el recuento de palabras al establecer `show-word-limit` a `true` al mismo tiempo.
+:::demo `maxlength` y `minlength` atributos de la entrada, declaran un límite en el número de caracteres que un usuario puede introducir. La configuración de la pro `maxlength` para un tipo de entrada de texto o de área de texto puede limitar la longitud del valor de entrada y le permite mostrar el recuento de palabras al establecer `show-word-limit` a `true` al mismo tiempo.
 
 ```html
 <el-input
@@ -623,7 +623,7 @@ export default defineComponent ({
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | type          | tipo de input                                                                                                                                    | string           | text, textarea y otros [tipos de entrada nativos](https://developer.mozilla.org/es/docs/Web/HTML/Elemento/input#Form_%3Cinput%3E_types) | text        |
 | model-value / v-model | valor enlazado                          | boolean / string / number | —                       | —           |
-| maxlength     | igual que `maxlength` en el input nativo                                                                                                         | number           | —                                                                                                                                       | —           |
+| maxlength     | La longitud máxima                                                                                                          | number           | —                                                                                                                                       | —           |
 | minlength     | igual que `minlength` en el input nativo                                                                                                         | number           | —                                                                                                                                       | —           |
 | show-word-limit | Si se muestra el contador de palabras, solamente funciona con los tipos `text` o `textarea` | boolean    |  —  | false |
 | placeholder   | placeholder del Input                                                                                                                            | string           | —                                                                                                                                       | —           |
