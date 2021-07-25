@@ -79,20 +79,17 @@ export const useLocaleInject = () => {
     lang: ref(English.name),
     locale: ref(English),
     t: (...args) => {
-      const defaultTranslator = (...args: any[]) => {
-        const [path, option] = args
-        let value
-        const array = path.split('.')
-        let current = English
-        for (let i = 0, j = array.length; i < j; i++) {
-          const property = array[i]
-          value = current[property]
-          if (i === j - 1) return template(value, option)
-          if (!value) return ''
-          current = value
-        }
+      const [path, option] = args
+      let value
+      const array = path.split('.')
+      let current = English
+      for (let i = 0, j = array.length; i < j; i++) {
+        const property = array[i]
+        value = current[property]
+        if (i === j - 1) return template(value, option)
+        if (!value) return ''
+        current = value
       }
-      return defaultTranslator(...args)
     },
   })
 }
