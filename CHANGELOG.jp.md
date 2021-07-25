@@ -3,8 +3,8 @@
 ### 1.0.2-beta.59
 *2021-07-26*
 
-#### Features
-- feat(locale): locale-provider (#2662)
+#### Breaking change
+- feat(locale): i18n implementation (#2670)
 #### Bug fixes
 
 - fix(locale): missing install & locale issue (#2647)
@@ -29,7 +29,6 @@
 - refactor(color): migrate all color-text var & simplify color docs (#2656)
 - refactor(border): migrate css var & simplify docs (#2663)
 - refactor(collapse): migrate css var (#2661)
-- refactor: i18n implementation (#2670)
 - refactor(locale): i18n migration website code (#2671)
 
 ### 1.0.2-beta.58

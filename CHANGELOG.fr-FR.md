@@ -3,8 +3,8 @@
 ### 1.0.2-beta.59
 *2021-07-26*
 
-#### Features
-- feat(locale): locale-provider (#2662)
+#### Breaking change
+- feat(locale): i18n implementation (#2670)
 #### Bug fixes
 
 - fix(locale): missing install & locale issue (#2647)
