@@ -121,7 +121,7 @@ import {
 } from 'vue'
 import ElButton from '@element-plus/button'
 import ElInput from '@element-plus/input'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { Overlay as ElOverlay } from '@element-plus/overlay'
 import { useModal, useLockScreen, useRestoreActive, usePreventGlobal } from '@element-plus/hooks'
 import { TrapFocus } from '@element-plus/directives'
@@ -197,6 +197,7 @@ export default defineComponent({
   emits: ['vanish', 'action'],
   setup(props, { emit }) {
     // const popup = usePopup(props, doClose)
+    const { t } = useLocaleInject()
     const visible = ref(false)
     // s represents state
     const state = reactive<MessageBoxState>({
