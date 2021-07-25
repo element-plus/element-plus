@@ -36,11 +36,14 @@ export const useLocale = () => {
     i18n: Translator
   }
 
+  const locale = computed(() => props.locale || English)
+  const lang = computed(() => locale.value.name)
+
   const _translator = (...args: any[]) => {
     const [path, option] = args
     let value
     const array = path.split('.')
-    let current = props.locale
+    let current = locale.value
     for (let i = 0, j = array.length; i < j; i++) {
       const property = array[i]
       value = current[property]
@@ -54,9 +57,6 @@ export const useLocale = () => {
     return props.i18n?.(...args) || _translator(...args)
   }
 
-  const locale = computed(() => props.locale || English)
-  const lang = computed(() => locale.value.name)
-
   provide(LocaleInjectionKey, {
     locale,
     lang,
@@ -67,7 +67,6 @@ export const useLocale = () => {
 
 function template(str: string, option) {
   if (!str || !option) return str
-
   return str.replace(/\{(\w+)\}/g, (_, key) => {
     return option[key]
   })

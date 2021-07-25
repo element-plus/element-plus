@@ -43,6 +43,7 @@ const defaultTranslator = (...args: any[]) => {
 }
 
 export const t = (...args: any[]): string => {
+  console.warn
   if (i18nHandler) {
     const translation = i18nHandler(...args)
     return translation || defaultTranslator(...args)
@@ -51,6 +52,15 @@ export const t = (...args: any[]): string => {
 }
 
 export const use = (l: Language): void => {
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn(`[deprecation]:
+      The previous i18n usage is deprecated please update to
+      the new one to get reactive i18n translations, refer to:
+      https://element-plus.org/#/en-US/i18n
+    `)
+  }
+
   lang = l || lang
   if (lang.name) {
     dayjs.locale(lang.name)
