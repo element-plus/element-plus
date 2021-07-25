@@ -152,7 +152,7 @@
 
 <script lang="ts">
 import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import ElInput from '@element-plus/input'
 import { ClickOutside } from '@element-plus/directives'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -195,6 +195,8 @@ export default defineComponent({
   },
   emits: ['pick', 'set-picker-option'],
   setup(props, ctx) {
+    const { t } = useLocaleInject()
+
     const innerDate = ref(dayjs())
 
     const month = computed(() => {

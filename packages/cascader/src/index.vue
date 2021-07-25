@@ -31,7 +31,7 @@
         <el-input
           ref="input"
           v-model.trim="inputValue"
-          :placeholder="placeholder"
+          :placeholder="inputPlaceholder"
           :readonly="readonly"
           :disabled="isDisabled"
           :validate-event="false"
@@ -79,7 +79,7 @@
             v-model.trim="searchInputValue"
             type="text"
             class="el-cascader__search-input"
-            :placeholder="presentText ? '' : placeholder"
+            :placeholder="presentText ? '' : inputPlaceholder"
             @input="e => handleInput(searchInputValue, e)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
@@ -144,7 +144,7 @@ import ElPopper from '@element-plus/popper'
 import ElScrollbar from '@element-plus/scrollbar'
 import ElTag from '@element-plus/tag'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { isPromise } from '@vue/shared'
 import debounce from 'lodash/debounce'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -207,7 +207,6 @@ export default defineComponent({
     },
     placeholder: {
       type: String,
-      default: () => t('el.cascader.placeholder'),
     },
     disabled: Boolean,
     clearable: Boolean,
@@ -257,6 +256,7 @@ export default defineComponent({
     let inputInitialHeight = 0
     let pressDeleteCount = 0
 
+    const { t } = useLocaleInject()
     const $ELEMENT = useGlobalConfig()
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -275,6 +275,7 @@ export default defineComponent({
     const suggestions: Ref<CascaderNode[]> = ref([])
 
     const isDisabled = computed(() => props.disabled || elForm.disabled)
+    const inputPlaceholder = computed(() => props.placeholder || t('el.cascader.placeholder'))
     const realSize: ComputedRef<string> = computed(() => props.size || elFormItem.size || $ELEMENT.size)
     const tagSize = computed(() => ['small', 'mini'].includes(realSize.value) ? 'mini' : 'small')
     const multiple = computed(() => !!props.props.multiple)
@@ -558,6 +559,7 @@ export default defineComponent({
       suggestionPanel,
       popperVisible,
       inputHover,
+      inputPlaceholder,
       filtering,
       presentText,
       checkedValue,

@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import {
   coerceTruthyValueToArray,
 } from '@element-plus/utils/util'
@@ -89,6 +89,7 @@ export default defineComponent({
   emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
+    const { t } = useLocaleInject()
     // data
     const lastRow = ref(null)
     const lastColumn = ref(null)

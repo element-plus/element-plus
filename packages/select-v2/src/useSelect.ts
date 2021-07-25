@@ -19,7 +19,7 @@ import lodashDebounce from 'lodash/debounce'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
 import {
   getValueByPath,
@@ -40,6 +40,7 @@ const MINIMUM_INPUT_WIDTH = 4
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // inject
+  const { t } = useLocaleInject()
   const elForm = inject(elFormKey, {} as ElFormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
   const $ELEMENT = useGlobalConfig()
@@ -184,9 +185,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const currentPlaceholder = computed(() => {
+    const _placeholder = props.placeholder || t('el.select.placeholder')
     return props.multiple
-      ? props.placeholder
-      : states.selectedLabel || props.placeholder
+      ? _placeholder
+      : states.selectedLabel || _placeholder
   })
 
   // this obtains the actual popper DOM element.

@@ -89,7 +89,7 @@ import {
   PropType,
 } from 'vue'
 import ElPopper from '@element-plus/popper'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import ElCheckbox from '@element-plus/checkbox'
 import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElScrollbar from '@element-plus/scrollbar'
@@ -124,6 +124,7 @@ export default defineComponent({
   },
   setup(props) {
     const instance = getCurrentInstance()
+    const { t } = useLocaleInject()
     const parent = instance.parent as TableHeader
     if (!parent.filterPanels.value[props.column.id]) {
       parent.filterPanels.value[props.column.id] = instance
