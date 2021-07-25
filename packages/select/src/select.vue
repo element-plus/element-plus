@@ -185,7 +185,7 @@ import ElPopper from '@element-plus/popper'
 import ElScrollbar from '@element-plus/scrollbar'
 import { ClickOutside } from '@element-plus/directives'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useSelect, useSelectStates } from './useSelect'
@@ -261,6 +261,7 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
 
   setup(props, ctx) {
+    const { t } = useLocaleInject()
     const states = useSelectStates(props)
     const {
       optionsArray,

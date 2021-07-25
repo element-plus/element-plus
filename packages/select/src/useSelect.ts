@@ -9,7 +9,7 @@ import {
 import mitt from 'mitt'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import lodashDebounce from 'lodash/debounce'
@@ -28,6 +28,7 @@ import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import { SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
+  const { t } = useLocaleInject()
   const selectEmitter = mitt()
   return reactive({
     options: new Map(),
@@ -62,6 +63,8 @@ type States = ReturnType<typeof useSelectStates>
 
 export const useSelect = (props, states: States, ctx) => {
   const ELEMENT = useGlobalConfig()
+  const { t } = useLocaleInject()
+
   // template refs
   const reference = ref(null)
   const input = ref(null)
