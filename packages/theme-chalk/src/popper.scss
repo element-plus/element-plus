@@ -1,9 +1,13 @@
 @import 'mixins/mixins';
 @import 'common/var';
 
+:root {
+  --el-popper-border-radius: var(--el-popover-border-radius, 4px);
+}
+
 @include b(popper) {
   position: absolute;
-  border-radius: $--popover-border-radius;
+  border-radius: var(--el-popper-border-radius);
   padding: 10px;
   z-index: 2000;
   font-size: 12px;
@@ -15,7 +19,7 @@
   $arrow-selector: #{& + '__arrow'};
 
   @include when(dark) {
-    color: $--color-white;
+    color: var(--el-color-white);
     background: var(--el-color-text-primary);
     #{$arrow-selector}::before {
       background: var(--el-color-text-primary);
@@ -24,12 +28,12 @@
   }
 
   @include when(light) {
-    background: $--color-white;
+    background: var(--el-color-white);
     border: 1px solid var(--el-border-color-light);
 
     #{$arrow-selector}::before {
       border: 1px solid var(--el-border-color-light);
-      background: $--color-white;
+      background: var(--el-color-white);
       right: 0;
     }
   }
