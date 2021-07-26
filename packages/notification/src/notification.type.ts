@@ -6,7 +6,10 @@ export interface INotificationHandle {
   close: () => void
 }
 
-export type INotification = (options?: INotificationOptions) => INotificationHandle
+export interface INotification {
+  (options?: INotificationOptions) : INotificationHandle
+  closeAll(): void
+}
 
 export type INotificationOptions = {
   customClass?: string
