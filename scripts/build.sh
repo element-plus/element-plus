@@ -28,10 +28,12 @@ yarn build:theme
 
 yarn build:helper
 
+echo "Copying types"
 # Post build cp type definitions
 touch temp
-find dist -type d ! -name 'element-plus' -depth 1 -print0 | xargs -0 -I {} sh -c "basename {}" > temp
-
+cd ./dist
+find . -maxdepth 1 ! -path . -type d ! -name 'element-plus'  -print0 | xargs -0 -I {} sh -c "basename {}" > ../temp
+cd -
 input="./temp"
 
 mkdir -p tempDir
@@ -44,8 +46,8 @@ do
       ;;
   esac
   mv "dist/$line" "tempDir/$filepath"
-  cp -nR "tempDir/" es
-  cp -nR "tempDir/" lib
+  rsync -a tempDir/ es/
+  rsync -a tempDir/ lib/
 
 done < "$input"
 
@@ -55,6 +57,7 @@ cp packages/utils/types.ts lib/utils/
 cp dist/element-plus/* es
 
 
-# Post build cleanup 
+echo "Remove temp files"
+# Post build cleanup
 rm -rf temp
 rm -rf tempDir

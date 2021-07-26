@@ -1,5 +1,5 @@
 
-import { setLocale, i18n } from '@element-plus/locale'
+import { setLocale } from '@element-plus/locale'
 import { setConfig } from '@element-plus/utils/config'
 import isServer from '@element-plus/utils/isServer'
 // if you encountered problems alike "Can't resolve './version'"

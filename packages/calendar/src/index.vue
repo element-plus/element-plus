@@ -100,15 +100,15 @@ export default defineComponent({
 
   emits: ['input', 'update:modelValue'],
   setup(props, ctx) {
-    const { t } = useLocaleInject()
+    const { t, lang } = useLocaleInject()
     const selectedDay = ref(null)
-    const now = dayjs()
+    const now = dayjs().locale(lang.value)
 
     const prevMonthDayjs = computed(() => {
       return date.value.subtract(1, 'month')
     })
     const curMonthDatePrefix = computed(() => {
-      return dayjs(date.value).format('YYYY-MM')
+      return dayjs(date.value).locale(lang.value).format('YYYY-MM')
     })
 
     const nextMonthDayjs = computed(() => {
@@ -143,14 +143,14 @@ export default defineComponent({
         }
         return now
       } else {
-        return dayjs(props.modelValue)
+        return dayjs(props.modelValue).locale(lang.value)
       }
     })
 
     // if range is valid, we get a two-digit array
     const validatedRange = computed(() => {
       if (!props.range) return []
-      const rangeArrDayjs = props.range.map(_ => dayjs(_))
+      const rangeArrDayjs = props.range.map(_ => dayjs(_).locale(lang.value))
       const [startDayjs, endDayjs] = rangeArrDayjs
       if (startDayjs.isAfter(endDayjs)) {
         console.warn(
