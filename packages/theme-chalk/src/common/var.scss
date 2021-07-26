@@ -474,17 +474,8 @@ $--popover-border-radius: 4px !default;
 
 /* Tooltip
 -------------------------- */
-/// color|1|Color|0
-$--tooltip-fill: var(--el-color-text-primary) !default;
-/// color|1|Color|0
-$--tooltip-color: $--color-white !default;
-/// fontSize||Font|1
-$--tooltip-font-size: 12px !default;
-/// color||Color|0
-$--tooltip-border-color: var(--el-color-text-primary) !default;
-$--tooltip-arrow-size: 6px !default;
-/// padding||Spacing|3
-$--tooltip-padding: 10px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/tooltip.scss
 
 /* Tag
 -------------------------- */
