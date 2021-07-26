@@ -195,9 +195,9 @@ export default defineComponent({
   },
   emits: ['pick', 'set-picker-option'],
   setup(props, ctx) {
-    const { t } = useLocaleInject()
+    const { t, lang } = useLocaleInject()
 
-    const innerDate = ref(dayjs())
+    const innerDate = ref(dayjs().locale(lang.value))
 
     const month = computed(() => {
       return innerDate.value.month()
@@ -218,7 +218,7 @@ export default defineComponent({
     }
     const formatEmit = (emitDayjs: Dayjs) => {
       if (defaultTime) {
-        const defaultTimeD = dayjs(defaultTime)
+        const defaultTimeD = dayjs(defaultTime).locale(lang.value)
         return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date())
       }
       if (showTime.value) return emitDayjs.millisecond(0)
@@ -292,7 +292,7 @@ export default defineComponent({
     const handleShortcutClick = shortcut => {
       const shortcutValue = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
       if (shortcutValue) {
-        emit(dayjs(shortcutValue))
+        emit(dayjs(shortcutValue).locale(lang.value))
         return
       }
       if (shortcut.onClick) {
@@ -358,7 +358,7 @@ export default defineComponent({
         // deal with the scenario where: user opens the date time picker, then confirm without doing anything
         let result = props.parsedValue as Dayjs
         if (!result) {
-          const defaultTimeD = dayjs(defaultTime)
+          const defaultTimeD = dayjs(defaultTime).locale(lang.value)
           const defaultValueD = getDefaultValue()
           result = defaultTimeD.year(defaultValueD.year()).month(defaultValueD.month()).date(defaultValueD.date())
         }
@@ -371,10 +371,10 @@ export default defineComponent({
     const changeToNow = () => {
       // NOTE: not a permanent solution
       //       consider disable "now" button in the future
-      const now = dayjs()
+      const now = dayjs().locale(lang.value)
       const nowDate = now.toDate()
       if ((!disabledDate || !disabledDate(nowDate)) && checkDateWithinRange(nowDate)) {
-        innerDate.value = dayjs()
+        innerDate.value = dayjs().locale(lang.value)
         emit(innerDate.value)
       }
     }
@@ -417,7 +417,7 @@ export default defineComponent({
     }
 
     const handleVisibleTimeChange = value => {
-      const newDate = dayjs(value, timeFormat.value)
+      const newDate = dayjs(value, timeFormat.value).locale(lang.value)
       if (newDate.isValid() && checkDateWithinRange(newDate)) {
         innerDate.value = newDate.year(innerDate.value.year()).month(innerDate.value.month()).date(innerDate.value.date())
         userInputTime.value = null
@@ -427,7 +427,7 @@ export default defineComponent({
     }
 
     const handleVisibleDateChange = value => {
-      const newDate = dayjs(value, dateFormat.value)
+      const newDate = dayjs(value, dateFormat.value).locale(lang.value)
       if (newDate.isValid()) {
         if (disabledDate && disabledDate(newDate.toDate())) {
           return
@@ -454,11 +454,11 @@ export default defineComponent({
     }
 
     const parseUserInput = value => {
-      return dayjs(value, props.format)
+      return dayjs(value, props.format).locale(lang.value)
     }
 
     const getDefaultValue = () => {
-      return dayjs(defaultValue)
+      return dayjs(defaultValue).locale(lang.value)
     }
 
     const handleKeydown = event => {
@@ -502,7 +502,7 @@ export default defineComponent({
         if (disabledDate && disabledDate(newDate)) {
           continue
         }
-        const result = dayjs(newDate)
+        const result = dayjs(newDate).locale(lang.value)
         innerDate.value = result
         ctx.emit('pick', result, true)
         break
