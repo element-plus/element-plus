@@ -44,8 +44,8 @@ do
       ;;
   esac
   mv "dist/$line" "tempDir/$filepath"
-  cp -nR "tempDir/" es
-  cp -nR "tempDir/" lib
+  rsync -a tempDir/ es/
+  rsync -a tempDir/ lib/
 
 done < "$input"
 
@@ -54,7 +54,6 @@ cp dist/element-plus/* lib
 cp packages/utils/types.ts lib/utils/
 cp dist/element-plus/* es
 
-
-# Post build cleanup 
+# Post build cleanup
 rm -rf temp
 rm -rf tempDir
