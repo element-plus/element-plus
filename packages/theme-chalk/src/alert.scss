@@ -35,7 +35,7 @@
 
   @include when(light) {
     .#{$namespace}-alert__closebtn {
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
     }
   }
 

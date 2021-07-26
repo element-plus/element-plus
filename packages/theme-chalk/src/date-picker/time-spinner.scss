@@ -38,7 +38,7 @@
 
   @include e(arrow) {
     font-size: 12px;
-    color: var(--el-color-text-secondary);
+    color: var(--el-text-color-secondary);
     position: absolute;
     left: 0;
     width: 100%;
@@ -91,7 +91,7 @@
     height: 32px;
     line-height: 32px;
     font-size: 12px;
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
 
     &:hover:not(.disabled):not(.active) {
       background: $--background-color-base;
@@ -99,12 +99,12 @@
     }
 
     &.active:not(.disabled) {
-      color: var(--el-color-text-primary);
+      color: var(--el-text-color-primary);
       font-weight: bold;
     }
 
     &.disabled {
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
       cursor: not-allowed;
     }
   }

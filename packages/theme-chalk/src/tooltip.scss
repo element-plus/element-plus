@@ -14,10 +14,10 @@ $positionMap: (
 );
 
 :root {
-  --el-tooltip-fill: var(--el-color-text-primary);
+  --el-tooltip-fill: var(--el-text-color-primary);
   --el-tooltip-color: var(--el-color-white);
   --el-tooltip-font-size: 12px;
-  --el-tooltip-border-color: var(--el-color-text-primary);
+  --el-tooltip-border-color: var(--el-text-color-primary);
   --el-tooltip-arrow-size: 6px;
   --el-tooltip-padding: 10px;
 }

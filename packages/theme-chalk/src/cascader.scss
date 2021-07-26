@@ -7,7 +7,7 @@
 @import './tag';
 
 :root {
-  --el-cascader-menu-font-color: var(--el-color-text-regular);
+  --el-cascader-menu-font-color: var(--el-text-color-regular);
   --el-cascader-menu-selected-font-color: var(--el-color-primary);
   --el-cascader-menu-fill: var(--el-fill-base);
   --el-cascader-menu-font-size: var(--el-font-size-base);
@@ -15,8 +15,8 @@
   --el-cascader-menu-border: solid 1px var(--el-border-color-light);
   --el-cascader-menu-shadow: var(--el-box-shadow-light);
   --el-cascader-node-background-hover: var(--el-background-color-base);
-  --el-cascader-node-color-disabled: var(--el-color-text-placeholder);
-  --el-cascader-color-empty: var(--el-color-text-placeholder);
+  --el-cascader-node-color-disabled: var(--el-text-color-placeholder);
+  --el-cascader-color-empty: var(--el-text-color-placeholder);
   --el-cascader-tag-background: #f0f2f5;
 }
 
@@ -124,11 +124,11 @@
 
       .#{$namespace}-icon-close {
         flex: none;
-        background-color: var(--el-color-text-placeholder);
+        background-color: var(--el-text-color-placeholder);
         color: var(--el-color-white);
 
         &:hover {
-          background-color: var(--el-color-text-secondary);
+          background-color: var(--el-text-color-secondary);
         }
       }
     }
@@ -189,7 +189,7 @@
     box-sizing: border-box;
 
     &::placeholder {
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
     }
   }
 }

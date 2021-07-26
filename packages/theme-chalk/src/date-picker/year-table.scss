@@ -24,10 +24,10 @@
     &.disabled .cell {
       background-color: $--background-color-base;
       cursor: not-allowed;
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
 
       &:hover {
-        color: var(--el-color-text-placeholder);
+        color: var(--el-text-color-placeholder);
       }
     }
 
