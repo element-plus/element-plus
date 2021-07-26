@@ -1,5 +1,8 @@
+import ConfigProvider from '@element-plus/config-provider'
 import { CommonPicker } from '@element-plus/time-picker'
 import { mount } from '@vue/test-utils'
+import zhCn from '@element-plus/locale/lang/zh-cn'
+import enUs from '@element-plus/locale/lang/en'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import { nextTick } from 'vue'
@@ -461,15 +464,32 @@ describe('WeekPicker', () => {
   })
 
   ;[
-    { locale: 'zh-cn', name: 'Monday', value: 1 },
-    { locale: 'en', name: 'Sunday', value: 0 },
+    { locale: zhCn, name: 'Monday', value: 1 },
+    { locale: enUs, name: 'Sunday', value: 0 },
   ].forEach(loObj => {
-    it(`emit first day of the week, ${loObj.locale} locale, ${loObj.name}`, async () => {
-      dayjs.locale(loObj.locale)
-      const wrapper = _mount(`<el-date-picker
-      type='week'
-      v-model="value"
-    />`, () => ({ value: '' }))
+    it(`emit first day of the week, ${loObj.locale.name} locale, ${loObj.name}`, async () => {
+      const wrapper = mount({
+        components: {
+          'el-date-picker': DatePicker,
+          'el-config-provider': ConfigProvider,
+        },
+        template: `
+          <el-config-provider :locale="locale">
+            <el-date-picker
+              type='week'
+              v-model="value"
+            />
+          </el-config-provider>
+        `,
+        data() {
+          return {
+            locale: loObj.locale,
+            value: '',
+          }
+        },
+      }, {
+        attachTo: 'body',
+      })
       const input = wrapper.find('input')
       input.trigger('blur')
       input.trigger('focus')
@@ -479,8 +499,8 @@ describe('WeekPicker', () => {
       await nextTick()
       const vm = wrapper.vm as any
       expect(vm.value).not.toBeNull()
-      expect(+dayjs(vm.value)).toBe(+dayjs(vm.value).startOf('week'))
-      expect(dayjs(vm.value).day()).toBe(loObj.value) // Sunday or Monday
+      expect(+dayjs(vm.value).locale(loObj.locale.name)).toBe(+dayjs(vm.value).locale(loObj.locale.name).startOf('week'))
+      expect(dayjs(vm.value).locale(loObj.locale.name).day()).toBe(loObj.value) // Sunday or Monday
     })
   })
 })
