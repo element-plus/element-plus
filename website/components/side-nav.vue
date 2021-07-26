@@ -14,7 +14,7 @@
               class="sponsor"
               href="https://bit.dev/?from=element-ui"
               target="_blank"
-              :title="bit"
+              title="bit"
             >
               <img src="~examples/assets/images/bit.svg">
             </a>

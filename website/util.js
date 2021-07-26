@@ -40,3 +40,15 @@ export function formatType(type) {
     .map(item => item.charAt(0).toUpperCase() + item.slice(1))
     .join(' ')
 }
+
+/**
+ * get css var value
+ * @param {namespace} namespace
+ * @param {string} type
+ * @returns
+ */
+export function getCssVarValue(namespace, type) {
+  return getComputedStyle(document.documentElement).getPropertyValue(
+    `--el-${namespace}-${type}`,
+  )
+}

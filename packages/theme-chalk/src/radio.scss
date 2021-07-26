@@ -5,9 +5,13 @@
 @import 'mixins/button';
 @import 'common/var';
 
+:root {
+  --el-radio-font-weight: var(--el-font-weight-primary);
+}
+
 @include b(radio) {
   color: $--radio-font-color;
-  font-weight: $--radio-font-weight;
+  font-weight: var(--el-radio-font-weight);
   line-height: 1;
   position: relative;
   cursor: pointer;
@@ -20,7 +24,7 @@
 
   @include when(bordered) {
     padding: map.get($--radio-bordered-padding, 'default');
-    border-radius: $--border-radius-base;
+    border-radius: var(--el-border-radius-base);
     border: $--border-base;
     box-sizing: border-box;
     height: map.get($--radio-bordered-height, 'default');
@@ -42,7 +46,7 @@
   @each $size in (medium, small, mini) {
     &.is-bordered {
       padding: map.get($--radio-bordered-padding, $size);
-      border-radius: $--border-radius-base;
+      border-radius: var(--el-border-radius-base);
       height: map.get($--radio-bordered-height, $size);
       .#{$namespace}-radio__label {
         font-size: map.get($--button-font-size, $size);
@@ -93,7 +97,7 @@
         }
       }
       & + span.#{$namespace}-radio__label {
-        color: $--color-text-placeholder;
+        color: var(--el-color-text-placeholder);
         cursor: not-allowed;
       }
     }

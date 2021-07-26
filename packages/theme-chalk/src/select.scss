@@ -74,7 +74,7 @@
         font-size: $--select-font-size;
         text-align: center;
         transform: rotateZ(180deg);
-        border-radius: $--border-radius-circle;
+        border-radius: var(--el-border-radius-circle);
         color: $--select-input-color;
         transition: var(--el-color-transition-base);
 
@@ -152,13 +152,13 @@
     background-color: #f0f2f5;
 
     .#{$namespace}-icon-close {
-      background-color: $--color-text-placeholder;
+      background-color: var(--el-color-text-placeholder);
       right: -7px;
       top: 0;
       color: $--color-white;
 
       &:hover {
-        background-color: $--color-text-secondary;
+        background-color: var(--el-color-text-secondary);
       }
 
       &::before {

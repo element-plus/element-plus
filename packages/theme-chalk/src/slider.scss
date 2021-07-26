@@ -147,7 +147,7 @@
     position: absolute;
     height: $--slider-height;
     width: $--slider-height;
-    border-radius: $--border-radius-circle;
+    border-radius: var(--el-border-radius-circle);
     background-color: $--slider-stop-background-color;
     transform: translateX(-50%);
   }

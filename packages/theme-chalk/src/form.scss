@@ -94,7 +94,7 @@
     flex: 0 0 auto;
     text-align: right;
     font-size: $--form-label-font-size;
-    color: $--color-text-regular;
+    color: var(--el-color-text-regular);
     line-height: 40px;
     padding: 0 12px 0 0;
     box-sizing: border-box;

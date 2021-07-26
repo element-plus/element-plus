@@ -22,7 +22,7 @@ import {
   defineComponent,
   ref,
 } from 'vue'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import ElInput from '@element-plus/input'
 import { usePagination } from './usePagination'
 
@@ -31,6 +31,7 @@ export default defineComponent({
     ElInput,
   },
   setup() {
+    const { t } = useLocaleInject()
     const { pagination, pageCount, disabled, currentPage } = usePagination()
     const userInput = ref<Nullable<number>>(null)
     const innerValue = computed(() => userInput.value ?? currentPage.value)

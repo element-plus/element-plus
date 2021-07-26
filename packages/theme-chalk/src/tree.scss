@@ -22,7 +22,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    color: $--color-text-secondary;
+    color: var(--el-color-text-secondary);
     font-size: var(--el-font-size-base);
   }
 

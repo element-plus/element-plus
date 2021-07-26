@@ -7,7 +7,7 @@
       :style="{ background: `var(--el-border-color-${border.type})` }"
     >
       {{ border.name || formatType(border.type) + ' Border' }}
-      <div class="value">{{ border.color }}</div>
+      <div class="value">{{ getColorValue(border.type).toUpperCase() }}</div>
     </div>
   </div>
 </template>
@@ -26,6 +26,11 @@ export default {
   },
   methods: {
     formatType,
+    getColorValue(type) {
+      return getComputedStyle(document.documentElement).getPropertyValue(
+        `--el-border-color-${type}`,
+      )
+    },
   },
 }
 </script>

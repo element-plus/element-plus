@@ -22,7 +22,7 @@
       @node-expand="handleNodeExpand"
     />
     <div v-if="isEmpty" class="el-tree__empty-block">
-      <span class="el-tree__empty-text">{{ emptyText }}</span>
+      <span class="el-tree__empty-text">{{ emptyText || t('el.tree.emptyText') }}</span>
     </div>
     <div
       v-show="dragState.showDropIndicator"
@@ -41,7 +41,7 @@ import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import Node from './model/node'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import {
   TreeComponentProps,
   TreeNodeData,
@@ -59,9 +59,6 @@ export default defineComponent({
     },
     emptyText: {
       type: String,
-      default() {
-        return t('el.tree.emptyText')
-      },
     },
     renderAfterExpand: {
       type: Boolean,
@@ -137,6 +134,7 @@ export default defineComponent({
     'node-drag-over',
   ],
   setup(props: TreeComponentProps, ctx) {
+    const { t } = useLocaleInject()
 
     const store = ref<TreeStore>(new TreeStore({
       key: props.nodeKey,
@@ -330,6 +328,7 @@ export default defineComponent({
       getHalfCheckedKeys,
       setCurrentNode,
       setCurrentKey,
+      t,
       getNode,
       remove,
       append,

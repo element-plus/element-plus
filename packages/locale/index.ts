@@ -18,8 +18,10 @@ export const i18n = (fn: (...args: any[]) => string) => {
   i18nHandler = fn
 }
 
+export const restoreHandler = () => i18nHandler = defaultTranslator
+
 function template(str: string, option) {
-  if(!str || !option) return str
+  if (!str || !option) return str
 
   return str.replace(/\{(\w+)\}/g, (_, key) => {
     return option[key]
@@ -41,16 +43,24 @@ const defaultTranslator = (...args: any[]) => {
 }
 
 export const t = (...args: any[]): string => {
+  console.warn
   if (i18nHandler) {
     const translation = i18nHandler(...args)
-    if (!translation) {
-      return defaultTranslator(...args)
-    }
+    return translation || defaultTranslator(...args)
   }
   return defaultTranslator(...args)
 }
 
 export const use = (l: Language): void => {
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn(`[deprecation]:
+      The previous i18n usage is deprecated please update to
+      the new one to get reactive i18n translations, refer to:
+      https://element-plus.org/#/en-US/i18n
+    `)
+  }
+
   lang = l || lang
   if (lang.name) {
     dayjs.locale(lang.name)

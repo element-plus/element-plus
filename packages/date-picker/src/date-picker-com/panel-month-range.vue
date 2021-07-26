@@ -83,7 +83,7 @@
 </template>
 
 <script lang="ts">
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import MonthTable from './basic-month-table.vue'
 import dayjs, { Dayjs } from 'dayjs'
 import {
@@ -109,6 +109,7 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option'],
 
   setup(props, ctx) {
+    const { t } = useLocaleInject()
     const leftDate = ref(dayjs())
     const rightDate = ref(dayjs().add(1, 'year'))
 

@@ -3,6 +3,7 @@
   import { tintColor } from '../../color.js';
   import BorderBox from "../../components/demo/color/border-box.vue"
   import ColorBox from "../../components/demo/color/color-box.vue"
+  import TextBox from "../../components/demo/color/text-box.vue"
   const varMap = {
     'primary': '$--color-primary',
     'success': '$--color-success',
@@ -11,10 +12,6 @@
     'info': '$--color-info',
     'white': '$--color-white',
     'black': '$--color-black',
-    'textPrimary': '$--color-text-primary',
-    'textRegular': '$--color-text-regular',
-    'textSecondary': '$--color-text-secondary',
-    'textPlaceholder': '$--color-text-placeholder',
   };
 
   const borderColors = [
@@ -36,6 +33,25 @@
     },
   ]
 
+  const textColors = [
+    {
+      name: 'Primary Text',
+      type: 'primary',
+    },
+    {
+      name: 'Regular Text',
+      type: 'regular',
+    },
+    {
+      name: 'Secondary Text',
+      type: 'secondary',
+    },
+    {
+      name: 'Placeholder Text',
+      type: 'placeholder',
+    }
+  ]
+
   const original = {
     primary: '#409EFF',
     success: '#67C23A',
@@ -53,6 +69,7 @@
     components: {
       BorderBox,
       ColorBox,
+      TextBox,
     },
     mounted() {
       this.setGlobal();
@@ -77,11 +94,8 @@
         info: '',
         white: '',
         black: '',
-        textPrimary: '',
-        textRegular: '',
-        textSecondary: '',
-        textPlaceholder: '',
         borderColors,
+        textColors,
       }
     },
     watch: {
@@ -144,21 +158,7 @@ Neutral colors are for text, background and border colors. You can use different
 
 <el-row :gutter="12">
   <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box-group">
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textPrimary }"
-      >Primary Text<div class="value">{{textPrimary}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textRegular }"
-      >
-      Regular Text<div class="value">{{textRegular}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textSecondary }"
-      >Secondary Text<div class="value">{{textSecondary}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textPlaceholder }"
-      >Placeholder Text<div class="value">{{textPlaceholder}}</div></div>
-    </div>
+    <text-box :text-colors="textColors" />
   </el-col>
   <el-col :span="6" :xs="{span: 12}">
     <border-box :border-colors="borderColors" />

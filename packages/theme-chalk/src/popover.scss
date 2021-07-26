@@ -10,11 +10,11 @@
     border: 1px solid $--popover-border-color;
     padding: $--popover-padding;
     z-index: var(--el-index-popper);
-    color: $--color-text-regular;
+    color: var(--el-color-text-regular);
     line-height: 1.4;
     text-align: justify;
     font-size: $--popover-font-size;
-    box-shadow: $--box-shadow-light;
+    box-shadow: var(--el-box-shadow-light);
     word-break: break-all;
 
     @include m(plain) {

@@ -14,6 +14,7 @@ import type { InstallOptions } from '@element-plus/utils/config'
 
 export * from './components'
 export * from './plugins'
+export * from './composables'
 
 type DWindow = Window & typeof globalThis & {
   dayjs?: typeof dayjs
@@ -37,12 +38,7 @@ const defaultInstallOpt: InstallOptions = {
 
 const install = (app: App, opt: InstallOptions): void => {
   const option = Object.assign(defaultInstallOpt, opt)
-  // currently this is not reactive, we need to update this function
-  // to make it reactive.
-  setLocale(option.locale)
-  if (option.i18n) {
-    i18n(option.i18n)
-  }
+
   app.config.globalProperties.$ELEMENT = option
   setConfig(option)
 
@@ -55,9 +51,16 @@ const install = (app: App, opt: InstallOptions): void => {
   })
 }
 
-export { version }
+const locale = setLocale
+
+export {
+  version,
+  install,
+  locale,
+}
 
 export default {
   version,
   install,
+  locale,
 }

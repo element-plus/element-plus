@@ -7,7 +7,7 @@ import {
   getCurrentInstance,
 } from 'vue'
 import { warn } from '@element-plus/utils/error'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { IPagination } from './pagination'
 
 import Prev from './prev.vue'
@@ -119,6 +119,7 @@ export default defineComponent({
     'next-click',
   ],
   setup(props, { emit, slots }) {
+    const { t } = useLocaleInject()
     const vnodeProps = getCurrentInstance().vnode.props || {}
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener = 'onUpdate:currentPage' in vnodeProps || 'onCurrentChange' in vnodeProps

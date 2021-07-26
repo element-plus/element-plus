@@ -13,19 +13,24 @@
   --el-color-white: #{$--color-white};
   --el-color-black: #{$--color-black};
 
+  // --el-color-primary-light-#{$i}
   @for $i from 1 through 9 {
     @include set-css-color-primary($i);
   }
 
+  // --el-color-#{$type}
+  // --el-color-#{$type}-light
+  // --el-color-#{$type}-lighter
   @each $type in (success, warning, danger, error, info) {
     @include set-css-color-type($type);
   }
 
-  --el-color-text-primary: #{$--color-text-primary};
-  --el-color-text-regular: #{$--color-text-regular};
-  --el-color-text-secondary: #{$--color-text-secondary};
-  --el-color-text-placeholder: #{$--color-text-placeholder};
+  // --el-color-text-#{$type}
+  @each $type in (primary, regular, secondary, placeholder) {
+    @include set-css-var-type('color-text', $type, $--color-text);
+  }
 
+  // --el-border-color-#{$type}
   @each $type in (base, light, lighter, extra-light) {
     @include set-css-var-type('border-color', $type, $--border-color);
   }
@@ -43,13 +48,17 @@
   --el-border-color-hover: var(--el-color-text-placeholder);
   --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
     var(--el-border-color-base);
-  --el-border-radius-base: #{$--border-radius-base};
-  --el-border-radius-small: #{$--border-radius-small};
-  --el-border-radius-circle: #{$--border-radius-circle};
+
+  // --el-border-radius-#{$type}
+  @each $type in (base, small, round, circle) {
+    @include set-css-var-type('border-radius', $type, $--border-radius);
+  }
 
   // Box-shadow
-  --el-box-shadow-base: #{$--box-shadow-base};
-  --el-box-shadow-light: #{$--box-shadow-light};
+  // --el-box-shadow-#{$type}
+  @each $type in (base, light) {
+    @include set-css-var-type('box-shadow', $type, $--box-shadow);
+  }
 
   // Svg
   --el-svg-monochrome-grey: #dcdde0;
@@ -62,8 +71,8 @@
     @include set-css-var-type('font-size', $type, $--font-size);
   }
 
-  --el-font-weight-primary: #{$--font-weight-primary};
-  --el-line-height-primary: #{$--font-line-height-primary};
+  --el-font-weight-primary: 500;
+  --el-font-line-height-primary: 24px;
   --el-font-color-disabled-base: #bbb;
 
   // z-index

@@ -6,7 +6,7 @@
 @include b(dropdown) {
   display: inline-block;
   position: relative;
-  color: $--color-text-regular;
+  color: var(--el-color-text-regular);
   font-size: var(--el-font-size-base);
   line-height: 1;
 
@@ -101,7 +101,7 @@
   margin: 0;
   background-color: $--color-white;
   border: none;
-  border-radius: $--border-radius-base;
+  border-radius: var(--el-border-radius-base);
   box-shadow: none;
 
   @include e(item) {
@@ -110,7 +110,7 @@
     padding: 0 20px;
     margin: 0;
     font-size: var(--el-font-size-base);
-    color: $--color-text-regular;
+    color: var(--el-color-text-regular);
     cursor: pointer;
     outline: none;
     &:not(.is-disabled):hover,

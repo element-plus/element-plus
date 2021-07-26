@@ -173,7 +173,7 @@ $--button: () !default;
     }
   }
   @include when(round) {
-    border-radius: 20px;
+    border-radius: var(--el-border-radius-round);
     padding: 12px 23px;
   }
   @include when(circle) {
@@ -268,7 +268,7 @@ $--button: () !default;
       border-bottom-left-radius: map.get($--button-border-radius, 'default');
 
       &.is-round {
-        border-radius: 20px;
+        border-radius: var(--el-border-radius-round);
       }
 
       &.is-circle {

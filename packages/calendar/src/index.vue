@@ -54,9 +54,9 @@
 </template>
 
 <script lang="ts">
-import { t } from '@element-plus/locale'
 import ElButton from '@element-plus/button'
 import ElButtonGroup from '@element-plus/button-group'
+import { useLocaleInject } from '@element-plus/hooks'
 import DateTable from './date-table.vue'
 import {
   ref,
@@ -66,6 +66,8 @@ import {
   defineComponent,
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
+
+type DateType = 'prev-month' | 'today' | 'next-month'
 
 export default defineComponent({
   name: 'ElCalendar',
@@ -98,6 +100,7 @@ export default defineComponent({
 
   emits: ['input', 'update:modelValue'],
   setup(props, ctx) {
+    const { t } = useLocaleInject()
     const selectedDay = ref(null)
     const now = dayjs()
 
@@ -192,7 +195,7 @@ export default defineComponent({
       realSelectedDay.value = day
     }
 
-    const selectDate = type => {
+    const selectDate = (type: DateType) => {
       let day: Dayjs
       if (type === 'prev-month') {
         day = prevMonthDayjs.value
