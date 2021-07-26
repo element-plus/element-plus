@@ -46,7 +46,7 @@
     @include m($size) {
       width: var(--el-avatar-#{$size}-size);
       height: var(--el-avatar-#{$size}-size);
-      line: var(--el-avatar-#{$size}-size);
+      line-height: var(--el-avatar-#{$size}-size);
     }
   }
 }
