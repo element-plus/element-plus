@@ -11,7 +11,7 @@ Config Provider 被用来提供全局的配置选项，让你的配置能够在�
 ```html
 <div>
   <el-config-provider :locale="locale1">
-    <el-color-picker :modelValue="''" style="vertical-align: middle;">
+    <el-color-picker :modelValue="''" style="vertical-align: middle;" />
   </el-config-provider>
   <el-button @click="toggle" style="margin-left: 8px; vertical-align: middle;">
     切换语言
@@ -30,7 +30,7 @@ Config Provider 被用来提供全局的配置选项，让你的配置能够在�
               confirm: '确定',
               clear: '清空',
             },
-          }
+          },
         },
         locale2: {
           name: 'en',
@@ -39,8 +39,8 @@ Config Provider 被用来提供全局的配置选项，让你的配置能够在�
               confirm: 'Confirm',
               clear: 'Clear',
             },
-          }
-        }
+          },
+        },
       }
     },
     methods: {
@@ -48,18 +48,17 @@ Config Provider 被用来提供全局的配置选项，让你的配置能够在�
         const temp = this.locale1
         this.locale1 = this.locale2
         this.locale2 = temp
-      }
-    }
+      },
+    },
   }
 </script>
-
 ```
 
 :::
 
 ### ConfigProvider 属性
 
-| 参数   | 说明         | 类型             | 可选值                                                                                  | 默认值  |
-| ------ | ------------ | ---------------- | --------------------------------------------------------------------------------------- | ------- |
-| locale | 翻译文本对象 | Object\<Language\> | [languages](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang) | English |
-| i18n | 外部的翻译方法，当该方法被提供时，会优先使用该方法进行翻译的操作，若返回空值便会落回到自带翻译方法 | Function\<(...args: []) =\> string\> | - | - |
+| 参数   | 说明                                                                                               | 类型                                 | 可选值                                                                                  | 默认值  |
+| ------ | -------------------------------------------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------- | ------- |
+| locale | 翻译文本对象                                                                                       | Object\<Language\>                   | [languages](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang) | English |
+| i18n   | 外部的翻译方法，当该方法被提供时，会优先使用该方法进行翻译的操作，若返回空值便会落回到自带翻译方法 | Function\<(...args: []) =\> string\> | -                                                                                       | -       |

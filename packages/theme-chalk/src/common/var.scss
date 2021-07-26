@@ -580,14 +580,8 @@ $--loading-fullscreen-spinner-size: 50px !default;
 
 /* Scrollbar
 --------------------------*/
-$--scrollbar-background-color: rgba(
-  var(--el-text-color-secondary),
-  0.3
-) !default;
-$--scrollbar-hover-background-color: rgba(
-  var(--el-text-color-secondary),
-  0.5
-) !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/scrollbar.scss
 
 /* Carousel
 --------------------------*/
