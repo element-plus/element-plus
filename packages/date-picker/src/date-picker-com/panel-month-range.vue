@@ -109,16 +109,19 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option'],
 
   setup(props, ctx) {
-    const { t } = useLocaleInject()
-    const leftDate = ref(dayjs())
-    const rightDate = ref(dayjs().add(1, 'year'))
+    const { t, lang } = useLocaleInject()
+    const leftDate = ref(dayjs().locale(lang.value))
+    const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
 
     const hasShortcuts = computed(() => !!shortcuts.length)
 
     const handleShortcutClick = shortcut => {
       const shortcutValues = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
       if (shortcutValues) {
-        ctx.emit('pick', [dayjs(shortcutValues[0]), dayjs(shortcutValues[1])])
+        ctx.emit('pick', [
+          dayjs(shortcutValues[0]).locale(lang.value),
+          dayjs(shortcutValues[1]).locale(lang.value),
+        ])
         return
       }
       if (shortcut.onClick) {
@@ -220,7 +223,7 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      let start
+      let start: Dayjs
       if (Array.isArray(defaultValue)) {
         const left = dayjs(defaultValue[0])
         let right = dayjs(defaultValue[1])
@@ -233,6 +236,7 @@ export default defineComponent({
       } else {
         start = dayjs()
       }
+      start = start.locale(lang.value)
       return [start, start.add(1, 'year')]
     }
 

@@ -44,6 +44,7 @@
 </template>
 
 <script lang="ts">
+import { useLocaleInject } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils/dom'
 import { rangeArr } from '@element-plus/time-picker'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
@@ -54,8 +55,8 @@ import {
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 
-const datesInYear = year => {
-  const firstDay = dayjs(String(year)).startOf('year')
+const datesInYear = (year, lang: string) => {
+  const firstDay = dayjs(String(year)).locale(lang).startOf('year')
   const lastDay = firstDay.endOf('year')
   const numOfDays = lastDay.dayOfYear()
   return rangeArr(numOfDays).map(n => firstDay.add(n, 'day').toDate())
@@ -77,15 +78,16 @@ export default defineComponent({
   emits: ['pick'],
 
   setup(props, ctx) {
+    const { lang } = useLocaleInject()
     const startYear = computed(() => {
       return Math.floor(props.date.year() / 10) * 10
     })
     const getCellStyle = year => {
       const style = {} as any
-      const today = dayjs()
+      const today = dayjs().locale(lang.value)
 
       style.disabled = props.disabledDate
-        ? datesInYear(year).every(props.disabledDate)
+        ? datesInYear(year, lang.value).every(props.disabledDate)
         : false
 
       style.current = coerceTruthyValueToArray(props.parsedValue).findIndex(_ => _.year() === year) >= 0
@@ -95,10 +97,10 @@ export default defineComponent({
       return style
     }
 
-    const handleYearTableClick = event => {
-      const target = event.target
+    const handleYearTableClick = (event: MouseEvent) => {
+      const target = event.target as HTMLDivElement
       if (target.tagName === 'A') {
-        if (hasClass(target.parentNode, 'disabled')) return
+        if (hasClass((target as any).parentNode, 'disabled')) return
         const year = target.textContent || target.innerText
         ctx.emit('pick', Number(year))
       }

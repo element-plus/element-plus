@@ -28,9 +28,10 @@ yarn build:theme
 
 yarn build:helper
 
+echo "Copying types"
 # Post build cp type definitions
 touch temp
-find dist -type d ! -name 'element-plus' -depth 1 -print0 | xargs -0 -I {} sh -c "basename {}" > temp
+find ./dist -type d ! -name 'element-plus' -depth 1 -print0 | xargs -0 -I {} sh -c "basename {}" > temp
 
 input="./temp"
 
@@ -54,7 +55,7 @@ cp dist/element-plus/* lib
 cp packages/utils/types.ts lib/utils/
 cp dist/element-plus/* es
 
-
-# Post build cleanup 
+echo "Remove temp files"
+# Post build cleanup
 rm -rf temp
 rm -rf tempDir
