@@ -31,8 +31,9 @@ yarn build:helper
 echo "Copying types"
 # Post build cp type definitions
 touch temp
-find ./dist -type d ! -name 'element-plus' -depth 1 -print0 | xargs -0 -I {} sh -c "basename {}" > temp
-
+cd ./dist
+find . -maxdepth 1 ! -path . -type d ! -name 'element-plus'  -print0 | xargs -0 -I {} sh -c "basename {}" > ../temp
+cd -
 input="./temp"
 
 mkdir -p tempDir
