@@ -48,7 +48,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US65","64":"DOCS en-US66","65":"DOCS en-US67","66":"DOCS en-US68","67":"DOCS en-US69","68":"DOCS en-US7","69":"DOCS en-US70","70":"DOCS en-US71","71":"DOCS en-US8","72":"DOCS en-US9","73":"DOCS es0","74":"DOCS es1","75":"DOCS es10","76":"DOCS es11","77":"DOCS es12","78":"DOCS es13","79":"DOCS es14","80":"DOCS es15","81":"DOCS es16","82":"DOCS es17","83":"DOCS es18","84":"DOCS es19","85":"DOCS es2","86":"DOCS es20","87":"DOCS es21","88":"DOCS es22","89":"DOCS es23","90":"DOCS es24","91":"DOCS es25","92":"DOCS es26","93":"DOCS es27","94":"DOCS es28","95":"DOCS es29","96":"DOCS es3","97":"DOCS es30","98":"DOCS es31","99":"DOCS es32","100":"DOCS es33","101":"DOCS es34","102":"DOCS es35","103":"DOCS es36","104":"DOCS es37","105":"DOCS es38","106":"DOCS es39","107":"DOCS es4","108":"DOCS es40","109":"DOCS es41","110":"DOCS es42","111":"DOCS es43","112":"DOCS es44","113":"DOCS es45","114":"DOCS es46","115":"DOCS es47","116":"DOCS es48","117":"DOCS es49","118":"DOCS es5","119":"DOCS es50","120":"DOCS es51","121":"DOCS es52","122":"DOCS es53","123":"DOCS es54","124":"DOCS es55","125":"DOCS es56","126":"DOCS es57","127":"DOCS es58","128":"DOCS es59","129":"DOCS es6","130":"DOCS es60","131":"DOCS es61","132":"DOCS es62","133":"DOCS es63","134":"DOCS es64","135":"DOCS es65","136":"DOCS es66","137":"DOCS es67","138":"DOCS es68","139":"DOCS es69","140":"DOCS es7","141":"DOCS es70","142":"DOCS es71","143":"DOCS es8","144":"DOCS es9","145":"DOCS fr-FR0","146":"DOCS fr-FR1","147":"DOCS fr-FR10","148":"DOCS fr-FR11","149":"DOCS fr-FR12","150":"DOCS fr-FR13","151":"DOCS fr-FR14","152":"DOCS fr-FR15","153":"DOCS fr-FR16","154":"DOCS fr-FR17","155":"DOCS fr-FR18","156":"DOCS fr-FR19","157":"DOCS fr-FR2","158":"DOCS fr-FR20","159":"DOCS fr-FR21","160":"DOCS fr-FR22","161":"DOCS fr-FR23","162":"DOCS fr-FR24","163":"DOCS fr-FR25","164":"DOCS fr-FR26","165":"DOCS fr-FR27","166":"DOCS fr-FR28","167":"DOCS fr-FR29","168":"DOCS fr-FR3","169":"DOCS fr-FR30","170":"DOCS fr-FR31","171":"DOCS fr-FR32","172":"DOCS fr-FR33","173":"DOCS fr-FR34","174":"DOCS fr-FR35","175":"DOCS fr-FR36","176":"DOCS fr-FR37","177":"DOCS fr-FR38","178":"DOCS fr-FR39","179":"DOCS fr-FR4","180":"DOCS fr-FR40","181":"DOCS fr-FR41","182":"DOCS fr-FR42","183":"DOCS fr-FR43","184":"DOCS fr-FR44","185":"DOCS fr-FR45","186":"DOCS fr-FR46","187":"DOCS fr-FR47","188":"DOCS fr-FR48","189":"DOCS fr-FR49","190":"DOCS fr-FR5","191":"DOCS fr-FR50","192":"DOCS fr-FR51","193":"DOCS fr-FR52","194":"DOCS fr-FR53","195":"DOCS fr-FR54","196":"DOCS fr-FR55","197":"DOCS fr-FR56","198":"DOCS fr-FR57","199":"DOCS fr-FR58","200":"DOCS fr-FR59","201":"DOCS fr-FR6","202":"DOCS fr-FR60","203":"DOCS fr-FR61","204":"DOCS fr-FR62","205":"DOCS fr-FR63","206":"DOCS fr-FR64","207":"DOCS fr-FR65","208":"DOCS fr-FR66","209":"DOCS fr-FR67","210":"DOCS fr-FR68","211":"DOCS fr-FR69","212":"DOCS fr-FR7","213":"DOCS fr-FR70","214":"DOCS fr-FR71","215":"DOCS fr-FR8","216":"DOCS fr-FR9","217":"DOCS jp0","218":"DOCS jp1","219":"DOCS jp10","220":"DOCS jp11","221":"DOCS jp12","222":"DOCS jp13","223":"DOCS jp14","224":"DOCS jp15","225":"DOCS jp16","226":"DOCS jp17","227":"DOCS jp18","228":"DOCS jp19","229":"DOCS jp2","230":"DOCS jp20","231":"DOCS jp21","232":"DOCS jp22","233":"DOCS jp23","234":"DOCS jp24","235":"DOCS jp25","236":"DOCS jp26","237":"DOCS jp27","238":"DOCS jp28","239":"DOCS jp29","240":"DOCS jp3","241":"DOCS jp30","242":"DOCS jp31","243":"DOCS jp32","244":"DOCS jp33","245":"DOCS jp34","246":"DOCS jp35","247":"DOCS jp36","248":"DOCS jp37","249":"DOCS jp38","250":"DOCS jp39","251":"DOCS jp4","252":"DOCS jp40","253":"DOCS jp41","254":"DOCS jp42","255":"DOCS jp43","256":"DOCS jp44","257":"DOCS jp45","258":"DOCS jp46","259":"DOCS jp47","260":"DOCS jp48","261":"DOCS jp49","262":"DOCS jp5","263":"DOCS jp50","264":"DOCS jp51","265":"DOCS jp52","266":"DOCS jp53","267":"DOCS jp54","268":"DOCS jp55","269":"DOCS jp56","270":"DOCS jp57","271":"DOCS jp58","272":"DOCS jp59","273":"DOCS jp6","274":"DOCS jp60","275":"DOCS jp61","276":"DOCS jp62","277":"DOCS jp63","278":"DOCS jp64","279":"DOCS jp65","280":"DOCS jp66","281":"DOCS jp67","282":"DOCS jp68","283":"DOCS jp69","284":"DOCS jp7","285":"DOCS jp70","286":"DOCS jp71","287":"DOCS jp8","288":"DOCS jp9","289":"DOCS zh-CN0","290":"DOCS zh-CN1","291":"DOCS zh-CN10","292":"DOCS zh-CN11","293":"DOCS zh-CN12","294":"DOCS zh-CN13","295":"DOCS zh-CN14","296":"DOCS zh-CN15","297":"DOCS zh-CN16","298":"DOCS zh-CN17","299":"DOCS zh-CN18","300":"DOCS zh-CN19","301":"DOCS zh-CN2","302":"DOCS zh-CN20","303":"DOCS zh-CN21","304":"DOCS zh-CN22","305":"DOCS zh-CN23","306":"DOCS zh-CN24","307":"DOCS zh-CN25","308":"DOCS zh-CN26","309":"DOCS zh-CN27","310":"DOCS zh-CN28","311":"DOCS zh-CN29","312":"DOCS zh-CN3","313":"DOCS zh-CN30","314":"DOCS zh-CN31","315":"DOCS zh-CN32","316":"DOCS zh-CN33","317":"DOCS zh-CN34","318":"DOCS zh-CN35","319":"DOCS zh-CN36","320":"DOCS zh-CN37","321":"DOCS zh-CN38","322":"DOCS zh-CN39","323":"DOCS zh-CN4","324":"DOCS zh-CN40","325":"DOCS zh-CN41","326":"DOCS zh-CN42","327":"DOCS zh-CN43","328":"DOCS zh-CN44","329":"DOCS zh-CN45","330":"DOCS zh-CN46","331":"DOCS zh-CN47","332":"DOCS zh-CN48","333":"DOCS zh-CN49","334":"DOCS zh-CN5","335":"DOCS zh-CN50","336":"DOCS zh-CN51","337":"DOCS zh-CN52","338":"DOCS zh-CN53","339":"DOCS zh-CN54","340":"DOCS zh-CN55","341":"DOCS zh-CN56","342":"DOCS zh-CN57","343":"DOCS zh-CN58","344":"DOCS zh-CN59","345":"DOCS zh-CN6","346":"DOCS zh-CN60","347":"DOCS zh-CN61","348":"DOCS zh-CN62","349":"DOCS zh-CN63","350":"DOCS zh-CN64","351":"DOCS zh-CN65","352":"DOCS zh-CN66","353":"DOCS zh-CN67","354":"DOCS zh-CN68","355":"DOCS zh-CN69","356":"DOCS zh-CN7","357":"DOCS zh-CN70","358":"DOCS zh-CN71","359":"DOCS zh-CN8","360":"DOCS zh-CN9","362":"zh-CN0","363":"zh-CN1","364":"zh-CN2","365":"zh-CN3","366":"zh-CN4","367":"zh-CN5","368":"zh-CN6"}[chunkId]||chunkId) + "." + "7f0d22ccaf8739dd4411" + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"0":"zh-CN0~zh-CN2~zh-CN3~zh-CN4~zh-CN5~zh-CN6","1":"DOCS en-US0","2":"DOCS en-US1","3":"DOCS en-US10","4":"DOCS en-US11","5":"DOCS en-US12","6":"DOCS en-US13","7":"DOCS en-US14","8":"DOCS en-US15","9":"DOCS en-US16","10":"DOCS en-US17","11":"DOCS en-US18","12":"DOCS en-US19","13":"DOCS en-US2","14":"DOCS en-US20","15":"DOCS en-US21","16":"DOCS en-US22","17":"DOCS en-US23","18":"DOCS en-US24","19":"DOCS en-US25","20":"DOCS en-US26","21":"DOCS en-US27","22":"DOCS en-US28","23":"DOCS en-US29","24":"DOCS en-US3","25":"DOCS en-US30","26":"DOCS en-US31","27":"DOCS en-US32","28":"DOCS en-US33","29":"DOCS en-US34","30":"DOCS en-US35","31":"DOCS en-US36","32":"DOCS en-US37","33":"DOCS en-US38","34":"DOCS en-US39","35":"DOCS en-US4","36":"DOCS en-US40","37":"DOCS en-US41","38":"DOCS en-US42","39":"DOCS en-US43","40":"DOCS en-US44","41":"DOCS en-US45","42":"DOCS en-US46","43":"DOCS en-US47","44":"DOCS en-US48","45":"DOCS en-US49","46":"DOCS en-US5","47":"DOCS en-US50","48":"DOCS en-US51","49":"DOCS en-US52","50":"DOCS en-US53","51":"DOCS en-US54","52":"DOCS en-US55","53":"DOCS en-US56","54":"DOCS en-US57","55":"DOCS en-US58","56":"DOCS en-US59","57":"DOCS en-US6","58":"DOCS en-US60","59":"DOCS en-US61","60":"DOCS en-US62","61":"DOCS en-US63","62":"DOCS en-US64","63":"DOCS en-US65","64":"DOCS en-US66","65":"DOCS en-US67","66":"DOCS en-US68","67":"DOCS en-US69","68":"DOCS en-US7","69":"DOCS en-US70","70":"DOCS en-US71","71":"DOCS en-US8","72":"DOCS en-US9","73":"DOCS es0","74":"DOCS es1","75":"DOCS es10","76":"DOCS es11","77":"DOCS es12","78":"DOCS es13","79":"DOCS es14","80":"DOCS es15","81":"DOCS es16","82":"DOCS es17","83":"DOCS es18","84":"DOCS es19","85":"DOCS es2","86":"DOCS es20","87":"DOCS es21","88":"DOCS es22","89":"DOCS es23","90":"DOCS es24","91":"DOCS es25","92":"DOCS es26","93":"DOCS es27","94":"DOCS es28","95":"DOCS es29","96":"DOCS es3","97":"DOCS es30","98":"DOCS es31","99":"DOCS es32","100":"DOCS es33","101":"DOCS es34","102":"DOCS es35","103":"DOCS es36","104":"DOCS es37","105":"DOCS es38","106":"DOCS es39","107":"DOCS es4","108":"DOCS es40","109":"DOCS es41","110":"DOCS es42","111":"DOCS es43","112":"DOCS es44","113":"DOCS es45","114":"DOCS es46","115":"DOCS es47","116":"DOCS es48","117":"DOCS es49","118":"DOCS es5","119":"DOCS es50","120":"DOCS es51","121":"DOCS es52","122":"DOCS es53","123":"DOCS es54","124":"DOCS es55","125":"DOCS es56","126":"DOCS es57","127":"DOCS es58","128":"DOCS es59","129":"DOCS es6","130":"DOCS es60","131":"DOCS es61","132":"DOCS es62","133":"DOCS es63","134":"DOCS es64","135":"DOCS es65","136":"DOCS es66","137":"DOCS es67","138":"DOCS es68","139":"DOCS es69","140":"DOCS es7","141":"DOCS es70","142":"DOCS es71","143":"DOCS es8","144":"DOCS es9","145":"DOCS fr-FR0","146":"DOCS fr-FR1","147":"DOCS fr-FR10","148":"DOCS fr-FR11","149":"DOCS fr-FR12","150":"DOCS fr-FR13","151":"DOCS fr-FR14","152":"DOCS fr-FR15","153":"DOCS fr-FR16","154":"DOCS fr-FR17","155":"DOCS fr-FR18","156":"DOCS fr-FR19","157":"DOCS fr-FR2","158":"DOCS fr-FR20","159":"DOCS fr-FR21","160":"DOCS fr-FR22","161":"DOCS fr-FR23","162":"DOCS fr-FR24","163":"DOCS fr-FR25","164":"DOCS fr-FR26","165":"DOCS fr-FR27","166":"DOCS fr-FR28","167":"DOCS fr-FR29","168":"DOCS fr-FR3","169":"DOCS fr-FR30","170":"DOCS fr-FR31","171":"DOCS fr-FR32","172":"DOCS fr-FR33","173":"DOCS fr-FR34","174":"DOCS fr-FR35","175":"DOCS fr-FR36","176":"DOCS fr-FR37","177":"DOCS fr-FR38","178":"DOCS fr-FR39","179":"DOCS fr-FR4","180":"DOCS fr-FR40","181":"DOCS fr-FR41","182":"DOCS fr-FR42","183":"DOCS fr-FR43","184":"DOCS fr-FR44","185":"DOCS fr-FR45","186":"DOCS fr-FR46","187":"DOCS fr-FR47","188":"DOCS fr-FR48","189":"DOCS fr-FR49","190":"DOCS fr-FR5","191":"DOCS fr-FR50","192":"DOCS fr-FR51","193":"DOCS fr-FR52","194":"DOCS fr-FR53","195":"DOCS fr-FR54","196":"DOCS fr-FR55","197":"DOCS fr-FR56","198":"DOCS fr-FR57","199":"DOCS fr-FR58","200":"DOCS fr-FR59","201":"DOCS fr-FR6","202":"DOCS fr-FR60","203":"DOCS fr-FR61","204":"DOCS fr-FR62","205":"DOCS fr-FR63","206":"DOCS fr-FR64","207":"DOCS fr-FR65","208":"DOCS fr-FR66","209":"DOCS fr-FR67","210":"DOCS fr-FR68","211":"DOCS fr-FR69","212":"DOCS fr-FR7","213":"DOCS fr-FR70","214":"DOCS fr-FR71","215":"DOCS fr-FR8","216":"DOCS fr-FR9","217":"DOCS jp0","218":"DOCS jp1","219":"DOCS jp10","220":"DOCS jp11","221":"DOCS jp12","222":"DOCS jp13","223":"DOCS jp14","224":"DOCS jp15","225":"DOCS jp16","226":"DOCS jp17","227":"DOCS jp18","228":"DOCS jp19","229":"DOCS jp2","230":"DOCS jp20","231":"DOCS jp21","232":"DOCS jp22","233":"DOCS jp23","234":"DOCS jp24","235":"DOCS jp25","236":"DOCS jp26","237":"DOCS jp27","238":"DOCS jp28","239":"DOCS jp29","240":"DOCS jp3","241":"DOCS jp30","242":"DOCS jp31","243":"DOCS jp32","244":"DOCS jp33","245":"DOCS jp34","246":"DOCS jp35","247":"DOCS jp36","248":"DOCS jp37","249":"DOCS jp38","250":"DOCS jp39","251":"DOCS jp4","252":"DOCS jp40","253":"DOCS jp41","254":"DOCS jp42","255":"DOCS jp43","256":"DOCS jp44","257":"DOCS jp45","258":"DOCS jp46","259":"DOCS jp47","260":"DOCS jp48","261":"DOCS jp49","262":"DOCS jp5","263":"DOCS jp50","264":"DOCS jp51","265":"DOCS jp52","266":"DOCS jp53","267":"DOCS jp54","268":"DOCS jp55","269":"DOCS jp56","270":"DOCS jp57","271":"DOCS jp58","272":"DOCS jp59","273":"DOCS jp6","274":"DOCS jp60","275":"DOCS jp61","276":"DOCS jp62","277":"DOCS jp63","278":"DOCS jp64","279":"DOCS jp65","280":"DOCS jp66","281":"DOCS jp67","282":"DOCS jp68","283":"DOCS jp69","284":"DOCS jp7","285":"DOCS jp70","286":"DOCS jp71","287":"DOCS jp8","288":"DOCS jp9","289":"DOCS zh-CN0","290":"DOCS zh-CN1","291":"DOCS zh-CN10","292":"DOCS zh-CN11","293":"DOCS zh-CN12","294":"DOCS zh-CN13","295":"DOCS zh-CN14","296":"DOCS zh-CN15","297":"DOCS zh-CN16","298":"DOCS zh-CN17","299":"DOCS zh-CN18","300":"DOCS zh-CN19","301":"DOCS zh-CN2","302":"DOCS zh-CN20","303":"DOCS zh-CN21","304":"DOCS zh-CN22","305":"DOCS zh-CN23","306":"DOCS zh-CN24","307":"DOCS zh-CN25","308":"DOCS zh-CN26","309":"DOCS zh-CN27","310":"DOCS zh-CN28","311":"DOCS zh-CN29","312":"DOCS zh-CN3","313":"DOCS zh-CN30","314":"DOCS zh-CN31","315":"DOCS zh-CN32","316":"DOCS zh-CN33","317":"DOCS zh-CN34","318":"DOCS zh-CN35","319":"DOCS zh-CN36","320":"DOCS zh-CN37","321":"DOCS zh-CN38","322":"DOCS zh-CN39","323":"DOCS zh-CN4","324":"DOCS zh-CN40","325":"DOCS zh-CN41","326":"DOCS zh-CN42","327":"DOCS zh-CN43","328":"DOCS zh-CN44","329":"DOCS zh-CN45","330":"DOCS zh-CN46","331":"DOCS zh-CN47","332":"DOCS zh-CN48","333":"DOCS zh-CN49","334":"DOCS zh-CN5","335":"DOCS zh-CN50","336":"DOCS zh-CN51","337":"DOCS zh-CN52","338":"DOCS zh-CN53","339":"DOCS zh-CN54","340":"DOCS zh-CN55","341":"DOCS zh-CN56","342":"DOCS zh-CN57","343":"DOCS zh-CN58","344":"DOCS zh-CN59","345":"DOCS zh-CN6","346":"DOCS zh-CN60","347":"DOCS zh-CN61","348":"DOCS zh-CN62","349":"DOCS zh-CN63","350":"DOCS zh-CN64","351":"DOCS zh-CN65","352":"DOCS zh-CN66","353":"DOCS zh-CN67","354":"DOCS zh-CN68","355":"DOCS zh-CN69","356":"DOCS zh-CN7","357":"DOCS zh-CN70","358":"DOCS zh-CN71","359":"DOCS zh-CN8","360":"DOCS zh-CN9","362":"zh-CN0","363":"zh-CN1","364":"zh-CN2","365":"zh-CN3","366":"zh-CN4","367":"zh-CN5","368":"zh-CN6"}[chunkId]||chunkId) + "." + "6c1e3672afd5e5b6282d" + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -13442,37 +13442,37 @@ button_group.install = function (app) {
 
 var _ButtonGroup = button_group;
 /* harmony default export */ var packages_button_group = (_ButtonGroup);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/calendar/src/index.vue?vue&type=template&id=42e74684
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/calendar/src/index.vue?vue&type=template&id=02045cca
 
-var srcvue_type_template_id_42e74684_hoisted_1 = {
+var srcvue_type_template_id_02045cca_hoisted_1 = {
   class: "el-calendar"
 };
-var srcvue_type_template_id_42e74684_hoisted_2 = {
+var srcvue_type_template_id_02045cca_hoisted_2 = {
   class: "el-calendar__header"
 };
-var srcvue_type_template_id_42e74684_hoisted_3 = {
+var srcvue_type_template_id_02045cca_hoisted_3 = {
   class: "el-calendar__title"
 };
-var srcvue_type_template_id_42e74684_hoisted_4 = {
+var srcvue_type_template_id_02045cca_hoisted_4 = {
   key: 0,
   class: "el-calendar__button-group"
 };
-var srcvue_type_template_id_42e74684_hoisted_5 = {
+var srcvue_type_template_id_02045cca_hoisted_5 = {
   key: 0,
   class: "el-calendar__body"
 };
-var srcvue_type_template_id_42e74684_hoisted_6 = {
+var srcvue_type_template_id_02045cca_hoisted_6 = {
   key: 1,
   class: "el-calendar__body"
 };
-function srcvue_type_template_id_42e74684_render(_ctx, _cache, $props, $setup, $data, $options) {
+function srcvue_type_template_id_02045cca_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_button = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-button");
 
   var _component_el_button_group = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-button-group");
 
   var _component_date_table = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("date-table");
 
-  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_42e74684_hoisted_1, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_42e74684_hoisted_2, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_42e74684_hoisted_3, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.i18nDate), 1), _ctx.validatedRange.length === 0 ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_42e74684_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_button_group, null, {
+  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_02045cca_hoisted_1, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_02045cca_hoisted_2, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", srcvue_type_template_id_02045cca_hoisted_3, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.i18nDate), 1), _ctx.validatedRange.length === 0 ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_02045cca_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_button_group, null, {
     default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
       return [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_button, {
         size: "mini",
@@ -13507,7 +13507,7 @@ function srcvue_type_template_id_42e74684_render(_ctx, _cache, $props, $setup, $
       })];
     }),
     _: 1
-  })])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)]), _ctx.validatedRange.length === 0 ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_42e74684_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_date_table, {
+  })])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)]), _ctx.validatedRange.length === 0 ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_02045cca_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_date_table, {
     date: _ctx.date,
     "selected-day": _ctx.realSelectedDay,
     onPick: _ctx.pickDay
@@ -13518,7 +13518,7 @@ function srcvue_type_template_id_42e74684_render(_ctx, _cache, $props, $setup, $
     fn: Object(vue_esm_browser_prod["fb" /* withCtx */])(function (data) {
       return [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "dateCell", data)];
     })
-  } : undefined]), 1032, ["date", "selected-day", "onPick"])])) : (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_42e74684_hoisted_6, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.validatedRange, function (range_, index) {
+  } : undefined]), 1032, ["date", "selected-day", "onPick"])])) : (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", srcvue_type_template_id_02045cca_hoisted_6, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.validatedRange, function (range_, index) {
     return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(_component_date_table, {
       key: index,
       date: range_[0],
@@ -13536,17 +13536,17 @@ function srcvue_type_template_id_42e74684_render(_ctx, _cache, $props, $setup, $
     } : undefined]), 1032, ["date", "selected-day", "range", "hide-header", "onPick"]);
   }), 128))]))]);
 }
-// CONCATENATED MODULE: ./packages/calendar/src/index.vue?vue&type=template&id=42e74684
+// CONCATENATED MODULE: ./packages/calendar/src/index.vue?vue&type=template&id=02045cca
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/calendar/src/date-table.vue?vue&type=template&id=cfaf6c84
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/calendar/src/date-table.vue?vue&type=template&id=2741d58e
 
-var date_tablevue_type_template_id_cfaf6c84_hoisted_1 = {
+var date_tablevue_type_template_id_2741d58e_hoisted_1 = {
   key: 0
 };
-var date_tablevue_type_template_id_cfaf6c84_hoisted_2 = {
+var date_tablevue_type_template_id_2741d58e_hoisted_2 = {
   class: "el-calendar-day"
 };
-function date_tablevue_type_template_id_cfaf6c84_render(_ctx, _cache, $props, $setup, $data, $options) {
+function date_tablevue_type_template_id_2741d58e_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("table", {
     class: {
       'el-calendar-table': true,
@@ -13554,7 +13554,7 @@ function date_tablevue_type_template_id_cfaf6c84_render(_ctx, _cache, $props, $s
     },
     cellspacing: "0",
     cellpadding: "0"
-  }, [!_ctx.hideHeader ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("thead", date_tablevue_type_template_id_cfaf6c84_hoisted_1, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.weekDays, function (day) {
+  }, [!_ctx.hideHeader ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("thead", date_tablevue_type_template_id_2741d58e_hoisted_1, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.weekDays, function (day) {
     return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("th", {
       key: day
     }, Object(vue_esm_browser_prod["U" /* toDisplayString */])(day), 1);
@@ -13572,7 +13572,7 @@ function date_tablevue_type_template_id_cfaf6c84_render(_ctx, _cache, $props, $s
         onClick: function onClick($event) {
           return _ctx.pickDay(cell);
         }
-      }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", date_tablevue_type_template_id_cfaf6c84_hoisted_2, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "dateCell", {
+      }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", date_tablevue_type_template_id_2741d58e_hoisted_2, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "dateCell", {
         data: _ctx.getSlotData(cell)
       }, function () {
         return [Object(vue_esm_browser_prod["p" /* createVNode */])("span", null, Object(vue_esm_browser_prod["U" /* toDisplayString */])(cell.text), 1)];
@@ -13580,7 +13580,7 @@ function date_tablevue_type_template_id_cfaf6c84_render(_ctx, _cache, $props, $s
     }), 128))], 2);
   }), 128))])], 2);
 }
-// CONCATENATED MODULE: ./packages/calendar/src/date-table.vue?vue&type=template&id=cfaf6c84
+// CONCATENATED MODULE: ./packages/calendar/src/date-table.vue?vue&type=template&id=2741d58e
 
 // EXTERNAL MODULE: ./node_modules/dayjs/plugin/localeData.js
 var localeData = __webpack_require__(41);
@@ -13603,12 +13603,12 @@ var DEFAULT_FORMATS_DATEPICKER = {
   daterange: DEFAULT_FORMATS_DATE,
   datetimerange: DEFAULT_FORMATS_DATE + " " + DEFAULT_FORMATS_TIME
 };
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/common/picker.vue?vue&type=template&id=a28edc56
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/common/picker.vue?vue&type=template&id=5124efd2
 
-var pickervue_type_template_id_a28edc56_hoisted_1 = {
+var pickervue_type_template_id_5124efd2_hoisted_1 = {
   class: "el-range-separator"
 };
-function pickervue_type_template_id_a28edc56_render(_ctx, _cache, $props, $setup, $data, $options) {
+function pickervue_type_template_id_5124efd2_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-input");
 
   var _component_el_popper = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-popper");
@@ -13709,7 +13709,7 @@ function pickervue_type_template_id_a28edc56_render(_ctx, _cache, $props, $setup
           return _ctx.handleFocus && _ctx.handleFocus.apply(_ctx, arguments);
         })
       }, null, 40, ["name", "placeholder", "value", "disabled", "readonly"]), Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "range-separator", {}, function () {
-        return [Object(vue_esm_browser_prod["p" /* createVNode */])("span", pickervue_type_template_id_a28edc56_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.rangeSeparator), 1)];
+        return [Object(vue_esm_browser_prod["p" /* createVNode */])("span", pickervue_type_template_id_5124efd2_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.rangeSeparator), 1)];
       }), Object(vue_esm_browser_prod["p" /* createVNode */])("input", {
         autocomplete: "off",
         name: _ctx.name && _ctx.name[1],
@@ -13758,7 +13758,7 @@ function pickervue_type_template_id_a28edc56_render(_ctx, _cache, $props, $setup
     _: 1
   }, 16, ["visible", "popper-class", "popper-options"]);
 }
-// CONCATENATED MODULE: ./packages/time-picker/src/common/picker.vue?vue&type=template&id=a28edc56
+// CONCATENATED MODULE: ./packages/time-picker/src/common/picker.vue?vue&type=template&id=5124efd2
 
 // EXTERNAL MODULE: ./node_modules/lodash/isEqual.js
 var lodash_isEqual = __webpack_require__(14);
@@ -13886,6 +13886,7 @@ var defaultProps = {
 
 
 
+
 // Date object and string
 var dateEquals = function dateEquals(a, b) {
   var aIsDate = a instanceof Date;
@@ -13923,13 +13924,13 @@ var valueEquals = function valueEquals(a, b) {
   return false;
 };
 
-var pickervue_type_script_lang_ts_parser = function parser(date, format) {
-  var day = Object(util["t" /* isEmpty */])(format) ? dayjs_min_default()(date) : dayjs_min_default()(date, format);
+var pickervue_type_script_lang_ts_parser = function parser(date, format, lang) {
+  var day = Object(util["t" /* isEmpty */])(format) ? dayjs_min_default()(date).locale(lang) : dayjs_min_default()(date, format).locale(lang);
   return day.isValid() ? day : undefined;
 };
 
-var pickervue_type_script_lang_ts_formatter = function formatter(date, format) {
-  return Object(util["t" /* isEmpty */])(format) ? date : dayjs_min_default()(date).format(format);
+var pickervue_type_script_lang_ts_formatter = function formatter(date, format, lang) {
+  return Object(util["t" /* isEmpty */])(format) ? date : dayjs_min_default()(date).locale(lang).format(format);
 };
 
 /* harmony default export */ var pickervue_type_script_lang_ts = (Object(vue_esm_browser_prod["r" /* defineComponent */])({
@@ -13945,6 +13946,10 @@ var pickervue_type_script_lang_ts_formatter = function formatter(date, format) {
   emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup: function setup(props, ctx) {
     var ELEMENT = Object(util["H" /* useGlobalConfig */])();
+
+    var _useLocaleInject = use_locale_useLocaleInject(),
+        lang = _useLocaleInject.lang;
+
     var elForm = Object(vue_esm_browser_prod["u" /* inject */])(elFormKey, {});
     var elFormItem = Object(vue_esm_browser_prod["u" /* inject */])(elFormItemKey, {});
     var elPopperOptions = Object(vue_esm_browser_prod["u" /* inject */])('ElPopperOptions', {});
@@ -13984,13 +13989,13 @@ var pickervue_type_script_lang_ts_formatter = function formatter(date, format) {
 
         if (Array.isArray(val)) {
           formatValue = val.map(function (_) {
-            return pickervue_type_script_lang_ts_formatter(_, props.valueFormat);
+            return pickervue_type_script_lang_ts_formatter(_, props.valueFormat, lang.value);
           });
         } else if (val) {
-          formatValue = pickervue_type_script_lang_ts_formatter(val, props.valueFormat);
+          formatValue = pickervue_type_script_lang_ts_formatter(val, props.valueFormat, lang.value);
         }
 
-        ctx.emit('update:modelValue', val ? formatValue : val);
+        ctx.emit('update:modelValue', val ? formatValue : val, lang.value);
       }
     };
 
@@ -14068,10 +14073,10 @@ var pickervue_type_script_lang_ts_formatter = function formatter(date, format) {
       } else {
         if (Array.isArray(props.modelValue)) {
           result = props.modelValue.map(function (_) {
-            return pickervue_type_script_lang_ts_parser(_, props.valueFormat);
+            return pickervue_type_script_lang_ts_parser(_, props.valueFormat, lang.value);
           });
         } else {
-          result = pickervue_type_script_lang_ts_parser(props.modelValue, props.valueFormat);
+          result = pickervue_type_script_lang_ts_parser(props.modelValue, props.valueFormat, lang.value);
         }
       }
 
@@ -14362,26 +14367,26 @@ var pickervue_type_script_lang_ts_formatter = function formatter(date, format) {
 
 
 
-pickervue_type_script_lang_ts.render = pickervue_type_template_id_a28edc56_render
+pickervue_type_script_lang_ts.render = pickervue_type_template_id_5124efd2_render
 
 /* harmony default export */ var picker = (pickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=template&id=19c4d50f
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=template&id=bb0f7152
 
-var panel_time_pickvue_type_template_id_19c4d50f_hoisted_1 = {
+var panel_time_pickvue_type_template_id_bb0f7152_hoisted_1 = {
   key: 0,
   class: "el-time-panel"
 };
-var panel_time_pickvue_type_template_id_19c4d50f_hoisted_2 = {
+var panel_time_pickvue_type_template_id_bb0f7152_hoisted_2 = {
   class: "el-time-panel__footer"
 };
-function panel_time_pickvue_type_template_id_19c4d50f_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_time_pickvue_type_template_id_bb0f7152_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_time_spinner = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("time-spinner");
 
   return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["e" /* Transition */], {
     name: _ctx.transitionName
   }, {
     default: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
-      return [_ctx.actualVisible || _ctx.visible ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_time_pickvue_type_template_id_19c4d50f_hoisted_1, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+      return [_ctx.actualVisible || _ctx.visible ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_time_pickvue_type_template_id_bb0f7152_hoisted_1, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
         class: ["el-time-panel__content", {
           'has-seconds': _ctx.showSeconds
         }]
@@ -14398,7 +14403,7 @@ function panel_time_pickvue_type_template_id_19c4d50f_render(_ctx, _cache, $prop
         onChange: _ctx.handleChange,
         onSetOption: _ctx.onSetOption,
         onSelectRange: _ctx.setSelectionRange
-      }, null, 8, ["role", "arrow-control", "show-seconds", "am-pm-mode", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_pickvue_type_template_id_19c4d50f_hoisted_2, [Object(vue_esm_browser_prod["p" /* createVNode */])("button", {
+      }, null, 8, ["role", "arrow-control", "show-seconds", "am-pm-mode", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_pickvue_type_template_id_bb0f7152_hoisted_2, [Object(vue_esm_browser_prod["p" /* createVNode */])("button", {
         type: "button",
         class: "el-time-panel__btn cancel",
         onClick: _cache[1] || (_cache[1] = function () {
@@ -14415,7 +14420,7 @@ function panel_time_pickvue_type_template_id_19c4d50f_render(_ctx, _cache, $prop
     _: 1
   }, 8, ["name"]);
 }
-// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=template&id=19c4d50f
+// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/panel-time-pick.vue?vue&type=template&id=bb0f7152
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/basic-time-spinner.vue?vue&type=template&id=1e11252a
 
@@ -14925,7 +14930,8 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
   emits: ['pick', 'select-range', 'set-picker-option'],
   setup: function setup(props, ctx) {
     var _useLocaleInject = use_locale_useLocaleInject(),
-        t = _useLocaleInject.t; // data
+        t = _useLocaleInject.t,
+        lang = _useLocaleInject.lang; // data
 
 
     var selectionRange = Object(vue_esm_browser_prod["M" /* ref */])([0, 2]);
@@ -14944,7 +14950,7 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
     }); // method
 
     var isValidValue = function isValidValue(_date) {
-      var parsedDate = dayjs_min_default()(_date);
+      var parsedDate = dayjs_min_default()(_date).locale(lang.value);
       var result = getRangeAvailableTime(parsedDate);
       return parsedDate.isSame(result);
     };
@@ -15034,7 +15040,7 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
 
     var parseUserInput = function parseUserInput(value) {
       if (!value) return null;
-      return dayjs_min_default()(value, props.format);
+      return dayjs_min_default()(value, props.format).locale(lang.value);
     };
 
     var formatToString = function formatToString(value) {
@@ -15043,7 +15049,7 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
     };
 
     var getDefaultValue = function getDefaultValue() {
-      return dayjs_min_default()(defaultValue);
+      return dayjs_min_default()(defaultValue).locale(lang.value);
     };
 
     ctx.emit('set-picker-option', ['isValidValue', isValidValue]);
@@ -15094,37 +15100,37 @@ basic_time_spinnervue_type_script_lang_ts.render = basic_time_spinnervue_type_te
 
 
 
-panel_time_pickvue_type_script_lang_ts.render = panel_time_pickvue_type_template_id_19c4d50f_render
+panel_time_pickvue_type_script_lang_ts.render = panel_time_pickvue_type_template_id_bb0f7152_render
 
 /* harmony default export */ var panel_time_pick = (panel_time_pickvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/panel-time-range.vue?vue&type=template&id=f4800a28
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/time-picker/src/time-picker-com/panel-time-range.vue?vue&type=template&id=332876ce
 
-var panel_time_rangevue_type_template_id_f4800a28_hoisted_1 = {
+var panel_time_rangevue_type_template_id_332876ce_hoisted_1 = {
   key: 0,
   class: "el-time-range-picker el-picker-panel"
 };
-var panel_time_rangevue_type_template_id_f4800a28_hoisted_2 = {
+var panel_time_rangevue_type_template_id_332876ce_hoisted_2 = {
   class: "el-time-range-picker__content"
 };
-var panel_time_rangevue_type_template_id_f4800a28_hoisted_3 = {
+var panel_time_rangevue_type_template_id_332876ce_hoisted_3 = {
   class: "el-time-range-picker__cell"
 };
-var panel_time_rangevue_type_template_id_f4800a28_hoisted_4 = {
+var panel_time_rangevue_type_template_id_332876ce_hoisted_4 = {
   class: "el-time-range-picker__header"
 };
-var panel_time_rangevue_type_template_id_f4800a28_hoisted_5 = {
+var panel_time_rangevue_type_template_id_332876ce_hoisted_5 = {
   class: "el-time-range-picker__cell"
 };
-var panel_time_rangevue_type_template_id_f4800a28_hoisted_6 = {
+var panel_time_rangevue_type_template_id_332876ce_hoisted_6 = {
   class: "el-time-range-picker__header"
 };
-var panel_time_rangevue_type_template_id_f4800a28_hoisted_7 = {
+var panel_time_rangevue_type_template_id_332876ce_hoisted_7 = {
   class: "el-time-panel__footer"
 };
-function panel_time_rangevue_type_template_id_f4800a28_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_time_rangevue_type_template_id_332876ce_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_time_spinner = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("time-spinner");
 
-  return _ctx.actualVisible ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_time_rangevue_type_template_id_f4800a28_hoisted_1, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_f4800a28_hoisted_2, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_f4800a28_hoisted_3, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_f4800a28_hoisted_4, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.startTime')), 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+  return _ctx.actualVisible ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_time_rangevue_type_template_id_332876ce_hoisted_1, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_332876ce_hoisted_2, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_332876ce_hoisted_3, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_332876ce_hoisted_4, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.startTime')), 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
     class: [{
       'has-seconds': _ctx.showSeconds,
       'is-arrow': _ctx.arrowControl
@@ -15142,7 +15148,7 @@ function panel_time_rangevue_type_template_id_f4800a28_render(_ctx, _cache, $pro
     onChange: _ctx.handleMinChange,
     onSetOption: _ctx.onSetOption,
     onSelectRange: _ctx.setMinSelectionRange
-  }, null, 8, ["show-seconds", "am-pm-mode", "arrow-control", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2)]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_f4800a28_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_f4800a28_hoisted_6, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.endTime')), 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+  }, null, 8, ["show-seconds", "am-pm-mode", "arrow-control", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2)]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_332876ce_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_332876ce_hoisted_6, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.endTime')), 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
     class: [{
       'has-seconds': _ctx.showSeconds,
       'is-arrow': _ctx.arrowControl
@@ -15160,7 +15166,7 @@ function panel_time_rangevue_type_template_id_f4800a28_render(_ctx, _cache, $pro
     onChange: _ctx.handleMaxChange,
     onSetOption: _ctx.onSetOption,
     onSelectRange: _ctx.setMaxSelectionRange
-  }, null, 8, ["show-seconds", "am-pm-mode", "arrow-control", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2)])]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_f4800a28_hoisted_7, [Object(vue_esm_browser_prod["p" /* createVNode */])("button", {
+  }, null, 8, ["show-seconds", "am-pm-mode", "arrow-control", "spinner-date", "disabled-hours", "disabled-minutes", "disabled-seconds", "onChange", "onSetOption", "onSelectRange"])], 2)])]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_time_rangevue_type_template_id_332876ce_hoisted_7, [Object(vue_esm_browser_prod["p" /* createVNode */])("button", {
     type: "button",
     class: "el-time-panel__btn cancel",
     onClick: _cache[1] || (_cache[1] = function ($event) {
@@ -15175,7 +15181,7 @@ function panel_time_rangevue_type_template_id_f4800a28_render(_ctx, _cache, $pro
     })
   }, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.confirm')), 9, ["disabled"])])])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true);
 }
-// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/panel-time-range.vue?vue&type=template&id=f4800a28
+// CONCATENATED MODULE: ./packages/time-picker/src/time-picker-com/panel-time-range.vue?vue&type=template&id=332876ce
 
 // EXTERNAL MODULE: ./node_modules/lodash/union.js
 var union = __webpack_require__(46);
@@ -15218,7 +15224,8 @@ var makeSelectRange = function makeSelectRange(start, end) {
   emits: ['pick', 'select-range', 'set-picker-option'],
   setup: function setup(props, ctx) {
     var _useLocaleInject = use_locale_useLocaleInject(),
-        t = _useLocaleInject.t;
+        t = _useLocaleInject.t,
+        lang = _useLocaleInject.lang;
 
     var minDate = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       return props.parsedValue[0];
@@ -15261,7 +15268,7 @@ var makeSelectRange = function makeSelectRange(start, end) {
 
     var isValidValue = function isValidValue(_date) {
       var parsedDate = _date.map(function (_) {
-        return dayjs_min_default()(_);
+        return dayjs_min_default()(_).locale(lang.value);
       });
 
       var result = getRangeAvailableTime(parsedDate);
@@ -15413,11 +15420,11 @@ var makeSelectRange = function makeSelectRange(start, end) {
 
       if (Array.isArray(value)) {
         return value.map(function (_) {
-          return dayjs_min_default()(_, props.format);
+          return dayjs_min_default()(_, props.format).locale(lang.value);
         });
       }
 
-      return dayjs_min_default()(value, props.format);
+      return dayjs_min_default()(value, props.format).locale(lang.value);
     };
 
     var formatToString = function formatToString(value) {
@@ -15435,11 +15442,12 @@ var makeSelectRange = function makeSelectRange(start, end) {
     var getDefaultValue = function getDefaultValue() {
       if (Array.isArray(defaultValue)) {
         return defaultValue.map(function (_) {
-          return dayjs_min_default()(_);
+          return dayjs_min_default()(_).locale(lang.value);
         });
       }
 
-      return [dayjs_min_default()(defaultValue), dayjs_min_default()(defaultValue).add(60, 'm')];
+      var defaultDay = dayjs_min_default()(defaultValue).locale(lang.value);
+      return [defaultDay, defaultDay.add(60, 'm')];
     };
 
     ctx.emit('set-picker-option', ['formatToString', formatToString]);
@@ -15490,7 +15498,7 @@ var makeSelectRange = function makeSelectRange(start, end) {
 
 
 
-panel_time_rangevue_type_script_lang_ts.render = panel_time_rangevue_type_template_id_f4800a28_render
+panel_time_rangevue_type_script_lang_ts.render = panel_time_rangevue_type_template_id_332876ce_render
 
 /* harmony default export */ var panel_time_range = (panel_time_rangevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/time-picker/src/time-picker.ts
@@ -15584,6 +15592,7 @@ _TimePicker.install = function (app) {
 
 
 
+
 dayjs_min_default.a.extend(localeData_default.a);
 var date_tablevue_type_script_lang_ts_getPrevMonthLastDays = function getPrevMonthLastDays(date, amount) {
   var lastDay = date.subtract(1, 'month').endOf('month').date();
@@ -15614,8 +15623,11 @@ var date_tablevue_type_script_lang_ts_getMonthDays = function getMonthDays(date)
   },
   emits: ['pick'],
   setup: function setup(props, ctx) {
-    var WEEK_DAYS = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()().localeData().weekdaysShort());
-    var now = dayjs_min_default()(); // todo better way to get Day.js locale object
+    var _useLocaleInject = use_locale_useLocaleInject(),
+        lang = _useLocaleInject.lang;
+
+    var WEEK_DAYS = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()().locale(lang.value).localeData().weekdaysShort());
+    var now = dayjs_min_default()().locale(lang.value); // todo better way to get Day.js locale object
 
     var firstDayOfWeek = now.$locale().weekStart || 0;
 
@@ -15755,7 +15767,7 @@ var date_tablevue_type_script_lang_ts_getMonthDays = function getMonthDays(date)
 
 
 
-date_tablevue_type_script_lang_ts.render = date_tablevue_type_template_id_cfaf6c84_render
+date_tablevue_type_script_lang_ts.render = date_tablevue_type_template_id_2741d58e_render
 
 /* harmony default export */ var date_table = (date_tablevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/calendar/src/index.vue?vue&type=script&lang=ts
@@ -15792,15 +15804,16 @@ date_tablevue_type_script_lang_ts.render = date_tablevue_type_template_id_cfaf6c
   emits: ['input', 'update:modelValue'],
   setup: function setup(props, ctx) {
     var _useLocaleInject = use_locale_useLocaleInject(),
-        t = _useLocaleInject.t;
+        t = _useLocaleInject.t,
+        lang = _useLocaleInject.lang;
 
     var selectedDay = Object(vue_esm_browser_prod["M" /* ref */])(null);
-    var now = dayjs_min_default()();
+    var now = dayjs_min_default()().locale(lang.value);
     var prevMonthDayjs = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       return date.value.subtract(1, 'month');
     });
     var curMonthDatePrefix = Object(vue_esm_browser_prod["i" /* computed */])(function () {
-      return dayjs_min_default()(date.value).format('YYYY-MM');
+      return dayjs_min_default()(date.value).locale(lang.value).format('YYYY-MM');
     });
     var nextMonthDayjs = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       return date.value.add(1, 'month');
@@ -15831,14 +15844,14 @@ date_tablevue_type_script_lang_ts.render = date_tablevue_type_template_id_cfaf6c
 
         return now;
       } else {
-        return dayjs_min_default()(props.modelValue);
+        return dayjs_min_default()(props.modelValue).locale(lang.value);
       }
     }); // if range is valid, we get a two-digit array
 
     var validatedRange = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       if (!props.range) return [];
       var rangeArrDayjs = props.range.map(function (_) {
-        return dayjs_min_default()(_);
+        return dayjs_min_default()(_).locale(lang.value);
       });
       var startDayjs = rangeArrDayjs[0],
           endDayjs = rangeArrDayjs[1];
@@ -15908,7 +15921,7 @@ date_tablevue_type_script_lang_ts.render = date_tablevue_type_template_id_cfaf6c
 
 
 
-calendar_srcvue_type_script_lang_ts.render = srcvue_type_template_id_42e74684_render
+calendar_srcvue_type_script_lang_ts.render = srcvue_type_template_id_02045cca_render
 
 /* harmony default export */ var calendar_src = (calendar_srcvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./packages/calendar/index.ts
@@ -21265,35 +21278,35 @@ var ConfigProvider = Object(vue_esm_browser_prod["r" /* defineComponent */])({
 
 
 /* harmony default export */ var config_provider = (with_install(ConfigProvider));
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-pick.vue?vue&type=template&id=b0b45784
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-pick.vue?vue&type=template&id=2360063c
 
-var panel_date_pickvue_type_template_id_b0b45784_hoisted_1 = {
+var panel_date_pickvue_type_template_id_2360063c_hoisted_1 = {
   class: "el-picker-panel__body-wrapper"
 };
-var panel_date_pickvue_type_template_id_b0b45784_hoisted_2 = {
+var panel_date_pickvue_type_template_id_2360063c_hoisted_2 = {
   key: 0,
   class: "el-picker-panel__sidebar"
 };
-var panel_date_pickvue_type_template_id_b0b45784_hoisted_3 = {
+var panel_date_pickvue_type_template_id_2360063c_hoisted_3 = {
   class: "el-picker-panel__body"
 };
-var panel_date_pickvue_type_template_id_b0b45784_hoisted_4 = {
+var panel_date_pickvue_type_template_id_2360063c_hoisted_4 = {
   key: 0,
   class: "el-date-picker__time-header"
 };
-var panel_date_pickvue_type_template_id_b0b45784_hoisted_5 = {
+var panel_date_pickvue_type_template_id_2360063c_hoisted_5 = {
   class: "el-date-picker__editor-wrap"
 };
-var panel_date_pickvue_type_template_id_b0b45784_hoisted_6 = {
+var panel_date_pickvue_type_template_id_2360063c_hoisted_6 = {
   class: "el-date-picker__editor-wrap"
 };
-var panel_date_pickvue_type_template_id_b0b45784_hoisted_7 = {
+var panel_date_pickvue_type_template_id_2360063c_hoisted_7 = {
   class: "el-picker-panel__content"
 };
-var panel_date_pickvue_type_template_id_b0b45784_hoisted_8 = {
+var panel_date_pickvue_type_template_id_2360063c_hoisted_8 = {
   class: "el-picker-panel__footer"
 };
-function panel_date_pickvue_type_template_id_b0b45784_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_date_pickvue_type_template_id_2360063c_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-input");
 
   var _component_time_pick_panel = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("time-pick-panel");
@@ -21313,9 +21326,9 @@ function panel_date_pickvue_type_template_id_b0b45784_render(_ctx, _cache, $prop
       'has-sidebar': _ctx.$slots.sidebar || _ctx.hasShortcuts,
       'has-time': _ctx.showTime
     }]]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_pickvue_type_template_id_b0b45784_hoisted_1, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "sidebar", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_pickvue_type_template_id_2360063c_hoisted_1, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "sidebar", {
     class: "el-picker-panel__sidebar"
-  }), _ctx.hasShortcuts ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_date_pickvue_type_template_id_b0b45784_hoisted_2, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
+  }), _ctx.hasShortcuts ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_date_pickvue_type_template_id_2360063c_hoisted_2, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
     return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("button", {
       key: key,
       type: "button",
@@ -21324,7 +21337,7 @@ function panel_date_pickvue_type_template_id_b0b45784_render(_ctx, _cache, $prop
         return _ctx.handleShortcutClick(shortcut);
       }
     }, Object(vue_esm_browser_prod["U" /* toDisplayString */])(shortcut.text), 9, ["onClick"]);
-  }), 128))])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_pickvue_type_template_id_b0b45784_hoisted_3, [_ctx.showTime ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_date_pickvue_type_template_id_b0b45784_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_pickvue_type_template_id_b0b45784_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
+  }), 128))])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_pickvue_type_template_id_2360063c_hoisted_3, [_ctx.showTime ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_date_pickvue_type_template_id_2360063c_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_pickvue_type_template_id_2360063c_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
     placeholder: _ctx.t('el.datepicker.selectDate'),
     "model-value": _ctx.visibleDate,
     size: "small",
@@ -21332,7 +21345,7 @@ function panel_date_pickvue_type_template_id_b0b45784_render(_ctx, _cache, $prop
       return _ctx.userInputDate = val;
     }),
     onChange: _ctx.handleVisibleDateChange
-  }, null, 8, ["placeholder", "model-value", "onChange"])]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_pickvue_type_template_id_b0b45784_hoisted_6, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
+  }, null, 8, ["placeholder", "model-value", "onChange"])]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_pickvue_type_template_id_2360063c_hoisted_6, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
     placeholder: _ctx.t('el.datepicker.selectTime'),
     "model-value": _ctx.visibleTime,
     size: "small",
@@ -21393,7 +21406,7 @@ function panel_date_pickvue_type_template_id_b0b45784_render(_ctx, _cache, $prop
     onClick: _cache[8] || (_cache[8] = function () {
       return _ctx.nextMonth_ && _ctx.nextMonth_.apply(_ctx, arguments);
     })
-  }, null, 8, ["aria-label"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.currentView === 'date']])], 2), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.currentView !== 'time']]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_pickvue_type_template_id_b0b45784_hoisted_7, [_ctx.currentView === 'date' ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(_component_date_table, {
+  }, null, 8, ["aria-label"]), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.currentView === 'date']])], 2), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.currentView !== 'time']]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_pickvue_type_template_id_2360063c_hoisted_7, [_ctx.currentView === 'date' ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])(_component_date_table, {
     key: 0,
     "selection-mode": _ctx.selectionMode,
     date: _ctx.innerDate,
@@ -21412,7 +21425,7 @@ function panel_date_pickvue_type_template_id_b0b45784_render(_ctx, _cache, $prop
     "parsed-value": _ctx.parsedValue,
     "disabled-date": _ctx.disabledDate,
     onPick: _ctx.handleMonthPick
-  }, null, 8, ["date", "parsed-value", "disabled-date", "onPick"])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)])])]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_pickvue_type_template_id_b0b45784_hoisted_8, [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_button, {
+  }, null, 8, ["date", "parsed-value", "disabled-date", "onPick"])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)])])]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_pickvue_type_template_id_2360063c_hoisted_8, [Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_button, {
     size: "mini",
     type: "text",
     class: "el-picker-panel__link-btn",
@@ -21434,14 +21447,14 @@ function panel_date_pickvue_type_template_id_b0b45784_render(_ctx, _cache, $prop
     _: 1
   }, 8, ["onClick"])], 512), [[vue_esm_browser_prod["cb" /* vShow */], _ctx.footerVisible && _ctx.currentView === 'date']])], 2);
 }
-// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-date-pick.vue?vue&type=template&id=b0b45784
+// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-date-pick.vue?vue&type=template&id=2360063c
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-date-table.vue?vue&type=template&id=407328fe
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-date-table.vue?vue&type=template&id=5376b4ba
 
-var basic_date_tablevue_type_template_id_407328fe_hoisted_1 = {
+var basic_date_tablevue_type_template_id_5376b4ba_hoisted_1 = {
   key: 0
 };
-function basic_date_tablevue_type_template_id_407328fe_render(_ctx, _cache, $props, $setup, $data, $options) {
+function basic_date_tablevue_type_template_id_5376b4ba_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("table", {
     cellspacing: "0",
     cellpadding: "0",
@@ -21454,7 +21467,7 @@ function basic_date_tablevue_type_template_id_407328fe_render(_ctx, _cache, $pro
     onMousemove: _cache[2] || (_cache[2] = function () {
       return _ctx.handleMouseMove && _ctx.handleMouseMove.apply(_ctx, arguments);
     })
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("tbody", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("tr", null, [_ctx.showWeekNumber ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("th", basic_date_tablevue_type_template_id_407328fe_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.week')), 1)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), (Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.WEEKS, function (week, key) {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("tbody", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("tr", null, [_ctx.showWeekNumber ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("th", basic_date_tablevue_type_template_id_5376b4ba_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.week')), 1)) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), (Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.WEEKS, function (week, key) {
     return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("th", {
       key: key
     }, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.weeks.' + week)), 1);
@@ -21472,7 +21485,7 @@ function basic_date_tablevue_type_template_id_407328fe_render(_ctx, _cache, $pro
     }), 128))], 2);
   }), 128))])], 34);
 }
-// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/basic-date-table.vue?vue&type=template&id=407328fe
+// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/basic-date-table.vue?vue&type=template&id=5376b4ba
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-date-table.vue?vue&type=script&lang=ts
 
@@ -21520,7 +21533,8 @@ function basic_date_tablevue_type_template_id_407328fe_render(_ctx, _cache, $pro
   emits: ['changerange', 'pick', 'select'],
   setup: function setup(props, ctx) {
     var _useLocaleInject = use_locale_useLocaleInject(),
-        t = _useLocaleInject.t; // data
+        t = _useLocaleInject.t,
+        lang = _useLocaleInject.lang; // data
 
 
     var lastRow = Object(vue_esm_browser_prod["M" /* ref */])(null);
@@ -21553,7 +21567,7 @@ function basic_date_tablevue_type_template_id_407328fe_render(_ctx, _cache, $pro
       var rows_ = tableRows.value;
       var count = 1;
       var selectedDate = props.selectionMode === 'dates' ? Object(util["j" /* coerceTruthyValueToArray */])(props.parsedValue) : [];
-      var calNow = dayjs_min_default()().startOf('day');
+      var calNow = dayjs_min_default()().locale(lang.value).startOf('day');
 
       for (var i = 0; i < 6; i++) {
         var row = rows_[i];
@@ -21650,7 +21664,7 @@ function basic_date_tablevue_type_template_id_407328fe_render(_ctx, _cache, $pro
 
     var cellMatchesDate = function cellMatchesDate(cell, date) {
       if (!date) return false;
-      return dayjs_min_default()(date).isSame(props.date.date(Number(cell.text)), 'day');
+      return dayjs_min_default()(date).locale(lang.value).isSame(props.date.date(Number(cell.text)), 'day');
     };
 
     var getCellClasses = function getCellClasses(cell) {
@@ -21830,15 +21844,15 @@ function basic_date_tablevue_type_template_id_407328fe_render(_ctx, _cache, $pro
 
 
 
-basic_date_tablevue_type_script_lang_ts.render = basic_date_tablevue_type_template_id_407328fe_render
+basic_date_tablevue_type_script_lang_ts.render = basic_date_tablevue_type_template_id_5376b4ba_render
 
 /* harmony default export */ var basic_date_table = (basic_date_tablevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-month-table.vue?vue&type=template&id=0d738c1e
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-month-table.vue?vue&type=template&id=f2d4171e
 
-var basic_month_tablevue_type_template_id_0d738c1e_hoisted_1 = {
+var basic_month_tablevue_type_template_id_f2d4171e_hoisted_1 = {
   class: "cell"
 };
-function basic_month_tablevue_type_template_id_0d738c1e_render(_ctx, _cache, $props, $setup, $data, $options) {
+function basic_month_tablevue_type_template_id_f2d4171e_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("table", {
     class: "el-month-table",
     onClick: _cache[1] || (_cache[1] = function () {
@@ -21854,11 +21868,11 @@ function basic_month_tablevue_type_template_id_0d738c1e_render(_ctx, _cache, $pr
       return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("td", {
         key: key_,
         class: _ctx.getCellStyle(cell)
-      }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_month_tablevue_type_template_id_0d738c1e_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.months.' + _ctx.months[cell.text])), 1)])], 2);
+      }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_month_tablevue_type_template_id_f2d4171e_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.t('el.datepicker.months.' + _ctx.months[cell.text])), 1)])], 2);
     }), 128))]);
   }), 128))])], 32);
 }
-// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/basic-month-table.vue?vue&type=template&id=0d738c1e
+// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/basic-month-table.vue?vue&type=template&id=f2d4171e
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-month-table.vue?vue&type=script&lang=ts
 
@@ -21868,8 +21882,8 @@ function basic_month_tablevue_type_template_id_0d738c1e_render(_ctx, _cache, $pr
 
 
 
-var basic_month_tablevue_type_script_lang_ts_datesInMonth = function datesInMonth(year, month) {
-  var firstDay = dayjs_min_default()().startOf('month').month(month).year(year);
+var basic_month_tablevue_type_script_lang_ts_datesInMonth = function datesInMonth(year, month, lang) {
+  var firstDay = dayjs_min_default()().locale(lang).startOf('month').month(month).year(year);
   var numOfDays = firstDay.daysInMonth();
   return rangeArr(numOfDays).map(function (n) {
     return firstDay.add(n, 'day').toDate();
@@ -21910,7 +21924,8 @@ var basic_month_tablevue_type_script_lang_ts_datesInMonth = function datesInMont
   emits: ['changerange', 'pick', 'select'],
   setup: function setup(props, ctx) {
     var _useLocaleInject = use_locale_useLocaleInject(),
-        t = _useLocaleInject.t;
+        t = _useLocaleInject.t,
+        lang = _useLocaleInject.lang;
 
     var months = Object(vue_esm_browser_prod["M" /* ref */])(props.date.locale('en').localeData().monthsShort().map(function (_) {
       return _.toLowerCase();
@@ -21921,7 +21936,7 @@ var basic_month_tablevue_type_script_lang_ts_datesInMonth = function datesInMont
     var rows = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       // TODO: refactory rows / getCellClasses
       var rows = tableRows.value;
-      var now = dayjs_min_default()().startOf('month');
+      var now = dayjs_min_default()().locale(lang.value).startOf('month');
 
       for (var i = 0; i < 3; i++) {
         var row = rows[i];
@@ -21977,7 +21992,7 @@ var basic_month_tablevue_type_script_lang_ts_datesInMonth = function datesInMont
       var year = props.date.year();
       var today = new Date();
       var month = cell.text;
-      style.disabled = props.disabledDate ? basic_month_tablevue_type_script_lang_ts_datesInMonth(year, month).every(props.disabledDate) : false;
+      style.disabled = props.disabledDate ? basic_month_tablevue_type_script_lang_ts_datesInMonth(year, month, lang.value).every(props.disabledDate) : false;
       style.current = Object(util["j" /* coerceTruthyValueToArray */])(props.parsedValue).findIndex(function (date) {
         return date.year() === year && date.month() === month;
       }) >= 0;
@@ -22088,33 +22103,33 @@ var basic_month_tablevue_type_script_lang_ts_datesInMonth = function datesInMont
 
 
 
-basic_month_tablevue_type_script_lang_ts.render = basic_month_tablevue_type_template_id_0d738c1e_render
+basic_month_tablevue_type_script_lang_ts.render = basic_month_tablevue_type_template_id_f2d4171e_render
 
 /* harmony default export */ var basic_month_table = (basic_month_tablevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-year-table.vue?vue&type=template&id=2d64b2ba
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-year-table.vue?vue&type=template&id=5d22d641
 
-var basic_year_tablevue_type_template_id_2d64b2ba_hoisted_1 = {
+var basic_year_tablevue_type_template_id_5d22d641_hoisted_1 = {
   class: "cell"
 };
-var basic_year_tablevue_type_template_id_2d64b2ba_hoisted_2 = {
+var basic_year_tablevue_type_template_id_5d22d641_hoisted_2 = {
   class: "cell"
 };
-var basic_year_tablevue_type_template_id_2d64b2ba_hoisted_3 = {
+var basic_year_tablevue_type_template_id_5d22d641_hoisted_3 = {
   class: "cell"
 };
-var basic_year_tablevue_type_template_id_2d64b2ba_hoisted_4 = {
+var basic_year_tablevue_type_template_id_5d22d641_hoisted_4 = {
   class: "cell"
 };
-var basic_year_tablevue_type_template_id_2d64b2ba_hoisted_5 = {
+var basic_year_tablevue_type_template_id_5d22d641_hoisted_5 = {
   class: "cell"
 };
-var basic_year_tablevue_type_template_id_2d64b2ba_hoisted_6 = {
+var basic_year_tablevue_type_template_id_5d22d641_hoisted_6 = {
   class: "cell"
 };
-var basic_year_tablevue_type_template_id_2d64b2ba_hoisted_7 = {
+var basic_year_tablevue_type_template_id_5d22d641_hoisted_7 = {
   class: "cell"
 };
-var basic_year_tablevue_type_template_id_2d64b2ba_hoisted_8 = {
+var basic_year_tablevue_type_template_id_5d22d641_hoisted_8 = {
   class: "cell"
 };
 var _hoisted_9 = {
@@ -22128,7 +22143,7 @@ var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */
 
 var _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("td", null, null, -1);
 
-function basic_year_tablevue_type_template_id_2d64b2ba_render(_ctx, _cache, $props, $setup, $data, $options) {
+function basic_year_tablevue_type_template_id_5d22d641_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("table", {
     class: "el-year-table",
     onClick: _cache[1] || (_cache[1] = function () {
@@ -22136,27 +22151,27 @@ function basic_year_tablevue_type_template_id_2d64b2ba_render(_ctx, _cache, $pro
     })
   }, [Object(vue_esm_browser_prod["p" /* createVNode */])("tbody", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("tr", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 0)]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_2d64b2ba_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_5d22d641_hoisted_1, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 1)]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_2d64b2ba_hoisted_2, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 1), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_5d22d641_hoisted_2, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 1), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 2)]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_2d64b2ba_hoisted_3, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 2), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_5d22d641_hoisted_3, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 2), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 3)]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_2d64b2ba_hoisted_4, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 3), 1)], 2)]), Object(vue_esm_browser_prod["p" /* createVNode */])("tr", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_5d22d641_hoisted_4, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 3), 1)], 2)]), Object(vue_esm_browser_prod["p" /* createVNode */])("tr", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 4)]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_2d64b2ba_hoisted_5, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 4), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_5d22d641_hoisted_5, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 4), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 5)]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_2d64b2ba_hoisted_6, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 5), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_5d22d641_hoisted_6, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 5), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 6)]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_2d64b2ba_hoisted_7, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 6), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_5d22d641_hoisted_7, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 6), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 7)]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_2d64b2ba_hoisted_8, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 7), 1)], 2)]), Object(vue_esm_browser_prod["p" /* createVNode */])("tr", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", basic_year_tablevue_type_template_id_5d22d641_hoisted_8, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 7), 1)], 2)]), Object(vue_esm_browser_prod["p" /* createVNode */])("tr", null, [Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 8)]
   }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", _hoisted_9, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 8), 1)], 2), Object(vue_esm_browser_prod["p" /* createVNode */])("td", {
     class: ["available", _ctx.getCellStyle(_ctx.startYear + 9)]
   }, [Object(vue_esm_browser_prod["p" /* createVNode */])("a", _hoisted_10, Object(vue_esm_browser_prod["U" /* toDisplayString */])(_ctx.startYear + 9), 1)], 2), _hoisted_11, _hoisted_12])])]);
 }
-// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/basic-year-table.vue?vue&type=template&id=2d64b2ba
+// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/basic-year-table.vue?vue&type=template&id=5d22d641
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/basic-year-table.vue?vue&type=script&lang=ts
 
@@ -22165,8 +22180,9 @@ function basic_year_tablevue_type_template_id_2d64b2ba_render(_ctx, _cache, $pro
 
 
 
-var basic_year_tablevue_type_script_lang_ts_datesInYear = function datesInYear(year) {
-  var firstDay = dayjs_min_default()(String(year)).startOf('year');
+
+var basic_year_tablevue_type_script_lang_ts_datesInYear = function datesInYear(year, lang) {
+  var firstDay = dayjs_min_default()(String(year)).locale(lang).startOf('year');
   var lastDay = firstDay.endOf('year');
   var numOfDays = lastDay.dayOfYear();
   return rangeArr(numOfDays).map(function (n) {
@@ -22188,14 +22204,17 @@ var basic_year_tablevue_type_script_lang_ts_datesInYear = function datesInYear(y
   },
   emits: ['pick'],
   setup: function setup(props, ctx) {
+    var _useLocaleInject = use_locale_useLocaleInject(),
+        lang = _useLocaleInject.lang;
+
     var startYear = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       return Math.floor(props.date.year() / 10) * 10;
     });
 
     var getCellStyle = function getCellStyle(year) {
       var style = {};
-      var today = dayjs_min_default()();
-      style.disabled = props.disabledDate ? basic_year_tablevue_type_script_lang_ts_datesInYear(year).every(props.disabledDate) : false;
+      var today = dayjs_min_default()().locale(lang.value);
+      style.disabled = props.disabledDate ? basic_year_tablevue_type_script_lang_ts_datesInYear(year, lang.value).every(props.disabledDate) : false;
       style.current = Object(util["j" /* coerceTruthyValueToArray */])(props.parsedValue).findIndex(function (_) {
         return _.year() === year;
       }) >= 0;
@@ -22226,7 +22245,7 @@ var basic_year_tablevue_type_script_lang_ts_datesInYear = function datesInYear(y
 
 
 
-basic_year_tablevue_type_script_lang_ts.render = basic_year_tablevue_type_template_id_2d64b2ba_render
+basic_year_tablevue_type_script_lang_ts.render = basic_year_tablevue_type_template_id_5d22d641_render
 
 /* harmony default export */ var basic_year_table = (basic_year_tablevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-pick.vue?vue&type=script&lang=ts
@@ -22281,9 +22300,10 @@ var timeWithinRange = function timeWithinRange() {
   emits: ['pick', 'set-picker-option'],
   setup: function setup(props, ctx) {
     var _useLocaleInject = use_locale_useLocaleInject(),
-        t = _useLocaleInject.t;
+        t = _useLocaleInject.t,
+        lang = _useLocaleInject.lang;
 
-    var innerDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()());
+    var innerDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()().locale(lang.value));
     var month = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       return innerDate.value.month();
     });
@@ -22300,7 +22320,7 @@ var timeWithinRange = function timeWithinRange() {
 
     var formatEmit = function formatEmit(emitDayjs) {
       if (defaultTime) {
-        var defaultTimeD = dayjs_min_default()(defaultTime);
+        var defaultTimeD = dayjs_min_default()(defaultTime).locale(lang.value);
         return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date());
       }
 
@@ -22388,7 +22408,7 @@ var timeWithinRange = function timeWithinRange() {
       var shortcutValue = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value;
 
       if (shortcutValue) {
-        emit(dayjs_min_default()(shortcutValue));
+        emit(dayjs_min_default()(shortcutValue).locale(lang.value));
         return;
       }
 
@@ -22463,7 +22483,7 @@ var timeWithinRange = function timeWithinRange() {
         var result = props.parsedValue;
 
         if (!result) {
-          var defaultTimeD = dayjs_min_default()(defaultTime);
+          var defaultTimeD = dayjs_min_default()(defaultTime).locale(lang.value);
           var defaultValueD = getDefaultValue();
           result = defaultTimeD.year(defaultValueD.year()).month(defaultValueD.month()).date(defaultValueD.date());
         }
@@ -22476,11 +22496,11 @@ var timeWithinRange = function timeWithinRange() {
     var changeToNow = function changeToNow() {
       // NOTE: not a permanent solution
       //       consider disable "now" button in the future
-      var now = dayjs_min_default()();
+      var now = dayjs_min_default()().locale(lang.value);
       var nowDate = now.toDate();
 
       if ((!disabledDate || !disabledDate(nowDate)) && checkDateWithinRange(nowDate)) {
-        innerDate.value = dayjs_min_default()();
+        innerDate.value = dayjs_min_default()().locale(lang.value);
         emit(innerDate.value);
       }
     };
@@ -22522,7 +22542,7 @@ var timeWithinRange = function timeWithinRange() {
     };
 
     var handleVisibleTimeChange = function handleVisibleTimeChange(value) {
-      var newDate = dayjs_min_default()(value, timeFormat.value);
+      var newDate = dayjs_min_default()(value, timeFormat.value).locale(lang.value);
 
       if (newDate.isValid() && checkDateWithinRange(newDate)) {
         innerDate.value = newDate.year(innerDate.value.year()).month(innerDate.value.month()).date(innerDate.value.date());
@@ -22533,7 +22553,7 @@ var timeWithinRange = function timeWithinRange() {
     };
 
     var handleVisibleDateChange = function handleVisibleDateChange(value) {
-      var newDate = dayjs_min_default()(value, dateFormat.value);
+      var newDate = dayjs_min_default()(value, dateFormat.value).locale(lang.value);
 
       if (newDate.isValid()) {
         if (disabledDate && disabledDate(newDate.toDate())) {
@@ -22561,11 +22581,11 @@ var timeWithinRange = function timeWithinRange() {
     };
 
     var parseUserInput = function parseUserInput(value) {
-      return dayjs_min_default()(value, props.format);
+      return dayjs_min_default()(value, props.format).locale(lang.value);
     };
 
     var getDefaultValue = function getDefaultValue() {
-      return dayjs_min_default()(defaultValue);
+      return dayjs_min_default()(defaultValue).locale(lang.value);
     };
 
     var handleKeydown = function handleKeydown(event) {
@@ -22636,7 +22656,7 @@ var timeWithinRange = function timeWithinRange() {
           continue;
         }
 
-        var result = dayjs_min_default()(newDate);
+        var result = dayjs_min_default()(newDate).locale(lang.value);
         innerDate.value = result;
         ctx.emit('pick', result, true);
         break;
@@ -22714,49 +22734,49 @@ var timeWithinRange = function timeWithinRange() {
 
 
 
-panel_date_pickvue_type_script_lang_ts.render = panel_date_pickvue_type_template_id_b0b45784_render
+panel_date_pickvue_type_script_lang_ts.render = panel_date_pickvue_type_template_id_2360063c_render
 
 /* harmony default export */ var panel_date_pick = (panel_date_pickvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=template&id=3de76c02
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=template&id=4d00eb50
 
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_1 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_1 = {
   class: "el-picker-panel__body-wrapper"
 };
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_2 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_2 = {
   key: 0,
   class: "el-picker-panel__sidebar"
 };
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_3 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_3 = {
   class: "el-picker-panel__body"
 };
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_4 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_4 = {
   key: 0,
   class: "el-date-range-picker__time-header"
 };
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_5 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_5 = {
   class: "el-date-range-picker__editors-wrap"
 };
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_6 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_6 = {
   class: "el-date-range-picker__time-picker-wrap"
 };
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_7 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_7 = {
   class: "el-date-range-picker__time-picker-wrap"
 };
 
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("span", {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("span", {
   class: "el-icon-arrow-right"
 }, null, -1);
 
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_9 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_9 = {
   class: "el-date-range-picker__editors-wrap is-right"
 };
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_10 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_10 = {
   class: "el-date-range-picker__time-picker-wrap"
 };
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_11 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_11 = {
   class: "el-date-range-picker__time-picker-wrap"
 };
-var panel_date_rangevue_type_template_id_3de76c02_hoisted_12 = {
+var panel_date_rangevue_type_template_id_4d00eb50_hoisted_12 = {
   class: "el-picker-panel__content el-date-range-picker__content is-left"
 };
 var _hoisted_13 = {
@@ -22772,7 +22792,7 @@ var _hoisted_16 = {
   key: 0,
   class: "el-picker-panel__footer"
 };
-function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_date_rangevue_type_template_id_4d00eb50_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("el-input");
 
   var _component_time_pick_panel = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("time-pick-panel");
@@ -22788,9 +22808,9 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
       'has-sidebar': _ctx.$slots.sidebar || _ctx.hasShortcuts,
       'has-time': _ctx.showTime
     }]]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_rangevue_type_template_id_3de76c02_hoisted_1, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "sidebar", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_rangevue_type_template_id_4d00eb50_hoisted_1, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "sidebar", {
     class: "el-picker-panel__sidebar"
-  }), _ctx.hasShortcuts ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_date_rangevue_type_template_id_3de76c02_hoisted_2, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
+  }), _ctx.hasShortcuts ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_date_rangevue_type_template_id_4d00eb50_hoisted_2, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
     return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("button", {
       key: key,
       type: "button",
@@ -22799,7 +22819,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
         return _ctx.handleShortcutClick(shortcut);
       }
     }, Object(vue_esm_browser_prod["U" /* toDisplayString */])(shortcut.text), 9, ["onClick"]);
-  }), 128))])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_rangevue_type_template_id_3de76c02_hoisted_3, [_ctx.showTime ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_date_rangevue_type_template_id_3de76c02_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_3de76c02_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_3de76c02_hoisted_6, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
+  }), 128))])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_rangevue_type_template_id_4d00eb50_hoisted_3, [_ctx.showTime ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_date_rangevue_type_template_id_4d00eb50_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_4d00eb50_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_4d00eb50_hoisted_6, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
     size: "small",
     disabled: _ctx.rangeState.selecting,
     placeholder: _ctx.t('el.datepicker.startDate'),
@@ -22811,7 +22831,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
     onChange: _cache[2] || (_cache[2] = function (val) {
       return _ctx.handleDateChange(val, 'min');
     })
-  }, null, 8, ["disabled", "placeholder", "model-value"])]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_3de76c02_hoisted_7, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
+  }, null, 8, ["disabled", "placeholder", "model-value"])]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_4d00eb50_hoisted_7, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
     size: "small",
     class: "el-date-range-picker__editor",
     disabled: _ctx.rangeState.selecting,
@@ -22833,7 +22853,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
     "time-arrow-control": _ctx.arrowControl,
     "parsed-value": _ctx.leftDate,
     onPick: _ctx.handleMinTimePick
-  }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleMinTimeClose]])]), panel_date_rangevue_type_template_id_3de76c02_hoisted_8, Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_3de76c02_hoisted_9, [Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_3de76c02_hoisted_10, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
+  }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleMinTimeClose]])]), panel_date_rangevue_type_template_id_4d00eb50_hoisted_8, Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_4d00eb50_hoisted_9, [Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_4d00eb50_hoisted_10, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
     size: "small",
     class: "el-date-range-picker__editor",
     disabled: _ctx.rangeState.selecting,
@@ -22846,7 +22866,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
     onChange: _cache[7] || (_cache[7] = function (val) {
       return _ctx.handleDateChange(val, 'max');
     })
-  }, null, 8, ["disabled", "placeholder", "model-value", "readonly"])]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_3de76c02_hoisted_11, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
+  }, null, 8, ["disabled", "placeholder", "model-value", "readonly"])]), Object(vue_esm_browser_prod["gb" /* withDirectives */])(Object(vue_esm_browser_prod["p" /* createVNode */])("span", panel_date_rangevue_type_template_id_4d00eb50_hoisted_11, [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_el_input, {
     size: "small",
     class: "el-date-range-picker__editor",
     disabled: _ctx.rangeState.selecting,
@@ -22869,7 +22889,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
     "time-arrow-control": _ctx.arrowControl,
     "parsed-value": _ctx.rightDate,
     onPick: _ctx.handleMaxTimePick
-  }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleMaxTimeClose]])])])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_rangevue_type_template_id_3de76c02_hoisted_12, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", _hoisted_13, [Object(vue_esm_browser_prod["p" /* createVNode */])("button", {
+  }, null, 8, ["visible", "format", "time-arrow-control", "parsed-value", "onPick"])], 512), [[_directive_clickoutside, _ctx.handleMaxTimeClose]])])])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_date_rangevue_type_template_id_4d00eb50_hoisted_12, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", _hoisted_13, [Object(vue_esm_browser_prod["p" /* createVNode */])("button", {
     type: "button",
     class: "el-picker-panel__icon-btn el-icon-d-arrow-left",
     onClick: _cache[11] || (_cache[11] = function () {
@@ -22981,7 +23001,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
     _: 1
   }, 8, ["disabled"])])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true)], 2);
 }
-// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=template&id=3de76c02
+// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=template&id=4d00eb50
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-date-range.vue?vue&type=script&lang=ts
 
@@ -23017,10 +23037,11 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
   emits: ['pick', 'set-picker-option'],
   setup: function setup(props, ctx) {
     var _useLocaleInject = use_locale_useLocaleInject(),
-        t = _useLocaleInject.t;
+        t = _useLocaleInject.t,
+        lang = _useLocaleInject.lang;
 
-    var leftDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()());
-    var rightDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()().add(1, 'month'));
+    var leftDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()().locale(lang.value));
+    var rightDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()().locale(lang.value).add(1, 'month'));
     var minDate = Object(vue_esm_browser_prod["M" /* ref */])(null);
     var maxDate = Object(vue_esm_browser_prod["M" /* ref */])(null);
     var dateUserInput = Object(vue_esm_browser_prod["M" /* ref */])({
@@ -23180,7 +23201,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
       if (!emitDayjs) return;
 
       if (defaultTime) {
-        var defaultTimeD = dayjs_min_default()(defaultTime[index] || defaultTime);
+        var defaultTimeD = dayjs_min_default()(defaultTime[index] || defaultTime).locale(lang.value);
         return defaultTimeD.year(emitDayjs.year()).month(emitDayjs.month()).date(emitDayjs.date());
       }
 
@@ -23209,7 +23230,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
       var shortcutValues = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value;
 
       if (shortcutValues) {
-        ctx.emit('pick', [dayjs_min_default()(shortcutValues[0]), dayjs_min_default()(shortcutValues[1])]);
+        ctx.emit('pick', [dayjs_min_default()(shortcutValues[0]).locale(lang.value), dayjs_min_default()(shortcutValues[1]).locale(lang.value)]);
         return;
       }
 
@@ -23231,7 +23252,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
 
     var handleDateInput = function handleDateInput(value, type) {
       dateUserInput.value[type] = value;
-      var parsedValueD = dayjs_min_default()(value, dateFormat.value);
+      var parsedValueD = dayjs_min_default()(value, dateFormat.value).locale(lang.value);
 
       if (parsedValueD.isValid()) {
         if (disabledDate && disabledDate(parsedValueD.toDate())) {
@@ -23258,13 +23279,13 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
       }
     };
 
-    var handleDateChange = function handleDateChange(value, type) {
+    var handleDateChange = function handleDateChange(_, type) {
       dateUserInput.value[type] = null;
     };
 
     var handleTimeInput = function handleTimeInput(value, type) {
       timeUserInput.value[type] = value;
-      var parsedValueD = dayjs_min_default()(value, timeFormat.value);
+      var parsedValueD = dayjs_min_default()(value, timeFormat.value).locale(lang.value);
 
       if (parsedValueD.isValid()) {
         if (type === 'min') {
@@ -23346,8 +23367,8 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
 
     var parseUserInput = function parseUserInput(value) {
       return Array.isArray(value) ? value.map(function (_) {
-        return dayjs_min_default()(_, format);
-      }) : dayjs_min_default()(value, format);
+        return dayjs_min_default()(_, format).locale(lang.value);
+      }) : dayjs_min_default()(value, format).locale(lang.value);
     };
 
     var getDefaultValue = function getDefaultValue() {
@@ -23368,6 +23389,7 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
         start = dayjs_min_default()();
       }
 
+      start = start.locale(lang.value);
       return [start, start.add(1, 'month')];
     };
 
@@ -23469,43 +23491,43 @@ function panel_date_rangevue_type_template_id_3de76c02_render(_ctx, _cache, $pro
 
 
 
-panel_date_rangevue_type_script_lang_ts.render = panel_date_rangevue_type_template_id_3de76c02_render
+panel_date_rangevue_type_script_lang_ts.render = panel_date_rangevue_type_template_id_4d00eb50_render
 
 /* harmony default export */ var panel_date_range = (panel_date_rangevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=template&id=4d6d92b4
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=template&id=e56340b4
 
-var panel_month_rangevue_type_template_id_4d6d92b4_hoisted_1 = {
+var panel_month_rangevue_type_template_id_e56340b4_hoisted_1 = {
   class: "el-picker-panel__body-wrapper"
 };
-var panel_month_rangevue_type_template_id_4d6d92b4_hoisted_2 = {
+var panel_month_rangevue_type_template_id_e56340b4_hoisted_2 = {
   key: 0,
   class: "el-picker-panel__sidebar"
 };
-var panel_month_rangevue_type_template_id_4d6d92b4_hoisted_3 = {
+var panel_month_rangevue_type_template_id_e56340b4_hoisted_3 = {
   class: "el-picker-panel__body"
 };
-var panel_month_rangevue_type_template_id_4d6d92b4_hoisted_4 = {
+var panel_month_rangevue_type_template_id_e56340b4_hoisted_4 = {
   class: "el-picker-panel__content el-date-range-picker__content is-left"
 };
-var panel_month_rangevue_type_template_id_4d6d92b4_hoisted_5 = {
+var panel_month_rangevue_type_template_id_e56340b4_hoisted_5 = {
   class: "el-date-range-picker__header"
 };
-var panel_month_rangevue_type_template_id_4d6d92b4_hoisted_6 = {
+var panel_month_rangevue_type_template_id_e56340b4_hoisted_6 = {
   class: "el-picker-panel__content el-date-range-picker__content is-right"
 };
-var panel_month_rangevue_type_template_id_4d6d92b4_hoisted_7 = {
+var panel_month_rangevue_type_template_id_e56340b4_hoisted_7 = {
   class: "el-date-range-picker__header"
 };
-function panel_month_rangevue_type_template_id_4d6d92b4_render(_ctx, _cache, $props, $setup, $data, $options) {
+function panel_month_rangevue_type_template_id_e56340b4_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_month_table = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("month-table");
 
   return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", {
     class: ["el-picker-panel el-date-range-picker", [{
       'has-sidebar': _ctx.$slots.sidebar || _ctx.hasShortcuts
     }]]
-  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_4d6d92b4_hoisted_1, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "sidebar", {
+  }, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_e56340b4_hoisted_1, [Object(vue_esm_browser_prod["P" /* renderSlot */])(_ctx.$slots, "sidebar", {
     class: "el-picker-panel__sidebar"
-  }), _ctx.hasShortcuts ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_month_rangevue_type_template_id_4d6d92b4_hoisted_2, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
+  }), _ctx.hasShortcuts ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("div", panel_month_rangevue_type_template_id_e56340b4_hoisted_2, [(Object(vue_esm_browser_prod["H" /* openBlock */])(true), Object(vue_esm_browser_prod["k" /* createBlock */])(vue_esm_browser_prod["b" /* Fragment */], null, Object(vue_esm_browser_prod["O" /* renderList */])(_ctx.shortcuts, function (shortcut, key) {
     return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("button", {
       key: key,
       type: "button",
@@ -23514,7 +23536,7 @@ function panel_month_rangevue_type_template_id_4d6d92b4_render(_ctx, _cache, $pr
         return _ctx.handleShortcutClick(shortcut);
       }
     }, Object(vue_esm_browser_prod["U" /* toDisplayString */])(shortcut.text), 9, ["onClick"]);
-  }), 128))])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_4d6d92b4_hoisted_3, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_4d6d92b4_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_4d6d92b4_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])("button", {
+  }), 128))])) : Object(vue_esm_browser_prod["l" /* createCommentVNode */])("", true), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_e56340b4_hoisted_3, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_e56340b4_hoisted_4, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_e56340b4_hoisted_5, [Object(vue_esm_browser_prod["p" /* createVNode */])("button", {
     type: "button",
     class: "el-picker-panel__icon-btn el-icon-d-arrow-left",
     onClick: _cache[1] || (_cache[1] = function () {
@@ -23540,7 +23562,7 @@ function panel_month_rangevue_type_template_id_4d6d92b4_render(_ctx, _cache, $pr
     onChangerange: _ctx.handleChangeRange,
     onPick: _ctx.handleRangePick,
     onSelect: _ctx.onSelect
-  }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "onChangerange", "onPick", "onSelect"])]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_4d6d92b4_hoisted_6, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_4d6d92b4_hoisted_7, [_ctx.unlinkPanels ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("button", {
+  }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "onChangerange", "onPick", "onSelect"])]), Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_e56340b4_hoisted_6, [Object(vue_esm_browser_prod["p" /* createVNode */])("div", panel_month_rangevue_type_template_id_e56340b4_hoisted_7, [_ctx.unlinkPanels ? (Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("button", {
     key: 0,
     type: "button",
     disabled: !_ctx.enableYearArrow,
@@ -23568,7 +23590,7 @@ function panel_month_rangevue_type_template_id_4d6d92b4_render(_ctx, _cache, $pr
     onSelect: _ctx.onSelect
   }, null, 8, ["date", "min-date", "max-date", "range-state", "disabled-date", "onChangerange", "onPick", "onSelect"])])])])], 2);
 }
-// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=template&id=4d6d92b4
+// CONCATENATED MODULE: ./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=template&id=e56340b4
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--11-0!./packages/date-picker/src/date-picker-com/panel-month-range.vue?vue&type=script&lang=ts
 
@@ -23588,10 +23610,11 @@ function panel_month_rangevue_type_template_id_4d6d92b4_render(_ctx, _cache, $pr
   emits: ['pick', 'set-picker-option'],
   setup: function setup(props, ctx) {
     var _useLocaleInject = use_locale_useLocaleInject(),
-        t = _useLocaleInject.t;
+        t = _useLocaleInject.t,
+        lang = _useLocaleInject.lang;
 
-    var leftDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()());
-    var rightDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()().add(1, 'year'));
+    var leftDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()().locale(lang.value));
+    var rightDate = Object(vue_esm_browser_prod["M" /* ref */])(dayjs_min_default()().locale(lang.value).add(1, 'year'));
     var hasShortcuts = Object(vue_esm_browser_prod["i" /* computed */])(function () {
       return !!shortcuts.length;
     });
@@ -23600,7 +23623,7 @@ function panel_month_rangevue_type_template_id_4d6d92b4_render(_ctx, _cache, $pr
       var shortcutValues = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value;
 
       if (shortcutValues) {
-        ctx.emit('pick', [dayjs_min_default()(shortcutValues[0]), dayjs_min_default()(shortcutValues[1])]);
+        ctx.emit('pick', [dayjs_min_default()(shortcutValues[0]).locale(lang.value), dayjs_min_default()(shortcutValues[1]).locale(lang.value)]);
         return;
       }
 
@@ -23727,6 +23750,7 @@ function panel_month_rangevue_type_template_id_4d6d92b4_render(_ctx, _cache, $pr
         start = dayjs_min_default()();
       }
 
+      start = start.locale(lang.value);
       return [start, start.add(1, 'year')];
     }; // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
 
@@ -23791,7 +23815,7 @@ function panel_month_rangevue_type_template_id_4d6d92b4_render(_ctx, _cache, $pr
 
 
 
-panel_month_rangevue_type_script_lang_ts.render = panel_month_rangevue_type_template_id_4d6d92b4_render
+panel_month_rangevue_type_script_lang_ts.render = panel_month_rangevue_type_template_id_e56340b4_render
 
 /* harmony default export */ var panel_month_range = (panel_month_rangevue_type_script_lang_ts);
 // EXTERNAL MODULE: ./node_modules/dayjs/plugin/advancedFormat.js
