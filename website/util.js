@@ -43,7 +43,7 @@ export function formatType(type) {
 
 /**
  * get css var value
- * @param {namespace} namespace
+ * @param {string} namespace
  * @param {string} type
  * @returns
  */
@@ -51,4 +51,14 @@ export function getCssVarValue(namespace, type) {
   return getComputedStyle(document.documentElement).getPropertyValue(
     `--el-${namespace}-${type}`,
   )
+}
+
+/**
+ * get css var name
+ * @param {string} namespace
+ * @param {string} type
+ * @returns
+ */
+export function getCssVarName(namespace, type) {
+  return `var(--el-${namespace}-${type})`
 }

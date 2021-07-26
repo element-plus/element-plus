@@ -97,7 +97,7 @@
     }
 
     &.#{$namespace}-checkbox {
-      color: var(--el-color-text-regular);
+      color: var(--el-text-color-regular);
     }
 
     &:hover {
@@ -162,13 +162,13 @@
 
       .#{$namespace}-checkbox__label {
         font-size: 16px;
-        color: var(--el-color-text-primary);
+        color: var(--el-text-color-primary);
         font-weight: normal;
 
         span {
           position: absolute;
           right: 15px;
-          color: var(--el-color-text-secondary);
+          color: var(--el-text-color-secondary);
           font-size: 12px;
           font-weight: normal;
         }
@@ -191,7 +191,7 @@
 
     .#{$namespace}-checkbox {
       padding-left: 20px;
-      color: var(--el-color-text-regular);
+      color: var(--el-text-color-regular);
     }
   }
 
@@ -200,7 +200,7 @@
     height: var(--el-transfer-item-height);
     line-height: var(--el-transfer-item-height);
     padding: 6px 15px 0;
-    color: var(--el-color-text-secondary);
+    color: var(--el-text-color-secondary);
     text-align: center;
   }
 

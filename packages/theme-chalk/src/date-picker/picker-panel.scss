@@ -2,7 +2,7 @@
 
 @include b(picker-panel) {
   position: relative;
-  color: var(--el-color-text-regular);
+  color: var(--el-text-color-regular);
   background: $--color-white;
   border-radius: var(--el-border-radius-base);
   line-height: 30px;

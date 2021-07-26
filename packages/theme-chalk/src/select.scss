@@ -152,13 +152,13 @@
     background-color: #f0f2f5;
 
     .#{$namespace}-icon-close {
-      background-color: var(--el-color-text-placeholder);
+      background-color: var(--el-text-color-placeholder);
       right: -7px;
       top: 0;
       color: $--color-white;
 
       &:hover {
-        background-color: var(--el-color-text-secondary);
+        background-color: var(--el-text-color-secondary);
       }
 
       &::before {

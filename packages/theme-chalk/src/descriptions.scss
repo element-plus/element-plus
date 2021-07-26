@@ -12,7 +12,7 @@
 @include b(descriptions) {
   box-sizing: border-box;
   font-size: var(--el-font-size-base);
-  color: var(--el-color-text-primary);
+  color: var(--el-text-color-primary);
 
   @include e(header) {
     display: flex;
@@ -27,7 +27,7 @@
   }
 
   @include e(body) {
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
     background-color: $--color-white;
 
     table {
