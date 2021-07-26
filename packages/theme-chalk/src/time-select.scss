@@ -29,7 +29,7 @@
 }
 
 .time-select-item.disabled {
-  color: $--datepicker-border-color;
+  color: var(--el-datepicker-border-color);
   cursor: not-allowed;
 }
 

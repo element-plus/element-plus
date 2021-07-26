@@ -55,7 +55,7 @@
   }
 
   @include e(footer) {
-    border-top: 1px solid $--datepicker-inner-border-color;
+    border-top: 1px solid var(--el-datepicker-inner-border-color);
     padding: 4px;
     height: 36px;
     line-height: 25px;
@@ -76,7 +76,7 @@
 
     &.confirm {
       font-weight: 800;
-      color: $--datepicker-active-color;
+      color: var(--el-datepicker-active-color);
     }
   }
 }

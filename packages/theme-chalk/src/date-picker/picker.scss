@@ -8,7 +8,7 @@
   @include e(popper) {
     @include picker-popper(
       $--color-white,
-      1px solid $--datepicker-border-color,
+      1px solid var(--el-datepicker-border-color),
       var(--el-box-shadow-light)
     );
   }

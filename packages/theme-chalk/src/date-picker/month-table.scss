@@ -40,18 +40,18 @@
       height: 36px;
       display: block;
       line-height: 36px;
-      color: $--datepicker-font-color;
+      color: var(--el-datepicker-font-color);
       margin: 0 auto;
       border-radius: 18px;
       &:hover {
-        color: $--datepicker-hover-font-color;
+        color: var(--el-datepicker-hover-font-color);
       }
     }
 
     &.in-range div {
-      background-color: $--datepicker-inrange-background-color;
+      background-color: var(--el-datepicker-inrange-background-color);
       &:hover {
-        background-color: $--datepicker-inrange-hover-background-color;
+        background-color: var(--el-datepicker-inrange-hover-background-color);
       }
     }
     &.start-date div,
@@ -62,7 +62,7 @@
     &.start-date .cell,
     &.end-date .cell {
       color: $--color-white;
-      background-color: $--datepicker-active-color;
+      background-color: var(--el-datepicker-active-color);
     }
 
     &.start-date div {
@@ -76,7 +76,7 @@
     }
 
     &.current:not(.disabled) .cell {
-      color: $--datepicker-active-color;
+      color: var(--el-datepicker-active-color);
     }
   }
 }
