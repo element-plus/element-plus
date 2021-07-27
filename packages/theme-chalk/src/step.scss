@@ -27,13 +27,13 @@
     width: 100%;
 
     @include when(process) {
-      color: var(--el-color-text-primary);
-      border-color: var(--el-color-text-primary);
+      color: var(--el-text-color-primary);
+      border-color: var(--el-text-color-primary);
     }
 
     @include when(wait) {
-      color: var(--el-color-text-placeholder);
-      border-color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
+      border-color: var(--el-text-color-placeholder);
     }
 
     @include when(success) {
@@ -98,7 +98,7 @@
   @include e(line) {
     position: absolute;
     border-color: inherit;
-    background-color: var(--el-color-text-placeholder);
+    background-color: var(--el-text-color-placeholder);
   }
 
   @include e(line-inner) {
@@ -123,11 +123,11 @@
 
     @include when(process) {
       font-weight: bold;
-      color: var(--el-color-text-primary);
+      color: var(--el-text-color-primary);
     }
 
     @include when(wait) {
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
     }
 
     @include when(success) {
@@ -151,11 +151,11 @@
     font-weight: normal;
 
     @include when(process) {
-      color: var(--el-color-text-primary);
+      color: var(--el-text-color-primary);
     }
 
     @include when(wait) {
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
     }
 
     @include when(success) {
@@ -293,7 +293,7 @@
         position: absolute;
         height: 15px;
         width: 1px;
-        background: var(--el-color-text-placeholder);
+        background: var(--el-text-color-placeholder);
       }
 
       &::before {

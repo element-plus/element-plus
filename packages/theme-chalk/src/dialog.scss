@@ -71,13 +71,13 @@
   @include e(title) {
     line-height: var(--el-dialog-font-line-height);
     font-size: var(--el-dialog-title-font-size);
-    color: var(--el-color-text-primary);
+    color: var(--el-text-color-primary);
   }
 
   @include e(body) {
     padding: calc(var(--el-dialog-padding-primary) + 10px)
       var(--el-dialog-padding-primary);
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
     font-size: var(--el-dialog-content-font-size);
     word-break: break-all;
   }

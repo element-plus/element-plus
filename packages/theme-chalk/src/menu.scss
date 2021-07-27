@@ -6,7 +6,7 @@
 
 :root {
   --el-menu-item-font-size: var(--el-font-size-base);
-  --el-menu-item-font-color: var(--el-color-text-primary);
+  --el-menu-item-font-color: var(--el-text-color-primary);
   --el-menu-background-color: var(--el-color-white);
   --el-menu-item-hover-fill: var(--el-color-primary-light-9);
   --el-menu-border-color: #e6e6e6;
@@ -32,7 +32,7 @@
   }
 
   i {
-    color: var(--el-color-text-secondary);
+    color: var(--el-text-color-secondary);
   }
 
   &:hover,
@@ -71,7 +71,7 @@
       line-height: 60px;
       margin: 0;
       border-bottom: 2px solid transparent;
-      color: var(--el-color-text-secondary);
+      color: var(--el-text-color-secondary);
 
       a,
       a:hover {
@@ -93,14 +93,14 @@
 
       &:hover {
         .#{$namespace}-submenu__title {
-          color: var(--el-color-text-primary);
+          color: var(--el-text-color-primary);
         }
       }
 
       &.is-active {
         .#{$namespace}-submenu__title {
           border-bottom: 2px solid var(--el-color-primary);
-          color: var(--el-color-text-primary);
+          color: var(--el-text-color-primary);
         }
       }
 
@@ -108,7 +108,7 @@
         height: 60px;
         line-height: 60px;
         border-bottom: 2px solid transparent;
-        color: var(--el-color-text-secondary);
+        color: var(--el-text-color-secondary);
 
         &:hover {
           background-color: #fff;
@@ -129,21 +129,21 @@
         height: 36px;
         line-height: 36px;
         padding: 0 10px;
-        color: var(--el-color-text-secondary);
+        color: var(--el-text-color-secondary);
       }
       & .#{$namespace}-menu-item.is-active,
       & .#{$namespace}-submenu.is-active > .#{$namespace}-submenu__title {
-        color: var(--el-color-text-primary);
+        color: var(--el-text-color-primary);
       }
     }
     & .#{$namespace}-menu-item:not(.is-disabled):hover,
     & .#{$namespace}-menu-item:not(.is-disabled):focus {
       outline: none;
-      color: var(--el-color-text-primary);
+      color: var(--el-text-color-primary);
     }
     & > .#{$namespace}-menu-item.is-active {
       border-bottom: 2px solid var(--el-color-primary);
-      color: var(--el-color-text-primary);
+      color: var(--el-text-color-primary);
     }
   }
   @include m(collapse) {
@@ -292,7 +292,7 @@
     padding: 7px 0 7px 20px;
     line-height: normal;
     font-size: 12px;
-    color: var(--el-color-text-secondary);
+    color: var(--el-text-color-secondary);
   }
 }
 

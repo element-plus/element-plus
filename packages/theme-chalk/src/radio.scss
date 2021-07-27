@@ -97,7 +97,7 @@
         }
       }
       & + span.#{$namespace}-radio__label {
-        color: var(--el-color-text-placeholder);
+        color: var(--el-text-color-placeholder);
         cursor: not-allowed;
       }
     }

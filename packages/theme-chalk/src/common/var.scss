@@ -117,12 +117,15 @@ $--color-info: map.get($--colors, 'info', 'base');
   @include set-color-type-light($type);
 }
 
-$--color-text: () !default;
-$--color-text: (
-  primary: #303133,
-  regular: #606266,
-  secondary: #909399,
-  placeholder: #c0c4cc,
+$--text-color: () !default;
+$--text-color: map.merge(
+  (
+    'primary': #303133,
+    'regular': #606266,
+    'secondary': #909399,
+    'placeholder': #c0c4cc,
+  ),
+  $--text-color
 );
 
 $--border-color: () !default;
@@ -149,33 +152,33 @@ $--link-hover-color: $--color-primary !default;
 -------------------------- */
 $--border-width-base: 1px !default;
 $--border-style-base: solid !default;
-$--border-color-hover: var(--el-color-text-placeholder) !default;
+$--border-color-hover: var(--el-text-color-placeholder) !default;
 $--border-base: $--border-width-base $--border-style-base
   map.get($--border-color, 'base') !default;
 /// borderRadius|1|Radius|0
 
 $--border-radius: () !default;
 $--border-radius: map.merge(
-  $--border-radius,
   (
     'base': 4px,
     'small': 2px,
     'round': 20px,
     'circle': 100%,
-  )
+  ),
+  $--border-radius
 );
 
 // Box-shadow
 $--box-shadow: () !default;
 $--box-shadow: map.merge(
-  $--box-shadow,
   (
     'base': (
       0 2px 4px rgba(0, 0, 0, 0.12),
       0 0 6px rgba(0, 0, 0, 0.04),
     ),
     'light': 0 2px 12px 0 rgba(0, 0, 0, 0.1),
-  )
+  ),
+  $--box-shadow
 );
 
 /* Typography
@@ -199,7 +202,7 @@ $--font-size: map.merge(
 /* Disable base
 -------------------------- */
 $--disabled-fill-base: $--background-color-base !default;
-$--disabled-color-base: var(--el-color-text-placeholder) !default;
+$--disabled-color-base: var(--el-text-color-placeholder) !default;
 $--disabled-border-base: map.get($--border-color, 'light') !default;
 
 /* Checkbox
@@ -214,7 +217,7 @@ $--disabled-border-base: map.get($--border-color, 'light') !default;
 /// fontSize||Font|1
 $--radio-font-size: map.get($--font-size, 'base') !default;
 /// color||Color|0
-$--radio-font-color: var(--el-color-text-regular) !default;
+$--radio-font-color: var(--el-text-color-regular) !default;
 $--radio-input-height: 14px !default;
 $--radio-input-width: 14px !default;
 /// borderRadius||Border|2
@@ -231,7 +234,7 @@ $--radio-disabled-icon-color: $--disabled-fill-base !default;
 
 $--radio-disabled-checked-input-border-color: $--disabled-border-base !default;
 $--radio-disabled-checked-input-fill: $--disabled-fill-base !default;
-$--radio-disabled-checked-icon-color: var(--el-color-text-placeholder) !default;
+$--radio-disabled-checked-icon-color: var(--el-text-color-placeholder) !default;
 
 /// color||Color|0
 $--radio-checked-font-color: $--color-primary !default;
@@ -285,17 +288,17 @@ $--select-border-color-hover: $--border-color-hover !default;
 $--select-disabled-border: $--disabled-border-base !default;
 /// fontSize||Font|1
 $--select-font-size: map.get($--font-size, 'base') !default;
-$--select-close-hover-color: var(--el-color-text-secondary) !default;
+$--select-close-hover-color: var(--el-text-color-secondary) !default;
 
-$--select-input-color: var(--el-color-text-placeholder) !default;
+$--select-input-color: var(--el-text-color-placeholder) !default;
 $--select-multiple-input-color: #666 !default;
 /// color||Color|0
 $--select-input-focus-border-color: $--color-primary !default;
 /// fontSize||Font|1
 $--select-input-font-size: 14px !default;
 
-$--select-option-color: var(--el-color-text-regular) !default;
-$--select-option-disabled-color: var(--el-color-text-placeholder) !default;
+$--select-option-color: var(--el-text-color-regular) !default;
+$--select-option-disabled-color: var(--el-text-color-placeholder) !default;
 /// height||Other|4
 $--select-option-height: 34px !default;
 $--select-option-hover-background: $--background-color-base !default;
@@ -338,7 +341,7 @@ $--select-dropdown-border: solid 1px map.get($--border-color, 'light') !default;
 /* Input
 -------------------------- */
 /// color||Color|0
-$--input-font-color: var(--el-color-text-regular) !default;
+$--input-font-color: var(--el-text-color-regular) !default;
 
 $--input-border: $--border-base !default;
 $--input-border-color: map.get($--border-color, 'base') !default;
@@ -347,19 +350,19 @@ $--input-border-radius: var(--el-border-radius-base) !default;
 /// color||Color|0
 $--input-background-color: $--color-white !default;
 /// color||Color|0
-$--input-icon-color: var(--el-color-text-placeholder) !default;
+$--input-icon-color: var(--el-text-color-placeholder) !default;
 /// color||Color|0
-$--input-placeholder-color: var(--el-color-text-placeholder) !default;
+$--input-placeholder-color: var(--el-text-color-placeholder) !default;
 
 $--input-hover-border: $--border-color-hover !default;
-$--input-clear-hover-color: var(--el-color-text-secondary) !default;
+$--input-clear-hover-color: var(--el-text-color-secondary) !default;
 
 $--input-focus-border: $--color-primary !default;
 
 $--input-disabled-fill: $--disabled-fill-base !default;
 $--input-disabled-border: $--disabled-border-base !default;
 $--input-disabled-color: $--disabled-color-base !default;
-$--input-disabled-placeholder-color: var(--el-color-text-placeholder) !default;
+$--input-disabled-placeholder-color: var(--el-text-color-placeholder) !default;
 
 $--input-font-size: (
   'default': map.get($--font-size, 'base'),
@@ -450,41 +453,18 @@ $--button-active-shade-percent: 10% !default;
 
 /* Popup
 -------------------------- */
-/// color||Color|0
-$--popup-modal-background-color: $--color-black !default;
-/// opacity||Other|1
-$--popup-modal-opacity: 0.5 !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/popup.scss
 
 /* Popover
 -------------------------- */
-/// color||Color|0
-$--popover-background-color: $--color-white !default;
-/// fontSize||Font|1
-$--popover-font-size: map.get($--font-size, 'base') !default;
-/// color||Color|0
-$--popover-border-color: map.get($--border-color, 'lighter') !default;
-/// padding||Spacing|3
-$--popover-padding: 12px !default;
-$--popover-padding-large: 18px 20px !default;
-/// fontSize||Font|1
-$--popover-title-font-size: 16px !default;
-/// color||Color|0
-$--popover-title-font-color: var(--el-color-text-primary) !default;
-$--popover-border-radius: 4px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/popover.scss
 
 /* Tooltip
 -------------------------- */
-/// color|1|Color|0
-$--tooltip-fill: var(--el-color-text-primary) !default;
-/// color|1|Color|0
-$--tooltip-color: $--color-white !default;
-/// fontSize||Font|1
-$--tooltip-font-size: 12px !default;
-/// color||Color|0
-$--tooltip-border-color: var(--el-color-text-primary) !default;
-$--tooltip-arrow-size: 6px !default;
-/// padding||Spacing|3
-$--tooltip-padding: 10px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/tooltip.scss
 
 /* Tag
 -------------------------- */
@@ -493,12 +473,8 @@ $--tooltip-padding: 10px !default;
 
 /* Tree
 -------------------------- */
-/// color||Color|0
-$--tree-node-hover-background-color: $--background-color-base !default;
-/// color||Color|0
-$--tree-font-color: var(--el-color-text-regular) !default;
-/// color||Color|0
-$--tree-expand-icon-color: var(--el-color-text-placeholder) !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/tree.scss
 
 /* Dropdown
 -------------------------- */
@@ -538,7 +514,7 @@ $--slider-main-background-color: $--color-primary !default;
 /// color||Color|0
 $--slider-runway-background-color: map.get($--border-color, 'light') !default;
 $--slider-stop-background-color: $--color-white !default;
-$--slider-disable-color: var(--el-color-text-placeholder) !default;
+$--slider-disable-color: var(--el-text-color-placeholder) !default;
 $--slider-margin: 16px 0 !default;
 $--slider-border-radius: 3px !default;
 /// height|1|Other|4
@@ -562,32 +538,13 @@ $--rate-font-size: map.get($--font-size, 'base') !default;
 $--rate-icon-size: 18px !default;
 /// margin||Spacing|2
 $--rate-icon-margin: 6px !default;
-$--rate-icon-color: var(--el-color-text-placeholder) !default;
+$--rate-icon-color: var(--el-text-color-placeholder) !default;
 
 /* DatePicker
 --------------------------*/
-$--datepicker-font-color: var(--el-color-text-regular) !default;
-/// color|1|Color|0
-$--datepicker-off-font-color: var(--el-color-text-placeholder) !default;
-/// color||Color|0
-$--datepicker-header-font-color: var(--el-color-text-regular) !default;
-$--datepicker-icon-color: var(--el-color-text-primary) !default;
-$--datepicker-border-color: $--disabled-border-base !default;
-$--datepicker-inner-border-color: #e4e4e4 !default;
-/// color||Color|0
-$--datepicker-inrange-background-color: map.get(
-  $--border-color,
-  'extra-light'
-) !default;
-/// color||Color|0
-$--datepicker-inrange-hover-background-color: map.get(
-  $--border-color,
-  'extra-light'
-) !default;
-/// color||Color|0
-$--datepicker-active-color: $--color-primary !default;
-/// color||Color|0
-$--datepicker-hover-font-color: $--color-primary !default;
+
+// refactor with css3 var
+// See packages/theme-chalk/src/date-picker.scss
 
 /* Loading
 --------------------------*/
@@ -598,14 +555,8 @@ $--loading-fullscreen-spinner-size: 50px !default;
 
 /* Scrollbar
 --------------------------*/
-$--scrollbar-background-color: rgba(
-  var(--el-color-text-secondary),
-  0.3
-) !default;
-$--scrollbar-hover-background-color: rgba(
-  var(--el-color-text-secondary),
-  0.5
-) !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/scrollbar.scss
 
 /* Carousel
 --------------------------*/
@@ -624,9 +575,8 @@ $--scrollbar-hover-background-color: rgba(
 
 /* Timeline
 --------------------------*/
-$--timeline-node-size-normal: 12px !default;
-$--timeline-node-size-large: 14px !default;
-$--timeline-node-color: map.get($--border-color, 'light') !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/timeline-item.scss
 
 /* Backtop
 --------------------------*/
@@ -652,8 +602,8 @@ $--backtop-hover-background-color: map.get(
 
 /* Form
 -------------------------- */
-/// fontSize||Font|1
-$--form-label-font-size: map.get($--font-size, 'base') !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/form.scss
 
 /* Avatar
 --------------------------*/

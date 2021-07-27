@@ -8,12 +8,12 @@
 :root {
   --el-pagination-font-size: 13px;
   --el-pagination-background-color: var(--el-color-white);
-  --el-pagination-font-color: var(--el-color-text-primary);
+  --el-pagination-font-color: var(--el-text-color-primary);
   --el-pagination-border-radius: 3px;
-  --el-pagination-button-color: var(--el-color-text-primary);
+  --el-pagination-button-color: var(--el-text-color-primary);
   --el-pagination-button-width: 35.5px;
   --el-pagination-button-height: 28px;
-  --el-pagination-button-disabled-color: var(--el-color-text-placeholder);
+  --el-pagination-button-disabled-color: var(--el-text-color-placeholder);
   --el-pagination-button-disabled-background-color: var(--el-color-white);
   --el-pagination-hover-color: var(--el-color-primary);
 
@@ -108,7 +108,7 @@
   }
 
   .#{$namespace}-pager li.disabled {
-    color: var(--el-color-text-placeholder);
+    color: var(--el-text-color-placeholder);
     cursor: not-allowed;
   }
 
@@ -168,7 +168,7 @@
   @include e(sizes) {
     margin: 0 10px 0 0;
     font-weight: normal;
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
 
     .#{$namespace}-input .#{$namespace}-input__inner {
       font-size: var(--el-pagination-font-size);
@@ -183,13 +183,13 @@
   @include e(total) {
     margin-right: 10px;
     font-weight: normal;
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
   }
 
   @include e(jump) {
     margin-left: 24px;
     font-weight: normal;
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
 
     .#{$namespace}-input__inner {
       padding: 0 3px;
@@ -231,12 +231,12 @@
     .#{$namespace}-pager li {
       margin: 0 5px;
       background-color: map.get($--colors, 'info', 'lighter');
-      color: var(--el-color-text-regular);
+      color: var(--el-text-color-regular);
       min-width: 30px;
       border-radius: 2px;
 
       &.disabled {
-        color: var(--el-color-text-placeholder);
+        color: var(--el-text-color-placeholder);
       }
     }
 
@@ -245,7 +245,7 @@
       padding: 0;
 
       &:disabled {
-        color: var(--el-color-text-placeholder);
+        color: var(--el-text-color-placeholder);
       }
     }
 
@@ -304,7 +304,7 @@
       color: var(--el-pagination-button-color);
 
       &.disabled {
-        color: var(--el-color-text-placeholder);
+        color: var(--el-text-color-placeholder);
       }
     }
 

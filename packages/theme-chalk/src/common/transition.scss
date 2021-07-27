@@ -83,11 +83,13 @@
 }
 
 .collapse-transition {
-  transition: var(--el-transition-duration) height ease-in-out, var(--el-transition-duration) padding-top ease-in-out,
+  transition: var(--el-transition-duration) height ease-in-out,
+    var(--el-transition-duration) padding-top ease-in-out,
     var(--el-transition-duration) padding-bottom ease-in-out;
 }
 .horizontal-collapse-transition {
-  transition: var(--el-transition-duration) width ease-in-out, var(--el-transition-duration) padding-left ease-in-out,
+  transition: var(--el-transition-duration) width ease-in-out,
+    var(--el-transition-duration) padding-left ease-in-out,
     var(--el-transition-duration) padding-right ease-in-out;
 }
 
@@ -102,5 +104,6 @@
 }
 
 .#{$namespace}-opacity-transition {
-  transition: opacity var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);
+  transition: opacity var(--el-transition-duration)
+    cubic-bezier(0.55, 0, 0.1, 1);
 }

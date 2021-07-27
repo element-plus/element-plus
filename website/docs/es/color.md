@@ -50,10 +50,6 @@
     'info': '$--color-info',
     'white': '$--color-white',
     'black': '$--color-black',
-    'textPrimary': '$--color-text-primary',
-    'textRegular': '$--color-text-regular',
-    'textSecondary': '$--color-text-secondary',
-    'textPlaceholder': '$--color-text-placeholder',
   };
   const original = {
     primary: '#409EFF',
@@ -63,10 +59,6 @@
     info: '#909399',
     white: '#FFFFFF',
     black: '#000000',
-    textPrimary: '#303133',
-    textRegular: '#606266',
-    textSecondary: '#909399',
-    textPlaceholder: '#C0C4CC',
   }
   export default {
     components: {

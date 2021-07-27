@@ -356,6 +356,7 @@ WIP (该功能还在施工中👷‍♀️)
 | popper-options | 用户定制化 popper 的行为, 更多请查看文档[popper.js](https://popper.js.org/documentation.html) | object | - | - |
 | automatic-dropdown | 对于不可搜索的 Select，是否在输入框获得焦点后自动弹出选项菜单 | boolean | - | false |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
+| height | 面板的高度，每项的高度为34px | number | - | 170 |
 
 <span style="display: none;">
 <!-- | no-match-text | 搜索条件无匹配时显示的文字，也可以使用`#empty`设置 | string | — | 无匹配数据 | -->
