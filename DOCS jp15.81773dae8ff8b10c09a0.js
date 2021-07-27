@@ -498,7 +498,7 @@ color_boxvue_type_script_lang_js.render = render
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo/color/text-box.vue?vue&type=template&id=466a2d0c
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo/color/text-box.vue?vue&type=template&id=65f46cc0
 
 var _hoisted_1 = {
   class: "demo-color-box-group"
@@ -512,12 +512,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: i,
       class: "demo-color-box demo-color-box-other",
       style: {
-        background: "var(--el-color-text-" + text.type + ")"
+        background: $options.getCssVarName('text-color', text.type)
       }
-    }, [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(text.name || $options.formatType(text.type) + ' Text') + " ", 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", _hoisted_2, Object(vue_esm_browser_prod["U" /* toDisplayString */])($options.getColorValue(text.type).toUpperCase()), 1)], 4);
+    }, [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(text.name || $options.formatType(text.type) + ' Text') + " ", 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", _hoisted_2, Object(vue_esm_browser_prod["U" /* toDisplayString */])($options.getCssVarValue('text-color', text.type).toUpperCase()), 1)], 4);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./website/components/demo/color/text-box.vue?vue&type=template&id=466a2d0c
+// CONCATENATED MODULE: ./website/components/demo/color/text-box.vue?vue&type=template&id=65f46cc0
 
 // EXTERNAL MODULE: ./website/util.js
 var util = __webpack_require__(25);
@@ -535,9 +535,8 @@ var util = __webpack_require__(25);
   },
   methods: {
     formatType: util["a" /* formatType */],
-    getColorValue: function getColorValue(type) {
-      return getComputedStyle(document.documentElement).getPropertyValue("--el-color-text-" + type);
-    }
+    getCssVarValue: util["c" /* getCssVarValue */],
+    getCssVarName: util["b" /* getCssVarName */]
   }
 });
 // CONCATENATED MODULE: ./website/components/demo/color/text-box.vue?vue&type=script&lang=js

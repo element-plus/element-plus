@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[262],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[334],{
 
-/***/ 722:
+/***/ 454:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,22 +10,22 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/border.md?vue&type=template&id=50d0abc1
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/border.md?vue&type=template&id=08e0fa0c
 
 var _hoisted_1 = {
   class: "content element-doc"
 };
 
-var _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["n" /* createStaticVNode */])("<h2 id=\"border\"><a class=\"header-anchor\" href=\"#border\">¶</a> Border</h2><p>ボタンやカード、ポップアップなどで使用できる border を標準化しています。</p><h3 id=\"border-2\"><a class=\"header-anchor\" href=\"#border-2\">¶</a> Border</h3><p>border のスタイルはいくつかあります。</p><table class=\"demo-border\"><tbody><tr><td class=\"text\">Name</td><td class=\"text\">Thickness</td><td class=\"line\">Demo</td></tr><tr><td class=\"text\">Solid</td><td class=\"text\">1px</td><td class=\"line\"><div></div></td></tr><tr><td class=\"text\">Dashed</td><td class=\"text\">2px</td><td class=\"line\"><div class=\"dashed\"></div></td></tr></tbody></table><h3 id=\"ban-jing-radius\"><a class=\"header-anchor\" href=\"#ban-jing-radius\">¶</a> 半径(radius)</h3><p>いくつかの半径(radius)のスタイルがあります。</p>", 7);
+var _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["n" /* createStaticVNode */])("<h2 id=\"border-bian-kuang\"><a class=\"header-anchor\" href=\"#border-bian-kuang\">¶</a> Border 边框</h2><p>我们对边框进行统一规范，可用于按钮、卡片、弹窗等组件里。</p><h3 id=\"bian-kuang\"><a class=\"header-anchor\" href=\"#bian-kuang\">¶</a> 边框</h3><p>我们提供了以下几种边框样式，以供选择。</p><table class=\"demo-border\"><tbody><tr><td class=\"text\">名称</td><td class=\"text\">粗细</td><td class=\"line\">举例</td></tr><tr><td class=\"text\">\b实线</td><td class=\"text\">1px</td><td class=\"line\"><div></div></td></tr><tr><td class=\"text\">\b虚线</td><td class=\"text\">2px</td><td class=\"line\"><div class=\"dashed\"></div></td></tr></tbody></table><h3 id=\"yuan-jiao\"><a class=\"header-anchor\" href=\"#yuan-jiao\">¶</a> 圆角</h3><p>我们提供了以下几种圆角样式，以供选择。</p>", 7);
 
 var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h3", {
-  id: "ying"
+  id: "tou-ying"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#ying"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" 影")], -1);
+  href: "#tou-ying"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" 投影")], -1);
 
-var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "シャドウスタイルの選択肢はほとんどありません。", -1);
+var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "我们提供了以下几种投影样式，以供选择。", -1);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_radius_box = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("radius-box");
@@ -40,7 +40,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "shadow-group": $data.shadowGroup
   }, null, 8, ["shadow-group"]), Object(vue_esm_browser_prod["p" /* createVNode */])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/jp/border.md?vue&type=template&id=50d0abc1
+// CONCATENATED MODULE: ./website/docs/zh-CN/border.md?vue&type=template&id=08e0fa0c
 
 // EXTERNAL MODULE: ./website/components/demo/border/radius-box.vue + 4 modules
 var radius_box = __webpack_require__(819);
@@ -48,27 +48,27 @@ var radius_box = __webpack_require__(819);
 // EXTERNAL MODULE: ./website/components/demo/border/shadow-box.vue + 4 modules
 var shadow_box = __webpack_require__(820);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/border.md?vue&type=script&lang=js
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/border.md?vue&type=script&lang=js
 
 
 var radiusGroup = [{
-  name: 'No Radius',
+  name: '无圆角',
   type: ''
 }, {
-  name: 'Small Radius',
+  name: '小圆角',
   type: 'small'
 }, {
-  name: 'Large Radius',
+  name: '大圆角',
   type: 'base'
 }, {
-  name: 'Round Radius',
+  name: '圆形圆角',
   type: 'round'
 }];
 var shadowGroup = [{
-  name: 'Basic Shadow',
+  name: '基础投影',
   type: 'base'
 }, {
-  name: 'Light Shadow',
+  name: '浅色投影',
   type: 'light'
 }];
 /* harmony default export */ var bordervue_type_script_lang_js = ({
@@ -83,9 +83,9 @@ var shadowGroup = [{
     };
   }
 });
-// CONCATENATED MODULE: ./website/docs/jp/border.md?vue&type=script&lang=js
+// CONCATENATED MODULE: ./website/docs/zh-CN/border.md?vue&type=script&lang=js
  
-// CONCATENATED MODULE: ./website/docs/jp/border.md
+// CONCATENATED MODULE: ./website/docs/zh-CN/border.md
 
 
 
@@ -162,7 +162,7 @@ var util = __webpack_require__(25);
   },
   methods: {
     getValue: function getValue(type) {
-      return Object(util["b" /* getCssVarValue */])('border-radius', type);
+      return Object(util["c" /* getCssVarValue */])('border-radius', type);
     }
   }
 });
@@ -221,7 +221,7 @@ var util = __webpack_require__(25);
   },
   methods: {
     getValue: function getValue(type) {
-      return Object(util["b" /* getCssVarValue */])('box-shadow', type);
+      return Object(util["c" /* getCssVarValue */])('box-shadow', type);
     }
   }
 });

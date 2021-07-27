@@ -10,9 +10,9 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/config-provider.md?vue&type=template&id=2033445e
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/config-provider.md?vue&type=template&id=13e73092
 
-var config_providervue_type_template_id_2033445e_hoisted_1 = {
+var config_providervue_type_template_id_13e73092_hoisted_1 = {
   class: "content element-doc"
 };
 
@@ -38,18 +38,18 @@ var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */]
 
 var _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("code", {
   class: "html"
-}, "<div>\n  <el-config-provider :locale=\"locale1\">\n    <el-color-picker :modelValue=\"''\" style=\"vertical-align: middle;\">\n  </el-config-provider>\n  <el-button @click=\"toggle\" style=\"margin-left: 8px; vertical-align: middle;\">\n    Switch Lang\n  </el-button>\n</div>\n\n<script>\n  // import { ConfigProvider } from 'element-plus'\n  export default {\n    data() {\n      return {\n        locale1: {\n          name: 'fr',\n          el: {\n            colorpicker: {\n              confirm: 'OK',\n              clear: 'Effacer',\n            },\n          }\n        },\n        locale2: {\n          name: 'en',\n          el: {\n            colorpicker: {\n              confirm: 'Confirm',\n              clear: 'Clear',\n            },\n          }\n        }\n      }\n    },\n    methods: {\n      toggle() {\n        const temp = this.locale1\n        this.locale1 = this.locale2\n        this.locale2 = temp\n      }\n    }\n  }\n</script>\n\n")], -1);
+}, "<div>\n  <el-config-provider :locale=\"locale1\">\n    <el-color-picker :modelValue=\"''\" style=\"vertical-align: middle;\" />\n  </el-config-provider>\n  <el-button @click=\"toggle\" style=\"margin-left: 8px; vertical-align: middle;\">\n    Switch Lang\n  </el-button>\n</div>\n\n<script>\n  // import { ConfigProvider } from 'element-plus'\n  export default {\n    data() {\n      return {\n        locale1: {\n          name: 'fr',\n          el: {\n            colorpicker: {\n              confirm: 'OK',\n              clear: 'Effacer',\n            },\n          },\n        },\n        locale2: {\n          name: 'en',\n          el: {\n            colorpicker: {\n              confirm: 'Confirm',\n              clear: 'Clear',\n            },\n          },\n        },\n      }\n    },\n    methods: {\n      toggle() {\n        const temp = this.locale1\n        this.locale1 = this.locale2\n        this.locale2 = temp\n      },\n    },\n  }\n</script>\n")], -1);
 
 var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["n" /* createStaticVNode */])("<h3 id=\"configprovider-attributes\"><a class=\"header-anchor\" href=\"#configprovider-attributes\">¶</a> ConfigProvider Attributes</h3><table><thead><tr><th>Attribute</th><th>Description</th><th>Type</th><th>Accepted Values</th><th>Default</th></tr></thead><tbody><tr><td>locale</td><td>Locale Object</td><td>Object&lt;Language&gt;</td><td><a href=\"https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang\">languages</a></td><td>English</td></tr><tr><td>i18n</td><td>External translator, when this attribute is provided, it will be used at first, and it will fallback to default translator when this method returns nullish value</td><td>Function&lt;(...args: []) =&gt; string&gt;</td><td>-</td><td>-</td></tr></tbody></table>", 2);
 
-function config_providervue_type_template_id_2033445e_render(_ctx, _cache, $props, $setup, $data, $options) {
+function config_providervue_type_template_id_13e73092_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_element_demo0 = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("element-demo0");
 
   var _component_demo_block = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("demo-block");
 
   var _component_right_nav = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("right-nav");
 
-  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("section", config_providervue_type_template_id_2033445e_hoisted_1, [_hoisted_2, _hoisted_3, _hoisted_4, _hoisted_5, Object(vue_esm_browser_prod["p" /* createVNode */])(_component_demo_block, null, {
+  return Object(vue_esm_browser_prod["H" /* openBlock */])(), Object(vue_esm_browser_prod["k" /* createBlock */])("section", config_providervue_type_template_id_13e73092_hoisted_1, [_hoisted_2, _hoisted_3, _hoisted_4, _hoisted_5, Object(vue_esm_browser_prod["p" /* createVNode */])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["fb" /* withCtx */])(function () {
       return [Object(vue_esm_browser_prod["p" /* createVNode */])(_component_element_demo0)];
     }),
@@ -62,7 +62,7 @@ function config_providervue_type_template_id_2033445e_render(_ctx, _cache, $prop
     _: 1
   }), _hoisted_8, Object(vue_esm_browser_prod["p" /* createVNode */])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/fr-FR/config-provider.md?vue&type=template&id=2033445e
+// CONCATENATED MODULE: ./website/docs/fr-FR/config-provider.md?vue&type=template&id=13e73092
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/extends.js
 var helpers_extends = __webpack_require__(4);
@@ -161,7 +161,7 @@ var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
 
 
-config_providervue_type_script_lang_ts.render = config_providervue_type_template_id_2033445e_render
+config_providervue_type_script_lang_ts.render = config_providervue_type_template_id_13e73092_render
 
 /* harmony default export */ var config_provider = __webpack_exports__["default"] = (config_providervue_type_script_lang_ts);
 

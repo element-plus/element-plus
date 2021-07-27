@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[46],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[118],{
 
-/***/ 521:
+/***/ 588:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,13 +10,13 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/border.md?vue&type=template&id=30f2137c
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/border.md?vue&type=template&id=08a7e0bd
 
 var _hoisted_1 = {
   class: "content element-doc"
 };
 
-var _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["n" /* createStaticVNode */])("<h2 id=\"border\"><a class=\"header-anchor\" href=\"#border\">¶</a> Border</h2><p>We standardize the borders that can be used in buttons, cards, pop-ups and other components.</p><h3 id=\"border-2\"><a class=\"header-anchor\" href=\"#border-2\">¶</a> Border</h3><p>There are few border styles to choose.</p><table class=\"demo-border\"><tbody><tr><td class=\"text\">Name</td><td class=\"text\">Thickness</td><td class=\"line\">Demo</td></tr><tr><td class=\"text\">Solid</td><td class=\"text\">1px</td><td class=\"line\"><div></div></td></tr><tr><td class=\"text\">Dashed</td><td class=\"text\">2px</td><td class=\"line\"><div class=\"dashed\"></div></td></tr></tbody></table><h3 id=\"radius\"><a class=\"header-anchor\" href=\"#radius\">¶</a> Radius</h3><p>There are few radius styles to choose.</p>", 7);
+var _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["n" /* createStaticVNode */])("<h2 id=\"border\"><a class=\"header-anchor\" href=\"#border\">¶</a> Border</h2><p>Estandarizamos los bordes que se pueden utilizar en botones, tarjetas, pop-ups y otros componentes.</p><h3 id=\"border-2\"><a class=\"header-anchor\" href=\"#border-2\">¶</a> Border</h3><p>Hay pocos estilos de borde para elegir.</p><table class=\"demo-border\"><tbody><tr><td class=\"text\">Name</td><td class=\"text\">Thickness</td><td class=\"line\">Demo</td></tr><tr><td class=\"text\">Solid</td><td class=\"text\">1px</td><td class=\"line\"><div></div></td></tr><tr><td class=\"text\">Dashed</td><td class=\"text\">2px</td><td class=\"line\"><div class=\"dashed\"></div></td></tr></tbody></table><h3 id=\"radius\"><a class=\"header-anchor\" href=\"#radius\">¶</a> Radius</h3><p>Hay pocos estilos de radio para elegir.</p>", 7);
 
 var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h3", {
   id: "shadow"
@@ -25,7 +25,7 @@ var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */]
   href: "#shadow"
 }, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Shadow")], -1);
 
-var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "There are few shadow styles to choose.", -1);
+var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Hay pocos estilos de sombra para elegir.", -1);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_radius_box = Object(vue_esm_browser_prod["Q" /* resolveComponent */])("radius-box");
@@ -40,7 +40,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "shadow-group": $data.shadowGroup
   }, null, 8, ["shadow-group"]), Object(vue_esm_browser_prod["p" /* createVNode */])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/en-US/border.md?vue&type=template&id=30f2137c
+// CONCATENATED MODULE: ./website/docs/es/border.md?vue&type=template&id=08a7e0bd
 
 // EXTERNAL MODULE: ./website/components/demo/border/radius-box.vue + 4 modules
 var radius_box = __webpack_require__(819);
@@ -48,7 +48,7 @@ var radius_box = __webpack_require__(819);
 // EXTERNAL MODULE: ./website/components/demo/border/shadow-box.vue + 4 modules
 var shadow_box = __webpack_require__(820);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/border.md?vue&type=script&lang=js
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/border.md?vue&type=script&lang=js
 
 
 var radiusGroup = [{
@@ -83,9 +83,9 @@ var shadowGroup = [{
     };
   }
 });
-// CONCATENATED MODULE: ./website/docs/en-US/border.md?vue&type=script&lang=js
+// CONCATENATED MODULE: ./website/docs/es/border.md?vue&type=script&lang=js
  
-// CONCATENATED MODULE: ./website/docs/en-US/border.md
+// CONCATENATED MODULE: ./website/docs/es/border.md
 
 
 
@@ -162,7 +162,7 @@ var util = __webpack_require__(25);
   },
   methods: {
     getValue: function getValue(type) {
-      return Object(util["b" /* getCssVarValue */])('border-radius', type);
+      return Object(util["c" /* getCssVarValue */])('border-radius', type);
     }
   }
 });
@@ -221,7 +221,7 @@ var util = __webpack_require__(25);
   },
   methods: {
     getValue: function getValue(type) {
-      return Object(util["b" /* getCssVarValue */])('box-shadow', type);
+      return Object(util["c" /* getCssVarValue */])('box-shadow', type);
     }
   }
 });

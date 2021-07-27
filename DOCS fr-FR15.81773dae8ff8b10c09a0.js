@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[80],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[152],{
 
-/***/ 598:
+/***/ 665:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,65 +10,65 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/color.md?vue&type=template&id=7bbd4d66
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/color.md?vue&type=template&id=29da4954
 
 var _hoisted_1 = {
   class: "content element-doc"
 };
 
 var _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h2", {
-  id: "color"
+  id: "couleur"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#color"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Color")], -1);
+  href: "#couleur"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Couleur")], -1);
 
-var _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Element Plus utiliza un conjunto de paletas para especificar colores, y así, proporcionar una apariencia y sensación coherente para los productos que construye.", -1);
+var _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Element Plus utilise un ensemble de palettes spécifiques afin de fournir un style consistant pour vos produits.", -1);
 
 var _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h3", {
-  id: "color-principal"
+  id: "couleur-principale"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#color-principal"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Color principal")], -1);
+  href: "#couleur-principale"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Couleur principale")], -1);
 
-var _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "El color principal de Element Plus es el azul brillante y amigable.", -1);
+var _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "La couleur principale d'Element Plus est un bleu clair et agréable.", -1);
 
-var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Brand Color");
+var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("Couleur principale ");
 
 var _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
   class: "value"
 }, "#409EFF", -1);
 
 var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h3", {
-  id: "color-secundario"
+  id: "couleurs-secondaires"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#color-secundario"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Color secundario")], -1);
+  href: "#couleurs-secondaires"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Couleurs secondaires")], -1);
 
-var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Además del color principal, se necesitan utilizar distintos colores para diferentes escenarios (por ejemplo, el color en tono rojo indica una operación peligrosa).", -1);
+var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "En plus de la couleur principale, vous devrez sans doute utiliser d'autres couleurs pour différents cas de figures, par exemple une couleur de danger pour indiquer une opération dangereuse.", -1);
 
 var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h3", {
-  id: "color-neutro"
+  id: "couleurs-neutres"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#color-neutro"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Color neutro")], -1);
+  href: "#couleurs-neutres"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Couleurs neutres")], -1);
 
-var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Los colores neutrales son para texto, fondos y bordes. Puede usar diferentes colores neutrales para representar una estructura jerárquica.", -1);
+var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Les couleurs neutres sont les couleurs du fond, du texte et des bordures. Vous pouvez utiliser différentes couleurs neutres pour représenter une structure hiérarchique.", -1);
 
 var _hoisted_12 = {
   class: "demo-color-box-group"
 };
 
-var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("Basic Black");
+var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("Noir");
 
 var _hoisted_14 = {
   class: "value"
 };
 
-var _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("Basic White");
+var _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("Blanc");
 
 var _hoisted_16 = {
   class: "value"
@@ -183,7 +183,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }), Object(vue_esm_browser_prod["p" /* createVNode */])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/es/color.md?vue&type=template&id=7bbd4d66
+// CONCATENATED MODULE: ./website/docs/fr-FR/color.md?vue&type=template&id=29da4954
 
 // EXTERNAL MODULE: ./website/bus.js
 var bus = __webpack_require__(47);
@@ -200,36 +200,40 @@ var color_box = __webpack_require__(822);
 // EXTERNAL MODULE: ./website/components/demo/color/text-box.vue + 4 modules
 var text_box = __webpack_require__(823);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/color.md?vue&type=script&lang=js
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/color.md?vue&type=script&lang=js
 
 
 
 
 
 var borderColors = [{
-  name: 'Borde base',
-  type: 'base'
+  name: 'Bordure de base',
+  type: 'base',
+  color: '#DCDFE6'
 }, {
-  name: 'Borde ligero',
-  type: 'light'
+  name: 'Bordure claire',
+  type: 'light',
+  color: '#E4E7ED'
 }, {
-  name: 'Borde claro',
-  type: 'lighter'
+  name: 'Bordure très claire',
+  type: 'lighter',
+  color: '#EBEEF5'
 }, {
-  name: 'Borde extra claro',
-  type: 'extra-light'
+  name: 'Bordure extra claire',
+  type: 'extra-light',
+  color: '#F2F6FC'
 }];
 var textColors = [{
-  name: 'Texto primario',
+  name: 'Texte principal',
   type: 'primary'
 }, {
-  name: 'Texto regular',
+  name: 'Texte normal',
   type: 'regular'
 }, {
-  name: 'Texto secundario',
+  name: 'Texte secondaire',
   type: 'secondary'
 }, {
-  name: 'Texto de placeholder',
+  name: 'Texte de placeholder',
   type: 'placeholder'
 }];
 var varMap = {
@@ -239,11 +243,7 @@ var varMap = {
   'danger': '$--color-danger',
   'info': '$--color-info',
   'white': '$--color-white',
-  'black': '$--color-black',
-  'textPrimary': '$--color-text-primary',
-  'textRegular': '$--color-text-regular',
-  'textSecondary': '$--color-text-secondary',
-  'textPlaceholder': '$--color-text-placeholder'
+  'black': '$--color-black'
 };
 var original = {
   primary: '#409EFF',
@@ -252,11 +252,7 @@ var original = {
   danger: '#F56C6C',
   info: '#909399',
   white: '#FFFFFF',
-  black: '#000000',
-  textPrimary: '#303133',
-  textRegular: '#606266',
-  textSecondary: '#909399',
-  textPlaceholder: '#C0C4CC'
+  black: '#000000'
 };
 /* harmony default export */ var colorvue_type_script_lang_js = ({
   components: {
@@ -308,15 +304,15 @@ var original = {
     }
   }
 });
-// CONCATENATED MODULE: ./website/docs/es/color.md?vue&type=script&lang=js
+// CONCATENATED MODULE: ./website/docs/fr-FR/color.md?vue&type=script&lang=js
  
-// CONCATENATED MODULE: ./website/docs/es/color.md
+// CONCATENATED MODULE: ./website/docs/fr-FR/color.md
 
 
 
 colorvue_type_script_lang_js.render = render
 
-/* harmony default export */ var es_color = __webpack_exports__["default"] = (colorvue_type_script_lang_js);
+/* harmony default export */ var fr_FR_color = __webpack_exports__["default"] = (colorvue_type_script_lang_js);
 
 /***/ }),
 
@@ -506,7 +502,7 @@ color_boxvue_type_script_lang_js.render = render
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo/color/text-box.vue?vue&type=template&id=466a2d0c
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo/color/text-box.vue?vue&type=template&id=65f46cc0
 
 var _hoisted_1 = {
   class: "demo-color-box-group"
@@ -520,12 +516,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: i,
       class: "demo-color-box demo-color-box-other",
       style: {
-        background: "var(--el-color-text-" + text.type + ")"
+        background: $options.getCssVarName('text-color', text.type)
       }
-    }, [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(text.name || $options.formatType(text.type) + ' Text') + " ", 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", _hoisted_2, Object(vue_esm_browser_prod["U" /* toDisplayString */])($options.getColorValue(text.type).toUpperCase()), 1)], 4);
+    }, [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(text.name || $options.formatType(text.type) + ' Text') + " ", 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", _hoisted_2, Object(vue_esm_browser_prod["U" /* toDisplayString */])($options.getCssVarValue('text-color', text.type).toUpperCase()), 1)], 4);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./website/components/demo/color/text-box.vue?vue&type=template&id=466a2d0c
+// CONCATENATED MODULE: ./website/components/demo/color/text-box.vue?vue&type=template&id=65f46cc0
 
 // EXTERNAL MODULE: ./website/util.js
 var util = __webpack_require__(25);
@@ -543,9 +539,8 @@ var util = __webpack_require__(25);
   },
   methods: {
     formatType: util["a" /* formatType */],
-    getColorValue: function getColorValue(type) {
-      return getComputedStyle(document.documentElement).getPropertyValue("--el-color-text-" + type);
-    }
+    getCssVarValue: util["c" /* getCssVarValue */],
+    getCssVarName: util["b" /* getCssVarName */]
   }
 });
 // CONCATENATED MODULE: ./website/components/demo/color/text-box.vue?vue&type=script&lang=js

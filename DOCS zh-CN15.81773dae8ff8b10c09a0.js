@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[8],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[296],{
 
-/***/ 531:
+/***/ 464:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,65 +10,65 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/color.md?vue&type=template&id=687ba40e
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/color.md?vue&type=template&id=6b7312a1
 
 var _hoisted_1 = {
   class: "content element-doc"
 };
 
 var _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h2", {
-  id: "color"
+  id: "color-se-cai"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#color"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Color")], -1);
+  href: "#color-se-cai"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Color 色彩")], -1);
 
-var _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Element Plus uses a specific set of palettes to specify colors to provide a consistent look and feel for the products you build.", -1);
+var _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Element Plus 为了避免视觉传达差异，使用一套特定的调色板来规定颜色，为你所搭建的产品提供一致的外观视觉感受。", -1);
 
 var _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h3", {
-  id: "main-color"
+  id: "zhu-se"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#main-color"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Main Color")], -1);
+  href: "#zhu-se"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" 主色")], -1);
 
-var _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "The main color of Element Plus is bright and friendly blue.", -1);
+var _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Element Plus 主要品牌颜色是鲜艳、友好的蓝色。", -1);
 
-var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Brand Color");
+var _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("Brand Color ");
 
 var _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
   class: "value"
 }, "#409EFF", -1);
 
 var _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h3", {
-  id: "secondary-color"
+  id: "fu-zhu-se"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#secondary-color"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Secondary Color")], -1);
+  href: "#fu-zhu-se"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" 辅助色")], -1);
 
-var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Besides the main color, you need to use different scene colors in different scenarios (for example, dangerous color indicates dangerous operation)", -1);
+var _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "除了主色外的场景色，需要在不同的场景中使用（例如危险色表示危险的操作）。", -1);
 
 var _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("h3", {
-  id: "neutral-color"
+  id: "zhong-xing-se"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("a", {
   class: "header-anchor",
-  href: "#neutral-color"
-}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" Neutral Color")], -1);
+  href: "#zhong-xing-se"
+}, "¶"), /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])(" 中性色")], -1);
 
-var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "Neutral colors are for text, background and border colors. You can use different neutral colors to represent the hierarchical structure.", -1);
+var _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("p", null, "中性色用于文本、背景和边框颜色。通过运用不同的中性色，来表现层次结构。", -1);
 
 var _hoisted_12 = {
   class: "demo-color-box-group"
 };
 
-var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("Basic Black");
+var _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("基础黑色");
 
 var _hoisted_14 = {
   class: "value"
 };
 
-var _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("Basic White");
+var _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("基础白色");
 
 var _hoisted_16 = {
   class: "value"
@@ -76,7 +76,7 @@ var _hoisted_16 = {
 
 var _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
   class: "demo-color-box demo-color-box-other bg-transparent"
-}, [/*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("Transparent"), /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
+}, [/*#__PURE__*/Object(vue_esm_browser_prod["o" /* createTextVNode */])("透明"), /*#__PURE__*/Object(vue_esm_browser_prod["p" /* createVNode */])("div", {
   class: "value"
 }, "Transparent")], -1);
 
@@ -183,7 +183,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }), Object(vue_esm_browser_prod["p" /* createVNode */])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/en-US/color.md?vue&type=template&id=687ba40e
+// CONCATENATED MODULE: ./website/docs/zh-CN/color.md?vue&type=template&id=6b7312a1
 
 // EXTERNAL MODULE: ./website/bus.js
 var bus = __webpack_require__(47);
@@ -200,12 +200,42 @@ var color_box = __webpack_require__(822);
 // EXTERNAL MODULE: ./website/components/demo/color/text-box.vue + 4 modules
 var text_box = __webpack_require__(823);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/color.md?vue&type=script&lang=js
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/color.md?vue&type=script&lang=js
 
 
 
 
 
+var borderColors = [{
+  name: '一级边框',
+  type: 'base',
+  color: '#DCDFE6'
+}, {
+  name: '二级边框',
+  type: 'light',
+  color: '#E4E7ED'
+}, {
+  name: '三级边框',
+  type: 'lighter',
+  color: '#EBEEF5'
+}, {
+  name: '四级边框',
+  type: 'extra-light',
+  color: '#F2F6FC'
+}];
+var textColors = [{
+  name: '主要文字',
+  type: 'primary'
+}, {
+  name: '常规文字',
+  type: 'regular'
+}, {
+  name: '次要文字',
+  type: 'secondary'
+}, {
+  name: '占位文字',
+  type: 'placeholder'
+}];
 var varMap = {
   'primary': '$--color-primary',
   'success': '$--color-success',
@@ -215,32 +245,6 @@ var varMap = {
   'white': '$--color-white',
   'black': '$--color-black'
 };
-var borderColors = [{
-  type: 'base',
-  color: '#DCDFE6'
-}, {
-  type: 'light',
-  color: '#E4E7ED'
-}, {
-  type: 'lighter',
-  color: '#EBEEF5'
-}, {
-  type: 'extra-light',
-  color: '#F2F6FC'
-}];
-var textColors = [{
-  name: 'Primary Text',
-  type: 'primary'
-}, {
-  name: 'Regular Text',
-  type: 'regular'
-}, {
-  name: 'Secondary Text',
-  type: 'secondary'
-}, {
-  name: 'Placeholder Text',
-  type: 'placeholder'
-}];
 var original = {
   primary: '#409EFF',
   success: '#67C23A',
@@ -248,11 +252,7 @@ var original = {
   danger: '#F56C6C',
   info: '#909399',
   white: '#FFFFFF',
-  black: '#000000',
-  textPrimary: '#303133',
-  textRegular: '#606266',
-  textSecondary: '#909399',
-  textPlaceholder: '#C0C4CC'
+  black: '#000000'
 };
 /* harmony default export */ var colorvue_type_script_lang_js = ({
   components: {
@@ -304,15 +304,15 @@ var original = {
     }
   }
 });
-// CONCATENATED MODULE: ./website/docs/en-US/color.md?vue&type=script&lang=js
+// CONCATENATED MODULE: ./website/docs/zh-CN/color.md?vue&type=script&lang=js
  
-// CONCATENATED MODULE: ./website/docs/en-US/color.md
+// CONCATENATED MODULE: ./website/docs/zh-CN/color.md
 
 
 
 colorvue_type_script_lang_js.render = render
 
-/* harmony default export */ var en_US_color = __webpack_exports__["default"] = (colorvue_type_script_lang_js);
+/* harmony default export */ var zh_CN_color = __webpack_exports__["default"] = (colorvue_type_script_lang_js);
 
 /***/ }),
 
@@ -502,7 +502,7 @@ color_boxvue_type_script_lang_js.render = render
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo/color/text-box.vue?vue&type=template&id=466a2d0c
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--11-0!./website/components/demo/color/text-box.vue?vue&type=template&id=65f46cc0
 
 var _hoisted_1 = {
   class: "demo-color-box-group"
@@ -516,12 +516,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: i,
       class: "demo-color-box demo-color-box-other",
       style: {
-        background: "var(--el-color-text-" + text.type + ")"
+        background: $options.getCssVarName('text-color', text.type)
       }
-    }, [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(text.name || $options.formatType(text.type) + ' Text') + " ", 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", _hoisted_2, Object(vue_esm_browser_prod["U" /* toDisplayString */])($options.getColorValue(text.type).toUpperCase()), 1)], 4);
+    }, [Object(vue_esm_browser_prod["o" /* createTextVNode */])(Object(vue_esm_browser_prod["U" /* toDisplayString */])(text.name || $options.formatType(text.type) + ' Text') + " ", 1), Object(vue_esm_browser_prod["p" /* createVNode */])("div", _hoisted_2, Object(vue_esm_browser_prod["U" /* toDisplayString */])($options.getCssVarValue('text-color', text.type).toUpperCase()), 1)], 4);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./website/components/demo/color/text-box.vue?vue&type=template&id=466a2d0c
+// CONCATENATED MODULE: ./website/components/demo/color/text-box.vue?vue&type=template&id=65f46cc0
 
 // EXTERNAL MODULE: ./website/util.js
 var util = __webpack_require__(25);
@@ -539,9 +539,8 @@ var util = __webpack_require__(25);
   },
   methods: {
     formatType: util["a" /* formatType */],
-    getColorValue: function getColorValue(type) {
-      return getComputedStyle(document.documentElement).getPropertyValue("--el-color-text-" + type);
-    }
+    getCssVarValue: util["c" /* getCssVarValue */],
+    getCssVarName: util["b" /* getCssVarName */]
   }
 });
 // CONCATENATED MODULE: ./website/components/demo/color/text-box.vue?vue&type=script&lang=js

@@ -162,7 +162,7 @@ var util = __webpack_require__(25);
   },
   methods: {
     getValue: function getValue(type) {
-      return Object(util["b" /* getCssVarValue */])('border-radius', type);
+      return Object(util["c" /* getCssVarValue */])('border-radius', type);
     }
   }
 });
@@ -221,7 +221,7 @@ var util = __webpack_require__(25);
   },
   methods: {
     getValue: function getValue(type) {
-      return Object(util["b" /* getCssVarValue */])('box-shadow', type);
+      return Object(util["c" /* getCssVarValue */])('box-shadow', type);
     }
   }
 });
