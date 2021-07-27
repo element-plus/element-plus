@@ -50,6 +50,11 @@ export const defaultProps = {
     default: false,
   },
 
+  fill: {
+    type: Boolean,
+    default: false,
+  },
+
   size: {
     type: [String, Array, Number] as PropType<
       ComponentSize | [number, number] | number
@@ -71,10 +76,11 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
 
   const horizontalSize = ref(0)
   const verticalSize = ref(0)
+  const widthFill = ref(false)
 
   watch(
-    () => [props.size, props.wrap, props.direction],
-    ([size = 'small', wrap, dir]) => {
+    () => [props.size, props.wrap, props.direction, props.fill],
+    ([size = 'small', wrap, dir, fill]) => {
       // when the specified size have been given
       if (isArray(size)) {
         const [h = 0, v = 0] = size
@@ -100,6 +106,7 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
           }
         }
       }
+      widthFill.value = fill && dir === 'vertical'
     },
     { immediate: true },
   )
@@ -118,6 +125,7 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
     return {
       paddingBottom: `${verticalSize.value}px`,
       marginRight: `${horizontalSize.value}px`,
+      ...(widthFill.value ? { width: '100%' } : {}),
     }
   })
 

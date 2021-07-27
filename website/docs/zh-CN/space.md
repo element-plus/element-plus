@@ -281,6 +281,7 @@ export default {
 | spacer    | 间隔符     | string / number / VNode | - | - |
 | size      | 间隔大小   | string / number / [number, number] | - | 'small' |
 | wrap      | 设置是否自动折行 | boolean | true / false  | false |
+| fill      | 宽度是否扩展到父级（direction为vertical时生效） | boolean | true / false  | false |
 ### Space Slot
 | name | 说明  |
 |----|----|
