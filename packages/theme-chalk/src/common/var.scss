@@ -542,28 +542,9 @@ $--rate-icon-color: var(--el-text-color-placeholder) !default;
 
 /* DatePicker
 --------------------------*/
-$--datepicker-font-color: var(--el-text-color-regular) !default;
-/// color|1|Color|0
-$--datepicker-off-font-color: var(--el-text-color-placeholder) !default;
-/// color||Color|0
-$--datepicker-header-font-color: var(--el-text-color-regular) !default;
-$--datepicker-icon-color: var(--el-text-color-primary) !default;
-$--datepicker-border-color: $--disabled-border-base !default;
-$--datepicker-inner-border-color: #e4e4e4 !default;
-/// color||Color|0
-$--datepicker-inrange-background-color: map.get(
-  $--border-color,
-  'extra-light'
-) !default;
-/// color||Color|0
-$--datepicker-inrange-hover-background-color: map.get(
-  $--border-color,
-  'extra-light'
-) !default;
-/// color||Color|0
-$--datepicker-active-color: $--color-primary !default;
-/// color||Color|0
-$--datepicker-hover-font-color: $--color-primary !default;
+
+// refactor with css3 var
+// See packages/theme-chalk/src/date-picker.scss
 
 /* Loading
 --------------------------*/

@@ -27,6 +27,6 @@
 
   @include e(body) {
     border-radius: 2px;
-    border: 1px solid $--datepicker-border-color;
+    border: 1px solid var(--el-datepicker-border-color);
   }
 }
