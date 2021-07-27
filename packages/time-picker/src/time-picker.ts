@@ -28,6 +28,9 @@ export default defineComponent({
       focus: () => {
         commonPicker.value?.handleFocus()
       },
+      blur: () => {
+        commonPicker.value?.handleBlur()
+      },
     }
 
     provide('ElPopperOptions', props.popperOptions)

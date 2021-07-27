@@ -29,6 +29,17 @@
           <p>Share Code</p>
         </div>
       </a>
+      <a
+        class="sponsor renren"
+        href="https://www.renren.io/?from=element-ui"
+        target="_blank"
+      >
+        <img width="45" src="~examples/assets/images/renren.png" alt="bit">
+        <div>
+          <p>{{ sponsorLabel }} <span class="name">{{ sponsorNameR }}</span></p>
+          <p>{{ sponsorIntroR }}</p>
+        </div>
+      </a>
     </div>
     <div class="cards">
       <ul class="container">
@@ -93,6 +104,12 @@ export default {
     sponsorLabel() {
       return this.lang === 'zh-CN' ? '赞助商' : 'Sponsored by'
     },
+    sponsorIntroR() {
+      return this.lang === 'zh-CN' ? '企业级的快速开发平台' : 'Rapid development platform'
+    },
+    sponsorNameR() {
+      return this.lang === 'zh-CN' ? '人人开源' : 'renren.io'
+    },
     langConfig() {
       return pageLang.filter(config => config.lang === this.lang)[0].pages.index
     },
@@ -154,6 +171,7 @@ export default {
   width: 300px;
   height: 100px;
   justify-content: center;
+  align-items: center;
 
   .name {
     font-weight: bold;

@@ -1,35 +1,39 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "./checkbox";
-@import "./radio";
-@import "./scrollbar";
+@import 'mixins/mixins';
+@import 'common/var';
+@import './checkbox';
+@import './radio';
+@import './scrollbar';
 
 @include b(cascader-panel) {
   display: flex;
-  border-radius: $--cascader-menu-radius;
-  font-size: $--cascader-menu-font-size;
+  border-radius: var(--el-cascader-menu-radius);
+  font-size: var(--el-cascader-menu-font-size);
 
   @include when(bordered) {
-    border: $--cascader-menu-border;
-    border-radius: $--cascader-menu-radius;
+    border: var(--el-cascader-menu-border);
+    border-radius: var(--el-cascader-menu-radius);
   }
 }
 
 @include b(cascader-menu) {
   min-width: 180px;
   box-sizing: border-box;
-  color: $--cascader-menu-font-color;
-  border-right: $--cascader-menu-border;
+  color: var(--el-cascader-menu-font-color);
+  border-right: var(--el-cascader-menu-border);
 
   &:last-child {
     border-right: none;
+
     .#{$namespace}-cascader-node {
       padding-right: 20px;
     }
   }
 
   @include e(wrap) {
-    height: 204px;
+    // Raise the priority
+    &.el-scrollbar__wrap {
+      height: 204px;
+    }
   }
 
   @include e(list) {
@@ -56,7 +60,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    color: $--cascader-color-empty;
+    color: var(--el-cascader-color-empty);
   }
 }
 
@@ -70,25 +74,27 @@
   outline: none;
 
   &.is-selectable.in-active-path {
-    color: $--cascader-menu-font-color;
+    color: var(--el-cascader-menu-font-color);
   }
 
   &.in-active-path,
   &.is-selectable.in-checked-path,
   &.is-active {
-    color: $--cascader-menu-selected-font-color;
+    color: var(--el-cascader-menu-selected-font-color);
     font-weight: bold;
   }
 
   &:not(.is-disabled) {
     cursor: pointer;
-    &:hover, &:focus {
-      background: $--cascader-node-background-hover;
+
+    &:hover,
+    &:focus {
+      background: var(--el-cascader-node-background-hover);
     }
   }
 
   @include when(disabled) {
-    color: $--cascader-node-color-disabled;
+    color: var(--el-cascader-node-color-disabled);
     cursor: not-allowed;
   }
 

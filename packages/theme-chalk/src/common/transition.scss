@@ -1,9 +1,9 @@
 @import '../mixins/config';
-@import "var";
+@import 'var';
 
 .fade-in-linear-enter-active,
 .fade-in-linear-leave-active {
-  transition: $--fade-linear-transition;
+  transition: var(--el-fade-linear-transition);
 }
 
 .fade-in-linear-enter-from,
@@ -13,7 +13,7 @@
 
 .#{$namespace}-fade-in-linear-enter-active,
 .#{$namespace}-fade-in-linear-leave-active {
-  transition: $--fade-linear-transition;
+  transition: var(--el-fade-linear-transition);
 }
 .#{$namespace}-fade-in-linear-enter-from,
 .#{$namespace}-fade-in-linear-leave-to {
@@ -22,7 +22,7 @@
 
 .#{$namespace}-fade-in-enter-active,
 .#{$namespace}-fade-in-leave-active {
-  transition: all .3s cubic-bezier(.55,0,.1,1);
+  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);
 }
 .#{$namespace}-fade-in-enter-from,
 .#{$namespace}-fade-in-leave-active {
@@ -31,7 +31,7 @@
 
 .#{$namespace}-zoom-in-center-enter-active,
 .#{$namespace}-zoom-in-center-leave-active {
-  transition: all .3s cubic-bezier(.55,0,.1,1);
+  transition: all var(--el-transition-duration) cubic-bezier(0.55, 0, 0.1, 1);
 }
 .#{$namespace}-zoom-in-center-enter-from,
 .#{$namespace}-zoom-in-center-leave-active {
@@ -43,10 +43,10 @@
 .#{$namespace}-zoom-in-top-leave-active {
   opacity: 1;
   transform: scaleY(1);
-  transition: $--md-fade-transition;
+  transition: var(--el-md-fade-transition);
   transform-origin: center top;
 
-  &[data-popper-placement^="top"] {
+  &[data-popper-placement^='top'] {
     transform-origin: center bottom;
   }
 }
@@ -60,7 +60,7 @@
 .#{$namespace}-zoom-in-bottom-leave-active {
   opacity: 1;
   transform: scaleY(1);
-  transition: $--md-fade-transition;
+  transition: var(--el-md-fade-transition);
   transform-origin: center bottom;
 }
 .#{$namespace}-zoom-in-bottom-enter-from,
@@ -73,31 +73,37 @@
 .#{$namespace}-zoom-in-left-leave-active {
   opacity: 1;
   transform: scale(1, 1);
-  transition: $--md-fade-transition;
+  transition: var(--el-md-fade-transition);
   transform-origin: top left;
 }
 .#{$namespace}-zoom-in-left-enter-from,
 .#{$namespace}-zoom-in-left-leave-active {
   opacity: 0;
-  transform: scale(.45, .45);
+  transform: scale(0.45, 0.45);
 }
 
 .collapse-transition {
-  transition: 0.3s height ease-in-out, 0.3s padding-top ease-in-out, 0.3s padding-bottom ease-in-out;
+  transition: var(--el-transition-duration) height ease-in-out,
+    var(--el-transition-duration) padding-top ease-in-out,
+    var(--el-transition-duration) padding-bottom ease-in-out;
 }
 .horizontal-collapse-transition {
-  transition: 0.3s width ease-in-out, 0.3s padding-left ease-in-out, 0.3s padding-right ease-in-out;
+  transition: var(--el-transition-duration) width ease-in-out,
+    var(--el-transition-duration) padding-left ease-in-out,
+    var(--el-transition-duration) padding-right ease-in-out;
 }
 
 .#{$namespace}-list-enter-active,
 .#{$namespace}-list-leave-active {
   transition: all 1s;
 }
-.#{$namespace}-list-enter-from, .#{$namespace}-list-leave-active {
+.#{$namespace}-list-enter-from,
+.#{$namespace}-list-leave-active {
   opacity: 0;
   transform: translateY(-30px);
 }
 
 .#{$namespace}-opacity-transition {
-  transition: opacity .3s cubic-bezier(.55,0,.1,1);
+  transition: opacity var(--el-transition-duration)
+    cubic-bezier(0.55, 0, 0.1, 1);
 }

@@ -1,11 +1,12 @@
-import { computed, defineComponent, ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue'
-import { BAR_MAP } from '@element-plus/scrollbar/src/util'
+import { computed, defineComponent, ref, reactive, onMounted, onBeforeUnmount, watch, h, withModifiers } from 'vue'
 import { on, off } from '@element-plus/utils/dom'
 import { rAF, cAF } from '@element-plus/utils/raf'
 import isServer from '@element-plus/utils/isServer'
+import { NOOP } from '@vue/shared'
 
-import { DefaultScrollBarProps, ScrollbarSizeKey, ScrollbarDirKey, SCROLLBAR_MIN_SIZE } from '../defaults'
+import { DefaultScrollBarProps, SCROLLBAR_MIN_SIZE, HORIZONTAL } from '../defaults'
 import { renderThumbStyle } from '../utils'
+import { BAR_MAP } from '../../../scrollbar/src/util'
 
 import type { CSSProperties } from 'vue'
 
@@ -35,11 +36,10 @@ const ScrollBar = defineComponent({
     const trackStyle = computed<CSSProperties>(() => ({
       display: props.visible ? null : 'none',
       position: 'absolute',
-      [ScrollbarSizeKey[props.layout]]: '6px',
-      [ScrollbarDirKey[props.layout]]: '2px',
+      width: HORIZONTAL === props.layout ? '100%' : '6px',
+      height: HORIZONTAL === props.layout ? '6px' : '100%',
       right: '2px',
       bottom: '2px',
-      height: '100%',
       borderRadius: '4px',
     }))
 
@@ -209,34 +209,21 @@ const ScrollBar = defineComponent({
       detachEvents()
     })
 
-    return {
-      state,
-      trackRef,
-      trackStyle,
-      thumbRef,
-      thumbStyle,
-
-      onThumbMouseDown,
-      onMouseUp,
+    return () => {
+      return h('div', {
+        role: 'presentation',
+        ref: trackRef,
+        class: 'el-virtual-scrollbar',
+        style: trackStyle.value,
+        onMousedown: withModifiers(NOOP, ['stop', 'prevent']),
+      }, h('div', {
+        ref: thumbRef,
+        class: 'el-scrollbar__thumb',
+        style: thumbStyle.value,
+        onMousedown: onThumbMouseDown,
+      }, null))
     }
   },
-  template: `
-    <div
-      role="presentation"
-      ref="trackRef"
-      class="el-virtual-scrollbar"
-      :style="trackStyle"
-      @mousedown.stop.prevent=""
-    >
-      <div
-        ref="thumbRef"
-        class="el-scrollbar__thumb"
-        :style="thumbStyle"
-        @mousedown="onThumbMouseDown"
-      >
-      </div>
-    </div>
-  `,
 })
 
 export default ScrollBar

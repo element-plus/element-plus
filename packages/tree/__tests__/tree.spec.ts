@@ -918,7 +918,7 @@ describe('Tree.vue', () => {
     expect(treeWrappers[1].vm.getNode(4).data).toEqual(nodeData)
   })
 
-  test('navigate with defaultExpandAll',  () => {
+  test('navigate with defaultExpandAll', () => {
     const { wrapper } = getTreeVm(``, {
       template: `
         <div>
@@ -930,7 +930,7 @@ describe('Tree.vue', () => {
     expect(Object.values(tree.vm.store.nodesMap).filter(item => item.canFocus).length).toBe(9)
   })
 
-  test('navigate up',  async () => {
+  test('navigate up', async () => {
     const { wrapper } = getTreeVm(``, {
       template: `
         <div>
@@ -945,7 +945,7 @@ describe('Tree.vue', () => {
     await nextTick()
     const tree = wrapper.findComponent({ name: 'ElTree' })
     const targetElement = wrapper.find('div[data-key="3"]').element
-    const fromElement =  wrapper.find('div[data-key="1"]').element
+    const fromElement = wrapper.find('div[data-key="1"]').element
     defineGetter(targetElement, 'focus', handleFocus)
     tree.vm.setCurrentKey(1)
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
@@ -968,7 +968,7 @@ describe('Tree.vue', () => {
     await nextTick()
     const tree = wrapper.findComponent({ name: 'ElTree' })
     const targetElement = wrapper.find('div[data-key="2"]').element
-    const fromElement =  wrapper.find('div[data-key="1"]').element
+    const fromElement = wrapper.find('div[data-key="1"]').element
     defineGetter(targetElement, 'focus', handleFocus)
     tree.vm.setCurrentKey(1)
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
@@ -976,7 +976,7 @@ describe('Tree.vue', () => {
     expect(flag).toBe(true)
   })
 
-  test('navigate with disabled',  async () => {
+  test('navigate with disabled', async () => {
     const wrapper = mount( {
       template: `
         <div>
@@ -1037,7 +1037,7 @@ describe('Tree.vue', () => {
     await nextTick()
     const tree = wrapper.findComponent({ name: 'ElTree' })
     const targetElement = wrapper.find('div[data-key="3"]').element
-    const fromElement =  wrapper.find('div[data-key="1"]').element
+    const fromElement = wrapper.find('div[data-key="1"]').element
     defineGetter(targetElement, 'focus', handleFocus)
     tree.vm.setCurrentKey(1)
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy()
@@ -1045,7 +1045,7 @@ describe('Tree.vue', () => {
     expect(flag).toBe(true)
   })
 
-  test('navigate with lazy and without node-key',  async () => {
+  test('navigate with lazy and without node-key', async () => {
     const wrapper = mount( {
       template: `
         <div>

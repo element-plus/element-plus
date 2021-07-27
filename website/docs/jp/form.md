@@ -2,6 +2,10 @@
 
 フォームは `input`, `radio`, `select`, `checkbox` などから構成されています。フォームを使うと、データを収集したり、検証したり、送信したりすることができます。
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### 基本フォーム
 
 これには、`input`, `select`, `radio`, `checkbox` などのあらゆる種類の入力項目が含まれます。
@@ -83,7 +87,7 @@
 [W3C](https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2) は規制しているのは
 > <i>フォーム内に1つの単一行テキスト入力フィールドしかない場合、ユーザエージェントは、そのフィールドでのEnterをフォームの送信要求として受け入れるべきである。</i>
 
-この動作を防ぐには、`<el-form>` に `@submit.native.prevent` を追加します。
+この動作を防ぐには、`<el-form>` に `@submit.prevent` を追加します。
   :::
 
 ### インラインフォーム
@@ -594,7 +598,7 @@
 | rules | フォームのバリデーションルール | object | — | — |
 | inline | フォームがインラインであるかどうか | boolean | — | false |
 | label-position | ラベルの位置。’left'、’right’ もしくは`label-width`が設定されている場合は propも必要です。 | string | left / right / top | right |
-| label-width    | ラベルの幅、例えば  '50px'。直接の子フォーム項目はすべてこの値を継承します。Width `auto` がサポートされています。        | string | — | — |
+| label-width    | ラベルの幅、例えば  '50px'。直接の子フォーム項目はすべてこの値を継承します。Width `auto` がサポートされています。        | string / number | — | — |
 | label-suffix | ラベルの接尾辞 | string | — | — |
 | hide-required-asterisk | 必須フィールドのラベルの横に赤いアスタリスク（星）を付けるかどうか | boolean | — | false |
 | show-message  | エラーメッセージを表示するかどうか | boolean | — | true |
@@ -624,23 +628,28 @@
 | ---- | ----| ---- | ---- | ---- |
 | prop | `model` のキーです。validateメソッドとresetFieldsメソッドを利用する際には、この属性が必須です。 | string | keys of model that passed to `form` |
 | label | ラベル | string | — | — |
-| label-width | ラベルの幅。Width `auto` がサポートされています。 | string | — | — |
+| label-width | ラベルの幅。Width `auto` がサポートされています。 | string / number | — | — |
 | required | フィールドが必須かどうか、省略された場合はバリデーションルールによって決定されます。 | boolean |  — | false |
-| rules | フォームのバリデーションルール | object | — | — |
+| rules | フォームのバリデーションルール | object / array | — | — |
 | error | フィールドのエラーメッセージ、値を設定すると、フィールドはエラーを検証し、このメッセージをすぐに表示します。 | string | — | — |
 | show-message  | エラーメッセージを表示するかどうか | boolean | — | true |
 | inline-message  | インラインスタイルバリデートメッセージ | boolean | — | false |
 | size  | フォームアイテムのコンポーネントのサイズを制御します。 | string | medium / small / mini | - |
 
+### Rules
+| Attribute       | Description                | Type     | Accepted Values  | Default  |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | how the validator is triggered | string | blur / change   | —    |
+
 ### フォームアイテムスロット
 | Name | Description |
 |------|--------|
 | — | フォームアイテムの内容 |
-| label | ラベルの内容 |
 
 ### フォームアイテムのスコープスロット
 |      Name     | Description |
 |---------------|-------------|
+| label | Custom content to display on label. The scope parameter is { label } |
 |      error    | Custom content to display validation message. The scope parameter is { error } |
 
 ### フォームアイテムのメソッド

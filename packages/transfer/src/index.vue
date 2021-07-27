@@ -58,7 +58,7 @@ import {
   computed, defineComponent, inject, h,
   reactive, ref, toRefs, watch,
 } from 'vue'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import ElButton from '@element-plus/button'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
@@ -151,6 +151,7 @@ export default defineComponent({
   ],
 
   setup(props, { emit, slots }) {
+    const { t } = useLocaleInject()
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
 
     const checkedState = reactive({

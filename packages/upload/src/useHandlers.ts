@@ -1,7 +1,6 @@
 
 import { ref, watch } from 'vue'
 import { NOOP } from '@vue/shared'
-import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
 
 // Inline types
@@ -21,7 +20,6 @@ function genUid(seed: number) {
 
 export default (props: IUseHandlersProps) => {
 
-  let cachedFiles: UploadFile[] = []
   const uploadFiles = ref<UploadFile[]>([])
   const uploadRef = ref<UploadRef>(null)
 
@@ -131,18 +129,14 @@ export default (props: IUseHandlersProps) => {
   })
 
   watch(() => props.fileList, (fileList: UploadFile[]) => {
-    if(!isEqual(cachedFiles, fileList)){
-      cachedFiles = []
-      uploadFiles.value = fileList.map(file => {
-        const cloneFile = cloneDeep(file)
-        cachedFiles.push(cloneFile)
-        return {
-          ...cloneFile,
-          uid: file.uid || genUid(tempIndex++),
-          status: file.status || 'success',
-        }
-      })
-    }
+    uploadFiles.value = fileList.map(file => {
+      const cloneFile = cloneDeep(file)
+      return {
+        ...cloneFile,
+        uid: file.uid || genUid(tempIndex++),
+        status: file.status || 'success',
+      }
+    })
   }, {
     immediate: true,
     deep: true,

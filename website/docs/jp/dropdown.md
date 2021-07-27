@@ -271,7 +271,7 @@ dropdownリストを起動するには、ボタンを使用します。
 
   export default defineComponent({
     setup() {
-      
+
       const handleCommand = (command) => {
         ElMessage(`click on item ${command}`);
       };
@@ -351,7 +351,7 @@ dropdownリストを起動するには、ボタンを使用します。
 | max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | ボタングループの表示の有無 | boolean         |     —       | false   |
 | disabled     | 無効にするかどうか | boolean | — | false |
-| placement    | ポップメニューの配置 | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
+| placement    | ポップメニューの配置 | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom |
 | trigger       | トリガーのきっかけ     | string  |    hover/click/contextmenu  |  hover |
 | hide-on-click | メニューアイテムをクリックした後にメニューを非表示にするかどうか     | boolean          | — | true |
 | show-timeout | dropdownを表示するまでの遅延時間 (トリガーが `hover` の場合のみ動作) | number | — | 250 |

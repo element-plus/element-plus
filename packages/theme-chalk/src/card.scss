@@ -1,22 +1,22 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(card) {
   border-radius: $--card-border-radius;
   border: 1px solid $--card-border-color;
   background-color: $--color-white;
   overflow: hidden;
-  color: $--color-text-primary;
-  transition: 0.3s;
+  color: var(--el-text-color-primary);
+  transition: var(--el-transition-duration);
 
   @include when(always-shadow) {
-    box-shadow: $--box-shadow-light;
+    box-shadow: var(--el-box-shadow-light);
   }
 
   @include when(hover-shadow) {
     &:hover,
     &:focus {
-      box-shadow: $--box-shadow-light;
+      box-shadow: var(--el-box-shadow-light);
     }
   }
 

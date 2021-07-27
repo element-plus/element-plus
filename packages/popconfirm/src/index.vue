@@ -5,6 +5,7 @@
     effect="light"
     popper-class="el-popover"
     append-to-body
+    :fallback-placements="['bottom' ,'top', 'right', 'left']"
   >
     <div class="el-popconfirm">
       <p class="el-popconfirm__main">
@@ -43,7 +44,7 @@
 import { defineComponent, ref, computed } from 'vue'
 import ElButton from '@element-plus/button'
 import ElPopper from '@element-plus/popper'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElPopconfirm',
@@ -86,6 +87,7 @@ export default defineComponent({
   },
   emits:['confirm','cancel'],
   setup(props,{ emit }){
+    const { t } = useLocaleInject()
     const visible = ref(false)
     const confirm = () => {
       visible.value = false

@@ -42,6 +42,38 @@ Muestra un mensaje de notificación global en una esquina de la página.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, h } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElNotification({
+          title: 'Title',
+          message: h('i', { style: 'color: teal' }, 'This is a reminder')
+        });
+      };
+
+      const open2 = () => {
+        ElNotification({
+          title: 'Prompt',
+          message: 'This is a message that does not automatically close',
+          duration: 0
+        });
+      };
+      return {
+        open1,
+        open2,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -110,6 +142,55 @@ Proporcionamos cuatro tipos: success, warning, info y error.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElNotification({
+          title: 'Success',
+          message: 'This is a success message',
+          type: 'success',
+        });
+      };
+
+      const open2 = () => {
+        ElNotification({
+          title: 'Warning',
+          message: 'This is a warning message',
+          type: 'warning',
+        });
+      };
+
+      const open3 = () => {
+        ElNotification({
+          title: 'Info',
+          message: 'This is an info message',
+        });
+      };
+
+      const open4 = () => {
+        ElNotification({
+          title: 'Error',
+          message: 'This is an error message',
+        });
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -179,6 +260,56 @@ La notificación puede surgir de cualquier rincón que uno desee.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElNotification({
+          title: 'Custom Position',
+          message: 'I\'m at the top right corner',
+        });
+      };
+
+      const open2 = () => {
+        ElNotification({
+          title: 'Custom Position',
+          message: 'I\'m at the bottom right corner',
+          position: 'bottom-right',
+        });
+      };
+
+      const open3 = () => {
+        ElNotification({
+          title: 'Custom Position',
+          message: 'I\'m at the bottom left corner',
+          position: 'bottom-left',
+        });
+      };
+
+      const open4 = () => {
+        ElNotification({
+          title: 'Custom Position',
+          message: 'I\'m at the top left corner',
+          position: 'top-left',
+        });
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -210,6 +341,31 @@ Personalizar el desplazamiento de notificación desde el borde de la pantalla.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElNotification.success({
+          title: 'Success',
+          message: 'This is a success message',
+          offset: 100,
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -240,6 +396,31 @@ Personalizar el desplazamiento de notificación desde el borde de la pantalla.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElNotification({
+          title: 'HTML String',
+          dangerouslyUseHTMLString: true,
+          message: '<strong>This is <i>HTML</i> string</strong>',
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -277,6 +458,31 @@ Es posible ocultar el botón de cerrar
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElNotification.success({
+          title: 'Info',
+          message: 'This is a message without close button',
+          showClose: false,
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

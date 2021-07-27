@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, inject, ref, reactive, toRefs } from 'vue'
+import { defineComponent, provide, inject, ref, reactive, toRefs, getCurrentInstance, onMounted } from 'vue'
 import { selectGroupKey, selectKey, selectEvents } from './token'
 
 export default defineComponent({
@@ -24,9 +24,10 @@ export default defineComponent({
       default: false,
     },
   },
-
   setup(props) {
     const visible = ref(true)
+    const instance = getCurrentInstance()
+    const children = ref([])
 
     provide(
       selectGroupKey,
@@ -37,8 +38,32 @@ export default defineComponent({
 
     const select = inject(selectKey)
 
+    onMounted(() => {
+      children.value = flattedChildren(instance.subTree)
+    })
+
+    // get all instances of options
+    const flattedChildren = node => {
+      const children = []
+      if (Array.isArray(node.children)) {
+        node.children.forEach(child => {
+          if (
+            child.type &&
+            child.type.name === 'ElOption' &&
+            child.component &&
+            child.component.proxy
+          ) {
+            children.push(child.component.proxy)
+          } else if (child.children?.length) {
+            children.push(...flattedChildren(child))
+          }
+        })
+      }
+      return children
+    }
+
     const queryChange = () => {
-      visible.value = select?.optionsArray?.some(option => option.visible === true)
+      visible.value = children.value.some(option => option.visible === true)
     }
     select.selectEmitter.on(selectEvents.groupQueryChange, queryChange)
 

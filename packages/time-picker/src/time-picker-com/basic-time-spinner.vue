@@ -227,7 +227,7 @@ export default defineComponent({
       }
     }
 
-    const typeItemHeight  = type => {
+    const typeItemHeight = type => {
       const el = listRefsMap[type]
       return el.value.$el.querySelector('li').offsetHeight
     }

@@ -1,21 +1,37 @@
-@import "mixins/mixins";
-@import "common/var";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'common/var';
+
+:root {
+  --el-message-min-width: 380px;
+  --el-message-background-color: #edf2fc;
+  --el-message-padding: 15px 15px 15px 20px;
+  --el-message-close-icon-color: var(--el-text-color-placeholder);
+  --el-message-close-hover-color: var(--el-text-color-secondary);
+
+  @each $type in (success, info, warning, error) {
+    --el-message-#{$type}-font-color: var(--el-color-#{$type});
+  }
+}
 
 @include b(message) {
-  min-width: $--message-min-width;
+  min-width: var(--el-message-min-width);
   box-sizing: border-box;
-  border-radius: $--border-radius-base;
-  border-width: $--border-width-base;
-  border-style: $--border-style-base;
-  border-color: $--border-color-lighter;
+  border-radius: var(--el-border-radius-base);
+  border-width: var(--el-border-width-base);
+  border-style: var(--el-border-style-base);
+  border-color: var(--el-border-color-lighter);
   position: fixed;
   left: 50%;
   top: 20px;
   transform: translateX(-50%);
-  background-color: $--message-background-color;
-  transition: opacity 0.3s, transform .4s, top 0.4s;
+  background-color: var(--el-message-background-color);
+  transition: opacity 0.3s, transform 0.4s, top 0.4s;
+  background-color: var(--el-message-background-color);
+  transition: opacity var(--el-transition-duration), transform 0.4s, top 0.4s;
   overflow: hidden;
-  padding: $--message-padding;
+  padding: var(--el-message-padding);
   display: flex;
   align-items: center;
 
@@ -35,34 +51,18 @@
 
   @include m(info) {
     .#{$namespace}-message__content {
-      color: $--message-info-font-color;
+      color: var(--el-message-info-font-color);
     }
   }
 
-  @include m(success) {
-    background-color: $--color-success-lighter;
-    border-color: $--color-success-light;
+  @each $type in (success, info, warning, error) {
+    @include m($type) {
+      background-color: map.get($--colors, $type, 'lighter');
+      border-color: map.get($--colors, $type, 'light');
 
-    .#{$namespace}-message__content {
-      color: $--message-success-font-color;
-    }
-  }
-
-  @include m(warning) {
-    background-color: $--color-warning-lighter;
-    border-color: $--color-warning-light;
-
-    .#{$namespace}-message__content {
-      color: $--message-warning-font-color;
-    }
-  }
-
-  @include m(error) {
-    background-color: $--color-danger-lighter;
-    border-color: $--color-danger-light;
-
-    .#{$namespace}-message__content {
-      color: $--message-danger-font-color;
+      .#{$namespace}-message__content {
+        color: var(--el-message-#{$type}-font-color);
+      }
     }
   }
 
@@ -85,31 +85,21 @@
     right: 15px;
     transform: translateY(-50%);
     cursor: pointer;
-    color: $--message-close-icon-color;
-    font-size: $--message-close-size;
+    color: var(--el-message-close-icon-color);
+    font-size: var(--el-message-close-size);
 
     &:focus {
       outline-width: 0;
     }
     &:hover {
-      color: $--message-close-hover-color;
+      color: var(--el-message-close-hover-color);
     }
   }
 
-  & .#{$namespace}-icon-success {
-    color: $--message-success-font-color;
-  }
-
-  & .#{$namespace}-icon-error {
-    color: $--message-danger-font-color;
-  }
-
-  & .#{$namespace}-icon-info {
-    color: $--message-info-font-color;
-  }
-
-  & .#{$namespace}-icon-warning {
-    color: $--message-warning-font-color;
+  @each $type in (success, info, warning, error) {
+    & .#{$namespace}-icon-#{$type} {
+      color: var(--el-message-#{$type}-font-color);
+    }
   }
 }
 

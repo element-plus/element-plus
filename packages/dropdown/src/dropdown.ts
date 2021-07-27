@@ -11,7 +11,7 @@ export interface IElDropdownInstance {
   handleClick?: () => void
   commandHandler?: (...arg) => void
   show?: () => void
-  hide?:  () => void
+  hide?: () => void
   trigger?: ComputedRef<string>
   hideOnClick?: ComputedRef<boolean>
   triggerElm?: ComputedRef<Nullable<HTMLButtonElement>>

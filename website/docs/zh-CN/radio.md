@@ -25,14 +25,15 @@
 </script>
 <!--
 <setup>
-  import { ref } from 'vue'
+  import { defineComponent, ref } from 'vue'
 
-  export default {
+  export default defineComponent({
     setup() {
-      const radio = ref('1');
-      return { radio }
+      return {
+        radio: ref('1'),
+      }
     }
-  }
+  })
 </setup>
 -->
 ```
@@ -58,6 +59,19 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref('选中且禁用'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -85,6 +99,19 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref(3),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -141,6 +168,22 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio1: ref('上海'),
+        radio2: ref('上海'),
+        radio3: ref('上海'),
+        radio4: ref('上海'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -183,6 +226,22 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio1: ref('1'),
+        radio2: ref('1'),
+        radio3: ref('1'),
+        radio4: ref('1'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 

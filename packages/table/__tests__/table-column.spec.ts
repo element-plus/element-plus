@@ -1,4 +1,4 @@
-import {  nextTick } from 'vue'
+import { nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
 import { triggerEvent } from '@element-plus/test-utils'
@@ -665,6 +665,109 @@ describe('table column', () => {
       expect(trs[0].find('th:first-child').attributes('colspan')).toEqual('1')
       wrapper.unmount()
     })
+
+    it('el-table-column should callback itself', async() => {
+      const TableColumn = {
+        name: 'TableColumn',
+        components: {
+          ElTableColumn,
+        },
+        props: {
+          item: Object,
+        },
+        template: `
+          <el-table-column :prop="item.prop" :label="item.label">
+            <template v-if="item.children" #default>
+              <table-column v-for="c in item.children" :key="c.prop" :item="c"/>
+            </template>
+          </el-table-column>
+        `,
+      }
+      const App = {
+        template: `
+          <el-table :data="data">
+            <table-column v-for="item in column" :key="item.prop" :item="item"/>
+          </el-table>
+        `,
+        components: {
+          ElTable,
+          ElTableColumn,
+          TableColumn,
+        },
+        setup() {
+          const column = [
+            { label: '日期', prop: 'date' },
+            {
+              label: '用户',
+              prop: 'user',
+              children: [
+                { label: '姓名', prop: 'name' },
+                { label: '地址', prop: 'address' },
+              ],
+            },
+          ]
+          const data = [
+            {
+              date: '2016-05-03',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-02',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-04',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+            {
+              date: '2016-05-01',
+              name: 'Tom',
+              address: 'No. 189, Grove St, Los Angeles',
+            },
+          ]
+          return {
+            column,
+            data,
+          }
+        },
+      }
+      const wrapper = mount(App)
+      await nextTick()
+      expect(wrapper.find('.el-table__header-wrapper').text()).toMatch('姓名')
+      expect(wrapper.find('.el-table__header-wrapper').text()).toMatch('地址')
+    })
+
+    it('should not rendered other components in hidden-columns', async () => {
+      const Comp = {
+        template: `
+          <div class="other-component"></div>
+        `,
+      }
+      const wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+          Comp,
+        },
+        template: `
+          <el-table :data="testData">
+            <el-table-column prop="name">
+              <comp></comp>
+            </el-table-column>
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestData(),
+          }
+        },
+      })
+      await nextTick()
+      expect(wrapper.find('.hidden-columns').find('.other-component').exists()).toBeFalsy()
+    })
   })
 
   describe('dynamic column attribtes', () => {
@@ -823,10 +926,17 @@ describe('table column', () => {
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '100',
       )
+
       wrapper.vm.width = 200
       await nextTick()
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '200',
+      )
+
+      wrapper.vm.width = '300px'
+      await nextTick()
+      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+        '300',
       )
       wrapper.unmount()
     })
@@ -858,10 +968,17 @@ describe('table column', () => {
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '100',
       )
+
       wrapper.vm.width = 200
       await nextTick()
       expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
         '200',
+      )
+
+      wrapper.vm.width = '300px'
+      await nextTick()
+      expect(wrapper.find('.el-table__body col').attributes('width')).toEqual(
+        '300',
       )
       wrapper.unmount()
     })
@@ -943,5 +1060,142 @@ describe('table column', () => {
       expect(firstColumnContent).toEqual(secondColumnContent)
       wrapper.unmount()
     })
+  })
+
+  describe('tree table', () => {
+
+    const getTableData = () => {
+      return [{
+        id: 1,
+        date: '2016-05-02',
+        name: 'Wangxiaohu',
+        address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+        index: 1,
+      }, {
+        id: 2,
+        date: '2016-05-04',
+        name: 'Wangxiaohu',
+        address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+        index: 2,
+      }, {
+        id: 3,
+        date: '2016-05-01',
+        name: 'Wangxiaohu',
+        address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+        index: 3,
+        children: [{
+          id: 31,
+          date: '2016-05-01',
+          name: 'Wangxiaohu',
+          address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+          index: 4,
+          children: [
+            {
+              id: 311,
+              date: '2016-05-01',
+              name: 'Wangxiaohu',
+              address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+              index: 5,
+            },
+            {
+              id: 312,
+              date: '2016-05-01',
+              name: 'Wangxiaohu',
+              address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+              index: 6,
+            },
+            {
+              id: 313,
+              date: '2016-05-01',
+              name: 'Wangxiaohu',
+              address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+              index: 7,
+              disabled: true,
+            },
+          ],
+        }, {
+          id: 32,
+          date: '2016-05-01',
+          name: 'Wangxiaohu',
+          address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+          index: 8,
+        }],
+      }, {
+        id: 4,
+        date: '2016-05-03',
+        name: 'Wangxiaohu',
+        address: '1518 Jinshajiang Road, Putuo District, Shanghai',
+        index: 9,
+      }]
+    }
+
+    const createTable = function(methods) {
+      return mount(
+        Object.assign(
+          {
+            components: {
+              ElTable,
+              ElTableColumn,
+            },
+            template: `
+              <el-table
+                ref="table"
+                :data="testData"
+                row-key="id"
+                border
+                default-expand-all
+                :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+              >
+                <el-table-column type="index"></el-table-column>
+                <el-table-column type="selection" :selectable="selectable"></el-table-column>
+                <el-table-column prop="id" label="id"></el-table-column>
+                <el-table-column
+                  prop="date"
+                  label="Date"
+                  sortable
+                  width="180">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="Name"
+                  sortable
+                  width="180">
+                </el-table-column>
+                <el-table-column
+                  prop="address"
+                  label="Address">
+                </el-table-column>
+              </el-table>
+          `,
+            methods: {
+              selectable(row) {
+                return !row.disabled
+              },
+              ...methods,
+            },
+            data() {
+              return {
+                testData: getTableData(),
+              }
+            },
+          },
+        ),
+      )
+    }
+
+    it('selectable index parameter should be correct', async() => {
+      const result = []
+      const wrapper = createTable({
+        selectable(row, index) {
+          result.push((row.index - 1) === index)
+          return !row.disabled
+        },
+      })
+      await nextTick()
+      wrapper.vm.$refs.table.toggleAllSelection()
+      expect(result.every(item => item)).toBeTruthy()
+      wrapper.unmount()
+    })
+
   })
 })

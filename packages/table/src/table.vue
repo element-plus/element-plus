@@ -56,7 +56,7 @@
         }"
       />
       <div
-        v-if="!data || data.length === 0"
+        v-if="isEmpty"
         ref="emptyBlock"
         :style="emptyBlockStyle"
         class="el-table__empty-block"
@@ -75,7 +75,7 @@
     </div>
     <div
       v-if="showSummary"
-      v-show="data && data.length > 0"
+      v-show="!isEmpty"
       ref="footerWrapper"
       v-mousewheel="handleHeaderFooterMousewheel"
       class="el-table__footer-wrapper"
@@ -149,7 +149,7 @@
       </div>
       <div
         v-if="showSummary"
-        v-show="data && data.length > 0"
+        v-show="!isEmpty"
         ref="fixedFooterWrapper"
         class="el-table__fixed-footer-wrapper"
       >
@@ -223,7 +223,7 @@
       </div>
       <div
         v-if="showSummary"
-        v-show="data && data.length > 0"
+        v-show="!isEmpty"
         ref="rightFixedFooterWrapper"
         class="el-table__fixed-footer-wrapper"
       >
@@ -257,9 +257,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance } from 'vue'
+import { defineComponent, getCurrentInstance, computed } from 'vue'
 import { createStore } from './store/helper'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { Mousewheel } from '@element-plus/directives'
 import TableLayout from './table-layout'
 import TableHeader from './table-header/index'
@@ -289,6 +289,7 @@ export default defineComponent({
     'selection-change',
     'cell-mouse-enter',
     'cell-mouse-leave',
+    'cell-contextmenu',
     'cell-click',
     'cell-dblclick',
     'row-click',
@@ -304,6 +305,7 @@ export default defineComponent({
   ],
   setup(props) {
     type Row = typeof props.data[number]
+    const { t } = useLocaleInject()
     let table = getCurrentInstance() as Table<Row>
     const store = createStore<Row>(table, props)
     table.store = store
@@ -314,6 +316,8 @@ export default defineComponent({
       showHeader: props.showHeader,
     })
     table.layout = layout
+
+    const isEmpty = computed(() => (store.states.data.value || []).length === 0)
 
     /**
      * open functions
@@ -365,6 +369,7 @@ export default defineComponent({
       tableId,
       tableSize,
       isHidden,
+      isEmpty,
       renderExpanded,
       resizeProxyVisible,
       resizeState,

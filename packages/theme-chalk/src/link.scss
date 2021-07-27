@@ -1,12 +1,32 @@
-@import "mixins/mixins";
-@import "common/var";
+@use "sass:map";
 
-$typeMap: (
-  primary: $--link-primary-font-color, 
-  danger: $--link-danger-font-color, 
-  success: $--link-success-font-color, 
-  warning: $--link-warning-font-color, 
-  info: $--link-info-font-color);
+@import 'mixins/mixins';
+@import 'common/var';
+
+$types: primary, success, warning, danger, info;
+
+:root {
+  --el-link-font-size: var(--el-font-size-base);
+  --el-link-font-weight: var(--el-font-weight-primary);
+  --el-link-default-font-color: var(--el-text-color-regular);
+  --el-link-default-active-color: var(--el-color-primary);
+  --el-link-disabled-font-color: var(--el-text-color-placeholder);
+
+  @each $type in $types {
+    --el-link-#{$type}-font-color: var(--el-color-#{$type});
+  }
+}
+
+$--link-font-color: () !default;
+
+@each $type in $types {
+  $--link-font-color: map.merge(
+    $--link-font-color,
+    (
+      $type: map.get($--colors, $type, 'base'),
+    )
+  ) !global;
+}
 
 @include b(link) {
   display: inline-flex;
@@ -19,63 +39,61 @@ $typeMap: (
   outline: none;
   cursor: pointer;
   padding: 0;
-  font-size: $--link-font-size;
-  font-weight: $--link-font-weight;
+  font-size: var(--el-link-font-size);
+  font-weight: var(--el-link-font-weight);
 
   @include when(underline) {
     &:hover:after {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       right: 0;
       height: 0;
       bottom: 0;
-      border-bottom: 1px solid $--link-default-active-color
+      border-bottom: 1px solid var(--el-link-default-active-color);
     }
   }
 
   @include when(disabled) {
     cursor: not-allowed;
-  } 
+  }
 
-  & [class*="#{$namespace}-icon-"] {
+  & [class*='#{$namespace}-icon-'] {
     & + span {
       margin-left: 5px;
     }
   }
-    
-    
-  &.#{$namespace}-link--default  {
-    color: $--link-default-font-color;
+
+  &.#{$namespace}-link--default {
+    color: var(--el-link-default-font-color);
     &:hover {
-      color: $--link-default-active-color
+      color: var(--el-link-default-active-color);
     }
     &:after {
-      border-color: $--link-default-active-color
+      border-color: var(--el-link-default-active-color);
     }
     @include when(disabled) {
-      color: $--link-disabled-font-color
+      color: var(--el-link-disabled-font-color);
     }
   }
 
-  @each $type, $primaryColor in $typeMap {
+  @each $type in $types {
     &.#{$namespace}-link--#{$type} {
-      color: $primaryColor;
+      color: var(--el-link-#{$type}-font-color);
       &:hover {
-        color: mix($primaryColor, $--color-white, 80%)
+        color: mix(map.get($--link-font-color, $type), $--color-white, 80%);
       }
       &:after {
-        border-color: $primaryColor
+        border-color: var(--el-link-#{$type}-font-color);
       }
       @include when(disabled) {
-        color: mix($primaryColor, $--color-white, 50%)
+        color: mix(map.get($--link-font-color, $type), $--color-white, 50%);
       }
       @include when(underline) {
         &:hover:after {
-          border-color: $primaryColor
+          border-color: var(--el-link-#{$type}-font-color);
         }
       }
     }
   }
-    
 }

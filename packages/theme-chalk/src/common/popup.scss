@@ -1,12 +1,17 @@
-@import "./var.scss";
-@import "../mixins/mixins";
+@import './var.scss';
+@import '../mixins/mixins';
+
+:root {
+  --el-popup-modal-background-color: var(--el-color-black);
+  --el-popup-modal-opacity: 0.5;
+}
 
 .v-modal-enter {
-  animation: v-modal-in .2s ease;
+  animation: v-modal-in var(--el-transition-duration-fast) ease;
 }
 
 .v-modal-leave {
-  animation: v-modal-out .2s ease forwards;
+  animation: v-modal-out var(--el-transition-duration-fast) ease forwards;
 }
 
 @keyframes v-modal-in {
@@ -31,8 +36,8 @@
   top: 0;
   width: 100%;
   height: 100%;
-  opacity: $--popup-modal-opacity;
-  background: $--popup-modal-background-color;
+  opacity: var(--el-popup-modal-opacity);
+  background: var(--el-popup-modal-background-color);
 }
 
 @include b(popup-parent) {

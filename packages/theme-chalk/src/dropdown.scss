@@ -1,22 +1,22 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "button";
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'button';
 @import 'popper';
 
 @include b(dropdown) {
   display: inline-block;
   position: relative;
-  color: $--color-text-regular;
-  font-size: $--font-size-base;
+  color: var(--el-text-color-regular);
+  font-size: var(--el-font-size-base);
   line-height: 1;
 
   @include e(popper) {
     // using attributes selector to override
 
     @include picker-popper(
-        $--color-white,
-        1px solid $--border-color-light,
-        $--dropdown-menu-box-shadow,
+      $--color-white,
+      1px solid var(--el-border-color-light),
+      $--dropdown-menu-box-shadow
     );
 
     .#{$namespace}-dropdown-menu {
@@ -86,7 +86,8 @@
     margin: 0 3px;
   }
 
-  .#{$namespace}-dropdown-selfdefine { // 自定义
+  .#{$namespace}-dropdown-selfdefine {
+    // 自定义
     outline: none;
   }
 }
@@ -100,7 +101,7 @@
   margin: 0;
   background-color: $--color-white;
   border: none;
-  border-radius: $--border-radius-base;
+  border-radius: var(--el-border-radius-base);
   box-shadow: none;
 
   @include e(item) {
@@ -108,11 +109,12 @@
     line-height: 36px;
     padding: 0 20px;
     margin: 0;
-    font-size: $--font-size-base;
-    color: $--color-text-regular;
+    font-size: var(--el-font-size-base);
+    color: var(--el-text-color-regular);
     cursor: pointer;
     outline: none;
-    &:not(.is-disabled):hover, &:focus {
+    &:not(.is-disabled):hover,
+    &:focus {
       background-color: $--dropdown-menuItem-hover-fill;
       color: $--dropdown-menuItem-hover-color;
     }
@@ -126,7 +128,7 @@
 
       position: relative;
       margin-top: $divided-offset;
-      border-top: 1px solid $--border-color-lighter;
+      border-top: 1px solid var(--el-border-color-lighter);
 
       &:before {
         content: '';
@@ -139,7 +141,7 @@
 
     @include when(disabled) {
       cursor: not-allowed;
-      color: $--font-color-disabled-base;
+      color: var(--el-font-color-disabled-base);
     }
   }
 

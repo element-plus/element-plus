@@ -3,6 +3,7 @@
     type="button"
     class="btn-next"
     :disabled="internalDisabled"
+    :aria-disabled="internalDisabled"
     @click.self.prevent
   >
     <span v-if="nextText">{{ nextText }}</span>

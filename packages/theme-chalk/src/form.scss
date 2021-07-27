@@ -1,6 +1,10 @@
-@import "mixins/mixins";
-@import "mixins/utils";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'mixins/utils';
+@import 'common/var';
+
+:root {
+  --el-form-label-font-size: var(--el-font-size-base);
+}
 
 @include b(form) {
   @include m(label-left) {
@@ -9,35 +13,35 @@
     }
   }
   @include m(label-top) {
+    & .#{$namespace}-form-item {
+      display: block;
+    }
     & .#{$namespace}-form-item__label {
-      float: none;
-      display: inline-block;
+      display: block;
       text-align: left;
       padding: 0 0 10px 0;
     }
   }
   @include m(inline) {
     & .#{$namespace}-form-item {
-      display: inline-block;
+      display: inline-flex;
       margin-right: 10px;
-      vertical-align: top;
     }
-    & .#{$namespace}-form-item__label {
-      float: none;
-      display: inline-block;
-    }
-    & .#{$namespace}-form-item__content {
-      display: inline-block;
-      vertical-align: top;
-    }
-    &.#{$namespace}-form--label-top .#{$namespace}-form-item__content {
-      display: block;
+
+    &.#{$namespace}-form--label-top {
+      display: flex;
+      flex-wrap: wrap;
+
+      .#{$namespace}-form-item {
+        display: block;
+      }
     }
   }
 }
+
 @include b(form-item) {
+  display: flex;
   margin-bottom: 22px;
-  @include utils-clearfix;
 
   & .#{$namespace}-form-item {
     margin-bottom: 0;
@@ -85,35 +89,32 @@
   }
 
   @include e(label-wrap) {
-    float: left;
     .#{$namespace}-form-item__label {
       display: inline-block;
-      float: none;
     }
   }
 
   @include e(label) {
+    flex: 0 0 auto;
     text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: $--form-label-font-size;
-    color: $--color-text-regular;
+    font-size: var(--el-form-label-font-size);
+    color: var(--el-text-color-regular);
     line-height: 40px;
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
   @include e(content) {
+    flex: 1;
     line-height: 40px;
     position: relative;
     font-size: 14px;
-    @include utils-clearfix;
 
     .#{$namespace}-input-group {
       vertical-align: top;
     }
   }
   @include e(error) {
-    color: $--color-danger;
+    color: var(--el-color-danger);
     font-size: 12px;
     line-height: 1;
     padding-top: 4px;
@@ -132,10 +133,9 @@
 
   @include when(required) {
     @include pseudo('not(.is-no-asterisk)') {
-      & > .#{$namespace}-form-item__label:before,
-      & .#{$namespace}-form-item__label-wrap > .#{$namespace}-form-item__label:before {
+      & > .#{$namespace}-form-item__label:before {
         content: '*';
-        color: $--color-danger;
+        color: var(--el-color-danger);
         margin-right: 4px;
       }
     }
@@ -144,8 +144,9 @@
   @include when(error) {
     & .#{$namespace}-input__inner,
     & .#{$namespace}-textarea__inner {
-      &, &:focus {
-        border-color: $--color-danger;
+      &,
+      &:focus {
+        border-color: var(--el-color-danger);
       }
     }
     & .#{$namespace}-input-group__append,
@@ -155,7 +156,7 @@
       }
     }
     .#{$namespace}-input__validateIcon {
-      color: $--color-danger;
+      color: var(--el-color-danger);
     }
   }
 

@@ -22,14 +22,15 @@ El elemento Radio no debe tener muchas opciones. De otra manera, utilice el comp
 </script>
 <!--
 <setup>
-  import { ref } from 'vue'
+  import { defineComponent, ref } from 'vue'
 
-  export default {
+  export default defineComponent({
     setup() {
-      const radio = ref('1');
-      return { radio }
+      return {
+        radio: ref('1'),
+      }
     }
-  }
+  })
 </setup>
 -->
 ```
@@ -55,6 +56,19 @@ El atributo `disabled` es utilizado para deshabilitar un Radio.
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref('selected and disabled'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -80,6 +94,19 @@ Recomendado para seleccionar opciones que se excluyen mutuamente.
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref(3),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -136,6 +163,22 @@ Radio con estilo de botón.
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio1: ref('New York'),
+        radio2: ref('New York'),
+        radio3: ref('New York'),
+        radio4: ref('New York'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -178,6 +221,22 @@ Radio con estilo de botón.
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio1: ref('1'),
+        radio2: ref('1'),
+        radio3: ref('1'),
+        radio4: ref('1'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 

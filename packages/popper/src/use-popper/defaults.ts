@@ -1,4 +1,4 @@
-import type { PropType  } from 'vue'
+import type { PropType } from 'vue'
 import type { Placement, PositioningStrategy, Instance as PopperInstance, Options } from '@popperjs/core'
 
 export enum Effect {

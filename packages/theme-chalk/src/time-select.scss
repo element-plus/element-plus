@@ -1,8 +1,11 @@
-@import "common/var";
-@import "./date-picker/picker.scss";
-@import "./date-picker/date-picker.scss";
-@import "./scrollbar.scss";
-@import "./popper";
+@import 'common/var';
+@import './date-picker/picker.scss';
+@import './date-picker/date-picker.scss';
+@import './scrollbar.scss';
+@import './popper';
+@import './input.scss';
+@import './select.scss';
+@import './option.scss';
 
 .time-select {
   margin: 5px 0;
@@ -21,12 +24,12 @@
 }
 
 .time-select-item.selected:not(.disabled) {
-  color: $--color-primary;
+  color: var(--el-color-primary);
   font-weight: bold;
 }
 
 .time-select-item.disabled {
-  color: $--datepicker-border-color;
+  color: var(--el-datepicker-border-color);
   cursor: not-allowed;
 }
 

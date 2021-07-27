@@ -2,61 +2,86 @@
 @import 'common/var';
 @import 'descriptions-item';
 
+:root {
+  --el-descriptions-header-margin-bottom: 20px;
+  --el-descriptions-title-font-size: 16px;
+  --el-descriptions-table-border: 1px solid map.get($--border-color, 'lighter');
+  --el-descriptions-item-bordered-label-background: #fafafa;
+}
+
 @include b(descriptions) {
   box-sizing: border-box;
-  font-size: $--font-size-base;
-  color: $--color-text-primary;
+  font-size: var(--el-font-size-base);
+  color: var(--el-text-color-primary);
 
   @include e(header) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $--descriptions-header-margin-bottom;
+    margin-bottom: var(--el-descriptions-header-margin-bottom);
 
     @include e(title) {
-      font-size: $--descriptions-title-font-size;
+      font-size: var(--el-descriptions-title-font-size);
       font-weight: bold;
     }
   }
 
   @include e(body) {
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
     background-color: $--color-white;
 
     table {
       border-collapse: collapse;
       width: 100%;
 
-      th, td {
+      th,
+      td {
+        box-sizing: border-box;
         text-align: left;
         font-weight: normal;
         line-height: 1.5;
+
+        @include when(left) {
+          text-align: left;
+        }
+
+        @include when(center) {
+          text-align: center;
+        }
+
+        @include when(right) {
+          text-align: right;
+        }
       }
     }
   }
 
   .is-bordered {
-    th, td {
-      border: $--descriptions-table-border;
+    th,
+    td {
+      border: var(--el-descriptions-table-border);
       padding: 12px 10px;
     }
   }
 
   :not(.is-bordered) {
-    th, td {
+    th,
+    td {
       padding-bottom: 12px;
     }
   }
 
   @include m(medium) {
     &.is-bordered {
-      th, td {
+      th,
+      td {
         padding: 10px;
       }
     }
 
     &:not(.is-bordered) {
-      th, td {
+      th,
+      td {
         padding-bottom: 10px;
       }
     }
@@ -66,13 +91,15 @@
     font-size: 12px;
 
     &.is-bordered {
-      th, td {
+      th,
+      td {
         padding: 8px 10px;
       }
     }
 
     &:not(.is-bordered) {
-      th, td {
+      th,
+      td {
         padding-bottom: 8px;
       }
     }
@@ -82,13 +109,15 @@
     font-size: 12px;
 
     &.is-bordered {
-      th, td {
+      th,
+      td {
         padding: 6px 10px;
       }
     }
 
     &:not(.is-bordered) {
-      th, td {
+      th,
+      td {
         padding-bottom: 6px;
       }
     }

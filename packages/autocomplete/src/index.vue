@@ -301,13 +301,13 @@ export default defineComponent({
       const suggestionList = suggestion.querySelectorAll('.el-autocomplete-suggestion__list li')
       const highlightItem = suggestionList[index]
       const scrollTop = suggestion.scrollTop
-      const offsetTop = highlightItem.offsetTop
+      const { offsetTop, scrollHeight } = highlightItem
 
-      if (offsetTop + highlightItem.scrollHeight > (scrollTop + suggestion.clientHeight)) {
-        suggestion.scrollTop += highlightItem.scrollHeight
+      if (offsetTop + scrollHeight > (scrollTop + suggestion.clientHeight)) {
+        suggestion.scrollTop += scrollHeight
       }
       if (offsetTop < scrollTop) {
-        suggestion.scrollTop -= highlightItem.scrollHeight
+        suggestion.scrollTop -= scrollHeight
       }
       highlightedIndex.value = index
       inputRef.value.inputOrTextarea.setAttribute('aria-activedescendant', `${id.value}-item-${highlightedIndex.value}`)

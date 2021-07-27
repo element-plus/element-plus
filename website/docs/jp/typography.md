@@ -1,59 +1,45 @@
 <script>
-  import bus from '../../bus';
-  const varMap = [
-    '$--font-size-extra-large',
-    '$--font-size-large',
-    '$--font-size-medium',
-    '$--font-size-base',
-    '$--font-size-small',
-    '$--font-size-extra-small'
-  ];
-  const original = {
-    'font_size_extra_large': '20px',
-    'font_size_large': '18px',
-    'font_size_medium': '16px',
-    'font_size_base': '14px',
-    'font_size_small': '13px',
-    'font_size_extra_small': '12px'
-  }
+  const fontSizes = [
+    {
+      level: 'Supplementary text',
+      type: 'extra-small',
+      size: '12px',
+    },
+    {
+      level: 'Body (small)',
+      type: 'small',
+      size: '13px',
+    },
+    {
+      level: 'Body',
+      type: 'base',
+      size: '14px',
+    },
+    {
+      level: 'Small Title',
+      type: 'medium',
+      size: '16px',
+    },
+    {
+      level: 'Title',
+      type: 'large',
+      size: '18px',
+    },
+    {
+      level: 'Main Title',
+      type: 'extra-large',
+      size: '20px',
+    },
+  ]
   export default {
-    mounted() {
-      this.setGlobal();
-    },
-    methods: {
-      tintColor(color, tint) {
-        return tintColor(color, tint);
-      },
-      setGlobal() {
-        if (window.userThemeConfig) {
-          this.global = window.userThemeConfig.global;
-        }
-      }
-    },
     data() {
       return {
-        global: {},
-        'font_size_extra_large': '',
-        'font_size_large': '',
-        'font_size_medium': '',
-        'font_size_base': '',
-        'font_size_small': '',
-        'font_size_extra_small': ''
+        fontSizes
       }
     },
-    watch: {
-      global: {
-        immediate: true,
-        handler(value) {
-          varMap.forEach((v) => {
-            const key = v.replace('$--', '').replace(/-/g, '_')
-            if (value[v]) {
-              this[key] = value[v]
-            } else {
-              this[key] = original[key]
-            }
-          });
-        }
+    methods: {
+      formatType(type) {
+        return type.split('-').map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(' ');
       }
     },
   }
@@ -64,6 +50,7 @@
 私たちは、さまざまなプラットフォームで最高のプレゼンテーションを実現するために、フォントの規約を作成します。
 
 ### Font
+
 <div class="demo-term-box">
 <img src="../../assets/images/term-pingfang.png" alt="">
 <img src="../../assets/images/term-hiragino.png" alt="">
@@ -83,46 +70,9 @@
       <td>Font Size</td>
       <td class="color-dark-light">Demo</td>
     </tr>
-    <tr
-    :style="{ fontSize: font_size_extra_small }"
-    >
-      <td>Supplementary text</td>
-      <td class="color-dark-light">{{font_size_extra_small}} Extra Small</td>
-      <td>Build with Element</td>
-    </tr>
-    <tr
-    :style="{ fontSize: font_size_small }"
-    >
-      <td>Body (small)</td>
-      <td class="color-dark-light">{{font_size_small}} Small</td>
-      <td>Build with Element</td>
-    </tr>
-    <tr
-    :style="{ fontSize: font_size_base }"
-    >
-      <td>Body</td>
-      <td class="color-dark-light">{{font_size_base}} Base</td>
-      <td>Build with Element</td>
-    </tr>
-    <tr
-    :style="{ fontSize: font_size_medium }"
-    >
-      <td >Small Title</td>
-      <td class="color-dark-light">{{font_size_medium}} Medium</td>
-      <td>Build with Element</td>
-    </tr>
-    <tr
-    :style="{ fontSize: font_size_large }"
-    >
-      <td>Title</td>
-      <td class="color-dark-light">{{font_size_large}} large</td>
-      <td>Build with Element</td>
-    </tr>
-    <tr
-    :style="{ fontSize: font_size_extra_large }"
-    >
-      <td>Main Title</td>
-      <td class="color-dark-light">{{font_size_extra_large}} Extra large</td>
+    <tr v-for="(fontSize, i) in fontSizes" :key="i" :style="`font-size: var(--el-font-size-${fontSize.type})`">
+      <td>{{ fontSize.level }}</td>
+      <td>{{ fontSize.size + ' ' + formatType(fontSize.type) }}</td>
       <td>Build with Element</td>
     </tr>
   </tbody>
@@ -143,5 +93,6 @@
 ### フォントファミリー
 
 ```css
-font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
 ```

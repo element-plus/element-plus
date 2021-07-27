@@ -1,5 +1,5 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(tabs) {
   @include e(header) {
@@ -12,9 +12,10 @@
     bottom: 0;
     left: 0;
     height: 2px;
-    background-color: $--color-primary;
+    background-color: var(--el-color-primary);
     z-index: 1;
-    transition: transform .3s cubic-bezier(.645,.045,.355,1);
+    transition: transform var(--el-transition-duration)
+      cubic-bezier(0.645, 0.045, 0.355, 1);
     list-style: none;
   }
   @include e(new-tab) {
@@ -29,14 +30,14 @@
     font-size: 12px;
     color: #d3dce6;
     cursor: pointer;
-    transition: all .15s;
+    transition: all 0.15s;
 
     .#{$namespace}-icon-plus {
       transform: scale(0.8, 0.8);
     }
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
   }
   @include e(nav-wrap) {
@@ -45,14 +46,14 @@
     position: relative;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       bottom: 0;
       width: 100%;
       height: 2px;
-      background-color: $--border-color-light;
-      z-index: $--index-normal;
+      background-color: var(--el-border-color-light);
+      z-index: var(--el-index-normal);
     }
 
     @include when(scrollable) {
@@ -68,7 +69,7 @@
     cursor: pointer;
     line-height: 44px;
     font-size: 12px;
-    color: $--color-text-secondary;
+    color: var(--el-text-color-secondary);
   }
   @include e(nav-next) {
     right: 0;
@@ -79,9 +80,9 @@
   @include e(nav) {
     white-space: nowrap;
     position: relative;
-    transition: transform .3s;
+    transition: transform var(--el-transition-duration);
     float: left;
-    z-index: #{$--index-normal + 1};
+    z-index: calc(var(--el-index-normal) + 1);
 
     @include when(stretch) {
       min-width: 100%;
@@ -101,35 +102,37 @@
     list-style: none;
     font-size: 14px;
     font-weight: 500;
-    color: $--color-text-primary;
+    color: var(--el-text-color-primary);
     position: relative;
 
-    &:focus, &:focus:active {
+    &:focus,
+    &:focus:active {
       outline: none;
     }
 
     & .#{$namespace}-icon-close {
       border-radius: 50%;
       text-align: center;
-      transition: all .3s cubic-bezier(.645,.045,.355,1);
+      transition: all var(--el-transition-duration)
+        cubic-bezier(0.645, 0.045, 0.355, 1);
       margin-left: 5px;
       &:before {
-        transform: scale(.9);
+        transform: scale(0.9);
         display: inline-block;
       }
 
       &:hover {
-        background-color: $--color-text-placeholder;
+        background-color: var(--el-text-color-placeholder);
         color: $--color-white;
       }
     }
 
     @include when(active) {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
       cursor: pointer;
     }
 
@@ -144,13 +147,13 @@
   }
   @include m(card) {
     > .#{$namespace}-tabs__header {
-      border-bottom: 1px solid $--border-color-light;
+      border-bottom: 1px solid var(--el-border-color-light);
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav {
-      border: 1px solid $--border-color-light;
+      border: 1px solid var(--el-border-color-light);
       border-bottom: none;
       border-radius: 4px 4px 0 0;
       box-sizing: border-box;
@@ -158,7 +161,9 @@
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__active-bar {
       display: none;
     }
-    > .#{$namespace}-tabs__header .#{$namespace}-tabs__item .#{$namespace}-icon-close {
+    > .#{$namespace}-tabs__header
+      .#{$namespace}-tabs__item
+      .#{$namespace}-icon-close {
       position: relative;
       font-size: 12px;
       width: 0;
@@ -172,8 +177,11 @@
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       border-bottom: 1px solid transparent;
-      border-left: 1px solid $--border-color-light;
-      transition: color .3s cubic-bezier(.645,.045,.355,1), padding .3s cubic-bezier(.645,.045,.355,1);
+      border-left: 1px solid var(--el-border-color-light);
+      transition: color var(--el-transition-duration)
+          cubic-bezier(0.645, 0.045, 0.355, 1),
+        padding var(--el-transition-duration)
+          cubic-bezier(0.645, 0.045, 0.355, 1);
       &:first-child {
         border-left: none;
       }
@@ -203,25 +211,26 @@
   }
   @include m(border-card) {
     background: $--color-white;
-    border: 1px solid $--border-color-base;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12), 0 0 6px 0 rgba(0,0,0,0.04);
+    border: 1px solid var(--el-border-color-base);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 
     > .#{$namespace}-tabs__content {
       padding: 15px;
     }
     > .#{$namespace}-tabs__header {
       background-color: $--background-color-base;
-      border-bottom: 1px solid $--border-color-light;
+      border-bottom: 1px solid var(--el-border-color-light);
       margin: 0;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
-      transition: all .3s cubic-bezier(.645,.045,.355,1);
+      transition: all var(--el-transition-duration)
+        cubic-bezier(0.645, 0.045, 0.355, 1);
       border: 1px solid transparent;
       margin-top: -1px;
-      color: $--color-text-secondary;
+      color: var(--el-text-color-secondary);
 
       &:first-child {
         margin-left: -1px;
@@ -232,20 +241,22 @@
       }
 
       &.is-active {
-        color: $--color-primary;
+        color: var(--el-color-primary);
         background-color: $--color-white;
-        border-right-color: $--border-color-base;
-        border-left-color: $--border-color-base;
+        border-right-color: var(--el-border-color-base);
+        border-left-color: var(--el-border-color-base);
       }
       &:not(.is-disabled):hover {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
       &.is-disabled {
         color: $--disabled-color-base;
       }
     }
 
-    > .#{$namespace}-tabs__header .is-scrollable .#{$namespace}-tabs__item:first-child {
+    > .#{$namespace}-tabs__header
+      .is-scrollable
+      .#{$namespace}-tabs__item:first-child {
       margin-left: 0;
     }
   }
@@ -259,8 +270,10 @@
       padding-right: 0;
     }
 
-    &.#{$namespace}-tabs--border-card, &.#{$namespace}-tabs--card,
-    .#{$namespace}-tabs--left, .#{$namespace}-tabs--right {
+    &.#{$namespace}-tabs--border-card,
+    &.#{$namespace}-tabs--card,
+    .#{$namespace}-tabs--left,
+    .#{$namespace}-tabs--right {
       > .#{$namespace}-tabs__header {
         .#{$namespace}-tabs__item:nth-child(2) {
           padding-left: 20px;
@@ -279,7 +292,7 @@
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-bottom {
         border-bottom: 0;
-        border-top: 1px solid $--border-color-base;
+        border-top: 1px solid var(--el-border-color-base);
       }
       .#{$namespace}-tabs__nav-wrap.is-bottom {
         margin-top: -1px;
@@ -385,17 +398,17 @@
       }
       .#{$namespace}-tabs__item.is-left {
         border-left: none;
-        border-right: 1px solid $--border-color-light;
+        border-right: 1px solid var(--el-border-color-light);
         border-bottom: none;
-        border-top: 1px solid $--border-color-light;
+        border-top: 1px solid var(--el-border-color-light);
         text-align: left;
       }
       .#{$namespace}-tabs__item.is-left:first-child {
-        border-right: 1px solid $--border-color-light;
+        border-right: 1px solid var(--el-border-color-light);
         border-top: none;
       }
       .#{$namespace}-tabs__item.is-left.is-active {
-        border: 1px solid $--border-color-light;
+        border: 1px solid var(--el-border-color-light);
         border-right-color: #fff;
         border-left: none;
         border-bottom: none;
@@ -410,7 +423,7 @@
 
       .#{$namespace}-tabs__nav {
         border-radius: 4px 0 0 4px;
-        border-bottom: 1px solid $--border-color-light;
+        border-bottom: 1px solid var(--el-border-color-light);
         border-right: none;
       }
 
@@ -460,14 +473,14 @@
       }
       .#{$namespace}-tabs__item.is-right {
         border-bottom: none;
-        border-top: 1px solid $--border-color-light;
+        border-top: 1px solid var(--el-border-color-light);
       }
       .#{$namespace}-tabs__item.is-right:first-child {
-        border-left: 1px solid $--border-color-light;
+        border-left: 1px solid var(--el-border-color-light);
         border-top: none;
       }
       .#{$namespace}-tabs__item.is-right.is-active {
-        border: 1px solid $--border-color-light;
+        border: 1px solid var(--el-border-color-light);
         border-left-color: #fff;
         border-right: none;
         border-bottom: none;
@@ -482,7 +495,7 @@
 
       .#{$namespace}-tabs__nav {
         border-radius: 0 4px 4px 0;
-        border-bottom: 1px solid $--border-color-light;
+        border-bottom: 1px solid var(--el-border-color-light);
         border-left: none;
       }
     }
@@ -509,22 +522,22 @@
   display: inline-block;
 }
 .slideInRight-enter {
-  animation: slideInRight-enter .3s;
+  animation: slideInRight-enter var(--el-transition-duration);
 }
 .slideInRight-leave {
   position: absolute;
   left: 0;
   right: 0;
-  animation: slideInRight-leave .3s;
+  animation: slideInRight-leave var(--el-transition-duration);
 }
 .slideInLeft-enter {
-  animation: slideInLeft-enter .3s;
+  animation: slideInLeft-enter var(--el-transition-duration);
 }
 .slideInLeft-leave {
   position: absolute;
   left: 0;
   right: 0;
-  animation: slideInLeft-leave .3s;
+  animation: slideInLeft-leave var(--el-transition-duration);
 }
 
 @keyframes slideInRight-enter {
@@ -533,7 +546,7 @@
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: translateX(100%);
-    transform: translateX(100%)
+    transform: translateX(100%);
   }
 
   to {
@@ -541,7 +554,7 @@
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: translateX(0);
-    transform: translateX(0)
+    transform: translateX(0);
   }
 }
 @keyframes slideInRight-leave {
@@ -550,7 +563,7 @@
     transform-origin: 0 0;
     -webkit-transform: translateX(0);
     transform: translateX(0);
-    opacity: 1
+    opacity: 1;
   }
 
   100% {
@@ -558,7 +571,7 @@
     transform-origin: 0 0;
     -webkit-transform: translateX(100%);
     transform: translateX(100%);
-    opacity: 0
+    opacity: 0;
   }
 }
 @keyframes slideInLeft-enter {
@@ -567,7 +580,7 @@
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: translateX(-100%);
-    transform: translateX(-100%)
+    transform: translateX(-100%);
   }
 
   to {
@@ -575,7 +588,7 @@
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: translateX(0);
-    transform: translateX(0)
+    transform: translateX(0);
   }
 }
 @keyframes slideInLeft-leave {
@@ -584,7 +597,7 @@
     transform-origin: 0 0;
     -webkit-transform: translateX(0);
     transform: translateX(0);
-    opacity: 1
+    opacity: 1;
   }
 
   100% {
@@ -592,6 +605,6 @@
     transform-origin: 0 0;
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
-    opacity: 0
+    opacity: 0;
   }
 }

@@ -1,10 +1,10 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "./popper";
+@import 'mixins/mixins';
+@import 'common/var';
+@import './popper';
 
 @include b(select-dropdown) {
-  z-index: #{$--index-top + 1};
-  border-radius: $--border-radius-base;
+  z-index: calc(var(--el-index-top) + 1);
+  border-radius: var(--el-border-radius-base);
   box-sizing: border-box;
 
   @include when(multiple) {
@@ -20,7 +20,7 @@
         position: absolute;
         right: 20px;
         font-family: 'element-icons';
-        content: "\e6da";
+        content: '\e6da';
         font-size: 12px;
         font-weight: bold;
         -webkit-font-smoothing: antialiased;
@@ -29,7 +29,7 @@
     }
   }
 
-  .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list{
+  .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list {
     padding: 0;
   }
 }

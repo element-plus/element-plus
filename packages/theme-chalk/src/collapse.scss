@@ -1,41 +1,52 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "common/transition";
+@import 'mixins/mixins';
+@import 'common/var';
+@import 'common/transition';
+
+:root {
+  --el-collapse-border-color: var(--el-border-color-lighter);
+  --el-collapse-header-height: 48px;
+  --el-collapse-header-background-color: var(--el-color-white);
+  --el-collapse-header-font-color: var(--el-text-color-primary);
+  --el-collapse-header-font-size: 13px;
+  --el-collapse-content-background-color: var(--el-color-white);
+  --el-collapse-content-font-size: 13px;
+  --el-collapse-content-font-color: var(--el-text-color-primary);
+}
 
 @include b(collapse) {
-  border-top: 1px solid $--collapse-border-color;
-  border-bottom: 1px solid $--collapse-border-color;
+  border-top: 1px solid var(--el-collapse-border-color);
+  border-bottom: 1px solid var(--el-collapse-border-color);
 }
 @include b(collapse-item) {
   @include when(disabled) {
     .#{$namespace}-collapse-item__header {
-      color: $--font-color-disabled-base;
+      color: var(--el-font-color-disabled-base);
       cursor: not-allowed;
     }
   }
   @include e(header) {
     display: flex;
     align-items: center;
-    height: $--collapse-header-height;
-    line-height: $--collapse-header-height;
-    background-color: $--collapse-header-background-color;
-    color: $--collapse-header-font-color;
+    height: var(--el-collapse-header-height);
+    line-height: var(--el-collapse-header-height);
+    background-color: var(--el-collapse-header-background-color);
+    color: var(--el-collapse-header-font-color);
     cursor: pointer;
-    border-bottom: 1px solid $--collapse-border-color;
-    font-size: $--collapse-header-font-size;
+    border-bottom: 1px solid var(--el-collapse-border-color);
+    font-size: var(--el-collapse-header-font-size);
     font-weight: 500;
-    transition: border-bottom-color .3s;
+    transition: border-bottom-color var(--el-transition-duration);
     outline: none;
     @include e(arrow) {
       margin: 0 8px 0 auto;
-      transition: transform .3s;
+      transition: transform var(--el-transition-duration);
       font-weight: 300;
       @include when(active) {
         transform: rotate(90deg);
       }
     }
-    &.focusing:focus:not(:hover){
-      color: $--color-primary;
+    &.focusing:focus:not(:hover) {
+      color: var(--el-color-primary);
     }
     @include when(active) {
       border-bottom-color: transparent;
@@ -44,16 +55,16 @@
 
   @include e(wrap) {
     will-change: height;
-    background-color: $--collapse-content-background-color;
+    background-color: var(--el-collapse-content-background-color);
     overflow: hidden;
     box-sizing: border-box;
-    border-bottom: 1px solid $--collapse-border-color;
+    border-bottom: 1px solid var(--el-collapse-border-color);
   }
 
   @include e(content) {
     padding-bottom: 25px;
-    font-size: $--collapse-content-font-size;
-    color: $--collapse-content-font-color;
+    font-size: var(--el-collapse-content-font-size);
+    color: var(--el-collapse-content-font-color);
     line-height: 1.769230769230769;
   }
 

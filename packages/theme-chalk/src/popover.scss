@@ -2,28 +2,39 @@
 @import 'common/var';
 @import 'popper';
 
+:root {
+  --el-popover-background-color: var(--el-color-white);
+  --el-popover-font-size: var(--el-font-size-base);
+  --el-popover-border-color: var(--el-border-color-lighter);
+  --el-popover-padding: 12px;
+  --el-popover-padding-large: 18px 20px;
+  --el-popover-title-font-size: 16px;
+  --el-popover-title-font-color: var(--el-text-color-primary);
+  --el-popover-border-radius: 4px;
+}
+
 @include b(popover) {
   &.#{$namespace}-popper {
-    background: $--popover-background-color;
+    background: var(--el-popover-background-color);
     min-width: 150px;
-    border-radius: $--popover-border-radius;
-    border: 1px solid $--popover-border-color;
-    padding: $--popover-padding;
-    z-index: $--index-popper;
-    color: $--color-text-regular;
+    border-radius: var(--el-popover-border-radius);
+    border: 1px solid var(--el-popover-border-color);
+    padding: var(--el-popover-padding);
+    z-index: var(--el-index-popper);
+    color: var(--el-text-color-regular);
     line-height: 1.4;
     text-align: justify;
-    font-size: $--popover-font-size;
-    box-shadow: $--box-shadow-light;
+    font-size: var(--el-popover-font-size);
+    box-shadow: var(--el-box-shadow-light);
     word-break: break-all;
 
     @include m(plain) {
-      padding: $--popover-padding-large;
+      padding: var(--el-popover-padding-large);
     }
 
     @include e(title) {
-      color: $--popover-title-font-color;
-      font-size: $--popover-title-font-size;
+      color: var(--el-popover-title-font-color);
+      font-size: var(--el-popover-title-font-size);
       line-height: 1;
       margin-bottom: 12px;
     }

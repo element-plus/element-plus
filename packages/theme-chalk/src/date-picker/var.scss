@@ -1,0 +1,14 @@
+:root {
+  --el-datepicker-font-color: var(--el-color-text-regular);
+  --el-datepicker-off-font-color: var(--el-color-text-placeholder);
+  --el-datepicker-header-font-color: var(--el-color-text-regular);
+  --el-datepicker-icon-color: var(--el-color-text-primary);
+  --el-datepicker-border-color: var(--el-disabled-border-base);
+  --el-datepicker-inner-border-color: #e4e4e4;
+  --el-datepicker-inrange-background-color: var(--el-border-color-extra-light);
+  --el-datepicker-inrange-hover-background-color: var(
+    --el-border-color-extra-light
+  );
+  --el-datepicker-active-color: var(--el-color-primary);
+  --el-datepicker-hover-font-color: var(--el-color-primary);
+}

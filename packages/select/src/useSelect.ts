@@ -9,7 +9,7 @@ import {
 import mitt from 'mitt'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import isServer from '@element-plus/utils/isServer'
 import scrollIntoView from '@element-plus/utils/scroll-into-view'
 import lodashDebounce from 'lodash/debounce'
@@ -28,6 +28,7 @@ import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import { SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
+  const { t } = useLocaleInject()
   const selectEmitter = mitt()
   return reactive({
     options: new Map(),
@@ -62,6 +63,8 @@ type States = ReturnType<typeof useSelectStates>
 
 export const useSelect = (props, states: States, ctx) => {
   const ELEMENT = useGlobalConfig()
+  const { t } = useLocaleInject()
+
   // template refs
   const reference = ref(null)
   const input = ref(null)
@@ -318,34 +321,21 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
+  /**
+   * find and highlight first option as default selected
+   * @remark
+   * - if the first option in dropdown list is user-created,
+   *   it would be at the end of the optionsArray
+   *   so find it and set hover.
+   *   (NOTE: there must be only one user-created option in dropdown list with query)
+   * - if there's no user-created option in list, just find the first one as usual
+   *   (NOTE: exclude options that are disabled or in disabled-group)
+   */
   const checkDefaultFirstOption = () => {
-    states.hoverIndex = -1
-    // highlight the created option
-    let hasCreated = false
-    for (let i = states.options.size - 1; i >= 0; i--) {
-      if (optionsArray.value[i].created) {
-        hasCreated = true
-        states.hoverIndex = i
-        break
-      }
-    }
-    if (hasCreated) return
-    for (let i = 0; i !== states.options.size; ++i) {
-      const option = optionsArray.value[i]
-      if (states.query) {
-        // highlight first options that passes the filter
-        if (!option.disabled && !option.groupDisabled && option.visible) {
-          states.hoverIndex = i
-          break
-        }
-      } else {
-        // highlight currently selected option
-        if (option.itemSelected) {
-          states.hoverIndex = i
-          break
-        }
-      }
-    }
+    const optionsInDropdown = optionsArray.value.filter(n => n.visible && !n.disabled && !n.groupDisabled)
+    const userCreatedOption = optionsInDropdown.filter(n => n.created)[0]
+    const firstOriginOption = optionsInDropdown[0]
+    states.hoverIndex = getValueIndex(optionsArray.value, userCreatedOption || firstOriginOption)
   }
 
   const setSelected = () => {
@@ -408,11 +398,18 @@ export const useSelect = (props, states: States, ctx) => {
 
   const resetHoverIndex = () => {
     setTimeout(() => {
+      const valueKey = props.valueKey
       if (!props.multiple) {
-        states.hoverIndex = optionsArray.value.indexOf(states.selected)
+        states.hoverIndex = optionsArray.value.findIndex(item => {
+          return getValueByPath(item, valueKey) === getValueByPath(states.selected, valueKey)
+        })
       } else {
         if (states.selected.length > 0) {
-          states.hoverIndex = Math.min.apply(null, states.selected.map(item => optionsArray.value.indexOf(item)))
+          states.hoverIndex = Math.min.apply(null, states.selected.map(selected => {
+            return optionsArray.value.findIndex(item => {
+              return getValueByPath(item, valueKey) === getValueByPath(selected, valueKey)
+            })
+          }))
         } else {
           states.hoverIndex = -1
         }
@@ -550,7 +547,7 @@ export const useSelect = (props, states: States, ctx) => {
     if(targetOption?.value){
       const options = optionsArray.value.filter(item => item.value === targetOption.value)
       if (options.length > 0) {
-        target =  options[0].$el
+        target = options[0].$el
       }
     }
 

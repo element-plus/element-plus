@@ -271,7 +271,7 @@ Clicking each dropdown item fires an event whose parameter is assigned by each i
 
   export default defineComponent({
     setup() {
-      
+
       const handleCommand = (command) => {
         ElMessage(`click on item ${command}`);
       };
@@ -352,7 +352,7 @@ Besides default size, Dropdown component provides three additional sizes for you
 | max-height    | the max height of menu  | string / number  |     —    |    —     |
 | split-button | whether a button group is displayed | boolean         |     —       | false   |
 | disabled     | Whether to disable | boolean | — | false |
-| placement    | placement of pop menu | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom-end |
+| placement    | placement of pop menu | string | top/top-start/top-end/bottom/bottom-start/bottom-end  | bottom |
 | trigger       | how to trigger     | string  |    hover/click/contextmenu  |  hover |
 | hide-on-click | whether to hide menu after clicking menu-item     | boolean          | — | true |
 | show-timeout | Delay time before show a dropdown (only works when trigger is `hover`) | number | — | 250 |

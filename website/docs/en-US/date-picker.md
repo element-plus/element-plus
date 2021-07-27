@@ -44,18 +44,18 @@ Basic date picker measured by 'day'.
           value: new Date(),
         }, {
           text: 'Yesterday',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24)
             return date
-          })(),
+          },
         }, {
           text: 'A week ago',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -81,19 +81,19 @@ Basic date picker measured by 'day'.
           },
           {
             text: 'Yesterday',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
               return date;
-            })(),
+            },
           },
           {
             text: 'A week ago',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
               return date;
-            })(),
+            },
           },
         ],
         value1: '',
@@ -217,7 +217,6 @@ Picking a date range is supported.
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       unlink-panels
       range-separator="To"
       start-placeholder="Start date"
@@ -234,28 +233,28 @@ Picking a date range is supported.
       return {
         shortcuts: [{
           text: 'Last week',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last month',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last 3 months',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -274,30 +273,30 @@ Picking a date range is supported.
         shortcuts: [
           {
             text: 'Last week',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last month',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 3 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -338,7 +337,6 @@ Picking a month range is supported.
     <el-date-picker
       v-model="value2"
       type="monthrange"
-      align="right"
       unlink-panels
       range-separator="To"
       start-placeholder="Start month"
@@ -358,19 +356,19 @@ Picking a month range is supported.
           value: [new Date(), new Date()],
         }, {
           text: 'This year',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date(new Date().getFullYear(), 0)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last 6 months',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setMonth(start.getMonth() - 6)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -393,20 +391,20 @@ Picking a month range is supported.
           },
           {
             text: 'This year',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date(new Date().getFullYear(), 0);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 6 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 6);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -447,7 +445,6 @@ If type is `daterange`, `default-value` sets the left side calendar.
     <el-date-picker
       v-model="value2"
       type="daterange"
-      align="right"
       start-placeholder="Start Date"
       end-placeholder="End Date"
       :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]">
@@ -488,7 +485,7 @@ If type is `daterange`, `default-value` sets the left side calendar.
 :::
 
 ###  Date Formats
-Use `format` to control displayed text's format in the input box.
+Use `format` to control displayed text's format in the input box. Use `value-format` to control binding value's format.
 
 By default, the component accepts and emits a `Date` object.
 
@@ -522,6 +519,17 @@ Pay attention to capitalization
       value-format="YYYY-MM-DD">
     </el-date-picker>
   </div>
+  <div class="block">
+    <span class="demonstration">Timestamp</span>
+    <div class="demonstration">Value：{{ value3 }}</div>
+    <el-date-picker
+      v-model="value3"
+      type="date"
+      placeholder="Pick a Date"
+      format="YYYY/MM/DD"
+      value-format="x">
+    </el-date-picker>
+  </div>
 </template>
 
 <script>
@@ -529,7 +537,8 @@ Pay attention to capitalization
     data() {
       return {
         value1: '',
-        value2: ''
+        value2: '',
+        value3: ''
       };
     }
   };
@@ -543,10 +552,12 @@ Pay attention to capitalization
     setup() {
       const value1 = ref('');
       const value2 = ref('');
+      const value3 = ref('');
 
       return {
         value1,
         value2,
+        value3,
       };
     },
   });
@@ -633,7 +644,6 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | end-placeholder | placeholder for the end date in range mode | string | — | — |
 | type | type of the picker | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
 | format | format of the displayed value in the input box | string | see [date formats](#/en-US/component/date-picker#date-formats) | YYYY-MM-DD |
-| align | alignment | — | left/center/right | left |
 | popper-class | custom class name for DatePicker's dropdown | string | — | — |
 | range-separator | range separator | string | — | '-' |
 | default-value | optional, default date of the calendar | Date | anything accepted by `new Date()` | — |
@@ -645,7 +655,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
 | validate-event | whether to trigger form validation | boolean | - | true |
 | disabledDate | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function | — | — |
-| shortcuts | an object array to set shortcut options | object[{ text: string, value: Date }] | — | — |
+| shortcuts | an object array to set shortcut options | object[{ text: string, value: date / function }] | — | — |
 
 ### Events
 | Event Name | Description | Parameters |

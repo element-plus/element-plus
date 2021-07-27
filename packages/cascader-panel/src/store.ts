@@ -59,7 +59,7 @@ export default class Store {
     if (!value && value !== 0) return null
 
     const nodes = this.getFlattedNodes(leafOnly)
-      .filter(node => node.value === value || isEqual(node.pathValues, value))
+      .filter(node => isEqual(node.value, value) || isEqual(node.pathValues, value))
 
     return nodes[0] || null
   }
@@ -68,7 +68,7 @@ export default class Store {
     if (!node) return null
 
     const nodes = this.getFlattedNodes(false)
-      .filter(({ value, level }) => node.value === value && node.level === level)
+      .filter(({ value, level }) => isEqual(node.value, value) && node.level === level)
 
     return nodes[0] || null
   }

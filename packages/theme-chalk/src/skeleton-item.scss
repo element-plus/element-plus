@@ -1,6 +1,12 @@
 @import 'mixins/mixins';
 @import 'common/var';
 
+:root {
+  @each $size in (small, medium, large) {
+    --el-skeleton-avatar-#{$size}-size: var(--el-avatar-#{$size}-size);
+  }
+}
+
 @mixin circle-size($size) {
   width: $size;
   height: $size;
@@ -9,23 +15,23 @@
 
 @include b(skeleton) {
   @include e(item) {
-    background: $--skeleton-color;
+    background: var(--el-skeleton-color);
     display: inline-block;
     height: 16px;
-    border-radius: $--border-radius-base;
+    border-radius: var(--el-border-radius-base);
     width: 100%;
   }
 
   @include e(circle) {
     border-radius: 50%;
-    @include circle-size($--avatar-medium-size);
+    @include circle-size(var(--el-skeleton-avatar-medium-size));
 
     @include m(lg) {
-      @include circle-size($--avatar-large-size);
+      @include circle-size(var(--el-skeleton-avatar-large-size));
     }
 
     @include m(md) {
-      @include circle-size($--avatar-small-size);
+      @include circle-size(var(--el-skeleton-avatar-small-size));
     }
   }
 
@@ -48,23 +54,23 @@
 
   @include e(text) {
     width: 100%;
-    height: $--font-size-small;
+    height: var(--el-font-size-small);
   }
 
   @include e(caption) {
-    height: $--font-size-extra-small;
+    height: var(--el-font-size-extra-small);
   }
 
   @include e(h1) {
-    height: $--font-size-extra-large;
+    height: var(--el-font-size-extra-large);
   }
 
   @include e(h3) {
-    height: $--font-size-large;
+    height: var(--el-font-size-large);
   }
 
   @include e(h5) {
-    height: $--font-size-medium;
+    height: var(--el-font-size-medium);
   }
 
   @include e(image) {
@@ -75,10 +81,9 @@
     border-radius: 0;
 
     svg {
-      fill: $--svg-monochrome-grey;
+      fill: var(--el-svg-monochrome-grey);
       width: 22%;
       height: 22%;
     }
   }
-
 }

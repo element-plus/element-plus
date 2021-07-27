@@ -2,6 +2,10 @@
 
 Un formulaire est constitué des éléments `input`, `radio`, `select`, `checkbox`, etc. Il sert principalement à collecter, vérifier et soumettre des données.
 
+:::tip
+The component has been upgraded with a flex layout to replace the old float layout.
+:::
+
 ### Formulaire de base
 
 Il peut contenir toutes sortes de champs tels que `input`, `select`, `radio` et `checkbox`.
@@ -83,7 +87,7 @@ Il peut contenir toutes sortes de champs tels que `input`, `select`, `radio` et 
 [W3C](https://www.w3.org/MarkUp/html-spec/html-spec_8.html#SEC8.2) stipule que
 > <i>Lorsqu'il n'y a qu'un seul champ de type texte dans un formulaire, le navigateur devrait accepter la pression de la touche Entrée sur ce champ comme méthode de soumission du formulaire</i>
 
-Pour éviter ce comportement, vous pouvez ajouter `@submit.native.prevent` dans `<el-form>`.
+Pour éviter ce comportement, vous pouvez ajouter `@submit.prevent` dans `<el-form>`.
   :::
 
 ### Formulaire horizontal
@@ -592,7 +596,7 @@ Tout les composants d'un formulaire héritent leur attribut `size` de ce formula
 | rules | Règles de validation du formulaire. | object | — | — |
 | inline | Si le formulaire est horizontal. | boolean | — | false |
 | label-position | Position des labels. Si 'left' ou 'right', `label-width` est aussi requis. | string | left / right / top | right |
-| label-width | Largeur des labels, tout les enfants directs hériteront de cette valeur. La largeur `auto` est supportée. | string | — | — |
+| label-width | Largeur des labels, tout les enfants directs hériteront de cette valeur. La largeur `auto` est supportée. | string / number | — | — |
 | label-suffix | Suffixe de labels. | string | — | — |
 | hide-required-asterisk | Si les champs obligatoires doivent avoir une astérisque rouge (étoile) à coté de leurs labels. | boolean | — | false |
 | show-message  | Si le message d'erreur doit apparaître. | boolean | — | true |
@@ -623,23 +627,28 @@ Tout les composants d'un formulaire héritent leur attribut `size` de ce formula
 | ---- | ----| ---- | ---- | ---- |
 | prop | Une des clés de `model`. Utilisés par les méthodes validate et resetFields. Requis. | string | Clés du model passé à `form`. |
 | label | Le label. | string | — | — |
-| label-width | Largeur du label, e.g. '50px'. La largeur `auto` est supportée. | string | — | — |
+| label-width | Largeur du label, e.g. '50px'. La largeur `auto` est supportée. | string / number | — | — |
 | required | Si le champ est requis ou non. Si omis, sera déterminé par les règles de validation. | boolean |  — | false |
-| rules | Règles de validation du formulaire. | object | — | — |
+| rules | Règles de validation du formulaire, voir table suivante, plus d'informations ici:  [async-validator](https://github.com/yiminghe/async-validator)  | object / array | — | — |
 | error | Message d'erreur du champ. S'il est modifié, le champ l'affichera immédiatement. | string | — | — |
 | show-message  | Si le message d'erreur doit apparaître. | boolean | — | true |
 | inline-message  | Si le message d'erreur doit être en ligne avec le champ. | boolean | — | false |
 | size  | Contrôle la taille du FormItem. | string | medium / small / mini | - |
 
+### Rules
+| Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
+| -------- | ----------------- | ------ | ---- | ---- |
+| trigger    | how the validator is triggered | string | blur / change   | —    |
+
 ### Slot de Form-Item
 | Nom | Description |
 |------|--------|
 | — | Contenu de Form Item. |
-| label | Contenu du label. |
 
 ### Slot avec portée de Form-Item
 |      Nom     | Description |
 |---------------|-------------|
+| label | Custom content to display on label. The scope parameter is { label } |
 |      error    | Contenu personnalisé pour les messages de validation. Le paramètre du scope est { error }. |
 
 ### Méthodes de Form-Item

@@ -1,32 +1,50 @@
-@import "mixins/mixins";
-@import "common/var";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'common/var';
+
+:root {
+  --el-alert-padding: 8px 16px;
+  --el-alert-border-radius-base: var(--el-border-radius-base);
+  --el-alert-title-font-size: 13px;
+  --el-alert-description-font-size: 12px;
+  --el-alert-close-font-size: 12px;
+  --el-alert-close-customed-font-size: 13px;
+
+  --el-alert-icon-size: 16px;
+  --el-alert-icon-large-size: 28px;
+
+  @each $type in (success, info, warning, error) {
+    --el-alert-#{$type}-color: #{map.get($--colors, $type, 'lighter')};
+  }
+}
 
 @include b(alert) {
   width: 100%;
-  padding: $--alert-padding;
+  padding: var(--el-alert-padding);
   margin: 0;
   box-sizing: border-box;
-  border-radius: $--alert-border-radius;
+  border-radius: var(--el-alert-border-radius);
   position: relative;
-  background-color: $--color-white;
+  background-color: var(--el-color-white);
   overflow: hidden;
   opacity: 1;
   display: flex;
   align-items: center;
-  transition: opacity .2s;
+  transition: opacity var(--el-transition-duration-fast);
 
   @include when(light) {
     .#{$namespace}-alert__closebtn {
-      color: $--color-text-placeholder;
+      color: var(--el-text-color-placeholder);
     }
   }
 
   @include when(dark) {
     .#{$namespace}-alert__closebtn {
-      color: $--color-white;
+      color: var(--el-color-white);
     }
     .#{$namespace}-alert__description {
-      color: $--color-white;
+      color: var(--el-color-white);
     }
   }
 
@@ -34,67 +52,21 @@
     justify-content: center;
   }
 
-  @include m(success) {
-    &.is-light {
-      background-color: $--alert-success-color;
-      color: $--color-success;
+  @each $type in (success, info, warning, error) {
+    @include m($type) {
+      &.is-light {
+        background-color: var(--el-alert-#{$type}-color);
+        color: var(--el-color-#{$type});
 
-      .#{$namespace}-alert__description {
-        color: $--color-success;
+        .#{$namespace}-alert__description {
+          color: var(--el-color-#{$type});
+        }
       }
-    }
 
-    &.is-dark {
-      background-color: $--color-success;
-      color: $--color-white;
-    }
-  }
-
-  @include m(info) {
-    &.is-light {
-      background-color: $--alert-info-color;
-      color: $--color-info;
-    }
-
-    &.is-dark {
-      background-color: $--color-info;
-      color: $--color-white;
-    }
-
-    .#{$namespace}-alert__description {
-      color: $--color-info;
-    }
-  }
-
-  @include m(warning) {
-    &.is-light {
-      background-color: $--alert-warning-color;
-      color: $--color-warning;
-
-      .#{$namespace}-alert__description {
-        color: $--color-warning;
+      &.is-dark {
+        background-color: var(--el-color-#{$type});
+        color: var(--el-color-white);
       }
-    }
-
-    &.is-dark {
-      background-color: $--color-warning;
-      color: $--color-white;
-    }
-  }
-
-  @include m(error) {
-    &.is-light {
-      background-color: $--alert-danger-color;
-      color: $--color-danger;
-
-      .#{$namespace}-alert__description {
-        color: $--color-danger;
-      }
-    }
-
-    &.is-dark {
-      background-color: $--color-danger;
-      color: $--color-white;
     }
   }
 
@@ -104,16 +76,16 @@
   }
 
   @include e(icon) {
-    font-size: $--alert-icon-size;
-    width: $--alert-icon-size;
+    font-size: var(--el-alert-icon-size);
+    width: var(--el-alert-icon-size);
     @include when(big) {
-      font-size: $--alert-icon-large-size;
-      width: $--alert-icon-large-size;
+      font-size: var(--el-alert-icon-large-size);
+      width: var(--el-alert-icon-large-size);
     }
   }
 
   @include e(title) {
-    font-size: $--alert-title-font-size;
+    font-size: var(--el-alert-title-font-size);
     line-height: 18px;
     @include when(bold) {
       font-weight: bold;
@@ -121,12 +93,12 @@
   }
 
   & .#{$namespace}-alert__description {
-    font-size: $--alert-description-font-size;
+    font-size: var(--el-alert-description-font-size);
     margin: 5px 0 0 0;
   }
 
   @include e(closebtn) {
-    font-size: $--alert-close-font-size;
+    font-size: var(--el-alert-close-font-size);
     opacity: 1;
     position: absolute;
     top: 12px;
@@ -135,7 +107,7 @@
 
     @include when(customed) {
       font-style: normal;
-      font-size: $--alert-close-customed-font-size;
+      font-size: var(--el-alert-close-customed-font-size);
       top: 9px;
     }
   }

@@ -1,11 +1,9 @@
 <script>
 import { defineComponent, h, computed, watch, getCurrentInstance, onMounted } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
-import { ElScrollbar } from 'element-plus'
-import { ElMessageBox } from 'element-plus'
+import { ElScrollbar, ElMessageBox, ElConfigProvider } from 'element-plus'
 import MainHeader from './components/header'
 import MainFooter from './components/footer'
-import { use } from '@element-plus/locale'
 import zhLocale from '@element-plus/locale/lang/zh-cn'
 import enLocale from '@element-plus/locale/lang/en'
 import esLocale from '@element-plus/locale/lang/es'
@@ -13,31 +11,19 @@ import frLocale from '@element-plus/locale/lang/fr'
 import jaLocale from '@element-plus/locale/lang/ja'
 import { Language } from './enums/language'
 
-const lang = location.hash.replace('#', '').split('/')[1] || Language.CN
-const localize = lang => {
-  switch (lang) {
-    case Language.CN:
-      use(zhLocale)
-      break
-    case Language.ES:
-      use(esLocale)
-      break
-    case Language.FR:
-      use(frLocale)
-      break
-    case Language.JP:
-      use(jaLocale)
-      break
-    default:
-      use(enLocale)
-  }
+const localeMap = {
+  [Language.CN]: zhLocale,
+  [Language.ES]: esLocale,
+  [Language.FR]: frLocale,
+  [Language.JP]: jaLocale,
+  [Language.EN]: enLocale,
+
 }
-localize(lang)
 
 export default defineComponent({
   name: 'App',
 
-  setup(){
+  setup() {
     const route = useRoute()
 
     const lang = computed(() => route.path.split('/')[1] || Language.CN)
@@ -65,12 +51,9 @@ export default defineComponent({
 
     watch(() => lang.value, val => {
       if (val === Language.CN) suggestJump()
-      localize(val)
     })
 
     onMounted(() => {
-      localize(lang.value)
-
       if (lang.value === Language.CN) suggestJump()
     })
 
@@ -99,12 +82,18 @@ export default defineComponent({
       ? h(ElScrollbar, null, { default: () => content })
       : content
 
-    return h('div', {
-      id: 'app',
-      class: {
-        'is-component': this.isComponent,
+    return h(ElConfigProvider, {
+      locale: localeMap[this.lang],
+    }, {
+      default: () => {
+        return h('div', {
+          id: 'app',
+          class: {
+            'is-component': this.isComponent,
+          },
+        }, [mainHeader, contentWrapper])
       },
-    }, [mainHeader, contentWrapper])
+    })
   },
 })
 </script>

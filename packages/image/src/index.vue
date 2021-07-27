@@ -42,7 +42,7 @@ import throttle from 'lodash/throttle'
 import { useAttrs } from '@element-plus/hooks'
 import isServer from '@element-plus/utils/isServer'
 import { on, off, getScrollContainer, isInContainer } from '@element-plus/utils/dom'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/image-viewer'
 import type { PropType } from 'vue'
 
@@ -101,6 +101,7 @@ export default defineComponent({
   },
   emits: ['error'],
   setup(props, { emit }) {
+    const { t } = useLocaleInject()
     // init here
     const attrs = useAttrs()
     const hasLoadError = ref(false)

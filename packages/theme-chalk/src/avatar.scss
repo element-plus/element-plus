@@ -1,19 +1,30 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
+
+:root {
+  --el-avatar-font-color: #fff;
+  --el-avatar-background-color: #c0c4cc;
+  --el-avatar-text-font-size: 14px;
+  --el-avatar-icon-font-size: 18px;
+  --el-avatar-border-radius: var(--el-border-radius-base);
+  --el-avatar-large-size: 40px;
+  --el-avatar-medium-size: 36px;
+  --el-avatar-small-size: 28px;
+}
 
 @include b(avatar) {
   display: inline-block;
   box-sizing: border-box;
   text-align: center;
   overflow: hidden;
-  color: $--avatar-font-color;
-  background: $--avatar-background-color;
-  width: $--avatar-large-size;
-  height: $--avatar-large-size;
-  line-height: $--avatar-large-size;
-  font-size: $--avatar-text-font-size;
+  color: var(--el-avatar-font-color);
+  background: var(--el-avatar-background-color);
+  width: var(--el-avatar-large-size);
+  height: var(--el-avatar-large-size);
+  line-height: var(--el-avatar-large-size);
+  font-size: var(--el-avatar-text-font-size);
 
-  >img {
+  > img {
     display: block;
     height: 100%;
     vertical-align: middle;
@@ -24,28 +35,18 @@
   }
 
   @include m(square) {
-    border-radius: $--avatar-border-radius;
+    border-radius: var(--el-avatar-border-radius);
   }
 
   @include m(icon) {
-    font-size: $--avatar-icon-font-size;
+    font-size: var(--el-avatar-icon-font-size);
   }
 
-  @include m(large) {
-    width: $--avatar-large-size;
-    height: $--avatar-large-size;
-    line-height: $--avatar-large-size;
-  }
-
-  @include m(medium) {
-    width: $--avatar-medium-size;
-    height: $--avatar-medium-size;
-    line-height: $--avatar-medium-size;
-  }
-
-  @include m(small) {
-    width: $--avatar-small-size;
-    height: $--avatar-small-size;
-    line-height: $--avatar-small-size;
+  @each $size in (small, medium, large) {
+    @include m($size) {
+      width: var(--el-avatar-#{$size}-size);
+      height: var(--el-avatar-#{$size}-size);
+      line-height: var(--el-avatar-#{$size}-size);
+    }
   }
 }
