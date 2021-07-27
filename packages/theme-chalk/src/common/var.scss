@@ -542,16 +542,13 @@ $--rate-icon-color: var(--el-text-color-placeholder) !default;
 
 /* DatePicker
 --------------------------*/
-
 // refactor with css3 var
 // See packages/theme-chalk/src/date-picker.scss
 
 /* Loading
 --------------------------*/
-/// height||Other|4
-$--loading-spinner-size: 42px !default;
-/// height||Other|4
-$--loading-fullscreen-spinner-size: 50px !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/loading.scss
 
 /* Scrollbar
 --------------------------*/
@@ -580,15 +577,8 @@ $--loading-fullscreen-spinner-size: 50px !default;
 
 /* Backtop
 --------------------------*/
-/// color||Color|0
-$--backtop-background-color: $--color-white !default;
-/// color||Color|0
-$--backtop-font-color: $--color-primary !default;
-/// color||Color|0
-$--backtop-hover-background-color: map.get(
-  $--border-color,
-  'extra-light'
-) !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/backtop.scss
 
 /* Link
 --------------------------*/

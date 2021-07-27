@@ -1,13 +1,19 @@
 @import 'mixins/mixins';
 @import 'common/var';
 
+:root {
+  --el-backtop-background-color: var(--el-color-white);
+  --el-backtop-font-color: var(--el-color-primary);
+  --el-backtop-hover-background-color: var(--el-border-color-extra-light);
+}
+
 @include b(backtop) {
   position: fixed;
-  background-color: $--backtop-background-color;
+  background-color: var(--el-backtop-background-color);
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: $--backtop-font-color;
+  color: var(--el-backtop-font-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,6 +23,6 @@
   z-index: 5;
 
   &:hover {
-    background-color: $--backtop-hover-background-color;
+    background-color: var(--el-backtop-hover-background-color);
   }
 }
