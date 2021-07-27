@@ -412,6 +412,7 @@ export default defineComponent({
       ctx.emit(UPDATE_MODEL_EVENT, '')
       ctx.emit('change', '')
       ctx.emit('clear')
+      ctx.emit('input', '')
     }
 
     const handlePasswordVisible = () => {
