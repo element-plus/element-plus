@@ -34,7 +34,7 @@
     font-weight: 500;
     cursor: pointer;
     vertical-align: middle;
-    color: var(--el-color-text-primary);
+    color: var(--el-text-color-primary);
 
     @include when(active) {
       color: var(--el-color-primary);

@@ -7,8 +7,8 @@
   --el-message-min-width: 380px;
   --el-message-background-color: #edf2fc;
   --el-message-padding: 15px 15px 15px 20px;
-  --el-message-close-icon-color: var(--el-color-text-placeholder);
-  --el-message-close-hover-color: var(--el-color-text-secondary);
+  --el-message-close-icon-color: var(--el-text-color-placeholder);
+  --el-message-close-hover-color: var(--el-text-color-secondary);
 
   @each $type in (success, info, warning, error) {
     --el-message-#{$type}-font-color: var(--el-color-#{$type});

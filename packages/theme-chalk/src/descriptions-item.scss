@@ -5,7 +5,7 @@
   @include e(label) {
     &.is-bordered-label {
       font-weight: bold;
-      color: var(--el-color-text-secondary);
+      color: var(--el-text-color-secondary);
       background: var(--el-descriptions-item-bordered-label-background);
     }
 

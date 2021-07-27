@@ -7,8 +7,8 @@
 :root {
   --el-table-border-color: var(--el-border-color-lighter);
   --el-table-border: 1px solid var(--el-table-border-color);
-  --el-table-font-color: var(--el-color-text-regular);
-  --el-table-header-font-color: var(--el-color-text-secondary);
+  --el-table-font-color: var(--el-text-color-regular);
+  --el-table-header-font-color: var(--el-text-color-secondary);
   --el-table-row-hover-background-color: var(--el-background-color-base);
   --el-table-current-row-background-color: var(--el-color-primary-light-9);
   --el-table-header-background-color: var(--el-color-white);
@@ -41,7 +41,7 @@
     // set empty text line height up to contrainer min-height as workaround.
     line-height: 60px;
     width: 50%;
-    color: var(--el-color-text-secondary);
+    color: var(--el-text-color-secondary);
   }
 
   // 展开行
@@ -471,12 +471,12 @@
     left: 7px;
 
     &.ascending {
-      border-bottom-color: var(--el-color-text-placeholder);
+      border-bottom-color: var(--el-text-color-placeholder);
       top: -5px;
     }
 
     &.descending {
-      border-top-color: var(--el-color-text-placeholder);
+      border-top-color: var(--el-text-color-placeholder);
       bottom: -3px;
     }
   }

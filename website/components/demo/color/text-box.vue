@@ -4,16 +4,16 @@
       v-for="(text, i) in textColors"
       :key="i"
       class="demo-color-box demo-color-box-other"
-      :style="{ background: `var(--el-color-text-${text.type})` }"
+      :style="{ background: getCssVarName('text-color', text.type) }"
     >
       {{ text.name || formatType(text.type) + ' Text' }}
-      <div class="value">{{ getColorValue(text.type).toUpperCase() }}</div>
+      <div class="value">{{ getCssVarValue('text-color', text.type).toUpperCase() }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import { formatType } from '../../../util'
+import { formatType, getCssVarValue, getCssVarName } from '../../../util'
 
 export default {
   props: {
@@ -26,11 +26,8 @@ export default {
   },
   methods: {
     formatType,
-    getColorValue(type) {
-      return getComputedStyle(document.documentElement).getPropertyValue(
-        `--el-color-text-${type}`,
-      )
-    },
+    getCssVarValue,
+    getCssVarName,
   },
 }
 </script>

@@ -30,7 +30,7 @@ $--input-inline-start: 7px !default;
     transition: border-color var(--el-transition-duration-fast)
       var(--el-ease-in-out-bezier-function);
     &:hover {
-      border-color: var(--el-color-text-placeholder);
+      border-color: var(--el-text-color-placeholder);
     }
 
     @include when(filterable) {
@@ -43,7 +43,7 @@ $--input-inline-start: 7px !default;
 
     @include when(hovering) {
       &:not(.is-focused) {
-        border-color: var(--el-color-text-placeholder);
+        border-color: var(--el-text-color-placeholder);
       }
     }
 
@@ -51,7 +51,7 @@ $--input-inline-start: 7px !default;
       cursor: not-allowed;
 
       background-color: $--background-color-base;
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
       border-color: $--select-disabled-border;
 
       &:hover {
@@ -266,7 +266,7 @@ $--input-inline-start: 7px !default;
     color: $--input-font-color;
     font-size: inherit;
     @include when(transparent) {
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
     }
   }
 
@@ -277,13 +277,13 @@ $--input-inline-start: 7px !default;
     background-color: #f0f2f5;
 
     .#{$namespace}-icon-close {
-      background-color: var(--el-color-text-placeholder);
+      background-color: var(--el-text-color-placeholder);
       right: -7px;
       top: 0;
       color: $--color-white;
 
       &:hover {
-        background-color: var(--el-color-text-secondary);
+        background-color: var(--el-text-color-secondary);
       }
 
       &::before {
