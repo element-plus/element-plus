@@ -1,10 +1,59 @@
 ## Changelog
 
+### 1.0.2-beta.63
+
+*2021-07-27*
+
+#### Refactor
+
+- Refactor popover migrate css var (#2687)
+- Refactor tooltip migrate css var (#2686)
+- Refactor color rename color-text to text-color (#2691)
+- Refactor scrollbar migrate css var (#2698)
+- Refactor date-picker migrate css var (#2689)
+- Refactor tree popup form timeline-item migrate css var (#2697)
+
+#### Bug fixes
+
+- Fix radio-button checked should sync with state (#2699)
+- Update i18n version (#2690)
+- Fix notification improve type definition and define closeAll function (#2705)
+- Fix message iconClass not working (#2695)
+- Fix avatar css property line-height (#2702)
+
+### 1.0.2-beta.62
+
+*2021-07-26*
+
+#### Bug fixes
+
+- Fix build script error on Github Runner (#2683)
+
+### 1.0.2-beta.61
+
+*2021-07-26*
+
+#### Bug fixes
+
+- Fix documentation error for `Config Provider` (#2679)
+- Fix build script issue (#2680)
+
+### 1.0.2-beta.60
+
+*2021-07-26*
+
+#### Bug fixes
+
+- Fix `dayjs` integration issue with `el-config-provider` and `build.sh` shell error (#2678)
+
 ### 1.0.2-beta.59
+
 *2021-07-26*
 
 #### Breaking change
+
 - feat(locale): i18n implementation (#2670)
+
 #### Bug fixes
 
 - fix(locale): missing install & locale issue (#2647)
@@ -15,6 +64,7 @@
 - fix(input): input maxlength calculate the correct length (#2654)
 
 #### Chore
+
 - chore: update i18n demo (#2672)
 
 #### Refactors
@@ -37,6 +87,7 @@
 *2021-07-24*
 
 #### Bug fixes
+
 - Hotfix for setLocale
 
 ### 1.0.2-beta.57
@@ -44,6 +95,7 @@
 *2021-07-23*
 
 #### Bug fixes
+
 - Hotfix for setLocale
 
 ### 1.0.2-beta.56
