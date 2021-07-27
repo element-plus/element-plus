@@ -39,14 +39,14 @@
 
   thead th {
     padding: 12px 0;
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
     font-weight: normal;
   }
 
   &:not(.is-range) {
     td.prev,
     td.next {
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
     }
   }
 

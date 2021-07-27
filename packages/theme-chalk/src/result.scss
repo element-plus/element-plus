@@ -38,7 +38,7 @@ $types: success, warning, danger, info, error;
     p {
       margin: 0;
       font-size: var(--el-result-title-font-size);
-      color: var(--el-color-text-primary);
+      color: var(--el-text-color-primary);
       line-height: 1.3;
     }
   }
@@ -49,7 +49,7 @@ $types: success, warning, danger, info, error;
     p {
       margin: 0;
       font-size: var(--el-font-size-base);
-      color: var(--el-color-text-regular);
+      color: var(--el-text-color-regular);
       line-height: 1.3;
     }
   }

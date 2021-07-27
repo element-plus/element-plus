@@ -13,7 +13,7 @@
 
   @include e(tip) {
     font-size: 12px;
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
     margin-top: 7px;
   }
 
@@ -72,7 +72,7 @@
 
   .#{$namespace}-icon-upload {
     font-size: 67px;
-    color: var(--el-color-text-placeholder);
+    color: var(--el-text-color-placeholder);
     margin: 40px 0 16px;
     line-height: 50px;
   }
@@ -88,7 +88,7 @@
   }
 
   .#{$namespace}-upload__text {
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
     font-size: 14px;
     text-align: center;
 
@@ -116,7 +116,7 @@
   @include e(item) {
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
     line-height: 1.8;
     margin-top: 5px;
     position: relative;
@@ -156,7 +156,7 @@
       right: 5px;
       cursor: pointer;
       opacity: 0.75;
-      color: var(--el-color-text-regular);
+      color: var(--el-text-color-regular);
       //transform: scale(.7);
 
       &:hover {
@@ -231,7 +231,7 @@
   }
 
   @include e(item-name) {
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
     display: block;
     margin-right: 40px;
     overflow: hidden;
@@ -243,7 +243,7 @@
     [class^='#{$namespace}-icon'] {
       height: 100%;
       margin-right: 7px;
-      color: var(--el-color-text-secondary);
+      color: var(--el-text-color-secondary);
       line-height: inherit;
     }
   }
@@ -261,7 +261,7 @@
     right: 10px;
     top: 0;
     font-size: 12px;
-    color: var(--el-color-text-regular);
+    color: var(--el-text-color-regular);
     display: none;
 
     &:hover {
@@ -598,7 +598,7 @@
     margin: 0;
     line-height: 36px;
     font-size: 14px;
-    color: var(--el-color-text-primary);
+    color: var(--el-text-color-primary);
   }
 
   + .#{$namespace}-upload__inner {
