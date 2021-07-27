@@ -98,7 +98,7 @@
       border-color: var(--el-switch-on-color);
       background-color: var(--el-switch-on-color);
       .#{$namespace}-switch__action {
-        left: 100%;
+        left: calc(100% - var(--el-switch-button-size));
         margin-left: calc(0px - var(--el-switch-button-size) - 1px);
         color: var(--el-switch-on-color);
       }
