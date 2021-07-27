@@ -453,10 +453,8 @@ $--button-active-shade-percent: 10% !default;
 
 /* Popup
 -------------------------- */
-/// color||Color|0
-$--popup-modal-background-color: $--color-black !default;
-/// opacity||Other|1
-$--popup-modal-opacity: 0.5 !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/popup.scss
 
 /* Popover
 -------------------------- */
@@ -475,12 +473,8 @@ $--popup-modal-opacity: 0.5 !default;
 
 /* Tree
 -------------------------- */
-/// color||Color|0
-$--tree-node-hover-background-color: $--background-color-base !default;
-/// color||Color|0
-$--tree-font-color: var(--el-text-color-regular) !default;
-/// color||Color|0
-$--tree-expand-icon-color: var(--el-text-color-placeholder) !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/tree.scss
 
 /* Dropdown
 -------------------------- */
@@ -600,9 +594,8 @@ $--loading-fullscreen-spinner-size: 50px !default;
 
 /* Timeline
 --------------------------*/
-$--timeline-node-size-normal: 12px !default;
-$--timeline-node-size-large: 14px !default;
-$--timeline-node-color: map.get($--border-color, 'light') !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/timeline-item.scss
 
 /* Backtop
 --------------------------*/
@@ -628,8 +621,8 @@ $--backtop-hover-background-color: map.get(
 
 /* Form
 -------------------------- */
-/// fontSize||Font|1
-$--form-label-font-size: map.get($--font-size, 'base') !default;
+// refactor with css3 var
+// See packages/theme-chalk/src/form.scss
 
 /* Avatar
 --------------------------*/
