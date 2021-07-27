@@ -499,4 +499,44 @@ describe('Datetimerange', () => {
       .map(node => Number(node.textContent))
     expect(disabledHours2).toStrictEqual(disabledHoursRightArr)
   })
+
+  it('The end time is reset by the start time when you select the time again', async () => {
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        type="datetimerange"
+    />`, () => ({
+      value: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
+    }))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const pickerss = document.querySelectorAll('.el-date-range-picker__time-header .el-date-range-picker__editors-wrap')
+    const rightInputTime = pickerss[1].querySelector('.el-date-range-picker__time-picker-wrap:nth-child(2) input') as HTMLInputElement
+    rightInputTime.focus()
+    await nextTick()
+    rightInputTime.value = '02:02:02'
+    triggerEvent(rightInputTime, 'input', true)
+    triggerEvent(rightInputTime, 'change', true)
+    await nextTick()
+    const timeConfirm = document.querySelector('.el-date-range-picker__time-picker-wrap .el-time-panel .confirm') as HTMLElement
+    timeConfirm.click()
+    await nextTick()
+    const dateConfirm = document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement
+    dateConfirm.click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.map(_ => dayjs(_).format(formatStr)))
+      .toStrictEqual(['2000-11-10 10:10:00', '2000-11-11 02:02:02'])
+    input.trigger('focus')
+    await nextTick()
+    rightInputTime.focus()
+    await nextTick()
+    timeConfirm.click()
+    await nextTick()
+    dateConfirm.click()
+    await nextTick()
+    expect(vm.value.map(_ => dayjs(_).format(formatStr)))
+      .toStrictEqual(['2000-11-10 10:10:00', '2000-11-11 02:02:02'])
+  })
 })
