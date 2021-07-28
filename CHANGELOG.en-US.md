@@ -8,7 +8,7 @@
 - fix(input): no trigger input event when clear value (#2723) …
 - fix(message): using iconClass causes "el-message__icon" to be lost (#… …
 - fix(typing): fixed Nullable type for RefElement (#2730)
-- fix(locale): inject locale for modal like components #2737
+- fix(locale): inject locale for modal like components (#2737)
 
 #### Refactors
 - refactor(backtop): migrate css var (#2711)
