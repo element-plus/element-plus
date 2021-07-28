@@ -30,6 +30,7 @@ const scopes = [
   'typography',
   'color',
   'border',
+  'var',
 ]
 
 module.exports = {
