@@ -5,6 +5,53 @@
 @import 'mixins/_button';
 @import 'mixins/utils';
 
+$--checkbox-bordered-padding: () !default;
+$--checkbox-bordered-padding: map.merge(
+  (
+    'default': 9px 20px 9px 10px,
+    'medium': 7px 20px 7px 10px,
+    'small': 5px 15px 5px 10px,
+    'mini': 3px 15px 3px 10px,
+  ),
+  $--checkbox-bordered-padding
+);
+
+$--checkbox-bordered-input-height: () !default;
+$--checkbox-bordered-input-height: map.merge(
+  (
+    'medium': 14px,
+    'small': 12px,
+    'mini': 12px,
+  ),
+  $--checkbox-bordered-input-height
+);
+
+$--checkbox-bordered-input-width: () !default;
+$--checkbox-bordered-input-width: map.merge(
+  $--checkbox-bordered-input-height,
+  $--checkbox-bordered-input-width
+);
+
+$--checkbox-bordered-height: () !default;
+$--checkbox-bordered-height: map.merge(
+  (
+    'medium': 36px,
+    'small': 32px,
+    'mini': 28px,
+  ),
+  $--checkbox-bordered-height
+);
+
+$--checkbox-line-height: () !default;
+$--checkbox-line-height: map.merge(
+  (
+    'medium': 17px,
+    'small': 15px,
+    'mini': 12px,
+  ),
+  $--checkbox-line-height
+);
+
 :root {
   --el-checkbox-font-size: 14px;
   --el-checkbox-font-weight: var(--el-font-weight-primary);
@@ -14,10 +61,6 @@
   --el-checkbox-border-radius: var(--el-border-radius-small);
   --el-checkbox-background-color: var(--el-color-white);
   --el-checkbox-input-border: var(--el-border-base);
-
-  --el-checkbox-medium-line-height: 17px;
-  --el-checkbox-small-line-height: 15px;
-  --el-checkbox-mini-line-height: 12px;
 
   --el-checkbox-disabled-border-color: var(--el-border-color-base);
   --el-checkbox-disabled-input-fill: #edf2fc;
@@ -36,19 +79,6 @@
 
   --el-checkbox-input-border-color-hover: var(--el-color-primary);
   --el-checkbox-bordered-height: 40px;
-  --el-checkbox-bordered-padding: 9px 20px 9px 10px;
-  --el-checkbox-bordered-medium-padding: 7px 20px 7px 10px;
-  --el-checkbox-bordered-small-padding: 5px 15px 5px 10px;
-  --el-checkbox-bordered-mini-padding: 3px 15px 3px 10px;
-  --el-checkbox-bordered-medium-input-height: 14px;
-  --el-checkbox-bordered-medium-input-width: 14px;
-  --el-checkbox-bordered-medium-height: 36px;
-  --el-checkbox-bordered-small-input-height: 12px;
-  --el-checkbox-bordered-small-input-width: 12px;
-  --el-checkbox-bordered-small-height: 32px;
-  --el-checkbox-bordered-mini-input-height: 12px;
-  --el-checkbox-bordered-mini-input-width: 12px;
-  --el-checkbox-bordered-mini-height: 28px;
 
   --el-checkbox-button-checked-background-color: var(--el-color-primary);
   --el-checkbox-button-checked-font-color: var(--el-color-white);
@@ -89,18 +119,18 @@
 
     @each $size in (medium, small, mini) {
       &.#{$namespace}-checkbox--#{size} {
-        padding: var(--el-checkbox-bordered-#{$size}-padding);
+        padding: map.get($--checkbox-bordered-padding, $size);
         border-radius: map.get($--button-border-radius, $size);
-        height: var(--el-checkbox-bordered-#{$size}-height);
+        height: map.get($--checkbox-bordered-height, $size);
 
         .#{$namespace}-checkbox__label {
-          line-height: var(--el-checkox-#{size}-line-height);
+          line-height: map.get($--checkbox-line-height, $size);
           font-size: map.get($--button-font-size, $size);
         }
 
         .#{$namespace}-checkbox__inner {
-          height: var(--el-checkbox-bordered-#{size}-input-height);
-          width: var(--el-checkbox-bordered-#{size}-input-width);
+          height: map.get($--checkbox-bordered-input-height, $size);
+          width: map.get($--checkbox-bordered-input-width, $size);
         }
       }
     }

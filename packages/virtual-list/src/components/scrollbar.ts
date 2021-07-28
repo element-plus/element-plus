@@ -4,7 +4,7 @@ import { rAF, cAF } from '@element-plus/utils/raf'
 import isServer from '@element-plus/utils/isServer'
 import { NOOP } from '@vue/shared'
 
-import { DefaultScrollBarProps, SCROLLBAR_MIN_SIZE, HORIZONTAL } from '../defaults'
+import { DefaultScrollBarProps, SCROLLBAR_MIN_SIZE, HORIZONTAL, ScrollbarDirKey } from '../defaults'
 import { renderThumbStyle } from '../utils'
 import { BAR_MAP } from '../../../scrollbar/src/util'
 
@@ -38,6 +38,7 @@ const ScrollBar = defineComponent({
       position: 'absolute',
       width: HORIZONTAL === props.layout ? '100%' : '6px',
       height: HORIZONTAL === props.layout ? '6px' : '100%',
+      [ScrollbarDirKey[props.layout]]: '2px',
       right: '2px',
       bottom: '2px',
       borderRadius: '4px',
