@@ -610,7 +610,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         if (selectedItem) {
           states.selectedLabel = selectedItem.label
         } else {
-          states.selectedLabel = ''
+          states.selectedLabel = `${props.modelValue}`
         }
       } else {
         states.selectedLabel = ''

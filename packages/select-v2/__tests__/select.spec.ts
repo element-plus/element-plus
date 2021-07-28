@@ -1,7 +1,8 @@
 import { nextTick } from 'vue'
-import Select from '../src/select.vue'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { NOOP } from '@vue/shared'
+import { EVENT_CODE } from '@element-plus/utils/aria'
+import Select from '../src/select.vue'
 
 jest.useFakeTimers()
 
@@ -21,13 +22,15 @@ const createData = (count = 1000) => {
 
 interface SelectProps {
   popperClass?: string
-  value?: string | string[]
+  value?: string | string[] | number | number[]
   options?: any[]
   disabled?: boolean
   clearable?: boolean
   multiple?: boolean
   filterable?: boolean
   multipleLimit?: number
+  popperAppendToBody?: boolean
+  placeholder?: string
   [key: string]: any
 }
 
@@ -43,7 +46,13 @@ interface SelectEvents {
 const createSelect = (options: {
   data?: () => SelectProps
   methods?: SelectEvents
+  slots?: {
+    empty?: string
+    default?: string
+  }
 } = {}) => {
+  const emptySlot = (options.slots && options.slots.empty && `<template #empty>${options.slots.empty}</template>`) || ''
+  const defaultSlot = (options.slots && options.slots.default && `<template #default="{item}">${options.slots.default}</template>`) || ''
   return _mount(`
       <el-select
         :options="options"
@@ -53,12 +62,17 @@ const createSelect = (options: {
         :multiple="multiple"
         :filterable="filterable"
         :multiple-limit="multipleLimit"
+        :popper-append-to-body="popperAppendToBody"
+        :placeholder="placeholder"
         @change="onChange"
         @visible-change="onVisibleChange"
         @remove-tah="onRemoveTag"
         @focus="onFocus"
         @blur="onBlur"
-        v-model="value"></el-select>
+        v-model="value">
+        ${defaultSlot}
+        ${emptySlot}
+      </el-select>
     `, {
     data () {
       return {
@@ -70,6 +84,8 @@ const createSelect = (options: {
         multiple: false,
         filterable: false,
         multipleLimit: 0,
+        popperAppendToBody: true,
+        placeholder: DEFAULT_PLACEHOLDER,
         ...options.data && options.data(),
       }
     },
@@ -405,13 +421,14 @@ describe('Select', () => {
       const input = wrapper.find('input')
       const select = wrapper.findComponent(Select)
       await input.trigger('focus')
+      const selectVm = select.vm as any
       // Simulate focus state to trigger menu multiple times
-      select.vm.toggleMenu()
+      selectVm.toggleMenu()
       await nextTick
-      select.vm.toggleMenu()
+      selectVm.toggleMenu()
       await nextTick
       // Simulate click the outside
-      select.vm.handleClickOutside()
+      selectVm.handleClickOutside()
       await nextTick
       expect(onFocus).toHaveBeenCalledTimes(1)
       expect(onBlur).toHaveBeenCalled()
@@ -436,10 +453,11 @@ describe('Select', () => {
       const input = wrapper.find('input')
       const select = wrapper.findComponent(Select)
       await input.trigger('focus')
+      const selectVm = select.vm as any
       // Simulate focus state to trigger menu multiple times
-      select.vm.toggleMenu()
+      selectVm.toggleMenu()
       await nextTick
-      select.vm.toggleMenu()
+      selectVm.toggleMenu()
       await nextTick
       // Select multiple items in multiple mode without triggering focus
       const options = getOptions()
@@ -449,10 +467,215 @@ describe('Select', () => {
       await nextTick
       expect(onFocus).toHaveBeenCalledTimes(1)
       // Simulate click the outside
-      select.vm.handleClickOutside()
+      selectVm.handleClickOutside()
       await nextTick
       await nextTick
       expect(onBlur).toHaveBeenCalled()
     })
+
+    it('only emit change on user input', async () => {
+      const handleChanged = jest.fn()
+      const wrapper = createSelect({
+        methods: {
+          onChange: handleChanged,
+        },
+      })
+      await nextTick
+      const vm = wrapper.vm as any
+      vm.value = 'option_2'
+      await nextTick
+      expect(handleChanged).toHaveBeenCalledTimes(0)
+      const options = getOptions()
+      options[4].click()
+      await nextTick
+      expect(handleChanged).toHaveBeenCalled()
+    })
+  })
+
+  it('render empty slot', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          options: [],
+          popperAppendToBody: false,
+        }
+      },
+      slots: {
+        empty: '<div class="empty-slot">EmptySlot</div>',
+      },
+    })
+    await nextTick
+    expect(wrapper.find('.empty-slot').exists()).toBeTruthy()
+  })
+
+  it('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          options: [
+            {
+              value: '1',
+              label: 'option 1',
+            },
+            {
+              value: '2',
+              label: 'option 2',
+            },
+            {
+              value: '3',
+              label: 'option 3',
+            },
+          ],
+          filterable: true,
+          multiple: false,
+        }
+      },
+    })
+    await nextTick
+    const vm = wrapper.vm as any
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+    vm.value = '2'
+    await nextTick
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    selectVm.toggleMenu()
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    expect(placeholder.text()).toBe('option 2')
+  })
+
+  it('default value is null or undefined', async () => {
+    const wrapper = createSelect({
+      data() {
+        return {
+          value: null,
+        }
+      },
+    })
+    await nextTick
+    const vm = wrapper.vm as any
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+    vm.value = undefined
+    await nextTick
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+  })
+
+  it('emptyText error show', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          value: `${Math.random()}`,
+        }
+      },
+    })
+    await nextTick
+    const vm = wrapper.vm as any
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+    expect(placeholder.text()).toBe(vm.value)
+  })
+
+  it('customized option renderer', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          popperAppendToBody: false,
+        }
+      },
+      slots: {
+        default: `
+          <div class="custom-renderer">
+            <span style="margin-right: 8px;">{{ item.label }}</span>
+            <span style="color: #8492a6; font-size: 13px">
+              {{ item.value }}
+            </span> 
+          </div> 
+        `,
+      },
+    })
+    await nextTick
+    expect(wrapper.findAll('.custom-renderer').length).toBeGreaterThan(0)
+  })
+
+  it('tag of disabled option is not closable', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          multiple: true,
+          options: [
+            {
+              value: 1,
+              lable: 'option 1',
+              disabled: true,
+            },
+            {
+              value: 2,
+              lable: 'option 2',
+              disabled: true,
+            },
+            {
+              value: 3,
+              lable: 'option 3',
+            },
+          ],
+          value: [2, 3],
+        }
+      },
+    })
+    await nextTick
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    const tagCloseIcons = wrapper.findAll('.el-tag__close')
+    expect(tagCloseIcons.length).toBe(1)
+    await tagCloseIcons[0].trigger('click')
+    expect(wrapper.findAll('.el-tag__close').length).toBe(0)
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+  })
+
+  it('modelValue should be deep reactive in multiple mode', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          multiple: true,
+          value: ['option_1', 'option_2', 'option_3'],
+        }
+      },
+    })
+    await nextTick
+    expect(wrapper.findAll('.el-tag').length).toBe(3)
+    const vm = wrapper.vm as any
+    vm.value.splice(0, 1)
+    await nextTick
+    expect(wrapper.findAll('.el-tag').length).toBe(2)
+  })
+
+  it('should reset placeholder after clear when both multiple and filterable are true', async () => {
+    const wrapper = createSelect({
+      data () {
+        return {
+          value: ['option_1'],
+          clearable: true,
+          filterable: true,
+          multiple: true,
+        }
+      },
+    })
+    await nextTick
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).exists()).toBeFalsy()
+    // When all tags are removed, the placeholder should be displayed
+    const tagCloseIcon = wrapper.find('.el-tag__close')
+    await tagCloseIcon.trigger('click')
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(DEFAULT_PLACEHOLDER)
+    // The placeholder should disappear after it is selected again
+    const options = getOptions()
+    options[0].click()
+    await nextTick
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).exists()).toBeFalsy()
+    // Simulate keyboard events
+    const selectInput = wrapper.find('input')
+    selectInput.trigger('keydown', {
+      key: EVENT_CODE.backspace,
+    })
+    await nextTick
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(DEFAULT_PLACEHOLDER)
   })
 })
