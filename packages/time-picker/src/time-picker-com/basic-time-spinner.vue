@@ -225,9 +225,7 @@ export default defineComponent({
       if (el.value) {
         const length = listMap['value'][type]['value']['length'] - 1
         const containerEl = el.value.$el.querySelector('.el-scrollbar__wrap')
-        const offsetValue = containerEl.scrollHeight - containerEl.offsetHeight - (length * typeItemHeight(type))
-        const top = Math.max(0, value * typeItemHeight(type))
-        containerEl.scrollTop = value === length ? top + Math.max(0, offsetValue) : top
+        containerEl.scrollTop = value === length ? containerEl.scrollHeight - containerEl.offsetHeight : Math.max(0, value * typeItemHeight(type))
       }
     }
 
