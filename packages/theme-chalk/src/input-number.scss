@@ -143,7 +143,7 @@
     }
 
     @each $size in (medium, small, mini) {
-      &[class*='#{size}'] {
+      &[class*='#{$size}'] {
         [class*='increase'],
         [class*='decrease'] {
           line-height: #{math.div(map.get($--input-height, $size) - 2, 2)};
