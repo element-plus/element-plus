@@ -527,8 +527,7 @@ export default defineComponent({
 
       if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
         maxDate.value = minDate.value
-        rightDate.value = maxDate.value
-        rightDate.value = rightDate.value.add(1, 'month')
+        rightDate.value = value
       }
     }
 
@@ -545,7 +544,6 @@ export default defineComponent({
 
       if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
         minDate.value = maxDate.value
-        leftDate.value = minDate.value
       }
     }
 
@@ -616,6 +614,12 @@ export default defineComponent({
             : maxDate.value
         } else {
           rightDate.value = leftDate.value.add(1, 'month')
+          if (maxDate.value) {
+            rightDate.value = rightDate.value
+              .hour(maxDate.value.hour())
+              .minute(maxDate.value.minute())
+              .second(maxDate.value.second())
+          }
         }
       } else {
         const defaultArr = getDefaultValue()
