@@ -171,7 +171,6 @@ export default defineComponent({
     autocomplete: {
       type: String,
       default: 'off',
-      validator: (val: string) => ['on', 'off'].includes(val),
     },
     placeholder: {
       type: String,
