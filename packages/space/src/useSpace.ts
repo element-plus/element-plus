@@ -55,6 +55,14 @@ export const defaultProps = {
     default: false,
   },
 
+  fillPercentage: {
+    type: Number,
+    default: 100,
+    validator: (val: unknown) => {
+      return isNumber(val) && val > 0 && val <= 100
+    },
+  },
+
   size: {
     type: [String, Array, Number] as PropType<
       ComponentSize | [number, number] | number
@@ -76,7 +84,6 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
 
   const horizontalSize = ref(0)
   const verticalSize = ref(0)
-  const widthFill = ref(false)
 
   watch(
     () => [props.size, props.wrap, props.direction, props.fill],
@@ -94,7 +101,7 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
           val = SizeMap[size as string] || SizeMap.small
         }
 
-        if (wrap && dir === 'horizontal') {
+        if ((wrap || fill) && dir === 'horizontal') {
           horizontalSize.value = verticalSize.value = val
         } else {
           if (dir === 'horizontal') {
@@ -106,15 +113,15 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
           }
         }
       }
-      widthFill.value = fill && dir === 'vertical'
     },
     { immediate: true },
   )
 
   const containerStyle = computed(() => {
-    const wrapKls: CSSProperties = props.wrap
-      ? { flexWrap: 'wrap', marginBottom: `-${verticalSize.value}px` }
-      : null
+    const wrapKls: CSSProperties =
+      props.wrap || props.fill
+        ? { flexWrap: 'wrap', marginBottom: `-${verticalSize.value}px` }
+        : null
     const alignment: CSSProperties = {
       alignItems: props.alignment,
     }
@@ -122,11 +129,16 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
   })
 
   const itemStyle = computed(() => {
-    return {
+    const itemBaseStyle = {
       paddingBottom: `${verticalSize.value}px`,
       marginRight: `${horizontalSize.value}px`,
-      ...(widthFill.value ? { width: '100%' } : {}),
     }
+
+    const fillStyle = props.fill
+      ? { flexGrow: 1, minWidth: `${props.fillPercentage}%` }
+      : null
+
+    return [itemBaseStyle, fillStyle] as Array<CSSProperties>
   })
 
   return {
