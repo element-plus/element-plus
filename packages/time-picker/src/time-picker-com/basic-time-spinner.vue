@@ -223,7 +223,11 @@ export default defineComponent({
       if (props.arrowControl) return
       const el = listRefsMap[type]
       if (el.value) {
-        el.value.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(0, value * typeItemHeight(type))
+        const length = listMap['value'][type]['value']['length'] - 1
+        const containerEl = el.value.$el.querySelector('.el-scrollbar__wrap')
+        const offsetValue = containerEl.scrollHeight - containerEl.offsetHeight - (length * typeItemHeight(type))
+        const top = Math.max(0, value * typeItemHeight(type))
+        containerEl.scrollTop = value === length ? top + Math.max(0, offsetValue) : top
       }
     }
 
