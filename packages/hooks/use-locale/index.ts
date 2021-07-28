@@ -29,6 +29,11 @@ export type LocaleContext = {
 
 export const LocaleInjectionKey = 'ElLocaleInjection' as unknown as InjectionKey<LocaleContext>
 
+// this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
+// into the component as default injection value.
+// refer to: https://github.com/element-plus/element-plus/issues/2610#issuecomment-887965266
+let localeObjCache: LocaleContext
+
 export const useLocale = () => {
   const vm = getCurrentInstance()
   const props = vm.props as {
@@ -57,11 +62,23 @@ export const useLocale = () => {
     return props.i18n?.(...args) || _translator(...args)
   }
 
-  provide(LocaleInjectionKey, {
+  const provides = {
     locale,
     lang,
     t,
-  })
+  }
+
+  // this could be broken if someone tries to do following:
+
+  /**
+   * <config-provider :locale="lang1">
+   *   <config-provider :locale="lang2">
+   *     Something calls modal component.
+   *   </config-provider>
+   * </config-provider>
+   */
+  localeObjCache = provides
+  provide(LocaleInjectionKey, provides)
 }
 
 
@@ -74,7 +91,7 @@ function template(str: string, option) {
 
 
 export const useLocaleInject = () => {
-  return inject(LocaleInjectionKey, {
+  return inject(LocaleInjectionKey, localeObjCache || {
     lang: ref(English.name),
     locale: ref(English),
     t: (...args) => {
