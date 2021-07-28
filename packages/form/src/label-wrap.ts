@@ -18,7 +18,7 @@ export default defineComponent({
 
     const computedWidth = ref(0)
     watch(computedWidth, (val, oldVal) => {
-      if (props.updateAll) {
+      if (props.updateAll || props.isAutoWidth) {
         elForm.registerLabelWidth(val, oldVal)
         elFormItem.updateComputedLabelWidth(val)
       }

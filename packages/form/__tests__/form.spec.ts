@@ -89,6 +89,45 @@ describe('Form', () => {
     expect(marginRight).toEqual(marginRight1)
   })
 
+  test('form item auto label width', async() => {
+    const wrapper = mountForm({
+      template: `
+        <el-form ref="form" :model="form" label-width="80px" :label-position="labelPosition">
+          <el-form-item label="Name">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="Intro" label-width="auto">
+            <el-input v-model="form.intro"></el-input>
+          </el-form-item>
+        </el-form>
+      `,
+      data() {
+        return {
+          form: {
+            name: '',
+            intro: '',
+          },
+          labelPosition: 'right',
+        }
+      },
+    })
+
+    await nextTick()
+
+    const formItems = wrapper.findAll<HTMLElement>('.el-form-item__content')
+    const marginLeft = parseInt(formItems[0].element.style.marginLeft, 10)
+    const marginLeft1 = parseInt(formItems[1].element.style.marginLeft, 10)
+    expect(marginLeft).toEqual(marginLeft1)
+
+    wrapper.vm.labelPosition = 'left'
+    await nextTick()
+
+    const formItems1 = wrapper.findAll<HTMLElement>('.el-form-item__content')
+    const marginRight = parseInt(formItems1[0].element.style.marginRight, 10)
+    const marginRight1 = parseInt(formItems1[1].element.style.marginRight, 10)
+    expect(marginRight).toEqual(marginRight1)
+  })
+
   test('inline form', () => {
     const wrapper = mountForm({
       template: `
