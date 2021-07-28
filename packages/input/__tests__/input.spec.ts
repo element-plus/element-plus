@@ -422,6 +422,7 @@ describe('Input.vue', () => {
 
     test('event:clear', async() => {
       const handleClear = jest.fn()
+      const handleInput = jest.fn()
       const wrapper = _mount({
         template: `
           <el-input
@@ -429,6 +430,7 @@ describe('Input.vue', () => {
             clearable
             v-model="input"
             @clear="handleClear"
+            @input="handleInput"
           />
         `,
         setup() {
@@ -437,6 +439,7 @@ describe('Input.vue', () => {
           return {
             input,
             handleClear,
+            handleInput,
           }
         },
       })
@@ -450,6 +453,7 @@ describe('Input.vue', () => {
       await sleep()
       expect(vm.input).toEqual('')
       expect(handleClear).toBeCalled()
+      expect(handleInput).toBeCalled()
     })
 
     test('event:input', async() => {

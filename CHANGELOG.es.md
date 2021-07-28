@@ -23,6 +23,20 @@
 
 ### 1.0.2-beta.62
 
+### 1.0.2-beta.64
+
+#### Bug fixes
+- fix(var): map merge default var (#2727)
+- fix(scrollbar): the problem of ScrollbarDirKey being deleted (#2722)
+- fix(input): no trigger input event when clear value (#2723) …
+- fix(message): using iconClass causes "el-message__icon" to be lost (#… …
+- fix(typing): fixed Nullable type for RefElement (#2730)
+- fix(locale): inject locale for modal like components (#2737)
+
+#### Refactors
+- refactor(backtop): migrate css var (#2711)
+- refactor(var): simplify checkbox var & move transition to root (#2729)
+
 *2021-07-26*
 
 #### Bug fixes

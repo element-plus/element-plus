@@ -33,7 +33,7 @@ describe('Message.vue', () => {
 
       expect(wrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
-      expect(vm.typeClass).toBe('el-message__icon el-icon-info')
+      expect(vm.typeClass).toBe('el-icon-info')
       expect(vm.customStyle).toEqual({ top: '20px', zIndex: 0 })
     })
 
@@ -100,7 +100,7 @@ describe('Message.vue', () => {
       const type = 'some-type'
       const wrapper = _mount({ props: { type } })
 
-      expect(wrapper.find('.el-message__icon').exists()).toBe(false)
+      expect(wrapper.find(`el-icon-${type}`).exists()).toBe(false)
     })
   })
 
