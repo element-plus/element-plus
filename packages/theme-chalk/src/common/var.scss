@@ -220,30 +220,46 @@ $--radio-checked-icon-color: $--color-primary !default;
 
 $--radio-input-border-color-hover: $--color-primary !default;
 
-$--radio-bordered-padding: (
-  'default': 12px 20px 0 10px,
-  'medium': 10px 20px 0 10px,
-  'small': 8px 15px 0 10px,
-  'mini': 6px 15px 0 10px,
+$--radio-bordered-padding: () !default;
+$--radio-bordered-padding: map.merge(
+  (
+    'default': 12px 20px 0 10px,
+    'medium': 10px 20px 0 10px,
+    'small': 8px 15px 0 10px,
+    'mini': 6px 15px 0 10px,
+  ),
+  $--radio-bordered-padding
 );
 
-$--radio-bordered-input-height: (
-  'medium': 14px,
-  'small': 12px,
-  'mini': 12px,
+$--radio-bordered-input-height: () !default;
+$--radio-bordered-input-height: map.merge(
+  (
+    'medium': 14px,
+    'small': 12px,
+    'mini': 12px,
+  ),
+  $--radio-bordered-input-height
 );
 
-$--radio-bordered-input-width: (
-  'medium': 14px,
-  'small': 12px,
-  'mini': 12px,
+$--radio-bordered-input-width: () !default;
+$--radio-bordered-input-width: map.merge(
+  (
+    'medium': 14px,
+    'small': 12px,
+    'mini': 12px,
+  ),
+  $--radio-bordered-input-width
 );
 
-$--radio-bordered-height: (
-  'default': 40px,
-  'medium': 36px,
-  'small': 32px,
-  'mini': 28px,
+$--radio-bordered-height: () !default;
+$--radio-bordered-height: map.merge(
+  (
+    'default': 40px,
+    'medium': 36px,
+    'small': 32px,
+    'mini': 28px,
+  ),
+  $--radio-bordered-height
 );
 
 /// color||Color|0
@@ -339,30 +355,46 @@ $--input-disabled-border: $--disabled-border-base !default;
 $--input-disabled-color: $--disabled-color-base !default;
 $--input-disabled-placeholder-color: var(--el-text-color-placeholder) !default;
 
-$--input-font-size: (
-  'default': map.get($--font-size, 'base'),
-  'medium': 14px,
-  'small': 13px,
-  'mini': 12px,
+$--input-font-size: () !default;
+$--input-font-size: map.merge(
+  (
+    'default': map.get($--font-size, 'base'),
+    'medium': 14px,
+    'small': 13px,
+    'mini': 12px,
+  ),
+  $--input-font-size
 );
 
-$--input-height: (
-  'default': 40px,
-  'medium': 36px,
-  'small': 32px,
-  'mini': 28px,
+$--input-height: () !default;
+$--input-height: map.merge(
+  (
+    'default': 40px,
+    'medium': 36px,
+    'small': 32px,
+    'mini': 28px,
+  ),
+  $--input-height
 );
 
-$--input-line-height: (
-  'medium': 28px,
-  'small': 24px,
-  'mini': 20px,
+$--input-line-height: () !default;
+$--input-line-height: map.merge(
+  (
+    'medium': 28px,
+    'small': 24px,
+    'mini': 20px,
+  ),
+  $--input-line-height
 );
 
-$--input-number-width: (
-  'medium': 200px,
-  'small': 130px,
-  'mini': 130px,
+$--input-number-width: () !default;
+$--input-number-width: map.merge(
+  (
+    'medium': 200px,
+    'small': 130px,
+    'mini': 130px,
+  ),
+  $--input-number-width
 );
 
 /* Cascader
@@ -372,32 +404,48 @@ $--input-number-width: (
 
 /* Button
 -------------------------- */
-$--button-font-size: (
-  'default': map.get($--font-size, 'base'),
-  'medium': map.get($--font-size, 'base'),
-  'small': 12px,
-  'mini': 12px,
+$--button-font-size: () !default;
+$--button-font-size: map.merge(
+  (
+    'default': map.get($--font-size, 'base'),
+    'medium': map.get($--font-size, 'base'),
+    'small': 12px,
+    'mini': 12px,
+  ),
+  $--button-font-size
 );
 
-$--button-border-radius: (
-  'default': var(--el-border-radius-base),
-  'medium': var(--el-border-radius-base),
-  'small': calc(var(--el-border-radius-base) - 1px),
-  'mini': calc(var(--el-border-radius-base) - 1px),
+$--button-border-radius: () !default;
+$--button-border-radius: map.merge(
+  (
+    'default': var(--el-border-radius-base),
+    'medium': var(--el-border-radius-base),
+    'small': calc(var(--el-border-radius-base) - 1px),
+    'mini': calc(var(--el-border-radius-base) - 1px),
+  ),
+  $--button-border-radius
 );
 
-$--button-padding-vertical: (
-  'default': 12px,
-  'medium': 10px,
-  'small': 9px,
-  'mini': 7px,
+$--button-padding-vertical: () !default;
+$--button-padding-vertical: map.merge(
+  (
+    'default': 12px,
+    'medium': 10px,
+    'small': 9px,
+    'mini': 7px,
+  ),
+  $--button-padding-vertical
 );
 
-$--button-padding-horizontal: (
-  'default': 20px,
-  'medium': 20px,
-  'small': 15px,
-  'mini': 15px,
+$--button-padding-horizontal: () !default;
+$--button-padding-horizontal: map.merge(
+  (
+    'default': 20px,
+    'medium': 20px,
+    'small': 15px,
+    'mini': 15px,
+  ),
+  $--button-padding-horizontal
 );
 
 // need mix
