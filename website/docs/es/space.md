@@ -281,7 +281,8 @@ Setting this attribute can adjust the alignment of child nodes, the desirable va
 | spacer    | Spacer    | string / number / VNode | - | - |
 | size      | Spacing size   | string / number / [number, number] | - | 'small' |
 | wrap      | Auto wrapping | boolean | true / false  | false |
-| fill      | Whether the width is extended to the parent (effective when the direction is vertical) | boolean | true / false  | false |
+| fill      | Whether the width is extended to the parent | boolean | true / false  | false |
+| fillPercentage | Percentage of fill  | number | 0-100 | 100 |
 ### Space Slot
 | name | description  |
 |----|----|
