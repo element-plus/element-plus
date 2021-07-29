@@ -501,14 +501,16 @@ $--button-active-shade-percent: 10% !default;
 
 /* Dropdown
 -------------------------- */
-$--dropdown-menu-box-shadow: var(--el-box-shadow-light) !default;
-$--dropdown-menuItem-hover-fill: map.get(
-  $--colors,
-  'primary',
-  'light-9'
-) !default;
-$--dropdown-menuItem-hover-color: $--link-color !default;
-$--dropdown-menu-index: 10 !default;
+$--dropdown: () !default;
+$--dropdown: map.merge(
+  (
+    'menu-box-shadow': var(--el-box-shadow-light),
+    'menuItem-hover-fill': var(--el-color-primary-light-9),
+    'menuItem-hover-color': var(--el-link-color),
+    'menu-index': 10,
+  ),
+  $--dropdown
+);
 
 /* Badge
 -------------------------- */
