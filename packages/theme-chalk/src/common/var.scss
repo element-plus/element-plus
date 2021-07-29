@@ -512,15 +512,17 @@ $--dropdown-menu-index: 10 !default;
 
 /* Badge
 -------------------------- */
-/// color||Color|0
-$--badge-background-color: $--color-danger !default;
-$--badge-radius: 10px !default;
-/// fontSize||Font|1
-$--badge-font-size: 12px !default;
-/// padding||Spacing|3
-$--badge-padding: 6px !default;
-/// height||Other|4
-$--badge-size: 18px !default;
+// Css3 var in packages/theme-chalk/src/badge.scss
+$--badge: () !default;
+$--badge: map.merge(
+  (
+    'radius': 10px,
+    'font-size': 12px,
+    'padding': 6px,
+    'size': 18px,
+  ),
+  $--badge
+);
 
 /* Card
 --------------------------*/
