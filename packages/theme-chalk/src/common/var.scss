@@ -527,11 +527,16 @@ $--badge: map.merge(
 
 /* Card
 --------------------------*/
-/// color||Color|0
-$--card-border-color: map.get($--border-color, 'lighter') !default;
-$--card-border-radius: 4px !default;
-/// padding||Spacing|3
-$--card-padding: 20px !default;
+$--card: () !default;
+$--card: map.merge(
+  (
+    'border-color':
+      var(--el-border-color-light, map.get($--border-color, 'lighter')),
+    'border-radius': 4px,
+    'padding': 20px,
+  ),
+  $--card
+);
 
 /* Slider
 --------------------------*/
