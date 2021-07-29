@@ -59,7 +59,7 @@ $positionMap: (
     @each $position in $positions {
       &[x-placement^='#{$position}'] {
         margin-#{map.get($positionMap, $position)}: calc(
-          var(--el-tooltip-arrow-size + 6px)
+          var(--el-tooltip-arrow-size) + 6px
         );
       }
 
