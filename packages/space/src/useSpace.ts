@@ -55,12 +55,9 @@ export const defaultProps = {
     default: false,
   },
 
-  fillPercentage: {
+  fillRatio: {
     type: Number,
     default: 100,
-    validator: (val: unknown) => {
-      return isNumber(val) && val > 0 && val <= 100
-    },
   },
 
   size: {
@@ -135,7 +132,7 @@ export function useSpace(props: ExtractPropTypes<typeof defaultProps>) {
     }
 
     const fillStyle = props.fill
-      ? { flexGrow: 1, minWidth: `${props.fillPercentage}%` }
+      ? { flexGrow: 1, minWidth: `${props.fillRatio}%` }
       : null
 
     return [itemBaseStyle, fillStyle] as Array<CSSProperties>

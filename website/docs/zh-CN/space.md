@@ -282,7 +282,7 @@ export default {
 | size      | 间隔大小   | string / number / [number, number] | - | 'small' |
 | wrap      | 设置是否自动折行 | boolean | true / false  | false |
 | fill      | 内容是否填充父级 | boolean | true / false  | false |
-| fillPercentage | 填充父级的比例  | number | 0-100 | 100 |
+| fillRatio | 填充父级的比例  | number | - | 100 |
 ### Space Slot
 | name | 说明  |
 |----|----|
