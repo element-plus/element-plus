@@ -516,6 +516,7 @@ $--dropdown-menu-index: 10 !default;
 $--badge: () !default;
 $--badge: map.merge(
   (
+    'background-color': var(--el-color-danger),
     'radius': 10px,
     'font-size': 12px,
     'padding': 6px,
@@ -556,14 +557,17 @@ $--slider-button-wrapper-offset: -15px !default;
 
 /* Rate
 --------------------------*/
-$--rate-height: 20px !default;
-/// fontSize||Font|1
-$--rate-font-size: map.get($--font-size, 'base') !default;
-/// height||Other|3
-$--rate-icon-size: 18px !default;
-/// margin||Spacing|2
-$--rate-icon-margin: 6px !default;
-$--rate-icon-color: var(--el-text-color-placeholder) !default;
+$--rate: () !default;
+$--rate: map.merge(
+  (
+    'height': 20px,
+    'font-size': var(--el-font-size-base),
+    'icon-size': 18px,
+    'icon-margin': 6px,
+    'icon-color': var(--el-text-color-placeholder),
+  ),
+  $--rate
+);
 
 /* DatePicker
 --------------------------*/

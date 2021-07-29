@@ -2,14 +2,11 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 :root {
-  --el-badge-background-color: var(--el-color-danger);
-
-  @each $attribute, $value in $--badge {
-    --el-badge-#{$attribute}: #{$value};
-  }
+  @include set-component-css-var('badge', $--badge);
 }
 
 @include b(badge) {

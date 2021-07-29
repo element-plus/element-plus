@@ -13,3 +13,10 @@
 @mixin set-css-var-type($name, $type, $--variables) {
   --el-#{$name}-#{$type}: #{map.get($--variables, $type)};
 }
+
+// set all css var for component by map
+@mixin set-component-css-var($name, $--variables) {
+  @each $attribute, $value in $--variables {
+    --el-#{$name}-#{$attribute}: #{$value};
+  }
+}
