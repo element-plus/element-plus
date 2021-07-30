@@ -19,7 +19,7 @@ import lodashDebounce from 'lodash/debounce'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
 import {
   getValueByPath,
@@ -40,6 +40,7 @@ const MINIMUM_INPUT_WIDTH = 4
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // inject
+  const { t } = useLocaleInject()
   const elForm = inject(elFormKey, {} as ElFormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
   const $ELEMENT = useGlobalConfig()
@@ -184,9 +185,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const currentPlaceholder = computed(() => {
+    const _placeholder = props.placeholder || t('el.select.placeholder')
     return props.multiple
-      ? props.placeholder
-      : states.selectedLabel || props.placeholder
+      ? _placeholder
+      : states.selectedLabel || _placeholder
   })
 
   // this obtains the actual popper DOM element.
@@ -221,8 +223,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // if (expanded.value) {
       //   expanded.value = false
       // }
+      if (states.isComposing) states.softFocus = true
       expanded.value = !expanded.value
-      states.softFocus = true
       inputRef.value?.focus?.()
       // }
     }
@@ -388,14 +390,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       states.selectedLabel = option.label
       update(option.value)
       expanded.value = false
+      states.isComposing = false
+      states.isSilentBlur = byClick
     }
-    states.isComposing = false
-    states.isSilentBlur = byClick
-    // setSoftFocus()
-    if (expanded.value) return
-    nextTick(() => {
-      // scrollToOption(option)
-    })
   }
 
   const deleteTag = (event: MouseEvent, tag: Option) => {
@@ -423,15 +420,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const handleFocus = (event: FocusEvent) => {
+    const focused = states.isComposing
     states.isComposing = true
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
         expanded.value = true
-        // if (props.filterable) {
-        //   states.menuVisibleOnFocus = true
-        // }
       }
-      emit('focus', event)
+      // If already in the focus state, shouldn't trigger event
+      if (!focused) emit('focus', event)
     } else {
       states.softFocus = false
     }
@@ -444,7 +440,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
     }
 
-    states.isComposing = false
     states.softFocus = false
 
     // reset input value when blurred
@@ -454,7 +449,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if (calculatorRef.value) {
         states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
       }
-
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
@@ -462,6 +456,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           emit('blur')
         }
       }
+      states.isComposing = false
     })
 
   }
@@ -612,10 +607,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     } else {
       if (props.modelValue) {
         const selectedItem = filteredOptions.value.find(o => o.value === props.modelValue)
-
         if (selectedItem) {
           states.selectedLabel = selectedItem.label
+        } else {
+          states.selectedLabel = `${props.modelValue}`
         }
+      } else {
+        states.selectedLabel = ''
       }
     }
   }
@@ -636,6 +634,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   watch([() => props.modelValue, () => props.options], () => {
     initStates()
+  }, {
+    deep: true,
   })
 
   onMounted(() => {
@@ -692,6 +692,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleInputBoxClick,
     handleMenuEnter,
     toggleMenu,
+    scrollTo: scrollToItem,
     onCompositionUpdate,
     onInput,
     onKeyboardNavigate,

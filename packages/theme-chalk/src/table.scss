@@ -1,8 +1,19 @@
-@import "mixins/mixins";
-@import "checkbox";
-@import "tag";
-@import "tooltip";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'checkbox';
+@import 'tag';
+@import 'tooltip';
+@import 'common/var';
+
+:root {
+  --el-table-border-color: var(--el-border-color-lighter);
+  --el-table-border: 1px solid var(--el-table-border-color);
+  --el-table-font-color: var(--el-text-color-regular);
+  --el-table-header-font-color: var(--el-text-color-secondary);
+  --el-table-row-hover-background-color: var(--el-background-color-base);
+  --el-table-current-row-background-color: var(--el-color-primary-light-9);
+  --el-table-header-background-color: var(--el-color-white);
+  --el-table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
+}
 
 @include b(table) {
   position: relative;
@@ -11,9 +22,9 @@
   height: fit-content;
   width: 100%;
   max-width: 100%;
-  background-color: $--color-white;
+  background-color: var(--el-color-white);
   font-size: 14px;
-  color: $--table-font-color;
+  color: var(--el-table-font-color);
 
   // 数据为空
   @include e(empty-block) {
@@ -30,7 +41,7 @@
     // set empty text line height up to contrainer min-height as workaround.
     line-height: 60px;
     width: 50%;
-    color: $--color-text-secondary;
+    color: var(--el-text-color-secondary);
   }
 
   // 展开行
@@ -46,7 +57,7 @@
     cursor: pointer;
     color: #666;
     font-size: 12px;
-    transition: transform 0.2s ease-in-out;
+    transition: transform var(--el-transition-duration-fast) ease-in-out;
     height: 20px;
 
     @include m(expanded) {
@@ -63,10 +74,10 @@
   }
 
   @include e(expanded-cell) {
-    background-color: $--color-white;
+    background-color: var(--el-color-white);
 
     // 纯属为了增加权重
-    &[class*=cell] {
+    &[class*='cell'] {
       padding: 20px 50px;
     }
 
@@ -89,7 +100,8 @@
     border-right: 0;
     border-bottom: 0;
 
-    th.gutter, td.gutter {
+    th.gutter,
+    td.gutter {
       border-right-width: 1px;
     }
   }
@@ -107,17 +119,18 @@
   }
 
   thead {
-    color: $--table-header-font-color;
+    color: var(--el-table-header-font-color);
     font-weight: 500;
 
     &.is-group {
       th {
-        background: $--background-color-base;
+        background: var(--el-background-color-base);
       }
     }
   }
 
-  th, td {
+  th,
+  td {
     padding: 12px 0;
     min-width: 0;
     box-sizing: border-box;
@@ -149,35 +162,39 @@
   }
 
   @include m(medium) {
-    th, td {
+    th,
+    td {
       padding: 10px 0;
     }
   }
 
   @include m(small) {
     font-size: 12px;
-    th, td {
+    th,
+    td {
       padding: 8px 0;
     }
   }
 
   @include m(mini) {
     font-size: 12px;
-    th, td {
+    th,
+    td {
       padding: 6px 0;
     }
   }
 
   tr {
-    background-color: $--color-white;
+    background-color: var(--el-color-white);
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       margin: 0;
     }
   }
 
-  th.is-leaf, td {
-    border-bottom: $--table-border;
+  th.is-leaf,
+  td {
+    border-bottom: var(--el-table-border);
   }
 
   th.is-sortable {
@@ -187,7 +204,7 @@
   th {
     overflow: hidden;
     user-select: none;
-    background-color: $--table-header-background-color;
+    background-color: var(--el-table-header-background-color);
 
     > .cell {
       display: inline-block;
@@ -197,13 +214,13 @@
       width: 100%;
 
       &.highlight {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
     }
 
     &.required > div::before {
       display: inline-block;
-      content: "";
+      content: '';
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -241,12 +258,12 @@
 
   // 拥有多级表头
   @include m((group, border)) {
-    border: $--table-border;
+    border: var(--el-table-border);
 
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
-      background-color: $--table-border-color;
+      background-color: var(--el-table-border-color);
       z-index: 1;
     }
 
@@ -279,8 +296,9 @@
     //   border-color: transparent;
     // }
 
-    th, td {
-      border-right: $--table-border;
+    th,
+    td {
+      border-right: var(--el-table-border);
 
       &:first-child .cell {
         padding-left: 10px;
@@ -288,12 +306,12 @@
     }
 
     th.gutter:last-of-type {
-      border-bottom: $--table-border;
+      border-bottom: var(--el-table-border);
       border-bottom-width: 1px;
     }
 
     & th {
-      border-bottom: $--table-border;
+      border-bottom: var(--el-table-border);
     }
   }
 
@@ -307,7 +325,7 @@
     left: 0;
     overflow-x: hidden;
     overflow-y: hidden;
-    box-shadow: $--table-fixed-box-shadow;
+    box-shadow: var(--el-table-fixed-box-shadow);
 
     &::before {
       content: '';
@@ -316,7 +334,7 @@
       bottom: 0;
       width: 100%;
       height: 1px;
-      background-color: $--border-color-lighter;
+      background-color: var(--el-border-color-lighter);
       z-index: 4;
     }
   }
@@ -325,8 +343,8 @@
     position: absolute;
     top: -1px;
     right: 0;
-    background-color: $--color-white;
-    border-bottom: $--table-border;
+    background-color: var(--el-color-white);
+    border-bottom: var(--el-table-border);
   }
 
   @include e(fixed-right) {
@@ -356,9 +374,9 @@
     z-index: 3;
 
     & tbody td {
-      border-top: $--table-border;
-      background-color: $--table-row-hover-background-color;
-      color: $--table-font-color;
+      border-top: var(--el-table-border);
+      background-color: var(--el-table-row-hover-background-color);
+      color: var(--el-table-font-color);
     }
   }
 
@@ -377,7 +395,7 @@
   @include e(footer-wrapper) {
     margin-top: -1px;
     td {
-      border-top: $--table-border;
+      border-top: var(--el-table-border);
     }
   }
 
@@ -390,8 +408,8 @@
     overflow: hidden;
 
     & tbody td {
-      background-color: $--table-row-hover-background-color;
-      color: $--table-font-color;
+      background-color: var(--el-table-row-hover-background-color);
+      color: var(--el-table-font-color);
     }
   }
 
@@ -421,13 +439,13 @@
     .#{$namespace}-table--border {
       @include when(scrolling-right) {
         ~ .#{$namespace}-table__fixed-right {
-          border-left: $--table-border;
+          border-left: var(--el-table-border);
         }
       }
 
       @include when(scrolling-left) {
         ~ .#{$namespace}-table__fixed {
-          border-right: $--table-border;
+          border-right: var(--el-table-border);
         }
       }
     }
@@ -453,22 +471,22 @@
     left: 7px;
 
     &.ascending {
-      border-bottom-color: $--color-text-placeholder;
+      border-bottom-color: var(--el-text-color-placeholder);
       top: -5px;
     }
 
     &.descending {
-      border-top-color: $--color-text-placeholder;
+      border-top-color: var(--el-text-color-placeholder);
       bottom: -3px;
     }
   }
 
   .ascending .sort-caret.ascending {
-    border-bottom-color: $--color-primary;
+    border-bottom-color: var(--el-color-primary);
   }
 
   .descending .sort-caret.descending {
-    border-top-color: $--color-primary;
+    border-top-color: var(--el-color-primary);
   }
 
   .hidden-columns {
@@ -481,11 +499,11 @@
     & .#{$namespace}-table__body {
       & tr.#{$namespace}-table__row--striped {
         td {
-          background: #FAFAFA;
+          background: #fafafa;
         }
 
         &.current-row td {
-          background-color: $--table-current-row-background-color;
+          background-color: var(--el-table-current-row-background-color);
         }
       }
     }
@@ -493,17 +511,19 @@
 
   @include e(body) {
     tr.hover-row {
-      &, &.#{$namespace}-table__row--striped {
-        &, &.current-row {
+      &,
+      &.#{$namespace}-table__row--striped {
+        &,
+        &.current-row {
           > td {
-            background-color: $--table-row-hover-background-color;
+            background-color: var(--el-table-row-hover-background-color);
           }
         }
       }
     }
 
     tr.current-row > td {
-      background-color: $--table-current-row-background-color;
+      background-color: var(--el-table-current-row-background-color);
     }
   }
 
@@ -513,7 +533,7 @@
     top: 0;
     bottom: 0;
     width: 0;
-    border-left: $--table-border;
+    border-left: var(--el-table-border);
     z-index: 10;
   }
 
@@ -522,22 +542,22 @@
     cursor: pointer;
 
     & i {
-      color: $--color-info;
+      color: var(--el-color-info);
       font-size: 12px;
       vertical-align: middle;
-      transform: scale(.75);
+      transform: scale(0.75);
     }
   }
 
   @include m(enable-row-transition) {
     .#{$namespace}-table__body td {
-      transition: background-color .25s ease;
+      transition: background-color 0.25s ease;
     }
   }
 
   @include m(enable-row-hover) {
     .#{$namespace}-table__body tr:hover > td {
-      background-color: $--table-row-hover-background-color;
+      background-color: var(--el-table-row-hover-background-color);
     }
   }
 
@@ -549,7 +569,7 @@
     }
   }
 
-  [class*=#{$namespace}-table__row--level] {
+  [class*='#{$namespace}-table__row--level'] {
     .#{$namespace}-table__expand-icon {
       display: inline-block;
       width: 20px;

@@ -661,12 +661,12 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 | Nombre | Descripción              |
 | ------ | ------------------------ |
 | —      | contenido del Form Item  |
-| label  | contenido de la etiqueta |
 
 ### Form-Item Scoped Slot
 
 | Name  | Description                                                  |
 | ----- | ------------------------------------------------------------ |
+| label | Custom content to display on label. The scope parameter is { label } |
 | error | Contenido personalizado para mostrar el mensaje de validación. El parámetro del scope es { error } |
 
 ### Form-Item Metodo

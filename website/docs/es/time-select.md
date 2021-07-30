@@ -69,6 +69,7 @@ Si se escoge el tiempo de inicio al principio, el tiempo de finalización cambia
 | Atributo          | Descripción                              | Tipo                                     | Valores aceptados                        | Por defecto          |
 | ----------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | -------------------- |
 | model-value / v-model    | valor enlazado                           | string    | —                                        | —                    |
+| disabled | si el TimeSelect se encuentra deshabilitado | boolean | — | false |
 | editable          | si el input puede ser editado            | boolean                                  | —                                        | true                 |
 | clearable         | si mostrar el botón de borrado           | boolean                                  | —                                        | true                 |
 | size              | tamaño del input                         | string                                   | medium / small / mini                    | —                    |

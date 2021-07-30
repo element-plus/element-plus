@@ -54,9 +54,9 @@
 </template>
 
 <script lang="ts">
-import { t } from '@element-plus/locale'
 import ElButton from '@element-plus/button'
 import ElButtonGroup from '@element-plus/button-group'
+import { useLocaleInject } from '@element-plus/hooks'
 import DateTable from './date-table.vue'
 import {
   ref,
@@ -66,6 +66,8 @@ import {
   defineComponent,
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
+
+type DateType = 'prev-month' | 'today' | 'next-month'
 
 export default defineComponent({
   name: 'ElCalendar',
@@ -98,14 +100,15 @@ export default defineComponent({
 
   emits: ['input', 'update:modelValue'],
   setup(props, ctx) {
+    const { t, lang } = useLocaleInject()
     const selectedDay = ref(null)
-    const now = dayjs()
+    const now = dayjs().locale(lang.value)
 
     const prevMonthDayjs = computed(() => {
       return date.value.subtract(1, 'month')
     })
     const curMonthDatePrefix = computed(() => {
-      return dayjs(date.value).format('YYYY-MM')
+      return dayjs(date.value).locale(lang.value).format('YYYY-MM')
     })
 
     const nextMonthDayjs = computed(() => {
@@ -140,14 +143,14 @@ export default defineComponent({
         }
         return now
       } else {
-        return dayjs(props.modelValue)
+        return dayjs(props.modelValue).locale(lang.value)
       }
     })
 
     // if range is valid, we get a two-digit array
     const validatedRange = computed(() => {
       if (!props.range) return []
-      const rangeArrDayjs = props.range.map(_ => dayjs(_))
+      const rangeArrDayjs = props.range.map(_ => dayjs(_).locale(lang.value))
       const [startDayjs, endDayjs] = rangeArrDayjs
       if (startDayjs.isAfter(endDayjs)) {
         console.warn(
@@ -192,7 +195,7 @@ export default defineComponent({
       realSelectedDay.value = day
     }
 
-    const selectDate = type => {
+    const selectDate = (type: DateType) => {
       let day: Dayjs
       if (type === 'prev-month') {
         day = prevMonthDayjs.value

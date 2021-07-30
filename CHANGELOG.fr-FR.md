@@ -1,10 +1,193 @@
 ## Changelog
 
+### 1.0.2-beta.64
+
+#### Bug fixes
+- fix(var): map merge default var (#2727)
+- fix(scrollbar): the problem of ScrollbarDirKey being deleted (#2722)
+- fix(input): no trigger input event when clear value (#2723) …
+- fix(message): using iconClass causes "el-message__icon" to be lost (#… …
+- fix(typing): fixed Nullable type for RefElement (#2730)
+- - fix(locale): inject locale for modal like components (#2737)
+(locale): inject locale for modal like components #2737
+
+#### Refactors
+- refactor(backtop): migrate css var (#2711)
+- refactor(var): simplify checkbox var & move transition to root (#2729)
+
+### 1.0.2-beta.63
+
+*2021-07-27*
+
+#### Refactor
+
+- Refactor popover migrate css var (#2687)
+- Refactor tooltip migrate css var (#2686)
+- Refactor color rename color-text to text-color (#2691)
+- Refactor scrollbar migrate css var (#2698)
+- Refactor date-picker migrate css var (#2689)
+- Refactor tree popup form timeline-item migrate css var (#2697)
+
+#### Bug fixes
+
+- Fix radio-button checked should sync with state (#2699)
+- Update i18n version (#2690)
+- Fix notification improve type definition and define closeAll function (#2705)
+- Fix message iconClass not working (#2695)
+- Fix avatar css property line-height (#2702)
+
+### 1.0.2-beta.62
+
+*2021-07-26*
+
+#### Bug fixes
+
+- Fix build script error on Github Runner (#2683)
+
+### 1.0.2-beta.61
+
+*2021-07-26*
+
+#### Bug fixes
+
+- Fix documentation error for `Config Provider` (#2679)
+- Fix build script issue (#2680)
+
+### 1.0.2-beta.60
+
+*2021-07-26*
+
+#### Bug fixes
+
+- Fix `dayjs` integration issue with `el-config-provider` and `build.sh` shell error (#2678)
+
+### 1.0.2-beta.59
+
+*2021-07-26*
+
+#### Breaking change
+
+- feat(locale): i18n implementation (#2670)
+
+#### Bug fixes
+
+- fix(locale): missing install & locale issue (#2647)
+- fix(select): should not stop at invisible options by up and down (#2585) …
+- fix(style): ondemand style lost (#2648)
+- fix(select-v2): adjust the trigger conditions of focus and blur (#2650)
+- fix(style): remove bg-color of menu items at ':focus'
+- fix(input): input maxlength calculate the correct length (#2654)
+
+#### Chore
+
+- chore: update i18n demo (#2672)
+
+#### Refactors
+
+- refactor(result): migrate css var (#2637)
+- refactor(carousel): migrate css var (#2638)
+- refactor(transfer): migrate css var (#2639)
+- refactor(dialog): migrate css var (#2641)
+- refactor(menu): migrate css var (#2642)
+- refactor(descriptions): migrate css var (#2643)
+- refactor(empty): migrate css var (#2644)
+- refactor(color): migrate all color-text var & simplify color docs (#2656)
+- refactor(border): migrate css var & simplify docs (#2663)
+- refactor(collapse): migrate css var (#2661)
+- refactor: i18n implementation (#2670)
+- refactor(locale): i18n migration website code (#2671)
+
+### 1.0.2-beta.58
+
+*2021-07-24*
+
+#### Bug fixes
+
+- Hotfix for setLocale
+
+### 1.0.2-beta.57
+
+*2021-07-23*
+
+#### Bug fixes
+
+- Hotfix for setLocale
+
+### 1.0.2-beta.56
+
+*2021-07-23*
+
+#### Features
+
+- Add useCssVar for inject custom css vars (#2547)
+- Cascader supports popper-append-to-body feature (#2544)
+- Improve menu handleItemClick (#2514)
+- Re-design popper apis (#2529)
+- Change formItem slot label formItem to scopedSlots (#2522)
+- Export popperjs common attributes (#2520)
+- Update checkbox label supports object type
+- Update loading custom loading svg (#2456)
+
+#### Refactor
+
+- Refactor link migrate css var (#2622)
+- Refactor avatar migrate css var (#2601)
+- Refactor tag migrate css var (#2592)
+- Refactor skeleton migrate css var (#2586)
+- Refactor pagination migrate css var (#2587)
+- Refactor switch migrate css var (#2584)
+- Refactor button migrate css var (#2582)
+- Refactor cascader migrate css var (#2578)
+- Refactor message-box migrate css var (#2568)
+- Refactor table+calendar migrate css var (#2588)
+- Refactor color add error var (#2565)
+- Refactor message migrate css var (#2560)
+- Refactor notification migrate css var (#2552)
+- Refactor color migrate color css var & simplify color box docs (#2589)
+- Refactor alert replace all css var (#2545)
+- Refactor typography add css var for typography
+- Refactor container header/footer/aside size by css variables (#2530)
+- Refactor container header/footer/asdide size by css variables (#2526)
+- Refactor generate color var by sass map (#2504)
+- Refactor button/radio/input size by sass map (#2502)
+- Refactor color css var for border-color & simplify border-color docs (#2540)
+- Refactor checkbox migrate checkbox css3 var (#2493)
+- Refactor style use css3 var refactor base variable (#2478)
+
+#### Bug fixes
+
+- Fix select-v2 add some test cases & fix selectLabel/multiple-limit issue (#2626)
+- Optimize select-v2 style (#2628)
+- Update bundle strategy
+- Update date-picker shortcuts support function type (#2617)
+- Fix ensure that the loading icon is inline (#2550)
+- Fix affix expose update function (#2603)
+- Fix autocomplete optimize some const of autocomplete (#2593)
+- Fix descriptions fix the last td colspan (#2567)
+- Fix time-select fix editable prop and add disabled prop (#1899)
+- Update hooks refactor transition (#2556)
+- Fix el-tree accordion attribute only takes effect on root nodes (#2523)
+- Fix select filtered empty groups (#2507)
+- Refactor popper use-popper-hook for popper
+- Fix select-v2 inputWidth is not defined (#2510)
+- Fix el-menu activeIndex bug (#2468)
+- Fix select hoverIndex has incorrect when popover is turned on again (#2469)
+- Fix option selectemitter was not turned off when it was destroyed (#2450)
+- Fix time-picker model-value should sync when disable-attrs was updated (#2462)
+- Fix table-column parse width and minWidth (#2466)
+- Fix form no effect when label-width prop is auto (#2480)
+- Fix time-picker missing blur methods and spelling error (#2457)
+- Fix upload file-list is updated but without re-rendered (#2405) (#2460)
+- Fix more than one component in table_column.spec.js (#2461)
+- refactor pagination pagination internal logic refactored (#2491)
+- Fix form add default value of label-width (#2492)
+- Fix time-select missing blur method (#2477)
+
 ### 1.0.2-beta.55
 
 *2021-07-09*
 
-### Bug fixes
+#### Bug fixes
 
 - Refactor the type definition of breadcrumb (#2443)
 - Add use-timeout hook (#2439)
@@ -30,7 +213,7 @@
 
 *2021-07-02*
 
-### Bug fixes
+#### Bug fixes
 
 - Fix select_v2 asynchronous binding issue (#2368)
 - Fix add resize directive (#2167)
@@ -46,7 +229,7 @@
 
 *2021-06-25*
 
-### Bug fixes
+#### Bug fixes
 
 - Fix messageBox should close when press enter (#2308)
 - Fix scrollbar update when slot changed (#2322)
@@ -61,7 +244,7 @@
 
 *2021-06-24*
 
-### Bug fixes
+#### Bug fixes
 
 - Fix virtual-list module resolve issue (#2316)
 
@@ -69,7 +252,7 @@
 
 *2021-06-23*
 
-### Bug fixes
+#### Bug fixes
 
 - Fix col different size style (#2237)
 - Refactor extract common props for props (#2300)
@@ -91,12 +274,12 @@
 
 *2021-06-11*
 
-### Features
+#### Features
 
 - Feat Popover: add himBH-popover-border-radius variable (#2094) (#2095)
 - Feat SelectV2: integrate-virtual-list-with-select (#1906)
 
-### Bug fixes
+#### Bug fixes
 
 - Fix DatePicker: date picker support value-format (#2120)
 - Fix Input: style use show-password and clearable (#2168) (#2169)
@@ -104,7 +287,7 @@
 - Fix PopConfirm: import missing popover.scss (#2207)
 - Fix Project: upgrade to vue 3.1.1 and with bug fix (#2220)
 
-### Chore
+#### Chore
 
 - Chore docs: side-nav refactor with Vue3 (#1943)
 - Chore docs: update doc template (#2142)

@@ -13,7 +13,9 @@
         class="el-form-item__label"
         :style="labelStyle"
       >
-        <slot name="label">{{ label + elForm.labelSuffix }}</slot>
+        <slot name="label" :label="label + elForm.labelSuffix">
+          {{ label + elForm.labelSuffix }}
+        </slot>
       </label>
     </LabelWrap>
     <div class="el-form-item__content" :style="contentStyle">

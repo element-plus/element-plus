@@ -142,4 +142,6 @@ export function closeAll(): void {
   }
 }
 
+Notification.closeAll = closeAll
+
 export default Notification

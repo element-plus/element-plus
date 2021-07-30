@@ -1,0 +1,6 @@
+export { default as ElInfiniteScroll } from '@element-plus/infinite-scroll'
+export { default as ElLoading } from '@element-plus/loading'
+export { default as ElMessage } from '@element-plus/message'
+export { default as ElMessageBox } from '@element-plus/message-box'
+export { default as ElNotification } from '@element-plus/notification'
+export { default as ElPopover } from '@element-plus/popover'

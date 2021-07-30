@@ -259,7 +259,7 @@
 <script lang="ts">
 import { defineComponent, getCurrentInstance, computed } from 'vue'
 import { createStore } from './store/helper'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { Mousewheel } from '@element-plus/directives'
 import TableLayout from './table-layout'
 import TableHeader from './table-header/index'
@@ -305,6 +305,7 @@ export default defineComponent({
   ],
   setup(props) {
     type Row = typeof props.data[number]
+    const { t } = useLocaleInject()
     let table = getCurrentInstance() as Table<Row>
     const store = createStore<Row>(table, props)
     table.store = store

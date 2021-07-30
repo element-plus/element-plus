@@ -396,7 +396,7 @@ export default defineComponent({
 | Atributo      | Descripción                              | Tipo                      | Valores aceptados     | Por defecto |
 | ------------- | ---------------------------------------- | ------------------------- | --------------------- | ----------- |
 | model-value / v-model | valor enlazado | string / number / boolean | — | — |
-| label         | valor del Checkbox si es usado dentro de un tag `checkbox-group` | string / number / boolean | —                     | —           |
+| label         | valor del Checkbox si es usado dentro de un tag `checkbox-group` | string / number / boolean / object | —                     | —           |
 | true-label    | valor del Checkbox si está marcado       | string / number           | —                     | —           |
 | false-label   | valor del Checkbox si no está marcado    | string / number           | —                     | —           |
 | disabled      | especifica si el Checkbox está deshabilitado | boolean                   | —                     | false       |
@@ -430,7 +430,7 @@ export default defineComponent({
 ### Atributos de Checkbox-button
 | Atributo    | Descripción                              | Tipo                      | Valores aceptados | Por defecto |
 | ----------- | ---------------------------------------- | ------------------------- | ----------------- | ----------- |
-| label       | valor del checkbox cuando es usado dentro de un `checkbox-group` | string / number / boolean | —                 | —           |
+| label       | valor del checkbox cuando es usado dentro de un `checkbox-group` | string / number / boolean / object | —                 | —           |
 | true-label  | valor del checkbox si este está marcado  | string / number           | —                 | —           |
 | false-label | valor del checkbox si este no está marcado | string / number           | —                 | —           |
 | disabled    | especifica si el checkbox está deshabilitado | boolean                   | —                 | false       |

@@ -1,6 +1,5 @@
-import defaultLang from './lang/en'
 import dayjs from 'dayjs'
-
+import defaultLang from './lang/en'
 
 export type TranslatePair = {
   [key: string]: string | string[] | TranslatePair
@@ -19,17 +18,17 @@ export const i18n = (fn: (...args: any[]) => string) => {
   i18nHandler = fn
 }
 
-function template(str: string, option) {
-  if(!str || !option) return str
+export const restoreHandler = () => i18nHandler = defaultTranslator
 
-  return str.replace(/\{(\w+)\}/g, (match, key) => {
+function template(str: string, option) {
+  if (!str || !option) return str
+
+  return str.replace(/\{(\w+)\}/g, (_, key) => {
     return option[key]
   })
 }
 
-export const t = (...args: any[]): string => {
-  if (i18nHandler) return i18nHandler(...args)
-
+const defaultTranslator = (...args: any[]) => {
   const [path, option] = args
   let value
   const array = path.split('.')
@@ -41,14 +40,31 @@ export const t = (...args: any[]): string => {
     if (!value) return ''
     current = value
   }
-  return ''
+}
+
+export const t = (...args: any[]): string => {
+  console.warn
+  if (i18nHandler) {
+    const translation = i18nHandler(...args)
+    return translation || defaultTranslator(...args)
+  }
+  return defaultTranslator(...args)
 }
 
 export const use = (l: Language): void => {
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn(`[deprecation]:
+      The previous i18n usage is deprecated please update to
+      the new one to get reactive i18n translations, refer to:
+      https://element-plus.org/#/en-US/i18n
+    `)
+  }
+
   lang = l || lang
   if (lang.name) {
     dayjs.locale(lang.name)
   }
 }
 
-export default { use, t, i18n }
+export const setLocale = use

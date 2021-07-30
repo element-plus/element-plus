@@ -83,7 +83,7 @@
 </template>
 
 <script lang="ts">
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import MonthTable from './basic-month-table.vue'
 import dayjs, { Dayjs } from 'dayjs'
 import {
@@ -109,14 +109,19 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option'],
 
   setup(props, ctx) {
-    const leftDate = ref(dayjs())
-    const rightDate = ref(dayjs().add(1, 'year'))
+    const { t, lang } = useLocaleInject()
+    const leftDate = ref(dayjs().locale(lang.value))
+    const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
 
     const hasShortcuts = computed(() => !!shortcuts.length)
 
     const handleShortcutClick = shortcut => {
-      if (shortcut.value) {
-        ctx.emit('pick', [dayjs(shortcut.value[0]), dayjs(shortcut.value[1])])
+      const shortcutValues = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
+      if (shortcutValues) {
+        ctx.emit('pick', [
+          dayjs(shortcutValues[0]).locale(lang.value),
+          dayjs(shortcutValues[1]).locale(lang.value),
+        ])
         return
       }
       if (shortcut.onClick) {
@@ -218,7 +223,7 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      let start
+      let start: Dayjs
       if (Array.isArray(defaultValue)) {
         const left = dayjs(defaultValue[0])
         let right = dayjs(defaultValue[1])
@@ -231,6 +236,7 @@ export default defineComponent({
       } else {
         start = dayjs()
       }
+      start = start.locale(lang.value)
       return [start, start.add(1, 'year')]
     }
 

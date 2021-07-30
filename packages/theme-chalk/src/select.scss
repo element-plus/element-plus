@@ -19,7 +19,7 @@
     @include picker-popper(
       $--select-dropdown-background,
       $--select-dropdown-border,
-      $--select-dropdown-shadow,
+      $--select-dropdown-shadow
     );
   }
 
@@ -62,7 +62,7 @@
     & .#{$namespace}-select__caret {
       color: $--select-input-color;
       font-size: $--select-input-font-size;
-      transition: transform 0.3s;
+      transition: transform var(--el-transition-duration);
       transform: rotateZ(180deg);
       cursor: pointer;
 
@@ -74,9 +74,9 @@
         font-size: $--select-font-size;
         text-align: center;
         transform: rotateZ(180deg);
-        border-radius: $--border-radius-circle;
+        border-radius: var(--el-border-radius-circle);
         color: $--select-input-color;
-        transition: $--color-transition-base;
+        transition: var(--el-color-transition-base);
 
         &:hover {
           color: $--select-close-hover-color;
@@ -152,13 +152,13 @@
     background-color: #f0f2f5;
 
     .#{$namespace}-icon-close {
-      background-color: $--color-text-placeholder;
+      background-color: var(--el-text-color-placeholder);
       right: -7px;
       top: 0;
       color: $--color-white;
 
       &:hover {
-        background-color: $--color-text-secondary;
+        background-color: var(--el-text-color-secondary);
       }
 
       &::before {

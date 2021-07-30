@@ -1,26 +1,28 @@
-@import "mixins/mixins";
-@import "common/var";
+@use "sass:map";
+
+@import 'mixins/mixins';
+@import 'common/var';
 
 @include b(check-tag) {
   background-color: $--background-color-base;
-  border-radius: $--border-radius-base;
-  color: $--color-info;
+  border-radius: var(--el-border-radius-base);
+  color: var(--el-color-info);
   cursor: pointer;
   display: inline-block;
-  font-size: $--font-size-base;
-  line-height: $--font-size-base;
+  font-size: var(--el-font-size-base);
+  line-height: var(--el-font-size-base);
   padding: 7px 15px;
-  transition: $--all-transition;
+  transition: var(--el-all-transition);
   font-weight: bold;
   &:hover {
     background-color: rgb(220, 223, 230);
   }
 
   @include when(checked) {
-    background-color: #DEEDFC;
-    color: $--color-primary-light-1;
+    background-color: #deedfc;
+    color: map.get($--colors, 'primary', 'light-1');
     &:hover {
-      background-color: $--color-primary-light-7;
+      background-color: map.get($--colors, 'primary', 'light-7');
     }
   }
 }

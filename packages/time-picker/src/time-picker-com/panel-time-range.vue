@@ -76,7 +76,7 @@ import {
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 import union from 'lodash/union'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
@@ -107,6 +107,7 @@ export default defineComponent({
   emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
+    const { t, lang } = useLocaleInject()
     const minDate = computed(() => props.parsedValue[0])
     const maxDate = computed(() => props.parsedValue[1])
     const oldValue = useOldValue(props)
@@ -136,8 +137,8 @@ export default defineComponent({
       handleChange(minDate.value, date.millisecond(0))
     }
 
-    const isValidValue = _date => {
-      const parsedDate = _date.map(_=> dayjs(_))
+    const isValidValue = (_date: Dayjs[]) => {
+      const parsedDate = _date.map(_=> dayjs(_).locale(lang.value))
       const result = getRangeAvailableTime(parsedDate)
       return parsedDate[0].isSame(result[0]) && parsedDate[1].isSame(result[1])
     }
@@ -267,15 +268,15 @@ export default defineComponent({
       return result
     }
 
-    const parseUserInput = value => {
+    const parseUserInput = (value: Dayjs[] | Dayjs) => {
       if (!value) return null
       if (Array.isArray(value)) {
-        return value.map(_=> dayjs(_, props.format))
+        return value.map(_=> dayjs(_, props.format).locale(lang.value))
       }
-      return dayjs(value, props.format)
+      return dayjs(value, props.format).locale(lang.value)
     }
 
-    const formatToString = value => {
+    const formatToString = (value: Dayjs[] | Dayjs) => {
       if (!value) return null
       if (Array.isArray(value)) {
         return value.map(_=> _.format(props.format))
@@ -285,11 +286,12 @@ export default defineComponent({
 
     const getDefaultValue = () => {
       if (Array.isArray(defaultValue)) {
-        return defaultValue.map(_=> dayjs(_))
+        return defaultValue.map(_=> dayjs(_).locale(lang.value))
       }
+      const defaultDay = dayjs(defaultValue).locale(lang.value)
       return [
-        dayjs(defaultValue),
-        dayjs(defaultValue).add(60,'m'),
+        defaultDay,
+        defaultDay.add(60,'m'),
       ]
     }
 

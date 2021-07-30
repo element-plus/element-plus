@@ -86,7 +86,7 @@ export default defineComponent({
       return disabled
         || (!selected
           && (multiple
-            ? multipleLimit > 0 && modelValue.length < multipleLimit
+            ? multipleLimit > 0 && modelValue.length >= multipleLimit
             : false))
     }
 

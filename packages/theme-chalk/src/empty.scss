@@ -1,5 +1,12 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
+
+:root {
+  --el-empty-padding: 40px 0;
+  --el-empty-image-width: 160px;
+  --el-empty-description-margin-top: 20px;
+  --el-empty-bottom-margin-top: 20px;
+}
 
 @include b(empty) {
   display: flex;
@@ -8,10 +15,10 @@
   flex-direction: column;
   text-align: center;
   box-sizing: border-box;
-  padding: $--empty-padding;
+  padding: var(--el-empty-padding);
 
   @include e(image) {
-    width: $--empty-image-width;
+    width: var(--el-empty-image-width);
 
     img {
       user-select: none;
@@ -22,7 +29,7 @@
     }
 
     svg {
-      fill: $--svg-monochrome-grey;
+      fill: var(--el-svg-monochrome-grey);
       width: 100%;
       height: 100%;
       vertical-align: top;
@@ -30,16 +37,16 @@
   }
 
   @include e(description) {
-    margin-top: $--empty-description-margin-top;
+    margin-top: var(--el-empty-description-margin-top);
 
     p {
       margin: 0;
-      font-size: $--font-size-base;
-      color: $--color-text-secondary;
+      font-size: var(--el-font-size-base);
+      color: var(--el-text-color-secondary);
     }
   }
 
   @include e(bottom) {
-    margin-top: $--empty-bottom-margin-top;
+    margin-top: var(--el-empty-bottom-margin-top);
   }
 }

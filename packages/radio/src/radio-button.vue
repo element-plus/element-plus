@@ -15,8 +15,9 @@
     @keydown.space.stop.prevent="value = isDisabled ? value : label"
   >
     <input
+      ref="radioRef"
       v-model="value"
-      class="el-radio-button__orig-radio"
+      class="el-radio-button__original-radio"
       :value="label"
       type="radio"
       :name="name"
@@ -37,7 +38,7 @@
   </label>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useRadio, useRadioAttrs } from './useRadio'
 
 export default defineComponent({
@@ -68,12 +69,16 @@ export default defineComponent({
       return radioGroup.radioGroupSize || elFormItemSize.value || ELEMENT.size
     })
 
+    const radioRef = ref<HTMLInputElement>()
+
     const value = computed<boolean | string | number>({
       get() {
         return radioGroup.modelValue
       },
       set(value) {
         radioGroup.changeEvent(value)
+
+        radioRef.value.checked = radioGroup.modelValue === props.label
       },
     })
 
@@ -104,6 +109,7 @@ export default defineComponent({
       value,
       focus,
       activeStyle,
+      radioRef,
     }
   },
 })

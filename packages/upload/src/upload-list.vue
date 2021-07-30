@@ -71,7 +71,7 @@
 import { defineComponent, ref } from 'vue'
 import { NOOP } from '@vue/shared'
 
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import ElProgress from '@element-plus/progress'
 
 import type { PropType } from 'vue'
@@ -99,6 +99,8 @@ export default defineComponent({
   },
   emits: ['remove'],
   setup(props, { emit }) {
+    const { t } = useLocaleInject()
+
     const parsePercentage = (val: string) => {
       return parseInt(val, 10)
     }

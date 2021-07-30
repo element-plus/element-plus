@@ -14,8 +14,19 @@
               class="sponsor"
               href="https://bit.dev/?from=element-ui"
               target="_blank"
+              title="bit"
             >
-              <img src="~examples/assets/images/bit.svg" alt="bit">
+              <img src="~examples/assets/images/bit.svg">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="sponsor"
+              href="https://www.renren.io/?from=element-ui"
+              target="_blank"
+              :title="sponsorIntroR"
+            >
+              <img src="~examples/assets/images/renren.png">
             </a>
           </li>
         </ul>
@@ -147,6 +158,10 @@ export default defineComponent({
       return compoLang.filter(config => config.lang === lang.value)[0]['nav']
     })
 
+    const sponsorIntroR = computed(() => {
+      return lang.value === 'zh-CN' ? '企业级的快速开发平台' : 'Enterprise-class rapid development platform'
+    })
+
     watch(
       () => route.path,
       () => {
@@ -203,6 +218,7 @@ export default defineComponent({
     }
 
     return {
+      sponsorIntroR,
       isFade,
       navStyle,
       lang,
@@ -300,7 +316,7 @@ export default defineComponent({
           height: auto;
           display: inline-block;
           vertical-align: middle;
-          margin: 8px 20px 4px 0;
+          margin: 8px 10px 4px 0;
 
           img {
             width: 36px;

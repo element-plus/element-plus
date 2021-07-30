@@ -1,6 +1,6 @@
-@import "mixins/mixins";
-@import "common/var";
-@import "./image-viewer.scss";
+@import 'mixins/mixins';
+@import 'common/var';
+@import './image-viewer.scss';
 
 %size {
   width: 100%;
@@ -37,7 +37,7 @@
     align-items: center;
     font-size: 14px;
     background: $--background-color-base;
-    color: $--color-text-placeholder;
+    color: var(--el-text-color-placeholder);
     vertical-align: middle;
   }
 
@@ -45,4 +45,3 @@
     cursor: pointer;
   }
 }
-

@@ -397,7 +397,7 @@ export default defineComponent({
 | Attribute      | Description         | Type    | Accepted Values                    | Default|
 |---------- |-------- |---------- |-------------  |-------- |
 | model-value / v-model | binding value | string / number / boolean | — | — |
-| label     | value of the Checkbox when used inside a `checkbox-group`   | string / number / boolean   |       —        |     —    |
+| label     | value of the Checkbox when used inside a `checkbox-group`   | string / number / boolean / object   |       —        |     —    |
 | true-label | value of the Checkbox if it's checked   | string / number    |       —        |     —    |
 | false-label | value of the Checkbox if it's not checked   | string / number    |      —         |     —    |
 | disabled  | whether the Checkbox is disabled   | boolean   |  — | false   |
@@ -431,7 +431,7 @@ export default defineComponent({
 ### Checkbox-button Attributes
 | Attribute      | Description         | Type    | Accepted Values        | Default|
 |---------- |-------- |---------- |-------------  |-------- |
-| label     | value of the checkbox when used inside a `checkbox-group` | string / number / boolean  |       —        |     —    |
+| label     | value of the checkbox when used inside a `checkbox-group` | string / number / boolean / object  |       —        |     —    |
 | true-label | value of the checkbox if it's checked | string / number | — |     —    |
 | false-label | value of the checkbox if it's not checked | string / number    |      —         |     —    |
 | disabled  | whether the checkbox is disabled | boolean   |  — | false   |

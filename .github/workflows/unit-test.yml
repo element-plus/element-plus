@@ -11,20 +11,11 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '14'
+          cache: 'yarn'
       - name: Install dependencies
         run: yarn bootstrap
       - name: Lint
         run: yarn lint
       - name: Test
         run: yarn test
-
-  dependabot:
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - name: auto-merge
-        uses: ridedott/dependabot-auto-merge-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

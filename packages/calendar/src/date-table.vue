@@ -48,6 +48,7 @@ import {
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
+import { useLocaleInject } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/time-picker'
 dayjs.extend(localeData)
 
@@ -78,9 +79,10 @@ export default defineComponent({
   },
   emits: ['pick'],
   setup(props, ctx) {
-    const WEEK_DAYS = ref(dayjs().localeData().weekdaysShort())
+    const { lang } = useLocaleInject()
+    const WEEK_DAYS = ref(dayjs().locale(lang.value).localeData().weekdaysShort())
 
-    const now = dayjs()
+    const now = dayjs().locale(lang.value)
 
     // todo better way to get Day.js locale object
     const firstDayOfWeek = (now as any).$locale().weekStart || 0

@@ -70,6 +70,7 @@ If start time is picked at first, then the end time will change accordingly.
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | model-value / v-model | binding value | string | — | — |
+| disabled | whether TimeSelect is disabled | boolean | — | false |
 | editable | whether the input is editable | boolean | — | true |
 | clearable | whether to show clear button | boolean | — | true |
 | size | size of Input | string | medium / small / mini | — |

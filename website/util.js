@@ -13,16 +13,12 @@ export function stripTemplate(content) {
   if (!content) {
     return content
   }
-  return content
-    .replace(/<(script|style)[\s\S]+<\/\1>/g, '')
-    .trim()
+  return content.replace(/<(script|style)[\s\S]+<\/\1>/g, '').trim()
 }
 
 const setupCommentGlobalRegx = /<!--[\r?\n|\r]?(<setup>[\s\S]+)-->/g
-export function removeSetup (content) {
-  return content
-    .replace(setupCommentGlobalRegx, '')
-    .trim()
+export function removeSetup(content) {
+  return content.replace(setupCommentGlobalRegx, '').trim()
 }
 
 const setupCommentRegx = /<!--[\r?\n|\r]?(<setup>[\s\S]+)-->/
@@ -32,4 +28,37 @@ export function stripSetup(content) {
   if (!comment) return comment
   const result2 = comment.match(/<(setup)>([\s\S]+)<\/\1>/)
   return result2 && result2[2] ? result2[2].trim() : ''
+}
+
+/**
+ * format kebab-case to PascalCase with space (Pascal Case)
+ * @param {string} type
+ */
+export function formatType(type) {
+  return type
+    .split('-')
+    .map(item => item.charAt(0).toUpperCase() + item.slice(1))
+    .join(' ')
+}
+
+/**
+ * get css var value
+ * @param {string} namespace
+ * @param {string} type
+ * @returns
+ */
+export function getCssVarValue(namespace, type) {
+  return getComputedStyle(document.documentElement).getPropertyValue(
+    `--el-${namespace}-${type}`,
+  )
+}
+
+/**
+ * get css var name
+ * @param {string} namespace
+ * @param {string} type
+ * @returns
+ */
+export function getCssVarName(namespace, type) {
+  return `var(--el-${namespace}-${type})`
 }

@@ -1,82 +1,74 @@
+@use "sass:map";
+
 // CSS3 var
 @import 'common/var';
+@import 'mixins/var';
+
+// for better performance do not dynamically change the root variable if you really
+// do not need that, since this could introduce recalculation overhead for rendering.
+// https://lisilinhart.info/posts/css-variables-performance/
 
 :root {
   --el-color-primary: #{$--color-primary};
   --el-color-white: #{$--color-white};
   --el-color-black: #{$--color-black};
 
-  --el-color-primary-light-1: #{$--color-primary-light-1};
-  --el-color-primary-light-2: #{$--color-primary-light-2};
-  --el-color-primary-light-3: #{$--color-primary-light-3};
-  --el-color-primary-light-4: #{$--color-primary-light-4};
-  --el-color-primary-light-5: #{$--color-primary-light-5};
-  --el-color-primary-light-6: #{$--color-primary-light-6};
-  --el-color-primary-light-7: #{$--color-primary-light-7};
-  --el-color-primary-light-8: #{$--color-primary-light-8};
-  --el-color-primary-light-9: #{$--color-primary-light-9};
+  // --el-color-primary-light-#{$i}
+  @for $i from 1 through 9 {
+    @include set-css-color-primary($i);
+  }
 
-  --el-color-success: #{$--color-success};
-  --el-color-warning: #{$--color-warning};
-  --el-color-danger: #{$--color-danger};
-  --el-color-info: #{$--color-info};
+  // --el-color-#{$type}
+  // --el-color-#{$type}-light
+  // --el-color-#{$type}-lighter
+  @each $type in (success, warning, danger, error, info) {
+    @include set-css-color-type($type);
+  }
 
-  --el-color-success-light: #{$--color-success-light};
-  --el-color-warning-light: #{$--color-warning-light};
-  --el-color-danger-light: #{$--color-danger-light};
-  --el-color-info-light: #{$--color-info-light};
+  // --el-text-color-#{$type}
+  @each $type in (primary, regular, secondary, placeholder) {
+    @include set-css-var-type('text-color', $type, $--text-color);
+  }
 
-  --el-color-success-lighter: #{$--color-success-light};
-  --el-color-warning-lighter: #{$--color-warning-light};
-  --el-color-danger-lighter: #{$--color-danger-light};
-  --el-color-info-lighter: #{$--color-info-light};
-
-  --el-color-text-primary: #{$--color-text-primary};
-  --el-color-text-regular: #{$--color-text-regular};
-  --el-color-text-secondary: #{$--color-text-secondary};
-  --el-color-text-placeholder: #{$--color-text-placeholder};
-
-  --el-border-color-base: #{$--border-color-base};
-  --el-border-color-light: #{$--border-color-light};
-  --el-border-color-lighter: #{$--border-color-lighter};
-  --el-border-color-extra-light: #{$--border-color-extra-light};
+  // --el-border-color-#{$type}
+  @each $type in (base, light, lighter, extra-light) {
+    @include set-css-var-type('border-color', $type, $--border-color);
+  }
 
   // Background
   --el-background-color-base: #{$--background-color-base};
 
-  // Link
-  --el-link-color: var(--el-color-primary-light-2);
-  --el-link-hover-color: var(--el-color-primary);
-
   // Border
   --el-border-width-base: #{$--border-width-base};
   --el-border-style-base: #{$--border-style-base};
-  --el-border-color-hover: var(--el-color-text-placeholder);
+  --el-border-color-hover: var(--el-text-color-placeholder);
   --el-border-base: var(--el-border-width-base) var(--el-border-style-base)
     var(--el-border-color-base);
-  --el-border-radius-base: #{$--border-radius-base};
-  --el-border-radius-small: #{$--border-radius-small};
-  --el-border-radius-circle: #{$--border-radius-circle};
+
+  // --el-border-radius-#{$type}
+  @each $type in (base, small, round, circle) {
+    @include set-css-var-type('border-radius', $type, $--border-radius);
+  }
 
   // Box-shadow
-  --el-box-shadow-base: #{$--box-shadow-base};
-  --el-box-shadow-light: #{$--box-shadow-light};
+  // --el-box-shadow-#{$type}
+  @each $type in (base, light) {
+    @include set-css-var-type('box-shadow', $type, $--box-shadow);
+  }
 
   // Svg
-  --el-svg-monochrome-grey: #{$--svg-monochrome-grey};
+  --el-svg-monochrome-grey: #dcdde0;
 
   // Fill
   --el-fill-base: var(--el-color-white);
 
   // Typography
-  --el-font-size-extra-large: #{$--font-size-extra-large};
-  --el-font-size-large: #{$--font-size-large};
-  --el-font-size-medium: #{$--font-size-medium};
-  --el-font-size-base: #{$--font-size-base};
-  --el-font-size-small: #{$--font-size-small};
-  --el-font-size-extra-small: #{$--font-size-extra-small};
-  --el-font-weight-primary: #{$--font-weight-primary};
-  --el-line-height-primary: #{$--font-line-height-primary};
+  @each $type in (extra-large, large, medium, base, small, extra-small) {
+    @include set-css-var-type('font-size', $type, $--font-size);
+  }
+
+  --el-font-weight-primary: 500;
+  --el-font-line-height-primary: 24px;
   --el-font-color-disabled-base: #bbb;
 
   // z-index
@@ -86,6 +78,41 @@
 
   // Disable base
   --el-disabled-fill-base: var(--el-background-color-base);
-  --el-disabled-color-base: var(--el-color-text-placeholder);
+  --el-disabled-color-base: var(--el-text-color-placeholder);
   --el-disabled-border-base: var(--el-border-color-light);
+
+  // some var for component, but because they are used in many places, need to be global
+  // button
+  --el-button-font-weight: var(--el-font-weight-primary);
+
+  --el-button-default-font-color: var(--el-text-color-regular);
+  --el-button-default-background-color: var(--el-color-white);
+  --el-button-default-border-color: var(--el-border-color-base);
+  --el-button-disabled-font-color: var(--el-text-color-placeholder);
+  --el-button-disabled-background-color: var(--el-color-white);
+  --el-button-disabled-border-color: var(--el-border-color-light);
+}
+
+/* Transition
+-------------------------- */
+// refer to this website to get the bezier motion function detail
+//  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
+:root {
+  --el-transition-duration: 0.3s;
+  --el-transition-duration-fast: 0.2s;
+  --el-ease-in-out-bezier-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --el-fast-bezier-transition: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --el-all-transition: all var(--el-transition-duration)
+    var(--el-ease-in-out-bezier-function);
+  --el-fade-transition: opacity var(--el-transition-duration)
+    var(--el-fast-bezier-transition);
+  --el-md-fade-transition: transform var(--el-transition-duration)
+      var(--el-fast-bezier-transition),
+    opacity var(--el-transition-duration) var(--el-fast-bezier-transition);
+  --el-fade-linear-transition: opacity var(--el-transition-duration-fast) linear;
+  --el-border-transition-base: border-color var(--el-transition-duration-fast)
+    var(--el-ease-in-out-bezier-function);
+  --el-color-transition-base: color var(--el-transition-duration-fast)
+    var(--el-ease-in-out-bezier-function);
 }

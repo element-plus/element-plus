@@ -356,6 +356,7 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 | popper-options | Customized popper option see more at [popper.js](https://popper.js.org/documentation.html) | object | - | - |
 | automatic-dropdown | for non-filterable Select, this prop decides if the option menu pops up when the input is focused | boolean | - | false |
 | clear-icon | Customized clear icon class | string | — | el-icon-circle-close |
+| height | The height of the dropdown panel, 34px for each item| number | - | 170 |
 
 <span style="display: none;">
 <!-- | no-match-text | 搜索条件无匹配时显示的文字，也可以使用`#empty`设置 | string | — | 无匹配数据 | -->

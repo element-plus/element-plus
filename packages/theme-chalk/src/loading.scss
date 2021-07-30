@@ -1,7 +1,12 @@
 @use "sass:math";
 
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
+
+:root {
+  --el-loading-spinner-size: 42px;
+  --el-loading-fullscreen-spinner-size: 50px;
+}
 
 @include b(loading-parent) {
   @include m(relative) {
@@ -16,23 +21,23 @@
 @include b(loading-mask) {
   position: absolute;
   z-index: 2000;
-  background-color: rgba(255, 255, 255, .9);
+  background-color: rgba(255, 255, 255, 0.9);
   margin: 0;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  transition: opacity 0.3s;
+  transition: opacity var(--el-transition-duration);
 
   @include when(fullscreen) {
     position: fixed;
 
     .#{$namespace}-loading-spinner {
-      margin-top: #{math.div(- $--loading-fullscreen-spinner-size, 2)};
+      margin-top: calc((0px - var(--el-loading-fullscreen-spinner-size)) / 2);
 
       .circular {
-        height: $--loading-fullscreen-spinner-size;
-        width: $--loading-fullscreen-spinner-size;
+        height: var(--el-loading-fullscreen-spinner-size);
+        width: var(--el-loading-fullscreen-spinner-size);
       }
     }
   }
@@ -40,20 +45,21 @@
 
 @include b(loading-spinner) {
   top: 50%;
-  margin-top: #{math.div(- $--loading-spinner-size, 2)};
+  margin-top: calc((0px - var(--el-loading-spinner-size)) / 2);
   width: 100%;
   text-align: center;
   position: absolute;
 
   .#{$namespace}-loading-text {
-    color: $--color-primary;
+    color: var(--el-color-primary);
     margin: 3px 0;
     font-size: 14px;
   }
 
   .circular {
-    height: $--loading-spinner-size;
-    width: $--loading-spinner-size;
+    display: inline;
+    height: var(--el-loading-spinner-size);
+    width: var(--el-loading-spinner-size);
     animation: loading-rotate 2s linear infinite;
   }
 
@@ -62,12 +68,12 @@
     stroke-dasharray: 90, 150;
     stroke-dashoffset: 0;
     stroke-width: 2;
-    stroke: $--color-primary;
+    stroke: var(--el-color-primary);
     stroke-linecap: round;
   }
 
   i {
-    color: $--color-primary;
+    color: var(--el-color-primary);
   }
 }
 
