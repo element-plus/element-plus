@@ -5,9 +5,15 @@ describe('Icon.vue', () => {
   test('render', () => {
     const wrapper = mount(Icon, {
       props: {
-        name: 'search',
+        color: '#000000',
+        size: 18,
       },
     })
-    expect(wrapper.classes()).toContain('el-icon-search')
+    expect(wrapper.element.getAttribute('style')).toContain(
+      `--color: #000000`,
+    )
+    expect(wrapper.element.getAttribute('style')).toContain(
+      `--font-size: 18px`,
+    )
   })
 })
