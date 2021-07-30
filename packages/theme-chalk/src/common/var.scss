@@ -118,11 +118,6 @@ $--border-color: map.merge(
 /// color|1|Background Color|4
 $--background-color-base: #f5f7fa !default;
 
-/* Link
--------------------------- */
-$--link-color: map.get($--colors, 'primary', 'light-2') !default;
-$--link-hover-color: $--color-primary !default;
-
 /* Border
 -------------------------- */
 $--border-width-base: 1px !default;
@@ -506,7 +501,7 @@ $--dropdown: map.merge(
   (
     'menu-box-shadow': var(--el-box-shadow-light),
     'menuItem-hover-fill': var(--el-color-primary-light-9),
-    'menuItem-hover-color': var(--el-link-color),
+    'menuItem-hover-color': var(--el-color-primary-light-2),
     'menu-index': 10,
   ),
   $--dropdown
@@ -514,7 +509,7 @@ $--dropdown: map.merge(
 
 /* Badge
 -------------------------- */
-// Css3 var in packages/theme-chalk/src/badge.scss
+// css3 var in packages/theme-chalk/src/badge.scss
 $--badge: () !default;
 $--badge: map.merge(
   (
@@ -618,8 +613,18 @@ $--rate: map.merge(
 
 /* Link
 --------------------------*/
-// refactor with css3 var
-// See packages/theme-chalk/src/link.scss
+// css3 var in packages/theme-chalk/src/link.scss
+$--link: () !default;
+$--link: map.merge(
+  (
+    'font-size': var(--el-font-size-base),
+    'font-weight': var(--el-font-weight-primary),
+    'default-font-color': var(--el-text-color-regular),
+    'default-active-color': var(--el-color-primary),
+    'disabled-font-color': var(--el-text-color-placeholder),
+  ),
+  $--link
+);
 
 /* Calendar
 --------------------------*/

@@ -194,7 +194,7 @@
 
       .#{$namespace}-upload-list__item-name:hover,
       .#{$namespace}-upload-list__item-name:focus {
-        color: $--link-hover-color;
+        color: var(--el-color-primary);
         cursor: pointer;
       }
 
