@@ -98,4 +98,38 @@ describe('Space.vue', () => {
     expect(wrapper.element.children).toHaveLength(3)
   })
 
+  test('fill', async () => {
+    const wrapper = mount(Space, {
+      slots: {
+        default: () =>
+          Array.from({ length: 2 }).map((_, idx) => {
+            return `test${idx}`
+          }),
+      },
+      props: {
+        fill: true,
+      },
+    })
+
+    await nextTick()
+    expect(wrapper.find('.el-space').attributes('style')).toContain(
+      'flex-wrap: wrap',
+    )
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+      'flex-grow: 1',
+    )
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+      'min-width: 100%',
+    )
+
+    // custom fill ratio
+    await wrapper.setProps({
+      fillRatio: 50,
+    })
+
+    await nextTick()
+    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+      'min-width: 50%',
+    )
+  })
 })

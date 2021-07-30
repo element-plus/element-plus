@@ -269,6 +269,91 @@ Setting this attribute can adjust the alignment of child nodes, the desirable va
 ```
 :::
 
+### Fill the container
+
+Through the `fill` **(Boolean type)** parameter, you can control whether the child node automatically fills the container.
+
+In the following example, when set to `fill`, the width of the child node will automatically adapt to the width of the container.
+
+:::demo Use fill to automatically fill the container with child nodes
+
+```html
+<template>
+  <div>
+  <div style="margin-bottom:15px">
+    fill:  <el-switch v-model="fill"></el-switch>
+  </div>
+  <el-space :fill="fill" wrap>
+    <el-card class="box-card" v-for="i in 3" :key="i">
+      <template #header>
+        <div class="card-header">
+          <span>Card name</span>
+          <el-button class="button" type="text">Operation button</el-button>
+        </div>
+      </template>
+      <div v-for="o in 4" :key="o" class="text item">
+        {{ 'List item ' + o }}
+      </div>
+    </el-card>
+  </el-space>
+  </div>
+</template>
+
+<script>
+
+export default {
+  data() {
+    return { fill: true }
+  },
+}
+</script>
+```
+:::
+
+You can also use the `fillRatio` parameter to customize the filling ratio. The default value is `100`, which represents filling based on the width of the parent container at `100%`.
+
+It should be noted that the expression of horizontal layout and vertical layout is slightly different, the specific effect can be viewed in the following example.
+
+:::demo Use fillRatio to customize the fill ratio
+
+```html
+<template>
+  <div>
+  <div style="margin-bottom: 15px">
+    direction:
+    <el-radio v-model="direction" label="horizontal">horizontal</el-radio>
+    <el-radio v-model="direction" label="vertical">vertical</el-radio>
+  </div>
+  <div style="margin-bottom: 15px">
+    fillRatio:<el-slider v-model="fillRatio"></el-slider>
+  </div>
+  <el-space fill wrap :fillRatio="fillRatio" :direction="direction" style=" width: 100%">
+    <el-card class="box-card" v-for="i in 5" :key="i">
+      <template #header>
+        <div class="card-header">
+          <span>Card name</span>
+          <el-button class="button" type="text">Operation button</el-button>
+        </div>
+      </template>
+      <div v-for="o in 4" :key="o" class="text item">
+        {{ 'List item ' + o }}
+      </div>
+    </el-card>
+  </el-space>
+  </div>
+</template>
+
+<script>
+
+export default {
+  data() {
+    return { direction: 'horizontal', fillRatio: 30 }
+  },
+}
+</script>
+```
+:::
+
 ### Space Attributes
 
 | Attribute | Description   | Type      | Available value       | Defaults   |
@@ -281,6 +366,8 @@ Setting this attribute can adjust the alignment of child nodes, the desirable va
 | spacer    | Spacer    | string / number / VNode | - | - |
 | size      | Spacing size   | string / number / [number, number] | - | 'small' |
 | wrap      | Auto wrapping | boolean | true / false  | false |
+| fill      | Whether to fill the container | boolean | true / false  | false |
+| fillRatio | Ratio of fill  | number | - | 100 |
 ### Space Slot
 | name | description  |
 |----|----|
