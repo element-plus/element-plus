@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'common/var';
 @import './input.scss';
@@ -396,7 +398,7 @@
     box-sizing: content-box;
     background-color: $--color-white;
     border-radius: var(--el-border-radius-base);
-    box-shadow: $--dropdown-menu-box-shadow;
+    box-shadow: map.get($--dropdown, 'menu-box-shadow');
     &.#{$namespace}-popper {
       border: 1px solid var(--el-border-color-lighter);
     }

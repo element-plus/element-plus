@@ -501,34 +501,44 @@ $--button-active-shade-percent: 10% !default;
 
 /* Dropdown
 -------------------------- */
-$--dropdown-menu-box-shadow: var(--el-box-shadow-light) !default;
-$--dropdown-menuItem-hover-fill: map.get(
-  $--colors,
-  'primary',
-  'light-9'
-) !default;
-$--dropdown-menuItem-hover-color: $--link-color !default;
-$--dropdown-menu-index: 10 !default;
+$--dropdown: () !default;
+$--dropdown: map.merge(
+  (
+    'menu-box-shadow': var(--el-box-shadow-light),
+    'menuItem-hover-fill': var(--el-color-primary-light-9),
+    'menuItem-hover-color': var(--el-link-color),
+    'menu-index': 10,
+  ),
+  $--dropdown
+);
 
 /* Badge
 -------------------------- */
-/// color||Color|0
-$--badge-background-color: $--color-danger !default;
-$--badge-radius: 10px !default;
-/// fontSize||Font|1
-$--badge-font-size: 12px !default;
-/// padding||Spacing|3
-$--badge-padding: 6px !default;
-/// height||Other|4
-$--badge-size: 18px !default;
+// Css3 var in packages/theme-chalk/src/badge.scss
+$--badge: () !default;
+$--badge: map.merge(
+  (
+    'background-color': var(--el-color-danger),
+    'radius': 10px,
+    'font-size': 12px,
+    'padding': 6px,
+    'size': 18px,
+  ),
+  $--badge
+);
 
 /* Card
 --------------------------*/
-/// color||Color|0
-$--card-border-color: map.get($--border-color, 'lighter') !default;
-$--card-border-radius: 4px !default;
-/// padding||Spacing|3
-$--card-padding: 20px !default;
+$--card: () !default;
+$--card: map.merge(
+  (
+    'border-color':
+      var(--el-border-color-light, map.get($--border-color, 'lighter')),
+    'border-radius': 4px,
+    'padding': 20px,
+  ),
+  $--card
+);
 
 /* Slider
 --------------------------*/
@@ -554,14 +564,17 @@ $--slider-button-wrapper-offset: -15px !default;
 
 /* Rate
 --------------------------*/
-$--rate-height: 20px !default;
-/// fontSize||Font|1
-$--rate-font-size: map.get($--font-size, 'base') !default;
-/// height||Other|3
-$--rate-icon-size: 18px !default;
-/// margin||Spacing|2
-$--rate-icon-margin: 6px !default;
-$--rate-icon-color: var(--el-text-color-placeholder) !default;
+$--rate: () !default;
+$--rate: map.merge(
+  (
+    'height': 20px,
+    'font-size': var(--el-font-size-base),
+    'icon-size': 18px,
+    'icon-margin': 6px,
+    'icon-color': var(--el-text-color-placeholder),
+  ),
+  $--rate
+);
 
 /* DatePicker
 --------------------------*/
