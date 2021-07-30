@@ -140,6 +140,7 @@
   "homepage": "https://element-plus.org",
   "license": "MIT",
   "dependencies": {
+    "@element-plus/icons": "^0.0.11",
     "@popperjs/core": "^2.4.4",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
