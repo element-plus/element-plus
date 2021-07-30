@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'mixins/utils';
 @import 'common/var';
@@ -54,7 +56,7 @@
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: var(--el-message-close-size);
+    font-size: var(--el-message-close-size, map.get($--message, 'close-size'));
 
     .#{$namespace}-dialog__close {
       color: var(--el-color-info);

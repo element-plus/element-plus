@@ -8,7 +8,10 @@
   --el-notification-shadow: var(--el-box-shadow-light);
   --el-notification-border-color: var(--el-border-color-lighter);
   --el-notification-icon-size: 24px;
-  --el-notification-close-font-size: var(--el-message-close-size);
+  --el-notification-close-font-size: var(
+    --el-message-close-size,
+    map.get($--message, 'close-size')
+  );
 
   --el-notification-group-margin-left: 13px;
   --el-notification-group-margin-right: 8px;
