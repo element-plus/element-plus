@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'mixins/var';
 @import 'common/var';
@@ -72,7 +74,8 @@
     }
 
     &.#{$namespace}-button--default::before {
-      background: mix($--button-default-border-color, transparent, 50%);
+      background: var(--el-default-border-color);
+      opacity: 0.5;
     }
 
     &:hover {

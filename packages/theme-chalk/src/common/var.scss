@@ -8,6 +8,9 @@
 // type|skipAutoTranslation|Category|Order
 // skipAutoTranslation 1
 
+// types
+$--types: primary, success, warning, danger, info;
+
 /* Color
 -------------------------- */
 $--colors: () !default;
@@ -49,13 +52,13 @@ $--color-info: map.get($--colors, 'info', 'base');
 // https://sass-lang.com/documentation/values/maps#immutability
 @mixin set-color-primary-light($color, $number) {
   $--colors: map.deep-merge(
-    $--colors,
     (
       'primary': (
         'light-#{$number}':
           mix($--color-white, $color, math.percentage(math.div($number, 10))),
       ),
-    )
+    ),
+    $--colors
   ) !global;
 }
 
@@ -78,13 +81,13 @@ $--color-info: map.get($--colors, 'info', 'base');
 // $--colors.success.lighter: mix($--color-white, $--color-success, 90%) !default;
 @mixin set-color-type-light($type) {
   $--colors: map.deep-merge(
-    $--colors,
     (
       $type: (
         'light': mix($--color-white, map.get($--colors, $type, 'base'), 80%),
         'lighter': mix($--color-white, map.get($--colors, $type, 'base'), 90%),
       ),
-    )
+    ),
+    $--colors
   ) !global;
 }
 
@@ -410,6 +413,53 @@ $--input-number-width: map.merge(
 
 /* Button
 -------------------------- */
+// css3 var in packages/theme-chalk/src/cascader.scss
+$--button: () !default;
+$--button: map.merge(
+  (
+    'font-weight': var(--el-font-weight-primary),
+    'default-border-color': var(--el-border-color-base),
+    'default-background-color': var(--el-color-white),
+    'default-font-color': var(--el-text-color-regular),
+    'disabled-font-color': var(--el-text-color-placeholder),
+    'disabled-background-color': var(--el-color-white),
+    'disabled-border-color': var(--el-border-color-light),
+    'divide-border-color': rgba($--color-white, 0.5),
+  ),
+  $--button
+);
+
+// need mix, so do not use css var
+$--button-hover-tint-percent: 20%;
+$--button-active-shade-percent: 10%;
+
+$--button-border-color: () !default;
+$--button-background-color: () !default;
+$--button-font-color: () !default;
+
+@each $type in $--types {
+  $--button-border-color: map.merge(
+    (
+      $type: map.get($--colors, $type, 'base'),
+    ),
+    $--button-border-color
+  ) !global;
+
+  $--button-background-color: map.merge(
+    (
+      $type: map.get($--colors, $type, 'base'),
+    ),
+    $--button-background-color
+  ) !global;
+
+  $--button-font-color: map.merge(
+    (
+      $type: map.get($--colors, 'white'),
+    ),
+    $--button-font-color
+  ) !global;
+}
+
 $--button-font-size: () !default;
 $--button-font-size: map.merge(
   (
@@ -453,12 +503,6 @@ $--button-padding-horizontal: map.merge(
   ),
   $--button-padding-horizontal
 );
-
-// need mix
-$--button-default-border-color: map.get($--border-color, 'base') !default;
-
-$--button-hover-tint-percent: 20% !default;
-$--button-active-shade-percent: 10% !default;
 
 /* Switch
 -------------------------- */
