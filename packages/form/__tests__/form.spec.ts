@@ -118,6 +118,13 @@ describe('Form', () => {
     await nextTick()
 
     const formItemLabels = wrapper.findAll<HTMLElement>('.el-form-item__label')
+    const formItemLabelWraps = wrapper.findAll<HTMLElement>('.el-form-item__label-wrap')
+
+    const labelWrapMarginLeft1 = formItemLabelWraps[0].element.style.marginLeft
+    const labelWrapMarginLeft2 = formItemLabelWraps[1].element.style.marginLeft
+    expect(labelWrapMarginLeft1).toEqual(labelWrapMarginLeft2)
+    expect(labelWrapMarginLeft2).toEqual('')
+
     const labelWidth0 = parseInt(formItemLabels[0].element.style.width, 10)
     expect(labelWidth0).toEqual(150)
     const labelWidth1 = formItemLabels[1].element.style.width
