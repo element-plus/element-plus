@@ -168,3 +168,9 @@ Además de usar el atributo `title`, se puede personalizar el título del panel 
 | title    | título del panel              | string        | —                 | —           |
 | disabled | deshabilita el collapse ítem  | boolean       | —                 | —           |
 
+### Collapse Item Slot
+| Nombre | Descripcíon |
+|--- | ---|
+| — | contenido de Collapse ítem |
+| title | contenido del título de Collapse ítem |
+

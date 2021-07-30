@@ -166,3 +166,9 @@
 | name      | パネル固有の識別 | string/number | — | — |
 | title     | パネルのタイトル                 | string        | — | — |
 | disabled  | collapseアイテムを無効にする          | boolean       | — | — |
+
+### Collapse Item スロット
+| Name | Description |
+|--- | ---|
+| — | Collapse Item の内容 |
+| title | Collapse Item タイトルの内容 |
