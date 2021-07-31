@@ -309,13 +309,39 @@ $--select-dropdown-border: solid 1px map.get($--border-color, 'light') !default;
 
 /* Alert
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/alert.scss
+// css3 var in packages/theme-chalk/src/alert.scss
+$--alert: () !default;
+$--alert: map.merge(
+  (
+    'padding': 8px 16px,
+    'border-radius-base': var(--el-border-radius-base),
+    'title-font-size': 13px,
+    'description-font-size': 12px,
+    'close-font-size': 12px,
+    'close-customed-font-size': 13px,
+    'icon-size': 16px,
+    'icon-large-size': 28px,
+  ),
+  $--alert
+);
 
 /* MessageBox
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/message-box.scss
+// css3 var in packages/theme-chalk/src/message-box.scss
+$--messagebox: () !default;
+$--messagebox: map.merge(
+  (
+    'title-color': var(--el-text-color-primary),
+    'width': 420px,
+    'border-radius': 4px,
+    'font-size': var(--el-font-size-large),
+    'content-font-size': var(--el-font-size-base),
+    'content-color': var(--el-text-color-regular),
+    'error-font-size': 12px,
+    'padding-primary': 15px,
+  ),
+  $--messagebox
+);
 
 /* Message
 -------------------------- */
@@ -335,8 +361,29 @@ $--message: map.merge(
 
 /* Notification
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/notification.scss
+// css3 var in packages/theme-chalk/src/notification.scss
+$--notification: () !default;
+$--notification: map.merge(
+  (
+    'width': 330px,
+    'padding': 14px 26px 14px 13px,
+    'radius': 8px,
+    'shadow': var(--el-box-shadow-light),
+    'border-color': var(--el-border-color-lighter),
+    'icon-size': 24px,
+    'close-font-size':
+      var(--el-message-close-size, map.get($--message, 'close-size')),
+    'group-margin-left': 13px,
+    'group-margin-right': 8px,
+    'content-font-size': var(--el-font-size-base),
+    'content-color': var(--el-text-color-regular),
+    'title-font-size': 16px,
+    'title-color': var(--el-text-color-primary),
+    'close-color': var(--el-text-color-secondary),
+    'close-hover-color': var(--el-text-color-regular),
+  ),
+  $--notification
+);
 
 /* Input
 -------------------------- */
@@ -408,8 +455,24 @@ $--input-number-width: map.merge(
 
 /* Cascader
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/cascader.scss
+// css3 var in packages/theme-chalk/src/cascader.scss
+$--cascader: () !default;
+$--cascader: map.merge(
+  (
+    'menu-font-color': var(--el-text-color-regular),
+    'menu-selected-font-color': var(--el-color-primary),
+    'menu-fill': var(--el-fill-base),
+    'menu-font-size': var(--el-font-size-base),
+    'menu-radius': var(--el-border-radius-base),
+    'menu-border': solid 1px var(--el-border-color-light),
+    'menu-shadow': var(--el-box-shadow-light),
+    'node-background-hover': var(--el-background-color-base),
+    'node-color-disabled': var(--el-text-color-placeholder),
+    'color-empty': var(--el-text-color-placeholder),
+    'tag-background': #f0f2f5,
+  ),
+  $--cascader
+);
 
 /* Button
 -------------------------- */
@@ -506,8 +569,20 @@ $--button-padding-horizontal: map.merge(
 
 /* Switch
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/switch.scss
+// css3 var in packages/theme-chalk/src/switch.scss
+$--switch: () !default;
+$--switch: map.merge(
+  (
+    'on-color': var(--el-color-primary),
+    'off-color': var(--el-border-color-base),
+    'font-size': var(--el-font-size-base),
+    'core-border-radius': 10px,
+    'width': 40px,
+    'height': 20px,
+    'button-size': 16px,
+  ),
+  $--switch
+);
 
 /* Dialog
 -------------------------- */
@@ -536,13 +611,32 @@ $--button-padding-horizontal: map.merge(
 
 /* Tooltip
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/tooltip.scss
+// css3 var in packages/theme-chalk/src/tooltip.scss
+$--tooltip: () !default;
+$--tooltip: map.merge(
+  (
+    'fill': var(--el-text-color-primary),
+    'color': var(--el-color-white),
+    'font-size': 12px,
+    'border-color': var(--el-text-color-primary),
+    'arrow-size': 6px,
+    'padding': 10px,
+  ),
+  $--tooltip
+);
 
 /* Tag
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/tag.scss
+// css3 var in packages/theme-chalk/src/tag.scss
+$--tag: () !default;
+$--tag: map.merge(
+  (
+    'font-size': 12px,
+    'border-radius': 4px,
+    'padding': 0 10px,
+  ),
+  $--tag
+);
 
 /* Tree
 -------------------------- */
@@ -612,8 +706,18 @@ $--slider: map.merge(
 
 /* Menu
 --------------------------*/
-// refactor with css3 var
-// See packages/theme-chalk/src/menu.scss
+// css3 var in packages/theme-chalk/src/menu.scss
+$--menu: () !default;
+$--menu: map.merge(
+  (
+    'item-font-size': var(--el-font-size-base),
+    'item-font-color': var(--el-text-color-primary),
+    'background-color': var(--el-color-white),
+    'item-hover-fill': var(--el-color-primary-light-9),
+    'border-color': #e6e6e6,
+  ),
+  $--menu
+);
 
 /* Rate
 --------------------------*/
@@ -631,8 +735,23 @@ $--rate: map.merge(
 
 /* DatePicker
 --------------------------*/
-// refactor with css3 var
-// See packages/theme-chalk/src/date-picker.scss
+// css3 var packages/theme-chalk/src/date-picker/var.scss
+$--datepicker: () !default;
+$--datepicker: map.merge(
+  (
+    'font-color': var(--el-color-text-regular),
+    'off-font-color': var(--el-color-text-placeholder),
+    'header-font-color': var(--el-color-text-regular),
+    'icon-color': var(--el-color-text-primary),
+    'border-color': var(--el-disabled-border-base),
+    'inner-border-color': #e4e4e4,
+    'inrange-background-color': var(--el-border-color-extra-light),
+    'inrange-hover-background-color': var(--el-border-color-extra-light),
+    'active-color': var(--el-color-primary),
+    'hover-font-color': var(--el-color-primary),
+  ),
+  $--datepicker
+);
 
 /* Loading
 --------------------------*/
@@ -646,8 +765,22 @@ $--rate: map.merge(
 
 /* Carousel
 --------------------------*/
-// refactor with css3 var
-// See packages/theme-chalk/src/carousel.scss
+// css3 var in packages/theme-chalk/src/carousel.scss
+$--carousel: () !default;
+$--carousel: map.merge(
+  (
+    'arrow-font-size': 12px,
+    'arrow-size': 36px,
+    'arrow-background': rgba(31, 45, 61, 0.11),
+    'arrow-hover-background': rgba(31, 45, 61, 0.23),
+    'indicator-width': 30px,
+    'indicator-height': 2px,
+    'indicator-padding-horizontal': 4px,
+    'indicator-padding-vertical': 12px,
+    'indicator-out-color': var(--el-border-color-hover),
+  ),
+  $--carousel
+);
 
 /* Collapse
 --------------------------*/
@@ -656,8 +789,22 @@ $--rate: map.merge(
 
 /* Transfer
 --------------------------*/
-// refactor with css3 var
-// See packages/theme-chalk/src/transfer.scss
+// css3 var in packages/theme-chalk/src/transfer.scss
+$--transfer: () !default;
+$--transfer: map.merge(
+  (
+    'border-color': var(--el-border-color-lighter),
+    'border-radius': var(--el-border-radius-base),
+    'panel-width': 200px,
+    'panel-header-height': 40px,
+    'panel-header-background-color': var(--el-background-color-base),
+    'panel-footer-height': 40px,
+    'panel-body-height': 246px,
+    'item-height': 30px,
+    'filter-height': 32px,
+  ),
+  $--transfer
+);
 
 /* Timeline
 --------------------------*/
@@ -686,8 +833,17 @@ $--link: map.merge(
 
 /* Calendar
 --------------------------*/
-// refactor with css3 var
-// See packages/theme-chalk/src/calendar.scss
+// css3 var in packages/theme-chalk/src/calendar.scss
+$--calendar: () !default;
+$--calendar: map.merge(
+  (
+    'border': var(--el-table-border, 1px solid var(--el-border-color-lighter)),
+    'header-border-bottom': var(--el-calendar-border),
+    'selected-background-color': #f2f8fe,
+    'cell-width': 85px,
+  ),
+  $--calendar
+);
 
 /* Form
 -------------------------- */
@@ -696,23 +852,65 @@ $--link: map.merge(
 
 /* Avatar
 --------------------------*/
-// refactor with css3 var
-// See packages/theme-chalk/src/avatar.scss
+// css3 var in packages/theme-chalk/src/avatar.scss
+$--avatar: () !default;
+$--avatar: map.merge(
+  (
+    'font-color': #fff,
+    'background-color': #c0c4cc,
+    'text-font-size': 14px,
+    'icon-font-size': 18px,
+    'border-radius': var(--el-border-radius-base),
+    'large-size': 40px,
+    'medium-size': 36px,
+    'small-size': 28px,
+  ),
+  $--avatar
+);
 
 /* Empty
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/empty.scss
+// css3 var in packages/theme-chalk/src/empty.scss
+$--empty: () !default;
+$--empty: map.merge(
+  (
+    'padding': 40px 0,
+    'image-width': 160px,
+    'description-margin-top': 20px,
+    'bottom-margin-top': 20px,
+  ),
+  $--empty
+);
 
 /* Descriptions
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/descriptions.scss
+// css3 var in packages/theme-chalk/src/descriptions.scss
+$--descriptions: () !default;
+$--descriptions: map.merge(
+  (
+    'header-margin-bottom': 20px,
+    'title-font-size': 16px,
+    'table-border': 1px solid map.get($--border-color, 'lighter'),
+    'item-bordered-label-background': #fafafa,
+  ),
+  $--descriptions
+);
 
 /* Result
 -------------------------- */
-// refactor with css3 var
-// See packages/theme-chalk/src/result.scss
+// css3 var in packages/theme-chalk/src/result.scss
+$--result: () !default;
+$--result: map.merge(
+  (
+    'padding': 40px 30px,
+    'icon-font-size': 64px,
+    'title-font-size': 20px,
+    'title-margin-top': 20px,
+    'subtitle-margin-top': 10px,
+    'extra-margin-top': 30px,
+  ),
+  $--result
+);
 
 /* Break-point
 --------------------------*/

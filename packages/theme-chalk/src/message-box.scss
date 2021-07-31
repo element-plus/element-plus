@@ -1,6 +1,7 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 @import 'common/popup';
 @import 'button';
@@ -8,14 +9,7 @@
 @import 'overlay';
 
 :root {
-  --el-messagebox-title-color: var(--el-text-color-primary);
-  --el-messagebox-width: 420px;
-  --el-messagebox-border-radius: 4px;
-  --el-messagebox-font-size: var(--el-font-size-large);
-  --el-messagebox-content-font-size: var(--el-font-size-base);
-  --el-messagebox-content-color: var(--el-text-color-regular);
-  --el-messagebox-error-font-size: 12px;
-  --el-messagebox-padding-primary: 15px;
+  @include set-component-css-var('messagebox', $--messagebox);
 
   @each $type in (success, info, warning, error) {
     --el-messagebox-#{$type}-color: var(--el-color-#{$type});
