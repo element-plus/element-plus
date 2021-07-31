@@ -1,7 +1,6 @@
 import { defineComponent } from 'vue'
 
 import { usePopper, usePopperProps, usePopperEmits } from '@element-plus/hooks'
-import throwError from '@element-plus/utils/error'
 
 const compName = 'ElPopper'
 
@@ -15,17 +14,8 @@ export default defineComponent({
     'before-enter',
     'before-leave',
   ],
-  setup(_, ctx) {
+  setup() {
     const { render } = usePopper()
-
-    return () => {
-      if (!ctx.slots.trigger) {
-        // this is a reference that we need to pass down to child component
-        // to obtain the child instance
-        throwError(compName, 'Trigger must be provided')
-      }
-
-      return render()
-    }
+    return render
   },
 })

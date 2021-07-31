@@ -221,7 +221,6 @@ export const usePopper = () => {
   )
 
   const { anchorEl, anchorEvents, canShow } = useAnchor({ indicator: visible, mountAnchor })
-
   const { show, hide } = useModelToggle({
     indicator: visible,
     shouldProceed: canShow,
@@ -312,12 +311,6 @@ export const usePopper = () => {
   }
 
   function initializePopper() {
-    if (!visible.value || popperInstance !== null) {
-      console.log(1)
-      console.log(popperInstance)
-      popperInstance.update()
-      return
-    }
     const unwrappedTrigger = triggerRef.value
     const $el = isHTMLElement(unwrappedTrigger)
       ? unwrappedTrigger
@@ -401,7 +394,7 @@ export const usePopper = () => {
   }
 
   function detachPopper() {
-    popperInstance?.destroy?.()
+    popperInstance.destroy()
     popperInstance = null
   }
 

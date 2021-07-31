@@ -31,6 +31,16 @@ type IUseAnchorProps = {
 
 const token = 'anchor'
 
+/**
+ * The invoke order follows:
+ * (onMounted|target.changed)
+ *  -> pickAnchor
+ *    -> setAnchor 
+ *      -> bindEventsToAnchor
+ * 
+ * (beforeUnmounted) 
+ *  -> untieEventsForAnchor
+ */
 export const useAnchor = ({
   mountAnchor,
   noEmit,
