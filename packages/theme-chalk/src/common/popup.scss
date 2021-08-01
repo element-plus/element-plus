@@ -1,9 +1,9 @@
 @import './var.scss';
 @import '../mixins/mixins';
+@import '../mixins/var';
 
 :root {
-  --el-popup-modal-background-color: var(--el-color-black);
-  --el-popup-modal-opacity: 0.5;
+  @include set-component-css-var('popup', $--popup);
 }
 
 .v-modal-enter {

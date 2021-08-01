@@ -210,7 +210,7 @@
         .#{$namespace}-input-number__increase {
           top: map.get($--input-height, 'small');
           margin-top: -1px;
-          border: $--input-border;
+          border: var(--el-input-border, map.get($--input, 'border'));
           line-height: 20px;
           box-sizing: border-box;
           transition: var(--el-border-transition-base);
@@ -218,11 +218,17 @@
         .#{$namespace}-input-number__decrease {
           width: 18px;
           right: 18px;
-          border-bottom-left-radius: $--input-border-radius;
+          border-bottom-left-radius: var(
+            --el-input-border-radius,
+            map.get($--input, 'border-radius')
+          );
         }
         .#{$namespace}-input-number__increase {
           width: 19px;
-          border-bottom-right-radius: $--input-border-radius;
+          border-bottom-right-radius: var(
+            --el-input-border-radius,
+            map.get($--input, 'border-radius')
+          );
           & ~ .#{$namespace}-input .#{$namespace}-input__inner {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
@@ -231,13 +237,19 @@
         &:hover {
           .#{$namespace}-input-number__decrease,
           .#{$namespace}-input-number__increase {
-            border-color: $--input-hover-border;
+            border-color: var(
+              --el-input-hover-border,
+              map.get($--input, 'hover-border')
+            );
           }
         }
         &:active {
           .#{$namespace}-input-number__decrease,
           .#{$namespace}-input-number__increase {
-            border-color: $--input-focus-border;
+            border-color: var(
+              --el-input-focus-border,
+              map.get($--input, 'focus-border')
+            );
           }
         }
       }

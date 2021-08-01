@@ -1,11 +1,9 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 :root {
-  --el-scrollbar-opacity: 0.3;
-  --el-scrollbar-background-color: var(--el-text-color-secondary);
-  --el-scrollbar-hover-opacity: 0.5;
-  --el-scrollbar-hover-background-color: var(--el-text-color-secondary);
+  @include set-component-css-var('scrollbar', $--scrollbar);
 }
 
 @include b(scrollbar) {

@@ -1,9 +1,10 @@
 @import 'mixins/mixins';
 @import 'mixins/utils';
+@import 'mixins/var';
 @import 'common/var';
 
 :root {
-  --el-form-label-font-size: var(--el-font-size-base);
+  @include set-component-css-var('form', $--form);
 }
 
 @include b(form) {

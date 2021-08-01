@@ -1,11 +1,11 @@
 @use "sass:math";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 :root {
-  --el-loading-spinner-size: 42px;
-  --el-loading-fullscreen-spinner-size: 50px;
+  @include set-component-css-var('loading', $--loading);
 }
 
 @include b(loading-parent) {

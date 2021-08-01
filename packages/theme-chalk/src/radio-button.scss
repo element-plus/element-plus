@@ -74,10 +74,10 @@
 
     &:checked {
       & + .#{$namespace}-radio-button__inner {
-        color: $--radio-button-checked-font-color;
-        background-color: $--radio-button-checked-background-color;
-        border-color: $--radio-button-checked-border-color;
-        box-shadow: -1px 0 0 0 $--radio-button-checked-border-color;
+        color: var(--el-radio-button-checked-font-color);
+        background-color: var(--el-radio-button-checked-background-color);
+        border-color: var(--el-radio-button-checked-border-color);
+        box-shadow: -1px 0 0 0 var(--el-radio-button-checked-border-color);
       }
     }
 
@@ -100,7 +100,7 @@
         box-shadow: none;
       }
       &:checked + .#{$namespace}-radio-button__inner {
-        background-color: $--radio-button-disabled-checked-fill;
+        background-color: var(--el-radio-button-disabled-checked-fill);
       }
     }
   }
@@ -133,6 +133,6 @@
 
   &:focus:not(.is-focus):not(:active):not(.is-disabled) {
     /*获得焦点时 样式提醒*/
-    box-shadow: 0 0 2px 2px $--radio-button-checked-border-color;
+    box-shadow: 0 0 2px 2px var(--el-radio-button-checked-border-color);
   }
 }
