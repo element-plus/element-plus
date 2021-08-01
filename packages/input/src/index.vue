@@ -251,6 +251,7 @@ export default defineComponent({
     const validateState = computed(() => elFormItem.validateState || '')
     const validateIcon = computed(() => VALIDATE_STATE_MAP[validateState.value])
     const computedTextareaStyle = computed(() => ({
+      ...props.inputStyle,
       ..._textareaCalcStyle.value,
       resize: props.resize,
     }))
@@ -294,12 +295,10 @@ export default defineComponent({
         const minRows = isObject(autosize) ? autosize.minRows : void 0
         const maxRows = isObject(autosize) ? autosize.maxRows : void 0
         _textareaCalcStyle.value = {
-          ...props.inputStyle,
           ...calcTextareaHeight(textarea.value, minRows, maxRows),
         }
       } else {
         _textareaCalcStyle.value = {
-          ...props.inputStyle,
           minHeight: calcTextareaHeight(textarea.value).minHeight,
         }
       }
