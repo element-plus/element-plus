@@ -23,7 +23,10 @@
   &:not(.is-disabled):hover {
     .#{$namespace}-input__inner {
       cursor: pointer;
-      border-color: $--input-hover-border;
+      border-color: var(
+        --el-input-hover-border,
+        map.get($--input, 'hover-border')
+      );
     }
   }
 
@@ -34,7 +37,10 @@
       text-overflow: ellipsis;
 
       &:focus {
-        border-color: $--input-focus-border;
+        border-color: var(
+          --el-input-focus-border,
+          map.get($--input, 'focus-border')
+        );
       }
     }
 
@@ -48,12 +54,18 @@
     }
 
     .#{$namespace}-icon-circle-close:hover {
-      color: $--input-clear-hover-color;
+      color: var(
+        --el-input-clear-hover-color,
+        map.get($--input, 'clear-hover-color')
+      );
     }
 
     @include when(focus) {
       .#{$namespace}-input__inner {
-        border-color: $--input-focus-border;
+        border-color: var(
+          --el-input-focus-border,
+          map.get($--input, 'focus-border')
+        );
       }
     }
   }

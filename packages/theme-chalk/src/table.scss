@@ -1,18 +1,12 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'checkbox';
 @import 'tag';
 @import 'tooltip';
 @import 'common/var';
 
 :root {
-  --el-table-border-color: var(--el-border-color-lighter);
-  --el-table-border: 1px solid var(--el-table-border-color);
-  --el-table-font-color: var(--el-text-color-regular);
-  --el-table-header-font-color: var(--el-text-color-secondary);
-  --el-table-row-hover-background-color: var(--el-background-color-base);
-  --el-table-current-row-background-color: var(--el-color-primary-light-9);
-  --el-table-header-background-color: var(--el-color-white);
-  --el-table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
+  @include set-component-css-var('table', $--table);
 }
 
 @include b(table) {
