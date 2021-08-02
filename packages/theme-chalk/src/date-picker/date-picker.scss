@@ -34,7 +34,7 @@
 
   @include e(time-header) {
     position: relative;
-    border-bottom: 1px solid $--datepicker-inner-border-color;
+    border-bottom: 1px solid var(--el-datepicker-inner-border-color);
     font-size: 12px;
     padding: 8px 5px 5px 5px;
     display: table;
@@ -64,14 +64,14 @@
     line-height: 22px;
     text-align: center;
     cursor: pointer;
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
 
     &:hover {
-      color: $--datepicker-hover-font-color;
+      color: var(--el-datepicker-hover-font-color);
     }
 
     &.active {
-      color: $--datepicker-active-color;
+      color: var(--el-datepicker-active-color);
     }
   }
 

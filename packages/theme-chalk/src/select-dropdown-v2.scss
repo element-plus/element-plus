@@ -1,10 +1,12 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'common/var';
 @import './popper';
 
 @include b(select-dropdown) {
   z-index: calc(var(--el-index-top) + 1);
-  border-radius: $--border-radius-base;
+  border-radius: var(--el-border-radius-base);
   box-sizing: border-box;
 
   .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list {
@@ -13,20 +15,20 @@
 }
 
 @include b(select-dropdown__empty) {
-  padding: $--select-dropdown-empty-padding;
+  padding: map.get($--select-dropdown, 'empty-padding');
   margin: 0;
   text-align: center;
-  color: $--select-dropdown-empty-color;
-  font-size: $--select-font-size;
+  color: map.get($--select-dropdown, 'empty-color');
+  font-size: var(--el-select-font-size);
 }
 
 @include b(select-dropdown__wrap) {
-  max-height: $--select-dropdown-max-height;
+  max-height: map.get($--select-dropdown, 'max-height');
 }
 
 @include b(select-dropdown__list) {
   list-style: none;
-  margin: $--select-dropdown-padding;
+  margin: map.get($--select-dropdown, 'padding');
   padding: 0;
   box-sizing: border-box;
 }

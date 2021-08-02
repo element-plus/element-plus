@@ -45,18 +45,18 @@ Date Picker básico por "día".
           value: new Date(),
         }, {
           text: 'Yesterday',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24)
             return date
-          })(),
+          },
         }, {
           text: 'A week ago',
-          value: (() => {
+          value: () => {
             const date = new Date()
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
             return date
-          })(),
+          },
         }],
         value1: '',
         value2: '',
@@ -82,19 +82,19 @@ Date Picker básico por "día".
           },
           {
             text: 'Yesterday',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
               return date;
-            })(),
+            },
           },
           {
             text: 'A week ago',
-            value: (() => {
+            value: () => {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
               return date;
-            })(),
+            },
           },
         ],
         value1: '',
@@ -235,28 +235,28 @@ Se soporta la selección de un rango de fechas.
       return {
         shortcuts: [{
           text: 'Last week',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last month',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last 3 months',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -275,30 +275,30 @@ Se soporta la selección de un rango de fechas.
         shortcuts: [
           {
             text: 'Last week',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last month',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 3 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -358,19 +358,19 @@ Se admite la selección de un intervalo de un mes.
           value: [new Date(), new Date()],
         }, {
           text: 'This year',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date(new Date().getFullYear(), 0)
             return [start, end]
-          })(),
+          },
         }, {
           text: 'Last 6 months',
-          value: (() => {
+          value: () => {
             const end = new Date()
             const start = new Date()
             start.setMonth(start.getMonth() - 6)
             return [start, end]
-          })(),
+          },
         }],
         value1: '',
         value2: ''
@@ -393,20 +393,20 @@ Se admite la selección de un intervalo de un mes.
           },
           {
             text: 'This year',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date(new Date().getFullYear(), 0);
               return [start, end];
-            })(),
+            },
           },
           {
             text: 'Last 6 months',
-            value: (() => {
+            value: () => {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 6);
               return [start, end];
-            })(),
+            },
           },
         ],
         value1: '',
@@ -657,7 +657,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | prefix-icon       | Clase personalizada para el icono prefijado | string            | —                                        | el-icon-date         |
 | clear-icon        | Clase personalizada para el icono `clear` | string            | —                                        | el-icon-circle-close |
 | disabledDate   | una función que determina si una fecha está desactivada con esa fecha como parámetro. Debería devolver un valor booleano | function                       | —                 | —           |
-| shortcuts | un array de objetos para establecer opciones de acceso directo | object[{ text: string, value: Date }] | — | — |
+| shortcuts | un array de objetos para establecer opciones de acceso directo | object[{ text: string, value: date / function }] | — | — |
 
 ### Eventos
 | Nombre | Descripción                              | Parametros                   |

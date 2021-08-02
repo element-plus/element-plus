@@ -40,7 +40,7 @@ import {
 } from 'vue'
 import ElScrollbar from '@element-plus/scrollbar'
 import ElCascaderNode from './node.vue'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
 import {
   CascaderNode,
@@ -70,6 +70,7 @@ export default defineComponent({
 
   setup (props) {
     const instance = getCurrentInstance()
+    const { t } = useLocaleInject()
     const id = generateId()
     let activeNode: Nullable<HTMLElement> = null
     let hoverTimer: Nullable<TimeoutHandle> = null

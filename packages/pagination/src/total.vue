@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'Total',
@@ -21,6 +21,7 @@ export default defineComponent({
     },
   },
   setup() {
+    const { t } = useLocaleInject()
     return {
       t,
     }

@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'mixins/utils';
 @import 'common/var';
@@ -13,13 +15,13 @@
     @include picker-popper(
       $--color-white,
       1px solid var(--el-border-color-light),
-      $--box-shadow-light
+      var(--el-box-shadow-light)
     );
   }
 }
 
 @include b(autocomplete-suggestion) {
-  border-radius: $--border-radius-base;
+  border-radius: var(--el-border-radius-base);
   box-sizing: border-box;
 
   @include e(wrap) {
@@ -38,7 +40,7 @@
     margin: 0;
     line-height: 34px;
     cursor: pointer;
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
     font-size: var(--el-font-size-base);
     list-style: none;
     text-align: left;
@@ -47,16 +49,16 @@
     text-overflow: ellipsis;
 
     &:hover {
-      background-color: $--select-option-hover-background;
+      background-color: map.get($--select-option, 'hover-background');
     }
 
     &.highlighted {
-      background-color: $--select-option-hover-background;
+      background-color: map.get($--select-option, 'hover-background');
     }
 
     &.divider {
       margin-top: 6px;
-      border-top: 1px solid $--color-black;
+      border-top: 1px solid var(--el-color-black);
     }
 
     &.divider:last-child {
@@ -74,7 +76,7 @@
       @include utils-vertical-center;
 
       &:hover {
-        background-color: $--color-white;
+        background-color: var(--el-color-white);
       }
     }
 

@@ -7,7 +7,7 @@
         </slot>
       </div>
       <div class="el-page-header__title">
-        <slot name="title">{{ title }}</slot>
+        <slot name="title">{{ title || t('el.pageHeader.title') }}</slot>
       </div>
     </div>
     <div class="el-page-header__content">
@@ -17,7 +17,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElPageHeader',
@@ -28,7 +28,6 @@ export default defineComponent({
     },
     title: {
       type: String,
-      default: () => t('el.pageHeader.title'),
     },
     content: {
       type: String,
@@ -38,12 +37,15 @@ export default defineComponent({
   emits: ['back'],
   setup(props, { emit }) {
 
+    const { t } = useLocaleInject()
+
     function handleClick() {
       emit('back')
     }
 
     return {
       handleClick,
+      t,
     }
   },
 })

@@ -8,7 +8,7 @@
   }
 
   @include e(wrapper) {
-    max-height: 190px;
+    max-height: 192px;
     overflow: auto;
     display: inline-block;
     width: 50%;
@@ -38,7 +38,7 @@
 
   @include e(arrow) {
     font-size: 12px;
-    color: $--color-text-secondary;
+    color: var(--el-text-color-secondary);
     position: absolute;
     left: 0;
     width: 100%;
@@ -49,7 +49,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
 
     &.#{$namespace}-icon-arrow-up {
@@ -91,7 +91,7 @@
     height: 32px;
     line-height: 32px;
     font-size: 12px;
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
 
     &:hover:not(.disabled):not(.active) {
       background: $--background-color-base;
@@ -99,12 +99,12 @@
     }
 
     &.active:not(.disabled) {
-      color: $--color-text-primary;
+      color: var(--el-text-color-primary);
       font-weight: bold;
     }
 
     &.disabled {
-      color: $--color-text-placeholder;
+      color: var(--el-text-color-placeholder);
       cursor: not-allowed;
     }
   }

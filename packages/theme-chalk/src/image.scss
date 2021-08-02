@@ -37,7 +37,7 @@
     align-items: center;
     font-size: 14px;
     background: $--background-color-base;
-    color: $--color-text-placeholder;
+    color: var(--el-text-color-placeholder);
     vertical-align: middle;
   }
 

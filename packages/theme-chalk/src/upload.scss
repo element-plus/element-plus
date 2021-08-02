@@ -13,7 +13,7 @@
 
   @include e(tip) {
     font-size: 12px;
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
     margin-top: 7px;
   }
 
@@ -44,16 +44,16 @@
     }
 
     &:hover {
-      border-color: $--color-primary;
-      color: $--color-primary;
+      border-color: var(--el-color-primary);
+      color: var(--el-color-primary);
     }
   }
   &:focus {
-    border-color: $--color-primary;
-    color: $--color-primary;
+    border-color: var(--el-color-primary);
+    color: var(--el-color-primary);
 
     .#{$namespace}-upload-dragger {
-      border-color: $--color-primary;
+      border-color: var(--el-color-primary);
     }
   }
 }
@@ -72,7 +72,7 @@
 
   .#{$namespace}-icon-upload {
     font-size: 67px;
-    color: $--color-text-placeholder;
+    color: var(--el-text-color-placeholder);
     margin: 40px 0 16px;
     line-height: 50px;
   }
@@ -88,23 +88,23 @@
   }
 
   .#{$namespace}-upload__text {
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
     font-size: 14px;
     text-align: center;
 
     em {
-      color: $--color-primary;
+      color: var(--el-color-primary);
       font-style: normal;
     }
   }
 
   &:hover {
-    border-color: $--color-primary;
+    border-color: var(--el-color-primary);
   }
 
   @include when(dragover) {
     background-color: rgba(32, 159, 255, 0.06);
-    border: 2px dashed $--color-primary;
+    border: 2px dashed var(--el-color-primary);
   }
 }
 
@@ -116,7 +116,7 @@
   @include e(item) {
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
     line-height: 1.8;
     margin-top: 5px;
     position: relative;
@@ -146,7 +146,7 @@
     }
 
     & .#{$namespace}-icon-upload-success {
-      color: $--color-success;
+      color: var(--el-color-success);
     }
 
     .#{$namespace}-icon-close {
@@ -156,7 +156,7 @@
       right: 5px;
       cursor: pointer;
       opacity: 0.75;
-      color: $--color-text-regular;
+      color: var(--el-text-color-regular);
       //transform: scale(.7);
 
       &:hover {
@@ -172,7 +172,7 @@
       font-size: 12px;
       cursor: pointer;
       opacity: 1;
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
 
     &:hover {
@@ -194,7 +194,7 @@
 
       .#{$namespace}-upload-list__item-name:hover,
       .#{$namespace}-upload-list__item-name:focus {
-        color: $--link-hover-color;
+        color: var(--el-color-primary);
         cursor: pointer;
       }
 
@@ -231,7 +231,7 @@
   }
 
   @include e(item-name) {
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
     display: block;
     margin-right: 40px;
     overflow: hidden;
@@ -243,7 +243,7 @@
     [class^='#{$namespace}-icon'] {
       height: 100%;
       margin-right: 7px;
-      color: $--color-text-secondary;
+      color: var(--el-text-color-secondary);
       line-height: inherit;
     }
   }
@@ -261,11 +261,11 @@
     right: 10px;
     top: 0;
     font-size: 12px;
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
     display: none;
 
     &:hover {
-      color: $--color-primary;
+      color: var(--el-color-primary);
     }
   }
 
@@ -598,7 +598,7 @@
     margin: 0;
     line-height: 36px;
     font-size: 14px;
-    color: $--color-text-primary;
+    color: var(--el-text-color-primary);
   }
 
   + .#{$namespace}-upload__inner {

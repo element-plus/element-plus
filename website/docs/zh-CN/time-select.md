@@ -69,6 +69,7 @@
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | model-value / v-model | 绑定值 | string | — | — |
+| disabled | 禁用 | boolean | — | false |
 | editable | 文本框可输入 | boolean | — | true |
 | clearable | 是否显示清除按钮 | boolean | — | true |
 | size          | 输入框尺寸     | string          | medium / small / mini  | — |

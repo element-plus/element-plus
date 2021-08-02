@@ -15,7 +15,7 @@ $--input-inline-start: 7px !default;
 @include b(select-v2) {
   display: inline-block;
   position: relative;
-
+  font-size: map.get($--input-font-size, 'default');
   $selector: &;
   @include e(wrapper) {
     box-sizing: border-box;
@@ -26,11 +26,11 @@ $--input-inline-start: 7px !default;
     padding-top: 1px;
     padding-bottom: 1px;
     border: 1px solid var(--el-border-color-base);
-    border-radius: $--border-radius-base;
-    transition: border-color var(--el-transition-duration-fast) cubic-bezier(0.645, 0.045, 0.355, 1);
-
+    border-radius: var(--el-border-radius-base);
+    transition: border-color var(--el-transition-duration-fast)
+      var(--el-ease-in-out-bezier-function);
     &:hover {
-      border-color: $--color-text-placeholder;
+      border-color: var(--el-text-color-placeholder);
     }
 
     @include when(filterable) {
@@ -38,28 +38,28 @@ $--input-inline-start: 7px !default;
     }
 
     @include when(focused) {
-      border-color: $--color-primary;
+      border-color: var(--el-color-primary);
     }
 
     @include when(hovering) {
       &:not(.is-focused) {
-        border-color: $--color-text-placeholder;
+        border-color: var(--el-text-color-placeholder);
       }
     }
 
     @include when(disabled) {
       cursor: not-allowed;
 
-      background-color: $--background-color-base;
-      color: $--color-text-placeholder;
-      border-color: $--select-disabled-border;
+      background-color: var(--el-background-color-base);
+      color: var(--el-text-color-placeholder);
+      border-color: var(--el-select-disabled-border);
 
       &:hover {
-        border-color: $--select-disabled-border;
+        border-color: inherit;
       }
 
       &.is-focus {
-        border-color: $--select-input-focus-border-color;
+        border-color: var(--el-input-focus-border-color);
       }
 
       .is-transparent {
@@ -71,9 +71,7 @@ $--input-inline-start: 7px !default;
     #{$selector}__input-wrapper {
       box-sizing: border-box;
       position: relative;
-      padding-bottom: 2px;
       margin-inline-start: $--input-inline-start;
-      padding-top: 2px;
       max-width: 100%;
       overflow: hidden;
     }
@@ -81,7 +79,6 @@ $--input-inline-start: 7px !default;
     &,
     #{$selector}__input-wrapper {
       line-height: map.get($--input-height, 'default');
-      // height: $--input-height;
     }
 
     #{$selector}__input-wrapper input {
@@ -114,14 +111,15 @@ $--input-inline-start: 7px !default;
 
   @include e(popper) {
     @include picker-popper(
-      $--select-dropdown-background,
-      $--select-dropdown-border,
-      $--select-dropdown-shadow
+      map.get($--select-dropdown, 'background'),
+      map.get($--select-dropdown, 'border'),
+      map.get($--select-dropdown, 'shadow')
     );
   }
 
   @each $size in (medium, small, mini) {
     @include m($size) {
+      font-size: map.get($--input-font-size, $size);
       @include e(wrapper) {
         &,
         #{$selector}__input-wrapper {
@@ -129,8 +127,8 @@ $--input-inline-start: 7px !default;
         }
 
         #{$selector}__input-wrapper input {
-          line-height: map.get($--input-height, $size) - 4px;
-          height: map.get($--input-height, $size) - 4px;
+          line-height: map.get($--input-height, $size);
+          height: map.get($--input-height, $size);
         }
       }
     }
@@ -142,7 +140,7 @@ $--input-inline-start: 7px !default;
 
   &:hover {
     #{$selector}__combobox-input {
-      border-color: $--select-border-color-hover;
+      border-color: var(--el-select-border-color-hover);
     }
   }
 
@@ -158,7 +156,7 @@ $--input-inline-start: 7px !default;
     display: block;
 
     &:focus {
-      border-color: $--select-input-focus-border-color;
+      border-color: var(--el-select-input-focus-border-color);
     }
   }
 
@@ -167,8 +165,8 @@ $--input-inline-start: 7px !default;
     outline: none;
     padding: 0;
     margin-left: 15px;
-    color: $--select-multiple-input-color;
-    font-size: $--select-font-size;
+    color: var(--el-select-multiple-input-color);
+    font-size: var(--el-select-font-size);
     appearance: none;
     height: 28px;
 
@@ -183,12 +181,12 @@ $--input-inline-start: 7px !default;
     top: 8px;
     z-index: var(--el-index-top);
     right: 25px;
-    color: $--select-input-color;
+    color: var(--el-select-input-color);
     line-height: 18px;
-    font-size: $--select-input-font-size;
+    font-size: var(--el-select-input-font-size);
 
     &:hover {
-      color: $--select-close-hover-color;
+      color: var(--el-select-close-hover-color);
     }
   }
 
@@ -201,8 +199,8 @@ $--input-inline-start: 7px !default;
   }
 
   @include e(caret) {
-    color: $--select-input-color;
-    font-size: $--select-input-font-size;
+    color: var(--el-select-input-color);
+    font-size: var(--el-select-input-font-size);
     transition: transform var(--el-transition-duration);
     transform: rotateZ(180deg);
     cursor: pointer;
@@ -212,15 +210,15 @@ $--input-inline-start: 7px !default;
     }
 
     @include when(show-close) {
-      font-size: $--select-font-size;
+      font-size: var(--el-select-font-size);
       text-align: center;
       transform: rotateZ(180deg);
-      border-radius: $--border-radius-circle;
-      color: $--select-input-color;
+      border-radius: var(--el-border-radius-circle);
+      color: var(--el-select-input-color);
       transition: var(--el-color-transition-base);
 
       &:hover {
-        color: $--select-close-hover-color;
+        color: (--el-select-close-hover-color);
       }
     }
   }
@@ -236,9 +234,10 @@ $--input-inline-start: 7px !default;
   @include e(wrapper) {
     background-color: #fff;
     border: 1px solid #d9d9d9;
-    border-radius: $--border-radius-base;
+    border-radius: var(--el-border-radius-base);
     position: relative;
-    transition: all var(--el-transition-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all var(--el-transition-duration)
+      var(--el-ease-in-out-bezier-function);
   }
 
   @include e(input-calculator) {
@@ -260,11 +259,14 @@ $--input-inline-start: 7px !default;
 
   @include e(placeholder) {
     position: absolute;
-    top: 1px;
+    top: 50%;
+    transform: translateY(-50%);
     margin-inline-start: $--input-inline-start;
     width: calc(100% - 52px);
+    color: var(--el-input-font-color, map.get($--input, 'font-color'));
+    font-size: inherit;
     @include when(transparent) {
-      opacity: 0.3;
+      color: var(--el-text-color-placeholder);
     }
   }
 
@@ -275,13 +277,13 @@ $--input-inline-start: 7px !default;
     background-color: #f0f2f5;
 
     .#{$namespace}-icon-close {
-      background-color: $--color-text-placeholder;
+      background-color: var(--el-text-color-placeholder);
       right: -7px;
       top: 0;
-      color: $--color-white;
+      color: var(--el-color-white);
 
       &:hover {
-        background-color: $--color-text-secondary;
+        background-color: var(--el-text-color-secondary);
       }
 
       &::before {

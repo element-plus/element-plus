@@ -1,5 +1,10 @@
 @import './var.scss';
 @import '../mixins/mixins';
+@import '../mixins/var';
+
+:root {
+  @include set-component-css-var('popup', $--popup);
+}
 
 .v-modal-enter {
   animation: v-modal-in var(--el-transition-duration-fast) ease;
@@ -31,8 +36,8 @@
   top: 0;
   width: 100%;
   height: 100%;
-  opacity: $--popup-modal-opacity;
-  background: $--popup-modal-background-color;
+  opacity: var(--el-popup-modal-opacity);
+  background: var(--el-popup-modal-background-color);
 }
 
 @include b(popup-parent) {

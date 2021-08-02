@@ -1,20 +1,13 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 :root {
-  --el-alert-padding: 8px 16px;
-  --el-alert-border-radius-base: var(--el-border-radius-base);
-  --el-alert-title-font-size: 13px;
-  --el-alert-description-font-size: 12px;
-  --el-alert-close-font-size: 12px;
-  --el-alert-close-customed-font-size: 13px;
+  @include set-component-css-var('alert', $--alert);
 
-  --el-alert-icon-size: 16px;
-  --el-alert-icon-large-size: 28px;
-
-  @each $type in (success, info, warning, danger) {
+  @each $type in (success, info, warning, error) {
     --el-alert-#{$type}-color: #{map.get($--colors, $type, 'lighter')};
   }
 }
@@ -35,7 +28,7 @@
 
   @include when(light) {
     .#{$namespace}-alert__closebtn {
-      color: var(--el-color-text-placeholder);
+      color: var(--el-text-color-placeholder);
     }
   }
 
@@ -54,11 +47,6 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      // compatiable for danger
-      @if $type == error {
-        $type: danger;
-      }
-
       &.is-light {
         background-color: var(--el-alert-#{$type}-color);
         color: var(--el-color-#{$type});

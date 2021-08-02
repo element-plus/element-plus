@@ -15,7 +15,7 @@
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
     >
-      <i v-if="type || iconClass" :class="[typeClass, iconClass]"></i>
+      <i v-if="type || iconClass" :class="['el-message__icon', typeClass, iconClass]"></i>
       <slot>
         <p v-if="!dangerouslyUseHTMLString" class="el-message__content">{{ message }}</p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
@@ -63,9 +63,9 @@ export default defineComponent({
   emits: ['destroy'],
   setup(props) {
     const typeClass = computed(() => {
-      const type = props.type
+      const type = !props.iconClass && props.type
       return type && TypeMap[type]
-        ? `el-message__icon el-icon-${TypeMap[type]}`
+        ? `el-icon-${TypeMap[type]}`
         : ''
     })
     const customStyle = computed(() => {

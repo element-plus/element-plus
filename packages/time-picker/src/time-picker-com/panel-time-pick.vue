@@ -46,7 +46,7 @@ import {
   PropType,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import TimeSpinner from './basic-time-spinner.vue'
 import dayjs, { Dayjs } from 'dayjs'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
@@ -77,6 +77,7 @@ export default defineComponent({
   emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
+    const { t, lang } = useLocaleInject()
     // data
     const selectionRange = ref([0, 2])
     const oldValue = useOldValue(props)
@@ -93,8 +94,8 @@ export default defineComponent({
       return ''
     })
     // method
-    const isValidValue = _date => {
-      const parsedDate = dayjs(_date)
+    const isValidValue = (_date: Dayjs) => {
+      const parsedDate = dayjs(_date).locale(lang.value)
       const result = getRangeAvailableTime(parsedDate)
       return parsedDate.isSame(result)
     }
@@ -117,7 +118,7 @@ export default defineComponent({
       selectionRange.value = [start, end]
     }
 
-    const changeSelectionRange = step => {
+    const changeSelectionRange = (step: number) => {
       const list = [0, 3].concat(showSeconds.value ? [6] : [])
       const mapping = ['hours', 'minutes'].concat(showSeconds.value ? ['seconds'] : [])
       const index = list.indexOf(selectionRange.value[0])
@@ -125,7 +126,7 @@ export default defineComponent({
       timePickerOptions['start_emitSelectRange'](mapping[next])
     }
 
-    const handleKeydown = event => {
+    const handleKeydown = (event: KeyboardEvent) => {
       const code = event.code
 
       if (code === EVENT_CODE.left || code === EVENT_CODE.right) {
@@ -169,18 +170,18 @@ export default defineComponent({
       return result
     }
 
-    const parseUserInput = value => {
+    const parseUserInput = (value: Dayjs) => {
       if (!value) return null
-      return dayjs(value, props.format)
+      return dayjs(value, props.format).locale(lang.value)
     }
 
-    const formatToString = value => {
+    const formatToString = (value: Dayjs) => {
       if (!value) return null
       return value.format(props.format)
     }
 
     const getDefaultValue = () => {
-      return dayjs(defaultValue)
+      return dayjs(defaultValue).locale(lang.value)
     }
 
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])

@@ -1,4 +1,4 @@
-import type { App } from 'vue'
+import type { Plugin } from 'vue'
 
 type OptionalKeys<T extends Record<string, unknown>> = {
   [K in keyof T]: T extends Record<K, T[K]>
@@ -19,6 +19,6 @@ export type AnyFunction<T> = (...args: any[]) => T
 
 export type PartialReturnType<T extends (...args: unknown[]) => unknown> = Partial<ReturnType<T>>
 
-export type SFCWithInstall<T> = T & { install(app: App): void; }
+export type SFCWithInstall<T> = T & Plugin
 
-export type RefElement = Nullable<HTMLElement>
+export type RefElement = HTMLElement | null

@@ -1,0 +1,6 @@
+@import '../mixins/var';
+@import '../common/var.scss';
+
+:root {
+  @include set-component-css-var('datepicker', $--datepicker);
+}

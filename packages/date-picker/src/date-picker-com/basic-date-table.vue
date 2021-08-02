@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import {
   coerceTruthyValueToArray,
 } from '@element-plus/utils/util'
@@ -89,6 +89,7 @@ export default defineComponent({
   emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
+    const { t, lang } = useLocaleInject()
     // data
     const lastRow = ref(null)
     const lastColumn = ref(null)
@@ -125,7 +126,7 @@ export default defineComponent({
 
       const selectedDate: Dayjs[] = props.selectionMode === 'dates' ? coerceTruthyValueToArray(props.parsedValue) : []
 
-      const calNow = dayjs().startOf('day')
+      const calNow = dayjs().locale(lang.value).startOf('day')
 
       for (let i = 0; i < 6; i++) {
         const row = rows_[i]
@@ -224,7 +225,7 @@ export default defineComponent({
 
     const cellMatchesDate = (cell, date) => {
       if (!date) return false
-      return dayjs(date)
+      return dayjs(date).locale(lang.value)
         .isSame(
           props.date.date(Number(cell.text))
           , 'day',

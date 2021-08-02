@@ -133,6 +133,7 @@ import {
 } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
 import isEqual from 'lodash/isEqual'
+import { useLocaleInject } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import ElInput from '@element-plus/input'
 import ElPopper from '@element-plus/popper'
@@ -182,13 +183,15 @@ const valueEquals = function(a, b) {
   return false
 }
 
-const parser = function(date: Date | string, format: string): Dayjs {
-  const day = isEmpty(format) ? dayjs(date) : dayjs(date, format)
+const parser = function(date: Date | string, format: string, lang: string): Dayjs {
+  const day = isEmpty(format)
+    ? dayjs(date).locale(lang)
+    : dayjs(date, format).locale(lang)
   return day.isValid() ? day : undefined
 }
 
-const formatter = function(date: Date, format: string) {
-  return isEmpty(format) ? date : dayjs(date).format(format)
+const formatter = function(date: Date, format: string, lang: string) {
+  return isEmpty(format) ? date : dayjs(date).locale(lang).format(format)
 }
 
 export default defineComponent({
@@ -202,6 +205,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup(props, ctx) {
     const ELEMENT = useGlobalConfig()
+    const { lang } = useLocaleInject()
 
     const elForm = inject(elFormKey, {} as ElFormContext)
     const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
@@ -236,11 +240,11 @@ export default defineComponent({
       if (!valueEquals(props.modelValue, val)) {
         let formatValue
         if (Array.isArray(val)) {
-          formatValue = val.map(_ => formatter(_, props.valueFormat))
+          formatValue = val.map(_ => formatter(_, props.valueFormat, lang.value))
         } else if(val) {
-          formatValue = formatter(val, props.valueFormat)
+          formatValue = formatter(val, props.valueFormat, lang.value)
         }
-        ctx.emit('update:modelValue', val ? formatValue : val)
+        ctx.emit('update:modelValue', val ? formatValue : val, lang.value)
       }
     }
     const refInput = computed(() => {
@@ -296,9 +300,9 @@ export default defineComponent({
         }
       } else {
         if (Array.isArray(props.modelValue)) {
-          result = props.modelValue.map(_=> parser(_, props.valueFormat))
+          result = props.modelValue.map(_=> parser(_, props.valueFormat, lang.value))
         } else {
-          result = parser(props.modelValue, props.valueFormat)
+          result = parser(props.modelValue, props.valueFormat, lang.value)
         }
       }
 

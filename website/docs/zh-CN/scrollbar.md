@@ -131,7 +131,8 @@
 
 ### Scrollbar Methods
 
-| 方法名      | 说明          | 参数
+| 方法名      | 说明          | 参数    |
 |---------- |-------------- | --------------
-| setScrollTop | 设置滚动条到顶部的距离 | (scrollTop: number)
-| setScrollLeft | 设置滚动条到左边的距离 | (scrollLeft: number)
+| setScrollTop | 设置滚动条到顶部的距离 | (scrollTop: number) |
+| setScrollLeft | 设置滚动条到左边的距离 | (scrollLeft: number) |
+| update | 手动更新滚动条状态 | —   |

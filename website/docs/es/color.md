@@ -2,27 +2,44 @@
   import bus from '../../bus';
   import { tintColor } from '../../color.js';
   import BorderBox from "../../components/demo/color/border-box.vue"
+  import ColorBox from "../../components/demo/color/color-box.vue"
+  import TextBox from "../../components/demo/color/text-box.vue"
   const borderColors = [
     {
       name: 'Borde base',
       type: 'base',
-      color: '#DCDFE6',
     },
     {
       name: 'Borde ligero',
       type: 'light',
-      color: '#E4E7ED',
     },
     {
       name: 'Borde claro',
       type: 'lighter',
-      color: '#EBEEF5',
     },
     {
       name: 'Borde extra claro',
       type: 'extra-light',
-      color: '#F2F6FC',
     },
+  ]
+
+  const textColors = [
+    {
+      name: 'Texto primario',
+      type: 'primary',
+    },
+    {
+      name: 'Texto regular',
+      type: 'regular',
+    },
+    {
+      name: 'Texto secundario',
+      type: 'secondary',
+    },
+    {
+      name: 'Texto de placeholder',
+      type: 'placeholder',
+    }
   ]
 
   const varMap = {
@@ -33,10 +50,6 @@
     'info': '$--color-info',
     'white': '$--color-white',
     'black': '$--color-black',
-    'textPrimary': '$--color-text-primary',
-    'textRegular': '$--color-text-regular',
-    'textSecondary': '$--color-text-secondary',
-    'textPlaceholder': '$--color-text-placeholder',
   };
   const original = {
     primary: '#409EFF',
@@ -46,14 +59,12 @@
     info: '#909399',
     white: '#FFFFFF',
     black: '#000000',
-    textPrimary: '#303133',
-    textRegular: '#606266',
-    textSecondary: '#909399',
-    textPlaceholder: '#C0C4CC',
   }
   export default {
     components: {
-      BorderBox
+      BorderBox,
+      ColorBox,
+      TextBox,
     },
     mounted() {
       this.setGlobal();
@@ -78,11 +89,8 @@
         info: '',
         white: '',
         black: '',
-        textPrimary: '',
-        textRegular: '',
-        textSecondary: '',
-        textPlaceholder: '',
         borderColors,
+        textColors,
       }
     },
     watch: {
@@ -137,76 +145,7 @@ El color principal de Element Plus es el azul brillante y amigable.
 
 Además del color principal, se necesitan utilizar distintos colores para diferentes escenarios (por ejemplo, el color en tono rojo indica una operación peligrosa).
 
-<el-row :gutter="12">
-  <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box"
-    :style="{ background: success }"
-    >Success<div class="value">#67C23A</div>
-      <div
-        class="bg-color-sub"
-      >
-        <div
-          class="bg-success-sub-item"
-          v-for="(item, key) in Array(2)"
-          :key="key"
-          :style="{ background: tintColor(success, (key + 8) / 10) }"
-            >
-        </div>
-      </div>
-    </div>
-  </el-col>
-  <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box"
-    :style="{ background: warning }"
-    >Warning<div class="value">#E6A23C</div>
-      <div
-          class="bg-color-sub"
-        >
-        <div
-          class="bg-success-sub-item"
-          v-for="(item, key) in Array(2)"
-          :key="key"
-          :style="{ background: tintColor(warning, (key + 8) / 10) }"
-            >
-        </div>
-      </div>
-    </div>
-  </el-col>
-  <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box"
-    :style="{ background: danger }"
-    >Danger<div class="value">#F56C6C</div>
-      <div
-          class="bg-color-sub"
-        >
-        <div
-          class="bg-success-sub-item"
-          v-for="(item, key) in Array(2)"
-          :key="key"
-          :style="{ background: tintColor(danger, (key + 8) / 10) }"
-            >
-        </div>
-      </div>
-    </div>
-  </el-col>
-  <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box"
-    :style="{ background: info }"
-    >Info<div class="value">#909399</div>
-      <div
-          class="bg-color-sub"
-        >
-        <div
-          class="bg-success-sub-item"
-          v-for="(item, key) in Array(2)"
-          :key="key"
-          :style="{ background: tintColor(info, (key + 8) / 10) }"
-            >
-        </div>
-      </div>
-    </div>
-  </el-col>
-</el-row>
+<color-box />
 
 ### Color neutro
 
@@ -214,21 +153,7 @@ Los colores neutrales son para texto, fondos y bordes. Puede usar diferentes col
 
 <el-row :gutter="12">
   <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box-group">
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textPrimary }"
-      >Texto primario<div class="value">{{textPrimary}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textRegular }"
-      >
-      Texto regular<div class="value">{{textRegular}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textSecondary }"
-      >Texto secundario<div class="value">{{textSecondary}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textPlaceholder }"
-      >Texto de placeholder<div class="value">{{textPlaceholder}}</div></div>
-    </div>
+    <text-box :text-colors="textColors" />
   </el-col>
   <el-col :span="6" :xs="{span: 12}">
     <border-box :border-colors="borderColors" />

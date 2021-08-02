@@ -53,7 +53,8 @@
 
 @mixin animation-in($direction) {
   &.#{$direction} {
-    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear reverse;
+    animation: #{$direction}-drawer-animation var(--el-transition-duration) linear
+      reverse;
   }
 }
 
@@ -70,10 +71,18 @@
 
 $directions: rtl, ltr, ttb, btt;
 
+:root {
+  --el-drawer-background-color: var(
+    --el-dialog-background-color,
+    var(--el-color-white)
+  );
+  --el-drawer-padding-primary: var(--el-dialog-padding-primary, 20px);
+}
+
 @include b(drawer) {
   position: absolute;
   box-sizing: border-box;
-  background-color: $--dialog-background-color;
+  background-color: var(--el-drawer-background-color);
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2),
@@ -95,7 +104,7 @@ $directions: rtl, ltr, ttb, btt;
     color: rgb(114, 118, 123);
     display: flex;
     margin-bottom: 32px;
-    padding: $--dialog-padding-primary;
+    padding: var(--el-dialog-padding-primary);
     padding-bottom: 0;
     & > :first-child {
       flex: 1;
@@ -118,7 +127,7 @@ $directions: rtl, ltr, ttb, btt;
     outline: none;
     &:hover {
       i {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
     }
   }

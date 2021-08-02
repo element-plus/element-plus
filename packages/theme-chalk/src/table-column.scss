@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import 'mixins/mixins';
 @import 'checkbox';
 @import 'tag';
@@ -16,7 +18,7 @@
   border: solid 1px var(--el-border-color-lighter);
   border-radius: 2px;
   background-color: $--color-white;
-  box-shadow: $--dropdown-menu-box-shadow;
+  box-shadow: map.get($--dropdown, 'menu-box-shadow');
   box-sizing: border-box;
   margin: 2px 0;
 
@@ -35,12 +37,12 @@
     font-size: var(--el-font-size-base);
 
     &:hover {
-      background-color: $--dropdown-menuItem-hover-fill;
-      color: $--dropdown-menuItem-hover-color;
+      background-color: map.get($--dropdown, 'menuItem-hover-fill');
+      color: map.get($--dropdown, 'menuItem-hover-color');
     }
 
     @include when(active) {
-      background-color: $--color-primary;
+      background-color: var(--el-color-primary);
       color: $--color-white;
     }
   }
@@ -56,13 +58,13 @@
     button {
       background: transparent;
       border: none;
-      color: $--color-text-regular;
+      color: var(--el-text-color-regular);
       cursor: pointer;
       font-size: var(--el-font-size-small);
       padding: 0 3px;
 
       &:hover {
-        color: $--color-primary;
+        color: var(--el-color-primary);
       }
 
       &:focus {

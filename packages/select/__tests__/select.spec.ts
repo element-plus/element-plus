@@ -20,6 +20,7 @@ interface SelectProps {
   automaticDropdown?: boolean
   multipleLimit?: number
   popperClass?: string
+  defaultFirstOption?: boolean
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) => mount({
@@ -42,7 +43,7 @@ function getOptions(): HTMLElement[] {
 }
 
 const getSelectVm = (configs: SelectProps = {}, options?) => {
-  ['multiple', 'clearable', 'filterable', 'allowCreate', 'remote', 'collapseTags', 'automaticDropdown'].forEach(config => {
+  ['multiple', 'clearable', 'defaultFirstOption', 'filterable', 'allowCreate', 'remote', 'collapseTags', 'automaticDropdown'].forEach(config => {
     configs[config] = configs[config] || false
   })
   configs.multipleLimit = configs.multipleLimit || 0
@@ -78,6 +79,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :multiple-limit="multipleLimit"
       :popper-class="popperClass"
       :clearable="clearable"
+      :default-first-option="defaultFirstOption"
       :filterable="filterable"
       :collapse-tags="collapseTags"
       :allow-create="allowCreate"
@@ -99,6 +101,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     multiple: configs.multiple,
     multipleLimit: configs.multipleLimit,
     clearable: configs.clearable,
+    defaultFirstOption: configs.defaultFirstOption,
     filterable: configs.filterable,
     collapseTags: configs.collapseTags,
     allowCreate: configs.allowCreate,
@@ -447,6 +450,51 @@ describe('Select', () => {
     expect(iconClear.exists()).toBe(true)
     await iconClear.trigger('click')
     expect(vm.value).toBe('')
+  })
+
+  test('check default first option', async () => {
+    const wrapper = getSelectVm({
+      filterable: true,
+      defaultFirstOption: true,
+    })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    input.element.focus()
+
+    expect(selectVm.hoverIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.hoverIndex).toBe(1)
+  })
+
+  test('check default first option when the very first option is disabled', async () => {
+    const demoOptions = [{
+      value: 'HTML',
+      label: 'HTML',
+      disabled: true,
+    }, {
+      value: 'CSS',
+      label: 'CSS',
+      disabled: false,
+    }, {
+      value: 'JavaScript',
+      label: 'JavaScript',
+      disabled: false,
+    }]
+    const wrapper = getSelectVm({
+      filterable: true,
+      defaultFirstOption: true,
+    }, demoOptions)
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+    input.element.focus()
+
+    expect(selectVm.hoverIndex).toBe(1) // index 0 was skipped
+    selectVm.navigateOptions('next')
+    expect(selectVm.hoverIndex).toBe(2)
+    selectVm.navigateOptions('next')
+    expect(selectVm.hoverIndex).toBe(1) // index 0 was skipped
   })
 
   test('allow create', async () => {

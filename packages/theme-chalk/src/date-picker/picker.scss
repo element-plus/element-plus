@@ -8,8 +8,8 @@
   @include e(popper) {
     @include picker-popper(
       $--color-white,
-      1px solid $--datepicker-border-color,
-      $--box-shadow-light
+      1px solid var(--el-datepicker-border-color),
+      var(--el-box-shadow-light)
     );
   }
 }
@@ -59,7 +59,7 @@
   .#{$namespace}-range__icon {
     font-size: 14px;
     margin-left: -5px;
-    color: $--color-text-placeholder;
+    color: var(--el-text-color-placeholder);
     float: left;
     line-height: 32px;
   }
@@ -75,10 +75,10 @@
     width: 39%;
     text-align: center;
     font-size: var(--el-font-size-base);
-    color: $--color-text-regular;
+    color: var(--el-text-color-regular);
 
     &::placeholder {
-      color: $--color-text-placeholder;
+      color: var(--el-text-color-placeholder);
     }
   }
 
@@ -91,12 +91,12 @@
     line-height: 32px;
     font-size: 14px;
     width: 5%;
-    color: $--color-text-primary;
+    color: var(--el-text-color-primary);
   }
 
   .#{$namespace}-range__close-icon {
     font-size: 14px;
-    color: $--color-text-placeholder;
+    color: var(--el-text-color-placeholder);
     width: 25px;
     display: inline-block;
     float: right;
@@ -116,10 +116,10 @@
   }
 
   @include when(active) {
-    border-color: $--color-primary;
+    border-color: var(--el-color-primary);
 
     &:hover {
-      border-color: $--color-primary;
+      border-color: var(--el-color-primary);
     }
   }
 

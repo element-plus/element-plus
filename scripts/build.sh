@@ -7,16 +7,10 @@
 # which means the result will not contain folder name includes utils
 yarn bootstrap
 yarn clean:lib
-yarn build:esm-bundle
-tar --exclude=index.esm.js -zcvf  ./es.gz ./lib
-mkdir -p es
-tar -zxvf ./es.gz --strip-component 2 -C ./es
+yarn build:type
+
 yarn build:lib
 yarn build:lib-full
-
-# -P2 stands for 2 maximum parallel, with
-# node .build/build.js command
-# find './packages' -type d -maxdepth 1 ! -name '*util*' ! -name '__mocks__' ! -name 'locale' ! -name 'theme*' -print0 | xargs -I {} -P2 -0 node ./build/build.comps.js {}
 
 yarn build:components
 
@@ -25,7 +19,7 @@ find ./packages/utils -type f ! -name '*.test.ts' ! -name 'package.json' -print0
 
 node ./build/build.entry.js
 
-find ./packages/locale -type f ! -name '*.spec.ts' ! -name 'package.json' -print0 \
+find ./packages/locale -type f ! -name '*.spec.ts' ! -name 'package.json' ! -name '.DS_Store' -print0 \
 | xargs -P2 -0 -I {} node ./build/build-util.js {}
 
 yarn build:locale-umd
@@ -34,6 +28,36 @@ yarn build:theme
 
 yarn build:helper
 
-# Post build clean up
+echo "Copying types"
+# Post build cp type definitions
+touch temp
+cd ./dist
+find . -maxdepth 1 ! -path . -type d ! -name 'element-plus'  -print0 | xargs -0 -I {} sh -c "basename {}" > ../temp
+cd -
+input="./temp"
 
-rm ./es.gz
+mkdir -p tempDir
+while IFS= read -r line
+do
+  filepath="el-$line"
+  case "$line" in
+    directives|locale|utils|hooks)
+      filepath="$line"
+      ;;
+  esac
+  mv "dist/$line" "tempDir/$filepath"
+  rsync -a tempDir/ es/
+  rsync -a tempDir/ lib/
+
+done < "$input"
+
+cp packages/utils/types.ts es/utils/
+cp dist/element-plus/* lib
+cp packages/utils/types.ts lib/utils/
+cp dist/element-plus/* es
+
+
+echo "Remove temp files"
+# Post build cleanup
+rm -rf temp
+rm -rf tempDir

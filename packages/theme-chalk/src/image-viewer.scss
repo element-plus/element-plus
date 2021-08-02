@@ -6,7 +6,7 @@
   height: 44px;
   font-size: 24px;
   color: #fff;
-  background-color: $--color-text-regular;
+  background-color: var(--el-text-color-regular);
   border-color: #fff;
 }
 
@@ -55,7 +55,7 @@
     width: 282px;
     height: 44px;
     padding: 0 23px;
-    background-color: $--color-text-regular;
+    background-color: var(--el-text-color-regular);
     border-color: #fff;
     border-radius: 22px;
 

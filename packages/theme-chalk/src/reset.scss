@@ -10,7 +10,7 @@ body {
 }
 
 a {
-  color: $--color-primary;
+  color: var(--el-color-primary);
   text-decoration: none;
 
   &:hover,
@@ -33,7 +33,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: $--color-text-regular;
+  color: var(--el-text-color-regular);
   font-weight: inherit;
 
   &:first-child {

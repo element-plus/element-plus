@@ -2,6 +2,8 @@
   import bus from '../../bus';
   import { tintColor } from '../../color.js';
   import BorderBox from "../../components/demo/color/border-box.vue"
+  import ColorBox from "../../components/demo/color/color-box.vue"
+  import TextBox from "../../components/demo/color/text-box.vue"
   const borderColors = [
     {
       name: '一级边框',
@@ -24,6 +26,26 @@
       color: '#F2F6FC',
     },
   ]
+
+  const textColors = [
+    {
+      name: '主要文字',
+      type: 'primary',
+    },
+    {
+      name: '常规文字',
+      type: 'regular',
+    },
+    {
+      name: '次要文字',
+      type: 'secondary',
+    },
+    {
+      name: '占位文字',
+      type: 'placeholder',
+    }
+  ]
+
   const varMap = {
     'primary': '$--color-primary',
     'success': '$--color-success',
@@ -32,10 +54,6 @@
     'info': '$--color-info',
     'white': '$--color-white',
     'black': '$--color-black',
-    'textPrimary': '$--color-text-primary',
-    'textRegular': '$--color-text-regular',
-    'textSecondary': '$--color-text-secondary',
-    'textPlaceholder': '$--color-text-placeholder',
   };
   const original = {
     primary: '#409EFF',
@@ -45,14 +63,12 @@
     info: '#909399',
     white: '#FFFFFF',
     black: '#000000',
-    textPrimary: '#303133',
-    textRegular: '#606266',
-    textSecondary: '#909399',
-    textPlaceholder: '#C0C4CC',
   }
   export default {
     components: {
-      BorderBox
+      BorderBox,
+      ColorBox,
+      TextBox,
     },
     mounted() {
       this.setGlobal();
@@ -77,11 +93,8 @@
         info: '',
         white: '',
         black: '',
-        textPrimary: '',
-        textRegular: '',
-        textSecondary: '',
-        textPlaceholder: '',
-        borderColors
+        borderColors,
+        textColors,
       }
     },
     watch: {
@@ -129,76 +142,7 @@ Element Plus 主要品牌颜色是鲜艳、友好的蓝色。
 
 除了主色外的场景色，需要在不同的场景中使用（例如危险色表示危险的操作）。
 
-<el-row :gutter="12">
-  <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box"
-    :style="{ background: success }"
-    >Success<div class="value">#67C23A</div>
-      <div
-        class="bg-color-sub"
-      >
-        <div
-          class="bg-success-sub-item"
-          v-for="(item, key) in Array(2)"
-          :key="key"
-          :style="{ background: tintColor(success, (key + 8) / 10) }"
-            >
-        </div>
-      </div>
-    </div>
-  </el-col>
-  <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box"
-    :style="{ background: warning }"
-    >Warning<div class="value">#E6A23C</div>
-      <div
-          class="bg-color-sub"
-        >
-        <div
-          class="bg-success-sub-item"
-          v-for="(item, key) in Array(2)"
-          :key="key"
-          :style="{ background: tintColor(warning, (key + 8) / 10) }"
-            >
-        </div>
-      </div>
-    </div>
-  </el-col>
-  <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box"
-    :style="{ background: danger }"
-    >Danger<div class="value">#F56C6C</div>
-      <div
-          class="bg-color-sub"
-        >
-        <div
-          class="bg-success-sub-item"
-          v-for="(item, key) in Array(2)"
-          :key="key"
-          :style="{ background: tintColor(danger, (key + 8) / 10) }"
-            >
-        </div>
-      </div>
-    </div>
-  </el-col>
-  <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box"
-    :style="{ background: info }"
-    >Info<div class="value">#909399</div>
-      <div
-          class="bg-color-sub"
-        >
-        <div
-          class="bg-success-sub-item"
-          v-for="(item, key) in Array(2)"
-          :key="key"
-          :style="{ background: tintColor(info, (key + 8) / 10) }"
-            >
-        </div>
-      </div>
-    </div>
-  </el-col>
-</el-row>
+<color-box />
 
 ### 中性色
 
@@ -206,21 +150,7 @@ Element Plus 主要品牌颜色是鲜艳、友好的蓝色。
 
 <el-row :gutter="12">
   <el-col :span="6" :xs="{span: 12}">
-    <div class="demo-color-box-group">
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textPrimary }"
-      >主要文字<div class="value">{{textPrimary}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textRegular }"
-      >
-      常规文字<div class="value">{{textRegular}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textSecondary }"
-      >次要文字<div class="value">{{textSecondary}}</div></div>
-      <div class="demo-color-box demo-color-box-other"
-      :style="{ background: textPlaceholder }"
-      >占位文字<div class="value">{{textPlaceholder}}</div></div>
-    </div>
+    <text-box :text-colors="textColors" />
   </el-col>
   <el-col :span="6" :xs="{span: 12}">
     <border-box :border-colors="borderColors" />
