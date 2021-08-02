@@ -3,6 +3,7 @@
     class="el-select-dropdown"
     :class="[{ 'is-multiple': isMultiple }, popperClass]"
     :style="{ minWidth: minWidth }"
+    @mousedown.stop
   >
     <slot></slot>
   </div>
