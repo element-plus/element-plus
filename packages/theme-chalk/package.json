@@ -10,6 +10,7 @@
     "src"
   ],
   "scripts": {
+    "clean": "rm -rf lib",
     "build": "gulp build"
   },
   "repository": {
@@ -33,6 +34,7 @@
     "@types/gulp-rename": "^2.0.1",
     "@types/gulp-sass": "^5.0.0",
     "@types/sass": "^1.16.1",
+    "chalk": "^4.1.2",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
