@@ -24,7 +24,6 @@
       :model-value="node.checked"
       :indeterminate="node.indeterminate"
       :disabled="isDisabled"
-      @click.stop
       @update:model-value="handleCheck"
     />
     <el-radio
@@ -33,7 +32,6 @@
       :label="node.uid"
       :disabled="isDisabled"
       @update:model-value="handleCheck"
-      @click.stop
     >
       <!--
         Add an empty element to avoid render label,
