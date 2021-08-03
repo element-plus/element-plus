@@ -12,7 +12,7 @@
 }
 
 @include b(radio) {
-  color: VAR(--el-radio-font-color);
+  color: var(--el-radio-font-color);
   font-weight: var(--el-radio-font-weight);
   line-height: 1;
   position: relative;

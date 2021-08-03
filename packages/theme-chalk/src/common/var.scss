@@ -174,9 +174,9 @@ $--font-size: map.merge(
 
 /* Disable base
 -------------------------- */
-$--disabled-fill-base: $--background-color-base !default;
+$--disabled-fill-base: var(--el-background-color-base) !default;
 $--disabled-color-base: var(--el-text-color-placeholder) !default;
-$--disabled-border-base: map.get($--border-color, 'light') !default;
+$--disabled-border-base: var(--el-border-color-light) !default;
 
 /* Checkbox
 -------------------------- */
@@ -216,15 +216,15 @@ $--checkbox: map.merge(
 $--radio: () !default;
 $--radio: map.merge(
   (
-    'font-size': map.get($--font-size, 'base'),
+    'font-size': var(--el-font-size-base),
     'font-color': var(--el-text-color-regular),
     'font-weight': var(--el-font-weight-primary),
     'input-height': 14px,
     'input-width': 14px,
     'input-border-radius': var(--el-border-radius-circle),
     'input-background-color': var(--el-color-white),
-    'input-border': $--border-base,
-    'input-border-color': map.get($--border-color, 'base'),
+    'input-border': var(--el-border-base),
+    'input-border-color': var(--el-border-color-base),
   ),
   $--radio
 );
@@ -312,13 +312,13 @@ $--radio-bordered-height: map.merge(
 $--select: () !default;
 $--select: map.merge(
   (
-    'border-color-hover': $--border-color-hover,
-    'disabled-border': $--disabled-border-base,
-    'font-size': map.get($--font-size, 'base'),
+    'border-color-hover': var(--el-border-color-hover),
+    'disabled-border': var(--el-disabled-border-base),
+    'font-size': var(--el-font-size-base),
     'close-hover-color': var(--el-text-color-secondary),
     'input-color': var(--el-text-color-placeholder),
     'multiple-input-color': #666,
-    'input-focus-border-color': $--color-primary,
+    'input-focus-border-color': var(--el-color-primary),
     'input-font-size': 14px,
   ),
   $--select
@@ -349,13 +349,13 @@ $--select-group: map.merge(
 $--select-dropdown: () !default;
 $--select-dropdown: map.merge(
   (
-    'background': $--color-white,
+    'background': var(--el-color-white),
     'shadow': var(--el-box-shadow-light),
     'empty-color': #999,
     'max-height': 274px,
     'padding': 6px 0,
     'empty-padding': 10px 0,
-    'border': solid 1px map.get($--border-color, 'light'),
+    'border': 1px solid var(--el-border-color-light),
   ),
   $--select-dropdown
 );
@@ -445,15 +445,15 @@ $--input: () !default;
 $--input: map.merge(
   (
     'font-color': var(--el-text-color-regular),
-    'border': $--border-base,
-    'border-color': map.get($--border-color, 'base'),
+    'border': var(--el-border-base),
+    'border-color': var(--el-border-color-base),
     'border-radius': var(--el-border-radius-base),
-    'background-color': $--color-white,
+    'background-color': var(--el-color-white),
     'icon-color': var(--el-text-color-placeholder),
     'placeholder-color': var(--el-text-color-placeholder),
-    'hover-border': $--border-color-hover,
+    'hover-border': var(--el-border-color-hover),
     'clear-hover-color': var(--el-text-color-secondary),
-    'focus-border': $--color-primary,
+    'focus-border': var(--el-color-primary),
   ),
   $--input
 );
@@ -466,7 +466,7 @@ $--input-disabled-placeholder-color: var(--el-text-color-placeholder) !default;
 $--input-font-size: () !default;
 $--input-font-size: map.merge(
   (
-    'default': map.get($--font-size, 'base'),
+    'default': var(--el-font-size-base, map.get($--font-size, 'base')),
     'medium': 14px,
     'small': 13px,
     'mini': 12px,
@@ -578,8 +578,8 @@ $--button-font-color: () !default;
 $--button-font-size: () !default;
 $--button-font-size: map.merge(
   (
-    'default': map.get($--font-size, 'base'),
-    'medium': map.get($--font-size, 'base'),
+    'default': var(--el-font-size-base, map.get($--font-size, 'base')),
+    'medium': var(--el-font-size-base, map.get($--font-size, 'base')),
     'small': 12px,
     'mini': 12px,
   ),
@@ -1081,7 +1081,7 @@ $--descriptions: map.merge(
   (
     'header-margin-bottom': 20px,
     'title-font-size': 16px,
-    'table-border': 1px solid map.get($--border-color, 'lighter'),
+    'table-border': 1px solid var(--el-border-color-lighter),
     'item-bordered-label-background': #fafafa,
   ),
   $--descriptions
