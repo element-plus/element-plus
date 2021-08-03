@@ -1,7 +1,7 @@
-import { mount } from '@vue/test-utils'
 import { h, ref, nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
+import Row from '@element-plus/row/src/row'
 import Col from '../src/col'
-import Row from '../src/row'
 
 describe('Col', () => {
   it('create', () => {

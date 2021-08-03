@@ -4,7 +4,7 @@ import isEqualWith from 'lodash/isEqualWith'
 import isServer from './isServer'
 import { warn } from './error'
 
-import type { ComponentPublicInstance, Ref } from 'vue'
+import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
 import type { AnyFunction } from './types'
 
 export type Nullable<T> = null | T
@@ -17,8 +17,6 @@ declare global {
 }
 
 export const SCOPE = 'Util'
-
-export type PartialCSSStyleDeclaration = Partial<Pick<CSSStyleDeclaration, 'transform' | 'transition' | 'animation'>>
 
 export function toObject<T>(arr: Array<T>): Record<string, T> {
   const res = {}
@@ -104,8 +102,8 @@ export const isFirefox = function (): boolean {
 }
 
 export const autoprefixer = function (
-  style: PartialCSSStyleDeclaration,
-): PartialCSSStyleDeclaration {
+  style: CSSProperties,
+): CSSProperties {
   const rules = ['transform', 'transition', 'animation']
   const prefixes = ['ms-', 'webkit-']
   rules.forEach(rule => {
