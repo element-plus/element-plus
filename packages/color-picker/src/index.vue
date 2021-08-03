@@ -87,45 +87,37 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
 import { computed, defineComponent, inject, nextTick, onMounted, provide, reactive, ref, watch } from 'vue'
-import type { ComputedRef } from '@vue/reactivity'
-import { ClickOutside } from '@element-plus/directives'
-import Color from './color'
-import SvPanel from './components/sv-panel.vue'
-import HueSlider from './components/hue-slider.vue'
-import AlphaSlider from './components/alpha-slider.vue'
-import Predefine from './components/predefine.vue'
-import ElPopper from '@element-plus/popper'
+import debounce from 'lodash/debounce'
 import ElButton from '@element-plus/button'
-import ElInput from '@element-plus/input'
+import { ClickOutside } from '@element-plus/directives'
+import { elFormItemKey, elFormKey } from '@element-plus/form'
 import { useLocaleInject } from '@element-plus/hooks'
+import ElPopper from '@element-plus/popper'
+import ElInput from '@element-plus/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import AlphaSlider from './components/alpha-slider.vue'
+import HueSlider from './components/hue-slider.vue'
+import Predefine from './components/predefine.vue'
+import SvPanel from './components/sv-panel.vue'
+import Color from './color'
+import { OPTIONS_KEY } from './useOption'
+
+import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
-import { elFormItemKey, elFormKey } from '@element-plus/form'
-import debounce from 'lodash/debounce'
-
-interface IUseOptions {
-  currentColor: ComputedRef<string>
-}
-
-const OPTIONS_KEY = Symbol()
-
-export const useOptions = () => {
-  return inject<IUseOptions>(OPTIONS_KEY)
-}
+import type { IUseOptions } from './useOption'
 
 export default defineComponent({
   name: 'ElColorPicker',
   components: {
+    ElButton,
     ElPopper,
     ElInput,
     SvPanel,
     HueSlider,
     AlphaSlider,
-    ElButton,
     Predefine,
   },
   directives: {

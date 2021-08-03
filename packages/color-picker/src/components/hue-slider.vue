@@ -8,16 +8,16 @@
         left: thumbLeft + 'px',
         top: thumbTop + 'px'
       }"
-    >
-    </div>
+    ></div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, computed, watch,onMounted, getCurrentInstance, defineComponent } from 'vue'
+import { ref, computed, watch, onMounted, getCurrentInstance, defineComponent } from 'vue'
+import draggable from '../draggable'
+
 import type { PropType } from 'vue'
 import type Color from '../color'
-import draggable from '../draggable'
 
 export default defineComponent({
   name: 'ElColorHueSlider',
