@@ -1,6 +1,6 @@
+import dayjs from 'dayjs'
 import { triggerEvent } from '@element-plus/test-utils'
 import { mount } from '@vue/test-utils'
-import dayjs from 'dayjs'
 import { nextTick } from 'vue'
 import DatePicker from '../src/date-picker'
 

@@ -21,9 +21,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, getCurrentInstance, onMounted } from 'vue'
+import draggable from '../draggable'
+
 import type { PropType } from 'vue'
 import type Color from '../color'
-import draggable from '../draggable'
 
 export default defineComponent({
   name: 'ElSlPanel',

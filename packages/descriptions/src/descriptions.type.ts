@@ -1,15 +1,13 @@
-import type { PropType } from 'vue'
-
-interface IDescriptionsInject {
+export interface IDescriptionsInject {
   border: boolean
   column: number
-  direction: PropType<'horizontal' | 'vertical'>
-  size: PropType<ComponentSize>
+  direction: 'horizontal' | 'vertical'
+  size: ComponentSize
   title: string
   extra: string
 }
 
-interface IDescriptionsItemInject {
+export interface IDescriptionsItemInject {
   label: string
   span: number
   width: string | number
@@ -18,9 +16,4 @@ interface IDescriptionsItemInject {
   labelAlign: string
   className: string
   labelClassName: string
-}
-
-export {
-  IDescriptionsInject,
-  IDescriptionsItemInject,
 }

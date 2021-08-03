@@ -9,4 +9,8 @@ Dialog.install = (app: App): void => {
 const _Dialog: SFCWithInstall<typeof Dialog> = Dialog
 
 export default _Dialog
-export { default as useDialog } from './src/useDialog'
+export {
+  default as useDialog,
+  useDialogProps,
+  useDialogEmits,
+} from './src/useDialog'
