@@ -65,7 +65,7 @@ import ElCheckbox from '@element-plus/checkbox'
 import ElInput from '@element-plus/input'
 import { useCheck, CHECKED_CHANGE_EVENT } from './useCheck'
 
-const { CheckBoxGroup: ElCheckboxGroup } = ElCheckbox
+const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
 
 export default defineComponent({
   name: 'ElTransferPanel',

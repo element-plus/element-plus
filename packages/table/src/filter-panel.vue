@@ -97,7 +97,7 @@ import { TableColumnCtx } from './table-column/defaults'
 import { TableHeader } from './table-header/index'
 import { Store } from './store/index'
 
-const { CheckBoxGroup: ElCheckboxGroup } = ElCheckbox
+const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
 
 export default defineComponent({
   name: 'ElTableFilterPanel',

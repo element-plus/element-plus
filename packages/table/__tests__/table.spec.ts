@@ -335,7 +335,7 @@ describe('Table.vue', () => {
       filter.parentNode.removeChild(filter)
     })
 
-    it('click filter', async () => {
+    fit('click filter', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
 
       btn.trigger('click')
