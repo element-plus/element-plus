@@ -13,25 +13,25 @@
 </template>
 
 <script lang="ts">
-import { hasClass } from '@element-plus/utils/dom'
-import { coerceTruthyValueToArray } from '@element-plus/utils/util'
-import { rangeArr } from '@element-plus/time-picker'
-import { useLocaleInject } from '@element-plus/hooks'
-import dayjs, { Dayjs } from 'dayjs'
-
 import {
   defineComponent,
   computed,
   ref,
-  PropType,
 } from 'vue'
+import dayjs from 'dayjs'
+import { useLocaleInject } from '@element-plus/hooks'
+import { rangeArr } from '@element-plus/time-picker'
+import { hasClass } from '@element-plus/utils/dom'
+import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 
-const datesInMonth = (year, month, lang: string) => {
+import type { PropType } from 'vue'
+import type { Dayjs } from 'dayjs'
+
+const datesInMonth = (year: number, month: number, lang: string) => {
   const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
   const numOfDays = firstDay.daysInMonth()
   return rangeArr(numOfDays).map(n => firstDay.add(n, 'day').toDate())
 }
-
 
 export default defineComponent({
   props: {

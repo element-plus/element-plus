@@ -151,23 +151,26 @@
 </template>
 
 <script lang="ts">
-import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
+import { computed, defineComponent, inject, ref, watch } from 'vue'
+import dayjs from 'dayjs'
+import ElButton from '@element-plus/button'
+import { ClickOutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
 import ElInput from '@element-plus/input'
-import { ClickOutside } from '@element-plus/directives'
+import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import ElButton from '@element-plus/button'
 import { isValidDatePickType } from '@element-plus/utils/validators'
-import dayjs, { Dayjs } from 'dayjs'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
-import { computed, defineComponent, inject, PropType, ref, watch } from 'vue'
 
+import type { PropType } from 'vue'
+import type { Dayjs, ConfigType } from 'dayjs'
 import type { IDatePickerType } from '../date-picker.type'
 
 // todo
-const timeWithinRange = () => true
+/* eslint-disable-next-line */
+const timeWithinRange = (_: ConfigType, __: any, ___: string) => true
 
 export default defineComponent({
   components: {
@@ -211,7 +214,7 @@ export default defineComponent({
     const userInputDate = ref(null)
     const userInputTime = ref(null)
     // todo update to disableHour
-    const checkDateWithinRange = date => {
+    const checkDateWithinRange = (date: ConfigType) => {
       return selectableRange.value.length > 0
         ? timeWithinRange(date, selectableRange.value, props.format || 'HH:mm:ss')
         : true

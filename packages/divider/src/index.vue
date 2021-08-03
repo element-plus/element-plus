@@ -12,11 +12,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-interface IDividerProps {
-  direction: string
-  contentPosition: string
-}
-
 export default defineComponent({
   name: 'ElDivider',
   props: {
