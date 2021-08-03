@@ -44,18 +44,20 @@
 </template>
 
 <script lang="ts">
-import { useLocaleInject } from '@element-plus/hooks'
-import { hasClass } from '@element-plus/utils/dom'
-import { rangeArr } from '@element-plus/time-picker'
-import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 import {
   defineComponent,
   computed,
-  PropType,
 } from 'vue'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
+import { useLocaleInject } from '@element-plus/hooks'
+import { rangeArr } from '@element-plus/time-picker'
+import { hasClass } from '@element-plus/utils/dom'
+import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 
-const datesInYear = (year, lang: string) => {
+import type { PropType } from 'vue'
+import type { Dayjs } from 'dayjs'
+
+const datesInYear = (year: Dayjs, lang: string) => {
   const firstDay = dayjs(String(year)).locale(lang).startOf('year')
   const lastDay = firstDay.endOf('year')
   const numOfDays = lastDay.dayOfYear()
