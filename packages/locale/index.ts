@@ -51,7 +51,6 @@ export const t = (...args: any[]): string => {
 }
 
 export const use = (l: Language): void => {
-
   if (process.env.NODE_ENV !== 'production') {
     console.warn(`[deprecation]:
       The previous i18n usage is deprecated please update to
