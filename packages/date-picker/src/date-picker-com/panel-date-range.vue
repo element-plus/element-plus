@@ -203,16 +203,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, PropType, ref, watch } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
-import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
-import { ClickOutside } from '@element-plus/directives'
-import { isValidDatePickType } from '@element-plus/utils/validators'
-import dayjs, { Dayjs } from 'dayjs'
-import DateTable from './basic-date-table.vue'
-import ElInput from '@element-plus/input'
+import { computed, defineComponent, inject, ref, watch } from 'vue'
+import dayjs from 'dayjs'
 import ElButton from '@element-plus/button'
+import { ClickOutside } from '@element-plus/directives'
+import { useLocaleInject } from '@element-plus/hooks'
+import ElInput from '@element-plus/input'
+import { extractDateFormat, extractTimeFormat, TimePickPanel } from '@element-plus/time-picker'
+import { isValidDatePickType } from '@element-plus/utils/validators'
+import DateTable from './basic-date-table.vue'
 
+import type { PropType } from 'vue'
+import type { Dayjs } from 'dayjs'
 import type { IDatePickerType } from '../date-picker.type'
 
 export default defineComponent({

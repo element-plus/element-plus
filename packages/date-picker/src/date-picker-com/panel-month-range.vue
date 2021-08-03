@@ -83,17 +83,19 @@
 </template>
 
 <script lang="ts">
-import { useLocaleInject } from '@element-plus/hooks'
-import MonthTable from './basic-month-table.vue'
-import dayjs, { Dayjs } from 'dayjs'
 import {
   defineComponent,
   computed,
   ref,
-  PropType,
   watch,
   inject,
 } from 'vue'
+import dayjs from 'dayjs'
+import { useLocaleInject } from '@element-plus/hooks'
+import MonthTable from './basic-month-table.vue'
+
+import type { PropType } from 'vue'
+import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
 

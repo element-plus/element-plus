@@ -6,7 +6,14 @@
   "peerDependencies": {
     "vue": "3.1.1"
   },
+  "dependencies": {
+    "@element-plus/directives": "^0.0.1",
+    "@element-plus/hooks": "^0.0.1",
+    "@element-plus/overlay": "^0.0.1",
+    "@element-plus/utils": "^0.0.1"
+  },
   "devDependencies": {
+    "@element-plus/test-utils": "^0.0.1",
     "@vue/test-utils": "^2.0.0-beta.0"
   }
 }
