@@ -1,7 +1,7 @@
 {
   "name": "element-theme-chalk",
   "private": "true",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Element component chalk theme.",
   "main": "lib/index.css",
   "style": "lib/index.css",

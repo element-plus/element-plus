@@ -1,10 +1,11 @@
 <template>
-  <footer class="el-footer" :style="{ '--el-footer-height': height }">
+  <footer class="el-footer" :style="style">
     <slot></slot>
   </footer>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElFooter',
@@ -13,6 +14,15 @@ export default defineComponent({
       type: String,
       default: null,
     },
+  },
+  setup(props) {
+    return {
+      style: computed(() => (
+        props.height ? {
+          '--el-footer-height': props.height,
+        } : {}
+      ) as CSSProperties),
+    }
   },
 })
 </script>

@@ -6,9 +6,11 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, reactive, ref, watch } from 'vue'
+import { computed, defineComponent, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { getScrollContainer, off, on } from '@element-plus/utils/dom'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
+
+import type { PropType } from 'vue'
 
 type Position = 'top' | 'bottom'
 

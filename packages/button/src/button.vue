@@ -27,28 +27,13 @@
 import { computed, inject, defineComponent } from 'vue'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/form'
+import { elFormKey, elFormItemKey } from '@element-plus/shared'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
 type IButtonType = PropType<'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'>
 type IButtonNativeType = PropType<'button' | 'submit' | 'reset'>
-
-interface IButtonProps {
-  type: IButtonType
-  size: PropType<ComponentSize>
-  icon: string
-  nativeType: string
-  loading: boolean
-  disabled: boolean
-  plain: boolean
-  autofocus: boolean
-  round: boolean
-  circle: boolean
-}
-
-type EmitFn = (evt: Event) => void
 
 export default defineComponent({
   name: 'ElButton',
@@ -94,7 +79,7 @@ export default defineComponent({
 
   emits: ['click'],
 
-  setup(props: IButtonProps, { emit }) {
+  setup(props, { emit }) {
     const $ELEMENT = useGlobalConfig()
 
     const elForm = inject(elFormKey, {} as ElFormContext)

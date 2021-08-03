@@ -15,6 +15,7 @@ import type { InstallOptions } from '@element-plus/utils/config'
 export * from './components'
 export * from './plugins'
 export * from './composables'
+export * from './standalone-items'
 
 type DWindow = Window & typeof globalThis & {
   dayjs?: typeof dayjs
