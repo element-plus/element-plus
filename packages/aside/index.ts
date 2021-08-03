@@ -1,6 +1,6 @@
 import { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
-import Aside from '../container/src/aside.vue'
+import Aside from './src/aside.vue'
 
 Aside.install = (app: App): void => {
   app.component(Aside.name, Aside)
