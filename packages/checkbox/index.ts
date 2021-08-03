@@ -10,10 +10,12 @@ Checkbox.install = (app: App): void => {
   app.component(CheckboxGroup.name, CheckboxGroup)
 }
 
+Checkbox.CheckboxButton = CheckboxButton
+Checkbox.CheckboxGroup = CheckboxGroup
+
 const _Checkbox = Checkbox as any as SFCWithInstall<typeof Checkbox> & {
   CheckboxButton: typeof CheckboxButton
   CheckboxGroup: typeof CheckboxGroup
 }
-
 
 export default _Checkbox

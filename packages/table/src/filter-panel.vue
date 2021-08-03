@@ -31,12 +31,12 @@
           <button
             :class="{ 'is-disabled': filteredValue.length === 0 }"
             :disabled="filteredValue.length === 0"
-            type
+            type="button"
             @click="handleConfirm"
           >
             {{ t('el.table.confirmFilter') }}
           </button>
-          <button type @click="handleReset">{{ t('el.table.resetFilter') }}</button>
+          <button type="button" @click="handleReset">{{ t('el.table.resetFilter') }}</button>
         </div>
       </div>
       <ul v-else class="el-table-filter__list">
