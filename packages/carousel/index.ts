@@ -8,6 +8,8 @@ Carousel.install = (app: App): void => {
   app.component(CarouselItem.name, CarouselItem)
 }
 
+Carousel.CarouselItem = CarouselItem
+
 const _Carousel = Carousel as any as SFCWithInstall<typeof Carousel> & {
   CarouselItem: typeof CarouselItem
 }

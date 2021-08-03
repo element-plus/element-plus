@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
-import { EVENT_CODE } from '@element-plus/utils/aria'
 import { sleep } from '@element-plus/test-utils'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
