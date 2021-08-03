@@ -1,5 +1,5 @@
 
-import type { CascaderNode } from './types'
+import type { default as CascaderNode } from './node'
 
 export const isLeaf = (el: HTMLElement) => !el.getAttribute('aria-owns')
 

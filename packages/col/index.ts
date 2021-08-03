@@ -1,9 +1,10 @@
 import Col from './src/col'
+import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
 const _Col: SFCWithInstall<typeof Col> = Col as SFCWithInstall<typeof Col>
 
-_Col.install = app => {
+_Col.install = (app: App) => {
   app.component(_Col.name, _Col)
 }
 

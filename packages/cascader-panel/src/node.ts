@@ -1,11 +1,43 @@
+
 import { isFunction } from '@vue/shared'
 import { capitalize, isUndefined, isEmpty } from '@element-plus/utils/util'
-import type {
-  CascaderNodeValue,
-  CascaderNodePathValue,
-  CascaderOption,
-  CascaderConfig,
-} from './types'
+import type { VNode } from 'vue'
+
+export type CascaderNodeValue = string | number
+export type CascaderNodePathValue = CascaderNodeValue[]
+export type CascaderValue = CascaderNodeValue | CascaderNodePathValue | (CascaderNodeValue | CascaderNodePathValue)[]
+export type CascaderConfig = Required<CascaderProps>
+export enum ExpandTrigger {
+  CLICK = 'click',
+  HOVER = 'hover'
+}
+export type isDisabled = (data: CascaderOption, node: Node) => boolean
+export type isLeaf = (data: CascaderOption, node: Node) => boolean
+export type Resolve = (dataList?: CascaderOption[]) => void
+export type LazyLoad = (node: Node, resolve: Resolve) => void
+export type RenderLabel = ({ node: Node, data: CascaderOption }) => VNode | VNode[]
+export interface CascaderOption extends Record<string, unknown> {
+  label?: string
+  value?: CascaderNodeValue
+  children?: CascaderOption[]
+  disabled?: boolean
+  leaf?: boolean
+}
+
+export interface CascaderProps {
+  expandTrigger?: ExpandTrigger
+  multiple?: boolean
+  checkStrictly?: boolean
+  emitPath?: boolean
+  lazy?: boolean
+  lazyLoad?: LazyLoad
+  value?: string
+  label?: string
+  children?: string
+  disabled?: string | isDisabled
+  leaf?: string | isLeaf
+  hoverThreshold?: number
+}
 
 type ChildrenData = CascaderOption[] | undefined
 
@@ -23,7 +55,7 @@ const calculatePathNodes = (node: Node) => {
   return nodes
 }
 
-export default class Node {
+class Node {
   readonly uid: number = uid++
   readonly level: number
   readonly value: CascaderNodeValue
@@ -166,3 +198,5 @@ export default class Node {
     }
   }
 }
+
+export default Node

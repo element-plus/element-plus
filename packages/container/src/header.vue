@@ -1,10 +1,11 @@
 <template>
-  <header class="el-header" :style="{ '--el-header-height': height }">
+  <header class="el-header" :style="style">
     <slot></slot>
   </header>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElHeader',
@@ -13,6 +14,15 @@ export default defineComponent({
       type: String,
       default: null,
     },
+  },
+  setup(props) {
+    return {
+      style: computed(() => (
+        props.height ? {
+          '--el-header-height': props.height,
+        } : {}
+      ) as CSSProperties),
+    }
   },
 })
 </script>
