@@ -23,8 +23,8 @@
 
 <script lang="ts">
 import { defineComponent, watch, ref, onMounted, getCurrentInstance, PropType } from 'vue'
-import type Color from '../color'
 import draggable from '../draggable'
+import type Color from '../color'
 
 type Nullable<T> = null | T
 

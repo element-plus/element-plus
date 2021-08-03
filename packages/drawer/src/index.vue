@@ -62,12 +62,11 @@ import {
   ref,
 } from 'vue'
 import { Overlay } from '@element-plus/overlay'
-import { useDialog } from '@element-plus/dialog'
+import { useDialog, useDialogProps, useDialogEmits } from '@element-plus/dialog'
 import { TrapFocus } from '@element-plus/directives'
 
 import type { PropType, SetupContext } from 'vue'
 
-type Hide = (cancel: boolean) => void
 type DrawerDirection = 'ltr' | 'rtl' | 'ttb' | 'btt'
 
 export default defineComponent({
@@ -79,19 +78,7 @@ export default defineComponent({
     TrapFocus,
   },
   props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-    appendToBody: {
-      type: Boolean,
-      default: false,
-    },
-    beforeClose: Function as PropType<(hide: Hide) => void>,
-    customClass: {
-      type: String,
-      default: '',
-    },
+    ...useDialogProps,
     direction: {
       type: String as PropType<DrawerDirection>,
       default: 'rtl',
@@ -99,36 +86,11 @@ export default defineComponent({
         return ['ltr', 'rtl', 'ttb', 'btt'].indexOf(val) !== -1
       },
     },
-    showClose: {
-      type: Boolean,
-      default: true,
-    },
     size: {
       type: [String, Number],
       default: '30%',
     },
-    title: {
-      type: String,
-      default: '',
-    },
-    closeOnClickModal: {
-      type: Boolean,
-      default: true,
-    },
     withHeader: {
-      type: Boolean,
-      default: true,
-    },
-    openDelay: {
-      type: Number,
-      default: 0,
-    },
-    closeDelay: {
-      type: Number,
-      default: 0,
-    },
-    zIndex: Number,
-    modal: {
       type: Boolean,
       default: true,
     },
@@ -136,22 +98,9 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    modalClass: String,
-    lockScroll: {
-      type: Boolean,
-      default: true,
-    },
-    closeOnPressEscape: {
-      type: Boolean,
-      default: true,
-    },
-    destroyOnClose: {
-      type: Boolean,
-      default: false,
-    },
   },
 
-  emits: ['open', 'opened', 'close', 'closed', 'update:modelValue'],
+  emits: useDialogEmits,
 
   setup(props, ctx) {
     const drawerRef = ref<HTMLElement>(null)

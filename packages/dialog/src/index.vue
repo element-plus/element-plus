@@ -63,20 +63,15 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { TrapFocus } from '@element-plus/directives'
-import { isValidWidthUnit } from '@element-plus/utils/validators'
-
 import { Overlay } from '@element-plus/overlay'
+
 import {
   default as useDialog,
-  CLOSE_EVENT,
-  CLOSED_EVENT,
-  OPEN_EVENT,
-  OPENED_EVENT,
-  UPDATE_MODEL_EVENT,
+  useDialogProps,
+  useDialogEmits,
 } from './useDialog'
 
-import type { PropType, SetupContext } from 'vue'
-
+import type { SetupContext } from 'vue'
 
 export default defineComponent({
   name: 'ElDialog',
@@ -86,87 +81,8 @@ export default defineComponent({
   directives: {
     TrapFocus,
   },
-  props: {
-    appendToBody: {
-      type: Boolean,
-      default: false,
-    },
-    beforeClose: {
-      type: Function as PropType<(...args: any[]) => unknown>,
-    },
-    destroyOnClose: {
-      type: Boolean,
-      default: false,
-    },
-    center: {
-      type: Boolean,
-      default: false,
-    },
-    customClass: {
-      type: String,
-      default: '',
-    },
-    closeOnClickModal: {
-      type: Boolean,
-      default: true,
-    },
-    closeOnPressEscape: {
-      type: Boolean,
-      default: true,
-    },
-    fullscreen: {
-      type: Boolean,
-      default: false,
-    },
-    lockScroll: {
-      type: Boolean,
-      default: true,
-    },
-    modal: {
-      type: Boolean,
-      default: true,
-    },
-    showClose: {
-      type: Boolean,
-      default: true,
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    openDelay: {
-      type: Number,
-      default: 0,
-    },
-    closeDelay: {
-      type: Number,
-      default: 0,
-    },
-    top: {
-      type: String,
-      default: '15vh',
-    },
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-    modalClass: String,
-    width: {
-      type: [String, Number],
-      default: '50%',
-      validator: isValidWidthUnit,
-    },
-    zIndex: {
-      type: Number,
-    },
-  },
-  emits: [
-    OPEN_EVENT,
-    OPENED_EVENT,
-    CLOSE_EVENT,
-    CLOSED_EVENT,
-    UPDATE_MODEL_EVENT,
-  ],
+  props: useDialogProps,
+  emits: useDialogEmits,
   setup(props, ctx) {
     const dialogRef = ref<HTMLElement>(null)
     return {
