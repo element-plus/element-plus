@@ -6,7 +6,7 @@
 @import 'mixins/button';
 @import 'common/var';
 
-:root {
+@include b(radio) {
   @include set-component-css-var('radio', $--radio);
   @include set-component-css-var('radio-button', $--radio-button);
 }

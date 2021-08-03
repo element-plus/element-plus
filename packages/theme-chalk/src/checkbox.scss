@@ -54,11 +54,9 @@ $--checkbox-line-height: map.merge(
   $--checkbox-line-height
 );
 
-:root {
-  @include set-component-css-var('checkbox', $--checkbox);
-}
-
 @include b(checkbox) {
+  @include set-component-css-var('checkbox', $--checkbox);
+
   color: var(--el-checkbox-font-color);
   font-weight: var(--el-checkbox-font-weight);
   font-size: var(--el-font-size-base);

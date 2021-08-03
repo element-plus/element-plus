@@ -3,11 +3,9 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
-  @include set-component-css-var('form', $--form);
-}
-
 @include b(form) {
+  @include set-component-css-var('form', $--form);
+
   @include m(label-left) {
     & .#{$namespace}-form-item__label {
       text-align: left;

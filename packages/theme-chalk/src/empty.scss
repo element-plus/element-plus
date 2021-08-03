@@ -2,11 +2,9 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
-  @include set-component-css-var('empty', $--empty);
-}
-
 @include b(empty) {
+  @include set-component-css-var('empty', $--empty);
+
   display: flex;
   justify-content: center;
   align-items: center;

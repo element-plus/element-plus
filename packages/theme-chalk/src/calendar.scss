@@ -4,11 +4,9 @@
 @import 'button';
 @import 'button-group';
 
-:root {
-  @include set-component-css-var('calendar', $--calendar);
-}
-
 @include b(calendar) {
+  @include set-component-css-var('calendar', $--calendar);
+
   background-color: #fff;
 
   @include e(header) {

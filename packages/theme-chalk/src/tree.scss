@@ -4,7 +4,7 @@
 @import 'common/transition';
 @import 'checkbox';
 
-:root {
+@include b(tree) {
   @include set-component-css-var('tree', $--tree);
 }
 

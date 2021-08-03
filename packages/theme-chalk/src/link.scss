@@ -6,14 +6,6 @@
 
 $types: primary, success, warning, danger, info;
 
-:root {
-  @include set-component-css-var('link', $--link);
-
-  @each $type in $types {
-    --el-link-#{$type}-font-color: var(--el-color-#{$type});
-  }
-}
-
 $--link-font-color: () !default;
 
 @each $type in $types {
@@ -23,6 +15,14 @@ $--link-font-color: () !default;
       $type: map.get($--colors, $type, 'base'),
     )
   ) !global;
+}
+
+@include b(link) {
+  @include set-component-css-var('link', $--link);
+
+  @each $type in $types {
+    --el-link-#{$type}-font-color: var(--el-color-#{$type});
+  }
 }
 
 @include b(link) {

@@ -11,7 +11,7 @@
 @import 'option-group';
 @import 'scrollbar';
 
-:root {
+@include b(select) {
   @include set-component-css-var('select', $--select);
 }
 

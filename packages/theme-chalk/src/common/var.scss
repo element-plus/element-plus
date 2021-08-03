@@ -722,6 +722,25 @@ $--popover: map.merge(
   $--popover
 );
 
+// popper
+$--popper: () !default;
+$--popper: map.merge(
+  (
+    'border-radius': var(--el-popover-border-radius, 4px),
+  ),
+  $--popper
+);
+
+// skeleton
+$--skeleton: () !default;
+$--skeleton: map.merge(
+  (
+    'color': #f2f2f2,
+    'to-color': #e6e6e6,
+  ),
+  $--skeleton
+);
+
 /* Tooltip
 -------------------------- */
 // css3 var in packages/theme-chalk/src/tooltip.scss
@@ -921,8 +940,21 @@ $--carousel: map.merge(
 
 /* Collapse
 --------------------------*/
-// refactor with css3 var
-// See packages/theme-chalk/src/collapse.scss
+// css3 var in packages/theme-chalk/src/collapse.scss
+$--collapse: () !default;
+$--collapse: map.merge(
+  (
+    'border-color': var(--el-border-color-lighter),
+    'header-height': 48px,
+    'header-background-color': var(--el-color-white),
+    'header-font-color': var(--el-text-color-primary),
+    'header-font-size': 13px,
+    'content-background-color': var(--el-color-white),
+    'content-font-size': 13px,
+    'content-font-color': var(--el-text-color-primary),
+  ),
+  $--collapse
+);
 
 /* Transfer
 --------------------------*/
@@ -1069,6 +1101,33 @@ $--result: map.merge(
     'extra-margin-top': 30px,
   ),
   $--result
+);
+
+// header
+$--header: () !default;
+$--header: map.merge(
+  (
+    'padding': 0 20px,
+    'height': 60px,
+  ),
+  $--header
+);
+// main
+$--main: () !default;
+$--main: map.merge(
+  (
+    'padding': 20px,
+  ),
+  $--main
+);
+// footer
+$--footer: () !default;
+$--footer: map.merge(
+  (
+    'padding': 0 20px,
+    'height': 60px,
+  ),
+  $--footer
 );
 
 /* Break-point

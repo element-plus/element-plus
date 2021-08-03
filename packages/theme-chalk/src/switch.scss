@@ -4,7 +4,7 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
+@include b(switch) {
   @include set-component-css-var('switch', $--switch);
 }
 
