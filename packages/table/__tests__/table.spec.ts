@@ -2,11 +2,11 @@ import { VueWrapper } from '@vue/test-utils'
 import { ComponentPublicInstance, nextTick } from 'vue'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column/index'
-import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElCheckbox from '@element-plus/checkbox'
 import { triggerEvent } from '@element-plus/test-utils'
 import { mount, getTestData } from './table-test-common'
 
+const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
 
 async function sleep(time: number) {
   return new Promise(resolve => {

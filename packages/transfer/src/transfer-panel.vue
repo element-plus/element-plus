@@ -62,9 +62,10 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
 import ElCheckbox from '@element-plus/checkbox'
-import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElInput from '@element-plus/input'
 import { useCheck, CHECKED_CHANGE_EVENT } from './useCheck'
+
+const { CheckBoxGroup: ElCheckboxGroup } = ElCheckbox
 
 export default defineComponent({
   name: 'ElTransferPanel',
