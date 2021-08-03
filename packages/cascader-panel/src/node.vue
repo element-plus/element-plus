@@ -55,11 +55,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, h } from 'vue'
+import { computed, defineComponent, inject } from 'vue'
 import ElCheckbox from '@element-plus/checkbox'
 import ElRadio from '@element-plus/radio'
+import NodeContent from './node-content'
+import type { default as CascaderNode } from './node'
 import {
-  CascaderNode,
   CASCADER_PANEL_INJECTION_KEY,
 } from './types'
 
@@ -71,18 +72,7 @@ export default defineComponent({
   components: {
     ElCheckbox,
     ElRadio,
-    NodeContent: {
-      render () {
-        const { node, panel } = this.$parent
-        const { data, label } = node
-        const { renderLabelFn } = panel
-        return h(
-          'span',
-          { class: 'el-cascader-node__label' },
-          renderLabelFn ? renderLabelFn({ node, data }) : label,
-        )
-      },
-    },
+    NodeContent,
   },
 
   props: {

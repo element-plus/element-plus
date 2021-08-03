@@ -33,9 +33,9 @@ import {
 } from 'vue'
 import {
   autoprefixer,
-  PartialCSSStyleDeclaration,
 } from '@element-plus/utils/util'
-import { InjectCarouselScope, ICarouselItemProps } from './carousel'
+import type { CSSProperties } from 'vue'
+import type { InjectCarouselScope, ICarouselItemProps } from './carousel'
 
 const CARD_SCALE = 0.83
 export default defineComponent({
@@ -77,7 +77,7 @@ export default defineComponent({
       const translateType =
         parentDirection.value === 'vertical' ? 'translateY' : 'translateX'
       const value = `${translateType}(${data.translate}px) scale(${data.scale})`
-      const style: PartialCSSStyleDeclaration = {
+      const style: CSSProperties = {
         transform: value,
       }
       return autoprefixer(style)

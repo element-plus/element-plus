@@ -1,10 +1,11 @@
 <template>
-  <aside class="el-aside" :style="{ '--el-aside-width': width }">
+  <aside class="el-aside" :style="style">
     <slot></slot>
   </aside>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElAside',
@@ -13,6 +14,15 @@ export default defineComponent({
       type: String,
       default: null,
     },
+  },
+  setup(props) {
+    return {
+      style: computed(() => {
+        return props.width
+          ? { '--el-aside-width': props.width } as CSSProperties
+          : {}
+      }),
+    }
   },
 })
 </script>

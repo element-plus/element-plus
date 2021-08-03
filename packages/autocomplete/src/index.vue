@@ -91,9 +91,9 @@ import {
   onMounted, onUpdated,
   nextTick, watch,
 } from 'vue'
-import { useAttrs } from '@element-plus/hooks'
 import { NOOP } from '@vue/shared'
 import debounce from 'lodash/debounce'
+import { useAttrs } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
 import { generateId, isArray } from '@element-plus/utils/util'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'

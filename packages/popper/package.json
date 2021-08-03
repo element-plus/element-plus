@@ -1,7 +1,7 @@
 {
   "name": "@element-plus/popper",
   "description": "This is a internal util repo for components like tooltip and others",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "license": "MIT",
   "peerDependencies": {
