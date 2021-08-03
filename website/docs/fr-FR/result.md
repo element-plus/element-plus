@@ -70,5 +70,5 @@ Used to give feedback on the result of user's operation or access exception.
 |------|--------|
 | icon | custom icon  |
 | title | custom title     |
-| sub-title | custom sub title     |
+| subTitle | custom sub title     |
 | extra | custom  extra area    |
