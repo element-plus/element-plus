@@ -72,6 +72,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // data refs
   const selectedIndex = ref(-1)
+  const popperSize = ref(-1)
 
   // DOM & Component refs
   const controlRef = ref(null)
@@ -157,9 +158,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const collapseTagSize = computed(() => selectSize.value)
 
-  const popperSize = computed(() => {
-    return selectRef.value?.getBoundingClientRect?.()?.width || 200
-  })
+  const calculatePopperSize = () => {
+    popperSize.value = selectRef.value?.getBoundingClientRect?.()?.width || 200
+  }
   // const readonly = computed(() => !props.filterable || props.multiple || (!isIE() && !isEdge() && !expanded.value))
 
   const inputWrapperStyle = computed(() => {
@@ -345,6 +346,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const handleResize = () => {
     resetInputWidth()
+    calculatePopperSize()
     popper.value?.update?.()
     if (props.multiple) resetInputHeight()
   }
@@ -610,12 +612,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         if (selectedItem) {
           states.selectedLabel = selectedItem.label
         } else {
-          states.selectedLabel = ''
+          states.selectedLabel = `${props.modelValue}`
         }
       } else {
         states.selectedLabel = ''
       }
     }
+    calculatePopperSize()
   }
 
   // in order to track these individually, we need to turn them into refs instead of watching the entire

@@ -1,5 +1,11 @@
-.demo-icon .source > div > i {
+.demo-icon .source > div > i:not(.no-inherit) {
   color: #606266;
+  margin: 0 20px;
+  font-size: 1.5em;
+  vertical-align: middle;
+}
+
+i.no-inherit {
   margin: 0 20px;
   font-size: 1.5em;
   vertical-align: middle;
@@ -28,6 +34,15 @@
   border-bottom: 1px solid #eee;
   margin-right: -1px;
   margin-bottom: -1px;
+
+  .demo-svg-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    cursor: pointer;
+  }
 
   &::after {
     display: inline-block;

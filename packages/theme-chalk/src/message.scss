@@ -1,14 +1,11 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 :root {
-  --el-message-min-width: 380px;
-  --el-message-background-color: #edf2fc;
-  --el-message-padding: 15px 15px 15px 20px;
-  --el-message-close-icon-color: var(--el-text-color-placeholder);
-  --el-message-close-hover-color: var(--el-text-color-secondary);
+  @include set-component-css-var('message', $--message);
 
   @each $type in (success, info, warning, error) {
     --el-message-#{$type}-font-color: var(--el-color-#{$type});
@@ -86,7 +83,7 @@
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--el-message-close-icon-color);
-    font-size: var(--el-message-close-size);
+    font-size: var(--el-message-close-size, map.get($--message, 'close-size'));
 
     &:focus {
       outline-width: 0;

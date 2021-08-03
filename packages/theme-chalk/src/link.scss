@@ -1,16 +1,13 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 $types: primary, success, warning, danger, info;
 
 :root {
-  --el-link-font-size: var(--el-font-size-base);
-  --el-link-font-weight: var(--el-font-weight-primary);
-  --el-link-default-font-color: var(--el-text-color-regular);
-  --el-link-default-active-color: var(--el-color-primary);
-  --el-link-disabled-font-color: var(--el-text-color-placeholder);
+  @include set-component-css-var('link', $--link);
 
   @each $type in $types {
     --el-link-#{$type}-font-color: var(--el-color-#{$type});

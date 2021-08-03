@@ -38,7 +38,10 @@
       color: var(--el-color-primary);
 
       & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__inner {
-        border-color: $--input-focus-border;
+        border-color: var(
+          --el-input-focus-border,
+          map.get($--input, 'focus-border')
+        );
       }
     }
 
@@ -143,7 +146,7 @@
     }
 
     @each $size in (medium, small, mini) {
-      &[class*='#{size}'] {
+      &[class*='#{$size}'] {
         [class*='increase'],
         [class*='decrease'] {
           line-height: #{math.div(map.get($--input-height, $size) - 2, 2)};

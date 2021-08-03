@@ -1,7 +1,12 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
+
+:root {
+  @include set-component-css-var('input', $--input);
+}
 
 @include b(textarea) {
   position: relative;
@@ -18,24 +23,24 @@
     box-sizing: border-box;
     width: 100%;
     font-size: inherit;
-    color: $--input-font-color;
-    background-color: $--input-background-color;
+    color: var(--el-input-font-color);
+    background-color: var(--el-input-background-color);
     background-image: none;
-    border: $--input-border;
-    border-radius: $--input-border-radius;
+    border: var(--el-input-border);
+    border-radius: var(--el-input-border-radius);
     transition: var(--el-border-transition-base);
 
     &::placeholder {
-      color: $--input-placeholder-color;
+      color: var(--el-input-placeholder-color);
     }
 
     &:hover {
-      border-color: $--input-hover-border;
+      border-color: var(--el-input-hover-border);
     }
 
     &:focus {
       outline: none;
-      border-color: $--input-focus-border;
+      border-color: var(--el-input-focus-border);
     }
   }
 
@@ -82,13 +87,13 @@
   @include scroll-bar;
 
   & .#{$namespace}-input__clear {
-    color: $--input-icon-color;
+    color: var(--el-input-icon-color);
     font-size: map.get($--input-font-size, 'default');
     cursor: pointer;
     transition: var(--el-color-transition-base);
 
     &:hover {
-      color: $--input-clear-hover-color;
+      color: var(--el-input-clear-hover-color);
     }
   }
 
@@ -109,12 +114,12 @@
 
   @include e(inner) {
     -webkit-appearance: none;
-    background-color: $--input-background-color;
+    background-color: var(--el-input-background-color);
     background-image: none;
-    border-radius: $--input-border-radius;
-    border: $--input-border;
+    border-radius: var(--el-input-border-radius);
+    border: var(--el-input-border);
     box-sizing: border-box;
-    color: $--input-font-color;
+    color: var(--el-input-font-color);
     display: inline-block;
     font-size: inherit;
     height: map.get($--input-height, 'default');
@@ -125,16 +130,16 @@
     width: 100%;
 
     &::placeholder {
-      color: $--input-placeholder-color;
+      color: var(--el-input-placeholder-color);
     }
 
     &:hover {
-      border-color: $--input-hover-border;
+      border-color: var(--el-input-hover-border);
     }
 
     &:focus {
       outline: none;
-      border-color: $--input-focus-border;
+      border-color: var(--el-input-focus-border);
     }
   }
 
@@ -144,7 +149,7 @@
     right: 5px;
     top: 0;
     text-align: center;
-    color: $--input-icon-color;
+    color: var(--el-input-icon-color);
     transition: all var(--el-transition-duration);
     pointer-events: none;
   }
@@ -159,7 +164,7 @@
     left: 5px;
     top: 0;
     text-align: center;
-    color: $--input-icon-color;
+    color: var(--el-input-icon-color);
     transition: all var(--el-transition-duration);
   }
 
@@ -185,7 +190,7 @@
   @include when(active) {
     .#{$namespace}-input__inner {
       outline: none;
-      border-color: $--input-focus-border;
+      border-color: var(--el-input-focus-border);
     }
   }
 
@@ -272,7 +277,7 @@
     display: table-cell;
     position: relative;
     border: $--border-base;
-    border-radius: $--input-border-radius;
+    border-radius: var(--el-input-border-radius);
     padding: 0 20px;
     width: 1px;
     white-space: nowrap;

@@ -1,13 +1,18 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
+
+:root {
+  @include set-component-css-var('backtop', $--backtop);
+}
 
 @include b(backtop) {
   position: fixed;
-  background-color: $--backtop-background-color;
+  background-color: var(--el-backtop-background-color);
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: $--backtop-font-color;
+  color: var(--el-backtop-font-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,6 +22,6 @@
   z-index: 5;
 
   &:hover {
-    background-color: $--backtop-hover-background-color;
+    background-color: var(--el-backtop-hover-background-color);
   }
 }

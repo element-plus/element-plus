@@ -1,5 +1,71 @@
 ## Changelog
 
+### 1.0.2-beta.66
+
+*2021-08-03*
+
+#### Features
+
+- Input Removed validator for autocomplete attribute (#2757 by @ShookTea)
+- Icon introduce-el-icons-into-ep (#2766 by @JeremyWuuuuu)
+- Space add fill support (#2716 by @adaex)
+- Var var sass map for components (#2778 by @YunYouJun)
+
+#### Bug fixes
+
+- Var map merge default var (#2727 by @YunYouJun)
+- Scrollbar the problem of ScrollbarDirKey being deleted (#2722 by @msidolphin)
+- Input no trigger input event when clear value (#2723 by @msidolphin)
+- Message using iconClass causes "el-message__icon" to be lost (#2709 by @GaliMu)
+- Locale inject locale for modal like components (#2737 by @JeremyWuuuuu)
+- Tooltip styles error (#2763 by @tolking)
+- Input Improve inputStyle reference (#2780 by @adaex)
+- Select-v2's dropdown width wrong if create in style(display: none) (#2791 by @zhaozhongyu)
+- Checkbox checkbox bordered padding & height (#2784 by @YunYouJun)
+- Locale update Norwegian translation file (#2789 by @AdrianAndersen)
+- Select option does not delete in onBeforeMount (#2753 by @zhaozhongyu)
+- Fix Nullable type for RefElement (#2730 by @PxlBuzzard)
+- Fix LabelWraplabel-width bug (#2742 by @SorrowX)
+
+#### Refactors
+
+- Var simplify checkbox var & move transition to root (#2729 by @YunYouJun)
+- Backtop migrate css var (#2711 by @YunYouJun)
+- Badge/card/dropdown/rate migrate css var & use sass:map (#2764 by @YunYouJun)
+- Link remove unused link variables & add sass map (#2768 by @YunYouJun)
+- Slider migrate css var & use sass map for message (#2772 by @YunYouJun)
+- Button use sass map & add outline:none for focus (#2774 by @YunYouJun)
+
+### 1.0.2-beta.65
+
+*2021-07-28*
+
+#### Bug fixes
+
+- fix(input-number): fix style (#2738)
+- fix(date-picker): date-picker focus end-time resets start-time (#2290)
+- fix: date-time picker same day select time bug (#2747)
+- fix(image-viewer): image-viewer export error (#2754)
+- fix: time picker adjust spinner bug (#2743)
+
+#### Chore
+
+- test(select-v2): complete unit tests (#2739)
+
+### 1.0.2-beta.64
+
+#### Bug fixes
+- fix(var): map merge default var (#2727)
+- fix(scrollbar): the problem of ScrollbarDirKey being deleted (#2722)
+- fix(input): no trigger input event when clear value (#2723) …
+- fix(message): using iconClass causes "el-message__icon" to be lost (#… …
+- fix(typing): fixed Nullable type for RefElement (#2730)
+- fix(locale): inject locale for modal like components (#2737)
+
+#### Refactors
+- refactor(backtop): migrate css var (#2711)
+- refactor(var): simplify checkbox var & move transition to root (#2729)
+
 ### 1.0.2-beta.63
 
 *2021-07-27*

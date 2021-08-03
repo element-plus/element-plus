@@ -621,7 +621,7 @@ export default defineComponent ({
 | suffix-icon   | サフィックスアイコンクラス  | string          | — | — |
 |rows | textareaの行数、`type`が'textarea'の場合にのみ動作します。 | number | — | 2 |
 |autosize | textareaが適応的な高さを持つかどうか、`type`が'textarea'の場合にのみ動作します。オブジェクトを受け取ることができます。 e.g. { minRows: 2, maxRows: 6 }  | boolean / object | — | false |
-|autocomplete | ネイティブインプットの `autocomplete` と同じ | string | on/off | off |
+|autocomplete | ネイティブインプットの `autocomplete` と同じ | string | — | off |
 |name | ネイティブインプットの `name` と同じ | string | — | — |
 | readonly | ネイティブインプットの `readonly` と同じ | boolean | — | false |
 |max | ネイティブインプットの `max` と同じ | — | — | — |
