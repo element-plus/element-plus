@@ -23,9 +23,6 @@ import {
   provide, reactive,
   Ref, ref, watch,
 } from 'vue'
-import ElCascaderMenu from './menu.vue'
-import Store from './store'
-import Node from './node'
 import isEqual from 'lodash/isEqual'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
@@ -38,6 +35,10 @@ import {
   isEmpty,
   isEqualWithFunction,
 } from '@element-plus/utils/util'
+
+import ElCascaderMenu from './menu.vue'
+import Store from './store'
+import Node from './node'
 import { CommonProps, useCascaderConfig } from './config'
 import {
   checkNode,
@@ -46,17 +47,18 @@ import {
   getSibling,
   sortByOriginalOrder,
 } from './utils'
-import { CASCADER_PANEL_INJECTION_KEY, ExpandTrigger } from './types'
+import { default as CascaderNode, ExpandTrigger } from './node'
+import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { PropType } from 'vue'
 import type {
   CascaderValue,
-  CascaderNode,
   CascaderNodeValue,
   CascaderOption,
   RenderLabel,
-  ElCascaderPanelContext,
-} from './types'
+} from './node'
+
+import { ElCascaderPanelContext } from './types'
 
 export default defineComponent({
   name: 'ElCascaderPanel',

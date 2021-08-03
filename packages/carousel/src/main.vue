@@ -75,7 +75,8 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import { ICarouselProps, CarouselItem, InjectCarouselScope } from './carousel'
+
+import type { ICarouselProps, CarouselItem, InjectCarouselScope } from './carousel'
 
 export default defineComponent({
   name: 'ElCarousel',

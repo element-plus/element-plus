@@ -39,11 +39,11 @@ import {
   inject, ref,
 } from 'vue'
 import ElScrollbar from '@element-plus/scrollbar'
-import ElCascaderNode from './node.vue'
 import { useLocaleInject } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils/util'
+import ElCascaderNode from './node.vue'
+import { default as CascaderNode } from './node'
 import {
-  CascaderNode,
   CASCADER_PANEL_INJECTION_KEY,
 } from './types'
 
