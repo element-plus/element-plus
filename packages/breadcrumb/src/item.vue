@@ -26,8 +26,8 @@ import {
   onMounted,
   getCurrentInstance,
 } from 'vue'
-import type { IBreadcrumbProps } from './breadcrumb'
 import type { PropType } from 'vue'
+import type { IBreadcrumbProps } from '@element-plus/breadcrumb/src/breadcrumb'
 
 export default defineComponent({
   name: 'ElBreadcrumbItem',

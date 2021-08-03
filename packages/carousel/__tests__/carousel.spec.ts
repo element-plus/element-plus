@@ -4,7 +4,7 @@ import Carousel from '../src/main.vue'
 import CarouselItem from '../src/item.vue'
 
 const wait = (ms = 100) =>
-  new Promise(resolve => setTimeout(() => resolve(), ms))
+  new Promise(resolve => setTimeout(() => resolve(0), ms))
 
 const _mount = (template: string, data?: () => void, methods?: any) =>
   mount({

@@ -1,10 +1,11 @@
 import { mount } from '@vue/test-utils'
+import { getCssVariable } from '@element-plus/test-utils'
+
 import Container from '../src/container.vue'
 import Header from '../src/header.vue'
 import Main from '../src/main.vue'
 import Aside from '../src/aside.vue'
 import Footer from '../src/footer.vue'
-import { getCssVariable } from '@element-plus/test-utils'
 
 const AXIOM = 'Rem is the best girl'
 
