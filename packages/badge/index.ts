@@ -1,6 +1,7 @@
 import { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
 import Badge from './src/index.vue'
+
+import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Badge.install = (app: App): void => {
   app.component(Badge.name, Badge)

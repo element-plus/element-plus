@@ -138,23 +138,25 @@ import {
   onMounted, onBeforeUnmount,
   Ref, ref, watch,
 } from 'vue'
-import ElCascaderPanel from '@element-plus/cascader-panel'
+import { isPromise } from '@vue/shared'
+import debounce from 'lodash/debounce'
+
+import ElCascaderPanel, { CommonProps } from '@element-plus/cascader-panel'
 import ElInput from '@element-plus/input'
 import ElPopper from '@element-plus/popper'
 import ElScrollbar from '@element-plus/scrollbar'
 import ElTag from '@element-plus/tag'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
+
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
-import { isPromise } from '@vue/shared'
-import debounce from 'lodash/debounce'
+
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import isServer from '@element-plus/utils/isServer'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/form'
-import { CommonProps } from '@element-plus/cascader-panel'
 
 import type { ComputedRef, PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'

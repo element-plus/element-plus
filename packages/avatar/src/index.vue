@@ -14,7 +14,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, PropType, watch, toRef } from 'vue'
+import { defineComponent, computed, ref, watch, toRef } from 'vue'
+import type { CSSProperties, PropType } from 'vue'
 
 const ERROR_EVENT = 'error'
 export default defineComponent({
@@ -85,7 +86,7 @@ export default defineComponent({
 
     const fitStyle = computed(() => ({
       objectFit: props.fit,
-    }))
+    }) as CSSProperties)
 
     function handleError(e: Event) {
       hasLoadError.value = true

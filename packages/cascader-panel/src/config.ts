@@ -1,12 +1,13 @@
 import { computed, PropType } from 'vue'
 import { NOOP } from '@vue/shared'
-import {
+import { ExpandTrigger } from './node'
+
+import type {
   CascaderValue,
   CascaderOption,
   CascaderConfig,
   CascaderProps,
-  ExpandTrigger,
-} from './types'
+} from './node'
 
 export const CommonProps = {
   modelValue: [Number, String, Array] as PropType<CascaderValue>,

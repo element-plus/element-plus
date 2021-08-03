@@ -1,10 +1,22 @@
 {
   "name": "@element-plus/cascader",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "license": "MIT",
   "peerDependencies": {
     "vue": "3.1.1"
+  },
+  "dependencies": {
+    "@element-plus/cascader-panel": "^0.0.1",
+    "@element-plus/directives": "^0.0.1",
+    "@element-plus/form": "^0.0.1",
+    "@element-plus/hooks": "^0.0.1",
+    "@element-plus/input": "^0.0.1",
+    "@element-plus/popper": "^0.0.1",
+    "@element-plus/scrollbar": "^0.0.1",
+    "@element-plus/tag": "^0.0.1",
+    "@element-plus/utils": "^0.0.1",
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.0.0-beta.3"

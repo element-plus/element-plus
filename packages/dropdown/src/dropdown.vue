@@ -62,13 +62,13 @@ import {
 } from 'vue'
 import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import ElButton from '@element-plus/button'
-import ElButtonGroup from '@element-plus/button-group'
 import ElScrollbar from '@element-plus/scrollbar'
 import ElPopper from '@element-plus/popper'
 import { useDropdown } from './useDropdown'
 import { addUnit } from '@element-plus/utils/util'
 
 type Nullable<T> = null | T
+const { ButtonGroup: ElButtonGroup } = ElButton
 
 export default defineComponent({
   name: 'ElDropdown',
