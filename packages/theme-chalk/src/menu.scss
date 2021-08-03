@@ -5,10 +5,6 @@
 @import 'common/transition';
 @import 'tooltip';
 
-:root {
-  @include set-component-css-var('menu', $--menu);
-}
-
 @mixin menu-item {
   height: 56px;
   line-height: 56px;
@@ -49,6 +45,8 @@
 }
 
 @include b(menu) {
+  @include set-component-css-var('menu', $--menu);
+
   border-right: solid 1px var(--el-menu-border-color);
   list-style: none;
   position: relative;

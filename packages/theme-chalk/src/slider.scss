@@ -7,7 +7,7 @@
 @import 'tooltip';
 @import 'common/var';
 
-:root {
+@include b(slider) {
   @include set-component-css-var('slider', $--slider);
 }
 

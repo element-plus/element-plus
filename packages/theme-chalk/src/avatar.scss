@@ -2,11 +2,9 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
-  @include set-component-css-var('avatar', $--avatar);
-}
-
 @include b(avatar) {
+  @include set-component-css-var('avatar', $--avatar);
+
   display: inline-block;
   box-sizing: border-box;
   text-align: center;

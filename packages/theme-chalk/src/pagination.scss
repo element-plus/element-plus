@@ -6,11 +6,9 @@
 @import 'common/var';
 @import 'select';
 
-:root {
-  @include set-component-css-var('pagination', $--pagination);
-}
-
 @include b(pagination) {
+  @include set-component-css-var('pagination', $--pagination);
+
   white-space: nowrap;
   padding: 2px 5px;
   color: var(--el-pagination-font-color);

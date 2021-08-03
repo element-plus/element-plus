@@ -9,11 +9,9 @@
 
 @import './cascader-panel';
 
-:root {
-  @include set-component-css-var('cascader', $--cascader);
-}
-
 @include b(cascader) {
+  @include set-component-css-var('cascader', $--cascader);
+
   display: inline-block;
   position: relative;
   font-size: var(--el-font-size-base);

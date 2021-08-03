@@ -8,7 +8,7 @@
 @import 'input';
 @import 'overlay';
 
-:root {
+@include b(message-box) {
   @include set-component-css-var('messagebox', $--messagebox);
 
   @each $type in (success, info, warning, error) {

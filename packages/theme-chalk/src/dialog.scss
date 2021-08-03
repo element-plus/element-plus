@@ -7,11 +7,9 @@
 @import 'common/popup';
 @import './overlay.scss';
 
-:root {
-  @include set-component-css-var('dialog', $--dialog);
-}
-
 @include b(dialog) {
+  @include set-component-css-var('dialog', $--dialog);
+
   position: relative;
   margin: 0 auto 50px;
   background: var(--el-dialog-background-color);

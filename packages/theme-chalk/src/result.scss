@@ -4,7 +4,7 @@
 
 $types: success, warning, danger, info, error;
 
-:root {
+@include b(result) {
   @include set-component-css-var('result', $--result);
 
   @each $type in $types {
