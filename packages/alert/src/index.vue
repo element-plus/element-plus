@@ -29,7 +29,9 @@
   </transition>
 </template>
 <script lang='ts'>
-import { defineComponent, computed, ref, PropType } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
+
+import type { PropType } from 'vue'
 
 const TYPE_CLASSES_MAP = {
   'success': 'el-icon-success',

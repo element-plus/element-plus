@@ -1,9 +1,11 @@
-import Row from '../col/src/row'
+import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
-const _Row: SFCWithInstall<typeof Row> = Row as SFCWithInstall<typeof Row>
+import Row from './src/row'
 
-_Row.install = app => {
+const _Row = Row as SFCWithInstall<typeof Row>
+
+_Row.install = (app: App) => {
   app.component(_Row.name, _Row)
 }
 

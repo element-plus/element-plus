@@ -54,10 +54,6 @@
 </template>
 
 <script lang="ts">
-import ElButton from '@element-plus/button'
-import ElButtonGroup from '@element-plus/button-group'
-import { useLocaleInject } from '@element-plus/hooks'
-import DateTable from './date-table.vue'
 import {
   ref,
   ComputedRef,
@@ -65,10 +61,17 @@ import {
   computed,
   defineComponent,
 } from 'vue'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
+
+import ElButton from '@element-plus/button'
+import { useLocaleInject } from '@element-plus/hooks'
+import DateTable from './date-table.vue'
+
+import type { Dayjs } from 'dayjs'
 
 type DateType = 'prev-month' | 'today' | 'next-month'
 
+const { ButtonGroup: ElButtonGroup } = ElButton
 export default defineComponent({
   name: 'ElCalendar',
 

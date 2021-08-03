@@ -1,12 +1,13 @@
 {
   "name": "@element-plus/col",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "license": "MIT",
   "peerDependencies": {
     "vue": "3.1.1"
   },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3"
+    "@vue/test-utils": "^2.0.0-beta.3",
+    "@element-plus/row": "^0.0.1"
   }
 }

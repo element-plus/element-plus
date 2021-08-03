@@ -5,7 +5,7 @@ import type {
   CascaderNodePathValue,
   CascaderOption,
   CascaderConfig,
-} from './types'
+} from './node'
 
 export type Nullable<T> = null | T
 
