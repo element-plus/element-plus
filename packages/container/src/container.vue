@@ -4,7 +4,9 @@
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, computed, VNode, Component } from 'vue'
+import { defineComponent, computed } from 'vue'
+
+import type { Component, VNode } from 'vue'
 
 export default defineComponent({
   name: 'ElContainer',

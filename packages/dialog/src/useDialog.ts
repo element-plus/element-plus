@@ -1,21 +1,107 @@
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
 
-import isServer from '@element-plus/utils/isServer'
+import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import isServer from '@element-plus/utils/isServer'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { clearTimer, isNumber } from '@element-plus/utils/util'
-import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
+import { isValidWidthUnit } from '@element-plus/utils/validators'
 
-import type { Ref, CSSProperties, SetupContext } from 'vue'
-import type { UseDialogProps } from './dialog'
+
+import type { CSSProperties, ExtractPropTypes ,PropType, Ref, SetupContext } from 'vue'
 
 export const CLOSE_EVENT = 'close'
 export const OPEN_EVENT = 'open'
 export const CLOSED_EVENT = 'closed'
 export const OPENED_EVENT = 'opened'
-export { UPDATE_MODEL_EVENT }
 
-export default function(props: UseDialogProps, ctx: SetupContext, targetRef: Ref<HTMLElement>) {
+export const useDialogEmits = [CLOSE_EVENT,
+  CLOSED_EVENT,
+  OPEN_EVENT,
+  OPENED_EVENT,
+  UPDATE_MODEL_EVENT,
+]
+
+export const useDialogProps = {
+  appendToBody: {
+    type: Boolean,
+    default: false,
+  },
+  beforeClose: {
+    type: Function as PropType<(...args: any[]) => unknown>,
+  },
+  destroyOnClose: {
+    type: Boolean,
+    default: false,
+  },
+  center: {
+    type: Boolean,
+    default: false,
+  },
+  customClass: {
+    type: String,
+    default: '',
+  },
+  closeOnClickModal: {
+    type: Boolean,
+    default: true,
+  },
+  closeOnPressEscape: {
+    type: Boolean,
+    default: true,
+  },
+  fullscreen: {
+    type: Boolean,
+    default: false,
+  },
+  lockScroll: {
+    type: Boolean,
+    default: true,
+  },
+  modal: {
+    type: Boolean,
+    default: true,
+  },
+  showClose: {
+    type: Boolean,
+    default: true,
+  },
+  title: {
+    type: String,
+    default: '',
+  },
+  openDelay: {
+    type: Number,
+    default: 0,
+  },
+  closeDelay: {
+    type: Number,
+    default: 0,
+  },
+  top: {
+    type: String,
+    default: '15vh',
+  },
+  modelValue: {
+    type: Boolean,
+    required: true,
+  },
+  modalClass: String,
+  width: {
+    type: [String, Number],
+    default: '50%',
+    validator: isValidWidthUnit,
+  },
+  zIndex: {
+    type: Number,
+  },
+}
+
+export default function(
+  props: ExtractPropTypes<typeof useDialogProps>,
+  ctx: SetupContext,
+  targetRef: Ref<HTMLElement>,
+) {
   const visible = ref(false)
   const closed = ref(false)
   const dialogRef = ref(null)
