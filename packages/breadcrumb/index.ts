@@ -9,11 +9,10 @@ Breadcrumb.install = (app: App): void => {
   app.component(BreadcrumbItem.name, BreadcrumbItem)
 }
 
-const _Breadcrumb: SFCWithInstall<typeof Breadcrumb> = Breadcrumb
+Breadcrumb.BreadcrumbItem = BreadcrumbItem
+
+const _Breadcrumb = Breadcrumb as any as SFCWithInstall<typeof Breadcrumb> & {
+  BreadcrumbItem: typeof BreadcrumbItem
+}
 
 export default _Breadcrumb
-
-export {
-  Breadcrumb,
-  BreadcrumbItem,
-}

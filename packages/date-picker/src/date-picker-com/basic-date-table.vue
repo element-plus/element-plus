@@ -35,19 +35,19 @@
 </template>
 
 <script lang="ts">
+import {
+  defineComponent,
+  computed,
+  ref,
+} from 'vue'
+import dayjs from 'dayjs'
 import { useLocaleInject } from '@element-plus/hooks'
 import {
   coerceTruthyValueToArray,
 } from '@element-plus/utils/util'
 
-
-import {
-  defineComponent,
-  computed,
-  ref,
-  PropType,
-} from 'vue'
-import dayjs, { Dayjs } from 'dayjs'
+import { PropType } from 'vue'
+import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
   props: {

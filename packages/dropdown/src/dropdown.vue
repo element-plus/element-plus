@@ -58,14 +58,15 @@ import {
   computed,
   watch,
   onMounted,
-  ComponentPublicInstance,
 } from 'vue'
-import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import ElButton from '@element-plus/button'
-import ElScrollbar from '@element-plus/scrollbar'
 import ElPopper from '@element-plus/popper'
-import { useDropdown } from './useDropdown'
+import ElScrollbar from '@element-plus/scrollbar'
+import { on, addClass, removeClass } from '@element-plus/utils/dom'
 import { addUnit } from '@element-plus/utils/util'
+import { useDropdown } from './useDropdown'
+
+import type { ComponentPublicInstance } from 'vue'
 
 const { ButtonGroup: ElButtonGroup } = ElButton
 
