@@ -58,7 +58,7 @@
 import { computed, defineComponent, inject } from 'vue'
 import ElCheckbox from '@element-plus/checkbox'
 import ElRadio from '@element-plus/radio'
-import NodeContent from './node-content.vue'
+import NodeContent from './node-content'
 import type { default as CascaderNode } from './node'
 import {
   CASCADER_PANEL_INJECTION_KEY,

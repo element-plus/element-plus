@@ -91,12 +91,13 @@ import {
 import ElPopper from '@element-plus/popper'
 import { useLocaleInject } from '@element-plus/hooks'
 import ElCheckbox from '@element-plus/checkbox'
-import ElCheckboxGroup from '@element-plus/checkbox-group'
 import ElScrollbar from '@element-plus/scrollbar'
 import { ClickOutside } from '@element-plus/directives'
 import { TableColumnCtx } from './table-column/defaults'
 import { TableHeader } from './table-header/index'
 import { Store } from './store/index'
+
+const { CheckBoxGroup: ElCheckboxGroup } = ElCheckbox
 
 export default defineComponent({
   name: 'ElTableFilterPanel',
