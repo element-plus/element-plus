@@ -42,13 +42,13 @@ import {
   computed,
   ref,
   watch,
-  PropType,
 } from 'vue'
 import { isObject, isArray } from '@vue/shared'
+import { elFormKey } from '@element-plus/form'
 import { hasClass } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { elFormKey } from '@element-plus/form'
 
+import type { PropType } from 'vue'
 import type { ElFormContext } from '@element-plus/form'
 
 export default defineComponent({

@@ -1,11 +1,23 @@
 import { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 import Radio from './src/radio.vue'
+import RadioButton from './src/radio-button.vue'
+import RadioGroup from './src/radio-group.vue'
+
 
 Radio.install = (app: App): void => {
   app.component(Radio.name, Radio)
+  app.component(RadioButton.name, RadioButton)
+  app.component(RadioGroup.name, RadioGroup)
 }
 
-const _Radio: SFCWithInstall<typeof Radio> = Radio
+Radio.RadioButton = RadioButton
+Radio.RadioGroup = RadioGroup
+
+const _Radio = Radio as any as SFCWithInstall<typeof Radio> & {
+  RadioButton: typeof RadioButton
+  RadioGroup: typeof RadioGroup
+}
 
 export default _Radio
+export * from './src/token'
