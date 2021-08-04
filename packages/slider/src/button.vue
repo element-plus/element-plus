@@ -37,9 +37,9 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, reactive, toRefs } from 'vue'
 import ElTooltip from '@element-plus/tooltip'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { defineComponent, reactive, toRefs } from 'vue'
 import { useSliderButton } from './useSliderButton'
 
 export default defineComponent({

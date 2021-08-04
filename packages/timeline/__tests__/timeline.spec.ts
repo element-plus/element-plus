@@ -1,7 +1,7 @@
+import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import TimeLine from '../src/index.vue'
 import TimeLineItem from '../src/item.vue'
-import { defineComponent } from 'vue'
 
 const Component = defineComponent({
   components: {

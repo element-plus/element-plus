@@ -6,7 +6,15 @@
   "peerDependencies": {
     "vue": "3.1.1"
   },
+  "dependencies": {
+    "@element-plus/checkbox": "^0.0.1",
+    "@element-plus/collapse-transition": "^0.0.1",
+    "@element-plus/hooks": "^0.0.1",
+    "@element-plus/utils": "^0.0.1",
+    "mitt": "^2.1.0"
+  },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.0"
+    "@vue/test-utils": "^2.0.0-beta.0",
+    "@element-plus/test-utils": "^0.0.1"
   }
 }

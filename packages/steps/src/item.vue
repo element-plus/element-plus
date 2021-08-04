@@ -44,9 +44,17 @@
 
 <script lang="ts">
 import {
-  defineComponent, ref, computed, inject, watch, onBeforeUnmount, onMounted,
-  getCurrentInstance, reactive,
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  reactive,
+  watch,
 } from 'vue'
+
 import type { Ref } from 'vue'
 
 interface IStepsProps {

@@ -1,7 +1,8 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
-import Avatar from '../src/index.vue'
+import { mount } from '@vue/test-utils'
 import { IMAGE_SUCCESS, IMAGE_FAIL, mockImageEvent } from '@element-plus/test-utils'
+
+import Avatar from '../src/index.vue'
 
 describe('Avatar.vue', () => {
   mockImageEvent()
