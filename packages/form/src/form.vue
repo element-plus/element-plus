@@ -12,11 +12,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, provide, reactive, ref, toRefs, watch } from 'vue'
+import { FieldErrorList } from 'async-validator'
 import mitt from 'mitt'
 import { elFormEvents, elFormKey } from './token'
-import { FieldErrorList } from 'async-validator'
-import type { FormRulesMap } from './form.type'
 
+import type { FormRulesMap } from './form.type'
 import type { PropType } from 'vue'
 import type { ElFormItemContext as FormItemCtx, ValidateFieldCallback } from './token'
 

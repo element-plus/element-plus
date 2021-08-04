@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import ImgEmpty from './img-empty.vue'
 import { useLocaleInject } from '@element-plus/hooks'
+import ImgEmpty from './img-empty.vue'
 
 export default defineComponent({
   name: 'ElEmpty',
