@@ -1,36 +1,17 @@
-@charset "UTF-8";
 @use "sass:map";
 
 @import 'common/var';
 @import 'mixins/button';
 @import 'mixins/mixins';
 @import 'mixins/utils';
+@import 'mixins/var';
 
-$--button: () !default;
+@include b(button) {
+  @include set-component-css-var('button', $--button);
 
-@each $type in (primary, success, warning, danger, info) {
-  $--button: map.deep-merge(
-    $--button,
-    (
-      'border-color': (
-        $type: map.get($--colors, $type, 'base'),
-      ),
-      'font-color': (
-        $type: map.get($--colors, 'white'),
-      ),
-      'background-color': (
-        $type: map.get($--colors, $type, 'base'),
-      ),
-    )
-  ) !global;
-}
-
-:root {
   @each $type in (primary, success, warning, danger, info) {
     --el-button-#{$type}-border-color: var(--el-color-#{$type});
   }
-
-  --el-button-divide-border-color: #{rgba($--color-white, 0.5)};
 }
 
 @include b(button) {
@@ -42,7 +23,10 @@ $--button: () !default;
   background: var(--el-button-default-background-color);
   border: var(--el-border-base);
   border-color: var(--el-button-default-border-color);
-  color: var(--el-button-default-font-color);
+  color: var(
+    --el-button-default-font-color,
+    map.get($--button, 'default-font-color')
+  );
   -webkit-appearance: none;
   text-align: center;
   box-sizing: border-box;
@@ -65,8 +49,9 @@ $--button: () !default;
   &:hover,
   &:focus {
     color: var(--el-color-primary);
-    border-color: map.get($--colors, 'primary', 'light-7');
-    background-color: map.get($--colors, 'primary', 'light-9');
+    border-color: var(--el-color-primary-light-7);
+    background-color: var(--el-color-primary-light-9);
+    outline: none;
   }
 
   &:active {
@@ -184,9 +169,9 @@ $--button: () !default;
   @each $type in (primary, success, warning, danger, info) {
     @include m($type) {
       @include button-variant(
-        map.get($--button, 'font-color', $type),
-        map.get($--button, 'background-color', $type),
-        map.get($--button, 'border-color', $type)
+        map.get($--button-font-color, $type),
+        map.get($--button-background-color, $type),
+        map.get($--button-border-color, $type)
       );
     }
   }

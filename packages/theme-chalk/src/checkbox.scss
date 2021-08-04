@@ -2,6 +2,7 @@
 
 @import 'common/var';
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'mixins/_button';
 @import 'mixins/utils';
 
@@ -35,6 +36,7 @@ $--checkbox-bordered-input-width: map.merge(
 $--checkbox-bordered-height: () !default;
 $--checkbox-bordered-height: map.merge(
   (
+    'default': 40px,
     'medium': 36px,
     'small': 32px,
     'mini': 28px,
@@ -52,40 +54,9 @@ $--checkbox-line-height: map.merge(
   $--checkbox-line-height
 );
 
-:root {
-  --el-checkbox-font-size: 14px;
-  --el-checkbox-font-weight: var(--el-font-weight-primary);
-  --el-checkbox-font-color: var(--el-text-color-regular);
-  --el-checkbox-input-height: 14px;
-  --el-checkbox-input-width: 14px;
-  --el-checkbox-border-radius: var(--el-border-radius-small);
-  --el-checkbox-background-color: var(--el-color-white);
-  --el-checkbox-input-border: var(--el-border-base);
-
-  --el-checkbox-disabled-border-color: var(--el-border-color-base);
-  --el-checkbox-disabled-input-fill: #edf2fc;
-  --el-checkbox-disabled-icon-color: var(--el-text-color-placeholder);
-
-  --el-checkbox-disabled-checked-input-fill: var(--el-border-color-extra-light);
-  --el-checkbox-disabled-checked-input-border-color: var(
-    --el-border-color-base
-  );
-  --el-checkbox-disabled-checked-icon-color: var(--el-text-color-placeholder);
-
-  --el-checkbox-checked-font-color: var(--el-color-primary);
-  --el-checkbox-checked-input-border-color: var(--el-color-primary);
-  --el-checkbox-checked-background-color: var(--el-color-primary);
-  --el-checkbox-checked-icon-color: var(--el-fill-base);
-
-  --el-checkbox-input-border-color-hover: var(--el-color-primary);
-  --el-checkbox-bordered-height: 40px;
-
-  --el-checkbox-button-checked-background-color: var(--el-color-primary);
-  --el-checkbox-button-checked-font-color: var(--el-color-white);
-  --el-checkbox-button-checked-border-color: var(--el-color-primary);
-}
-
 @include b(checkbox) {
+  @include set-component-css-var('checkbox', $--checkbox);
+
   color: var(--el-checkbox-font-color);
   font-weight: var(--el-checkbox-font-weight);
   font-size: var(--el-font-size-base);
@@ -97,12 +68,12 @@ $--checkbox-line-height: map.merge(
   margin-right: 30px;
 
   @include when(bordered) {
-    padding: var(--el-checkbox-bordered-padding);
+    padding: map.get($--checkbox-bordered-padding, 'default');
     border-radius: var(--el-border-radius-base);
     border: var(--el-border-base);
     box-sizing: border-box;
     line-height: normal;
-    height: var(--el-checkbox-bordered-height);
+    height: map.get($--checkbox-bordered-height, 'default');
 
     &.is-checked {
       border-color: var(--el-color-primary);
@@ -310,10 +281,16 @@ $--checkbox-line-height: map.merge(
     white-space: nowrap;
     vertical-align: middle;
     cursor: pointer;
-    background: var(--el-button-default-background-color);
+    background: var(
+      --el-button-default-background-color,
+      map.get($--button, 'default-background-color')
+    );
     border: $--border-base;
     border-left: 0;
-    color: var(--el-button-default-font-color);
+    color: var(
+      --el-button-default-font-color,
+      map.get($--button, 'default-font-color')
+    );
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
@@ -365,15 +342,27 @@ $--checkbox-line-height: map.merge(
 
   &.is-disabled {
     & .#{$namespace}-checkbox-button__inner {
-      color: var(--el-button-disabled-font-color);
+      color: var(
+        --el-button-disabled-font-color,
+        map.get($--button, 'disabled-font-color')
+      );
       cursor: not-allowed;
       background-image: none;
-      background-color: var(--el-button-disabled-background-color);
-      border-color: var(--el-button-disabled-border-color);
+      background-color: var(
+        --el-button-disabled-background-color,
+        map.get($--button, 'disabled-background-color')
+      );
+      border-color: var(
+        --el-button-disabled-border-color,
+        map.get($--button, 'disabled-border-color')
+      );
       box-shadow: none;
     }
     &:first-child .#{$namespace}-checkbox-button__inner {
-      border-left-color: var(--el-button-disabled-border-color);
+      border-left-color: var(
+        --el-button-disabled-border-color,
+        map.get($--button, 'disabled-border-color')
+      );
     }
   }
 

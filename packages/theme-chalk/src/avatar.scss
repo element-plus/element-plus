@@ -1,18 +1,10 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
-:root {
-  --el-avatar-font-color: #fff;
-  --el-avatar-background-color: #c0c4cc;
-  --el-avatar-text-font-size: 14px;
-  --el-avatar-icon-font-size: 18px;
-  --el-avatar-border-radius: var(--el-border-radius-base);
-  --el-avatar-large-size: 40px;
-  --el-avatar-medium-size: 36px;
-  --el-avatar-small-size: 28px;
-}
-
 @include b(avatar) {
+  @include set-component-css-var('avatar', $--avatar);
+
   display: inline-block;
   box-sizing: border-box;
   text-align: center;

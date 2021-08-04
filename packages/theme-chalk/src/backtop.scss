@@ -1,13 +1,10 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
-:root {
-  --el-backtop-background-color: var(--el-color-white);
-  --el-backtop-font-color: var(--el-color-primary);
-  --el-backtop-hover-background-color: var(--el-border-color-extra-light);
-}
-
 @include b(backtop) {
+  @include set-component-css-var('backtop', $--backtop);
+
   position: fixed;
   background-color: var(--el-backtop-background-color);
   width: 40px;

@@ -1,6 +1,7 @@
 {
   "name": "element-theme-chalk",
-  "version": "2.11.1",
+  "private": "true",
+  "version": "0.0.0",
   "description": "Element component chalk theme.",
   "main": "lib/index.css",
   "style": "lib/index.css",
@@ -9,11 +10,12 @@
     "src"
   ],
   "scripts": {
+    "clean": "rm -rf lib",
     "build": "gulp build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ElementUI/theme-chalk.git"
+    "url": "git+https://github.com/element-plus/element-plus.git"
   },
   "keywords": [
     "element",
@@ -22,15 +24,25 @@
   "author": "yi.shyang@ele.me",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ElementUI/theme-chalk/issues"
+    "url": "https://github.com/element-plus/element-plus#issues"
   },
-  "homepage": "https://github.com/ElementUI/theme-chalk#readme",
+  "homepage": "https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/README.md",
   "devDependencies": {
+    "@types/gulp": "^4.0.9",
+    "@types/gulp-autoprefixer": "^0.0.33",
+    "@types/gulp-clean-css": "^4.3.0",
+    "@types/gulp-rename": "^2.0.1",
+    "@types/gulp-sass": "^5.0.0",
+    "@types/sass": "^1.16.1",
+    "chalk": "^4.1.2",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-cssmin": "^0.2.0",
-    "gulp-dart-sass": "^1.0.2",
-    "gulp-rename": "^2.0.0"
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.0.0",
+    "sass": "^1.37.0",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   },
   "dependencies": {}
 }

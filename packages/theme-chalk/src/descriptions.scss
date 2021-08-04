@@ -1,15 +1,11 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 @import 'descriptions-item';
 
-:root {
-  --el-descriptions-header-margin-bottom: 20px;
-  --el-descriptions-title-font-size: 16px;
-  --el-descriptions-table-border: 1px solid map.get($--border-color, 'lighter');
-  --el-descriptions-item-bordered-label-background: #fafafa;
-}
-
 @include b(descriptions) {
+  @include set-component-css-var('descriptions', $--descriptions);
+
   box-sizing: border-box;
   font-size: var(--el-font-size-base);
   color: var(--el-text-color-primary);

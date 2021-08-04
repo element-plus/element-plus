@@ -1,6 +1,7 @@
 @use "sass:map";
 
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
 $types: (primary, success, warning, info, danger);
@@ -9,21 +10,19 @@ $--tag-color: () !default;
 
 @each $type in $types {
   $--tag-color: map.merge(
-    $--tag-color,
     (
       $type: map.get($--colors, $type, 'base'),
-    )
+    ),
+    $--tag-color
   ) !global;
 }
 
-:root {
+@include b(tag) {
+  @include set-component-css-var('tag', $--tag);
+
   @each $type in $types {
     --el-tag-#{$type}-color: var(--el-color-#{$type});
   }
-
-  --el-tag-font-size: 12px;
-  --el-tag-border-radius: 4px;
-  --el-tag-padding: 0 10px;
 }
 
 @mixin genTheme(

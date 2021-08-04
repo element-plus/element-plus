@@ -38,10 +38,6 @@
   // Background
   --el-background-color-base: #{$--background-color-base};
 
-  // Link
-  --el-link-color: var(--el-color-primary-light-2);
-  --el-link-hover-color: var(--el-color-primary);
-
   // Border
   --el-border-width-base: #{$--border-width-base};
   --el-border-style-base: #{$--border-style-base};
@@ -85,26 +81,10 @@
   --el-disabled-color-base: var(--el-text-color-placeholder);
   --el-disabled-border-base: var(--el-border-color-light);
 
-  // some var for component, but because they are used in many places, need to be global
-  // button
-  --el-button-font-weight: var(--el-font-weight-primary);
-
-  --el-button-default-font-color: var(--el-text-color-regular);
-  --el-button-default-background-color: var(--el-color-white);
-  --el-button-default-border-color: var(--el-border-color-base);
-  --el-button-disabled-font-color: var(--el-text-color-placeholder);
-  --el-button-disabled-background-color: var(--el-color-white);
-  --el-button-disabled-border-color: var(--el-border-color-light);
-
-  // message
-  --el-message-close-size: 16px;
-}
-
-/* Transition
+  /* Transition
 -------------------------- */
-// refer to this website to get the bezier motion function detail
-//  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
-:root {
+  // refer to this website to get the bezier motion function detail
+  //  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
   --el-transition-duration: 0.3s;
   --el-transition-duration-fast: 0.2s;
   --el-ease-in-out-bezier-function: cubic-bezier(0.645, 0.045, 0.355, 1);

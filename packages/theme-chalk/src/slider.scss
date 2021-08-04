@@ -2,19 +2,24 @@
 
 @import 'mixins/mixins';
 @import 'mixins/utils';
+@import 'mixins/var';
 @import 'input-number';
 @import 'tooltip';
 @import 'common/var';
+
+@include b(slider) {
+  @include set-component-css-var('slider', $--slider);
+}
 
 @include b(slider) {
   @include utils-clearfix;
 
   @include e(runway) {
     width: 100%;
-    height: $--slider-height;
-    margin: $--slider-margin;
-    background-color: $--slider-runway-background-color;
-    border-radius: $--slider-border-radius;
+    height: var(--el-slider-height);
+    margin: var(--el-slider-margin);
+    background-color: var(--el-slider-runway-background-color);
+    border-radius: var(--el-slider-border-radius);
     position: relative;
     cursor: pointer;
     vertical-align: middle;
@@ -28,11 +33,11 @@
       cursor: default;
 
       .#{$namespace}-slider__bar {
-        background-color: $--slider-disable-color;
+        background-color: var(--el-slider-disable-color);
       }
 
       .#{$namespace}-slider__button {
-        border-color: $--slider-disable-color;
+        border-color: var(--el-slider-disable-color);
       }
 
       .#{$namespace}-slider__button-wrapper {
@@ -84,19 +89,19 @@
   }
 
   @include e(bar) {
-    height: $--slider-height;
-    background-color: $--slider-main-background-color;
-    border-top-left-radius: $--slider-border-radius;
-    border-bottom-left-radius: $--slider-border-radius;
+    height: var(--el-slider-height);
+    background-color: var(--el-slider-main-background-color);
+    border-top-left-radius: var(--el-slider-border-radius);
+    border-bottom-left-radius: var(--el-slider-border-radius);
     position: absolute;
   }
 
   @include e(button-wrapper) {
-    height: $--slider-button-wrapper-size;
-    width: $--slider-button-wrapper-size;
+    height: var(--el-slider-button-wrapper-size);
+    width: var(--el-slider-button-wrapper-size);
     position: absolute;
     z-index: 1;
-    top: $--slider-button-wrapper-offset;
+    top: var(--el-slider-button-wrapper-offset);
     transform: translateX(-50%);
     background-color: transparent;
     text-align: center;
@@ -117,11 +122,11 @@
 
   @include e(button) {
     display: inline-block;
-    width: $--slider-button-size;
-    height: $--slider-button-size;
+    width: var(--el-slider-button-size);
+    height: var(--el-slider-button-size);
     vertical-align: middle;
-    border: solid 2px $--slider-main-background-color;
-    background-color: $--color-white;
+    border: solid 2px var(--el-slider-main-background-color);
+    background-color: var(--el-color-white);
     border-radius: 50%;
     box-sizing: border-box;
     transition: var(--el-transition-duration-fast);
@@ -145,10 +150,10 @@
 
   @include e(stop) {
     position: absolute;
-    height: $--slider-height;
-    width: $--slider-height;
+    height: var(--el-slider-height);
+    width: var(--el-slider-height);
     border-radius: var(--el-border-radius-circle);
-    background-color: $--slider-stop-background-color;
+    background-color: var(--el-slider-stop-background-color);
     transform: translateX(-50%);
   }
 
@@ -170,18 +175,18 @@
   @include when(vertical) {
     position: relative;
     .#{$namespace}-slider__runway {
-      width: $--slider-height;
+      width: var(--el-slider-height);
       height: 100%;
       margin: 0 16px;
     }
     .#{$namespace}-slider__bar {
-      width: $--slider-height;
+      width: var(--el-slider-height);
       height: auto;
       border-radius: 0 0 3px 3px;
     }
     .#{$namespace}-slider__button-wrapper {
       top: auto;
-      left: $--slider-button-wrapper-offset;
+      left: var(--el-slider-button-wrapper-offset);
       transform: translateY(50%);
     }
     .#{$namespace}-slider__stop {
@@ -205,7 +210,7 @@
         .#{$namespace}-input-number__increase {
           top: map.get($--input-height, 'small');
           margin-top: -1px;
-          border: $--input-border;
+          border: var(--el-input-border, map.get($--input, 'border'));
           line-height: 20px;
           box-sizing: border-box;
           transition: var(--el-border-transition-base);
@@ -213,11 +218,17 @@
         .#{$namespace}-input-number__decrease {
           width: 18px;
           right: 18px;
-          border-bottom-left-radius: $--input-border-radius;
+          border-bottom-left-radius: var(
+            --el-input-border-radius,
+            map.get($--input, 'border-radius')
+          );
         }
         .#{$namespace}-input-number__increase {
           width: 19px;
-          border-bottom-right-radius: $--input-border-radius;
+          border-bottom-right-radius: var(
+            --el-input-border-radius,
+            map.get($--input, 'border-radius')
+          );
           & ~ .#{$namespace}-input .#{$namespace}-input__inner {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
@@ -226,13 +237,19 @@
         &:hover {
           .#{$namespace}-input-number__decrease,
           .#{$namespace}-input-number__increase {
-            border-color: $--input-hover-border;
+            border-color: var(
+              --el-input-hover-border,
+              map.get($--input, 'hover-border')
+            );
           }
         }
         &:active {
           .#{$namespace}-input-number__decrease,
           .#{$namespace}-input-number__increase {
-            border-color: $--input-focus-border;
+            border-color: var(
+              --el-input-focus-border,
+              map.get($--input, 'focus-border')
+            );
           }
         }
       }
