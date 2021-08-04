@@ -1,5 +1,5 @@
-@import "function";
-@import "../common/var";
+@import 'function';
+@import '../common/var';
 
 /* Break-points
  -------------------------- */
@@ -53,22 +53,22 @@
  -------------------------- */
 @mixin placeholder {
   &::-webkit-input-placeholder {
-    @content
+    @content;
   }
 
   &::-moz-placeholder {
-    @content
+    @content;
   }
 
   &:-ms-input-placeholder {
-    @content
+    @content;
   }
 }
 
 /* BEM
  -------------------------- */
 @mixin b($block) {
-  $B: $namespace+'-'+$block !global;
+  $B: $namespace + '-' + $block !global;
 
   .#{$B} {
     @content;
@@ -78,9 +78,14 @@
 @mixin e($element) {
   $E: $element !global;
   $selector: &;
-  $currentSelector: "";
+  $currentSelector: '';
   @each $unit in $element {
-    $currentSelector: #{$currentSelector + "." + $B + $element-separator + $unit + ","};
+    $currentSelector: #{$currentSelector +
+      '.' +
+      $B +
+      $element-separator +
+      $unit +
+      ','};
   }
 
   @if hitAllSpecialNestRule($selector) {
@@ -102,9 +107,13 @@
 
 @mixin m($modifier) {
   $selector: &;
-  $currentSelector: "";
+  $currentSelector: '';
   @each $unit in $modifier {
-    $currentSelector: #{$currentSelector + & + $modifier-separator + $unit + ","};
+    $currentSelector: #{$currentSelector +
+      $selector +
+      $modifier-separator +
+      $unit +
+      ','};
   }
 
   @at-root {
@@ -124,14 +133,19 @@
 
   @at-root {
     #{$selector} {
-      .#{$B+$interpolation+$modifier-separator+$modifier} {
+      .#{$B + $interpolation + $modifier-separator + $modifier} {
         @content;
       }
     }
   }
 }
 
-@mixin spec-selector($specSelector: '', $element: $E, $modifier: false, $block: $B) {
+@mixin spec-selector(
+  $specSelector: '',
+  $element: $E,
+  $modifier: false,
+  $block: $B
+) {
   $modifierCombo: '';
 
   @if $modifier {
@@ -139,7 +153,10 @@
   }
 
   @at-root {
-    #{&}#{$specSelector}.#{$block+$element-separator+$element+$modifierCombo} {
+    #{&}#{$specSelector}.#{$block
+      + $element-separator
+      + $element
+      + $modifierCombo} {
       @content;
     }
   }
@@ -155,7 +172,7 @@
 
   @at-root {
     #{$selector} {
-      .#{$block+$element-separator+$element+$modifierCombo} {
+      .#{$block + $element-separator + $element + $modifierCombo} {
         @content;
       }
     }
@@ -171,11 +188,11 @@
 }
 
 @mixin extend-rule($name) {
-  @extend #{'%shared-'+$name};
+  @extend #{'%shared-' + $name};
 }
 
 @mixin share-rule($name) {
-  $rule-name: '%shared-'+$name;
+  $rule-name: '%shared-' + $name;
 
   @at-root #{$rule-name} {
     @content;
@@ -189,7 +206,7 @@
 }
 
 @mixin picker-popper($background, $border, $box-shadow) {
-  &.#{$namespace}-popper[role="tooltip"] {
+  &.#{$namespace}-popper[role='tooltip'] {
     background: $background;
     border: $border;
     box-shadow: $box-shadow;
@@ -202,7 +219,7 @@
 
     @each $placement,
       $adjacency
-      in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
+        in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
     {
       &[data-popper-placement^='#{$placement}'] {
         .#{$namespace}-popper__arrow::before {

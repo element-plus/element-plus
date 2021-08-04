@@ -8,27 +8,27 @@
     </div>
     <ul ref="timeline" class="timeline">
     </ul>
-    <change-log-cn v-if="lang === 'zh-CN'" ref="changeLog" />
-    <change-log-es v-if="lang === 'es'" ref="changeLog" />
-    <change-log-en v-if="lang === 'en-US'" ref="changeLog" />
-    <change-log-fr v-if="lang === 'fr-FR'" ref="changeLog" />
-    <change-log-jp v-if="lang === 'jp'" ref="changeLog" />
+    <!-- <change-log-cn v-if="lang === 'zh-CN'" ref="changeLog" /> -->
+    <!-- <change-log-es v-if="lang === 'es'" ref="changeLog" /> -->
+    <change-log-en ref="changeLog" />
+    <!-- <change-log-fr v-if="lang === 'fr-FR'" ref="changeLog" /> -->
+    <!-- <change-log-jp v-if="lang === 'jp'" ref="changeLog" /> -->
   </div>
 </template>
 <script>
-import ChangeLogCn from '../../CHANGELOG.zh-CN.md'
-import ChangeLogEs from '../../CHANGELOG.es.md'
+// import ChangeLogCn from '../../CHANGELOG.zh-CN.md'
+// import ChangeLogEs from '../../CHANGELOG.es.md'
 import ChangeLogEn from '../../CHANGELOG.en-US.md'
-import ChangeLogFr from '../../CHANGELOG.fr-FR.md'
-import ChangeLogJp from '../../CHANGELOG.jp.md'
+// import ChangeLogFr from '../../CHANGELOG.fr-FR.md'
+// import ChangeLogJp from '../../CHANGELOG.jp.md'
 import pageLang from '../i18n/page.json'
 export default {
   components: {
-    ChangeLogCn,
-    ChangeLogEs,
+    // ChangeLogCn,
+    // ChangeLogEs,
     ChangeLogEn,
-    ChangeLogFr,
-    ChangeLogJp,
+    // ChangeLogFr,
+    // ChangeLogJp,
   },
   data() {
     return {

@@ -1,9 +1,11 @@
 <template>
-  <ul class="el-pager" @click="onPagerClick">
+  <ul class="el-pager" @click="onPagerClick" @keyup.enter="onEnter">
     <li
       v-if="pageCount > 0"
       :class="{ active: currentPage === 1, disabled }"
       class="number"
+      :aria-current="currentPage === 1"
+      tabindex="0"
     >
       1
     </li>
@@ -20,6 +22,8 @@
       :key="pager"
       :class="{ active: currentPage === pager, disabled }"
       class="number"
+      :aria-current="currentPage === pager"
+      tabindex="0"
     >
       {{ pager }}
     </li>
@@ -35,6 +39,8 @@
       v-if="pageCount > 1"
       :class="{ active: currentPage === pageCount, disabled }"
       class="number"
+      :aria-current="currentPage === pageCount"
+      tabindex="0"
     >
       {{ pageCount }}
     </li>
@@ -142,6 +148,16 @@ export default defineComponent({
       }
     }
 
+    function onEnter(e: UIEvent) {
+      const target = e.target as HTMLElement
+      if (target.tagName.toLowerCase() === 'li' && Array.from(target.classList).includes('number')) {
+        const newPage = Number(target.textContent)
+        if (newPage !== props.currentPage) {
+          emit('change', newPage)
+        }
+      }
+    }
+
     function onPagerClick(event: UIEvent) {
       const target = event.target as HTMLElement
       if (target.tagName.toLowerCase() === 'ul' || props.disabled) {
@@ -180,6 +196,7 @@ export default defineComponent({
       pagers,
       onMouseenter,
       onPagerClick,
+      onEnter,
     }
   },
 })

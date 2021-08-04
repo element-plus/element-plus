@@ -42,6 +42,39 @@ Affiche une notification globale dans un coin de la page.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, h } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElNotification({
+          title: 'Titre',
+          message: h('i', { style: 'color: teal' }, 'Ceci est un rappel'),
+        });
+      };
+
+      const open2 = () => {
+        ElNotification({
+          title: 'Prompt',
+          message: 'Ceci est un message qui ne se ferme pas',
+          duration: 0,
+        });
+      };
+
+      return {
+        open1,
+        open2,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -109,6 +142,55 @@ Nous fournissons quatre types: succès, avertissement, information et erreur.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElNotification({
+          title: 'Success',
+          message: 'Ceci est un message de succès',
+          type: 'success',
+        });
+      };
+
+      const open2 = () => {
+        ElNotification({
+          title: 'Warning',
+          message: 'Ceci est un avertissement',
+          type: 'warning',
+        });
+      };
+
+      const open3 = () => {
+        ElNotification({
+          title: 'Info',
+          message: 'Ceci est une information',
+        });
+      };
+
+      const open4 = () => {
+        ElNotification({
+          title: 'Error',
+          message: 'Ceci est une erreur',
+        });
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -177,6 +259,56 @@ La notification peut apparaître dans le coin de votre choix.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open1 = () => {
+        ElNotification({
+          title: 'Custom Position',
+          message: 'Je suis dans le coin supérieur droit',
+        });
+      };
+
+      const open2 = () => {
+        ElNotification({
+          title: 'Custom Position',
+          message: 'Je suis dans le coin inférieur droit',
+          position: 'bottom-right',
+        });
+      };
+
+      const open3 = () => {
+        ElNotification({
+          title: 'Custom Position',
+          message: 'Je suis dans le coin inférieur gauche',
+          position: 'bottom-left',
+        });
+      };
+
+      const open4 = () => {
+        ElNotification({
+          title: 'Custom Position',
+          message: 'Je suis dans le coin supérieur gauche',
+          position: 'top-left',
+        });
+      };
+      return {
+        open1,
+        open2,
+        open3,
+        open4,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -207,6 +339,31 @@ Vous pouvez décaler l'emplacement de la notification par rapport au bord de la 
     }
   }
 </script>
+<!--
+<setup>
+
+import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+export default defineComponent({
+  setup() {
+    
+    const open = () => {
+      ElNotification.success({
+        title: 'Success',
+        message: 'Ceci est un message de succès',
+        offset: 100,
+      });
+    };
+
+    return {
+      open,
+    };
+  },
+});
+
+</setup>
+-->
 ```
 :::
 
@@ -238,6 +395,31 @@ L'attribut `message` supporte le HTML.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElNotification({
+          title: 'HTML String',
+          dangerouslyUseHTMLString: true,
+          message: '<strong>Ceci est du <i>HTML</i></strong>',
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -273,6 +455,31 @@ Il est possible de cacher le bouton de fermeture.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+  import { ElNotification } from 'element-plus';
+
+  export default defineComponent({
+    setup() {
+      
+      const open = () => {
+        ElNotification.success({
+          title: 'Info',
+          message: 'Ceci est un message sans bouton de fermeture',
+          showClose: false,
+        });
+      };
+
+      return {
+        open,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 

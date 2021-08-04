@@ -1,11 +1,11 @@
-@import "../common/var";
+@import '../common/var';
 
 @include b(time-panel) {
   border-radius: 2px;
   position: relative;
   width: 180px;
   left: 0;
-  z-index: $--index-top;
+  z-index: var(--el-index-top);
   user-select: none;
   box-sizing: content-box;
 
@@ -14,8 +14,9 @@
     position: relative;
     overflow: hidden;
 
-    &::after, &::before {
-      content: "";
+    &::after,
+    &::before {
+      content: '';
       top: 50%;
       position: absolute;
       margin-top: -15px;
@@ -26,8 +27,8 @@
       box-sizing: border-box;
       padding-top: 6px;
       text-align: left;
-      border-top: 1px solid $--border-color-light;
-      border-bottom: 1px solid $--border-color-light;
+      border-top: 1px solid var(--el-border-color-light);
+      border-bottom: 1px solid var(--el-border-color-light);
     }
 
     &::after {
@@ -54,7 +55,7 @@
   }
 
   @include e(footer) {
-    border-top: 1px solid $--datepicker-inner-border-color;
+    border-top: 1px solid var(--el-datepicker-inner-border-color);
     padding: 4px;
     height: 36px;
     line-height: 25px;
@@ -71,11 +72,11 @@
     background-color: transparent;
     outline: none;
     font-size: 12px;
-    color: $--color-text-primary;
+    color: var(--el-text-color-primary);
 
     &.confirm {
       font-weight: 800;
-      color: $--datepicker-active-color;
+      color: var(--el-datepicker-active-color);
     }
   }
 }

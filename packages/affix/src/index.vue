@@ -40,10 +40,10 @@ export default defineComponent({
 
     const state = reactive({
       fixed: false,
-      height: 0,  // height of root
-      width: 0,  // width of root
+      height: 0, // height of root
+      width: 0, // width of root
       scrollTop: 0, // scrollTop of documentElement
-      clientHeight: 0,  // clientHeight of documentElement
+      clientHeight: 0, // clientHeight of documentElement
       transform: 0,
     })
 
@@ -71,7 +71,7 @@ export default defineComponent({
       }
     })
 
-    const updateState = () => {
+    const update = () => {
       const rootRect = root.value.getBoundingClientRect()
       const targetRect = target.value.getBoundingClientRect()
       state.height = rootRect.height
@@ -99,7 +99,7 @@ export default defineComponent({
     }
 
     const onScroll = () => {
-      updateState()
+      update()
 
       emit('scroll', {
         scrollTop: state.scrollTop,
@@ -122,12 +122,12 @@ export default defineComponent({
       }
       scrollContainer.value = getScrollContainer(root.value)
       on(scrollContainer.value, 'scroll', onScroll)
-      addResizeListener(root.value, updateState)
+      addResizeListener(root.value, update)
     })
 
     onBeforeUnmount(() => {
       off(scrollContainer.value, 'scroll', onScroll)
-      removeResizeListener(root.value, updateState)
+      removeResizeListener(root.value, update)
     })
 
     return {
@@ -135,6 +135,7 @@ export default defineComponent({
       state,
       rootStyle,
       affixStyle,
+      update,
     }
   },
 })

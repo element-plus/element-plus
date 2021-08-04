@@ -67,6 +67,28 @@ Top bar NavMenu puede ser usado en distinto escenarios.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const activeIndex = ref('1');
+      const activeIndex2 = ref('1');
+      const handleSelect = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        activeIndex,
+        activeIndex2,
+        handleSelect,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -171,6 +193,28 @@ NavMenu vertical con sub-menús.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      const handleClose = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        handleOpen,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -241,6 +285,30 @@ NavMenu vertical puede ser colapsado.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const isCollapse = ref(true);
+      const handleOpen = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      const handleClose = (key, keyPath) => {
+        console.log(key, keyPath);
+      };
+      return {
+        isCollapse,
+        handleOpen,
+        handleClose,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -268,7 +336,7 @@ NavMenu vertical puede ser colapsado.
 ### Eventos Menu
 | Nombre de evento | Descripción                              | Parámetros                               |
 | ---------------- | ---------------------------------------- | ---------------------------------------- |
-| select           | callback ejecutado cuando el menú es activado | index: índice del menú activado, indexPath: index path del menú activado |
+| select           | callback ejecutado cuando el menú es activado | index: índice del menú activado, indexPath: index path del menú activado, item: el elemento de menú seleccionado, routeResult: resultado devuelto por `vue-router` si `router` está activado |
 | open             | callback ejecutado cuando sub-menu se expande | index: índice del sub-menu expandido, indexPath: index path del sub-menu expandido |
 | close            | callback ejecutado cuando sub-menu colapsa | index: índice del sub-menu colapsado, indexPath: index path del menú colapsado |
 

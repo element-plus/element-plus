@@ -10,7 +10,8 @@
         'el-input-group--append': $slots.append,
         'el-input-group--prepend': $slots.prepend,
         'el-input--prefix': $slots.prefix || prefixIcon,
-        'el-input--suffix': $slots.suffix || suffixIcon || clearable || showPassword
+        'el-input--suffix': $slots.suffix || suffixIcon || clearable || showPassword,
+        'el-input--suffix--password-clear': clearable && showPassword
       },
       $attrs.class
     ]"
@@ -35,6 +36,7 @@
         :tabindex="tabindex"
         :aria-label="label"
         :placeholder="placeholder"
+        :style="inputStyle"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -68,7 +70,7 @@
           <i v-if="showPwdVisible" class="el-input__icon el-icon-view el-input__clear" @click="handlePasswordVisible"></i>
           <span v-if="isWordLimitVisible" class="el-input__count">
             <span class="el-input__count-inner">
-              {{ textLength }}/{{ upperLimit }}
+              {{ textLength }}/{{ maxlength }}
             </span>
           </span>
         </span>
@@ -88,7 +90,7 @@
       :disabled="inputDisabled"
       :readonly="readonly"
       :autocomplete="autocomplete"
-      :style="textareaStyle"
+      :style="computedTextareaStyle"
       :aria-label="label"
       :placeholder="placeholder"
       @compositionstart="handleCompositionStart"
@@ -101,7 +103,7 @@
       @keydown="handleKeydown"
     >
     </textarea>
-    <span v-if="isWordLimitVisible && type === 'textarea'" class="el-input__count">{{ textLength }}/{{ upperLimit }}</span>
+    <span v-if="isWordLimitVisible && type === 'textarea'" class="el-input__count">{{ textLength }}/{{ maxlength }}</span>
   </div>
 </template>
 
@@ -169,7 +171,6 @@ export default defineComponent({
     autocomplete: {
       type: String,
       default: 'off',
-      validator: (val: string) => ['on', 'off'].includes(val),
     },
     placeholder: {
       type: String,
@@ -210,11 +211,18 @@ export default defineComponent({
       type: String,
     },
     tabindex: {
-      type: String,
+      type: [Number, String],
     },
     validateEvent: {
       type: Boolean,
       default: true,
+    },
+    inputStyle: {
+      type: Object,
+      default: () => ({}),
+    },
+    maxlength: {
+      type: [Number, String],
     },
   },
 
@@ -235,20 +243,20 @@ export default defineComponent({
     const hovering = ref(false)
     const isComposing = ref(false)
     const passwordVisible = ref(false)
-    const _textareaCalcStyle = shallowRef({})
+    const _textareaCalcStyle = shallowRef(props.inputStyle)
 
     const inputOrTextarea = computed(() => input.value || textarea.value)
     const inputSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
     const needStatusIcon = computed(() => elForm.statusIcon)
     const validateState = computed(() => elFormItem.validateState || '')
     const validateIcon = computed(() => VALIDATE_STATE_MAP[validateState.value])
-    const textareaStyle = computed(() => ({
+    const computedTextareaStyle = computed(() => ({
+      ...props.inputStyle,
       ..._textareaCalcStyle.value,
       resize: props.resize,
     }))
     const inputDisabled = computed(() => props.disabled || elForm.disabled)
     const nativeInputValue = computed(() => (props.modelValue === null || props.modelValue === undefined) ? '' : String(props.modelValue))
-    const upperLimit = computed(() => ctx.attrs.maxlength)
     const showClear = computed(() => {
       return props.clearable &&
         !inputDisabled.value &&
@@ -264,18 +272,18 @@ export default defineComponent({
     })
     const isWordLimitVisible = computed(() => {
       return props.showWordLimit &&
-        ctx.attrs.maxlength &&
+        props.maxlength &&
         (props.type === 'text' || props.type === 'textarea') &&
         !inputDisabled.value &&
         !props.readonly &&
         !props.showPassword
     })
     const textLength = computed(() => {
-      return typeof props.modelValue === 'number' ? String(props.modelValue).length : (props.modelValue || '').length
+      return Array.from(nativeInputValue.value).length
     })
     const inputExceed = computed(() => {
       // show exceed style if length of initial value greater then maxlength
-      return isWordLimitVisible.value && (textLength.value > upperLimit.value)
+      return isWordLimitVisible.value && (textLength.value > Number(props.maxlength))
     })
 
     const resizeTextarea = () => {
@@ -286,7 +294,9 @@ export default defineComponent({
       if (autosize) {
         const minRows = isObject(autosize) ? autosize.minRows : void 0
         const maxRows = isObject(autosize) ? autosize.maxRows : void 0
-        _textareaCalcStyle.value = calcTextareaHeight(textarea.value, minRows, maxRows)
+        _textareaCalcStyle.value = {
+          ...calcTextareaHeight(textarea.value, minRows, maxRows),
+        }
       } else {
         _textareaCalcStyle.value = {
           minHeight: calcTextareaHeight(textarea.value).minHeight,
@@ -322,7 +332,7 @@ export default defineComponent({
     }
 
     const handleInput = event => {
-      const { value } = event.target
+      let { value } = event.target
 
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
@@ -330,7 +340,14 @@ export default defineComponent({
 
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
-      if (value === nativeInputValue.value) return
+      if (value === nativeInputValue.value ) return
+
+      // if set maxlength
+      if (props.maxlength) {
+        const sliceIndex = inputExceed.value ? textLength.value : props.maxlength
+        //  Convert value to an array for get a right lenght
+        value = Array.from(value).slice(0, Number(sliceIndex)).join('')
+      }
 
       ctx.emit(UPDATE_MODEL_EVENT, value)
       ctx.emit('input', value)
@@ -393,6 +410,7 @@ export default defineComponent({
       ctx.emit(UPDATE_MODEL_EVENT, '')
       ctx.emit('change', '')
       ctx.emit('clear')
+      ctx.emit('input', '')
     }
 
     const handlePasswordVisible = () => {
@@ -465,13 +483,12 @@ export default defineComponent({
       inputSize,
       validateState,
       validateIcon,
-      textareaStyle,
+      computedTextareaStyle,
       resizeTextarea,
       inputDisabled,
       showClear,
       showPwdVisible,
       isWordLimitVisible,
-      upperLimit,
       textLength,
       hovering,
       inputExceed,

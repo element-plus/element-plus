@@ -67,20 +67,21 @@ export default defineComponent({
     } = toRefs(states)
 
     const vm = getCurrentInstance().proxy
+    const key = (vm as unknown as SelectOptionProxy).value
     select.onOptionCreate(vm as unknown as SelectOptionProxy)
 
     onBeforeUnmount(() => {
       const { selected } = select
       let selectedOptions = select.props.multiple ? selected : [selected]
-      const doesExist = select.cachedOptions.has(props.value)
+      const doesExist = select.cachedOptions.has(key)
       const doesSelected = selectedOptions.some(item => {
         return item.value === (vm as unknown as SelectOptionProxy).value
       })
       // if option is not selected, remove it from cache
       if (doesExist && !doesSelected) {
-        select.cachedOptions.delete(props.value)
+        select.cachedOptions.delete(key)
       }
-      select.onOptionDestroy(props.value)
+      select.onOptionDestroy(key)
     })
 
     function selectOptionClick() {

@@ -66,7 +66,7 @@ Puede utilizar el evento `close` para añadir y eliminar etiquetas dinámicament
   v-model="inputValue"
   ref="saveTagInput"
   size="mini"
-  @keyup.enter.native="handleInputConfirm"
+  @keyup.enter="handleInputConfirm"
   @blur="handleInputConfirm"
 >
 </el-input>

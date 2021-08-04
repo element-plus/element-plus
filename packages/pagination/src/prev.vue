@@ -3,6 +3,7 @@
     type="button"
     class="btn-prev"
     :disabled="internalDisabled"
+    :aria-disabled="internalDisabled"
     @click.self.prevent
   >
     <span v-if="prevText ">{{ prevText }}</span>

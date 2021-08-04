@@ -1,5 +1,5 @@
 <template>
-  <footer class="el-footer" :style="{ height }">
+  <footer class="el-footer" :style="{ '--el-footer-height': height }">
     <slot></slot>
   </footer>
 </template>
@@ -11,7 +11,7 @@ export default defineComponent({
   props: {
     height: {
       type: String,
-      default: '60px',
+      default: null,
     },
   },
 })

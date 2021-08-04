@@ -22,6 +22,19 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref('1'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -45,6 +58,19 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref('selected and disabled'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -52,7 +78,7 @@
 
 相互に関連し、排他的なオプションから一つのボタンを選択するのに適しています。
 
-:::demo `el-radio-group` と `el-radio` を組み合わせてラジオグループを表示する。el-radio-group` 要素の `v-model` を変数にバインドし、ラベルの値を `el-radio` に設定する。また、現在の値をパラメータとした `change` イベントも提供する。
+:::demo `el-radio-group` と `el-radio` を組み合わせてラジオグループを表示する。`el-radio-group` 要素の `v-model` を変数にバインドし、ラベルの値を `el-radio` に設定する。また、現在の値をパラメータとした `change` イベントも提供する。
 
 ```html
 <el-radio-group v-model="radio">
@@ -70,6 +96,19 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio: ref(3),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -126,6 +165,22 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio1: ref('New York'),
+        radio2: ref('New York'),
+        radio3: ref('New York'),
+        radio4: ref('New York'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -168,6 +223,22 @@
     }
   }
 </script>
+<!--
+<setup>
+  import { defineComponent, ref } from 'vue'
+
+  export default defineComponent({
+    setup() {
+      return {
+        radio1: ref('1'),
+        radio2: ref('1'),
+        radio3: ref('1'),
+        radio4: ref('1'),
+      }
+    }
+  })
+</setup>
+-->
 ```
 :::
 
@@ -175,7 +246,7 @@
 
  Attribute      | Description          | Type      | Accepted Values       | Default
 ---- | ---- | ---- | ---- | ----
-value / v-model | バインド値 | string / number / boolean | — | —
+model-value / v-model | バインド値 | string / number / boolean | — | —
 label | ラジオの値 | string / number / boolean | — | —
 disabled | ラジオが無効になっているかどうか | boolean | — | false
 border  | ラジオの周りにボーダーを追加するかどうか  | boolean   | — | false
@@ -192,7 +263,7 @@ name | ネイティブ 'name' 属性 | string    |      —         |     —
 
  Attribute      | Description          | Type      | Accepted Values       | Default
 ---- | ---- | ---- | ---- | ----
-value / v-model | バインディング値 | string / number / boolean | — | —
+model-value / v-model | バインディング値 | string / number / boolean | — | —
 size | ラジオボタンのボーダーもしくはラジオボタンの大きさ | string | medium / small / mini | —
 disabled  | ネストしたラジオが無効になっているかどうか | boolean   | — | false
 text-color | ボタンがアクティブなときのフォント色 | string   | — | #ffffff   |

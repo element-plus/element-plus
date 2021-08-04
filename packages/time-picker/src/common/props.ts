@@ -1,5 +1,6 @@
-import type { PropType } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import type { PropType } from 'vue'
+import type { Options } from '@popperjs/core'
 export const defaultProps = {
   name: {
     type: [Array, String],
@@ -11,6 +12,9 @@ export const defaultProps = {
   },
   format: {
     type: String,
+  },
+  valueFormat: {
+    type: String as PropType<string>,
   },
   type: {
     type: String,
@@ -47,6 +51,10 @@ export const defaultProps = {
   placeholder: {
     type: String,
     default: '',
+  },
+  popperOptions: {
+    type: Object as PropType<Options>,
+    default: () => ({}),
   },
   modelValue: {
     type: [Date, Array, String] as PropType<string | Date | Date[]>,

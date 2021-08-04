@@ -1,4 +1,4 @@
-@import "../common/var";
+@import '../common/var';
 
 @include b(date-range-picker) {
   width: 646px;
@@ -25,11 +25,11 @@
     text-align: center;
     height: 28px;
 
-    [class*=arrow-left] {
+    [class*='arrow-left'] {
       float: left;
     }
 
-    [class*=arrow-right] {
+    [class*='arrow-right'] {
       float: right;
     }
 
@@ -48,10 +48,9 @@
     padding: 16px;
 
     @include when(left) {
-      border-right: 1px solid $--datepicker-inner-border-color;
+      border-right: 1px solid var(--el-datepicker-inner-border-color);
     }
     .#{$namespace}-date-range-picker__header {
-
       div {
         margin-left: 50px;
         margin-right: 50px;
@@ -70,7 +69,7 @@
 
   @include e(time-header) {
     position: relative;
-    border-bottom: 1px solid $--datepicker-inner-border-color;
+    border-bottom: 1px solid var(--el-datepicker-inner-border-color);
     font-size: 12px;
     padding: 8px 5px 5px 5px;
     display: table;
@@ -81,7 +80,7 @@
       font-size: 20px;
       vertical-align: middle;
       display: table-cell;
-      color: $--datepicker-icon-color;
+      color: var(--el-datepicker-icon-color);
     }
   }
 

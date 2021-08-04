@@ -125,7 +125,7 @@ describe('Checkbox', () => {
     expect(vm.checkList).toEqual(['a'])
   })
 
-  test('true false lable', async () => {
+  test('true false label', async () => {
     const wrapper = _mount(
       `<el-checkbox true-label="a" :false-label="3" v-model="checked"></el-checkbox>`,
       () => ({
@@ -154,6 +154,27 @@ describe('Checkbox', () => {
     ) as any
     expect(wrapper.vm.checked).toBe(true)
     expect(wrapper.vm.checklist).toEqual(['a'])
+  })
+
+  test('label', async() => {
+    const wrapper = _mount(
+      `
+      <div>
+        <el-checkbox-group v-model="checklist">
+          <el-checkbox label="">all</el-checkbox>
+          <el-checkbox label="a">a</el-checkbox>
+          <el-checkbox label="b">b</el-checkbox>
+        </el-checkbox-group>
+      </div>
+      `,
+      () => ({
+        checked: false,
+        checklist: [],
+      }),
+    )
+    const checkbox = wrapper.find('.el-checkbox')
+    await checkbox.trigger('click')
+    expect(wrapper.vm.checklist[0]).toEqual('')
   })
 })
 
@@ -330,4 +351,12 @@ describe('check-button', () => {
     expect(wrapper.vm.checked).toBe(true)
     expect(wrapper.vm.checklist).toEqual(['a'])
   })
+
+  test('checked', () => {
+    const wrapper = _mount(
+      `<el-checkbox checked />`,
+      () => ({}))
+    expect(wrapper.find('.el-checkbox').classes().toString()).toMatch('is-checked')
+  })
+
 })

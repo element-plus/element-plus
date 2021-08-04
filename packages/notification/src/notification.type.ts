@@ -2,11 +2,21 @@ import type { VNode } from 'vue'
 
 
 export type Position = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+export type NotificationType = 'success' | 'warning' | 'info' | 'error' | ''
+export type TypedNotificationOptions = Omit<INotificationOptions, 'type'> | string
+
 export interface INotificationHandle {
   close: () => void
 }
 
-export type INotification = (options?: INotificationOptions) => INotificationHandle
+export interface INotification {
+  (options?: INotificationOptions) : INotificationHandle
+  success?: (options: TypedNotificationOptions) => INotificationHandle
+  warning?: (options: TypedNotificationOptions) => INotificationHandle
+  error?: (options: TypedNotificationOptions) => INotificationHandle
+  info?: (options: TypedNotificationOptions) => INotificationHandle
+  closeAll: () => void
+}
 
 export type INotificationOptions = {
   customClass?: string
@@ -21,7 +31,7 @@ export type INotificationOptions = {
   offset?: number // defaults 0
   position?: Position // default top-right
   showClose?: boolean
-  type?: 'success' | 'warning' | 'info' | 'error' | ''
+  type?: NotificationType
   title?: string
 }
 

@@ -1,8 +1,11 @@
 import { getCurrentInstance, computed } from 'vue'
-import { Table, TableColumnCtx } from '../table.type'
-import { TableHeaderProps } from './table-header'
+import { TableColumnCtx } from '../table-column/defaults'
+import { Table } from '../table/defaults'
+import { TableHeaderProps } from './index'
 
-const getAllColumns = (columns: TableColumnCtx[]): TableColumnCtx[] => {
+const getAllColumns = <T>(
+  columns: TableColumnCtx<T>[],
+): TableColumnCtx<T>[] => {
   const result = []
   columns.forEach(column => {
     if (column.children) {
@@ -16,9 +19,11 @@ const getAllColumns = (columns: TableColumnCtx[]): TableColumnCtx[] => {
   return result
 }
 
-const convertToRows = (originColumns: TableColumnCtx[]): TableColumnCtx[] => {
+const convertToRows = <T>(
+  originColumns: TableColumnCtx<T>[],
+): TableColumnCtx<T>[] => {
   let maxLevel = 1
-  const traverse = (column: TableColumnCtx, parent: TableColumnCtx) => {
+  const traverse = (column: TableColumnCtx<T>, parent: TableColumnCtx<T>) => {
     if (parent) {
       column.level = parent.level + 1
       if (maxLevel < column.level) {
@@ -61,9 +66,9 @@ const convertToRows = (originColumns: TableColumnCtx[]): TableColumnCtx[] => {
   return rows
 }
 
-function useUtils(props: TableHeaderProps) {
+function useUtils<T>(props: TableHeaderProps<T>) {
   const instance = getCurrentInstance()
-  const parent = instance.parent as Table
+  const parent = instance.parent as Table<T>
   const columnRows = computed(() => {
     return convertToRows(props.store.states.originColumns.value)
   })

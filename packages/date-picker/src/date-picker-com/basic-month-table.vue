@@ -16,7 +16,7 @@
 import { hasClass } from '@element-plus/utils/dom'
 import { coerceTruthyValueToArray } from '@element-plus/utils/util'
 import { rangeArr } from '@element-plus/time-picker'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 import dayjs, { Dayjs } from 'dayjs'
 
 import {
@@ -26,8 +26,8 @@ import {
   PropType,
 } from 'vue'
 
-const datesInMonth = (year, month) => {
-  const firstDay = dayjs().startOf('month').month(month).year(year)
+const datesInMonth = (year, month, lang: string) => {
+  const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
   const numOfDays = firstDay.daysInMonth()
   return rangeArr(numOfDays).map(n => firstDay.add(n, 'day').toDate())
 }
@@ -66,6 +66,7 @@ export default defineComponent({
   emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
+    const { t, lang } = useLocaleInject()
     const months = ref(props.date.locale('en').localeData().monthsShort().map(_=>_.toLowerCase()))
     const tableRows = ref([ [], [], [] ])
     const lastRow = ref(null)
@@ -73,7 +74,7 @@ export default defineComponent({
     const rows = computed(() => {
       // TODO: refactory rows / getCellClasses
       const rows = tableRows.value
-      const now = dayjs().startOf('month')
+      const now = dayjs().locale(lang.value).startOf('month')
 
       for (let i = 0; i < 3; i++) {
         const row = rows[i]
@@ -93,7 +94,7 @@ export default defineComponent({
           cell.type = 'normal'
 
           const index = i * 4 + j
-          const calTime =  props.date.startOf('year').month(index)
+          const calTime = props.date.startOf('year').month(index)
 
           const calEndDate = props.rangeState.endDate || props.maxDate
             || props.rangeState.selecting && props.minDate
@@ -140,7 +141,7 @@ export default defineComponent({
       const month = cell.text
 
       style.disabled = props.disabledDate
-        ? datesInMonth(year, month).every(props.disabledDate)
+        ? datesInMonth(year, month, lang.value).every(props.disabledDate)
         : false
       style.current = coerceTruthyValueToArray(props.parsedValue).findIndex(date => date.year() === year && date.month() === month) >= 0
       style.today = today.getFullYear() === year && today.getMonth() === month

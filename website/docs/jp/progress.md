@@ -21,6 +21,22 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const format = (percentage) => (percentage === 100 ? 'Full' : `${percentage}%`);
+      return {
+        format,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -49,6 +65,7 @@
 <el-progress :percentage="percentage" :color="customColorMethod"></el-progress>
 
 <el-progress :percentage="percentage" :color="customColors"></el-progress>
+<el-progress :percentage="percentage2" :color="customColors"></el-progress>
 <div>
   <el-button-group>
     <el-button icon="el-icon-minus" @click="decrease"></el-button>
@@ -61,6 +78,7 @@
     data() {
       return {
         percentage: 20,
+        percentage2: 0,
         customColor: '#409eff',
         customColors: [
           {color: '#f56c6c', percentage: 20},
@@ -93,9 +111,63 @@
           this.percentage = 0;
         }
       }
+    },
+    mounted() {
+      setInterval(() => {
+        this.percentage2 = (this.percentage2 % 100) + 10
+      }, 500)
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        percentage: 20,
+        customColor: '#409eff',
+        customColors: [
+          { color: '#f56c6c', percentage: 20 },
+          { color: '#e6a23c', percentage: 40 },
+          { color: '#5cb87a', percentage: 60 },
+          { color: '#1989fa', percentage: 80 },
+          { color: '#6f7ad3', percentage: 100 },
+        ],
+      });
+      const customColorMethod = (percentage) => {
+        if (percentage < 30) {
+          return '#909399';
+        } if (percentage < 70) {
+          return '#e6a23c';
+        }
+        return '#67c23a';
+      };
+      const increase = () => {
+        state.percentage += 10;
+        if (state.percentage > 100) {
+          state.percentage = 100;
+        }
+      };
+      const decrease = () => {
+        state.percentage -= 10;
+        if (state.percentage < 0) {
+          state.percentage = 0;
+        }
+      };
+      return {
+        ...toRefs(state),
+        customColorMethod,
+        increase,
+        decrease,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -119,6 +191,7 @@
 
 ```html
 <el-progress type="dashboard" :percentage="percentage" :color="colors"></el-progress>
+<el-progress type="dashboard" :percentage="percentage2" :color="colors"></el-progress>
 <div>
   <el-button-group>
     <el-button icon="el-icon-minus" @click="decrease"></el-button>
@@ -131,6 +204,7 @@
     data() {
       return {
         percentage: 10,
+        percentage2: 0,
         colors: [
           {color: '#f56c6c', percentage: 20},
           {color: '#e6a23c', percentage: 40},
@@ -153,9 +227,59 @@
           this.percentage = 0;
         }
       }
+    },
+    mounted() {
+      setInterval(() => {
+        this.percentage2 = (this.percentage2 % 100) + 10
+      }, 500)
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, reactive, toRefs, onMounted } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const state = reactive({
+        percentage: 10,
+        percentage2: 0,
+        colors: [
+          { color: '#f56c6c', percentage: 20 },
+          { color: '#e6a23c', percentage: 40 },
+          { color: '#5cb87a', percentage: 60 },
+          { color: '#1989fa', percentage: 80 },
+          { color: '#6f7ad3', percentage: 100 },
+        ],
+      });
+      const increase = () => {
+        state.percentage += 10;
+        if (state.percentage > 100) {
+          state.percentage = 100;
+        }
+      };
+      const decrease = () => {
+        state.percentage -= 10;
+        if (state.percentage < 0) {
+          state.percentage = 0;
+        }
+      };
+      onMounted(() => {
+        setInterval(() => {
+          state.percentage2 = (state.percentage2 % 100) + 10
+        }, 500)
+      });
+      return {
+        ...toRefs(state),
+        increase,
+        decrease,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -202,26 +326,42 @@
     }
   };
 </script>
+<!--
+<setup>
+
+  import { defineComponent } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const format = (percentage) => (percentage === 100 ? 'Full' : `${percentage}%`);
+      return {
+        format,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
 ### 属性
-| Attribute      | Description          | Type      | Accepted Values       | Default  |
-| --- | ---- | ---- | ---- | ---- |
-| **percentage** | パーセンテージ、 **required** | number | 0-100 | 0 |
-| type | プログレスバーの種類 | string | line/circle/dashboard | line |
-| stroke-width | プログレスバーの幅 | number | — | 6 |
-| text-inside | パーセントをプログレスバーの中に配置するかどうか、`type`が 'line'の場合のみ動作します。 | boolean | — | false |
-| status | プログレスバーの現在の状態 | string | success/exception/warning | — |
-| indeterminate  | 操作にかかる時間を示しません | boolean | - | false |
-| duration  | indeterminateのプログレスバーのアニメーション期間 | number | - | 3 |
-| color  | プログレスバーの背景色を指定します。`status` プロップをオーバーライドします。 | string/function/array | — | '' |
-| width | サークルプログレスバーのキャンバス幅 | number | — | 126 |
-| show-text | パーセンテージ表示の有無 | boolean | — | true |
-| stroke-linecap  | 終点でのサークル/ダッシュボード型の形状 | string | butt/round/square | round |
-| format  | カスタムテキスト形式 | function(percentage) | — | — |
+| Attribute      | Description                                                                             | Type                  | Accepted Values           | Default |
+| -------------- | --------------------------------------------------------------------------------------- | --------------------- | ------------------------- | ------- |
+| **percentage** | パーセンテージ、 **required**                                                           | number                | 0-100                     | 0       |
+| type           | プログレスバーの種類                                                                    | string                | line/circle/dashboard     | line    |
+| stroke-width   | プログレスバーの幅                                                                      | number                | —                         | 6       |
+| text-inside    | パーセントをプログレスバーの中に配置するかどうか、`type`が 'line'の場合のみ動作します。 | boolean               | —                         | false   |
+| status         | プログレスバーの現在の状態                                                              | string                | success/exception/warning | —       |
+| indeterminate  | 操作にかかる時間を示しません                                                            | boolean               | -                         | false   |
+| duration       | indeterminateのプログレスバーのアニメーション期間                                       | number                | -                         | 3       |
+| color          | プログレスバーの背景色を指定します。`status` プロップをオーバーライドします。           | string/function/array | —                         | ''      |
+| width          | サークルプログレスバーのキャンバス幅                                                    | number                | —                         | 126     |
+| show-text      | パーセンテージ表示の有無                                                                | boolean               | —                         | true    |
+| stroke-linecap | 終点でのサークル/ダッシュボード型の形状                                                 | string                | butt/round/square         | round   |
+| format         | カスタムテキスト形式                                                                    | function(percentage)  | —                         | —       |
 
 ### Slot
-| name | Description |
-|------|--------|
+| name    | Description                                     |
+| ------- | ----------------------------------------------- |
 | default | Customized content, parameter is { percentage } |

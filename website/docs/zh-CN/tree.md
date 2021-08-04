@@ -799,7 +799,7 @@
 | props                 | 配置选项，具体看下表                               | object                      | —    | —     |
 | render-after-expand   | 是否在第一次展开某个树节点后才渲染其子节点         | boolean                      | —    | true |
 | load                  | 加载子树数据的方法，仅当 lazy 属性为true 时生效    | function(node, resolve)     | —    | —     |
-| render-content        | 树节点的内容区的渲染 Function                      | Function(h, { node, data, store }        | —    | —     |
+| render-content        | 树节点的内容区的渲染 Function                      | Function(h, { node, data, store })        | —    | —     |
 | highlight-current     | 是否高亮当前选中节点，默认值是 false。             | boolean                     | —    | false |
 | default-expand-all    | 是否默认展开所有节点                               | boolean                     | —    | false |
 | expand-on-click-node  | 是否在点击节点的时候展开或者收缩节点， 默认值为 true，如果为 false，则只有点箭头图标的时候才会展开或者收缩节点。 | boolean                     | —    | true  |

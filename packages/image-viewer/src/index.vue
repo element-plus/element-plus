@@ -69,7 +69,7 @@ import { defineComponent, computed, ref, onMounted, watch, nextTick, PropType } 
 import { rafThrottle, isFirefox } from '@element-plus/utils/util'
 import { on, off } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
-import { t } from '@element-plus/locale'
+import { useLocaleInject } from '@element-plus/hooks'
 
 const Mode = {
   CONTAIN: {
@@ -115,7 +115,7 @@ export default defineComponent({
   emits: [CLOSE_EVENT, SWITCH_EVENT],
 
   setup(props, { emit }) {
-    // init here
+    const { t } = useLocaleInject()
 
     let _keyDownHandler = null
     let _mouseWheelHandler = null
@@ -144,7 +144,7 @@ export default defineComponent({
     })
 
     const isLast = computed(() => {
-      return index.value === 0
+      return index.value === props.urlList.length - 1
     })
 
     const currentImg = computed(() => {

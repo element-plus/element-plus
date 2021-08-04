@@ -66,8 +66,9 @@ const ElCol = defineComponent({
       const pos = ['span', 'offset', 'pull', 'push'] as const
       pos.forEach(prop => {
         const size = props[prop]
-        if (typeof size === 'number' && size > 0) {
-          ret.push(prop !== 'span' ? `el-col-${prop}-${props[prop]}` : `el-col-${props[prop]}`)
+        if (typeof size === 'number') {
+          if(prop === 'span') ret.push(`el-col-${props[prop]}`)
+          else if(size > 0) ret.push(`el-col-${prop}-${props[prop]}`)
         }
       })
       const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const

@@ -48,32 +48,29 @@ describe('Form', () => {
       },
     })
     expect(findStyle(wrapper, '.el-form-item__label').width).toBe('80px')
-    expect(findStyle(wrapper, '.el-form-item__content').marginLeft).toBe('80px')
   })
 
-  /*
-  // commented out because no style support in JSDOM
   test('auto label width', async() => {
     const wrapper = mountForm({
       template: `
-        <el-form ref="form" :model="form" label-width="auto">
+        <el-form ref="form" :model="form" label-width="auto" :label-position="labelPosition">
           <el-form-item label="Name">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item label="Intro" v-if="display">
+          <el-form-item label="Intro">
             <el-input v-model="form.intro"></el-input>
           </el-form-item>
         </el-form>
       `,
       data() {
         return {
-          display: true,
           form: {
             name: '',
-            intro: ''
-          }
+            intro: '',
+          },
+          labelPosition: 'right',
         }
-      }
+      },
     })
 
     await nextTick()
@@ -83,14 +80,58 @@ describe('Form', () => {
     const marginLeft1 = parseInt(formItems[1].element.style.marginLeft, 10)
     expect(marginLeft).toEqual(marginLeft1)
 
-    wrapper.vm.display = false
+    wrapper.vm.labelPosition = 'left'
     await nextTick()
 
-    const formItemStyle = findStyle(wrapper, '.el-form-item__content')
-    const newMarginLeft = parseInt(formItemStyle.marginLeft, 10)
-    expect(newMarginLeft).toBeLessThan(marginLeft)
+    const formItems1 = wrapper.findAll<HTMLElement>('.el-form-item__content')
+    const marginRight = parseInt(formItems1[0].element.style.marginRight, 10)
+    const marginRight1 = parseInt(formItems1[1].element.style.marginRight, 10)
+    expect(marginRight).toEqual(marginRight1)
   })
-  */
+
+  test('form-item auto label width', async() => {
+    const wrapper = mountForm({
+      template: `
+        <el-form ref="form" label-position="right" label-width="150px" :model="form">
+          <el-form-item label="名称">
+            <el-input v-model="form.name" />
+          </el-form-item>
+          <el-form-item label="活动区域" label-width="auto">
+            <el-input v-model="form.region" />
+          </el-form-item>
+          <el-form-item label="活动形式(我是一个很长很长很长很长的label)" label-width="auto">
+            <el-input v-model="form.type" />
+          </el-form-item>
+        </el-form>
+      `,
+      data() {
+        return {
+          form: {
+            name: '',
+            region: '',
+            type: '',
+          },
+        }
+      },
+    })
+
+    await nextTick()
+
+    const formItemLabels = wrapper.findAll<HTMLElement>('.el-form-item__label')
+    const formItemLabelWraps = wrapper.findAll<HTMLElement>('.el-form-item__label-wrap')
+
+    const labelWrapMarginLeft1 = formItemLabelWraps[0].element.style.marginLeft
+    const labelWrapMarginLeft2 = formItemLabelWraps[1].element.style.marginLeft
+    expect(labelWrapMarginLeft1).toEqual(labelWrapMarginLeft2)
+    expect(labelWrapMarginLeft2).toEqual('')
+
+    const labelWidth0 = parseInt(formItemLabels[0].element.style.width, 10)
+    expect(labelWidth0).toEqual(150)
+    const labelWidth1 = formItemLabels[1].element.style.width
+    const labelWidth2 = formItemLabels[2].element.style.width
+    expect(labelWidth1).toEqual(labelWidth2)
+    expect(labelWidth2).toEqual('auto')
+  })
 
   test('inline form', () => {
     const wrapper = mountForm({

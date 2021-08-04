@@ -1,4 +1,5 @@
 import { nextTick } from 'vue'
+import { hasOwn } from '@vue/shared'
 import { createLoadingComponent } from './createLoadingComponent'
 import type { ILoadingGlobalConfig, ILoadingInstance, ILoadingOptions } from './loading.type'
 import { addClass, getStyle, removeClass } from '@element-plus/utils/dom'
@@ -8,6 +9,8 @@ import isServer from '@element-plus/utils/isServer'
 const defaults: ILoadingOptions = {
   parent: null,
   background: '',
+  svg: null,
+  svgViewBox: null,
   spinner: false,
   text: null,
   fullscreen: true,
@@ -122,7 +125,7 @@ const Loading = function (options: ILoadingOptions = {}): ILoadingInstance {
 
   // after instance render, then modify visible to trigger transition
   nextTick().then(() => {
-    instance.visible.value = options.hasOwnProperty('visible') ? options.visible : true
+    instance.visible.value = hasOwn(options, 'visible') ? options.visible : true
   })
 
   if (options.fullscreen) {

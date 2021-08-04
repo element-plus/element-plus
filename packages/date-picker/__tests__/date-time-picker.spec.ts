@@ -264,6 +264,33 @@ describe('Datetime Picker', () => {
       .map(node => Number(node.textContent))
     expect(disabledMinutes.length).toBe(19)
   })
+
+  it('defaultTime takes effect when the type is datetime', async () => {
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        type="datetime"
+        :default-time="defaultTime"
+    />`, () => ({
+      value: '',
+      defaultTime: new Date(2000, 1, 1, 12, 24, 48),
+    }))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const someDateTd = document.querySelector('.el-picker-panel__content tr:nth-child(3) td:nth-child(4)')
+    const timeInput = document.querySelector('.el-date-picker__time-header > span:nth-child(2) input');
+    (someDateTd as HTMLElement).click();
+    (timeInput as HTMLElement).focus()
+    await nextTick()
+    expect((timeInput as HTMLInputElement).value).toBe('12:24:48')
+    // time spinner highlight is correct
+    const spinners = document.querySelectorAll('.el-time-spinner ul li.active') as any
+    expect(spinners[0].textContent).toBe('12')
+    expect(spinners[1].textContent).toBe('24')
+    expect(spinners[2].textContent).toBe('48')
+  })
 })
 
 describe('Datetimerange', () => {
@@ -471,5 +498,62 @@ describe('Datetimerange', () => {
       .call(hoursEl2.querySelectorAll('.disabled'))
       .map(node => Number(node.textContent))
     expect(disabledHours2).toStrictEqual(disabledHoursRightArr)
+  })
+
+  it('select same date, different time', async () => {
+    const leftSelect = ['10', '59', '59']
+    const wrapper = _mount(`<el-date-picker
+        v-model="value"
+        type="datetimerange"
+    />`, () => ({
+      value: '',
+    }))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const pickers = document.querySelectorAll('.el-date-range-picker__content')
+    const leftCell = pickers[0].querySelector('td.available')
+    triggerEvent(leftCell, 'mousemove', true)
+    triggerEvent(leftCell, 'click', true)
+    await nextTick()
+    triggerEvent(leftCell, 'mousemove', true)
+    triggerEvent(leftCell, 'click', true)
+    await nextTick()
+    const leftTimeInput = document.querySelectorAll('.el-date-range-picker__editors-wrap input')[1] as HTMLInputElement
+    leftTimeInput.blur()
+    leftTimeInput.focus()
+    await nextTick()
+    const leftList = document.querySelectorAll('.el-time-spinner__list')
+    triggerEvent(leftList[0].children[+leftSelect[0]], 'click', true)
+    await nextTick()
+    triggerEvent(leftList[1].children[+leftSelect[1]], 'click', true)
+    await nextTick()
+    triggerEvent(leftList[2].children[+leftSelect[2]], 'click', true)
+    await nextTick();
+    (document.querySelector('.el-time-panel__btn.confirm') as HTMLElement).click()
+    await nextTick()
+    const rightTimeInput = document.querySelectorAll('.el-date-range-picker__editors-wrap input')[3] as HTMLInputElement
+    rightTimeInput.blur()
+    rightTimeInput.focus()
+    await nextTick()
+    const rightList = document.querySelectorAll('.is-right .el-time-spinner__list')
+    // auto set left time to right time
+    expect(rightList[0].querySelector('.el-time-spinner__item.active').innerHTML).toBe(leftSelect[0])
+    expect(rightList[1].querySelector('.el-time-spinner__item.active').innerHTML).toBe(leftSelect[1])
+    expect(rightList[2].querySelector('.el-time-spinner__item.active').innerHTML).toBe(leftSelect[2])
+    triggerEvent(rightList[0].children[12], 'click', true)
+    await nextTick()
+    triggerEvent(rightList[1].children[12], 'click', true)
+    await nextTick()
+    triggerEvent(rightList[2].children[12], 'click', true)
+    await nextTick();
+    (document.querySelector('.is-right .el-time-panel__btn.confirm') as HTMLElement).click()
+    await nextTick();
+    (document.querySelector('.el-picker-panel__footer .el-button--default') as HTMLElement).click()
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.map(_ => dayjs(_).format('HH:mm:ss')))
+      .toStrictEqual(['10:59:59', '12:12:12'])
   })
 })

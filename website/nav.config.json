@@ -37,7 +37,7 @@
       "name": "组件",
       "groups": [
         {
-          "groupName": "Basic",
+          "groupName": "基础",
           "list": [
             {
               "path": "/layout",
@@ -82,7 +82,16 @@
           ]
         },
         {
-          "groupName": "Form",
+          "groupName": "配置",
+          "list": [
+            {
+              "path": "/config-provider",
+              "title": "ConfigProvider 配置提供"
+            }
+          ]
+        },
+        {
+          "groupName": "表单",
           "list": [
             {
               "path": "/radio",
@@ -103,6 +112,11 @@
             {
               "path": "/select",
               "title": "Select 选择器"
+            },
+            {
+              "path": "/select-v2",
+              "title": "Select-V2 虚拟列表选择器",
+              "beta": true
             },
             {
               "path": "/cascader",
@@ -155,7 +169,7 @@
           ]
         },
         {
-          "groupName": "Data",
+          "groupName": "数据",
           "list": [
             {
               "path": "/table",
@@ -204,7 +218,7 @@
           ]
         },
         {
-          "groupName": "Notice",
+          "groupName": "提示",
           "list": [
             {
               "path": "/alert",
@@ -229,7 +243,7 @@
           ]
         },
         {
-          "groupName": "Navigation",
+          "groupName": "导航",
           "list": [
             {
               "path": "/affix",
@@ -408,6 +422,15 @@
           ]
         },
         {
+          "groupName": "Configuration",
+          "list": [
+            {
+              "path": "/config-provider",
+              "title": "ConfigProvider"
+            }
+          ]
+        },
+        {
           "groupName": "Form",
           "list": [
             {
@@ -429,6 +452,11 @@
             {
               "path": "/select",
               "title": "Select"
+            },
+            {
+              "path": "/select-v2",
+              "title": "Virtualized Select",
+              "beta": true
             },
             {
               "path": "/cascader",
@@ -734,6 +762,15 @@
           ]
         },
         {
+          "groupName": "Configuration",
+          "list": [
+            {
+              "path": "/config-provider",
+              "title": "ConfigProvider"
+            }
+          ]
+        },
+        {
           "groupName": "Form",
           "list": [
             {
@@ -755,6 +792,11 @@
             {
               "path": "/select",
               "title": "Select"
+            },
+            {
+              "path": "/select-v2",
+              "title": "Virtualized Select",
+              "beta": true
             },
             {
               "path": "/cascader",
@@ -1060,6 +1102,15 @@
           ]
         },
         {
+          "groupName": "Configuration",
+          "list": [
+            {
+              "path": "/config-provider",
+              "title": "ConfigProvider"
+            }
+          ]
+        },
+        {
           "groupName": "Formulaire",
           "list": [
             {
@@ -1081,6 +1132,11 @@
             {
               "path": "/select",
               "title": "Select"
+            },
+            {
+              "path": "/select-v2",
+              "title": "Virtualized Select",
+              "beta": true
             },
             {
               "path": "/cascader",
@@ -1341,7 +1397,7 @@
       "name": "Components",
       "groups": [
         {
-          "groupName": "Basic",
+          "groupName": "基本",
           "list": [
             {
               "path": "/layout",
@@ -1386,7 +1442,16 @@
           ]
         },
         {
-          "groupName": "Form",
+          "groupName": "コンフィギュレーション",
+          "list": [
+            {
+              "path": "/config-provider",
+              "title": "コンフィギュレーション"
+            }
+          ]
+        },
+        {
+          "groupName": "フォーム",
           "list": [
             {
               "path": "/radio",
@@ -1407,6 +1472,11 @@
             {
               "path": "/select",
               "title": "Select"
+            },
+            {
+              "path": "/select-v2",
+              "title": "Virtualized Select",
+              "beta": true
             },
             {
               "path": "/cascader",
@@ -1459,7 +1529,7 @@
           ]
         },
         {
-          "groupName": "Data",
+          "groupName": "データ",
           "list": [
             {
               "path": "/table",
@@ -1504,7 +1574,7 @@
           ]
         },
         {
-          "groupName": "Notice",
+          "groupName": "通知",
           "list": [
             {
               "path": "/alert",
@@ -1529,7 +1599,7 @@
           ]
         },
         {
-          "groupName": "Navigation",
+          "groupName": "ナビゲーション",
           "list": [
             {
               "path": "/affix",
@@ -1562,7 +1632,7 @@
           ]
         },
         {
-          "groupName": "Others",
+          "groupName": "ほか",
           "list": [
             {
               "path": "/dialog",

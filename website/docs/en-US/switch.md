@@ -196,7 +196,7 @@ Switch is used for switching between two opposing states.
 
 | Attribute           | Description                                                                                                                                     | Type                      | Accepted Values | Default |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------------- | ------- |
-| value / v-model     | binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type                             | boolean / string / number | —               | —       |
+| model-value / v-model     | binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type                             | boolean / string / number | —               | —       |
 | disabled            | whether Switch is disabled                                                                                                                      | boolean                   | —               | false   |
 | loading             | whether Switch is in loading state                                                                                                              | boolean                   | —               | false   |
 | width               | width of Switch                                                                                                                                 | number                    | —               | 40      |

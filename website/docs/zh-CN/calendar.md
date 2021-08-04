@@ -18,6 +18,23 @@
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value = ref(new Date());
+
+      return {
+        value,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -58,7 +75,7 @@
 ### Attributes
 | 参数             | 说明          | 类型      | 可选值        | 默认值  |
 |-----------------|-------------- |---------- |------------ |-------- |
-| value / v-model | 绑定值         | Date | —  | —      |
+| model-value / v-model | 绑定值         | Date | —  | —      |
 | range           | 时间范围，包括开始时间与结束时间。开始时间必须是周起始日，结束时间必须是周结束日，且时间跨度不能超过两个月。 | [Date]Array     | —           | —      |
 
 ### dateCell scoped slot 参数

@@ -32,13 +32,13 @@ This project is still under heavy development. Feel free to join us and make you
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://www.duohui.cn/?utm_source=element&utm_medium=web&utm_campaign=element-index" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/10731096/100414179-11741980-30b4-11eb-9ee3-4d0a30d4e21d.png">
+        <a href="https://bit.dev/?from=element-ui" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://bit.dev/?from=element-ui" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
+        <a href="https://www.renren.io/?from=element-ui" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/82012629/126620778-0d8ab509-018a-45d7-b8de-a5bac2ad519a.png">
         </a>
       </td>
     </tr>
@@ -53,6 +53,10 @@ You can find for more details, API, and other docs on [https://element-plus.org]
 国内[加速镜像站点](https://element-plus.gitee.io/)
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
+
+## Breaking change list
+
+You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/issues/162).
 
 ## Bootstrap project
 With command
@@ -99,4 +103,20 @@ Example
 [TYPE](SCOPE):DESCRIPTION#[ISSUE]
 # example feat(button):add type 'button' for form usage #1234
 ```
+
+## Licence
+
+ElementPlus is open source software licensed as
+[MIT](https://github.com/element-plus/element-plus/blob/master/LICENSE).
+
+
+## Contributors
+
+This project wouldn't exist without our amazing contributors
+
+<a href="https://github.com/element-plus/element-plus/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />
+</a>
+
+
 

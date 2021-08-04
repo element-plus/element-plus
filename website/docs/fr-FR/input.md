@@ -567,7 +567,7 @@ export default defineComponent({
 
 ### Taille limite
 
-:::demo `maxlength` et `minlength` sont des attributs natifs, indiquant la taille limite de l'input. Le nombre de caractères est mesuré par la taille de la chaine Javascript. Si vous utilisez `maxlength`, vous pourrez montrer le nombre de caractères en mettant `show-word-limit` à `true`.
+:::demo `maxlength` et `minlength` des attributs, indiquant la taille limite de l'input. Le nombre de caractères est mesuré par la taille de la chaine Javascript. Si vous utilisez `maxlength`, vous pourrez montrer le nombre de caractères en mettant `show-word-limit` à `true`.
 
 ```html
 <el-input
@@ -607,8 +607,8 @@ export default defineComponent ({
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 | ----| ----| ----| ---- | ----- |
 | type| Type de l'input. | string | text, textarea et autres [types d'input natifs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text |
-| modelValue / v-model | Variable liée. | string / number | — | — |
-| maxlength| Identique à `maxlength` dans l'input natif. | number| — | — |
+| model-value / v-model | Variable liée. | string / number | — | — |
+| maxlength| La longueur maximale. | string / number | — | — |
 | minlength| Identique à `minlength` dans l'input natif. | number | — | — |
 | show-word-limit | Affiche le nombre de caractères restant， ne marche que lorsque `type` est 'text' ou 'textarea'. | boolean    |  —  | false |
 | placeholder| Placeholder de l' Input. | string | — | — |
@@ -620,7 +620,7 @@ export default defineComponent ({
 | suffix-icon   | Classe de l'iĉone de suffixe.  | string          | — | — |
 | rows | Nombre de ligne pour une zone de texte, ne marche que si `type` est 'textarea'. | number | — | 2 |
 | autosize | Si la zone de texte à une hauteur adaptative, ne marche que si `type` est 'textarea'. Peut accepter un objet, e.g. { minRows: 2, maxRows: 6 }  | boolean / object | — | false |
-| autocomplete | Identique à `autocomplete` dans l'input natif. | string | on / off | off |
+| autocomplete | Identique à `autocomplete` dans l'input natif. | string | — | off |
 | name | Identique à `name` dans l'input natif. | string | — | — |
 | readonly | Identique à `readonly` dans l'input natif. | boolean | — | false |
 | max | Identique à `max` dans l'input natif. | — | — | — |
@@ -630,8 +630,9 @@ export default defineComponent ({
 | autofocus | Identique à `autofocus` dans l'input natif. | boolean | — | false |
 | form | Identique à `form` dans l'input natif. | string | — | — |
 | label | Texte du label. | string | — | — |
-| tabindex | tabindex de l'input. | string | - | - |
+| tabindex | tabindex de l'input. | string / number | - | - |
 | validate-event | Si la validation doit avoir lieu. | boolean | - | true |
+| input-style | the style of the input element or textarea element | object | - | {} |
 
 ### Slots de l'Input
 
@@ -670,7 +671,7 @@ export default defineComponent ({
 | disabled | Si l'autocomplétion est déactivée. | boolean | — | false|
 | value-key | Nom de la clé de l'objet suggestion pour l'affichage. | string | — | value |
 | icon | Nom de l'icône. | string | — | — |
-| value | Variable liée. | string | — | — |
+| model-value / v-model | Variable liée. | string | — | — |
 | debounce | Délai d'attente après écriture, en millisecondes. | number | — | 300 |
 | placement | Emplacement du menu popup. | string | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
 | fetch-suggestions | La méthode pour rechercher les suggestions. Lorsqu'elles sont prêtes, appelle `callback(data:[])` pour les renvoyer à l'autocomplétion. | Function(queryString, callback) | — | — |

@@ -56,7 +56,7 @@ const LOAD_DOCS_MAP = {
     return getAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/fr-FR${path}.md`))
   },
   [Language.JP]: path => {
-    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS fr-FR" */ `./docs/jp${path}.md`))
+    return getAsyncComponent(() => import(/* webpackChunkName: "DOCS jp" */ `./docs/jp${path}.md`))
   },
 }
 

@@ -569,7 +569,7 @@ Quand les données changent dynamiquement, vous pouvez avoir besoin d'une hauteu
       width="120">
       <template #default="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.prevent="deleteRow(scope.$index, tableData)"
           type="text"
           size="small">
           Supprimer
@@ -1089,7 +1089,7 @@ Vous pouvez filtrer la table pour obtenir rapidement les lignes désirées.
 
 Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres composants.
 
-:::demo Vous avez acccès aux données suivantes: `row`, `column`, `$index` et `store` (gestionnaire d'état de Table) grâce aux [Scoped slot](https://vuejs.org/v2/guide/components.html#Scoped-Slots).
+:::demo Vous avez acccès aux données suivantes: `row`, `column`, `$index` et `store` (gestionnaire d'état de Table) grâce aux [slot](https://v3.vuejs.org/guide/component-slots.html).
 ```html
 <template>
   <el-table
@@ -1175,7 +1175,7 @@ Vous pouvez customiser le contenu des colonnes afin de pouvoir utiliser d'autres
 
 Vous pouvez également personnaliser le header de la table.
 
-:::demo Vous pouvez personnaliser le header grâce aux [slots avec portée](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots).
+:::demo Vous pouvez personnaliser le header grâce aux [slots](https://v3.vuejs.org/guide/component-slots.html).
 ```html
 <template>
   <el-table
@@ -1820,38 +1820,38 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |----------------|----------------------|-----------|-----------------------|----------|
 | data | Les données de la table. | array | — | — |
-| height | La hauteur de la table. Par défaut la hauteur est `auto`. Si sa valeur est un nombre, la hauteur est en px; si c'est un string, la valeur est assigné au style.height de l'élement. La hauteur est affectée par les styles externes. | string/number | — | — |
-| max-height | Table's max-height. The legal value is a number or the height in px. | string/number | — | — |
+| height | La hauteur de la table. Par défaut la hauteur est `auto`. Si sa valeur est un nombre, la hauteur est en px; si c'est un string, la valeur est assigné au style.height de l'élement. La hauteur est affectée par les styles externes. | string / number | — | — |
+| max-height | Table's max-height. The legal value is a number or the height in px. | string / number | — | — |
 | stripe | Si la table est rayée. | boolean | — | false |
 | border | Si la table à une bordure verticale. | boolean | — | false |
 | size | Taille de la table. | string | medium / small / mini | — |
 | fit | Si la largeur des colonnes s'adapte au conteneur. | boolean | — | true |
 | show-header | Si le header de la table est visible. | boolean | — | true |
 | highlight-current-row | Si la ligne courante est mise en valeur. | boolean | — | false |
-| current-row-key | Clé de la ligne actuelle. Propriété set-only. | string,number | — | — |
-| row-class-name | Fonction qui retourne un nom de classe pour chaque ligne. Peut aussi être une simple chaîne de caractères assignant une classe à chaque ligne. | Function({row, rowIndex})/String | — | — |
-| row-style | Fonction qui retourne un style pour chaque ligne. Peut aussi être un objet assignant un style à chaque ligne. | Function({row, rowIndex})/Object | — | — |
-| cell-class-name | Fonction qui retourne un nom de classe pour chaque cellule. Peut aussi être une simple chaîne de caractères assignant une classe à chaque cellule. | Function({row, column, rowIndex, columnIndex})/String | — | — |
-| cell-style | Fonction qui retourne un style pour chaque cellule. Peut aussi être un objet assignant un style à chaque cellule. | Function({row, column, rowIndex, columnIndex})/Object | — | — |
-| header-row-class-name | Fonction qui retourne un nom de classe pour chaque ligne de header. Peut aussi être une simple chaîne de caractères assignant une classe à chaque ligne de header. | Function({row, rowIndex})/String | — | — |
-| header-row-style | Fonction qui retourne un style pour chaque ligne de header. Peut aussi être un objet assignant un style à chaque ligne de header. | Function({row, rowIndex})/Object | — | — |
-| header-cell-class-name | Fonction qui retourne un nom de classe pour chaque cellule de header. Peut aussi être une simple chaîne de caractères assignant une classe à chaque cellule de header. | Function({row, column, rowIndex, columnIndex})/String | — | — |
-| header-cell-style | Fonction qui retourne un style pour chaque cellule de header. Peut aussi être un objet assignant un style à chaque cellule de header. | Function({row, column, rowIndex, columnIndex})/Object | — | — |
-| row-key | Clé de chaque ligne, utilisée pour optimiser le rendu. Requise si `reserve-selection` est activé. Quand c'est un `String`, l'accès multi-niveaux est supporté, e.g. `user.info.id`, mais `user.info[0].id` n'est pas supporté. Dans ce dernier cas une `Function` devrait être utilisée. | Function(row)/String | — | — |
-| empty-text | Texte à afficher quand il n'y a pas de données. Vous pouvez changer cette zone grâce à `#empty`. | String | — | No Data |
-| default-expand-all | whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data | Boolean | — | false |
-| expand-row-keys | Détermine les lignes qui sont étendues, contient les clés des lignes correspondantes. Vous devriez configurer `row-key` avant celle-ci. | Array | — | |
-| default-sort | Détermine l'ordre de tri par défaut. La propriété `prop` détermine la colonne par défaut, `order` détermine l'ordre par défaut. | Object | `order`: ascending, descending | Si `order` est absent, son défaut sera `ascending`. |
-| tooltip-effect | Propriété `effect` de Tooltip. | String | dark/light | | dark |
-| show-summary | Si une ligne de somme doit apparaître. | Boolean | — | false |
-| sum-text | Le label de la première cellule de la ligne de somme. | String | — | Sum |
-| summary-method | La méthode pour calculer la somme. | Function({ columns, data }) | — | — |
-| span-method | Méthode qui retourne les valeurs de colspan et rowspan. | Function({ row, column, rowIndex, columnIndex }) | — | — |
-| select-on-indeterminate | Contrôle le comportement de la checkbox globale dans les tables avec sélection multiple lorsque seulement certaines lignes sont sélectionnées. Si `true`, toutes les lignes sont sélectionnées. | Boolean | — | true |
-| indent                  | horizontal indentation of tree data      | Number    | — | 16   |
-| lazy                    | whether to lazy loading data             | Boolean   | — | —    |
-| load                    | method for loading child row data, only works when `lazy` is true | Function({ row, treeNode, resolve }) | — | — |
-| tree-props              | configuration for rendering nested data | Object | — | { hasChildren: 'hasChildren', children: 'children' } |
+| current-row-key | Clé de la ligne actuelle. Propriété set-only. | string / number | — | — |
+| row-class-name | Fonction qui retourne un nom de classe pour chaque ligne. Peut aussi être une simple chaîne de caractères assignant une classe à chaque ligne. | function({ row, rowIndex }) / string | — | — |
+| row-style | Fonction qui retourne un style pour chaque ligne. Peut aussi être un objet assignant un style à chaque ligne. | function({ row, rowIndex }) / object | — | — |
+| cell-class-name | Fonction qui retourne un nom de classe pour chaque cellule. Peut aussi être une simple chaîne de caractères assignant une classe à chaque cellule. | function({ row, column, rowIndex, columnIndex }) / string | — | — |
+| cell-style | Fonction qui retourne un style pour chaque cellule. Peut aussi être un objet assignant un style à chaque cellule. | function({ row, column, rowIndex, columnIndex }) / object | — | — |
+| header-row-class-name | Fonction qui retourne un nom de classe pour chaque ligne de header. Peut aussi être une simple chaîne de caractères assignant une classe à chaque ligne de header. | function({ row, rowIndex }) / string | — | — |
+| header-row-style | Fonction qui retourne un style pour chaque ligne de header. Peut aussi être un objet assignant un style à chaque ligne de header. | function({ row, rowIndex }) / object | — | — |
+| header-cell-class-name | Fonction qui retourne un nom de classe pour chaque cellule de header. Peut aussi être une simple chaîne de caractères assignant une classe à chaque cellule de header. | function({ row, column, rowIndex, columnIndex }) / string | — | — |
+| header-cell-style | Fonction qui retourne un style pour chaque cellule de header. Peut aussi être un objet assignant un style à chaque cellule de header. | function({ row, column, rowIndex, columnIndex }) / object | — | — |
+| row-key | Clé de chaque ligne, utilisée pour optimiser le rendu. Requise si `reserve-selection` est activé. Quand c'est un `String`, l'accès multi-niveaux est supporté, e.g. `user.info.id`, mais `user.info[0].id` n'est pas supporté. Dans ce dernier cas une `Function` devrait être utilisée. | function(row) / string | — | — |
+| empty-text | Texte à afficher quand il n'y a pas de données. Vous pouvez changer cette zone grâce à `#empty`. | string | — | No Data |
+| default-expand-all | whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data | boolean | — | false |
+| expand-row-keys | Détermine les lignes qui sont étendues, contient les clés des lignes correspondantes. Vous devriez configurer `row-key` avant celle-ci. | array | — | — |
+| default-sort | Détermine l'ordre de tri par défaut. La propriété `prop` détermine la colonne par défaut, `order` détermine l'ordre par défaut. | object | `order`: ascending / descending | Si `order` est absent, son défaut sera `ascending`. |
+| tooltip-effect | Propriété `effect` de Tooltip. | string | dark / light | dark |
+| show-summary | Si une ligne de somme doit apparaître. | boolean | — | false |
+| sum-text | Le label de la première cellule de la ligne de somme. | string | — | Sum |
+| summary-method | La méthode pour calculer la somme. | function({ columns, data }) | — | — |
+| span-method | Méthode qui retourne les valeurs de colspan et rowspan. | function({ row, column, rowIndex, columnIndex }) | — | — |
+| select-on-indeterminate | Contrôle le comportement de la checkbox globale dans les tables avec sélection multiple lorsque seulement certaines lignes sont sélectionnées. Si `true`, toutes les lignes sont sélectionnées. | boolean | — | true |
+| indent                  | horizontal indentation of tree data      | number    | — | 16   |
+| lazy                    | whether to lazy loading data             | boolean   | — | —    |
+| load                    | method for loading child row data, only works when `lazy` is true | function({ row, treeNode, resolve }) | — | — |
+| tree-props              | configuration for rendering nested data | object | — | { hasChildren: 'hasChildren', children: 'children' } |
 
 ### Évènements de Table
 
@@ -1864,6 +1864,7 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 | cell-mouse-leave | Se déclenche quand la souris sort d'une cellule. | row, column, cell, event |
 | cell-click | Se déclenche quand l'utilisateur clique sur une cellule. | row, column, cell, event |
 | cell-dblclick | Se déclenche quand l'utilisateur double-clique sur une cellule. | row, column, cell, event |
+| cell-contextmenu | Se déclenche quand l'utilisateur fait un clic droit sur une cellule. | row, column, cell, event |
 | row-click | Se déclenche quand l'utilisateur clique sur une ligne. | row, column, event |
 | row-contextmenu | Se déclenche quand l'utilisateur fait un clic droit sur une ligne. | row, column, event |
 | row-dblclick | Se déclenche quand l'utilisateur double-clique sur une ligne. | row, column, event |
@@ -1881,7 +1882,7 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 |------|--------|-------|
 | clearSelection | Dans les tables avec sélection multiple, efface la sélection. | — |
 | toggleRowSelection | Dans les tables avec sélection multiple, change la sélection d'une ligne. Grâce au deuxième paramètre vous pouvez directement décider si cette ligne est sélectionnée. | row, selected |
-| toggleAllSelection | Utilisé dans les tables à sélection multiples, toggle select all and deselect all | - |
+| toggleAllSelection | Utilisé dans les tables à sélection multiples, toggle select all and deselect all | — |
 | toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | row, expanded |
 | setCurrentRow | Dans les tables à sélection simple, sélectionne une ligne. Sans paramètre la sélection est effacé. | row |
 | clearSort | Efface le tri. | — |
@@ -1899,33 +1900,33 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| type | Type de la colonne. Si mis à `selection`, la colonne affichera des checkbox. Si mis à `index`, la colonne affichera l'indice de la ligne (début à 1). Si mis à `expand`, affichera l'icône d'extension.  | string | selection/index/expand | — |
-| index | Personnalise les indices de chaque ligne, marche avec les colonnes `type=index`. | number, Function(index) | - | - |
+| type | Type de la colonne. Si mis à `selection`, la colonne affichera des checkbox. Si mis à `index`, la colonne affichera l'indice de la ligne (début à 1). Si mis à `expand`, affichera l'icône d'extension.  | string | selection / index / expand | — |
+| index | Personnalise les indices de chaque ligne, marche avec les colonnes `type=index`. | number / function(index) | — | — |
 | label | Label de la colonne. | string | — | — |
 | column-key | La clé de la colonne. Si vous avez besoin d'utiliser l'évènement filter-change, vous aurez besoin de cet attribut pour savoir quelle colonne est filtrée. | string | string | — | — |
 | prop | Nom du champ de l'objet de données. Alias: `property`. | string | — | — |
-| width | Largeur de la colonne. | string | — | — |
-| min-width | Largeur minimale de la colonne. Les colonnes avec `width` ont une largeur fixe, alors que celles avec `min-width` ont une largeur proportionnellement distribuée. | string | — | — |
-| fixed | Si la colonne est fixée à droite ou à gauche. Fixée à gauche si `true`. | string/boolean | true/left/right | — |
-| render-header | Fonction de rendu pour le header de cette colonne. | Function({ column, $index }) | — | — |
-| sortable | Si la colonne peut être triée. Tri dynamique possible en mettant à 'custom' et en écoutant l'évènement `sort-change` de Table. | boolean, string | true, false, custom | false |
-| sort-method | Méthode de tri, marche quand `sortable` est `true`. Doit retourner un nombre, tout comme Array.sort. | Function(a, b) | — | — |
-| sort-by | Détermine par quelle propriété effectuer le tri, marche quand `sortable` est `true` et `sort-method` est `undefined`. Si c'est un Array, sera triée par la propriété suivante si la précédente est équivalente. | Function(row, index)/String/Array | — | — |
+| width | Largeur de la colonne. | string / number | — | — |
+| min-width | Largeur minimale de la colonne. Les colonnes avec `width` ont une largeur fixe, alors que celles avec `min-width` ont une largeur proportionnellement distribuée. | string / number | — | — |
+| fixed | Si la colonne est fixée à droite ou à gauche. Fixée à gauche si `true`. | string / boolean | true / 'left' / 'right' | — |
+| render-header | Fonction de rendu pour le header de cette colonne. | function({ column, $index }) | — | — |
+| sortable | Si la colonne peut être triée. Tri dynamique possible en mettant à 'custom' et en écoutant l'évènement `sort-change` de Table. | boolean / string | true, false, 'custom' | false |
+| sort-method | Méthode de tri, marche quand `sortable` est `true`. Doit retourner un nombre, tout comme Array.sort. | function(a, b) | — | — |
+| sort-by | Détermine par quelle propriété effectuer le tri, marche quand `sortable` est `true` et `sort-method` est `undefined`. Si c'est un Array, sera triée par la propriété suivante si la précédente est équivalente. | function(row, index) / string / array | — | — |
 | sort-orders | Liste des stratégies de tri, marche quand `sortable` est `true`. Accepte un tableau. Lorsque l'utilisateur clique plusieurs fois sur le header, la colonne est triée dans l'ordre des stratégies indiquée. | array | Les élements du tableau doivent être parmi: `ascending`, `descending` et `null` (restaure l'état originel du tableau). | ['ascending', 'descending', null] |
 | resizable | Si la largeur de la colonne peut être modifiée, marche quand `border` de `el-table` est `true`. | boolean | — | false |
-| formatter | Fonction pour formater le contenu des cellules. | Function(row, column, cellValue, index) | — | — |
+| formatter | Fonction pour formater le contenu des cellules. | function(row, column, cellValue, index) | — | — |
 | show-overflow-tooltip | Si du contenu trop long doit être caché et affiché dans une tooltip quand la souris passe sur la cellule. | boolean | — | false |
-| align | Alignement. | string | left/center/right | left |
-| header-align | Alignement du header. Si omis, la valeur du `align` ci-dessus est appliqué. | String | left/center/right | — |
+| align | Alignement. | string | left / center / right | left |
+| header-align | Alignement du header. Si omis, la valeur du `align` ci-dessus est appliqué. | string | left / center / right | — |
 | class-name | Classe des cellules dans cette colonne. | string | — | — |
 | label-class-name | Classe du label de cette colonne. | string | — | — |
-| selectable | Détermine si certaines colonnes peuvent être sélectionnées, marche quand `type` est 'selection'. | Function(row, index) | — | — |
+| selectable | Détermine si certaines colonnes peuvent être sélectionnées, marche quand `type` est 'selection'. | function(row, index) | — | — |
 | reserve-selection | Si la sélection doit être conservée après rafraîchissement, marche quand `type` est 'selection'. Notez que `row-key` est requis. | boolean | — | false |
-| filters | Un tableau d'options de filtrage. Pour chaque élément, `text` et `value` sont requis. | Array[{ text, value }] | — | — |
-| filter-placement | Emplacement du menu du filtre. | String | Voir `placement` de Tooltip. | — |
-| filter-multiple | Si le filtrage supporte plusieurs options. | Boolean | — | true |
-| filter-method | Méthode de filtrage. Si `filter-multiple` est activé, cette méthode sera appelé plusieurs fois pour chaque ligne, qui sera affichée si dès qu'un `true` sera renvoyé. | Function(value, row, column) | — | — |
-| filtered-value | Valeur de filtre pour les colonnes sélectionnées, peut être utile quand le header est rendu avec `render-header`. | Array | — | — |
+| filters | Un tableau d'options de filtrage. Pour chaque élément, `text` et `value` sont requis. | array[{ text, value }] | — | — |
+| filter-placement | Emplacement du menu du filtre. | string | Voir `placement` de Tooltip. | — |
+| filter-multiple | Si le filtrage supporte plusieurs options. | boolean | — | true |
+| filter-method | Méthode de filtrage. Si `filter-multiple` est activé, cette méthode sera appelé plusieurs fois pour chaque ligne, qui sera affichée si dès qu'un `true` sera renvoyé. | function(value, row, column) | — | — |
+| filtered-value | Valeur de filtre pour les colonnes sélectionnées, peut être utile quand le header est rendu avec `render-header`. | array | — | — |
 
 ### Slot de Table-column
 

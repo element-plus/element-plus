@@ -18,6 +18,23 @@ Affiche un calendrier.
     }
   }
 </script>
+<!--
+<setup>
+
+  import { defineComponent, ref } from 'vue';
+
+  export default defineComponent({
+    setup() {
+      const value = ref(new Date());
+
+      return {
+        value,
+      };
+    },
+  });
+
+</setup>
+-->
 ```
 :::
 
@@ -59,7 +76,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 
 | Attribut          | Description   | Type      | Valeurs acceptées     | Défaut   |
 |------------------ |-------------- |---------- |---------------------- |--------- |
-| value / v-model   | Valeur liée.  | Date | —            | —        |
+| model-value / v-model   | Valeur liée.  | Date | —            | —        |
 | range             | Intervalle de dates, début et fin inclus. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | [Date]Array     | —           | —      |
 
 ### Slot dateCell

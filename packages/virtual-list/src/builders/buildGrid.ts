@@ -9,6 +9,7 @@ import {
   resolveDynamicComponent,
   h,
 } from 'vue'
+import { hasOwn } from '@vue/shared'
 import memo from 'lodash/memoize'
 
 import { isNumber, isString, $ } from '@element-plus/utils/util'
@@ -327,7 +328,7 @@ const createGrid = ({
         // we use row,column to construct the key for indexing the map.
         const key = `${rowIndex},${columnIndex}`
 
-        if (itemStyleCache.hasOwnProperty(key)) {
+        if (hasOwn(itemStyleCache, key)) {
           return itemStyleCache[key]
         } else {
           const [, left] = getColumnPosition(props, columnIndex, $(cache))

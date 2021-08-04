@@ -1,17 +1,18 @@
 <template>
   <el-select
+    ref="select"
     :model-value="value"
-    :disabled="!editable"
+    :disabled="disabled"
     :clearable="clearable"
     :clear-icon="clearIcon"
     :size="size"
     :placeholder="placeholder"
     default-first-option
-    filterable
-    @update:model-value="(event) => $emit('update:modelValue', event)"
-    @change="(event) => $emit('change', event)"
-    @blur="(event) => $emit('blur', event)"
-    @focus="(event) => $emit('focus', event)"
+    :filterable="editable"
+    @update:model-value="event => $emit('update:modelValue', event)"
+    @change="event => $emit('change', event)"
+    @blur="event => $emit('blur', event)"
+    @focus="event => $emit('focus', event)"
   >
     <el-option
       v-for="item in items"
@@ -27,13 +28,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/select'
 import ElOption from '@element-plus/option'
+
 interface Time {
   hours: number
   minutes: number
 }
+
 const parseTime = (time: string): null | Time => {
   const values = (time || '').split(':')
   if (values.length >= 2) {
@@ -79,7 +82,6 @@ const nextTime = (time: string, step: string): string => {
 
 export default defineComponent({
   name: 'ElTimeSelect',
-
   components: { ElSelect, ElOption },
   model: {
     prop: 'value',
@@ -87,6 +89,10 @@ export default defineComponent({
   },
   props: {
     modelValue: String,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     editable: {
       type: Boolean,
       default: true,
@@ -98,7 +104,8 @@ export default defineComponent({
     size: {
       type: String,
       default: '',
-      validator: (value: string) => !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
+      validator: (value: string) =>
+        !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
     },
     placeholder: {
       type: String,
@@ -140,6 +147,7 @@ export default defineComponent({
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
     // computed
+    const select = ref(null)
     const value = computed(() => props.modelValue)
     const items = computed(() => {
       const result = []
@@ -157,9 +165,19 @@ export default defineComponent({
       }
       return result
     })
+    const blur = () => {
+      select.value?.blur?.()
+    }
+    const focus = () => {
+      select.value?.focus?.()
+    }
+
     return {
+      select,
       value,
       items,
+      blur,
+      focus,
     }
   },
 })

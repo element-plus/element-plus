@@ -166,7 +166,7 @@ export const isScroll = (
       ? getStyle(el, 'overflow-y')
       : getStyle(el, 'overflow-x')
 
-  return overflow.match(/(scroll|auto)/)
+  return overflow.match(/(scroll|auto|overlay)/)
 }
 
 export const getScrollContainer = (

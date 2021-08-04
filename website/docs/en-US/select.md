@@ -527,7 +527,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 ### Select Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| value / v-model | binding value | string / number / boolean / object | — | — |
+| model-value / v-model | binding value | string / number / boolean / object | — | — |
 | multiple | whether multiple-select is activated | boolean | — | false |
 | disabled | whether Select is disabled | boolean | — | false |
 | value-key | unique identity key name for value, required when value is an object | string | — | value |
@@ -550,7 +550,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | popper-class | custom class name for Select's dropdown | string | — | — |
 | reserve-keyword | when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option | boolean | — | false |
 | default-first-option | select first matching option on enter key. Use with `filterable` or `remote` | boolean | - | false |
-| popper-append-to-body| whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | false |
+| popper-append-to-body| whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | true |
 | automatic-dropdown | for non-filterable Select, this prop decides if the option menu pops up when the input is focused | boolean | - | false |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
 
