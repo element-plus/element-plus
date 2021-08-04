@@ -892,10 +892,10 @@ $--rate: map.merge(
 $--datepicker: () !default;
 $--datepicker: map.merge(
   (
-    'font-color': var(--el-color-text-regular),
-    'off-font-color': var(--el-color-text-placeholder),
-    'header-font-color': var(--el-color-text-regular),
-    'icon-color': var(--el-color-text-primary),
+    'font-color': var(--el-text-color-regular),
+    'off-font-color': var(--el-text-color-placeholder),
+    'header-font-color': var(--el-text-color-regular),
+    'icon-color': var(--el-text-color-primary),
     'border-color': var(--el-disabled-border-base),
     'inner-border-color': #e4e4e4,
     'inrange-background-color': var(--el-border-color-extra-light),
