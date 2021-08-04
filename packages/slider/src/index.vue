@@ -93,10 +93,10 @@ import {
   toRefs,
   watch,
 } from 'vue'
+import ElInputNumber from '@element-plus/input-number'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT } from '@element-plus/utils/constants'
 import { off, on } from '@element-plus/utils/dom'
 import throwError from '@element-plus/utils/error'
-import ElInputNumber from '@element-plus/input-number'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'

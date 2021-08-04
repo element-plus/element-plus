@@ -5,11 +5,13 @@
     :style="barStyle"
   ></div>
 </template>
-<script lang='ts'>
-import { defineComponent, inject, getCurrentInstance, watch, nextTick, ref, PropType } from 'vue'
+<script lang="ts">
+import { defineComponent, inject, getCurrentInstance, watch, nextTick, ref } from 'vue'
 import { capitalize } from '@vue/shared'
-import { Pane, RootTabs } from './tabs.vue'
 import { Resize } from '@element-plus/directives'
+import { Pane, RootTabs } from './token'
+
+import type { CSSProperties, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElTabBar',
@@ -30,7 +32,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
 
     const getBarStyle = () => {
-      let style = {} as CSSStyleDeclaration
+      let style = {} as CSSProperties
       let offset = 0
       let tabSize = 0
 
@@ -63,11 +65,16 @@ export default defineComponent({
       const transform = `translate${capitalize(sizeDir)}(${offset}px)`
       style[sizeName] = `${tabSize}px`
       style.transform = transform
+<<<<<<< HEAD
+=======
+      style.msTransform = transform
+      ;(style as any).webkitTransform = transform
+>>>>>>> refactor(project): fix package path for the rest packages (#2824)
 
       return style
     }
 
-    const barStyle = ref(getBarStyle())
+    const barStyle = ref(getBarStyle() as CSSProperties)
 
     const update = () => {
       barStyle.value = getBarStyle()
@@ -75,7 +82,11 @@ export default defineComponent({
 
     watch(() => props.tabs, () => {
       nextTick(() => {
+<<<<<<< HEAD
         update()
+=======
+        barStyle.value = getBarStyle() as CSSProperties
+>>>>>>> refactor(project): fix package path for the rest packages (#2824)
       })
     })
 

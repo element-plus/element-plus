@@ -77,7 +77,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref, watch, nextTick, inject, provide, PropType, ComponentInternalInstance } from 'vue'
+import { defineComponent, getCurrentInstance, ref, watch, nextTick, inject, provide } from 'vue'
 import ElCollapseTransition from '@element-plus/collapse-transition'
 import ElCheckbox from '@element-plus/checkbox'
 import NodeContent from './tree-node-content.vue'
@@ -85,7 +85,9 @@ import { getNodeKey as getNodeKeyUtil } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeEmitter } from './model/useDragNode'
 import Node from './model/node'
-import { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
+
+import type { ComponentInternalInstance, PropType } from 'vue'
+import type { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
 
 type Nullable<T> = null | T
 

@@ -10,3 +10,5 @@ Scrollbar.install = (app: App): void => {
 const _Scrollbar = Scrollbar as SFCWithInstall<typeof Scrollbar>
 
 export default _Scrollbar
+
+export * from './src/util'

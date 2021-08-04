@@ -3,7 +3,7 @@ import { h, provide, defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'ElTimeline',
-  setup(props, ctx) {
+  setup(_, ctx) {
     provide('timeline', ctx)
 
     /**

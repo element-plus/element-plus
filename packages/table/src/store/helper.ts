@@ -1,8 +1,10 @@
-import useStore, { Store } from './index'
-import debounce from 'lodash/debounce'
-import { Table } from '../table/defaults'
-import { TableProps } from '../table/defaults'
 import { watch } from 'vue'
+import debounce from 'lodash/debounce'
+import useStore from '.'
+
+import type { Store } from '.'
+import type { Table } from '../table/defaults'
+import type { TableProps } from '../table/defaults'
 
 const InitialStateMap = {
   rowKey: 'rowKey',

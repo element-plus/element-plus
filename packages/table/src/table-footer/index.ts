@@ -1,9 +1,10 @@
-import { defineComponent, h, PropType } from 'vue'
+import { defineComponent, h } from 'vue'
 import { hGutter, hColgroup } from '../h-helper'
 import { Store } from '../store'
-import { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
 import useStyle from './style-helper'
 
+import type { PropType } from 'vue'
+import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults'
 export interface TableFooter<T> {
   fixed: string
   store: Store<T>

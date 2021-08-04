@@ -8,3 +8,5 @@ Select.install = (app: App): void => {
 }
 
 export default Select as SFCWithInstall<typeof Select>
+
+export * from './src/token'

@@ -6,9 +6,10 @@ import {
   computed,
   getCurrentInstance,
 } from 'vue'
-import { TableHeader } from './table-header/index'
+
+import type { TableHeader } from './table-header'
 import type TableLayout from './table-layout'
-import { Table } from './table/defaults'
+import type { Table } from './table/defaults'
 
 function useLayoutObserver<T>(root: Table<T>) {
   const instance = getCurrentInstance() as TableHeader
