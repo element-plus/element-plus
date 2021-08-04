@@ -1,4 +1,5 @@
 import { computed } from 'vue'
+
 import type { IMenuProps } from './menu'
 
 export default function useMenuColor(props: IMenuProps) {

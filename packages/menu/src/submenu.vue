@@ -105,9 +105,9 @@ import {
   h,
 } from 'vue'
 import ElCollapseTransition from '@element-plus/collapse-transition'
+import ElPopper from '@element-plus/popper'
 import { ISubmenuProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
-import ElPopper from '@element-plus/popper'
 
 export default defineComponent({
   name: 'ElSubmenu',

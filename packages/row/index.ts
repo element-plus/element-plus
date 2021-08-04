@@ -1,7 +1,8 @@
+import Row from './src/row'
+
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
-import Row from './src/row'
 
 const _Row = Row as SFCWithInstall<typeof Row>
 

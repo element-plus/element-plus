@@ -1,5 +1,7 @@
-import { computed, inject, ComponentInternalInstance } from 'vue'
-import { RootMenuProvider } from './menu'
+import { computed, inject } from 'vue'
+
+import type { ComponentInternalInstance } from 'vue'
+import type { RootMenuProvider } from './menu'
 
 export default function useMenu(
   instance: ComponentInternalInstance,
