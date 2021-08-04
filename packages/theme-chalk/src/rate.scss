@@ -4,7 +4,7 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
+@include b(rate) {
   @include set-component-css-var('rate', $--rate);
 }
 

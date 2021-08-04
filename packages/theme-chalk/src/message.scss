@@ -4,7 +4,7 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
+@include b(message) {
   @include set-component-css-var('message', $--message);
 
   @each $type in (success, info, warning, error) {

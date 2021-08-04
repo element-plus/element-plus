@@ -6,11 +6,9 @@
 @import 'button';
 @import 'popper';
 
-:root {
-  @include set-component-css-var('dropdown', $--dropdown);
-}
-
 @include b(dropdown) {
+  @include set-component-css-var('dropdown', $--dropdown);
+
   display: inline-block;
   position: relative;
   color: var(--el-text-color-regular);

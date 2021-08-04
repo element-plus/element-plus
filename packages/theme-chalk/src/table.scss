@@ -5,7 +5,7 @@
 @import 'tooltip';
 @import 'common/var';
 
-:root {
+@include b(table) {
   @include set-component-css-var('table', $--table);
 }
 

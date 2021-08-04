@@ -3,11 +3,9 @@
 @import 'common/var';
 @import 'popper';
 
-:root {
-  @include set-component-css-var('popover', $--popover);
-}
-
 @include b(popover) {
+  @include set-component-css-var('popover', $--popover);
+
   &.#{$namespace}-popper {
     background: var(--el-popover-background-color);
     min-width: 150px;

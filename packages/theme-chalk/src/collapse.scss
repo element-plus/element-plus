@@ -1,22 +1,15 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 @import 'common/transition';
 
-:root {
-  --el-collapse-border-color: var(--el-border-color-lighter);
-  --el-collapse-header-height: 48px;
-  --el-collapse-header-background-color: var(--el-color-white);
-  --el-collapse-header-font-color: var(--el-text-color-primary);
-  --el-collapse-header-font-size: 13px;
-  --el-collapse-content-background-color: var(--el-color-white);
-  --el-collapse-content-font-size: 13px;
-  --el-collapse-content-font-color: var(--el-text-color-primary);
-}
-
 @include b(collapse) {
+  @include set-component-css-var('collapse', $--collapse);
+
   border-top: 1px solid var(--el-collapse-border-color);
   border-bottom: 1px solid var(--el-collapse-border-color);
 }
+
 @include b(collapse-item) {
   @include when(disabled) {
     .#{$namespace}-collapse-item__header {

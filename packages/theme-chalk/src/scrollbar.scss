@@ -2,11 +2,9 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
-  @include set-component-css-var('scrollbar', $--scrollbar);
-}
-
 @include b(scrollbar) {
+  @include set-component-css-var('scrollbar', $--scrollbar);
+
   overflow: hidden;
   position: relative;
   height: 100%;

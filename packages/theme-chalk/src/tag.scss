@@ -17,7 +17,7 @@ $--tag-color: () !default;
   ) !global;
 }
 
-:root {
+@include b(tag) {
   @include set-component-css-var('tag', $--tag);
 
   @each $type in $types {

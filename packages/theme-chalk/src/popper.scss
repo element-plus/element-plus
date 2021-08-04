@@ -1,8 +1,9 @@
 @import 'mixins/mixins';
+@import 'mixins/var';
 @import 'common/var';
 
-:root {
-  --el-popper-border-radius: var(--el-popover-border-radius, 4px);
+@include b(popper) {
+  @include set-component-css-var('popper', $--popper);
 }
 
 @include b(popper) {

@@ -2,11 +2,9 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
-  @include set-component-css-var('backtop', $--backtop);
-}
-
 @include b(backtop) {
+  @include set-component-css-var('backtop', $--backtop);
+
   position: fixed;
   background-color: var(--el-backtop-background-color);
   width: 40px;

@@ -2,7 +2,7 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
+@include b(notification) {
   @include set-component-css-var('notification', $--notification);
 
   @each $type in (success, info, warning, error) {

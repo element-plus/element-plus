@@ -4,11 +4,9 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
-  @include set-component-css-var('input', $--input);
-}
-
 @include b(textarea) {
+  @include set-component-css-var('input', $--input);
+
   position: relative;
   display: inline-block;
   width: 100%;
@@ -79,6 +77,8 @@
 }
 
 @include b(input) {
+  @include set-component-css-var('input', $--input);
+
   position: relative;
   font-size: var(--el-font-size-base);
   display: inline-block;

@@ -1,7 +1,7 @@
 @import 'mixins/mixins';
 @import 'common/var';
 
-:root {
+@include b(skeleton) {
   @each $size in (small, medium, large) {
     --el-skeleton-avatar-#{$size}-size: var(--el-avatar-#{$size}-size);
   }

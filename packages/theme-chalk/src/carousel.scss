@@ -4,11 +4,9 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
-  @include set-component-css-var('carousel', $--carousel);
-}
-
 @include b(carousel) {
+  @include set-component-css-var('carousel', $--carousel);
+
   position: relative;
 
   @include m(horizontal) {
