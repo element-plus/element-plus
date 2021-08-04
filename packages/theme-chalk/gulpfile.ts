@@ -15,12 +15,13 @@ export const distFolder = './lib'
 
 /**
  * compile theme-chalk scss & minify
+ * not use sass.sync().on('error', sass.logError) to throw exception
  * @returns
  */
 function compile() {
   return gulp
     .src('./src/*.scss')
-    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(sass.sync())
     .pipe(autoprefixer({ cascade: false }))
     .pipe(
       cleanCSS({}, details => {
