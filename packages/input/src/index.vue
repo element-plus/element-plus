@@ -120,13 +120,13 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
 import { useAttrs } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, VALIDATE_STATE_MAP } from '@element-plus/utils/constants'
 import { isObject, useGlobalConfig } from '@element-plus/utils/util'
 import isServer from '@element-plus/utils/isServer'
 import { isKorean } from '@element-plus/utils/isDef'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/form'
 import calcTextareaHeight from './calcTextareaHeight'
 
 import type { PropType } from 'vue'
