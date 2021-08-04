@@ -4,6 +4,8 @@ import {
   Ref,
 } from 'vue'
 
+export type Nullable<T> = null | T
+
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
   dropdownSize?: ComputedRef<string>

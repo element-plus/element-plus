@@ -6,6 +6,8 @@ import { createPopper } from '@popperjs/core'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { TableColumnCtx } from './table-column/defaults'
 
+export type Nullable<T> = null | T
+
 export const getCell = function(event: Event): HTMLElement {
   let cell = event.target as HTMLElement
 

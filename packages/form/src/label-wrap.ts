@@ -5,6 +5,8 @@ import { addResizeListener, removeResizeListener, ResizableElement } from '@elem
 
 import type { CSSProperties } from 'vue'
 
+export type Nullable<T> = null | T
+
 export default defineComponent({
   name: 'ElLabelWrap',
   props: {

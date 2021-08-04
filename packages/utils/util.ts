@@ -7,6 +7,8 @@ import { warn } from './error'
 import type { ComponentPublicInstance, Ref } from 'vue'
 import type { AnyFunction } from './types'
 
+export type Nullable<T> = null | T
+
 // type polyfill for compat isIE method
 declare global {
   interface Document {

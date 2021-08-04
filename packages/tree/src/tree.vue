@@ -50,6 +50,8 @@ import {
   RootTreeType,
 } from './tree.type'
 
+type Nullable<T> = null | T
+
 export default defineComponent({
   name: 'ElTree',
   components: { ElTreeNode },

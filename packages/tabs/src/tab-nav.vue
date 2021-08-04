@@ -8,6 +8,7 @@ import TabBar from './tab-bar.vue'
 import { NOOP, capitalize } from '@vue/shared'
 import { RootTabs, Pane, ITabType } from './tabs.vue'
 
+export type Nullable<T> = null | T
 type RefElement = Nullable<HTMLElement>
 
 interface Scrollable {

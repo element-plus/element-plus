@@ -5,6 +5,8 @@ import { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
 
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 
+export type Nullable<T> = null | T
+
 export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) => {
   const elForm = inject(elFormKey, {} as ElFormContext)
   const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
