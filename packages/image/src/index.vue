@@ -39,15 +39,15 @@
 import { defineComponent, computed, ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { isString } from '@vue/shared'
 import throttle from 'lodash/throttle'
-import { useAttrs } from '@element-plus/hooks'
+import { useAttrs, useLocaleInject } from '@element-plus/hooks'
+import ImageViewer from '@element-plus/image-viewer'
 import isServer from '@element-plus/utils/isServer'
 import { on, off, getScrollContainer, isInContainer } from '@element-plus/utils/dom'
-import { useLocaleInject } from '@element-plus/hooks'
-import ImageViewer from '@element-plus/image-viewer'
-import type { PropType } from 'vue'
+
+import type { CSSProperties, PropType } from 'vue'
 
 const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined
-const isHtmlEle = e => e && e.nodeType === 1
+const isHtmlEle = (e: Node) => e && e.nodeType === 1
 
 const ObjectFit = {
   NONE: 'none',
@@ -117,9 +117,9 @@ export default defineComponent({
     const imageStyle = computed(() => {
       const { fit } = props
       if (!isServer && fit) {
-        return isSupportObjectFit()
+        return (isSupportObjectFit()
           ? { 'object-fit': fit }
-          : getImageStyle(fit)
+          : getImageStyle(fit)) as CSSProperties
       }
       return {}
     })

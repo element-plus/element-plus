@@ -1,7 +1,18 @@
-import { defineComponent, Fragment, h, inject, nextTick, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
-
-import { elFormItemKey, elFormKey } from './token'
+import {
+  defineComponent,
+  Fragment,
+  h,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  onUpdated,
+  ref,
+  watch,
+} from 'vue'
 import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
+import { elFormItemKey, elFormKey } from './token'
+
 
 import type { CSSProperties } from 'vue'
 
