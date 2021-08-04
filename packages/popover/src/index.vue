@@ -1,9 +1,24 @@
 <script lang="ts">
-import { defineComponent, Fragment, createTextVNode, renderSlot, toDisplayString, createCommentVNode, withDirectives, Teleport, h } from 'vue'
-import ElPopper from '@element-plus/popper'
-import { defaultProps, Effect } from '@element-plus/popper'
-import { renderPopper, renderTrigger, renderArrow } from '@element-plus/popper'
+import {
+  defineComponent,
+  Fragment,
+  createTextVNode,
+  renderSlot,
+  toDisplayString,
+  createCommentVNode,
+  withDirectives,
+  Teleport,
+  h,
+} from 'vue'
 import { ClickOutside } from '@element-plus/directives'
+import ElPopper from '@element-plus/popper'
+import {
+  defaultProps,
+  Effect,
+  renderArrow,
+  renderPopper,
+  renderTrigger,
+} from '@element-plus/popper'
 import { warn } from '@element-plus/utils/error'
 import { renderIf, PatchFlags } from '@element-plus/utils/vnode'
 import usePopover, { SHOW_EVENT, HIDE_EVENT } from './usePopover'

@@ -1,6 +1,7 @@
 import { nextTick, h } from 'vue'
-import Notification, { closeAll } from '../src/notify'
 import { rAF } from '@element-plus/test-utils/tick'
+import Notification, { closeAll } from '../src/notify'
+
 import type { INotificationHandle } from '../src/notification.type'
 
 const selector = '.el-notification'
@@ -73,7 +74,7 @@ describe('Notification on command', () => {
 
   test('it should be able to render all types notification', () => {
     for (const type of ['success', 'warning', 'error', 'info'] as const) {
-      Notification[type]()
+      Notification[type]({})
       expect(document.querySelector(`.el-icon-${type}`)).toBeDefined()
     }
   })
