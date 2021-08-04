@@ -1,11 +1,11 @@
 import { h, nextTick } from 'vue'
 import * as domExports from '@element-plus/utils/dom'
 import makeMount from '@element-plus/test-utils/make-mount'
+import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import Message from '../src/index.vue'
 
 import type { ComponentPublicInstance, CSSProperties } from 'vue'
-import { rAF } from '@element-plus/test-utils/tick'
 
 const AXIOM = 'Rem is the best girl'
 
