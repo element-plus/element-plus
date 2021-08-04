@@ -13,6 +13,10 @@ const noElPrefixFile = /(index|base|display)/
 const sass = gulpSass(dartSass)
 export const distFolder = './lib'
 
+/**
+ * compile theme-chalk scss & minify
+ * @returns
+ */
 function compile() {
   return gulp
     .src('./src/*.scss')
@@ -37,11 +41,12 @@ function compile() {
     .pipe(gulp.dest(distFolder))
 }
 
-function copyfont() {
-  return gulp
-    .src('./src/fonts/**')
-    .pipe(cleanCSS())
-    .pipe(gulp.dest(`${distFolder}/fonts`))
+/**
+ * copy font to lib/fonts
+ * @returns
+ */
+function copyFont() {
+  return gulp.src('./src/fonts/**').pipe(gulp.dest(`${distFolder}/fonts`))
 }
 
 /**
@@ -53,6 +58,6 @@ function copyToLib() {
     .pipe(gulp.dest(path.resolve(__dirname, '../../lib/theme-chalk')))
 }
 
-export const build = gulp.series(compile, copyfont, copyToLib)
+export const build = gulp.series(compile, copyFont, copyToLib)
 
 export default build
