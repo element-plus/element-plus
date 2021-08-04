@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { ISliderProps, Mark } from './slider.type'
+import type { ISliderProps, Mark } from './slider.type'
 
 
 export const useMarks = (props: ISliderProps) => {

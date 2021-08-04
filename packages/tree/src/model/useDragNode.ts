@@ -1,5 +1,5 @@
-import mitt, { Emitter } from 'mitt'
 import { inject, provide, ref } from 'vue'
+import mitt, { Emitter } from 'mitt'
 import { addClass, removeClass } from '@element-plus/utils/dom'
 import Node from './node'
 

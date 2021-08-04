@@ -1,7 +1,7 @@
-import { PropType } from 'vue'
-import { DefaultRow } from '../table/defaults'
-import { ComponentInternalInstance, Ref, VNode } from 'vue'
-import { Table } from '../table/defaults'
+import type { PropType } from 'vue'
+import type { DefaultRow } from '../table/defaults'
+import type { ComponentInternalInstance, Ref, VNode } from 'vue'
+import type { Table } from '../table/defaults'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number; }
 

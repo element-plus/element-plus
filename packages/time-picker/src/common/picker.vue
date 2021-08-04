@@ -132,16 +132,18 @@ import {
   watch,
   provide,
 } from 'vue'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import isEqual from 'lodash/isEqual'
 import { useLocaleInject } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
 import ElInput from '@element-plus/input'
 import ElPopper from '@element-plus/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
-import { elFormKey, elFormItemKey } from '@element-plus/form'
 import { defaultProps } from './props'
+
+import type { Dayjs } from 'dayjs'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
 import type { Options } from '@popperjs/core'
 
@@ -157,7 +159,7 @@ interface PickerOptions {
 }
 
 // Date object and string
-const dateEquals = function(a, b) {
+const dateEquals = function(a: Date | any, b: Date | any) {
   const aIsDate = a instanceof Date
   const bIsDate = b instanceof Date
   if (aIsDate && bIsDate) {
@@ -169,14 +171,14 @@ const dateEquals = function(a, b) {
   return false
 }
 
-const valueEquals = function(a, b) {
+const valueEquals = function(a: Array<Date> | any, b: Array<Date> | any) {
   const aIsArray = a instanceof Array
   const bIsArray = b instanceof Array
   if (aIsArray && bIsArray) {
     if (a.length !== b.length) {
       return false
     }
-    return a.every((item, index) => dateEquals(item, b[index]))
+    return (a as Array<Date>).every((item, index) => dateEquals(item, b[index]))
   }
   if (!aIsArray && !bIsArray) {
     return dateEquals(a, b)

@@ -7,9 +7,15 @@
     "vue": "3.1.1"
   },
   "dependencies": {
-    "@element-plus/checkbox": "^0.0.1"
+    "@element-plus/checkbox": "^0.0.1",
+    "@element-plus/directives": "^0.0.1",
+    "@element-plus/hooks": "^0.0.1",
+    "@element-plus/popper": "^0.0.1",
+    "@element-plus/utils": "^0.0.1",
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3"
+    "@vue/test-utils": "^2.0.0-beta.3",
+    "@element-plus/test-utils": "^0.0.1"
   }
 }

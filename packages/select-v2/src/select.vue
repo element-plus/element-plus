@@ -219,11 +219,11 @@ import {
   reactive,
   vModelText,
 } from 'vue'
-import ElTag from '@element-plus/tag'
-import ElPopper from '@element-plus/popper'
-import ElSelectMenu from './select-dropdown.vue'
 import { ClickOutside } from '@element-plus/directives'
+import ElPopper from '@element-plus/popper'
+import ElTag from '@element-plus/tag'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import ElSelectMenu from './select-dropdown.vue'
 import useSelect from './useSelect'
 import { selectKey } from './token'
 import { SelectProps } from './defaults'

@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { h, nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import Slider from '../src/index.vue'
 
 
