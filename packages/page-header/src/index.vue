@@ -35,7 +35,7 @@ export default defineComponent({
     },
   },
   emits: ['back'],
-  setup(props, { emit }) {
+  setup(_, { emit }) {
 
     const { t } = useLocaleInject()
 

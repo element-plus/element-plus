@@ -15,11 +15,11 @@
     aria-valuemax="100"
   >
     <div v-if="type === 'line'" class="el-progress-bar">
-      <div class="el-progress-bar__outer" :style="{height: `${strokeWidth}px`}">
+      <div class="el-progress-bar__outer" :style="{ height: `${strokeWidth}px` }">
         <div
           :class="[
             'el-progress-bar__inner',
-            { 'el-progress-bar__inner--indeterminate' : indeterminate }
+            { 'el-progress-bar__inner--indeterminate': indeterminate }
           ]"
           :style="barStyle"
         >
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="el-progress-circle" :style="{height: `${width}px`, width: `${width}px`}">
+    <div v-else class="el-progress-circle" :style="{ height: `${width}px`, width: `${width}px` }">
       <svg viewBox="0 0 100 100">
         <path
           class="el-progress-circle__track"
@@ -55,7 +55,7 @@
     <div
       v-if="(showText || $slots.default) && !textInside"
       class="el-progress__text"
-      :style="{fontSize: `${progressTextSize}px`}"
+      :style="{ fontSize: `${progressTextSize}px` }"
     >
       <slot v-bind="slotData">
         <span v-if="!status">{{ content }}</span>

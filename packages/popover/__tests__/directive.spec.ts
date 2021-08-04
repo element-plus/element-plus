@@ -1,8 +1,8 @@
 import { h, nextTick, Fragment, withDirectives, ref } from 'vue'
-import Popover from '../src/index.vue'
-import PopoverDirective, { VPopover } from '../src/directive'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
+import Popover from '../src/index.vue'
+import PopoverDirective, { VPopover } from '../src/directive'
 
 import type { ComponentPublicInstance } from 'vue'
 

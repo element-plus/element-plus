@@ -1,13 +1,13 @@
 <template>
-  <el-menu-collapse-transition v-if="props.collapseTransition">
+  <el-menu-collapse-transition v-if="collapseTransition">
     <ul
-      :key="+props.collapse"
+      :key="+collapse"
       role="menubar"
-      :style="{ backgroundColor: props.backgroundColor || '' }"
+      :style="{ backgroundColor: backgroundColor || '' }"
       :class="{
         'el-menu': true,
         'el-menu--horizontal': mode === 'horizontal',
-        'el-menu--collapse': props.collapse,
+        'el-menu--collapse': collapse,
       }"
     >
       <slot></slot>
@@ -15,13 +15,13 @@
   </el-menu-collapse-transition>
   <ul
     v-else
-    :key="+props.collapse"
+    :key="+collapse"
     role="menubar"
-    :style="{ backgroundColor: props.backgroundColor || '' }"
+    :style="{ backgroundColor: backgroundColor || '' }"
     :class="{
       'el-menu': true,
       'el-menu--horizontal': mode === 'horizontal',
-      'el-menu--collapse': props.collapse,
+      'el-menu--collapse': collapse,
     }"
   >
     <slot></slot>
@@ -41,13 +41,13 @@ import {
   isRef,
 } from 'vue'
 import mitt from 'mitt'
+import Menubar from '@element-plus/utils/menu/menu-bar'
 import {
   IMenuProps,
   RootMenuProvider,
   RegisterMenuItem,
   SubMenuProvider,
 } from './menu'
-import Menubar from '@element-plus/utils/menu/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import useMenuColor from './useMenuColor'
 
