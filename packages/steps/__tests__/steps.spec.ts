@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import Steps from '../src/index.vue'
 import Step from '../src/item.vue'
 

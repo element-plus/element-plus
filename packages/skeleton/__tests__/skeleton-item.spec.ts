@@ -1,5 +1,5 @@
 import makeMount from '@element-plus/test-utils/make-mount'
-import SkeletonItem from '../src/index.vue'
+import SkeletonItem from '../src/item.vue'
 
 describe('<skeleton-item />', () => {
   const mount = makeMount(SkeletonItem, {})

@@ -1,6 +1,8 @@
 <script lang='ts'>
-import { h, defineComponent, inject, ComponentInternalInstance } from 'vue'
-import { RootTreeType } from './tree.type'
+import { h, defineComponent, inject } from 'vue'
+
+import type { ComponentInternalInstance } from 'vue'
+import type { RootTreeType } from './tree.type'
 
 export default defineComponent({
   name: 'ElTreeNodeContent',

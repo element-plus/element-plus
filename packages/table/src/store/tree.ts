@@ -1,7 +1,8 @@
 import { walkTreeNode, getRowIdentity } from '../util'
 import { ref, computed, watch, getCurrentInstance, unref } from 'vue'
-import { WatcherPropsData } from './index'
-import { Table, TableProps } from '../table/defaults'
+
+import type { WatcherPropsData } from '.'
+import type { Table, TableProps } from '../table/defaults'
 
 function useTree<T>(watcherData: WatcherPropsData<T>) {
   const expandRowKeys = ref<string[]>([])

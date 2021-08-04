@@ -58,15 +58,15 @@ import {
   computed, defineComponent, inject, h,
   reactive, ref, toRefs, watch,
 } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
 import ElButton from '@element-plus/button'
+import { elFormItemKey } from '@element-plus/form'
+import { useLocaleInject } from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import { useCheckedChange } from './useCheckedChange'
 import { useMove } from './useMove'
-
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { elFormItemKey } from '@element-plus/form'
+import { CHANGE_EVENT } from './transfer'
 
 import { LEFT_CHECK_CHANGE_EVENT, RIGHT_CHECK_CHANGE_EVENT } from './useCheckedChange'
 
@@ -77,7 +77,6 @@ import type {
   Props, TargetOrder,
 } from './transfer'
 
-export const CHANGE_EVENT = 'change'
 
 export default defineComponent({
   name: 'ElTransfer',

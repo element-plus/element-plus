@@ -1,5 +1,6 @@
 import { computed, getCurrentInstance } from 'vue'
-import { Table } from '../table/defaults'
+
+import type { Table } from '../table/defaults'
 
 function useMapState<T>() {
   const instance = getCurrentInstance()

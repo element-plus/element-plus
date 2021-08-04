@@ -1,13 +1,15 @@
 <template>
   <div
-    :class="['el-tabs__active-bar', `is-${ rootTabs.props.tabPosition }`]"
+    :class="['el-tabs__active-bar', `is-${rootTabs.props.tabPosition}`]"
     :style="barStyle"
   ></div>
 </template>
-<script lang='ts'>
-import { defineComponent, inject, getCurrentInstance, watch, nextTick, ref, PropType } from 'vue'
+<script lang="ts">
+import { defineComponent, inject, getCurrentInstance, watch, nextTick, ref } from 'vue'
 import { capitalize } from '@vue/shared'
-import { Pane, RootTabs } from './tabs.vue'
+import { Pane, RootTabs } from './token'
+
+import type { CSSProperties, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElTabBar',
@@ -25,7 +27,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
 
     const getBarStyle = () => {
-      let style = {} as CSSStyleDeclaration
+      let style = {} as CSSProperties
       let offset = 0
       let tabSize = 0
 
@@ -57,16 +59,16 @@ export default defineComponent({
       style[sizeName] = `${tabSize}px`
       style.transform = transform
       style.msTransform = transform
-      style.webkitTransform = transform
+      ;(style as any).webkitTransform = transform
 
       return style
     }
 
-    const barStyle = ref(getBarStyle())
+    const barStyle = ref(getBarStyle() as CSSProperties)
 
     watch(() => props.tabs, () => {
       nextTick(() => {
-        barStyle.value = getBarStyle()
+        barStyle.value = getBarStyle() as CSSProperties
       })
     })
 

@@ -1,12 +1,14 @@
-import { nextTick, ref, isRef, Ref } from 'vue'
+import { nextTick, ref, isRef } from 'vue'
 import { hasOwn } from '@vue/shared'
 import scrollbarWidth from '@element-plus/utils/scrollbar-width'
 import isServer from '@element-plus/utils/isServer'
 import { parseHeight } from './util'
-import { TableColumnCtx } from './table-column/defaults'
-import { TableHeader } from './table-header/index'
-import { Table } from './table/defaults'
-import { Store } from './store/index'
+
+import { Ref } from 'vue'
+import type { TableColumnCtx } from './table-column/defaults'
+import type { TableHeader } from './table-header'
+import type { Table } from './table/defaults'
+import type { Store } from './store'
 class TableLayout<T> {
   observers: TableHeader[]
   table: Table<T>

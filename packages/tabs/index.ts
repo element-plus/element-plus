@@ -1,11 +1,18 @@
+import Tabs from './src/tabs'
+import TabPane from './src/tab-pane.vue'
+
 import { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
-import Tabs from './src/tabs.vue'
 
 Tabs.install = (app: App): void => {
   app.component(Tabs.name, Tabs)
+  app.component(TabPane.name, TabPane)
 }
 
-const _Tabs: SFCWithInstall<typeof Tabs> = Tabs
+Tabs.TabPane = TabPane
+
+const _Tabs = Tabs as any as SFCWithInstall<typeof Tabs> & {
+  TabPane: typeof TabPane
+}
 
 export default _Tabs

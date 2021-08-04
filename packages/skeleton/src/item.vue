@@ -6,9 +6,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ImgPlaceholder from './img-placeholder.vue'
-import type { Variants } from './constants'
+import ImgPlaceholder from './image-placeholder.vue'
+
 import type { PropType } from 'vue'
+import type { Variants } from './types'
 
 export default defineComponent({
   name: 'ElSkeletonItem',

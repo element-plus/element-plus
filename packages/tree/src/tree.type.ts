@@ -1,7 +1,8 @@
-import { ComponentInternalInstance, VNode, h, SetupContext, Ref } from 'vue'
+import { h } from 'vue'
 import Node from './model/node'
 import TreeStore from './model/tree-store'
 
+import type { ComponentInternalInstance, Ref, SetupContext, VNode } from 'vue'
 export interface RootTreeType {
     ctx: SetupContext<any>
     props: TreeComponentProps
