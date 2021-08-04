@@ -1,6 +1,7 @@
-import { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
 import Progress from './src/index.vue'
+
+import type { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Progress.install = (app: App): void => {
   app.component(Progress.name, Progress)

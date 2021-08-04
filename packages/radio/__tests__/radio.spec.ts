@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'

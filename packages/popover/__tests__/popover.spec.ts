@@ -1,7 +1,7 @@
+import { ref, nextTick, h, createSlots } from 'vue'
+import PopupManager from '@element-plus/utils/popup-manager'
 import makeMount from '../../test-utils/make-mount'
 import Popover from '../src/index.vue'
-import PopupManager from '@element-plus/utils/popup-manager'
-import { ref, nextTick, h, createSlots } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
 

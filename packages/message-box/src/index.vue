@@ -117,20 +117,24 @@ import {
   reactive,
   ref,
   toRefs,
-  PropType,
 } from 'vue'
 import ElButton from '@element-plus/button'
-import ElInput from '@element-plus/input'
-import { useLocaleInject } from '@element-plus/hooks'
-import { Overlay as ElOverlay } from '@element-plus/overlay'
-import { useModal, useLockScreen, useRestoreActive, usePreventGlobal } from '@element-plus/hooks'
 import { TrapFocus } from '@element-plus/directives'
+import {
+  useModal,
+  useLockScreen,
+  useLocaleInject,
+  useRestoreActive,
+  usePreventGlobal,
+} from '@element-plus/hooks'
+import ElInput from '@element-plus/input'
+import { Overlay as ElOverlay } from '@element-plus/overlay'
 import PopupManager from '@element-plus/utils/popup-manager'
 import { on, off } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type { Action, MessageBoxState, MessageBoxType } from './message-box.type'
 
 const TypeMap: Indexable<string> = {

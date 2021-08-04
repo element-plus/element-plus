@@ -1,6 +1,5 @@
-import { computed, ref, reactive, watch, CSSProperties } from 'vue'
+import { computed, ref, reactive, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
-
 import {
   generateId,
   isBool,
@@ -10,10 +9,9 @@ import {
   $,
 } from '@element-plus/utils/util'
 import PopupManager from '@element-plus/utils/popup-manager'
-
 import usePopperOptions from './popper-options'
 
-import type { ComponentPublicInstance, SetupContext, Ref } from 'vue'
+import type { ComponentPublicInstance, CSSProperties, SetupContext, Ref } from 'vue'
 import type {
   IPopperOptions,
   TriggerType,

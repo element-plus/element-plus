@@ -1,5 +1,5 @@
-import { Ref, ComputedRef } from 'vue'
-import { Emitter } from 'mitt'
+import type { Ref, ComputedRef } from 'vue'
+import type { Emitter } from 'mitt'
 
 export interface RegisterMenuItem {
   index: string

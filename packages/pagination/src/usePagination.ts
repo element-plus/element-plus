@@ -1,5 +1,5 @@
 import { inject } from 'vue'
-import { IPagination } from './pagination'
+import type { IPagination } from './pagination'
 
 export const usePagination = () => {
   const pagination = inject<IPagination>('pagination', {})
