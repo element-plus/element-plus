@@ -1,7 +1,8 @@
 import { getCurrentInstance } from 'vue'
-import { TableColumnCtx } from '../table-column/defaults'
-import { Table } from '../table/defaults'
-import { TableHeaderProps } from './index'
+
+import type { TableColumnCtx } from '../table-column/defaults'
+import type { Table } from '../table/defaults'
+import type { TableHeaderProps } from '.'
 
 function useStyle<T>(props: TableHeaderProps<T>) {
   const instance = getCurrentInstance()

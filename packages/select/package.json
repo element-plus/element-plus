@@ -6,7 +6,17 @@
   "peerDependencies": {
     "vue": "3.1.1"
   },
+  "dependencies": {
+    "@element-plus/directives": "^0.0.1",
+    "@element-plus/hooks": "^0.0.1",
+    "@element-plus/input": "^0.0.1",
+    "@element-plus/popper": "^0.0.1",
+    "@element-plus/scrollbar": "^0.0.1",
+    "@element-plus/tag": "^0.0.1",
+    "@element-plus/utils": "^0.0.1"
+  },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-beta.3"
+    "@vue/test-utils": "^2.0.0-beta.3",
+    "@element-plus/test-utils": "^0.0.1"
   }
 }

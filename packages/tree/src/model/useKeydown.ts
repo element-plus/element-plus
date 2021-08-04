@@ -1,8 +1,9 @@
-import { onMounted, onUpdated, onBeforeUnmount, ref, watch, Ref } from 'vue'
+import { onMounted, onUpdated, onBeforeUnmount, ref, watch } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import TreeStore from './tree-store'
 
+import type { Ref } from 'vue'
 interface UseKeydownOption {
   el$: Ref<HTMLElement>
 }

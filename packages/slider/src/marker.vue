@@ -1,5 +1,7 @@
 <script lang="ts">
-import { computed, defineComponent, h, PropType } from 'vue'
+import { computed, defineComponent, h } from 'vue'
+
+import type { PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElMarker',

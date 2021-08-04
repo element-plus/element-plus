@@ -61,13 +61,14 @@ import {
   onMounted,
   Ref,
   watch,
-  PropType,
 } from 'vue'
-import { Dayjs } from 'dayjs'
 import debounce from 'lodash/debounce'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/scrollbar'
 import { getTimeLists } from './useTimePicker'
+
+import type { PropType } from 'vue'
+import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
 

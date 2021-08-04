@@ -258,18 +258,19 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, computed } from 'vue'
-import { createStore } from './store/helper'
-import { useLocaleInject } from '@element-plus/hooks'
-import { Mousewheel } from '@element-plus/directives'
-import TableLayout from './table-layout'
-import TableHeader from './table-header/index'
-import TableBody from './table-body/index'
-import TableFooter from './table-footer/index'
 import debounce from 'lodash/debounce'
+import { Mousewheel } from '@element-plus/directives'
+import { useLocaleInject } from '@element-plus/hooks'
+import { createStore } from './store/helper'
+import TableLayout from './table-layout'
+import TableHeader from './table-header'
+import TableBody from './table-body'
+import TableFooter from './table-footer'
 import useUtils from './table/utils-helper'
 import useStyle from './table/style-helper'
-import { Table } from './table/defaults'
 import defaultProps from './table/defaults'
+
+import type { Table } from './table/defaults'
 
 let tableIdSeed = 1
 export default defineComponent({

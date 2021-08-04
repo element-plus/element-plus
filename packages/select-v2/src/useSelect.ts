@@ -15,12 +15,10 @@ import {
 } from '@vue/shared'
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
-
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-
-import { useLocaleInject } from '@element-plus/hooks'
 import { elFormKey, elFormItemKey } from '@element-plus/form'
+import { useLocaleInject } from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import {
   getValueByPath,
   useGlobalConfig,

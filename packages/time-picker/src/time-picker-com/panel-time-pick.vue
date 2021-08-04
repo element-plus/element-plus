@@ -43,13 +43,15 @@ import {
   ref,
   computed,
   inject,
-  PropType,
 } from 'vue'
+import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { useLocaleInject } from '@element-plus/hooks'
 import TimeSpinner from './basic-time-spinner.vue'
-import dayjs, { Dayjs } from 'dayjs'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
+
+import type { PropType } from 'vue'
+import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
   components: {

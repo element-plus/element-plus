@@ -1,8 +1,8 @@
 import { computed, watch } from 'vue'
-import { TransferPanelProps, TransferPanelState, Key } from './transfer'
+
+import type { TransferPanelProps, TransferPanelState, Key } from './transfer'
 
 export const CHECKED_CHANGE_EVENT = 'checked-change'
-
 
 export const useCheck = (props: TransferPanelProps, panelState: TransferPanelState, emit) => {
 
@@ -11,7 +11,6 @@ export const useCheck = (props: TransferPanelProps, panelState: TransferPanelSta
   const keyProp = computed(() => props.props.key || 'key')
 
   const disabledProp = computed(() => props.props.disabled || 'disabled')
-
 
   const filteredData = computed(() => {
     return props.data.filter(item => {

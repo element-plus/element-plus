@@ -33,7 +33,8 @@
   </div>
 </template>
 <script lang='ts'>
-import { defineComponent, ref, provide, computed, watch, PropType, getCurrentInstance, ComponentInternalInstance } from 'vue'
+import { defineComponent, ref, provide, computed, watch, getCurrentInstance } from 'vue'
+import { useLocaleInject } from '@element-plus/hooks'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -41,8 +42,9 @@ import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import Node from './model/node'
-import { useLocaleInject } from '@element-plus/hooks'
-import {
+
+import type { ComponentInternalInstance, PropType } from 'vue'
+import type {
   TreeComponentProps,
   TreeNodeData,
   TreeKey,

@@ -1,8 +1,10 @@
+import { ref, getCurrentInstance, unref } from 'vue'
 import { arrayFind } from '@element-plus/utils/util'
 import { getRowIdentity } from '../util'
-import { ref, getCurrentInstance, unref, Ref } from 'vue'
-import { WatcherPropsData } from './index'
-import { Table } from '../table/defaults'
+
+import type { Ref } from 'vue'
+import type { Table } from '../table/defaults'
+import type { WatcherPropsData } from './index'
 
 function useCurrent<T>(watcherData: WatcherPropsData<T>) {
   const instance = getCurrentInstance() as Table<T>

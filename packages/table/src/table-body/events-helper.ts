@@ -2,9 +2,10 @@ import { getCurrentInstance, ref, h } from 'vue'
 import { getStyle, hasClass } from '@element-plus/utils/dom'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
 import debounce from 'lodash/debounce'
-import { TableColumnCtx } from '../table-column/defaults'
-import { Table } from '../table/defaults'
-import { TableBodyProps } from './defaults'
+
+import type{ TableColumnCtx } from '../table-column/defaults'
+import type{ Table } from '../table/defaults'
+import type{ TableBodyProps } from './defaults'
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()
