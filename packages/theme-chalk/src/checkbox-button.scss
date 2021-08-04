@@ -2,7 +2,9 @@
 
 @import 'common/var';
 @import 'mixins/mixins';
+@import 'mixins/utils';
 @import 'mixins/var';
+@import 'mixins/button';
 
 @include b(checkbox-button) {
   @include set-component-css-var('checkbox-button', $--checkbox-button);
