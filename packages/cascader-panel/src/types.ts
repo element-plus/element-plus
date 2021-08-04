@@ -2,6 +2,8 @@
 import type { VNode, InjectionKey } from 'vue'
 import type { default as CascaderNode } from './node'
 
+export type Nullable<T> = null | T
+
 export type { CascaderNode }
 
 export type CascaderNodeValue = string | number

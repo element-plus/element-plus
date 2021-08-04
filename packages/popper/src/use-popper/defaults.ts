@@ -6,6 +6,8 @@ export enum Effect {
   LIGHT = 'light'
 }
 
+export type Nullable<T> = null | T
+
 export type RefElement = Nullable<HTMLElement>
 export type Offset = [number, number] | number
 

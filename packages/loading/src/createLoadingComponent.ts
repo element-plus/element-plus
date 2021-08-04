@@ -2,6 +2,8 @@ import { createVNode, h, reactive, ref, render, toRefs, Transition, VNode, vShow
 import { removeClass } from '@element-plus/utils/dom'
 import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
 
+export type Nullable<T> = null | T
+
 export function createLoadingComponent({
   options,
   globalLoadingOption,

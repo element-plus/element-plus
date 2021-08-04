@@ -12,6 +12,8 @@ import {
   TreeNodeChildState,
 } from '../tree.type'
 
+type Nullable<T> = null | T
+
 export const getChildState = (node: Node[]): TreeNodeChildState => {
   let all = true
   let none = true
@@ -72,7 +74,7 @@ const getPropertyFromData = function(node: Node, prop: string): any {
 
 let nodeIdSeed = 0
 
-export default class Node {
+class Node {
   id: number;
   text: string;
   checked: boolean;
@@ -515,3 +517,5 @@ export default class Node {
     }
   }
 }
+
+export default Node

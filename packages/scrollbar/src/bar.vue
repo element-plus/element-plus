@@ -21,6 +21,8 @@ import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, Ref
 import { off, on } from '@element-plus/utils/dom'
 import { BAR_MAP, renderThumbStyle } from './util'
 
+type Nullable<T> = null | T
+
 export default defineComponent({
   name: 'Bar',
   props: {

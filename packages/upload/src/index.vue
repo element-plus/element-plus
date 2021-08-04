@@ -28,6 +28,7 @@ import type {
 
 type PFileHandler<T> = PropType<FileHandler<T>>
 type PFileResultHandler<T = any> = PropType<FileResultHandler<T>>
+type Nullable<T> = null | T
 
 export default defineComponent({
   name: 'ElUpload',

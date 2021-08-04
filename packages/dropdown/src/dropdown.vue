@@ -68,6 +68,8 @@ import ElPopper from '@element-plus/popper'
 import { useDropdown } from './useDropdown'
 import { addUnit } from '@element-plus/utils/util'
 
+type Nullable<T> = null | T
+
 export default defineComponent({
   name: 'ElDropdown',
   components: {
