@@ -83,6 +83,10 @@
   }
 
   @include e(dropdown) {
+    @include set-component-css-var('cascader', $--cascader);
+  }
+
+  @include e(dropdown) {
     font-size: var(--el-cascader-menu-font-size);
     border-radius: var(--el-cascader-menu-radius);
 
