@@ -1,8 +1,8 @@
 import type { InjectionKey } from 'vue'
-import type { Emitter } from 'mitt'
 import type {
   FieldErrorList,
 } from 'async-validator'
+import type { Emitter } from 'mitt'
 
 export interface ElFormContext {
   registerLabelWidth(width: number, oldWidth: number): void
@@ -12,11 +12,12 @@ export interface ElFormContext {
   emit: (evt: string, ...args: any[]) => void
   labelSuffix: string
   inline?: boolean
+  inlineMessage?: boolean
   model?: Record<string, unknown>
   size?: string
   showMessage?: boolean
   labelPosition?: string
-  labelWidth?: string
+  labelWidth?: string | number
   rules?: Record<string, unknown>
   statusIcon?: boolean
   hideRequiredAsterisk?: boolean
@@ -24,7 +25,7 @@ export interface ElFormContext {
 }
 
 export interface ValidateFieldCallback {
-  (isValid?: boolean, invalidFields?: FieldErrorList): void
+  (isValid?: string, invalidFields?: FieldErrorList): void
 }
 
 export interface ElFormItemContext {
@@ -32,7 +33,7 @@ export interface ElFormItemContext {
   formItemMitt: Emitter
   size: ComponentSize
   validateState: string
-  validate(callback?: ValidateFieldCallback): void
+  validate(trigger: string, callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
   addValidateEvents(): void
   removeValidateEvents(): void

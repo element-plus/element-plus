@@ -1,6 +1,8 @@
 import Loading from './index'
 
-const createInstance = (el, binding) => {
+import type { DirectiveBinding } from 'vue'
+
+const createInstance = (el: HTMLElement, binding: DirectiveBinding) => {
   const textExr = el.getAttribute('element-loading-text')
   const spinnerExr = el.getAttribute('element-loading-spinner')
   const svgExr = el.getAttribute('element-loading-svg')
@@ -8,7 +10,7 @@ const createInstance = (el, binding) => {
   const backgroundExr = el.getAttribute('element-loading-background')
   const customClassExr = el.getAttribute('element-loading-custom-class')
   const vm = binding.instance
-  el.instance = Loading({
+  ;(el as any).instance = Loading({
     text: vm && vm[textExr] || textExr,
     svg: vm && vm[svgExr] || svgExr,
     svgViewBox: vm && vm[svgViewBoxExr] || svgViewBoxExr,
@@ -24,13 +26,13 @@ const createInstance = (el, binding) => {
 }
 
 const vLoading = {
-  mounted(el, binding) {
+  mounted(el: HTMLElement, binding: DirectiveBinding) {
     if(!!binding.value){
       createInstance(el, binding)
     }
   },
-  updated(el, binding) {
-    const instance = el.instance
+  updated(el: HTMLElement, binding: DirectiveBinding) {
+    const instance = (el as any).instance
     if (binding.oldValue !== binding.value) {
       if(binding.value) {
         createInstance(el, binding)
@@ -39,8 +41,8 @@ const vLoading = {
       }
     }
   },
-  unmounted(el) {
-    el?.instance?.close()
+  unmounted(el: HTMLElement) {
+    (el as any)?.instance?.close()
   },
 }
 

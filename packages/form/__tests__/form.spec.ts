@@ -1,11 +1,11 @@
 import { nextTick } from 'vue'
 import { mount, VueWrapper } from '@vue/test-utils'
-import Form from '../src/form.vue'
-import FormItem from '../src/form-item.vue'
 import installStyle from '@element-plus/test-utils/style-plugin'
-import Input from '@element-plus/input/src/index.vue'
 import Checkbox from '@element-plus/checkbox/src/checkbox.vue'
 import CheckboxGroup from '@element-plus/checkbox/src/checkbox-group.vue'
+import Input from '@element-plus/input/src/index.vue'
+import Form from '../src/form.vue'
+import FormItem from '../src/form-item.vue'
 
 type Methods = Record<string, () => any>
 function mountForm<D, M extends Methods, C>(

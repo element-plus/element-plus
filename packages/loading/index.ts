@@ -1,6 +1,7 @@
-import { App } from 'vue'
 import Loading from './src/index'
 import vLoading from './src/directive'
+
+import type { App } from 'vue'
 
 export default {
   install(app: App) {
@@ -10,3 +11,5 @@ export default {
   directive: vLoading,
   service: Loading,
 }
+
+export * from './src/loading.type'
