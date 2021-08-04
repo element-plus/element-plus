@@ -19,11 +19,14 @@
 
 <script lang="ts">
 import { defineComponent, watch, computed, ref } from 'vue'
-import ElSelect from '@element-plus/select'
-import ElOption from '@element-plus/option'
-import { useLocaleInject } from '@element-plus/hooks'
 import isEqual from 'lodash/isEqual'
+import ElSelect from '@element-plus/select'
+import { useLocaleInject } from '@element-plus/hooks'
 import { usePagination } from './usePagination'
+
+import type { PropType } from 'vue'
+
+const { Option: ElOption } = ElSelect
 
 export default defineComponent({
   name: 'Sizes',
@@ -34,7 +37,7 @@ export default defineComponent({
   props: {
     pageSize: Number,
     pageSizes: {
-      type: Array,
+      type: Array as PropType<Array<number>>,
       default: () => {
         return [10, 20, 30, 40, 50, 100]
       },

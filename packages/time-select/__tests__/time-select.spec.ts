@@ -1,8 +1,10 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
-import Option from '@element-plus/option'
+import Select from '@element-plus/select'
 import TimeSelect from '../src/time-select.vue'
 import { sleep } from '@element-plus/test-utils'
+
+const { Option } = Select
 
 const _mount = (template: string, data, otherObj?) =>
   mount(

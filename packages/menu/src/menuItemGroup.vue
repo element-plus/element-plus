@@ -21,7 +21,8 @@ import {
   inject,
   reactive,
 } from 'vue'
-import { IMenuGroupProps, RootMenuProvider } from './menu'
+
+import type { IMenuGroupProps, RootMenuProvider } from './menu'
 
 export default defineComponent({
   name: 'ElMenuItemGroup',
