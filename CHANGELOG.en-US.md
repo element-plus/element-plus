@@ -1,5 +1,17 @@
 ## Changelog
 
+### 1.0.2-beta.67
+
+*2021-08-04*
+
+#### Bug fixes
+
+- Theme-chalk fix fonts build by gulp (#2817 by @YunYouJun)
+
+#### Refactors
+
+- Var move css var from root to class (#2808 by @YunYouJun)
+
 ### 1.0.2-beta.66
 
 *2021-08-03*
