@@ -33,7 +33,7 @@
     }
 
     @include b(scrollbar__bar) {
-      z-index: calc(var(--el-dropdown-menu-index + 1));
+      z-index: calc(var(--el-dropdown-menu-index) + 1);
     }
 
     @include b(dropdown__list) {

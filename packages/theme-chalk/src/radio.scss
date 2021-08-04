@@ -8,7 +8,6 @@
 
 @include b(radio) {
   @include set-component-css-var('radio', $--radio);
-  @include set-component-css-var('radio-button', $--radio-button);
 }
 
 @include b(radio) {

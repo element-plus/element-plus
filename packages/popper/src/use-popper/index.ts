@@ -32,6 +32,8 @@ export interface PopperEvents {
   onBlur?: (e: Event) => void
 }
 
+export type Nullable<T> = null | T
+
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
 export default function(

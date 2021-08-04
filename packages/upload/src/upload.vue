@@ -35,6 +35,8 @@ import UploadDragger from './upload-dragger.vue'
 import type { PropType } from 'vue'
 import type { ListType, UploadFile, ElFile } from './upload.type'
 
+type Nullable<T> = null | T
+
 type IFileHanlder = (
   file: Nullable<ElFile[]>,
   fileList?: UploadFile[],

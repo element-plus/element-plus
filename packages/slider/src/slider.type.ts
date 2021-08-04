@@ -21,6 +21,8 @@ export interface ISliderProps {
   marks?: Record<number, any>
 }
 
+export type Nullable<T> = null | T
+
 export interface ISliderInitData {
   firstValue: Nullable<number>
   secondValue: Nullable<number>

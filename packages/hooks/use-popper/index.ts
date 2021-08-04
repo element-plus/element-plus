@@ -48,6 +48,7 @@ import type { Trigger } from './use-target-events'
 
 export type Effect = 'light' | 'dark'
 export type Offset = [number, number] | number
+export type Nullable<T> = null | T
 
 type ElementType = ComponentPublicInstance | HTMLElement
 

@@ -7,6 +7,8 @@ import type {
   CascaderConfig,
 } from './types'
 
+export type Nullable<T> = null | T
+
 const flatNodes = (nodes: Node[], leafOnly: boolean) => {
   return nodes.reduce((res, node) => {
     if (node.isLeaf) {

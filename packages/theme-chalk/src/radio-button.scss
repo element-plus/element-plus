@@ -5,6 +5,10 @@
 @import 'common/var';
 
 @include b(radio-button) {
+  @include set-component-css-var('radio-button', $--radio-button);
+}
+
+@include b(radio-button) {
   position: relative;
   display: inline-block;
   outline: none;
@@ -74,10 +78,23 @@
 
     &:checked {
       & + .#{$namespace}-radio-button__inner {
-        color: var(--el-radio-button-checked-font-color);
-        background-color: var(--el-radio-button-checked-background-color);
-        border-color: var(--el-radio-button-checked-border-color);
-        box-shadow: -1px 0 0 0 var(--el-radio-button-checked-border-color);
+        color: var(
+          --el-radio-button-checked-font-color,
+          map.get($--radio-button, 'checked-font-color')
+        );
+        background-color: var(
+          --el-radio-button-checked-background-color,
+          map.get($--radio-button, 'checked-background-color')
+        );
+        border-color: var(
+          --el-radio-button-checked-border-color,
+          map.get($--radio-button, 'checked-border-color')
+        );
+        box-shadow: -1px 0 0 0
+          var(
+            --el-radio-button-checked-border-color,
+            map.get($--radio-button, 'checked-border-color')
+          );
       }
     }
 

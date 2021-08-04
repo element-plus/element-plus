@@ -1,6 +1,8 @@
 import isServer from './isServer'
 import { camelize, isObject } from './util'
 
+export type Nullable<T> = null | T
+
 /* istanbul ignore next */
 const trim = function(s: string) {
   return (s || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')

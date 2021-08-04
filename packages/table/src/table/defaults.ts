@@ -4,6 +4,7 @@ import { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
 
 export type DefaultRow = any
+export type Nullable<T> = null | T
 
 interface TableRefs {
   headerWrapper: HTMLElement

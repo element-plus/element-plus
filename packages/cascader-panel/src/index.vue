@@ -58,6 +58,8 @@ import type {
   ElCascaderPanelContext,
 } from './types'
 
+type Nullable<T> = null | T
+
 export default defineComponent({
   name: 'ElCascaderPanel',
 

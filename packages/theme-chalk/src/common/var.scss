@@ -203,11 +203,18 @@ $--checkbox: map.merge(
     'checked-background-color': var(--el-color-primary),
     'checked-icon-color': var(--el-fill-base),
     'input-border-color-hover': var(--el-color-primary),
-    'button-checked-background-color': var(--el-color-primary),
-    'button-checked-font-color': var(--el-color-white),
-    'button-checked-border-color': var(--el-color-primary),
   ),
   $--checkbox
+);
+
+$--checkbox-button: () !default;
+$--checkbox-button: map.merge(
+  (
+    'checked-background-color': var(--el-color-primary),
+    'checked-font-color': var(--el-color-white),
+    'checked-border-color': var(--el-color-primary),
+  ),
+  $--checkbox-button
 );
 
 /* Radio
@@ -458,10 +465,16 @@ $--input: map.merge(
   $--input
 );
 
-$--input-disabled-fill: var(--el-disabled-fill-base) !default;
-$--input-disabled-border: var(--el-disabled-border-base) !default;
-$--input-disabled-color: var(--el-disabled-color-base) !default;
-$--input-disabled-placeholder-color: var(--el-text-color-placeholder) !default;
+$--input-disabled: () !default;
+$--input-disabled: map.merge(
+  (
+    'fill': var(--el-disabled-fill-base),
+    'border': var(--el-disabled-border-base),
+    'color': var(--el-disabled-color-base),
+    'placeholder-color': var(--el-text-color-placeholder),
+  ),
+  $--input-disabled
+);
 
 $--input-font-size: () !default;
 $--input-font-size: map.merge(

@@ -4,6 +4,8 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, addClass } from '@element-plus/utils/dom'
 import type { IElDropdownInstance } from './dropdown'
 
+export type Nullable<T> = null | T
+
 export const useDropdown = () => {
   const ELEMENT = useGlobalConfig()
   const elDropdown = inject<IElDropdownInstance>('elDropdown', {})
