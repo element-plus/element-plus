@@ -1,4 +1,4 @@
-let hiddenTextarea
+let hiddenTextarea: HTMLTextAreaElement
 
 const HIDDEN_STYLE = `
   height:0 !important;
@@ -40,7 +40,7 @@ type TextAreaHeight = {
   minHeight?: string
 }
 
-function calculateNodeStyling(targetElement): NodeStyle {
+function calculateNodeStyling(targetElement: Element): NodeStyle {
   const style = window.getComputedStyle(targetElement)
 
   const boxSizing = style.getPropertyValue('box-sizing')
@@ -63,7 +63,7 @@ function calculateNodeStyling(targetElement): NodeStyle {
 }
 
 export default function calcTextareaHeight(
-  targetElement,
+  targetElement: HTMLInputElement,
   minRows = 1,
   maxRows = null,
 ): TextAreaHeight {

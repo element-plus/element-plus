@@ -59,12 +59,12 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
+import { toRawType } from '@vue/shared'
 import { RepeatClick } from '@element-plus/directives'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
 import ElInput from '@element-plus/input'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/form'
-import { toRawType } from '@vue/shared'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'
@@ -101,9 +101,7 @@ export default defineComponent({
     },
     modelValue: {
       required: true,
-      validator: val => {
-        return toRawType(val) === 'Number' || val === undefined
-      },
+      type: Number,
     },
     disabled: {
       type: Boolean,
@@ -152,7 +150,7 @@ export default defineComponent({
       if (props.precision !== undefined) {
         if (stepPrecision > props.precision) {
           console.warn(
-            '[Element Warn][InputNumber]precision should not be less than the decimal places of step',
+            '[ElementPlus Warn][InputNumber] precision should not be less than the decimal places of step',
           )
         }
         return props.precision

@@ -1,6 +1,7 @@
-import { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
 import Input from './src/index.vue'
+
+import type { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Input.install = (app: App): void => {
   app.component(Input.name, Input)
