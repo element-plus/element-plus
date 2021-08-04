@@ -1,10 +1,11 @@
 import { hasOwn } from '@vue/shared'
-import { PopperInstance, IPopperOptions } from '@element-plus/popper'
-import { getValueByPath } from '@element-plus/utils/util'
-import { off, on } from '@element-plus/utils/dom'
 import { createPopper } from '@popperjs/core'
 import PopupManager from '@element-plus/utils/popup-manager'
-import { TableColumnCtx } from './table-column/defaults'
+import { getValueByPath } from '@element-plus/utils/util'
+import { off, on } from '@element-plus/utils/dom'
+
+import type { PopperInstance, IPopperOptions } from '@element-plus/popper'
+import type { TableColumnCtx } from './table-column/defaults'
 
 export type Nullable<T> = null | T
 

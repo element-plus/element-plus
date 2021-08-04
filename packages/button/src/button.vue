@@ -25,9 +25,9 @@
 
 <script lang='ts'>
 import { computed, inject, defineComponent } from 'vue'
+import { elFormKey, elFormItemKey } from '@element-plus/form'
 import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormKey, elFormItemKey } from '@element-plus/shared'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/form'

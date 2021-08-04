@@ -1,5 +1,6 @@
 import { computed } from 'vue'
-import { TransferProps } from './transfer'
+
+import type { TransferProps } from './transfer'
 
 export const useComputedData = (props: TransferProps) => {
   const propsKey = computed(() => props.props.key)

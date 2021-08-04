@@ -1,4 +1,4 @@
-import { ref, getCurrentInstance, unref, watch, Ref } from 'vue'
+import { ref, getCurrentInstance, unref, watch } from 'vue'
 import { hasOwn } from '@vue/shared'
 import {
   getKeysMap,
@@ -11,9 +11,11 @@ import {
 import useExpand from './expand'
 import useCurrent from './current'
 import useTree from './tree'
-import { TableColumnCtx } from '../table-column/defaults'
-import { Table, TableRefs } from '../table/defaults'
-import { StoreFilter } from './index'
+
+import type { Ref } from 'vue'
+import type { TableColumnCtx } from '../table-column/defaults'
+import type { Table, TableRefs } from '../table/defaults'
+import type { StoreFilter } from './index'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn

@@ -1,8 +1,9 @@
 import { computed, getCurrentInstance } from 'vue'
-import { TableColumnCtx } from '../table-column/defaults'
-import { Table } from '../table/defaults'
 import useMapState from './mapState-helper'
-import { TableFooter } from './index'
+
+import type { Table } from '../table/defaults'
+import type { TableColumnCtx } from '../table-column/defaults'
+import type { TableFooter } from '.'
 
 function useStyle<T>(props: TableFooter<T>) {
   const instance = getCurrentInstance()

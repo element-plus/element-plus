@@ -177,20 +177,19 @@ import {
   provide,
   computed,
 } from 'vue'
+import { ClickOutside } from '@element-plus/directives'
+import { useFocus, useLocaleInject } from '@element-plus/hooks'
 import ElInput from '@element-plus/input'
-import ElOption from './option.vue'
-import ElSelectMenu from './select-dropdown.vue'
-import ElTag from '@element-plus/tag'
 import ElPopper from '@element-plus/popper'
 import ElScrollbar from '@element-plus/scrollbar'
-import { ClickOutside } from '@element-plus/directives'
-import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
-import { useLocaleInject } from '@element-plus/hooks'
+import ElTag from '@element-plus/tag'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { isValidComponentSize } from '@element-plus/utils/validators'
+import ElOption from './option.vue'
+import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
-import { useFocus } from '@element-plus/hooks'
 
 import type { PropType } from 'vue'
 

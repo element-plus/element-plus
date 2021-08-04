@@ -1,10 +1,10 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
+import { sleep } from '@element-plus/test-utils'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
-import { sleep } from '@element-plus/test-utils'
 
 jest.useFakeTimers()
 

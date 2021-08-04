@@ -1,5 +1,6 @@
 import { ref, watch } from 'vue'
-import { Dayjs } from 'dayjs'
+
+import type { Dayjs } from 'dayjs'
 
 const makeList = (total, method, methodFunc) => {
   const arr = []

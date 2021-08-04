@@ -71,17 +71,19 @@ import {
   defineComponent,
   ref,
   computed,
-  PropType,
   inject,
 } from 'vue'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import union from 'lodash/union'
 import { useLocaleInject } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
-const makeSelectRange = (start, end) => {
+import type { PropType } from 'vue'
+import type { Dayjs } from 'dayjs'
+
+const makeSelectRange = (start: number, end: number) => {
   const result = []
   for (let i = start; i <= end; i++) {
     result.push(i)
@@ -176,7 +178,7 @@ export default defineComponent({
       }
     }
 
-    const handleKeydown = event => {
+    const handleKeydown = (event: KeyboardEvent) => {
       const code = event.code
 
       if (code === EVENT_CODE.left || code === EVENT_CODE.right) {
