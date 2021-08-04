@@ -1,8 +1,7 @@
 import { defineComponent, h, ref, cloneVNode } from 'vue'
-import ElPopper from '@element-plus/popper'
+import { default as ElPopper, defaultProps } from '@element-plus/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import throwError from '@element-plus/utils/error'
-import { defaultProps } from '@element-plus/popper'
 import { getFirstValidNode } from '@element-plus/utils/vnode'
 
 /**

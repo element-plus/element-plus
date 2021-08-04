@@ -1,12 +1,12 @@
 import { computed, defineComponent, ref, reactive, onMounted, onBeforeUnmount, watch, h, withModifiers } from 'vue'
+import { NOOP } from '@vue/shared'
+import { BAR_MAP } from '@element-plus/scrollbar'
 import { on, off } from '@element-plus/utils/dom'
 import { rAF, cAF } from '@element-plus/utils/raf'
 import isServer from '@element-plus/utils/isServer'
-import { NOOP } from '@vue/shared'
 
 import { DefaultScrollBarProps, SCROLLBAR_MIN_SIZE, HORIZONTAL, ScrollbarDirKey } from '../defaults'
 import { renderThumbStyle } from '../utils'
-import { BAR_MAP } from '../../../scrollbar/src/util'
 
 import type { CSSProperties } from 'vue'
 

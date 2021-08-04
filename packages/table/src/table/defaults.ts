@@ -1,6 +1,6 @@
-import { ComponentInternalInstance, CSSProperties, Ref, VNode, PropType } from 'vue'
-import { Store } from '../store/index'
-import { TableColumnCtx } from '../table-column/defaults'
+import type { ComponentInternalInstance, CSSProperties, Ref, VNode, PropType } from 'vue'
+import type { Store } from '../store/index'
+import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
 
 export type DefaultRow = any

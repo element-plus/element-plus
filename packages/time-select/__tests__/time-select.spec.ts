@@ -1,8 +1,8 @@
-import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import Select from '@element-plus/select'
-import TimeSelect from '../src/time-select.vue'
 import { sleep } from '@element-plus/test-utils'
+import TimeSelect from '../src/time-select.vue'
 
 const { Option } = Select
 

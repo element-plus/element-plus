@@ -1,9 +1,10 @@
 import { getCurrentInstance, ref } from 'vue'
 import { hasClass, addClass, removeClass } from '@element-plus/utils/dom'
 import isServer from '@element-plus/utils/isServer'
-import { TableHeaderProps } from './index'
-import { TableColumnCtx } from '../table-column/defaults'
-import { Table } from '../table/defaults'
+
+import type { TableHeaderProps } from '.'
+import type { TableColumnCtx } from '../table-column/defaults'
+import type { Table } from '../table/defaults'
 
 function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const instance = getCurrentInstance()

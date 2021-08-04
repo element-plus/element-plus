@@ -3,14 +3,15 @@ import {
   addResizeListener,
   removeResizeListener,
 } from '@element-plus/utils/resize-event'
-import type { ResizableElement } from '@element-plus/utils/resize-event'
 import throttle from 'lodash/throttle'
 import { parseHeight } from '../util'
-import type TableLayout from '../table-layout'
 import { useGlobalConfig } from '@element-plus/utils/util'
-import { Table, TableProps } from './defaults'
-import { Store } from '../store/index'
-import { TableColumnCtx } from '../table-column/defaults'
+
+import type { ResizableElement } from '@element-plus/utils/resize-event'
+import type { Table, TableProps } from './defaults'
+import type { Store } from '../store'
+import type TableLayout from '../table-layout'
+import type { TableColumnCtx } from '../table-column/defaults'
 
 function useStyle<T>(
   props: TableProps<T>,

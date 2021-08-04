@@ -1,7 +1,7 @@
-import { ComputedRef } from 'vue'
-import { UPDATE_MODEL_EVENT } from '../../utils/constants'
-import { CHANGE_EVENT } from './index.vue'
-import { TransferProps, TransferCheckedState, DataItem, Key } from './transfer'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+
+import type { ComputedRef } from 'vue'
+import type { TransferProps, TransferCheckedState, DataItem, Key } from './transfer'
 
 export const useMove = (props: TransferProps, checkedState: TransferCheckedState, propsKey: ComputedRef<string>, emit) => {
   const _emit = (value, type: 'left' | 'right', checked: Key[]) => {

@@ -1,6 +1,6 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import Switch from '../src/index.vue'
-import { nextTick } from 'vue'
 
 jest.useFakeTimers()
 
@@ -76,7 +76,7 @@ describe('Switch.vue', () => {
         <div>
           <el-switch
             v-model="value"
-            @update:modelValue="handleChange">  
+            @update:modelValue="handleChange">
           </el-switch>
         </div>
       `,
@@ -239,7 +239,7 @@ describe('Switch.vue', () => {
       },
       template: `
         <div>
-          <el-switch 
+          <el-switch
             v-model="value"
             :loading="loading"
             :before-change="beforeChange"
@@ -296,7 +296,7 @@ describe('Switch.vue', () => {
       },
       template: `
         <div>
-          <el-switch 
+          <el-switch
             v-model="value"
             :before-change="beforeChange"
           />

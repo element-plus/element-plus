@@ -1,8 +1,10 @@
-import { nextTick, getCurrentInstance, unref, Ref } from 'vue'
+import { nextTick, getCurrentInstance, unref } from 'vue'
 import { arrayFind } from '@element-plus/utils/util'
 import useWatcher from './watcher'
-import { TableColumnCtx } from '../table-column/defaults'
-import { Filter, Sort, Table } from '../table/defaults'
+
+import type { Ref } from 'vue'
+import type { TableColumnCtx } from '../table-column/defaults'
+import type { Filter, Sort, Table } from '../table/defaults'
 
 interface WatcherPropsData<T> {
   data: Ref<T[]>

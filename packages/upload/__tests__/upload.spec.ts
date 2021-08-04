@@ -1,8 +1,8 @@
 import { nextTick } from 'vue'
+import makeMount from '@element-plus/test-utils/make-mount'
 import { on } from '@element-plus/utils/dom'
-import { EVENT_CODE } from '../../utils/aria'
+import { EVENT_CODE } from '@element-plus/utils/aria'
 
-import makeMount from '../../test-utils/make-mount'
 import Upload from '../src/upload.vue'
 
 const AXIOM = 'Rem is the best girl'

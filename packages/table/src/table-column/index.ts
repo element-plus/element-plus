@@ -9,13 +9,14 @@ import {
   onBeforeUnmount,
   Fragment,
 } from 'vue'
+import ElCheckbox from '@element-plus/checkbox'
 import { cellStarts } from '../config'
 import { mergeOptions, compose } from '../util'
-import ElCheckbox from '@element-plus/checkbox'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps, { TableColumn, TableColumnCtx } from './defaults'
-import { DefaultRow } from '../table/defaults'
+
+import type { DefaultRow } from '../table/defaults'
 
 let columnIdSeed = 1
 
