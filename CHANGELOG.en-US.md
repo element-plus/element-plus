@@ -1,5 +1,14 @@
 ## Changelog
 
+### 1.0.2-beta.68
+
+*2021-08-04*
+#### Bug fixes
+
+- Dropdown styles error (#2823 by @tolking)
+- Var fix input/radio/checkbox used by other components (#2821 by @YunYouJun)
+- Project node is not exporting issue (#2827 by @JeremyWuuuuu)
+
 ### 1.0.2-beta.67
 
 *2021-08-04*
