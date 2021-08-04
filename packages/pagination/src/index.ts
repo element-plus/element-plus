@@ -8,7 +8,6 @@ import {
 } from 'vue'
 import { warn } from '@element-plus/utils/error'
 import { useLocaleInject } from '@element-plus/hooks'
-import { IPagination } from './pagination'
 
 import Prev from './prev.vue'
 import Next from './next.vue'
@@ -17,12 +16,14 @@ import Jumper from './jumper.vue'
 import Total from './total.vue'
 import Pager from './pager.vue'
 
+import type { IPagination } from './pagination'
+
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
  * (same as pageSize, defaultPageSize, currentPage, defaultCurrentPage, pageCount)
  * Otherwise we can reasonable infer that the corresponding field is absent
  */
-const isAbsent = v => typeof v !== 'number'
+const isAbsent = (v: unknown) => typeof v !== 'number'
 
 const componentName = 'ElPagination'
 
