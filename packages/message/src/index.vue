@@ -27,11 +27,13 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, PropType, onMounted, onBeforeUnmount } from 'vue'
+import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { EVENT_CODE } from '@element-plus/utils/aria'
+import { on, off } from '@element-plus/utils/dom'
+
 // MessageVM is an alias of vue.VNode
+import type { PropType } from 'vue'
 import type { MessageVM } from './types'
-import { EVENT_CODE } from '../../utils/aria'
-import { on, off } from '../../utils/dom'
 const TypeMap: Indexable<string> = {
   success: 'success',
   info: 'info',

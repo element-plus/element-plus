@@ -43,7 +43,7 @@ import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 
-import type { PropType } from 'vue'
+import type { CSSProperties, PropType } from 'vue'
 import type { NotificationVM, Position } from './notification.type'
 
 const TypeMap: Indexable<string> = {
@@ -106,7 +106,7 @@ export default defineComponent({
       return {
         [verticalProperty.value]: `${props.offset}px`,
         'z-index':  props.zIndex,
-      }
+      } as CSSProperties
     })
 
     function startTimer() {

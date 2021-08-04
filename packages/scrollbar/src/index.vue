@@ -31,12 +31,13 @@
   </div>
 </template>
 <script lang="ts">
+import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
 import { addUnit, isArray, isNumber, isString, toObject } from '@element-plus/utils/util'
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref } from 'vue'
-import Bar from './bar.vue'
-import type { CSSProperties, PropType } from 'vue'
 import { warn } from '@element-plus/utils/error'
+import Bar from './bar.vue'
+
+import type { CSSProperties, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElScrollbar',
@@ -137,7 +138,7 @@ export default defineComponent({
     }
 
     const style = computed(() => {
-      let style = props.wrapStyle
+      let style = props.wrapStyle as CSSProperties
       if (isArray(style)) {
         style = toObject(style)
         style.height = addUnit(props.height)

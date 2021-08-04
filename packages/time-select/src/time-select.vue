@@ -30,7 +30,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import ElSelect from '@element-plus/select'
-import ElOption from '@element-plus/option'
+
+const { Option: ElOption } = ElSelect
 
 interface Time {
   hours: number

@@ -1,9 +1,11 @@
 import MessageBox from './src/messageBox'
+
+import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
 const _MessageBox: SFCWithInstall<typeof MessageBox> = MessageBox as SFCWithInstall<typeof MessageBox>
 
-_MessageBox.install = app => {
+_MessageBox.install = (app: App) => {
   app.config.globalProperties.$msgbox = _MessageBox
   app.config.globalProperties.$messageBox = _MessageBox
   app.config.globalProperties.$alert = _MessageBox.alert
@@ -12,3 +14,5 @@ _MessageBox.install = app => {
 }
 
 export default _MessageBox
+
+export * from './src/message-box.type'

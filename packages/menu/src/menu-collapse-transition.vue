@@ -12,33 +12,35 @@ export default defineComponent({
   setup() {
     return {
       on: {
-        beforeEnter(el) {
-          el.style.opacity = 0.2
+        beforeEnter(el: HTMLElement) {
+          el.style.opacity = '0.2'
         },
 
-        enter(el, done) {
+        enter(el: HTMLElement, done) {
           addClass(el, 'el-opacity-transition')
-          el.style.opacity = 1
+          el.style.opacity = '1'
           done()
         },
 
-        afterEnter(el) {
+        afterEnter(el: HTMLElement) {
           removeClass(el, 'el-opacity-transition')
           el.style.opacity = ''
         },
 
-        beforeLeave(el) {
-          if (!el.dataset) el.dataset = {}
+        beforeLeave(el: HTMLElement) {
+          if (!el.dataset) {
+            (el as any).dataset = {}
+          }
 
           if (hasClass(el, 'el-menu--collapse')) {
             removeClass(el, 'el-menu--collapse')
             el.dataset.oldOverflow = el.style.overflow
-            el.dataset.scrollWidth = el.clientWidth
+            el.dataset.scrollWidth = el.clientWidth.toString()
             addClass(el, 'el-menu--collapse')
           } else {
             addClass(el, 'el-menu--collapse')
             el.dataset.oldOverflow = el.style.overflow
-            el.dataset.scrollWidth = el.clientWidth
+            el.dataset.scrollWidth = el.clientWidth.toString()
             removeClass(el, 'el-menu--collapse')
           }
 
@@ -46,7 +48,7 @@ export default defineComponent({
           el.style.overflow = 'hidden'
         },
 
-        leave(el) {
+        leave(el: HTMLElement) {
           addClass(el, 'horizontal-collapse-transition')
           el.style.width = el.dataset.scrollWidth + 'px'
         },

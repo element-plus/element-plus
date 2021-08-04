@@ -47,9 +47,9 @@ import {
   inject,
   getCurrentInstance,
 } from 'vue'
+import ElTooltip from '@element-plus/tooltip'
 import { IMenuItemProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
-import ElTooltip from '@element-plus/tooltip'
 
 export default defineComponent({
   name: 'ElMenuItem',
