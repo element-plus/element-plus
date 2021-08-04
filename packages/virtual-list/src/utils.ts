@@ -11,9 +11,8 @@ import {
   PageKey,
 } from './defaults'
 
-import type { RTLOffsetType, Direction, LayoutDirection } from './types'
-
 import type { CSSProperties } from 'vue'
+import type { RTLOffsetType, Direction, LayoutDirection } from './types'
 
 export const getScrollDir = (prev: number, cur: number) =>
   prev < cur ? FORWARD : BACKWARD

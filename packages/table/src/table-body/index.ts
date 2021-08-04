@@ -1,5 +1,3 @@
-import { addClass, removeClass } from '@element-plus/utils/dom'
-import isServer from '@element-plus/utils/isServer'
 import {
   defineComponent,
   getCurrentInstance,
@@ -7,14 +5,17 @@ import {
   watch,
   onUnmounted,
   onUpdated,
-  VNode,
 } from 'vue'
+import { addClass, removeClass } from '@element-plus/utils/dom'
+import isServer from '@element-plus/utils/isServer'
 import { hColgroup } from '../h-helper'
 import useLayoutObserver from '../layout-observer'
 import useRender from './render-helper'
 import { removePopper } from '../util'
-import { DefaultRow, Table } from '../table/defaults'
 import defaultProps from './defaults'
+
+import type { VNode } from 'vue'
+import type { DefaultRow, Table } from '../table/defaults'
 
 export default defineComponent({
   name: 'ElTableBody',

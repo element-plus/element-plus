@@ -1,6 +1,8 @@
 import { isValidComponentSize } from '@element-plus/utils/validators'
+
 import type { PropType } from 'vue'
 import type { Options } from '@popperjs/core'
+
 export const defaultProps = {
   name: {
     type: [Array, String],

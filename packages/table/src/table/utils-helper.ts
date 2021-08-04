@@ -1,4 +1,4 @@
-import { Store } from '../store/index'
+import type { Store } from '../store'
 
 function useUtils<T>(store: Store<T>) {
   const setCurrentRow = (row: T) => {

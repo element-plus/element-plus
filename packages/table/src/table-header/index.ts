@@ -6,9 +6,6 @@ import {
   nextTick,
   ref,
   h,
-  ComponentInternalInstance,
-  Ref,
-  PropType,
 } from 'vue'
 import ElCheckbox from '@element-plus/checkbox'
 import FilterPanel from '../filter-panel.vue'
@@ -17,8 +14,14 @@ import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
 import { hColgroup } from '../h-helper'
-import { DefaultRow, Sort, Table } from '../table/defaults'
-import { Store } from '../store'
+
+import type {
+  ComponentInternalInstance,
+  Ref,
+  PropType,
+} from 'vue'
+import type { DefaultRow, Sort, Table } from '../table/defaults'
+import type { Store } from '../store'
 export interface TableHeader extends ComponentInternalInstance {
   state: {
     onColumnsChange

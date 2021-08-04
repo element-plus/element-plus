@@ -85,17 +85,20 @@ import {
   computed,
   getCurrentInstance,
   watch,
+} from 'vue'
+import ElCheckbox from '@element-plus/checkbox'
+import { ClickOutside } from '@element-plus/directives'
+import { useLocaleInject } from '@element-plus/hooks'
+import ElPopper from '@element-plus/popper'
+import ElScrollbar from '@element-plus/scrollbar'
+
+import type {
   WritableComputedRef,
   PropType,
 } from 'vue'
-import ElPopper from '@element-plus/popper'
-import { useLocaleInject } from '@element-plus/hooks'
-import ElCheckbox from '@element-plus/checkbox'
-import ElScrollbar from '@element-plus/scrollbar'
-import { ClickOutside } from '@element-plus/directives'
-import { TableColumnCtx } from './table-column/defaults'
-import { TableHeader } from './table-header/index'
-import { Store } from './store/index'
+import type { TableColumnCtx } from './table-column/defaults'
+import type { TableHeader } from './table-header'
+import type { Store } from './store'
 
 const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
 

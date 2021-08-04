@@ -1,14 +1,15 @@
 import {
   getCurrentInstance,
   h,
-  ComputedRef,
   ref,
   computed,
   watchEffect,
 } from 'vue'
 import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
 import { parseWidth, parseMinWidth } from '../util'
-import { TableColumnCtx, TableColumn } from './defaults'
+
+import type { ComputedRef } from 'vue'
+import type { TableColumnCtx, TableColumn } from './defaults'
 
 function useRender<T>(
   props: TableColumnCtx<T>,

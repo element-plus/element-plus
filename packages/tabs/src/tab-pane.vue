@@ -11,9 +11,9 @@
     <slot></slot>
   </div>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, ref, computed, inject, getCurrentInstance } from 'vue'
-import { RootTabs, UpdatePaneStateCallback, IEPaneProps } from './tabs.vue'
+import type { RootTabs, UpdatePaneStateCallback } from './token'
 
 export default defineComponent({
   name: 'ElTabPane',
@@ -30,7 +30,7 @@ export default defineComponent({
     disabled: Boolean,
     lazy: Boolean,
   },
-  setup(props: IEPaneProps) {
+  setup(props) {
     const index = ref<string>(null)
     const loaded = ref(false)
     const rootTabs = inject<RootTabs>('rootTabs')

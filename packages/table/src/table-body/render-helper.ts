@@ -1,11 +1,12 @@
 import { h, getCurrentInstance, computed } from 'vue'
+import { arrayFindIndex } from '@element-plus/utils/util'
 import useEvents from './events-helper'
 import useStyles from './styles-helper'
-import { arrayFindIndex } from '@element-plus/utils/util'
 import { getRowIdentity } from '../util'
-import { TableBodyProps } from './defaults'
-import { RenderRowData, Table, TreeNode } from '../table/defaults'
-import { TableProps } from '../table/defaults'
+
+import type { TableBodyProps } from './defaults'
+import type { RenderRowData, Table, TreeNode } from '../table/defaults'
+import type { TableProps } from '../table/defaults'
 
 function useRender<T>(props: Partial<TableBodyProps<T>>) {
   const instance = getCurrentInstance()
