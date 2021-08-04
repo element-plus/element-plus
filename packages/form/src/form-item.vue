@@ -44,12 +44,25 @@
 </template>
 
 <script lang="ts">
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
+import AsyncValidator from 'async-validator'
+import mitt from 'mitt'
 import { NOOP } from '@vue/shared'
 import { addUnit, getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
-import { computed, defineComponent, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
-import AsyncValidator from 'async-validator'
 import { isValidComponentSize } from '@element-plus/utils/validators'
-import mitt from 'mitt'
 import LabelWrap from './label-wrap'
 import { elFormEvents, elFormItemKey, elFormKey } from './token'
 
@@ -292,7 +305,7 @@ export default defineComponent({
 
       validate('change')
     }
-    const updateComputedLabelWidth = width => {
+    const updateComputedLabelWidth = (width: string | number) => {
       computedLabelWidth.value = width ? `${width}px` : ''
     }
 

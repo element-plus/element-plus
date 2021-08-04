@@ -1,5 +1,18 @@
-import { createVNode, h, reactive, ref, render, toRefs, Transition, VNode, vShow, withCtx, withDirectives } from 'vue'
+import {
+  createVNode,
+  h,
+  reactive,
+  ref,
+  render,
+  toRefs,
+  Transition,
+  vShow,
+  withCtx,
+  withDirectives,
+} from 'vue'
 import { removeClass } from '@element-plus/utils/dom'
+
+import type { VNode } from 'vue'
 import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
 
 export type Nullable<T> = null | T
