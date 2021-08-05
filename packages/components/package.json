@@ -1,0 +1,18 @@
+{
+  "name": "@element-plus/components",
+  "version": "0.0.1",
+  "description": "all components are settled here",
+  "dependencies": {
+    "@element-plus/icons": "^0.0.11",
+    "@popperjs/core": "^2.4.4",
+    "async-validator": "^3.4.0",
+    "dayjs": "1.x",
+    "lodash": "^4.17.20",
+    "mitt": "^2.1.0"
+  },
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "typings": "lib/index.d.ts",
+  "unpkg": "lib/index.js",
+  "style": "lib/theme-chalk/index.css"
+}
