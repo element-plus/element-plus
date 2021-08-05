@@ -686,40 +686,4 @@ describe('CascaderPanel.vue', () => {
     await wrapper.setProps({ options: NORMAL_OPTIONS })
     expect(vm.getCheckedNodes(true).length).toBe(1)
   })
-
-  test('should not re-init when props\'s reference change but value not change', async () => {
-    const mockLazyLoad = jest.fn()
-    const wrapper = _mount({
-      template: `
-        <cascader-panel
-          v-model="value"
-          :props="props"
-        />
-      `,
-      data() {
-        return {
-          value: [],
-          props: {
-            lazy: true,
-            lazyLoad: mockLazyLoad,
-          },
-        }
-      },
-    })
-
-    await nextTick()
-    expect(mockLazyLoad).toBeCalled()
-
-    const sameMockLazyLoad = jest.fn()
-    wrapper.vm.props.lazyLoad = sameMockLazyLoad
-    await nextTick()
-    expect(sameMockLazyLoad).not.toBeCalled()
-
-    // should re-init when props's value change
-    const differentMockLazyLoad = jest.fn(lazyLoad)
-    wrapper.vm.props.lazyLoad = differentMockLazyLoad
-    await nextTick()
-    expect(differentMockLazyLoad).toBeCalled()
-  })
-
 })
