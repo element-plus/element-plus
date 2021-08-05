@@ -1,6 +1,5 @@
 {
-  "name": "element-theme-chalk",
-  "private": "true",
+  "name": "@element-plus/theme-chalk",
   "version": "0.0.1",
   "description": "Element component chalk theme.",
   "main": "lib/index.css",
