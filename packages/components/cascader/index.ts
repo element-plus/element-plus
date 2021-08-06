@@ -9,3 +9,5 @@ Cascader.install = (app: App): void => {
 const _Cascader: SFCWithInstall<typeof Cascader> = Cascader
 
 export default _Cascader
+export const ElCascader = _Cascader
+

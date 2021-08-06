@@ -10,5 +10,6 @@ _Notify.install = (app: App) => {
 }
 
 export default _Notify
+export const ElNotification = _Notify
 
 export * from './src/notification.type'

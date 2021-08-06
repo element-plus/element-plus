@@ -10,6 +10,7 @@ _Message.install = (app: App) => {
 }
 
 export default _Message
+export const ElMessage = _Message
 
 export * from './src/types'
 

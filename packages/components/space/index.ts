@@ -10,3 +10,4 @@ _Space.install = (app: App) => {
 }
 
 export default _Space
+export const ElSpace = _Space

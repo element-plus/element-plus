@@ -9,3 +9,4 @@ Card.install = (app: App): void => {
 const _Card: SFCWithInstall<typeof Card> = Card
 
 export default _Card
+export const ElCard = _Card

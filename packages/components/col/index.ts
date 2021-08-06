@@ -1,4 +1,5 @@
 import Col from './src/col'
+
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
@@ -9,3 +10,4 @@ _Col.install = (app: App) => {
 }
 
 export default _Col
+export const ElCol = _Col

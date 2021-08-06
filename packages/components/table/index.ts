@@ -16,3 +16,5 @@ const _Table = Table as any as SFCWithInstall<typeof Table> & {
 }
 
 export default _Table
+export const ElTable = _Table
+export const ElTableColumn = TableColumn

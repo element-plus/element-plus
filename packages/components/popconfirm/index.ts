@@ -10,3 +10,4 @@ Popconfirm.install = (app: App): void => {
 const _Popconfirm: SFCWithInstall<typeof Popconfirm> = Popconfirm
 
 export default _Popconfirm
+export const ElPopconfirm = _Popconfirm

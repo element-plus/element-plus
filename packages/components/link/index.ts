@@ -10,3 +10,4 @@ Link.install = (app: App): void => {
 const _Link: SFCWithInstall<typeof Link> = Link
 
 export default _Link
+export const ElLink = _Link

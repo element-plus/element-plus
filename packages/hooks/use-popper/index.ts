@@ -46,9 +46,9 @@ import type {
 import type { RefElement } from '@element-plus/utils/types'
 import type { Trigger } from './use-target-events'
 
-export type Effect = 'light' | 'dark'
+export type PopperEffect = 'light' | 'dark'
 export type Offset = [number, number] | number
-export type Nullable<T> = null | T
+type Nullable<T> = null | T
 
 type ElementType = ComponentPublicInstance | HTMLElement
 
@@ -93,7 +93,7 @@ export const usePopperProps = {
     default: false,
   },
   effect: {
-    type: String as PropType<Effect>,
+    type: String as PropType<PopperEffect>,
     default: DARK_EFFECT,
   },
   enterable: {
@@ -134,7 +134,7 @@ export const usePopperProps = {
   },
 }
 
-export const usePopper = () => {
+export const usePopperHook = () => {
 
   const vm = getCurrentInstance()
   const props = vm.props as ExtractPropTypes<typeof usePopperProps>

@@ -10,3 +10,4 @@ Backtop.install = (app: App): void => {
 const _Backtop: SFCWithInstall<typeof Backtop> = Backtop
 
 export default _Backtop
+export const ElBacktop = _Backtop

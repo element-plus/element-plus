@@ -1,8 +1,9 @@
-import { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
 import Checkbox from './src/checkbox.vue'
 import CheckboxButton from './src/checkbox-button.vue'
 import CheckboxGroup from './src/checkbox-group.vue'
+
+import type { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Checkbox.install = (app: App): void => {
   app.component(Checkbox.name, Checkbox)
@@ -19,3 +20,6 @@ const _Checkbox = Checkbox as any as SFCWithInstall<typeof Checkbox> & {
 }
 
 export default _Checkbox
+export const ElCheckbox = _Checkbox
+export const ElCheckboxButton = CheckboxButton
+export const ElCheckboxGroup = CheckboxGroup

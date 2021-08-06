@@ -3,7 +3,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import type { PropType } from 'vue'
 import type { Options } from '@popperjs/core'
 
-export const defaultProps = {
+export const timePickerDefaultProps = {
   name: {
     type: [Array, String],
     default: '',

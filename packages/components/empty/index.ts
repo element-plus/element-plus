@@ -10,3 +10,4 @@ Empty.install = (app: App): void => {
 const _Empty: SFCWithInstall<typeof Empty> = Empty
 
 export default _Empty
+export const ElEmpty = _Empty

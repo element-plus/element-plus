@@ -14,3 +14,5 @@ export {
   useDialogProps,
   useDialogEmits,
 } from './src/useDialog'
+
+export const ElDialog = _Dialog

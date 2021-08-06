@@ -13,7 +13,7 @@ import {
 import { ClickOutside } from '@element-plus/directives'
 import ElPopper from '@element-plus/components/popper'
 import {
-  defaultProps,
+  popperDefaultProps,
   Effect,
   renderArrow,
   renderPopper,
@@ -37,7 +37,7 @@ export default defineComponent({
     ElPopper,
   },
   props: {
-    ...defaultProps,
+    ...popperDefaultProps,
     content: {
       type: String,
     },

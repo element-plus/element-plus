@@ -15,3 +15,5 @@ const _Collapse = Collapse as any as SFCWithInstall<typeof Collapse> & {
 }
 
 export default _Collapse
+export const ElCollapse = _Collapse
+export const ElCollapseItem = CollapseItem

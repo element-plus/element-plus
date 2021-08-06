@@ -8,7 +8,12 @@ import weekYear from 'dayjs/plugin/weekYear'
 import dayOfYear from 'dayjs/plugin/dayOfYear'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
-import { CommonPicker, DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER, defaultProps } from '@element-plus/components/time-picker'
+import {
+  CommonPicker,
+  DEFAULT_FORMATS_DATE,
+  DEFAULT_FORMATS_DATEPICKER,
+  timePickerDefaultProps,
+} from '@element-plus/components/time-picker'
 import DatePickPanel from './date-picker-com/panel-date-pick.vue'
 import DateRangePickPanel from './date-picker-com/panel-date-range.vue'
 import MonthRangePickPanel from './date-picker-com/panel-month-range.vue'
@@ -39,7 +44,7 @@ export default defineComponent({
   name: 'ElDatePicker',
   install: null,
   props: {
-    ...defaultProps,
+    ...timePickerDefaultProps,
     type: {
       type: String as PropType<IDatePickerType>,
       default: 'date',

@@ -9,3 +9,4 @@ Avatar.install = (app: App): void => {
 const _Avatar: SFCWithInstall<typeof Avatar> = Avatar
 
 export default _Avatar
+export const ElAvatar = _Avatar

@@ -10,3 +10,4 @@ InputNumber.install = (app: App): void => {
 const _InputNumber: SFCWithInstall<typeof InputNumber> = InputNumber
 
 export default _InputNumber
+export const ElInputNumber = _InputNumber

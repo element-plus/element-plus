@@ -1,8 +1,10 @@
 /* eslint-disable */
+const fs = require('fs')
 const path = require('path')
 const pkgs = require('./getPkgs')
 const rollup = require('rollup')
 const vue = require('rollup-plugin-vue')
+const alias = require('@rollup/plugin-alias')
 const css = require('rollup-plugin-css-only')
 const filesize = require('rollup-plugin-filesize')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
@@ -11,8 +13,17 @@ const chalk = require('chalk')
 const esbuild = require('rollup-plugin-esbuild')
 const reporter = require('./size-reporter')
 
-const pkgRoot = path.resolve(__dirname, '../packages')
 const projRoot = path.resolve(__dirname, '../')
+const compRoot = path.resolve(projRoot, './packages/components')
+
+async function getComponents() {
+  const raw = await fs.promises.readdir(compRoot)
+  // filter out package.json since under packages/components we only got this file
+  //
+  return raw
+    .filter(f => f !== 'package.json')
+    .map(f => ({ path: path.resolve(compRoot, f), name: f }))
+}
 
 const plugins = [
   css(),
@@ -26,26 +37,39 @@ const plugins = [
 
 const VUE_REGEX = 'vue'
 const VUE_MONO = '@vue'
-const EP_REGEX = '@element-plus'
+const EP_PREFIX = '@element-plus'
+const externals = ['@popperjs/core',
+  'async-validator',
+  'dayjs',
+  'lodash',
+  'mitt',
+]
+  // const EP_EXTERNALS = ['utils', 'hooks', 'directives', 'locale']
+  //   .map(item => `${EP_PREFIX}/${item}`)
 
   ; (async () => {
-
-    const builds = pkgs.slice(0, 1).map(async ({ name, location, resolved }) => {
+    const componentPaths = await getComponents()
+    // console.log(componentPaths)
+    const builds = componentPaths.map(async ({
+      path: p,
+      name: componentName,
+    }) => {
       // console.log(resolved)
-      const entry = path.resolve(location, './index.ts')
-      const outputDir = path.resolve(location, './dist')
-      const deps = require(
-        path.resolve(location, './package.json')
-      ).dependencies
+      const entry = path.resolve(p, './index.ts')
+      const outputDir = path.resolve(compRoot, './dist')
+      // const deps = require(
+      //   path.resolve(location, './package.json')
+      // ).dependencies
       const external = (id) => {
         return id.startsWith(VUE_REGEX)
           || id.startsWith(VUE_MONO)
-          || id.startsWith(EP_REGEX)
-          || Object.keys(deps).some(k => id.startsWith(k))
+          || id.startsWith(EP_PREFIX)
+        || externals.some(i => id.startsWith(i))
       }
       const esm = {
         format: 'es',
-        file: `${outputDir}/es/index.js`,
+        file: `${outputDir}/${componentName}/index.js`,
+        banner: `import '@element-plus/theme-chalk/el-${componentName}.css'`,
         plugins: [
           filesize({
             // showBrotliSize: true,
@@ -55,7 +79,7 @@ const EP_REGEX = '@element-plus'
       };
       const cjs = {
         format: 'cjs',
-        file: `${outputDir}/lib/index.js`,
+        file: `${outputDir}/${componentName}/index.js`,
         // paths: getPaths,
         exports: 'named',
       };
@@ -68,7 +92,7 @@ const EP_REGEX = '@element-plus'
       // console.log(bundle)
       await Promise.all([
         bundle.write(esm),
-        bundle.write(cjs),
+        // bundle.write(cjs),
       ])
 
       // console.log(esmResult)

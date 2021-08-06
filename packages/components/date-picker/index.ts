@@ -10,3 +10,4 @@ _DatePicker.install = (app: App) => {
 }
 
 export default _DatePicker
+export const ElDatePicker = _DatePicker
