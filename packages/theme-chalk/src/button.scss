@@ -186,8 +186,9 @@
         map.get($--button-font-size, $size),
         map.get($--button-border-radius, $size)
       );
+
       @include when(circle) {
-        padding: map.get($--button-padding-horizontal, $size);
+        padding: map.get($--button-padding-vertical, $size);
       }
     }
   }
