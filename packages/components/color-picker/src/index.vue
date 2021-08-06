@@ -108,6 +108,7 @@ import { OPTIONS_KEY } from './useOption'
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
 import type { IUseOptions } from './useOption'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElColorPicker',

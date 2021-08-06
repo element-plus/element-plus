@@ -141,7 +141,7 @@ import { ElNotification } from './notification'
 export * from './popover'
 import { ElPopover, ElPopoverDirective } from './popover'
 
-export const install = (app: App) => {
+export const installer = (app: App) => {
   const components = [
     ElAffix,
     ElAlert,

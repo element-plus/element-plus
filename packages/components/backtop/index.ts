@@ -7,7 +7,7 @@ Backtop.install = (app: App): void => {
   app.component(Backtop.name, Backtop)
 }
 
-const _Backtop: SFCWithInstall<typeof Backtop> = Backtop
+const _Backtop = Backtop as SFCWithInstall<typeof Backtop>
 
 export default _Backtop
 export const ElBacktop = _Backtop

@@ -27,6 +27,8 @@ import IconError from './icon-error.vue'
 import IconWarning from './icon-warning.vue'
 import IconInfo from './icon-info.vue'
 
+import type { Indexable } from '@element-plus/utils/types'
+
 const IconMap: Indexable<string> = {
   success: 'icon-success',
   warning: 'icon-warning',

@@ -7,7 +7,7 @@ Tag.install = (app: App): void => {
   app.component(Tag.name, Tag)
 }
 
-const _Tag: SFCWithInstall<typeof Tag> = Tag
+const _Tag = Tag as SFCWithInstall<typeof Tag>
 
 export default _Tag
 export const ElTag = _Tag

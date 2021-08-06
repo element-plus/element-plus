@@ -6,12 +6,22 @@
   "peerDependencies": {
     "vue": "3.1.1"
   },
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "gulp build"
+  },
   "dependencies": {
     "@element-plus/utils": "^0.0.1",
     "normalize-wheel": "^1.0.1"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.0.0-beta.3",
-    "@element-plus/test-utils": "^0.0.1"
+    "@element-plus/test-utils": "^0.0.1",
+    "chalk": "^4.1.2",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "sass": "^1.37.0",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   }
 }

@@ -6,7 +6,7 @@ CollapseTransition.install = (app: App): void => {
   app.component(CollapseTransition.name, CollapseTransition)
 }
 
-const _CollapseTransition: SFCWithInstall<typeof CollapseTransition> = CollapseTransition
+const _CollapseTransition = CollapseTransition as SFCWithInstall<typeof CollapseTransition>
 
 export default _CollapseTransition
 export const ElCollapseTransition = _CollapseTransition

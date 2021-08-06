@@ -68,6 +68,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 interface IData {
   currentValue: number | string

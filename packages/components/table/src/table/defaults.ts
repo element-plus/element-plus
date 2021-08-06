@@ -1,10 +1,10 @@
 import type { ComponentInternalInstance, CSSProperties, Ref, VNode, PropType } from 'vue'
-import type { Store } from '../store/index'
+import type { Nullable } from '@element-plus/utils/types'
+import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
 
 export type DefaultRow = any
-export type Nullable<T> = null | T
 
 interface TableRefs {
   headerWrapper: HTMLElement

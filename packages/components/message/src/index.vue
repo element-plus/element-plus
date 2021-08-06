@@ -33,6 +33,7 @@ import { on, off } from '@element-plus/utils/dom'
 
 // MessageVM is an alias of vue.VNode
 import type { PropType } from 'vue'
+import type { Indexable } from '@element-plus/utils/types'
 import type { MessageVM } from './types'
 const TypeMap: Indexable<string> = {
   success: 'success',

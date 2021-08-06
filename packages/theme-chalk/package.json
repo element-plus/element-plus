@@ -2,12 +2,10 @@
   "name": "@element-plus/theme-chalk",
   "version": "0.0.1",
   "description": "Element component chalk theme.",
-  "main": "lib/index.css",
-  "style": "lib/index.css",
-  "files": [
-    "lib",
-    "src"
-  ],
+  "main": "index.css",
+  "unpkg": "index.css",
+  "jsdelivr": "index.css",
+  "style": "index.css",
   "scripts": {
     "clean": "rm -rf lib",
     "build": "gulp build"
@@ -17,8 +15,10 @@
     "url": "git+https://github.com/element-plus/element-plus.git"
   },
   "keywords": [
-    "element",
-    "theme"
+    "vue-components",
+    "element-plus",
+    "theme-chalk",
+    "theme-light"
   ],
   "author": "yi.shyang@ele.me",
   "license": "MIT",

@@ -16,7 +16,7 @@ import { FixedSizeList, DynamicSizeList } from '@element-plus/components/virtual
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
 
-import { selectKey } from './token'
+import { selectV2InjectionKey } from './token'
 
 import type { ItemProps } from '@element-plus/components/virtual-list/src/types'
 import type { OptionItemProps, Option } from './select.types'
@@ -30,7 +30,7 @@ export default defineComponent({
     width: Number,
   },
   setup(props) {
-    const select = inject(selectKey)
+    const select = inject(selectV2InjectionKey)
     const cachedHeights = ref<Array<number>>([])
 
     const listRef = ref(null)

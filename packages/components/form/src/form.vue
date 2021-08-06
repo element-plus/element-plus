@@ -16,8 +16,9 @@ import { FieldErrorList } from 'async-validator'
 import mitt from 'mitt'
 import { elFormEvents, elFormKey } from './token'
 
-import type { FormRulesMap } from './form.type'
 import type { PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
+import type { FormRulesMap } from './form.type'
 import type { ElFormItemContext as FormItemCtx, ValidateFieldCallback } from './token'
 
 function useFormLabelWidth() {
@@ -57,7 +58,7 @@ function useFormLabelWidth() {
   }
 }
 
-interface Callback {
+export interface Callback {
   (isValid?: boolean, invalidFields?: FieldErrorList): void
 }
 

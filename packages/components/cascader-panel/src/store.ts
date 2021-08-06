@@ -1,5 +1,7 @@
 import isEqual from 'lodash/isEqual'
 import Node from './node'
+
+import type { Nullable } from '@element-plus/utils/types'
 import type {
   CascaderNodeValue,
   CascaderNodePathValue,
@@ -7,7 +9,6 @@ import type {
   CascaderConfig,
 } from './node'
 
-export type Nullable<T> = null | T
 
 const flatNodes = (nodes: Node[], leafOnly: boolean) => {
   return nodes.reduce((res, node) => {

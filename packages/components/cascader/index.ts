@@ -6,7 +6,7 @@ Cascader.install = (app: App): void => {
   app.component(Cascader.name, Cascader)
 }
 
-const _Cascader: SFCWithInstall<typeof Cascader> = Cascader
+const _Cascader = Cascader as SFCWithInstall<typeof Cascader>
 
 export default _Cascader
 export const ElCascader = _Cascader

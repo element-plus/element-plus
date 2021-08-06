@@ -67,6 +67,7 @@ import LabelWrap from './label-wrap'
 import { elFormEvents, elFormItemKey, elFormKey } from './token'
 
 import type { PropType, CSSProperties } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 import type { ElFormContext, ValidateFieldCallback } from './token'
 import type { FormItemRule } from './form.type'
 

@@ -4,11 +4,12 @@ import { warn } from '@element-plus/utils/error'
 
 // if you encountered problems alike "Can't resolve './version'"
 // please run `yarn bootstrap` first
-import { install as installComponents } from '@element-plus/components'
+import { installer } from '@element-plus/components'
 import { version as version_ } from './version'
 
 import type { App } from 'vue'
 import type { InstallOptions } from '@element-plus/utils/config'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export * from '@element-plus/components'
 export * from '@element-plus/hooks'
@@ -27,7 +28,7 @@ const install = (app: App, opt: InstallOptions): void => {
   // app.provide() ? is this better? I think its not that flexible but worth implement
   setConfig(option)
 
-  installComponents(app)
+  installer(app)
 }
 
 const locale = () => {

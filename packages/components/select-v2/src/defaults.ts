@@ -1,6 +1,7 @@
 import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 import type { OptionType } from './select.types'
 
 export const SelectProps = {

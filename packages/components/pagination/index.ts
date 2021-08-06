@@ -1,4 +1,4 @@
-import Pagination from './src/index'
+import Pagination from './src'
 
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'

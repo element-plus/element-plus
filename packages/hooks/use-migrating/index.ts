@@ -1,5 +1,5 @@
-import { kebabCase } from '@element-plus/utils/util'
 import { onMounted, getCurrentInstance } from 'vue'
+import { kebabCase } from '@element-plus/utils/util'
 
 const useMigrating = function () {
   onMounted(() => {

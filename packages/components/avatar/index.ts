@@ -6,7 +6,7 @@ Avatar.install = (app: App): void => {
   app.component(Avatar.name, Avatar)
 }
 
-const _Avatar: SFCWithInstall<typeof Avatar> = Avatar
+const _Avatar = Avatar as SFCWithInstall<typeof Avatar>
 
 export default _Avatar
 export const ElAvatar = _Avatar

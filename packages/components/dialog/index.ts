@@ -6,7 +6,7 @@ Dialog.install = (app: App): void => {
   app.component(Dialog.name, Dialog)
 }
 
-const _Dialog: SFCWithInstall<typeof Dialog> = Dialog
+const _Dialog = Dialog as SFCWithInstall<typeof Dialog>
 
 export default _Dialog
 export {

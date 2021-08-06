@@ -12,18 +12,3 @@ export interface ICheckboxGroupInstance {
   checkboxGroupSize?: ComputedRef<string>
   changeEvent?: AnyFunction<any>
 }
-
-export interface ICheckboxProps {
-  modelValue: string | boolean | number
-  label?: string | boolean | number
-  indeterminate?: boolean
-  disabled?: boolean
-  checked?: boolean
-  name?: string
-  trueLabel?: string | number
-  falseLabel?: string | number
-  id?: string
-  controls?: string
-  border?: boolean
-  size?: string
-}

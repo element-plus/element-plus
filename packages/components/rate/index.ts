@@ -7,7 +7,7 @@ Rate.install = (app: App): void => {
   app.component(Rate.name, Rate)
 }
 
-const _Rate: SFCWithInstall<typeof Rate> = Rate
+const _Rate = Rate as SFCWithInstall<typeof Rate>
 
 export default _Rate
 export const ElRate = _Rate

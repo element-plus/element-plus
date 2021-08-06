@@ -7,7 +7,7 @@ Badge.install = (app: App): void => {
   app.component(Badge.name, Badge)
 }
 
-const _Badge: SFCWithInstall<typeof Badge> = Badge
+const _Badge = Badge as SFCWithInstall<typeof Badge>
 
 export default _Badge
 export const ElBadge = _Badge

@@ -30,6 +30,7 @@ import radioGroupKey from './token'
 
 import type { PropType } from 'vue'
 import type { ElFormItemContext } from '@element-plus/components/form'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElRadioGroup',

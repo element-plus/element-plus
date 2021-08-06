@@ -6,7 +6,7 @@ Card.install = (app: App): void => {
   app.component(Card.name, Card)
 }
 
-const _Card: SFCWithInstall<typeof Card> = Card
+const _Card = Card as SFCWithInstall<typeof Card>
 
 export default _Card
 export const ElCard = _Card

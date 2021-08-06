@@ -161,6 +161,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import type { ComputedRef, PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
 import type { CascaderValue, CascaderNode, Tag } from '@element-plus/components/cascader-panel'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 const DEFAULT_INPUT_HEIGHT = 40
 

@@ -1,4 +1,6 @@
 
+import type { ComponentSize } from '@element-plus/utils/types'
+
 export interface InstallOptions {
   size: ComponentSize
   zIndex: number

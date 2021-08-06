@@ -7,7 +7,7 @@ Result.install = (app: App): void => {
   app.component(Result.name, Result)
 }
 
-const _Result: SFCWithInstall<typeof Result> = Result
+const _Result = Result as SFCWithInstall<typeof Result>
 
 export default _Result
 export const ElResult = _Result

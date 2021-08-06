@@ -7,7 +7,7 @@ Image.install = (app: App): void => {
   app.component(Image.name, Image)
 }
 
-const _Image: SFCWithInstall<typeof Image> = Image
+const _Image = Image as SFCWithInstall<typeof Image>
 
 export default _Image
 export const ElImage = _Image

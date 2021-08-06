@@ -131,6 +131,7 @@ import calcTextareaHeight from './calcTextareaHeight'
 
 import type { PropType } from 'vue'
 import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 type AutosizeProp = {
   minRows?: number
