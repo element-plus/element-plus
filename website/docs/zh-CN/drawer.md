@@ -42,7 +42,11 @@
     },
     methods: {
       handleClose(done) {
-        this.$confirm('确认关闭？')
+        this.$confirm('确认关闭？','提示',{  
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type:'info'
+        })
           .then(_ => {
             done();
           })
@@ -219,7 +223,11 @@ export default {
       if (this.loading) {
         return;
       }
-      this.$confirm('确定要提交表单吗？')
+      this.$confirm('确定要提交表单吗？','提示',{  
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type:'info'
+        })
         .then(_ => {
           this.loading = true;
           this.timer = setTimeout(() => {
@@ -363,7 +371,11 @@ export default {
     },
     methods: {
       handleClose(done) {
-        this.$confirm('还有未保存的工作哦确定关闭吗？')
+        this.$confirm('还有未保存的工作哦确定关闭吗？','提示',{  
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type:'info'
+        })
           .then(_ => {
             done();
           })
