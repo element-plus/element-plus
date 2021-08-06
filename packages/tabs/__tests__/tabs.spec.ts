@@ -473,6 +473,49 @@ describe('Tabs.vue', () => {
     expect(tabsWrapper.find('.el-tabs__nav').classes('is-stretch')).toBe(false)
   })
 
+  test('tab active bar offset', async () => {
+    const wrapper = mount({
+      components: {
+        'el-tabs': Tabs,
+        'el-tab-pane': TabPane,
+      },
+      template: `
+      <el-tabs ref="tabs" stretch :tab-position="tabPosition">
+        <el-tab-pane label="label-1" name="A">A</el-tab-pane>
+        <el-tab-pane label="label-2" name="B">B</el-tab-pane>
+        <el-tab-pane label="label-3" name="C">C</el-tab-pane>
+        <el-tab-pane label="label-4" name="D">D</el-tab-pane>
+      </el-tabs>
+      `,
+      data() {
+        return {
+          tabPosition: 'bottom',
+        }
+      },
+    })
+
+    const tabsWrapper = wrapper.findComponent(Tabs)
+    await nextTick()
+    const mockCRect = jest.spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect').mockReturnValue({ left: 300 } as DOMRect)
+    const mockComputedStyle = jest.spyOn(window, 'getComputedStyle').mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
+    await wrapper.find('#tab-C').trigger('click')
+
+    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch('translateX(300px)')
+
+    wrapper.vm.tabPosition = 'left'
+    await nextTick()
+    const mockCYRect = jest.spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect').mockReturnValue({ top: 200 } as DOMRect)
+    await wrapper.find('#tab-A').trigger('click')
+    await wrapper.find('#tab-C').trigger('click')
+
+    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch('translateY(200px)')
+
+    mockCRect.mockRestore()
+    mockCYRect.mockRestore()
+    mockComputedStyle.mockRestore()
+    wrapper.unmount()
+  })
+
   test('horizonal-scrollable', async () => {
     // TODO: jsdom not support `clientWidth`.
   })
