@@ -54,8 +54,8 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      background-color: map.get($--colors, $type, 'lighter');
-      border-color: map.get($--colors, $type, 'light');
+      background-color: map.get($--colors, $type, 'light-9');
+      border-color: map.get($--colors, $type, 'light-8');
 
       .#{$namespace}-message__content {
         color: var(--el-message-#{$type}-font-color);

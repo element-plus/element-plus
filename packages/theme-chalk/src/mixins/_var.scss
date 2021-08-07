@@ -1,13 +1,15 @@
 @use "sass:map";
 
-@mixin set-css-color-primary($i) {
-  --el-color-primary-light-#{$i}: #{map.get($--colors, 'primary', 'light-#{$i}')};
+@mixin set-css-color-type-light($type, $i) {
+  --el-color-#{$type}-light-#{$i}: #{map.get($--colors, $type, 'light-#{$i}')};
 }
 
 @mixin set-css-color-type($type) {
   --el-color-#{$type}: #{map.get($--colors, $type, 'base')};
-  --el-color-#{$type}-light: #{map.get($--colors, $type, 'light')};
-  --el-color-#{$type}-lighter: #{map.get($--colors, $type, 'lighter')};
+
+  @each $i in (2, 4, 5, 6, 8, 9) {
+    @include set-css-color-type-light($type, $i);
+  }
 }
 
 @mixin set-css-var-type($name, $type, $--variables) {

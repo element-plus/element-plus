@@ -9,7 +9,9 @@
 // skipAutoTranslation 1
 
 // types
-$--types: primary, success, warning, danger, info;
+$--types: primary, success, warning, danger, error, info;
+$--hover-tint-percent: 20%;
+$--active-shade-percent: 10%;
 
 /* Color
 -------------------------- */
@@ -50,19 +52,24 @@ $--color-error: map.get($--colors, 'error', 'base');
 $--color-info: map.get($--colors, 'info', 'base');
 
 // https://sass-lang.com/documentation/values/maps#immutability
-@mixin set-color-primary-light($color, $number) {
+@mixin set-color-type-light($type, $number) {
   $--colors: map.deep-merge(
     (
-      'primary': (
+      $type: (
         'light-#{$number}':
-          mix($--color-white, $color, math.percentage(math.div($number, 10))),
+          mix(
+            $--color-white,
+            map.get($--colors, $type, 'base'),
+            math.percentage(math.div($number, 10))
+          ),
       ),
     ),
     $--colors
   ) !global;
 }
 
-// $--color-primary-light-i
+// $--colors.primary.light-i
+// --el-color-primary-light-i
 // 10% 53a8ff
 // 20% 66b1ff
 // 30% 79bbff
@@ -73,26 +80,9 @@ $--color-info: map.get($--colors, 'info', 'base');
 // 80% d9ecff
 // 90% ecf5ff
 @for $i from 1 through 9 {
-  @include set-color-primary-light(map.get($--colors, 'primary', 'base'), $i);
-}
-
-// generate
-// $--colors.success.light: mix($--color-white, $--color-success, 80%) !default;
-// $--colors.success.lighter: mix($--color-white, $--color-success, 90%) !default;
-@mixin set-color-type-light($type) {
-  $--colors: map.deep-merge(
-    (
-      $type: (
-        'light': mix($--color-white, map.get($--colors, $type, 'base'), 80%),
-        'lighter': mix($--color-white, map.get($--colors, $type, 'base'), 90%),
-      ),
-    ),
-    $--colors
-  ) !global;
-}
-
-@each $type in (success, warning, danger, error, info) {
-  @include set-color-type-light($type);
+  @each $type in $--types {
+    @include set-color-type-light($type, $i);
+  }
 }
 
 $--text-color: () !default;

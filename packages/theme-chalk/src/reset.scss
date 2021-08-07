@@ -15,7 +15,7 @@ a {
 
   &:hover,
   &:focus {
-    color: mix($--color-white, $--color-primary, $--button-hover-tint-percent);
+    color: var(--el-color-primary-light-2);
   }
 
   &:active {

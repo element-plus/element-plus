@@ -171,7 +171,8 @@
       @include button-variant(
         map.get($--button-font-color, $type),
         map.get($--button-background-color, $type),
-        map.get($--button-border-color, $type)
+        map.get($--button-border-color, $type),
+        $type
       );
     }
   }
@@ -202,11 +203,7 @@
 
     &:hover,
     &:focus {
-      color: mix(
-        $--color-white,
-        $--color-primary,
-        $--button-hover-tint-percent
-      );
+      color: var(--el-color-primary-light-2);
       border-color: transparent;
       background-color: transparent;
     }

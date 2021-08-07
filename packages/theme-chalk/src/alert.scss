@@ -8,7 +8,7 @@
   @include set-component-css-var('alert', $--alert);
 
   @each $type in (success, info, warning, error) {
-    --el-alert-#{$type}-color: #{map.get($--colors, $type, 'lighter')};
+    --el-alert-#{$type}-color: #{map.get($--colors, $type, 'light-9')};
   }
 
   width: 100%;

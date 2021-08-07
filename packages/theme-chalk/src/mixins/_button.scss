@@ -1,8 +1,11 @@
+@use "sass:map";
+
 @import '../common/var';
-@mixin button-plain($color) {
+
+@mixin button-plain($color, $type) {
   color: $color;
-  background: mix($--color-white, $color, 90%);
-  border-color: mix($--color-white, $color, 60%);
+  background: var(--el-color-#{$type}-light-9);
+  border-color: var(--el-color-#{$type}-light-6);
 
   &:hover,
   &:focus {
@@ -12,9 +15,9 @@
   }
 
   &:active {
-    background: mix($--color-black, $color, $--button-active-shade-percent);
-    border-color: mix($--color-black, $color, $--button-active-shade-percent);
-    color: $--color-white;
+    background: var(--el-color-#{$type}-active);
+    border-color: var(--el-color-#{$type}-active);
+    color: var(--el-color-white);
     outline: none;
   }
 
@@ -23,30 +26,22 @@
     &:hover,
     &:focus,
     &:active {
-      color: mix($--color-white, $color, 40%);
-      background-color: mix($--color-white, $color, 90%);
-      border-color: mix($--color-white, $color, 80%);
+      color: var(--el-color-#{$type}-light-4);
+      background-color: var(--el-color-#{$type}-light-9);
+      border-color: var(--el-color-#{$type}-light-8);
     }
   }
 }
 
-@mixin button-variant($color, $background-color, $border-color) {
+@mixin button-variant($color, $background-color, $border-color, $type) {
   color: $color;
   background-color: $background-color;
   border-color: $border-color;
 
   &:hover,
   &:focus {
-    background: mix(
-      $--color-white,
-      $background-color,
-      $--button-hover-tint-percent
-    );
-    border-color: mix(
-      $--color-white,
-      $border-color,
-      $--button-hover-tint-percent
-    );
+    background: var(--el-color-#{$type}-light-2);
+    border-color: var(--el-color-#{$type}-light-2);
     color: $color;
   }
 
@@ -85,13 +80,13 @@
     &:focus,
     &:active {
       color: $--color-white;
-      background-color: mix($background-color, $--color-white);
-      border-color: mix($border-color, $--color-white);
+      background-color: var(--el-color-#{$type}-light-5);
+      border-color: var(--el-color-#{$type}-light-5);
     }
   }
 
   &.is-plain {
-    @include button-plain($background-color);
+    @include button-plain($background-color, $type);
   }
 }
 
