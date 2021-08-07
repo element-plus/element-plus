@@ -1,6 +1,6 @@
 <template>
   <li
-    v-show="visible || created"
+    v-show="visible"
     class="el-select-dropdown__item"
     :class="{
       'selected': itemSelected,
