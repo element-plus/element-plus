@@ -16,7 +16,7 @@
   height: fit-content;
   width: 100%;
   max-width: 100%;
-  background-color: var(--el-color-white);
+  background-color: var(--el-table-background-color);
   font-size: 14px;
   color: var(--el-table-font-color);
 
@@ -68,7 +68,7 @@
   }
 
   @include e(expanded-cell) {
-    background-color: var(--el-color-white);
+    background-color: var(--el-table-expanded-cell-background-color);
 
     // 纯属为了增加权重
     &[class*='cell'] {
