@@ -174,7 +174,6 @@ export default defineComponent({
         callback(true)
       }
       let valid = true
-      let count = 0
       let invalidFields = {}
       for (const field of fields) {
         field.validate('', (message, field) => {
@@ -182,11 +181,9 @@ export default defineComponent({
             valid = false
           }
           invalidFields = { ...invalidFields, ...field }
-          if (++count === fields.length) {
-            callback(valid, invalidFields)
-          }
         })
       }
+      callback(valid, invalidFields)
       return promise
     }
 
