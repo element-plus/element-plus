@@ -809,6 +809,16 @@ $--dropdown: map.merge(
   $--dropdown
 );
 
+// drawer
+$--drawer: () !default;
+$--drawer: map.merge(
+  (
+    'background-color': var(--el-dialog-background-color, var(--el-color-white)),
+    'padding-primary': var(--el-dialog-padding-primary, 20px),
+  ),
+  $--drawer
+);
+
 /* Badge
 -------------------------- */
 // css3 var in packages/theme-chalk/src/badge.scss
