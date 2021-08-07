@@ -6,12 +6,12 @@
 @import 'mixins/utils';
 @import 'mixins/var';
 
-:root {
+@include b(button) {
+  @include set-component-css-var('button', $--button);
+
   @each $type in (primary, success, warning, danger, info) {
     --el-button-#{$type}-border-color: var(--el-color-#{$type});
   }
-
-  @include set-component-css-var('button', $--button);
 }
 
 @include b(button) {
@@ -186,8 +186,9 @@
         map.get($--button-font-size, $size),
         map.get($--button-border-radius, $size)
       );
+
       @include when(circle) {
-        padding: map.get($--button-padding-horizontal, $size);
+        padding: map.get($--button-padding-vertical, $size);
       }
     }
   }

@@ -9,11 +9,9 @@
 
 @import './cascader-panel';
 
-:root {
-  @include set-component-css-var('cascader', $--cascader);
-}
-
 @include b(cascader) {
+  @include set-component-css-var('cascader', $--cascader);
+
   display: inline-block;
   position: relative;
   font-size: var(--el-font-size-base);
@@ -82,6 +80,10 @@
       z-index: calc(var(--el-index-normal) + 1);
       color: var(--el-disabled-color-base);
     }
+  }
+
+  @include e(dropdown) {
+    @include set-component-css-var('cascader', $--cascader);
   }
 
   @include e(dropdown) {

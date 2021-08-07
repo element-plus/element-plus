@@ -6,13 +6,12 @@
 @import 'mixins/button';
 @import 'common/var';
 
-:root {
+@include b(radio) {
   @include set-component-css-var('radio', $--radio);
-  @include set-component-css-var('radio-button', $--radio-button);
 }
 
 @include b(radio) {
-  color: VAR(--el-radio-font-color);
+  color: var(--el-radio-font-color);
   font-weight: var(--el-radio-font-weight);
   line-height: 1;
   position: relative;

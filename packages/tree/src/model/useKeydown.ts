@@ -3,6 +3,8 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 import TreeStore from './tree-store'
 
+export type Nullable<T> = null | T
+
 interface UseKeydownOption {
   el$: Ref<HTMLElement>
 }

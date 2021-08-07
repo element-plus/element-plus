@@ -69,6 +69,8 @@ import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/scrollbar'
 import { getTimeLists } from './useTimePicker'
 
+export type Nullable<T> = null | T
+
 export default defineComponent({
 
   directives: {

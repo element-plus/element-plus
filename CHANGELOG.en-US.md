@@ -1,5 +1,96 @@
 ## Changelog
 
+### 1.0.2-beta.70
+
+*2021-08-05*
+
+#### Bug fixes
+
+- Date-picker color-text has been renamed to text-color (#2835 by @YunYouJun)
+- Cascader revert #2344 to fix not update when options change (#2843 by @SimonaliaChen)
+- Cascader missing cascader-panel css var & add default var for thumb (#2847 by @YunYouJun)
+
+### 1.0.2-beta.69
+
+*2021-08-04*
+
+#### Bug fixes
+
+- Fix sass compiling error (#2831)
+
+### 1.0.2-beta.68
+
+*2021-08-04*
+#### Bug fixes
+
+- Dropdown styles error (#2823 by @tolking)
+- Var fix input/radio/checkbox used by other components (#2821 by @YunYouJun)
+- Project node is not exporting issue (#2827 by @JeremyWuuuuu)
+
+### 1.0.2-beta.67
+
+*2021-08-04*
+
+#### Bug fixes
+
+- Theme-chalk fix fonts build by gulp (#2817 by @YunYouJun)
+
+#### Refactors
+
+- Var move css var from root to class (#2808 by @YunYouJun)
+
+### 1.0.2-beta.66
+
+*2021-08-03*
+
+#### Features
+
+- Input Removed validator for autocomplete attribute (#2757 by @ShookTea)
+- Icon introduce-el-icons-into-ep (#2766 by @JeremyWuuuuu)
+- Space add fill support (#2716 by @adaex)
+- Var var sass map for components (#2778 by @YunYouJun)
+
+#### Bug fixes
+
+- Var map merge default var (#2727 by @YunYouJun)
+- Scrollbar the problem of ScrollbarDirKey being deleted (#2722 by @msidolphin)
+- Input no trigger input event when clear value (#2723 by @msidolphin)
+- Message using iconClass causes "el-message__icon" to be lost (#2709 by @GaliMu)
+- Locale inject locale for modal like components (#2737 by @JeremyWuuuuu)
+- Tooltip styles error (#2763 by @tolking)
+- Input Improve inputStyle reference (#2780 by @adaex)
+- Select-v2's dropdown width wrong if create in style(display: none) (#2791 by @zhaozhongyu)
+- Checkbox checkbox bordered padding & height (#2784 by @YunYouJun)
+- Locale update Norwegian translation file (#2789 by @AdrianAndersen)
+- Select option does not delete in onBeforeMount (#2753 by @zhaozhongyu)
+- Fix Nullable type for RefElement (#2730 by @PxlBuzzard)
+- Fix LabelWraplabel-width bug (#2742 by @SorrowX)
+
+#### Refactors
+
+- Var simplify checkbox var & move transition to root (#2729 by @YunYouJun)
+- Backtop migrate css var (#2711 by @YunYouJun)
+- Badge/card/dropdown/rate migrate css var & use sass:map (#2764 by @YunYouJun)
+- Link remove unused link variables & add sass map (#2768 by @YunYouJun)
+- Slider migrate css var & use sass map for message (#2772 by @YunYouJun)
+- Button use sass map & add outline:none for focus (#2774 by @YunYouJun)
+
+### 1.0.2-beta.65
+
+*2021-07-28*
+
+#### Bug fixes
+
+- fix(input-number): fix style (#2738)
+- fix(date-picker): date-picker focus end-time resets start-time (#2290)
+- fix: date-time picker same day select time bug (#2747)
+- fix(image-viewer): image-viewer export error (#2754)
+- fix: time picker adjust spinner bug (#2743)
+
+#### Chore
+
+- test(select-v2): complete unit tests (#2739)
+
 ### 1.0.2-beta.64
 
 #### Bug fixes

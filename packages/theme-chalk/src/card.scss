@@ -2,11 +2,9 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
-  @include set-component-css-var('card', $--card);
-}
-
 @include b(card) {
+  @include set-component-css-var('card', $--card);
+
   border-radius: var(--el-card-border-radius);
   border: 1px solid var(--el-card-border-color);
   background-color: $--color-white;

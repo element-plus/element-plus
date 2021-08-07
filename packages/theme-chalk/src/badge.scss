@@ -5,11 +5,9 @@
 @import 'mixins/var';
 @import 'common/var';
 
-:root {
-  @include set-component-css-var('badge', $--badge);
-}
-
 @include b(badge) {
+  @include set-component-css-var('badge', $--badge);
+
   position: relative;
   vertical-align: middle;
   display: inline-block;

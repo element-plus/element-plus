@@ -14,7 +14,7 @@ $positionMap: (
   'right': 'left',
 );
 
-:root {
+@include b(tooltip) {
   @include set-component-css-var('tooltip', $--tooltip);
 }
 

@@ -9,7 +9,7 @@
 @import 'checkbox';
 @import 'checkbox-group';
 
-:root {
+@include b(transfer) {
   @include set-component-css-var('transfer', $--transfer);
 }
 

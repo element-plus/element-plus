@@ -25,6 +25,8 @@ import { useLocaleInject } from '@element-plus/hooks'
 import isEqual from 'lodash/isEqual'
 import { usePagination } from './usePagination'
 
+export type Nullable<T> = null | T
+
 export default defineComponent({
   name: 'Sizes',
   components: {

@@ -1,6 +1,8 @@
 
 import type { CascaderNode } from './types'
 
+export type Nullable<T> = null | T
+
 export const isLeaf = (el: HTMLElement) => !el.getAttribute('aria-owns')
 
 export const getSibling = (el: HTMLElement, distance: number): Nullable<Element> => {

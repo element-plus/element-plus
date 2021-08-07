@@ -26,6 +26,8 @@ import { defineComponent, watch, ref, onMounted, getCurrentInstance, PropType } 
 import type Color from '../color'
 import draggable from '../draggable'
 
+type Nullable<T> = null | T
+
 export default defineComponent({
   name: 'ElColorAlphaSlider',
   props: {

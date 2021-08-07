@@ -2,6 +2,8 @@ import { mount } from '@vue/test-utils'
 import { ComponentPublicInstance, defineComponent, nextTick } from 'vue'
 import ColorPicker from '../src/index.vue'
 
+type Nullable<T> = null | T
+
 const _mount = (template: string, data: () => ({[key:string]: any;})) => {
   const Component = defineComponent({
     components: {

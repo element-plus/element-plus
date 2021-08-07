@@ -36,7 +36,6 @@ import {
   coerceTruthyValueToArray,
   deduplicate,
   isEmpty,
-  isEqualWithFunction,
 } from '@element-plus/utils/util'
 import { CommonProps, useCascaderConfig } from './config'
 import {
@@ -57,6 +56,8 @@ import type {
   RenderLabel,
   ElCascaderPanelContext,
 } from './types'
+
+type Nullable<T> = null | T
 
 export default defineComponent({
   name: 'ElCascaderPanel',
@@ -296,11 +297,7 @@ export default defineComponent({
 
     watch(
       [ config, () => props.options ],
-      ([newConfig, newOptions], [oldConfig, oldOptions]) => {
-        if (isEqualWithFunction(newConfig, oldConfig) && isEqual(newOptions, oldOptions)) return
-
-        initStore()
-      },
+      initStore,
       { deep: true, immediate: true },
     )
 
