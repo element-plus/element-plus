@@ -26,7 +26,7 @@ import { useLocaleInject } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { usePagination } from './usePagination'
 
-type Nullable<T> = null | T
+import type { Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
   components: {

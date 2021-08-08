@@ -55,6 +55,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useRadio, useRadioAttrs } from './useRadio'
 
 import type { PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElRadio',

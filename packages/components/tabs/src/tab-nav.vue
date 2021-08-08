@@ -21,9 +21,9 @@ import throwError from '@element-plus/utils/error'
 import TabBar from './tab-bar.vue'
 
 import type { PropType } from 'vue'
+import type { Nullable } from '@element-plus/utils/types'
 import type { RootTabs, Pane, ITabType } from './token'
 
-export type Nullable<T> = null | T
 type RefElement = Nullable<HTMLElement>
 
 interface Scrollable {

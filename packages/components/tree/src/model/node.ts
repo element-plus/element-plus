@@ -3,6 +3,7 @@ import { hasOwn } from '@vue/shared'
 import { markNodeData, NODE_KEY } from './util'
 import TreeStore from './tree-store'
 
+import type { Nullable } from '@element-plus/utils/types'
 import type {
   TreeNodeOptions,
   TreeNodeData,
@@ -12,7 +13,6 @@ import type {
   TreeNodeChildState,
 } from '../tree.type'
 
-type Nullable<T> = null | T
 
 export const getChildState = (node: Node[]): TreeNodeChildState => {
   let all = true

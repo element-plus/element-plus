@@ -57,7 +57,7 @@ import {
 
 import type { Ref } from 'vue'
 
-interface IStepsProps {
+export interface IStepsProps {
   space: number | string
   active: number
   direction: string
@@ -67,14 +67,14 @@ interface IStepsProps {
   processStatus: string
 }
 
-interface StepItemState {
+export interface StepItemState {
   uid: number
   currentStatus: string
   setIndex: (val: number) => void
   calcProgress: (status: string) => void
 }
 
-interface IStepsInject {
+export interface IStepsInject {
   props: IStepsProps
   steps: Ref<StepItemState[]>
 }

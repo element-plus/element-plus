@@ -3,6 +3,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import { isNumber, isArray, isString } from '@element-plus/utils/util'
 
 import type { PropType, ExtractPropTypes, CSSProperties, VNodeChild } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 const SizeMap: Record<ComponentSize, number> = {
   mini: 4,

@@ -135,6 +135,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { ComponentPublicInstance, PropType } from 'vue'
+import type { ComponentSize, Indexable } from '@element-plus/utils/types'
 import type { Action, MessageBoxState, MessageBoxType } from './message-box.type'
 
 const TypeMap: Indexable<string> = {

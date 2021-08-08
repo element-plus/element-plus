@@ -44,6 +44,7 @@ import { useKeydown } from './model/useKeydown'
 import Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
+import type { Nullable } from '@element-plus/utils/types'
 import type {
   TreeComponentProps,
   TreeNodeData,
@@ -51,8 +52,6 @@ import type {
   TreeData,
   RootTreeType,
 } from './tree.type'
-
-type Nullable<T> = null | T
 
 export default defineComponent({
   name: 'ElTree',
