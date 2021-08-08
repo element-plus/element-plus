@@ -1,5 +1,3 @@
-@use "sass:map";
-
 @import '../common/var';
 
 @mixin button-plain($color, $type) {
@@ -11,12 +9,12 @@
   &:focus {
     background: $color;
     border-color: $color;
-    color: $--color-white;
+    color: var(--el-color-white);
   }
 
   &:active {
-    background: var(--el-color-#{$type}-active);
-    border-color: var(--el-color-#{$type}-active);
+    background: var(--el-button-active-background-color);
+    border-color: var(--el-button-active-border-color);
     color: var(--el-color-white);
     outline: none;
   }
@@ -33,45 +31,25 @@
   }
 }
 
-@mixin button-variant($color, $background-color, $border-color, $type) {
-  color: $color;
-  background-color: $background-color;
-  border-color: $border-color;
-
+@mixin button-variant($type) {
   &:hover,
   &:focus {
-    background: var(--el-color-#{$type}-light-2);
-    border-color: var(--el-color-#{$type}-light-2);
-    color: $color;
+    background: var(--el-button-hover-color);
+    border-color: var(--el-button-hover-color);
+    color: var(--el-button-font-color);
   }
 
   &:active {
-    background: mix(
-      $--color-black,
-      $background-color,
-      $--button-active-shade-percent
-    );
-    border-color: mix(
-      $--color-black,
-      $border-color,
-      $--button-active-shade-percent
-    );
-    color: $color;
+    background: var(--el-button-active-background-color);
+    border-color: var(--el-button-active-border-color);
+    color: var(--el-button-active-font-color);
     outline: none;
   }
 
   &.is-active {
-    background: mix(
-      $--color-black,
-      $background-color,
-      $--button-active-shade-percent
-    );
-    border-color: mix(
-      $--color-black,
-      $border-color,
-      $--button-active-shade-percent
-    );
-    color: $color;
+    background: var(--el-button-active-background-color);
+    border-color: var(--el-button-active-border-color);
+    color: var(--el-button-active-font-color);
   }
 
   &.is-disabled {
@@ -86,7 +64,7 @@
   }
 
   &.is-plain {
-    @include button-plain($background-color, $type);
+    @include button-plain(var(--el-button-background-color), $type);
   }
 }
 
