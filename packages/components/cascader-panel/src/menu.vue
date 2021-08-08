@@ -48,8 +48,7 @@ import {
 } from './types'
 
 import type { PropType } from 'vue'
-
-type Nullable<T> = null | T
+import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElCascaderMenu',

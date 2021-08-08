@@ -104,8 +104,7 @@ import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
 import type { PropType } from 'vue'
-
-type Nullable<T> = null | T
+import type { Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElSlider',

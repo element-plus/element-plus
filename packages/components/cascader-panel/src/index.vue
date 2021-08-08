@@ -50,6 +50,7 @@ import { default as CascaderNode, ExpandTrigger } from './node'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { PropType } from 'vue'
+import type { Nullable } from '@element-plus/utils/types'
 import type {
   CascaderValue,
   CascaderNodeValue,
@@ -58,8 +59,6 @@ import type {
 } from './node'
 
 import { ElCascaderPanelContext } from './types'
-
-type Nullable<T> = null | T
 
 export default defineComponent({
   name: 'ElCascaderPanel',

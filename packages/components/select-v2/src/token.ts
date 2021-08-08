@@ -1,12 +1,8 @@
-import { SelectProps } from './defaults'
-
 import type { ExtractPropTypes, InjectionKey } from 'vue'
+import { SelectProps } from './defaults'
 import type { Option } from './select.types'
-export interface SelectGroupContext {
-  options: []
-}
 
-export interface SelectContext {
+export interface SelectV2Context {
   props: ExtractPropTypes<typeof SelectProps>
   expanded: boolean
   onSelect: (option: Option<any>, index: number, byClick?: boolean) => void
@@ -14,7 +10,4 @@ export interface SelectContext {
   onKeyboardSelect: () => void
 }
 
-
-export const selectGroupKey = 'ElSelectGroup' as unknown as InjectionKey<SelectGroupContext>
-
-export const selectKey = 'ElSelect' as unknown as InjectionKey<SelectContext>
+export const selectV2InjectionKey = 'ElSelectV2Injection' as any as InjectionKey<SelectV2Context>

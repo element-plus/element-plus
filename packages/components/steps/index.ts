@@ -16,3 +16,5 @@ const _Steps = Steps as any as SFCWithInstall<typeof Steps> & {
 }
 
 export default _Steps
+export const ElSteps = _Steps
+export const ElStep = Step

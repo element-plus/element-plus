@@ -61,11 +61,9 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useLocaleInject } from '@element-plus/hooks'
-import ElCheckbox from '@element-plus/components/checkbox'
+import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import ElInput from '@element-plus/components/input'
-import { useCheck, CHECKED_CHANGE_EVENT } from './useCheck'
-
-const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
+import { useCheck, useCheckProps, CHECKED_CHANGE_EVENT } from './useCheck'
 
 export default defineComponent({
   name: 'ElTransferPanel',
@@ -77,26 +75,11 @@ export default defineComponent({
     OptionContent: ({ option }) => option,
   },
 
-  props: {
-    data: {
-      type: Array,
-      default() {
-        return []
-      },
-    },
-    optionRender: Function,
-    placeholder: String,
-    title: String,
-    filterable: Boolean,
-    format: Object,
-    filterMethod: Function,
-    defaultChecked: Array,
-    props: Object,
-  },
+  props: useCheckProps,
 
   emits: [CHECKED_CHANGE_EVENT],
 
-  setup(props, { emit, slots }) {
+  setup(props, { slots }) {
     const { t } = useLocaleInject()
 
     const panelState = reactive({
@@ -115,7 +98,7 @@ export default defineComponent({
       checkedSummary,
       isIndeterminate,
       handleAllCheckedChange,
-    } = useCheck(props, panelState, emit)
+    } = useCheck(props, panelState)
 
     const hasNoMatch = computed(() => {
       return panelState.query.length > 0 && filteredData.value.length === 0

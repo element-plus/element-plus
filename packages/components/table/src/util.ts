@@ -5,9 +5,8 @@ import { getValueByPath } from '@element-plus/utils/util'
 import { off, on } from '@element-plus/utils/dom'
 
 import type { PopperInstance, IPopperOptions } from '@element-plus/components/popper'
+import type { Indexable, Nullable } from '@element-plus/utils/types'
 import type { TableColumnCtx } from './table-column/defaults'
-
-export type Nullable<T> = null | T
 
 export const getCell = function(event: Event): HTMLElement {
   let cell = event.target as HTMLElement

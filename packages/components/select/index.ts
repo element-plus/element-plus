@@ -20,4 +20,8 @@ const _Select = Select as any as SFCWithInstall<typeof Select> & {
 }
 
 export default _Select
+export const ElSelect = _Select
+export const ElOption = Option
+export const ElOptionGroup = OptionGroup
+
 export * from './src/token'

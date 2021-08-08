@@ -10,3 +10,4 @@ Upload.install = (app: App): void => {
 const _Upload = Upload as SFCWithInstall<typeof Upload>
 
 export default _Upload
+export const ElUpload = _Upload

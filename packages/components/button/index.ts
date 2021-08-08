@@ -15,3 +15,5 @@ const _Button = Button as any as SFCWithInstall<typeof Button> & {
 }
 
 export default _Button
+export const ElButton = _Button
+export const ElButtonGroup = ButtonGroup

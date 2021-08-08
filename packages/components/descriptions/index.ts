@@ -16,3 +16,5 @@ const _Descriptions = Descriptions as any as SFCWithInstall<typeof Descriptions>
 }
 
 export default _Descriptions
+export const ElDescriptions = _Descriptions
+export const ElDescriptionsItem = DescriptionsItem

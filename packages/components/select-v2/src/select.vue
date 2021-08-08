@@ -225,7 +225,7 @@ import ElTag from '@element-plus/components/tag'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import ElSelectMenu from './select-dropdown.vue'
 import useSelect from './useSelect'
-import { selectKey } from './token'
+import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'
 
 export default defineComponent({
@@ -241,7 +241,8 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const API = useSelect(props, emit)
-    provide(selectKey, {
+    // TODO, remove the any cast to align the actual API.
+    provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
         height: API.popupHeight,
@@ -249,7 +250,7 @@ export default defineComponent({
       onSelect: API.onSelect,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
-    })
+    } as any)
 
     return API
   },

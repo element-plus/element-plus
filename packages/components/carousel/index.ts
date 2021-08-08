@@ -15,3 +15,6 @@ const _Carousel = Carousel as any as SFCWithInstall<typeof Carousel> & {
 }
 
 export default _Carousel
+
+export const ElCarousel = _Carousel
+export const ElCarouselItem = CarouselItem

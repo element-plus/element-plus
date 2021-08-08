@@ -43,12 +43,12 @@
 <script lang='ts'>
 import { defineComponent, computed, onMounted, ref, inject, nextTick, watch } from 'vue'
 import { isPromise } from '@vue/shared'
-import { elFormKey, elFormItemKey } from '@element-plus/components/form'
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { isBool } from '@element-plus/utils/util'
 import throwError, { warn } from '@element-plus/utils/error'
 
 import type { PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 
 
 type ValueType = boolean | string | number;

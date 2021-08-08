@@ -10,7 +10,7 @@ import {
   onBeforeUnmount,
 } from 'vue'
 import { NOOP } from '@vue/shared'
-import { elFormKey } from '@element-plus/components/form'
+import { elFormKey } from '@element-plus/tokens'
 
 import ajax from './ajax'
 import UploadList from './upload-list.vue'
@@ -18,7 +18,8 @@ import Upload from './upload.vue'
 import useHandlers from './useHandlers'
 
 import type { PropType } from 'vue'
-import type { ElFormContext } from '@element-plus/components/form'
+import type { ElFormContext } from '@element-plus/tokens'
+import type { Nullable } from '@element-plus/utils/types'
 import type {
   ListType,
   UploadFile,
@@ -28,7 +29,7 @@ import type {
 
 type PFileHandler<T> = PropType<FileHandler<T>>
 type PFileResultHandler<T = any> = PropType<FileResultHandler<T>>
-type Nullable<T> = null | T
+
 
 export default defineComponent({
   name: 'ElUpload',

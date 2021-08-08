@@ -15,7 +15,7 @@ import {
 } from '@vue/shared'
 import isEqual from 'lodash/isEqual'
 import lodashDebounce from 'lodash/debounce'
-import { elFormKey, elFormItemKey } from '@element-plus/components/form'
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useLocaleInject } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import { addResizeListener, removeResizeListener } from '@element-plus/utils/resize-event'
@@ -29,7 +29,7 @@ import { flattenOptions } from './util'
 
 
 import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { OptionType, Option } from './select.types'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
