@@ -170,7 +170,7 @@
       --el-button-font-color: #{map.get($--button-font-color, $type)};
       --el-button-background-color: #{map.get($--button-background-color, $type)};
       --el-button-border-color: #{map.get($--button-border-color, $type)};
-      --el-button-hover-color: var(--el-color-#{$type}-light-2);
+      --el-button-hover-color: #{map.get($--colors, $type, 'light-2')};
       --el-button-active-font-color: #{darken(
           map.get($--button-font-color, $type),
           $--button-active-shade-percent

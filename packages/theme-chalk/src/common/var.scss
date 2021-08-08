@@ -863,8 +863,8 @@ $--menu: map.merge(
   (
     'item-font-size': var(--el-font-size-base),
     'item-font-color': var(--el-text-color-primary),
-    'background-color': var(--el-color-white),
     'item-hover-fill': var(--el-color-primary-light-9),
+    'background-color': var(--el-color-white),
     'border-color': #e6e6e6,
   ),
   $--menu
