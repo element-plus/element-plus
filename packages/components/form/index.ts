@@ -18,5 +18,3 @@ const _Form = Form as any as SFCWithInstall<typeof Form> & {
 export default _Form
 export const ElForm = _Form
 export const ElFormItem = FormItem
-
-export * from './src/token'

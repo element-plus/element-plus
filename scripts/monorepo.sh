@@ -2,38 +2,58 @@
 
 yarn bootstrap
 yarn clean:lib
+yarn update:version
 
+# build all packages in case of error
 yarn build:mono
-cd dist/components
-npm publish --dry-run
-cd -
-
 yarn build:theme
-cd dist/theme-chalk
-npm publish --dry-run
-cd -
-
 yarn build:locale
-cd dist/locale
-npm publish --dry-run
-cd -
-
 yarn build:utils
 yarn build:hooks
 yarn build:directives
+yarn build:tokens
+
+# release built packages
+# cp .npmrc will fail on local run, do not engage local release
+cp .npmrc dist/components
+cd dist/components
+npm publish --access public
+cd -
+
+cp .npmrc dist/theme-chalk
+cd dist/theme-chalk
+npm publish --access public
+cd -
+
+cp .npmrc dist/locale
+cd dist/locale
+npm publish --access public
+cd -
+
+cp .npmrc dist/hooks
 cd dist/hooks
-npm publish --dry-run
+npm publish --access public
 cd -
 
+cp .npmrc dist/directives
 cd dist/directives
-npm publish --dry-run
+npm publish --access public
 cd -
 
+cp .npmrc dist/utils
 cd dist/utils
-npm publish --dry-run
+npm publish --access public
+cd -
+
+cp .npmrc dist/tokens
+cd dist/tokens
+npm publish --access public
 cd -
 
 # yarn build:full-bundle
 # cd dist/element-plus
-# npm publish --dry-run
+# npm publish --access public
 # cd -
+
+# Build helpers
+# yarn build:helper

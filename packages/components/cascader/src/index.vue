@@ -146,7 +146,7 @@ import ElInput from '@element-plus/components/input'
 import ElPopper from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
-import { elFormKey, elFormItemKey } from '@element-plus/components/form'
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
 import { useLocaleInject } from '@element-plus/hooks'
@@ -159,7 +159,7 @@ import { addResizeListener, removeResizeListener } from '@element-plus/utils/res
 import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { ComputedRef, PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { CascaderValue, CascaderNode, Tag } from '@element-plus/components/cascader-panel'
 import type { ComponentSize } from '@element-plus/utils/types'
 

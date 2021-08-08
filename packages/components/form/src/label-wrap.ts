@@ -11,7 +11,7 @@ import {
   watch,
 } from 'vue'
 import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
-import { elFormItemKey, elFormKey } from './token'
+import { elFormItemKey, elFormKey } from '@element-plus/tokens'
 
 import type { CSSProperties } from 'vue'
 import type { Nullable } from '@element-plus/utils/types'

@@ -8,10 +8,10 @@ import {
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import { useGlobalConfig } from '@element-plus/utils/util'
-import { elFormKey, elFormItemKey } from '@element-plus/components/form'
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 
 import type { ExtractPropTypes } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { PartialReturnType } from '@element-plus/utils/types'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 

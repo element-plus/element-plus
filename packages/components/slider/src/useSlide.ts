@@ -1,9 +1,9 @@
 import { computed, inject, nextTick, ref } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/utils/constants'
-import { elFormKey, elFormItemKey } from '@element-plus/components/form'
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import type { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
 
-import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { Nullable } from '@element-plus/utils/types'
 
 export const useSlide = (props: ISliderProps, initData: ISliderInitData, emit) => {

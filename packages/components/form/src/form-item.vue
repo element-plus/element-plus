@@ -64,11 +64,11 @@ import { NOOP } from '@vue/shared'
 import { addUnit, getPropByPath, useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 import LabelWrap from './label-wrap'
-import { elFormEvents, elFormItemKey, elFormKey } from './token'
+import { elFormEvents, elFormItemKey, elFormKey } from '@element-plus/tokens'
 
 import type { PropType, CSSProperties } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
-import type { ElFormContext, ValidateFieldCallback } from './token'
+import type { ElFormContext, ValidateFieldCallback } from '@element-plus/tokens'
 import type { FormItemRule } from './form.type'
 
 export default defineComponent({

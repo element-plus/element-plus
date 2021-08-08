@@ -14,12 +14,12 @@
 import { computed, defineComponent, provide, reactive, ref, toRefs, watch } from 'vue'
 import { FieldErrorList } from 'async-validator'
 import mitt from 'mitt'
-import { elFormEvents, elFormKey } from './token'
+import { elFormEvents, elFormKey } from '@element-plus/tokens'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/utils/types'
 import type { FormRulesMap } from './form.type'
-import type { ElFormItemContext as FormItemCtx, ValidateFieldCallback } from './token'
+import type { ElFormItemContext as FormItemCtx, ValidateFieldCallback } from '@element-plus/tokens'
 
 function useFormLabelWidth() {
   const potentialLabelWidthArr = ref([])

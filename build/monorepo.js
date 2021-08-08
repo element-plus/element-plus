@@ -83,7 +83,6 @@ async function buildComponents() {
     const esm = {
       format: 'es',
       file: `${outputDir}/${componentName}/index.js`,
-      banner: `import '@element-plus/theme-chalk/el-${componentName}.css'`,
       plugins: [
         filesize({
           reporter,

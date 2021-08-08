@@ -135,7 +135,7 @@ import dayjs from 'dayjs'
 import isEqual from 'lodash/isEqual'
 import { useLocaleInject } from '@element-plus/hooks'
 import { ClickOutside } from '@element-plus/directives'
-import { elFormKey, elFormItemKey } from '@element-plus/components/form'
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElPopper from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/utils/aria'
@@ -143,7 +143,7 @@ import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { Options } from '@popperjs/core'
 
 interface PickerOptions {

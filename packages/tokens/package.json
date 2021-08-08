@@ -1,5 +1,5 @@
 {
-  "name": "@element-plus/utils",
+  "name": "@element-plus/tokens",
   "version": "0.0.4",
   "license": "MIT",
   "peerDependencies": {
@@ -9,10 +9,17 @@
     "clean": "rm -rf lib",
     "build": "gulp build"
   },
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.js",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
   "dependencies": {
     "lodash": "^4.17.20",
     "normalize-wheel": "^1.0.1",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "async-validator": "^3.4.0",
+    "mitt": "^2.1.0"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.0.0-beta.3",

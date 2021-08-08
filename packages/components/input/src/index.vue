@@ -120,7 +120,7 @@ import {
   onMounted,
   onUpdated,
 } from 'vue'
-import { elFormKey, elFormItemKey } from '@element-plus/components/form'
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import { useAttrs } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT, VALIDATE_STATE_MAP } from '@element-plus/utils/constants'
 import { isObject, useGlobalConfig } from '@element-plus/utils/util'
@@ -130,7 +130,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import calcTextareaHeight from './calcTextareaHeight'
 
 import type { PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { ComponentSize } from '@element-plus/utils/types'
 
 type AutosizeProp = {

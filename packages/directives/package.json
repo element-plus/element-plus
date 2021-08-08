@@ -1,7 +1,11 @@
 {
   "name": "@element-plus/directives",
-  "version": "0.0.1",
-  "main": "dist/index.js",
+  "description": "Element Plus directives",
+  "version": "0.0.4",
+  "main": "index.js",
+  "module": "index.js",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
   "license": "MIT",
   "peerDependencies": {
     "vue": "3.1.1"
@@ -11,7 +15,7 @@
     "build": "gulp build"
   },
   "dependencies": {
-    "@element-plus/utils": "^0.0.1",
+    "@element-plus/utils": "^0.0.4",
     "normalize-wheel": "^1.0.1"
   },
   "devDependencies": {
@@ -23,5 +27,6 @@
     "sass": "^1.37.0",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
-  }
+  },
+  "gitHead": "cdeb5a307058d0a2ceccc2848329a5c36e7607bb"
 }
