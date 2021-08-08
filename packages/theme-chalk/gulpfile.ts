@@ -50,15 +50,37 @@ function copyFont() {
   return gulp.src('./src/fonts/**').pipe(gulp.dest(`${distFolder}/fonts`))
 }
 
+const distBundle = path.resolve(__dirname, '../../dist/theme-chalk')
+
 /**
- * copy to packages/lib/theme-chalk
+ * copy from packages/theme-chalk/lib to dist/theme-chalk
  */
 function copyToLib() {
-  return gulp
-    .src(distFolder + '/**')
-    .pipe(gulp.dest(path.resolve(__dirname, '../../lib/theme-chalk')))
+  return gulp.src(distFolder + '/**').pipe(gulp.dest(distBundle))
 }
 
-export const build = gulp.series(compile, copyFont, copyToLib)
+/**
+ * copy source file to packages
+ */
+
+function copySourceToLib() {
+  return gulp.src('./src/**').pipe(gulp.dest(path.resolve(distBundle, './src')))
+}
+
+/**
+ * copy pkg.json
+ */
+
+function copyPkgJson() {
+  return gulp.src('./package.json').pipe(gulp.dest(distBundle))
+}
+
+export const build = gulp.series(
+  compile,
+  copyFont,
+  copyToLib,
+  copySourceToLib,
+  copyPkgJson,
+)
 
 export default build

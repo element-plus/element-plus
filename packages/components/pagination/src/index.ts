@@ -262,22 +262,22 @@ export default defineComponent({
           prevText: props.prevText,
           onClick: prev,
         }),
-        jumper: h(Jumper),
-        pager: h(Pager, {
+        jumper: h(Jumper as any),
+        pager: h(Pager as any, {
           currentPage: currentPageBridge.value,
           pageCount: pageCountBridge.value,
           pagerCount: props.pagerCount,
           onChange: handleCurrentChange,
           disabled: props.disabled,
         }),
-        next: h(Next, {
+        next: h(Next as any, {
           disabled: props.disabled,
           currentPage: currentPageBridge.value,
           pageCount: pageCountBridge.value,
           nextText: props.nextText,
           onClick: next,
         }),
-        sizes: h(Sizes, {
+        sizes: h(Sizes as any, {
           pageSize: pageSizeBridge.value,
           pageSizes: props.pageSizes,
           popperClass: props.popperClass,

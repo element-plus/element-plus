@@ -7,6 +7,7 @@ Input.install = (app: App): void => {
   app.component(Input.name, Input)
 }
 
-const _Input: SFCWithInstall<typeof Input> = Input
+const _Input = Input as SFCWithInstall<typeof Input>
 
 export default _Input
+export const ElInput = _Input

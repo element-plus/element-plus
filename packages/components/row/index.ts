@@ -11,3 +11,4 @@ _Row.install = (app: App) => {
 }
 
 export default _Row
+export const ElRow = _Row

@@ -1,4 +1,5 @@
 import type { InjectionKey } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 type IModelType = boolean | string | number
 

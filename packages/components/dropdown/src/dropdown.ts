@@ -1,10 +1,10 @@
-import {
+import type {
   ComponentInternalInstance,
   ComputedRef,
   Ref,
 } from 'vue'
 
-export type Nullable<T> = null | T
+import type { Nullable } from '@element-plus/utils/types'
 
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance

@@ -1,18 +1,25 @@
 {
   "name": "@element-plus/components",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "all components are settled here",
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
+    "@element-plus/directives": "^0.0.4",
+    "@element-plus/hooks": "^0.0.4",
+    "@element-plus/tokens": "^0.0.4",
+    "@element-plus/utils": "^0.0.4",
+    "@element-plus/theme-chalk": "^0.0.4",
     "@popperjs/core": "^2.4.4",
     "async-validator": "^3.4.0",
     "dayjs": "1.x",
     "lodash": "^4.17.20",
     "mitt": "^2.1.0"
   },
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "typings": "lib/index.d.ts",
-  "unpkg": "lib/index.js",
-  "style": "lib/theme-chalk/index.css"
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
+  "sideEffects": false,
+  "gitHead": "cdeb5a307058d0a2ceccc2848329a5c36e7607bb"
 }

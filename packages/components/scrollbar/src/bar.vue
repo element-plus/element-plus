@@ -22,8 +22,7 @@ import { off, on } from '@element-plus/utils/dom'
 import { BAR_MAP, renderThumbStyle } from './util'
 
 import type { Ref } from 'vue'
-
-type Nullable<T> = null | T
+import type { Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'Bar',

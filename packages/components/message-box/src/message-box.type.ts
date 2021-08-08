@@ -1,7 +1,8 @@
 import type { VNode } from 'vue'
 
+type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
+
 export type Action = 'confirm' | 'close' | 'cancel'
-export type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
 export type MessageBoxType = '' | 'prompt' | 'alert' | 'confirm'
 export type MessageBoxData = MessageBoxInputData & Action
 export interface MessageBoxInputData {
@@ -165,7 +166,7 @@ export type ElMessageBoxShortcutMethod =
       options?: ElMessageBoxOptions,
     ) => Promise<MessageBoxData>)
 
-export interface ElMessageBox {
+export interface IElMessageBox {
   /** Show a message box */
   // (message: string, title?: string, type?: string): Promise<MessageBoxData>
 

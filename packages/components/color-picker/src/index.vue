@@ -91,7 +91,7 @@ import { computed, defineComponent, inject, nextTick, onMounted, provide, reacti
 import debounce from 'lodash/debounce'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
-import { elFormItemKey, elFormKey } from '@element-plus/components/form'
+import { elFormItemKey, elFormKey } from '@element-plus/tokens'
 import { useLocaleInject } from '@element-plus/hooks'
 import ElPopper from '@element-plus/components/popper'
 import ElInput from '@element-plus/components/input'
@@ -106,7 +106,8 @@ import Color from './color'
 import { OPTIONS_KEY } from './useOption'
 
 import type { PropType } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
+import type { ComponentSize } from '@element-plus/utils/types'
 import type { IUseOptions } from './useOption'
 
 export default defineComponent({

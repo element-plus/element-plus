@@ -1,12 +1,12 @@
 import type { PropType } from 'vue'
 import type { Placement, PositioningStrategy, Instance as PopperInstance, Options } from '@popperjs/core'
+import type { Nullable } from '@element-plus/utils/types'
 
 export enum Effect {
   DARK = 'dark',
   LIGHT = 'light'
 }
 
-export type Nullable<T> = null | T
 
 export type RefElement = Nullable<HTMLElement>
 export type Offset = [number, number] | number

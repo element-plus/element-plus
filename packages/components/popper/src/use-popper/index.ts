@@ -12,6 +12,7 @@ import PopupManager from '@element-plus/utils/popup-manager'
 import usePopperOptions from './popper-options'
 
 import type { ComponentPublicInstance, CSSProperties, SetupContext, Ref } from 'vue'
+import type { TimeoutHandle, Nullable } from '@element-plus/utils/types'
 import type {
   IPopperOptions,
   TriggerType,
@@ -29,8 +30,6 @@ export interface PopperEvents {
   onFocus?: (e: Event) => void
   onBlur?: (e: Event) => void
 }
-
-export type Nullable<T> = null | T
 
 export const DEFAULT_TRIGGER = ['hover']
 export const UPDATE_VISIBLE_EVENT = 'update:visible'
