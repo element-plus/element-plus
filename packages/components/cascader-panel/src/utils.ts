@@ -1,7 +1,6 @@
 
+import type { Nullable } from '@element-plus/utils/types'
 import type { default as CascaderNode } from './node'
-
-export type Nullable<T> = null | T
 
 export const isLeaf = (el: HTMLElement) => !el.getAttribute('aria-owns')
 

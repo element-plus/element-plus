@@ -1,10 +1,11 @@
-import { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
 import Container from './src/container.vue'
 import Aside from './src/aside.vue'
 import Footer from './src/footer.vue'
 import Header from './src/header.vue'
 import Main from './src/main.vue'
+
+import type { App } from 'vue'
+import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Container.install = (app: App): void => {
   app.component(Container.name, Container)
@@ -27,3 +28,8 @@ const _Container = Container as any as SFCWithInstall<typeof Container> & {
 }
 
 export default _Container
+export const ElContainer = _Container
+export const ElAside = Aside
+export const ElFooter = Footer
+export const ElHeader = Header
+export const ElMain = Main

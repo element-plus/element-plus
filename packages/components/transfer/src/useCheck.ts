@@ -1,10 +1,33 @@
-import { computed, watch } from 'vue'
+import { computed, getCurrentInstance, watch } from 'vue'
 
+import type { ExtractPropTypes } from 'vue'
 import type { TransferPanelProps, TransferPanelState, Key } from './transfer'
 
 export const CHECKED_CHANGE_EVENT = 'checked-change'
 
-export const useCheck = (props: TransferPanelProps, panelState: TransferPanelState, emit) => {
+export const useCheckProps = {
+  data: {
+    type: Array,
+    default() {
+      return []
+    },
+  },
+  optionRender: Function,
+  placeholder: String,
+  title: String,
+  filterable: Boolean,
+  format: Object,
+  filterMethod: Function,
+  defaultChecked: Array,
+  props: Object,
+}
+
+export const useCheck = (
+  props: ExtractPropTypes<typeof useCheckProps>,
+  panelState: TransferPanelState,
+) => {
+
+  const { emit } = getCurrentInstance()
 
   const labelProp = computed(() => props.props.label || 'label')
 

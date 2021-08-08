@@ -13,9 +13,8 @@ import {
 import { removeClass } from '@element-plus/utils/dom'
 
 import type { VNode } from 'vue'
+import type { Nullable } from '@element-plus/utils/types'
 import type { ILoadingCreateComponentParams, ILoadingInstance } from './loading.type'
-
-export type Nullable<T> = null | T
 
 export function createLoadingComponent({
   options,

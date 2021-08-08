@@ -5,9 +5,7 @@ import isServer from './isServer'
 import { warn } from './error'
 
 import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue'
-import type { AnyFunction } from './types'
-
-export type Nullable<T> = null | T
+import type { AnyFunction, TimeoutHandle, Hash, Nullable } from './types'
 
 // type polyfill for compat isIE method
 declare global {

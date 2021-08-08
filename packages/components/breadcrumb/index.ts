@@ -1,7 +1,7 @@
-import { App } from 'vue'
 import Breadcrumb from './src/index.vue'
 import BreadcrumbItem from './src/item.vue'
 
+import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Breadcrumb.install = (app: App): void => {
@@ -16,3 +16,5 @@ const _Breadcrumb = Breadcrumb as any as SFCWithInstall<typeof Breadcrumb> & {
 }
 
 export default _Breadcrumb
+export const ElBreadcrumb = _Breadcrumb
+export const ElBreadcrumbItem = BreadcrumbItem

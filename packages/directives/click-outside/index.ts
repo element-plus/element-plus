@@ -6,9 +6,9 @@ import type {
   DirectiveBinding,
   ObjectDirective,
 } from 'vue'
+import type { Nullable } from '@element-plus/utils/types'
 
 type DocumentHandler = <T extends MouseEvent>(mouseup: T, mousedown: T) => void;
-type Nullable<T> = null | T
 type FlushList = Map<
   HTMLElement,
   {

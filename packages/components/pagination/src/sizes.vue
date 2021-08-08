@@ -25,7 +25,7 @@ import { useLocaleInject } from '@element-plus/hooks'
 import { usePagination } from './usePagination'
 
 import type { PropType } from 'vue'
-export type Nullable<T> = null | T
+import type { Nullable } from '@element-plus/utils/types'
 
 const { Option: ElOption } = ElSelect
 

@@ -6,6 +6,7 @@ Calendar.install = (app: App): void => {
   app.component(Calendar.name, Calendar)
 }
 
-const _Calendar: SFCWithInstall<typeof Calendar> = Calendar
+const _Calendar = Calendar as SFCWithInstall<typeof Calendar>
 
 export default _Calendar
+export const ElCalendar = _Calendar

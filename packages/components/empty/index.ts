@@ -7,6 +7,7 @@ Empty.install = (app: App): void => {
   app.component(Empty.name, Empty)
 }
 
-const _Empty: SFCWithInstall<typeof Empty> = Empty
+const _Empty = Empty as SFCWithInstall<typeof Empty>
 
 export default _Empty
+export const ElEmpty = _Empty

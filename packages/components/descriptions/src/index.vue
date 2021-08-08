@@ -29,6 +29,7 @@ import DescriptionsRow from './descriptions-row.vue'
 import { elDescriptionsKey } from './token'
 
 import type { PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElDescriptions',

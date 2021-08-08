@@ -10,5 +10,6 @@ Transfer.install = (app: App): void => {
 const _Transfer = Transfer as SFCWithInstall<typeof Transfer>
 
 export default _Transfer
+export const ElTransfer = _Transfer
 
 export * from './src/transfer'

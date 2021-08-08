@@ -1,6 +1,15 @@
-export { default as ElInfiniteScroll } from '@element-plus/components/infinite-scroll'
-export { default as ElLoading } from '@element-plus/components/loading'
-export { default as ElMessage } from '@element-plus/components/message'
-export { default as ElMessageBox } from '@element-plus/components/message-box'
-export { default as ElNotification } from '@element-plus/components/notification'
-export { default as ElPopover } from '@element-plus/components/popover'
+import { ElInfiniteScroll } from '@element-plus/components/infinite-scroll'
+import { ElLoading } from '@element-plus/components/loading'
+import { ElMessage } from '@element-plus/components/message'
+import { ElMessageBox } from '@element-plus/components/message-box'
+import { ElNotification } from '@element-plus/components/notification'
+import { ElPopoverDirective } from '@element-plus/components/popover'
+
+export default [
+  ElInfiniteScroll,
+  ElLoading,
+  ElMessage,
+  ElMessageBox,
+  ElNotification,
+  ElPopoverDirective,
+]

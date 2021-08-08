@@ -1,5 +1,5 @@
 import { defineComponent, h, ref, cloneVNode } from 'vue'
-import { default as ElPopper, defaultProps } from '@element-plus/components/popper'
+import { default as ElPopper, popperDefaultProps } from '@element-plus/components/popper'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import throwError from '@element-plus/utils/error'
 import { getFirstValidNode } from '@element-plus/utils/vnode'
@@ -16,7 +16,7 @@ export default defineComponent({
     ElPopper,
   },
   props: {
-    ...defaultProps,
+    ...popperDefaultProps,
     manual: {
       type: Boolean,
       default: false,
@@ -85,7 +85,7 @@ export default defineComponent({
     const popper = h(
       ElPopper,
       {
-        ...Object.keys(defaultProps).reduce((result, key) => {
+        ...Object.keys(popperDefaultProps).reduce((result, key) => {
           return { ...result, [key]: this[key] }
         }, {}),
         ref: 'popper',

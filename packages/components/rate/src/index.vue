@@ -44,12 +44,12 @@ import {
   watch,
 } from 'vue'
 import { isObject, isArray } from '@vue/shared'
-import { elFormKey } from '@element-plus/components/form'
+import { elFormKey } from '@element-plus/tokens'
 import { hasClass } from '@element-plus/utils/dom'
 import { EVENT_CODE } from '@element-plus/utils/aria'
 
 import type { PropType } from 'vue'
-import type { ElFormContext } from '@element-plus/components/form'
+import type { ElFormContext } from '@element-plus/tokens'
 
 export default defineComponent({
   name: 'ElRate',

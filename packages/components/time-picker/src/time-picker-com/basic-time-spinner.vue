@@ -69,8 +69,7 @@ import { getTimeLists } from './useTimePicker'
 
 import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
-
-type Nullable<T> = null | T
+import type { Nullable } from '@element-plus/utils/types'
 
 export default defineComponent({
 
