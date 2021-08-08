@@ -192,6 +192,7 @@ import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
 
 import type { PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElSelect',

@@ -1,6 +1,6 @@
 import { Fragment, Text, Comment, createBlock, openBlock, createCommentVNode, isVNode, camelize } from 'vue'
 
-import type { VNode, VNodeTypes, VNodeChild } from 'vue'
+import type { VNode, VNodeTypes, VNodeChild, Component } from 'vue'
 import { hasOwn } from '@vue/shared'
 import { warn } from './error'
 
@@ -103,7 +103,7 @@ export const getNormalizedProps = (node: VNode) => {
     return
   }
   const raw = node.props || {}
-  const type = node.type?.props || {}
+  const type = (node.type as any).props || {}
   const props = {}
 
   Object.keys(type).forEach(key => {

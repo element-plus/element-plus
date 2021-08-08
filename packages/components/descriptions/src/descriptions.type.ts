@@ -1,3 +1,5 @@
+import type { ComponentSize } from '@element-plus/utils/types'
+
 export interface IDescriptionsInject {
   border: boolean
   column: number

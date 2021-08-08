@@ -34,6 +34,7 @@ import { useGlobalConfig } from '@element-plus/utils/util'
 import { isValidComponentSize } from '@element-plus/utils/validators'
 
 import type { PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElTag',

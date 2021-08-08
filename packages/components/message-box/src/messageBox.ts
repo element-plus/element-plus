@@ -9,7 +9,7 @@ import type {
   Action,
   Callback,
   MessageBoxState,
-  ElMessageBox,
+  IElMessageBox,
   ElMessageBoxOptions,
   MessageBoxData,
 } from './message-box.type'
@@ -228,4 +228,4 @@ MessageBox.close = () => {
   messageInstance.clear()
 }
 
-export default MessageBox as ElMessageBox
+export default MessageBox as IElMessageBox

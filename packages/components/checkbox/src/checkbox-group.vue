@@ -11,6 +11,7 @@ import { isValidComponentSize } from '@element-plus/utils/validators'
 import { useCheckboxGroup } from './useCheckbox'
 
 import type { PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export default defineComponent({
   name: 'ElCheckboxGroup',

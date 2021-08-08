@@ -87,9 +87,8 @@ import { useDragNodeEmitter } from './model/useDragNode'
 import Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
+import type { Nullable } from '@element-plus/utils/types'
 import type { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
-
-type Nullable<T> = null | T
 
 export default defineComponent({
   name: 'ElTreeNode',

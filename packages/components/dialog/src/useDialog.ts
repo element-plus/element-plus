@@ -9,6 +9,7 @@ import { isValidWidthUnit } from '@element-plus/utils/validators'
 
 
 import type { CSSProperties, ExtractPropTypes ,PropType, Ref, SetupContext } from 'vue'
+import type { TimeoutHandle } from '@element-plus/utils/types'
 
 export const CLOSE_EVENT = 'close'
 export const OPEN_EVENT = 'open'

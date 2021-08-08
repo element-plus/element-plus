@@ -59,7 +59,7 @@ import {
   reactive, ref, toRefs, watch,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
-import { elFormItemKey } from '@element-plus/components/form'
+import { elFormItemKey } from '@element-plus/tokens'
 import { useLocaleInject } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
 import TransferPanel from './transfer-panel.vue'
@@ -71,7 +71,7 @@ import { CHANGE_EVENT } from './transfer'
 import { LEFT_CHECK_CHANGE_EVENT, RIGHT_CHECK_CHANGE_EVENT } from './useCheckedChange'
 
 import type { PropType, VNode } from 'vue'
-import type { ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormItemContext } from '@element-plus/tokens'
 import type {
   DataItem, Format, Key,
   Props, TargetOrder,

@@ -10,4 +10,6 @@ Slider.install = (app: App): void => {
 const _Slider = Slider as SFCWithInstall<typeof Slider>
 
 export default _Slider
+export const ElSlider = _Slider
+
 export * from './src/slider.type'

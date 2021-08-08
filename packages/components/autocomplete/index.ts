@@ -6,6 +6,7 @@ Autocomplete.install = (app: App): void => {
   app.component(Autocomplete.name, Autocomplete)
 }
 
-const _Autocomplete: SFCWithInstall<typeof Autocomplete> = Autocomplete
+const _Autocomplete = Autocomplete as SFCWithInstall<typeof Autocomplete>
 
 export default _Autocomplete
+export const ElAutocomplete = _Autocomplete

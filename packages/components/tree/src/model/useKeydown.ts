@@ -4,8 +4,7 @@ import { on, off } from '@element-plus/utils/dom'
 import TreeStore from './tree-store'
 
 import type { Ref } from 'vue'
-
-export type Nullable<T> = null | T
+import type { Nullable } from '@element-plus/utils/types'
 
 interface UseKeydownOption {
   el$: Ref<HTMLElement>

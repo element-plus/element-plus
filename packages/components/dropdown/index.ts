@@ -19,3 +19,6 @@ const _Dropdown = Dropdown as any as SFCWithInstall<typeof Dropdown> & {
 }
 
 export default _Dropdown
+export const ElDropdown = _Dropdown
+export const ElDropdownItem = DropdownItem
+export const ElDropdownMenu = DropdownMenu

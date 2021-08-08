@@ -20,11 +20,11 @@ import {
   isEdge,
   useGlobalConfig,
 } from '@element-plus/utils/util'
-import { elFormKey, elFormItemKey } from '@element-plus/components/form'
+import { elFormKey, elFormItemKey } from '@element-plus/tokens'
 import isEqual from 'lodash/isEqual'
 import { isObject, toRawType } from '@vue/shared'
 
-import type { ElFormContext, ElFormItemContext } from '@element-plus/components/form'
+import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import { SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {

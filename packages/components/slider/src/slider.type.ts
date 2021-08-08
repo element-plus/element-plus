@@ -1,4 +1,5 @@
 import { ComputedRef, Ref } from 'vue'
+import type { Nullable } from '@element-plus/utils/types'
 
 export interface ISliderProps {
   modelValue: number | number[]
@@ -20,8 +21,6 @@ export interface ISliderProps {
   tooltipClass: string
   marks?: Record<number, any>
 }
-
-export type Nullable<T> = null | T
 
 export interface ISliderInitData {
   firstValue: Nullable<number>

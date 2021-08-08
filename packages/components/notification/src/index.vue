@@ -44,6 +44,7 @@ import { EVENT_CODE } from '@element-plus/utils/aria'
 import { on, off } from '@element-plus/utils/dom'
 
 import type { CSSProperties, PropType } from 'vue'
+import type { Indexable } from '@element-plus/utils/types'
 import type { NotificationVM, Position } from './notification.type'
 
 const TypeMap: Indexable<string> = {

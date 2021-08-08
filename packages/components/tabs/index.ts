@@ -1,7 +1,7 @@
 import Tabs from './src/tabs'
 import TabPane from './src/tab-pane.vue'
 
-import { App } from 'vue'
+import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Tabs.install = (app: App): void => {
@@ -16,3 +16,5 @@ const _Tabs = Tabs as any as SFCWithInstall<typeof Tabs> & {
 }
 
 export default _Tabs
+export const ElTabs = _Tabs
+export const ElTabPane = TabPane

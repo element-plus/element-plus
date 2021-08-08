@@ -24,9 +24,10 @@
 <script lang="ts">
 import { defineComponent, watch, ref, onMounted, getCurrentInstance, PropType } from 'vue'
 import draggable from '../draggable'
+
+import type { Nullable } from '@element-plus/utils/types'
 import type Color from '../color'
 
-type Nullable<T> = null | T
 
 export default defineComponent({
   name: 'ElColorAlphaSlider',
