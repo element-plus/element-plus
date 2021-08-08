@@ -34,10 +34,16 @@ console.log(chalk.cyan([
 
       json.version = tagVersion
       json.gitHead = gitHead
-      const { dependencies } = json
+      const { dependencies, devDependencies } = json
       Object.keys(dependencies).map(d => {
         if(pkgs.some(({ name }) => name === d)) {
           dependencies[d] = `^${tagVersion}`
+        }
+      })
+
+      Object.keys(devDependencies).map(d => {
+        if(pkgs.some(({ name }) => name === d)) {
+          devDependencies[d] = `^${tagVersion}`
         }
       })
 

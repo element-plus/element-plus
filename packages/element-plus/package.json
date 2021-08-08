@@ -22,7 +22,7 @@
     "@element-plus/tokens": "^0.0.4"
   },
   "devDependencies": {
-    "@element-plus/test-utils": "^0.0.1"
+    "@element-plus/test-utils": "^0.0.4"
   },
   "gitHead": "cdeb5a307058d0a2ceccc2848329a5c36e7607bb"
 }
