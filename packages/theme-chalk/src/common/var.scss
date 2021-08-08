@@ -785,6 +785,17 @@ $--tag: map.merge(
   $--tag
 );
 
+$--tag-color: () !default;
+
+@each $type in $--types {
+  $--tag-color: map.merge(
+    (
+      $type: map.get($--colors, $type, 'base'),
+    ),
+    $--tag-color
+  ) !global;
+}
+
 /* Tree
 -------------------------- */
 // css3 var in packages/theme-chalk/src/tree.scss
