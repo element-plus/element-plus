@@ -37,7 +37,7 @@
     outline: none;
     margin: 0;
     position: relative;
-    transition: var(--el-all-transition);
+    transition: var(--el-transition-all);
     @include utils-user-select(none);
 
     @include button-size(
