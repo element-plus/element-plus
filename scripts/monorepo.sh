@@ -1,11 +1,17 @@
 #! /usr/bin/bash
 
+set -e
+
 yarn bootstrap
 yarn clean:lib
 yarn update:version
 
 # build all packages in case of error
 yarn build:mono
+yarn build:style
+
+rsync -a dist/styles/ dist/components/
+
 yarn build:theme
 yarn build:locale
 yarn build:utils

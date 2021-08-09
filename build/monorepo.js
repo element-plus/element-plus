@@ -73,6 +73,7 @@ async function buildComponents() {
     name: componentName,
   }) => {
     const entry = path.resolve(p, './index.ts')
+    if (!fs.existsSync(entry)) return
 
     const external = (id) => {
       return id.startsWith(VUE_REGEX)
