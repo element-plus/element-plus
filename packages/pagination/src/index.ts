@@ -246,7 +246,7 @@ export default defineComponent({
 
     return () => {
       if (!assertValidUsage.value) {
-        warn(componentName, t('el.pagination.docRefer'))
+        warn(componentName, t('el.pagination.deprecationWarning'))
         return null
       }
       if (!props.layout) return null
