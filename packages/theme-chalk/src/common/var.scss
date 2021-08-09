@@ -9,7 +9,7 @@
 // skipAutoTranslation 1
 
 // types
-$--types: primary, success, warning, danger, info;
+$--types: primary, success, warning, danger, error, info;
 
 /* Color
 -------------------------- */
@@ -50,19 +50,24 @@ $--color-error: map.get($--colors, 'error', 'base');
 $--color-info: map.get($--colors, 'info', 'base');
 
 // https://sass-lang.com/documentation/values/maps#immutability
-@mixin set-color-primary-light($color, $number) {
+@mixin set-color-type-light($type, $number) {
   $--colors: map.deep-merge(
     (
-      'primary': (
+      $type: (
         'light-#{$number}':
-          mix($--color-white, $color, math.percentage(math.div($number, 10))),
+          mix(
+            $--color-white,
+            map.get($--colors, $type, 'base'),
+            math.percentage(math.div($number, 10))
+          ),
       ),
     ),
     $--colors
   ) !global;
 }
 
-// $--color-primary-light-i
+// $--colors.primary.light-i
+// --el-color-primary-light-i
 // 10% 53a8ff
 // 20% 66b1ff
 // 30% 79bbff
@@ -73,26 +78,9 @@ $--color-info: map.get($--colors, 'info', 'base');
 // 80% d9ecff
 // 90% ecf5ff
 @for $i from 1 through 9 {
-  @include set-color-primary-light(map.get($--colors, 'primary', 'base'), $i);
-}
-
-// generate
-// $--colors.success.light: mix($--color-white, $--color-success, 80%) !default;
-// $--colors.success.lighter: mix($--color-white, $--color-success, 90%) !default;
-@mixin set-color-type-light($type) {
-  $--colors: map.deep-merge(
-    (
-      $type: (
-        'light': mix($--color-white, map.get($--colors, $type, 'base'), 80%),
-        'lighter': mix($--color-white, map.get($--colors, $type, 'base'), 90%),
-      ),
-    ),
-    $--colors
-  ) !global;
-}
-
-@each $type in (success, warning, danger, error, info) {
-  @include set-color-type-light($type);
+  @each $type in $--types {
+    @include set-color-type-light($type, $i);
+  }
 }
 
 $--text-color: () !default;
@@ -546,9 +534,9 @@ $--button: () !default;
 $--button: map.merge(
   (
     'font-weight': var(--el-font-weight-primary),
-    'default-border-color': var(--el-border-color-base),
-    'default-background-color': var(--el-color-white),
-    'default-font-color': var(--el-text-color-regular),
+    'border-color': var(--el-border-color-base),
+    'background-color': var(--el-color-white),
+    'font-color': var(--el-text-color-regular),
     'disabled-font-color': var(--el-text-color-placeholder),
     'disabled-background-color': var(--el-color-white),
     'disabled-border-color': var(--el-border-color-light),
@@ -888,8 +876,8 @@ $--menu: map.merge(
   (
     'item-font-size': var(--el-font-size-base),
     'item-font-color': var(--el-text-color-primary),
-    'background-color': var(--el-color-white),
     'item-hover-fill': var(--el-color-primary-light-9),
+    'background-color': var(--el-color-white),
     'border-color': #e6e6e6,
   ),
   $--menu

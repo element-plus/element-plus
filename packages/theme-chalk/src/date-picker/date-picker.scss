@@ -1,6 +1,11 @@
 @import '../common/var';
 @import '../mixins/mixins';
+@import '../mixins/var';
 @import './picker-panel.scss';
+
+@include b(date-picker) {
+  @include set-component-css-var('datepicker', $--datepicker);
+}
 
 @include b(date-picker) {
   width: 322px;

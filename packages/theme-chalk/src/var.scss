@@ -9,18 +9,17 @@
 // https://lisilinhart.info/posts/css-variables-performance/
 
 :root {
-  --el-color-primary: #{$--color-primary};
   --el-color-white: #{$--color-white};
   --el-color-black: #{$--color-black};
 
-  // --el-color-primary-light-#{$i}
+  --el-color-primary: #{$--color-primary};
+
   @for $i from 1 through 9 {
-    @include set-css-color-primary($i);
+    @include set-css-color-type-light('primary', $i);
   }
 
   // --el-color-#{$type}
-  // --el-color-#{$type}-light
-  // --el-color-#{$type}-lighter
+  // --el-color-#{$type}-light-{$i}
   @each $type in (success, warning, danger, error, info) {
     @include set-css-color-type($type);
   }
