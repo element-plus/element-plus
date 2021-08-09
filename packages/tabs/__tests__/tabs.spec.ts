@@ -589,4 +589,8 @@ describe('Tabs.vue', () => {
     await wrapper.find('#tab-fourth').trigger('keydown', { code: EVENT_CODE.left })
     expect(vm.activeName).toEqual('third')
   })
+
+  test('resize', async () => {
+    // TODO: jsdom not support `clientWidth`.
+  })
 })
