@@ -213,7 +213,7 @@
           border: var(--el-input-border, map.get($--input, 'border'));
           line-height: 20px;
           box-sizing: border-box;
-          transition: var(--el-border-transition-base);
+          transition: var(--el-transition-border);
         }
         .#{$namespace}-input-number__decrease {
           width: 18px;

@@ -34,7 +34,7 @@
       --el-input-border-radius,
       map.get($--input, 'border-radius')
     );
-    transition: var(--el-border-transition-base);
+    transition: var(--el-transition-border);
 
     &::placeholder {
       color: var(
@@ -107,7 +107,7 @@
     color: var(--el-input-icon-color);
     font-size: map.get($--input-font-size, 'default');
     cursor: pointer;
-    transition: var(--el-color-transition-base);
+    transition: var(--el-transition-color);
 
     &:hover {
       color: var(--el-input-clear-hover-color);
@@ -149,7 +149,7 @@
     line-height: map.get($--input-height, 'default');
     outline: none;
     padding: 0 15px;
-    transition: var(--el-border-transition-base);
+    transition: var(--el-transition-border);
     width: 100%;
 
     &::placeholder {

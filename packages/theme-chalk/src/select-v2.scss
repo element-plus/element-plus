@@ -215,7 +215,7 @@ $--input-inline-start: 7px !default;
       transform: rotateZ(180deg);
       border-radius: var(--el-border-radius-circle);
       color: var(--el-select-input-color);
-      transition: var(--el-color-transition-base);
+      transition: var(--el-transition-color);
 
       &:hover {
         color: (--el-select-close-hover-color);
