@@ -1040,6 +1040,17 @@ $--link: map.merge(
   $--link
 );
 
+$--link-font-color: () !default;
+
+@each $type in $--types {
+  $--link-font-color: map.merge(
+    $--link-font-color,
+    (
+      $type: map.get($--colors, $type, 'base'),
+    )
+  ) !global;
+}
+
 /* Calendar
 --------------------------*/
 // css3 var in packages/theme-chalk/src/calendar.scss

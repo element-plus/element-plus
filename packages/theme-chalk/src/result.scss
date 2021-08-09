@@ -6,10 +6,6 @@ $types: success, warning, danger, info, error;
 
 @include b(result) {
   @include set-component-css-var('result', $--result);
-
-  @each $type in $types {
-    --el-result-#{$type}-color: var(--el-color-#{$type});
-  }
 }
 
 @include b(result) {
@@ -56,7 +52,8 @@ $types: success, warning, danger, info, error;
 
   @each $type in $types {
     .icon-#{$type} {
-      fill: var(--el-result-#{$type}-color);
+      --el-result-color: var(--el-color-#{$type});
+      fill: var(--el-result-color);
     }
   }
 }
