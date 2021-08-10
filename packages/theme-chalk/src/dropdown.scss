@@ -3,8 +3,6 @@
 @import 'mixins/mixins';
 @import 'mixins/var';
 @import 'common/var';
-@import 'button';
-@import 'popper';
 
 @include b(dropdown) {
   @include set-component-css-var('dropdown', $--dropdown);

@@ -4,9 +4,6 @@
 @import 'mixins/var';
 @import 'common/var';
 @import 'common/popup';
-@import 'button';
-@import 'input';
-@import 'overlay';
 
 @include b(message-box) {
   @include set-component-css-var('messagebox', $--messagebox);
