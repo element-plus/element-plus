@@ -4,7 +4,6 @@
 @import 'mixins/utils';
 @import 'mixins/var';
 @import 'common/var';
-@import 'select';
 
 @include b(pagination) {
   @include set-component-css-var('pagination', $--pagination);
