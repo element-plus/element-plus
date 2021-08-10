@@ -3,7 +3,6 @@
 
 @import 'mixins/mixins';
 @import 'common/var';
-@import 'input';
 
 @include b(input-number) {
   position: relative;

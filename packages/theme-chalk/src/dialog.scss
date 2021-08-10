@@ -5,7 +5,6 @@
 @import 'mixins/var';
 @import 'common/var';
 @import 'common/popup';
-@import './overlay.scss';
 
 @include b(dialog) {
   @include set-component-css-var('dialog', $--dialog);
