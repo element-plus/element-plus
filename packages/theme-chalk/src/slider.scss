@@ -3,7 +3,10 @@
 @import 'mixins/mixins';
 @import 'mixins/utils';
 @import 'mixins/var';
+<<<<<<< HEAD
 @import 'common/var';
+=======
+>>>>>>> origin/epic/fix-package-path-issues
 
 @include b(slider) {
   @include set-component-css-var('slider', $--slider);
