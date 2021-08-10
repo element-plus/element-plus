@@ -1,4 +1,3 @@
-import chalk from 'chalk'
 import gulp from 'gulp'
 import ts from 'gulp-typescript'
 import path from 'path'

@@ -1,7 +1,7 @@
 import { computed, getCurrentInstance, watch } from 'vue'
 
 import type { ExtractPropTypes } from 'vue'
-import type { TransferPanelProps, TransferPanelState, Key } from './transfer'
+import type { TransferPanelState, Key } from './transfer'
 
 export const CHECKED_CHANGE_EVENT = 'checked-change'
 
