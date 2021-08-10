@@ -1,6 +1,6 @@
 import { Fragment, Text, Comment, createBlock, openBlock, createCommentVNode, isVNode, camelize } from 'vue'
 
-import type { VNode, VNodeTypes, VNodeChild, Component } from 'vue'
+import type { VNode, VNodeTypes, VNodeChild } from 'vue'
 import { hasOwn } from '@vue/shared'
 import { warn } from './error'
 
