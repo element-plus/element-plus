@@ -336,7 +336,7 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 :::
 
 ### SelectV2 Attributes
-| Param      | Description     | Type      | Accepted Values                  | Default  |
+| Attribute      | Description     | Type      | Accepted Values                  | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | model-value / v-model | biding value | string / number / boolean / object | — | — |
 | multiple | is multiple  | boolean | — | false |
@@ -372,7 +372,7 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 </span>
 
 ### SelectV2 Events
-| Event Name | Description | Params |
+| Event Name | Description | Parameters |
 |---------|---------|---------|
 | change | triggers when the selected value changes | current selected value |
 | visible-change | triggers when the dropdown appears/disappears | true when it appears, and false otherwise |
@@ -382,9 +382,9 @@ Some APIs are still undergoing (comparing to the non-virtualized select), becaus
 | focus | triggers when Input focuses | (event: Event) |
 
 ### SelectV2 Slots
-|   name  | 说明     |
+|   Name  | Description     |
 |---------|---------|
 |  default | Option renderer |
-| empty | 无Option时的列表 |
+| empty | content when there is no options |
 
 <!-- | prefix  | Select 组件头部内容 | -->
