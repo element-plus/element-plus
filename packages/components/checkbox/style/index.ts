@@ -1,2 +1,2 @@
-import '@element-plus/theme-chalk/src/base.scss'
+import '@element-plus/components/base/style'
 import '@element-plus/theme-chalk/src/checkbox.scss'
