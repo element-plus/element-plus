@@ -442,6 +442,7 @@ Drawerは `destroyOnClose` というAPIを提供しています。これはフ�
 | withHeader | デフォルトは true で、withHeader が false に設定されている場合は `title attribute` と `title slot` の両方が動作しません。 | boolean | - | true |
 | modal-class | シャドウレイヤーの追加クラス名 | string | — | — |
 | z-index | set z-index | number | - | - |
+
 ### Drawerスロット
 
 | Name | Description |

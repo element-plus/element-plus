@@ -436,6 +436,7 @@ Drawer 和 Dialog 的属性几乎相同。
 | withHeader | 控制是否显示 header 栏, 默认为 true, 当此项为 false 时, title attribute 和 title slot 均不生效 | boolean | - | true |
 | modal-class | 遮罩层的自定义类名 | string | - | - |
 | z-index | 设置 z-index | number | - | - |
+
 ### Drawer Slot
 
 | name | 说明 |
