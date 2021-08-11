@@ -16,6 +16,8 @@
   line-height: 1;
 
   @include e(popper) {
+    @include set-component-css-var('dropdown', $--dropdown);
+
     // using attributes selector to override
 
     @include picker-popper(
