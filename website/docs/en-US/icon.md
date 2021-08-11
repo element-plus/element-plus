@@ -140,8 +140,13 @@ Just assign the class name to `el-icon-iconName`.
 </ul>
 
 
-### SVG Icon Attributes
+### Icon Attributes
 | Attribute      | Description    | Type      | Acceptable Value       | Default   |
 |---------- |-------- |---------- |-------------  |-------- |
 | color    | SVG tag's fill attribute | Pick\<CSSProperties, 'color'\> | - | inherit from color |
 | size | SVG icon size, size x size | number | - | inherit from font size |
+
+### Icon Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

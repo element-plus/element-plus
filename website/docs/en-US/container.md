@@ -253,9 +253,9 @@ These components use flex for layout, so please make sure your browser supports 
 | direction | layout direction for child elements | string | horizontal / vertical | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
 
 ### Container Slots
-| Name | Description |
-| --- | -------- |
-| — | customize container content |
+| Name | Description | Subtags |
+| --- | -------- | ----- |
+| default | customize container content | Header / Aside / Main / Footer |
 
 ### Header Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -266,7 +266,7 @@ These components use flex for layout, so please make sure your browser supports 
 
 | Name | Description |
 | --- |  -------- |
-| — | customize header content |
+| default | customize header content |
 
 ### Aside Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -277,7 +277,13 @@ These components use flex for layout, so please make sure your browser supports 
 
 | Name | Description |
 | ---- | -------- |
-| — | customize aside content |
+| default | customize aside content |
+
+### Main Slots
+
+| Name | Description |
+| ---- | -------- |
+| default | customize main content |
 
 ### Footer Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -288,10 +294,4 @@ These components use flex for layout, so please make sure your browser supports 
 
 | Name | Description |
 | --- | -------- |
-| — | customize footer content |
-
-### Main Slots
-
-| Name | Description |
-| ---- | -------- |
-| — | customize main content |
+| default | customize footer content |

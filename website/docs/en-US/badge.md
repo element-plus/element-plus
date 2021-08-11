@@ -124,3 +124,8 @@ Use a red dot to mark content that needs to be noticed.
 | is-dot        | if a little dot is displayed | boolean   |    —           |  false  |
 | hidden        | hidden badge    | boolean         |          —            |  false  |
 | type          | button type     | string          | primary / success / warning / danger / info |   —  |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

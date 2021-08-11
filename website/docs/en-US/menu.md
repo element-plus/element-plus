@@ -338,10 +338,10 @@ Vertical NavMenu could be collapsed.
 | open  | callback function when sub-menu expands | index: index of expanded sub-menu, indexPath: index path of expanded sub-menu |
 | close  | callback function when sub-menu collapses | index: index of collapsed sub-menu, indexPath: index path of collapsed sub-menu |
 
-### Menu-Item Events
-| Event Name | Description | Parameters |
-|---------- |-------- |---------- |
-| click  | callback function when menu-item is clicked | el: menu-item instance  |
+### Menu Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
 
 ### Submenu Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -353,6 +353,11 @@ Vertical NavMenu could be collapsed.
 | disabled | whether the sub-menu is disabled | boolean | — | false |
 | popper-append-to-body | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop | boolean | - | level one Submenu: true / other Submenus: false |
 
+### Submenu Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
+
 ### Menu-Item Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
@@ -360,7 +365,22 @@ Vertical NavMenu could be collapsed.
 | route     | Vue Router object   | object | — | — |
 | disabled | whether disabled | boolean | — | false |
 
+### Menu-Item Events
+| Event Name | Description | Parameters |
+|---------- |-------- |---------- |
+| click  | callback function when menu-item is clicked | el: menu-item instance  |
+
+### Menu-Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### Menu-Item-Group Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
 | title     | group title   | string  | — | — |
+
+### Menu-Item-Group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Menu-Item |

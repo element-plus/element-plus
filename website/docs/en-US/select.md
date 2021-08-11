@@ -554,6 +554,12 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | automatic-dropdown | for non-filterable Select, this prop decides if the option menu pops up when the input is focused | boolean | - | false |
 | clear-icon | Custom clear icon class | string | — | el-icon-circle-close |
 
+### Select Methods
+| Method | Description | Parameters |
+|------|--------|-------|
+| focus | focus the Input component | - |
+| blur | blur the Input component, and hide the dropdown | - |
+
 ### Select Events
 | Event Name | Description | Parameters |
 |---------|---------|---------|
@@ -565,17 +571,22 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | focus | triggers when Input focuses | (event: Event) |
 
 ### Select Slots
-| Name    | Description |
-|---------|-------------|
-|    —    | Option component list |
-| prefix  | content as Select prefix |
-| empty  | content when there is no options |
+| Name    | Description | Subtags |
+|---------|-------------| ----- |
+| default | Option component list | Option Group / Option |
+| prefix  | content as Select prefix | — |
+| empty  | content when there is no options | — |
 
 ### Option Group Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | label | name of the group | string | — | — |
 | disabled | whether to disable all options in this group | boolean | — | false |
+
+### Option Group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Option |
 
 ### Option Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -584,8 +595,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | label | label of option, same as `value` if omitted | string/number | — | — |
 | disabled | whether option is disabled | boolean | — | false |
 
-### Methods
-| Method | Description | Parameters |
-|------|--------|-------|
-| focus | focus the Input component | - |
-| blur | blur the Input component, and hide the dropdown | - |
+### Option Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

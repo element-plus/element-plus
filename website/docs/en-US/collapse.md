@@ -160,9 +160,19 @@ Besides using the `title` attribute, you can customize panel title with named sl
 |---------|---------|---------|
 | change | triggers when active panels change | (activeNames: array (non-accordion mode) / string (accordion mode)) |
 
+### Collapse Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Collapse Item |
+
 ### Collapse Item Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | name      | unique identification of the panel | string/number | — | — |
 | title     | title of the panel                 | string        | — | — |
 | disabled  | disable the collapse item          | boolean       | — | — |
+
+### Collapse Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

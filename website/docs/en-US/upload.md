@@ -452,6 +452,7 @@ on-exceed | hook function when limit is exceeded | function(files, fileList) | â
 ### Slots
 | Name | Description |
 |------|--------|
+| default | customize default content |
 | trigger | content which triggers file dialog |
 | tip | content of tips |
 

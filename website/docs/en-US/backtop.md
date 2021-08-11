@@ -58,3 +58,8 @@ Display area is 40px \* 40px.
 | Event Name | Description         | Parameters  |
 | ---------- | ------------------- | ----------- |
 | click      | triggers when click | click event |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
