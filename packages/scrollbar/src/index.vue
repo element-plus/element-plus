@@ -79,6 +79,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    minSize: {
+      type: Number,
+      default: 20,
+    },
   },
   emits: ['scroll'],
   setup(props, { emit }) {
@@ -89,6 +93,8 @@ export default defineComponent({
     const scrollbar = ref(null)
     const wrap = ref(null)
     const resize = ref(null)
+    const ratioY = ref(1)
+    const ratioX = ref(1)
 
     const SCOPE = 'ElScrollbar'
 
@@ -97,16 +103,16 @@ export default defineComponent({
 
     const handleScroll = () => {
       if (wrap.value) {
-        moveY.value = (wrap.value.scrollTop * 100) / wrap.value.clientHeight
-        moveX.value = (wrap.value.scrollLeft * 100) / wrap.value.clientWidth
+        moveY.value = (wrap.value.scrollTop * 100) / wrap.value.clientHeight * ratioY.value
+        moveX.value = (wrap.value.scrollLeft * 100) / wrap.value.clientWidth * ratioX.value
         emit('scroll', {
-          scrollLeft: moveX.value,
-          scrollTop: moveY.value,
+          scrollTop: wrap.value.scrollTop,
+          scrollLeft: wrap.value.scrollLeft,
         })
       }
     }
 
-    const setScrollTop = (value: string) => {
+    const setScrollTop = (value: number) => {
       if (!isNumber(value)) {
         if (process.env.NODE_ENV !== 'production') {
           warn(SCOPE, 'value must be a number')
@@ -116,7 +122,7 @@ export default defineComponent({
       wrap.value.scrollTop = value
     }
 
-    const setScrollLeft = (value: string) => {
+    const setScrollLeft = (value: number) => {
       if (!isNumber(value)) {
         if (process.env.NODE_ENV !== 'production') {
           warn(SCOPE, 'value must be a number')
@@ -129,8 +135,16 @@ export default defineComponent({
     const update = () => {
       if (!wrap.value) return
 
-      const heightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
-      const widthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
+      const realHeightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
+      const realWidthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
+      const minHeightPercentage = props.minSize * 100 / wrap.value.clientHeight
+      const minWidthPercentage = props.minSize * 100 / wrap.value.clientWidth
+      const heightPercentage = Math.max(realHeightPercentage, minHeightPercentage)
+      const widthPercentage = Math.max(realWidthPercentage, minWidthPercentage)
+
+      ratioY.value = realHeightPercentage / heightPercentage
+      ratioX.value = realWidthPercentage / widthPercentage
+      console.log(ratioY.value)
 
       sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : ''
       sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : ''

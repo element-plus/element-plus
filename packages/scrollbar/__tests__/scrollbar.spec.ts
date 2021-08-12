@@ -156,4 +156,24 @@ describe('ScrollBar', () => {
     clientWidthRestore()
     scrollWidthRestore()
   })
+
+  test('should render min-size props', async () => {
+    const outerHeight = 200
+    const innerHeight = 10000
+    const wrapper = _mount(`
+      <el-scrollbar style="height: ${outerHeight}px">
+        <div style="height: ${innerHeight}px;"></div>
+      </el-scrollbar>
+    `)
+
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    const clientHeightRestore = defineGetter(scrollDom, 'clientHeight', outerHeight)
+    const scrollHeightRestore = defineGetter(scrollDom, 'scrollHeight', innerHeight)
+
+    await makeScroll(scrollDom, 'scrollTop', 0)
+    expect(wrapper.find('.is-vertical div').attributes('style')).toContain('height: 10%; transform: translateY(0%); webkit-transform: translateY(0%);')
+    clientHeightRestore()
+    scrollHeightRestore()
+  })
 })
