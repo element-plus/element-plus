@@ -144,7 +144,6 @@ export default defineComponent({
 
       ratioY.value = realHeightPercentage / heightPercentage
       ratioX.value = realWidthPercentage / widthPercentage
-      console.log(ratioY.value)
 
       sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : ''
       sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : ''
