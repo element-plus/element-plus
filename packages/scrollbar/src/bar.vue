@@ -45,6 +45,8 @@ export default defineComponent({
     let onselectstartStore = null
 
     const offsetRatio = computed(() => {
+      // offsetRatioX = original width of thumb / current width of thumb / ratioX
+      // offsetRatioY = original height of thumb / current height of thumb / ratioY
       return wrap.value[bar.value.offset] ** 2 / wrap.value[bar.value.scrollSize] / props.ratio / thumb.value[bar.value.offset]
     })
 
