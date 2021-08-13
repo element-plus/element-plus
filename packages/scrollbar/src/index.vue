@@ -157,8 +157,8 @@ export default defineComponent({
       ratioY.value = (originalHeight / (offsetHeight - originalHeight)) / (height / (offsetHeight - height))
       ratioX.value = (originalWidth / (offsetWidth - originalWidth)) / (width / (offsetWidth - width))
 
-      sizeHeight.value = height < offsetHeight ? height + 'px' : ''
-      sizeWidth.value = width < offsetWidth ? width + 'px' : ''
+      sizeHeight.value = height + GAP < offsetHeight ? height + 'px' : ''
+      sizeWidth.value = width + GAP < offsetWidth ? width + 'px' : ''
     }
 
     const style = computed(() => {
