@@ -1,14 +1,11 @@
 /* eslint-disable */
-// import vue from 'rollup-plugin-vue'
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const rollup = require('rollup')
 const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
-const alias = require('@rollup/plugin-alias')
-// const commonjs = require('@rollup/plugin-commonjs')
-const { terser } = require('rollup-plugin-terser')
-// const typescript = require('rollup-plugin-typescript2')
+const commonjs = require('@rollup/plugin-commonjs')
+// const { terser } = require('rollup-plugin-terser')
 const vue = require('rollup-plugin-vue')
 const esbuild = require('rollup-plugin-esbuild')
 const { epRoot, buildOutput, compRoot, hookRoot, directiveRoot, utilRoot, localeRoot } = require('./paths')
@@ -21,62 +18,40 @@ const pkg = require(path.resolve(epRoot, './package.json'))
   const raw = await fs.promises.readdir(compRoot, {
     withFileTypes: true,
   })
-  // filter out package.json since under packages/components we only got this file
-  //
-  // const dedupe = raw
-  //   .filter(f => f.isDirectory())
-  //   .map(f => `@element-plus/components/${f.name}`)
-  //   .concat([
-  //     '@element-plus/hooks',
-  //     '@element-plus/directives',
-  //     '@element-plus/utils',
-  //   ])
-  const dedupe = [
-    '@element-plus/components',
-    '@element-plus/locale',
-    '@element-plus/hooks',
-    '@element-plus/directives',
-    '@element-plus/utils',
-  ]
-  // console.log(dedupe)
   const config = {
     input: path.resolve(epRoot, './index.ts'),
     plugins: [
-      alias({
-        entries: [
-          {
-            find: '@element-plus/components',
-            replacement: compRoot,
-          },
-          {
-            find: '@element-plus/directives',
-            replacement: directiveRoot
-          },
-          {
-            find: '@element-plus/hooks',
-            replacement: hookRoot
-          },
-          {
-            find: '@element-plus/utils',
-            replacement: utilRoot
-          },
-          {
-            find: '@element-plus/locale',
-            replacement: localeRoot,
-          }
-        ],
-      }),
-      nodeResolve({
-        dedupe,
-        browser: true,
-      }),
-      // commonjs(),
+      nodeResolve(),
       vue({
         target: 'browser',
         css: false,
         exposeFilename: false,
       }),
-      esbuild(),
+      commonjs(),
+      {
+        transform(code, id) {
+          if (id.includes('packages')) {
+            return {
+              code: code
+                .replace(
+                  /@element-plus\//g,
+                  `${
+                    path
+                      .relative(
+                        path.dirname(id),
+                        path.resolve(process.cwd(), './packages'),
+                      )
+                  }/`,
+                ),
+              map: null,
+            }
+          }
+          return { code, map: null }
+        },
+      },
+      esbuild({
+        minify: false,
+      }),
     ],
     external(id) {
       return /^vue/.test(id)
@@ -94,7 +69,7 @@ const pkg = require(path.resolve(epRoot, './package.json'))
 
   const umdMinified = {
     ...umd,
-    plugins: [terser()],
+    // plugins: [terser()],
   }
 
   console.log(chalk.yellow('Building bundle'))
