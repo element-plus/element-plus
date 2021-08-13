@@ -370,3 +370,12 @@ Si Element Plus est importé en entier, une méthode globale `$loading` sera ajo
 | spinner | Classe du spinner. | string | — | — |
 | background | Couleur de fond du masque. | string | — | — |
 | customClass | Classe du Loading. | string | — | — |
+
+### Directives
+
+| Name | Description | Type  |
+| -------------- | ---------------- | --------- |
+| v-loading | show animation while loading data | boolean |
+| element-loading-text | loading text that displays under the spinner | string |
+| element-loading-spinner | class name of the custom spinner | string |
+| element-loading-background | background color of the mask | string |

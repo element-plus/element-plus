@@ -340,10 +340,10 @@ NavMenu vertical puede ser colapsado.
 | open             | callback ejecutado cuando sub-menu se expande | index: índice del sub-menu expandido, indexPath: index path del sub-menu expandido |
 | close            | callback ejecutado cuando sub-menu colapsa | index: índice del sub-menu colapsado, indexPath: index path del menú colapsado |
 
-### Eventos Menu-Item
-| Nombre de evento | Descripción                              | Parámetros                 |
-| ---------------- | ---------------------------------------- | -------------------------- |
-| click            | callback ejecutado cuando se hace click sobre menu-item | el: instancia de menu-item |
+### Menu Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
 
 ### Atributos SubMenu
 | Atributo     | Descripción                              | Tipo   | Valores aceptados | Por defecto |
@@ -355,6 +355,11 @@ NavMenu vertical puede ser colapsado.
 | disabled | si esta `disabled` el sub-menu | boolean | — | false |
 | popper-append-to-body | si se debe agregar el menú emergente al cuerpo. Si la posición del menú es incorrecta, puede intentar ajustar este prop | boolean | - | level one Submenu: true / other Submenus: false |
 
+### Submenu Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
+
 ### Atributos Menu-Item
 | Atributo | Descripción         | Tipo   | Valores aceptados | Por defecto |
 | -------- | ------------------- | ------ | ----------------- | ----------- |
@@ -362,7 +367,22 @@ NavMenu vertical puede ser colapsado.
 | route    | Objeto Vue Router   | object | —                 | —           |
 | disabled | si esta `disabled` | boolean | — | false |
 
+### Eventos Menu-Item
+| Nombre de evento | Descripción                              | Parámetros                 |
+| ---------------- | ---------------------------------------- | -------------------------- |
+| click            | callback ejecutado cuando se hace click sobre menu-item | el: instancia de menu-item |
+
+### Menu-Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### Atributos Menu-Group
 | Atributo | Descripción      | Tipo   | Valores aceptados | Por defecto |
 | -------- | ---------------- | ------ | ----------------- | ----------- |
 | title    | título del grupo | string | —                 | —           |
+
+### Menu-Item-Group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Menu-Item |

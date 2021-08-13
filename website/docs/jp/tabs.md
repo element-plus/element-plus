@@ -297,6 +297,11 @@
 | tab-add  |  タブ追加ボタンがクリックされたときにトリガーされます。  | — |
 | edit  | タブ追加ボタンやタブ削除ボタンがクリックされたときにトリガーされます。 | (targetName, action) |
 
+### Tabs Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Tab-pane |
+
 ### タブペインの属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |

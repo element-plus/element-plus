@@ -442,6 +442,7 @@ on-exceed | リミットを突破した時のフック関数 | function(files, f
 ### スロット
 | Name | Description |
 |------|--------|
+| default | customize default content |
 | trigger | ファイルダイアログをトリガーする内容 |
 | tip | tipsの内容 |
 

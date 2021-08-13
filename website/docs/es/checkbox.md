@@ -411,6 +411,11 @@ export default defineComponent({
 | ------ | ---------------------------------------- | -------------------- |
 | change | se ejecuta cuando el valor enlazado cambia | el valor actualizado |
 
+### Checkbox Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### Atributos de Checkbox-group
 | Atributo   | Descripción                              | Tipo    | Valores aceptados     | Por Defecto |
 | ---------- | ---------------------------------------- | ------- | --------------------- | ----------- |
@@ -427,6 +432,11 @@ export default defineComponent({
 | ---------------- | ---------------------------------------- | -------------------- |
 | change           | se ejecuta cuando el valor enlazado cambia | el valor actualizado |
 
+### Checkbox-group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Checkbox / Checkbox-button |
+
 ### Atributos de Checkbox-button
 | Atributo    | Descripción                              | Tipo                      | Valores aceptados | Por defecto |
 | ----------- | ---------------------------------------- | ------------------------- | ----------------- | ----------- |
@@ -436,3 +446,8 @@ export default defineComponent({
 | disabled    | especifica si el checkbox está deshabilitado | boolean                   | —                 | false       |
 | name        | atributo 'name' del checbox nativo       | string                    | —                 | —           |
 | checked     | si el checkbox está marcado              | boolean                   | —                 | false       |
+
+### Checkbox-button Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

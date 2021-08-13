@@ -252,17 +252,46 @@ Ces composants utilisent flexbox, assurez vous que le navigateur supporte cette 
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | direction | Direction d'affichage pour les éléments enfants. | string | horizontal / vertical | vertical quand dans `el-header` ou `el-footer`; horizontal sinon |
 
+### Container Slots
+| Name | Description | Subtags |
+| --- | -------- | ----- |
+| default | customize container content | Header / Aside / Main / Footer |
+
 ### Attributs de Header
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | height | Hauteur du header. | string | — | 60px |
+
+### Header Slots
+
+| Name | Description |
+| --- |  -------- |
+| default | customize header content |
 
 ### Attributs de Aside
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | width | Largeur de la section. | string | — | 300px |
 
+### Aside Slots
+
+| Name | Description |
+| ---- | -------- |
+| default | customize aside content |
+
+### Main Slots
+
+| Name | Description |
+| ---- | -------- |
+| default | customize main content |
+
 ### Attributs de Footer
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | height | Hauteur du footer. | string | — | 60px |
+
+### Footer Slots
+
+| Name | Description |
+| --- | -------- |
+| default | customize footer content |

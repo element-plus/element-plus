@@ -561,6 +561,12 @@ Si el valor de encuadernación de Select es un objeto, asegúrese de asignar `va
 | automatic-dropdown | para non-filterable Select, este `prop` decide si el menú de opciones aparece cuando la entrada está enfocada | boolean | - | false |
 | clear-icon        | Clase personalizada para el icono `clear` | string                                   | —                                        | el-icon-circle-close |
 
+### Select Metodos
+| Metodo | Descripción                 | Parametros |
+| ------ | --------------------------- | ---------- |
+| focus  | Foco en el componente input | -          |
+| blur   | Quita el focus del componente y oculta el dropdown | - |
+
 ### Eventos Select
 | Nombre         | Descripción                                                  | Parametros                                |
 | -------------- | ------------------------------------------------------------ | ----------------------------------------- |
@@ -572,17 +578,22 @@ Si el valor de encuadernación de Select es un objeto, asegúrese de asignar `va
 | focus          | se dispara cuando el input obtiene el foco                   | (event: Event)                            |
 
 ### Select Slots
-| Name    | Description |
-|---------|-------------|
-|    —    | lista de los componentes Option |
-| prefix  | contenido prefix de un  Select |
-| empty | Lista sin opciones |
+| Name    | Description | Subtags |
+|---------|-------------| ----- |
+| default | lista de los componentes Option | Option Group / Option |
+| prefix  | contenido prefix de un  Select | — |
+| empty | Lista sin opciones | — |
 
 ### Atributos del grupo de opciones
 | Atributo | Descripción                              | Tipo    | Valores aceptados | Por defecto |
 | -------- | ---------------------------------------- | ------- | ----------------- | ----------- |
 | label    | nombre del grupo                         | string  | —                 | —           |
 | disabled | si se deshabilitan todas las opciones del grupo | boolean | —                 | false       |
+
+### Option Group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Option |
 
 ### Atributos de opciones
 | Atributo | Descripción                              | Tipo                 | Valores aceptados | Por defecto |
@@ -591,8 +602,7 @@ Si el valor de encuadernación de Select es un objeto, asegúrese de asignar `va
 | label    | etiqueta de option, es igual a  `value` si se omite | string/number        | —                 | —           |
 | disabled | si  option esta deshabilitado            | boolean              | —                 | false       |
 
-### Metodos
-| Metodo | Descripción                 | Parametros |
-| ------ | --------------------------- | ---------- |
-| focus  | Foco en el componente input | -          |
-| blur   | Quita el focus del componente y oculta el dropdown | - |
+### Option Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

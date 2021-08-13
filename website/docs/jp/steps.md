@@ -143,6 +143,11 @@
 | align-center | センタータイトルと説明 | boolean | — | false |
 | simple | シンプルなテーマを適用するかどうか | boolean | - | false |
 
+### Steps Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Step |
+
 ### ステップ属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |

@@ -233,6 +233,10 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 | click | タグがクリックされたときにトリガーされます。 | — |
 | close | タグが削除されたときにトリガーされます。 | — |
 
+### Tag Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
 
 ### CheckTag 属性
 | Attribute      | Description          | Type      | Accepted                           | Default  |
@@ -243,3 +247,8 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 | Event Name | Description | Parameters |
 |---------- |-------- |---------- |
 | change | triggers when Check Tag is clicked | checked |
+
+### CheckTag Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

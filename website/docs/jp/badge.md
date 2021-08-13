@@ -124,3 +124,8 @@
 | is-dot        | 小さな点が表示されている場合 | boolean   |    —           |  false  |
 | hidden        | かくしbadge    | boolean         |          —            |  false  |
 | type          | ボタンタイプ     | string          | primary / success / warning / danger / info |   —  |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

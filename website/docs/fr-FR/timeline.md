@@ -121,6 +121,11 @@ Le timestamp peut être placé au-dessus du contenu lorsque celui-ci est trop ha
 ```
 :::
 
+### Timeline Slots
+| Name | Description | Subtags |
+|------|--------| ----- |
+| — | Custom content for timeline | Timeline-Item |
+
 ### Attribut de Timeline-item
 
 | Attribut      | Description    | Type      | Valeurs acceptées | Défaut   |

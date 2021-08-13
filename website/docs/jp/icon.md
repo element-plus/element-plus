@@ -144,3 +144,8 @@ This collection is updated after ElementPlus@1.0.2-beta.66(included), you can on
 |---------- |-------- |---------- |-------------  |-------- |
 | color    | SVG tag's fill attribute | Pick\<CSSProperties, 'color'\> | - | inherit from color |
 | size | SVG icon size, size x size | number | - | inherit from font size |
+
+### Icon Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

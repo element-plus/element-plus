@@ -240,13 +240,9 @@
 ### Slot
 | name | 说明 |
 |------|--------|
+| default | 自定义数据项的内容，参数为 { option } |
 | left-footer | 左侧列表底部的内容 |
 | right-footer | 右侧列表底部的内容 |
-
-### Scoped Slot
-| name | 说明 |
-|------|--------|
-| — | 自定义数据项的内容，参数为 { option } |
 
 ### Methods
 | 方法名 | 说明 | 参数 |

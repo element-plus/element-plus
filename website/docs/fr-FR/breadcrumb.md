@@ -37,8 +37,18 @@ Affiche le chemin de la page actuelle, afin de pouvoir naviguer plus facilement.
 | separator | Caractère de séparation | string | — | / |
 | separator-class | Classe de l'icône de séparation | string | — | - |
 
+### Breadcrumb Slots
+| Name | Description | Subtags |
+| ------ | -------- | ---- |
+| default | customize default content | Breadcrumb Item |
+
 ### Attributs de Breadcrumb Item
 | Attributs      | Description          | Type      | Valeurs acceptées            | Défaut|
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | to | Route cible du lien, identique au `to` de `vue-router`. | string/object | — | — |
 | replace | Si `true`, la navigation ne laissera pas d'historique. | boolean | — | false |
+
+### Breadcrumb Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

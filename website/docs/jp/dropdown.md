@@ -360,10 +360,10 @@ dropdownリストを起動するには、ボタンを使用します。
 
 ### dropdownスロット
 
-| Name | Description |
-|------|--------|
-| — | dropdownの内容 Notice: トリガーリスナーをアタッチするには、有効な html dom 要素 (例: `<span>, <button> etc.`) または `el-component` でなければなりません。  |
-| dropdown | dropdownメニューの内容、通常は `<el-dropdown-menu>` 要素 |
+| Name | Description | Subtags |
+|------|--------| ----- |
+| — | dropdownの内容 Notice: トリガーリスナーをアタッチするには、有効な html dom 要素 (例: `<span>, <button> etc.`) または `el-component` でなければなりません。  | — |
+| dropdown | dropdownメニューの内容、通常は `<el-dropdown-menu>` 要素 | Dropdown-Menu |
 
 ### dropdownイベント
 | Event Name | Description | Parameters |
@@ -372,6 +372,12 @@ dropdownリストを起動するには、ボタンを使用します。
 | command | dropdown項目がクリックされたときにトリガーする | the command dispatched from the dropdown item |
 | visible-change | dropdownが表示/非表示になったときにトリガされます。 | true when it appears, and false otherwise |
 
+### Dropdown-Menu Slots
+
+| Name | Description | Subtags |
+|------|--------| ----- |
+| — | content of Dropdown Menu | Dropdown-Item |
+
 ### dropdownメニュー項目の属性
 | Attribute     | Description          | Type      | Accepted Values       | Default  |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
@@ -379,3 +385,9 @@ dropdownリストを起動するには、ボタンを使用します。
 | disabled      | 項目が無効化されているかどうか  | boolean  |          —             |    false     |
 | divided       | 仕切り表示の有無  | boolean  |          —             |    false     |
 | icon          | アイコンクラス名 | string   |  —  |  —  |
+
+### Dropdown-Item Slots
+
+| Name | Description |
+|------|--------|
+| — | content of Dropdown Menu |

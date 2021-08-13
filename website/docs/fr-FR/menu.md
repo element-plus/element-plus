@@ -341,11 +341,10 @@ Le menu vertical peut être réduit.
 | open  | Fonction de callback pour quand le sous-menu s'agrandit. | index: index of expanded sous-menu, indexPath: index path du sous-menu |
 | close  | Fonction de callback pour quand le sous-menu se réduit. | index: index of collapsed sous-menu, indexPath: index path du sous-menu |
 
-### Évènements des items du menu
-
-| Nom | Description | Paramètres |
-|---------- |-------- |---------- |
-| click  | Fonction de callback pour quand le menu-item est cliqué. | el: instance du menu-item.  |
+### Menu Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
 
 ### Attributs du sous-menu
 
@@ -358,6 +357,11 @@ Le menu vertical peut être réduit.
 | disabled | Si le sous-menu est désactivé. | boolean | — | false |
 | popper-append-to-body | S'il faut ajouter un menu popup au body. Si le positionnement du body n'est pas bon, vous pouvez essayer de régler cette propriété. | boolean | - | Sous-menus de niveau 1: true / autres sous-menus: false |
 
+### Submenu Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
+
 ### Attributs des items du menu
 
 | Attributs      | Description          | Type      | Valeurs acceptées       | Défaut  |
@@ -366,8 +370,24 @@ Le menu vertical peut être réduit.
 | route     | Objet Vue Router. | object | — | — |
 | disabled | Si l'item est désactivé. | boolean | — | false |
 
+### Évènements des items du menu
+
+| Nom | Description | Paramètres |
+|---------- |-------- |---------- |
+| click  | Fonction de callback pour quand le menu-item est cliqué. | el: instance du menu-item.  |
+
+### Menu-Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### Attributs des groupes
 
 | Attributs      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------- |---------- |-------------  |-------- |
 | title     | Titre du groupe. | string  | — | — |
+
+### Menu-Item-Group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Menu-Item |

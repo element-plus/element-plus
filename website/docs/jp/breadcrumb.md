@@ -37,13 +37,18 @@
 | separator | セパレータ文字 | string | — | / |
 | separator-class | アイコンセパレータのクラス名 | string | — | - |
 
+### Breadcrumb Slots
+| Name | Description | Subtags |
+| ------ | -------- | ---- |
+| default | customize default content | Breadcrumb Item |
+
 ### Breadcrumb(パンくず)項目属性
 | Attribute      | Description          | Type      | Accepted Values            | Default|
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | to | リンクのターゲットルート、`vue-router` の `to` と同じ | string/object | — | — |
 | replace | `true` の場合、ナビゲーションは履歴を残しません。 | boolean | — | false |
 
-
-
-
-
+### Breadcrumb Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

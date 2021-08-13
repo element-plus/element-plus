@@ -132,6 +132,7 @@ Añada `v-infinite-scroll` a la lista para ejecutar automáticamente el método 
 
 | Atributos | Descripción | Tipo | Valores aceptados | Por defecto |
 | -------------- | ------------------------------ | --------- | ------------------------------------ | ------- |
+| v-infinite-scroll | Load more data while reach bottom of the page | function      | - | - |
 | infinite-scroll-disabled | si esta disabled | boolean      | - |false |
 | infinite-scroll-delay   | retraso en milisegundos | number       |   - |200   |
 | infinite-scroll-distance| distancia de activación (px) | number   |- |0 |

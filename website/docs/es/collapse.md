@@ -160,6 +160,10 @@ Además de usar el atributo `title`, se puede personalizar el título del panel 
 | ---------------- | ---------------------------------------- | ---------------------------------------- |
 | change           | se dispara cuando los paneles activos cambian | (activeNames: array (No modo acordeón) / string (modo acordeón)) |
 
+### Collapse Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Collapse Item |
 
 ### Atributos de Collapse Item
 | Atributo | Descripción                   | Tipo          | Valores aceptados | Por defecto |
@@ -168,3 +172,7 @@ Además de usar el atributo `title`, se puede personalizar el título del panel 
 | title    | título del panel              | string        | —                 | —           |
 | disabled | deshabilita el collapse ítem  | boolean       | —                 | —           |
 
+### Collapse Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

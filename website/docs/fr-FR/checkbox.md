@@ -411,6 +411,11 @@ export default defineComponent({
 |---------- |-------- |---------- |
 | change  | Se déclenche quand la valeur change. | La nouvelle valeur |
 
+### Checkbox Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### Attributs Checkbox-group
 | Attribut      | Description         | Type    | Options                         | Défaut|
 |---------- |-------- |---------- |-------------  |-------- |
@@ -427,6 +432,11 @@ export default defineComponent({
 |---------- |-------- |---------- |
 | change  | Se déclenche quand la valeur change. | La nouvelle valeur |
 
+### Checkbox-group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Checkbox / Checkbox-button |
+
 ### Attributs Checkbox-button
 | Attribut      | Description         | Type    | Options                         | Défaut|
 |---------- |-------- |---------- |-------------  |-------- |
@@ -436,3 +446,8 @@ export default defineComponent({
 | disabled  | Si la checkbox est désactivée. | boolean   |  — | false   |
 | name | Attribut 'name' natif. | string    |      —         |     —    |
 | checked  | Si la checkbox est cochée. | boolean   |  — | false   |
+
+### Checkbox-button Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

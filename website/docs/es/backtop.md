@@ -58,3 +58,8 @@ Desplácese hacia abajo para ver el botón en el lado inferior derecho.
 | Nombre del evento | Descripción             | Parámetros  |
 | ----------------- | ----------------------- | ----------- |
 | click             | se activa al hacer clic | click event |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

@@ -259,6 +259,11 @@ Des radios affichés comme des boutons standards.
 | --- | --- | --- |
 | change | Se déclenche quand la valeur change. | La valeur du label. |
 
+### Radio Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### Attributs de Radio-group
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut
@@ -275,6 +280,10 @@ Des radios affichés comme des boutons standards.
 | --- | --- | --- |
 | change | Se déclenche quand la valeur change. | La valeur du label. |
 
+### Radio-group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Radio / Radio-button |
 ### Attributs Radio-button
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut |
@@ -282,3 +291,8 @@ Des radios affichés comme des boutons standards.
 | label | Valeur du radio. | string / number | — | — |
 | disabled | Si le radio est désactivé. | boolean | — | false |
 | name | Attribut 'name' natif. | string | — | — |
+
+### Radio-button Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

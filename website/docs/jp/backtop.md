@@ -58,3 +58,8 @@
 | Event Name | Description         | Parameters  |
 | ---------- | ------------------- | ----------- |
 | click      | クリックするとトリガー  | click event |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

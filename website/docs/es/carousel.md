@@ -210,9 +210,18 @@ Por defecto, `direction` es `horizontal`. El carousel puede ser mostrado de form
 | prev          | Cambia al slider anterior  | —                                                            |
 | next          | Cambia al slider siguiente | —                                                            |
 
+### Carousel Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Carousel-Item |
+
 ### Atributos de Carousel-Item
 | Atributo | Descripción                              | Tipo   | Valores aceptados | Por defecto |
 | -------- | ---------------------------------------- | ------ | ----------------- | ----------- |
 | name     | Nombre del item que puede ser usado en `setActiveItem` | string | —                 | —           |
 | label    | Texto que se mostrara en el indicador de paginacion correspondiente | string | —                 | —           |
 
+### Carousel-Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content | 

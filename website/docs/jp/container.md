@@ -252,17 +252,46 @@
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | direction | 子要素のレイアウト方向 | string | horizontal / vertical | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
 
+### Container Slots
+| Name | Description | Subtags |
+| --- | -------- | ----- |
+| default | customize container content | Header / Aside / Main / Footer |
+
 ### ヘッダー属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | height | ヘッダーの高さ | string | — | 60px |
+
+### Header Slots
+
+| Name | Description |
+| --- |  -------- |
+| default | customize header content |
 
 ### アサイド属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | width | サイドセクションの幅 | string | — | 300px |
 
+### Aside Slots
+
+| Name | Description |
+| ---- | -------- |
+| default | customize aside content |
+
+### Main Slots
+
+| Name | Description |
+| ---- | -------- |
+| default | customize main content |
+
 ### フッター属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | height | フッターの高さ | string | — | 60px |
+
+### Footer Slots
+
+| Name | Description |
+| --- | -------- |
+| default | customize footer content |

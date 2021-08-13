@@ -637,6 +637,11 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 | -------- | ---------------------------------------------------- | ------------------------------------------------------------ |
 | validate | se dispara después de validar un ítem del formulario | la propiedad (`prop name`) nombre del ítem del form que se esta validando, si la validación paso o no, y el mensaje de error si existe. |
 
+### Form Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Form-Item |
+
 ### Form-Item Atributos
 
 | Atributo       | Descripción                                                  | Tipo    | Valores aceptados                           | Por defecto |
@@ -660,12 +665,7 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 
 | Nombre | Descripción              |
 | ------ | ------------------------ |
-| —      | contenido del Form Item  |
-
-### Form-Item Scoped Slot
-
-| Name  | Description                                                  |
-| ----- | ------------------------------------------------------------ |
+| default | contenido del Form Item  |
 | label | Custom content to display on label. The scope parameter is { label } |
 | error | Contenido personalizado para mostrar el mensaje de validación. El parámetro del scope es { error } |
 

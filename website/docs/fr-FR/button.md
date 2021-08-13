@@ -170,7 +170,7 @@ En plus de la taille par défaut, le composant Button fournit trois tailles supp
 
 :::
 
-### Attributs
+### Button Attributs
 
 | Attribut    | Description                                    | Type    | Valeurs acceptées                                  | Défaut |
 | ----------- | ---------------------------------------------- | ------- | -------------------------------------------------- | ------ |
@@ -184,3 +184,14 @@ En plus de la taille par défaut, le composant Button fournit trois tailles supp
 | icon        | Classe de l'icône.                             | string  | —                                                  | —      |
 | autofocus   | Identique à l'attribut natif `autofocus`       | boolean | —                                                  | false  |
 | native-type | Identique à l'attribut natif `type`            | string  | button / submit / reset                            | button |
+
+### Button Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
+### Button-Group Slots
+
+| Name    | Description                    | Subtags |
+| ------- | ------------------------------ | ------- |
+| default | customize button group content | Button  |

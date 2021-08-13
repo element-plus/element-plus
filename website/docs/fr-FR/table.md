@@ -1892,9 +1892,10 @@ Vous pouvez personnaliser les indices des colonnes de type `index`.
 
 ### Slots de Table
 
-| Nom | Description |
-|------|--------|
-| append | Contenu à insérer après la dernière ligne. Vous aurez sans doute besoin de ce slot si vous implémentez un scroll infini. Il sera affiché au-dessus de la ligne de somme s'il y en a une. |
+| Nom | Description | Subtags |
+|------|--------| ----- |
+| default | customize default content | Table-column |
+| append | Contenu à insérer après la dernière ligne. Vous aurez sans doute besoin de ce slot si vous implémentez un scroll infini. Il sera affiché au-dessus de la ligne de somme s'il y en a une. | — |
 
 ### Attributs de Table-column
 

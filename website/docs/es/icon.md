@@ -145,3 +145,8 @@ Simplemente asigna el nombre de la clase a `el-icon-iconName`.
 |---------- |-------- |---------- |-------------  |-------- |
 | color    | SVG tag's fill attribute | Pick\<CSSProperties, 'color'\> | - | inherit from color |
 | size | SVG icon size, size x size | number | - | inherit from font size |
+
+### Icon Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

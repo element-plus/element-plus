@@ -345,6 +345,11 @@ import 'element-plus/lib/theme-chalk/display.css';
 | align | フレックスレイアウトの垂直配置 | string | top/middle/bottom | top |
 | tag | カスタムエレメントタグ | string | * | div |
 
+### Row Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Col |
+
 ### 列属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
@@ -359,4 +364,7 @@ import 'element-plus/lib/theme-chalk/display.css';
 | xl | `≥1920px` レスポンシブ列または列propsオブジェクト | number/object (e.g. {span: 4, offset: 4}) | — | — |
 | tag | カスタムエレメントタグ | string | * | div |
 
-
+### Col Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

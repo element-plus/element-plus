@@ -144,6 +144,11 @@ La barre peut être simplifiée de manière à ce que `align-center`, `descripti
 | align-center | Si le titre et la description doivent être centrés. | boolean | — | false |
 | simple | Si un thème simple doit être appliqué. | boolean | - | false |
 
+### Steps Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Step |
+
 ### Attributs des étapes
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |

@@ -346,6 +346,11 @@ Las clases son:
 | align     | alineación vertical del layout flex      | string | top/middle/bottom                        | top               |
 | tag       | tag de elemento propio                   | string | *                                        | div               |
 
+### Row Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Col |
+
 ### Atributos Col
 
 | Atributos | Descripción                              | Tipo                                     | Valores aceptados | Valor por defecto |
@@ -361,4 +366,7 @@ Las clases son:
 | xl        | `≥1920px` Columnas responsive u objeto con propiedades de la columna | number/object (e.g. {span: 4, offset: 4}) | —                 | —                 |
 | tag       | tag de elemento propio                   | string                                   | *                 | div               |
 
-
+### Col Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

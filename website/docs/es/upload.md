@@ -381,6 +381,7 @@ Puede arrastrar el archivo dentro de un área en especifico para cargar el archi
 ### Slot
 | Nombre       | Descripcion                              |
 | ------------ | ---------------------------------------- |
+| default | customize default content |
 | trigger | contenido que desencadena el diálogo de archivo |
 | tip | contenido de los tips |
 

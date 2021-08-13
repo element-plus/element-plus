@@ -143,6 +143,11 @@ Step bar simple, donde se ignorará `align-center`, `description`, `direction` y
 | align-center   | centrado de título y descripción                             | boolean         | —                                         | false       |
 | simple         | si aplicar un tema simple                                    | boolean         | -                                         | false       |
 
+### Steps Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Step |
+
 ### Step atributos
 | Atributo    | Descripción                              | Tipo                                     | Valores aceptados | Por defecto |
 | ----------- | ---------------------------------------- | ---------------------------------------- | ----------------- | ----------- |
@@ -157,4 +162,3 @@ Step bar simple, donde se ignorará `align-center`, `description`, `direction` y
 | icon        | Icono personalizado  |
 | title       | Titulo del paso      |
 | description | Descripción del paso |
-

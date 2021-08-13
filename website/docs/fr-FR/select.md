@@ -557,6 +557,13 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 | automatic-dropdown | Pour les sélecteurs non filtrables, détermine si le menu apparaît au focus du champ. | boolean | - | false |
 | clear-icon | Classe de l'icône d'effacement. | string | — | el-icon-circle-close |
 
+### Méthodes
+
+| Méthode | Description | Paramètres |
+|------|--------|-------|
+| focus | Focus sur l'input. | - |
+| blur | Enlève le focus de l'input et cache le menu. | - |
+
 ### Évènements de Select
 
 | Nom | Description | Paramètre |
@@ -570,11 +577,11 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 
 ### Slots de Select
 
-| Nom    | Description |
-|---------|-------------|
-|    —    | Liste de options. |
-| prefix  | Contenu du préfixe du sélecteur. |
-| empty  | Contenu lorsqu'il n'y a aucune option. |
+| Nom    | Description | Subtags |
+|---------|-------------| ----- |
+| default | Liste de options. | Option Group / Option |
+| prefix  | Contenu du préfixe du sélecteur. | — |
+| empty  | Contenu lorsqu'il n'y a aucune option. | — |
 
 ### Attributs du groupe d'options
 
@@ -582,6 +589,11 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | label | Nom du group. | string | — | — |
 | disabled | Si les options du groupe sont désactivées. | boolean | — | false |
+
+### Option Group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Option |
 
 ### Attributs des options
 
@@ -591,9 +603,7 @@ Si la valeur de Select est un objet, assurez-vous d'utiliser `value-key` comme i
 | label | Label de l'option, identique à `value` si omis. | string/number | — | — |
 | disabled | Si l'option est désactivée. | boolean | — | false |
 
-### Méthodes
-
-| Méthode | Description | Paramètres |
-|------|--------|-------|
-| focus | Focus sur l'input. | - |
-| blur | Enlève le focus de l'input et cache le menu. | - |
+### Option Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

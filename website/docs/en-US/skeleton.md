@@ -305,16 +305,14 @@ export default defineComponent({
 | rows    | numbers of the row, only useful when no template slot were given | number  | integer  | 3      |
 | throttle | Rendering delay in millseconds | number | integer | 0 |
 
+### Skeleton Slots
+
+| Name | Description | Subtags |
+| ---- | ----------- | ----- |
+| default | Real rendering DOM | — |
+| template | Custom rendering skeleton template | Skeleton Item ｜
 
 ### Skeleton Item Attributes
 | Attribute    | Description             | Type    | Acceptable Value       | Default  |
 | ------- | ---------------- | ------- | ------------ | ------ |
 | variant | The current rendering skeleton type | Enum(string) | p / text / h1 / h3 / text / caption / button / image / circle / rect | text |
-
-
-### Skeleton Slots
-
-| Name | Description |
-| ---- | ----------- |
-| default | Real rendering DOM |
-| template | Custom rendering skeleton template |

@@ -131,6 +131,7 @@
 
 | Attribute | Description | Type  | Accepted values | Default   |
 | -------------- | ------------------------------ | --------- | ------------------------------------ | ------- |
+| v-infinite-scroll | Load more data while reach bottom of the page | function      | - | - |
 | infinite-scroll-disabled | 無効かどうか           | boolean      | - |false |
 | infinite-scroll-delay   | スロットルディレイ(ms)   | number       |   - |200   |
 | infinite-scroll-distance| トリガー距離(px) | number   |- |0 |

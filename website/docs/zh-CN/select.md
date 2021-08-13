@@ -560,11 +560,11 @@
 | focus | 当 input 获得焦点时触发 | (event: Event) |
 
 ### Select Slots
-|   name  | 说明     |
-|---------|---------|
-|    —    | Option 组件列表 |
-| prefix  | Select 组件头部内容 |
-| empty | 无选项时的列表 |
+|   名称  | 说明     | 子标签 |
+|---------|---------| ----- |
+| default | Option 组件列表 | Option Group / Option |
+| prefix  | Select 组件头部内容 | — |
+| empty | 无选项时的列表 | — |
 
 ### Option Group Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
@@ -572,12 +572,21 @@
 | label | 分组的组名 | string | — | — |
 | disabled | 是否将该分组下所有选项置为禁用 | boolean | — | false |
 
+### Option Group Slots
+|   名称  | 说明     | 子标签 |
+|---------|---------| ----- |
+| default | 自定义默认插槽内容 | Option |
 ### Option Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | value | 选项的值 | string / number / boolean / object | — | — |
 | label | 选项的标签，若不设置则默认与 `value` 相同 | string/number | — | — |
 | disabled | 是否禁用该选项 | boolean | — | false |
+
+### Option Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |
 
 ### Methods
 | 方法名 | 说明 | 参数 |

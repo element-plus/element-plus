@@ -198,3 +198,8 @@ Es necesario envolver los elementos de forma deshabilitados en un elemento conte
 | popper-class   | nombre de clase personalizada para el popper del Tooltip | string  | —                                        | —                                        |
 | enterable      | si el mouse puede entrar al Tooltip      | Boolean | —                                        | true                                     |
 | tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Tooltip | number   | —                      | 0              |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

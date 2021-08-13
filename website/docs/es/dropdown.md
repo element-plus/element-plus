@@ -362,10 +362,10 @@ Además del tamaño predeterminado, el componente Dropdown proporciona tres tama
 
 ### Dropdown Slots
 
-| Nombre | Descripción |
-|------|--------|
-| — | contenido del Dropdown. Aviso: Debe ser un elemento html dom válido (ej. `<span>, <button>` etc.) o `el-component`, para adjuntar el listener trigger |
-| dropdown | contenido del menu Dropdown, normalmente es un elemento `<el-dropdown-menu>` |
+| Nombre | Descripción | Subtags |
+|------|--------| ----- |
+| — | contenido del Dropdown. Aviso: Debe ser un elemento html dom válido (ej. `<span>, <button>` etc.) o `el-component`, para adjuntar el listener trigger | — |
+| dropdown | contenido del menu Dropdown, normalmente es un elemento `<el-dropdown-menu>` | Dropdown-Menu |
 
 ### Dropdown Eventos
 | Nombre         | Descripción                              | Parametros                               |
@@ -374,6 +374,12 @@ Además del tamaño predeterminado, el componente Dropdown proporciona tres tama
 | command        | activa cuando se hace clic en un elemento desplegable | el comando enviado desde el elemento desplegable |
 | visible-change | se activa cuando aparece/desaparece el desplegable | true cuando aparece, y false de otro modo |
 
+### Dropdown-Menu Slots
+
+| Name | Description | Subtags |
+|------|--------| ----- |
+| — | content of Dropdown Menu | Dropdown-Item |
+
 ### Dropdown Menu Item Atributos
 | Atributo | Descripción                              | Tipo                 | Valores aceptados | Por defecto |
 | -------- | ---------------------------------------- | -------------------- | ----------------- | ----------- |
@@ -381,3 +387,9 @@ Además del tamaño predeterminado, el componente Dropdown proporciona tres tama
 | disabled | si el elemento está desactivado          | boolean              | —                 | false       |
 | divided  | si se visualiza un divisor               | boolean              | —                 | false       |
 | icon     | nombre de la clase del icono             | string               | —                 | —           |
+
+### Dropdown-Item Slots
+
+| Name | Description |
+|------|--------|
+| — | content of Dropdown Menu |

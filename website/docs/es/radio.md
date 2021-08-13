@@ -251,13 +251,16 @@ Radio con estilo de botón.
 | size     | tamaño del elemento Radio, solo funciona si `border` es verdadero | string                    | medium / small / mini | —           |
 | name     | atributo nativo `name`                 | string                    | —                     | —           |
 
-### Atributos de Radio-button
+### Eventos de Radio
 
-| Atributo | Descripción                    | Tipo            | Valores Aceptado | Por defecto |
-| -------- | ------------------------------ | --------------- | ---------------- | ----------- |
-| label    | el valor del Radio             | string / number | —                | —           |
-| disabled | si el Radio está deshabilitado | boolean         | —                | false       |
-| name     | atributo nativo `name`         | string          | —                | —           |
+| Nombre de evento | Descripción                       | Parámetros                               |
+| ---------------- | --------------------------------- | ---------------------------------------- |
+| change           | se dispara cuando el valor cambia | el valor del `label` del Radio seleccionado |
+
+### Radio Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
 
 ### Atributos de Radio-group
 
@@ -269,16 +272,26 @@ Radio con estilo de botón.
 | text-color | color de las letras cuando el botón está activo | string  | —                     | #ffffff             |
 | fill       | color del borde y fondo cuando el botón está activo | string  | —                     | #409EFF             |
 
-### Eventos de Radio
-
-| Nombre de evento | Descripción                       | Parámetros                               |
-| ---------------- | --------------------------------- | ---------------------------------------- |
-| change           | se dispara cuando el valor cambia | el valor del `label` del Radio seleccionado |
-
-
 ### Eventos de Radio-group
 
 | Nombre de evento | Descripción                       | Parámetros                               |
 | ---------------- | --------------------------------- | ---------------------------------------- |
 | change           | se dispara cuando el valor cambia | el valor del `label` del Radio seleccionado |
 
+### Radio-group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Radio / Radio-button |
+
+### Atributos de Radio-button
+
+| Atributo | Descripción                    | Tipo            | Valores Aceptado | Por defecto |
+| -------- | ------------------------------ | --------------- | ---------------- | ----------- |
+| label    | el valor del Radio             | string / number | —                | —           |
+| disabled | si el Radio está deshabilitado | boolean         | —                | false       |
+| name     | atributo nativo `name`         | string          | —                | —           |
+
+### Radio-button Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

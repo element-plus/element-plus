@@ -70,7 +70,7 @@
 ```
 :::
 
-### 自定义内容
+### 自定义默认插槽内容
 可以显示数字以外的文本内容。
 
 :::demo 定义`value`为`String`类型是时可以用于显示自定义文本。
@@ -120,3 +120,8 @@
 | is-dot       | 小圆点           | boolean         |         —             |  false  |
 | hidden       | 隐藏 badge       | boolean         |         —             |  false  |
 | type         | 类型             | string          | primary / success / warning / danger / info |    —    |
+
+### Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

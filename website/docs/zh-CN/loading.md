@@ -366,3 +366,11 @@ console.log(loadingInstance1 === loadingInstance2); // true
 | spinner | 自定义加载图标类名 | string | — | — |
 | background | 遮罩背景色 | string | — | — |
 | customClass | Loading 的自定义类名 | string | — | — |
+
+### Directives
+| 名称 | 说明 | 类型  |
+| -------------- | ---------------- | --------- |
+| v-loading | 加载数据时显示动效 | boolean |
+| element-loading-text | 显示在加载图标下方的加载文案 | string |
+| element-loading-spinner | 加载图标类名 | string |
+| element-loading-background | 遮罩背景色 | string |

@@ -259,6 +259,11 @@ name | ネイティブ 'name' 属性 | string    |      —         |     —
 | --- | --- | --- |
 | change | バウンド値が変更された場合にトリガされます。 | 選択されたラジオのラベル値  |
 
+### Radio Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### ラジオグループ属性
 
  Attribute      | Description          | Type      | Accepted Values       | Default
@@ -275,6 +280,11 @@ fill  | ボタンがアクティブなときの境界線と背景色 | string   
 | --- | --- | --- |
 | change | バウンド値が変更された場合にトリガされます。 | 選択されたラジオのラベル値 |
 
+### Radio-group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Radio / Radio-button |
+
 ### ラジオボタン属性
 
  Attribute      | Description          | Type      | Accepted Values       | Default
@@ -282,3 +292,8 @@ fill  | ボタンがアクティブなときの境界線と背景色 | string   
 label | ラジオの値 | string / number | — | —
 disabled | ラジオが無効かどうか | boolean | — | false
 name | ネイティブ 'name' 属性 | string    |      —         |     —
+
+### Radio-button Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
