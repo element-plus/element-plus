@@ -103,14 +103,19 @@ export default defineComponent({
     const ratioX = ref(1)
 
     const SCOPE = 'ElScrollbar'
+    const GAP = 4 // top 2 + bottom 2 of bar instance
 
     provide('scrollbar', scrollbar)
     provide('scrollbar-wrap', wrap)
 
     const handleScroll = () => {
       if (wrap.value) {
-        moveY.value = (wrap.value.scrollTop * 100) / wrap.value.clientHeight * ratioY.value
-        moveX.value = (wrap.value.scrollLeft * 100) / wrap.value.clientWidth * ratioX.value
+        const offsetHeight = wrap.value.offsetHeight - GAP
+        const offsetWidth = wrap.value.offsetWidth - GAP
+
+        moveY.value = (wrap.value.scrollTop * 100) / offsetHeight * ratioY.value
+        moveX.value = (wrap.value.scrollLeft * 100) / offsetWidth * ratioX.value
+
         emit('scroll', {
           scrollTop: wrap.value.scrollTop,
           scrollLeft: wrap.value.scrollLeft,
@@ -141,23 +146,19 @@ export default defineComponent({
     const update = () => {
       if (!wrap.value) return
 
-      const originalHeightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
-      const originalWidthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
-      const minHeightPercentage = props.minSize * 100 / wrap.value.clientHeight
-      const minWidthPercentage = props.minSize * 100 / wrap.value.clientWidth
-      const heightPercentage = Math.max(originalHeightPercentage, minHeightPercentage)
-      const widthPercentage = Math.max(originalWidthPercentage, minWidthPercentage)
+      const offsetHeight = wrap.value.offsetHeight - GAP
+      const offsetWidth = wrap.value.offsetWidth - GAP
 
-      const originalHeight = originalHeightPercentage / 100 * wrap.value.clientHeight
-      const originalWidth = originalWidthPercentage / 100 * wrap.value.clientWidth
-      const height = heightPercentage / 100 * wrap.value.clientHeight
-      const width = widthPercentage / 100 * wrap.value.clientWidth
+      const originalHeight = offsetHeight ** 2 / wrap.value.scrollHeight
+      const originalWidth = offsetWidth ** 2 / wrap.value.scrollWidth
+      const height = Math.max(originalHeight, props.minSize)
+      const width = Math.max(originalWidth, props.minSize)
 
-      ratioY.value = (originalHeight / (wrap.value.clientHeight - originalHeight)) / (height / (wrap.value.clientHeight - height))
-      ratioX.value = (originalWidth / (wrap.value.clientWidth - originalWidth)) / (width / (wrap.value.clientWidth - width))
+      ratioY.value = (originalHeight / (offsetHeight - originalHeight)) / (height / (offsetHeight - height))
+      ratioX.value = (originalWidth / (offsetWidth - originalWidth)) / (width / (offsetWidth - width))
 
-      sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : ''
-      sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : ''
+      sizeHeight.value = height < offsetHeight ? height + 'px' : ''
+      sizeWidth.value = width < offsetWidth ? width + 'px' : ''
     }
 
     const style = computed(() => {
