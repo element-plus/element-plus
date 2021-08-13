@@ -8,6 +8,5 @@
     "vue": "3.1.1",
     "@vue/test-utils": "^2.0.0-beta.3",
     "lodash": "^4.17.20"
-  },
-  "gitHead": "cdeb5a307058d0a2ceccc2848329a5c36e7607bb"
+  }
 }

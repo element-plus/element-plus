@@ -20,6 +20,5 @@
   "types": "index.d.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
-  "sideEffects": false,
-  "gitHead": "cdeb5a307058d0a2ceccc2848329a5c36e7607bb"
+  "sideEffects": false
 }

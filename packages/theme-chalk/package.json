@@ -43,6 +43,5 @@
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },
-  "dependencies": {},
-  "gitHead": "cdeb5a307058d0a2ceccc2848329a5c36e7607bb"
+  "dependencies": {}
 }

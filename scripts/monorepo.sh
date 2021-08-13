@@ -1,24 +1,28 @@
 #! /usr/bin/bash
 
-set -e
+# set -e
 
 yarn bootstrap
 yarn clean:lib
 yarn update:version
 
 # build all packages in case of error
-yarn build:mono
-yarn build:style
 
-rsync -a dist/styles/ dist/components/
+# yarn build:mono
+# yarn build:style
 
-yarn build:theme
-yarn build:locale
-yarn build:utils
-yarn build:hooks
-yarn build:directives
-yarn build:tokens
+# rsync -a dist/styles/ dist/components/
 
+# yarn build:theme
+# yarn build:locale
+# yarn build:utils
+# yarn build:hooks
+# yarn build:directives
+# yarn build:tokens
+yarn build:full-bundle
+# yarn build:helper
+
+exit 0
 # release built packages
 # cp .npmrc will fail on local run, do not engage local release
 cp .npmrc dist/components
@@ -56,7 +60,6 @@ cd dist/tokens
 npm publish --access public
 cd -
 
-# yarn build:full-bundle
 # cd dist/element-plus
 # npm publish --access public
 # cd -

@@ -24,6 +24,7 @@
     "build:theme": "cd packages/theme-chalk && yarn clean && yarn build",
     "build:utils": "cd packages/utils && yarn clean && yarn build",
     "build:tokens": "cd packages/tokens && yarn clean && yarn build",
+    "build:full-bundle": "node build/full-bundle.js",
     "format": "yarn format:scss",
     "format:scss": "prettier --write **/*.scss",
     "lint": "eslint ./packages --ext .vue,.js,.ts",

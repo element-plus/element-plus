@@ -8,6 +8,7 @@ const tsProject = ts.createProject('tsconfig.json', {
   declaration: true,
   target: 'ESNEXT',
   skipLibCheck: true,
+  module: 'commonjs',
 })
 
 function compile() {
