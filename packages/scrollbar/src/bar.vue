@@ -29,6 +29,7 @@ export default defineComponent({
     vertical: Boolean,
     size: String,
     move: Number,
+    ratio: Number,
     always: Boolean,
   },
   setup(props) {
@@ -42,6 +43,10 @@ export default defineComponent({
     const cursorLeave = ref(null)
     const visible = ref(false)
     let onselectstartStore = null
+
+    const offsetRatio = computed(() => {
+      return wrap.value[bar.value.offset] ** 2 / wrap.value[bar.value.scrollSize] / props.ratio / thumb.value[bar.value.offset]
+    })
 
     const clickThumbHandler = (e: MouseEvent) => {
       // prevent click event of middle and right button
@@ -57,7 +62,7 @@ export default defineComponent({
     const clickTrackHandler = (e: MouseEvent) => {
       const offset = Math.abs((e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] - e[bar.value.client])
       const thumbHalf = (thumb.value[bar.value.offset] / 2)
-      const thumbPositionPercentage = ((offset - thumbHalf) * 100 / instance.value[bar.value.offset])
+      const thumbPositionPercentage = ((offset - thumbHalf) * 100 * offsetRatio.value / instance.value[bar.value.offset])
 
       wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
     }
@@ -79,7 +84,7 @@ export default defineComponent({
 
       const offset = ((instance.value.getBoundingClientRect()[bar.value.direction] - e[bar.value.client]) * -1)
       const thumbClickPosition = (thumb.value[bar.value.offset] - prevPage)
-      const thumbPositionPercentage = ((offset - thumbClickPosition) * 100 / instance.value[bar.value.offset])
+      const thumbPositionPercentage = ((offset - thumbClickPosition) * 100 * offsetRatio.value / instance.value[bar.value.offset])
       wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
     }
 

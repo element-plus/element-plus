@@ -20,9 +20,15 @@
       </component>
     </div>
     <template v-if="!native">
-      <bar :move="moveX" :size="sizeWidth" :always="always" />
+      <bar
+        :move="moveX"
+        :ratio="ratioX"
+        :size="sizeWidth"
+        :always="always"
+      />
       <bar
         :move="moveY"
+        :ratio="ratioY"
         :size="sizeHeight"
         vertical
         :always="always"
@@ -135,15 +141,20 @@ export default defineComponent({
     const update = () => {
       if (!wrap.value) return
 
-      const realHeightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
-      const realWidthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
+      const originalHeightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
+      const originalWidthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
       const minHeightPercentage = props.minSize * 100 / wrap.value.clientHeight
       const minWidthPercentage = props.minSize * 100 / wrap.value.clientWidth
-      const heightPercentage = Math.max(realHeightPercentage, minHeightPercentage)
-      const widthPercentage = Math.max(realWidthPercentage, minWidthPercentage)
+      const heightPercentage = Math.max(originalHeightPercentage, minHeightPercentage)
+      const widthPercentage = Math.max(originalWidthPercentage, minWidthPercentage)
 
-      ratioY.value = realHeightPercentage / heightPercentage
-      ratioX.value = realWidthPercentage / widthPercentage
+      const originalHeight = originalHeightPercentage / 100 * wrap.value.clientHeight
+      const originalWidth = originalWidthPercentage / 100 * wrap.value.clientWidth
+      const height = heightPercentage / 100 * wrap.value.clientHeight
+      const width = widthPercentage / 100 * wrap.value.clientWidth
+
+      ratioY.value = (originalHeight / (wrap.value.clientHeight - originalHeight)) / (height / (wrap.value.clientHeight - height))
+      ratioX.value = (originalWidth / (wrap.value.clientWidth - originalWidth)) / (width / (wrap.value.clientWidth - width))
 
       sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : ''
       sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : ''
@@ -182,6 +193,8 @@ export default defineComponent({
     return {
       moveX,
       moveY,
+      ratioX,
+      ratioY,
       sizeWidth,
       sizeHeight,
       style,
