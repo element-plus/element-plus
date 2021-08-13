@@ -5,12 +5,13 @@ const rollup = require('rollup')
 const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
+const alias = require('@rollup/plugin-alias')
 // const commonjs = require('@rollup/plugin-commonjs')
 const { terser } = require('rollup-plugin-terser')
 // const typescript = require('rollup-plugin-typescript2')
 const vue = require('rollup-plugin-vue')
 const esbuild = require('rollup-plugin-esbuild')
-const { epRoot, buildOutput, compRoot } = require('./paths')
+const { epRoot, buildOutput, compRoot, hookRoot, directiveRoot, utilRoot, localeRoot } = require('./paths')
 
 const pkg = require(path.resolve(epRoot, './package.json'))
 
@@ -41,6 +42,30 @@ const pkg = require(path.resolve(epRoot, './package.json'))
   const config = {
     input: path.resolve(epRoot, './index.ts'),
     plugins: [
+      alias({
+        entries: [
+          {
+            find: '@element-plus/components',
+            replacement: compRoot,
+          },
+          {
+            find: '@element-plus/directives',
+            replacement: directiveRoot
+          },
+          {
+            find: '@element-plus/hooks',
+            replacement: hookRoot
+          },
+          {
+            find: '@element-plus/utils',
+            replacement: utilRoot
+          },
+          {
+            find: '@element-plus/locale',
+            replacement: localeRoot,
+          }
+        ],
+      }),
       nodeResolve({
         dedupe,
         browser: true,

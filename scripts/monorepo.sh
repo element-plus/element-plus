@@ -8,19 +8,20 @@ yarn update:version
 
 # build all packages in case of error
 
-# yarn build:mono
-# yarn build:style
+yarn build:mono
+yarn build:style
 
 # rsync -a dist/styles/ dist/components/
 
-# yarn build:theme
-# yarn build:locale
-# yarn build:utils
-# yarn build:hooks
-# yarn build:directives
-# yarn build:tokens
-yarn build:full-bundle
-# yarn build:helper
+yarn build:theme
+yarn build:locale
+yarn build:utils
+yarn build:hooks
+yarn build:directives
+yarn build:tokens
+yarn build:lib
+yarn build:lib-full
+yarn build:helper
 
 exit 0
 # release built packages

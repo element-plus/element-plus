@@ -20,7 +20,7 @@ helper({
   version: _version,
   entry:
     'website/docs/en-US/!(custom-theme|datetime-picker|i18n|installation|message-box|message|migration-from-2.x|notification|quickstart|transition|typography).md',
-  outDir: 'lib',
+  outDir: 'dist/element-plus',
   reComponentName,
   reDocUrl,
   reAttribute,
