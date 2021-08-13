@@ -312,6 +312,11 @@ ElementPlus 提供的排版模式有时候并不满足要求，当您想要用�
 | rows     | 骨架屏段落数量                              | number  | 正整数       | 3      |
 | throttle | 延迟占位 DOM 渲染的时间, 单位是毫秒         | number  | 正整数       | 0      |
 
+### Skeleton Slots
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Skeleton Item |
+
 ### Skeleton Item Attributes
 
 | 参数    | 说明                     | 类型         | 可选值                                                               | 默认值 |

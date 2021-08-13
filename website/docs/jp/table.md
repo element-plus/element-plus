@@ -1882,9 +1882,10 @@ rowspan と colspan を設定すると、セルをマージすることができ
 | sort | sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order | prop: string, order: string |
 
 ### Table Slots
-| Name | Description |
-|------|--------|
-| append | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. |
+| Name | Description | Subtags |
+|------|--------| ----- |
+| default | customize default content | Table-column |
+| append | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. | — |
 
 ### Table-column Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |

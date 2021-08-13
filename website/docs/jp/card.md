@@ -176,3 +176,8 @@ cardのシャドウを表示するタイミングを定義することができ�
 | header | cardのタイトルを指定します。`slot#header` で渡された DOM も受け付ける。 | string| — | — |
 | body-style | ボディのCSSスタイル | object| — | { padding: '20px' } |
 | shadow | cardの影を表示するタイミング | string | always / hover / never | always |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

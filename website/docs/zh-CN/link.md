@@ -64,3 +64,8 @@
 | disabled       | 是否禁用状态                       | boolean | —                                    | false   |
 | href           | 原生 href 属性                     | string  | —                                    | -       |
 | icon           | 图标类名                       | string  | —                                    | -       |
+
+### Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

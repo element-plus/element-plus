@@ -59,3 +59,9 @@ Puede personalizar el contenido en la línea divisoria.
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | direction      | indica la dirección del separador | string  |          horizontal / vertical           |    horizontal     |
 | content-position      | personaliza el contenido en la línea divisoria | String  |  left / right / center  |  center |
+
+### Divider Slots
+
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

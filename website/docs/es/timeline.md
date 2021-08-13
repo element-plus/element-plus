@@ -121,6 +121,11 @@ Las marcas de tiempo ( timestamp )  puede colocarse encima del contenido cuando 
 ```
 :::
 
+### Timeline Slots
+| Name | Description | Subtags |
+|------|--------| ----- |
+| — | Custom content for timeline | Timeline-Item |
+
 ### Timeline-item Atributos
 | Atributo    | Descripción | Tipo    | Valores aceptados | Por defecto |
 |---------- |-------- |---------- |-------------  |-------- |

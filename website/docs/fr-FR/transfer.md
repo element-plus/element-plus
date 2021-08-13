@@ -248,14 +248,9 @@ Par défaut, Transfer utilise `key`, `label` et `disabled` de vos objets. Si vos
 
 | Nom | Description |
 |------|--------|
+| — | Contenu personnalisé pour les objets. Le paramètre est { option }. |
 | left-footer | Contenu du footer de la liste de gauche. |
 | right-footer | Contenu du footer de la liste de droite. |
-
-### Slot avec portée
-
-| Nom | Description |
-|------|--------|
-| — | Contenu personnalisé pour les objets. Le paramètre est { option }. |
 
 ### Méthodes
 

@@ -59,3 +59,9 @@ Vous ajouter du contenu dans la ligne de séparation.
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | direction      | Règle la direction du séparateur.  | string  |          horizontal / vertical           |    horizontal     |
 | content-position      | Personnalise le contenu du séparateur. | String  |  left / right / center  |  center |
+
+### Divider Slots
+
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

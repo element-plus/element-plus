@@ -121,6 +121,11 @@
 ```
 :::
 
+### Timeline Slots
+| Name | Description | Subtags |
+|------|--------| ----- |
+| — | Custom content for timeline | Timeline-Item |
+
 ### タイムライン-アイテム属性
 | Attribute      | Description    | Type      | Accepted Values | Default   |
 |---------- |-------- |---------- |-------------  |-------- |

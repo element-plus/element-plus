@@ -196,4 +196,5 @@ Défini comment l'image s'adapte à son conteneur, pareil que [object-fit](https
 ### Slot
 
 | Slot Name | Description |
+| ------ | ------------------ |
 | default  | personnalise le contenu de l'avatar |

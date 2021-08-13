@@ -154,11 +154,11 @@
 | extra         | 操作区文本，显示在右上方    | string  |    —  |  — |
 
 ### Descriptions Slots
-
-| Name | 说明 |
-|------|--------|
-| title | 自定义标题，显示在左上方  |
-| extra | 自定义操作区，显示在右上方  |
+| Name | 说明 | 子标签 |
+|------|--------| ----- |
+| default | 自定义默认插槽内容 | Descriptions Item |
+| title | 自定义标题，显示在左上方  | — |
+| extra | 自定义操作区，显示在右上方  | — |
 
 ### Descriptions Item Attributes
 | 参数          | 说明            | 类型            | 可选值                 | 默认值   |
@@ -173,7 +173,7 @@
 | label-class-name          | 列的标签自定义类名         | string  |          —             |    —     |
 
 ### Descriptions Item Slots
-
 | Name | 说明 |
 |------|--------|
+| default | 自定义默认插槽内容 |
 | label | 自定义标签文本  |

@@ -75,3 +75,8 @@
 | disabled  | コンポーネントが無効化されているか   | boolean | —                                           | false   |
 | href      | ネイティブハイパーリンクの `href` と同じ   | string  | —                                           | -       |
 | icon      | アイコンのクラス名                  | string  | —                                           | -       |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

@@ -616,6 +616,11 @@ W3C 标准中有如下[规定](https://www.w3.org/MarkUp/html-spec/html-spec_8.h
 |--------- |-------- |---------- |
 | validate | 任一表单项被校验后触发 | 被校验的表单项 prop 值，校验是否通过，错误消息（如果存在） |
 
+### Form Slots
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Form-Item |
+
 ### Form-Item Attributes
 
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
@@ -636,11 +641,11 @@ W3C 标准中有如下[规定](https://www.w3.org/MarkUp/html-spec/html-spec_8.h
 | trigger    | 验证触发方式 | string | blur / change   | —    |
 
 ### Form-Item Slot
-| name | 说明 |
+| 名称 | 说明 |
 |------|--------|
-| — | Form Item 的内容 |
-| label | 自定义标签，参数为 { label } |
-|  error | 自定义表单校验信息的显示方式，参数为 { error } |
+| default | Form Item 的内容 |
+| label | Custom content to display on label. The scope parameter is { label } |
+| error | 自定义表单校验信息的显示方式，参数为 { error } |
 
 ### Form-Item Methods
 

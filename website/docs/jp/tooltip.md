@@ -198,3 +198,8 @@
 |  popper-class  |  ツールチップのポッパーのカスタムクラス名 | string | — | — |
 | enterable | マウスがツールチップに入るかどうか | Boolean | — | true |
 | tabindex   | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) のツールチップ | number | — | 0 |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

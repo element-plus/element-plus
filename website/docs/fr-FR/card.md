@@ -177,3 +177,8 @@ Vous pouvez définir quand l'ombre des Cards doivent apparaître.
 | header | Titre de la Card. Accepte aussi un template DOM passé via `slot#header`. | string| — | — |
 | body-style | Style CSS du body. | object| — | { padding: '20px' } |
 | shadow | Quand l'ombre doit apparaître | string | always / hover / never | always |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

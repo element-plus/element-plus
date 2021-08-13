@@ -160,9 +160,19 @@
 |---------|---------|---------|
 | change | アクティブなパネルが変更されたときにトリガされます。 | (activeNames: array (non-accordion mode) / string (accordion mode)) |
 
+### Collapse Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Collapse Item |
+
 ### Collapseアイテム属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | name      | パネル固有の識別 | string/number | — | — |
 | title     | パネルのタイトル                 | string        | — | — |
 | disabled  | collapseアイテムを無効にする          | boolean       | — | — |
+
+### Collapse Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

@@ -263,7 +263,6 @@ These components use flex for layout, so please make sure your browser supports 
 | height | height of the header | string | — | 60px |
 
 ### Header Slots
-
 | Name | Description |
 | --- |  -------- |
 | — | customize header content |
@@ -274,10 +273,14 @@ These components use flex for layout, so please make sure your browser supports 
 | width | width of the side section | string | — | 300px |
 
 ### Aside Slots
-
 | Name | Description |
 | ---- | -------- |
-| — | customize aside content |
+| default | customize aside content |
+
+### Main Slots
+| Name | Description |
+| ---- | -------- |
+| default | customize main content |
 
 ### Footer Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -285,7 +288,6 @@ These components use flex for layout, so please make sure your browser supports 
 | height | height of the footer | string | — | 60px |
 
 ### Footer Slots
-
 | Name | Description |
 | --- | -------- |
 | — | customize footer content |

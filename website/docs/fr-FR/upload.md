@@ -387,6 +387,7 @@ on-exceed | Fonction pour quand la limite d'envoi est dépassée. | function(fil
 
 | Nom | Description |
 |------|--------|
+| default | customize default content |
 | trigger | Le contenu qui déclenche le Dialog du fichier. |
 | tip | Le contenu des tips. |
 

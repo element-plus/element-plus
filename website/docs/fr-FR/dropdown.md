@@ -362,11 +362,11 @@ En plus de la taille par défaut, le composant Dropdown propose trois autres tai
 
 ### Dropdown Slots
 
-| Nom | Description |
-|------|--------|
-| — | Contenu du Dropdown. Note: doit être un élément du DOM valide (ex. `<span>, <button> etc.`) ou `el-component`, pour y attacher un évènement.  |
+| Nom | Description | Subtags |
+|------|--------| ----- |
+| — | Contenu du Dropdown. Note: doit être un élément du DOM valide (ex. `<span>, <button> etc.`) ou `el-component`, pour y attacher un évènement.  | — |
 | dropdown | Contenu du menu du Dropdown, en général un élément `<el-dropdown-menu>`. |
-
+ Dropdown-Menu |
 ### Évènements du Dropdown
 
 | Nom | Description | Paramètres |
@@ -374,6 +374,12 @@ En plus de la taille par défaut, le composant Dropdown propose trois autres tai
 | click | Si `split-button` est `true`, se déclenche quand le bouton de gauche est cliqué. | — |
 | command | Se déclenche quand un élément de la liste est cliqué. | L'attribut command de l'élément de la liste. |
 | visible-change | Se déclenche quand le menu s'affiche ou disparaît. | `true` quand il apparaît, `false` sinon. |
+
+### Dropdown-Menu Slots
+
+| Name | Description | Subtags |
+|------|--------| ----- |
+| — | content of Dropdown Menu | Dropdown-Item |
 
 ### Attributs des éléments du menu
 
@@ -383,3 +389,9 @@ En plus de la taille par défaut, le composant Dropdown propose trois autres tai
 | disabled      | Si l'élément est désactivé.  | boolean  |          —             |    false     |
 | divided       | Si un diviseur doit être affiché.  | boolean  |          —             |    false     |
 | icon          | Classe de l'icône. | string   |  —  |  —  |
+
+### Dropdown-Item Slots
+
+| Name | Description |
+|------|--------|
+| — | content of Dropdown Menu |

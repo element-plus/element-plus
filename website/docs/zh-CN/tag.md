@@ -214,7 +214,7 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 ```
 :::
 
-### Attributes
+### Tag Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | type | 类型 | string | success/info/warning/danger | — |
@@ -225,12 +225,16 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 | size | 尺寸 | string | medium / small / mini | — |
 | effect | 主题 | string | dark / light / plain | light |
 
-
-### Events
+### Tag Events
 | 事件名称 | 说明 | 回调参数 |
 |---------- |-------- |---------- |
 | click | 点击 Tag 时触发的事件 | — |
 | close | 关闭 Tag 时触发的事件 | — |
+
+### Tag Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |
 
 ### CheckTag Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
@@ -241,3 +245,8 @@ Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
 | 事件名称 | 说明 | 回调参数 |
 |---------- |-------- |---------- |
 | change | 点击 Check Tag 时触发的事件 | checked |
+
+### CheckTag Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

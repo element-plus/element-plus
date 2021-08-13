@@ -59,3 +59,9 @@
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | direction      | 仕切りの方向を設定  | string  |          horizontal / vertical           |    horizontal     |
 | content-position      | 仕切り線の内容をカスタマイズする | String  |  left / right / center  |  center |
+
+### Divider Slots
+
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

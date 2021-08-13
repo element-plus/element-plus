@@ -260,6 +260,11 @@
 |---------- |-------- |---------- |
 | change  | 绑定值变化时触发的事件 |  选中的 Radio label 值  |
 
+### Radio Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |
+
 ### Radio-group Attributes
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
@@ -274,9 +279,19 @@
 |---------- |-------- |---------- |
 | change  | 绑定值变化时触发的事件 |  选中的 Radio label 值  |
 
+### Radio-group Slots
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Radio / Radio-button |
+
 ### Radio-button Attributes
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
 | label     | Radio 的 value  | string / number  |        —       |     —    |
 | disabled  | 是否禁用    | boolean   | — | false   |
 | name | 原生 name 属性 | string    |      —         |     —    |
+
+### Radio-button Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

@@ -363,7 +363,6 @@ If Element Plus is imported entirely, a globally method `$loading` will be regis
 | customClass | custom class name for Loading | string | — | — |
 
 ### Directives
-
 | Name | Description | Type  |
 | -------------- | ---------------- | --------- |
 | v-loading | show animation while loading data | boolean |

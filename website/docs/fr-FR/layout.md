@@ -346,6 +346,11 @@ Ces classes sont:
 | align | Alignement vertical pour la mise en page flex. | string | top/middle/bottom | top |
 | tag | Élément de tag personnalisé. | string | * | div |
 
+### Row Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Col |
+
 ### Attributs des colonnes
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
@@ -360,3 +365,8 @@ Ces classes sont:
 | lg | `≥1200px` Nombre de colonnes responsives ou bien objet de propriétés de colonne. | number/object (e.g. {span: 4, offset: 4}) | — | — |
 | xl | `≥1920px` Nombre de colonnes responsives ou bien objet de propriétés de colonne. | number/object (e.g. {span: 4, offset: 4}) | — | — |
 | tag | Élément de tag personnalisé. | string | * | div |
+
+### Col Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

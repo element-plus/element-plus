@@ -338,6 +338,11 @@ Vサブメニューのある縦型ナビメニュー。
 | open  | サブメニュー展開したときのコールバック関数 | index: index of expanded sub-menu, indexPath: index path of expanded sub-menu |
 | close  | サブメニューを折りたたんだ時のコールバック関数 | index: index of collapsed sub-menu, indexPath: index path of collapsed sub-menu |
 
+### Menu Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
+
 ### メニューアイテムイベント
 | Event Name | Description | Parameters |
 |---------- |-------- |---------- |
@@ -353,6 +358,11 @@ Vサブメニューのある縦型ナビメニュー。
 | disabled | サブメニューが無効化されているかどうか | boolean | — | false |
 | popper-append-to-body | ポップアップメニューをボディに追加するかどうかを指定します。メニューの位置が正しくない場合は、このpropを調整してみてください。 | boolean | - | level one SubMenu: true / other SubMenus: false |
 
+### Submenu Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Submenu / Menu-Item / Menu-Item-Group |
+
 ### メニューアイテム属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
@@ -360,7 +370,17 @@ Vサブメニューのある縦型ナビメニュー。
 | route     | Vue Routerオブジェクト   | object | — | — |
 | disabled | 無効化かどうか | boolean | — | false |
 
+### Menu-Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### メニューグループ属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
 | title     | グループタイトル   | string  | — | — |
+
+### Menu-Item-Group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Menu-Item |

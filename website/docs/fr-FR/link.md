@@ -79,3 +79,8 @@ Lien avec icône.
 | disabled  | Si le composant est désactivé.  | boolean | —                                           | false   |
 | href      | Identique au `href` natif.      | string  | —                                           | -       |
 | icon      | Nom de classe de l'icône.       | string  | —                                           | -       |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

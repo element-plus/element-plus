@@ -206,8 +206,18 @@ Par défaut, `direction` est `horizontal`. Vous pouvez faire en sorte que le dé
 | prev | Défile vers la slide précédente. | — |
 | next | Défile vers la slide suivante. | — |
 
+### Carousel Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Carousel-Item |
+
 ### Attributs du Carrousel-Item
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | name | Nom de l'item, peut être utilisé dans `setActiveItem`. | string | — | — |
 | label | Texte affiché au niveau de l'indicateur correspondant.| string | — | — |
+
+### Carousel-Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content | 

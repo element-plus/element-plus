@@ -131,6 +131,7 @@
 
 | 参数           | 说明                           | 类型      | 可选值                               | 默认值  |
 | -------------- | ------------------------------ | --------- | ------------------------------------ | ------- |
+| v-infinite-scroll | 滚动到底部时执行的加载方法 | function | - | - |
 | infinite-scroll-disabled | 是否禁用           | boolean      | - |false |
 | infinite-scroll-delay   | 节流时延，单位为ms   | number       |   - |200   |
 | infinite-scroll-distance| 触发加载的距离阈值，单位为px | number   |- |0 |

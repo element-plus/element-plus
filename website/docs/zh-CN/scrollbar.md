@@ -141,3 +141,8 @@
 | setScrollTop | 设置滚动条到顶部的距离 | (scrollTop: number) |
 | setScrollLeft | 设置滚动条到左边的距离 | (scrollLeft: number) |
 | update | 手动更新滚动条状态 | —   |
+
+### Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

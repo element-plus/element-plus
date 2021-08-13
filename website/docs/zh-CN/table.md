@@ -1925,9 +1925,10 @@
 | sort | 手动对 Table 进行排序。参数 `prop` 属性指定排序列，`order` 指定排序顺序。 | prop: string, order: string |
 
 ### Table Slot
-| name | 说明 |
-|------|--------|
-| append | 插入至表格最后一行之后的内容，如果需要对表格的内容进行无限滚动操作，可能需要用到这个 slot。若表格有合计行，该 slot 会位于合计行之上。 |
+| name | 说明 | 子标签 |
+|------|--------| ----- |
+| default | 自定义默认插槽内容 | Table-column |
+| append | 插入至表格最后一行之后的内容，如果需要对表格的内容进行无限滚动操作，可能需要用到这个 slot。若表格有合计行，该 slot 会位于合计行之上。 | — |
 
 ### Table-column Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |

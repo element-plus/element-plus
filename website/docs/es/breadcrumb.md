@@ -37,13 +37,18 @@ Muestra la localización de la página actual, haciendo más fácil el poder ir 
 | separator       | carácter separador                     | string | —                 | /           |
 | separator-class | nombre de la clase del icono separador | string | —                 | -           |
 
+### Breadcrumb Slots
+| Name | Description | Subtags |
+| ------ | -------- | ---- |
+| default | customize default content | Breadcrumb Item |
+
 ### Breadcrumb Item atributos
 | Atributo | Descripción                              | Tipo          | Valores aceptados | Por defecto |
 | -------- | ---------------------------------------- | ------------- | ----------------- | ----------- |
 | to       | ruta del link, lo mismo que `to` de `vue-router` | string/object | —                 | —           |
 | replace  | si `true`,  la navegación no dejara una entrada en la historia | boolean       | —                 | false       |
 
-
-
-
-
+### Breadcrumb Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

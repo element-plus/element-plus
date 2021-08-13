@@ -79,8 +79,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | model-value / v-model | valor vinculante   | Date | —            | —           |
 | range           | rango de tiempo, incluyendo el tiempo de inicio y el tiempo final. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months | [Date]Array     | —           | —      |
 
-### dateCell scoped slot
-| Atributo      | Descripción | Tipo   | Valores aceptados | Por defecto |
-|-----------------|-------------- |---------- |---------------------- |--------- |
-| data            | { type, isSelected, day, date}. `type` indica el mes al que pertenece la fecha, los valores opcionales son mes anterior, mes actual, mes siguiente; `isSelected` indica si la fecha está seleccionada; `day` es la fecha formateada en el formato yyyy-MM-dd; `date` es la fecha que la celda representa | Object      | —           | —      |
-
+### Slots
+| Name | Description | Attribute |
+| ------ | -------- | ----- |
+| dateCell | { type, isSelected, day, date }. `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format YYYY-MM-DD; `date` is date the cell represents | data |

@@ -367,3 +367,12 @@ Element Plusを完全にインポートしている場合は、Vue.prototypeに�
 | spinner | カスタムスピナーのクラス名 | string | — | — |
 | background | マスクの背景色 | string | — | — |
 | customClass | ローディングのカスタムクラス名 | string | — | — |
+
+### Directives
+
+| Name | Description | Type  |
+| -------------- | ---------------- | --------- |
+| v-loading | show animation while loading data | boolean |
+| element-loading-text | loading text that displays under the spinner | string |
+| element-loading-spinner | class name of the custom spinner | string |
+| element-loading-background | background color of the mask | string |

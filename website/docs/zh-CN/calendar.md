@@ -38,7 +38,7 @@
 ```
 :::
 
-### 自定义内容
+### 自定义默认插槽内容
 
 :::demo 通过设置名为 `dateCell` 的 `scoped-slot` 来自定义日历单元格中显示的内容。在 `scoped-slot` 可以获取到 date（当前单元格的日期）, data（包括 type，isSelected，day 属性）。详情解释参考下方的 API 文档。
 ```html
@@ -78,7 +78,7 @@
 | model-value / v-model | 绑定值         | Date | —  | —      |
 | range           | 时间范围，包括开始时间与结束时间。开始时间必须是周起始日，结束时间必须是周结束日，且时间跨度不能超过两个月。 | [Date]Array     | —           | —      |
 
-### dateCell scoped slot 参数
-| 参数             | 说明          | 类型      | 可选值        | 默认值  |
-|-----------------|-------------- |---------- |------------ |-------- |
-| data            | { type, isSelected, day, date }，`type` 表示该日期的所属月份，可选值有 prev-month，current-month，next-month；`isSelected` 标明该日期是否被选中；`day` 是格式化的日期，格式为 yyyy-MM-dd；`date` 是单元格的日期    | Object      | —           | —      |
+### Slots
+| 名称             | 说明          | 参数 |
+|-----------------|-------------- |---- |
+| dateCell        | { type, isSelected, day, date }，`type` 表示该日期的所属月份，可选值有 prev-month，current-month，next-month；`isSelected` 标明该日期是否被选中；`day` 是格式化的日期，格式为 yyyy-MM-dd；`date` 是单元格的日期 | data |

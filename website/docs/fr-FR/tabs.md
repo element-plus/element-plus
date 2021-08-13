@@ -299,6 +299,11 @@ Seuls les onglets de type carte supportent l'ajout et la suppression.
 | tab-add  | Se déclenche quand on clique sur le bouton d'ajout des onglets.  | — |
 | edit  | Se déclenche quand on clique sur les boutons d'ajout ou de suppression des onglets. | (targetName, action) |
 
+### Tabs Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Tab-pane |
+
 ### Attributs de Tab-pane
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |

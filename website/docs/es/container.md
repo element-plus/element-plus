@@ -244,17 +244,46 @@ Estos componentes utilizan flex para el diseño, así que asegúrese que el nave
 | --------- | ---------------------------------------- | ------ | --------------------- | ---------------------------------------- |
 | direction | dirección de diseño para elementos secundarios | string | horizontal / vertical | vertical cuando el elemento está anidado con `el-header`, de lo contrario, horizontal |
 
+### Container Slots
+| Name | Description | Subtags |
+| --- | -------- | ----- |
+| default | customize container content | Header / Aside / Main / Footer |
+
 ### Atributos de cabecera
 | Atributo | Descripción           | Tipo   | Valores aceptados | Por defecto |
 | -------- | --------------------- | ------ | ----------------- | ----------- |
 | height   | altura de la cabecera | string | —                 | 60px        |
+
+### Header Slots
+
+| Name | Description |
+| --- |  -------- |
+| default | customize header content |
 
 ### Atributos de barra lateral
 | Atributo | Descripción               | Tipo   | Valores aceptados | Por defecto |
 | -------- | ------------------------- | ------ | ----------------- | ----------- |
 | width    | ancho de la barra lateral | string | —                 | 300px       |
 
+### Aside Slots
+
+| Name | Description |
+| ---- | -------- |
+| default | customize aside content |
+
+### Main Slots
+
+| Name | Description |
+| ---- | -------- |
+| default | customize main content |
+
 ### Atributos de pie de página
 | Atributo | Descripción              | Tipo   | Valores aceptados | Por defecto |
 | -------- | ------------------------ | ------ | ----------------- | ----------- |
 | height   | altura del pie de página | string | —                 | 60px        |
+
+### Footer Slots
+
+| Name | Description |
+| --- | -------- |
+| default | customize footer content |

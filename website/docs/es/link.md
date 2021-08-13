@@ -75,3 +75,8 @@ Hipervinculo con icono
 | disabled  | si el componente esta deshabilitado                  | boolean | —                                           | false       |
 | href      | lo mismo que el valor nativo del hipervinculo `href` | string  | —                                           | -           |
 | icon      | nombre de clase del icono                            | string  | —                                           | -           |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

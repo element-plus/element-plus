@@ -125,3 +125,8 @@ Utilisez un point rouge pour signaler du contenu devant être remarqué.
 | is-dot        | Affiche un point rouge. | boolean   |    —           |  false  |
 | hidden        | Cache le badge.    | boolean         |          —            |  false  |
 | type          | Type du bouton.     | string          | primary / success / warning / danger / info |   —  |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

@@ -59,3 +59,8 @@
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | direction      | 设置分割线方向  | string  |            horizontal / vertical          |    horizontal     |
 | content-position      | 设置分割线文案的位置 | string  |  left / right / center  |  center |
+
+### Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

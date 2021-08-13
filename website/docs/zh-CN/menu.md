@@ -354,6 +354,11 @@
 | open     | sub-menu 展开的回调 | index: 打开的 sub-menu 的 index, indexPath: 打开的 sub-menu 的 index path |
 | close    | sub-menu 收起的回调 | index: 收起的 sub-menu 的 index, indexPath: 收起的 sub-menu 的 index path |
 
+### Menu Slots
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Submenu / Menu-Item / Menu-Item-Group |
+
 ### SubMenu Attribute
 | 参数                  | 说明                                                                     | 类型        | 可选值 | 默认值                                 |
 | --------------------- | ------------------------------------------------------------------------ | ----------- | ------ | -------------------------------------- |
@@ -364,6 +369,11 @@
 | disabled              | 是否禁用                                                                 | boolean     | —      | false                                  |
 | popper-append-to-body | 是否将弹出菜单插入至 body 元素。在菜单的定位出现问题时，可尝试修改该属性 | boolean     | —      | 一级子菜单：true / 非一级子菜单：false |
 
+### Submenu Slots
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Submenu / Menu-Item / Menu-Item-Group |
+
 ### Menu-Item Attribute
 | 参数     | 说明                | 类型    | 可选值 | 默认值 |
 | -------- | ------------------- | ------- | ------ | ------ |
@@ -371,7 +381,17 @@
 | route    | Vue Router 路径对象 | Object  | —      | —      |
 | disabled | 是否禁用            | boolean | —      | false  |
 
+### Menu-Item Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |
+
 ### Menu-Group Attribute
 | 参数  | 说明     | 类型   | 可选值 | 默认值 |
 | ----- | -------- | ------ | ------ | ------ |
 | title | 分组标题 | string | —      | —      |
+
+### Menu-Item-Group Slots
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Menu-Item |

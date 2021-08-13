@@ -361,3 +361,12 @@ Si Element Plus es importado completamente, un método global `$loading` puede s
 | spinner     | nombre de clase del spinner personalizado | string        | —                 | —             |
 | background  | color de fondo de la máscara             | string        | —                 | —             |
 | customClass | nombre de clase personalizada para el componente | string        | —                 | —             |
+
+### Directives
+
+| Name | Description | Type  |
+| -------------- | ---------------- | --------- |
+| v-loading | show animation while loading data | boolean |
+| element-loading-text | loading text that displays under the spinner | string |
+| element-loading-spinner | class name of the custom spinner | string |
+| element-loading-background | background color of the mask | string |

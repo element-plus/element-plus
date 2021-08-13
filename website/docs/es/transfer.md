@@ -244,13 +244,9 @@ Por defecto Transfer busca los atributos `key`, `label`, y `disabled` en cada el
 ### Slot
 | Nombre       | Descripcion                              |
 | ------------ | ---------------------------------------- |
+| — | Contenido personalizado para los datos de los items. El parámetro del scope es { option } |
 | left-footer  | Contenido del footer de la lista de la izquierda |
 | right-footer | Contenido del footer de la lista de la derecha |
-
-### Scoped Slot
-| Name | Description |
-|------|--------|
-| — | Contenido personalizado para los datos de los items. El parámetro del scope es { option } |
 
 ### Methods
 | Method | Description | Parameters |

@@ -206,8 +206,18 @@
 | prev | 前のスライドに切り替える | — |
 | next | 次のスライドに移る | — |
 
+### Carousel Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Carousel-Item |
+
 ### carousel-アイテム属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | name | アイテムの名前は `setActiveItem` で使われています。 | string | — | — |
 | label | 対応するインジケータのテキスト内容 | string | — | — |
+
+### Carousel-Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content | 

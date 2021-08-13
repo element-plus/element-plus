@@ -251,17 +251,42 @@
 |---------|----------|---------|-------------|--------|
 | direction | 子元素的排列方向 | string | horizontal / vertical | 子元素中有 `el-header` 或 `el-footer` 时为 vertical，否则为 horizontal |
 
+### Container Slots
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Header / Aside / Main / Footer |
+
 ### Header Attributes
 | 参数    | 说明     | 类型    | 可选值      | 默认值 |
 |---------|----------|---------|-------------|--------|
 | height | 顶栏高度 | string | — | 60px |
+
+### Header Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |
 
 ### Aside Attributes
 | 参数    | 说明     | 类型    | 可选值      | 默认值 |
 |---------|----------|---------|-------------|--------|
 | width | 侧边栏宽度 | string | — | 300px |
 
+### Aside Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |
+
+### Main Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |
+
 ### Footer Attributes
 | 参数    | 说明     | 类型    | 可选值      | 默认值 |
 |---------|----------|---------|-------------|--------|
 | height | 底栏高度 | string | — | 60px |
+
+### Footer Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

@@ -160,9 +160,19 @@ En plus de l'utilisation de l'attribut `title`, vous pouvez configurer les titre
 |---------|---------|---------|
 | change | Se déclenche quand un panneau est activé / désactivé. | (activeNames: array (en mode normal) / string (en mode accordéon)) |
 
+### Collapse Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Collapse Item |
+
 ### Attributs de Collapse-Item
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | name      | Identifiant unique du panneau. | string/number | — | — |
 | title     | Titre du panneau.              | string        | — | — |
 | disabled  | Désactive le panneau.          | boolean       | — | — |
+
+### Collapse Item Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

@@ -215,7 +215,7 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 :::
 
 
-### Attributs
+### Tag Attributs
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
@@ -227,12 +227,17 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 | size | Taille du tag. | string | medium / small / mini | — |
 | effect | component theme | string | dark / light / plain | light |
 
-### Évènements
+### Tag Évènements
 
 | Nom | Description | Paramètres |
 |---------- |-------- |---------- |
 | click | Se déclenche quand le tag est cliqué. | — |
 | close | Se déclenche quand le tag est supprimé. | — |
+
+### Tag Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
 
 ### CheckTag Attributs
 | Attribute      | Description          | Type      | Accepted                           | Default  |
@@ -243,3 +248,8 @@ Sometimes because of the business needs, we might need checkbox like tag, but **
 | Event Name | Description | Parameters |
 |---------- |-------- |---------- |
 | change | triggers when Check Tag is clicked | checked |
+
+### CheckTag Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

@@ -427,6 +427,11 @@ export default defineComponent({
 |---------- |-------- |---------- |
 | change  | バインディング値が変更された場合にトリガされます。 | the updated value |
 
+### Checkbox Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |
+
 ### Checkboxグループの属性
 | Attribute      | Description         | Type    | Options                         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
@@ -443,6 +448,11 @@ export default defineComponent({
 |---------- |-------- |---------- |
 | change  | バインディング値が変更された場合にトリガされます。 | the updated value |
 
+### Checkbox-group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Checkbox / Checkbox-button |
+
 ### Checkboxボタンの属性
 | Attribute      | Description         | Type    | Options                         | Default|
 |---------- |-------- |---------- |-------------  |-------- |
@@ -452,3 +462,8 @@ export default defineComponent({
 | disabled  | checkboxを無効にするかどうか | boolean   |  — | false   |
 | name | ネイティブ 'name' 属性 | string    |      —         |     —    |
 | checked  | checkboxがチェックされているかどうか | boolean   |  — | false   |
+
+### Checkbox-button Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

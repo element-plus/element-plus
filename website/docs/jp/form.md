@@ -622,6 +622,11 @@ The component has been upgraded with a flex layout to replace the old float layo
 |----------- |------------ |----------- |
 | validate   | フォーム項目バリデーション後にトリガされます。 | prop name of the form item being validated, whether validation is passed and the error message if not |
 
+### Form Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Form-Item |
+
 ### フォームアイテム属性
 
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -644,9 +649,9 @@ The component has been upgraded with a flex layout to replace the old float layo
 ### フォームアイテムスロット
 | Name | Description |
 |------|--------|
-| — | フォームアイテムの内容 |
+| default | フォームアイテムの内容 |
 | label | Custom content to display on label. The scope parameter is { label } |
-|      error    | Custom content to display validation message. The scope parameter is { error } |
+| error | Custom content to display validation message. The scope parameter is { error } |
 
 ### フォームアイテムのメソッド
 

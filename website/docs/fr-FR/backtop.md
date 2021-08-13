@@ -58,3 +58,8 @@ La zone d'affichage est de 40px \* 40px.
 | Event Name | Description         | Parameters  |
 | ---------- | ------------------- | ----------- |
 | click      | Se déclenche quand l'utilisateur clique | click event |
+
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

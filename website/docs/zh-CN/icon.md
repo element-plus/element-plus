@@ -145,3 +145,8 @@ export default defineComponent({
 |---------- |-------- |---------- |-------------  |-------- |
 | color    | svg 的 fill 颜色 | Pick\<CSSProperties, 'color'\> | - | inherit |
 | size | svg 图标的大小, size x size | number | - | inherit |
+
+### Icon Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

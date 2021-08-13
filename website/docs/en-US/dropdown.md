@@ -361,10 +361,10 @@ Besides default size, Dropdown component provides three additional sizes for you
 
 ### Dropdown Slots
 
-| Name | Description |
-|------|--------|
-| — | content of Dropdown. Notice: Must be a valid html dom element (ex. `<span>, <button> etc.`) or `el-component`, to attach the trigger listener  |
-| dropdown | content of the Dropdown Menu, usually a `<el-dropdown-menu>` element |
+| Name | Description | Subtags |
+|------|--------| ----- |
+| — | content of Dropdown. Notice: Must be a valid html dom element (ex. `<span>, <button> etc.`) or `el-component`, to attach the trigger listener  | — |
+| dropdown | content of the Dropdown Menu, usually a `<el-dropdown-menu>` element | Dropdown-Menu |
 
 ### Dropdown Events
 | Event Name | Description | Parameters |

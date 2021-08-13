@@ -1887,9 +1887,10 @@ Puede personalizar el índice de la fila con la propiedad `type=index` de las co
 | sort | Ordenar tabla manualmente. La propiedad `prop` se utiliza para establecer la columna de ordenación, la propiedad `order` se utiliza para establecer el orden. | prop: string, order: string |
 
 ### Slots de la tabla
-| Nombre | Descripción                              |
-| ------ | ---------------------------------------- |
-| append | El contenido será insertado después de la última fila. Es posible que necesites este espacio si deseas implementar _scroll_ infinito para la tabla. Este espacio se mostrará sobre la fila de resumen si hay uno. |
+| Nombre | Descripción                              | Subtags |
+| ------ | ---------------------------------------- | ----- |
+| default | customize default content | Table-column |
+| append | El contenido será insertado después de la última fila. Es posible que necesites este espacio si deseas implementar _scroll_ infinito para la tabla. Este espacio se mostrará sobre la fila de resumen si hay uno. | — |
 
 ### Atributos para las columnas de la tabla
 | Atributo              | Descripción                              | Tipo                              | Valores aceptados             | Por defecto |

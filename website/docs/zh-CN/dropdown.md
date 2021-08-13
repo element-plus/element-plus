@@ -364,10 +364,10 @@ Dropdown 组件提供除了默认值以外的三种尺寸，可以在不同场�
 
 ### Dropdown Slots
 
-| Name | 说明 |
-|------|--------|
-| — | 触发下拉列表显示的元素。 注意： 必须是一个元素或者或者组件  |
-| dropdown | 下拉列表，通常是 `<el-dropdown-menu>` 组件     |
+| Name | 说明 | 子标签 |
+|------|--------| ----- |
+| — | 触发下拉列表显示的元素。 注意： 必须是一个元素或者或者组件  | — |
+| dropdown | 下拉列表，通常是 `<el-dropdown-menu>` 组件     | Dropdown-Menu |
 
 ### Dropdown Events
 | 事件名称      | 说明    | 回调参数      |
@@ -376,10 +376,20 @@ Dropdown 组件提供除了默认值以外的三种尺寸，可以在不同场�
 | command  | 点击菜单项触发的事件回调 | dropdown-item 的指令 |
 | visible-change | 下拉框出现/隐藏时触发 | 出现则为 true，隐藏则为 false |
 
-### Dropdown Menu Item Attributes
+### Dropdown-Menu Slots
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Dropdown-Item |
+
+### Dropdown-Item Attributes
 | 参数          | 说明            | 类型            | 可选值                 | 默认值   |
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | command       | 指令     | string/number/object          | — | — |
 | disabled      | 禁用     | boolean          | — | false |
 | divided       | 显示分割线     | boolean          | — | false |
 | icon          | 图标类名 | string   |  —  |  —  |
+
+### Dropdown-Item Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

@@ -564,17 +564,22 @@
 | focus | インプットがフォーカスされたときにトリガされます。 | (event: Event) |
 
 ### セレクトスロット
-| Name    | Description |
-|---------|-------------|
-|    —    | オプションコンポーネントリスト |
-| prefix  | セレクトプレフィックスとしてのコンテンツ |
-| empty  | オプションがない場合のコンテンツ |
+| Name    | Description | Subtags |
+|---------|-------------| ----- |
+| default | オプションコンポーネントリスト | Option Group / Option |
+| prefix  | セレクトプレフィックスとしてのコンテンツ | — |
+| empty  | オプションがない場合のコンテンツ | — |
 
 ### オプショングループの属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | label | グループの名前 | string | — | — |
 | disabled | このグループのすべてのオプションを無効にするかどうか | boolean | — | false |
+
+### Option Group Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Option |
 
 ### オプション属性
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -588,3 +593,8 @@
 |------|--------|-------|
 | focus | インプットコンポーネントにフォーカス | - |
 | blur | インプットコンポーネントをぼかし、ドロップダウンを非表示にします。 | - |
+
+### Option Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

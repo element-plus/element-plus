@@ -125,3 +125,7 @@ Puede utilizar un punto rojo para marcar contenido que debe ser notado.
 | hidden   | oculta el badge                    | boolean        | —                 | false       |
 | type     | tipo de botón                            | string         | primary / success / warning / danger / info | — |
 
+### Slots
+| Name | Description |
+| ------ | -------- |
+| default | customize default content |

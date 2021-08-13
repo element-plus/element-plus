@@ -155,10 +155,11 @@ Display multiple fields in list form.
 
 ### Descriptions Slots
 
-| Name | Description |
-|------|--------|
-| title | custom title, display on the top left  |
-| extra | custom extra area, display on the top right  |
+| Name | Description | Subtags |
+|------|--------| ----- |
+| default | customize default content | Descriptions Item |
+| title | custom title, display on the top left  | — |
+| extra | custom extra area, display on the top right  | — |
 
 ### Descriptions Item Attributes
 | Attribute       | Description        | Type       | Accepted Values       | Default   |
@@ -176,4 +177,5 @@ Display multiple fields in list form.
 
 | Name | Description |
 |------|--------|
+| default | customize default content |
 | label | custom label  |

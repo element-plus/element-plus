@@ -160,9 +160,19 @@
 |---------|---------|---------|
 | change | 当前激活面板改变时触发(如果是手风琴模式，参数 `activeNames` 类型为`string`，否则为`array`) | (activeNames: array / string) |
 
+### Collapse Slots
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Collapse Item |
+
 ### Collapse Item Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | name      | 唯一标志符      | string/number | —     | —    |
 | title     | 面板标题        | string        | —     | —    |
 | disabled  | 是否禁用        | boolean       | —     | —    |
+
+### Collapse Item Slots
+| 名称 | 说明 |
+| ------ | -------- |
+| default | 自定义默认插槽内容 |

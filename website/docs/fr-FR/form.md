@@ -621,6 +621,11 @@ Tout les composants d'un formulaire héritent leur attribut `size` de ce formula
 |----------- |------------ |----------- |
 | validate   | Se déclenche après la validation d'un champ. | Nom du champs qui a été validé, si la validation est bonne et le message d'erreur sinon. |
 
+### Form Slots
+| Name | Description | Subtags |
+| ------ | -------- | ----- |
+| default | customize default content | Form-Item |
+
 ### Attributs de FormItem
 
 | Attribut      | Description          | Type      | Valeurs acceptées       | Défaut  |
@@ -643,9 +648,9 @@ Tout les composants d'un formulaire héritent leur attribut `size` de ce formula
 ### Slot de Form-Item
 | Nom | Description |
 |------|--------|
-| — | Contenu de Form Item. |
+| default | Contenu de Form Item. |
 | label | Custom content to display on label. The scope parameter is { label } |
-|      error    | Contenu personnalisé pour les messages de validation. Le paramètre du scope est { error }. |
+| error | Contenu personnalisé pour les messages de validation. Le paramètre du scope est { error }. |
 
 ### Méthodes de Form-Item
 
