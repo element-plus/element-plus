@@ -64,6 +64,7 @@ interface ISwitchProps {
   inactiveText: string
   activeColor: string
   inactiveColor: string
+  borderColor: string
   activeValue: ValueType
   inactiveValue: ValueType
   name: string
@@ -113,6 +114,10 @@ export default defineComponent({
       default: '',
     },
     inactiveColor: {
+      type: String,
+      default: '',
+    },
+    borderColor: {
       type: String,
       default: '',
     },
@@ -232,7 +237,8 @@ export default defineComponent({
     const setBackgroundColor = (): void => {
       const newColor = checked.value ? props.activeColor : props.inactiveColor
       const coreEl = core.value
-      coreEl.style.borderColor = newColor
+      if (props.borderColor) coreEl.style.borderColor = props.borderColor
+      else if (!props.borderColor) coreEl.style.borderColor = newColor
       coreEl.style.backgroundColor = newColor
       coreEl.children[0].style.color = newColor
     }
@@ -242,7 +248,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      if (props.activeColor || props.inactiveColor) {
+      if (props.activeColor || props.inactiveColor || props.borderColor) {
         setBackgroundColor()
       }
 
