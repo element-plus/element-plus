@@ -310,7 +310,7 @@ export default defineComponent({
 | Name | Description | Subtags |
 | ---- | ----------- | ----- |
 | default | Real rendering DOM | — |
-| template | Custom rendering skeleton template | Skeleton Item ｜
+| template | Custom rendering skeleton template | Skeleton Item |
 
 ### Skeleton Item Attributes
 | Attribute    | Description             | Type    | Acceptable Value       | Default  |

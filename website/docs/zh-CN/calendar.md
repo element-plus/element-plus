@@ -38,7 +38,7 @@
 ```
 :::
 
-### 自定义默认插槽内容
+### 自定义内容
 
 :::demo 通过设置名为 `dateCell` 的 `scoped-slot` 来自定义日历单元格中显示的内容。在 `scoped-slot` 可以获取到 date（当前单元格的日期）, data（包括 type，isSelected，day 属性）。详情解释参考下方的 API 文档。
 ```html

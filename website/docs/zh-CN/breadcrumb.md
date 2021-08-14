@@ -38,9 +38,9 @@
 | separator-class | 图标分隔符 class | string | — | - |
 
 ### Breadcrumb Slots
-| 名称 | 说明 |
-| ------ | -------- |
-| default | 自定义默认插槽内容 |
+| 名称 | 说明 | 子标签 |
+| ------ | -------- | ----- |
+| default | 自定义默认插槽内容 | Breadcrumb Item |
 
 ### Breadcrumb Item Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
