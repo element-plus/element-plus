@@ -4,7 +4,11 @@ const { name, version } = require('../package.json')
 const icon = require('../website/icon.json')
 const icons = icon.map(item => 'el-icon-' + item).join('/')
 const tagVer = process.env.TAG_VERSION
-const _version = tagVer ? tagVer.startsWith('v') ? tagVer.slice(1) : tagVer : version
+const _version = tagVer
+  ? tagVer.startsWith('v')
+    ? tagVer.slice(1)
+    : tagVer
+  : version
 
 helper({
   name,
@@ -14,6 +18,7 @@ helper({
   reComponentName,
   reDocUrl,
   reAttribute,
+  reWebTypesSource,
   props: 'Attributes',
   propsName: 'Attribute',
   propsOptions: 'Accepted Values',
@@ -22,12 +27,26 @@ helper({
 })
 
 function reComponentName(title) {
-  return 'el-' + title.replace(/\B([A-Z])/g, '-$1').replace(/[ ]+/g, '-').toLowerCase()
+  return 'el-' + title
+    .replace(/\B([A-Z])/g, '-$1')
+    .replace(/[ ]+/g, '-')
+    .toLowerCase()
+}
+
+function reWebTypesSource(title) {
+  const symbol = 'EL' + title
+    .replace(/-/, ' ')
+    .replace(/^\w|\s+\w/g, item => item.trim().toUpperCase())
+
+  return { symbol }
 }
 
 function reDocUrl(fileName, header) {
   const docs = 'https://element-plus.org/#/en-US/component/'
-  const _header = header ? header.replace(/[ ]+/g, '-').toLowerCase() : undefined
+  const _header = header
+    ? header.replace(/[ ]+/g, '-').toLowerCase()
+    : undefined
+
   return docs + fileName + (_header ? '#' + _header : '')
 }
 
@@ -35,7 +54,7 @@ function reAttribute(value, key, item) {
   const _value = value.match(/^\*\*(.*)\*\*$/)
   const str = _value ? _value[1]: value
 
-  if (key === 'Accepted Values' && /icon/i.test(item[0])) {
+  if (icons && key === 'Accepted Values' && /icon/i.test(item[0])) {
     return icons
   } else if (key === 'Name' && /^(-|—)$/.test(str)) {
     return 'default'
@@ -58,6 +77,13 @@ function reAttribute(value, key, item) {
     return /\[.+\]\(.+\)/.test(str) || /^\*$/.test(str)
       ? undefined
       : str.replace(/`/g, '')
+  } else if (key === 'Subtags') {
+    return str
+      ? str
+        .split('/')
+        .map(name => reComponentName(name.trim()))
+        .join('/')
+      : str
   } else {
     return str
   }
