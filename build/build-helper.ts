@@ -26,6 +26,7 @@ helper({
   reComponentName,
   reDocUrl,
   reAttribute,
+  reWebTypesSource,
   props: 'Attributes',
   propsName: 'Attribute',
   propsOptions: 'Accepted Values',
@@ -35,6 +36,7 @@ helper({
 })
 
 function reComponentName(title) {
+<<<<<<< HEAD:build/build-helper.ts
   return (
     'el-' +
     title
@@ -42,6 +44,20 @@ function reComponentName(title) {
       .replace(/[ ]+/g, '-')
       .toLowerCase()
   )
+=======
+  return 'el-' + title
+    .replace(/\B([A-Z])/g, '-$1')
+    .replace(/[ ]+/g, '-')
+    .toLowerCase()
+}
+
+function reWebTypesSource(title) {
+  const symbol = 'EL' + title
+    .replace(/-/, ' ')
+    .replace(/^\w|\s+\w/g, item => item.trim().toUpperCase())
+
+  return { symbol }
+>>>>>>> 4c57d7db (chore: upgrade the version of components-helper):build/build-helper.js
 }
 
 function reDocUrl(fileName, header) {
@@ -49,6 +65,10 @@ function reDocUrl(fileName, header) {
   const _header = header
     ? header.replace(/[ ]+/g, '-').toLowerCase()
     : undefined
+<<<<<<< HEAD:build/build-helper.ts
+=======
+
+>>>>>>> 4c57d7db (chore: upgrade the version of components-helper):build/build-helper.js
   return docs + fileName + (_header ? '#' + _header : '')
 }
 
@@ -56,7 +76,7 @@ function reAttribute(value, key, item) {
   const _value = value.match(/^\*\*(.*)\*\*$/)
   const str = _value ? _value[1] : value
 
-  if (key === 'Accepted Values' && /icon/i.test(item[0])) {
+  if (icons && key === 'Accepted Values' && /icon/i.test(item[0])) {
     return icons
   } else if (key === 'Name' && /^(-|—)$/.test(str)) {
     return 'default'
@@ -79,6 +99,13 @@ function reAttribute(value, key, item) {
     return /\[.+\]\(.+\)/.test(str) || /^\*$/.test(str)
       ? undefined
       : str.replace(/`/g, '')
+  } else if (key === 'Subtags') {
+    return str
+      ? str
+        .split('/')
+        .map(name => reComponentName(name.trim()))
+        .join('/')
+      : str
   } else {
     return str
   }
