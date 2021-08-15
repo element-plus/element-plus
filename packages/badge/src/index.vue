@@ -6,10 +6,9 @@
         v-show="!hidden && (content || content === 0 || isDot)"
         class="el-badge__content"
         :class="[
-          'el-badge__content--' + type,
+          isDot ? 'is-dot' : 'el-badge__content--' + type,
           {
             'is-fixed': $slots.default,
-            'is-dot': isDot
           }
         ]"
         v-text="content"
