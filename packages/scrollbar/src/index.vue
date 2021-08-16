@@ -20,9 +20,15 @@
       </component>
     </div>
     <template v-if="!native">
-      <bar :move="moveX" :size="sizeWidth" :always="always" />
+      <bar
+        :move="moveX"
+        :ratio="ratioX"
+        :size="sizeWidth"
+        :always="always"
+      />
       <bar
         :move="moveY"
+        :ratio="ratioY"
         :size="sizeHeight"
         vertical
         :always="always"
@@ -79,6 +85,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    minSize: {
+      type: Number,
+      default: 20,
+    },
   },
   emits: ['scroll'],
   setup(props, { emit }) {
@@ -89,24 +99,31 @@ export default defineComponent({
     const scrollbar = ref(null)
     const wrap = ref(null)
     const resize = ref(null)
+    const ratioY = ref(1)
+    const ratioX = ref(1)
 
     const SCOPE = 'ElScrollbar'
+    const GAP = 4 // top 2 + bottom 2 of bar instance
 
     provide('scrollbar', scrollbar)
     provide('scrollbar-wrap', wrap)
 
     const handleScroll = () => {
       if (wrap.value) {
-        moveY.value = (wrap.value.scrollTop * 100) / wrap.value.clientHeight
-        moveX.value = (wrap.value.scrollLeft * 100) / wrap.value.clientWidth
+        const offsetHeight = wrap.value.offsetHeight - GAP
+        const offsetWidth = wrap.value.offsetWidth - GAP
+
+        moveY.value = (wrap.value.scrollTop * 100) / offsetHeight * ratioY.value
+        moveX.value = (wrap.value.scrollLeft * 100) / offsetWidth * ratioX.value
+
         emit('scroll', {
-          scrollLeft: moveX.value,
-          scrollTop: moveY.value,
+          scrollTop: wrap.value.scrollTop,
+          scrollLeft: wrap.value.scrollLeft,
         })
       }
     }
 
-    const setScrollTop = (value: string) => {
+    const setScrollTop = (value: number) => {
       if (!isNumber(value)) {
         if (process.env.NODE_ENV !== 'production') {
           warn(SCOPE, 'value must be a number')
@@ -116,7 +133,7 @@ export default defineComponent({
       wrap.value.scrollTop = value
     }
 
-    const setScrollLeft = (value: string) => {
+    const setScrollLeft = (value: number) => {
       if (!isNumber(value)) {
         if (process.env.NODE_ENV !== 'production') {
           warn(SCOPE, 'value must be a number')
@@ -129,11 +146,19 @@ export default defineComponent({
     const update = () => {
       if (!wrap.value) return
 
-      const heightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
-      const widthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
+      const offsetHeight = wrap.value.offsetHeight - GAP
+      const offsetWidth = wrap.value.offsetWidth - GAP
 
-      sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : ''
-      sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : ''
+      const originalHeight = offsetHeight ** 2 / wrap.value.scrollHeight
+      const originalWidth = offsetWidth ** 2 / wrap.value.scrollWidth
+      const height = Math.max(originalHeight, props.minSize)
+      const width = Math.max(originalWidth, props.minSize)
+
+      ratioY.value = (originalHeight / (offsetHeight - originalHeight)) / (height / (offsetHeight - height))
+      ratioX.value = (originalWidth / (offsetWidth - originalWidth)) / (width / (offsetWidth - width))
+
+      sizeHeight.value = height + GAP < offsetHeight ? height + 'px' : ''
+      sizeWidth.value = width + GAP < offsetWidth ? width + 'px' : ''
     }
 
     const style = computed(() => {
@@ -169,6 +194,8 @@ export default defineComponent({
     return {
       moveX,
       moveY,
+      ratioX,
+      ratioY,
       sizeWidth,
       sizeHeight,
       style,
