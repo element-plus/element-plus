@@ -47,32 +47,32 @@ Click the button to trigger the event
 
 ```html
 <template>
-<el-popconfirm
-  confirmButtonText='Yes'
-  cancelButtonText='No'
-  icon="el-icon-info"
-  iconColor="red"
-  title="Are you sure to delete this?"
-  @confirm="confirmEvent"
-  @cancel="cancelEvent"       
->
-<template #reference>
-  <el-button>Delete</el-button>
-  </template>
-</el-popconfirm>
+  <el-popconfirm
+    confirmButtonText="Yes"
+    cancelButtonText="No"
+    icon="el-icon-info"
+    iconColor="red"
+    title="Are you sure to delete this?"
+    @confirm="confirmEvent"
+    @cancel="cancelEvent"
+  >
+    <template #reference>
+      <el-button>Delete</el-button>
+    </template>
+  </el-popconfirm>
 </template>
 
 <script>
-  export default {
-      methods: {
-          confirmEvent() {
-              console.log("confirm!");
-          },
-          cancelEvent() {
-              console.log("cancel!");
-          }
-      }
-  }
+export default {
+  methods: {
+    confirmEvent() {
+      console.log("confirm!");
+    },
+    cancelEvent() {
+      console.log("cancel!");
+    },
+  },
+};
 </script>
 ```
 
