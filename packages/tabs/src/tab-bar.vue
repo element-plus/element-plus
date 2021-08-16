@@ -1,5 +1,6 @@
 <template>
   <div
+    v-resize="update"
     :class="['el-tabs__active-bar', `is-${ rootTabs.props.tabPosition }`]"
     :style="barStyle"
   ></div>
@@ -8,9 +9,13 @@
 import { defineComponent, inject, getCurrentInstance, watch, nextTick, ref, PropType } from 'vue'
 import { capitalize } from '@vue/shared'
 import { Pane, RootTabs } from './tabs.vue'
+import { Resize } from '@element-plus/directives'
 
 export default defineComponent({
   name: 'ElTabBar',
+  directives: {
+    Resize,
+  },
   props: {
     tabs: {
       type: Array as PropType<Pane[]>,
@@ -34,7 +39,9 @@ export default defineComponent({
 
       props.tabs.every(tab => {
         let $el = instance.parent.refs?.[`tab-${tab.paneName}`] as Element
-        if (!$el) { return false }
+        if (!$el) {
+          return false
+        }
         if (!tab.active) {
           offset += $el[`client${capitalize(sizeName)}`]
           return true
@@ -56,23 +63,26 @@ export default defineComponent({
       const transform = `translate${capitalize(sizeDir)}(${offset}px)`
       style[sizeName] = `${tabSize}px`
       style.transform = transform
-      style.msTransform = transform
-      style.webkitTransform = transform
 
       return style
     }
 
     const barStyle = ref(getBarStyle())
 
+    const update = () => {
+      barStyle.value = getBarStyle()
+    }
+
     watch(() => props.tabs, () => {
       nextTick(() => {
-        barStyle.value = getBarStyle()
+        update()
       })
     })
 
     return {
       rootTabs,
       barStyle,
+      update,
     }
   },
 })
