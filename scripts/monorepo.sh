@@ -11,7 +11,7 @@ yarn update:version
 yarn build:mono
 yarn build:style
 
-# rsync -a dist/styles/ dist/components/
+rsync -a dist/styles/ dist/components/
 
 yarn build:theme
 yarn build:locale
@@ -19,11 +19,15 @@ yarn build:utils
 yarn build:hooks
 yarn build:directives
 yarn build:tokens
-yarn build:lib
-yarn build:lib-full
+yarn build:full-bundle
 yarn build:helper
 
+cp -R packages dist/element-plus
+cp packages/element-plus/package.json dist/element-plus/package.json
+
+cp dist/theme-chalk/index.css dist/element-plus/dist/index.css
 exit 0
+
 # release built packages
 # cp .npmrc will fail on local run, do not engage local release
 cp .npmrc dist/components

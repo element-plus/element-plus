@@ -5,10 +5,18 @@ const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
 const commonjs = require('@rollup/plugin-commonjs')
-// const { terser } = require('rollup-plugin-terser')
 const vue = require('rollup-plugin-vue')
 const esbuild = require('rollup-plugin-esbuild')
-const { epRoot, buildOutput, compRoot, hookRoot, directiveRoot, utilRoot, localeRoot } = require('./paths')
+const RollupResolveEntryPlugin = require('./rollup.plugin.entry')
+const {
+  epRoot,
+  buildOutput,
+  compRoot,
+  hookRoot,
+  directiveRoot,
+  utilRoot,
+  localeRoot,
+} = require('./paths')
 
 const pkg = require(path.resolve(epRoot, './package.json'))
 
@@ -28,27 +36,6 @@ const pkg = require(path.resolve(epRoot, './package.json'))
         exposeFilename: false,
       }),
       commonjs(),
-      {
-        transform(code, id) {
-          if (id.includes('packages')) {
-            return {
-              code: code
-                .replace(
-                  /@element-plus\//g,
-                  `${
-                    path
-                      .relative(
-                        path.dirname(id),
-                        path.resolve(process.cwd(), './packages'),
-                      )
-                  }/`,
-                ),
-              map: null,
-            }
-          }
-          return { code, map: null }
-        },
-      },
       esbuild({
         minify: false,
       }),
@@ -69,23 +56,63 @@ const pkg = require(path.resolve(epRoot, './package.json'))
 
   const umdMinified = {
     ...umd,
-    // plugins: [terser()],
+    file: path.resolve(buildOutput, 'element-plus/dist/index.full.js'),
   }
 
-  console.log(chalk.yellow('Building bundle'))
-  const bundle = await rollup.rollup(config)
+  console.log(chalk.bold(chalk.yellow('Building bundle')))
 
-  console.log(chalk.yellow('Generate unminified index.full.js'))
+  // Full bundle generation
+  const bundle = await rollup.rollup({
+    ...config,
+    plugins: [...config.plugins, RollupResolveEntryPlugin()],
+  })
+
+  console.log(chalk.yellow('Generating index.js'))
 
   await bundle.write(umd)
 
-  console.log(chalk.green('Unminified index.full.js generated'))
+  console.log(chalk.green('index.js generated'))
 
-  console.log(chalk.yellow('Generate unminified index.full.js'))
+  console.log(chalk.yellow('Generating index.full.js'))
 
   await bundle.write(umdMinified)
 
-  console.log(chalk.green('Unminified index.full.min.js generated'))
+  console.log(chalk.green('index.full.js generated'))
 
-  // console.log(chalk.green(''))
+  console.log(chalk.yellow('Generating entry files without dependencies'))
+
+  // Entry bundle generation
+
+  let entryFiles = await fs.promises.readdir(epRoot, { withFileTypes: true })
+
+  entryFiles = entryFiles.filter(f => f.isFile()).filter(f => {
+    return f.name !== 'package.json' && f.name !== 'README.md'
+  }).map(f => path.resolve(epRoot, f.name))
+
+  const entryBundle = await rollup.rollup({
+    ...config,
+    input: entryFiles,
+    external: _ => true,
+  })
+
+  console.log(chalk.yellow('Generating cjs entry'))
+
+  await entryBundle.write({
+    format: 'cjs',
+    dir: path.resolve(buildOutput, 'element-plus/lib'),
+    exports: 'named'
+  })
+
+  console.log(chalk.green('cjs entry generated'))
+
+  console.log(chalk.yellow('Generating esm entry'))
+
+  await entryBundle.write({
+    format: 'esm',
+    dir: path.resolve(buildOutput, 'element-plus/es'),
+  })
+
+  console.log(chalk.green('esm entry generated'))
+
+  console.log(chalk.bold(chalk.green('Full bundle generated')))
 })()

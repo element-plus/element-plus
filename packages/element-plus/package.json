@@ -4,8 +4,12 @@
   "description": "> TODO: description",
   "author": "Herrington Darkholme <2883231+HerringtonDarkholme@users.noreply.github.com>",
   "homepage": "https://github.com/element-plus/element-plus#readme",
-  "license": "ISC",
-  "main": "dist/index.js",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "style": "dist/index.css",
+  "unpkg": "dist/index.full.js",
+  "jsdevlivr": "dist/index.full.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"
@@ -31,5 +35,15 @@
   },
   "devDependencies": {
     "@element-plus/test-utils": "^0.0.4"
-  }
+  },
+  "vetur": {
+    "tags": "tags.json",
+    "attributes": "attributes.json"
+  },
+  "web-types": "web-types.json",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
