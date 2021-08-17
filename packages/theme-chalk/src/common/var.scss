@@ -40,14 +40,14 @@ $--colors: map.deep-merge(
   $--colors
 );
 
-$--color-white: map.get($--colors, 'white');
-$--color-black: map.get($--colors, 'black');
-$--color-primary: map.get($--colors, 'primary', 'base');
-$--color-success: map.get($--colors, 'success', 'base');
-$--color-warning: map.get($--colors, 'warning', 'base');
-$--color-danger: map.get($--colors, 'danger', 'base');
-$--color-error: map.get($--colors, 'error', 'base');
-$--color-info: map.get($--colors, 'info', 'base');
+$--color-white: map.get($--colors, 'white') !default;
+$--color-black: map.get($--colors, 'black') !default;
+$--color-primary: map.get($--colors, 'primary', 'base') !default;
+$--color-success: map.get($--colors, 'success', 'base') !default;
+$--color-warning: map.get($--colors, 'warning', 'base') !default;
+$--color-danger: map.get($--colors, 'danger', 'base') !default;
+$--color-error: map.get($--colors, 'error', 'base') !default;
+$--color-info: map.get($--colors, 'info', 'base') !default;
 
 // https://sass-lang.com/documentation/values/maps#immutability
 @mixin set-color-type-light($type, $number) {
