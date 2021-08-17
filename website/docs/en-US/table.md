@@ -31,8 +31,9 @@ Basic table is just for data display.
   </template>
 
   <script>
-    export default {
-      data() {
+    export default Vue.defineComponent({
+      components: {},
+      setup() {
         return {
           tableData: [{
             date: '2016-05-03',
@@ -53,7 +54,7 @@ Basic table is just for data display.
           }]
         }
       }
-    }
+    }) 
   </script>
 ```
 :::
@@ -87,8 +88,9 @@ Striped table makes it easier to distinguish different rows.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
       return {
         tableData: [{
           date: '2016-05-03',
@@ -109,7 +111,7 @@ Striped table makes it easier to distinguish different rows.
         }]
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -142,8 +144,9 @@ Striped table makes it easier to distinguish different rows.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
       return {
         tableData: [{
           date: '2016-05-03',
@@ -164,7 +167,7 @@ Striped table makes it easier to distinguish different rows.
         }]
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -208,9 +211,10 @@ You can highlight your table content to distinguish between "success, informatio
 </style>
 
 <script>
-  export default {
-    methods: {
-      tableRowClassName({row, rowIndex}) {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let tableRowClassName = ({row, rowIndex}) => {
         if (rowIndex === 1) {
           return 'warning-row';
         } else if (rowIndex === 3) {
@@ -218,9 +222,10 @@ You can highlight your table content to distinguish between "success, informatio
         }
         return '';
       }
-    },
-    data() {
+
       return {
+        tableRowClassName,
+
         tableData:  [{
           date: '2016-05-03',
           name: 'Tom',
@@ -240,7 +245,7 @@ You can highlight your table content to distinguish between "success, informatio
         }]
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -274,8 +279,9 @@ When there are too many rows, you can use a fixed header.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
       return {
         tableData: [{
           date: '2016-05-03',
@@ -308,7 +314,7 @@ When there are too many rows, you can use a fixed header.
         }],
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -367,14 +373,16 @@ When there are too many columns, you can fix some of them.
 </template>
 
 <script>
-  export default {
-    methods: {
-      handleClick() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let handleClick = () => {
         console.log('click');
       }
-    },
-    data() {
+
       return {
+        handleClick,
+
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -410,7 +418,7 @@ When there are too many columns, you can fix some of them.
         }]
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -461,8 +469,9 @@ When you have huge chunks of data to put in a table, you can fix the header and 
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
       return {
         tableData: [{
           date: '2016-05-03',
@@ -516,7 +525,7 @@ When you have huge chunks of data to put in a table, you can fix the header and 
         }]
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -580,14 +589,16 @@ When the the data is dynamically changed, you might want the table to have a max
 </template>
 
 <script>
-  export default {
-    methods: {
-      deleteRow(index, rows) {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let deleteRow = (index, rows) => {
         rows.splice(index, 1);
       }
-    },
-    data() {
+
       return {
+        deleteRow,
+
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -640,7 +651,7 @@ When the the data is dynamically changed, you might want the table to have a max
         }]
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -692,8 +703,9 @@ When the data structure is complex, you can use group header to show the data hi
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
       return {
         tableData: [{
           date: '2016-05-03',
@@ -747,7 +759,7 @@ When the data structure is complex, you can use group header to show the data hi
         }]
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -791,9 +803,25 @@ Single row selection is supported.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let singleTable = Vue.ref()
+
+      let setCurrent = (row) => {
+        singleTable.value.setCurrentRow(row);
+      }
+
+      let currentRow = null
+      let handleCurrentChange = (val) => {
+        currentRow = val;
+      }
+
       return {
+        singleTable,
+        setCurrent,
+        handleCurrentChange,
+
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -811,19 +839,9 @@ Single row selection is supported.
           name: 'Tom',
           address: 'No. 189, Grove St, Los Angeles'
         }],
-        currentRow: null
-      }
-    },
-
-    methods: {
-      setCurrent(row) {
-        this.$refs.singleTable.setCurrentRow(row);
-      },
-      handleCurrentChange(val) {
-        this.currentRow = val;
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -867,9 +885,31 @@ You can also select multiple rows.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let multipleTable = Vue.ref()
+
+      let toggleSelection = (rows) => {
+        if (rows) {
+          rows.forEach(row => {
+            multipleTable.value.toggleRowSelection(row);
+          });
+        } else {
+          multipleTable.value.clearSelection();
+        }
+      }
+
+      let multipleSelection = []
+      let handleSelectionChange = (val) => {
+        multipleSelection = val;
+      }
+
       return {
+        multipleTable,
+        toggleSelection,
+        handleSelectionChange,
+
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -899,25 +939,9 @@ You can also select multiple rows.
           name: 'Tom',
           address: 'No. 189, Grove St, Los Angeles'
         }],
-        multipleSelection: []
-      }
-    },
-
-    methods: {
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -953,9 +977,16 @@ Sort the data to find or compare data quickly.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let formatter = (row, column) => {
+        return row.address;
+      }
+
       return {
+        formatter,
+
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -974,13 +1005,8 @@ Sort the data to find or compare data quickly.
           address: 'No. 189, Grove St, Los Angeles'
         }]
       }
-    },
-    methods: {
-      formatter(row, column) {
-        return row.address;
-      }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -1036,9 +1062,40 @@ Filter the table to find desired data.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let filterTable = Vue.ref()
+
+      let resetDateFilter = () => {
+        filterTable.value.clearFilter('date');
+      }
+
+      let clearFilter = () => {
+        filterTable.value.clearFilter();
+      }
+
+      let formatter = (row, column) => {
+        return row.address;
+      }
+
+      let filterTag = (value, row) => {
+        return row.tag === value;
+      }
+
+      let filterHandler = (value, row, column) => {
+        const property = column['property'];
+        return row[property] === value;
+      }
+
       return {
+        filterTable,
+        resetDateFilter,
+        clearFilter,
+        formatter,
+        filterTag,
+        filterHandler,
+
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -1061,26 +1118,8 @@ Filter the table to find desired data.
           tag: 'Office'
         }]
       }
-    },
-    methods: {
-      resetDateFilter() {
-        this.$refs.filterTable.clearFilter('date');
-      },
-      clearFilter() {
-        this.$refs.filterTable.clearFilter();
-      },
-      formatter(row, column) {
-        return row.address;
-      },
-      filterTag(value, row) {
-        return row.tag === value;
-      },
-      filterHandler(value, row, column) {
-        const property = column['property'];
-        return row[property] === value;
-      }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -1135,9 +1174,21 @@ Customize table column so it can be integrated with other components.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let handleEdit = (index, row) => {
+        console.log(index, row);
+      }
+
+      let handleDelete = (index, row) => {
+        console.log(index, row);
+      }
+
       return {
+        handleEdit,
+        handleDelete,
+
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -1156,16 +1207,8 @@ Customize table column so it can be integrated with other components.
           address: 'No. 189, Grove St, Los Angeles'
         }]
       }
-    },
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -1209,9 +1252,24 @@ Customize table header so it can be even more customized.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let handleEdit = (index, row) => {
+        console.log(index, row);
+      }
+
+      let handleDelete = (index, row) => {
+        console.log(index, row);
+      }
+
+      let search = Vue.ref('')
+
       return {
+        handleEdit,
+        handleDelete,
+        search,
+
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -1229,18 +1287,9 @@ Customize table header so it can be even more customized.
           name: 'Jessy',
           address: 'No. 189, Grove St, Los Angeles'
         }],
-        search: '',
       }
-    },
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
-    },
-  }
+    }
+  }) 
 </script>
 ```
 :::
@@ -1274,8 +1323,9 @@ When the row content is too long and you do not want to display the horizontal s
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
       return {
         tableData: [{
           date: '2016-05-03',
@@ -1329,7 +1379,7 @@ When the row content is too long and you do not want to display the horizontal s
         }]
       }
     }
-  }
+  }) 
 </script>
 ```
 :::
@@ -1383,9 +1433,28 @@ When the row content is too long and you do not want to display the horizontal s
 </div>
 </template>
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let load = (tree, treeNode, resolve) => {
+        setTimeout(() => {
+          resolve([
+            {
+              id: 31,
+              date: '2016-05-01',
+              name: 'wangxiaohu'
+            }, {
+              id: 32,
+              date: '2016-05-01',
+              name: 'wangxiaohu'
+            }
+          ])
+        }, 1000)
+      }
+
       return {
+        load,
+
         tableData: [{
           id: 1,
           date: '2016-05-02',
@@ -1431,25 +1500,8 @@ When the row content is too long and you do not want to display the horizontal s
           name: 'wangxiaohu'
         }]
       }
-    },
-    methods: {
-      load(tree, treeNode, resolve) {
-        setTimeout(() => {
-          resolve([
-            {
-              id: 31,
-              date: '2016-05-01',
-              name: 'wangxiaohu'
-            }, {
-              id: 32,
-              date: '2016-05-01',
-              name: 'wangxiaohu'
-            }
-          ])
-        }, 1000)
-      }
-    },
-  }
+    }
+  }) 
 </script>
 ```
 :::
@@ -1523,9 +1575,38 @@ For table of numbers, you can add an extra row at the table footer displaying ea
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let getSummaries = (param) => {
+        const { columns, data } = param;
+        const sums = [];
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = 'Total Cost';
+            return;
+          }
+          const values = data.map(item => Number(item[column.property]));
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = '$ ' + values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+          } else {
+            sums[index] = 'N/A';
+          }
+        });
+
+        return sums;
+      }
+
       return {
+        getSummaries,
+
         tableData: [{
           id: '12987122',
           name: 'Tom',
@@ -1558,35 +1639,8 @@ For table of numbers, you can add an extra row at the table footer displaying ea
           amount3: 15
         }]
       };
-    },
-    methods: {
-      getSummaries(param) {
-        const { columns, data } = param;
-        const sums = [];
-        columns.forEach((column, index) => {
-          if (index === 0) {
-            sums[index] = 'Total Cost';
-            return;
-          }
-          const values = data.map(item => Number(item[column.property]));
-          if (!values.every(value => isNaN(value))) {
-            sums[index] = '$ ' + values.reduce((prev, curr) => {
-              const value = Number(curr);
-              if (!isNaN(value)) {
-                return prev + curr;
-              } else {
-                return prev;
-              }
-            }, 0);
-          } else {
-            sums[index] = 'N/A';
-          }
-        });
-
-        return sums;
-      }
     }
-  };
+  }) 
 </script>
 ```
 :::
@@ -1661,9 +1715,39 @@ Configuring rowspan and colspan allows you to merge cells
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {
+        if (rowIndex % 2 === 0) {
+          if (columnIndex === 0) {
+            return [1, 2];
+          } else if (columnIndex === 1) {
+            return [0, 0];
+          }
+        }
+      }
+
+      let objectSpanMethod = ({ row, column, rowIndex, columnIndex }) => {
+        if (columnIndex === 0) {
+          if (rowIndex % 2 === 0) {
+            return {
+              rowspan: 2,
+              colspan: 1
+            };
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            };
+          }
+        }
+      }
+
       return {
+        arraySpanMethod,
+        objectSpanMethod,
+
         tableData: [{
           id: '12987122',
           name: 'Tom',
@@ -1696,35 +1780,8 @@ Configuring rowspan and colspan allows you to merge cells
           amount3: 15
         }]
       };
-    },
-    methods: {
-      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex % 2 === 0) {
-          if (columnIndex === 0) {
-            return [1, 2];
-          } else if (columnIndex === 1) {
-            return [0, 0];
-          }
-        }
-      },
-
-      objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-        if (columnIndex === 0) {
-          if (rowIndex % 2 === 0) {
-            return {
-              rowspan: 2,
-              colspan: 1
-            };
-          } else {
-            return {
-              rowspan: 0,
-              colspan: 0
-            };
-          }
-        }
-      }
     }
-  };
+  }) 
 </script>
 ```
 :::
@@ -1761,9 +1818,16 @@ You can customize row index in `type=index` columns.
 </template>
 
 <script>
-  export default {
-    data() {
+  export default Vue.defineComponent({
+    components: {},
+    setup() {
+      let indexMethod = (index) => {
+        return index * 2;
+      }
+
       return {
+        indexMethod,
+
         tableData: [{
           date: '2016-05-03',
           name: 'Tom',
@@ -1798,13 +1862,8 @@ You can customize row index in `type=index` columns.
           tag: 'Office'
         }],
       }
-    },
-    methods: {
-      indexMethod(index) {
-        return index * 2;
-      }
     }
-  };
+  }) 
 </script>
 ```
 :::
