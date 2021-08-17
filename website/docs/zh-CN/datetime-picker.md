@@ -336,6 +336,7 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，相关属性可以参照 D
 | change | 用户确认选定的值时触发 | 组件绑定值 |
 | blur | 当 input 失去焦点时触发 | 组件实例 |
 | focus | 当 input 获得焦点时触发 | 组件实例 |
+| calendar-change | 选中日历日期后会执行的回调，只有当 `datetimerange` 才生效 | [Date, Date] |
 
 ### Methods
 | 方法名 | 说明 | 参数 |
