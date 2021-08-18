@@ -6,8 +6,6 @@ const vueCompiler = require('@vue/compiler-sfc')
 const klawSync = require('klaw-sync')
 const chalk = require('chalk')
 
-const { projRoot, compRoot } = require('./paths')
-
 const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.json')
 const DEMO_RE = /\/demo\/\w+\.vue$/
 const TEST_RE = /__test__|__tests__/
@@ -25,7 +23,7 @@ const exclude = path => !excludedFiles.some(f => path.includes(f))
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
  */
-const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist')) => {
+const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types')) => {
   const project = new Project({
     compilerOptions: {
       allowJs: true,
@@ -104,42 +102,6 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist')) =>
         ),
       ),
     )
-    // const sourceFilePathName = sourceFile.getFilePath()
-
-    // if (sourceFilePathName.includes('packages/element-plus')) {
-    //   sourceFile.getExportDeclarations().map(modifySpecifier)
-    // }
-
-    // sourceFile.getImportDeclarations().map(modifySpecifier)
-
-    // function modifySpecifier(d) {
-    //   const specifier = d.getModuleSpecifierValue()
-
-    //   if (specifier && specifier.includes(ElementPlusSign)) {
-    //     const importItem = specifier.slice(ElementPlusSign.length)
-    //     let replacer
-    //     if (excludes.some(e => importItem.startsWith(e))) {
-    //       replacer = ''
-    //     } else {
-    //       replacer = 'el-'
-    //     }
-    //     const originalPath = path.resolve(
-    //       compRoot,
-    //       `./${replacer}${importItem}`,
-    //     )
-    //     const sourceFilePath = sourceFile.getFilePath()
-
-    //     const sourceDir = sourceFilePath.includes('packages/element-plus')
-    //       ? path.dirname(path.resolve(sourceFilePath, '../'))
-    //       : path.dirname(sourceFilePath)
-    //     const replaceTo = path.relative(sourceDir, originalPath)
-    //     // This is a delicated judgment which might fail when edge case occurs
-    //     d.setModuleSpecifier(
-    //       replaceTo.startsWith('.') ? replaceTo : `./${replaceTo}`,
-    //     )
-    //   }
-    // }
-    // console.log(sourceFile.getFilePath())
 
     const emitOutput = sourceFile.getEmitOutput()
     for (const outputFile of emitOutput.getOutputFiles()) {
@@ -149,7 +111,12 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist')) =>
         recursive: true,
       })
 
-      await fs.promises.writeFile(filepath, outputFile.getText(), 'utf8')
+      await fs.promises.writeFile(filepath,
+        outputFile
+          .getText()
+          .replaceAll('@element-plus/components', 'element-plus/es')
+          .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk'),
+        'utf8')
       console.log(
         chalk.green(
           'Definition for file: ' +

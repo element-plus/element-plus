@@ -18,12 +18,6 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "dependencies": {
-    "@element-plus/components": "^0.0.4",
-    "@element-plus/directives": "^0.0.4",
-    "@element-plus/theme-chalk": "^0.0.4",
-    "@element-plus/hooks": "^0.0.4",
-    "@element-plus/utils": "^0.0.4",
-    "@element-plus/tokens": "^0.0.4",
     "@element-plus/icons": "^0.0.11",
     "@popperjs/core": "^2.4.4",
     "async-validator": "^3.4.0",
@@ -34,7 +28,7 @@
     "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
-    "@element-plus/test-utils": "^0.0.4"
+    "@element-plus/test-utils": "^0.0.5"
   },
   "vetur": {
     "tags": "tags.json",

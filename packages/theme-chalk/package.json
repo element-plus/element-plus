@@ -1,6 +1,6 @@
 {
   "name": "@element-plus/theme-chalk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Element component chalk theme.",
   "main": "index.css",
   "unpkg": "index.css",
@@ -43,5 +43,6 @@
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

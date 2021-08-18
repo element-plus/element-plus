@@ -8,13 +8,14 @@ const filesize = require('rollup-plugin-filesize')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const esbuild = require('rollup-plugin-esbuild')
 const chalk = require('chalk')
+const pkg = require('../package.json')
 
-const { projRoot, compRoot } = require('./paths')
+const { compRoot, buildOutput } = require('./paths')
 const getDeps = require('./get-deps')
 const genDefs = require('./gen-dts')
 const reporter = require('./size-reporter')
 
-const outputDir = path.resolve(projRoot, './dist/components')
+const outputDir = path.resolve(buildOutput, './element-plus')
 const pathToPkgJson = path.resolve(compRoot, './package.json')
 
 async function getComponents() {
@@ -35,11 +36,19 @@ const plugins = [
   nodeResolve(),
   esbuild(),
 ]
-
+const EP_PREFIX = '@element-plus'
 const VUE_REGEX = 'vue'
 const VUE_MONO = '@vue'
-const EP_PREFIX = '@element-plus'
 const externals = getDeps(pathToPkgJson)
+
+const excludes = ['icons']
+
+const pathsRewriter = id => {
+  if (id.startsWith(`${EP_PREFIX}/components`)) return id.replace(`${EP_PREFIX}/components`, '..')
+  if (id.startsWith(EP_PREFIX) && excludes.every(e => !id.endsWith(e))) return id.replace(EP_PREFIX, '../..')
+  return id
+}
+
 
   ; (async () => {
     // run type diagnoses first
@@ -54,11 +63,8 @@ const externals = getDeps(pathToPkgJson)
     yellow('Start building entry file')
     await buildEntry()
     green('Entry built successfully')
-    yellow('Start copying package.json')
-    await copyPkgJson()
-    green('Package.json copied successfully')
   })().then(() => {
-    console.log('finished')
+    console.log('Individual component build finished')
     process.exit(0)
   }).catch((e) => {
     console.error(e.message)
@@ -66,6 +72,28 @@ const externals = getDeps(pathToPkgJson)
   })
 
 async function buildComponents() {
+
+  // await rollup.rollup({
+  //   input: path.resolve(__dirname, '../packages/element-plus/index.ts'),
+  //   output: {
+  //     format: 'es',
+  //     file: 'lib/index.esm.js',
+  //   },
+  //   plugins: [
+  //     // terser(),
+  //     nodeResolve(),
+  //     vue({
+  //       target: 'browser',
+  //       css: false,
+  //       exposeFilename: false,
+  //     }),
+
+  //   ],
+  //   external(id) {
+  //     return /^vue/.test(id)
+  //       || deps.some(k => new RegExp('^' + k).test(id))
+  //   },
+  // })
   const componentPaths = await getComponents()
 
   const builds = componentPaths.map(async ({
@@ -83,12 +111,24 @@ async function buildComponents() {
     }
     const esm = {
       format: 'es',
-      file: `${outputDir}/${componentName}/index.js`,
+      file: `${outputDir}/es/components/${componentName}/index.js`,
       plugins: [
         filesize({
           reporter,
         })
-      ]
+      ],
+      paths: pathsRewriter,
+    }
+
+    const cjs = {
+      format: 'es',
+      file: `${outputDir}/lib/components/${componentName}/index.js`,
+      plugins: [
+        filesize({
+          reporter,
+        })
+      ],
+      paths: pathsRewriter,
     }
     const rollupConfig = {
       input: entry,
@@ -97,6 +137,7 @@ async function buildComponents() {
     }
     const bundle = await rollup.rollup(rollupConfig)
     await bundle.write(esm)
+    await bundle.write(cjs)
 
   })
   try {
@@ -120,23 +161,23 @@ async function buildEntry() {
     const bundle = await rollup.rollup(config)
     await bundle.write({
       format: 'es',
-      file: `${outputDir}/index.js`,
-      // banner: `import '@element-plus/theme-chalk/el-${componentName}.css'`,
+      file: `${outputDir}/es/components/index.js`,
       plugins: [
         filesize({
           reporter,
         })
       ]
     })
-  } catch (e) {
-    logAndShutdown(e)
-  }
-}
 
-async function copyPkgJson() {
-  try {
-    await fs.promises.copyFile(pathToPkgJson, path.resolve(outputDir, './package.json'))
-    return true
+    await bundle.write({
+      format: 'cjs',
+      file: `${outputDir}/lib/components/index.js`,
+      plugins: [
+        filesize({
+          reporter,
+        })
+      ],
+    })
   } catch (e) {
     logAndShutdown(e)
   }

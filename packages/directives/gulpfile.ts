@@ -1,34 +1,54 @@
 import gulp from 'gulp'
 import ts from 'gulp-typescript'
 import path from 'path'
+import { buildOutput } from '../../build/paths'
 
-export const distFolder = './lib'
+export const esm = './es'
+export const cjs = './lib'
 const tsProject = ts.createProject('tsconfig.json')
 
-function compile() {
+const inputs = [
+  './**/*.ts',
+  '!./node_modules',
+  '!./__tests__/*.ts',
+  '!./gulpfile.ts',
+]
+
+function compileEsm() {
   return gulp
-    .src(['./**/*.ts', '!./node_modules', '!./__tests__/*.ts', '!./gulpfile.ts'])
+    .src(inputs)
     .pipe(tsProject())
-    .pipe(gulp.dest(distFolder))
+    .pipe(gulp.dest(esm))
 }
 
-const distBundle = path.resolve(__dirname, '../../dist/directives')
+function compileCjs() {
+  return gulp
+    .src(inputs)
+    .pipe(
+      ts.createProject('tsconfig.json', {
+        module: 'commonjs',
+      })(),
+    )
+    .pipe(gulp.dest(cjs))
+}
+
+const distBundle = path.resolve(buildOutput, './element-plus')
 
 /**
  * copy from packages/theme-chalk/lib to dist/theme-chalk
  */
-function copyToLib() {
-  return gulp.src(distFolder + '/**').pipe(gulp.dest(distBundle))
+function copyEsm() {
+  return gulp
+    .src(esm + '/**')
+    .pipe(gulp.dest(path.resolve(distBundle, 'es/directives')))
 }
 
-/**
- * copy pkg.json
- */
-
-function copyPkgJson() {
-  return gulp.src('./package.json').pipe(gulp.dest(distBundle))
+function copyCjs() {
+  return gulp
+    .src(cjs + '/**')
+    .pipe(gulp.dest(path.resolve(distBundle, 'lib/directives')))
 }
 
-export const build = gulp.series(compile, copyToLib, copyPkgJson)
+export const build = gulp.series(compileEsm, compileCjs, copyEsm, copyCjs)
 
 export default build

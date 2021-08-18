@@ -1,7 +1,7 @@
 {
   "name": "@element-plus/hooks",
   "description": "Element Plus composables",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "index.js",
   "module": "index.js",
   "unpkg": "index.js",
@@ -16,13 +16,13 @@
     "build": "gulp build"
   },
   "dependencies": {
-    "@element-plus/directives": "^0.0.4",
-    "@element-plus/utils": "^0.0.4",
-    "@element-plus/locale": "^0.0.4",
+    "@element-plus/directives": "^0.0.5",
+    "@element-plus/utils": "^0.0.5",
+    "@element-plus/locale": "^0.0.5",
     "@popperjs/core": "^2.4.4"
   },
   "devDependencies": {
-    "@element-plus/test-utils": "^0.0.4",
+    "@element-plus/test-utils": "^0.0.5",
     "@vue/test-utils": "^2.0.0-beta.3",
     "chalk": "^4.1.2",
     "gulp": "^4.0.2",
@@ -30,5 +30,6 @@
     "sass": "^1.37.0",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
-  }
+  },
+  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

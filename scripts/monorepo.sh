@@ -1,17 +1,18 @@
 #! /usr/bin/bash
 
-# set -e
+set -e
 
 yarn bootstrap
 yarn clean:lib
-yarn update:version
+# yarn update:version
 
 # build all packages in case of error
 
-yarn build:mono
-yarn build:style
+yarn build:comps
+rsync -a dist/types/components/ dist/element-plus/es/components/
+rsync -a dist/types/components/ dist/element-plus/lib/components/
 
-rsync -a dist/styles/ dist/components/
+yarn build:style
 
 yarn build:theme
 yarn build:locale
@@ -22,52 +23,19 @@ yarn build:tokens
 yarn build:full-bundle
 yarn build:helper
 
+echo 'copy index.css'
+cp dist/element-plus/theme-chalk/index.css dist/element-plus/dist/index.css
+
+echo 'syncing style.css'
+rsync -a dist/styles/es/ dist/element-plus/es/components/
+rsync -a dist/styles/lib/ dist/element-plus/lib/components/
+
 cp -R packages dist/element-plus
 cp packages/element-plus/package.json dist/element-plus/package.json
 
-cp dist/theme-chalk/index.css dist/element-plus/dist/index.css
 exit 0
-
-# release built packages
-# cp .npmrc will fail on local run, do not engage local release
-cp .npmrc dist/components
-cd dist/components
-npm publish --access public
-cd -
-
-cp .npmrc dist/theme-chalk
-cd dist/theme-chalk
-npm publish --access public
-cd -
-
-cp .npmrc dist/locale
-cd dist/locale
-npm publish --access public
-cd -
-
-cp .npmrc dist/hooks
-cd dist/hooks
-npm publish --access public
-cd -
-
-cp .npmrc dist/directives
-cd dist/directives
-npm publish --access public
-cd -
-
-cp .npmrc dist/utils
-cd dist/utils
-npm publish --access public
-cd -
-
-cp .npmrc dist/tokens
-cd dist/tokens
-npm publish --access public
-cd -
 
 # cd dist/element-plus
 # npm publish --access public
 # cd -
 
-# Build helpers
-# yarn build:helper

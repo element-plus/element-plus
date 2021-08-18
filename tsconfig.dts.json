@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
     "declaration": true,
     "noImplicitAny": false,
     "removeComments": true,
@@ -8,12 +8,15 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "noLib": false,
-    "target": "es6",
-    "sourceMap": true,
-    "lib": ["ESNext", "DOM"],
+    "target": "esnext",
+    "lib": ["esnext", "DOM"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "emitDeclarationOnly": true,
+    "noEmitOnError": true,
+    "skipLibCheck": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

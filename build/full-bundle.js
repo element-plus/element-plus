@@ -18,14 +18,10 @@ const {
   localeRoot,
 } = require('./paths')
 
-const pkg = require(path.resolve(epRoot, './package.json'))
-
 // const deps = Object.keys(pkg.dependencies)
 
 ;(async () => {
-  const raw = await fs.promises.readdir(compRoot, {
-    withFileTypes: true,
-  })
+
   const config = {
     input: path.resolve(epRoot, './index.ts'),
     plugins: [
