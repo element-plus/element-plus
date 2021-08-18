@@ -233,7 +233,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['pick', 'set-picker-option'],
+  emits: ['pick', 'set-picker-option', 'calendar-change'],
 
   setup(props, ctx) {
     const { t, lang } = useLocaleInject()
@@ -411,12 +411,15 @@ export default defineComponent({
     }
 
     const handleRangePick = (val, close = true) => {
-      const minDate_ = formatEmit(val.minDate, 0)
-      const maxDate_ = formatEmit(val.maxDate, 1)
+      const min_ = val.minDate
+      const max_ = val.maxDate
+      const minDate_ = formatEmit(min_, 0)
+      const maxDate_ = formatEmit(max_, 1)
 
       if (maxDate.value === maxDate_ && minDate.value === minDate_) {
         return
       }
+      ctx.emit('calendar-change', [min_.toDate(), max_ && max_.toDate()])
       maxDate.value = maxDate_
       minDate.value = minDate_
 
