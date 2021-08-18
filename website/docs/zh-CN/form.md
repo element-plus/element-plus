@@ -628,7 +628,7 @@ W3C 标准中有如下[规定](https://www.w3.org/MarkUp/html-spec/html-spec_8.h
 | error    | 表单域验证错误信息, 设置该值会使表单验证状态变为`error`，并显示该错误信息 | string | — | — |
 | show-message  | 是否显示校验错误信息 | boolean | — | true |
 | inline-message  | 以行内形式展示校验信息 | boolean | — | false |
-| size  | 用于控制该表单域下组件的尺寸 | string | medium / small / mini | - |
+| size  | 用于控制该表单域下组件的尺寸 | string | medium / small / mini | — |
 
 ### Rules
 | 参数       | 说明                | 类型     | 可选值  | 默认值  |
@@ -639,16 +639,12 @@ W3C 标准中有如下[规定](https://www.w3.org/MarkUp/html-spec/html-spec_8.h
 | name | 说明 |
 |------|--------|
 | — | Form Item 的内容 |
-
-### Form-Item Scoped Slot
-|  name  |   说明  |
-|--------|--------|
-| label | Custom content to display on label. The scope parameter is { label } |
+| label | 自定义标签，参数为 { label } |
 |  error | 自定义表单校验信息的显示方式，参数为 { error } |
 
 ### Form-Item Methods
 
 | 方法名      | 说明          | 参数
 |---------- |-------------- | --------------
-| resetField | 对该表单项进行重置，将其值重置为初始值并移除校验结果 | -
-| clearValidate | 移除该表单项的校验结果 | -
+| resetField | 对该表单项进行重置，将其值重置为初始值并移除校验结果 | — |
+| clearValidate | 移除该表单项的校验结果 | — |
