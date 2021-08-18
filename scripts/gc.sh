@@ -19,10 +19,18 @@ if [ -d "$DIRNAME" ]; then
   exit 1
 fi
 
+IFS="-"
+read -a arr1 <<< "$NAME"
 NORMALIZED_NAME=""
-for i in $(echo $NAME | sed 's/[_|-]\([a-z]\)/\ \1/;s/^\([a-z]\)/\ \1/'); do
-  C=$(echo "${i:0:1}" | tr "[:lower:]" "[:upper:]")
-  NORMALIZED_NAME="$NORMALIZED_NAME${C}${i:1}"
+for i in "${arr1[@]}"
+do
+  IFS="_"
+  read -a arr2 <<< "$i"
+  for j in "${arr2[@]}"
+  do
+    C=$(echo "${j:0:1}" | tr "[:lower:]" "[:upper:]")
+    NORMALIZED_NAME="$NORMALIZED_NAME${C}${j:1}"
+  done
 done
 NAME=$NORMALIZED_NAME
 
@@ -30,7 +38,7 @@ mkdir -p "$DIRNAME"
 mkdir -p "$DIRNAME/src"
 mkdir -p "$DIRNAME/__tests__"
 
-cat > $DIRNAME/src/index.vue <<EOF
+cat > "$DIRNAME/src/index.vue" <<EOF
 <template>
   <div>
     <slot></slot>
@@ -53,20 +61,16 @@ EOF
 cat <<EOF >"$DIRNAME/index.ts"
 import { App } from 'vue'
 import ${NAME} from './src/index.vue'
-
 ${NAME}.install = (app: App): void => {
   app.component(${NAME}.name, ${NAME})
 }
-
 export default ${NAME}
 EOF
 
-cat > $DIRNAME/__tests__/$INPUT_NAME.spec.ts <<EOF
+cat > "$DIRNAME/__tests__/$INPUT_NAME.spec.ts" <<EOF
 import { mount } from '@vue/test-utils'
 import $NAME from '../src/index.vue'
-
 const AXIOM = 'Rem is the best girl'
-
 describe('$NAME.vue', () => {
   test('render test', () => {
     const wrapper = mount($NAME, {
