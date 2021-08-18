@@ -9,7 +9,7 @@
 // skipAutoTranslation 1
 
 // types
-$--types: primary, success, warning, danger, info;
+$--types: primary, success, warning, danger, error, info;
 
 /* Color
 -------------------------- */
@@ -40,29 +40,34 @@ $--colors: map.deep-merge(
   $--colors
 );
 
-$--color-white: map.get($--colors, 'white');
-$--color-black: map.get($--colors, 'black');
-$--color-primary: map.get($--colors, 'primary', 'base');
-$--color-success: map.get($--colors, 'success', 'base');
-$--color-warning: map.get($--colors, 'warning', 'base');
-$--color-danger: map.get($--colors, 'danger', 'base');
-$--color-error: map.get($--colors, 'error', 'base');
-$--color-info: map.get($--colors, 'info', 'base');
+$--color-white: map.get($--colors, 'white') !default;
+$--color-black: map.get($--colors, 'black') !default;
+$--color-primary: map.get($--colors, 'primary', 'base') !default;
+$--color-success: map.get($--colors, 'success', 'base') !default;
+$--color-warning: map.get($--colors, 'warning', 'base') !default;
+$--color-danger: map.get($--colors, 'danger', 'base') !default;
+$--color-error: map.get($--colors, 'error', 'base') !default;
+$--color-info: map.get($--colors, 'info', 'base') !default;
 
 // https://sass-lang.com/documentation/values/maps#immutability
-@mixin set-color-primary-light($color, $number) {
+@mixin set-color-type-light($type, $number) {
   $--colors: map.deep-merge(
     (
-      'primary': (
+      $type: (
         'light-#{$number}':
-          mix($--color-white, $color, math.percentage(math.div($number, 10))),
+          mix(
+            $--color-white,
+            map.get($--colors, $type, 'base'),
+            math.percentage(math.div($number, 10))
+          ),
       ),
     ),
     $--colors
   ) !global;
 }
 
-// $--color-primary-light-i
+// $--colors.primary.light-i
+// --el-color-primary-light-i
 // 10% 53a8ff
 // 20% 66b1ff
 // 30% 79bbff
@@ -73,26 +78,9 @@ $--color-info: map.get($--colors, 'info', 'base');
 // 80% d9ecff
 // 90% ecf5ff
 @for $i from 1 through 9 {
-  @include set-color-primary-light(map.get($--colors, 'primary', 'base'), $i);
-}
-
-// generate
-// $--colors.success.light: mix($--color-white, $--color-success, 80%) !default;
-// $--colors.success.lighter: mix($--color-white, $--color-success, 90%) !default;
-@mixin set-color-type-light($type) {
-  $--colors: map.deep-merge(
-    (
-      $type: (
-        'light': mix($--color-white, map.get($--colors, $type, 'base'), 80%),
-        'lighter': mix($--color-white, map.get($--colors, $type, 'base'), 90%),
-      ),
-    ),
-    $--colors
-  ) !global;
-}
-
-@each $type in (success, warning, danger, error, info) {
-  @include set-color-type-light($type);
+  @each $type in $--types {
+    @include set-color-type-light($type, $i);
+  }
 }
 
 $--text-color: () !default;
@@ -541,14 +529,14 @@ $--cascader: map.merge(
 
 /* Button
 -------------------------- */
-// css3 var in packages/theme-chalk/src/cascader.scss
+// css3 var in packages/theme-chalk/src/button.scss
 $--button: () !default;
 $--button: map.merge(
   (
     'font-weight': var(--el-font-weight-primary),
-    'default-border-color': var(--el-border-color-base),
-    'default-background-color': var(--el-color-white),
-    'default-font-color': var(--el-text-color-regular),
+    'border-color': var(--el-border-color-base),
+    'background-color': var(--el-color-white),
+    'font-color': var(--el-text-color-regular),
     'disabled-font-color': var(--el-text-color-placeholder),
     'disabled-background-color': var(--el-color-white),
     'disabled-border-color': var(--el-border-color-light),
@@ -679,6 +667,8 @@ $--table: map.merge(
     'current-row-background-color': var(--el-color-primary-light-9),
     'header-background-color': var(--el-color-white),
     'fixed-box-shadow': 0 0 10px rgba(0, 0, 0, 0.12),
+    'background-color': var(--el-color-white),
+    'expanded-cell-background-color': var(--el-color-white),
   ),
   $--table
 );
@@ -783,6 +773,17 @@ $--tag: map.merge(
   $--tag
 );
 
+$--tag-color: () !default;
+
+@each $type in $--types {
+  $--tag-color: map.merge(
+    (
+      $type: map.get($--colors, $type, 'base'),
+    ),
+    $--tag-color
+  ) !global;
+}
+
 /* Tree
 -------------------------- */
 // css3 var in packages/theme-chalk/src/tree.scss
@@ -807,6 +808,16 @@ $--dropdown: map.merge(
     'menu-index': 10,
   ),
   $--dropdown
+);
+
+// drawer
+$--drawer: () !default;
+$--drawer: map.merge(
+  (
+    'background-color': var(--el-dialog-background-color, var(--el-color-white)),
+    'padding-primary': var(--el-dialog-padding-primary, 20px),
+  ),
+  $--drawer
 );
 
 /* Badge
@@ -865,8 +876,8 @@ $--menu: map.merge(
   (
     'item-font-size': var(--el-font-size-base),
     'item-font-color': var(--el-text-color-primary),
-    'background-color': var(--el-color-white),
     'item-hover-fill': var(--el-color-primary-light-9),
+    'background-color': var(--el-color-white),
     'border-color': #e6e6e6,
   ),
   $--menu
@@ -1029,6 +1040,17 @@ $--link: map.merge(
   $--link
 );
 
+$--link-font-color: () !default;
+
+@each $type in $--types {
+  $--link-font-color: map.merge(
+    $--link-font-color,
+    (
+      $type: map.get($--colors, $type, 'base'),
+    )
+  ) !global;
+}
+
 /* Calendar
 --------------------------*/
 // css3 var in packages/theme-chalk/src/calendar.scss
@@ -1114,6 +1136,47 @@ $--result: map.merge(
     'extra-margin-top': 30px,
   ),
   $--result
+);
+
+// transition
+$--transition: () !default;
+$--transition: map.merge(
+  (
+    'all': all var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier),
+    'fade': opacity var(--el-transition-duration)
+      var(--el-transition-function-fast-bezier),
+    'md-fade': (
+      transform var(--el-transition-duration)
+        var(--el-transition-function-fast-bezier),
+      opacity var(--el-transition-duration)
+        var(--el-transition-function-fast-bezier),
+    ),
+    'fade-linear': opacity var(--el-transition-duration-fast) linear,
+    'border': border-color var(--el-transition-duration-fast)
+      var(--el-transition-function-ease-in-out-bezier),
+    'color': color var(--el-transition-duration-fast)
+      var(--el-transition-function-ease-in-out-bezier),
+  ),
+  $--transition
+);
+
+$--transition-duration: () !default;
+$--transition-duration: map.merge(
+  (
+    'default': 0.3s,
+    'fast': 0.2s,
+  ),
+  $--transition-duration
+);
+
+$--transition-function: () !default;
+$--transition-function: map.merge(
+  (
+    'ease-in-out-bezier': cubic-bezier(0.645, 0.045, 0.355, 1),
+    'fast-bezier': cubic-bezier(0.23, 1, 0.32, 1),
+  ),
+  $--transition-function
 );
 
 // header

@@ -253,7 +253,6 @@ export default defineComponent({
       oldChecked,
       oldIndeterminate,
       emitter,
-      parent,
       getNodeKey,
       handleSelectChange,
       handleClick,

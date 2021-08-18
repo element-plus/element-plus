@@ -215,7 +215,7 @@
     .btn-next,
     .#{$namespace}-pager li {
       margin: 0 5px;
-      background-color: map.get($--colors, 'info', 'lighter');
+      background-color: map.get($--colors, 'info', 'light-9');
       color: var(--el-text-color-regular);
       min-width: 30px;
       border-radius: 2px;

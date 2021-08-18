@@ -660,6 +660,7 @@ Note, date time locale (month name, first day of the week ...) are also configed
 | change | ユーザーが値を確認したときにトリガされます。 | component's binding value |
 | blur | インプットがぼやけたときされます | component instance |
 | focus | 入力がフォーカスされているときにトリガされます。 | component instance |
+| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | [Date, Date] |
 
 ### 方法
 | Method | Description | Parameters |

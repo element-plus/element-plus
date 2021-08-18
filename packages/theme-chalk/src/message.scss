@@ -6,10 +6,6 @@
 
 @include b(message) {
   @include set-component-css-var('message', $--message);
-
-  @each $type in (success, info, warning, error) {
-    --el-message-#{$type}-font-color: var(--el-color-#{$type});
-  }
 }
 
 @include b(message) {
@@ -54,11 +50,13 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      background-color: map.get($--colors, $type, 'lighter');
-      border-color: map.get($--colors, $type, 'light');
+      background-color: map.get($--colors, $type, 'light-9');
+      border-color: map.get($--colors, $type, 'light-8');
+
+      --el-message-font-color: var(--el-color-#{$type});
 
       .#{$namespace}-message__content {
-        color: var(--el-message-#{$type}-font-color);
+        color: var(--el-message-font-color);
       }
     }
   }
@@ -95,7 +93,8 @@
 
   @each $type in (success, info, warning, error) {
     & .#{$namespace}-icon-#{$type} {
-      color: var(--el-message-#{$type}-font-color);
+      --el-message-font-color: var(--el-color-#{$type});
+      color: var(--el-message-font-color);
     }
   }
 }

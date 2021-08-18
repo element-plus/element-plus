@@ -3,7 +3,7 @@
 
 .fade-in-linear-enter-active,
 .fade-in-linear-leave-active {
-  transition: var(--el-fade-linear-transition);
+  transition: var(--el-transition-fade-linear);
 }
 
 .fade-in-linear-enter-from,
@@ -13,7 +13,7 @@
 
 .#{$namespace}-fade-in-linear-enter-active,
 .#{$namespace}-fade-in-linear-leave-active {
-  transition: var(--el-fade-linear-transition);
+  transition: var(--el-transition-fade-linear);
 }
 .#{$namespace}-fade-in-linear-enter-from,
 .#{$namespace}-fade-in-linear-leave-to {
@@ -43,7 +43,7 @@
 .#{$namespace}-zoom-in-top-leave-active {
   opacity: 1;
   transform: scaleY(1);
-  transition: var(--el-md-fade-transition);
+  transition: var(--el-transition-md-fade);
   transform-origin: center top;
 
   &[data-popper-placement^='top'] {
@@ -60,7 +60,7 @@
 .#{$namespace}-zoom-in-bottom-leave-active {
   opacity: 1;
   transform: scaleY(1);
-  transition: var(--el-md-fade-transition);
+  transition: var(--el-transition-md-fade);
   transform-origin: center bottom;
 }
 .#{$namespace}-zoom-in-bottom-enter-from,
@@ -73,7 +73,7 @@
 .#{$namespace}-zoom-in-left-leave-active {
   opacity: 1;
   transform: scale(1, 1);
-  transition: var(--el-md-fade-transition);
+  transition: var(--el-transition-md-fade);
   transform-origin: top left;
 }
 .#{$namespace}-zoom-in-left-enter-from,

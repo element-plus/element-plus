@@ -116,6 +116,7 @@
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
+        @calendar-change="onCalendarChange"
         @mousedown.stop
       ></slot>
     </template>
@@ -202,7 +203,7 @@ export default defineComponent({
   },
   directives: { clickoutside: ClickOutside },
   props: defaultProps,
-  emits: ['update:modelValue', 'change', 'focus', 'blur'],
+  emits: ['update:modelValue', 'change', 'focus', 'blur', 'calendar-change'],
   setup(props, ctx) {
     const ELEMENT = useGlobalConfig()
     const { lang } = useLocaleInject()
@@ -528,6 +529,10 @@ export default defineComponent({
       pickerOptions.value.panelReady = true
     }
 
+    const onCalendarChange = e => {
+      ctx.emit('calendar-change', e)
+    }
+
     provide('EP_PICKER_BASE', {
       props,
     })
@@ -563,6 +568,7 @@ export default defineComponent({
       refPopper,
       pickerDisabled,
       onSetPickerOption,
+      onCalendarChange,
     }
   },
 })

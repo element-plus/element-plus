@@ -122,6 +122,7 @@ Used to replace the browser's native scrollbar.
 | noresize  | do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance    | boolean  |    —  |  false |
 | tag  | element tag of the view    | string  |    —  |  div |
 | always  | always show scrollbar    | boolean  |    —  |  false |
+| min-size  | minimum size of scrollbar    | number  |    —  |  20 |
 
 ### Scrollbar Events
 

@@ -253,7 +253,7 @@
     padding: 15px;
     font-size: 12px;
     &:hover {
-      color: tint($--color-primary, $--button-hover-tint-percent);
+      color: var(--el-color-primary-light-2);
     }
   }
 }

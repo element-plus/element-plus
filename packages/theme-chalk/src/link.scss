@@ -4,25 +4,8 @@
 @import 'mixins/var';
 @import 'common/var';
 
-$types: primary, success, warning, danger, info;
-
-$--link-font-color: () !default;
-
-@each $type in $types {
-  $--link-font-color: map.merge(
-    $--link-font-color,
-    (
-      $type: map.get($--colors, $type, 'base'),
-    )
-  ) !global;
-}
-
 @include b(link) {
   @include set-component-css-var('link', $--link);
-
-  @each $type in $types {
-    --el-link-#{$type}-font-color: var(--el-color-#{$type});
-  }
 }
 
 @include b(link) {
@@ -74,21 +57,23 @@ $--link-font-color: () !default;
     }
   }
 
-  @each $type in $types {
+  @each $type in $--types {
+    --el-link-font-color: var(--el-color-#{$type});
+
     &.#{$namespace}-link--#{$type} {
-      color: var(--el-link-#{$type}-font-color);
+      color: var(--el-link-font-color);
       &:hover {
         color: mix(map.get($--link-font-color, $type), $--color-white, 80%);
       }
       &:after {
-        border-color: var(--el-link-#{$type}-font-color);
+        border-color: var(--el-link-font-color);
       }
       @include when(disabled) {
         color: mix(map.get($--link-font-color, $type), $--color-white, 50%);
       }
       @include when(underline) {
         &:hover:after {
-          border-color: var(--el-link-#{$type}-font-color);
+          border-color: var(--el-link-font-color);
         }
       }
     }

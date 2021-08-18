@@ -7,10 +7,6 @@
 @include b(alert) {
   @include set-component-css-var('alert', $--alert);
 
-  @each $type in (success, info, warning, error) {
-    --el-alert-#{$type}-color: #{map.get($--colors, $type, 'lighter')};
-  }
-
   width: 100%;
   padding: var(--el-alert-padding);
   margin: 0;
@@ -45,8 +41,10 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
+      --el-alert-background-color: #{map.get($--colors, $type, 'light-9')};
+
       &.is-light {
-        background-color: var(--el-alert-#{$type}-color);
+        background-color: var(--el-alert-background-color);
         color: var(--el-color-#{$type});
 
         .#{$namespace}-alert__description {

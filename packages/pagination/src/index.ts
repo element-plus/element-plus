@@ -122,8 +122,8 @@ export default defineComponent({
     const { t } = useLocaleInject()
     const vnodeProps = getCurrentInstance().vnode.props || {}
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
-    const hasCurrentPageListener = 'onUpdate:currentPage' in vnodeProps || 'onCurrentChange' in vnodeProps
-    const hasPageSizeListener = 'onUpdate:pageSize' in vnodeProps || 'onSizeChange' in vnodeProps
+    const hasCurrentPageListener = 'onUpdate:currentPage' in vnodeProps || 'onUpdate:current-page' in vnodeProps || 'onCurrentChange' in vnodeProps
+    const hasPageSizeListener = 'onUpdate:pageSize' in vnodeProps || 'onUpdate:page-size' in vnodeProps || 'onSizeChange' in vnodeProps
     const assertValidUsage = computed(() => {
       // Users have to set either one, otherwise count of pages cannot be determined
       if (isAbsent(props.total) && isAbsent(props.pageCount)) return false
@@ -246,7 +246,7 @@ export default defineComponent({
 
     return () => {
       if (!assertValidUsage.value) {
-        warn(componentName, t('el.pagination.docRefer'))
+        warn(componentName, t('el.pagination.deprecationWarning'))
         return null
       }
       if (!props.layout) return null

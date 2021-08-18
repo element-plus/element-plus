@@ -536,10 +536,20 @@ describe('DatePicker dates', () => {
 describe('DateRangePicker', () => {
 
   it('create', async () => {
+    let calendarChangeValue = null
+    const changeHandler = jest.fn()
     const wrapper = _mount(`<el-date-picker
     type='daterange'
     v-model="value"
-  />`, () => ({ value: '' }))
+    @CalendarChange="onCalendarChange"
+  />`, () => ({ value: '' }), {
+      methods: {
+        onCalendarChange (e) {
+          calendarChangeValue = e
+          changeHandler(e)
+        },
+      },
+    })
     const inputs = wrapper.findAll('input')
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
@@ -567,6 +577,11 @@ describe('DateRangePicker', () => {
     // input text is something like date string
     expect(inputs[0].element.value.length).toBe(10)
     expect(inputs[1].element.value.length).toBe(10)
+    // calendar-change event
+    expect(changeHandler).toHaveBeenCalledTimes(2)
+    expect(calendarChangeValue.length).toBe(2)
+    expect(calendarChangeValue[0]).toBeInstanceOf(Date)
+    expect(calendarChangeValue[1]).toBeInstanceOf(Date)
   })
 
   it('reverse selection', async () => {
