@@ -40,6 +40,17 @@ export default defineComponent({
       width: addUnit(item.width),
       minWidth: addUnit(item.minWidth),
     }
+    const defaultLabelStyle = {
+      width: addUnit(item.width),
+      minWidth: addUnit(item.minWidth),
+      display: 'inline-block',
+      'text-align': addUnit(item.labelAlign),
+    }
+    const defaultContentStyle = {
+      width: addUnit(item.width),
+      minWidth: addUnit(item.minWidth),
+      display: 'inline-block',
+    }
 
     switch (this.type) {
       case 'label':
@@ -56,15 +67,16 @@ export default defineComponent({
         }, content)
       default:
         return h('td', {
-          style: style,
           class: [align],
           colSpan: span,
         }, [
           h('span', {
+            style: defaultLabelStyle,
             class: ['el-descriptions__label', labelClassName],
           }, label),
           h('span', {
-            class: ['el-descriptions__content', className],
+            style: defaultContentStyle,
+            class: ['el-descriptions__content', className, align],
           }, content)])
     }
   },
