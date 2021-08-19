@@ -40,7 +40,8 @@ export type IPopperOptions = {
   fallbackPlacements: Array<Placement>
 }
 
-export const DEFAULT_TRIGGER = 'hover'
+// duplicate export at index.ts
+// export const DEFAULT_TRIGGER = 'hover'
 const DEFAULT_FALLBACK_PLACEMENTS = []
 
 export default {
@@ -134,7 +135,7 @@ export default {
   },
   trigger: {
     type: [String, Array] as PropType<Trigger>,
-    default: DEFAULT_TRIGGER,
+    default: 'hover',
   },
   visible: {
     type: Boolean,

@@ -1,41 +1,72 @@
 import gulp from 'gulp'
 import ts from 'gulp-typescript'
 import path from 'path'
+import { buildOutput } from '../../build/paths'
 
-export const distFolder = './lib'
-const tsProject = ts.createProject('tsconfig.json')
+export const esm = './es'
+export const cjs = './lib'
+const inputs = './lang/*.ts'
 
-function compile() {
+function compileLangEsm() {
   return gulp
-    .src('./lang/*.ts')
-    .pipe(tsProject())
-    .pipe(gulp.dest(path.resolve(distFolder, './lang')))
+    .src(inputs)
+    .pipe(ts.createProject('tsconfig.json')())
+    .pipe(gulp.dest(path.resolve(esm, 'lang')))
 }
 
-function compileEntry() {
+function compileLangCjs() {
+  return gulp
+    .src(inputs)
+    .pipe(
+      ts.createProject('tsconfig.json', {
+        module: 'commonjs',
+      })(),
+    )
+    .pipe(gulp.dest(path.resolve(cjs, 'lang')))
+}
+
+function compileEntryEsm() {
   return gulp
     .src('./index.ts')
-    .pipe(tsProject())
-    .pipe(gulp.dest(distFolder))
+    .pipe(ts.createProject('tsconfig.json')())
+    .pipe(gulp.dest(esm))
 }
 
-const distBundle = path.resolve(__dirname, '../../dist/locale')
+function compileEntryCjs() {
+  return gulp
+    .src('./index.ts')
+    .pipe(
+      ts.createProject('tsconfig.json', {
+        module: 'commonjs',
+      })(),
+    )
+    .pipe(gulp.dest(cjs))
+}
+
+const distBundle = path.resolve(buildOutput, './element-plus')
 
 /**
  * copy from packages/theme-chalk/lib to dist/theme-chalk
  */
-function copyToLib() {
-  return gulp.src(distFolder + '/**').pipe(gulp.dest(distBundle))
+function copyEsm() {
+  return gulp
+    .src(cjs + '/**/*')
+    .pipe(gulp.dest(path.resolve(distBundle, './lib/locale')))
 }
 
-/**
- * copy pkg.json
- */
-
-function copyPkgJson() {
-  return gulp.src('./package.json').pipe(gulp.dest(distBundle))
+function copyCjs() {
+  return gulp
+    .src(esm + '/**/*')
+    .pipe(gulp.dest(path.resolve(distBundle, './es/locale')))
 }
 
-export const build = gulp.series(compile, compileEntry, copyToLib, copyPkgJson)
+export const build = gulp.series(
+  compileEntryEsm,
+  compileEntryCjs,
+  compileLangEsm,
+  compileLangCjs,
+  copyEsm,
+  copyCjs,
+)
 
 export default build

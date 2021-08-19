@@ -2,7 +2,7 @@
 const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
-const pkgs = require('./getPkgs')
+const { epRoot } = require('./paths')
 
 const tagVersion = process.env.TAG_VERSION
 const gitHead = process.env.GIT_HEAD
@@ -24,43 +24,27 @@ console.log(chalk.cyan([
 ].join('\n')))
 
   ; (async () => {
-    await Promise.all(pkgs.map(async p => {
-      console.log(chalk.yellow(`Updating package.json for package: ${p.name
-        }`))
+    console.log(chalk.yellow(`Updating package.json for element-plus`))
 
-      const pkgRoot = p.resolved.fetchSpec
-      const pkgJson = path.resolve(pkgRoot, './package.json')
-      const json = require(pkgJson)
+    const pkgJson = path.resolve(epRoot, './package.json')
+    const json = require(pkgJson)
 
-      json.version = tagVersion
-      json.gitHead = gitHead
-      const { dependencies, devDependencies } = json
-      Object.keys(dependencies).map(d => {
-        if(pkgs.some(({ name }) => name === d)) {
-          dependencies[d] = `^${tagVersion}`
-        }
-      })
+    json.version = tagVersion
+    json.gitHead = gitHead
 
-      Object.keys(devDependencies).map(d => {
-        if(pkgs.some(({ name }) => name === d)) {
-          devDependencies[d] = `^${tagVersion}`
-        }
-      })
-
-      if (!(process.argv.includes('-d') || process.argv.includes('--dry-run'))) {
-        try {
-          await fs.promises.writeFile(pkgJson, JSON.stringify(json, null, 2), {
-            encoding: 'utf-8',
-          })
-        } catch (e) {
-          process.exit(1)
-        }
-      } else {
-        console.log(json)
+    if (!(process.argv.includes('-d') || process.argv.includes('--dry-run'))) {
+      try {
+        await fs.promises.writeFile(pkgJson, JSON.stringify(json, null, 2), {
+          encoding: 'utf-8',
+        })
+      } catch (e) {
+        process.exit(1)
       }
+    } else {
+      console.log(json)
+    }
 
-      console.log(chalk.green(`Package ${p.name} updated`))
-    }))
+    console.log(chalk.green(`Version updated to ${tagVersion}`))
 
-    console.log(chalk.green('Version updated'))
+    console.log(chalk.green(`Git head updated to ${gitHead}`))
   })()

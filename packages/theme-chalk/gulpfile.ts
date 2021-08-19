@@ -5,6 +5,7 @@ import dartSass from 'sass'
 import autoprefixer from 'gulp-autoprefixer'
 import cleanCSS from 'gulp-clean-css'
 import rename from 'gulp-rename'
+import { buildOutput } from '../../build/paths'
 
 import path from 'path'
 
@@ -50,7 +51,7 @@ function copyFont() {
   return gulp.src('./src/fonts/**').pipe(gulp.dest(`${distFolder}/fonts`))
 }
 
-const distBundle = path.resolve(__dirname, '../../dist/theme-chalk')
+const distBundle = path.resolve(buildOutput, './element-plus/theme-chalk')
 
 /**
  * copy from packages/theme-chalk/lib to dist/theme-chalk
@@ -67,20 +68,12 @@ function copySourceToLib() {
   return gulp.src('./src/**').pipe(gulp.dest(path.resolve(distBundle, './src')))
 }
 
-/**
- * copy pkg.json
- */
-
-function copyPkgJson() {
-  return gulp.src('./package.json').pipe(gulp.dest(distBundle))
-}
 
 export const build = gulp.series(
   compile,
   copyFont,
   copyToLib,
   copySourceToLib,
-  copyPkgJson,
 )
 
 export default build
