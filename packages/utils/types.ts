@@ -22,3 +22,5 @@ export type PartialReturnType<T extends (...args: unknown[]) => unknown> = Parti
 export type SFCWithInstall<T> = T & Plugin
 
 export type RefElement = HTMLElement | null
+
+export type ComponentSize = 'large' | 'medium' | 'small' | 'mini'

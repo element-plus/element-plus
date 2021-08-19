@@ -3,6 +3,7 @@ import type { Emitter } from 'mitt'
 import type {
   FieldErrorList,
 } from 'async-validator'
+import { ComponentSize } from '@element-plus/utils/types'
 
 export interface ElFormContext {
   registerLabelWidth(width: number, oldWidth: number): void
@@ -30,7 +31,7 @@ export interface ValidateFieldCallback {
 export interface ElFormItemContext {
   prop?: string
   formItemMitt: Emitter
-  size?: string
+  size?: ComponentSize
   validateState: string
   validate(callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
