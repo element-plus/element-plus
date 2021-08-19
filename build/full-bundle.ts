@@ -1,21 +1,15 @@
-/* eslint-disable */
-const { nodeResolve } = require('@rollup/plugin-node-resolve')
-const rollup = require('rollup')
-const chalk = require('chalk')
-const path = require('path')
-const fs = require('fs')
-const commonjs = require('@rollup/plugin-commonjs')
-const vue = require('rollup-plugin-vue')
-const esbuild = require('rollup-plugin-esbuild')
-const genDts = require('./gen-entry-dts')
-const RollupResolveEntryPlugin = require('./rollup.plugin.entry')
-const {
-  epRoot,
-  buildOutput,
-} = require('./paths')
-const { EP_PREFIX, excludes } = require('./constants')
-
-// const deps = Object.keys(pkg.dependencies)
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import rollup from 'rollup'
+import chalk from 'chalk'
+import path from 'path'
+import fs from 'fs'
+import commonjs from '@rollup/plugin-commonjs'
+import vue from 'rollup-plugin-vue'
+import esbuild from 'rollup-plugin-esbuild'
+import genDts from './gen-entry-dts'
+import RollupResolveEntryPlugin from './rollup.plugin.entry'
+import { epRoot, buildOutput } from './paths'
+import { EP_PREFIX, excludes } from './constants'
 
 ;(async () => {
 
@@ -25,7 +19,7 @@ const { EP_PREFIX, excludes } = require('./constants')
       nodeResolve(),
       vue({
         target: 'browser',
-        css: false,
+        // css: false,
         exposeFilename: false,
       }),
       commonjs(),
@@ -62,13 +56,13 @@ const { EP_PREFIX, excludes } = require('./constants')
 
   console.log(chalk.yellow('Generating index.js'))
 
-  await bundle.write(umd)
+  await bundle.write(umd as any)
 
   console.log(chalk.green('index.js generated'))
 
   console.log(chalk.yellow('Generating index.full.js'))
 
-  await bundle.write(umdMinified)
+  await bundle.write(umdMinified as any)
 
   console.log(chalk.green('index.full.js generated'))
 
@@ -76,15 +70,16 @@ const { EP_PREFIX, excludes } = require('./constants')
 
   // Entry bundle generation
 
-  let entryFiles = await fs.promises.readdir(epRoot, { withFileTypes: true })
+  const entryFiles = await fs.promises.readdir(epRoot, { withFileTypes: true })
 
-  entryFiles = entryFiles.filter(f => f.isFile()).filter(f => {
+  const entryPoints = entryFiles.filter(f => f.isFile()).filter(f => {
     return f.name !== 'package.json' && f.name !== 'README.md'
   }).map(f => path.resolve(epRoot, f.name))
 
   const entryBundle = await rollup.rollup({
     ...config,
-    input: entryFiles,
+    input: entryPoints,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     external: _ => true,
   })
 

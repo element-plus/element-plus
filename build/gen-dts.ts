@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
-const fs = require('fs')
-const { Project } = require('ts-morph')
-const vueCompiler = require('@vue/compiler-sfc')
-const klawSync = require('klaw-sync')
-const chalk = require('chalk')
+import path from 'path'
+import fs from 'fs'
+import { Project } from 'ts-morph'
+import vueCompiler from '@vue/compiler-sfc'
+import klawSync from 'klaw-sync'
+import chalk from 'chalk'
 
 const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.json')
 const DEMO_RE = /\/demo\/\w+\.vue$/
@@ -18,7 +17,7 @@ const excludedFiles = [
   'css',
   '.DS_Store',
 ]
-const exclude = path => !excludedFiles.some(f => path.includes(f))
+const exclude = (path: string) => !excludedFiles.some(f => path.includes(f))
 
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
@@ -130,4 +129,4 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types
   }
 }
 
-module.exports = genVueTypes
+export default genVueTypes

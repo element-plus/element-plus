@@ -49,7 +49,7 @@ export default inputs.map(name => ({
     css(),
     vue({
       target: 'browser',
-      css: false,
+      // css: false,
     }),
     nodeResolve(),
     esbuild(),
