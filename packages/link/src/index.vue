@@ -6,7 +6,7 @@
       disabled && 'is-disabled',
       underline && !disabled && 'is-underline'
     ]"
-    :href="disabled ? null : href"
+    :href="disabled || !href ? null : href"
     @click="handleClick"
   >
     <i v-if="icon" :class="icon"></i>
