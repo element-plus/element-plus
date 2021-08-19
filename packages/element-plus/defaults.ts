@@ -1,6 +1,6 @@
 import makeInstaller from './make-installer'
-import Components from './components'
-import Plugins from './plugins'
+import Components from './component'
+import Plugins from './plugin'
 
 export default makeInstaller([
   ...Components,

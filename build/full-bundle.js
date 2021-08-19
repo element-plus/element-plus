@@ -7,16 +7,13 @@ const fs = require('fs')
 const commonjs = require('@rollup/plugin-commonjs')
 const vue = require('rollup-plugin-vue')
 const esbuild = require('rollup-plugin-esbuild')
+const genDts = require('./gen-entry-dts')
 const RollupResolveEntryPlugin = require('./rollup.plugin.entry')
 const {
   epRoot,
   buildOutput,
-  compRoot,
-  hookRoot,
-  directiveRoot,
-  utilRoot,
-  localeRoot,
 } = require('./paths')
+const { EP_PREFIX, excludes } = require('./constants')
 
 // const deps = Object.keys(pkg.dependencies)
 
@@ -91,12 +88,18 @@ const {
     external: _ => true,
   })
 
+  const rewriter = id => {
+    if (id.startsWith(`${EP_PREFIX}/components`)) return id.replace(`${EP_PREFIX}/components`, './components')
+    if (id.startsWith(EP_PREFIX) && excludes.every(e => !id.endsWith(e))) return id.replace(EP_PREFIX, '.')
+  }
+
   console.log(chalk.yellow('Generating cjs entry'))
 
   await entryBundle.write({
     format: 'cjs',
     dir: path.resolve(buildOutput, 'element-plus/lib'),
-    exports: 'named'
+    exports: 'named',
+    paths: rewriter,
   })
 
   console.log(chalk.green('cjs entry generated'))
@@ -106,9 +109,17 @@ const {
   await entryBundle.write({
     format: 'esm',
     dir: path.resolve(buildOutput, 'element-plus/es'),
+    paths: rewriter,
   })
 
   console.log(chalk.green('esm entry generated'))
 
   console.log(chalk.bold(chalk.green('Full bundle generated')))
+
+  console.log(chalk.yellow('Generate entry file definitions'))
+
+  await genDts()
+
+  console.log(chalk.green('Entry file definitions generated'))
+
 })()

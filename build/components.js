@@ -8,7 +8,6 @@ const filesize = require('rollup-plugin-filesize')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const esbuild = require('rollup-plugin-esbuild')
 const chalk = require('chalk')
-const pkg = require('../package.json')
 
 const { compRoot, buildOutput } = require('./paths')
 const getDeps = require('./get-deps')
@@ -49,7 +48,6 @@ const pathsRewriter = id => {
   return id
 }
 
-
   ; (async () => {
     // run type diagnoses first
     yellow('Start building types for individual components')
@@ -72,28 +70,6 @@ const pathsRewriter = id => {
   })
 
 async function buildComponents() {
-
-  // await rollup.rollup({
-  //   input: path.resolve(__dirname, '../packages/element-plus/index.ts'),
-  //   output: {
-  //     format: 'es',
-  //     file: 'lib/index.esm.js',
-  //   },
-  //   plugins: [
-  //     // terser(),
-  //     nodeResolve(),
-  //     vue({
-  //       target: 'browser',
-  //       css: false,
-  //       exposeFilename: false,
-  //     }),
-
-  //   ],
-  //   external(id) {
-  //     return /^vue/.test(id)
-  //       || deps.some(k => new RegExp('^' + k).test(id))
-  //   },
-  // })
   const componentPaths = await getComponents()
 
   const builds = componentPaths.map(async ({

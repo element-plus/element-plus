@@ -86,7 +86,6 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types
 
   const diagnostics = project.getPreEmitDiagnostics()
 
-  // TODO: print all diagnoses status and fix them one by one.
   console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
   await project.emit({
@@ -115,7 +114,8 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types
         outputFile
           .getText()
           .replaceAll('@element-plus/components', 'element-plus/es')
-          .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk'),
+          .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk')
+          .replaceAll('@element-plus', 'element-plus/es'),
         'utf8')
       console.log(
         chalk.green(

@@ -2,6 +2,7 @@ import gulp from 'gulp'
 import ts from 'gulp-typescript'
 import path from 'path'
 import { buildOutput } from '../../build/paths'
+import rewriter from '../../build/gulp-rewriter'
 
 export const esm = './es'
 export const cjs = './lib'
@@ -18,6 +19,7 @@ function compileEsm() {
   return gulp
     .src(inputs)
     .pipe(tsProject())
+    .pipe(rewriter())
     .pipe(gulp.dest(esm))
 }
 
@@ -29,6 +31,7 @@ function compileCjs() {
         module: 'commonjs',
       })(),
     )
+    .pipe(rewriter())
     .pipe(gulp.dest(cjs))
 }
 

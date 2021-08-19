@@ -1,5 +1,5 @@
 
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from './types'
 
 export interface InstallOptions {
   size: ComponentSize

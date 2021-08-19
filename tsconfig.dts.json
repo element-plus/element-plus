@@ -16,7 +16,8 @@
     "allowJs": true,
     "emitDeclarationOnly": true,
     "noEmitOnError": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDir": "packages/element-plus",
   },
   "exclude": ["node_modules"],
 }
