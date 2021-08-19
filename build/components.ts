@@ -1,18 +1,18 @@
 /* eslint-disable */
-const fs = require('fs')
-const path = require('path')
-const rollup = require('rollup')
-const vue = require('rollup-plugin-vue')
-const css = require('rollup-plugin-css-only')
-const filesize = require('rollup-plugin-filesize')
-const { nodeResolve } = require('@rollup/plugin-node-resolve')
-const esbuild = require('rollup-plugin-esbuild')
-const chalk = require('chalk')
+import fs from 'fs'
+import path from 'path'
+import rollup from 'rollup'
+import vue from 'rollup-plugin-vue'
+import css from 'rollup-plugin-css-only'
+import filesize from 'rollup-plugin-filesize'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import esbuild from 'rollup-plugin-esbuild'
+import chalk from 'chalk'
 
-const { compRoot, buildOutput } = require('./paths')
-const getDeps = require('./get-deps')
-const genDefs = require('./gen-dts')
-const reporter = require('./size-reporter')
+import { compRoot, buildOutput } from './paths'
+import getDeps from './get-deps'
+import genDefs from './gen-dts'
+import reporter from './size-reporter'
 
 const outputDir = path.resolve(buildOutput, './element-plus')
 const pathToPkgJson = path.resolve(compRoot, './package.json')
@@ -30,7 +30,7 @@ const plugins = [
   css(),
   vue({
     target: 'browser',
-    css: false,
+    // css: false,
   }),
   nodeResolve(),
   esbuild(),
@@ -112,8 +112,8 @@ async function buildComponents() {
       external,
     }
     const bundle = await rollup.rollup(rollupConfig)
-    await bundle.write(esm)
-    await bundle.write(cjs)
+    await bundle.write(esm as any)
+    await bundle.write(cjs as any)
 
   })
   try {

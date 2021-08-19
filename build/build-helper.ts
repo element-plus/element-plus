@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const helper = require('components-helper')
-const path = require('path')
-const { epRoot } = require('./paths')
+import helper from 'components-helper'
+import path from 'path'
+import { epRoot } from './paths'
 
 const { name, version } = require(path.resolve(
   epRoot,
   './package.json',
 ))
 
-const icon = require('../website/icon.json')
+import icon from '../website/icon.json'
 const icons = icon.map(item => 'el-icon-' + item).join('/')
 const tagVer = process.env.TAG_VERSION
 const _version = tagVer

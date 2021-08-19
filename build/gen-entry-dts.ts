@@ -1,11 +1,9 @@
-/* eslint-disable */
-
-const path = require('path')
-const fs = require('fs')
-const chalk = require('chalk')
-const glob = require('fast-glob')
-const { Project } = require('ts-morph')
-const { epRoot, buildOutput } = require('./paths')
+import path from 'path'
+import fs from 'fs'
+import chalk from 'chalk'
+import glob from 'fast-glob'
+import { Project } from 'ts-morph'
+import { epRoot, buildOutput } from './paths'
 const TSCONFIG_PATH = path.resolve(__dirname, '../tsconfig.dts.json')
 
 const gen = async () => {
@@ -19,7 +17,7 @@ const gen = async () => {
       outDir: path.resolve(buildOutput, 'entry/types'),
       skipLibCheck: true,
       esModuleInterop: true,
-      target: "ESNEXT",
+      target: 99, // ESNext
       downlevelIteration: true,
       // types: ["./typings", "esnext", "dom"],
     },
@@ -36,9 +34,9 @@ const gen = async () => {
   for (const sourceFile of sourceFiles) {
 
     console.log(chalk.yellow(
-      `Emitting file: ${chalk.bold(sourceFile.getFilePath())}`
+      `Emitting file: ${chalk.bold(sourceFile.getFilePath())}`,
     ))
-    const emitted = await sourceFile.emit()
+    await sourceFile.emit()
     const emitOutput = sourceFile.getEmitOutput()
     for (const outputFile of emitOutput.getOutputFiles()) {
       const filepath = outputFile.getFilePath()
@@ -50,7 +48,7 @@ const gen = async () => {
         outputFile
           .getText()
           .replaceAll('@element-plus', '.'),
-          // .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk'),
+        // .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk'),
         'utf8')
       console.log(
         chalk.green(
@@ -66,4 +64,4 @@ const gen = async () => {
 
 }
 
-module.exports = gen
+export default gen
