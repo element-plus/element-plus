@@ -91,7 +91,7 @@ $--checkbox-line-height: map.merge(
     }
 
     @each $size in (medium, small, mini) {
-      &.#{$namespace}-checkbox--#{size} {
+      &.#{$namespace}-checkbox--#{$size} {
         padding: map.get($--checkbox-bordered-padding, $size);
         border-radius: map.get($--button-border-radius, $size);
         height: map.get($--checkbox-bordered-height, $size);
