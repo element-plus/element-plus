@@ -1,8 +1,9 @@
-/* eslint-disable */
-const path = require('path')
+import path from 'path'
+import type { Plugin } from 'rollup'
 
-module.exports = () => {
+export default function entryPlugin(): Plugin {
   return {
+    name: 'element-plus-entry-plugin',
     transform(code, id) {
       if (id.includes('packages')) {
         return {

@@ -1,8 +1,7 @@
-/* eslint-disable */
-const chalk = require('chalk')
+import chalk from 'chalk'
 
 
-module.exports = async function reporter(opt, outputOptions, info) {
+export default async function reporter(opt, outputOptions, info) {
   const values = [
     // ...(outputOptions.file || outputOptions.dest
     //   ? [
@@ -10,11 +9,11 @@ module.exports = async function reporter(opt, outputOptions, info) {
     //       outputOptions.file || outputOptions.dest,
     //     )}`,
     //   ]
-      // :
-      info.fileName
-        ? [`${outputOptions.file.split('packages/').pop()}`]
-        : [],
-      // )
+    // :
+    info.fileName
+      ? [`${outputOptions.file.split('packages/').pop()}`]
+      : [],
+    // )
     // ...(info.bundleSizeBefore
     //   ? [
     //     `${value(info.bundleSize)} (was ${value(
@@ -25,7 +24,7 @@ module.exports = async function reporter(opt, outputOptions, info) {
     //     })`,
     //   ]
     //   :
-      [`${info.bundleSize}`],
+    [`${info.bundleSize}`],
     // ),
     ...(info.minSize
       ?
@@ -39,7 +38,7 @@ module.exports = async function reporter(opt, outputOptions, info) {
       //     })`,
       //   ]
       //   :
-        [`${info.minSize}`]
+      [`${info.minSize}`]
       : []),
     // ...(info.gzipSize
     //   ? info.gzipSizeBefore
@@ -68,11 +67,11 @@ module.exports = async function reporter(opt, outputOptions, info) {
   ]
 
   return `${
-      chalk.cyan(chalk.bold(values[0]))
-    }: bundle size ${
-      chalk.yellow(values[1])
-    } -> minified ${
-      chalk.green(values[2])
-    }`
+    chalk.cyan(chalk.bold(values[0]))
+  }: bundle size ${
+    chalk.yellow(values[1])
+  } -> minified ${
+    chalk.green(values[2])
+  }`
 }
 

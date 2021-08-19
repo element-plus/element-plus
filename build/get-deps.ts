@@ -4,7 +4,7 @@
  * @param {PathLike} path path to dependencies
  * @returns {Array<string>}
  */
-module.exports = path => {
+export default path => {
   const pkgJson = require(path)
 
   const { dependencies } = pkgJson

@@ -1,6 +1,4 @@
-/* eslint-disable */
-
-const path = require('path')
+import path from 'path'
 
 const projRoot = path.resolve(__dirname, '../')
 const pkgRoot = path.resolve(projRoot, './packages')
@@ -13,13 +11,16 @@ const epRoot = path.resolve(pkgRoot, './element-plus')
 const utilRoot = path.resolve(pkgRoot, './utils')
 const buildOutput = path.resolve(projRoot, './dist')
 
-exports.projRoot = projRoot
-exports.pkgRoot = pkgRoot
-exports.compRoot = compRoot
-exports.themeRoot = themeRoot
-exports.hookRoot = hookRoot
-exports.directiveRoot = directiveRoot
-exports.localeRoot = localeRoot
-exports.epRoot = epRoot
-exports.utilRoot = utilRoot
-exports.buildOutput = buildOutput
+
+export {
+  projRoot,
+  pkgRoot,
+  compRoot,
+  themeRoot,
+  hookRoot,
+  directiveRoot,
+  localeRoot,
+  epRoot,
+  utilRoot,
+  buildOutput,
+}

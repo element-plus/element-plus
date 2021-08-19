@@ -2596,6 +2596,13 @@
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
 
+"@types/klaw-sync@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@types/klaw-sync/-/klaw-sync-6.0.1.tgz#377f629b0fee644575b5b079121020ffa5f35d35"
+  integrity sha512-hqWJe0mMSxC5fiQjCJzziko2Xxh2HjDAPZNk7Zwv+Uo56XlViXR6p1RzjUCQvFvLd+IXEGeyVHTaAibrbyU1Rw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/lodash@^4.14.161":
   version "4.14.161"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.161.tgz#a21ca0777dabc6e4f44f3d07f37b765f54188b18"
@@ -5048,7 +5055,7 @@ cross-spawn@^6.0.0, cross-spawn@^6.0.5:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-cross-spawn@^7.0.0, cross-spawn@^7.0.1, cross-spawn@^7.0.2:
+cross-spawn@^7.0.0, cross-spawn@^7.0.1, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
   dependencies:
@@ -5941,6 +5948,25 @@ es6-weak-map@^2.0.1:
     es6-iterator "^2.0.3"
     es6-symbol "^3.1.1"
 
+esbuild-node-loader@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/esbuild-node-loader/-/esbuild-node-loader-0.3.1.tgz#fa761e020eff316549ddc3c51a25ec9ffc159ff2"
+  integrity sha512-75xPOySulti9R5LwYOMmKiwHyXGr/f89I7UkHolLxRqeBiUNqcyCmNTjv+fO2WV9G3f7LDKVZJlbWoYh5LBpfQ==
+  dependencies:
+    esbuild "^0.12.6"
+
+esbuild-register@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/esbuild-register/-/esbuild-register-3.0.0.tgz#874156f95cac7c1720d6d24cbd78c599bf35ac74"
+  integrity sha512-No7U3ZUd6gPrrC6gqdb3XFcf2lNqzn8nvQXcgcyOl8szMVuN6YUvOplnmakxWyogI9d8SiJMl0uzBzJck+Aoxw==
+  dependencies:
+    jsonc-parser "^3.0.0"
+
+esbuild@^0.12.20, esbuild@^0.12.6:
+  version "0.12.21"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.12.21.tgz#7ff32a9ac73ce4310f9cb61ea4c3da9756570d46"
+  integrity sha512-7hyXbU3g94aREufI/5nls7Xcc+RGQeZWZApm6hoBaFvt2BPtpT4TjFMQ9Tb1jU8XyBGz00ShmiyflCogphMHFQ==
+
 esbuild@^0.12.5:
   version "0.12.5"
   resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.12.5.tgz#36076a6bc1966ba2741981d30512e95e8aaff495"
@@ -6057,6 +6083,16 @@ eslint@^7.7.0:
     table "^5.2.3"
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
+
+esno@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/esno/-/esno-0.9.1.tgz#106acb342a98b5e8d2a7cf528f6a149753a25e01"
+  integrity sha512-3pnZ7fI0+8R7kJSTwuOfzAvXNXun7eaZsTSE5avkNRrxTokq3Jm32gaah3Zgl5opHQ1K9SJasoQQySzmfN8alw==
+  dependencies:
+    cross-spawn "^7.0.3"
+    esbuild "^0.12.20"
+    esbuild-node-loader "^0.3.1"
+    esbuild-register "^3.0.0"
 
 espree@^6.2.1:
   version "6.2.1"
