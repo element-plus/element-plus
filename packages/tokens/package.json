@@ -1,6 +1,6 @@
 {
   "name": "@element-plus/tokens",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "peerDependencies": {
     "vue": "3.1.1"
@@ -30,5 +30,5 @@
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },
-  "gitHead": "cdeb5a307058d0a2ceccc2848329a5c36e7607bb"
+  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }
