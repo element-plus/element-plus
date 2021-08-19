@@ -1,7 +1,7 @@
 <template>
   <div
     v-resize="update"
-    :class="['el-tabs__active-bar', `is-${ rootTabs.props.tabPosition }`]"
+    :class="['el-tabs__active-bar', `is-${rootTabs.props.tabPosition}`]"
     :style="barStyle"
   ></div>
 </template>
@@ -65,11 +65,8 @@ export default defineComponent({
       const transform = `translate${capitalize(sizeDir)}(${offset}px)`
       style[sizeName] = `${tabSize}px`
       style.transform = transform
-<<<<<<< HEAD
-=======
       style.msTransform = transform
       ;(style as any).webkitTransform = transform
->>>>>>> refactor(project): fix package path for the rest packages (#2824)
 
       return style
     }
@@ -82,11 +79,7 @@ export default defineComponent({
 
     watch(() => props.tabs, () => {
       nextTick(() => {
-<<<<<<< HEAD
         update()
-=======
-        barStyle.value = getBarStyle() as CSSProperties
->>>>>>> refactor(project): fix package path for the rest packages (#2824)
       })
     })
 
