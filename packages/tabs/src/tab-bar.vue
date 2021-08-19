@@ -43,11 +43,11 @@ export default defineComponent({
           return false
         }
         if (!tab.active) {
-          offset += $el[`client${capitalize(sizeName)}`]
           return true
         } else {
           tabSize = $el[`client${capitalize(sizeName)}`]
-
+          const position = sizeDir === 'x' ? 'left' : 'top'
+          offset = $el.getBoundingClientRect()[position] - $el.parentElement.getBoundingClientRect()[position]
           const tabStyles = window.getComputedStyle($el)
 
           if (sizeName === 'width') {
