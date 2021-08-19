@@ -844,8 +844,17 @@ $--card: map.merge(
       var(--el-border-color-light, map.get($--border-color, 'lighter')),
     'border-radius': 4px,
     'padding': 20px,
+    'background-color': var(--el-color-white),
   ),
   $--card
+);
+
+$--dark-card: () !default;
+$--dark-card: map.merge(
+  (
+    'background-color': var(--el-color-black),
+  ),
+  $--dark-card
 );
 
 /* Slider
