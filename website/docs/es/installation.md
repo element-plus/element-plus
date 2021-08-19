@@ -1,11 +1,46 @@
 ## Instalación
 
-### npm
+### npm/yarn
 
-Instalar mediante npm es la forma recomendada ya que se integra fácilmente con [webpack](https://webpack.js.org/).
+Instalar mediante npm es la forma recomendada ya que se integra fácilmente con [Vite](https://vitejs.dev), [webpack](https://webpack.js.org/).
 
+
+#### Npm
 ```shell
 npm install element-plus --save
+```
+
+#### Yarn
+```shell
+yarn add element-plus
+```
+
+### CDN
+
+También puede introducir ElementPlus a través de **CDN**, con diferentes proveedores hay diferentes maneras de introducir ElementPlus, tomaremos [unpkg](https://unpkg.com) y [jsdelivr](https://jsdelivr.com) como ejemplo aquí. También puedes usar otros proveedores de **CDN** como quieras
+
+Introduzca ElementPlus añadiendo la etiqueta de referencia de recursos en su etiqueta **head** en su archivo de entrada.
+
+#### Using Unpkg
+
+```html
+<!-- introduce styles -->
+<link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+<!-- introduce Vue -->
+<script src="//unpkg.com/vue@next"></script>
+<!-- introduce ElementPlus -->
+<script src="//unpkg.com/element-plus"></script>
+```
+
+#### Using JsDelivr
+
+```html
+<!-- introduce styles -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css">
+<!-- introduce Vue -->
+<script src="//cdn.jsdelivr.net/npm/vue@next"></script>
+<!-- introduce ElementPlus -->
+<script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 ```
 
 ### CDN
@@ -31,4 +66,4 @@ Si esta usando un CDN, una página con Hello-World es fácil con Element Plus. [
   (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-Si esta usando npm y desea combinarlo con webpack, por favor continué a la siguiente página: [Quick Start](/#/es/component/quickstart)
+Si esta usando npm y desea combinarlo con bundler, por favor continué a la siguiente página: [Quick Start](/#/es/component/quickstart)

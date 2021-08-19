@@ -1,21 +1,42 @@
 ## インストール
 
-### npm
-npmでインストールが推奨されており、[webpack](https://webpack.js.org/) でシームレスに動作します。
+### npm/yarn
+npmでインストールが推奨されており、[Vite](https://vitejs.dev)、[webpack](https://webpack.js.org/) でシームレスに動作します。
 
+#### Npm
 ```shell
 npm install element-plus --save
+```
+#### Yarn
+```shell
+yarn add element-plus
 ```
 
 ### CDN
 
-[unpkg.com/element-plus](https://unpkg.com/element-plus/) から最新版を手に入れ、ページに JavascriptとCSSファイルをインポートすれば動作します。
+ElementPlusを**CDN**経由でフルに持ち込むこともできますが、**CDN**のプロバイダーによって異なります。ここでは[unpkg](https://unpkg.com)と[jsdelivr](https://jsdelivr.com)を例に挙げています。また、他の**CDN**プロバイダーを利用することもできます。
+
+エントリーファイルの**head**タグにElementPlusへのリソース参照を追加することで
+#### Unpkgの使用
 
 ```html
-<!-- import CSS -->
-<link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
-<!-- import JavaScript -->
-<script src="https://unpkg.com/element-plus/lib/index.full.js"></script>
+<!-- スタイルの紹介 -->
+<link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+<!-- Vueの紹介 -->
+<script src="//unpkg.com/vue@next"></script>
+<!-- ElementPlusの紹介 -->
+<script src="//unpkg.com/element-plus"></script>
+```
+
+#### JsDelivrの使用
+
+```html
+<!-- スタイルの紹介 -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css">
+<!-- Vueの紹介 -->
+<script src="//cdn.jsdelivr.net/npm/vue@next"></script>
+<!-- ElementPlusの紹介 -->
+<script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 ```
 
 :::tip
@@ -30,4 +51,4 @@ CDNを使う場合、Elementでハローワールドを表示するのは簡単�
   (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-npmを使っていてwebpackを適用したい場合は、次のページに進んでください。: [Quick Start](/#/jp/component/quickstart).
+npmを使っていてバンドルを適用したい場合は、次のページに進んでください。: [Quick Start](/#/jp/component/quickstart).

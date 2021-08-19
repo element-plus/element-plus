@@ -1,28 +1,44 @@
 ## Installation
 
-### npm
+### npm/yarn
 
-Installing with npm is recommended and it works seamlessly with [webpack](https://webpack.js.org/).
+Installing with npm is recommended and it works seamlessly with [Vite](https://vitejs.dev), [webpack](https://webpack.js.org/).
 
+#### Npm
 ```shell
 npm install element-plus --save
 ```
 
-### CDN
-
-Get the latest version from [unpkg.com/element-plus](https://unpkg.com/element-plus/) , and import JavaScript and CSS file in your page.
-
-```html
-<!-- import CSS -->
-<link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
-<!-- import JavaScript -->
-<script src="https://unpkg.com/element-plus/lib/index.full.js"></script>
+#### Yarn
+```shell
+yarn add element-plus
 ```
 
-:::tip
-We recommend our users to lock Element Plus's version when using CDN. Please refer to [unpkg.com](https://unpkg.com) for more information.
-:::
+### CDN
+Vous pouvez également introduire ElementPlus via **CDN**, avec différents fournisseurs il y a différentes manières d'introduire ElementPlus, nous prendrons [unpkg](https://unpkg.com) et [jsdelivr](https://jsdelivr.com) comme exemple ici. Vous pouvez également utiliser d'autres fournisseurs **CDN** comme vous le souhaitez.
 
+Présentez ElementPlus en ajoutant une balise de référence aux ressources dans la balise **head** de votre fichier d'entrée.
+#### Using Unpkg
+
+```html
+<!-- introduce styles -->
+<link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+<!-- introduce Vue -->
+<script src="//unpkg.com/vue@next"></script>
+<!-- introduce ElementPlus -->
+<script src="//unpkg.com/element-plus"></script>
+```
+
+#### Using JsDelivr
+
+```html
+<!-- introduce styles -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css">
+<!-- introduce Vue -->
+<script src="//cdn.jsdelivr.net/npm/vue@next"></script>
+<!-- introduce ElementPlus -->
+<script src="//cdn.jsdelivr.net/npm/element-plus"></script>
+```
 ### Hello world
 
 If you are using CDN, a hello-world page is easy with Element Plus. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
@@ -32,4 +48,4 @@ If you are using CDN, a hello-world page is easy with Element Plus. [Online Demo
   (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-If you are using npm and wish to apply webpack, please continue to the next page: [Quick Start](/#/en-US/component/quickstart).
+If you are using npm and wish to apply bundler, please continue to the next page: [Quick Start](/#/en-US/component/quickstart).

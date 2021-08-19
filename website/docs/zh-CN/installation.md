@@ -1,22 +1,45 @@
 ## 安装
 
-### npm 安装
+### npm/yarn 安装
 
-推荐使用 npm 的方式安装，它能更好地和 [webpack](https://webpack.js.org/) 打包工具配合使用。
+推荐使用 npm 的方式安装，它能更好地和 [Vite](https://vitejs.dev), [webpack](https://webpack.js.org/) 打包工具配合使用。
 
+#### Npm
 ```shell
 npm install element-plus --save
 ```
 
+#### Yarn
+```shell
+yarn add element-plus
+```
+
 ### CDN
 
-目前可以通过 [unpkg.com/element-plus](https://unpkg.com/element-plus/) 获取到最新版本的资源，在页面上引入 js 和 css 文件即可开始使用。
+你也可以通过 **CDN** 的方式全量引入 ElementPlus，根据不同的 **CDN** 提供商有不同的引入方式，我们在这里以 [unpkg](https://unpkg.com) 和 [jsdelivr](https://jsdelivr.com) 举例，
+你也可以使用其它的 **CDN** 供应商。
+
+通过在你的入口文件的 **head** 标签上添加资源引用 ElementPlus
+#### 使用 Unpkg
 
 ```html
 <!-- 引入样式 -->
-<link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
+<!-- 引入 Vue -->
+<script src="//unpkg.com/vue@next"></script>
 <!-- 引入组件库 -->
-<script src="https://unpkg.com/element-plus/lib/index.full.js"></script>
+<script src="//unpkg.com/element-plus"></script>
+```
+
+#### 使用 JsDelivr
+
+```html
+<!-- 引入样式 -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css">
+<!-- 引入 Vue -->
+<script src="//cdn.jsdelivr.net/npm/vue@next"></script>
+<!-- 引入组件库 -->
+<script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 ```
 
 :::tip
@@ -32,4 +55,4 @@ npm install element-plus --save
   (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-如果是通过 npm 安装，并希望配合 webpack 使用，请阅读下一节：[快速上手](/#/zh-CN/component/quickstart)。
+如果是通过 npm 安装，并希望配合打包工具使用，请阅读下一节：[快速上手](/#/zh-CN/component/quickstart)。

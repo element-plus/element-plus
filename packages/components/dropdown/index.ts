@@ -8,6 +8,8 @@ import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Dropdown.install = (app: App): void => {
   app.component(Dropdown.name, Dropdown)
+  app.component(DropdownItem.name, DropdownItem)
+  app.component(DropdownMenu.name, DropdownMenu)
 }
 
 Dropdown.DropdownItem = DropdownItem

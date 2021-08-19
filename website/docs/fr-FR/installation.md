@@ -1,11 +1,17 @@
 ## Installation
 
-### NPM
+### npm/yarn
 
-Installer Element Plus via npm est recommandé, il fonctionne parfaitement avec [webpack](https://webpack.js.org/).
+Installer Element Plus via npm est recommandé, il fonctionne parfaitement avec [Vite](https://vitejs.dev), [webpack](https://webpack.js.org/).
 
+#### Npm
 ```shell
 npm install element-plus --save
+```
+
+#### Yarn
+```shell
+yarn add element-plus
 ```
 
 ### CDN
@@ -32,4 +38,4 @@ Si vous utilisez un CDN, une page hello-world peut être obtenue facilement avec
   (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-Si vous utilisez npm et souhaitez ajouter webpack, continuez sur la page suivante: [Démarrer](/#/fr-FR/component/quickstart).
+Si vous utilisez npm et souhaitez ajouter bundler, continuez sur la page suivante: [Démarrer](/#/fr-FR/component/quickstart).
