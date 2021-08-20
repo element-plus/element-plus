@@ -9,19 +9,15 @@ yarn add element-plus
 # 或者
 npm install element-plus
 ```
-## 按需加载
-
-`ElementPlus`的 JS 代码默认支持基于 ES modules 的 tree shaking。当然你也可以通过全量引入来使用 ElementPlus。
-
 ## 使用组件
 
-### 全局注册所有组件
+### 完整引入所有组件
 
 ```typescript
 // main.ts
-
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -30,36 +26,10 @@ app.use(ElementPlus)
 app.mount('#app')
 ```
 
-### 全局注册部分组件
-当你并不需要用到 ElementPlus 提供的所有组件时，你可以通过以下方式来全局注册部分组件，例如：
+### 按需引入组件
 
-创建一个 `plugin.ts(js)` 的文件
-```typescript
-// plugin.ts
+`ElementPlus`的 JS 代码默认支持基于 ES modules 的 tree shaking。直接引入 `import { ElButton } from 'element-plus'` 就会有按需加载的效果。
 
-// 假设我们需要使用 Avatar 和 Button
-import { ElAvatar, ElButton, makeInstaller } from 'element-plus'
-
-const components = [ElAvatar, ElButton]
-
-export default makeInstaller(components)
-```
-
-```typescript
-// main.ts
-// 假设 plugin.ts 和 main.ts 在同一个文件夹下。
-import { createApp } from 'vue'
-import ElementPlusPlugin from './plugin'
-import App from './App.vue'
-
-const app = createApp(App)
-
-app.use(ElementPlusPlugin)
-app.mount('#app')
-
-// 这样你就可以在应用的任何地方使用 `ElAvatar` `ElButton`
-```
-### 就近注册组件
 ```html
 <!-- app.vue -->
 <template>
@@ -131,10 +101,11 @@ export default defineConfig({
 ```
 
 #### 使用 webpack 按需加载样式
-<!-- TODO add documentation -->
+
 如果你使用 webpack 作为构建打包工具，那么你需要先安装 `` 来实现按需加在样式
 
 ```shell
+<!-- TODO add documentation -->
 yarn add vite-plugin-element-plus -D
 # 或
 npm install vite-plugin-element-plus -D
