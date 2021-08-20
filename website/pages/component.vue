@@ -183,9 +183,6 @@ export default {
   .content {
 
     ::v-deep(>) {
-      h3 {
-        margin: 55px 0 20px;
-      }
 
       table {
         border-collapse: collapse;

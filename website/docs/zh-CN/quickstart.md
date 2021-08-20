@@ -2,10 +2,6 @@
 
 本节将介绍如何在项目中使用 ElementPlus。
 
-:::tip
-在开始之前，推荐先学习 [Vue](https://v3.vuejs.org) 和 [ES2015](https://babeljs.io/docs/en/learn/)，并正确安装和配置了 [Node.js v8](https://nodejs.org) 或以上。官方指南假设你已了解关于 HTML、CSS 和 JavaScript 的中级知识，并且已经完全掌握了 [Vue](https://v3.vuejs.org) 全家桶的正确开发方式。如果你刚开始学习前端或者 [Vue](https://v3.vuejs.org)，将 UI 框架作为你的第一步可能不是最好的主意。
-:::
-
 ## 安装 ElementPlus
 通过包管理工具安装 ElementPlus
 ```shell

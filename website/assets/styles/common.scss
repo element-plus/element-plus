@@ -95,20 +95,34 @@ textarea {
 .page-container {
   padding-top: 55px;
 
+  h1 {
+    margin-top: 8px;
+    margin-bottom: 20px;
+    color: rgba(0, 0, 0, .85);
+    font-weight: 500;
+    font-size: 30px;
+  }
+
+  h2, h3, h4, h5, h6 {
+    margin: 1.6em 0 .6em;
+    font-weight: 500;
+    color: rgba(0, 0, 0, .85);
+  }
+
   h2 {
-    font-size: 28px;
+    font-size: 24px;
+    line-height: 36px;
     color: #1f2d3d;
-    margin: 0;
   }
+
   h3 {
-    font-size: 22px;
+    font-size: 18px;
   }
+
   h2,
   h3,
   h4,
   h5 {
-    font-weight: normal;
-    color: #1f2f3d;
 
     &:hover a {
       opacity: 0.4;
@@ -128,7 +142,7 @@ textarea {
 
   p {
     font-size: 14px;
-    color: #5e6d82;
+    color: #303133;
     line-height: 1.5em;
   }
 
@@ -180,5 +194,21 @@ textarea {
 
   #app.is-component .headerWrapper .container {
     padding: 0 12px;
+  }
+}
+
+.element-doc {
+  blockquote {
+    margin: 1em 0;
+    padding-left: .8em;
+    color: #909399;
+    font-size: 90%;
+    border-left: 4px solid #f0f0f0;
+
+    p {
+      color: inherit;
+      margin: 0;
+    }
+
   }
 }
