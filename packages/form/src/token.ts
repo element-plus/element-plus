@@ -3,7 +3,7 @@ import type { Emitter } from 'mitt'
 import type {
   FieldErrorList,
 } from 'async-validator'
-import { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/utils/types'
 
 export interface ElFormContext {
   registerLabelWidth(width: number, oldWidth: number): void
