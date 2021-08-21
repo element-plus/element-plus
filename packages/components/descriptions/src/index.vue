@@ -10,7 +10,7 @@
     </div>
 
     <div class="el-descriptions__body">
-      <table :class="[{'is-bordered': border}, descriptionsSize ? `el-descriptions--${descriptionsSize}` : '']">
+      <table :class="['el-descriptions__table', {'is-bordered': border}, descriptionsSize ? `el-descriptions--${descriptionsSize}` : '']">
         <tbody>
           <template v-for="(row, index) in getRows()" :key="index">
             <el-descriptions-row :row="row" />
