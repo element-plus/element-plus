@@ -96,8 +96,9 @@ export default {
         ElIcon,
         {
           style: {
-            fontSize: '16px',
-            marginLeft: '8px',
+            fontSize: '12px',
+            marginLeft: '4px',
+            marginBottom: '0.5px',
           },
           color: 'inherit',
         },
