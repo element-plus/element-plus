@@ -37,6 +37,8 @@ const internalLinks = [
   'http://127.0.0.1',
   'https://element-plus',
   'http://element-plus',
+  'https://element-plus.gitee.io',
+  'http://element-plus.gitee.io',
 ]
 
 export default {
