@@ -3,12 +3,15 @@
 本节将介绍如何在项目中使用 ElementPlus。
 
 ## 安装 ElementPlus
+
 通过包管理工具安装 ElementPlus
+
 ```shell
 yarn add element-plus
 # 或者
 npm install element-plus
 ```
+
 ## 使用组件
 
 ### 完整引入所有组件
@@ -28,7 +31,7 @@ app.mount('#app')
 
 ### 按需引入组件
 
-`ElementPlus`的 JS 代码默认支持基于 ES modules 的 tree shaking。直接引入 `import { ElButton } from 'element-plus'` 就会有按需加载的效果。
+`ElementPlus`的 JS 代码默认支持基于 ES modules 的 [摇树 tree shaking](https://webpack.js.org/guides/tree-shaking/)。
 
 ```html
 <!-- app.vue -->
@@ -51,14 +54,17 @@ export default defineComponent({
 ```
 
 ### 样式的引入
-我们强烈建议直接引入全部的样式文件，虽然这看起来会增大整个应用的体积，但这样做可以避免引入额外的打包工具插件（减少负担），你还可以通过 [CDN](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/) 的方式来加载样式文件，从而使得你的应用加载更快。
+
+我们**强烈建议直接引入全部的样式文件**，虽然这看起来会增大整个应用的体积，但这样做可以避免引入额外的打包工具插件（减少负担），你还可以通过 [CDN](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/) 的方式来加载样式文件，从而使得你的应用加载更快。
 
 通过 JS 的方式引入
+
 ```typescript
 import 'element-plus/dist/index.css'
 ```
 
 通过 html 的头文件引入
+
 ```html
 <!-- index.html -->
 <head>
@@ -66,12 +72,11 @@ import 'element-plus/dist/index.css'
 </head>
 ```
 
-
 如果你想让样式也按需引入，你可以使用对应工具提供的插件来引用。
 
-#### 使用 Vite 按需加载样式
+#### 使用 vite 按需加载样式
 
-如果你使用 Vite 作为构建打包工具，那么你需要先安装 `vite-plugin-element-plus` 来实现按需加载样式
+如果你使用 [vite](https://vitejs.dev) 作为构建打包工具，那么你需要先安装 `vite-plugin-element-plus` 来实现按需加载样式
 
 ```shell
 yarn add vite-plugin-element-plus -D
@@ -112,6 +117,7 @@ npm install vite-plugin-element-plus -D
 ```
 
 ## 快捷搭建项目模板
+
 ### 使用 vue-cli@4.5
 
 我们为新版的 vue-cli 准备了相应的 [Element Plus 插件](https://github.com/element-plus/vue-cli-plugin-element-plus)，你可以用它们快速地搭建一个基于 Element Plus 的项目。

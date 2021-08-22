@@ -1,6 +1,6 @@
 # 安装 ElementPlus
 
-### 环境支持
+## 环境支持
 
 - 现代浏览器
 
@@ -10,13 +10,13 @@
 
 > 由于 Vue3 不再支持 IE11，故而 ElementPlus 也不支持 IE11 及之前版本。
 
-### 当前最新版本
+## 当前最新版本
 
 ElementPlus 目前还处于快速开发迭代中：
 
 [![ElementPlus version badge](https://img.shields.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
 
-### 通过 npm 或者 yarn 安装
+## 通过 npm 或者 yarn 安装
 
 **我们推荐使用包管理器的方式安装**，它能更好地和 [vite](https://vitejs.dev), [webpack](https://webpack.js.org/) 打包工具配合使用。
 
@@ -30,14 +30,14 @@ $ yarn add element-plus
 
 如果你的网络环境不佳，推荐使用 [cnpm](https://github.com/cnpm/cnpm) 或使用 [阿里巴巴镜像](https://registry.npm.taobao.org)
 
-### 浏览器直接引入
+## 浏览器直接引入
 
 通过浏览器 HTML 标签的方式直接引入 ElementPlus, 在全局可以使用 `ElementPlus`
 
 通过 **CDN** 的方式全量引入 `ElementPlus`，根据不同的 **CDN** 提供商有不同的引入方式，我们在这里以 [unpkg](https://unpkg.com) 和 [jsdelivr](https://jsdelivr.com) 举例，
 你也可以使用其它的 **CDN** 供应商。
 
-### 使用 unpkg
+## 使用 unpkg
 
 ```html
 <head>
@@ -50,7 +50,7 @@ $ yarn add element-plus
 </head>
 ```
 
-### 使用 jsDelivr
+## 使用 jsDelivr
 
 ```html
 <head>
@@ -67,7 +67,7 @@ $ yarn add element-plus
 我们建议使用 **CDN** 引入 `ElementPlus` 的用户在链接地址上锁定版本，以免将来 `ElementPlus` 升级时受到非兼容性更新的影响。锁定版本的方法请查看 [unpkg.com](https://unpkg.com)。
 :::
 
-### Hello world
+## Hello world
 
 通过 **CDN** 的方式我们可以很容易地使用 `ElementPlus` 写出一个 Hello world 页面。[在线演示](https://codepen.io/iamkun/pen/YzWMaVr)
 

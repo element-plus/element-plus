@@ -228,8 +228,10 @@ textarea {
   }
 
   .element-plus__link {
+
     .el-icon {
-      vertical-align: middle;
+      vertical-align: text-top;
+      line-height: 1.5em;
     }
   }
 }

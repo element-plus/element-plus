@@ -7,6 +7,7 @@ import type { SFCWithInstall } from '@element-plus/utils/types'
 
 Descriptions.install = (app: App): void => {
   app.component(Descriptions.name, Descriptions)
+  app.component(ElDescriptionsItem.name, ElDescriptionsItem)
 }
 
 Descriptions.DescriptionsItem = DescriptionsItem

@@ -1,9 +1,9 @@
 <script lang="ts">
-import { h, resolveComponent } from 'vue'
+import { h } from 'vue'
 // Components
 import { ElIcon } from 'element-plus'
 
-const externalLink = () =>
+const ExternalLink = () =>
   h(
     'svg',
     {
@@ -28,15 +28,13 @@ const externalLink = () =>
     ],
   )
 
-const skipped = [
-  'https://www.npmjs.org/package/element-plus',
-]
+const skipped = ['https://www.npmjs.org/package/element-plus']
 
 const internalLinks = [
   'http://localhost',
   'http://127.0.0.1',
-  'https://element-plus',
-  'http://element-plus',
+  'https://element-plus.org',
+  'http://element-plus.org',
   'https://element-plus.gitee.io',
   'http://element-plus.gitee.io',
 ]
@@ -52,13 +50,11 @@ export default {
   },
   computed: {
     passThrough() {
-      return this.isExternal
-        ? { href: this.href, target: '_blank', rel: 'noopener noreferrer' }
-        : {
-          to: {
-            path: this.href,
-          },
-        }
+      return {
+        href: this.href,
+        target: this.isInternal ? null : '_blank',
+        rel: 'noopener noreferrer',
+      }
     },
     isInternal() {
       return (
@@ -85,38 +81,38 @@ export default {
   },
   render() {
     const children = []
-    if (!this.isExternal && !this.passThrough.to) {
-      return null
-    }
+
     children.push(
       h('span', { class: 'element-plus__link-text' }, [this.$slots.default()]),
     )
-    !this.isSkipped && children.push(
-      h(
-        ElIcon,
-        {
-          style: {
-            fontSize: '12px',
-            marginLeft: '4px',
-            marginBottom: '0.5px',
+    !this.isSkipped &&
+      this.isExternal &&
+      children.push(
+        h(
+          ElIcon,
+          {
+            style: {
+              fontSize: '14px',
+              marginLeft: '4px',
+            },
+            color: 'inherit',
           },
-          color: 'inherit',
-        },
-        {
-          default: () => [this.isExternal ? h(externalLink) : null],
-        },
-      ),
-    )
+          {
+            default: () => [h(ExternalLink)],
+          },
+        ),
+      )
     const props = {
       class: 'element-plus__link',
       ...this.passThrough,
       onClick: this.onClick,
     }
-    return this.isExternal
-      ? h('a', props, children)
-      : h(resolveComponent('router-link'), props, {
-        default: () => children,
-      })
+
+    return h('a', props, children)
+    // ?
+    // : h(resolveComponent('router-link'), props, {
+    //   default: () => children,
+    // })
   },
 }
 </script>
