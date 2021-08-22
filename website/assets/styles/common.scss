@@ -198,6 +198,22 @@ textarea {
 }
 
 .element-doc {
+  .example-code {
+    position: relative;
+
+    .lang-mark {
+      position: absolute;
+      bottom: .5rem;
+      color: #909399;
+      font-family: inherit;
+      font-size: .7rem;
+      font-weight: 700;
+      right: 1rem;
+      text-transform: uppercase;
+      user-select: none;
+    }
+  }
+
   blockquote {
     margin: 1em 0;
     padding-left: .8em;
@@ -209,6 +225,15 @@ textarea {
       color: inherit;
       margin: 0;
     }
+  }
 
+  .element-plus__link {
+    &-text {
+      vertical-align: baseline;
+    }
+
+    .el-icon {
+      vertical-align: text-bottom;
+    }
   }
 }
