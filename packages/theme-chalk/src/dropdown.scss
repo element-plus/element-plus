@@ -123,8 +123,8 @@
     outline: none;
     &:not(.is-disabled):hover,
     &:focus {
-      background-color: var(--el-dropdown-menuItem-hover-fill);
-      color: var(--el-dropdown-menuItem-hover-color);
+      background-color: map.get($--dropdown, 'menuItem-hover-fill');
+      color: map.get($--dropdown, 'menuItem-hover-color');
     }
 
     i {
