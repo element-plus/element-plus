@@ -166,7 +166,7 @@ export default defineComponent({
     },
     autosize: {
       type: [Boolean, Object] as PropType<AutosizeProp>,
-      default: false,
+      default: false as AutosizeProp,
     },
     autocomplete: {
       type: String,
