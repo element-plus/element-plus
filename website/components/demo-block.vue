@@ -309,7 +309,7 @@ ${this.codepen.style}
 </script>
 <style lang="scss" scoped>
   .demo-block {
-    border: solid 1px #ebebeb;
+    border: solid 1px var(--el-border-color-base);
     border-radius: 3px;
     transition: .2s;
 
@@ -331,7 +331,7 @@ ${this.codepen.style}
 
     .meta {
       background-color: #fafafa;
-      border-top: solid 1px #eaeefb;
+      border-top: solid 1px var(--el-border-color-base);
       overflow: hidden;
       height: 0;
       transition: height .2s;
@@ -340,7 +340,7 @@ ${this.codepen.style}
     .description {
       padding: 20px;
       box-sizing: border-box;
-      border: solid 1px #ebebeb;
+      border: solid 1px var(--el-border-color-base);
       border-radius: 3px;
       font-size: 14px;
       line-height: 22px;
@@ -385,7 +385,7 @@ ${this.codepen.style}
     }
 
     .demo-block-control {
-      border-top: solid 1px #eaeefb;
+      border-top: solid 1px var(--el-border-color-base);
       height: 44px;
       box-sizing: border-box;
       background-color: #fff;

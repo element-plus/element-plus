@@ -6,7 +6,7 @@
 .demo-datetime-picker .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px #eff2f6;
+  border-right: solid 1px var(--el-border-color-base);
   flex: 1;
   &:last-child {
     border-right: none;

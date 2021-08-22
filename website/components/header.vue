@@ -273,7 +273,7 @@ export default {
         top: calc(50% - 8px);
         width: 1px;
         height: 16px;
-        background: #ebebeb;
+        background: var(--el-border-color-base);
       }
     }
 

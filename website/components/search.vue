@@ -174,7 +174,7 @@ export default {
     }
 
     li {
-      border-bottom: solid 1px #ebebeb;
+      border-bottom: solid 1px var(--el-border-color-base);
 
       &:last-child {
          border-bottom: none;

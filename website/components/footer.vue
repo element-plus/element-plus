@@ -152,7 +152,7 @@ export default {
     box-shadow: 0 0 11px 0 rgba(174, 187, 211, 0.24);
 
     .footer-popover-title {
-      border-bottom: solid 1px #eaeefb;
+      border-bottom: solid 1px var(--el-border-color-base);
       height: 30px;
       line-height: 30px;
       text-align: center;

@@ -246,7 +246,7 @@ export default {
   height: 430px;
   width: 100%;
   background:#ffffff;
-  border:1px solid #eaeefb;
+  border:1px solid var(--el-border-color-base);
   border-radius:5px;
   box-sizing: border-box;
   text-align: center;
@@ -276,7 +276,7 @@ export default {
     color: #409EFF;
     text-align: center;
     border: 0;
-    border-top: 1px solid #eaeefb;
+    border-top: 1px solid var(--el-border-color-base);
     padding: 0;
     cursor: pointer;
     width: 100%;

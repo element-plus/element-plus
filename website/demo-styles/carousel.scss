@@ -23,7 +23,7 @@
 
 .demo-carousel .#{$namespace}-carousel__item {
   h3 {
-    color: #fff;
+    color: var(--el-color-white);
     font-size: 18px;
     line-height: 300px;
     margin: 0;
