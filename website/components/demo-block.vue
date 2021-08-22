@@ -344,7 +344,7 @@ ${this.codepen.style}
       border-radius: 3px;
       font-size: 14px;
       line-height: 22px;
-      color: #666;
+      color: var(--el-text-color-regular);
       word-break: break-word;
       margin: 10px;
       background-color: #fff;

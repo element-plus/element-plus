@@ -175,7 +175,7 @@ export default {
 
   .name {
     font-weight: bold;
-    color: #666;
+    color: var(--el-text-color-regular);
   }
 
   img {
@@ -191,7 +191,7 @@ export default {
   p {
     margin: 0;
     line-height: 1.8;
-    color: #999;
+    color: var(--el-text-color-secondary);
     font-size: 14px;
   }
 }

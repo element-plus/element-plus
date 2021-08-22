@@ -26,7 +26,7 @@
     .sub-title {
       margin-bottom: 10px;
       font-size: 14px;
-      color: #8492a6;
+      color: var(--el-text-color-secondary);
     }
 
     .#{$namespace}-col:not(:last-child) {

@@ -231,7 +231,7 @@ export default {
     .algolia-search-empty {
       margin: 5px 0;
       text-align: center;
-      color: #999;
+      color: var(--el-text-color-secondary);
     }
   }
 </style>

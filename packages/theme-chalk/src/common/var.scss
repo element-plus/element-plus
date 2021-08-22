@@ -312,7 +312,7 @@ $--select: map.merge(
     'font-size': var(--el-font-size-base),
     'close-hover-color': var(--el-text-color-secondary),
     'input-color': var(--el-text-color-placeholder),
-    'multiple-input-color': #666,
+    'multiple-input-color': var(--el-text-color-regular),
     'input-focus-border-color': var(--el-color-primary),
     'input-font-size': 14px,
   ),
@@ -346,7 +346,7 @@ $--select-dropdown: map.merge(
   (
     'background': var(--el-color-white),
     'shadow': var(--el-box-shadow-light),
-    'empty-color': #999,
+    'empty-color': var(--el-text-color-secondary),
     'max-height': 274px,
     'padding': 6px 0,
     'empty-padding': 10px 0,

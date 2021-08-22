@@ -182,7 +182,7 @@ Vous pouvez choisir de déclencher le menu au moment du clic, ou en passant la s
   }
   .demonstration {
     display: block;
-    color: #8492a6;
+    color: var(--el-text-color-secondary);
     font-size: 14px;
     margin-bottom: 20px;
   }

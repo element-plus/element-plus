@@ -80,7 +80,7 @@ export default {
       a {
         display: block;
         padding: 10px 15px;
-        color: #333;
+        color: var(--el-text-color-primary);
       }
       &:hover a {
         color: #409EFF;
@@ -89,7 +89,7 @@ export default {
     .heading {
       font-size: 24px;
       margin-bottom: 60px;
-      color: #333;
+      color: var(--el-text-color-primary);
     }
     .timeline {
       padding: 0;
@@ -121,7 +121,7 @@ export default {
           li::before {
             content: '';
             circle: 4px #fff;
-            border: solid 1px #333;
+            border: solid 1px var(--el-text-color-primary);
             margin-right: -12px;
             display: inline-block;
             vertical-align: middle;
@@ -133,11 +133,11 @@ export default {
         list-style: none;
         padding-left: 20px;
         padding-bottom: 5px;
-        color: #333;
+        color: var(--el-text-color-primary);
         word-break: break-all;
         &:before {
           content: '';
-          circle: 6px #333;
+          circle: 6px var(--el-text-color-primary);
           transform: translateX(-20px);
           display: inline-block;
           vertical-align: middle;
@@ -153,14 +153,14 @@ export default {
         padding: 15px 30px;
         border-bottom: 1px solid #ddd;
         font-size: 20px;
-        color: #333;
+        color: var(--el-text-color-primary);
         font-weight: bold;
         a {
           opacity: 1;
           font-size: 20px;
           float: none;
           margin-left: 0;
-          color: #333;
+          color: var(--el-text-color-primary);
         }
       }
       h4 {
@@ -180,7 +180,7 @@ export default {
         font-style: normal;
         top: 23px;
         font-size: 16px;
-        color: #666;
+        color: var(--el-text-color-regular);
       }
     }
   }

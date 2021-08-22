@@ -226,7 +226,7 @@ export default {
       font-weight: normal;
 
       a {
-        color: #333;
+        color: var(--el-text-color-primary);
         text-decoration: none;
         display: block;
       }
