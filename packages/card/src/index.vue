@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ElCard',
@@ -19,7 +19,7 @@ export default defineComponent({
       default: '',
     },
     bodyStyle: {
-      type: [String, Object, Array],
+      type: [String, Object, Array] as PropType<string | Record<string, any> | any[]>,
       default: '',
     },
     shadow: {
