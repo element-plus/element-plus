@@ -18,7 +18,8 @@ ElementPlus 目前还处于快速开发迭代中：
 
 ## 通过 npm 或者 yarn 安装
 
-**我们推荐使用包管理器的方式安装**，它能更好地和 [vite](https://vitejs.dev), [webpack](https://webpack.js.org/) 打包工具配合使用。
+**我们推荐使用包管理器的方式安装**，它能更好地和 [vite](https://vitejs.dev), [webpack](https://webpack.js.org/)
+打包工具配合使用。
 
 ```shell
 $ npm install element-plus --save
@@ -34,7 +35,8 @@ $ yarn add element-plus
 
 通过浏览器 HTML 标签的方式直接引入 ElementPlus, 在全局可以使用 `ElementPlus`
 
-通过 **CDN** 的方式全量引入 `ElementPlus`，根据不同的 **CDN** 提供商有不同的引入方式，我们在这里以 [unpkg](https://unpkg.com) 和 [jsdelivr](https://jsdelivr.com) 举例，
+通过 **CDN** 的方式全量引入 `ElementPlus`，根据不同的 **CDN** 提供商有不同的引入方式，我们在这里以
+[unpkg](https://unpkg.com) 和[jsdelivr](https://jsdelivr.com) 举例，
 你也可以使用其它的 **CDN** 供应商。
 
 ## 使用 unpkg
@@ -64,7 +66,8 @@ $ yarn add element-plus
 ```
 
 :::tip
-我们建议使用 **CDN** 引入 `ElementPlus` 的用户在链接地址上锁定版本，以免将来 `ElementPlus` 升级时受到非兼容性更新的影响。锁定版本的方法请查看 [unpkg.com](https://unpkg.com)。
+我们建议使用 **CDN** 引入 `ElementPlus` 的用户在链接地址上锁定版本，以免将来 `ElementPlus` 升级时受到非兼容性更新的影响。锁定版本的方法请查看
+[unpkg.com](https://unpkg.com)。
 :::
 
 ## Hello world

@@ -1,24 +1,27 @@
-# Install ElementPlus
+# Installing ElementPlus
 
-## Environment Support
+## Environment
 
-- Modern browsers
+- Modern browser
 
 | ![IE](https://cdn.jsdelivr.net/npm/@browser-logos/edge/edge_32x32.png) | ![Firefox](https://cdn.jsdelivr.net/npm/@browser-logos/firefox/firefox_32x32.png) | ![Chrome](https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_32x32.png) | ![Safari](https://cdn.jsdelivr.net/npm/@browser-logos/safari/safari_32x32.png) |
 | --- | --- | --- | --- |
 | Edge | last 2 versions | last 2 versions | last 2 versions |
 
-> ElementPlus **will not support IE11 since Vue3 dropped support for IE 11**
+> Since Vue3 no longer supports IE11, ElementPlus does not support IE11 and previous
+versions.
 
-## Current version
+## Current latest version
 
-ElementPlus is still under fast iteration, the current version is:
+ElementPlus is currently in a rapid development iteration:
 
 [![ElementPlus version badge](https://img.shields.io/npm/v/element-plus.svg?style=flat-square)](https://www.npmjs.org/package/element-plus)
 
-### installation via npm or yarn
+## Install via npm or yarn
 
-**It is recommended to install ElementPlus via package managers**，therefor it can be integrated with [vite](https://vitejs.dev) and [webpack](https://webpack.js.org/)
+**We recommend using the package manager to install ElementPlus**,
+so that you can utilize bundlers like [vite](https://vitejs.dev) and
+[webpack](https://webpack.js.org/).
 
 ```shell
 $ npm install element-plus --save
@@ -28,52 +31,60 @@ $ npm install element-plus --save
 $ yarn add element-plus
 ```
 
-if you are experiencing bad network, it is recommended using a mirror registry.
+If your network environment is not good, it is recommended to use a mirror registry
 
-### Using directly in browsers
+## Browser direct introducing
 
-By importing ElementPlus via HTML tag, you can access the global variable `ElementPlus`
+Directly import ElementPlus through browser HTML tags, and use `ElementPlus` globally
 
-You can import `ElementPlus` via **CDN** with different ways based on your **CDN** vendor, we will use
-[unpkg](https://unpkg.com) and [jsdelivr](https://jsdelivr.com) as examples, you can also choose other **CDN** vendors per your needs.
+Introduce `ElementPlus` in full through **CDN**. According to different **CDN**
+providers, there are different introduction methods. Here we use
+[unpkg](https://unpkg.com) and[jsdelivr](https://jsdelivr.com) For example,
+You can also use other **CDN** providers.
 
-### Using unpkg
+## Use unpkg
 
 ```html
 <head>
-  <!-- import ElementPlus style sheets -->
+  <!-- Introduce style -->
   <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css">
-  <!-- import Vue -->
+  <!-- Introduce Vue -->
   <script src="//unpkg.com/vue@next"></script>
-  <!-- import ElementPlus -->
+  <!-- Introduce component library -->
   <script src="//unpkg.com/element-plus"></script>
 </head>
 ```
 
-### Using jsDelivr
+## Use jsDelivr
 
 ```html
 <head>
-  <!-- import ElementPlus style sheets -->
+  <!-- Introduce style -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css">
-  <!-- import Vue -->
+  <!-- Introduce Vue -->
   <script src="//cdn.jsdelivr.net/npm/vue@next"></script>
-  <!-- import ElementPlus -->
+  <!-- Introduce component library -->
   <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 </head>
 ```
 
 :::tip
-It is recommended that to import `ElementPlus` with a specific version to avoid breaking change if you are using **CDN**, you can checkout how to lock the version in your **CDN** providers manual page.
+We recommend using **CDN** to introduce `ElementPlus` users to lock the version
+on the link address, so as not to be affected by incompatible updates when `ElementPlus`
+is upgraded in the future. Please check [unpkg.com](https://unpkg.com) for
+the method to lock the version.
 :::
 
 ## Hello world
 
-With **CDN** we can easily write a **Hello world** page with `ElementPlus`. [Online demo](https://codepen.io/iamkun/pen/YzWMaVr)
+With **CDN**, we can easily use `ElementPlus` to
+write a Hello world page. [Online Demo](https://codepen.io/iamkun/pen/YzWMaVr)
 
-<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+<iframe height="469" style="width: 100%;" scrolling="no" title="YzWMaVr" src="https://codepen.io/iamkun/embed/YzWMaVr?height=469&theme-id=light&default -tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/iamkun/pen/YzWMaVr'>YzWMaVr</a> by iamkun
   (<a href='https://codepen.io/iamkun'>@iamkun</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-If you are using **npm/yarn**, and you wish to use `ElementPlus` with bundler, please read the next chapter [quick start](/#/en-US/component/quickstart).
+If you are installing via npm / yarn and want to use it with
+a packaging tool, please read the
+next section: [Quick Start](/#/en-US/component/quickstart).
