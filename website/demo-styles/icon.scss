@@ -19,21 +19,21 @@ i.no-inherit {
   overflow: hidden;
   list-style: none;
   padding: 0 !important;
-  border: solid 1px var(--el-border-color-base);
+  border-top: solid 1px var(--el-border-color-base);
+  border-left: solid 1px var(--el-border-color-base);
   border-radius: 4px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 }
+
 .icon-list li {
-  float: left;
-  width: 16.66%;
   text-align: center;
   height: 120px;
   line-height: 120px;
   color: var(--el-text-color-regular);
   font-size: 13px;
-  border-right: 1px solid var(--el-border-color-base);
-  border-bottom: 1px solid var(--el-border-color-base);
-  margin-right: -1px;
-  margin-bottom: -1px;
+  border-right: solid 1px var(--el-border-color-base);
+  border-bottom: solid 1px var(--el-border-color-base);
 
   .demo-svg-icon {
     display: flex;
@@ -56,7 +56,7 @@ i.no-inherit {
     line-height: normal;
     vertical-align: middle;
     font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-      'Microsoft YaHei', SimSun, sans-serif;
+    'Microsoft YaHei', SimSun, sans-serif;
     color: var(--el-text-color-secondary);
     transition: color 0.15s linear;
   }
