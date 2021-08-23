@@ -307,7 +307,7 @@ ${this.codepen.style}
   },
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
   .demo-block {
     border: solid 1px var(--el-border-color-base);
     border-radius: 3px;
