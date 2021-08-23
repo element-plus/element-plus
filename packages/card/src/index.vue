@@ -19,7 +19,7 @@ export default defineComponent({
       default: '',
     },
     bodyStyle: {
-      type: [String, Object, Array] as PropType<string | Record<string, any> | any[]>,
+      type: [String, Object, Array] as PropType<string | Record<string, unknown> | any[]>,
       default: '',
     },
     shadow: {
