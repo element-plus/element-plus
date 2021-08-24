@@ -18,6 +18,9 @@
   "bugs": {
     "url": "https://github.com/element-plus/element-plus/issues"
   },
+  "peerDependencies": {
+    "vue": "3.2.x"
+  },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
     "@popperjs/core": "^2.4.4",
@@ -38,7 +41,7 @@
   "web-types": "web-types.json",
   "browserslist": [
     "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "not ie 11",
+    "not op_mini all"
   ]
 }

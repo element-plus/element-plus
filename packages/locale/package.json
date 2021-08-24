@@ -12,9 +12,6 @@
     "clean": "rm -rf lib es",
     "build": "gulp build"
   },
-  "peerDependencies": {
-    "vue": "3.1.1"
-  },
   "dependencies": {
     "dayjs": "1.x"
   },

@@ -1,12 +1,22 @@
 ## Changelog
 
-### 1.1.0-beta.1
+### 1.1.0-beta.2
 
 *2021-08-24*
 
 #### Breaking changes:
 
 - Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Bug fixes
+  
+- Build upgrade vue to 3.2.x (#3031 by @JeremyWuuuuu)
+- Build: update browserslist (#3027 by @kooriookami)
+
+
+### 1.1.0-beta.1
+
+*2021-08-24*
 
 #### Features
 
