@@ -93,7 +93,17 @@ export default defineComponent({
     const isItemHovering = (target: number) => props.hoveringIndex === target
 
     const scrollToItem = (index: number) => {
-      listRef.value.scrollToItem(index)
+      const list = listRef.value
+      if (list) {
+        listRef.value.scrollToItem(index)
+      }
+    }
+
+    const resetScrollTop = () => {
+      const list = listRef.value
+      if (list) {
+        listRef.value.resetScrollTop()
+      }
     }
 
     // computed
@@ -108,6 +118,7 @@ export default defineComponent({
       isItemSelected,
 
       scrollToItem,
+      resetScrollTop,
     }
   },
 
@@ -164,6 +175,7 @@ export default defineComponent({
             ...scoped,
             selected,
             disabled: item.disabled || itemDisabled,
+            created: !!item.created,
             hovering: isItemHovering(index),
             item,
             onSelect,
@@ -175,7 +187,6 @@ export default defineComponent({
           })
       },
     )
-
 
     const List = h(
       Comp,

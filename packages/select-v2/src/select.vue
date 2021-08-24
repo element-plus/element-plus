@@ -100,6 +100,7 @@
                 :aria-expanded="expanded"
                 :aria-labelledby="label"
                 class="el-select-v2__combobox-input"
+                :class="[selectSize ? `is-${ selectSize }` : '']"
                 :disabled="disabled"
                 role="combobox"
                 :readonly="!filterable"
@@ -227,7 +228,6 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
 import useSelect from './useSelect'
 import { selectKey } from './token'
 import { SelectProps } from './defaults'
-
 export default defineComponent({
   name: 'ElSelectV2',
   components: {

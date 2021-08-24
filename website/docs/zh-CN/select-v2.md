@@ -321,7 +321,48 @@
 
 ### 创建临时选项
 
-WIP (该功能还在施工中👷‍♀️)
+可以创建并选中选项中不存在的条目
+:::demo 使用`allow-create`属性即可通过在输入框中输入文字来创建新的条目。注意此时`filterable`必须为真。
+```html
+<template>
+  <el-select-v2
+    v-model="value1"
+    :options="options"
+    placeholder="请选择"
+    style="width: 200px; margin-right: 16px; vertical-align: middle;"
+    allow-create
+    filterable
+    multiple
+    clearable
+  />
+  <el-select-v2
+    v-model="value2"
+    :options="options"
+    placeholder="请选择"
+    style="width: 200px; vertical-align: middle;"
+    allow-create
+    filterable
+    clearable
+  />
+</template>
+
+<script>
+  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+  export default {
+    data() {
+      return {
+        options: Array.from({ length: 1000 }).map((_, idx) => ({
+          value: `选项${idx + 1}`,
+          label: `${initials[idx % 10]}${idx}`,
+        })),
+        value1: [],
+        value2: '',
+      }
+    },
+  }
+</script>
+```
+:::
 
 ### 远程搜索
 
@@ -350,6 +391,7 @@ WIP (该功能还在施工中👷‍♀️)
 | autocomplete | select input 的 autocomplete 属性 | string | — | off |
 | placeholder | 占位符 | string | — | 请选择 |
 | filterable | 是否可搜索 | boolean | — | false |
+| allow-create | 是否允许用户创建新条目，需配合 `filterable` 使用 | boolean | — | false |
 | no-data-text | 选项为空时显示的文字，也可以使用`#empty`设置 | string | — | 无数据 |
 | popper-class | Select 下拉框的类名 | string | — | — |
 | popper-append-to-body | 是否将弹出框插入至 body 元素。在弹出框的定位出现问题时，可将该属性设置为 false | boolean | - | false |

@@ -332,6 +332,13 @@ const createList = ({
 
       }
 
+      const resetScrollTop = () => {
+        const window = windowRef.value
+        if (window) {
+          window.scrollTop = 0
+        }
+      }
+
       // life cycles
       onMounted(() => {
         if (isServer) return
@@ -401,6 +408,7 @@ const createList = ({
         onWheel,
         scrollTo,
         scrollToItem,
+        resetScrollTop,
       }
 
       expose({
@@ -409,6 +417,7 @@ const createList = ({
         getItemStyleCache,
         scrollTo,
         scrollToItem,
+        resetScrollTop,
         states,
       })
 

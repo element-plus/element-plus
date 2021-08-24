@@ -1,4 +1,4 @@
-import { SelectProps } from './defaults'
+import { OptionProps, SelectProps } from './defaults'
 
 import type { ExtractPropTypes, InjectionKey } from 'vue'
 import type { Option } from './select.types'
@@ -18,3 +18,6 @@ export interface SelectContext {
 export const selectGroupKey = 'ElSelectGroup' as unknown as InjectionKey<SelectGroupContext>
 
 export const selectKey = 'ElSelect' as unknown as InjectionKey<SelectContext>
+
+export type IOptionProps = ExtractPropTypes<typeof OptionProps>
+export type ISelectProps = ExtractPropTypes<typeof SelectProps>

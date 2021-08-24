@@ -26,6 +26,8 @@ import {
   useGlobalConfig,
 } from '@element-plus/utils/util'
 
+import { useAllowCreate } from './useAllowCreate'
+
 import { SelectProps } from './defaults'
 import { flattenOptions } from './util'
 
@@ -156,7 +158,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const selectSize = computed(() => props.size || elFormItem.size || $ELEMENT.size)
 
-  const collapseTagSize = computed(() => selectSize.value)
+  const collapseTagSize = computed(() => ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small')
 
   const calculatePopperSize = () => {
     popperSize.value = selectRef.value?.getBoundingClientRect?.()?.width || 200
@@ -208,6 +210,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
     return -1
   })
+
+  // hooks
+  const { createNewOption, removeNewOption, selectNewOption, clearAllNewOption } = useAllowCreate(props, states)
 
   // methods
   const focusAndUpdatePopup = () => {
@@ -302,6 +307,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     emitChange(val)
   }
 
+  // TODO 提取
   const getValueIndex = (arr = [], value: unknown) => {
     if (!isObject(value)) return arr.indexOf(value)
 
@@ -368,10 +374,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           ...selectedOptions.slice(index + 1),
         ]
         states.cachedOptions.splice(index, 1)
-
+        removeNewOption(option)
       } else if (props.multipleLimit <= 0 || selectedOptions.length < props.multipleLimit) {
         selectedOptions = [...selectedOptions, option.value]
         states.cachedOptions.push(option)
+        selectNewOption(option)
       }
       update(selectedOptions)
       if (option.created) {
@@ -394,6 +401,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       expanded.value = false
       states.isComposing = false
       states.isSilentBlur = byClick
+      selectNewOption(option)
+      if (!option.created) {
+        clearAllNewOption()
+      }
     }
   }
 
@@ -411,6 +422,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       emit('remove-tag', tag.value)
       states.softFocus = true
       nextTick(focusAndUpdatePopup)
+      removeNewOption(tag)
     }
     event.stopPropagation()
   }
@@ -436,12 +448,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const handleBlur = () => {
-    if (props.filterable) {
-      if (props.allowCreate) {
-        // create new item to the list
-      }
-    }
-
     states.softFocus = false
 
     // reset input value when blurred
@@ -477,7 +483,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       e.preventDefault()
       const selected = (props.modelValue as Array<any>).slice()
       selected.pop()
-      states.cachedOptions.pop()
+      removeNewOption(states.cachedOptions.pop())
       update(selected)
     }
   }
@@ -499,6 +505,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     expanded.value = false
     update(emptyValue)
     emit('clear')
+    clearAllNewOption()
     nextTick(focusAndUpdatePopup)
   }
 
@@ -570,6 +577,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       resetInputHeight()
     }
     debouncedOnInputChange()
+    createNewOption(states.displayInputValue)
   }
 
   const onCompositionUpdate = (e: CompositionEvent) => {
@@ -632,6 +640,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
       states.displayInputValue = ''
+      createNewOption('')
     }
   })
 
@@ -639,6 +648,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     initStates()
   }, {
     deep: true,
+  })
+
+  // fix the problem that scrollTop is not reset in filterable mode
+  watch(filteredOptions, () => {
+    return nextTick(() => {
+      menuRef.value.resetScrollTop()
+    })
   })
 
   onMounted(() => {

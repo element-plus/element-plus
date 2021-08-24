@@ -20,6 +20,16 @@ const createData = (count = 1000) => {
   }))
 }
 
+const clickClearButton = async wrapper => {
+  const select = wrapper.findComponent(Select)
+  const selectVm = select.vm as any
+  selectVm.states.comboBoxHovering = true
+  await nextTick
+  const clearBtn = wrapper.find(`.${selectVm.clearIcon}`)
+  expect(clearBtn.exists()).toBeTruthy()
+  await clearBtn.trigger('click')
+}
+
 interface SelectProps {
   popperClass?: string
   value?: string | string[] | number | number[]
@@ -29,6 +39,7 @@ interface SelectProps {
   multiple?: boolean
   filterable?: boolean
   multipleLimit?: number
+  allowCreate?: boolean
   popperAppendToBody?: boolean
   placeholder?: string
   [key: string]: any
@@ -64,6 +75,7 @@ const createSelect = (options: {
         :multiple-limit="multipleLimit"
         :popper-append-to-body="popperAppendToBody"
         :placeholder="placeholder"
+        :allow-create="allowCreate"
         @change="onChange"
         @visible-change="onVisibleChange"
         @remove-tah="onRemoveTag"
@@ -79,6 +91,7 @@ const createSelect = (options: {
         options: createData(),
         value: '',
         popperClass: '',
+        allowCreate: false,
         disabled: false,
         clearable: false,
         multiple: false,
@@ -313,13 +326,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     vm.value = vm.options[1].value
     await nextTick
-    const select = wrapper.findComponent(Select)
-    const selectVm = select.vm as any
-    selectVm.states.comboBoxHovering = true
-    await nextTick
-    const clearBtn = wrapper.find(`.${selectVm.clearIcon}`)
-    expect(clearBtn.exists()).toBeTruthy()
-    await clearBtn.trigger('click')
+    await clickClearButton(wrapper)
     expect(vm.value).toBe('')
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
@@ -492,6 +499,113 @@ describe('Select', () => {
     })
   })
 
+  describe('allow-create', () => {
+
+    it('single select', async() => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            allowCreate: true,
+            filterable: true,
+            clearable: true,
+            options: [
+              {
+                value: '1',
+                label: 'option 1',
+              },
+              {
+                value: '2',
+                label: 'option 2',
+              },
+              {
+                value: '3',
+                label: 'option 3',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick
+      const vm = wrapper.vm as any
+      const input = wrapper.find('input')
+      await wrapper.trigger('click')
+      // create a new option
+      await input.trigger('compositionupdate', {
+        data: '1111',
+      })
+      const options = getOptions()
+      const select = wrapper.findComponent(Select)
+      const selectVm = select.vm as any
+      expect(selectVm.filteredOptions.length).toBe(1)
+      // selected the new option
+      await options[0].click()
+      expect(vm.value).toBe('1111')
+      // closed the menu
+      await wrapper.trigger('click')
+      expect(selectVm.filteredOptions.length).toBe(4)
+      selectVm.handleClear()
+      expect(selectVm.filteredOptions.length).toBe(3)
+    })
+
+    it('multiple', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            allowCreate: true,
+            filterable: true,
+            clearable: true,
+            multiple: true,
+            options: [
+              {
+                value: '1',
+                label: 'option 1',
+              },
+              {
+                value: '2',
+                label: 'option 2',
+              },
+              {
+                value: '3',
+                label: 'option 3',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick
+      const vm = wrapper.vm as any
+      await wrapper.trigger('click')
+      await wrapper.find('input').trigger('compositionupdate', {
+        data: '1111',
+      })
+      const options = getOptions()
+      const select = wrapper.findComponent(Select)
+      const selectVm = select.vm as any
+      expect(selectVm.filteredOptions.length).toBe(1)
+      // selected the new option
+      await options[0].click()
+      // closed the menu
+      await wrapper.trigger('click')
+      await wrapper.find('input').trigger('compositionupdate', {
+        data: '2222',
+      })
+      await getOptions()[0].click()
+      expect(JSON.stringify(vm.value)).toBe(JSON.stringify(['1111', '2222']))
+      await wrapper.trigger('click')
+      expect(selectVm.filteredOptions.length).toBe(5)
+      // remove tag
+      const tagCloseIcons = wrapper.findAll('.el-tag__close')
+      await tagCloseIcons[1].trigger('click')
+      expect(selectVm.filteredOptions.length).toBe(4)
+      // simulate backspace
+      await wrapper.find('input').trigger('keydown', {
+        key: EVENT_CODE.backspace,
+      })
+      expect(selectVm.filteredOptions.length).toBe(3)
+    })
+
+  })
+
   it('render empty slot', async () => {
     const wrapper = createSelect({
       data () {
@@ -588,8 +702,8 @@ describe('Select', () => {
             <span style="margin-right: 8px;">{{ item.label }}</span>
             <span style="color: #8492a6; font-size: 13px">
               {{ item.value }}
-            </span> 
-          </div> 
+            </span>
+          </div>
         `,
       },
     })
