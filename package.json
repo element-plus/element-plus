@@ -13,7 +13,7 @@
     "build:esm-bundle": "rollup --config ./build/rollup.config.bundle.js && yarn build:type",
     "build:locale-umd": "esno ./build/build-locale.ts",
     "build:helper": "esno build/build-helper.ts",
-    "build:indices": "node build/build-indices.js",
+    "build:indices": "esno build/build-indices.ts",
     "update:version": "esno build/update-version.ts",
     "build:comps": "rimraf dist/components && esno build/components.ts",
     "build:style": "gulp --cwd ./build",

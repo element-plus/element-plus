@@ -47,7 +47,7 @@ const gen = async () => {
       await fs.promises.writeFile(filepath,
         outputFile
           .getText()
-          .replaceAll('@element-plus', '.'),
+          .replace(new RegExp('@element-plus', 'g'), '.'),
         // .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk'),
         'utf8')
       console.log(
