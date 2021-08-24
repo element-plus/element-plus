@@ -6,6 +6,7 @@ import fs from 'fs'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import esbuild from 'rollup-plugin-esbuild'
+import replace from 'rollup-plugin-replace'
 import genDts from './gen-entry-dts'
 import RollupResolveEntryPlugin from './rollup.plugin.entry'
 import { epRoot, buildOutput } from './paths'
@@ -26,6 +27,9 @@ import { EP_PREFIX, excludes } from './constants'
       esbuild({
         minify: false,
       }),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
     ],
     external(id) {
       return /^vue/.test(id)
@@ -39,6 +43,9 @@ import { EP_PREFIX, excludes } from './constants'
     file: path.resolve(buildOutput, 'element-plus/dist/index.js'),
     exports: 'named',
     name: 'ElementPlus',
+    globals: {
+      vue: 'Vue',
+    },
   }
 
   const umdMinified = {
