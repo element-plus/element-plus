@@ -1,4 +1,5 @@
 import { setConfig } from '@element-plus/utils/config'
+import { LocaleInjectionKey, localeProviderMaker } from '@element-plus/hooks'
 import { version } from './version'
 
 import type { App, Plugin } from 'vue'
@@ -21,6 +22,11 @@ const makeInstaller = (components: Plugin[] = []) => {
     components.forEach(c => {
       app.use(c)
     })
+
+    if (option.locale) {
+      const localeProvides = localeProviderMaker(opts.locale)
+      app.provide(LocaleInjectionKey, localeProvides)
+    }
 
     app.config.globalProperties.$ELEMENT = option
     // app.provide() ? is this better? I think its not that flexible but worth implement
