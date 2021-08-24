@@ -44,16 +44,6 @@ $--checkbox-bordered-height: map.merge(
   $--checkbox-bordered-height
 );
 
-$--checkbox-line-height: () !default;
-$--checkbox-line-height: map.merge(
-  (
-    'medium': 17px,
-    'small': 15px,
-    'mini': 12px,
-  ),
-  $--checkbox-line-height
-);
-
 @include b(checkbox) {
   @include set-component-css-var('checkbox', $--checkbox);
 }
@@ -64,7 +54,8 @@ $--checkbox-line-height: map.merge(
   font-size: var(--el-font-size-base);
   position: relative;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   white-space: nowrap;
   user-select: none;
   margin-right: 30px;
@@ -74,7 +65,6 @@ $--checkbox-line-height: map.merge(
     border-radius: var(--el-border-radius-base);
     border: var(--el-border-base);
     box-sizing: border-box;
-    line-height: normal;
     height: map.get($--checkbox-bordered-height, 'default');
 
     &.is-checked {
@@ -91,13 +81,12 @@ $--checkbox-line-height: map.merge(
     }
 
     @each $size in (medium, small, mini) {
-      &.#{$namespace}-checkbox--#{size} {
+      &.#{$namespace}-checkbox--#{$size} {
         padding: map.get($--checkbox-bordered-padding, $size);
         border-radius: map.get($--button-border-radius, $size);
         height: map.get($--checkbox-bordered-height, $size);
 
         .#{$namespace}-checkbox__label {
-          line-height: map.get($--checkbox-line-height, $size);
           font-size: map.get($--button-font-size, $size);
         }
 
@@ -123,10 +112,8 @@ $--checkbox-line-height: map.merge(
     white-space: nowrap;
     cursor: pointer;
     outline: none;
-    display: inline-block;
-    line-height: 1;
+    display: inline-flex;
     position: relative;
-    vertical-align: middle;
 
     @include when(disabled) {
       .#{$namespace}-checkbox__inner {
@@ -263,7 +250,7 @@ $--checkbox-line-height: map.merge(
   @include e(label) {
     display: inline-block;
     padding-left: 10px;
-    line-height: 19px;
+    line-height: 1;
     font-size: var(--el-checkbox-font-size);
   }
 

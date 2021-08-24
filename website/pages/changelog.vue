@@ -46,7 +46,7 @@ export default {
     let a = changeLogNodes[1].querySelector('a')
     a && a.remove()
     let release = changeLogNodes[1].textContent.trim()
-    let fragments = `<li><h3><a href="https://github.com/element-plus/element-plus/releases/tag/v${release}" target="_blank">${release}</a></h3>`
+    let fragments = `<li><h3><a href="https://github.com/element-plus/element-plus/releases/tag/${release}" target="_blank">${release}</a></h3>`
 
     for (let len = changeLogNodes.length, i = 2; i < len; i++) {
       let node = changeLogNodes[i]
@@ -55,8 +55,9 @@ export default {
       if (node.tagName !== 'H3') {
         fragments += changeLogNodes[i].outerHTML
       } else {
-        release = changeLogNodes[i].textContent.trim()
-        fragments += `</li><li><h3><a href="https://github.com/element-plus/element-plus/releases/tag/v${release}" target="_blank">${release}</a></h3>`
+        // removing ¶ from the texts.
+        release = changeLogNodes[i].textContent.slice(2).trim()
+        fragments += `</li><li><h3><a href="https://github.com/element-plus/element-plus/releases/tag/${release}" target="_blank">${release}</a></h3>`
       }
     }
     fragments = fragments.replace(/#(\d+)/g, '<a href="https://github.com/element-plus/element-plus/issues/$1" target="_blank">#$1</a>')

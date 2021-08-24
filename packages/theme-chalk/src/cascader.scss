@@ -3,11 +3,6 @@
 @import 'mixins/mixins';
 @import 'mixins/var';
 @import 'common/var';
-@import './input';
-@import './popper';
-@import './tag';
-
-@import './cascader-panel';
 
 @include b(cascader) {
   @include set-component-css-var('cascader', $--cascader);

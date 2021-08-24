@@ -1,5 +1,71 @@
 ## Changelog
 
+### 1.1.0-beta.1
+
+*2021-08-24*
+
+#### Breaking changes:
+
+- Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Features
+
+- Date-picker custom date-editor width (#2836 by @YunYouJun)
+- Card add var background-color & prepare for dark mode (#2912 by @YunYouJun)
+- Link remove href prototype when empty (#2969 by @adaex)
+- Add ElSkeleton template scoped parameter `key`.  (#2944 by @callmesoul)
+
+#### Bug fixes
+
+- Dropdown add css var for popper (#2909 by @inottn)
+- Carousel a invalid css rule by typo (#2951 by @KawaiiZapic)
+- Pagination icon center aligned (#2962 by @adaex)
+- Link fix style (#2990 by @kooriookami)
+- Notification icon color error (#2992 by @adaex)
+- Components form-item Fix misspellings (#3019 by @wangbincyzj)
+- Update token.ts (#3001 by @wangbincyzj)
+- Improvement(tabs): optimize tab-bar offset calc (#2844 by @Senasiko)
+- checkbox fix the size property is invalid (#2985 by @kooriookami)
+- Menu change to border-box (#2999 by @kooriookami)
+- Transfer add text-algin (#3018 by @kooriookami)
+
+#### Refactors
+
+- Update package path and bundle folder (#3016 by @JeremyWuuuuu)
+
+### 1.0.2-beta.71
+
+*2021-08-18*
+
+#### Features
+
+- Table add new css var background-color (#2866 by @YunYouJun)
+- Switch add border color (#2933 by @HatemSat)
+- Add 'calendar-change' event to date-range datetime-range picker (#2964 by @iamkun)
+- Scrollbar add min-size prop (#2916 by @kooriookami)
+
+#### Bug fixes
+
+- Button when(circle) use button-padding-vertical & add size demo (#2860 by @YunYouJun)
+- Drawer missing css var, close #2848 (#2861 by @YunYouJun)
+- Select options display fix when allow-create, also empty & entered #2826 #2854 (#2830 by @noah19846)
+- Locale update error url and remove useless code (#2852 by @zwwtj2014)
+- Comments update var button comments (#2896 by @liamfend)
+- Tabs add v-resize directive (#2886 by @kooriookami)
+- Tree undefined parent cause error on SSR (#2942 by @tolking)
+- Badge fix dot-badge color (#2943 by @ninedev-i)
+- Style allow custom alone color sass var (#2963 by @YunYouJun)
+- Pagination locale key correction (#2889 by @ioslh)
+- Pagination Fix that current-page and page-size do not support hyphen style when using v-model (#2884 by @LeeSamFong)
+
+#### Refactors
+
+- Transition use sass map refactor & rename some transition (#2879 by @YunYouJun)
+- Tag use inherit css var way to simplify tag (#2878 by @YunYouJun)
+- Color add css var color for button & fix style for datepicker (#2869 by @YunYouJun)
+- Pagination optimize demo style (#2890 by @Eyes22798)
+- Var alert/badge/link/message/message-box/notification/tag (#2892 by @YunYouJun)
+
 ### 1.0.2-beta.70
 
 *2021-08-05*

@@ -46,28 +46,33 @@
 
   &.#{$namespace}-link--default {
     color: var(--el-link-default-font-color);
+
     &:hover {
       color: var(--el-link-default-active-color);
     }
+
     &:after {
       border-color: var(--el-link-default-active-color);
     }
+
     @include when(disabled) {
       color: var(--el-link-disabled-font-color);
     }
   }
 
   @each $type in $--types {
-    --el-link-font-color: var(--el-color-#{$type});
-
     &.#{$namespace}-link--#{$type} {
+      --el-link-font-color: var(--el-color-#{$type});
       color: var(--el-link-font-color);
+
       &:hover {
         color: mix(map.get($--link-font-color, $type), $--color-white, 80%);
       }
+
       &:after {
         border-color: var(--el-link-font-color);
       }
+
       @include when(disabled) {
         color: mix(map.get($--link-font-color, $type), $--color-white, 50%);
       }

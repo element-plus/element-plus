@@ -1,4 +1,4 @@
-import { sleep } from '@element-plus/test-utils'
+import sleep from './sleep'
 
 const makeScroll = async (dom: Element, name: 'scrollTop' | 'scrollLeft', offset: number) => {
   const eventTarget = dom === document.documentElement ? window : dom

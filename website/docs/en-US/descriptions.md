@@ -8,13 +8,13 @@ Display multiple fields in list form.
 
 ```html
 <el-descriptions title="User Info">
-    <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-    <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-    <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-    <el-descriptions-item label="Remarks">
-      <el-tag size="small">School</el-tag>
-    </el-descriptions-item>
-    <el-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province</el-descriptions-item>
+  <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
+  <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
+  <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
+  <el-descriptions-item label="Remarks">
+    <el-tag size="small">School</el-tag>
+  </el-descriptions-item>
+  <el-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province</el-descriptions-item>
 </el-descriptions>
 ```
 :::
@@ -89,7 +89,7 @@ Display multiple fields in list form.
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         size: ''
       };
@@ -165,10 +165,10 @@ Display multiple fields in list form.
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | label          | label text         | string  |          —             |    —     |
 | span          | colspan of column       | number  |          —             |    1     |
-| width          | column width, the width of the same column in different rows is set by the max value         | string / number  |          —             |    —     |
-| min-width          | column minimum width, columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion         | string / number  |          —             |    —     |
-| align          | column content alignment         | string  |          left / center / right             |    left     |
-| label-align          | column label alignment, if omitted, the value of the above `align` attribute will be applied         | string  |          left / center / right             |    —     |
+| width          | column width, the width of the same column in different rows is set by the max value (If no `border`, width contains label and content)         | string / number  |          —             |    —     |
+| min-width          | column minimum width, columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion (If no`border`, width contains label and content)         | string / number  |          —             |    —     |
+| align          | column content alignment (If no `border`, effective for both label and content)         | string  |          left / center / right             |    left     |
+| label-align          | column label alignment, if omitted, the value of the above `align` attribute will be applied (If no `border`, please use `align` attribute)         | string  |          left / center / right             |    —     |
 | class-name          | column content custom class name         | string  |          —             |    —     |
 | label-class-name          | column label custom class name         | string  |          —             |    —     |
 

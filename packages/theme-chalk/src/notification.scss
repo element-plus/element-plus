@@ -77,9 +77,8 @@
   }
 
   @each $type in (success, info, warning, error) {
-    --el-notification-icon-color: var(--el-color-#{$type});
-
     .#{$namespace}-icon-#{$type} {
+      --el-notification-icon-color: var(--el-color-#{$type});
       color: var(--el-notification-icon-color);
     }
   }

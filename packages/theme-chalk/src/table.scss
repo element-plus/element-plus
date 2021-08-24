@@ -1,8 +1,5 @@
 @import 'mixins/mixins';
 @import 'mixins/var';
-@import 'checkbox';
-@import 'tag';
-@import 'tooltip';
 @import 'common/var';
 
 @include b(table) {
