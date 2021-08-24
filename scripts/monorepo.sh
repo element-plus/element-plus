@@ -5,6 +5,7 @@ set -e
 yarn bootstrap
 yarn clean:lib
 yarn update:version
+yarn gen:version
 
 # build all packages in case of error
 
