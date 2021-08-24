@@ -15,6 +15,9 @@
     "lodash": "^4.17.20",
     "mitt": "^2.1.0"
   },
+  "peerDependencies": {
+    "vue": "3.2.x"
+  },
   "main": "index.js",
   "module": "index.js",
   "types": "index.d.ts",
