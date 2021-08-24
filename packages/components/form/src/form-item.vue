@@ -101,7 +101,7 @@ export default defineComponent({
       default: true,
     },
     size: {
-      types: String as PropType<ComponentSize>,
+      type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
     },
   },
