@@ -32,7 +32,7 @@ export interface ElFormItemContext {
   formItemMitt: Emitter
   size: ComponentSize
   validateState: string
-  validate(callback?: ValidateFieldCallback): void
+  validate(trigger: string, callback?: ValidateFieldCallback): void
   updateComputedLabelWidth(width: number): void
   addValidateEvents(): void
   removeValidateEvents(): void
