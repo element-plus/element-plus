@@ -14,15 +14,15 @@ const tsProject = ts.createProject('tsconfig.json', {
 
 const rewriter = () => {
   return through2.obj(function(file, _, cb) {
-    const compIdentifier = '@element-plus/components'
+    const compIdentifier = new RegExp('@element-plus/components', 'g')
     const compReplacer = '../../../components'
-    const themeIdentifier = '@element-plus/theme-chalk'
+    const themeIdentifier = new RegExp('@element-plus/theme-chalk', 'g')
     const themeReplacer = '../../../../theme-chalk'
     file.contents = Buffer.from(
       file.contents
         .toString()
-        .replaceAll(compIdentifier, compReplacer)
-        .replaceAll(themeIdentifier, themeReplacer),
+        .replace(compIdentifier, compReplacer)
+        .replace(themeIdentifier, themeReplacer),
     )
     cb(null, file)
   })

@@ -112,9 +112,9 @@ const genVueTypes = async (root, outDir = path.resolve(__dirname, '../dist/types
       await fs.promises.writeFile(filepath,
         outputFile
           .getText()
-          .replaceAll('@element-plus/components', 'element-plus/es')
-          .replaceAll('@element-plus/theme-chalk', 'element-plus/theme-chalk')
-          .replaceAll('@element-plus', 'element-plus/es'),
+          .replace(new RegExp('@element-plus/components', 'g'), 'element-plus/es')
+          .replace(new RegExp('@element-plus/theme-chalk', 'g'), 'element-plus/theme-chalk')
+          .replace(new RegExp('@element-plus', 'g'), 'element-plus/es'),
         'utf8')
       console.log(
         chalk.green(
