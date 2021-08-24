@@ -3,7 +3,6 @@
 @import 'mixins/utils';
 @import 'common/var';
 @import 'common/transition';
-@import 'tooltip';
 
 @mixin menu-item {
   height: 56px;
@@ -53,6 +52,7 @@
   margin: 0;
   padding-left: 0;
   background-color: var(--el-menu-background-color);
+  box-sizing: border-box;
   @include utils-clearfix;
   &.#{$namespace}-menu--horizontal {
     border-bottom: solid 1px var(--el-menu-border-color);
