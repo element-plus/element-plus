@@ -1,5 +1,7 @@
 import { onMounted, ref, watch } from 'vue'
+
 import type { Ref } from 'vue'
+import type { TimeoutHandle } from '@element-plus/utils/types'
 
 export default function(
   loading: Ref<boolean>,

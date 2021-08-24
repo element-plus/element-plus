@@ -2,7 +2,6 @@
 
 @import 'mixins/mixins';
 @import 'common/var';
-@import './popper';
 
 @include b(select-dropdown) {
   z-index: calc(var(--el-index-top) + 1);

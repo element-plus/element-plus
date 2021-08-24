@@ -1,5 +1,5 @@
 @import 'mixins/mixins';
-@import 'progress';
+@import 'mixins/utils';
 @import 'common/var';
 
 @include b(upload) {

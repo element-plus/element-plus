@@ -2,8 +2,6 @@
 
 @import 'mixins/mixins';
 @import 'common/var';
-@import './input.scss';
-@import './button.scss';
 
 @include b(color-predefine) {
   display: flex;

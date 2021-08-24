@@ -1,7 +1,7 @@
 import isServer from './isServer'
 import { camelize, isObject } from './util'
 
-export type Nullable<T> = null | T
+import type { Nullable } from './types'
 
 /* istanbul ignore next */
 const trim = function(s: string) {
