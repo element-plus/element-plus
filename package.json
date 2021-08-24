@@ -159,7 +159,8 @@
     "lodash": "^4.17.20",
     "mitt": "^2.1.0",
     "normalize-wheel": "^1.0.1",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "rollup-plugin-replace": "^2.2.0"
   },
   "files": [
     "lib",
