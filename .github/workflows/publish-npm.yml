@@ -32,7 +32,7 @@ jobs:
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Get git head
-        run: echo "GIT_HEAD=${GITHUB_SHA}" >> GITHUB_ENV
+        run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
       - name: Gen npmrc
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" > ./.npmrc
       - name: Build&publish
