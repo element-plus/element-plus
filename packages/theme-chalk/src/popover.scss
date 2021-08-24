@@ -1,7 +1,6 @@
 @import 'mixins/mixins';
 @import 'mixins/var';
 @import 'common/var';
-@import 'popper';
 
 @include b(popover) {
   @include set-component-css-var('popover', $--popover);

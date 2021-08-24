@@ -1,7 +1,9 @@
 import { onBeforeUnmount } from 'vue'
 
+import type { TimeoutHandle } from '@element-plus/utils/types'
+
 export default function () {
-  let timeoutHandle: ReturnType<typeof setTimeout>
+  let timeoutHandle: TimeoutHandle
 
   onBeforeUnmount(() => {
     clearTimeout(timeoutHandle)
@@ -10,7 +12,7 @@ export default function () {
   return {
     registerTimeout: (fn: (...args: any[]) => unknown, delay: number) => {
       clearTimeout(timeoutHandle)
-      timeoutHandle = setTimeout(fn, delay)
+      timeoutHandle = setTimeout(fn, delay) as any as TimeoutHandle
     },
 
     cancelTimeout: () => {

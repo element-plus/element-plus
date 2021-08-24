@@ -1,7 +1,7 @@
 @import 'mixins/mixins';
 @import 'mixins/var';
 @import 'common/var';
-@import 'descriptions-item';
+
 
 @include b(descriptions) {
   @include set-component-css-var('descriptions', $--descriptions);
