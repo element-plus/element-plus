@@ -45,7 +45,7 @@ export default defineComponent({
       let parent = instance.parent
       if (rootProps.collapse) return 20
       while (parent && parent.type.name !== 'ElMenu') {
-        if (parent.type.name === 'ElSubmenu') {
+        if (parent.type.name === 'ElSubMenu') {
           padding += 20
         }
         parent = parent.parent

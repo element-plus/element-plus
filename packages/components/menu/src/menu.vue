@@ -172,7 +172,7 @@ export default defineComponent({
       closeMenu(index)
     }
 
-    const handleSubmenuClick = submenu => {
+    const handleSubMenuClick = submenu => {
       const { index, indexPath } = submenu
       let isOpened = openedMenus.value.includes(index)
 
@@ -302,7 +302,7 @@ export default defineComponent({
     onMounted(() => {
       initializeMenu()
       rootMenuEmitter.on('menuItem:item-click', handleItemClick)
-      rootMenuEmitter.on('submenu:submenu-click', handleSubmenuClick)
+      rootMenuEmitter.on('submenu:submenu-click', handleSubMenuClick)
       if (props.mode === 'horizontal') {
         new Menubar(instance.vnode.el)
       }

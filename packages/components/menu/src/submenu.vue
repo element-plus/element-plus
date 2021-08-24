@@ -1,7 +1,7 @@
 <!-- <template>
   <li
     :class="[
-      'el-submenu',
+      'el-sub-menu',
       active && 'is-active',
       opened && 'is-opened',
       disabled && 'is-disabled',
@@ -50,28 +50,28 @@
       </template>
       <template #trigger>
         <div
-          class="el-submenu__title"
+          class="el-sub-menu__title"
           :style="[paddingStyle, titleStyle, { backgroundColor }]"
           @click="handleClick"
           @mouseenter="handleTitleMouseenter"
           @mouseleave="handleTitleMouseleave"
         >
           <slot name="title"></slot>
-          <i :class="['el-submenu__icon-arrow', submenuTitleIcon]"></i>
+          <i :class="['el-sub-menu__icon-arrow', submenuTitleIcon]"></i>
         </div>
       </template>
     </el-popper>
     <div
       v-if="!isMenuPopup"
       ref="verticalTitleRef"
-      class="el-submenu__title"
+      class="el-sub-menu__title"
       :style="[paddingStyle, titleStyle, { backgroundColor }]"
       @click="handleClick"
       @mouseenter="handleTitleMouseenter"
       @mouseleave="handleTitleMouseleave"
     >
       <slot name="title"></slot>
-      <i :class="['el-submenu__icon-arrow', submenuTitleIcon]"></i>
+      <i :class="['el-sub-menu__icon-arrow', submenuTitleIcon]"></i>
     </div>
     <el-collapse-transition v-if="!isMenuPopup">
       <ul
@@ -106,12 +106,12 @@ import {
 } from 'vue'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElPopper from '@element-plus/components/popper'
-import { ISubmenuProps, RootMenuProvider, SubMenuProvider } from './menu'
+import { ISubMenuProps, RootMenuProvider, SubMenuProvider } from './menu'
 import useMenu from './useMenu'
 
 export default defineComponent({
-  name: 'ElSubmenu',
-  componentName: 'ElSubmenu',
+  name: 'ElSubMenu',
+  componentName: 'ElSubMenu',
   props: {
     index: {
       type: String,
@@ -132,7 +132,7 @@ export default defineComponent({
       default: undefined,
     },
   },
-  setup(props: ISubmenuProps) {
+  setup(props: ISubMenuProps) {
     const data = reactive({
       popperJS: null,
       timeout: null,
@@ -165,8 +165,8 @@ export default defineComponent({
     } = inject<RootMenuProvider>('rootMenu')
 
     const {
-      addSubMenu: parentAddSubmenu,
-      removeSubMenu: parentRemoveSubmenu,
+      addSubMenu: parentAddSubMenu,
+      removeSubMenu: parentRemoveSubMenu,
       handleMouseleave: parentHandleMouseleave,
     } = inject<SubMenuProvider>(`subMenu:${parentMenu.value.uid}`)
 
@@ -181,7 +181,7 @@ export default defineComponent({
       let isFirstLevel = true
       let parent = instance.parent
       while (parent && parent.type.name !== 'ElMenu') {
-        if (['ElSubmenu', 'ElMenuItemGroup'].includes(parent.type.name)) {
+        if (['ElSubMenu', 'ElMenuItemGroup'].includes(parent.type.name)) {
           isFirstLevel = false
           break
         } else {
@@ -331,7 +331,7 @@ export default defineComponent({
       }, props.hideTimeout)
 
       if (appendToBody.value && deepDispatch) {
-        if (instance.parent.type.name === 'ElSubmenu') {
+        if (instance.parent.type.name === 'ElSubMenu') {
           parentHandleMouseleave(true)
         }
       }
@@ -381,7 +381,7 @@ export default defineComponent({
         indexPath,
         active,
       })
-      parentAddSubmenu({
+      parentAddSubMenu({
         index: props.index,
         indexPath,
         active,
@@ -389,7 +389,7 @@ export default defineComponent({
       updatePlacement()
     })
     onBeforeUnmount(() => {
-      parentRemoveSubmenu({
+      parentRemoveSubMenu({
         index: props.index,
         indexPath,
         active,
@@ -436,7 +436,7 @@ export default defineComponent({
     const titleTag = [
       this.$slots.title?.(),
       h('i', {
-        class: ['el-submenu__icon-arrow', this.submenuTitleIcon],
+        class: ['el-sub-menu__icon-arrow', this.submenuTitleIcon],
       }, null)]
     const ulStyle = {
       backgroundColor: this.rootProps.backgroundColor || '',
@@ -479,7 +479,7 @@ export default defineComponent({
           }, [this.$slots.default?.()]),
         ]),
         trigger: () => h('div', {
-          class: 'el-submenu__title',
+          class: 'el-sub-menu__title',
           style: [this.paddingStyle, this.titleStyle, { backgroundColor: this.backgroundColor }],
           onClick: this.handleClick,
           onMouseenter: this.handleTitleMouseenter,
@@ -488,7 +488,7 @@ export default defineComponent({
       })
       : h(Fragment, {}, [
         h('div', {
-          class: 'el-submenu__title',
+          class: 'el-sub-menu__title',
           style: [this.paddingStyle, this.titleStyle, { backgroundColor: this.backgroundColor }],
           ref: 'verticalTitleRef',
           onClick: this.handleClick,
@@ -508,7 +508,7 @@ export default defineComponent({
 
     return h('li', {
       class: [
-        'el-submenu',
+        'el-sub-menu',
         {
           'is-active': this.active,
           'is-opened': this.opened,
