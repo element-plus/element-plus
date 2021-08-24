@@ -1,12 +1,20 @@
 ## Changelog
 
-### 1.1.0-beta.2
+### 1.1.0-beta.3
 
 *2021-08-24*
 
 #### Breaking changes:
 
 - Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Bug fixes
+  
+- Build fix rollup full bundile issue (#3034 by @JeremyWuuuuu)
+
+### 1.1.0-beta.2
+
+*2021-08-24*
 
 #### Bug fixes
   
