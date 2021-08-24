@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { NOOP } from '@vue/shared'
 import cloneDeep from 'lodash/cloneDeep'
+import isEqual from 'lodash/isEqual'
 
 // Inline types
 import type { ListType, UploadFile, ElFile, ElUploadProgressEvent, IUseHandlersProps } from './upload.type'
@@ -128,15 +129,17 @@ export default (props: IUseHandlersProps) => {
     }
   })
 
-  watch(() => props.fileList, (fileList: UploadFile[]) => {
-    uploadFiles.value = fileList.map(file => {
-      const cloneFile = cloneDeep(file)
-      return {
-        ...cloneFile,
-        uid: file.uid || genUid(tempIndex++),
-        status: file.status || 'success',
-      }
-    })
+  watch(() => cloneDeep(props.fileList), (fileList: UploadFile[], prevFileList: UploadFile[]) => {
+    if(!isEqual(fileList, prevFileList)) {
+      uploadFiles.value = fileList.map(file => {
+        const cloneFile = cloneDeep(file)
+        return {
+          ...cloneFile,
+          uid: file.uid || genUid(tempIndex++),
+          status: file.status || 'success',
+        }
+      })
+    }
   }, {
     immediate: true,
     deep: true,
