@@ -12,12 +12,8 @@ export function useAllowCreate(props: ISelectProps, states) {
   })
 
   function hasExistingOption(query: string) {
-    if (!props.options) {
-      return false
-    }
-    return props.options.concat(states.createdOptions).some(option => {
-      return option.value === query
-    })
+    const hasValue = option => option.value === query
+    return props.options && props.options.some(hasValue) || states.createdOptions.some(hasValue)
   }
 
   function selectNewOption(option: Option) {
@@ -25,11 +21,6 @@ export function useAllowCreate(props: ISelectProps, states) {
       return
     }
     if (props.multiple && option.created) {
-      states.createdOptions.pop()
-      states.createdOptions.push({
-        ...option,
-        disabled: false,
-      })
       createOptionCount.value++
     } else {
       cachedSelectedOption.value = option
@@ -81,6 +72,7 @@ export function useAllowCreate(props: ISelectProps, states) {
       createOptionCount.value = 0
     }
   }
+
   return {
     createNewOption,
     removeNewOption,
