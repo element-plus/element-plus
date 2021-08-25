@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[200],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[344],{
 
 /***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -199,7 +199,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_provider__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(160);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElConfigProvider", function() { return _config_provider__WEBPACK_IMPORTED_MODULE_19__["a"]; });
 
-/* harmony import */ var _container__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(123);
+/* harmony import */ var _container__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(124);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElContainer", function() { return _container__WEBPACK_IMPORTED_MODULE_20__["b"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElAside", function() { return _container__WEBPACK_IMPORTED_MODULE_20__["a"]; });
@@ -307,7 +307,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _rate__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(157);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElRate", function() { return _rate__WEBPACK_IMPORTED_MODULE_43__["a"]; });
 
-/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(124);
+/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(125);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElResult", function() { return _result__WEBPACK_IMPORTED_MODULE_44__["a"]; });
 
 /* harmony import */ var _row__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(163);
@@ -333,7 +333,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "selectEvents", function() { return _select__WEBPACK_IMPORTED_MODULE_47__["e"]; });
 
-/* harmony import */ var _select_v2__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(125);
+/* harmony import */ var _select_v2__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(123);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElSelectV2", function() { return _select_v2__WEBPACK_IMPORTED_MODULE_48__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "selectV2InjectionKey", function() { return _select_v2__WEBPACK_IMPORTED_MODULE_48__["b"]; });
@@ -1409,7 +1409,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 949:
+/***/ 748:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1419,77 +1419,77 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/switch.md?vue&type=template&id=e467b272
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/switch.md?vue&type=template&id=ff946358
 
 const _hoisted_1 = {
   class: "content element-doc"
 };
 
-const _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Switch ");
+const _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Switch 开关 ");
 
-const _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Switch est utilisé pour choisir entre deux états opposés.", -1);
+const _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "表示两种相互对立的状态间的切换，多用于触发「开/关」。", -1);
 
-const _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Usage ");
+const _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("基本用法 ");
 
-const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Liez "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" à une variable de type "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Les attributs "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" et "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" déterminent les couleurs des deux états.")])], -1);
+const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("绑定"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("到一个"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("类型的变量。可以使用"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性与"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性来设置开关的背景色。")])], -1);
 
 const _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\"> </el-switch>\n<el-switch v-model=\"value2\" active-color=\"#13ce66\" inactive-color=\"#ff4949\">\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-switch v-model=\"value\" active-color=\"#13ce66\" inactive-color=\"#ff4949\">\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: true,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Description ");
+const _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("文字描述 ");
 
-const _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Utilisez "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" et "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" pour afficher une description de chaque étape.")])], -1);
+const _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("使用"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性与"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性来设置开关的文字描述。")])], -1);
 
 const _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch\n  v-model=\"value1\"\n  active-text=\"Paiement mensuel\"\n  inactive-text=\"Paiement annuel\"\n>\n</el-switch>\n<el-switch\n  style=\"display: block\"\n  v-model=\"value2\"\n  active-color=\"#13ce66\"\n  inactive-color=\"#ff4949\"\n  active-text=\"Paiement mensuel\"\n  inactive-text=\"Paiement annuel\"\n>\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-switch v-model=\"value1\" active-text=\"按月付费\" inactive-text=\"按年付费\">\n</el-switch>\n<el-switch\n  style=\"display: block\"\n  v-model=\"value2\"\n  active-color=\"#13ce66\"\n  inactive-color=\"#ff4949\"\n  active-text=\"按月付费\"\n  inactive-text=\"按年付费\"\n>\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Valeurs des états ");
+const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("扩展的 value 类型 ");
 
-const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Vous pouvez utiliser "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" et "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" pour déterminer la valeur de chaque état. Ils prennent un "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" ou "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(".")])], -1);
+const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("设置"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("和"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性，接受"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("或"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("类型的值。")])], -1);
 
 const _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-tooltip :content=\"'Valeur de l\\'état: ' + value\" placement=\"top\">\n  <el-switch\n    v-model=\"value\"\n    active-color=\"#13ce66\"\n    inactive-color=\"#ff4949\"\n    active-value=\"100\"\n    inactive-value=\"0\"\n  >\n  </el-switch>\n</el-tooltip>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '100',\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-tooltip :content=\"'Switch value: ' + value\" placement=\"top\">\n  <el-switch\n    v-model=\"value\"\n    active-color=\"#13ce66\"\n    inactive-color=\"#ff4949\"\n    active-value=\"100\"\n    inactive-value=\"0\"\n  >\n  </el-switch>\n</el-tooltip>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '100',\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Désactivé ");
+const _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("禁用状态 ");
 
-const _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Ajoutez l'attribut "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" pour désactiver le switch.")])], -1);
+const _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("设置"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性，接受一个"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("，设置"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("即可禁用。")])], -1);
 
 const _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" disabled> </el-switch>\n<el-switch v-model=\"value2\" disabled> </el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-switch v-model=\"value1\" disabled> </el-switch>\n<el-switch v-model=\"value2\" disabled> </el-switch>\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Loading ");
+const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("加载中 ");
 
-const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Setting the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "loading"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attribute to "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" indicates a loading state on the Switch.")])], -1);
+const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("设置"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "loading"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性，接受一个"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("，设置"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("即加载中状态。")])], -1);
 
 const _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
 }, "<el-switch v-model=\"value1\" loading> </el-switch>\n<el-switch v-model=\"value2\" loading> </el-switch>\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Empêcher la commutation ");
+const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("阻止切换 ");
 
-const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Définissez la propriété "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "beforeChange"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Si elle renvoie false ou renvoie une promesse et est rejetée, le commutateur s'arrêtera.")])], -1);
+const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("设置"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "beforeChange"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性，若返回 false 或者返回 Promise 且被 reject，则停止切换。")])], -1);
 
 const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" :loading=\"loading1\" :beforeChange=\"beforeChange1\">\n</el-switch>\n<el-switch v-model=\"value2\" :loading=\"loading2\" :beforeChange=\"beforeChange2\">\n</el-switch>\n<script>\n  import { reactive, toRefs } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default {\n    setup() {\n      const status1 = reactive({\n        value1: false,\n        loading1: false,\n      })\n\n      const beforeChange1 = () => {\n        status1.loading1 = true\n        return new Promise(resolve => {\n          setTimeout(() => {\n            status1.loading1 = false\n            ElMessage.success('Basculer avec succès')\n            return resolve(true)\n          }, 1000)\n        })\n      }\n\n      const status2 = reactive({\n        value2: false,\n        loading2: false,\n      })\n\n      const beforeChange2 = () => {\n        status2.loading2 = true\n        return new Promise((resolve, reject) => {\n          setTimeout(() => {\n            status2.loading2 = false\n            ElMessage.error('Le commutateur a échoué')\n            return reject(new Error('error'))\n          }, 1000)\n        })\n      }\n\n      return {\n        ...toRefs(status1),\n        ...toRefs(status2),\n        beforeChange1,\n        beforeChange2,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<el-switch v-model=\"value1\" :loading=\"loading1\" :beforeChange=\"beforeChange1\">\n</el-switch>\n<el-switch v-model=\"value2\" :loading=\"loading2\" :beforeChange=\"beforeChange2\">\n</el-switch>\n<script>\n  import { reactive, toRefs } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default {\n    setup() {\n      const status1 = reactive({\n        value1: false,\n        loading1: false,\n      })\n\n      const beforeChange1 = () => {\n        status1.loading1 = true\n        return new Promise(resolve => {\n          setTimeout(() => {\n            status1.loading1 = false\n            ElMessage.success('切换成功')\n            return resolve(true)\n          }, 1000)\n        })\n      }\n\n      const status2 = reactive({\n        value2: false,\n        loading2: false,\n      })\n\n      const beforeChange2 = () => {\n        status2.loading2 = true\n        return new Promise((resolve, reject) => {\n          setTimeout(() => {\n            status2.loading2 = false\n            ElMessage.error('切换失败')\n            return reject(new Error('error'))\n          }, 1000)\n        })\n      }\n\n      return {\n        ...toRefs(status1),\n        ...toRefs(status2),\n        beforeChange1,\n        beforeChange2,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Attributs ");
+const _hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Attributes ");
 
-const _hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Attribut</th><th>Description</th><th>Type</th><th>Valeurs acceptées</th><th>Défaut</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>Valeur liée. Elle doit être équivalente à <code>active-value</code> ou <code>inactive-value</code>, par défaut elle est de type <code>boolean</code>.</td><td>boolean / string / number</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>Si le switch est désactivé.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>loading</td><td>Si le switch est en chargement.</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>width</td><td>Largeur du switch.</td><td>number</td><td>—</td><td>40</td></tr><tr><td>active-icon-class</td><td>Classe de l&#39;icône de l&#39;état <code>on</code>, écrase <code>active-text</code>.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-icon-class</td><td>Classe de l&#39;icône de l&#39;état <code>off</code>, écrase <code>inactive-text</code>.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-text</td><td>Texte affiché dans l&#39;état <code>on</code>.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-text</td><td>Texte affiché dans l&#39;état <code>off</code>.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-value</td><td>Valeur du switch dans l&#39;état <code>on</code>.</td><td>boolean / string / number</td><td>—</td><td>true</td></tr><tr><td>inactive-value</td><td>Valeur du switch dans l&#39;état <code>off</code>.</td><td>boolean / string / number</td><td>—</td><td>false</td></tr><tr><td>active-color</td><td>Couleur de fond de l&#39;état <code>on</code>.</td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>inactive-color</td><td>Couleur de fond de l&#39;état <code>off</code>.</td><td>string</td><td>—</td><td>#C0CCDA</td></tr><tr><td>border-color</td><td>Couleur de la bordure du switch.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>name</td><td>Nom du champ d&#39;input du switch.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>validate-event</td><td>Si la validation doit avoir lieu.</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-change</td><td>Le hook avant le changement d&#39;état du commutateur. S&#39;il renvoie false ou renvoie une promesse et est rejeté, le commutateur s&#39;arrêtera.</td><td>function</td><td>—</td><td>—</td></tr></tbody></table>", 1);
+const _hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>绑定值，必须等于<code>active-value</code>或<code>inactive-value</code>，默认为<code>Boolean</code>类型</td><td>boolean / string / number</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>是否禁用</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>loading</td><td>是否显示加载中</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>width</td><td>switch 的宽度（像素）</td><td>number</td><td>—</td><td>40</td></tr><tr><td>active-icon-class</td><td>switch 打开时所显示图标的类名，设置此项会忽略 <code>active-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-icon-class</td><td>switch 关闭时所显示图标的类名，设置此项会忽略 <code>inactive-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-text</td><td>switch 打开时的文字描述</td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-text</td><td>switch 关闭时的文字描述</td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-value</td><td>switch 打开时的值</td><td>boolean / string / number</td><td>—</td><td>true</td></tr><tr><td>inactive-value</td><td>switch 关闭时的值</td><td>boolean / string / number</td><td>—</td><td>false</td></tr><tr><td>active-color</td><td>switch 打开时的背景色</td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>inactive-color</td><td>switch 关闭时的背景色</td><td>string</td><td>—</td><td>#C0CCDA</td></tr><tr><td>border-color</td><td>switch 边框颜色</td><td>string</td><td>—</td><td>—</td></tr><tr><td>name</td><td>switch 对应的 name 属性</td><td>string</td><td>—</td><td>—</td></tr><tr><td>validate-event</td><td>改变 switch 状态时是否触发表单的校验</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-change</td><td>switch 状态改变前的钩子，返回 false 或者返回 Promise 且被 reject 则停止切换</td><td>function</td><td>—</td><td>—</td></tr></tbody></table>", 1);
 
-const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Évènements ");
+const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Events ");
 
-const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Nom"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Paramètres")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "change"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Se déclenche quand la valeur change."), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "La valeur après changement.")])])], -1);
+const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "事件名称"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "说明"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "回调参数")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "change"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "switch 状态发生变化时的回调函数"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "新状态的值")])])], -1);
 
-const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Méthodes ");
+const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Methods ");
 
-const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Méthode"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Paramètres")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "focus"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Donne le focus au switch."), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")])])], -1);
+const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "方法名"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "说明"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "参数")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "focus"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "使 Switch 获取焦点"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")])])], -1);
 
-function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup, $data, $options) {
+function switchvue_type_template_id_ff946358_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
@@ -1511,25 +1511,25 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
   const _component_right_nav = Object(vue_esm_browser_prod["resolveComponent"])("right-nav");
 
   return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", _hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "switch",
-    content: "Switch",
-    href: "#switch",
+    id: "switch-kai-guan",
+    content: "Switch 开关",
+    href: "#switch-kai-guan",
     level: "2"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#switch"
+      href: "#switch-kai-guan"
     })]),
     _: 1
   }), _hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "usage",
-    content: "Usage",
-    href: "#usage",
+    id: "ji-ben-yong-fa",
+    content: "基本用法",
+    href: "#ji-ben-yong-fa",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#usage"
+      href: "#ji-ben-yong-fa"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1538,14 +1538,14 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_5]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "description",
-    content: "Description",
-    href: "#description",
+    id: "wen-zi-miao-shu",
+    content: "文字描述",
+    href: "#wen-zi-miao-shu",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_7, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#description"
+      href: "#wen-zi-miao-shu"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1554,14 +1554,14 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_8]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "valeurs-des-etats",
-    content: "Valeurs des états",
-    href: "#valeurs-des-etats",
+    id: "kuo-zhan-de-value-lei-xing",
+    content: "扩展的 value 类型",
+    href: "#kuo-zhan-de-value-lei-xing",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_10, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#valeurs-des-etats"
+      href: "#kuo-zhan-de-value-lei-xing"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1570,14 +1570,14 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_11]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "desactive",
-    content: "Désactivé",
-    href: "#desactive",
+    id: "jin-yong-zhuang-tai",
+    content: "禁用状态",
+    href: "#jin-yong-zhuang-tai",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#desactive"
+      href: "#jin-yong-zhuang-tai"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1586,14 +1586,14 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_14]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "loading",
-    content: "Loading",
-    href: "#loading",
+    id: "jia-zai-zhong",
+    content: "加载中",
+    href: "#jia-zai-zhong",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_16, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#loading"
+      href: "#jia-zai-zhong"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1602,14 +1602,14 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_17]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "empecher-la-commutation",
-    content: "Empêcher la commutation",
-    href: "#empecher-la-commutation",
+    id: "zu-zhi-qie-huan",
+    content: "阻止切换",
+    href: "#zu-zhi-qie-huan",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#empecher-la-commutation"
+      href: "#zu-zhi-qie-huan"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
@@ -1618,43 +1618,43 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_20]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "attributs",
-    content: "Attributs",
-    href: "#attributs",
+    id: "attributes",
+    content: "Attributes",
+    href: "#attributes",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_22, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#attributs"
+      href: "#attributes"
     })]),
     _: 1
   }), _hoisted_23, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "evenements",
-    content: "Évènements",
-    href: "#evenements",
+    id: "events",
+    content: "Events",
+    href: "#events",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_24, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#evenements"
+      href: "#events"
     })]),
     _: 1
   }), _hoisted_25, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "methodes",
-    content: "Méthodes",
-    href: "#methodes",
+    id: "methods",
+    content: "Methods",
+    href: "#methods",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_26, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#methodes"
+      href: "#methods"
     })]),
     _: 1
   }), _hoisted_27, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/fr-FR/switch.md?vue&type=template&id=e467b272
+// CONCATENATED MODULE: ./website/docs/zh-CN/switch.md?vue&type=template&id=ff946358
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/fr-FR/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/switch.md?vue&type=script&lang=ts
 
 /* harmony default export */ var switchvue_type_script_lang_ts = ({
   name: 'component-doc',
@@ -1671,11 +1671,8 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
         const _component_el_switch = _resolveComponent("el-switch");
 
         return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event)
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
+          modelValue: _ctx.value,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value = $event),
           "active-color": "#13ce66",
           "inactive-color": "#ff4949"
         }, null, 8, ["modelValue"])]);
@@ -1684,8 +1681,7 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
       const democomponentExport = {
         data() {
           return {
-            value1: true,
-            value2: true
+            value: true
           };
         }
 
@@ -1709,8 +1705,8 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
         return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
           modelValue: _ctx.value1,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          "active-text": "Paiement mensuel",
-          "inactive-text": "Paiement annuel"
+          "active-text": "按月付费",
+          "inactive-text": "按年付费"
         }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
           style: {
             "display": "block"
@@ -1719,8 +1715,8 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
           "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
           "active-color": "#13ce66",
           "inactive-color": "#ff4949",
-          "active-text": "Paiement mensuel",
-          "inactive-text": "Paiement annuel"
+          "active-text": "按月付费",
+          "inactive-text": "按年付费"
         }, null, 8, ["modelValue"])]);
       }
 
@@ -1753,7 +1749,7 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
         const _component_el_tooltip = _resolveComponent("el-tooltip");
 
         return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_tooltip, {
-          content: 'Valeur de l\'état: ' + _ctx.value,
+          content: 'Switch value: ' + _ctx.value,
           placement: "top"
         }, {
           default: _withCtx(() => [_createVNode(_component_el_switch, {
@@ -1898,7 +1894,7 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
             return new Promise(resolve => {
               setTimeout(() => {
                 status1.loading1 = false;
-                ElMessage.success('Basculer avec succès');
+                ElMessage.success('切换成功');
                 return resolve(true);
               }, 1000);
             });
@@ -1914,7 +1910,7 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
             return new Promise((resolve, reject) => {
               setTimeout(() => {
                 status2.loading2 = false;
-                ElMessage.error('Le commutateur a échoué');
+                ElMessage.error('切换失败');
                 return reject(new Error('error'));
               }, 1000);
             });
@@ -1935,15 +1931,15 @@ function switchvue_type_template_id_e467b272_render(_ctx, _cache, $props, $setup
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/fr-FR/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/zh-CN/switch.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/fr-FR/switch.md
+// CONCATENATED MODULE: ./website/docs/zh-CN/switch.md
 
 
 
-switchvue_type_script_lang_ts.render = switchvue_type_template_id_e467b272_render
+switchvue_type_script_lang_ts.render = switchvue_type_template_id_ff946358_render
 
-/* harmony default export */ var fr_FR_switch = __webpack_exports__["default"] = (switchvue_type_script_lang_ts);
+/* harmony default export */ var zh_CN_switch = __webpack_exports__["default"] = (switchvue_type_script_lang_ts);
 
 /***/ })
 

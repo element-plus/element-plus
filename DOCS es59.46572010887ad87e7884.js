@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[126],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[128],{
 
 /***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -199,7 +199,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_provider__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(160);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElConfigProvider", function() { return _config_provider__WEBPACK_IMPORTED_MODULE_19__["a"]; });
 
-/* harmony import */ var _container__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(123);
+/* harmony import */ var _container__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(124);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElContainer", function() { return _container__WEBPACK_IMPORTED_MODULE_20__["b"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElAside", function() { return _container__WEBPACK_IMPORTED_MODULE_20__["a"]; });
@@ -307,7 +307,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _rate__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(157);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElRate", function() { return _rate__WEBPACK_IMPORTED_MODULE_43__["a"]; });
 
-/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(124);
+/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(125);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElResult", function() { return _result__WEBPACK_IMPORTED_MODULE_44__["a"]; });
 
 /* harmony import */ var _row__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(163);
@@ -333,7 +333,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "selectEvents", function() { return _select__WEBPACK_IMPORTED_MODULE_47__["e"]; });
 
-/* harmony import */ var _select_v2__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(125);
+/* harmony import */ var _select_v2__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(123);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElSelectV2", function() { return _select_v2__WEBPACK_IMPORTED_MODULE_48__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "selectV2InjectionKey", function() { return _select_v2__WEBPACK_IMPORTED_MODULE_48__["b"]; });
@@ -1409,7 +1409,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 880:
+/***/ 882:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1419,171 +1419,79 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/space.md?vue&type=template&id=1c801965
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/switch.md?vue&type=template&id=53f172b7
 
-const spacevue_type_template_id_1c801965_hoisted_1 = {
+const _hoisted_1 = {
   class: "content element-doc"
 };
 
-const spacevue_type_template_id_1c801965_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Space (Translation needed) ");
+const _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Switch ");
 
-const spacevue_type_template_id_1c801965_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Even though we have ");
+const _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Switch es utilizado para realizar cambios entre dos estados opuestos.", -1);
 
-const spacevue_type_template_id_1c801965_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Divider");
+const _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Uso básico ");
 
-const spacevue_type_template_id_1c801965_hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", but sometimes we need more than one ");
+const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Enlace "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" a una variable de tipo "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Los atributos "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" y "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" deciden el color de fondo en cada estado.")])], -1);
 
-const spacevue_type_template_id_1c801965_hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Divider");
-
-const spacevue_type_template_id_1c801965_hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" to split the elements apart, so we stack each elements upon ");
-
-const spacevue_type_template_id_1c801965_hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Divider");
-
-const spacevue_type_template_id_1c801965_hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", but doing so not only makes our code ugly but also makes it difficult to maintain. ");
-
-const spacevue_type_template_id_1c801965_hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "Space", -1);
-
-const spacevue_type_template_id_1c801965_hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is this kind of component provides us both productivity and elegance.");
-
-const spacevue_type_template_id_1c801965_hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Basic usage ");
-
-const spacevue_type_template_id_1c801965_hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "The basic use case is using this component to provide unified space between each components", -1);
-
-const spacevue_type_template_id_1c801965_hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Using Space to provide space")], -1);
-
-const spacevue_type_template_id_1c801965_hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<template>\n  <el-space wrap>\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 3\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n</template>\n")], -1);
+}, "<el-switch v-model=\"value1\"> </el-switch>\n<el-switch v-model=\"value2\" active-color=\"#13ce66\" inactive-color=\"#ff4949\">\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Vertical layout ");
+const _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Texto de descripción ");
 
-const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Using "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attribute to control the layout, we use "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "flex-direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" to implement this.")], -1);
+const _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Puede agregar los atributos "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" y "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" para mostrar los textos.")])], -1);
 
-const _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "We also provide vertical layout.")], -1);
-
-const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<template>\n  <el-space direction=\"vertical\">\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 2\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n</template>\n")], -1);
+}, "<el-switch\n  v-model=\"value1\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n<el-switch\n  style=\"display: block\"\n  v-model=\"value2\"\n  active-color=\"#13ce66\"\n  inactive-color=\"#ff4949\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Control the size of the space ");
+const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Tipos de valores extendidos ");
 
-const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<p>Control the space size via <code>size</code> API.</p><p>You can set the size with built-in sizes <code>mini</code>, <code>small</code>, <code>medium</code>, <code>large</code>, these size coresponds to <code>4px</code>, <code>8px</code>, <code>12px</code>, <code>16px</code>. The default size is <code>small</code>, A.K.A. <code>8px</code></p><p>You can also using customized size to override it. Refer to the next part.</p>", 3);
+const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Puede establecer los atributos "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" y "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Ambos reciben valores de tipo "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" o "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(".")])], -1);
 
-const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<template>\n  <el-space direction=\"vertical\" alignment=\"start\" :size=\"30\">\n  <el-radio-group v-model=\"size\">\n    <el-radio :label=\"'mini'\">mini</el-radio>\n    <el-radio :label=\"'small'\">small</el-radio>\n    <el-radio :label=\"'medium'\">medium</el-radio>\n    <el-radio :label=\"'large'\">large</el-radio>\n  </el-radio-group>\n\n  <el-space wrap :size=\"size\">\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 3\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n  </el-space>\n</template>\n\n<script>\n\nexport default {\n\n  data() {\n    return {\n      size: 'mini',\n    }\n  }\n}\n</script>\n")], -1);
+}, "<el-tooltip :content=\"'Switch value: ' + value\" placement=\"top\">\n  <el-switch\n    v-model=\"value\"\n    active-color=\"#13ce66\"\n    inactive-color=\"#ff4949\"\n    active-value=\"100\"\n    inactive-value=\"0\"\n  >\n  </el-switch>\n</el-tooltip>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '100',\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Customized Size ");
+const _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Disabled ");
 
-const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Sometimes built-in sizes could not meet the business needs, we can use custom size (number type) to control the space between items.", -1);
+const _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Agregar el atributo "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" desactiva el componente Switch.")])], -1);
 
-const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<template>\n  <el-slider v-model=\"size\" />\n  <el-space wrap :size=\"size\">\n    <el-card class=\"box-card\" style=\"width: 250px\" v-for=\"i in 2\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n</template>\n\n<script>\nexport default {\n\n  data() {\n    return {\n      size: 20,\n    }\n  }\n}\n</script>\n")], -1);
+}, "<el-switch v-model=\"value1\" disabled> </el-switch>\n<el-switch v-model=\"value2\" disabled> </el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_28 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", {
-  class: "tip"
-}, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Do not use "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "ElSpace"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" with components that depend on ancestor width (height), e.g. "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "ElSlider"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", in this case when you drag the trigger button the bar will grow which causes misplacement between cursor and trigger button.")])], -1);
+const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Loading ");
 
-const _hoisted_29 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Auto wrapping ");
+const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Setting the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "loading"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attribute to "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" indicates a loading state on the Switch.")])], -1);
 
-const _hoisted_30 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("When in "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "horizontal"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" mode, using "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "wrap"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" ("), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "bool type"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(") to control auto wrapping behavior.")], -1);
-
-const _hoisted_31 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Using "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "wrap"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" to control line wrap")])], -1);
-
-const _hoisted_32 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-space wrap>\n  <div v-for=\"i in 20\" :key=\"i\">\n    <el-button type=\"text\">\n      Text button\n    </el-button>\n  </div>\n</el-space>\n")], -1);
+}, "<el-switch v-model=\"value1\" loading> </el-switch>\n<el-switch v-model=\"value2\" loading> </el-switch>\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Spacer ");
+const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("prevent switching ");
 
-const _hoisted_34 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Sometimes we want something more than blank space, so we have (spacer) to help us.", -1);
+const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("set the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "beforeChange"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" property, If "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "false"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is returned or a "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Promise"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is returned and then is rejected, will stop switching.")])], -1);
 
-const _hoisted_35 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Literal type spacer ");
-
-const _hoisted_36 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<template>\n <el-space :size=\"size\" spacer=\"|\">\n    <div v-for=\"i in 2\" :key=\"i\">\n      <el-button>\n        button {{ i }}\n      </el-button>\n    </div>\n  </el-space>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return {\n      size: 10,\n    }\n  },\n}\n</script>\n")], -1);
+}, "<el-switch v-model=\"value1\" :loading=\"loading1\" :beforeChange=\"beforeChange1\">\n</el-switch>\n<el-switch v-model=\"value2\" :loading=\"loading2\" :beforeChange=\"beforeChange2\">\n</el-switch>\n<script>\n  import { reactive, toRefs } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default {\n    setup() {\n      const status1 = reactive({\n        value1: false,\n        loading1: false,\n      })\n\n      const beforeChange1 = () => {\n        status1.loading1 = true\n        return new Promise(resolve => {\n          setTimeout(() => {\n            status1.loading1 = false\n            ElMessage.success('switch success')\n            return resolve(true)\n          }, 1000)\n        })\n      }\n\n      const status2 = reactive({\n        value2: false,\n        loading2: false,\n      })\n\n      const beforeChange2 = () => {\n        status2.loading2 = true\n        return new Promise((resolve, reject) => {\n          setTimeout(() => {\n            status2.loading2 = false\n            ElMessage.error('switch failed')\n            return reject(new Error('error'))\n          }, 1000)\n        })\n      }\n\n      return {\n        ...toRefs(status1),\n        ...toRefs(status2),\n        beforeChange1,\n        beforeChange2,\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_37 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Spacer can also be VNode ");
+const _hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Atributos ");
 
-const _hoisted_38 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
-  class: "html"
-}, "<template>\n <el-space :size=\"size\" :spacer=\"spacer\">\n    <div v-for=\"i in 2\" :key=\"i\">\n      <el-button>\n        button {{ i }}\n      </el-button>\n    </div>\n  </el-space>\n</template>\n\n<script>\nimport { h, resolveComponent } from 'vue'\nimport { ElDivider } from 'element-plus'\nexport default {\n  data() {\n    return {\n      size: 10,\n      spacer: h(ElDivider, { direction: 'vertical' }),\n    }\n  },\n}\n</script>\n\n")], -1);
+const _hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Atributo</th><th>Descripción</th><th>Tipo</th><th>Valores aceptados</th><th>Por defecto</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>valor vinculante, debe ser equivalente al <code>active-value</code> o al <code>inactive-value</code>. El tipo por defecto es el tipo <code>boolean</code>.</td><td>boolean / string / number</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>si Switch esta deshabilitado</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>loading</td><td>whether Switch is in loading state</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>width</td><td>ancho del componente Switch</td><td>number</td><td>—</td><td>40</td></tr><tr><td>active-icon-class</td><td>nombre de la clase del icono mostrado en el estado <code>on</code>, sobrescribe <code>active-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-icon-class</td><td>nombre de la clase del icono mostrado en el estado <code>off</code>, sobrescribe <code>inactive-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-text</td><td>texto mostrado en el estado <code>on</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-text</td><td>texto mostrado en el estado <code>off</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-value</td><td>cambia su valor cuando se encuentra en el estado <code>on</code></td><td>boolean / string / number</td><td>—</td><td>true</td></tr><tr><td>inactive-value</td><td>cambia su valor cuando se encuentra en el estado <code>off</code></td><td>boolean / string / number</td><td>—</td><td>false</td></tr><tr><td>active-color</td><td>color de fondo cuando se encuentra en el estado <code>on</code></td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>inactive-color</td><td>color de fondo cuando se encuentra en el estado <code>off</code></td><td>string</td><td>—</td><td>#C0CCDA</td></tr><tr><td>border-color</td><td>color del borde del switch.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>name</td><td>nombre de entrada del componente Switch</td><td>string</td><td>—</td><td>—</td></tr><tr><td>validate-event</td><td>si se debe lanzar la validación de formulario</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-change</td><td>before-change hook before the switch state changes. If <code>false</code> is returned or a <code>Promise</code> is returned and then is rejected, will stop switching</td><td>function</td><td>—</td><td>—</td></tr></tbody></table>", 1);
 
-const _hoisted_39 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Alignment ");
+const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Eventos ");
 
-const _hoisted_40 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Setting this attribute can adjust the alignment of child nodes, the desirable value can be found at ");
+const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Nombre del evento"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Descripción"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parametro")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "change"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "se dispara cuando el valor cambia"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "valor")])])], -1);
 
-const _hoisted_41 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("align-items");
+const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "después de cambiar", -1);
 
-const _hoisted_42 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(".");
+const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Metodos ");
 
-const _hoisted_43 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Using "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "alignment")])], -1);
+const _hoisted_28 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Metodo"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Descripción"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parametro")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "focus"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "foco al componente Switch"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")])])], -1);
 
-const _hoisted_44 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
-  class: "html"
-}, "\n<template>\n  <div style=\"width: 240px;margin-bottom: 20px;padding: 8px;border: 1px solid #ccc;\">\n    <el-space>\n      string\n      <el-button>\n        button\n      </el-button>\n      <el-card>\n        <template #header>\n          header\n        </template>\n        body\n      </el-card>\n    </el-space>\n  </div>\n  <div style=\"width: 240px;margin-bottom: 20px;padding: 8px;border: 1px solid #ccc;\">\n    <el-space alignment=\"flex-start\">\n      string\n      <el-button>\n        button\n      </el-button>\n      <el-card>\n        <template #header>\n          header\n        </template>\n        body\n      </el-card>\n    </el-space>\n  </div>\n  <div style=\"width: 240px;margin-bottom: 20px;padding: 8px;border: 1px solid #ccc;\">\n    <el-space alignment=\"flex-end\">\n      string\n      <el-button>\n        button\n      </el-button>\n      <el-card>\n        <template #header>\n          header\n        </template>\n        body\n      </el-card>\n    </el-space>\n  </div>\n</template>\n\n")], -1);
-
-const _hoisted_45 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Fill the container ");
-
-const _hoisted_46 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Through the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "(Boolean type)"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" parameter, you can control whether the child node automatically fills the container.")], -1);
-
-const _hoisted_47 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("In the following example, when set to "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", the width of the child node will automatically adapt to the width of the container.")], -1);
-
-const _hoisted_48 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Use fill to automatically fill the container with child nodes")], -1);
-
-const _hoisted_49 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
-  class: "html"
-}, "<template>\n  <div>\n  <div style=\"margin-bottom:15px\">\n    fill:  <el-switch v-model=\"fill\"></el-switch>\n  </div>\n  <el-space :fill=\"fill\" wrap>\n    <el-card class=\"box-card\" v-for=\"i in 3\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n  </div>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return { fill: true }\n  },\n}\n</script>\n")], -1);
-
-const _hoisted_50 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("You can also use the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "fillRatio"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" parameter to customize the filling ratio. The default value is "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "100"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", which represents filling based on the width of the parent container at "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "100%"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(".")], -1);
-
-const _hoisted_51 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "It should be noted that the expression of horizontal layout and vertical layout is slightly different, the specific effect can be viewed in the following example.", -1);
-
-const _hoisted_52 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Use fillRatio to customize the fill ratio")], -1);
-
-const _hoisted_53 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
-  class: "html"
-}, "<template>\n  <div>\n  <div style=\"margin-bottom: 15px\">\n    direction:\n    <el-radio v-model=\"direction\" label=\"horizontal\">horizontal</el-radio>\n    <el-radio v-model=\"direction\" label=\"vertical\">vertical</el-radio>\n  </div>\n  <div style=\"margin-bottom: 15px\">\n    fillRatio:<el-slider v-model=\"fillRatio\"></el-slider>\n  </div>\n  <el-space fill wrap :fillRatio=\"fillRatio\" :direction=\"direction\" style=\" width: 100%\">\n    <el-card class=\"box-card\" v-for=\"i in 5\" :key=\"i\">\n      <template #header>\n        <div class=\"card-header\">\n          <span>Card name</span>\n          <el-button class=\"button\" type=\"text\">Operation button</el-button>\n        </div>\n      </template>\n      <div v-for=\"o in 4\" :key=\"o\" class=\"text item\">\n        {{ 'List item ' + o }}\n      </div>\n    </el-card>\n  </el-space>\n  </div>\n</template>\n\n<script>\n\nexport default {\n  data() {\n    return { direction: 'horizontal', fillRatio: 30 }\n  },\n}\n</script>\n")], -1);
-
-const _hoisted_54 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Space Attributes ");
-
-const _hoisted_55 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Attribute"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Type"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Available value"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Defaults")])], -1);
-
-const _hoisted_56 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "alignment", -1);
-
-const _hoisted_57 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Controls the alignment of items", -1);
-
-const _hoisted_58 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string", -1);
-
-const _hoisted_59 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("align-items");
-
-const _hoisted_60 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "'center'", -1);
-
-const _hoisted_61 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "class"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Classname"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / Array<Object | String> / Object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
-
-const _hoisted_62 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Placement direction"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "vertical/horizontal"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "horizontal")], -1);
-
-const _hoisted_63 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "prefixCls"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Prefix for space-items"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "el-space"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
-
-const _hoisted_64 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "style"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Extra style rules"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / Array<Object | String> / Object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
-
-const _hoisted_65 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "spacer"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Spacer"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / number / VNode"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-")], -1);
-
-const _hoisted_66 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "size"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Spacing size"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / number / [number, number]"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "'small'")], -1);
-
-const _hoisted_67 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "wrap"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Auto wrapping"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "true / false"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
-
-const _hoisted_68 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Whether to fill the container"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "true / false"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
-
-const _hoisted_69 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "fillRatio"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Ratio of fill"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "number"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "100")], -1);
-
-const _hoisted_70 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Space Slot ");
-
-const _hoisted_71 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "name"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "description")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "default"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Items to be spaced")])])], -1);
-
-function spacevue_type_template_id_1c801965_render(_ctx, _cache, $props, $setup, $data, $options) {
+function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
@@ -1602,299 +1510,188 @@ function spacevue_type_template_id_1c801965_render(_ctx, _cache, $props, $setup,
 
   const _component_element_demo5 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo5");
 
-  const _component_element_demo6 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo6");
-
-  const _component_element_demo7 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo7");
-
-  const _component_element_demo8 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo8");
-
-  const _component_element_demo9 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo9");
-
   const _component_right_nav = Object(vue_esm_browser_prod["resolveComponent"])("right-nav");
 
-  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", spacevue_type_template_id_1c801965_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "space-translation-needed",
-    content: "Space (Translation needed)",
-    href: "#space-translation-needed",
+  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", _hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "switch",
+    content: "Switch",
+    href: "#switch",
     level: "2"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_1c801965_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#space-translation-needed"
+      href: "#switch"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createElementVNode"])("p", null, [spacevue_type_template_id_1c801965_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-    href: "#/en-US/component/divider"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_1c801965_hoisted_4]),
-    _: 1
-  }), spacevue_type_template_id_1c801965_hoisted_5, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-    href: "#/en-US/component/divider"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_1c801965_hoisted_6]),
-    _: 1
-  }), spacevue_type_template_id_1c801965_hoisted_7, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-    href: "#/en-US/component/divider"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_1c801965_hoisted_8]),
-    _: 1
-  }), spacevue_type_template_id_1c801965_hoisted_9, spacevue_type_template_id_1c801965_hoisted_10, spacevue_type_template_id_1c801965_hoisted_11]), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "basic-usage",
-    content: "Basic usage",
-    href: "#basic-usage",
+  }), _hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "uso-basico",
+    content: "Uso básico",
+    href: "#uso-basico",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_1c801965_hoisted_12, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#basic-usage"
+      href: "#uso-basico"
     })]),
     _: 1
-  }), spacevue_type_template_id_1c801965_hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo0)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_1c801965_hoisted_15]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [spacevue_type_template_id_1c801965_hoisted_14]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_6]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_5]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "vertical-layout",
-    content: "Vertical layout",
-    href: "#vertical-layout",
+    id: "texto-de-descripcion",
+    content: "Texto de descripción",
+    href: "#texto-de-descripcion",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_7, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#texto-de-descripcion"
+    })]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo1)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_9]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_8]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "tipos-de-valores-extendidos",
+    content: "Tipos de valores extendidos",
+    href: "#tipos-de-valores-extendidos",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_10, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#tipos-de-valores-extendidos"
+    })]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo2)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_12]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_11]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "disabled",
+    content: "Disabled",
+    href: "#disabled",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#disabled"
+    })]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo3)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_15]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_14]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "loading",
+    content: "Loading",
+    href: "#loading",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_16, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#vertical-layout"
+      href: "#loading"
     })]),
     _: 1
-  }), _hoisted_17, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo1)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_19]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_18]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "control-the-size-of-the-space",
-    content: "Control the size of the space",
-    href: "#control-the-size-of-the-space",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_20, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#control-the-size-of-the-space"
-    })]),
-    _: 1
-  }), _hoisted_21, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo2)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_24]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "customized-size",
-    content: "Customized Size",
-    href: "#customized-size",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_25, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#customized-size"
-    })]),
-    _: 1
-  }), _hoisted_26, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo3)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_27]),
-    _: 1
-  }), _hoisted_28, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "auto-wrapping",
-    content: "Auto wrapping",
-    href: "#auto-wrapping",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_29, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#auto-wrapping"
-    })]),
-    _: 1
-  }), _hoisted_30, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo4)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_32]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_31]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_18]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_17]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "spacer",
-    content: "Spacer",
-    href: "#spacer",
+    id: "prevent-switching",
+    content: "prevent switching",
+    href: "#prevent-switching",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_33, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#spacer"
-    })]),
-    _: 1
-  }), _hoisted_34, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "literal-type-spacer",
-    content: "Literal type spacer",
-    href: "#literal-type-spacer",
-    level: "4"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_35, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#literal-type-spacer"
+      href: "#prevent-switching"
     })]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo5)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_36]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_21]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_20]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "spacer-can-also-be-vnode",
-    content: "Spacer can also be VNode",
-    href: "#spacer-can-also-be-vnode",
-    level: "4"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_37, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#spacer-can-also-be-vnode"
-    })]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo6)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_38]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "alignment",
-    content: "Alignment",
-    href: "#alignment",
+    id: "atributos",
+    content: "Atributos",
+    href: "#atributos",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_39, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_22, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#alignment"
+      href: "#atributos"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createElementVNode"])("p", null, [_hoisted_40, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-    href: "https://developer.mozilla.org/en-US/docs/Web/CSS/align-items"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_41]),
-    _: 1
-  }), _hoisted_42]), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo7)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_44]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_43]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "fill-the-container",
-    content: "Fill the container",
-    href: "#fill-the-container",
+  }), _hoisted_23, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "eventos",
+    content: "Eventos",
+    href: "#eventos",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_45, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_24, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#fill-the-container"
+      href: "#eventos"
     })]),
     _: 1
-  }), _hoisted_46, _hoisted_47, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo8)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_49]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_48]),
-    _: 1
-  }), _hoisted_50, _hoisted_51, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo9)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_53]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_52]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "space-attributes",
-    content: "Space Attributes",
-    href: "#space-attributes",
+  }), _hoisted_25, _hoisted_26, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "metodos",
+    content: "Metodos",
+    href: "#metodos",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_54, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_27, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#space-attributes"
+      href: "#metodos"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createElementVNode"])("table", null, [_hoisted_55, Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [_hoisted_56, _hoisted_57, _hoisted_58, Object(vue_esm_browser_prod["createElementVNode"])("td", null, [Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-    href: "https://developer.mozilla.org/en-US/docs/Web/CSS/align-items"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_59]),
-    _: 1
-  })]), _hoisted_60]), _hoisted_61, _hoisted_62, _hoisted_63, _hoisted_64, _hoisted_65, _hoisted_66, _hoisted_67, _hoisted_68, _hoisted_69])]), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "space-slot",
-    content: "Space Slot",
-    href: "#space-slot",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_70, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#space-slot"
-    })]),
-    _: 1
-  }), _hoisted_71, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
+  }), _hoisted_28, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/es/space.md?vue&type=template&id=1c801965
+// CONCATENATED MODULE: ./website/docs/es/switch.md?vue&type=template&id=53f172b7
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/space.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/switch.md?vue&type=script&lang=ts
 
-/* harmony default export */ var spacevue_type_script_lang_ts = ({
+/* harmony default export */ var switchvue_type_script_lang_ts = ({
   name: 'component-doc',
   components: {
     "element-demo0": function () {
       const {
-        renderList: _renderList,
-        Fragment: _Fragment,
-        openBlock: _openBlock,
-        createElementBlock: _createElementBlock,
-        createElementVNode: _createElementVNode,
-        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
-        withCtx: _withCtx,
         createVNode: _createVNode,
-        toDisplayString: _toDisplayString
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
-      const _hoisted_1 = {
-        class: "card-header"
-      };
-
-      const _hoisted_2 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
-
-      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
-        const _component_el_button = _resolveComponent("el-button");
+        const _component_el_switch = _resolveComponent("el-switch");
 
-        const _component_el_card = _resolveComponent("el-card");
-
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
-          wrap: ""
-        }, {
-          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, i => {
-            return _createVNode(_component_el_card, {
-              class: "box-card",
-              style: {
-                "width": "250px"
-              },
-              key: i
-            }, {
-              header: _withCtx(() => [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
-                class: "button",
-                type: "text"
-              }, {
-                default: _withCtx(() => [_hoisted_3]),
-                _: 1
-              })])]),
-              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
-                return _createElementVNode("div", {
-                  key: o,
-                  class: "text item"
-                }, _toDisplayString('List item ' + o), 1);
-              }), 64))]),
-              _: 2
-            }, 1024);
-          }), 64))]),
-          _: 1
-        })]);
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
+          modelValue: _ctx.value1,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event)
+        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
+          modelValue: _ctx.value2,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
+          "active-color": "#13ce66",
+          "inactive-color": "#ff4949"
+        }, null, 8, ["modelValue"])]);
       }
 
-      const democomponentExport = {};
+      const democomponentExport = {
+        data() {
+          return {
+            value1: true,
+            value2: true
+          };
+        }
+
+      };
       return {
         render,
         ...democomponentExport
@@ -1902,64 +1699,42 @@ function spacevue_type_template_id_1c801965_render(_ctx, _cache, $props, $setup,
     }(),
     "element-demo1": function () {
       const {
-        renderList: _renderList,
-        Fragment: _Fragment,
-        openBlock: _openBlock,
-        createElementBlock: _createElementBlock,
-        createElementVNode: _createElementVNode,
-        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
-        withCtx: _withCtx,
         createVNode: _createVNode,
-        toDisplayString: _toDisplayString
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
-      const _hoisted_1 = {
-        class: "card-header"
-      };
-
-      const _hoisted_2 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
-
-      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
-        const _component_el_button = _resolveComponent("el-button");
+        const _component_el_switch = _resolveComponent("el-switch");
 
-        const _component_el_card = _resolveComponent("el-card");
-
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
-          direction: "vertical"
-        }, {
-          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
-            return _createVNode(_component_el_card, {
-              class: "box-card",
-              style: {
-                "width": "250px"
-              },
-              key: i
-            }, {
-              header: _withCtx(() => [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
-                class: "button",
-                type: "text"
-              }, {
-                default: _withCtx(() => [_hoisted_3]),
-                _: 1
-              })])]),
-              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
-                return _createElementVNode("div", {
-                  key: o,
-                  class: "text item"
-                }, _toDisplayString('List item ' + o), 1);
-              }), 64))]),
-              _: 2
-            }, 1024);
-          }), 64))]),
-          _: 1
-        })]);
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
+          modelValue: _ctx.value1,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
+          "active-text": "Pay by month",
+          "inactive-text": "Pay by year"
+        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
+          style: {
+            "display": "block"
+          },
+          modelValue: _ctx.value2,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
+          "active-color": "#13ce66",
+          "inactive-color": "#ff4949",
+          "active-text": "Pay by month",
+          "inactive-text": "Pay by year"
+        }, null, 8, ["modelValue"])]);
       }
 
-      const democomponentExport = {};
+      const democomponentExport = {
+        data() {
+          return {
+            value1: true,
+            value2: true
+          };
+        }
+
+      };
       return {
         render,
         ...democomponentExport
@@ -1967,114 +1742,38 @@ function spacevue_type_template_id_1c801965_render(_ctx, _cache, $props, $setup,
     }(),
     "element-demo2": function () {
       const {
-        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
-        withCtx: _withCtx,
         createVNode: _createVNode,
-        renderList: _renderList,
-        Fragment: _Fragment,
+        withCtx: _withCtx,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock,
-        createElementVNode: _createElementVNode,
-        toDisplayString: _toDisplayString
+        createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
 
-      const _hoisted_1 = /*#__PURE__*/_createTextVNode("mini");
-
-      const _hoisted_2 = /*#__PURE__*/_createTextVNode("small");
-
-      const _hoisted_3 = /*#__PURE__*/_createTextVNode("medium");
-
-      const _hoisted_4 = /*#__PURE__*/_createTextVNode("large");
-
-      const _hoisted_5 = {
-        class: "card-header"
-      };
-
-      const _hoisted_6 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
-
-      const _hoisted_7 = /*#__PURE__*/_createTextVNode("Operation button");
-
       function render(_ctx, _cache) {
-        const _component_el_radio = _resolveComponent("el-radio");
+        const _component_el_switch = _resolveComponent("el-switch");
 
-        const _component_el_radio_group = _resolveComponent("el-radio-group");
+        const _component_el_tooltip = _resolveComponent("el-tooltip");
 
-        const _component_el_button = _resolveComponent("el-button");
-
-        const _component_el_card = _resolveComponent("el-card");
-
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
-          direction: "vertical",
-          alignment: "start",
-          size: 30
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_tooltip, {
+          content: 'Switch value: ' + _ctx.value,
+          placement: "top"
         }, {
-          default: _withCtx(() => [_createVNode(_component_el_radio_group, {
-            modelValue: _ctx.size,
-            "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.size = $event)
-          }, {
-            default: _withCtx(() => [_createVNode(_component_el_radio, {
-              label: 'mini'
-            }, {
-              default: _withCtx(() => [_hoisted_1]),
-              _: 1
-            }), _createVNode(_component_el_radio, {
-              label: 'small'
-            }, {
-              default: _withCtx(() => [_hoisted_2]),
-              _: 1
-            }), _createVNode(_component_el_radio, {
-              label: 'medium'
-            }, {
-              default: _withCtx(() => [_hoisted_3]),
-              _: 1
-            }), _createVNode(_component_el_radio, {
-              label: 'large'
-            }, {
-              default: _withCtx(() => [_hoisted_4]),
-              _: 1
-            })]),
-            _: 1
-          }, 8, ["modelValue"]), _createVNode(_component_el_space, {
-            wrap: "",
-            size: _ctx.size
-          }, {
-            default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, i => {
-              return _createVNode(_component_el_card, {
-                class: "box-card",
-                style: {
-                  "width": "250px"
-                },
-                key: i
-              }, {
-                header: _withCtx(() => [_createElementVNode("div", _hoisted_5, [_hoisted_6, _createVNode(_component_el_button, {
-                  class: "button",
-                  type: "text"
-                }, {
-                  default: _withCtx(() => [_hoisted_7]),
-                  _: 1
-                })])]),
-                default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
-                  return _createElementVNode("div", {
-                    key: o,
-                    class: "text item"
-                  }, _toDisplayString('List item ' + o), 1);
-                }), 64))]),
-                _: 2
-              }, 1024);
-            }), 64))]),
-            _: 1
-          }, 8, ["size"])]),
+          default: _withCtx(() => [_createVNode(_component_el_switch, {
+            modelValue: _ctx.value,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value = $event),
+            "active-color": "#13ce66",
+            "inactive-color": "#ff4949",
+            "active-value": "100",
+            "inactive-value": "0"
+          }, null, 8, ["modelValue"])]),
           _: 1
-        })]);
+        }, 8, ["content"])]);
       }
 
       const democomponentExport = {
         data() {
           return {
-            size: 'mini'
+            value: '100'
           };
         }
 
@@ -2088,71 +1787,29 @@ function spacevue_type_template_id_1c801965_render(_ctx, _cache, $props, $setup,
       const {
         resolveComponent: _resolveComponent,
         createVNode: _createVNode,
-        renderList: _renderList,
-        Fragment: _Fragment,
         openBlock: _openBlock,
-        createElementBlock: _createElementBlock,
-        createElementVNode: _createElementVNode,
-        createTextVNode: _createTextVNode,
-        withCtx: _withCtx,
-        toDisplayString: _toDisplayString
+        createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
-      const _hoisted_1 = {
-        class: "card-header"
-      };
-
-      const _hoisted_2 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
-
-      const _hoisted_3 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
-        const _component_el_slider = _resolveComponent("el-slider");
+        const _component_el_switch = _resolveComponent("el-switch");
 
-        const _component_el_button = _resolveComponent("el-button");
-
-        const _component_el_card = _resolveComponent("el-card");
-
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_slider, {
-          modelValue: _ctx.size,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.size = $event)
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_space, {
-          wrap: "",
-          size: _ctx.size
-        }, {
-          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
-            return _createVNode(_component_el_card, {
-              class: "box-card",
-              style: {
-                "width": "250px"
-              },
-              key: i
-            }, {
-              header: _withCtx(() => [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_button, {
-                class: "button",
-                type: "text"
-              }, {
-                default: _withCtx(() => [_hoisted_3]),
-                _: 1
-              })])]),
-              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
-                return _createElementVNode("div", {
-                  key: o,
-                  class: "text item"
-                }, _toDisplayString('List item ' + o), 1);
-              }), 64))]),
-              _: 2
-            }, 1024);
-          }), 64))]),
-          _: 1
-        }, 8, ["size"])]);
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
+          modelValue: _ctx.value1,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
+          disabled: ""
+        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
+          modelValue: _ctx.value2,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
+          disabled: ""
+        }, null, 8, ["modelValue"])]);
       }
 
       const democomponentExport = {
         data() {
           return {
-            size: 20
+            value1: true,
+            value2: false
           };
         }
 
@@ -2164,42 +1821,35 @@ function spacevue_type_template_id_1c801965_render(_ctx, _cache, $props, $setup,
     }(),
     "element-demo4": function () {
       const {
-        renderList: _renderList,
-        Fragment: _Fragment,
-        openBlock: _openBlock,
-        createElementBlock: _createElementBlock,
-        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
-        withCtx: _withCtx,
         createVNode: _createVNode,
-        createElementVNode: _createElementVNode
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
 
-      const _hoisted_1 = /*#__PURE__*/_createTextVNode(" Text button ");
-
       function render(_ctx, _cache) {
-        const _component_el_button = _resolveComponent("el-button");
+        const _component_el_switch = _resolveComponent("el-switch");
 
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
-          wrap: ""
-        }, {
-          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(20, i => {
-            return _createElementVNode("div", {
-              key: i
-            }, [_createVNode(_component_el_button, {
-              type: "text"
-            }, {
-              default: _withCtx(() => [_hoisted_1]),
-              _: 1
-            })]);
-          }), 64))]),
-          _: 1
-        })]);
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
+          modelValue: _ctx.value1,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
+          loading: ""
+        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
+          modelValue: _ctx.value2,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
+          loading: ""
+        }, null, 8, ["modelValue"])]);
       }
 
-      const democomponentExport = {};
+      const democomponentExport = {
+        data() {
+          return {
+            value1: true,
+            value2: false
+          };
+        }
+
+      };
       return {
         render,
         ...democomponentExport
@@ -2207,414 +1857,75 @@ function spacevue_type_template_id_1c801965_render(_ctx, _cache, $props, $setup,
     }(),
     "element-demo5": function () {
       const {
-        renderList: _renderList,
-        Fragment: _Fragment,
-        openBlock: _openBlock,
-        createElementBlock: _createElementBlock,
-        toDisplayString: _toDisplayString,
-        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
-        withCtx: _withCtx,
         createVNode: _createVNode,
-        createElementVNode: _createElementVNode
-      } = vue_esm_browser_prod;
-
-      function render(_ctx, _cache) {
-        const _component_el_button = _resolveComponent("el-button");
-
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
-          size: _ctx.size,
-          spacer: "|"
-        }, {
-          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
-            return _createElementVNode("div", {
-              key: i
-            }, [_createVNode(_component_el_button, null, {
-              default: _withCtx(() => [_createTextVNode(" button " + _toDisplayString(i), 1)]),
-              _: 2
-            }, 1024)]);
-          }), 64))]),
-          _: 1
-        }, 8, ["size"])]);
-      }
-
-      const democomponentExport = {
-        data() {
-          return {
-            size: 10
-          };
-        }
-
-      };
-      return {
-        render,
-        ...democomponentExport
-      };
-    }(),
-    "element-demo6": function () {
-      const {
-        renderList: _renderList,
-        Fragment: _Fragment,
-        openBlock: _openBlock,
-        createElementBlock: _createElementBlock,
-        toDisplayString: _toDisplayString,
-        createTextVNode: _createTextVNode,
-        resolveComponent: _resolveComponent,
-        withCtx: _withCtx,
-        createVNode: _createVNode,
-        createElementVNode: _createElementVNode
-      } = vue_esm_browser_prod;
-
-      function render(_ctx, _cache) {
-        const _component_el_button = _resolveComponent("el-button");
-
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_space, {
-          size: _ctx.size,
-          spacer: _ctx.spacer
-        }, {
-          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(2, i => {
-            return _createElementVNode("div", {
-              key: i
-            }, [_createVNode(_component_el_button, null, {
-              default: _withCtx(() => [_createTextVNode(" button " + _toDisplayString(i), 1)]),
-              _: 2
-            }, 1024)]);
-          }), 64))]),
-          _: 1
-        }, 8, ["size", "spacer"])]);
-      }
-
-      const {
-        h,
-        resolveComponent
-      } = vue_esm_browser_prod;
-
-      const {
-        ElDivider
-      } = __webpack_require__(111);
-
-      const democomponentExport = {
-        data() {
-          return {
-            size: 10,
-            spacer: h(ElDivider, {
-              direction: 'vertical'
-            })
-          };
-        }
-
-      };
-      return {
-        render,
-        ...democomponentExport
-      };
-    }(),
-    "element-demo7": function () {
-      const {
-        createTextVNode: _createTextVNode,
-        resolveComponent: _resolveComponent,
-        withCtx: _withCtx,
-        createVNode: _createVNode,
-        createElementVNode: _createElementVNode,
         openBlock: _openBlock,
         createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
-      const _hoisted_1 = {
-        style: {
-          "width": "240px",
-          "margin-bottom": "20px",
-          "padding": "8px",
-          "border": "1px solid #ccc"
-        }
-      };
-
-      const _hoisted_2 = /*#__PURE__*/_createTextVNode(" string ");
-
-      const _hoisted_3 = /*#__PURE__*/_createTextVNode(" button ");
-
-      const _hoisted_4 = /*#__PURE__*/_createTextVNode(" header ");
-
-      const _hoisted_5 = /*#__PURE__*/_createTextVNode(" body ");
-
-      const _hoisted_6 = {
-        style: {
-          "width": "240px",
-          "margin-bottom": "20px",
-          "padding": "8px",
-          "border": "1px solid #ccc"
-        }
-      };
-
-      const _hoisted_7 = /*#__PURE__*/_createTextVNode(" string ");
-
-      const _hoisted_8 = /*#__PURE__*/_createTextVNode(" button ");
-
-      const _hoisted_9 = /*#__PURE__*/_createTextVNode(" header ");
-
-      const _hoisted_10 = /*#__PURE__*/_createTextVNode(" body ");
-
-      const _hoisted_11 = {
-        style: {
-          "width": "240px",
-          "margin-bottom": "20px",
-          "padding": "8px",
-          "border": "1px solid #ccc"
-        }
-      };
-
-      const _hoisted_12 = /*#__PURE__*/_createTextVNode(" string ");
-
-      const _hoisted_13 = /*#__PURE__*/_createTextVNode(" button ");
-
-      const _hoisted_14 = /*#__PURE__*/_createTextVNode(" header ");
-
-      const _hoisted_15 = /*#__PURE__*/_createTextVNode(" body ");
-
-      function render(_ctx, _cache) {
-        const _component_el_button = _resolveComponent("el-button");
-
-        const _component_el_card = _resolveComponent("el-card");
-
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createElementVNode("div", _hoisted_1, [_createVNode(_component_el_space, null, {
-          default: _withCtx(() => [_hoisted_2, _createVNode(_component_el_button, null, {
-            default: _withCtx(() => [_hoisted_3]),
-            _: 1
-          }), _createVNode(_component_el_card, null, {
-            header: _withCtx(() => [_hoisted_4]),
-            default: _withCtx(() => [_hoisted_5]),
-            _: 1
-          })]),
-          _: 1
-        })]), _createElementVNode("div", _hoisted_6, [_createVNode(_component_el_space, {
-          alignment: "flex-start"
-        }, {
-          default: _withCtx(() => [_hoisted_7, _createVNode(_component_el_button, null, {
-            default: _withCtx(() => [_hoisted_8]),
-            _: 1
-          }), _createVNode(_component_el_card, null, {
-            header: _withCtx(() => [_hoisted_9]),
-            default: _withCtx(() => [_hoisted_10]),
-            _: 1
-          })]),
-          _: 1
-        })]), _createElementVNode("div", _hoisted_11, [_createVNode(_component_el_space, {
-          alignment: "flex-end"
-        }, {
-          default: _withCtx(() => [_hoisted_12, _createVNode(_component_el_button, null, {
-            default: _withCtx(() => [_hoisted_13]),
-            _: 1
-          }), _createVNode(_component_el_card, null, {
-            header: _withCtx(() => [_hoisted_14]),
-            default: _withCtx(() => [_hoisted_15]),
-            _: 1
-          })]),
-          _: 1
-        })])]);
-      }
-
-      const democomponentExport = {};
-      return {
-        render,
-        ...democomponentExport
-      };
-    }(),
-    "element-demo8": function () {
-      const {
-        resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
-        createTextVNode: _createTextVNode,
-        createElementVNode: _createElementVNode,
-        renderList: _renderList,
-        Fragment: _Fragment,
-        openBlock: _openBlock,
-        createElementBlock: _createElementBlock,
-        withCtx: _withCtx,
-        toDisplayString: _toDisplayString
-      } = vue_esm_browser_prod;
-      const _hoisted_1 = {
-        style: {
-          "margin-bottom": "15px"
-        }
-      };
-
-      const _hoisted_2 = /*#__PURE__*/_createTextVNode(" fill: ");
-
-      const _hoisted_3 = {
-        class: "card-header"
-      };
-
-      const _hoisted_4 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
-
-      const _hoisted_5 = /*#__PURE__*/_createTextVNode("Operation button");
 
       function render(_ctx, _cache) {
         const _component_el_switch = _resolveComponent("el-switch");
 
-        const _component_el_button = _resolveComponent("el-button");
-
-        const _component_el_card = _resolveComponent("el-card");
-
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createElementVNode("div", null, [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_switch, {
-          modelValue: _ctx.fill,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.fill = $event)
-        }, null, 8, ["modelValue"])]), _createVNode(_component_el_space, {
-          fill: _ctx.fill,
-          wrap: ""
-        }, {
-          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, i => {
-            return _createVNode(_component_el_card, {
-              class: "box-card",
-              key: i
-            }, {
-              header: _withCtx(() => [_createElementVNode("div", _hoisted_3, [_hoisted_4, _createVNode(_component_el_button, {
-                class: "button",
-                type: "text"
-              }, {
-                default: _withCtx(() => [_hoisted_5]),
-                _: 1
-              })])]),
-              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
-                return _createElementVNode("div", {
-                  key: o,
-                  class: "text item"
-                }, _toDisplayString('List item ' + o), 1);
-              }), 64))]),
-              _: 2
-            }, 1024);
-          }), 64))]),
-          _: 1
-        }, 8, ["fill"])])]);
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
+          modelValue: _ctx.value1,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
+          loading: _ctx.loading1,
+          beforeChange: _ctx.beforeChange1
+        }, null, 8, ["modelValue", "loading", "beforeChange"]), _createVNode(_component_el_switch, {
+          modelValue: _ctx.value2,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
+          loading: _ctx.loading2,
+          beforeChange: _ctx.beforeChange2
+        }, null, 8, ["modelValue", "loading", "beforeChange"])]);
       }
 
-      const democomponentExport = {
-        data() {
-          return {
-            fill: true
-          };
-        }
-
-      };
-      return {
-        render,
-        ...democomponentExport
-      };
-    }(),
-    "element-demo9": function () {
       const {
-        createTextVNode: _createTextVNode,
-        resolveComponent: _resolveComponent,
-        withCtx: _withCtx,
-        createVNode: _createVNode,
-        createElementVNode: _createElementVNode,
-        renderList: _renderList,
-        Fragment: _Fragment,
-        openBlock: _openBlock,
-        createElementBlock: _createElementBlock,
-        toDisplayString: _toDisplayString
+        reactive,
+        toRefs
       } = vue_esm_browser_prod;
-      const _hoisted_1 = {
-        style: {
-          "margin-bottom": "15px"
-        }
-      };
 
-      const _hoisted_2 = /*#__PURE__*/_createTextVNode(" direction: ");
-
-      const _hoisted_3 = /*#__PURE__*/_createTextVNode("horizontal");
-
-      const _hoisted_4 = /*#__PURE__*/_createTextVNode("vertical");
-
-      const _hoisted_5 = {
-        style: {
-          "margin-bottom": "15px"
-        }
-      };
-
-      const _hoisted_6 = /*#__PURE__*/_createTextVNode(" fillRatio:");
-
-      const _hoisted_7 = {
-        class: "card-header"
-      };
-
-      const _hoisted_8 = /*#__PURE__*/_createElementVNode("span", null, "Card name", -1);
-
-      const _hoisted_9 = /*#__PURE__*/_createTextVNode("Operation button");
-
-      function render(_ctx, _cache) {
-        const _component_el_radio = _resolveComponent("el-radio");
-
-        const _component_el_slider = _resolveComponent("el-slider");
-
-        const _component_el_button = _resolveComponent("el-button");
-
-        const _component_el_card = _resolveComponent("el-card");
-
-        const _component_el_space = _resolveComponent("el-space");
-
-        return _openBlock(), _createElementBlock("div", null, [_createElementVNode("div", null, [_createElementVNode("div", _hoisted_1, [_hoisted_2, _createVNode(_component_el_radio, {
-          modelValue: _ctx.direction,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.direction = $event),
-          label: "horizontal"
-        }, {
-          default: _withCtx(() => [_hoisted_3]),
-          _: 1
-        }, 8, ["modelValue"]), _createVNode(_component_el_radio, {
-          modelValue: _ctx.direction,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.direction = $event),
-          label: "vertical"
-        }, {
-          default: _withCtx(() => [_hoisted_4]),
-          _: 1
-        }, 8, ["modelValue"])]), _createElementVNode("div", _hoisted_5, [_hoisted_6, _createVNode(_component_el_slider, {
-          modelValue: _ctx.fillRatio,
-          "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.fillRatio = $event)
-        }, null, 8, ["modelValue"])]), _createVNode(_component_el_space, {
-          fill: "",
-          wrap: "",
-          fillRatio: _ctx.fillRatio,
-          direction: _ctx.direction,
-          style: {
-            "width": "100%"
-          }
-        }, {
-          default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(5, i => {
-            return _createVNode(_component_el_card, {
-              class: "box-card",
-              key: i
-            }, {
-              header: _withCtx(() => [_createElementVNode("div", _hoisted_7, [_hoisted_8, _createVNode(_component_el_button, {
-                class: "button",
-                type: "text"
-              }, {
-                default: _withCtx(() => [_hoisted_9]),
-                _: 1
-              })])]),
-              default: _withCtx(() => [(_openBlock(), _createElementBlock(_Fragment, null, _renderList(4, o => {
-                return _createElementVNode("div", {
-                  key: o,
-                  class: "text item"
-                }, _toDisplayString('List item ' + o), 1);
-              }), 64))]),
-              _: 2
-            }, 1024);
-          }), 64))]),
-          _: 1
-        }, 8, ["fillRatio", "direction"])])]);
-      }
+      const {
+        ElMessage
+      } = __webpack_require__(111);
 
       const democomponentExport = {
-        data() {
-          return {
-            direction: 'horizontal',
-            fillRatio: 30
+        setup() {
+          const status1 = reactive({
+            value1: false,
+            loading1: false
+          });
+
+          const beforeChange1 = () => {
+            status1.loading1 = true;
+            return new Promise(resolve => {
+              setTimeout(() => {
+                status1.loading1 = false;
+                ElMessage.success('switch success');
+                return resolve(true);
+              }, 1000);
+            });
+          };
+
+          const status2 = reactive({
+            value2: false,
+            loading2: false
+          });
+
+          const beforeChange2 = () => {
+            status2.loading2 = true;
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                status2.loading2 = false;
+                ElMessage.error('switch failed');
+                return reject(new Error('error'));
+              }, 1000);
+            });
+          };
+
+          return { ...toRefs(status1),
+            ...toRefs(status2),
+            beforeChange1,
+            beforeChange2
           };
         }
 
@@ -2626,15 +1937,15 @@ function spacevue_type_template_id_1c801965_render(_ctx, _cache, $props, $setup,
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/es/space.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/es/switch.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/es/space.md
+// CONCATENATED MODULE: ./website/docs/es/switch.md
 
 
 
-spacevue_type_script_lang_ts.render = spacevue_type_template_id_1c801965_render
+switchvue_type_script_lang_ts.render = switchvue_type_template_id_53f172b7_render
 
-/* harmony default export */ var space = __webpack_exports__["default"] = (spacevue_type_script_lang_ts);
+/* harmony default export */ var es_switch = __webpack_exports__["default"] = (switchvue_type_script_lang_ts);
 
 /***/ })
 

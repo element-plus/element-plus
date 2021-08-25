@@ -1,6 +1,6 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[50],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[266],{
 
-/***/ 809:
+/***/ 1010:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10,13 +10,13 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/select-v2.md?vue&type=template&id=2bfff9ea
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/select-v2.md?vue&type=template&id=2951821f
 
-const select_v2vue_type_template_id_2bfff9ea_hoisted_1 = {
+const select_v2vue_type_template_id_2951821f_hoisted_1 = {
   class: "content element-doc"
 };
 
-const select_v2vue_type_template_id_2bfff9ea_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Select V2 virtualized selector ");
+const select_v2vue_type_template_id_2951821f_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Select V2 virtualized selector ");
 
 const _hoisted_3 = {
   class: "tip"
@@ -94,89 +94,97 @@ const _hoisted_31 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode
   class: "html"
 }, "<template>\n  <el-select-v2\n    v-model=\"value1\"\n    :options=\"options\"\n    placeholder=\"Please select\"\n    style=\"width: 200px; margin-right: 16px; vertical-align: middle;\"\n    multiple\n    clearable\n  />\n  <el-select-v2\n    v-model=\"value2\"\n    :options=\"options\"\n    placeholder=\"Please select\"\n    style=\"width: 200px; vertical-align: middle;\"\n    clearable\n  />\n</template>\n\n<script>\n  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']\n  export default {\n    data() {\n      return {\n        options: Array.from({ length: 1000 }).map((_, idx) => ({\n          value: `Option ${idx + 1}`,\n          label: `${initials[idx % 10]}${idx}`,\n        })),\n        value1: [],\n        value2: '',\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_32 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Create Option ");
+const _hoisted_32 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("新規アイテムの作成 ");
 
-const _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "WIP👷‍♀️", -1);
+const _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "セレクトオプションに含まれないアイテムを新規に作成してセレクトする", -1);
 
-const _hoisted_34 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Remote search ");
+const _hoisted_34 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "allow-create"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性を使うことで、ユーザは入力ボックスに入力することで新しいアイテムを作成することができます。なお、"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "allow-create"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" が動作するためには、"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "filterable"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" が "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" でなければならない。")])], -1);
 
-const _hoisted_35 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "WIP 👷‍♀️", -1);
+const _hoisted_35 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+  class: "html"
+}, "<template>\n  <el-select-v2\n    v-model=\"value1\"\n    :options=\"options\"\n    placeholder=\"Please select\"\n    style=\"width: 200px; margin-right: 16px; vertical-align: middle;\"\n    allow-create\n    filterable\n    multiple\n    clearable\n  />\n  <el-select-v2\n    v-model=\"value2\"\n    :options=\"options\"\n    placeholder=\"Please select\"\n    style=\"width: 200px; vertical-align: middle;\"\n    allow-create\n    filterable\n    clearable\n  />\n</template>\n\n<script>\n  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']\n  export default {\n    data() {\n      return {\n        options: Array.from({ length: 1000 }).map((_, idx) => ({\n          value: `Option ${idx + 1}`,\n          label: `${initials[idx % 10]}${idx}`,\n        })),\n        value1: [],\n        value2: '',\n      }\n    },\n  }\n</script>\n")], -1);
 
-const _hoisted_36 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Keyboard navigation ");
+const _hoisted_36 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Remote search ");
 
 const _hoisted_37 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "WIP 👷‍♀️", -1);
 
-const _hoisted_38 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", {
+const _hoisted_38 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Keyboard navigation ");
+
+const _hoisted_39 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "WIP 👷‍♀️", -1);
+
+const _hoisted_40 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", {
   class: "tip"
 }, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Some APIs are still undergoing (comparing to the non-virtualized select), because there were lots of legacy API refactors and new designs, the current version only implements the simplest and most used functionalities.")], -1);
 
-const _hoisted_39 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("SelectV2 Attributes ");
+const _hoisted_41 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("SelectV2 Attributes ");
 
-const _hoisted_40 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Param"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Type"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Accepted Values"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Default")])], -1);
+const _hoisted_42 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Param"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Description"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Type"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Accepted Values"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Default")])], -1);
 
-const _hoisted_41 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "model-value / v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "biding value"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / number / boolean / object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")], -1);
+const _hoisted_43 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "model-value / v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "biding value"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string / number / boolean / object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")], -1);
 
-const _hoisted_42 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "multiple"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "is multiple"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+const _hoisted_44 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "multiple"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "is multiple"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
 
-const _hoisted_43 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "is disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+const _hoisted_45 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "is disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
 
-const _hoisted_44 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "value-key"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "unique identity key name for value, required when value is an object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "value")], -1);
+const _hoisted_46 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "value-key"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "unique identity key name for value, required when value is an object"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "value")], -1);
 
-const _hoisted_45 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "size"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "input box size"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "medium/small/mini"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")], -1);
+const _hoisted_47 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "size"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "input box size"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "medium/small/mini"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")], -1);
 
-const _hoisted_46 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "clearable"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "whether select can be cleared"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+const _hoisted_48 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "clearable"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "whether select can be cleared"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
 
-const _hoisted_47 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "collapse-tags"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "whether to collapse tags to a text when multiple selecting"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+const _hoisted_49 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "collapse-tags"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "whether to collapse tags to a text when multiple selecting"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
 
-const _hoisted_48 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "multiple-limit"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "maximum number of options user can select when multiple is true. No limit when set to 0"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "number"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "0")], -1);
+const _hoisted_50 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "multiple-limit"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "maximum number of options user can select when multiple is true. No limit when set to 0"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "number"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "0")], -1);
 
-const _hoisted_49 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "name"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "the name attribute of select input"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")], -1);
+const _hoisted_51 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "name"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "the name attribute of select input"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")], -1);
 
-const _hoisted_50 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "autocomplete"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "select input 的 autocomplete 属性"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "off")], -1);
+const _hoisted_52 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "autocomplete"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "select input 的 autocomplete 属性"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "off")], -1);
 
-const _hoisted_51 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "placeholder"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "the autocomplete attribute of select input"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Please select")], -1);
+const _hoisted_53 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "placeholder"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "the autocomplete attribute of select input"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Please select")], -1);
 
-const _hoisted_52 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "filterable"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "is filterable"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+const _hoisted_54 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "filterable"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "is filterable"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
 
-const _hoisted_53 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "no-data-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "displayed text when there is no options, you can also use slot empty"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "No Data")], -1);
+const _hoisted_55 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "allow-create"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("新しいアイテムの作成を許可するかどうかを指定します。これを使うには、"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "filterable"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" がtrueでなければなりません。")]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
 
-const _hoisted_54 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "popper-class"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "custom class name for Select's dropdown"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")], -1);
+const _hoisted_56 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "no-data-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "displayed text when there is no options, you can also use slot empty"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "No Data")], -1);
 
-const _hoisted_55 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "popper-append-to-body"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+const _hoisted_57 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "popper-class"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "custom class name for Select's dropdown"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")], -1);
 
-const _hoisted_56 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "popper-options", -1);
+const _hoisted_58 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "popper-append-to-body"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
 
-const _hoisted_57 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Customized popper option see more at ");
+const _hoisted_59 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "popper-options", -1);
 
-const _hoisted_58 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("popper.js");
+const _hoisted_60 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Customized popper option see more at ");
 
-const _hoisted_59 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "object", -1);
+const _hoisted_61 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("popper.js");
 
-const _hoisted_60 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-", -1);
+const _hoisted_62 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "object", -1);
 
-const _hoisted_61 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-", -1);
+const _hoisted_63 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-", -1);
 
-const _hoisted_62 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "automatic-dropdown"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "for non-filterable Select, this prop decides if the option menu pops up when the input is focused"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
+const _hoisted_64 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-", -1);
 
-const _hoisted_63 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "clear-icon"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Customized clear icon class"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "el-icon-circle-close")], -1);
+const _hoisted_65 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "automatic-dropdown"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "for non-filterable Select, this prop decides if the option menu pops up when the input is focused"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "false")], -1);
 
-const _hoisted_64 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "height"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "The height of the dropdown panel, 34px for each item"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "number"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "170")], -1);
+const _hoisted_66 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "clear-icon"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Customized clear icon class"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "string"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "el-icon-circle-close")], -1);
 
-const _hoisted_65 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("span", {
+const _hoisted_67 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "height"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "The height of the dropdown panel, 34px for each item"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "number"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "-"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "170")], -1);
+
+const _hoisted_68 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("span", {
   style: {
     "display": "none"
   }
 }, null, -1);
 
-const _hoisted_66 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("SelectV2 Events ");
+const _hoisted_69 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("SelectV2 Events ");
 
-const _hoisted_67 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Event Name</th><th>Description</th><th>Params</th></tr></thead><tbody><tr><td>change</td><td>triggers when the selected value changes</td><td>current selected value</td></tr><tr><td>visible-change</td><td>triggers when the dropdown appears/disappears</td><td>true when it appears, and false otherwise</td></tr><tr><td>remove-tag</td><td>triggers when a tag is removed in multiple mode</td><td>removed tag value</td></tr><tr><td>clear</td><td>triggers when the clear icon is clicked in a clearable Select</td><td>—</td></tr><tr><td>blur</td><td>triggers when Input blurs</td><td>(event: Event)</td></tr><tr><td>focus</td><td>triggers when Input focuses</td><td>(event: Event)</td></tr></tbody></table>", 1);
+const _hoisted_70 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Event Name</th><th>Description</th><th>Params</th></tr></thead><tbody><tr><td>change</td><td>triggers when the selected value changes</td><td>current selected value</td></tr><tr><td>visible-change</td><td>triggers when the dropdown appears/disappears</td><td>true when it appears, and false otherwise</td></tr><tr><td>remove-tag</td><td>triggers when a tag is removed in multiple mode</td><td>removed tag value</td></tr><tr><td>clear</td><td>triggers when the clear icon is clicked in a clearable Select</td><td>—</td></tr><tr><td>blur</td><td>triggers when Input blurs</td><td>(event: Event)</td></tr><tr><td>focus</td><td>triggers when Input focuses</td><td>(event: Event)</td></tr></tbody></table>", 1);
 
-const _hoisted_68 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("SelectV2 Slots ");
+const _hoisted_71 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("SelectV2 Slots ");
 
-const _hoisted_69 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "name"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "说明")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "default"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Option renderer")]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "empty"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "无Option时的列表")])])], -1);
+const _hoisted_72 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "name"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "说明")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "default"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "Option renderer")]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "empty"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "无Option时的列表")])])], -1);
 
-function select_v2vue_type_template_id_2bfff9ea_render(_ctx, _cache, $props, $setup, $data, $options) {
+function select_v2vue_type_template_id_2951821f_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
@@ -199,15 +207,17 @@ function select_v2vue_type_template_id_2bfff9ea_render(_ctx, _cache, $props, $se
 
   const _component_element_demo7 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo7");
 
+  const _component_element_demo8 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo8");
+
   const _component_right_nav = Object(vue_esm_browser_prod["resolveComponent"])("right-nav");
 
-  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", select_v2vue_type_template_id_2bfff9ea_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", select_v2vue_type_template_id_2951821f_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "select-vtwo-virtualized-selector",
     content: "Select V2 virtualized selector",
     href: "#select-vtwo-virtualized-selector",
     level: "2"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [select_v2vue_type_template_id_2bfff9ea_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [select_v2vue_type_template_id_2951821f_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#select-vtwo-virtualized-selector"
     })]),
@@ -349,81 +359,86 @@ function select_v2vue_type_template_id_2bfff9ea_render(_ctx, _cache, $props, $se
     highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_31]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "create-option",
-    content: "Create Option",
-    href: "#create-option",
+    id: "xin-guiaitemuno-zuo-cheng",
+    content: "新規アイテムの作成",
+    href: "#xin-guiaitemuno-zuo-cheng",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_32, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#create-option"
+      href: "#xin-guiaitemuno-zuo-cheng"
     })]),
     _: 1
-  }), _hoisted_33, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), _hoisted_33, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo8)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_35]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_34]),
+    _: 1
+  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "remote-search",
     content: "Remote search",
     href: "#remote-search",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_34, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_36, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#remote-search"
     })]),
     _: 1
-  }), _hoisted_35, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), _hoisted_37, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "keyboard-navigation",
     content: "Keyboard navigation",
     href: "#keyboard-navigation",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_36, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_38, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#keyboard-navigation"
     })]),
     _: 1
-  }), _hoisted_37, _hoisted_38, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), _hoisted_39, _hoisted_40, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "selectvtwo-attributes",
     content: "SelectV2 Attributes",
     href: "#selectvtwo-attributes",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_39, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_41, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#selectvtwo-attributes"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createElementVNode"])("table", null, [_hoisted_40, Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [_hoisted_41, _hoisted_42, _hoisted_43, _hoisted_44, _hoisted_45, _hoisted_46, _hoisted_47, _hoisted_48, _hoisted_49, _hoisted_50, _hoisted_51, _hoisted_52, _hoisted_53, _hoisted_54, _hoisted_55, Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [_hoisted_56, Object(vue_esm_browser_prod["createElementVNode"])("td", null, [_hoisted_57, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+  }), Object(vue_esm_browser_prod["createElementVNode"])("table", null, [_hoisted_42, Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [_hoisted_43, _hoisted_44, _hoisted_45, _hoisted_46, _hoisted_47, _hoisted_48, _hoisted_49, _hoisted_50, _hoisted_51, _hoisted_52, _hoisted_53, _hoisted_54, _hoisted_55, _hoisted_56, _hoisted_57, _hoisted_58, Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [_hoisted_59, Object(vue_esm_browser_prod["createElementVNode"])("td", null, [_hoisted_60, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
     href: "https://popper.js.org/documentation.html"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_58]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_61]),
     _: 1
-  })]), _hoisted_59, _hoisted_60, _hoisted_61]), _hoisted_62, _hoisted_63, _hoisted_64])]), _hoisted_65, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  })]), _hoisted_62, _hoisted_63, _hoisted_64]), _hoisted_65, _hoisted_66, _hoisted_67])]), _hoisted_68, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "selectvtwo-events",
     content: "SelectV2 Events",
     href: "#selectvtwo-events",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_66, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_69, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#selectvtwo-events"
     })]),
     _: 1
-  }), _hoisted_67, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+  }), _hoisted_70, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
     id: "selectvtwo-slots",
     content: "SelectV2 Slots",
     href: "#selectvtwo-slots",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_68, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_71, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
       href: "#selectvtwo-slots"
     })]),
     _: 1
-  }), _hoisted_69, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
+  }), _hoisted_72, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/en-US/select-v2.md?vue&type=template&id=2bfff9ea
+// CONCATENATED MODULE: ./website/docs/jp/select-v2.md?vue&type=template&id=2951821f
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/en-US/select-v2.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/jp/select-v2.md?vue&type=script&lang=ts
 
 /* harmony default export */ var select_v2vue_type_script_lang_ts = ({
   name: 'component-doc',
@@ -832,16 +847,77 @@ function select_v2vue_type_template_id_2bfff9ea_render(_ctx, _cache, $props, $se
         render,
         ...democomponentExport
       };
+    }(),
+    "element-demo8": function () {
+      const {
+        resolveComponent: _resolveComponent,
+        createVNode: _createVNode,
+        openBlock: _openBlock,
+        createElementBlock: _createElementBlock
+      } = vue_esm_browser_prod;
+
+      function render(_ctx, _cache) {
+        const _component_el_select_v2 = _resolveComponent("el-select-v2");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_select_v2, {
+          modelValue: _ctx.value1,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
+          options: _ctx.options,
+          placeholder: "Please select",
+          style: {
+            "width": "200px",
+            "margin-right": "16px",
+            "vertical-align": "middle"
+          },
+          "allow-create": "",
+          filterable: "",
+          multiple: "",
+          clearable: ""
+        }, null, 8, ["modelValue", "options"]), _createVNode(_component_el_select_v2, {
+          modelValue: _ctx.value2,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
+          options: _ctx.options,
+          placeholder: "Please select",
+          style: {
+            "width": "200px",
+            "vertical-align": "middle"
+          },
+          "allow-create": "",
+          filterable: "",
+          clearable: ""
+        }, null, 8, ["modelValue", "options"])]);
+      }
+
+      const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+      const democomponentExport = {
+        data() {
+          return {
+            options: Array.from({
+              length: 1000
+            }).map((_, idx) => ({
+              value: `Option ${idx + 1}`,
+              label: `${initials[idx % 10]}${idx}`
+            })),
+            value1: [],
+            value2: ''
+          };
+        }
+
+      };
+      return {
+        render,
+        ...democomponentExport
+      };
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/en-US/select-v2.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/jp/select-v2.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/en-US/select-v2.md
+// CONCATENATED MODULE: ./website/docs/jp/select-v2.md
 
 
 
-select_v2vue_type_script_lang_ts.render = select_v2vue_type_template_id_2bfff9ea_render
+select_v2vue_type_script_lang_ts.render = select_v2vue_type_template_id_2951821f_render
 
 /* harmony default export */ var select_v2 = __webpack_exports__["default"] = (select_v2vue_type_script_lang_ts);
 

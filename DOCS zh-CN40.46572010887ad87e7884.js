@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[128],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[324],{
 
 /***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -199,7 +199,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_provider__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(160);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElConfigProvider", function() { return _config_provider__WEBPACK_IMPORTED_MODULE_19__["a"]; });
 
-/* harmony import */ var _container__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(123);
+/* harmony import */ var _container__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(124);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElContainer", function() { return _container__WEBPACK_IMPORTED_MODULE_20__["b"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElAside", function() { return _container__WEBPACK_IMPORTED_MODULE_20__["a"]; });
@@ -307,7 +307,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _rate__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(157);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElRate", function() { return _rate__WEBPACK_IMPORTED_MODULE_43__["a"]; });
 
-/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(124);
+/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(125);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElResult", function() { return _result__WEBPACK_IMPORTED_MODULE_44__["a"]; });
 
 /* harmony import */ var _row__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(163);
@@ -333,7 +333,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "selectEvents", function() { return _select__WEBPACK_IMPORTED_MODULE_47__["e"]; });
 
-/* harmony import */ var _select_v2__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(125);
+/* harmony import */ var _select_v2__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(123);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElSelectV2", function() { return _select_v2__WEBPACK_IMPORTED_MODULE_48__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "selectV2InjectionKey", function() { return _select_v2__WEBPACK_IMPORTED_MODULE_48__["b"]; });
@@ -1409,7 +1409,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 882:
+/***/ 731:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1419,79 +1419,109 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm-browser.prod.js
 var vue_esm_browser_prod = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/switch.md?vue&type=template&id=53f172b7
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/message.md?vue&type=template&id=41a91a34
 
-const _hoisted_1 = {
+const messagevue_type_template_id_41a91a34_hoisted_1 = {
   class: "content element-doc"
 };
 
-const _hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Switch ");
+const messagevue_type_template_id_41a91a34_hoisted_2 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Message 消息提示 ");
 
-const _hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "Switch es utilizado para realizar cambios entre dos estados opuestos.", -1);
+const messagevue_type_template_id_41a91a34_hoisted_3 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "常用于主动操作后的反馈提示。与 Notification 的区别是后者更多用于系统级通知的被动提醒。", -1);
 
-const _hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Uso básico ");
+const messagevue_type_template_id_41a91a34_hoisted_4 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("基础用法 ");
 
-const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Enlace "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "v-model"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" a una variable de tipo "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Los atributos "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" y "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-color"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" deciden el color de fondo en cada estado.")])], -1);
+const _hoisted_5 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "从顶部出现，3 秒后自动消失。", -1);
 
-const _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_6 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Message 在配置上与 Notification 非常类似，所以部分 options 在此不做详尽解释，文末有 options 列表，可以结合 Notification 的文档理解它们。Element Plus 注册了一个"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "$message"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("方法用于调用，Message 可以接收一个字符串或一个 VNode 作为参数，它会被显示为正文内容。")])], -1);
+
+const _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\"> </el-switch>\n<el-switch v-model=\"value2\" active-color=\"#13ce66\" inactive-color=\"#ff4949\">\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-button :plain=\"true\" @click=\"open\">打开消息提示</el-button>\n  <el-button :plain=\"true\" @click=\"openVn\">VNode</el-button>\n</template>\n\n<script>\n  import { defineComponent, h } from 'vue'\n  import { ElMessage } from 'element-plus'\n  export default defineComponent ({\n    setup() {\n      return {\n        open() {\n          ElMessage('只是一条消息提示')\n        },\n        openVn() {\n          ElMessage({\n            message: h('p', null, [\n              h('span', null, '内容可以是 '),\n              h('i', { style: 'color: teal' }, 'VNode')\n            ])\n          });\n        }\n      }\n    }\n  })\n</script>\n<!--\n<setup>\n\n  import { defineComponent, h } from 'vue'\n  import { ElMessage } from 'element-plus'\n  export default defineComponent ({\n    setup() {\n      return {\n        open() {\n          ElMessage('只是一条消息提示')\n        },\n        openVn() {\n          ElMessage({\n            message: h('p', null, [\n              h('span', null, '内容可以是 '),\n              h('i', { style: 'color: teal' }, 'VNode')\n            ])\n          });\n        }\n      }\n    }\n  })\n\n</setup>\n-->\n")], -1);
 
-const _hoisted_7 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Texto de descripción ");
+const _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("不同状态 ");
 
-const _hoisted_8 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Puede agregar los atributos "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" y "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-text"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" para mostrar los textos.")])], -1);
+const _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "用来显示「成功、警告、消息、错误」类的操作反馈。", -1);
 
-const _hoisted_9 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("当需要自定义更多属性时，Message 也可以接收一个对象为参数。比如，设置"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "type"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("字段可以定义不同的状态，默认为"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "info"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("。此时正文内容以"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "message"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("的值传入。同时，我们也为 Message 的各种 type 注册了方法，可以在不传入"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "type"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("字段的情况下像"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "open4"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("那样直接调用。")])], -1);
+
+const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch\n  v-model=\"value1\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n<el-switch\n  style=\"display: block\"\n  v-model=\"value2\"\n  active-color=\"#13ce66\"\n  inactive-color=\"#ff4949\"\n  active-text=\"Pay by month\"\n  inactive-text=\"Pay by year\"\n>\n</el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: true,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-button :plain=\"true\" @click=\"open1\">成功</el-button>\n  <el-button :plain=\"true\" @click=\"open2\">警告</el-button>\n  <el-button :plain=\"true\" @click=\"open3\">消息</el-button>\n  <el-button :plain=\"true\" @click=\"open4\">错误</el-button>\n</template>\n\n<script>\n  import { defineComponent } from 'vue'\n  import { ElMessage } from 'element-plus'\n  export default defineComponent({\n    setup() {\n      return {\n        open1() {\n          ElMessage.success({\n            message: '恭喜你，这是一条成功消息',\n            type: 'success'\n          });\n        },\n        open2() {\n          ElMessage.warning({\n            message: '警告哦，这是一条警告消息',\n            type: 'warning'\n          });\n        },\n        open3() {\n          ElMessage('这是一条消息提示');\n        },\n        open4() {\n          ElMessage.error('错了哦，这是一条错误消息');\n        }\n      }\n    }\n  })\n</script>\n<!--\n<setup>\n\n  import { defineComponent } from 'vue'\n  import { ElMessage } from 'element-plus'\n  export default defineComponent({\n    setup() {\n      return {\n        open1() {\n          ElMessage.success({\n            message: '恭喜你，这是一条成功消息',\n            type: 'success'\n          });\n        },\n        open2() {\n          ElMessage.warning({\n            message: '警告哦，这是一条警告消息',\n            type: 'warning'\n          });\n        },\n        open3() {\n          ElMessage('这是一条消息提示');\n        },\n        open4() {\n          ElMessage.error('错了哦，这是一条错误消息');\n        }\n      }\n    }\n  })\n\n</setup>\n-->\n")], -1);
 
-const _hoisted_10 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Tipos de valores extendidos ");
+const _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("可关闭 ");
 
-const _hoisted_11 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Puede establecer los atributos "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "active-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" y "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "inactive-value"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(". Ambos reciben valores de tipo "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Boolean"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(", "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "String"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" o "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Number"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(".")])], -1);
+const _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "可以添加关闭按钮。", -1);
 
-const _hoisted_12 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
-  class: "html"
-}, "<el-tooltip :content=\"'Switch value: ' + value\" placement=\"top\">\n  <el-switch\n    v-model=\"value\"\n    active-color=\"#13ce66\"\n    inactive-color=\"#ff4949\"\n    active-value=\"100\"\n    inactive-value=\"0\"\n  >\n  </el-switch>\n</el-tooltip>\n\n<script>\n  export default {\n    data() {\n      return {\n        value: '100',\n      }\n    },\n  }\n</script>\n")], -1);
-
-const _hoisted_13 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Disabled ");
-
-const _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Agregar el atributo "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "disabled"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" desactiva el componente Switch.")])], -1);
+const _hoisted_14 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("默认的 Message 是不可以被人工关闭的，如果需要可手动关闭的 Message，可以使用"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "showClose"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("字段。此外，和 Notification 一样，Message 拥有可控的"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "duration"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("，设置"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "0"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("为不会被自动关闭，默认为 3000 毫秒。")])], -1);
 
 const _hoisted_15 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" disabled> </el-switch>\n<el-switch v-model=\"value2\" disabled> </el-switch>\n\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-button :plain=\"true\" @click=\"open1\">消息</el-button>\n  <el-button :plain=\"true\" @click=\"open2\">成功</el-button>\n  <el-button :plain=\"true\" @click=\"open3\">警告</el-button>\n  <el-button :plain=\"true\" @click=\"open4\">错误</el-button>\n</template>\n\n<script>\n  import { defineComponent } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default defineComponent({\n    setup() {\n      return {\n        open1() {\n          ElMessage({\n            showClose: true,\n            message: '这是一条消息提示'\n          });\n        },\n\n        open2() {\n          ElMessage({\n            showClose: true,\n            message: '恭喜你，这是一条成功消息',\n            type: 'success'\n          });\n        },\n\n        open3() {\n          ElMessage({\n            showClose: true,\n            message: '警告哦，这是一条警告消息',\n            type: 'warning'\n          });\n        },\n\n        open4() {\n          ElMessage({\n            showClose: true,\n            message: '错了哦，这是一条错误消息',\n            type: 'error'\n          });\n        }\n      }\n    }\n  })\n</script>\n<!--\n<setup>\n\n  import { defineComponent } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default defineComponent({\n    setup() {\n      return {\n        open1() {\n          ElMessage({\n            showClose: true,\n            message: '这是一条消息提示'\n          });\n        },\n\n        open2() {\n          ElMessage({\n            showClose: true,\n            message: '恭喜你，这是一条成功消息',\n            type: 'success'\n          });\n        },\n\n        open3() {\n          ElMessage({\n            showClose: true,\n            message: '警告哦，这是一条警告消息',\n            type: 'warning'\n          });\n        },\n\n        open4() {\n          ElMessage({\n            showClose: true,\n            message: '错了哦，这是一条错误消息',\n            type: 'error'\n          });\n        }\n      }\n    }\n  })\n\n</setup>\n-->\n")], -1);
 
-const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Loading ");
+const _hoisted_16 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("文字居中 ");
 
-const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Setting the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "loading"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" attribute to "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "true"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" indicates a loading state on the Switch.")])], -1);
+const _hoisted_17 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("使用 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "center"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 属性让文字水平居中。")], -1);
 
 const _hoisted_18 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" loading> </el-switch>\n<el-switch v-model=\"value2\" loading> </el-switch>\n<script>\n  export default {\n    data() {\n      return {\n        value1: true,\n        value2: false,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-button :plain=\"true\" @click=\"openCenter\">文字居中</el-button>\n</template>\n\n<script>\n  import { defineComponent } from 'vue'\n  import { ElMessage } from 'element-plus'\n  export default defineComponent({\n    setup() {\n      return {\n        openCenter() {\n          ElMessage({\n            message: '居中的文字',\n            center: true\n          });\n        }\n      }\n    }\n  })\n</script>\n<!--\n<setup>\n\n  import { defineComponent } from 'vue'\n  import { ElMessage } from 'element-plus'\n  export default defineComponent({\n    setup() {\n      return {\n        openCenter() {\n          ElMessage({\n            message: '居中的文字',\n            center: true\n          });\n        }\n      }\n    }\n  })\n\n</setup>\n-->\n")], -1);
 
-const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("prevent switching ");
+const _hoisted_19 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("使用 HTML 片段 ");
 
-const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("set the "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "beforeChange"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" property, If "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "false"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is returned or a "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "Promise"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" is returned and then is rejected, will stop switching.")])], -1);
+const _hoisted_20 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "message"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 属性支持传入 HTML 片段")], -1);
 
-const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
+const _hoisted_21 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("div", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("将"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "dangerouslyUseHTMLString"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("属性设置为 true，"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "message"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 就会被当作 HTML 片段处理。")])], -1);
+
+const _hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("pre", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", {
   class: "html"
-}, "<el-switch v-model=\"value1\" :loading=\"loading1\" :beforeChange=\"beforeChange1\">\n</el-switch>\n<el-switch v-model=\"value2\" :loading=\"loading2\" :beforeChange=\"beforeChange2\">\n</el-switch>\n<script>\n  import { reactive, toRefs } from 'vue'\n  import { ElMessage } from 'element-plus'\n\n  export default {\n    setup() {\n      const status1 = reactive({\n        value1: false,\n        loading1: false,\n      })\n\n      const beforeChange1 = () => {\n        status1.loading1 = true\n        return new Promise(resolve => {\n          setTimeout(() => {\n            status1.loading1 = false\n            ElMessage.success('switch success')\n            return resolve(true)\n          }, 1000)\n        })\n      }\n\n      const status2 = reactive({\n        value2: false,\n        loading2: false,\n      })\n\n      const beforeChange2 = () => {\n        status2.loading2 = true\n        return new Promise((resolve, reject) => {\n          setTimeout(() => {\n            status2.loading2 = false\n            ElMessage.error('switch failed')\n            return reject(new Error('error'))\n          }, 1000)\n        })\n      }\n\n      return {\n        ...toRefs(status1),\n        ...toRefs(status2),\n        beforeChange1,\n        beforeChange2,\n      }\n    },\n  }\n</script>\n")], -1);
+}, "<template>\n  <el-button :plain=\"true\" @click=\"openHTML\">使用 HTML 片段</el-button>\n</template>\n\n<script>\n  import { defineComponent } from 'vue'\n  import { ElMessage } from 'element-plus'\n  export default defineComponent({\n    setup() {\n      return {\n        openHTML() {\n          ElMessage({\n            dangerouslyUseHTMLString: true,\n            message: '<strong>这是 <i>HTML</i> 片段</strong>'\n          });\n        }\n      }\n    }\n  })\n</script>\n<!--\n<setup>\n\n  import { defineComponent } from 'vue'\n  import { ElMessage } from 'element-plus'\n  export default defineComponent({\n    setup() {\n      return {\n        openHTML() {\n          ElMessage({\n            dangerouslyUseHTMLString: true,\n            message: '<strong>这是 <i>HTML</i> 片段</strong>'\n          });\n        }\n      }\n    }\n  })\n\n</setup>\n-->\n")], -1);
 
-const _hoisted_22 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Atributos ");
+const _hoisted_23 = {
+  class: "warning"
+};
 
-const _hoisted_23 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>Atributo</th><th>Descripción</th><th>Tipo</th><th>Valores aceptados</th><th>Por defecto</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>valor vinculante, debe ser equivalente al <code>active-value</code> o al <code>inactive-value</code>. El tipo por defecto es el tipo <code>boolean</code>.</td><td>boolean / string / number</td><td>—</td><td>—</td></tr><tr><td>disabled</td><td>si Switch esta deshabilitado</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>loading</td><td>whether Switch is in loading state</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>width</td><td>ancho del componente Switch</td><td>number</td><td>—</td><td>40</td></tr><tr><td>active-icon-class</td><td>nombre de la clase del icono mostrado en el estado <code>on</code>, sobrescribe <code>active-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-icon-class</td><td>nombre de la clase del icono mostrado en el estado <code>off</code>, sobrescribe <code>inactive-text</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-text</td><td>texto mostrado en el estado <code>on</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>inactive-text</td><td>texto mostrado en el estado <code>off</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>active-value</td><td>cambia su valor cuando se encuentra en el estado <code>on</code></td><td>boolean / string / number</td><td>—</td><td>true</td></tr><tr><td>inactive-value</td><td>cambia su valor cuando se encuentra en el estado <code>off</code></td><td>boolean / string / number</td><td>—</td><td>false</td></tr><tr><td>active-color</td><td>color de fondo cuando se encuentra en el estado <code>on</code></td><td>string</td><td>—</td><td>#409EFF</td></tr><tr><td>inactive-color</td><td>color de fondo cuando se encuentra en el estado <code>off</code></td><td>string</td><td>—</td><td>#C0CCDA</td></tr><tr><td>border-color</td><td>color del borde del switch.</td><td>string</td><td>—</td><td>—</td></tr><tr><td>name</td><td>nombre de entrada del componente Switch</td><td>string</td><td>—</td><td>—</td></tr><tr><td>validate-event</td><td>si se debe lanzar la validación de formulario</td><td>boolean</td><td>—</td><td>true</td></tr><tr><td>before-change</td><td>before-change hook before the switch state changes. If <code>false</code> is returned or a <code>Promise</code> is returned and then is rejected, will stop switching</td><td>function</td><td>—</td><td>—</td></tr></tbody></table>", 1);
+const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "message", -1);
 
-const _hoisted_24 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Eventos ");
+const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 属性虽然支持传入 HTML 片段，但是在网站上动态渲染任意 HTML 是非常危险的，因为容易导致 ");
 
-const _hoisted_25 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Nombre del evento"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Descripción"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parametro")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "change"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "se dispara cuando el valor cambia"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "valor")])])], -1);
+const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("XSS 攻击");
 
-const _hoisted_26 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, "después de cambiar", -1);
+const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("。因此在 ");
 
-const _hoisted_27 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Metodos ");
+const _hoisted_28 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "dangerouslyUseHTMLString", -1);
 
-const _hoisted_28 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("table", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("thead", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Metodo"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Descripción"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("th", null, "Parametro")])]), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tbody", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("tr", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "focus"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "foco al componente Switch"), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("td", null, "—")])])], -1);
+const _hoisted_29 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 打开的情况下，请确保 ");
 
-function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_30 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "message", -1);
+
+const _hoisted_31 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 的内容是可信的，");
+
+const _hoisted_32 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("strong", null, "永远不要", -1);
+
+const _hoisted_33 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("将用户提交的内容赋值给 ");
+
+const _hoisted_34 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "message", -1);
+
+const _hoisted_35 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 属性。");
+
+const _hoisted_36 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("全局方法 ");
+
+const _hoisted_37 = /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("p", null, [/*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Element Plus 为 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "app.config.globalProperties"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 添加了全局方法 $message。因此在 vue instance 中可以采用在 method 中调用 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "this.$message"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])(" 方法唤起 "), /*#__PURE__*/Object(vue_esm_browser_prod["createElementVNode"])("code", null, "ElMessage"), /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("。")], -1);
+
+const _hoisted_38 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("单独引用 ");
+
+const _hoisted_39 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<pre class=\"example-code\"><code class=\"hljs language-javascript\"><span class=\"hljs-keyword\">import</span> { ElMessage } <span class=\"hljs-keyword\">from</span> <span class=\"hljs-string\">&#39;element-plus&#39;</span>;\n</code><span class=\"lang-mark\">js</span></pre><p>此时调用方法为 <code>ElMessage(options)</code>。我们也为每个 type 定义了各自的方法，如 <code>ElMessage.success(options)</code>。并且可以调用 <code>ElMessage.closeAll()</code> 手动关闭所有实例。</p>", 2);
+
+const _hoisted_41 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("Options ");
+
+const _hoisted_42 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<table><thead><tr><th>参数</th><th>说明</th><th>类型</th><th>可选值</th><th>默认值</th></tr></thead><tbody><tr><td>message</td><td>消息文字</td><td>string / VNode</td><td>—</td><td>—</td></tr><tr><td>type</td><td>主题</td><td>string</td><td>success/warning/info/error</td><td>info</td></tr><tr><td>iconClass</td><td>自定义图标的类名，会覆盖 <code>type</code></td><td>string</td><td>—</td><td>—</td></tr><tr><td>dangerouslyUseHTMLString</td><td>是否将 message 属性作为 HTML 片段处理</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>customClass</td><td>自定义类名</td><td>string</td><td>—</td><td>—</td></tr><tr><td>duration</td><td>显示时间, 毫秒。设为 0 则不会自动关闭</td><td>number</td><td>—</td><td>3000</td></tr><tr><td>showClose</td><td>是否显示关闭按钮</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>center</td><td>文字是否居中</td><td>boolean</td><td>—</td><td>false</td></tr><tr><td>onClose</td><td>关闭时的回调函数, 参数为被关闭的 message 实例</td><td>function</td><td>—</td><td>—</td></tr><tr><td>offset</td><td>Message 距离窗口顶部的偏移量</td><td>number</td><td>—</td><td>20</td></tr></tbody></table>", 1);
+
+const _hoisted_43 = /*#__PURE__*/Object(vue_esm_browser_prod["createTextVNode"])("方法 ");
+
+const _hoisted_44 = /*#__PURE__*/Object(vue_esm_browser_prod["createStaticVNode"])("<p>调用 <code>ElMessage</code> 或 <code>this.$message</code> 会返回当前 Message 的实例。如果需要手动关闭实例，可以调用它的 <code>close</code> 方法。</p><table><thead><tr><th>方法名</th><th>说明</th></tr></thead><tbody><tr><td>close</td><td>关闭当前的 Message</td></tr></tbody></table>", 2);
+
+function messagevue_type_template_id_41a91a34_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_app_link = Object(vue_esm_browser_prod["resolveComponent"])("app-link");
 
   const _component_app_heading = Object(vue_esm_browser_prod["resolveComponent"])("app-heading");
@@ -1508,190 +1538,216 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
 
   const _component_element_demo4 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo4");
 
-  const _component_element_demo5 = Object(vue_esm_browser_prod["resolveComponent"])("element-demo5");
-
   const _component_right_nav = Object(vue_esm_browser_prod["resolveComponent"])("right-nav");
 
-  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", _hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "switch",
-    content: "Switch",
-    href: "#switch",
+  return Object(vue_esm_browser_prod["openBlock"])(), Object(vue_esm_browser_prod["createElementBlock"])("section", messagevue_type_template_id_41a91a34_hoisted_1, [Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "message-xiao-xi-ti-shi",
+    content: "Message 消息提示",
+    href: "#message-xiao-xi-ti-shi",
     level: "2"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [messagevue_type_template_id_41a91a34_hoisted_2, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#switch"
+      href: "#message-xiao-xi-ti-shi"
     })]),
     _: 1
-  }), _hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "uso-basico",
-    content: "Uso básico",
-    href: "#uso-basico",
+  }), messagevue_type_template_id_41a91a34_hoisted_3, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "ji-chu-yong-fa",
+    content: "基础用法",
+    href: "#ji-chu-yong-fa",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [messagevue_type_template_id_41a91a34_hoisted_4, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#uso-basico"
+      href: "#ji-chu-yong-fa"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+  }), _hoisted_5, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo0)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_6]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_5]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_7]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_6]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "texto-de-descripcion",
-    content: "Texto de descripción",
-    href: "#texto-de-descripcion",
+    id: "bu-tong-zhuang-tai",
+    content: "不同状态",
+    href: "#bu-tong-zhuang-tai",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_7, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_8, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#texto-de-descripcion"
+      href: "#bu-tong-zhuang-tai"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+  }), _hoisted_9, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo1)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_9]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_8]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_11]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_10]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "tipos-de-valores-extendidos",
-    content: "Tipos de valores extendidos",
-    href: "#tipos-de-valores-extendidos",
+    id: "ke-guan-bi",
+    content: "可关闭",
+    href: "#ke-guan-bi",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_10, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_12, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#tipos-de-valores-extendidos"
+      href: "#ke-guan-bi"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+  }), _hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
     source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo2)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_12]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_11]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "disabled",
-    content: "Disabled",
-    href: "#disabled",
-    level: "3"
-  }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_13, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
-      class: "header-anchor",
-      href: "#disabled"
-    })]),
-    _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo3)]),
     highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_15]),
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_14]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "loading",
-    content: "Loading",
-    href: "#loading",
+    id: "wen-zi-ju-zhong",
+    content: "文字居中",
+    href: "#wen-zi-ju-zhong",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_16, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#loading"
+      href: "#wen-zi-ju-zhong"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo4)]),
+  }), _hoisted_17, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo3)]),
     highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_18]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_17]),
     _: 1
   }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "prevent-switching",
-    content: "prevent switching",
-    href: "#prevent-switching",
+    id: "shi-yong-html-pian-duan",
+    content: "使用 HTML 片段",
+    href: "#shi-yong-html-pian-duan",
     level: "3"
   }, {
     default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_19, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#prevent-switching"
+      href: "#shi-yong-html-pian-duan"
     })]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
-    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo5)]),
-    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_21]),
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_20]),
+  }), _hoisted_20, Object(vue_esm_browser_prod["createVNode"])(_component_demo_block, null, {
+    source: Object(vue_esm_browser_prod["withCtx"])(() => [Object(vue_esm_browser_prod["createVNode"])(_component_element_demo4)]),
+    highlight: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_22]),
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_21]),
     _: 1
-  }), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "atributos",
-    content: "Atributos",
-    href: "#atributos",
+  }), Object(vue_esm_browser_prod["createElementVNode"])("div", _hoisted_23, [Object(vue_esm_browser_prod["createElementVNode"])("p", null, [_hoisted_24, _hoisted_25, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    href: "https://en.wikipedia.org/wiki/Cross-site_scripting"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_26]),
+    _: 1
+  }), _hoisted_27, _hoisted_28, _hoisted_29, _hoisted_30, _hoisted_31, _hoisted_32, _hoisted_33, _hoisted_34, _hoisted_35])]), Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "quan-ju-fang-fa",
+    content: "全局方法",
+    href: "#quan-ju-fang-fa",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_22, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_36, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#atributos"
+      href: "#quan-ju-fang-fa"
     })]),
     _: 1
-  }), _hoisted_23, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "eventos",
-    content: "Eventos",
-    href: "#eventos",
+  }), _hoisted_37, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "dan-du-yin-yong",
+    content: "单独引用",
+    href: "#dan-du-yin-yong",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_24, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_38, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#eventos"
+      href: "#dan-du-yin-yong"
     })]),
     _: 1
-  }), _hoisted_25, _hoisted_26, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
-    id: "metodos",
-    content: "Metodos",
-    href: "#metodos",
+  }), _hoisted_39, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "options",
+    content: "Options",
+    href: "#options",
     level: "3"
   }, {
-    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_27, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_41, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
       class: "header-anchor",
-      href: "#metodos"
+      href: "#options"
     })]),
     _: 1
-  }), _hoisted_28, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
+  }), _hoisted_42, Object(vue_esm_browser_prod["createVNode"])(_component_app_heading, {
+    id: "fang-fa",
+    content: "方法",
+    href: "#fang-fa",
+    level: "3"
+  }, {
+    default: Object(vue_esm_browser_prod["withCtx"])(() => [_hoisted_43, Object(vue_esm_browser_prod["createVNode"])(_component_app_link, {
+      class: "header-anchor",
+      href: "#fang-fa"
+    })]),
+    _: 1
+  }), _hoisted_44, Object(vue_esm_browser_prod["createVNode"])(_component_right_nav)]);
 }
-// CONCATENATED MODULE: ./website/docs/es/switch.md?vue&type=template&id=53f172b7
+// CONCATENATED MODULE: ./website/docs/zh-CN/message.md?vue&type=template&id=41a91a34
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/es/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist??ref--2-0!./website/md-loader!./website/docs/zh-CN/message.md?vue&type=script&lang=ts
 
-/* harmony default export */ var switchvue_type_script_lang_ts = ({
+/* harmony default export */ var messagevue_type_script_lang_ts = ({
   name: 'component-doc',
   components: {
     "element-demo0": function () {
       const {
+        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
         createVNode: _createVNode,
         openBlock: _openBlock,
         createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
 
-      function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+      const _hoisted_1 = /*#__PURE__*/_createTextVNode("打开消息提示");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event)
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          "active-color": "#13ce66",
-          "inactive-color": "#ff4949"
-        }, null, 8, ["modelValue"])]);
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode("VNode");
+
+      function render(_ctx, _cache) {
+        const _component_el_button = _resolveComponent("el-button");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.open
+        }, {
+          default: _withCtx(() => [_hoisted_1]),
+          _: 1
+        }, 8, ["onClick"]), _createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.openVn
+        }, {
+          default: _withCtx(() => [_hoisted_2]),
+          _: 1
+        }, 8, ["onClick"])]);
       }
 
-      const democomponentExport = {
-        data() {
+      const {
+        defineComponent,
+        h
+      } = vue_esm_browser_prod;
+
+      const {
+        ElMessage
+      } = __webpack_require__(111);
+
+      const democomponentExport = defineComponent({
+        setup() {
           return {
-            value1: true,
-            value2: true
+            open() {
+              ElMessage('只是一条消息提示');
+            },
+
+            openVn() {
+              ElMessage({
+                message: h('p', null, [h('span', null, '内容可以是 '), h('i', {
+                  style: 'color: teal'
+                }, 'VNode')])
+              });
+            }
+
           };
         }
 
-      };
+      });
       return {
         render,
         ...democomponentExport
@@ -1699,42 +1755,89 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo1": function () {
       const {
+        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
         createVNode: _createVNode,
         openBlock: _openBlock,
         createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
 
-      function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+      const _hoisted_1 = /*#__PURE__*/_createTextVNode("成功");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          "active-text": "Pay by month",
-          "inactive-text": "Pay by year"
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          style: {
-            "display": "block"
-          },
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          "active-color": "#13ce66",
-          "inactive-color": "#ff4949",
-          "active-text": "Pay by month",
-          "inactive-text": "Pay by year"
-        }, null, 8, ["modelValue"])]);
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode("警告");
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("消息");
+
+      const _hoisted_4 = /*#__PURE__*/_createTextVNode("错误");
+
+      function render(_ctx, _cache) {
+        const _component_el_button = _resolveComponent("el-button");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.open1
+        }, {
+          default: _withCtx(() => [_hoisted_1]),
+          _: 1
+        }, 8, ["onClick"]), _createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.open2
+        }, {
+          default: _withCtx(() => [_hoisted_2]),
+          _: 1
+        }, 8, ["onClick"]), _createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.open3
+        }, {
+          default: _withCtx(() => [_hoisted_3]),
+          _: 1
+        }, 8, ["onClick"]), _createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.open4
+        }, {
+          default: _withCtx(() => [_hoisted_4]),
+          _: 1
+        }, 8, ["onClick"])]);
       }
 
-      const democomponentExport = {
-        data() {
+      const {
+        defineComponent
+      } = vue_esm_browser_prod;
+
+      const {
+        ElMessage
+      } = __webpack_require__(111);
+
+      const democomponentExport = defineComponent({
+        setup() {
           return {
-            value1: true,
-            value2: true
+            open1() {
+              ElMessage.success({
+                message: '恭喜你，这是一条成功消息',
+                type: 'success'
+              });
+            },
+
+            open2() {
+              ElMessage.warning({
+                message: '警告哦，这是一条警告消息',
+                type: 'warning'
+              });
+            },
+
+            open3() {
+              ElMessage('这是一条消息提示');
+            },
+
+            open4() {
+              ElMessage.error('错了哦，这是一条错误消息');
+            }
+
           };
         }
 
-      };
+      });
       return {
         render,
         ...democomponentExport
@@ -1742,42 +1845,98 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo2": function () {
       const {
+        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
         withCtx: _withCtx,
+        createVNode: _createVNode,
         openBlock: _openBlock,
         createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
 
+      const _hoisted_1 = /*#__PURE__*/_createTextVNode("消息");
+
+      const _hoisted_2 = /*#__PURE__*/_createTextVNode("成功");
+
+      const _hoisted_3 = /*#__PURE__*/_createTextVNode("警告");
+
+      const _hoisted_4 = /*#__PURE__*/_createTextVNode("错误");
+
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_button = _resolveComponent("el-button");
 
-        const _component_el_tooltip = _resolveComponent("el-tooltip");
-
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_tooltip, {
-          content: 'Switch value: ' + _ctx.value,
-          placement: "top"
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.open1
         }, {
-          default: _withCtx(() => [_createVNode(_component_el_switch, {
-            modelValue: _ctx.value,
-            "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value = $event),
-            "active-color": "#13ce66",
-            "inactive-color": "#ff4949",
-            "active-value": "100",
-            "inactive-value": "0"
-          }, null, 8, ["modelValue"])]),
+          default: _withCtx(() => [_hoisted_1]),
           _: 1
-        }, 8, ["content"])]);
+        }, 8, ["onClick"]), _createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.open2
+        }, {
+          default: _withCtx(() => [_hoisted_2]),
+          _: 1
+        }, 8, ["onClick"]), _createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.open3
+        }, {
+          default: _withCtx(() => [_hoisted_3]),
+          _: 1
+        }, 8, ["onClick"]), _createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.open4
+        }, {
+          default: _withCtx(() => [_hoisted_4]),
+          _: 1
+        }, 8, ["onClick"])]);
       }
 
-      const democomponentExport = {
-        data() {
+      const {
+        defineComponent
+      } = vue_esm_browser_prod;
+
+      const {
+        ElMessage
+      } = __webpack_require__(111);
+
+      const democomponentExport = defineComponent({
+        setup() {
           return {
-            value: '100'
+            open1() {
+              ElMessage({
+                showClose: true,
+                message: '这是一条消息提示'
+              });
+            },
+
+            open2() {
+              ElMessage({
+                showClose: true,
+                message: '恭喜你，这是一条成功消息',
+                type: 'success'
+              });
+            },
+
+            open3() {
+              ElMessage({
+                showClose: true,
+                message: '警告哦，这是一条警告消息',
+                type: 'warning'
+              });
+            },
+
+            open4() {
+              ElMessage({
+                showClose: true,
+                message: '错了哦，这是一条错误消息',
+                type: 'error'
+              });
+            }
+
           };
         }
 
-      };
+      });
       return {
         render,
         ...democomponentExport
@@ -1785,35 +1944,50 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo3": function () {
       const {
+        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
         createVNode: _createVNode,
         openBlock: _openBlock,
         createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
 
-      function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+      const _hoisted_1 = /*#__PURE__*/_createTextVNode("文字居中");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          disabled: ""
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          disabled: ""
-        }, null, 8, ["modelValue"])]);
+      function render(_ctx, _cache) {
+        const _component_el_button = _resolveComponent("el-button");
+
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.openCenter
+        }, {
+          default: _withCtx(() => [_hoisted_1]),
+          _: 1
+        }, 8, ["onClick"])]);
       }
 
-      const democomponentExport = {
-        data() {
+      const {
+        defineComponent
+      } = vue_esm_browser_prod;
+
+      const {
+        ElMessage
+      } = __webpack_require__(111);
+
+      const democomponentExport = defineComponent({
+        setup() {
           return {
-            value1: true,
-            value2: false
+            openCenter() {
+              ElMessage({
+                message: '居中的文字',
+                center: true
+              });
+            }
+
           };
         }
 
-      };
+      });
       return {
         render,
         ...democomponentExport
@@ -1821,115 +1995,50 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
     }(),
     "element-demo4": function () {
       const {
+        createTextVNode: _createTextVNode,
         resolveComponent: _resolveComponent,
+        withCtx: _withCtx,
         createVNode: _createVNode,
         openBlock: _openBlock,
         createElementBlock: _createElementBlock
       } = vue_esm_browser_prod;
 
-      function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
-
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          loading: ""
-        }, null, 8, ["modelValue"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          loading: ""
-        }, null, 8, ["modelValue"])]);
-      }
-
-      const democomponentExport = {
-        data() {
-          return {
-            value1: true,
-            value2: false
-          };
-        }
-
-      };
-      return {
-        render,
-        ...democomponentExport
-      };
-    }(),
-    "element-demo5": function () {
-      const {
-        resolveComponent: _resolveComponent,
-        createVNode: _createVNode,
-        openBlock: _openBlock,
-        createElementBlock: _createElementBlock
-      } = vue_esm_browser_prod;
+      const _hoisted_1 = /*#__PURE__*/_createTextVNode("使用 HTML 片段");
 
       function render(_ctx, _cache) {
-        const _component_el_switch = _resolveComponent("el-switch");
+        const _component_el_button = _resolveComponent("el-button");
 
-        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_switch, {
-          modelValue: _ctx.value1,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.value1 = $event),
-          loading: _ctx.loading1,
-          beforeChange: _ctx.beforeChange1
-        }, null, 8, ["modelValue", "loading", "beforeChange"]), _createVNode(_component_el_switch, {
-          modelValue: _ctx.value2,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.value2 = $event),
-          loading: _ctx.loading2,
-          beforeChange: _ctx.beforeChange2
-        }, null, 8, ["modelValue", "loading", "beforeChange"])]);
+        return _openBlock(), _createElementBlock("div", null, [_createVNode(_component_el_button, {
+          plain: true,
+          onClick: _ctx.openHTML
+        }, {
+          default: _withCtx(() => [_hoisted_1]),
+          _: 1
+        }, 8, ["onClick"])]);
       }
 
       const {
-        reactive,
-        toRefs
+        defineComponent
       } = vue_esm_browser_prod;
 
       const {
         ElMessage
       } = __webpack_require__(111);
 
-      const democomponentExport = {
+      const democomponentExport = defineComponent({
         setup() {
-          const status1 = reactive({
-            value1: false,
-            loading1: false
-          });
+          return {
+            openHTML() {
+              ElMessage({
+                dangerouslyUseHTMLString: true,
+                message: '<strong>这是 <i>HTML</i> 片段</strong>'
+              });
+            }
 
-          const beforeChange1 = () => {
-            status1.loading1 = true;
-            return new Promise(resolve => {
-              setTimeout(() => {
-                status1.loading1 = false;
-                ElMessage.success('switch success');
-                return resolve(true);
-              }, 1000);
-            });
-          };
-
-          const status2 = reactive({
-            value2: false,
-            loading2: false
-          });
-
-          const beforeChange2 = () => {
-            status2.loading2 = true;
-            return new Promise((resolve, reject) => {
-              setTimeout(() => {
-                status2.loading2 = false;
-                ElMessage.error('switch failed');
-                return reject(new Error('error'));
-              }, 1000);
-            });
-          };
-
-          return { ...toRefs(status1),
-            ...toRefs(status2),
-            beforeChange1,
-            beforeChange2
           };
         }
 
-      };
+      });
       return {
         render,
         ...democomponentExport
@@ -1937,15 +2046,15 @@ function switchvue_type_template_id_53f172b7_render(_ctx, _cache, $props, $setup
     }()
   }
 });
-// CONCATENATED MODULE: ./website/docs/es/switch.md?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./website/docs/zh-CN/message.md?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./website/docs/es/switch.md
+// CONCATENATED MODULE: ./website/docs/zh-CN/message.md
 
 
 
-switchvue_type_script_lang_ts.render = switchvue_type_template_id_53f172b7_render
+messagevue_type_script_lang_ts.render = messagevue_type_template_id_41a91a34_render
 
-/* harmony default export */ var es_switch = __webpack_exports__["default"] = (switchvue_type_script_lang_ts);
+/* harmony default export */ var message = __webpack_exports__["default"] = (messagevue_type_script_lang_ts);
 
 /***/ })
 
