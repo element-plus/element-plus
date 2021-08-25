@@ -16,7 +16,7 @@
     "mitt": "^2.1.0"
   },
   "peerDependencies": {
-    "vue": "3.2.x"
+    "vue": "^3.2.0"
   },
   "main": "index.js",
   "module": "index.js",
