@@ -50,7 +50,6 @@ import type {
   TreeNodeData,
   TreeKey,
   TreeData,
-  RootTreeType,
 } from './tree.type'
 
 export default defineComponent({
@@ -59,6 +58,7 @@ export default defineComponent({
   props: {
     data: {
       type: Array,
+      default: () => [],
     },
     emptyText: {
       type: String,
@@ -83,8 +83,8 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    defaultCheckedKeys: Array,
-    defaultExpandedKeys: Array,
+    defaultCheckedKeys: Array as PropType<TreeComponentProps['defaultCheckedKeys']>,
+    defaultExpandedKeys: Array as PropType<TreeComponentProps['defaultExpandedKeys']>,
     currentNodeKey: [String, Number] as PropType<string | number>,
     renderContent: Function,
     showCheckbox: {
@@ -98,22 +98,20 @@ export default defineComponent({
     allowDrag: Function,
     allowDrop: Function,
     props: {
-      type: Object,
-      default() {
-        return {
-          children: 'children',
-          label: 'label',
-          disabled: 'disabled',
-        }
-      },
+      type: Object as PropType<TreeComponentProps['props']>,
+      default: () => ({
+        children: 'children',
+        label: 'label',
+        disabled: 'disabled',
+      }),
     },
     lazy: {
       type: Boolean,
       default: false,
     },
     highlightCurrent: Boolean,
-    load: Function,
-    filterNodeMethod: Function,
+    load: Function as PropType<TreeComponentProps['load']>,
+    filterNodeMethod: Function as PropType<TreeComponentProps['filterNodeMethod']>,
     accordion: Boolean,
     indent: {
       type: Number,
@@ -136,7 +134,7 @@ export default defineComponent({
     'node-drag-enter',
     'node-drag-over',
   ],
-  setup(props: TreeComponentProps, ctx) {
+  setup(props, ctx) {
     const { t } = useLocaleInject()
 
     const store = ref<TreeStore>(new TreeStore({
@@ -302,7 +300,7 @@ export default defineComponent({
       root,
       currentNode,
       instance: getCurrentInstance(),
-    } as RootTreeType)
+    } as any)
 
     return {
       // ref

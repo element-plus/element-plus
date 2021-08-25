@@ -148,7 +148,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         h(
           'tr',
           {
-            key: 'expanded-row__' + tr.key,
+            key: 'expanded-row__' + (tr.key as string),
           },
           [
             h(

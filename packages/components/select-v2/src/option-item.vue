@@ -6,6 +6,7 @@
       'el-select-dropdown__option-item': true,
       'is-selected': selected,
       'is-disabled': disabled,
+      'is-craeted': created,
       'hover': hovering
     }"
     @mouseenter="hoverItem"
@@ -19,32 +20,16 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+import { useOption } from './useOption'
+import { OptionProps } from './defaults'
 export default defineComponent({
-  props: {
-    data: Array,
-    disabled: Boolean,
-    hovering: Boolean,
-    item: Object,
-    index: Number,
-    style: Object,
-    selected: Boolean,
-  },
+  props: OptionProps,
   emits: ['select', 'hover'],
   setup(props, { emit }) {
-
-    // fill in hooks.
-
-    // change these to variables
+    const { hoverItem, selectOptionClick } = useOption(props, { emit })
     return {
-      hoverItem: () => {
-        emit('hover', props.index)
-      },
-      selectOptionClick: () => {
-        if (!props.disabled) {
-          emit('select', props.item, props.index)
-        }
-      },
+      hoverItem,
+      selectOptionClick,
     }
   },
 })

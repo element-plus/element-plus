@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "license": "MIT",
   "peerDependencies": {
-    "vue": "3.2.x"
+    "vue": "^3.2.0"
   },
   "scripts": {
     "clean": "rm -rf lib",

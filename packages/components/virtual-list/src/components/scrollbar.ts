@@ -37,7 +37,7 @@ const ScrollBar = defineComponent({
       display: props.visible ? null : 'none',
       position: 'absolute',
       width: HORIZONTAL === props.layout ? '100%' : '6px',
-      height: HORIZONTAL === props.layout ? '6px' : '100%',
+      height: HORIZONTAL === props.layout ? '6px' : 'auto',
       [ScrollbarDirKey[props.layout]]: '2px',
       right: '2px',
       bottom: '2px',

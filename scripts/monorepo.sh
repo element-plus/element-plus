@@ -22,6 +22,7 @@ yarn build:hooks
 yarn build:directives
 yarn build:tokens
 yarn build:full-bundle
+yarn build:locale-umd
 
 rsync -a dist/entry/types/ dist/element-plus/es/
 rsync -a dist/entry/types/ dist/element-plus/lib/
@@ -36,9 +37,12 @@ echo "syncing style.js"
 rsync -a dist/styles/es/ dist/element-plus/es/components/
 rsync -a dist/styles/lib/ dist/element-plus/lib/components/
 
+echo "copying source code"
 cp -R packages dist/element-plus
 cp packages/element-plus/package.json dist/element-plus/package.json
 
+echo "copying README"
+cp README.md dist/element-plus
 
 cd dist/element-plus
 npm publish --access public

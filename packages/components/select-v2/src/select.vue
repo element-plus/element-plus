@@ -100,6 +100,7 @@
                 :aria-expanded="expanded"
                 :aria-labelledby="label"
                 class="el-select-v2__combobox-input"
+                :class="[selectSize ? `is-${ selectSize }` : '']"
                 :disabled="disabled"
                 role="combobox"
                 :readonly="!filterable"
@@ -227,7 +228,6 @@ import ElSelectMenu from './select-dropdown.vue'
 import useSelect from './useSelect'
 import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'
-
 export default defineComponent({
   name: 'ElSelectV2',
   components: {
