@@ -45,13 +45,13 @@ export default defineComponent({
       case 'label':
         return h(this.tag, {
           style: style,
-          class: ['el-descriptions__label', { 'is-bordered-label': this.descriptions.border }, labelAlign, labelClassName],
+          class: ['el-descriptions__cell', 'el-descriptions__label', { 'is-bordered-label': this.descriptions.border }, labelAlign, labelClassName],
           colSpan: this.descriptions.direction === 'vertical' ? span : 1,
         }, label)
       case 'content':
         return h(this.tag, {
           style: style,
-          class: ['el-descriptions__content', align, className],
+          class: ['el-descriptions__cell', 'el-descriptions__content', align, className],
           colSpan: this.descriptions.direction === 'vertical' ? span : span * 2 - 1,
         }, content)
       default:
@@ -61,10 +61,10 @@ export default defineComponent({
           colSpan: span,
         }, [
           h('span', {
-            class: ['el-descriptions__label', labelClassName],
+            class: ['el-descriptions__cell', 'el-descriptions__label', labelClassName],
           }, label),
           h('span', {
-            class: ['el-descriptions__content', className],
+            class: ['el-descriptions__cell', 'el-descriptions__content', className],
           }, content)])
     }
   },

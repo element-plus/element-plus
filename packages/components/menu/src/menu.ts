@@ -73,7 +73,7 @@ export interface RootMenuProps {
 
 // submenu
 
-export interface ISubmenuProps {
+export interface ISubMenuProps {
   index: string
   showTimeout?: number
   hideTimeout?: number

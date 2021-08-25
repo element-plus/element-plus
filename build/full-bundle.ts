@@ -61,12 +61,6 @@ import { EP_PREFIX, excludes } from './constants'
     plugins: [...config.plugins, RollupResolveEntryPlugin()],
   })
 
-  console.log(chalk.yellow('Generating index.js'))
-
-  await bundle.write(umd as any)
-
-  console.log(chalk.green('index.js generated'))
-
   console.log(chalk.yellow('Generating index.full.js'))
 
   await bundle.write(umdMinified as any)

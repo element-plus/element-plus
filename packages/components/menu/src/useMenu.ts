@@ -23,7 +23,7 @@ export default function useMenu(
 
   const parentMenu = computed(() => {
     let parent = instance.parent
-    while (parent && ['ElMenu', 'ElSubmenu'].indexOf(parent.type.name) === -1) {
+    while (parent && ['ElMenu', 'ElSubMenu'].indexOf(parent.type.name) === -1) {
       parent = parent.parent
     }
     return parent
@@ -38,7 +38,7 @@ export default function useMenu(
       padding = 20
     } else {
       while (parent && parent.type.name !== 'ElMenu') {
-        if (parent.type.name === 'ElSubmenu') {
+        if (parent.type.name === 'ElSubMenu') {
           padding += 20
         }
         parent = parent.parent

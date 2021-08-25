@@ -1,12 +1,27 @@
 ## Changelog
 
-### 1.1.0-beta.3
+### 1.1.0-beta.4
 
-*2021-08-24*
+*2021-08-25*
 
 #### Breaking changes:
 
 - Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Bug fixes
+  
+- Message-box fix type (#3038 by @sxzz)
+- [label-wrap] Fix misspellings (#3030 by @wangbincyzj)
+- Components [descriptions] avoid conflict with el-table (#3005 by @adaex)
+- Build exposing installer function and version for umd build (#3041 by @JeremyWuuuuu)
+
+#### Refactors
+  
+- Rename el-submenu to el-sub-menu (#3037 by @sxzz)
+
+### 1.1.0-beta.3
+
+*2021-08-24*
 
 #### Bug fixes
   
