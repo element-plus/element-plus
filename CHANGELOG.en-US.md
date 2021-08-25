@@ -1,12 +1,30 @@
 ## Changelog
 
-### 1.1.0-beta.4
+### 1.1.0-beta.5
 
 *2021-08-25*
 
 #### Breaking changes:
 
 - Please refer to: [Breaking changes made in 1.1.0-beta.1](https://github.com/element-plus/element-plus/discussions/3020)
+
+#### Features
+  
+- Select-v2 support allow-create feature (#3017 by @msidolphin)
+
+#### Bug fixes
+  
+- Missing folders and umd locale builds and i18n docs for umd builds (#3053 by @JeremyWuuuuu)
+- Rateuse constant (#3011 by @Notryag)
+- Stop pinning vue peer dependency version (#3051 by @sodatea)
+- Ed resolve font path errors (#3048 by @wilhantian)
+- Build unpin vue compiler version (#3055 by @JeremyWuuuuu)
+- Style remove useless style (#3042 by @kooriookami)
+- Perf pdate tw lang (#3045 by @kooriookami)
+
+### 1.1.0-beta.4
+
+*2021-08-25*
 
 #### Bug fixes
   
