@@ -3,7 +3,6 @@
 @import 'mixins/utils';
 @import 'common/var';
 @import 'common/transition';
-@import 'tooltip';
 
 @mixin menu-item {
   height: 56px;
@@ -53,6 +52,7 @@
   margin: 0;
   padding-left: 0;
   background-color: var(--el-menu-background-color);
+  box-sizing: border-box;
   @include utils-clearfix;
   &.#{$namespace}-menu--horizontal {
     border-bottom: solid 1px var(--el-menu-border-color);
@@ -78,7 +78,7 @@
         background-color: #fff;
       }
     }
-    & > .#{$namespace}-submenu {
+    & > .#{$namespace}-sub-menu {
       float: left;
 
       &:focus,
@@ -87,19 +87,19 @@
       }
 
       &:hover {
-        .#{$namespace}-submenu__title {
+        .#{$namespace}-sub-menu__title {
           color: var(--el-text-color-primary);
         }
       }
 
       &.is-active {
-        .#{$namespace}-submenu__title {
+        .#{$namespace}-sub-menu__title {
           border-bottom: 2px solid var(--el-color-primary);
           color: var(--el-text-color-primary);
         }
       }
 
-      & .#{$namespace}-submenu__title {
+      & .#{$namespace}-sub-menu__title {
         height: 60px;
         line-height: 60px;
         border-bottom: 2px solid transparent;
@@ -109,7 +109,7 @@
           background-color: #fff;
         }
       }
-      & .#{$namespace}-submenu__icon-arrow {
+      & .#{$namespace}-sub-menu__icon-arrow {
         position: static;
         vertical-align: middle;
         margin-left: 8px;
@@ -118,7 +118,7 @@
     }
     & .#{$namespace}-menu {
       & .#{$namespace}-menu-item,
-      & .#{$namespace}-submenu__title {
+      & .#{$namespace}-sub-menu__title {
         background-color: $--color-white;
         float: none;
         height: 36px;
@@ -127,7 +127,7 @@
         color: var(--el-text-color-secondary);
       }
       & .#{$namespace}-menu-item.is-active,
-      & .#{$namespace}-submenu.is-active > .#{$namespace}-submenu__title {
+      & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
         color: var(--el-text-color-primary);
       }
     }
@@ -145,14 +145,14 @@
     width: 64px;
 
     > .#{$namespace}-menu-item,
-    > .#{$namespace}-submenu > .#{$namespace}-submenu__title {
+    > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
       [class^='#{$namespace}-icon-'] {
         margin: 0;
         vertical-align: middle;
         width: 24px;
         text-align: center;
       }
-      .#{$namespace}-submenu__icon-arrow {
+      .#{$namespace}-sub-menu__icon-arrow {
         display: none;
       }
       span {
@@ -168,11 +168,11 @@
       color: inherit;
     }
 
-    .#{$namespace}-menu .#{$namespace}-submenu {
+    .#{$namespace}-menu .#{$namespace}-sub-menu {
       min-width: 200px;
     }
 
-    .#{$namespace}-submenu {
+    .#{$namespace}-sub-menu {
       position: relative;
       & .#{$namespace}-menu {
         position: absolute;
@@ -186,7 +186,7 @@
       }
 
       &.is-opened {
-        > .#{$namespace}-submenu__title .#{$namespace}-submenu__icon-arrow {
+        > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
           transform: none;
         }
       }
@@ -223,7 +223,7 @@
   }
 }
 
-@include b(submenu) {
+@include b(sub-menu) {
   list-style: none;
   margin: 0;
   padding-left: 0;
@@ -253,17 +253,17 @@
     font-size: 12px;
   }
   @include when(active) {
-    .#{$namespace}-submenu__title {
+    .#{$namespace}-sub-menu__title {
       border-bottom-color: var(--el-color-primary);
     }
   }
   @include when(opened) {
-    > .#{$namespace}-submenu__title .#{$namespace}-submenu__icon-arrow {
+    > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
       transform: rotateZ(180deg);
     }
   }
   @include when(disabled) {
-    .#{$namespace}-submenu__title,
+    .#{$namespace}-sub-menu__title,
     .#{$namespace}-menu-item {
       opacity: 0.25;
       cursor: not-allowed;
@@ -292,8 +292,8 @@
 }
 
 .horizontal-collapse-transition
-  .#{$namespace}-submenu__title
-  .#{$namespace}-submenu__icon-arrow {
+  .#{$namespace}-sub-menu__title
+  .#{$namespace}-sub-menu__icon-arrow {
   transition: var(--el-transition-duration-fast);
   opacity: 0;
 }

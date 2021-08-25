@@ -4,7 +4,6 @@
 @import 'mixins/utils';
 @import 'mixins/var';
 @import 'common/var';
-@import 'select';
 
 @include b(pagination) {
   @include set-component-css-var('pagination', $--pagination);
@@ -81,6 +80,7 @@
       display: block;
       font-size: 12px;
       font-weight: bold;
+      width: inherit;
     }
   }
 

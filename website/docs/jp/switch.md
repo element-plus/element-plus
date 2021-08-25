@@ -208,6 +208,7 @@
 | inactive-value      | `off` 状態のときのスイッチの値                                                                                     | boolean / string / number | —               | false   |
 | active-color        | `on` 状態のときの背景色                                                                                            | string                    | —               | #409EFF |
 | inactive-color      | `off` 状態のときの背景色                                                                                           | string                    | —               | #C0CCDA |
+| border-color        | スイッチの境界線の色                                                                                               | string                    | —                 | —           |
 | name                | スイッチのインプット名                                                                                             | string                    | —               | —       |
 | validate-event      | フォームバリデーションをトリガするかどうか                                                                         | boolean                   | —               | true    |
 | before-change       | スイッチの状態が変化する前のフックは、false を返すか、Promise を返し、切り替えを停止するために拒否されます         | function                  | —               | —       |

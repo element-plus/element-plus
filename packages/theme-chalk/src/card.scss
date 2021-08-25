@@ -4,10 +4,16 @@
 
 @include b(card) {
   @include set-component-css-var('card', $--card);
+}
 
+@include dark(card) {
+  @include set-component-css-var('card', $--dark-card);
+}
+
+@include b(card) {
   border-radius: var(--el-card-border-radius);
   border: 1px solid var(--el-card-border-color);
-  background-color: $--color-white;
+  background-color: var(--el-card-background-color);
   overflow: hidden;
   color: var(--el-text-color-primary);
   transition: var(--el-transition-duration);

@@ -1,7 +1,6 @@
 @import 'mixins/mixins';
 @import 'mixins/var';
 @import 'common/var';
-@import './overlay.scss';
 
 @keyframes #{$namespace}-drawer-fade-in {
   0% {

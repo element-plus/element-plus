@@ -122,6 +122,7 @@
 | noresize  | 不响应容器尺寸变化，如果容器尺寸不会发生变化，最好设置它可以优化性能    | boolean  |    —  |  false |
 | tag  | 视图的元素标签    | string  |    —  |  div |
 | always  | 滚动条总是显示    | boolean  |    —  |  false |
+| min-size  | 滚动条最小尺寸    | number  |    —  |  20 |
 
 ### Scrollbar Events
 

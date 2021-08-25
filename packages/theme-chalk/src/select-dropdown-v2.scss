@@ -2,7 +2,6 @@
 
 @import 'mixins/mixins';
 @import 'common/var';
-@import './popper';
 
 @include b(select-dropdown) {
   z-index: calc(var(--el-index-top) + 1);
@@ -28,7 +27,7 @@
 
 @include b(select-dropdown__list) {
   list-style: none;
-  margin: map.get($--select-dropdown, 'padding');
-  padding: 0;
+  margin: map.get($--select-dropdown, 'padding')!important;
+  padding: 0!important;
   box-sizing: border-box;
 }

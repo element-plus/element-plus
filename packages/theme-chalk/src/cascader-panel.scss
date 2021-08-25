@@ -1,9 +1,6 @@
 @import 'mixins/mixins';
 @import 'mixins/var';
 @import 'common/var';
-@import './checkbox';
-@import './radio';
-@import './scrollbar';
 
 @include b(cascader-panel) {
   @include set-component-css-var('cascader', $--cascader);
